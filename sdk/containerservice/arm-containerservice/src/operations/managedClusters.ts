@@ -49,6 +49,7 @@ import {
   ManagedClustersResetServicePrincipalProfileOptionalParams,
   ManagedClusterAADProfile,
   ManagedClustersResetAADProfileOptionalParams,
+  ManagedClustersAbortLatestOperationOptionalParams,
   ManagedClustersRotateClusterCertificatesOptionalParams,
   ManagedClustersRotateServiceAccountSigningKeysOptionalParams,
   ManagedClustersStopOptionalParams,
@@ -830,6 +831,27 @@ export class ManagedClustersImpl implements ManagedClusters {
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Aborting last running operation on managed cluster.  We return a 204 no content code here to
+   * indicate that the operation has been accepted and an abort will be attempted but is not guaranteed
+   * to complete successfully. Please look up the provisioning state of the managed cluster to keep track
+   * of whether it changes to Canceled. A canceled provisioning state indicates that the abort was
+   * successful
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  abortLatestOperation(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, resourceName, options },
+      abortLatestOperationOperationSpec
+    );
   }
 
   /**
@@ -1698,6 +1720,26 @@ const resetAADProfileOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const abortLatestOperationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedclusters/{resourceName}/abort",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const rotateClusterCertificatesOperationSpec: coreClient.OperationSpec = {

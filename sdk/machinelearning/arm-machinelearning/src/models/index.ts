@@ -3105,12 +3105,17 @@ export interface OnlineDeployment extends TrackedResource {
 
 /** Properties specific to a KubernetesOnlineDeployment. */
 export interface KubernetesOnlineDeployment extends OnlineDeploymentProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointComputeType: "Kubernetes";
   /** The resource requirements for the container (cpu and memory). */
   containerResourceRequirements?: ContainerResourceRequirements;
 }
 
 /** Properties specific to a ManagedOnlineDeployment. */
-export interface ManagedOnlineDeployment extends OnlineDeploymentProperties {}
+export interface ManagedOnlineDeployment extends OnlineDeploymentProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointComputeType: "Managed";
+}
 
 /** Container for code asset versions. */
 export interface CodeContainerProperties extends AssetContainer {}
@@ -3195,6 +3200,8 @@ export interface ModelVersionProperties extends AssetBase {
 
 /** Azure Blob datastore configuration. */
 export interface AzureBlobDatastore extends DatastoreProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  datastoreType: "AzureBlob";
   /** Storage account name. */
   accountName?: string;
   /** Storage account container name. */
@@ -3209,6 +3216,8 @@ export interface AzureBlobDatastore extends DatastoreProperties {
 
 /** Azure Data Lake Gen1 datastore configuration. */
 export interface AzureDataLakeGen1Datastore extends DatastoreProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  datastoreType: "AzureDataLakeGen1";
   /** Indicates which identity to use to authenticate service data access to customer's storage. */
   serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
   /** [Required] Azure Data Lake store name. */
@@ -3217,6 +3226,8 @@ export interface AzureDataLakeGen1Datastore extends DatastoreProperties {
 
 /** Azure Data Lake Gen2 datastore configuration. */
 export interface AzureDataLakeGen2Datastore extends DatastoreProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  datastoreType: "AzureDataLakeGen2";
   /** [Required] Storage account name. */
   accountName: string;
   /** Azure cloud endpoint for the storage account. */
@@ -3231,6 +3242,8 @@ export interface AzureDataLakeGen2Datastore extends DatastoreProperties {
 
 /** Azure File datastore configuration. */
 export interface AzureFileDatastore extends DatastoreProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  datastoreType: "AzureFile";
   /** [Required] Storage account name. */
   accountName: string;
   /** Azure cloud endpoint for the storage account. */
@@ -3245,6 +3258,8 @@ export interface AzureFileDatastore extends DatastoreProperties {
 
 /** Command job definition. */
 export interface CommandJob extends JobBaseProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobType: "Command";
   /** ARM resource ID of the code asset. */
   codeId?: string;
   /** [Required] The command to execute on startup of the job. eg. "python train.py" */
@@ -3272,6 +3287,8 @@ export interface CommandJob extends JobBaseProperties {
 
 /** Pipeline Job definition: defines generic to MFE attributes. */
 export interface PipelineJob extends JobBaseProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobType: "Pipeline";
   /** Inputs for the pipeline job. */
   inputs?: { [propertyName: string]: JobInputUnion | null };
   /** Jobs construct the Pipeline Job. */
@@ -3284,6 +3301,8 @@ export interface PipelineJob extends JobBaseProperties {
 
 /** Sweep job definition. */
 export interface SweepJob extends JobBaseProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobType: "Sweep";
   /** Early termination policies enable canceling poor-performing runs before they complete */
   earlyTermination?: EarlyTerminationPolicyUnion;
   /** Mapping of input data bindings used in the job. */
@@ -3304,15 +3323,23 @@ export interface SweepJob extends JobBaseProperties {
 
 /** MLTable data definition */
 export interface MLTableData extends DataVersionBaseProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataType: "mltable";
   /** Uris referenced in the MLTable definition (required for lineage) */
   referencedUris?: string[];
 }
 
 /** uri-file data version entity */
-export interface UriFileDataVersion extends DataVersionBaseProperties {}
+export interface UriFileDataVersion extends DataVersionBaseProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataType: "uri_file";
+}
 
 /** uri-folder data version entity */
-export interface UriFolderDataVersion extends DataVersionBaseProperties {}
+export interface UriFolderDataVersion extends DataVersionBaseProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataType: "uri_folder";
+}
 
 /** Defines headers for Workspaces_diagnose operation. */
 export interface WorkspacesDiagnoseHeaders {

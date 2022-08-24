@@ -12,7 +12,7 @@ import {
   DocumentAnalysisClient,
   DocumentModelAdministrationClient,
   DocumentTable,
-  DocumentModelInfo,
+  DocumentModelDetails,
 } from "../../../src";
 import { DocumentSelectionMarkField } from "../../../src/models/fields";
 import {
@@ -287,14 +287,14 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
           },
         ],
       });
-      let _model: DocumentModelInfo;
+      let _model: DocumentModelDetails;
       let modelName: string;
 
       // We only want to create the model once, but because of the recorder's
       // precedence, we have to create it in a test, so one test will end up
       // recording the entire creation and the other tests will still be able
       // to use it.
-      async function requireModel(): Promise<DocumentModelInfo> {
+      async function requireModel(): Promise<DocumentModelDetails> {
         if (!_model) {
           const trainingClient = new DocumentModelAdministrationClient(
             endpoint(),
@@ -1029,13 +1029,9 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         vaccines: [
           {
             manufacturer: "Pfizer",
-            // TODO: date format incorrect
-            // dateAdministered: "2021-11-10T05:00:00.000Z",
           },
           {
             manufacturer: "Pfizer",
-            // TODO: date format incorrect
-            // dateAdministered: "2021-12-04T05:00:00.000Z",
           },
         ],
       });

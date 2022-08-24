@@ -5,7 +5,7 @@ import { ProgramBriefAttachment, ShortCodesClient } from "../../../src";
 
 export function getTestProgramBriefAttachment(): ProgramBriefAttachment {
   const testProgramBriefAttachment: ProgramBriefAttachment = {
-    id: "00000000-0000-0000-0000-000000000000",
+    id: "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
     fileType: "png",
     type: "callToAction",
     fileName: "testFriendlyName",

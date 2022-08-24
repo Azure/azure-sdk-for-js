@@ -52,7 +52,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { ReceiveMode } from "../models";
 import { translateServiceBusError } from "../serviceBusError";
 import { defaultDataTransformer, tryToJsonDecode } from "../dataTransformer";
-import { isDefined, isObjectWithProperties } from "../util/typeGuards";
+import { isDefined, isObjectWithProperties } from "@azure/core-util";
 import {
   RuleProperties,
   SqlRuleAction,

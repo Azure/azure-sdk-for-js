@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Delete a trusted access role binding.
  *
  * @summary Delete a trusted access role binding.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/TrustedAccessRoleBindings_Delete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-07-02-preview/examples/TrustedAccessRoleBindings_Delete.json
  */
 async function deleteATrustedAccessRoleBinding() {
   const subscriptionId = "subid1";

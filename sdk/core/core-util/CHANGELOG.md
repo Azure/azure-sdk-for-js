@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Add helper type guards `isDefined`, `isObjectWithProperties`, `objectHasProperty`.
+
 ### Breaking Changes
 
 ### Bugs Fixed

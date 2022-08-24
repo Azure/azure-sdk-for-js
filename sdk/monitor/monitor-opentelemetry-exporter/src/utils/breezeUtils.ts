@@ -33,7 +33,9 @@ export function isRetriable(statusCode: number): boolean {
     statusCode === 408 || // Timeout
     statusCode === 429 || // Too many requests
     statusCode === 500 || // Server Error
-    statusCode === 503 // Server Unavailable
+    statusCode === 502 || // Bad Gateway
+    statusCode === 503 || // Server Unavailable
+    statusCode === 504 // Gateway Timeout
   );
 }
 

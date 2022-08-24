@@ -203,6 +203,8 @@ export function toDocumentLineFromGenerated(
       }) ?? []
     );
 
+  (generated as DocumentLine).polygon = toBoundingPolygon(generated.polygon);
+
   Object.defineProperty(generated, "words", {
     enumerable: false,
   });

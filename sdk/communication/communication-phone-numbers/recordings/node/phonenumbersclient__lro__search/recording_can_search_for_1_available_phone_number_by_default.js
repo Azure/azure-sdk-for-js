@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "9c30512aa93297aeac75581053f54475";
+module.exports.hash = "54fc9ee98e5f24aed78d2ab61a21b45d";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -13,7 +13,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Access-Control-Expose-Headers',
   'Location,Operation-Location,operation-id,search-id',
   'MS-CV',
-  'fv4sE+Cj80KHsNV/Y1jr6Q.0',
+  'QhKBkQQUzE2H/bqxrPogDw.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'Operation-Location',
@@ -23,15 +23,15 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'search-id',
   'sanitized',
   'api-supported-versions',
-  '2021-03-07, 2022-01-11-preview2, 2022-06-01-preview',
+  '2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01',
   'X-Processing-Time',
-  '2677ms',
+  '2358ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0yhV9YgAAAADSFjtgCYXwTrrt7mroXrOLUFJHMDFFREdFMDYxNABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=',
+  '0EfDyYgAAAABldYiZy/FnSqG7V5RA3f4hTEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==',
   'Date',
-  'Thu, 12 May 2022 14:12:29 GMT',
+  'Tue, 09 Aug 2022 23:38:59 GMT',
   'Content-Length',
   '0'
 ]);
@@ -39,7 +39,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/operations/search_sanitized')
   .query(true)
-  .reply(200, {"operationType":"search","status":"notStarted","resourceLocation":"/availablePhoneNumbers/searchResults/sanitized?api-version=2022-06-01-preview","createdDateTime":"2022-05-12T14:12:29.8064318+00:00","id":"search_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  .reply(200, {"operationType":"search","status":"notStarted","resourceLocation":"/availablePhoneNumbers/searchResults/sanitized?api-version=2022-06-01-preview","createdDateTime":"2022-08-09T23:38:59.7101359+00:00","id":"search_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -49,65 +49,69 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Access-Control-Expose-Headers',
   'Location',
   'MS-CV',
-  'QKcy6mMEA0u+Y87sDFBYng.0',
+  'oim3XI0SBk6N2TNp5lFXYQ.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'api-supported-versions',
-  '2021-03-07, 2022-01-11-preview2, 2022-06-01-preview',
+  '2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01',
   'X-Processing-Time',
-  '318ms',
+  '425ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0zhV9YgAAAAAPYeJA3UZtRameVR9VgJNJUFJHMDFFREdFMDYxNABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=',
+  '0FPDyYgAAAAAiDQDcUy91SaLVn5j0Jr3WTEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==',
   'Date',
-  'Thu, 12 May 2022 14:12:29 GMT'
+  'Tue, 09 Aug 2022 23:39:00 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('/phoneNumbers/operations/search_sanitized')
+  .query(true)
+  .reply(200, {"operationType":"search","status":"succeeded","resourceLocation":"/availablePhoneNumbers/searchResults/sanitized?api-version=2022-06-01-preview","createdDateTime":"2022-08-09T23:38:59.7101359+00:00","id":"search_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Location',
+  '/availablePhoneNumbers/searchResults/sanitized?api-version=2022-06-01-preview',
+  'Access-Control-Expose-Headers',
+  'Location',
+  'MS-CV',
+  'gcVkHTFyfUid3tunOsUhhw.0',
+  'Strict-Transport-Security',
+  'max-age=2592000',
+  'api-supported-versions',
+  '2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01',
+  'X-Processing-Time',
+  '396ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
+  'X-Azure-Ref',
+  '0FvDyYgAAAAC0a2foFmwwQKYqORjmDs/cTEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==',
+  'Date',
+  'Tue, 09 Aug 2022 23:39:02 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .get('/availablePhoneNumbers/searchResults/sanitized')
   .query(true)
-  .reply(200, {"searchId":"sanitized","phoneNumbers":["+14155550100"],"phoneNumberType":"tollFree","assignmentType":"application","capabilities":{"calling":"outbound","sms":"none"},"cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"},"searchExpiresBy":"2022-05-12T14:28:31.4567966+00:00"}, [
+  .reply(200, {"searchId":"sanitized","phoneNumbers":["+14155550100"],"phoneNumberType":"tollFree","assignmentType":"application","capabilities":{"calling":"outbound","sms":"none"},"cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"},"searchExpiresBy":"2022-08-09T23:55:01.7932475+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'MS-CV',
-  '0zywFNaaiUWR72skJ8cf8Q.0',
+  '2C3As0WQN0KED+9Geogjug.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'api-supported-versions',
-  '2021-03-07, 2022-01-11-preview2, 2022-06-01-preview',
+  '2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01',
   'X-Processing-Time',
-  '1085ms',
+  '1036ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '00BV9YgAAAACNnji7j2s/S7hr4dQ/3WhrUFJHMDFFREdFMDYxNABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=',
+  '0GfDyYgAAAACzdgJYjIIGTpCB4wWPzPaNTEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==',
   'Date',
-  'Thu, 12 May 2022 14:12:33 GMT'
-]);
-
-nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/availablePhoneNumbers/searchResults/sanitized')
-  .query(true)
-  .reply(200, {"searchId":"sanitized","phoneNumbers":["+14155550100"],"phoneNumberType":"tollFree","assignmentType":"application","capabilities":{"calling":"outbound","sms":"none"},"cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"},"searchExpiresBy":"2022-05-12T14:28:31.4567966+00:00"}, [
-  'Transfer-Encoding',
-  'chunked',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'MS-CV',
-  '3qAXD0/7KkmEBNPPAnQfEA.0',
-  'Strict-Transport-Security',
-  'max-age=2592000',
-  'api-supported-versions',
-  '2021-03-07, 2022-01-11-preview2, 2022-06-01-preview',
-  'X-Processing-Time',
-  '1092ms',
-  'X-Cache',
-  'CONFIG_NOCACHE',
-  'X-Azure-Ref',
-  '01BV9YgAAAADFxS3/xKA9S6aYX+S98vhqUFJHMDFFREdFMDYxNABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=',
-  'Date',
-  'Thu, 12 May 2022 14:12:36 GMT'
+  'Tue, 09 Aug 2022 23:39:05 GMT'
 ]);

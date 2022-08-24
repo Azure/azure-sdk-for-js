@@ -78,7 +78,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-containerservice/17.1.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-containerservice/17.1.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -132,7 +132,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-06-02-preview";
+    this.apiVersion = options.apiVersion || "2022-07-02-preview";
     this.operations = new OperationsImpl(this);
     this.managedClusters = new ManagedClustersImpl(this);
     this.maintenanceConfigurations = new MaintenanceConfigurationsImpl(this);

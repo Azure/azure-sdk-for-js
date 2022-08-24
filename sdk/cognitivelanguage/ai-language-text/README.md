@@ -27,10 +27,14 @@ Use the client library to:
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/)
-- Package (NPM) (TODO)
-- API reference documentation (TODO)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/ai-language-text)
+- [API reference documentation](https://aka.ms/ai-language-text-js-api)
 - [Product documentation](https://docs.microsoft.com/azure/cognitive-services/language-service/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-text/samples)
+
+#### **_Migrating from @azure/ai-text-analytics advisory_ ⚠️**
+
+Please see the [Migration Guide](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/MIGRATION_ai_text_analytics.md) for detailed instructions on how to update application code from version 5.x of the AI Text Analytics client library to the new AI Language Text client library.
 
 ## Getting started
 
@@ -776,5 +780,5 @@ If you'd like to contribute to this library, please read the [contributing guide
 [register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [data_limits]: https://docs.microsoft.com/azure/cognitive-services/language-service/concepts/data-limits
-[analyze_sentiment_opinion_mining_sample]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-text/samples-dev/opinionMining.ts
+[analyze_sentiment_opinion_mining_sample]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/javascript/opinionMining.js
 [lang_studio]: https://docs.microsoft.com/azure/cognitive-services/language-service/language-studio

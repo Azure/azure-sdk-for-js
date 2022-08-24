@@ -816,7 +816,7 @@ sdk/dnsresolver/arm-dnsresolver @qiaozha @dw511214992 @MaryGao
 sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Monitor
-/sdk/monitor/ @hectorhdzg
+/sdk/monitor/ @hectorhdzg @JacksonWeber
 /sdk/monitor/monitor-query @KarishmaGhiya
 
 # ServiceLabel: %AAD %Service Attention
