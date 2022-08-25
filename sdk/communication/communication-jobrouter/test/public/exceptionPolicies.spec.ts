@@ -87,7 +87,6 @@ describe("RouterClient", function() {
         exceptionPolicyRequest
       );
       await administrationClient.deleteExceptionPolicy(exceptionPolicyRequest.id!, {});
-
     }).timeout(8000);
   });
 });
