@@ -17,7 +17,7 @@ input-file: ./FormRecognizer.json
 override-client-name: GeneratedClient
 add-credentials: false
 typescript: true
-package-version: "4.0.0-beta.6"
+package-version: "4.0.0"
 use-extension:
   "@autorest/typescript": "6.0.0-alpha.20.20220622.1"
 ```

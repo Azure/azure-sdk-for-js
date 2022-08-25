@@ -70,6 +70,7 @@ async function main(): Promise<void> {
   let endpoint = process.env.FORM_RECOGNIZER_ENDPOINT;
   let apiKey = process.env.FORM_RECOGNIZER_API_KEY;
   let output: string | undefined = undefined;
+  let test: boolean = false;
 
   console.error("gen-model - create strong TypeScript types for models");
 
@@ -90,6 +91,9 @@ async function main(): Promise<void> {
       case "-o":
       case "--output":
         output = args[(idx += 1)];
+        break;
+      case "--test":
+        test = true;
         break;
       default:
         modelId = args[idx];
@@ -137,7 +141,7 @@ async function main(): Promise<void> {
 
   console.error("Generating model code for:", modelInfo.modelId);
 
-  const file = await writeModelCode(modelInfo);
+  const file = await writeModelCode(modelInfo, test);
 
   const data = Buffer.from(format(file, { parser: "typescript" }), "utf-8");
 

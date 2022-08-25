@@ -497,7 +497,7 @@ export type FormRecognizerApiVersion = typeof FormRecognizerApiVersion[keyof typ
 
 // @public
 export const FormRecognizerApiVersion: {
-    readonly Latest: "2022-06-30-preview";
+    readonly Latest: "2022-08-31";
     readonly Stable: "2022-08-31";
 };
 

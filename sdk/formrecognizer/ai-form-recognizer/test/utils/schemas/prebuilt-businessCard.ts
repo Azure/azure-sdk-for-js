@@ -1,10 +1,7 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 // Model:       prebuilt-businessCard
 // Description: Extract key information from business cards.
 // API Version: 2022-08-31
-// Created:     Thu Jul 14 2022
+// Created:     Tue Aug 23 2022
 
 import * as fr from "../../../src";
 
@@ -70,7 +67,9 @@ export interface BusinessCardFields {
   /**
    * `BusinessCard` "ContactNames" field
    */
-  contactNames?: fr.DocumentArrayField<fr.DocumentObjectField<BusinessCardContactNamesElement>>;
+  contactNames?: fr.DocumentArrayField<
+    fr.DocumentObjectField<BusinessCardContactNamesElement>
+  >;
   /**
    * `BusinessCard` "CompanyNames" field
    */
@@ -86,7 +85,7 @@ export interface BusinessCardFields {
   /**
    * `BusinessCard` "Addresses" field
    */
-  addresses?: fr.DocumentArrayField<fr.DocumentStringField>;
+  addresses?: fr.DocumentArrayField<fr.DocumentAddressField>;
   /**
    * `BusinessCard` "WorkPhones" field
    */
@@ -118,11 +117,11 @@ export interface BusinessCardFields {
  */
 export interface BusinessCardContactNamesElement {
   /**
-   * `BusinessCard` "FirstName" field
+   * First (given) name of contact
    */
   firstName?: fr.DocumentStringField;
   /**
-   * `BusinessCard` "LastName" field
+   * Last (family) name of contact
    */
   lastName?: fr.DocumentStringField;
 }
@@ -134,7 +133,7 @@ function modelInfo() {
   return {
     modelId: "prebuilt-businessCard",
     description: "Extract key information from business cards.",
-    createdDateTime: "2022-06-30T00:00:00.000Z",
+    createdDateTime: "2022-08-31T00:00:00.000Z",
     apiVersion: "2022-08-31",
     docTypes: {
       businessCard: {
@@ -144,12 +143,18 @@ function modelInfo() {
             type: "array",
             items: {
               type: "object",
+              description: "Contact name",
+              example: "Chris Smith",
               properties: {
                 FirstName: {
                   type: "string",
+                  description: "First (given) name of contact",
+                  example: "Chris",
                 },
                 LastName: {
                   type: "string",
+                  description: "Last (family) name of contact",
+                  example: "Smith",
                 },
               },
             },
@@ -158,60 +163,80 @@ function modelInfo() {
             type: "array",
             items: {
               type: "string",
+              description: "Company name",
+              example: "CONTOSO",
             },
           },
           JobTitles: {
             type: "array",
             items: {
               type: "string",
+              description: "Job title",
+              example: "Senior Researcher",
             },
           },
           Departments: {
             type: "array",
             items: {
               type: "string",
+              description: "Department or organization",
+              example: "Cloud & AI Department",
             },
           },
           Addresses: {
             type: "array",
             items: {
-              type: "string",
+              type: "address",
+              description: "Address",
+              example: "4001 1st Ave NE Redmond, WA 98052",
             },
           },
           WorkPhones: {
             type: "array",
             items: {
               type: "phoneNumber",
+              description: "Work phone number",
+              example: "+1 (987) 213-5674",
             },
           },
           MobilePhones: {
             type: "array",
             items: {
               type: "phoneNumber",
+              description: "Mobile phone number",
+              example: "+1 (987) 123-4567",
             },
           },
           Faxes: {
             type: "array",
             items: {
               type: "phoneNumber",
+              description: "Fax number",
+              example: "+1 (987) 312-6745",
             },
           },
           OtherPhones: {
             type: "array",
             items: {
               type: "phoneNumber",
+              description: "Other phone number",
+              example: "+1 (987) 213-5673",
             },
           },
           Emails: {
             type: "array",
             items: {
               type: "string",
+              description: "Contact email",
+              example: "chris.smith@contoso.com",
             },
           },
           Websites: {
             type: "array",
             items: {
               type: "string",
+              description: "Website",
+              example: "https://www.contoso.com",
             },
           },
         },

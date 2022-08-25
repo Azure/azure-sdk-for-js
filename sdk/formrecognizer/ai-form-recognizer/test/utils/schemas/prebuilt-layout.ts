@@ -1,10 +1,7 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 // Model:       prebuilt-layout
 // Description: Extract text and layout information from documents.
 // API Version: 2022-08-31
-// Created:     Thu Jul 14 2022
+// Created:     Tue Aug 23 2022
 
 import * as fr from "../../../src";
 
@@ -41,7 +38,7 @@ function modelInfo() {
   return {
     modelId: "prebuilt-layout",
     description: "Extract text and layout information from documents.",
-    createdDateTime: "2022-06-30T00:00:00.000Z",
+    createdDateTime: "2022-08-31T00:00:00.000Z",
     apiVersion: "2022-08-31",
   } as const;
 }

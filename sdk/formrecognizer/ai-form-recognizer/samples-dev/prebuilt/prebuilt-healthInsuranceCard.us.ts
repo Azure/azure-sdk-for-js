@@ -3,13 +3,12 @@
 
 /**
  * @azsdk-util
- * @azsdk-skip-javascript
  */
 
 // Model:       prebuilt-healthInsuranceCard.us
 // Description: Extract key information from US health insurance cards.
-// API Version: 2022-06-30-preview
-// Created:     Thu Jul 14 2022
+// API Version: 2022-08-31
+// Created:     Tue Aug 23 2022
 
 import * as fr from "@azure/ai-form-recognizer";
 
@@ -20,7 +19,8 @@ export const PrebuiltHealthInsuranceCardUsModel = fr.createModelFromSchema(
   modelInfo()
 ) as fr.DocumentModel<PrebuiltHealthInsuranceCardUsResult>;
 
-export interface PrebuiltHealthInsuranceCardUsResult extends fr.AnalyzeResultCommon {
+export interface PrebuiltHealthInsuranceCardUsResult
+  extends fr.AnalyzeResultCommon {
   /**
    * Extracted pages.
    */
@@ -73,7 +73,7 @@ export interface HealthInsuranceCardUs {
  */
 export interface HealthInsuranceCardUsFields {
   /**
-   * `HealthInsuranceCardUs` "Insurer" field
+   * Health insurance provider name
    */
   insurer?: fr.DocumentStringField;
   /**
@@ -81,7 +81,7 @@ export interface HealthInsuranceCardUsFields {
    */
   member?: fr.DocumentObjectField<HealthInsuranceCardUsMember>;
   /**
-   * `HealthInsuranceCardUs` "Dependents" field
+   * Array holding list of dependents, ordered where possible by membership suffix value
    */
   dependents?: fr.DocumentArrayField<
     fr.DocumentObjectField<HealthInsuranceCardUsDependentsElement>
@@ -91,7 +91,7 @@ export interface HealthInsuranceCardUsFields {
    */
   idNumber?: fr.DocumentObjectField<HealthInsuranceCardUsIdNumber>;
   /**
-   * `HealthInsuranceCardUs` "GroupNumber" field
+   * Insurance Group Number
    */
   groupNumber?: fr.DocumentStringField;
   /**
@@ -99,17 +99,19 @@ export interface HealthInsuranceCardUsFields {
    */
   prescriptionInfo?: fr.DocumentObjectField<HealthInsuranceCardUsPrescriptionInfo>;
   /**
-   * `HealthInsuranceCardUs` "Pbm" field
+   * Pharmacy Benefit Manager for the plan
    */
   pbm?: fr.DocumentStringField;
   /**
-   * `HealthInsuranceCardUs` "EffectiveDate" field
+   * Date from which the plan is effective
    */
   effectiveDate?: fr.DocumentDateField;
   /**
-   * `HealthInsuranceCardUs` "Copays" field
+   * Array holding list of CoPay Benefits
    */
-  copays?: fr.DocumentArrayField<fr.DocumentObjectField<HealthInsuranceCardUsCopaysElement>>;
+  copays?: fr.DocumentArrayField<
+    fr.DocumentObjectField<HealthInsuranceCardUsCopaysElement>
+  >;
   /**
    * `HealthInsuranceCardUs` "Payer" field
    */
@@ -129,37 +131,39 @@ export interface HealthInsuranceCardUsFields {
  */
 export interface HealthInsuranceCardUsMember {
   /**
-   * `HealthInsuranceCardUs` "Name" field
+   * Member name
    */
   name?: fr.DocumentStringField;
   /**
-   * `HealthInsuranceCardUs` "DateOfBirth" field
+   * Member date of birth
    */
   dateOfBirth?: fr.DocumentStringField;
   /**
-   * `HealthInsuranceCardUs` "Employer" field
+   * Member name employer
    */
   employer?: fr.DocumentStringField;
   /**
-   * `HealthInsuranceCardUs` "Gender" field
+   * Member gender
    */
   gender?: fr.DocumentStringField;
   /**
-   * `HealthInsuranceCardUs` "IdNumberSuffix" field
+   * Identification Number Suffix as it appears on some health insurance cards
    */
   idNumberSuffix?: fr.DocumentStringField;
 }
 
 /**
  * Describes the fields of `HealthInsuranceCardUsDependentsElement`.
+ *
+ * Array holding list of dependents, ordered where possible by membership suffix value
  */
 export interface HealthInsuranceCardUsDependentsElement {
   /**
-   * `HealthInsuranceCardUs` "Name" field
+   * Dependent name
    */
   name?: fr.DocumentStringField;
   /**
-   * `HealthInsuranceCardUs` "IdNumberSuffix" field
+   * Dependent Membership Identification Suffix
    */
   idNumberSuffix?: fr.DocumentStringField;
 }
@@ -169,11 +173,11 @@ export interface HealthInsuranceCardUsDependentsElement {
  */
 export interface HealthInsuranceCardUsIdNumber {
   /**
-   * `HealthInsuranceCardUs` "Prefix" field
+   * Identification Number Prefix as it appears on some health insurance cards
    */
   prefix?: fr.DocumentStringField;
   /**
-   * `HealthInsuranceCardUs` "Number" field
+   * Identification Number
    */
   number?: fr.DocumentStringField;
 }
@@ -183,41 +187,43 @@ export interface HealthInsuranceCardUsIdNumber {
  */
 export interface HealthInsuranceCardUsPrescriptionInfo {
   /**
-   * `HealthInsuranceCardUs` "IssuerId" field
+   * ANSI issuer identification number (IIN)
    */
   issuerId?: fr.DocumentStringField;
   /**
-   * `HealthInsuranceCardUs` "RxBIN" field
+   * Prescription issued BIN number
    */
   rxBIN?: fr.DocumentStringField;
   /**
-   * `HealthInsuranceCardUs` "RxPCN" field
+   * Prescription processor control number
    */
   rxPCN?: fr.DocumentStringField;
   /**
-   * `HealthInsuranceCardUs` "RxGrp" field
+   * Prescription group number
    */
   rxGrp?: fr.DocumentStringField;
   /**
-   * `HealthInsuranceCardUs` "RxId" field
+   * Prescription identification number. If not present, will default to membership id number
    */
   rxId?: fr.DocumentStringField;
   /**
-   * `HealthInsuranceCardUs` "RxPlan" field
+   * Prescription Plan number
    */
   rxPlan?: fr.DocumentStringField;
 }
 
 /**
  * Describes the fields of `HealthInsuranceCardUsCopaysElement`.
+ *
+ * Array holding list of CoPay Benefits
  */
 export interface HealthInsuranceCardUsCopaysElement {
   /**
-   * `HealthInsuranceCardUs` "Benefit" field
+   * Co-Pay Benefit name
    */
   benefit?: fr.DocumentStringField;
   /**
-   * `HealthInsuranceCardUs` "Amount" field
+   * Co-Pay required amount
    */
   amount?: fr.DocumentStringField;
 }
@@ -227,15 +233,15 @@ export interface HealthInsuranceCardUsCopaysElement {
  */
 export interface HealthInsuranceCardUsPayer {
   /**
-   * `HealthInsuranceCardUs` "Id" field
+   * Payer Id Number
    */
   id?: fr.DocumentStringField;
   /**
-   * `HealthInsuranceCardUs` "Address" field
+   * Payer address
    */
   address?: fr.DocumentStringField;
   /**
-   * `HealthInsuranceCardUs` "PhoneNumber" field
+   * Payer phone number
    */
   phoneNumber?: fr.DocumentPhoneNumberField;
 }
@@ -245,11 +251,11 @@ export interface HealthInsuranceCardUsPayer {
  */
 export interface HealthInsuranceCardUsMedicareMedicaidInfo {
   /**
-   * `HealthInsuranceCardUs` "PartAEffectiveDate" field
+   * Hospital and facilities effective date
    */
   partAEffectiveDate?: fr.DocumentStringField;
   /**
-   * `HealthInsuranceCardUs` "PartBEffectiveDate" field
+   * Medical and services effictive date
    */
   partBEffectiveDate?: fr.DocumentStringField;
 }
@@ -259,11 +265,11 @@ export interface HealthInsuranceCardUsMedicareMedicaidInfo {
  */
 export interface HealthInsuranceCardUsPlan {
   /**
-   * `HealthInsuranceCardUs` "Number" field
+   * Plan number
    */
   number?: fr.DocumentStringField;
   /**
-   * `HealthInsuranceCardUs` "Name" field
+   * Plan name - If see Medicaid -> then medicaid
    */
   name?: fr.DocumentStringField;
 }
@@ -275,45 +281,56 @@ function modelInfo() {
   return {
     modelId: "prebuilt-healthInsuranceCard.us",
     description: "Extract key information from US health insurance cards.",
-    createdDateTime: "2022-06-30T00:00:00.000Z",
-    apiVersion: "2022-06-30-preview",
+    createdDateTime: "2022-08-31T00:00:00.000Z",
+    apiVersion: "2022-08-31",
     docTypes: {
       "healthInsuranceCard.us": {
         buildMode: "template",
         fieldSchema: {
           Insurer: {
             type: "string",
+            description: "Health insurance provider name",
           },
           Member: {
             type: "object",
             properties: {
               Name: {
                 type: "string",
+                description: "Member name",
               },
               DateOfBirth: {
                 type: "string",
+                description: "Member date of birth",
               },
               Employer: {
                 type: "string",
+                description: "Member name employer",
               },
               Gender: {
                 type: "string",
+                description: "Member gender",
               },
               IdNumberSuffix: {
                 type: "string",
+                description:
+                  "Identification Number Suffix as it appears on some health insurance cards",
               },
             },
           },
           Dependents: {
             type: "array",
+            description:
+              "Array holding list of dependents, ordered where possible by membership suffix value",
             items: {
               type: "object",
               properties: {
                 Name: {
                   type: "string",
+                  description: "Dependent name",
                 },
                 IdNumberSuffix: {
                   type: "string",
+                  description: "Dependent Membership Identification Suffix",
                 },
               },
             },
@@ -323,54 +340,70 @@ function modelInfo() {
             properties: {
               Prefix: {
                 type: "string",
+                description:
+                  "Identification Number Prefix as it appears on some health insurance cards",
               },
               Number: {
                 type: "string",
+                description: "Identification Number",
               },
             },
           },
           GroupNumber: {
             type: "string",
+            description: "Insurance Group Number",
           },
           PrescriptionInfo: {
             type: "object",
             properties: {
               IssuerId: {
                 type: "string",
+                description: "ANSI issuer identification number (IIN)",
               },
               RxBIN: {
                 type: "string",
+                description: "Prescription issued BIN number",
               },
               RxPCN: {
                 type: "string",
+                description: "Prescription processor control number",
               },
               RxGrp: {
                 type: "string",
+                description: "Prescription group number",
               },
               RxId: {
                 type: "string",
+                description:
+                  "Prescription identification number. If not present, will default to membership id number",
               },
               RxPlan: {
                 type: "string",
+                description: "Prescription Plan number",
               },
             },
           },
           Pbm: {
             type: "string",
+            description: "Pharmacy Benefit Manager for the plan",
           },
           EffectiveDate: {
             type: "date",
+            description: "Date from which the plan is effective",
           },
           Copays: {
             type: "array",
+            description: "Array holding list of CoPay Benefits",
             items: {
               type: "object",
               properties: {
                 Benefit: {
                   type: "string",
+                  description: "Co-Pay Benefit name",
                 },
                 Amount: {
                   type: "string",
+                  description: "Co-Pay required amount",
                 },
               },
             },
@@ -380,12 +413,15 @@ function modelInfo() {
             properties: {
               Id: {
                 type: "string",
+                description: "Payer Id Number",
               },
               Address: {
                 type: "string",
+                description: "Payer address",
               },
               PhoneNumber: {
                 type: "phoneNumber",
+                description: "Payer phone number",
               },
             },
           },
@@ -394,9 +430,11 @@ function modelInfo() {
             properties: {
               PartAEffectiveDate: {
                 type: "string",
+                description: "Hospital and facilities effective date",
               },
               PartBEffectiveDate: {
                 type: "string",
+                description: "Medical and services effictive date",
               },
             },
           },
@@ -405,9 +443,11 @@ function modelInfo() {
             properties: {
               Number: {
                 type: "string",
+                description: "Plan number",
               },
               Name: {
                 type: "string",
+                description: "Plan name - If see Medicaid -> then medicaid",
               },
             },
           },

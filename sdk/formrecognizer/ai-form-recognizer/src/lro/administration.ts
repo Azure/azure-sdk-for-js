@@ -4,7 +4,13 @@
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { OperationOptions } from "@azure/core-client";
 import { FormRecognizerError } from "../error";
-import { GetOperationResponse, DocumentModelDetails, OperationStatus } from "../generated";
+import {
+  DocumentModelDetails,
+  OperationStatus,
+  DocumentModelBuildOperationDetails,
+  DocumentModelCopyToOperationDetails,
+  DocumentModelComposeOperationDetails,
+} from "../generated";
 import { PollerOptions } from "../options/PollerOptions";
 
 /**
@@ -53,12 +59,19 @@ export interface DocumentModelOperationState extends PollOperationState<Document
   tags?: Record<string, string>;
 }
 
+// The generated type for GetOperationResult is not ideal here. This assertion is just kicking the can down the road but
+// it's about the only thing we can do to actually access the common `result` property.
+export type DocumentModelBuildResponse =
+  | DocumentModelBuildOperationDetails
+  | DocumentModelCopyToOperationDetails
+  | DocumentModelComposeOperationDetails;
+
 /**
  * Convert an operation result into a training poller state.
  * @internal
  */
 export async function toTrainingPollOperationState(
-  response: GetOperationResponse
+  response: DocumentModelBuildResponse
 ): Promise<DocumentModelOperationState> {
   return {
     operationId: response.operationId,
@@ -72,6 +85,7 @@ export async function toTrainingPollOperationState(
     isCompleted: response.status === "succeeded",
     isStarted: response.status !== "notStarted",
     tags: response.tags,
+    result: response.result,
   };
 }
 

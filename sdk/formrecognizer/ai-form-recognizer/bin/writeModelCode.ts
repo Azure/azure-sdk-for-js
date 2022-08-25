@@ -24,8 +24,8 @@ const sampleHeader = `// Copyright (c) Microsoft Corporation.
 /**
  * Generate a header with the model information.
  */
-function templateHeader(model: DocumentModelDetails): string {
-  return `${sampleHeader}
+function templateHeader(model: DocumentModelDetails, test: boolean): string {
+  return `${!test ? sampleHeader : ""}
 
 // Model:       ${model.modelId}
 // Description: ${model.description}
@@ -41,10 +41,14 @@ function templateHeader(model: DocumentModelDetails): string {
  * @param model - the ModelInfo to generate code for
  * @returns a string of TypeScript source code
  */
-export async function writeModelCode(model: DocumentModelDetails): Promise<string> {
-  let contents = templateHeader(model);
+export async function writeModelCode(model: DocumentModelDetails, test: boolean): Promise<string> {
+  let contents = templateHeader(model, test);
 
-  contents += 'import * as fr from "@azure/ai-form-recognizer";' + EOL + EOL;
+  if (test) {
+    contents += 'import * as fr from "../../../src";' + EOL + EOL;
+  } else {
+    contents += 'import * as fr from "@azure/ai-form-recognizer";' + EOL + EOL;
+  }
 
   const modelNameSlug = [
     ...model.modelId

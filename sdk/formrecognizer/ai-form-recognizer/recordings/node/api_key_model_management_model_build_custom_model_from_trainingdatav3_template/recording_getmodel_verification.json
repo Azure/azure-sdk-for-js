@@ -1,30 +1,30 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/modelName10732?api-version=2022-06-30-preview",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/modelName10883?api-version=2022-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.5 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Linux-5.18.9-zen1-1-zen)",
-        "x-ms-client-request-id": "c23826ac-ba7a-4be9-803b-0d77cbdc0276"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.2 Node/v16.15.1 OS/(x64-Linux-5.18.17-200.fc36.x86_64)",
+        "x-ms-client-request-id": "462a7dab-7ff9-465e-a789-9cd8d5f7a43e"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "ee052b0c-7dc1-47aa-b78f-3977df4f5b7e",
+        "apim-request-id": "9e02e192-7a72-4c10-bf4f-7c669396555d",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 07 Jul 2022 01:07:45 GMT",
+        "Date": "Thu, 25 Aug 2022 16:06:03 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "60"
+        "x-envoy-upstream-service-time": "38"
       },
       "ResponseBody": {
         "docTypes": {
-          "modelName10732": {
+          "modelName10883": {
             "fieldSchema": {
               "Merchant": {
                 "type": "string"
@@ -96,9 +96,9 @@
             }
           }
         },
-        "modelId": "modelName10732",
-        "createdDateTime": "2022-07-07T01:07:43Z",
-        "apiVersion": "2022-06-30-preview"
+        "modelId": "modelName10883",
+        "createdDateTime": "2022-08-25T16:06:00Z",
+        "apiVersion": "2022-08-31"
       }
     }
   ],
