@@ -137,7 +137,7 @@ async function main(): Promise<void> {
 
   const client = new DocumentModelAdministrationClient(endpoint, credential);
 
-  const modelInfo = await client.getModel(modelId);
+  const modelInfo = await client.getDocumentModel(modelId);
 
   console.error("Generating model code for:", modelInfo.modelId);
 

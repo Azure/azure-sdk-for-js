@@ -272,10 +272,10 @@ export class DocumentModelAdministrationClient {
     beginCopyModelTo(sourceModelId: string, authorization: CopyAuthorization, options?: BeginCopyModelOptions): Promise<DocumentModelPoller>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<void>;
     getCopyAuthorization(destinationModelId: string, options?: GetCopyAuthorizationOptions): Promise<CopyAuthorization>;
-    getModel(modelId: string, options?: GetModelOptions): Promise<DocumentModelDetails>;
+    getDocumentModel(modelId: string, options?: GetModelOptions): Promise<DocumentModelDetails>;
     getOperation(operationId: string, options?: GetOperationOptions): Promise<OperationDetails>;
     getResourceDetails(options?: GetResourceDetailsOptions): Promise<ResourceDetails>;
-    listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<DocumentModelSummary>;
+    listDocumentModels(options?: ListModelsOptions): PagedAsyncIterableIterator<DocumentModelSummary>;
     listOperations(options?: ListOperationsOptions): PagedAsyncIterableIterator<OperationSummary>;
 }
 

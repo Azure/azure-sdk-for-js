@@ -23,7 +23,7 @@ async function main() {
   // the following sample uses `"prebuilt-idDocument"`, but you can change it to any model ID
   // you'd like to inspect.
   const modelId = "prebuilt-idDocument";
-  const model = await client.getModel(modelId);
+  const model = await client.getDocumentModel(modelId);
 
   console.log("ID", model.modelId);
   console.log("Created:", model.createdDateTime);

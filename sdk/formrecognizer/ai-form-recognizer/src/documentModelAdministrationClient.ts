@@ -502,9 +502,9 @@ export class DocumentModelAdministrationClient {
    * ### **Breaking Change**
    *
    * In previous versions of the Form Recognizer REST API and SDK, the `getModel` method could return any model, even
-   * one that failed to create due to errors. In the new service versions, `getModel` and `listModels` _only produce
-   * successfully created models_ (i.e. models that are "ready" for use). Failed models are now retrieved through the
-   * "operations" APIs, see {@link getOperation} and {@link listOperations}.
+   * one that failed to create due to errors. In the new service versions, `getDocumentModel` and `listDocumentModels`
+   * _only produce successfully created models_ (i.e. models that are "ready" for use). Failed models are now retrieved
+   * through the "operations" APIs, see {@link getOperation} and {@link listOperations}.
    *
    * ### Example
    *
@@ -513,7 +513,7 @@ export class DocumentModelAdministrationClient {
    * const modelId = "prebuilt-businessCard";
    *
    * const {
-   *   modelId, // identical to the modelId given when calling `getModel`
+   *   modelId, // identical to the modelId given when calling `getDocumentModel`
    *   description, // a textual description of the model, if provided during model creation
    *   createdDateTime, // the Date (timestamp) that the model was created
    *   // information about the document types in the model and their field schemas
@@ -529,16 +529,19 @@ export class DocumentModelAdministrationClient {
    *       fieldConfidence
    *     }
    *   }
-   * } = await client.getModel(modelId);
+   * } = await client.getDocumentModel(modelId);
    * ```
    *
    * @param modelId - the unique ID of the model to query
    * @param options - optional settings for the request
    * @returns information about the model with the given ID
    */
-  public getModel(modelId: string, options: GetModelOptions = {}): Promise<DocumentModelDetails> {
+  public getDocumentModel(
+    modelId: string,
+    options: GetModelOptions = {}
+  ): Promise<DocumentModelDetails> {
     return this._tracing.withSpan(
-      "DocumentModelAdministrationClient.getModel",
+      "DocumentModelAdministrationClient.getDocumentModel",
       options,
       (finalOptions) => this._restClient.getDocumentModel(modelId, finalOptions)
     );
@@ -551,36 +554,36 @@ export class DocumentModelAdministrationClient {
    * The model summary ({@link ModelSummary}) includes only the basic information about the model, and does not include
    * information about the document types in the model (such as the field schemas and confidence values).
    *
-   * To access the full information about the model, use {@link getModel}.
+   * To access the full information about the model, use {@link getDocumentModel}.
    *
    * ### **Breaking Change**
    *
    * In previous versions of the Form Recognizer REST API and SDK, the `listModels` method would return all models, even
-   * those that failed to create due to errors. In the new service versions, `listModels` and `getModels` _only produce
-   * successfully created models_ (i.e. models that are "ready" for use). Failed models are now retrieved through the
-   * "operations" APIs, see {@link getOperation} and {@link listOperations}.
+   * those that failed to create due to errors. In the new service versions, `listDocumentModels` and `getDocumentModel`
+   * _only produce successfully created models_ (i.e. models that are "ready" for use). Failed models are now retrieved
+   * through the "operations" APIs, see {@link getOperation} and {@link listOperations}.
    *
    * ### Examples
    *
    * #### Async Iteration
    *
    * ```javascript
-   * for await (const summary of client.listModels()) {
+   * for await (const summary of client.listDocumentModels()) {
    *   const {
    *     modelId, // The model's unique ID
    *     description, // a textual description of the model, if provided during model creation
    *   } = summary;
    *
-   *   // You can get the full model info using `getModel`
-   *   const model = await client.getModel(modelId);
+   *   // You can get the full model info using `getDocumentModel`
+   *   const model = await client.getDocumentModel(modelId);
    * }
    * ```
    *
    * #### By Page
    *
    * ```javascript
-   * // The listModels method is paged, and you can iterate by page using the `byPage` method.
-   * const pages = client.listModels().byPage();
+   * // The listDocumentModels method is paged, and you can iterate by page using the `byPage` method.
+   * const pages = client.listDocumentModels().byPage();
    *
    * for await (const page of pages) {
    *   // Each page is an array of models and can be iterated synchronously
@@ -590,8 +593,8 @@ export class DocumentModelAdministrationClient {
    *       description, // a textual description of the model, if provided during model creation
    *     } = summary;
    *
-   *     // You can get the full model info using `getModel`
-   *     const model = await client.getModel(modelId);
+   *     // You can get the full model info using `getDocumentModel`
+   *     const model = await client.getDocumentModel(modelId);
    *   }
    * }
    * ```
@@ -599,7 +602,7 @@ export class DocumentModelAdministrationClient {
    * @param options - optional settings for the model requests
    * @returns an async iterable of model summaries that supports paging
    */
-  public listModels(
+  public listDocumentModels(
     options: ListModelsOptions = {}
   ): PagedAsyncIterableIterator<DocumentModelSummary> {
     return this._restClient.listDocumentModels(options);

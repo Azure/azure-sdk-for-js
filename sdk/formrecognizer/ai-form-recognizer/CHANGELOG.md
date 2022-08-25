@@ -1,5 +1,15 @@
 # Release History
 
+## 4.0.0 (Unreleased)
+
+### Features Added
+
+- Updated the SDK to use the latest Generally Available (GA) version of the Form Recognizer REST API: `2022-08-01`.
+
+### Breaking Changes
+
+- Renamed the `getModel` and `listModels` methods of `DocumentModelAdministrationClient` to `getDocumentModel` and `listDocumentModels` respectively.
+
 ## 4.0.0-beta.6 (2022-08-09)
 
 ### Features Added
