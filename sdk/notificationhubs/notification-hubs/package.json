@@ -1,6 +1,6 @@
 {
   "name": "@azure/notification-hubs",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "Azure Notification Hubs SDK for JavaScript",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -34,7 +34,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/util/constants.ts",
+        "path": "src/utils/constants.ts",
         "prefix": "SDK_VERSION"
       }
     ]

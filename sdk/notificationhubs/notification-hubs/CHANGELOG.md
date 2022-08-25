@@ -1,5 +1,9 @@
 # Release History
 
+## 1.0.0-beta.3 (2022-08-25)
+
+- Fixed bug of `signKey` to use `encodeURIComponent`.
+
 ## 1.0.0-beta.2 (2022-08-17)
 
 - Removed internal dependencies of `@azure/core-amqp` and inlined code
