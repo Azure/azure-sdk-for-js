@@ -16,6 +16,7 @@ import {
 import { createXhrHttpClient, isNode } from "@azure/test-utils";
 
 import { Context } from "mocha";
+import { ClientSecretCredential } from "@azure/identity";
 
 const replaceableVariables: { [k: string]: string } = {
   ENDPOINT: "https://endpoint",
@@ -48,13 +49,11 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 export async function createClient(): Promise<ConfidentialLedgerClient> {
   const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 
-  /*
   const clientCredential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,
     env.AZURE_CLIENT_SECRET
   );
-  */
   // const clientCredential = new DefaultAzureCredential();
 
   // const credential = new DefaultAzureCredential({ httpClient });
@@ -63,15 +62,11 @@ export async function createClient(): Promise<ConfidentialLedgerClient> {
     env.IDENTITY_SERVICE_URL
   );
 
-  const cert = env.PUBLIC_KEY;
-  const key = env.PRIVATE_KEY;
+  // const cert = env.PUBLIC_KEY;
+  // const key = env.PRIVATE_KEY;
 
-  return ConfidentialLedger(env.ENDPOINT, ledgerIdentityCertificate, {
-    httpClient,
-    tlsOptions: {
-      cert,
-      key,
-    },
+  return ConfidentialLedger(env.ENDPOINT, ledgerIdentityCertificate, clientCredential, {
+    httpClient
   });
 }
 
