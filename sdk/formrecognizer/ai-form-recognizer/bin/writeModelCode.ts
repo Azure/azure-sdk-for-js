@@ -14,19 +14,19 @@ import { camelCase, capitalize, uncapitalize, Field } from "./utils";
 /**
  * The header to append to the top of every file.
  */
-const sampleHeader = `// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
+const sampleHeader = `
 /**
  * @azsdk-util
- */`;
+ */
+`;
 
 /**
  * Generate a header with the model information.
  */
 function templateHeader(model: DocumentModelDetails, test: boolean): string {
-  return `${!test ? sampleHeader : ""}
-
+  return `// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+${!test ? sampleHeader : ""}
 // Model:       ${model.modelId}
 // Description: ${model.description}
 // API Version: ${model.apiVersion}

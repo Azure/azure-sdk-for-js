@@ -1,7 +1,10 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 // Model:       prebuilt-healthInsuranceCard.us
 // Description: Extract key information from US health insurance cards.
 // API Version: 2022-08-31
-// Created:     Tue Aug 23 2022
+// Created:     Thu Aug 25 2022
 
 import * as fr from "../../../src";
 
@@ -12,8 +15,7 @@ export const PrebuiltHealthInsuranceCardUsModel = fr.createModelFromSchema(
   modelInfo()
 ) as fr.DocumentModel<PrebuiltHealthInsuranceCardUsResult>;
 
-export interface PrebuiltHealthInsuranceCardUsResult
-  extends fr.AnalyzeResultCommon {
+export interface PrebuiltHealthInsuranceCardUsResult extends fr.AnalyzeResultCommon {
   /**
    * Extracted pages.
    */
@@ -102,9 +104,7 @@ export interface HealthInsuranceCardUsFields {
   /**
    * Array holding list of CoPay Benefits
    */
-  copays?: fr.DocumentArrayField<
-    fr.DocumentObjectField<HealthInsuranceCardUsCopaysElement>
-  >;
+  copays?: fr.DocumentArrayField<fr.DocumentObjectField<HealthInsuranceCardUsCopaysElement>>;
   /**
    * `HealthInsuranceCardUs` "Payer" field
    */
@@ -262,7 +262,7 @@ export interface HealthInsuranceCardUsPlan {
    */
   number?: fr.DocumentStringField;
   /**
-   * Plan name - If see Medicaid -> then medicaid
+   * Plan name - If see Medicaid -\> then medicaid
    */
   name?: fr.DocumentStringField;
 }
