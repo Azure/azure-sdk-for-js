@@ -765,6 +765,12 @@ export class FeedResponse<TResource> extends CosmosDiagnostics {
     // (undocumented)
     get continuationToken(): string;
     // (undocumented)
+    getcosmosDiagnostics(): string;
+    // (undocumented)
+    getcosmosDiagnosticsRegionsContacted(): string;
+    // (undocumented)
+    getcosmosDiagnostisDurationInMs(): number;
+    // (undocumented)
     readonly hasMoreResults: boolean;
     // (undocumented)
     get queryMetrics(): string;
@@ -1499,18 +1505,18 @@ export interface Resource {
 }
 
 // @public (undocumented)
-export class ResourceResponse<TResource> {
+export class ResourceResponse<TResource> extends CosmosDiagnostics {
     constructor(resource: TResource | undefined, headers: CosmosHeaders_2, statusCode: StatusCode, substatus?: SubStatusCode);
     // (undocumented)
     get activityId(): string;
     // (undocumented)
-    get cosmosDiagnostics(): string;
-    // (undocumented)
-    get cosmosDiagnosticsRegionsContacted(): string;
-    // (undocumented)
-    get cosmosDiagnostisDurationInMs(): number;
-    // (undocumented)
     get etag(): string;
+    // (undocumented)
+    getcosmosDiagnostics(): string;
+    // (undocumented)
+    getcosmosDiagnosticsRegionsContacted(): string;
+    // (undocumented)
+    getcosmosDiagnostisDurationInMs(): number;
     // (undocumented)
     readonly headers: CosmosHeaders_2;
     // (undocumented)

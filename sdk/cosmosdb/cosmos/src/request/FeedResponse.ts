@@ -12,6 +12,16 @@ export class FeedResponse<TResource> extends CosmosDiagnostics {
   ) {
     super();
   }
+
+  public getcosmosDiagnosticsRegionsContacted() {
+    return this.getRegionsContacted();
+  }
+  public getcosmosDiagnostisDurationInMs() {
+    return this.getDuration();
+  }
+  public getcosmosDiagnostics(): string {
+    return this.getCosmosDiagnostics();
+  }
   public get continuation(): string {
     return this.continuationToken;
   }

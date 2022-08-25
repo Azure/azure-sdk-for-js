@@ -1,111 +1,133 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 const _startTime = new Date().getTime();
 const _defaultHeader: DiagnosticHeader = {
-  cosmosdiagnostics: "Started Cosmos Diagnostics",
+  cosmosdiagnostics: "Cosmos Diagnostics Summary",
   diagnosticStartTime: new Date().toLocaleString(),
   durationInMs: new Date().getTime() - _startTime,
   activityId: "",
-  requestCharge: 0,
+  requestCharge: "0",
   transportRequestTimeline: {},
-  data: {},
+  contactedRegions: "",
 };
-const _diagnosticHeader: DiagnosticHeader[] = [];
+const _diagnosticHeader: DiagnosticHeader = _defaultHeader;
+
 /**
  * @internal
  */
 export function setDiagnostics(message?: string | DiagnosticHeader) {
-  if (_diagnosticHeader.length === 0) {
-    _diagnosticHeader.push(_defaultHeader);
+  if (!_diagnosticHeader.data) {
+    _diagnosticHeader.data = [_defaultHeader];
   }
   if (typeof message === "string") {
-    _diagnosticHeader.push(parseDiagnosticHeader(message));
+    _diagnosticHeader.data.push(parseDiagnosticHeader(message));
   }
 }
 
-function parseDiagnosticHeader(data: string): DiagnosticHeader {
-  if (JSON.parse(data)) {
-    return JSON.parse(data);
+/**
+ * @internal
+ */
+function parseRequestCharge(data: string): string {
+  const _patternMatch = new RegExp(`RequestCharge: \w+,`);
+  const requestCharge = data.match(_patternMatch);
+  if (requestCharge) {
+    return requestCharge.toString().replace("RequestCharge:", "").trim();
   }
-  const header = {
+  return "0";
+}
+
+/**
+ * @internal
+ */
+function parseActivityId(data: string): string {
+  const _patternMatch = new RegExp(
+    `ActivityId: [a-zA-Z0-9]+[-][a-zA-Z0-9]+[-]+[a-zA-Z0-9]+[-]+[a-zA-Z0-9]+[-]+[a-zA-Z0-9]+`
+  );
+  const activityId = data.match(_patternMatch);
+  if (activityId) {
+    return activityId.toString().replace("ActivityId:", "").trim();
+  }
+  return "";
+}
+
+/**
+ * @internal
+ */
+function parseContactedRegions(data: string): string {
+  const _patternMatch = new RegExp(`Number of regions \w+:\w`);
+  if (_patternMatch.test(data)) {
+    const contactedRegions = data.match(_patternMatch);
+    if (contactedRegions) {
+      return contactedRegions.toString().trim();
+    }
+  }
+  return "";
+}
+
+/**
+ * @internal
+ */
+function parseTransportRequestTimeline(data: string): string {
+  const _patternMatch = new RegExp(`TransportRequestTimeline: \{(?:[^{}]|(\{(?:[^{}]|())*\}))*\}`);
+
+  if (_patternMatch.test(data)) {
+    const transportRequestTimeline = data.match(_patternMatch);
+    if (transportRequestTimeline) {
+      return transportRequestTimeline.toString().replace("TransportRequestTimeline:", "").trim();
+    }
+  }
+  return "";
+}
+
+/**
+ * @internal
+ */
+function parseDiagnosticHeader(data: string): DiagnosticHeader {
+  const header: DiagnosticHeader = {
     cosmosdiagnostics: "Started Cosmos Diagnostics",
     diagnosticStartTime: new Date().toLocaleString(),
     durationInMs: new Date().getTime() - _startTime,
-    activityId: "",
-    requestCharge: parseRequestCharge(),
-    transportRequestTimeline: {},
-    data: data,
+    activityId: parseActivityId(data), //parseDiagnosticMessage(data),
+    requestCharge: parseRequestCharge(data),
+    transportRequestTimeline: parseTransportRequestTimeline(data),
+    contactedRegions: parseContactedRegions(data),
   };
+  if (header.data) {
+    header.data.push(parseDiagnosticHeader(data));
+  }
   return header;
 }
+
 /*
  * @internal
  */
-export function getdiagnosticsdurationMilliseconds(): number | undefined {
-  if (_diagnosticHeader.length > 0) {
-    return Number(_diagnosticHeader[_diagnosticHeader.length - 1].durationInMs);
+export function getdiagnosticsdurationMilliseconds(): number {
+  if (_diagnosticHeader.durationInMs) {
+    return _diagnosticHeader.durationInMs;
   }
-  return undefined;
+  return 0;
 }
-/**
- * @internal
- */
-export function parseTransportRequestTimeline(): number | undefined {
-  if (_diagnosticHeader.length > 0) {
-    return Number(_diagnosticHeader[_diagnosticHeader.length - 1].durationInMs);
-  }
-  return undefined;
-}
-/**
- * @internal
- */
-export function parseRequestCharge(): number | undefined {
-  if (_diagnosticHeader.length > 0) {
-    return Number(_diagnosticHeader[_diagnosticHeader.length - 1].durationInMs);
-  }
-  return undefined;
-}
-/**
- * @internal
- */
-export function parseContactedRegions(): number | undefined {
-  if (_diagnosticHeader.length > 0) {
-    return Number(_diagnosticHeader[_diagnosticHeader.length - 1].durationInMs);
-  }
-  return undefined;
-}
+
 /**
  * @internal
  */
 export function getCosmosDiagnosticsToString(): string {
-  if (_diagnosticHeader !== undefined) {
-    return JSON.stringify(_diagnosticHeader);
+  if (_diagnosticHeader) {
+    return String(_diagnosticHeader);
   }
   setDiagnostics(_defaultHeader);
-  return JSON.stringify(_diagnosticHeader);
+  return String(_diagnosticHeader);
 }
 
 /**
  * @internal
  */
 export function getRegionsContacted(): string {
-  if (_diagnosticHeader !== undefined) {
-    return JSON.stringify(_diagnosticHeader);
+  if (_diagnosticHeader.contactedRegions !== undefined) {
+    return _diagnosticHeader.contactedRegions.toString();
   }
-  setDiagnostics(_defaultHeader);
-  return JSON.stringify(_diagnosticHeader);
-}
-
-export function getDiagnosticsRaw(): string {
-  if (_diagnosticHeader.length > 0) {
-    return JSON.stringify(
-      _diagnosticHeader.map((diagnostic) => {
-        return JSON.stringify(diagnostic.data);
-      })
-    );
-  }
-  setDiagnostics(_defaultHeader);
-  return JSON.stringify(_diagnosticHeader);
+  return "";
 }
 
 export interface DiagnosticHeader {
@@ -113,7 +135,8 @@ export interface DiagnosticHeader {
   diagnosticStartTime: string;
   durationInMs: number;
   activityId: string;
-  requestCharge?: number;
+  requestCharge?: string;
   transportRequestTimeline?: any;
-  data?: any;
+  contactedRegions?: string;
+  data?: [DiagnosticHeader];
 }

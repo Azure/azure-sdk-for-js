@@ -12,17 +12,17 @@ import { removeAllDatabases } from "../common/TestHelpers";
 //import { CosmosException } from "../../../src/diagnostics/CosmosException";
 //import { createOrUpsertPermission, getTestDatabase } from "../common/TestHelpers";
 
-describe.only("Cosmos Diagnostic Tests", async function (this: Suite) {
+describe("Cosmos Diagnostic Tests", async function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function () {
     await removeAllDatabases();
   });
 
   describe("Cosmos diagnostic test", function () {
-    it.only("should return cosmos diagnostics", async function () {
+    it("should return cosmos diagnostics", async function () {
       const client = new CosmosClient({ key: masterKey, endpoint });
       const db = await client.databases.createIfNotExists({ id: "diagnostics" });
-      console.log(db.cosmosDiagnostics);
+      console.log(db.getcosmosDiagnostics());
     });
 
     it("should handle duration condition", async function () {
@@ -33,10 +33,10 @@ describe.only("Cosmos Diagnostic Tests", async function (this: Suite) {
       console.log(diagnostics);
       assert(diagnostics);
       assert(JSON.parse(diagnostics));
-      assert(typeof readItem.cosmosDiagnostisDurationInMs === "number");
+      assert(typeof readItem.getcosmosDiagnostisDurationInMs() === "number");
       assert(
-        readItem.cosmosDiagnostisDurationInMs > 0 ||
-          readItem.cosmosDiagnostisDurationInMs === undefined
+        readItem.getcosmosDiagnostisDurationInMs() > 0 ||
+          readItem.getcosmosDiagnostisDurationInMs() === undefined
       );
       assert(!diagnostics.includes('""systemHistory":null'));
       // assert(diagnostics.includes('"RequestStats ":"Create"'));
@@ -60,8 +60,8 @@ describe.only("Cosmos Diagnostic Tests", async function (this: Suite) {
         const container: Container = database.container(containerdef.id);
         // read items
         const items = await container.items.readAll().fetchAll();
-        if (items.getDuration() > 60) {
-          assert(items.getDuration);
+        if (items.getcosmosDiagnostisDurationInMs() > 60) {
+          assert(items.getcosmosDiagnostisDurationInMs());
           throw new CosmosException(`custom message`);
         }
       } catch (err: any) {
