@@ -74,9 +74,7 @@ export interface BusinessCardFields {
   /**
    * `BusinessCard` "ContactNames" field
    */
-  contactNames?: fr.DocumentArrayField<
-    fr.DocumentObjectField<BusinessCardContactNamesElement>
-  >;
+  contactNames?: fr.DocumentArrayField<fr.DocumentObjectField<BusinessCardContactNamesElement>>;
   /**
    * `BusinessCard` "CompanyNames" field
    */

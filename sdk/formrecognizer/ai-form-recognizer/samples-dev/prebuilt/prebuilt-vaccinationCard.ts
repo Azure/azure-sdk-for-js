@@ -78,9 +78,7 @@ export interface VaccinationCovid19UsFields {
   /**
    * Array holding all the Covid-19 shots received by the cardholder
    */
-  vaccines?: fr.DocumentArrayField<
-    fr.DocumentObjectField<VaccinationCovid19UsVaccinesElement>
-  >;
+  vaccines?: fr.DocumentArrayField<fr.DocumentObjectField<VaccinationCovid19UsVaccinesElement>>;
 }
 
 /**
@@ -127,8 +125,7 @@ export interface VaccinationCovid19UsVaccinesElement {
 function modelInfo() {
   return {
     modelId: "prebuilt-vaccinationCard",
-    description:
-      "Extract key information from US Covid-19 CDC vaccination cards.",
+    description: "Extract key information from US Covid-19 CDC vaccination cards.",
     createdDateTime: "2022-08-31T00:00:00.000Z",
     apiVersion: "2022-08-31",
     docTypes: {
@@ -162,8 +159,7 @@ function modelInfo() {
           },
           Vaccines: {
             type: "array",
-            description:
-              "Array holding all the Covid-19 shots received by the cardholder",
+            description: "Array holding all the Covid-19 shots received by the cardholder",
             items: {
               type: "object",
               properties: {

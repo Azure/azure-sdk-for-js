@@ -44,8 +44,7 @@ export interface PrebuiltDocumentResult extends fr.AnalyzeResultCommon {
 function modelInfo() {
   return {
     modelId: "prebuilt-document",
-    description:
-      "Extract text, layout, entities, and general key-value pairs from documents.",
+    description: "Extract text, layout, entities, and general key-value pairs from documents.",
     createdDateTime: "2022-08-31T00:00:00.000Z",
     apiVersion: "2022-08-31",
   } as const;

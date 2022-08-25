@@ -142,9 +142,7 @@ export interface TaxUsW2Fields {
   /**
    * Array holding W2 Codes. IRS W2 form field 12
    */
-  additionalInfo?: fr.DocumentArrayField<
-    fr.DocumentObjectField<TaxUsW2AdditionalInfoElement>
-  >;
+  additionalInfo?: fr.DocumentArrayField<fr.DocumentObjectField<TaxUsW2AdditionalInfoElement>>;
   /**
    * Part of IRS W2 form field 13. Can be 'true' or 'false'
    */
@@ -164,15 +162,11 @@ export interface TaxUsW2Fields {
   /**
    * State tax-related information. content of IRS W2 form field 15 to 17
    */
-  stateTaxInfos?: fr.DocumentArrayField<
-    fr.DocumentObjectField<TaxUsW2StateTaxInfosElement>
-  >;
+  stateTaxInfos?: fr.DocumentArrayField<fr.DocumentObjectField<TaxUsW2StateTaxInfosElement>>;
   /**
    * Local tax-related information. Content of IRS W2 form field 18 to 20
    */
-  localTaxInfos?: fr.DocumentArrayField<
-    fr.DocumentObjectField<TaxUsW2LocalTaxInfosElement>
-  >;
+  localTaxInfos?: fr.DocumentArrayField<fr.DocumentObjectField<TaxUsW2LocalTaxInfosElement>>;
 }
 
 /**
@@ -277,8 +271,7 @@ export interface TaxUsW2LocalTaxInfosElement {
 function modelInfo() {
   return {
     modelId: "prebuilt-tax.us.w2",
-    description:
-      "Extract key information from IRS US W2 tax forms (year 2018-2021).",
+    description: "Extract key information from IRS US W2 tax forms (year 2018-2021).",
     createdDateTime: "2022-08-31T00:00:00.000Z",
     apiVersion: "2022-08-31",
     docTypes: {
@@ -298,8 +291,7 @@ function modelInfo() {
           },
           W2Copy: {
             type: "string",
-            description:
-              "W2 form copy version along with printed instruction realted to this copy",
+            description: "W2 form copy version along with printed instruction realted to this copy",
             example: "Copy A—For Social Security Administration",
           },
           Employee: {
@@ -334,8 +326,7 @@ function modelInfo() {
             properties: {
               IdNumber: {
                 type: "string",
-                description:
-                  "Employer's identification number. IRS W2 form field b",
+                description: "Employer's identification number. IRS W2 form field b",
                 example: "12-3456789",
               },
               Name: {
@@ -352,44 +343,37 @@ function modelInfo() {
           },
           WagesTipsAndOtherCompensation: {
             type: "number",
-            description:
-              "Wages, tips, and other compensation amount in USD. IRS W2 form field 1",
+            description: "Wages, tips, and other compensation amount in USD. IRS W2 form field 1",
             example: "1234567.89",
           },
           FederalIncomeTaxWithheld: {
             type: "number",
-            description:
-              "Federal income tax withheld amount in USD. IRS W2 form field 2",
+            description: "Federal income tax withheld amount in USD. IRS W2 form field 2",
             example: "1234567.89",
           },
           SocialSecurityWages: {
             type: "number",
-            description:
-              "Social security wages amount in USD. IRS W2 form field 3",
+            description: "Social security wages amount in USD. IRS W2 form field 3",
             example: "1234567.89",
           },
           SocialSecurityTaxWithheld: {
             type: "number",
-            description:
-              "Social security tax withheld amount in USD. IRS W2 form field 4",
+            description: "Social security tax withheld amount in USD. IRS W2 form field 4",
             example: "1234567.89",
           },
           MedicareWagesAndTips: {
             type: "number",
-            description:
-              "Medicare wages and tips amount in USD. IRS W2 form field 5",
+            description: "Medicare wages and tips amount in USD. IRS W2 form field 5",
             example: "1234567.89",
           },
           MedicareTaxWithheld: {
             type: "number",
-            description:
-              "Medicare tax withheld amount in USD. IRS W2 form field 6",
+            description: "Medicare tax withheld amount in USD. IRS W2 form field 6",
             example: "1234567.89",
           },
           SocialSecurityTips: {
             type: "number",
-            description:
-              "Social security tips amount in USD. IRS W2 form field 7",
+            description: "Social security tips amount in USD. IRS W2 form field 7",
             example: "1234567.89",
           },
           AllocatedTips: {
@@ -404,14 +388,12 @@ function modelInfo() {
           },
           DependentCareBenefits: {
             type: "number",
-            description:
-              "Dependent care benefits amount in USD. IRS W2 form field 10",
+            description: "Dependent care benefits amount in USD. IRS W2 form field 10",
             example: "1234567.89",
           },
           NonQualifiedPlans: {
             type: "number",
-            description:
-              "Non-qualified plans amount in USD. IRS W2 form field 11",
+            description: "Non-qualified plans amount in USD. IRS W2 form field 11",
             example: "1234567.89",
           },
           AdditionalInfo: {
@@ -436,20 +418,17 @@ function modelInfo() {
           },
           IsStatutoryEmployee: {
             type: "string",
-            description:
-              "Part of IRS W2 form field 13. Can be 'true' or 'false'",
+            description: "Part of IRS W2 form field 13. Can be 'true' or 'false'",
             example: "true",
           },
           IsRetirementPlan: {
             type: "string",
-            description:
-              "Part of IRS W2 form field 13. Can be 'true' or 'false'",
+            description: "Part of IRS W2 form field 13. Can be 'true' or 'false'",
             example: "true",
           },
           IsThirdPartySickPay: {
             type: "string",
-            description:
-              "Part of IRS W2 form field 13. Can be 'true' or 'false'",
+            description: "Part of IRS W2 form field 13. Can be 'true' or 'false'",
             example: "true",
           },
           Other: {
@@ -459,33 +438,28 @@ function modelInfo() {
           },
           StateTaxInfos: {
             type: "array",
-            description:
-              "State tax-related information. content of IRS W2 form field 15 to 17",
+            description: "State tax-related information. content of IRS W2 form field 15 to 17",
             items: {
               type: "object",
               properties: {
                 State: {
                   type: "string",
-                  description:
-                    "Two letter state code. Part of IRS W2 form field 15",
+                  description: "Two letter state code. Part of IRS W2 form field 15",
                   example: "WA",
                 },
                 EmployerStateIdNumber: {
                   type: "string",
-                  description:
-                    "Employer state ID number. Part of IRS W2 form field 15",
+                  description: "Employer state ID number. Part of IRS W2 form field 15",
                   example: "1234567",
                 },
                 "StateWagesTipsEtc ": {
                   type: "number",
-                  description:
-                    "State wages, tips, etc amount in USD. IRS W2 form field 16",
+                  description: "State wages, tips, etc amount in USD. IRS W2 form field 16",
                   example: "1234567.89",
                 },
                 "StateIncomeTax ": {
                   type: "number",
-                  description:
-                    "State income tax amount in USD. IRS W2 form field 17",
+                  description: "State income tax amount in USD. IRS W2 form field 17",
                   example: "1234567.89",
                 },
               },
@@ -493,21 +467,18 @@ function modelInfo() {
           },
           LocalTaxInfos: {
             type: "array",
-            description:
-              "Local tax-related information. Content of IRS W2 form field 18 to 20",
+            description: "Local tax-related information. Content of IRS W2 form field 18 to 20",
             items: {
               type: "object",
               properties: {
                 LocalWagesTipsEtc: {
                   type: "number",
-                  description:
-                    "Local wages, tips, etc amount in USD. Part of IRS W2 form field 18",
+                  description: "Local wages, tips, etc amount in USD. Part of IRS W2 form field 18",
                   example: "1234567.89",
                 },
                 LocalIncomeTax: {
                   type: "number",
-                  description:
-                    "Local income tax amount in USD. Part of IRS W2 form field 19",
+                  description: "Local income tax amount in USD. Part of IRS W2 form field 19",
                   example: "1234567.89",
                 },
                 LocalityName: {

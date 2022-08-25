@@ -267,8 +267,7 @@ function modelInfo() {
           },
           InvoiceId: {
             type: "string",
-            description:
-              "ID for this specific invoice (often 'Invoice Number')",
+            description: "ID for this specific invoice (often 'Invoice Number')",
             example: "INV-100",
           },
           InvoiceDate: {
@@ -353,8 +352,7 @@ function modelInfo() {
           },
           RemittanceAddress: {
             type: "address",
-            description:
-              "Explicit remittance or payment address for the customer",
+            description: "Explicit remittance or payment address for the customer",
             example: "123 Remit St New York, NY, 10001",
           },
           RemittanceAddressRecipient: {
@@ -364,8 +362,7 @@ function modelInfo() {
           },
           ServiceAddress: {
             type: "string",
-            description:
-              "Explicit service address or property address for the customer",
+            description: "Explicit service address or property address for the customer",
             example: "123 Service St, Redmond WA, 98052",
           },
           ServiceAddressRecipient: {
@@ -392,14 +389,12 @@ function modelInfo() {
           },
           CustomerTaxId: {
             type: "string",
-            description:
-              "The government ID number associated with the customer",
+            description: "The government ID number associated with the customer",
             example: "765432-1",
           },
           PaymentTerm: {
             type: "string",
-            description:
-              "The terms under which the payment is meant to be paid",
+            description: "The terms under which the payment is meant to be paid",
             example: "Net90",
           },
           Items: {
@@ -408,8 +403,7 @@ function modelInfo() {
             items: {
               type: "object",
               description: "A single line item",
-              example:
-                "3/4/2021\nA123\nConsulting Services\n2 hours\n$30.00\n10%\n$60.00",
+              example: "3/4/2021\nA123\nConsulting Services\n2 hours\n$30.00\n10%\n$60.00",
               properties: {
                 Amount: {
                   type: "currency",

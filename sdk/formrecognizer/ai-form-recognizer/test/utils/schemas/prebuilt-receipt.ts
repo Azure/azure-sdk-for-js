@@ -295,9 +295,7 @@ export interface ReceiptRetailMealFields {
   /**
    * `ReceiptRetailMeal` "Items" field
    */
-  items?: fr.DocumentArrayField<
-    fr.DocumentObjectField<ReceiptRetailMealItemsElement>
-  >;
+  items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptRetailMealItemsElement>>;
 }
 
 /**
@@ -365,9 +363,7 @@ export interface ReceiptCreditCardFields {
   /**
    * `ReceiptCreditCard` "Items" field
    */
-  items?: fr.DocumentArrayField<
-    fr.DocumentObjectField<ReceiptCreditCardItemsElement>
-  >;
+  items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptCreditCardItemsElement>>;
 }
 
 /**
@@ -503,9 +499,7 @@ export interface ReceiptParkingFields {
   /**
    * `ReceiptParking` "Items" field
    */
-  items?: fr.DocumentArrayField<
-    fr.DocumentObjectField<ReceiptParkingItemsElement>
-  >;
+  items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptParkingItemsElement>>;
 }
 
 /**
@@ -569,9 +563,7 @@ export interface ReceiptHotelFields {
   /**
    * `ReceiptHotel` "Items" field
    */
-  items?: fr.DocumentArrayField<
-    fr.DocumentObjectField<ReceiptHotelItemsElement>
-  >;
+  items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptHotelItemsElement>>;
 }
 
 /**
