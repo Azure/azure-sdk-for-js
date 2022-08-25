@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/modelName10576?api-version=2022-06-30-preview",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/modelName10428?api-version=2022-08-31",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -17,23 +17,23 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "c5208bc7-c7bd-465f-bc91-1770150d5fa0",
-        "x-ms-useragent": "azsdk-js-ai-form-recognizer/4.0.0-beta.5 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
+        "x-ms-client-request-id": "7d547fe0-97ec-43fd-b374-a6032c881601",
+        "x-ms-useragent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.2 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
-        "apim-request-id": "c30e2f59-3c57-48c9-abc4-a570c8def91e",
+        "apim-request-id": "a3468c4c-1f0b-4f05-ab74-dbbe51c288bb",
         "Content-Length": "0",
-        "Date": "Thu, 07 Jul 2022 01:16:27 GMT",
+        "Date": "Thu, 25 Aug 2022 16:12:14 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "126"
+        "x-envoy-upstream-service-time": "48"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/modelName10576?api-version=2022-06-30-preview",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/modelName10428?api-version=2022-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -49,19 +49,19 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "53f2f299-c06b-4ef8-b9a9-aa0c648015bc",
-        "x-ms-useragent": "azsdk-js-ai-form-recognizer/4.0.0-beta.5 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
+        "x-ms-client-request-id": "eda75845-c604-4e5a-a647-7cc627ee51f9",
+        "x-ms-useragent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.2 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
-        "apim-request-id": "965945ef-0fbf-4548-b6dd-9224cd18dfa9",
+        "apim-request-id": "5283bcd8-3b0a-41d9-9166-fbb20f699f19",
         "Content-Type": "application/json",
-        "Date": "Thu, 07 Jul 2022 01:16:27 GMT",
+        "Date": "Thu, 25 Aug 2022 16:12:14 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "47"
+        "x-envoy-upstream-service-time": "46"
       },
       "ResponseBody": {
         "error": {
