@@ -25,13 +25,16 @@
       }
     },
     "tenantId": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "72f988bf-86f1-41af-91ab-2d7cd011db47"
     },
     "clientId": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "11117bee-56a6-4430-9988-b8788a90c2e9"
     },
     "clientSecret": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": ""
     }
   },
   "functions": [],
@@ -48,6 +51,7 @@
         "aadBasedSecurityPrincipals": [
           {
             "principalId": "[parameters('principalId')]",
+            "tenantId": "[parameters('tenantId')]",
             "ledgerRoleName": "Administrator"
           },
           {
