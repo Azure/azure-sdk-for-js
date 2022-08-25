@@ -5,6 +5,7 @@
     "ledgerName": {
       "type": "string",
       "metadata": {
+        "defaultValue": "0000-test-js",
         "description": "Ledger Name"
       },
       "minLength": 3,
