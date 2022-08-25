@@ -11,9 +11,9 @@
         "Content-Length": "245",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-jobrouter/V2022-07-18-preview azsdk-js-azure-communication-jobrouter/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.3.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "9a4c12c1-94be-46b1-adb9-83008930e66e",
+        "x-ms-client-request-id": "5e60fa3c-ee02-4548-acb0-56f7896aa87d",
         "x-ms-content-sha256": "g/FFONEq6b2TPcd7RLMusaLauV9XSyvcW81/lUW4LUU=",
-        "x-ms-date": "Thu, 25 Aug 2022 20:20:36 GMT"
+        "x-ms-date": "Thu, 25 Aug 2022 22:06:13 GMT"
       },
       "RequestBody": {
         "name": "test-policy",
@@ -40,13 +40,13 @@
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 25 Aug 2022 20:20:37 GMT",
-        "ETag": "\u0022ea0344eb-0000-0700-0000-6307d8680000\u0022",
-        "Last-Modified": "Thu, 25 Aug 2022 20:15:36 GMT",
+        "Date": "Thu, 25 Aug 2022 22:06:14 GMT",
+        "ETag": "\u0022eb03186d-0000-0700-0000-6307f2550000\u0022",
+        "Last-Modified": "Thu, 25 Aug 2022 22:06:13 GMT",
         "Request-Context": "appId=",
-        "trace-id": "1e50bebe32f5429b83a5f968ba572b9a",
+        "trace-id": "f306ad562191aa985492828fa8aa284d",
         "Transfer-Encoding": "chunked",
-        "x-azure-ref": "20220825T202036Z-bpw7ap8bgd6sr5zf49a92e7hs8000000026000000002gv6v",
+        "x-azure-ref": "20220825T220612Z-dub743k5th50fa7pty9143w728000000010000000001nf1v",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {

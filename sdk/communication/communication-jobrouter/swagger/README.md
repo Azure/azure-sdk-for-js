@@ -71,6 +71,11 @@ directive:
     transform: >
       $["x-ms-client-name"] = "weightTotalAsOne";     
       
+  - from: swagger-document
+    where: "$.definitions.ClassificationPolicy.properties"
+    transform: >
+      $.queueSelectors.items["$ref"] = "#/definitions/QueueSelectorAttachment";
+      $.workerSelectors.items["$ref"] = "#/definitions/WorkerSelectorAttachment";
 
  
 

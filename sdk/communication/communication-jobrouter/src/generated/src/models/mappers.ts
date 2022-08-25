@@ -38,7 +38,8 @@ export const ClassificationPolicy: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "any"
+              name: "Composite",
+              className: "QueueSelectorAttachment"
             }
           }
         }
@@ -56,9 +57,31 @@ export const ClassificationPolicy: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "any"
+              name: "Composite",
+              className: "WorkerSelectorAttachment"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const QueueSelectorAttachment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QueueSelectorAttachment",
+    uberParent: "QueueSelectorAttachment",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind"
+    },
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -70,6 +93,27 @@ export const RouterRule: coreClient.CompositeMapper = {
     name: "Composite",
     className: "RouterRule",
     uberParent: "RouterRule",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind"
+    },
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WorkerSelectorAttachment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WorkerSelectorAttachment",
+    uberParent: "WorkerSelectorAttachment",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
@@ -1415,48 +1459,6 @@ export const QueueSelector: coreClient.CompositeMapper = {
   }
 };
 
-export const QueueSelectorAttachment: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "QueueSelectorAttachment",
-    uberParent: "QueueSelectorAttachment",
-    polymorphicDiscriminator: {
-      serializedName: "kind",
-      clientName: "kind"
-    },
-    modelProperties: {
-      kind: {
-        serializedName: "kind",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const WorkerSelectorAttachment: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "WorkerSelectorAttachment",
-    uberParent: "WorkerSelectorAttachment",
-    polymorphicDiscriminator: {
-      serializedName: "kind",
-      clientName: "kind"
-    },
-    modelProperties: {
-      kind: {
-        serializedName: "kind",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const FunctionRuleCredential: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1551,6 +1553,148 @@ export const WorkerWeightedAllocation: coreClient.CompositeMapper = {
   }
 };
 
+export const ConditionalQueueSelectorAttachment: coreClient.CompositeMapper = {
+  serializedName: "conditional",
+  type: {
+    name: "Composite",
+    className: "ConditionalQueueSelectorAttachment",
+    uberParent: "QueueSelectorAttachment",
+    polymorphicDiscriminator:
+      QueueSelectorAttachment.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...QueueSelectorAttachment.type.modelProperties,
+      condition: {
+        serializedName: "condition",
+        type: {
+          name: "Composite",
+          className: "RouterRule"
+        }
+      },
+      labelSelectors: {
+        serializedName: "labelSelectors",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "QueueSelector"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PassThroughQueueSelectorAttachment: coreClient.CompositeMapper = {
+  serializedName: "pass-through",
+  type: {
+    name: "Composite",
+    className: "PassThroughQueueSelectorAttachment",
+    uberParent: "QueueSelectorAttachment",
+    polymorphicDiscriminator:
+      QueueSelectorAttachment.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...QueueSelectorAttachment.type.modelProperties,
+      key: {
+        constraints: {
+          MaxLength: 500
+        },
+        serializedName: "key",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      labelOperator: {
+        serializedName: "labelOperator",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "equal",
+            "notEqual",
+            "lessThan",
+            "lessThanEqual",
+            "greaterThan",
+            "greaterThanEqual"
+          ]
+        }
+      }
+    }
+  }
+};
+
+export const RuleEngineQueueSelectorAttachment: coreClient.CompositeMapper = {
+  serializedName: "rule-engine",
+  type: {
+    name: "Composite",
+    className: "RuleEngineQueueSelectorAttachment",
+    uberParent: "QueueSelectorAttachment",
+    polymorphicDiscriminator:
+      QueueSelectorAttachment.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...QueueSelectorAttachment.type.modelProperties,
+      rule: {
+        serializedName: "rule",
+        type: {
+          name: "Composite",
+          className: "RouterRule"
+        }
+      }
+    }
+  }
+};
+
+export const StaticQueueSelectorAttachment: coreClient.CompositeMapper = {
+  serializedName: "static",
+  type: {
+    name: "Composite",
+    className: "StaticQueueSelectorAttachment",
+    uberParent: "QueueSelectorAttachment",
+    polymorphicDiscriminator:
+      QueueSelectorAttachment.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...QueueSelectorAttachment.type.modelProperties,
+      labelSelector: {
+        serializedName: "labelSelector",
+        type: {
+          name: "Composite",
+          className: "QueueSelector"
+        }
+      }
+    }
+  }
+};
+
+export const WeightedAllocationQueueSelectorAttachment: coreClient.CompositeMapper = {
+  serializedName: "weighted-allocation-queue-selector",
+  type: {
+    name: "Composite",
+    className: "WeightedAllocationQueueSelectorAttachment",
+    uberParent: "QueueSelectorAttachment",
+    polymorphicDiscriminator:
+      QueueSelectorAttachment.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...QueueSelectorAttachment.type.modelProperties,
+      allocations: {
+        serializedName: "allocations",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "QueueWeightedAllocation"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const DirectMapRule: coreClient.CompositeMapper = {
   serializedName: "direct-map-rule",
   type: {
@@ -1636,6 +1780,154 @@ export const StaticRule: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const ConditionalWorkerSelectorAttachment: coreClient.CompositeMapper = {
+  serializedName: "conditional",
+  type: {
+    name: "Composite",
+    className: "ConditionalWorkerSelectorAttachment",
+    uberParent: "WorkerSelectorAttachment",
+    polymorphicDiscriminator:
+      WorkerSelectorAttachment.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...WorkerSelectorAttachment.type.modelProperties,
+      condition: {
+        serializedName: "condition",
+        type: {
+          name: "Composite",
+          className: "RouterRule"
+        }
+      },
+      labelSelectors: {
+        serializedName: "labelSelectors",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "WorkerSelector"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PassThroughWorkerSelectorAttachment: coreClient.CompositeMapper = {
+  serializedName: "pass-through",
+  type: {
+    name: "Composite",
+    className: "PassThroughWorkerSelectorAttachment",
+    uberParent: "WorkerSelectorAttachment",
+    polymorphicDiscriminator:
+      WorkerSelectorAttachment.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...WorkerSelectorAttachment.type.modelProperties,
+      key: {
+        constraints: {
+          MaxLength: 500
+        },
+        serializedName: "key",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      labelOperator: {
+        serializedName: "labelOperator",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "equal",
+            "notEqual",
+            "lessThan",
+            "lessThanEqual",
+            "greaterThan",
+            "greaterThanEqual"
+          ]
+        }
+      },
+      ttlSeconds: {
+        serializedName: "ttlSeconds",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RuleEngineWorkerSelectorAttachment: coreClient.CompositeMapper = {
+  serializedName: "rule-engine",
+  type: {
+    name: "Composite",
+    className: "RuleEngineWorkerSelectorAttachment",
+    uberParent: "WorkerSelectorAttachment",
+    polymorphicDiscriminator:
+      WorkerSelectorAttachment.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...WorkerSelectorAttachment.type.modelProperties,
+      rule: {
+        serializedName: "rule",
+        type: {
+          name: "Composite",
+          className: "RouterRule"
+        }
+      }
+    }
+  }
+};
+
+export const StaticWorkerSelectorAttachment: coreClient.CompositeMapper = {
+  serializedName: "static",
+  type: {
+    name: "Composite",
+    className: "StaticWorkerSelectorAttachment",
+    uberParent: "WorkerSelectorAttachment",
+    polymorphicDiscriminator:
+      WorkerSelectorAttachment.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...WorkerSelectorAttachment.type.modelProperties,
+      labelSelector: {
+        serializedName: "labelSelector",
+        type: {
+          name: "Composite",
+          className: "WorkerSelector"
+        }
+      }
+    }
+  }
+};
+
+export const WeightedAllocationWorkerSelectorAttachment: coreClient.CompositeMapper = {
+  serializedName: "weighted-allocation-worker-selector",
+  type: {
+    name: "Composite",
+    className: "WeightedAllocationWorkerSelectorAttachment",
+    uberParent: "WorkerSelectorAttachment",
+    polymorphicDiscriminator:
+      WorkerSelectorAttachment.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...WorkerSelectorAttachment.type.modelProperties,
+      allocations: {
+        serializedName: "allocations",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "WorkerWeightedAllocation"
+            }
+          }
         }
       }
     }
@@ -1835,307 +2127,27 @@ export const ReclassifyExceptionAction: coreClient.CompositeMapper = {
   }
 };
 
-export const ConditionalQueueSelectorAttachment: coreClient.CompositeMapper = {
-  serializedName: "conditional",
-  type: {
-    name: "Composite",
-    className: "ConditionalQueueSelectorAttachment",
-    uberParent: "QueueSelectorAttachment",
-    polymorphicDiscriminator:
-      QueueSelectorAttachment.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...QueueSelectorAttachment.type.modelProperties,
-      condition: {
-        serializedName: "condition",
-        type: {
-          name: "Composite",
-          className: "RouterRule"
-        }
-      },
-      labelSelectors: {
-        serializedName: "labelSelectors",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "QueueSelector"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const PassThroughQueueSelectorAttachment: coreClient.CompositeMapper = {
-  serializedName: "pass-through",
-  type: {
-    name: "Composite",
-    className: "PassThroughQueueSelectorAttachment",
-    uberParent: "QueueSelectorAttachment",
-    polymorphicDiscriminator:
-      QueueSelectorAttachment.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...QueueSelectorAttachment.type.modelProperties,
-      key: {
-        constraints: {
-          MaxLength: 500
-        },
-        serializedName: "key",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      labelOperator: {
-        serializedName: "labelOperator",
-        required: true,
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "equal",
-            "notEqual",
-            "lessThan",
-            "lessThanEqual",
-            "greaterThan",
-            "greaterThanEqual"
-          ]
-        }
-      }
-    }
-  }
-};
-
-export const RuleEngineQueueSelectorAttachment: coreClient.CompositeMapper = {
-  serializedName: "rule-engine",
-  type: {
-    name: "Composite",
-    className: "RuleEngineQueueSelectorAttachment",
-    uberParent: "QueueSelectorAttachment",
-    polymorphicDiscriminator:
-      QueueSelectorAttachment.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...QueueSelectorAttachment.type.modelProperties,
-      rule: {
-        serializedName: "rule",
-        type: {
-          name: "Composite",
-          className: "RouterRule"
-        }
-      }
-    }
-  }
-};
-
-export const StaticQueueSelectorAttachment: coreClient.CompositeMapper = {
-  serializedName: "static",
-  type: {
-    name: "Composite",
-    className: "StaticQueueSelectorAttachment",
-    uberParent: "QueueSelectorAttachment",
-    polymorphicDiscriminator:
-      QueueSelectorAttachment.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...QueueSelectorAttachment.type.modelProperties,
-      labelSelector: {
-        serializedName: "labelSelector",
-        type: {
-          name: "Composite",
-          className: "QueueSelector"
-        }
-      }
-    }
-  }
-};
-
-export const WeightedAllocationQueueSelectorAttachment: coreClient.CompositeMapper = {
-  serializedName: "weighted-allocation-queue-selector",
-  type: {
-    name: "Composite",
-    className: "WeightedAllocationQueueSelectorAttachment",
-    uberParent: "QueueSelectorAttachment",
-    polymorphicDiscriminator:
-      QueueSelectorAttachment.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...QueueSelectorAttachment.type.modelProperties,
-      allocations: {
-        serializedName: "allocations",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "QueueWeightedAllocation"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ConditionalWorkerSelectorAttachment: coreClient.CompositeMapper = {
-  serializedName: "conditional",
-  type: {
-    name: "Composite",
-    className: "ConditionalWorkerSelectorAttachment",
-    uberParent: "WorkerSelectorAttachment",
-    polymorphicDiscriminator:
-      WorkerSelectorAttachment.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...WorkerSelectorAttachment.type.modelProperties,
-      condition: {
-        serializedName: "condition",
-        type: {
-          name: "Composite",
-          className: "RouterRule"
-        }
-      },
-      labelSelectors: {
-        serializedName: "labelSelectors",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "WorkerSelector"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const PassThroughWorkerSelectorAttachment: coreClient.CompositeMapper = {
-  serializedName: "pass-through",
-  type: {
-    name: "Composite",
-    className: "PassThroughWorkerSelectorAttachment",
-    uberParent: "WorkerSelectorAttachment",
-    polymorphicDiscriminator:
-      WorkerSelectorAttachment.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...WorkerSelectorAttachment.type.modelProperties,
-      key: {
-        constraints: {
-          MaxLength: 500
-        },
-        serializedName: "key",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      labelOperator: {
-        serializedName: "labelOperator",
-        required: true,
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "equal",
-            "notEqual",
-            "lessThan",
-            "lessThanEqual",
-            "greaterThan",
-            "greaterThanEqual"
-          ]
-        }
-      },
-      ttlSeconds: {
-        serializedName: "ttlSeconds",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const RuleEngineWorkerSelectorAttachment: coreClient.CompositeMapper = {
-  serializedName: "rule-engine",
-  type: {
-    name: "Composite",
-    className: "RuleEngineWorkerSelectorAttachment",
-    uberParent: "WorkerSelectorAttachment",
-    polymorphicDiscriminator:
-      WorkerSelectorAttachment.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...WorkerSelectorAttachment.type.modelProperties,
-      rule: {
-        serializedName: "rule",
-        type: {
-          name: "Composite",
-          className: "RouterRule"
-        }
-      }
-    }
-  }
-};
-
-export const StaticWorkerSelectorAttachment: coreClient.CompositeMapper = {
-  serializedName: "static",
-  type: {
-    name: "Composite",
-    className: "StaticWorkerSelectorAttachment",
-    uberParent: "WorkerSelectorAttachment",
-    polymorphicDiscriminator:
-      WorkerSelectorAttachment.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...WorkerSelectorAttachment.type.modelProperties,
-      labelSelector: {
-        serializedName: "labelSelector",
-        type: {
-          name: "Composite",
-          className: "WorkerSelector"
-        }
-      }
-    }
-  }
-};
-
-export const WeightedAllocationWorkerSelectorAttachment: coreClient.CompositeMapper = {
-  serializedName: "weighted-allocation-worker-selector",
-  type: {
-    name: "Composite",
-    className: "WeightedAllocationWorkerSelectorAttachment",
-    uberParent: "WorkerSelectorAttachment",
-    polymorphicDiscriminator:
-      WorkerSelectorAttachment.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...WorkerSelectorAttachment.type.modelProperties,
-      allocations: {
-        serializedName: "allocations",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "WorkerWeightedAllocation"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export let discriminators = {
+  QueueSelectorAttachment: QueueSelectorAttachment,
   RouterRule: RouterRule,
+  WorkerSelectorAttachment: WorkerSelectorAttachment,
   DistributionMode: DistributionMode,
   JobExceptionTrigger: JobExceptionTrigger,
   ExceptionAction: ExceptionAction,
-  QueueSelectorAttachment: QueueSelectorAttachment,
-  WorkerSelectorAttachment: WorkerSelectorAttachment,
+  "QueueSelectorAttachment.conditional": ConditionalQueueSelectorAttachment,
+  "QueueSelectorAttachment.pass-through": PassThroughQueueSelectorAttachment,
+  "QueueSelectorAttachment.rule-engine": RuleEngineQueueSelectorAttachment,
+  "QueueSelectorAttachment.static": StaticQueueSelectorAttachment,
+  "QueueSelectorAttachment.weighted-allocation-queue-selector": WeightedAllocationQueueSelectorAttachment,
   "RouterRule.direct-map-rule": DirectMapRule,
   "RouterRule.expression-rule": ExpressionRule,
   "RouterRule.azure-function-rule": FunctionRule,
   "RouterRule.static-rule": StaticRule,
+  "WorkerSelectorAttachment.conditional": ConditionalWorkerSelectorAttachment,
+  "WorkerSelectorAttachment.pass-through": PassThroughWorkerSelectorAttachment,
+  "WorkerSelectorAttachment.rule-engine": RuleEngineWorkerSelectorAttachment,
+  "WorkerSelectorAttachment.static": StaticWorkerSelectorAttachment,
+  "WorkerSelectorAttachment.weighted-allocation-worker-selector": WeightedAllocationWorkerSelectorAttachment,
   "DistributionMode.best-worker": BestWorkerMode,
   "DistributionMode.longest-idle": LongestIdleMode,
   "DistributionMode.round-robin": RoundRobinMode,
@@ -2143,15 +2155,5 @@ export let discriminators = {
   "JobExceptionTrigger.wait-time": WaitTimeExceptionTrigger,
   "ExceptionAction.cancel": CancelExceptionAction,
   "ExceptionAction.manual-reclassify": ManualReclassifyExceptionAction,
-  "ExceptionAction.reclassify": ReclassifyExceptionAction,
-  "QueueSelectorAttachment.conditional": ConditionalQueueSelectorAttachment,
-  "QueueSelectorAttachment.pass-through": PassThroughQueueSelectorAttachment,
-  "QueueSelectorAttachment.rule-engine": RuleEngineQueueSelectorAttachment,
-  "QueueSelectorAttachment.static": StaticQueueSelectorAttachment,
-  "QueueSelectorAttachment.weighted-allocation-queue-selector": WeightedAllocationQueueSelectorAttachment,
-  "WorkerSelectorAttachment.conditional": ConditionalWorkerSelectorAttachment,
-  "WorkerSelectorAttachment.pass-through": PassThroughWorkerSelectorAttachment,
-  "WorkerSelectorAttachment.rule-engine": RuleEngineWorkerSelectorAttachment,
-  "WorkerSelectorAttachment.static": StaticWorkerSelectorAttachment,
-  "WorkerSelectorAttachment.weighted-allocation-worker-selector": WeightedAllocationWorkerSelectorAttachment
+  "ExceptionAction.reclassify": ReclassifyExceptionAction
 };

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { ExceptionPolicyResponse, RouterAdministrationClient } from "../../src";
+import { ExceptionPolicy, ExceptionPolicyResponse, RouterAdministrationClient } from "../../src";
 import { assert } from "chai";
 import { createRecordedRouterClientWithConnectionString } from "../internal/utils/mockClient";
 import { Context } from "mocha";
@@ -71,21 +71,23 @@ describe("RouterClient", function() {
       await administrationClient.createExceptionPolicy("id-1", exceptionPolicyRequest);
       await administrationClient.createExceptionPolicy("id-2", exceptionPolicyRequest);
 
-      const result = await administrationClient.listExceptionPolicies({
-        maxPageSize: 1
-      });
+      const receivedItems: ExceptionPolicy[] = [];
+      for await (const policy of administrationClient.listExceptionPolicies({
+        maxPageSize: 20
+      })) {
+        receivedItems.push(policy.exceptionPolicy!);
+      }
 
-      assert.isNotNull(result.next());
-      assert.isNotNull(result.next());
+      assert.isNotNull(receivedItems);
     }).timeout(8000);
 
-    // it("should successfully delete a exception policy", async function() {
-    //   await administrationClient.createExceptionPolicy(
-    //     exceptionPolicyRequest.id!,
-    //     exceptionPolicyRequest
-    //   );
-    //   await administrationClient.deleteExceptionPolicy(exceptionPolicyRequest.id!, {});
-    //
-    // }).timeout(8000);
+    it("should successfully delete a exception policy", async function() {
+      await administrationClient.createExceptionPolicy(
+        exceptionPolicyRequest.id!,
+        exceptionPolicyRequest
+      );
+      await administrationClient.deleteExceptionPolicy(exceptionPolicyRequest.id!, {});
+
+    }).timeout(8000);
   });
 });

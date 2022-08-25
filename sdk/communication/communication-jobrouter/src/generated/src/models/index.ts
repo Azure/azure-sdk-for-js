@@ -8,12 +8,26 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type QueueSelectorAttachmentUnion =
+  | QueueSelectorAttachment
+  | ConditionalQueueSelectorAttachment
+  | PassThroughQueueSelectorAttachment
+  | RuleEngineQueueSelectorAttachment
+  | StaticQueueSelectorAttachment
+  | WeightedAllocationQueueSelectorAttachment;
 export type RouterRuleUnion =
   | RouterRule
   | DirectMapRule
   | ExpressionRule
   | FunctionRule
   | StaticRule;
+export type WorkerSelectorAttachmentUnion =
+  | WorkerSelectorAttachment
+  | ConditionalWorkerSelectorAttachment
+  | PassThroughWorkerSelectorAttachment
+  | RuleEngineWorkerSelectorAttachment
+  | StaticWorkerSelectorAttachment
+  | WeightedAllocationWorkerSelectorAttachment;
 export type DistributionModeUnion =
   | DistributionMode
   | BestWorkerMode
@@ -28,20 +42,6 @@ export type ExceptionActionUnion =
   | CancelExceptionAction
   | ManualReclassifyExceptionAction
   | ReclassifyExceptionAction;
-export type QueueSelectorAttachmentUnion =
-  | QueueSelectorAttachment
-  | ConditionalQueueSelectorAttachment
-  | PassThroughQueueSelectorAttachment
-  | RuleEngineQueueSelectorAttachment
-  | StaticQueueSelectorAttachment
-  | WeightedAllocationQueueSelectorAttachment;
-export type WorkerSelectorAttachmentUnion =
-  | WorkerSelectorAttachment
-  | ConditionalWorkerSelectorAttachment
-  | PassThroughWorkerSelectorAttachment
-  | RuleEngineWorkerSelectorAttachment
-  | StaticWorkerSelectorAttachment
-  | WeightedAllocationWorkerSelectorAttachment;
 
 /** A container for the rules that govern how jobs are classified. */
 export interface ClassificationPolicy {
@@ -55,7 +55,7 @@ export interface ClassificationPolicy {
   /** The fallback queue to select if the queue selector doesn't find a match. */
   fallbackQueueId?: string;
   /** The queue selectors to resolve a queue for a given job. */
-  queueSelectors?: any[];
+  queueSelectors?: QueueSelectorAttachmentUnion[];
   /**
    * A rule of one of the following types:
    *
@@ -66,7 +66,18 @@ export interface ClassificationPolicy {
    */
   prioritizationRule?: RouterRuleUnion;
   /** The worker label selectors to attach to a given job. */
-  workerSelectors?: any[];
+  workerSelectors?: WorkerSelectorAttachmentUnion[];
+}
+
+/** An attachment of label selectors to resolve a queue to a job from a classification policy */
+export interface QueueSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind:
+    | "conditional"
+    | "pass-through"
+    | "rule-engine"
+    | "static"
+    | "weighted-allocation-queue-selector";
 }
 
 /**
@@ -84,6 +95,17 @@ export interface RouterRule {
     | "expression-rule"
     | "azure-function-rule"
     | "static-rule";
+}
+
+/** An attachment which attaches WorkerSelectors to workers */
+export interface WorkerSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind:
+    | "conditional"
+    | "pass-through"
+    | "rule-engine"
+    | "static"
+    | "weighted-allocation-worker-selector";
 }
 
 /** The Communication Services error. */
@@ -559,28 +581,6 @@ export interface QueueSelector {
   value?: Record<string, unknown>;
 }
 
-/** An attachment of label selectors to resolve a queue to a job from a classification policy */
-export interface QueueSelectorAttachment {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind:
-    | "conditional"
-    | "pass-through"
-    | "rule-engine"
-    | "static"
-    | "weighted-allocation-queue-selector";
-}
-
-/** An attachment which attaches WorkerSelectors to workers */
-export interface WorkerSelectorAttachment {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind:
-    | "conditional"
-    | "pass-through"
-    | "rule-engine"
-    | "static"
-    | "weighted-allocation-worker-selector";
-}
-
 /** Credentials used to access Azure function rule */
 export interface FunctionRuleCredential {
   /** (Optional) Access key scoped to a particular function */
@@ -611,6 +611,68 @@ export interface WorkerWeightedAllocation {
   weight: number;
   /** A collection of label selectors that will be applied if this allocation is selected. */
   labelSelectors: WorkerSelector[];
+}
+
+/** Describes a set of label selectors that will be attached if the given condition resolves to true */
+export interface ConditionalQueueSelectorAttachment
+  extends QueueSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "conditional";
+  /**
+   * A rule of one of the following types:
+   *
+   * StaticRule:  A rule providing static rules that always return the same result, regardless of input.
+   * DirectMapRule:  A rule that return the same labels as the input labels.
+   * ExpressionRule: A rule providing inline expression rules.
+   * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
+   */
+  condition: RouterRuleUnion;
+  /** The label selectors to attach */
+  labelSelectors: QueueSelector[];
+}
+
+/** Attaches a label selector where the value is pass through from the job label with the same key */
+export interface PassThroughQueueSelectorAttachment
+  extends QueueSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "pass-through";
+  /** The label key to query against */
+  key: string;
+  /** Describes how the value of the label is compared to the value pass through */
+  labelOperator: LabelOperator;
+}
+
+/** Attaches labels to a worker when a RouterRule is resolved */
+export interface RuleEngineQueueSelectorAttachment
+  extends QueueSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "rule-engine";
+  /**
+   * A rule of one of the following types:
+   *
+   * StaticRule:  A rule providing static rules that always return the same result, regardless of input.
+   * DirectMapRule:  A rule that return the same labels as the input labels.
+   * ExpressionRule: A rule providing inline expression rules.
+   * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
+   */
+  rule: RouterRuleUnion;
+}
+
+/** Describes a label selector that will always be attached */
+export interface StaticQueueSelectorAttachment extends QueueSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "static";
+  /** Describes a condition that must be met against a set of labels for queue selection */
+  labelSelector: QueueSelector;
+}
+
+/** Describes multiple sets of label selectors, of which one will be selected and attached according to a weighting */
+export interface WeightedAllocationQueueSelectorAttachment
+  extends QueueSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "weighted-allocation-queue-selector";
+  /** A collection of percentage based weighted allocations. */
+  allocations: QueueWeightedAllocation[];
 }
 
 /** A rule that return the same labels as the input labels. */
@@ -645,6 +707,71 @@ export interface StaticRule extends RouterRule {
   kind: "static-rule";
   /** The static value this rule always returns. */
   value?: Record<string, unknown>;
+}
+
+/** Describes a set of label selectors that will be attached if the given condition resolves to true */
+export interface ConditionalWorkerSelectorAttachment
+  extends WorkerSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "conditional";
+  /**
+   * A rule of one of the following types:
+   *
+   * StaticRule:  A rule providing static rules that always return the same result, regardless of input.
+   * DirectMapRule:  A rule that return the same labels as the input labels.
+   * ExpressionRule: A rule providing inline expression rules.
+   * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
+   */
+  condition: RouterRuleUnion;
+  /** The label selectors to attach */
+  labelSelectors: WorkerSelector[];
+}
+
+/** Attaches a label selector where the value is pass through from the job label with the same key */
+export interface PassThroughWorkerSelectorAttachment
+  extends WorkerSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "pass-through";
+  /** The label key to query against */
+  key: string;
+  /** Describes how the value of the label is compared to the value pass through */
+  labelOperator: LabelOperator;
+  /** Describes how long the attached label selector is valid in seconds. */
+  ttlSeconds?: number;
+}
+
+/** Attaches labels to a worker when a RouterRule is resolved */
+export interface RuleEngineWorkerSelectorAttachment
+  extends WorkerSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "rule-engine";
+  /**
+   * A rule of one of the following types:
+   *
+   * StaticRule:  A rule providing static rules that always return the same result, regardless of input.
+   * DirectMapRule:  A rule that return the same labels as the input labels.
+   * ExpressionRule: A rule providing inline expression rules.
+   * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
+   */
+  rule: RouterRuleUnion;
+}
+
+/** Describes a label selector that will always be attached */
+export interface StaticWorkerSelectorAttachment
+  extends WorkerSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "static";
+  /** Describes a condition that must be met against a set of labels for worker selection */
+  labelSelector: WorkerSelector;
+}
+
+/** Describes multiple sets of label selectors, of which one will be selected and attached according to a weighting */
+export interface WeightedAllocationWorkerSelectorAttachment
+  extends WorkerSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "weighted-allocation-worker-selector";
+  /** A collection of percentage based weighted allocations. */
+  allocations: WorkerWeightedAllocation[];
 }
 
 /** Jobs are distributed to the worker with the strongest abilities available. */
@@ -722,133 +849,6 @@ export interface ReclassifyExceptionAction extends ExceptionAction {
   classificationPolicyId?: string;
   /** (optional) Dictionary containing the labels to update (or add if not existing) in key-value pairs */
   labelsToUpsert?: { [propertyName: string]: any };
-}
-
-/** Describes a set of label selectors that will be attached if the given condition resolves to true */
-export interface ConditionalQueueSelectorAttachment
-  extends QueueSelectorAttachment {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "conditional";
-  /**
-   * A rule of one of the following types:
-   *
-   * StaticRule:  A rule providing static rules that always return the same result, regardless of input.
-   * DirectMapRule:  A rule that return the same labels as the input labels.
-   * ExpressionRule: A rule providing inline expression rules.
-   * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
-   */
-  condition: RouterRuleUnion;
-  /** The label selectors to attach */
-  labelSelectors: QueueSelector[];
-}
-
-/** Attaches a label selector where the value is pass through from the job label with the same key */
-export interface PassThroughQueueSelectorAttachment
-  extends QueueSelectorAttachment {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "pass-through";
-  /** The label key to query against */
-  key: string;
-  /** Describes how the value of the label is compared to the value pass through */
-  labelOperator: LabelOperator;
-}
-
-/** Attaches labels to a worker when a RouterRule is resolved */
-export interface RuleEngineQueueSelectorAttachment
-  extends QueueSelectorAttachment {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "rule-engine";
-  /**
-   * A rule of one of the following types:
-   *
-   * StaticRule:  A rule providing static rules that always return the same result, regardless of input.
-   * DirectMapRule:  A rule that return the same labels as the input labels.
-   * ExpressionRule: A rule providing inline expression rules.
-   * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
-   */
-  rule: RouterRuleUnion;
-}
-
-/** Describes a label selector that will always be attached */
-export interface StaticQueueSelectorAttachment extends QueueSelectorAttachment {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "static";
-  /** Describes a condition that must be met against a set of labels for queue selection */
-  labelSelector: QueueSelector;
-}
-
-/** Describes multiple sets of label selectors, of which one will be selected and attached according to a weighting */
-export interface WeightedAllocationQueueSelectorAttachment
-  extends QueueSelectorAttachment {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "weighted-allocation-queue-selector";
-  /** A collection of percentage based weighted allocations. */
-  allocations: QueueWeightedAllocation[];
-}
-
-/** Describes a set of label selectors that will be attached if the given condition resolves to true */
-export interface ConditionalWorkerSelectorAttachment
-  extends WorkerSelectorAttachment {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "conditional";
-  /**
-   * A rule of one of the following types:
-   *
-   * StaticRule:  A rule providing static rules that always return the same result, regardless of input.
-   * DirectMapRule:  A rule that return the same labels as the input labels.
-   * ExpressionRule: A rule providing inline expression rules.
-   * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
-   */
-  condition: RouterRuleUnion;
-  /** The label selectors to attach */
-  labelSelectors: WorkerSelector[];
-}
-
-/** Attaches a label selector where the value is pass through from the job label with the same key */
-export interface PassThroughWorkerSelectorAttachment
-  extends WorkerSelectorAttachment {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "pass-through";
-  /** The label key to query against */
-  key: string;
-  /** Describes how the value of the label is compared to the value pass through */
-  labelOperator: LabelOperator;
-  /** Describes how long the attached label selector is valid in seconds. */
-  ttlSeconds?: number;
-}
-
-/** Attaches labels to a worker when a RouterRule is resolved */
-export interface RuleEngineWorkerSelectorAttachment
-  extends WorkerSelectorAttachment {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "rule-engine";
-  /**
-   * A rule of one of the following types:
-   *
-   * StaticRule:  A rule providing static rules that always return the same result, regardless of input.
-   * DirectMapRule:  A rule that return the same labels as the input labels.
-   * ExpressionRule: A rule providing inline expression rules.
-   * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
-   */
-  rule: RouterRuleUnion;
-}
-
-/** Describes a label selector that will always be attached */
-export interface StaticWorkerSelectorAttachment
-  extends WorkerSelectorAttachment {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "static";
-  /** Describes a condition that must be met against a set of labels for worker selection */
-  labelSelector: WorkerSelector;
-}
-
-/** Describes multiple sets of label selectors, of which one will be selected and attached according to a weighting */
-export interface WeightedAllocationWorkerSelectorAttachment
-  extends WorkerSelectorAttachment {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "weighted-allocation-worker-selector";
-  /** A collection of percentage based weighted allocations. */
-  allocations: WorkerWeightedAllocation[];
 }
 
 /** Known values of {@link RouterWorkerState} that the service accepts. */
