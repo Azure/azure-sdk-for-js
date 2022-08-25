@@ -90,7 +90,7 @@ const routerAdministrationClient = new RouterAdministrationClient(acsConnectionS
 Then we create a sales queue with various labels.
 
 ```js
-const salesQueueResponse = await routerAdministrationClient.CreateQueue({
+const salesQueueResponse = await routerAdministrationClient.createQueue({
   name: "Sales",
   distributionPolicyId: "0832f57a-a651-4cd3-b721-1a1ce76ecf2b",
   labels: {
@@ -106,7 +106,7 @@ Register workers “Bob” and “Alice” with various abilities.
 ```js
 // Create worker Bob
 const workerId = "21837c88-6967-4078-86b9-1207821a8392";
-const bobWorkerResponse = await routerClient.CreateWorker(workerId, {
+const bobWorkerResponse = await routerClient.createWorker(workerId, {
   totalCapacityScore: 100,
   abilities: {
     Xbox: 5,
@@ -120,7 +120,7 @@ const bobWorkerResponse = await routerClient.CreateWorker(workerId, {
 
 // Create worker Alice
 const workerAliceId = "773accfb-476e-42f9-a202-b211b41a4ea4";
-const aliceWorkerResponse = await routerClient.CreateWorker(workerAliceId, {
+const aliceWorkerResponse = await routerClient.createWorker(workerAliceId, {
   totalCapacityScore: 120,
   abilities: {
     Xbox: 5,
@@ -140,8 +140,8 @@ Note: Workers may also be registered via [Azure Communication Services Worker Ma
 Register workers Bob and Alice to make them active.
 
 ```js
-await routerClient.RegisterWorker(bobWorkerResponse.Id);
-await routerClient.RegisterWorker(aliceWorkerResponse.Id);
+await routerClient.registerWorker(bobWorkerResponse.Id);
+await routerClient.registerWorker(aliceWorkerResponse.Id);
 ```
 
 Note: Workers may also be assigned to queues via [Azure Communication Services Worker Management SDK](https://skype.visualstudio.com/SPOOL/_wiki/wikis/SPOOL.wiki/21323/Worker-Management-DevX-JS?anchor=associate-group-to-a-queue)
@@ -150,7 +150,7 @@ Note: Workers may also be assigned to queues via [Azure Communication Services W
 Create a classification policy that will house skills policy, prioritization policy and queue selection policy in order to classify incoming jobs.
 
 ```js
-await routerAdministrationClient.CreateClassificationPolicy({
+await routerAdministrationClient.createClassificationPolicy({
   name: "Default Classification Policy",
   defaultQueueId: "5a520826-d1d7-4403-9880-cfbc61f1e5f0",
   queueSelectionRules: {
@@ -176,7 +176,7 @@ await routerAdministrationClient.CreateClassificationPolicy({
 Create a distribution policy that will determine which workers will receive jobs as they are distributed off the queues.
 
 ```js
-await routerAdministrationClient.CreateDistributionPolicy({
+await routerAdministrationClient.createDistributionPolicy({
   name: "Default Distribution Policy",
   offerTTL: { seconds: 30 },
   mode: {
@@ -219,7 +219,7 @@ A call comes in and is passed to an IVR system that extracts some information ab
 ### Creating Job via SDK
 
 ```js
-await routerClient.CreateJob({
+await routerClient.createJob({
   // e.g. callId or chat threadId
   channelReference: "a7c54dc6-c545-4151-a195-41e9e35b17c6",
   jobType: "Inbound",
@@ -240,7 +240,7 @@ await routerClient.CreateJob({
 Alternatively, if your application can determine the correct queue, skills required and/or priority, you can pass these values instead of the classificationPolicyId.
 
 ```js
-await routerClient.CreateJob({
+await routerClient.createJob({
   channelReference: "66e4362e-aad5-4d71-bb51-448672ebf492",
   jobType: "Inbound",
   channelId: "f394573b-915a-4abd-8303-eb46c19013be",

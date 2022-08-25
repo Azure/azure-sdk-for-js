@@ -1,0 +1,126 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/routing/exceptionPolicies/exception-policy-123?api-version=2022-07-18-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "245",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-jobrouter/V2022-07-18-preview azsdk-js-azure-communication-jobrouter/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.3.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "0028ac57-e25b-4eea-92f6-3251ab2e1934",
+        "x-ms-content-sha256": "g/FFONEq6b2TPcd7RLMusaLauV9XSyvcW81/lUW4LUU=",
+        "x-ms-date": "Thu, 25 Aug 2022 20:20:40 GMT"
+      },
+      "RequestBody": {
+        "name": "test-policy",
+        "exceptionRules": {
+          "MaxWaitTimeExceeded": {
+            "trigger": {
+              "kind": "wait-time",
+              "thresholdSeconds": 5
+            },
+            "actions": {
+              "MoveJobToEscalatedQueue": {
+                "kind": "reclassify",
+                "classificationPolicyId": "Main",
+                "labelsToUpsert": {
+                  "escalated": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 25 Aug 2022 20:20:40 GMT",
+        "ETag": "\u0022ea03f8ed-0000-0700-0000-6307d9980000\u0022",
+        "Last-Modified": "Thu, 25 Aug 2022 20:20:40 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "3032c018e03f51a0bb17d7d801ebf84c",
+        "Transfer-Encoding": "chunked",
+        "x-azure-ref": "20220825T202039Z-bpw7ap8bgd6sr5zf49a92e7hs8000000026000000002gwds",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "exception-policy-123",
+        "name": "test-policy",
+        "exceptionRules": {
+          "MaxWaitTimeExceeded": {
+            "trigger": {
+              "kind": "wait-time",
+              "thresholdSeconds": 5
+            },
+            "actions": {
+              "MoveJobToEscalatedQueue": {
+                "kind": "reclassify",
+                "classificationPolicyId": "Main",
+                "labelsToUpsert": {
+                  "escalated": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/exceptionPolicies/exception-policy-123?api-version=2022-07-18-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-jobrouter/V2022-07-18-preview azsdk-js-azure-communication-jobrouter/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.3.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "d5dfe6f4-863b-4e50-b7d4-76c1861213bd",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Thu, 25 Aug 2022 20:20:41 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 25 Aug 2022 20:20:41 GMT",
+        "ETag": "\u0022ea03f8ed-0000-0700-0000-6307d9980000\u0022",
+        "Last-Modified": "Thu, 25 Aug 2022 20:20:40 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "3bbfb975039355f1237b3c2b535389c3",
+        "Transfer-Encoding": "chunked",
+        "x-azure-ref": "20220825T202040Z-bpw7ap8bgd6sr5zf49a92e7hs8000000026000000002gwtt",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "exception-policy-123",
+        "name": "test-policy",
+        "exceptionRules": {
+          "MaxWaitTimeExceeded": {
+            "trigger": {
+              "kind": "wait-time",
+              "thresholdSeconds": 5
+            },
+            "actions": {
+              "MoveJobToEscalatedQueue": {
+                "kind": "reclassify",
+                "classificationPolicyId": "Main",
+                "labelsToUpsert": {
+                  "escalated": true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

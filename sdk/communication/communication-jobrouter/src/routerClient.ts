@@ -138,6 +138,7 @@ export class RouterClient {
     this.client.pipeline.addPolicy(authPolicy);
   }
 
+  // TODO. Add tracing to both clients https://github.com/Azure/azure-sdk-for-js/issues/23008
   // Job Actions
   /**
    * Creates a job.

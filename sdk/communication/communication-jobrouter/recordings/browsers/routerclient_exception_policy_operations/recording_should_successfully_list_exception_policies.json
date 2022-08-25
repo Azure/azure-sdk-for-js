@@ -1,0 +1,171 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/routing/exceptionPolicies/id-1?api-version=2022-07-18-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "245",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "Origin": "http://localhost:9876",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "54af5621-f76c-4024-b678-b5854e31dc2b",
+        "x-ms-content-sha256": "g/FFONEq6b2TPcd7RLMusaLauV9XSyvcW81/lUW4LUU=",
+        "x-ms-date": "Thu, 25 Aug 2022 21:03:14 GMT",
+        "x-ms-useragent": "azsdk-js-communication-jobrouter/V2022-07-18-preview azsdk-js-azure-communication-jobrouter/1.0.0-beta.1 core-rest-pipeline/1.9.2 OS/Win32"
+      },
+      "RequestBody": {
+        "name": "test-policy",
+        "exceptionRules": {
+          "MaxWaitTimeExceeded": {
+            "trigger": {
+              "kind": "wait-time",
+              "thresholdSeconds": 5
+            },
+            "actions": {
+              "MoveJobToEscalatedQueue": {
+                "kind": "reclassify",
+                "classificationPolicyId": "Main",
+                "labelsToUpsert": {
+                  "escalated": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "http://localhost:9876",
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 25 Aug 2022 21:03:14 GMT",
+        "ETag": "\u0022ea0326de-0000-0700-0000-6307d7490000\u0022",
+        "Last-Modified": "Thu, 25 Aug 2022 20:10:49 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "f64530d7e8f2c855c2745161bfbb5e4a",
+        "Transfer-Encoding": "chunked",
+        "x-azure-ref": "20220825T210313Z-qw3nwy0kw93w58g5grwgz823bc00000000zg000000008cuk",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "id-1",
+        "name": "test-policy",
+        "exceptionRules": {
+          "MaxWaitTimeExceeded": {
+            "trigger": {
+              "kind": "wait-time",
+              "thresholdSeconds": 5
+            },
+            "actions": {
+              "MoveJobToEscalatedQueue": {
+                "kind": "reclassify",
+                "classificationPolicyId": "Main",
+                "labelsToUpsert": {
+                  "escalated": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/exceptionPolicies/id-2?api-version=2022-07-18-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "245",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "Origin": "http://localhost:9876",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "50589e65-8f88-4d7c-8434-705de735a879",
+        "x-ms-content-sha256": "g/FFONEq6b2TPcd7RLMusaLauV9XSyvcW81/lUW4LUU=",
+        "x-ms-date": "Thu, 25 Aug 2022 21:03:15 GMT",
+        "x-ms-useragent": "azsdk-js-communication-jobrouter/V2022-07-18-preview azsdk-js-azure-communication-jobrouter/1.0.0-beta.1 core-rest-pipeline/1.9.2 OS/Win32"
+      },
+      "RequestBody": {
+        "name": "test-policy",
+        "exceptionRules": {
+          "MaxWaitTimeExceeded": {
+            "trigger": {
+              "kind": "wait-time",
+              "thresholdSeconds": 5
+            },
+            "actions": {
+              "MoveJobToEscalatedQueue": {
+                "kind": "reclassify",
+                "classificationPolicyId": "Main",
+                "labelsToUpsert": {
+                  "escalated": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "http://localhost:9876",
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 25 Aug 2022 21:03:14 GMT",
+        "ETag": "\u0022ea0335de-0000-0700-0000-6307d74b0000\u0022",
+        "Last-Modified": "Thu, 25 Aug 2022 20:10:51 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "de2e75e5eb80995fed77e00ef6d23711",
+        "Transfer-Encoding": "chunked",
+        "x-azure-ref": "20220825T210314Z-qw3nwy0kw93w58g5grwgz823bc00000000zg000000008cy8",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "id-2",
+        "name": "test-policy",
+        "exceptionRules": {
+          "MaxWaitTimeExceeded": {
+            "trigger": {
+              "kind": "wait-time",
+              "thresholdSeconds": 5
+            },
+            "actions": {
+              "MoveJobToEscalatedQueue": {
+                "kind": "reclassify",
+                "classificationPolicyId": "Main",
+                "labelsToUpsert": {
+                  "escalated": true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
