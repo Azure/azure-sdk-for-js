@@ -275,13 +275,13 @@ describe("Send Batch", () => {
     async function testSend(): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(entityNames.usesSessions);
-      await sender.sendMessages(messagesToSend);
+      await sender.sendMessages(messagesToSend[0]);
       // receive all the messages in receive and delete mode
       await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, messagesToSend);
     }
 
-    it.only(`${TestClientType.UnpartitionedQueue}: SendBatch`, async function (): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
+    it(`${noSessionTestClientType}: SendBatch`, async function (): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
       await testSend();
     });
 

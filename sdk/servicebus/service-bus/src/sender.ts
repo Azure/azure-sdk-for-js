@@ -27,6 +27,7 @@ import { TracingSpanLink } from "@azure/core-tracing";
 import { senderLogger as logger } from "./log";
 import { toSpanOptions, tracingClient } from "./diagnostics/tracing";
 import { ensureValidIdentifier } from "./util/utils";
+import { ServiceBusError } from "./serviceBusError";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -201,45 +202,58 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.connectionId, "messages", messages);
 
-    let batch: ServiceBusMessageBatch;
-    if (isServiceBusMessageBatch(messages)) {
-      batch = messages;
-      const spanLinks: TracingSpanLink[] = batch._messageSpanContexts.map((tracingContext) => {
-        return {
-          tracingContext,
-        };
-      })
+    if (!isServiceBusMessageBatch(messages) && !Array.isArray(messages)) {
+      // Case 1: Single message
       return tracingClient.withSpan(
         "ServiceBusSender.send",
         options ?? {},
-        (updatedOptions) => this._sender.sendBatch(batch, updatedOptions),
+        (updatedOptions) => this._sender.send(messages, updatedOptions),
         {
-          spanLinks,
           ...toSpanOptions(
             { entityPath: this.entityPath, host: this._context.config.host },
             "client"
           ),
         }
       );
-    } else {
-      if (!Array.isArray(messages)) {
-        messages = [messages];
-      }
-      const sendMessagesPromise = messages.map((message) => {
-        return tracingClient.withSpan(
-          "ServiceBusSender.send",
-          options ?? {},
-          (updatedOptions) => this._sender.send(message, updatedOptions),
-          {
-            ...toSpanOptions(
-              { entityPath: this.entityPath, host: this._context.config.host },
-              "client"
-            ),
-          }
-        );
-      });
-      await Promise.all(sendMessagesPromise)
     }
+
+    let batch: ServiceBusMessageBatch;
+    if (isServiceBusMessageBatch(messages)) {
+      // Case 2: Batch message
+      batch = messages;
+    } else {
+      // Case 3: Array of messages
+      batch = await this.createMessageBatch(options);
+      for (const message of messages) {
+        throwIfNotValidServiceBusMessage(message, errorInvalidMessageTypeSingleOrArray);
+        if (!batch.tryAddMessage(message, options)) {
+          // this is too big - throw an error
+          throw new ServiceBusError(
+            "Messages were too big to fit in a single batch. Remove some messages and try again or create your own batch using createBatch(), which gives more fine-grained control.",
+            "MessageSizeExceeded"
+          );
+        }
+      }
+    }
+
+    const spanLinks: TracingSpanLink[] = batch._messageSpanContexts.map((tracingContext) => {
+      return {
+        tracingContext,
+      };
+    });
+
+    return tracingClient.withSpan(
+      "ServiceBusSender.send",
+      options ?? {},
+      (updatedOptions) => this._sender.sendBatch(batch, updatedOptions),
+      {
+        spanLinks,
+        ...toSpanOptions(
+          { entityPath: this.entityPath, host: this._context.config.host },
+          "client"
+        ),
+      }
+    );
   }
 
   async createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch> {
