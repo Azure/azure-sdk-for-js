@@ -915,10 +915,10 @@ describe("Batching Receiver", () => {
           onDetachedCalledPromise,
           delay(
             Constants.defaultOperationTimeoutInMs * 1.5,
-            undefined,
-            undefined,
-            "ondetachednevercalled"
-          ),
+            undefined,{
+            abortSignal: undefined,
+            abortErrorMsg: "ondetachednevercalled"
+          }),
         ]);
 
         if (typeof result === "string" && result === "ondetachednevercalled") {
