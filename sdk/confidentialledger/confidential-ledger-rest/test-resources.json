@@ -13,6 +13,7 @@
     },
     "principalId": {
       "type": "string",
+      "defaultValue": "ec667af1-0642-45f0-be8a-b76758a35dde",
       "metadata": {
         "description": "Oid of the user"
       }
@@ -34,7 +35,7 @@
     },
     "clientSecret": {
       "type": "string",
-      "defaultValue": ""
+      "defaultValue": "test"
     }
   },
   "functions": [],
