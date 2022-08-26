@@ -34,7 +34,9 @@ describe("Send Batch", () => {
   });
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
-    entityNames = await serviceBusClient.test.createTestEntities(entityType, { maxMessageSizeInKilobytes: 102400 });
+    entityNames = await serviceBusClient.test.createTestEntities(entityType, {
+      maxMessageSizeInKilobytes: 102400,
+    });
 
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
