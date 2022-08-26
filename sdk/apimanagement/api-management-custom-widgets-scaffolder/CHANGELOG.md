@@ -9,6 +9,7 @@
 ### Other Changes
 
 - templates dependencies update & synchronization among the frameworks
+- CLI interface made more intuitive
 
 ## 1.0.0-beta.1 (2022-08-03)
 
