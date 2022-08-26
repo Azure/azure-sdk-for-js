@@ -3,7 +3,6 @@
 
 import { CancellableAsyncLock, CancellableAsyncLockImpl } from "./lock";
 import { WebSocketImpl } from "rhea-promise";
-import { delay } from "@azure/core-util";
 
 /**
  * @internal
@@ -166,7 +165,7 @@ export class Timeout {
   }
 }
 
-export { delay };
+export { delay } from "@azure/core-util";
 
 /**
  * @internal
