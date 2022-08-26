@@ -382,10 +382,10 @@ export async function retryForever<T>(
         config.operationType
       );
       await delay<void>(
-        delayInMs,
-        config.abortSignal,
-        "Retry cycle has been cancelled by the user."
-      );
+        delayInMs, undefined, {
+          abortSignal: config.abortSignal,
+          abortErrorMsg: "Retry cycle has been cancelled by the user."
+        });
 
       continue;
     }
