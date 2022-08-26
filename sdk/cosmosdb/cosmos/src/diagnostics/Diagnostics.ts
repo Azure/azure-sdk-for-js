@@ -7,6 +7,7 @@ const _defaultHeader: DiagnosticHeader = {
   diagnosticStartTime: new Date().toLocaleString(),
   durationInMs: new Date().getTime() - _startTime,
   activityId: "",
+  data: [""],
   requestCharge: "0",
   transportRequestTimeline: {},
   contactedRegions: "",
@@ -16,10 +17,10 @@ const _diagnosticHeader: DiagnosticHeader = _defaultHeader;
 /**
  * @internal
  */
-export function setDiagnostics(message?: string | DiagnosticHeader) {
-  if (!_diagnosticHeader.data) {
-    _diagnosticHeader.data = [_defaultHeader];
-  }
+export function setDiagnostics(message?: string) {
+  // if (!_diagnosticHeader.data) {
+  //   _diagnosticHeader.data = [parseDiagnosticHeader(_defaultHeader)];
+  // }
   if (typeof message === "string") {
     _diagnosticHeader.data.push(parseDiagnosticHeader(message));
   }
@@ -83,20 +84,19 @@ function parseTransportRequestTimeline(data: string): string {
 /**
  * @internal
  */
-function parseDiagnosticHeader(data: string): DiagnosticHeader {
+function parseDiagnosticHeader(data: string): string {
   const header: DiagnosticHeader = {
     cosmosdiagnostics: "Started Cosmos Diagnostics",
     diagnosticStartTime: new Date().toLocaleString(),
     durationInMs: new Date().getTime() - _startTime,
     activityId: parseActivityId(data), //parseDiagnosticMessage(data),
+    data: [""],
     requestCharge: parseRequestCharge(data),
     transportRequestTimeline: parseTransportRequestTimeline(data),
     contactedRegions: parseContactedRegions(data),
   };
-  if (header.data) {
-    header.data.push(parseDiagnosticHeader(data));
-  }
-  return header;
+  header.data.push(data);
+  return JSON.stringify(header);
 }
 
 /*
@@ -113,11 +113,11 @@ export function getdiagnosticsdurationMilliseconds(): number {
  * @internal
  */
 export function getCosmosDiagnosticsToString(): string {
-  if (_diagnosticHeader) {
-    return String(_diagnosticHeader);
-  }
-  setDiagnostics(_defaultHeader);
-  return String(_diagnosticHeader);
+  // if (_diagnosticHeader) {
+  //   return JSON.stringify(_diagnosticHeader);
+  // }
+  //setDiagnostics(_defaultHeader);
+  return JSON.stringify(_diagnosticHeader);
 }
 
 /**
@@ -135,8 +135,8 @@ export interface DiagnosticHeader {
   diagnosticStartTime: string;
   durationInMs: number;
   activityId: string;
+  data: [string];
   requestCharge?: string;
   transportRequestTimeline?: any;
   contactedRegions?: string;
-  data?: [DiagnosticHeader];
 }

@@ -24,7 +24,6 @@ export class CosmosDiagnostics {
    * Retrieves Response Diagnostic String.
    */
   getCosmosDiagnostics(): string {
-    console.log(getCosmosDiagnosticsToString());
     return getCosmosDiagnosticsToString();
   }
 }

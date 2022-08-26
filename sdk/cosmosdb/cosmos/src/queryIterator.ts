@@ -283,7 +283,7 @@ export class QueryIterator<T> {
       );
       error.response.code = 503;
       error.response.originalError = err;
-      new CosmosException(error);
+      throw new CosmosException(error);
     } else {
       throw new CosmosException(err);
     }

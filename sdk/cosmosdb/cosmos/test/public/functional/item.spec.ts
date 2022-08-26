@@ -236,15 +236,12 @@ describe("bulk/batch item operations", function () {
         },
         throughput: 25100,
       });
-      afterEach(async function () {});
-
       readItemId = addEntropy("item1");
-      const itemResponse = await container.items.create({
+      await container.items.create({
         id: readItemId,
         key: "A",
         class: "2010",
       });
-      console.log(itemResponse.getcosmosDiagnostics);
       deleteItemId = addEntropy("item2");
       await container.items.create({
         id: deleteItemId,
