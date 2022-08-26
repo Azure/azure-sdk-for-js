@@ -1,14 +1,14 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.2 (2022-08-26)
 
-### Features Added
+### Bugs fixed
 
-### Breaking Changes
-
-### Bugs Fixed
+- fetch fail on CORS error while fetching data in managed Developer Portals
 
 ### Other Changes
+
+- templates dependencies update & synchronization among the frameworks
 
 ## 1.0.0-beta.1 (2022-08-03)
 
