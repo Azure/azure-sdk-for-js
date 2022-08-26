@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import * as constants from "./utils/constants.js";
-import { 
-  createTokenProviderFromConnection ,
-  parseNotificationHubsConnectionString
+import {
+  createTokenProviderFromConnection,
+  parseNotificationHubsConnectionString,
 } from "./auth/connectionStringUtils.js";
 import { SasTokenProvider } from "./auth/sasTokenProvider.js";
 
@@ -32,7 +32,12 @@ export interface WebPushClientContext {
   /**
    * The ServiceWorkerRegistration for the Web Push.
    */
-  serviceWorkerRegistration?: ServiceWorkerRegistration; 
+  serviceWorkerRegistration?: ServiceWorkerRegistration;
+
+  /**
+   * The VAPID public key for the Web Push instance.
+   */
+  vapidPublicKey?: string;
 
   /**
    * @internal
@@ -47,7 +52,7 @@ export interface WebPushClientContext {
 
 export function createClientContext(
   connectionString: string,
-  hubName: string,
+  hubName: string
 ): WebPushClientContext {
   const parsedConnection = parseNotificationHubsConnectionString(connectionString);
   const baseUrl = parsedConnection.endpoint;
@@ -65,7 +70,10 @@ export function createClientContext(
       "x-ms-azsdk-telemetry",
       `class=NotificationHubsServiceClient;method=${operationName}`
     );
-    headers.set("User-Agent", `azsdk-js-messaging-notificationhubs-web-push/${constants.SDK_VERSION}`);
+    headers.set(
+      "User-Agent",
+      `azsdk-js-messaging-notificationhubs-web-push/${constants.SDK_VERSION}`
+    );
 
     return headers;
   }
@@ -77,13 +85,13 @@ export function createClientContext(
     url.searchParams.set("api-version", API_VERSION);
 
     return url;
-  }  
+  }
 
   return {
     hubName,
     baseUrl,
     sasTokenProvider,
     createHeaders,
-    requestUrl
+    requestUrl,
   };
 }

@@ -10,12 +10,12 @@ export interface NamedKeyCredential {
   /**
    * The Shared Access Signature key name.
    */
-  sharedAccessKeyName: string; 
+  sharedAccessKeyName: string;
 
   /**
    * The Shared Access Signature key value.
    */
-  sharedAccessKey: string
+  sharedAccessKey: string;
 }
 
 /**
@@ -53,9 +53,7 @@ export interface SasTokenProvider {
  * @param data - The sharedAccessKeyName/sharedAccessKey pair or the sharedAccessSignature.
  * @hidden
  */
-export function createSasTokenProvider(
-  data: NamedKeyCredential
-): SasTokenProvider {
+export function createSasTokenProvider(data: NamedKeyCredential): SasTokenProvider {
   return new SasTokenProviderImpl(data);
 }
 
