@@ -913,10 +913,6 @@ export class Items {
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-    // Warning: (ae-forgotten-export) The symbol "CosmosException" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    error: CosmosException;
     query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
     query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
     readAll(options?: FeedOptions): QueryIterator<ItemDefinition>;

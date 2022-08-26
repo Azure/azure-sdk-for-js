@@ -5,7 +5,7 @@ const uuid = v4;
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
+import { getIdFromLink, getPathFromLink, isItemResourceValid, ResourceType } from "../../common";
 import { extractPartitionKey } from "../../extractPartitionKey";
 import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
@@ -27,7 +27,6 @@ import {
 } from "../../utils/batch";
 import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
-import { CosmosException } from "../../diagnostics/CosmosException";
 
 /**
  * @hidden
@@ -45,7 +44,6 @@ function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
  * @see {@link Item} for reading, replacing, or deleting an existing container; use `.item(id)`.
  */
 export class Items {
-  error = new CosmosException();
   /**
    * Create an instance of {@link Items} linked to the parent {@link Container}.
    * @param container - The parent container.
@@ -271,8 +269,8 @@ export class Items {
     const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     const err = {};
-    if (!isResourceValid(body, err)) {
-      throw new CosmosException(err);
+    if (!isItemResourceValid(body, err)) {
+      throw err;
     }
 
     const path = getPathFromLink(this.container.url, ResourceType.item);
@@ -343,8 +341,8 @@ export class Items {
     }
 
     const err = {};
-    if (!isResourceValid(body, err)) {
-      throw new CosmosException(err);
+    if (!isItemResourceValid(body, err)) {
+      throw err;
     }
 
     const path = getPathFromLink(this.container.url, ResourceType.item);
@@ -442,9 +440,7 @@ export class Items {
         .filter((batch: Batch) => batch.operations.length)
         .map(async (batch: Batch) => {
           if (batch.operations.length > 100) {
-            throw new CosmosException(
-              "Cannot run bulk request with more than 100 operations per partition"
-            );
+            throw new Error("Cannot run bulk request with more than 100 operations per partition");
           }
           try {
             const response = await this.clientContext.bulk({
@@ -463,13 +459,11 @@ export class Items {
             // and redo the batch request, however, 410 errors occur for unsupported
             // partition key types as well since we don't support them, so for now we throw
             if (err.code === 410) {
-              const cosmosExcpetion = new CosmosException(
-                `Partition key error. Either the partitions have split or an operation has an unsupported partitionKey type`,
-                err
+              throw new Error(
+                "Partition key error. Either the partitions have split or an operation has an unsupported partitionKey type"
               );
-              throw cosmosExcpetion;
             }
-            throw new CosmosException(`Bulk request errored with: ${err.message}`);
+            throw new Error(`Bulk request errored with: ${err.message}`);
           }
         })
     );

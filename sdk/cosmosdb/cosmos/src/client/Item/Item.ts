@@ -9,7 +9,7 @@ import {
   ResourceType,
   StatusCodes,
 } from "../../common";
-import { CosmosException } from "../../diagnostics/CosmosException";
+import { setDiagnostics } from "../../diagnostics/Diagnostics";
 import { PartitionKey } from "../../documents";
 import { extractPartitionKey, undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, Response } from "../../request";
@@ -93,7 +93,8 @@ export class Item {
       });
     } catch (error: any) {
       if (error.code !== StatusCodes.NotFound) {
-        throw new CosmosException(error);
+        setDiagnostics(`${error}`);
+        throw error;
       }
       response = error;
     }
@@ -145,7 +146,8 @@ export class Item {
     }
     const err = {};
     if (!isResourceValid(body, err)) {
-      throw new CosmosException(`"ItemDefinition.replace": ${err}`);
+      setDiagnostics(`"ItemDefinition.replace": ${err}`);
+      throw err;
     }
 
     const path = getPathFromLink(this.url);

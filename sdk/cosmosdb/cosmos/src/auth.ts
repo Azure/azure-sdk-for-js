@@ -112,7 +112,6 @@ export function getAuthorizationTokenUsingResourceTokens(
     // minimum valid path /dbs
     if (!path || path.length < 4) {
       // TODO: This should throw an error
-      // throw new CosmosException("error: minimum valid path /dbs");
       return null;
     }
 
@@ -142,6 +141,5 @@ export function getAuthorizationTokenUsingResourceTokens(
   }
 
   // TODO: This should throw an error
-  // throw new CosmosException("function call: getAuthorizationTokenUsingResourceTokens");
   return null;
 }

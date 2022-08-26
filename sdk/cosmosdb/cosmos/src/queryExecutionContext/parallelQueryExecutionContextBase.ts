@@ -15,6 +15,7 @@ import { ExecutionContext } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { SqlQuerySpec } from "./SqlQuerySpec";
 import { CosmosException } from "../diagnostics/CosmosException";
+import { setDiagnostics } from "../diagnostics/Diagnostics";
 
 /** @hidden */
 const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
@@ -278,7 +279,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       "substatus" in error &&
       error["substatus"] === SubStatusCodes.PartitionKeyRangeGone;
 
-    new CosmosException(
+    setDiagnostics(
       `queryExecutionContext.parallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh : ${error}`
     );
     return error;

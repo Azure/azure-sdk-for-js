@@ -6,6 +6,7 @@
 import { ClientContext } from "./ClientContext";
 import { getPathFromLink, ResourceType, StatusCodes } from "./common";
 import { CosmosException } from "./diagnostics/CosmosException";
+import { setDiagnostics } from "./diagnostics/Diagnostics";
 import {
   CosmosHeaders,
   DefaultQueryExecutionContext,
@@ -82,16 +83,18 @@ export class QueryIterator<T> {
       try {
         response = await this.queryExecutionContext.fetchMore();
       } catch (error: any) {
-        new CosmosException(error);
+        setDiagnostics(`${error}`);
         if (this.needsQueryPlan(error)) {
           await this.createPipelinedExecutionContext();
           try {
             response = await this.queryExecutionContext.fetchMore();
           } catch (queryError: any) {
+            setDiagnostics(`${queryError}`);
             this.handleSplitError(queryError);
           }
         } else {
-          throw new CosmosException(error);
+          setDiagnostics(`${error}`);
+          throw error;
         }
       }
       const feedResponse = new FeedResponse<T>(
@@ -125,6 +128,7 @@ export class QueryIterator<T> {
     try {
       response = await this.toArrayImplementation();
     } catch (error: any) {
+      setDiagnostics(`${error}`);
       this.handleSplitError(error);
     }
     return response;
@@ -147,15 +151,18 @@ export class QueryIterator<T> {
     try {
       response = await this.queryExecutionContext.fetchMore();
     } catch (error: any) {
+      setDiagnostics(`${error}`);
       if (this.needsQueryPlan(error)) {
         await this.createPipelinedExecutionContext();
         try {
           response = await this.queryExecutionContext.fetchMore();
         } catch (queryError: any) {
+          setDiagnostics(`${queryError}`);
           this.handleSplitError(queryError);
         }
       } else {
-        throw new CosmosException(error);
+        setDiagnostics(`${error}`);
+        throw error;
       }
     }
     return new FeedResponse<T>(
@@ -186,11 +193,13 @@ export class QueryIterator<T> {
       try {
         response = await this.queryExecutionContext.nextItem();
       } catch (error: any) {
+        setDiagnostics(`${error}`);
         if (this.needsQueryPlan(error)) {
           await this.createPipelinedExecutionContext();
           response = await this.queryExecutionContext.nextItem();
         } else {
-          throw new CosmosException(error);
+          setDiagnostics(`${error}`);
+          throw error;
         }
       }
       const { result, headers } = response;

@@ -18,6 +18,7 @@ import { TimeoutError } from "./TimeoutError";
 import { getCachedDefaultHttpClient } from "../utils/cachedClient";
 import { AzureLogger, createClientLogger } from "@azure/logger";
 import { CosmosException } from "../diagnostics/CosmosException";
+import { setDiagnostics } from "../diagnostics/Diagnostics";
 
 const logger: AzureLogger = createClientLogger("RequestHandler");
 
@@ -87,12 +88,14 @@ async function httpRequest(requestContext: RequestContext): Promise<{
       // If the user passed signal caused the abort, cancel the timeout and rethrow the error
       if (userSignal && userSignal.aborted === true) {
         clearTimeout(timeout);
-        throw new CosmosException(error);
+        setDiagnostics(`${error}`);
+        throw error;
       }
       // If the user didn't cancel, it must be an abort we called due to timeout
       throw new CosmosException(new TimeoutError());
     }
-    throw new CosmosException(error);
+    setDiagnostics(`${error}`);
+    throw error;
   }
 
   clearTimeout(timeout);

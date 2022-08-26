@@ -10,7 +10,7 @@ import {
   StatusCodes,
   SubStatusCodes,
 } from "../common";
-import { CosmosException } from "../diagnostics/CosmosException";
+import { setDiagnostics } from "../diagnostics/Diagnostics";
 import { FeedOptions } from "../request";
 import { Response } from "../request";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
@@ -147,7 +147,7 @@ export class DocumentProducer {
       error.code === StatusCodes.Gone &&
       "substatus" in error &&
       error["substatus"] === SubStatusCodes.PartitionKeyRangeGone;
-    new CosmosException(error);
+    setDiagnostics(`${error}`);
     return error;
   }
 

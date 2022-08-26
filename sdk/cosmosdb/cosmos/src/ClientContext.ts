@@ -30,7 +30,7 @@ import { SessionContext } from "./session/SessionContext";
 import { BulkOptions } from "./utils/batch";
 import { sanitizeEndpoint } from "./utils/checkURL";
 import { AzureLogger, createClientLogger } from "@azure/logger";
-import { CosmosException } from "./diagnostics/CosmosException";
+import { setDiagnostics } from "./diagnostics/Diagnostics";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -87,24 +87,26 @@ export class ClientContext {
     options?: RequestOptions;
     partitionKey?: PartitionKey;
   }): Promise<Response<T & Resource>> {
-    const request: RequestContext = {
-      globalEndpointManager: this.globalEndpointManager,
-      requestAgent: this.cosmosClientOptions.agent,
-      connectionPolicy: this.connectionPolicy,
-      method: HTTPMethod.get,
-      path,
-      operationType: OperationType.Read,
-      client: this,
-      resourceId,
-      options,
-      resourceType,
-      plugins: this.cosmosClientOptions.plugins,
-      partitionKey,
-      pipeline: this.pipeline,
-    };
     try {
+      const request: RequestContext = {
+        globalEndpointManager: this.globalEndpointManager,
+        requestAgent: this.cosmosClientOptions.agent,
+        connectionPolicy: this.connectionPolicy,
+        method: HTTPMethod.get,
+        path,
+        operationType: OperationType.Read,
+        client: this,
+        resourceId,
+        options,
+        resourceType,
+        plugins: this.cosmosClientOptions.plugins,
+        partitionKey,
+        pipeline: this.pipeline,
+      };
+
       request.headers = await this.buildHeaders(request);
       this.applySessionToken(request);
+
       // read will use ReadEndpoint since it uses GET operation
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
         request.resourceType,
@@ -115,6 +117,7 @@ export class ClientContext {
       return response;
     } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
+      setDiagnostics(`${err}`);
       throw err;
     }
   }
@@ -298,7 +301,8 @@ export class ClientContext {
       return response;
     } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
-      throw new CosmosException(err);
+      setDiagnostics(`${err}`);
+      throw err;
     }
   }
 
@@ -347,6 +351,7 @@ export class ClientContext {
       return response;
     } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
+      setDiagnostics(`${err}`);
       throw err;
     }
   }
@@ -397,6 +402,7 @@ export class ClientContext {
       return response;
     } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
+      setDiagnostics(`${err}`);
       throw err;
     }
   }
@@ -486,6 +492,7 @@ export class ClientContext {
       return response;
     } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
+      setDiagnostics(`${err}`);
       throw err;
     }
   }
@@ -537,6 +544,7 @@ export class ClientContext {
       return response;
     } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
+      setDiagnostics(`${err}`);
       throw err;
     }
   }
@@ -681,6 +689,7 @@ export class ClientContext {
       return response;
     } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
+      setDiagnostics(`${err}`);
       throw err;
     }
   }
@@ -735,12 +744,13 @@ export class ClientContext {
       return response;
     } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
+      setDiagnostics(`${err}`);
       throw err;
     }
   }
 
   private captureSessionToken(
-    err: CosmosException,
+    err: ErrorResponse,
     path: string,
     operationType: OperationType,
     resHeaders: CosmosHeaders
@@ -750,13 +760,12 @@ export class ClientContext {
     if (
       !err ||
       (!this.isMasterResource(request.resourceType) &&
-        (err.response.code === StatusCodes.PreconditionFailed ||
-          err.response.code === StatusCodes.Conflict ||
-          (err.response.code === StatusCodes.NotFound &&
-            err.response.substatus !== SubStatusCodes.ReadSessionNotAvailable)))
+        (err.code === StatusCodes.PreconditionFailed ||
+          err.code === StatusCodes.Conflict ||
+          (err.code === StatusCodes.NotFound &&
+            err.substatus !== SubStatusCodes.ReadSessionNotAvailable)))
     ) {
       this.sessionContainer.set(request, resHeaders);
-      new CosmosException(err);
     }
   }
 
