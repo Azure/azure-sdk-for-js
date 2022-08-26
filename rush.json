@@ -607,6 +607,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/notification-hubs-web-push",
+      "projectFolder": "sdk/notificationhubs/notification-hubs-web-push",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/opentelemetry-instrumentation-azure-sdk",
       "projectFolder": "sdk/instrumentation/opentelemetry-instrumentation-azure-sdk",
       "versionPolicyName": "client"

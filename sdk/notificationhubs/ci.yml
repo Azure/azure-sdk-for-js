@@ -23,7 +23,7 @@ pr:
     include:
       - sdk/notificationhubs/
     exclude:
-      - sdk/servicebus/arm-notificationhubs
+      - sdk/notificationhubs/arm-notificationhubs
       - sdk/notificationhubs/ci.mgmt.yml
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
@@ -32,3 +32,5 @@ extends:
     Artifacts:
       - name: azure-notification-hubs
         safeName: azurenotificationhubs
+      - name: azure-notification-hubs-web-push
+        safeName: azurenotificationhubswebpush
