@@ -48,16 +48,16 @@ export interface ServiceBusSender {
    * and/or `partitionKey` properties respectively on the messages.
    * - All messages passed to the same sendMessages() call should have the same `sessionId` (if using
    *  sessions) and the same `partitionKey` (if using partitions).
-   * 
+   *
    * **Note:**
-   * 
+   *
    *    __If you want to send messages of size greater than 1MB, please send individual messages instead of sending a batched message or an array of messages like below.__
-   * 
+   *
    *  `await sender.sendMessages(message);`
-   * 
+   *
    * __This is because the batched messages are not capable of sending the larger messages yet. You'll hit the `force detached` error in this case otherwise.
    *    More info at [#23014](https://github.com/Azure/azure-sdk-for-js/pull/23014)__
-   * 
+   *
    * @param messages - A single message or an array of messages or a batch of messages created via the createBatch()
    * method to send.
    * @param options - Options bag to pass an abort signal or tracing options.
