@@ -18,14 +18,8 @@ import {
   createProcessor,
   generate,
 } from "./utils";
-import { LroEngine, createPoller } from "../../src";
-import {
-  LroResourceLocationConfig,
-  LroResponse,
-  RawResponse,
-  ResponseBody,
-  SimplePollerLike,
-} from "../../src/models";
+import { LroEngine, LroResponse, SimplePollerLike, createHttpPoller } from "../../src";
+import { LroResourceLocationConfig, RawResponse, ResponseBody } from "../../src/http/models";
 import { AbortError } from "@azure/abort-controller";
 import { createCoreRestPipelineLro } from "./coreRestPipelineLro";
 import { getYieldedValue } from "@azure/test-utils";
@@ -127,7 +121,7 @@ export function createTestPoller(settings: {
   routes: LroResponseSpec[];
   resourceLocationConfig?: LroResourceLocationConfig;
   processResult?: (result: unknown, state: State) => Result;
-  updateState?: (state: State, lastResponse: RawResponse) => void;
+  updateState?: (state: State, lastResponse: LroResponse<Result>) => void;
   implName?: ImplementationName;
 }): Promise<SimplePollerLike<State, Result>> {
   const {
@@ -152,11 +146,13 @@ export function createTestPoller(settings: {
   });
   switch (implName) {
     case "createPoller": {
-      return createPoller(lro, {
+      return createHttpPoller(lro, {
         intervalInMs: 0,
         resourceLocationConfig: resourceLocationConfig,
         processResult,
-        updateState,
+        updateState: updateState as
+          | ((state: any, lastResponse: LroResponse<unknown>) => void)
+          | undefined,
       });
     }
     case "LroEngine": {
@@ -165,7 +161,8 @@ export function createTestPoller(settings: {
           intervalInMs: 0,
           lroResourceLocationConfig: resourceLocationConfig,
           processResult,
-          updateState,
+          updateState: (state, rawResponse) =>
+            updateState?.(state, { rawResponse, flatResponse: undefined as any }),
         })
       );
     }
@@ -195,7 +192,7 @@ async function runLro<TState>(settings: {
     routes,
     resourceLocationConfig,
     processResult,
-    updateState,
+    updateState: (state, { rawResponse }) => updateState?.(state, rawResponse),
     implName,
   });
   if (onProgress !== undefined) {

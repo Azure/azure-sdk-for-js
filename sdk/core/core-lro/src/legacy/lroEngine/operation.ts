@@ -1,18 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  LongRunningOperation,
-  LroResourceLocationConfig,
-  RawResponse,
-  RestorableOperationState,
-  StateProxy,
-} from "../models";
+import { LongRunningOperation, LroResourceLocationConfig, RawResponse } from "../../http/models";
 import { PollOperation, PollOperationState } from "../pollOperation";
-import { initOperation, pollOperation } from "../impl";
+import { RestorableOperationState, StateProxy } from "../../poller/models";
+import { initHttpOperation, pollHttpOperation } from "../../http/operation";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollerConfig } from "./models";
-import { logger } from "../logger";
+import { logger } from "../../logger";
 
 const createStateProxy: <TResult, TState extends PollOperationState<TResult>>() => StateProxy<
   TState,
@@ -24,9 +19,6 @@ const createStateProxy: <TResult, TState extends PollOperationState<TResult>>() 
   setResult: (state, result) => (state.result = result),
   setRunning: (state) => (state.isStarted = true),
   setSucceeded: (state) => (state.isCompleted = true),
-  setCanceling: () => {
-    /** empty body */
-  },
   setFailed: () => {
     /** empty body */
   },
@@ -34,7 +26,6 @@ const createStateProxy: <TResult, TState extends PollOperationState<TResult>>() 
   getError: (state) => state.error,
   getResult: (state) => state.result,
   isCanceled: (state) => !!state.isCancelled,
-  isCanceling: () => false,
   isFailed: (state) => !!state.error,
   isRunning: (state) => !!state.isStarted,
   isSucceeded: (state) => Boolean(state.isCompleted && !state.isCancelled && !state.error),
@@ -62,30 +53,33 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
     abortSignal?: AbortSignalLike;
     fireProgress?: (state: TState) => void;
   }): Promise<PollOperation<TState, TResult>> {
-    const { requestMethod, requestPath } = this.lro;
     const stateProxy = createStateProxy<TResult, TState>();
     if (!this.state.isStarted) {
       this.state = {
         ...this.state,
-        ...(await initOperation({
+        ...(await initHttpOperation({
           lro: this.lro,
           stateProxy,
-          requestPath,
-          requestMethod,
           resourceLocationConfig: this.lroResourceLocationConfig,
           processResult: this.processResult,
         })),
       };
     }
+    const updateState = this.updateState;
+    const isDone = this.isDone;
 
     if (!this.state.isCompleted) {
-      await pollOperation({
+      await pollHttpOperation({
         lro: this.lro,
         state: this.state,
         stateProxy,
         processResult: this.processResult,
-        updateState: this.updateState,
-        isDone: this.isDone,
+        updateState: updateState
+          ? (state, { rawResponse }) => updateState(state, rawResponse)
+          : undefined,
+        isDone: isDone
+          ? ({ flatResponse }, state) => isDone(flatResponse as TResult, state)
+          : undefined,
         options,
         setDelay: (intervalInMs) => {
           this.pollerConfig!.intervalInMs = intervalInMs;

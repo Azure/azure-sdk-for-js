@@ -10,16 +10,16 @@ import { AbortSignalLike } from '@azure/abort-controller';
 export type CancelOnProgress = () => void;
 
 // @public
-export function createPoller<TResult, TState extends OperationState<TResult>>(lro: LongRunningOperation, options?: CreatePollerOptions<TResult, TState>): Promise<SimplePollerLike<TState, TResult>>;
+export function createHttpPoller<TResult, TState extends OperationState<TResult>>(lro: LongRunningOperation, options?: CreateHttpPollerOptions<TResult, TState>): Promise<SimplePollerLike<TState, TResult>>;
 
 // @public
-export interface CreatePollerOptions<TResult, TState> {
+export interface CreateHttpPollerOptions<TResult, TState> {
     intervalInMs?: number;
     processResult?: (result: unknown, state: TState) => TResult;
     resourceLocationConfig?: LroResourceLocationConfig;
     restoreFrom?: string;
-    updateState?: (state: TState, lastResponse: RawResponse) => void;
-    withPollingUrl?: (pollingUrl: string) => void;
+    updateState?: (state: TState, response: LroResponse) => void;
+    withOperationLocation?: (operationLocation: string) => void;
 }
 
 // @public
@@ -52,7 +52,7 @@ export interface LroEngineOptions<TResult, TState> {
 export type LroResourceLocationConfig = "azure-async-operation" | "location" | "original-uri";
 
 // @public
-export interface LroResponse<T> {
+export interface LroResponse<T = unknown> {
     flatResponse: T;
     rawResponse: RawResponse;
 }
@@ -61,8 +61,11 @@ export interface LroResponse<T> {
 export interface OperationState<TResult> {
     error?: Error;
     result?: TResult;
-    status: "notStarted" | "running" | "succeeded" | "canceling" | "canceled" | "failed";
+    status: OperationStatus;
 }
+
+// @public
+export type OperationStatus = "notStarted" | "running" | "succeeded" | "canceled" | "failed";
 
 // @public
 export abstract class Poller<TState extends PollOperationState<TResult>, TResult> implements PollerLike<TState, TResult> {

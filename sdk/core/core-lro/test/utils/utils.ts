@@ -8,7 +8,7 @@ import {
   createHttpHeaders,
   isRestError,
 } from "@azure/core-rest-pipeline";
-import { ResponseBody } from "../../src/models";
+import { ResponseBody } from "../../src/http/models";
 import { assert } from "@azure/test-utils";
 
 export interface RouteProcessor {

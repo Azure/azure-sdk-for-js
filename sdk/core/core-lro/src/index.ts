@@ -1,20 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { createPoller } from "./createPoller";
+export { createHttpPoller } from "./http/poller";
+export {
+  CancelOnProgress,
+  OperationState,
+  OperationStatus,
+  SimplePollerLike,
+} from "./poller/models";
+export { CreateHttpPollerOptions } from "./http/models";
 export {
   LroResourceLocationConfig,
   LongRunningOperation,
   LroResponse,
-  CreatePollerOptions,
-  CancelOnProgress,
   RawResponse,
-  PollerLike,
-  SimplePollerLike,
-  OperationState,
-} from "./models";
+} from "./http/models";
 
-/** deprecated */
-export * from "./lroEngine";
-export * from "./poller";
-export * from "./pollOperation";
+/**
+ * This can be uncommented to expose the protocol-agnostic poller
+ */
+// export {
+//   BuildCreatePollerOptions,
+//   Operation,
+//   CreatePollerOptions,
+//   OperationConfig,
+//   RestorableOperationState,
+// } from "./poller/models";
+// export { buildCreatePoller } from "./poller/poller";
+
+/** legacy */
+export * from "./legacy/lroEngine";
+export * from "./legacy/poller";
+export * from "./legacy/pollOperation";
+export { PollerLike } from "./legacy/models";
