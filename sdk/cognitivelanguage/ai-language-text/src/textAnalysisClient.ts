@@ -5,11 +5,9 @@ import {
   AnalyzeActionName,
   AnalyzeActionParameters,
   AnalyzeBatchAction,
-  AnalyzeBatchOperationState,
-  AnalyzeBatchPoller,
+  AnalyzeBatchOperation,
   AnalyzeResult,
   BeginAnalyzeBatchOptions,
-  PagedAnalyzeBatchResult,
   RestoreAnalyzeBatchPollerOptions,
   TextAnalysisClientOptions,
   TextAnalysisOperationOptions,
@@ -25,7 +23,6 @@ import {
   bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { LongRunningOperation, LroEngine } from "@azure/core-lro";
 import { TracingClient, createTracingClient } from "@azure/core-tracing";
 import {
   convertToLanguageDetectionInput,
@@ -35,14 +32,15 @@ import {
 } from "./util";
 import {
   createAnalyzeBatchLro,
-  createCancelOperation,
   createCreateAnalyzeBatchPollerLro,
   createUpdateAnalyzeState,
-  getDocsFromState,
+  getDocIDsFromState,
   processAnalyzeResult,
+  sendCancellationRequest,
 } from "./lro";
 import { throwError, transformActionResult } from "./transforms";
 import { GeneratedClient } from "./generated/generatedClient";
+import { createHttpPoller } from "@azure/core-lro";
 import { logger } from "./logger";
 import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
@@ -509,7 +507,11 @@ export class TextAnalysisClient {
             )
             .then(
               (result) =>
-                transformActionResult(actionName, realInputs, result) as AnalyzeResult<ActionName>
+                transformActionResult(
+                  actionName,
+                  realInputs.map(({ id }) => id),
+                  result
+                ) as AnalyzeResult<ActionName>
             )
         )
     );
@@ -577,7 +579,7 @@ export class TextAnalysisClient {
     documents: string[],
     languageCode?: string,
     options?: BeginAnalyzeBatchOptions
-  ): Promise<AnalyzeBatchPoller>;
+  ): Promise<AnalyzeBatchOperation>;
   /**
    * Performs an array (batch) of actions on the input documents. Each action has
    * a `kind` field that specifies the nature of the action. See ${@link AnalyzeBatchActionNames}
@@ -632,14 +634,14 @@ export class TextAnalysisClient {
     actions: AnalyzeBatchAction[],
     documents: TextDocumentInput[],
     options?: BeginAnalyzeBatchOptions
-  ): Promise<AnalyzeBatchPoller>;
+  ): Promise<AnalyzeBatchOperation>;
   // implementation
   async beginAnalyzeBatch(
     actions: AnalyzeBatchAction[],
     documents: TextDocumentInput[] | string[],
     languageOrOptions?: BeginAnalyzeBatchOptions | string,
     options: BeginAnalyzeBatchOptions = {}
-  ): Promise<AnalyzeBatchPoller> {
+  ): Promise<AnalyzeBatchOperation> {
     let realOptions: BeginAnalyzeBatchOptions;
     let realInputs: TextDocumentInput[];
 
@@ -672,28 +674,32 @@ export class TextAnalysisClient {
       tasks: realActions,
       tracing: this._tracing,
     });
+    const state = { continuationToken: "" };
 
-    const poller = new LroEngine<PagedAnalyzeBatchResult, AnalyzeBatchOperationState>(
-      lro as LongRunningOperation<PagedAnalyzeBatchResult>,
-      {
-        intervalInMs: updateIntervalInMs,
-        processResult: processAnalyzeResult({
+    const poller = await createHttpPoller(lro, {
+      intervalInMs: updateIntervalInMs,
+      processResult: processAnalyzeResult({
+        client: this._client,
+        tracing: this._tracing,
+        docIds: realInputs.map(({ id }) => id),
+        opOptions: { ...rest, includeStatistics },
+        state,
+      }),
+      updateState: createUpdateAnalyzeState(realInputs),
+      withOperationLocation(operationLocation: string) {
+        state.continuationToken = operationLocation;
+      },
+    });
+    return {
+      poller,
+      sendCancellationRequest: () =>
+        sendCancellationRequest({
           client: this._client,
           tracing: this._tracing,
-          documents: realInputs,
-          opOptions: { ...rest, includeStatistics },
+          options,
+          pollingUrl: state.continuationToken,
         }),
-        updateState: createUpdateAnalyzeState(realInputs),
-        cancel: createCancelOperation({
-          client: this._client,
-          tracing: this._tracing,
-          options: rest,
-        }),
-      }
-    );
-
-    await poller.poll();
-    return poller;
+    };
   }
 
   /**
@@ -719,41 +725,45 @@ export class TextAnalysisClient {
   async restoreAnalyzeBatchPoller(
     serializedState: string,
     options?: RestoreAnalyzeBatchPollerOptions
-  ): Promise<AnalyzeBatchPoller>;
+  ): Promise<AnalyzeBatchOperation>;
   // implementation
   async restoreAnalyzeBatchPoller(
     serializedState: string,
     options: RestoreAnalyzeBatchPollerOptions = {}
-  ): Promise<AnalyzeBatchPoller> {
+  ): Promise<AnalyzeBatchOperation> {
     const { includeStatistics, updateIntervalInMs, ...rest } = options;
-    const documents = getDocsFromState(serializedState);
+    const docIds = getDocIDsFromState(serializedState);
     const lro = createCreateAnalyzeBatchPollerLro({
       client: this._client,
       options: { ...rest, includeStatistics },
       tracing: this._tracing,
     });
+    const state = { continuationToken: "" };
 
-    const poller = new LroEngine<PagedAnalyzeBatchResult, AnalyzeBatchOperationState>(
-      lro as LongRunningOperation<PagedAnalyzeBatchResult>,
-      {
-        intervalInMs: updateIntervalInMs,
-        resumeFrom: serializedState,
-        processResult: processAnalyzeResult({
+    const poller = await createHttpPoller(lro, {
+      intervalInMs: updateIntervalInMs,
+      restoreFrom: serializedState,
+      processResult: processAnalyzeResult({
+        client: this._client,
+        tracing: this._tracing,
+        docIds,
+        opOptions: { ...rest, includeStatistics },
+        state,
+      }),
+      updateState: createUpdateAnalyzeState(),
+      withOperationLocation(operationLocation: string) {
+        state.continuationToken = operationLocation;
+      },
+    });
+    return {
+      poller,
+      sendCancellationRequest: () =>
+        sendCancellationRequest({
           client: this._client,
           tracing: this._tracing,
-          documents,
-          opOptions: { ...rest, includeStatistics },
+          options,
+          pollingUrl: state.continuationToken,
         }),
-        updateState: createUpdateAnalyzeState(),
-        cancel: createCancelOperation({
-          client: this._client,
-          tracing: this._tracing,
-          options: rest,
-        }),
-      }
-    );
-
-    await poller.poll();
-    return poller;
+    };
   }
 }

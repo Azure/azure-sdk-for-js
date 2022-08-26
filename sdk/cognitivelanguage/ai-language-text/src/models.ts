@@ -23,7 +23,6 @@ import {
   KnownInnerErrorCode,
   LanguageDetectionAction,
   LinkedEntity,
-  OperationStatus,
   PiiEntityRecognitionAction,
   RelationType,
   SentenceSentimentLabel,
@@ -36,7 +35,7 @@ import {
   TokenSentimentLabel,
 } from "./generated";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { PollOperationState, PollerLike } from "@azure/core-lro";
+import { OperationState, SimplePollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
@@ -954,7 +953,25 @@ export type PagedAnalyzeBatchResult = PagedAsyncIterableIterator<AnalyzeBatchRes
 /**
  * A poller that polls long-running operations started by {@link TextAnalysisClient.beginAnalyzeBatch}.
  */
-export type AnalyzeBatchPoller = PollerLike<AnalyzeBatchOperationState, PagedAnalyzeBatchResult>;
+export type AnalyzeBatchPoller = SimplePollerLike<
+  AnalyzeBatchOperationState,
+  PagedAnalyzeBatchResult
+>;
+
+/**
+ * A representation of an analyze batch actions operation. It contains methods
+ * to get the operation poller and to send a cancellation request.
+ */
+export interface AnalyzeBatchOperation {
+  /**
+   * Sends a cancellation request for this particular actions batch operation.
+   */
+  sendCancellationRequest(): Promise<void>;
+  /**
+   * A poller for this particular actions batch operation.
+   */
+  poller: AnalyzeBatchPoller;
+}
 
 /**
  * The metadata for long-running operations started by {@link TextAnalysisClient.beginAnalyzeBatch}.
@@ -977,10 +994,6 @@ export interface AnalyzeBatchOperationMetadata {
    */
   readonly modifiedOn: Date;
   /**
-   * The current status of the operation.
-   */
-  readonly status: OperationStatus;
-  /**
    * Number of successfully completed actions.
    */
   readonly actionSucceededCount: number;
@@ -1002,5 +1015,5 @@ export interface AnalyzeBatchOperationMetadata {
  * The state of the begin analyze polling operation.
  */
 export interface AnalyzeBatchOperationState
-  extends PollOperationState<PagedAnalyzeBatchResult>,
+  extends OperationState<PagedAnalyzeBatchResult>,
     AnalyzeBatchOperationMetadata {}

@@ -67,7 +67,7 @@ export async function main() {
     console.log(`\t\t-Transaction count: ${stats.transactionCount}`);
   }
 
-  const poller = await client.beginAnalyzeBatch(
+  const { poller } = await client.beginAnalyzeBatch(
     [
       {
         kind: "Healthcare",

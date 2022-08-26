@@ -46,7 +46,7 @@ export async function main() {
       maxSentenceCount: 2,
     },
   ];
-  const poller = await client.beginAnalyzeBatch(actions, documents, "en");
+  const { poller } = await client.beginAnalyzeBatch(actions, documents, "en");
 
   poller.onProgress(() => {
     console.log(

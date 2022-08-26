@@ -41,7 +41,7 @@ export async function main() {
       fhirVersion: KnownFhirVersion["4.0.1"],
     },
   ];
-  const poller = await client.beginAnalyzeBatch(actions, documents, "en");
+  const { poller } = await client.beginAnalyzeBatch(actions, documents, "en");
 
   poller.onProgress(() => {
     console.log(

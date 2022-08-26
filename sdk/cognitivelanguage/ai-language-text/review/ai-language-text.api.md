@@ -8,9 +8,9 @@ import { AzureKeyCredential } from '@azure/core-auth';
 import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -85,6 +85,12 @@ export const AnalyzeBatchActionNames: {
 };
 
 // @public
+export interface AnalyzeBatchOperation {
+    poller: AnalyzeBatchPoller;
+    sendCancellationRequest(): Promise<void>;
+}
+
+// @public
 export interface AnalyzeBatchOperationMetadata {
     readonly actionFailedCount: number;
     readonly actionInProgressCount: number;
@@ -94,15 +100,14 @@ export interface AnalyzeBatchOperationMetadata {
     readonly expiresOn?: Date;
     readonly id: string;
     readonly modifiedOn: Date;
-    readonly status: OperationStatus;
 }
 
 // @public
-export interface AnalyzeBatchOperationState extends PollOperationState<PagedAnalyzeBatchResult>, AnalyzeBatchOperationMetadata {
+export interface AnalyzeBatchOperationState extends OperationState<PagedAnalyzeBatchResult>, AnalyzeBatchOperationMetadata {
 }
 
 // @public
-export type AnalyzeBatchPoller = PollerLike<AnalyzeBatchOperationState, PagedAnalyzeBatchResult>;
+export type AnalyzeBatchPoller = SimplePollerLike<AnalyzeBatchOperationState, PagedAnalyzeBatchResult>;
 
 // @public
 export type AnalyzeBatchResult = EntityLinkingBatchResult | EntityRecognitionBatchResult | KeyPhraseExtractionBatchResult | PiiEntityRecognitionBatchResult | SentimentAnalysisBatchResult | HealthcareBatchResult | ExtractiveSummarizationBatchResult | CustomEntityRecognitionBatchResult | CustomSingleLabelClassificationBatchResult | CustomMultiLabelClassificationBatchResult;
@@ -890,9 +895,9 @@ export class TextAnalysisClient {
     analyze<ActionName extends "LanguageDetection">(actionName: ActionName, documents: string[], countryHint?: string, options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions): Promise<AnalyzeResult<ActionName>>;
     analyze<ActionName extends AnalyzeActionName = AnalyzeActionName>(actionName: ActionName, documents: TextDocumentInput[], options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions): Promise<AnalyzeResult<ActionName>>;
     analyze<ActionName extends AnalyzeActionName = AnalyzeActionName>(actionName: ActionName, documents: string[], languageCode?: string, options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions): Promise<AnalyzeResult<ActionName>>;
-    beginAnalyzeBatch(actions: AnalyzeBatchAction[], documents: string[], languageCode?: string, options?: BeginAnalyzeBatchOptions): Promise<AnalyzeBatchPoller>;
-    beginAnalyzeBatch(actions: AnalyzeBatchAction[], documents: TextDocumentInput[], options?: BeginAnalyzeBatchOptions): Promise<AnalyzeBatchPoller>;
-    restoreAnalyzeBatchPoller(serializedState: string, options?: RestoreAnalyzeBatchPollerOptions): Promise<AnalyzeBatchPoller>;
+    beginAnalyzeBatch(actions: AnalyzeBatchAction[], documents: string[], languageCode?: string, options?: BeginAnalyzeBatchOptions): Promise<AnalyzeBatchOperation>;
+    beginAnalyzeBatch(actions: AnalyzeBatchAction[], documents: TextDocumentInput[], options?: BeginAnalyzeBatchOptions): Promise<AnalyzeBatchOperation>;
+    restoreAnalyzeBatchPoller(serializedState: string, options?: RestoreAnalyzeBatchPollerOptions): Promise<AnalyzeBatchOperation>;
 }
 
 // @public

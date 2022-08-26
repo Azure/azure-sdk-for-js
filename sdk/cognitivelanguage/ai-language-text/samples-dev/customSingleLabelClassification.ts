@@ -42,7 +42,7 @@ export async function main() {
       projectName,
     },
   ];
-  const poller = await client.beginAnalyzeBatch(actions, documents, "en");
+  const { poller } = await client.beginAnalyzeBatch(actions, documents, "en");
   const results = await poller.pollUntilDone();
 
   for await (const actionResult of results) {

@@ -51,7 +51,7 @@ export async function main() {
       modelVersion: "latest",
     },
   ];
-  const poller = await client.beginAnalyzeBatch(actions, documents, "en");
+  const { poller } = await client.beginAnalyzeBatch(actions, documents, "en");
 
   poller.onProgress(() => {
     console.log(

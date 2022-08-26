@@ -30,7 +30,7 @@ export async function main() {
 
   const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
 
-  const poller = await client.beginAnalyzeBatch(
+  const { poller } = await client.beginAnalyzeBatch(
     [
       {
         kind: "EntityRecognition",
@@ -63,7 +63,7 @@ export async function main() {
   const serializedState = poller.toString();
 
   /** Create a new poller from the serialized state */
-  const rehydratedPoller = await client.restoreAnalyzeBatchPoller(serializedState);
+  const { poller: rehydratedPoller } = await client.restoreAnalyzeBatchPoller(serializedState);
 
   /** Use the new poller to get the operation results */
   const actionResults = await rehydratedPoller.pollUntilDone();

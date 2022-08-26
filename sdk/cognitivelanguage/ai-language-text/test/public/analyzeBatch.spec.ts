@@ -48,7 +48,7 @@ import {
   expectation9,
 } from "./expectations";
 import { windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
-import { getDocsFromState } from "../../src/lro";
+import { getDocIDsFromState } from "../../src/lro";
 
 matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
@@ -84,7 +84,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 text: "Microsoft fue fundado por Bill Gates y Paul Allen",
               },
             ];
-            const poller = await client.beginAnalyzeBatch(
+            const { poller } = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.EntityRecognition,
@@ -113,7 +113,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 text: "Microsoft fue fundado por Bill Gates y Paul Allen",
               },
             ];
-            const poller = await client.beginAnalyzeBatch(
+            const { poller } = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.KeyPhraseExtraction,
@@ -133,7 +133,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               "Microsoft moved its headquarters to Bellevue, Washington in January 1979.",
               "Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella.",
             ];
-            const poller = await client.beginAnalyzeBatch(
+            const { poller } = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.EntityLinking,
@@ -155,7 +155,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               "Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.",
               "Is 998.214.865-68 your Brazilian CPF number?",
             ];
-            const poller = await client.beginAnalyzeBatch(
+            const { poller } = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.PiiEntityRecognition,
@@ -176,7 +176,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               "My SSN is 859-98-0987 and your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.",
               "Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.",
             ];
-            const poller = await client.beginAnalyzeBatch(
+            const { poller } = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.PiiEntityRecognition,
@@ -198,7 +198,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               "My SSN is 859-98-0987 and your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.",
               "Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.",
             ];
-            const poller = await client.beginAnalyzeBatch(
+            const { poller } = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.PiiEntityRecognition,
@@ -225,7 +225,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               "Nice rooms but bathrooms were old and the toilet was dirty when we arrived.",
               "The toilet smelled.",
             ];
-            const poller = await client.beginAnalyzeBatch(
+            const { poller } = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.SentimentAnalysis,
@@ -248,7 +248,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               "Prescribed 100mg ibuprofen, taken twice daily.",
               "Baby not likely to have Meningitis. in case of fever in the mother, consider Penicillin for the baby too.",
             ];
-            const poller = await client.beginAnalyzeBatch(
+            const { poller } = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.Healthcare,
@@ -269,7 +269,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               "Prescribed 100mg ibuprofen, taken twice daily.",
               "Baby not likely to have Meningitis. in case of fever in the mother, consider Penicillin for the baby too.",
             ];
-            const poller = await client.beginAnalyzeBatch(
+            const { poller } = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.Healthcare,
@@ -289,7 +289,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
           it("extractive summarization", async function () {
             const docs = [windows365ArticlePart1, windows365ArticlePart2];
-            const poller = await client.beginAnalyzeBatch(
+            const { poller } = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.ExtractiveSummarization,
@@ -306,7 +306,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
           it("extractive summarization with maxSentenceCount", async function () {
             const docs = [windows365ArticlePart1, windows365ArticlePart2];
-            const poller = await client.beginAnalyzeBatch(
+            const { poller } = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.ExtractiveSummarization,
@@ -324,7 +324,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
           it("extractive summarization with orderBy", async function () {
             const docs = [windows365ArticlePart1, windows365ArticlePart2];
-            const poller = await client.beginAnalyzeBatch(
+            const { poller } = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.ExtractiveSummarization,
@@ -346,7 +346,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             const docs = [
               "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
             ];
-            const poller = await client.beginAnalyzeBatch(
+            const { poller } = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.CustomEntityRecognition,
@@ -371,7 +371,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             const docs = [
               "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
             ];
-            const poller = await client.beginAnalyzeBatch(
+            const { poller } = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.CustomSingleLabelClassification,
@@ -396,7 +396,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             const docs = [
               "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
             ];
-            const poller = await client.beginAnalyzeBatch(
+            const { poller } = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.CustomMultiLabelClassification,
@@ -554,7 +554,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               text = text + "x";
             }
             const docs = [text];
-            const poller = await client.beginAnalyzeBatch(
+            const { poller } = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.Healthcare,
@@ -572,7 +572,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
         it("unique multiple actions per type are allowed", async function () {
           const docs = ["I will go to the park."];
-          const poller = await client.beginAnalyzeBatch(
+          const { poller } = await client.beginAnalyzeBatch(
             [
               {
                 kind: AnalyzeBatchActionNames.PiiEntityRecognition,
@@ -606,7 +606,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               text: "The restaurant had really good food. I recommend you try it.",
             },
           ];
-          const poller = await client.beginAnalyzeBatch(
+          const { poller } = await client.beginAnalyzeBatch(
             [
               {
                 kind: AnalyzeBatchActionNames.EntityRecognition,
@@ -640,7 +640,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               text: "",
             },
           ];
-          const poller = await client.beginAnalyzeBatch(
+          const { poller } = await client.beginAnalyzeBatch(
             [
               {
                 kind: AnalyzeBatchActionNames.EntityRecognition,
@@ -668,7 +668,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             { id: "4", text: "four" },
             { id: "5", text: "five" },
           ];
-          const poller = await client.beginAnalyzeBatch(
+          const { poller } = await client.beginAnalyzeBatch(
             [
               {
                 kind: AnalyzeBatchActionNames.EntityRecognition,
@@ -696,7 +696,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             { id: "19", text: ":P" },
             { id: "1", text: ":D" },
           ];
-          const poller = await client.beginAnalyzeBatch(
+          const { poller } = await client.beginAnalyzeBatch(
             [
               {
                 kind: AnalyzeBatchActionNames.EntityRecognition,
@@ -718,7 +718,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
         it("statistics", async function () {
           const docs = [":)", ":(", "", ":P", ":D"];
-          const poller = await client.beginAnalyzeBatch(
+          const { poller } = await client.beginAnalyzeBatch(
             [
               {
                 kind: AnalyzeBatchActionNames.EntityRecognition,
@@ -765,7 +765,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             "I did not like the hotel we stayed at. It was too expensive.",
             "The restaurant was not as good as I hoped.",
           ];
-          const poller = await client.beginAnalyzeBatch(
+          const { poller } = await client.beginAnalyzeBatch(
             [
               {
                 kind: AnalyzeBatchActionNames.EntityRecognition,
@@ -792,7 +792,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             "I did not like the hotel we stayed at. It was too expensive.",
             "The restaurant was not as good as I hoped.",
           ];
-          const poller = await client.beginAnalyzeBatch(
+          const { poller } = await client.beginAnalyzeBatch(
             [
               {
                 kind: AnalyzeBatchActionNames.EntityRecognition,
@@ -819,7 +819,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             { id: "2", text: "Este es un document escrito en Español." },
             { id: "3", text: "猫は幸せ" },
           ];
-          const poller = await client.beginAnalyzeBatch(
+          const { poller } = await client.beginAnalyzeBatch(
             [
               {
                 kind: AnalyzeBatchActionNames.EntityRecognition,
@@ -841,7 +841,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
         it("invalid language hint", async function () {
           const docs = ["This should fail because we're passing in an invalid language hint"];
-          const poller = await client.beginAnalyzeBatch(
+          const { poller } = await client.beginAnalyzeBatch(
             [
               {
                 kind: AnalyzeBatchActionNames.EntityRecognition,
@@ -866,7 +866,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           const totalDocs = 25;
           const docs = Array(totalDocs - 1).fill("random text");
           docs.push("Microsoft was founded by Bill Gates and Paul Allen");
-          const poller = await client.beginAnalyzeBatch(
+          const { poller } = await client.beginAnalyzeBatch(
             [
               {
                 kind: AnalyzeBatchActionNames.EntityRecognition,
@@ -888,7 +888,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
         it("operation metadata", async function () {
           const docs = ["I will go to the park."];
-          const poller = await client.beginAnalyzeBatch(
+          const { poller } = await client.beginAnalyzeBatch(
             [
               {
                 kind: AnalyzeBatchActionNames.EntityRecognition,
@@ -925,34 +925,35 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             "Patient does not suffer from high blood pressure.",
             "Prescribed 100mg ibuprofen, taken twice daily.",
           ];
-          const originalPoller = await client.beginAnalyzeBatch(
-            [
+          const { poller: originalPoller, sendCancellationRequest } =
+            await client.beginAnalyzeBatch(
+              [
+                {
+                  kind: AnalyzeBatchActionNames.Healthcare,
+                },
+                {
+                  kind: AnalyzeBatchActionNames.EntityRecognition,
+                },
+                {
+                  kind: AnalyzeBatchActionNames.PiiEntityRecognition,
+                },
+                {
+                  kind: AnalyzeBatchActionNames.SentimentAnalysis,
+                  includeOpinionMining: true,
+                },
+              ],
+              docs,
+              "en",
               {
-                kind: AnalyzeBatchActionNames.Healthcare,
-              },
-              {
-                kind: AnalyzeBatchActionNames.EntityRecognition,
-              },
-              {
-                kind: AnalyzeBatchActionNames.PiiEntityRecognition,
-              },
-              {
-                kind: AnalyzeBatchActionNames.SentimentAnalysis,
-                includeOpinionMining: true,
-              },
-            ],
-            docs,
-            "en",
-            {
-              updateIntervalInMs: pollingInterval,
-            }
-          );
+                updateIntervalInMs: pollingInterval,
+              }
+            );
           if (originalPoller.isDone()) {
             assert.fail(`Operation has finished processing before requested to be cancelled`);
           }
-          await originalPoller.cancelOperation();
-          await assert.isRejected(originalPoller.pollUntilDone(), /Poller cancelled/);
-          assert.isTrue(originalPoller.getOperationState().isCancelled);
+          await sendCancellationRequest();
+          await assert.isRejected(originalPoller.pollUntilDone(), /Operation was cancelled/);
+          assert.equal(originalPoller.getOperationState().status, "canceled");
         });
 
         /**
@@ -980,14 +981,15 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               includeOpinionMining: true,
             },
           ];
-          const originalPoller = await client.beginAnalyzeBatch(actions, docs, "en", {
+          const { poller: originalPoller } = await client.beginAnalyzeBatch(actions, docs, "en", {
             updateIntervalInMs: 100,
           });
 
           originalPoller.onProgress(async (state) => {
             if (state.status === "running" && state.actionInProgressCount < actions.length) {
-              const newPoller = await client.restoreAnalyzeBatchPoller(originalPoller.toString());
-              await originalPoller.cancelOperation();
+              const { poller: newPoller, sendCancellationRequest } =
+                await client.restoreAnalyzeBatchPoller(originalPoller.toString());
+              await sendCancellationRequest();
               let nonEmptyActionResults = false;
               for await (const actionResult of await newPoller.pollUntilDone()) {
                 nonEmptyActionResults = true;
@@ -1010,7 +1012,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             { id: "0", language: "en", text: "Patient does not suffer from high blood pressure." },
             { id: "1", language: "en", text: "Prescribed 100mg ibuprofen, taken twice daily." },
           ];
-          const originalPoller = await client.beginAnalyzeBatch(
+          const { poller: originalPoller } = await client.beginAnalyzeBatch(
             [
               {
                 kind: AnalyzeBatchActionNames.Healthcare,
@@ -1034,9 +1036,18 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           if (originalPoller.isDone()) {
             assert.fail("Operation finished processing before creating a new poller");
           }
+          await originalPoller.poll();
           const serializedState = originalPoller.toString();
-          assert.deepEqual(getDocsFromState(serializedState), docs);
-          const rehydratedPoller = await client.restoreAnalyzeBatchPoller(serializedState);
+          assert.deepEqual(
+            getDocIDsFromState(serializedState),
+            docs.map(({ id }) => id)
+          );
+          const { poller: rehydratedPoller } = await client.restoreAnalyzeBatchPoller(
+            serializedState,
+            {
+              updateIntervalInMs: pollingInterval,
+            }
+          );
           await assertActionResults(await rehydratedPoller.pollUntilDone(), expectation26);
           await assertActionResults(await originalPoller.pollUntilDone(), expectation26);
         });
@@ -1044,7 +1055,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
         describe("stringIndexType", function () {
           it("family emoji wit skin tone modifier", async function () {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987"];
-            const poller = await client.beginAnalyzeBatch(
+            const { poller } = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.PiiEntityRecognition,
@@ -1062,7 +1073,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
           it("family emoji wit skin tone modifier with Utf16CodeUnit", async function () {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen"];
-            const poller = await client.beginAnalyzeBatch(
+            const { poller } = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.Healthcare,
@@ -1080,7 +1091,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
           it("family emoji wit skin tone modifier with UnicodeCodePoint", async function () {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen"];
-            const poller = await client.beginAnalyzeBatch(
+            const { poller } = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.Healthcare,

@@ -37,7 +37,7 @@ export async function main() {
   let continuationToken: string | undefined = undefined;
   let stopOverwrite = false;
 
-  const poller = await client.beginAnalyzeBatch(
+  const { poller } = await client.beginAnalyzeBatch(
     [
       {
         kind: "EntityRecognition",

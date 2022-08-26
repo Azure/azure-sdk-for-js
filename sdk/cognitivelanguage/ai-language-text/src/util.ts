@@ -5,20 +5,16 @@ import { LanguageDetectionInput, TextDocumentInput } from "./generated";
 import { TextAnalysisOperationOptions } from "./models";
 import { logger } from "./logger";
 
-interface IdObject {
-  id: string;
-}
-
 /**
  * Given a sorted array of input objects (with a unique ID) and an unsorted array of results,
  * return a sorted array of results.
  *
  * @internal
- * @param sortedArray - An array of entries sorted by `id`
+ * @param sortedIds - An array of entries sorted by `id`
  * @param unsortedArray - An array of entries that contain `id` but are not sorted
  */
-export function sortResponseIdObjects<U extends IdObject>(
-  sortedArray: IdObject[],
+export function sortResponseIdObjects<U extends { id: string }>(
+  sortedIds: string[],
   unsortedArray: U[]
 ): U[] {
   const unsortedMap = new Map<string, U>();
@@ -26,8 +22,8 @@ export function sortResponseIdObjects<U extends IdObject>(
     unsortedMap.set(item.id, item);
   }
 
-  if (unsortedArray.length !== sortedArray.length) {
-    const ordinal = unsortedArray.length > sortedArray.length ? "more" : "fewer";
+  if (unsortedArray.length !== sortedIds.length) {
+    const ordinal = unsortedArray.length > sortedIds.length ? "more" : "fewer";
     logger.warning(
       `The service returned ${ordinal} responses than inputs. Some errors may be treated as fatal.`
     );
@@ -39,8 +35,8 @@ export function sortResponseIdObjects<U extends IdObject>(
    * items than unsortedArray so it is ok to ignore the case when a sorted item
    * ID is not found in `unsortedMap`.
    */
-  for (const sortedItem of sortedArray) {
-    const item = unsortedMap.get(sortedItem.id);
+  for (const id of sortedIds) {
+    const item = unsortedMap.get(id);
     if (item) {
       result.push(item);
     }

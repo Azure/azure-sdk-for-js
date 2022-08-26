@@ -46,7 +46,7 @@ export async function main() {
     },
   });
 
-  const poller = await client.beginAnalyzeBatch(
+  const { poller } = await client.beginAnalyzeBatch(
     [
       {
         kind: "Healthcare",
