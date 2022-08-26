@@ -7,8 +7,8 @@ import { Context } from "mocha";
 import Personalizer, {
   PersonalizerClient,
   RankRequest,
-  RankResponseOutput,
   RankableAction,
+  isUnexpected,
 } from "../../src";
 import { env } from "process";
 import { assert } from "chai";
@@ -44,10 +44,11 @@ describe("Rank Tests", () => {
       excludedActions: undefined,
     };
     const response = await client.path("/rank").post({ body: request });
-    assert.equal(response.status, "201");
-    const responseBody = response.body as RankResponseOutput;
-    assert.equal(actions.length, responseBody.ranking?.length);
-    responseBody.ranking?.every((val, index) => val === actions[index]);
+    if (isUnexpected(response)) {
+      throw response.body.error.code;
+    }
+    assert.equal(actions.length, response.body.ranking?.length);
+    response.body.ranking?.every((val, index) => val === actions[index]);
   });
 
   it("rank with context features", async function () {
@@ -86,9 +87,10 @@ describe("Rank Tests", () => {
       excludedActions: ["Person1"],
     };
     const response = await client.path("/rank").post({ body: request });
-    assert.equal(response.status, "201");
-    const responseBody = response.body as RankResponseOutput;
-    assert.equal(actions.length, responseBody.ranking?.length);
-    responseBody.ranking?.every((val, index) => val === actions[index]);
+    if (isUnexpected(response)) {
+      throw response.body.error.code;
+    }
+    assert.equal(actions.length, response.body.ranking?.length);
+    response.body.ranking?.every((val, index) => val === actions[index]);
   });
 });

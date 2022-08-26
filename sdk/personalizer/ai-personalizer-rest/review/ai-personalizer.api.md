@@ -13,9 +13,10 @@ import { KeyCredential } from '@azure/core-auth';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-function createClient(Endpoint: string, credentials: KeyCredential, options?: ClientOptions): PersonalizerClient;
+function createClient(Endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): PersonalizerClient;
 export default createClient;
 
 // @public (undocumented)

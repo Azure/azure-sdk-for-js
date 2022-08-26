@@ -4,7 +4,7 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import Personalizer, { ModelPropertiesOutput, PersonalizerClient } from "../../src";
+import Personalizer, { isUnexpected, ModelPropertiesOutput, PersonalizerClient } from "../../src";
 import { env } from "process";
 import { assert } from "chai";
 
@@ -44,22 +44,22 @@ async function exportModelAsync(
 ): Promise<Uint8Array> {
   const queryParameters: Record<string, unknown> = { signed: signed };
   const response = await client.path("/model").get(queryParameters);
-  // if (isUnexpected(response)) {
-  //   throw response.body.error.code;
-  // }
-  return response.body as Uint8Array;
+  if (isUnexpected(response)) {
+    throw response.body.error.code;
+  }
+  return response.body;
 }
 
 async function importModelAsync(client: PersonalizerClient, modelBytes: Uint8Array) {
-  await client.path("/model").put({ body: modelBytes });
-  // if (isUnexpected(response)) {
-  //   throw response.body.error.code;
-  // }
+  const response = await client.path("/model").put({ body: modelBytes });
+  if (isUnexpected(response)) {
+    throw response.body.error.code;
+  }
 }
 
 async function getModelPropertiesAsync(client: PersonalizerClient): Promise<ModelPropertiesOutput> {
   const response = await client.path("/model/properties").get();
-  return response.body as ModelPropertiesOutput;
+  return response.body;
 }
 
 function assertArrayEquals(actual: Uint8Array, expected: Uint8Array) {

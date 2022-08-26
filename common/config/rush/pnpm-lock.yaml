@@ -8,6 +8,7 @@ specifiers:
   '@rush-temp/ai-form-recognizer': file:./projects/ai-form-recognizer.tgz
   '@rush-temp/ai-language-text': file:./projects/ai-language-text.tgz
   '@rush-temp/ai-metrics-advisor': file:./projects/ai-metrics-advisor.tgz
+  '@rush-temp/ai-personalizer': file:./projects/ai-personalizer.tgz
   '@rush-temp/ai-text-analytics': file:./projects/ai-text-analytics.tgz
   '@rush-temp/api-management-custom-widgets-scaffolder': file:./projects/api-management-custom-widgets-scaffolder.tgz
   '@rush-temp/api-management-custom-widgets-tools': file:./projects/api-management-custom-widgets-tools.tgz

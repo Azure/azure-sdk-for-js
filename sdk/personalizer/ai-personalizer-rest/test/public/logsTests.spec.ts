@@ -5,7 +5,7 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import Personalizer, { LogsPropertiesOutput, PersonalizerClient } from "../../src";
+import Personalizer, { isUnexpected, LogsPropertiesOutput, PersonalizerClient } from "../../src";
 import { env } from "process";
 
 describe("Log Tests", () => {
@@ -32,16 +32,16 @@ describe("Log Tests", () => {
 });
 
 async function deleteLogsAsync(client: PersonalizerClient) {
-  await client.path("/logs").delete();
-  // if (isUnexpected(response)) {
-  //   throw response.body.error.code;
-  // }
+  const response = await client.path("/logs").delete();
+  if (isUnexpected(response)) {
+    throw response.body.error.code;
+  }
 }
 
 async function getLogPropertiesAsync(client: PersonalizerClient): Promise<LogsPropertiesOutput> {
   const response = await client.path("/logs/properties").get();
-  // if (isUnexpected(response)) {
-  //   throw response.body.error.code;
-  // }
-  return response.body as LogsPropertiesOutput;
+  if (isUnexpected(response)) {
+    throw response.body.error.code;
+  }
+  return response.body;
 }

@@ -5,7 +5,7 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import Personalizer, {
-  MultiSlotRankResponseOutput,
+  isUnexpected,
   PersonalizerClient,
   RankableAction,
   SlotRequest,
@@ -43,13 +43,21 @@ describe("Multi-Slot Rank Tests", () => {
     const response = await client
       .path("/multislot/rank")
       .post({ body: { actions: actions, slots: slots, eventId: eventId } });
-    assert.equal(response.status, "201");
-    const responseBody = response.body as MultiSlotRankResponseOutput;
-    const responseSlots = responseBody.slots as Array<SlotResponseOutput>;
-    assert.equal(responseBody.eventId, eventId);
-    assert.equal(slots.length, responseSlots.length);
-    assert.equal("NewsArticle", responseSlots[0].rewardActionId);
-    assert.equal("SportsArticle", responseSlots[1].rewardActionId);
+    if (isUnexpected(response)) {
+      throw response.body.error.code;
+    }
+
+    assert.equal(response.body.eventId, eventId);
+    assert.exists(response.body.slots);
+    assert.equal(slots.length, response.body.slots?.length);
+    assert.equal(
+      0,
+      response.body.slots?.findIndex((slot) => slot.rewardActionId === "NewsArticle")
+    );
+    assert.equal(
+      1,
+      response.body.slots?.findIndex((slot) => slot.rewardActionId === "SportsArticle")
+    );
   });
 
   it("rank with context features", async function () {
@@ -58,8 +66,10 @@ describe("Multi-Slot Rank Tests", () => {
     const response = await client
       .path("/multislot/rank")
       .post({ body: { actions: actions, slots: slots, contextFeatures: getContextFeatures() } });
-    assert.equal(response.status, "201");
-    const responseBody = response.body as MultiSlotRankResponseOutput;
+    if (isUnexpected(response)) {
+      throw response.body.error.code;
+    }
+    const responseBody = response.body;
     const responseSlots = responseBody.slots as Array<SlotResponseOutput>;
     assert.equal(slots.length, responseSlots.length);
     assert.equal("NewsArticle", responseSlots[0].rewardActionId);

@@ -175,7 +175,8 @@ export function isUnexpected(
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
-  let pathDetails = responseMap[`${method} ${url.pathname}`];
+  const urlpathname = url.pathname.replace("/personalizer/v1.1-preview.3", "");
+  let pathDetails = responseMap[`${method} ${urlpathname}`];
   if (!pathDetails) {
     pathDetails = geParametrizedPathSuccess(url.pathname);
   }
