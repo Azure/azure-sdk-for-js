@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { isDefined } from "./index";
+import { isDefined } from "./typeGuards";
 
 const StandardAbortMessage = "The operation was aborted.";
 
