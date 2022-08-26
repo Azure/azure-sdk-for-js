@@ -148,6 +148,7 @@ specifiers:
   '@rush-temp/arm-privatedns': file:./projects/arm-privatedns.tgz
   '@rush-temp/arm-purview': file:./projects/arm-purview.tgz
   '@rush-temp/arm-quota': file:./projects/arm-quota.tgz
+  '@rush-temp/arm-recommendationsservice': file:./projects/arm-recommendationsservice.tgz
   '@rush-temp/arm-recoveryservices': file:./projects/arm-recoveryservices.tgz
   '@rush-temp/arm-recoveryservices-siterecovery': file:./projects/arm-recoveryservices-siterecovery.tgz
   '@rush-temp/arm-recoveryservicesbackup': file:./projects/arm-recoveryservicesbackup.tgz
@@ -452,6 +453,7 @@ dependencies:
   '@rush-temp/arm-privatedns': file:projects/arm-privatedns.tgz
   '@rush-temp/arm-purview': file:projects/arm-purview.tgz
   '@rush-temp/arm-quota': file:projects/arm-quota.tgz
+  '@rush-temp/arm-recommendationsservice': file:projects/arm-recommendationsservice.tgz
   '@rush-temp/arm-recoveryservices': file:projects/arm-recoveryservices.tgz
   '@rush-temp/arm-recoveryservices-siterecovery': file:projects/arm-recoveryservices-siterecovery.tgz
   '@rush-temp/arm-recoveryservicesbackup': file:projects/arm-recoveryservicesbackup.tgz
@@ -4080,7 +4082,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220823
+      typescript: 4.9.0-dev.20220825
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8991,8 +8993,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220823:
-    resolution: {integrity: sha512-8LTaS3Uev9r3Mj6CzXIpr1KQdFD+98bM1Y/tuXUpKGoPWnplMoralGsxflIMa5l6O8P0NPqioDJDsxWeHsxA5A==}
+  /typescript/4.9.0-dev.20220825:
+    resolution: {integrity: sha512-X6bFdJycFPfp4CC8RqOZkCQauNIayamosrtovm6UlCjez9AKMQ1TQJiwReDybks9TGHR3LegEIvLIMWj+uiHYg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -13866,6 +13868,33 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-recommendationsservice.tgz:
+    resolution: {integrity: sha512-stm4tGLD/UvqE2wHh17/meg/FJNrxVa12+tUlGsIdypsq41sInT7SM4xXuSWkb+QmNT+jDwK05JIoSwjBLOKsA==, tarball: file:projects/arm-recommendationsservice.tgz}
+    name: '@rush-temp/arm-recommendationsservice'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.16.3
+    transitivePeerDependencies:
+      - '@types/node'
       - supports-color
     dev: false
 

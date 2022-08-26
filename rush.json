@@ -1830,6 +1830,11 @@
       "packageName": "@azure/arm-nginx",
       "projectFolder": "sdk/nginx/arm-nginx",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-recommendationsservice",
+      "projectFolder": "sdk/recommendationsservice/arm-recommendationsservice",
+      "versionPolicyName": "management"
     }
   ]
 }
