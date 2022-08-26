@@ -10,4 +10,3 @@ stages:
         LEDGER_IDENTITY: $(ledgerName)
         IDENTITY_SERVICE_URL: https://identity.confidential-ledger.core.azure.com/ledgerIdentity/$(ledgerName)
         LEDGER_NAME: $(ledgerName)
-      MaxParallel: 1
