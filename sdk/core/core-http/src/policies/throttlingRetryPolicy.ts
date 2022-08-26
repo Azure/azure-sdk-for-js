@@ -12,7 +12,7 @@ import { Constants } from "../util/constants";
 import { DEFAULT_CLIENT_MAX_RETRY_COUNT } from "../util/throttlingRetryStrategy";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResourceLike } from "../webResource";
-import { delay } from "../util/delay";
+import { delay } from "@azure/core-util";
 
 type ResponseHandler = (
   httpRequest: WebResourceLike,
