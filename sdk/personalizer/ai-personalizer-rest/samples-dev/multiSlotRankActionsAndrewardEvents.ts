@@ -5,9 +5,8 @@
  * @summary Demonstrates the use of a Personalizer client to rank actions for multiple slots and reward the presented action.
  */
 import Personalizer, {
-  ErrorResponseOutput,
+  isUnexpected,
   MultiSlotRankRequest,
-  MultiSlotRankResponseOutput,
   PersonalizerErrorOutput,
   RankableAction,
   SlotRequest,
@@ -32,11 +31,11 @@ async function main() {
 
   console.log("Sending multi-slot rank request");
   const rankResponse = await client.path("/multislot/rank").post({ body: request });
-  if (rankResponse.status != "201") {
-    const error = rankResponse.body as ErrorResponseOutput;
-    throw error.error;
+  if (isUnexpected(rankResponse)) {
+    throw rankResponse.body.error.code;
   }
-  const rankOutput = rankResponse.body as MultiSlotRankResponseOutput;
+
+  const rankOutput = rankResponse.body;
   const eventId = rankOutput.eventId as string;
   const slotResponses = rankOutput.slots as SlotResponseOutput[];
   console.log(`Rank returned response with event id ${eventId} and recommended the following:`);
@@ -47,14 +46,14 @@ async function main() {
   // The event response will be determined by how the user interacted with the action that was presented to them.
   // Let us say that they like the action presented to them for the Main Article slot and so we associate a reward of 1.
   console.log("Sending reward event for slot 1");
+
   const eventResponse = await client
     .path("/multislot/events/{eventId}/reward", eventId)
     .post({ body: { reward: [{ slotId: "Main Article", value: 1 }] } });
-  if (eventResponse.status != "204") {
-    const error = eventResponse.body as ErrorResponseOutput;
-    throw error.error;
+  if (isUnexpected(eventResponse)) {
+    throw eventResponse.body.error.code;
   }
-  
+
   console.log("Completed sending reward response");
 }
 

@@ -5,11 +5,10 @@
  * @summary Demonstrates the use of a Personalizer client to rank actions and reward the presented action.
  */
 import Personalizer, {
-  ErrorResponseOutput,
+  isUnexpected,
   PersonalizerErrorOutput,
   RankableAction,
   RankRequest,
-  RankResponseOutput,
 } from "@azure-rest/ai-personalizer";
 
 // Load the .env file if it exists
@@ -59,11 +58,11 @@ async function main() {
 
   console.log("Sending rank request");
   const rankResponse = await client.path("/rank").post({ body: request });
-  if (rankResponse.status != "201") {
-    const error = rankResponse.body as ErrorResponseOutput;
-    throw error.error;
+  if (isUnexpected(rankResponse)) {
+    throw rankResponse.body.error.code;
   }
-  const rankOutput = rankResponse.body as RankResponseOutput;
+
+  const rankOutput = rankResponse.body;
   const eventId = rankOutput.eventId as string;
   console.log(
     `Rank returned response with event id ${eventId} and recommended ${rankOutput.rewardActionId} as the best action`
@@ -75,9 +74,8 @@ async function main() {
   const eventResponse = await client
     .path("/events/{eventId}/reward", eventId)
     .post({ body: { value: 1 } });
-  if (eventResponse.status != "204") {
-    const error = eventResponse.body as ErrorResponseOutput;
-    throw error.error;
+  if (isUnexpected(eventResponse)) {
+    throw eventResponse.body.error.code;
   }
 
   console.log("Completed sending reward response");

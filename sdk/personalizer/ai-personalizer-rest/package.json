@@ -113,10 +113,12 @@
   },
   "//sampleConfiguration": {
     "productName": "Azure Personalizer",
-    "productSlugs": ["azure"],
+    "productSlugs": [
+      "azure"
+    ],
     "disableDocsMs": true,
     "apiRefLink": "https://docs.microsoft.com/en-us/azure/cognitive-services/personalizer/"
-    },
+  },
   "browser": {
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
   }

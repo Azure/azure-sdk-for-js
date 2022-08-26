@@ -6,6 +6,7 @@ import { assert } from "chai";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import Personalizer, {
+  isUnexpected,
   PersonalizerClient,
   PolicyContract,
   PolicyContractOutput,
@@ -83,11 +84,10 @@ async function getConfigurationAsync(
   client: PersonalizerClient
 ): Promise<ServiceConfigurationOutput> {
   const response = await client.path("/configurations/service").get();
-  // TODO: isUnexpected does not work as expected since responseMap does not include the baseUrl ( /personalizer/v1.1-preview.3) in the dictionary.
-  // if (isUnexpected(response)) {
-  //   throw response.body.error.code;
-  // }
-  return response.body as ServiceConfigurationOutput;
+  if (isUnexpected(response)) {
+    throw response.body.error.code;
+  }
+  return response.body;
 }
 
 async function updateConfigurationAsync(
@@ -95,20 +95,18 @@ async function updateConfigurationAsync(
   configuration: ServiceConfigurationUpdateParameters
 ): Promise<ServiceConfigurationOutput> {
   const response = await client.path("/configurations/service").put(configuration);
-  // TODO: isUnexpected does not work as expected since responseMap does not include the baseUrl ( /personalizer/v1.1-preview.3) in the dictionary.
-  // if (isUnexpected(response)) {
-  //   throw response.body.error.code;
-  // }
-  return response.body as ServiceConfigurationOutput;
+  if (isUnexpected(response)) {
+    throw response.body.error.code;
+  }
+  return response.body;
 }
 
 async function getPolicyAsync(client: PersonalizerClient): Promise<PolicyContractOutput> {
   const response = await client.path("/configurations/policy").get();
-  // TODO: isUnexpected does not work as expected since responseMap does not include the baseUrl ( /personalizer/v1.1-preview.3) in the dictionary.
-  // if (isUnexpected(response)) {
-  //   throw response.body.error.code;
-  // }
-  return response.body as PolicyContractOutput;
+  if (isUnexpected(response)) {
+    throw response.body.error.code;
+  }
+  return response.body;
 }
 
 async function updatePolicyAsync(
@@ -116,20 +114,18 @@ async function updatePolicyAsync(
   policy: PolicyUpdateParameters
 ): Promise<PolicyContractOutput> {
   const response = await client.path("/configurations/policy").put(policy);
-  // TODO: isUnexpected does not work as expected since responseMap does not include the baseUrl ( /personalizer/v1.1-preview.3) in the dictionary.
-  // if (isUnexpected(response)) {
-  //   throw response.body.error.code;
-  // }
-  return response.body as PolicyContractOutput;
+  if (isUnexpected(response)) {
+    throw response.body.error.code;
+  }
+  return response.body;
 }
 
 async function resetPolicyAsync(client: PersonalizerClient): Promise<PolicyContractOutput> {
   const response = await client.path("/configurations/policy").delete();
-  // TODO: isUnexpected does not work as expected since responseMap does not include the baseUrl ( /personalizer/v1.1-preview.3) in the dictionary.
-  // if (isUnexpected(response)) {
-  //   throw response.body.error.code;
-  // }
-  return response.body as PolicyContractOutput;
+  if (isUnexpected(response)) {
+    throw response.body.error.code;
+  }
+  return response.body;
 }
 function assertServiceConfigurationEquals(
   actual: ServiceConfigurationOutput,

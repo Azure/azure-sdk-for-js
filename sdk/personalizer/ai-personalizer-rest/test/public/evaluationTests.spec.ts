@@ -5,7 +5,12 @@ import { Recorder, delay } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import Personalizer, { EvaluationContract, EvaluationOutput, PersonalizerClient } from "../../src";
+import Personalizer, {
+  EvaluationContract,
+  EvaluationOutput,
+  isUnexpected,
+  PersonalizerClient,
+} from "../../src";
 import { env } from "process";
 
 describe("Evaluation Tests", () => {
@@ -32,9 +37,12 @@ describe("Evaluation Tests", () => {
       policies: [],
     };
     const response = await createEvaluationAsync(client, evaluationContract);
-    assert.equal(response.status, "201");
-    let evaluation = response.body as EvaluationOutput;
-    const evaluationId = evaluation.id as string;
+    if (isUnexpected(response)) {
+      throw response.body.error.code;
+    }
+    let evaluation = response.body;
+    assert.exists(evaluation.id);
+    const evaluationId = evaluation.id ?? "";
     await waitForEvaluationToFinishAsync(client, evaluationId);
     evaluation = await getEvaluationAsync(client, evaluationId);
     assert.notEqual(
@@ -77,11 +85,16 @@ async function getEvaluationAsync(
   evaluationId: string
 ): Promise<EvaluationOutput> {
   const response = await client.path("/evaluations/{evaluationId}", evaluationId).get();
-  assert.equal(response.status, "200");
-  return response.body as EvaluationOutput;
+  if (isUnexpected(response)) {
+    throw response.body.error.code;
+  }
+
+  return response.body;
 }
 
 async function deleteEvaluationAsync(client: PersonalizerClient, evaluationId: string) {
   const response = await client.path("/evaluations/{evaluationId}", evaluationId).delete();
-  assert.equal(response.status, "204");
+  if (isUnexpected(response)) {
+    throw response.body.error.code;
+  }
 }
