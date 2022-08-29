@@ -265,21 +265,19 @@ describe("Send Batch", () => {
       await afterEachTest();
     });
 
-    function prepareMessages(useSessions: boolean): ServiceBusMessage[] {
-      const messagesToSend: ServiceBusMessage[] = [];
-      messagesToSend.push({
+    function prepareMessage(useSessions: boolean): ServiceBusMessage {
+      return {
         body: Buffer.alloc(1024 * 1024),
         sessionId: useSessions ? `s` : undefined,
-      });
-      return messagesToSend;
+      };
     }
 
     async function testSend(): Promise<void> {
       // Prepare messages to send
-      const messagesToSend = prepareMessages(entityNames.usesSessions);
-      await sender.sendMessages(messagesToSend[0]);
+      const messageToSend = prepareMessage(entityNames.usesSessions);
+      await sender.sendMessages(messageToSend);
       // receive all the messages in receive and delete mode
-      await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, messagesToSend);
+      await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, [messageToSend]);
     }
 
     it(`${noSessionTestClientType}: SendBatch`, async function (): Promise<void> {
