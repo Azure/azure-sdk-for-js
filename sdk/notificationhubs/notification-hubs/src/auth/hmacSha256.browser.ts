@@ -78,5 +78,5 @@ export async function signString(key: string, toSign: string): Promise<string> {
   const signature = await self.crypto.subtle.sign(algorithm, extractedKey, enc.encode(toSign));
   const digest = btoa(String.fromCharCode(...new Uint8Array(signature)));
 
-  return digest;
+  return encodeURIComponent(digest);
 }

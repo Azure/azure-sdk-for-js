@@ -9,6 +9,12 @@
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 
+export type OperationDetailsUnion =
+  | OperationDetails
+  | DocumentModelBuildOperationDetails
+  | DocumentModelComposeOperationDetails
+  | DocumentModelCopyToOperationDetails;
+
 /** Document analysis parameters. */
 export interface AnalyzeDocumentRequest {
   /** Document URL to analyze */
@@ -89,8 +95,6 @@ export interface AnalyzeResult {
 
 /** Content and layout elements extracted from a page from the input. */
 export interface DocumentPage {
-  /** Kind of document page. */
-  kind: DocumentPageKind;
   /** 1-based page number in the input document. */
   pageNumber: number;
   /** The general orientation of the content in clockwise direction, measured in degrees between (-180, 180]. */
@@ -107,8 +111,6 @@ export interface DocumentPage {
   words?: DocumentWord[];
   /** Extracted selection marks from the page. */
   selectionMarks?: DocumentSelectionMark[];
-  /** Extracted images from the page. */
-  images?: DocumentImage[];
   /** Extracted lines from the page, potentially containing both textual and visual elements. */
   lines?: DocumentLine[];
 }
@@ -142,18 +144,6 @@ export interface DocumentSelectionMark {
   /** Location of the selection mark in the reading order concatenated content. */
   span: DocumentSpan;
   /** Confidence of correctly extracting the selection mark. */
-  confidence: number;
-}
-
-/** An image object detected in the page. */
-export interface DocumentImage {
-  /** Bounding polygon of the image. */
-  polygon?: number[];
-  /** Location of the image in the reading order concatenated content. */
-  span: DocumentSpan;
-  /** 0-based index of the global pages array that containing the content of the image. */
-  pageRef: number;
-  /** Confidence of correctly identifying the image. */
   confidence: number;
 }
 
@@ -195,10 +185,6 @@ export interface DocumentTable {
   columnCount: number;
   /** Cells contained within the table. */
   cells: DocumentTableCell[];
-  /** Caption associated with the table. */
-  caption?: DocumentCaption;
-  /** Footnotes associated with the table. */
-  footnotes?: DocumentFootnote[];
   /** Bounding regions covering the table. */
   boundingRegions?: BoundingRegion[];
   /** Location of the table in the reading order concatenated content. */
@@ -222,26 +208,6 @@ export interface DocumentTableCell {
   /** Bounding regions covering the table cell. */
   boundingRegions?: BoundingRegion[];
   /** Location of the table cell in the reading order concatenated content. */
-  spans: DocumentSpan[];
-}
-
-/** An object representing the location and content of a table caption. */
-export interface DocumentCaption {
-  /** Table caption content. */
-  content: string;
-  /** Bounding regions covering the table caption. */
-  boundingRegions?: BoundingRegion[];
-  /** Location of the table caption in the reading order concatenated content. */
-  spans: DocumentSpan[];
-}
-
-/** An object representing the location and content of a table footnote. */
-export interface DocumentFootnote {
-  /** Table footnote content. */
-  content: string;
-  /** Bounding regions covering the table footnote. */
-  boundingRegions?: BoundingRegion[];
-  /** Location of the table footnote in the reading order concatenated content. */
   spans: DocumentSpan[];
 }
 
@@ -466,7 +432,31 @@ export interface OperationSummary {
   tags?: { [propertyName: string]: string };
 }
 
-/** List Document models response object. */
+/** Get Operation response object. */
+export interface OperationDetails {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "documentModelBuild" | "documentModelCompose" | "documentModelCopyTo";
+  /** Operation ID */
+  operationId: string;
+  /** Operation status. */
+  status: OperationStatus;
+  /** Operation progress (0-100). */
+  percentCompleted?: number;
+  /** Date and time (UTC) when the operation was created. */
+  createdDateTime: Date;
+  /** Date and time (UTC) when the status was last updated. */
+  lastUpdatedDateTime: Date;
+  /** URL of the resource targeted by this operation. */
+  resourceLocation: string;
+  /** API version used to create this operation. */
+  apiVersion?: string;
+  /** List of key-value tag attributes associated with the document model. */
+  tags?: { [propertyName: string]: string };
+  /** Encountered error. */
+  error?: ErrorModel;
+}
+
+/** List document models response object. */
 export interface GetDocumentModelsResponse {
   /** List of document models. */
   value: DocumentModelSummary[];
@@ -486,6 +476,22 @@ export interface DocumentModelSummary {
   apiVersion?: string;
   /** List of key-value tag attributes associated with the document model. */
   tags?: { [propertyName: string]: string };
+}
+
+/** Document model info. */
+export interface DocumentModelDetails {
+  /** Unique document model name. */
+  modelId: string;
+  /** Document model description. */
+  description?: string;
+  /** Date and time (UTC) when the document model was created. */
+  createdDateTime: Date;
+  /** API version used to create this document model. */
+  apiVersion?: string;
+  /** List of key-value tag attributes associated with the document model. */
+  tags?: { [propertyName: string]: string };
+  /** Supported document types. */
+  docTypes?: { [propertyName: string]: DocumentTypeDetails };
 }
 
 /** Document type info. */
@@ -529,17 +535,27 @@ export interface CustomDocumentModelsDetails {
 }
 
 /** Get Operation response object. */
-export interface OperationDetails extends OperationSummary {
-  /** Encountered error. */
-  error?: ErrorModel;
+export interface DocumentModelBuildOperationDetails extends OperationDetails {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "documentModelBuild";
   /** Operation result upon success. */
-  result?: Record<string, unknown>;
+  result?: DocumentModelDetails;
 }
 
-/** Document model info. */
-export interface DocumentModelDetails extends DocumentModelSummary {
-  /** Supported document types. */
-  docTypes?: { [propertyName: string]: DocumentTypeDetails };
+/** Get Operation response object. */
+export interface DocumentModelComposeOperationDetails extends OperationDetails {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "documentModelCompose";
+  /** Operation result upon success. */
+  result?: DocumentModelDetails;
+}
+
+/** Get Operation response object. */
+export interface DocumentModelCopyToOperationDetails extends OperationDetails {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "documentModelCopyTo";
+  /** Operation result upon success. */
+  result?: DocumentModelDetails;
 }
 
 /** Defines headers for GeneratedClient_analyzeDocument operation. */
@@ -589,8 +605,8 @@ export type StringIndexType = string;
 
 /** Known values of {@link ApiVersion} that the service accepts. */
 export enum KnownApiVersion {
-  /** TwoThousandTwentyTwo0630Preview */
-  TwoThousandTwentyTwo0630Preview = "2022-06-30-preview"
+  /** TwoThousandTwentyTwo0831 */
+  TwoThousandTwentyTwo0831 = "2022-08-31"
 }
 
 /**
@@ -598,33 +614,9 @@ export enum KnownApiVersion {
  * {@link KnownApiVersion} can be used interchangeably with ApiVersion,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2022-06-30-preview**
+ * **2022-08-31**
  */
 export type ApiVersion = string;
-
-/** Known values of {@link DocumentPageKind} that the service accepts. */
-export enum KnownDocumentPageKind {
-  /** Document */
-  Document = "document",
-  /** Sheet */
-  Sheet = "sheet",
-  /** Slide */
-  Slide = "slide",
-  /** Image */
-  Image = "image"
-}
-
-/**
- * Defines values for DocumentPageKind. \
- * {@link KnownDocumentPageKind} can be used interchangeably with DocumentPageKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **document** \
- * **sheet** \
- * **slide** \
- * **image**
- */
-export type DocumentPageKind = string;
 
 /** Known values of {@link LengthUnit} that the service accepts. */
 export enum KnownLengthUnit {
@@ -830,9 +822,6 @@ export type OperationKind = string;
 export type ContentType =
   | "application/octet-stream"
   | "application/pdf"
-  | "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-  | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-  | "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
   | "image/bmp"
   | "image/heif"
   | "image/jpeg"
@@ -857,17 +846,6 @@ export interface AnalyzeDocument$binaryOptionalParams
   extends coreClient.OperationOptions {
   /** Analyze request parameters. */
   analyzeRequest?: coreRestPipeline.RequestBodyType;
-  /** List of 1-based page numbers to analyze.  Ex. "1-3,5,7-9" */
-  pages?: string;
-  /** Locale hint for text recognition and document analysis.  Value may contain only the language code (ex. "en", "fr") or BCP 47 language tag (ex. "en-US"). */
-  locale?: string;
-}
-
-/** Optional parameters. */
-export interface AnalyzeDocument$textOptionalParams
-  extends coreClient.OperationOptions {
-  /** Analyze request parameters. */
-  analyzeRequest?: string;
   /** List of 1-based page numbers to analyze.  Ex. "1-3,5,7-9" */
   pages?: string;
   /** Locale hint for text recognition and document analysis.  Value may contain only the language code (ex. "en", "fr") or BCP 47 language tag (ex. "en-US"). */
@@ -935,7 +913,7 @@ export interface GetOperationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOperation operation. */
-export type GetOperationResponse = OperationDetails;
+export type GetOperationResponse = OperationDetailsUnion;
 
 /** Optional parameters. */
 export interface GetDocumentModelsOptionalParams
