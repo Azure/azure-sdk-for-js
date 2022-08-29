@@ -54,7 +54,7 @@ const fieldIdToName = {
     displayName: "Widget display name",
     technology: "Technology",
     iconUrl: "iconUrl",
-    resourceId: "Azure API Management resource ID",
+    resourceId: "Azure API Management resource ID (following format: subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.ApiManagement/service/<api-management service-name>)",
     managementApiEndpoint: "Management API hostname",
     apiVersion: "Management API version",
     openUrl: "Developer portal URL",
@@ -95,12 +95,7 @@ const validateDeployConfig = {
             ? true
             : "Resource ID needs to be a valid Azure resource ID. For example, subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso-group/providers/Microsoft.ApiManagement/service/contoso-apis.";
     },
-    managementApiEndpoint: (input) => {
-        const required = validateRequired(fieldIdToName.managementApiEndpoint)(input);
-        if (required !== true)
-            return required;
-        return validateUrl(fieldIdToName.managementApiEndpoint)(input);
-    },
+    managementApiEndpoint: (input) => validateRequired(fieldIdToName.managementApiEndpoint)(input),
 };
 const validateMiscConfig = {
     openUrl: (input) => {
@@ -136,9 +131,16 @@ const promptDeployConfig = (partial) => inquirer__default["default"].prompt([
     },
     {
         name: "managementApiEndpoint",
-        type: "input",
+        type: "list",
         message: fieldIdToName.managementApiEndpoint,
-        default: "management.azure.com",
+        choices: [
+            {
+                name: "management.azure.com (if you're not sure what to select, use this option)",
+                value: "management.azure.com",
+            },
+            { name: "management.usgovcloudapi.net", value: "management.usgovcloudapi.net" },
+            { name: "management.chinacloudapi.cn", value: "management.chinacloudapi.cn" },
+        ],
         transformer: prefixUrlProtocol,
         validate: validateDeployConfig.managementApiEndpoint,
     },

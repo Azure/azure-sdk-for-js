@@ -11,8 +11,6 @@ import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-a
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { createSpan, logger } from "./utils";
 import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
 import {
   PhoneNumberCapabilitiesRequest,
@@ -34,6 +32,8 @@ import {
 } from "./lroModels";
 import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies";
 import { CommonClientOptions } from "@azure/core-client";
+import { logger } from "./utils";
+import { tracingClient } from "./generated/src/tracing";
 
 /**
  * Client options used to configure the PhoneNumbersClient API requests.
@@ -114,25 +114,17 @@ export class PhoneNumbersClient {
    * @param phoneNumber - The E.164 formatted phone number being fetched. The leading plus can be either + or encoded as %2B.
    * @param options - Additional request options.
    */
-  public async getPurchasedPhoneNumber(
+  public getPurchasedPhoneNumber(
     phoneNumber: string,
     options: GetPurchasedPhoneNumberOptions = {}
   ): Promise<PurchasedPhoneNumber> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "PhoneNumbersClient-getPurchasedPhoneNumber",
-      options
+      options,
+      (updatedOptions) => {
+        return this.client.phoneNumbers.getByNumber(phoneNumber, updatedOptions);
+      }
     );
-    try {
-      return await this.client.phoneNumbers.getByNumber(phoneNumber, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -151,13 +143,23 @@ export class PhoneNumbersClient {
   public listPurchasedPhoneNumbers(
     options: ListPurchasedPhoneNumbersOptions = {}
   ): PagedAsyncIterableIterator<PurchasedPhoneNumber> {
-    const { span, updatedOptions } = createSpan(
+    const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-listPurchasedPhoneNumbers",
       options
     );
-    const iter = this.client.phoneNumbers.listPhoneNumbers(updatedOptions);
-    span.end();
-    return iter;
+
+    try {
+      return this.client.phoneNumbers.listPhoneNumbers(updatedOptions);
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -180,26 +182,17 @@ export class PhoneNumbersClient {
    * @param phoneNumber - The E.164 formatted phone number being released. The leading plus can be either + or encoded as %2B.
    * @param options - Additional request options.
    */
-  public async beginReleasePhoneNumber(
+  public beginReleasePhoneNumber(
     phoneNumber: string,
     options: BeginReleasePhoneNumberOptions = {}
   ): Promise<PollerLike<PollOperationState<ReleasePhoneNumberResult>, ReleasePhoneNumberResult>> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "PhoneNumbersClient-beginReleasePhoneNumber",
-      options
+      options,
+      (updatedOptions) => {
+        return this.client.phoneNumbers.beginReleasePhoneNumber(phoneNumber, updatedOptions);
+      }
     );
-
-    try {
-      return await this.client.phoneNumbers.beginReleasePhoneNumber(phoneNumber, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -224,36 +217,27 @@ export class PhoneNumbersClient {
    * @param search - Request properties to constraint the search scope.
    * @param options - Additional request options.
    */
-  public async beginSearchAvailablePhoneNumbers(
+  public beginSearchAvailablePhoneNumbers(
     search: SearchAvailablePhoneNumbersRequest,
     options: BeginSearchAvailablePhoneNumbersOptions = {}
   ): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "PhoneNumbersClient-beginSearchAvailablePhoneNumbers",
-      options
+      options,
+      (updatedOptions) => {
+        const { countryCode, phoneNumberType, assignmentType, capabilities, ...rest } = search;
+        return this.client.phoneNumbers.beginSearchAvailablePhoneNumbers(
+          countryCode,
+          phoneNumberType,
+          assignmentType,
+          capabilities,
+          {
+            ...updatedOptions,
+            ...rest,
+          }
+        );
+      }
     );
-
-    try {
-      const { countryCode, phoneNumberType, assignmentType, capabilities, ...rest } = search;
-      return this.client.phoneNumbers.beginSearchAvailablePhoneNumbers(
-        countryCode,
-        phoneNumberType,
-        assignmentType,
-        capabilities,
-        {
-          ...updatedOptions,
-          ...rest,
-        }
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -277,28 +261,19 @@ export class PhoneNumbersClient {
    * @param searchId - The id of the search to purchase. Returned from `beginSearchAvailablePhoneNumbers`
    * @param options - Additional request options.
    */
-  public async beginPurchasePhoneNumbers(
+  public beginPurchasePhoneNumbers(
     searchId: string,
     options: BeginPurchasePhoneNumbersOptions = {}
   ): Promise<
     PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>
   > {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "PhoneNumbersClient-beginPurchasePhoneNumbers",
-      options
+      options,
+      (updatedOptions) => {
+        return this.client.phoneNumbers.beginPurchasePhoneNumbers({ ...updatedOptions, searchId });
+      }
     );
-
-    try {
-      return this.client.phoneNumbers.beginPurchasePhoneNumbers({ ...updatedOptions, searchId });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -323,29 +298,20 @@ export class PhoneNumbersClient {
    * @param request - The updated properties which will be applied to the phone number.
    * @param options - Additional request options.
    */
-  public async beginUpdatePhoneNumberCapabilities(
+  public beginUpdatePhoneNumberCapabilities(
     phoneNumber: string,
     request: PhoneNumberCapabilitiesRequest,
     options: BeginUpdatePhoneNumberCapabilitiesOptions = {}
   ): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "PhoneNumbersClient-beginUpdatePhoneNumberCapabilities",
-      options
+      options,
+      (updatedOptions) => {
+        return this.client.phoneNumbers.beginUpdateCapabilities(phoneNumber, {
+          ...updatedOptions,
+          ...request,
+        });
+      }
     );
-
-    try {
-      return this.client.phoneNumbers.beginUpdateCapabilities(phoneNumber, {
-        ...updatedOptions,
-        ...request,
-      });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 }

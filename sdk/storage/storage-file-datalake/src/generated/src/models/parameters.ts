@@ -114,7 +114,7 @@ export const timeout: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2021-08-06",
+    defaultValue: "2021-10-04",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -936,6 +936,17 @@ export const transactionalContentCrc64: OperationParameter = {
     xmlName: "x-ms-content-crc64",
     type: {
       name: "ByteArray"
+    }
+  }
+};
+
+export const flush: OperationQueryParameter = {
+  parameterPath: ["options", "flush"],
+  mapper: {
+    serializedName: "flush",
+    xmlName: "flush",
+    type: {
+      name: "Boolean"
     }
   }
 };

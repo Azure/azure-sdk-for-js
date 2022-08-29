@@ -64,30 +64,6 @@ describe("supports tracing", function () {
         }),
         ["DocumentAnalysisClient.beginAnalyzeDocument"]
       ));
-
-    it("beginExtractLayout", () =>
-      assert.supportsTracing(
-        fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await dac.beginExtractLayout("test", options);
-        }),
-        ["DocumentAnalysisClient.beginExtractLayout"]
-      ));
-
-    it("beginExtractGeneralDocument", () =>
-      assert.supportsTracing(
-        fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await dac.beginExtractGeneralDocument("test", options);
-        }),
-        ["DocumentAnalysisClient.beginExtractGeneralDocument"]
-      ));
-
-    it("beginReadDocument", () =>
-      assert.supportsTracing(
-        fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await dac.beginReadDocument("test", options);
-        }),
-        ["DocumentAnalysisClient.beginReadDocument"]
-      ));
   });
 
   describe("DocumentModelAdministrationClient", function () {
@@ -106,9 +82,9 @@ describe("supports tracing", function () {
     it("getModel", () =>
       assert.supportsTracing(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await dmac.getModel("test", options);
+          await dmac.getDocumentModel("test", options);
         }),
-        ["DocumentModelAdministrationClient.getModel"]
+        ["DocumentModelAdministrationClient.getDocumentModel"]
       ));
 
     it("getOperation", () =>
@@ -122,9 +98,9 @@ describe("supports tracing", function () {
     it("getInfo", () =>
       assert.supportsTracing(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await dmac.getResourceInfo(options);
+          await dmac.getResourceDetails(options);
         }),
-        ["DocumentModelAdministrationClient.getResourceInfo"]
+        ["DocumentModelAdministrationClient.getResourceDetails"]
       ));
 
     it("deleteModel", () =>

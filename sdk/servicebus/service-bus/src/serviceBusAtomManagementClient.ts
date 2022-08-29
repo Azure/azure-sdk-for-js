@@ -76,7 +76,7 @@ import * as Constants from "./util/constants";
 import { parseURL } from "./util/parseUrl";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import { tracingClient } from "./diagnostics/tracing";
-import { isDefined } from "./util/typeGuards";
+import { isDefined } from "@azure/core-util";
 import {
   formatUserAgentPrefix,
   getHttpResponseOnly,

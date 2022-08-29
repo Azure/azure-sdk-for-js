@@ -2,7 +2,8 @@
 
 ## 11.3.0-beta.8 (unreleased)
 
-Added `core-http-compat` dependency
+- Added `core-http-compat` dependency
+- Enabled national cloud support for Azure Search SDK. Please refer [#22887](https://github.com/Azure/azure-sdk-for-js/pull/22887) for further details.
 
 ## 11.3.0-beta.7 (2022-03-08)
 

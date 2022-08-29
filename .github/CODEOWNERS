@@ -68,7 +68,7 @@
 /sdk/containerregistry/ @jeremymeng @timovv
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/ @jay-most @kushagraThapar @simorenoh @simplynaveen20 @xinlian12 @sajeetharan
+/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli
 
 # ServiceLabel: %Cosmos %Service Attention
 #/<NotInRepo>/ @sajeetharan @simorenoh @pjohari-ms
@@ -816,7 +816,7 @@ sdk/dnsresolver/arm-dnsresolver @qiaozha @dw511214992 @MaryGao
 sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Monitor
-/sdk/monitor/ @hectorhdzg
+/sdk/monitor/ @hectorhdzg @JacksonWeber
 /sdk/monitor/monitor-query @KarishmaGhiya
 
 # ServiceLabel: %AAD %Service Attention

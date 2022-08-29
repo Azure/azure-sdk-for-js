@@ -8,3 +8,5 @@
 
 export * from "./operations";
 export * from "./grafana";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";

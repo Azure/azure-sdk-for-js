@@ -34,11 +34,7 @@ describe("Certificates client - merge and import certificates", () => {
     recorder = authentication.recorder;
     keyVaultUrl = authentication.keyVaultUrl;
     credential = authentication.credential;
-    secretClient = new SecretClient(
-      keyVaultUrl,
-      credential,
-      recorder.configureClientOptionsCoreV1({})
-    );
+    secretClient = new SecretClient(keyVaultUrl, credential, recorder.configureClientOptions({}));
   });
 
   afterEach(async function () {

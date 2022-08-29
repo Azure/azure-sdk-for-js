@@ -799,7 +799,6 @@ export const Encryption: coreClient.CompositeMapper = {
       keySource: {
         defaultValue: "Microsoft.Storage",
         serializedName: "keySource",
-        required: true,
         type: {
           name: "String"
         }
@@ -1141,14 +1140,12 @@ export const ActiveDirectoryProperties: coreClient.CompositeMapper = {
       },
       netBiosDomainName: {
         serializedName: "netBiosDomainName",
-        required: true,
         type: {
           name: "String"
         }
       },
       forestName: {
         serializedName: "forestName",
-        required: true,
         type: {
           name: "String"
         }
@@ -1162,14 +1159,12 @@ export const ActiveDirectoryProperties: coreClient.CompositeMapper = {
       },
       domainSid: {
         serializedName: "domainSid",
-        required: true,
         type: {
           name: "String"
         }
       },
       azureStorageSid: {
         serializedName: "azureStorageSid",
-        required: true,
         type: {
           name: "String"
         }

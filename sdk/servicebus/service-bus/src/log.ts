@@ -3,7 +3,7 @@
 
 import { AzureLogger, createClientLogger } from "@azure/logger";
 import { AmqpError } from "rhea-promise";
-import { isObjectWithProperties } from "./util/typeGuards";
+import { isObjectWithProperties } from "@azure/core-util";
 
 /**
  * The `@azure/logger` configuration for this package.

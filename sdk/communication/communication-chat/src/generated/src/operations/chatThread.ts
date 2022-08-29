@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { tracingClient } from "../tracing";
 import { ChatThread } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -63,13 +64,19 @@ export class ChatThreadImpl implements ChatThread {
    * @param chatThreadId Thread id to get the chat message read receipts for.
    * @param options The options parameters.
    */
-  listChatReadReceipts(
+  async listChatReadReceipts(
     chatThreadId: string,
     options?: ChatThreadListChatReadReceiptsOptionalParams
   ): Promise<ChatThreadListChatReadReceiptsResponse> {
-    return this.client.sendOperationRequest(
-      { chatThreadId, options },
-      listChatReadReceiptsOperationSpec
+    return tracingClient.withSpan(
+      "ChatApiClient.listChatReadReceipts",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { chatThreadId, options },
+          listChatReadReceiptsOperationSpec
+        ) as Promise<ChatThreadListChatReadReceiptsResponse>;
+      }
     );
   }
 
@@ -79,14 +86,20 @@ export class ChatThreadImpl implements ChatThread {
    * @param sendReadReceiptRequest Read receipt details.
    * @param options The options parameters.
    */
-  sendChatReadReceipt(
+  async sendChatReadReceipt(
     chatThreadId: string,
     sendReadReceiptRequest: SendReadReceiptRequest,
     options?: ChatThreadSendChatReadReceiptOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { chatThreadId, sendReadReceiptRequest, options },
-      sendChatReadReceiptOperationSpec
+    return tracingClient.withSpan(
+      "ChatApiClient.sendChatReadReceipt",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { chatThreadId, sendReadReceiptRequest, options },
+          sendChatReadReceiptOperationSpec
+        ) as Promise<void>;
+      }
     );
   }
 
@@ -96,14 +109,20 @@ export class ChatThreadImpl implements ChatThread {
    * @param sendChatMessageRequest Details of the message to send.
    * @param options The options parameters.
    */
-  sendChatMessage(
+  async sendChatMessage(
     chatThreadId: string,
     sendChatMessageRequest: SendChatMessageRequest,
     options?: ChatThreadSendChatMessageOptionalParams
   ): Promise<ChatThreadSendChatMessageResponse> {
-    return this.client.sendOperationRequest(
-      { chatThreadId, sendChatMessageRequest, options },
-      sendChatMessageOperationSpec
+    return tracingClient.withSpan(
+      "ChatApiClient.sendChatMessage",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { chatThreadId, sendChatMessageRequest, options },
+          sendChatMessageOperationSpec
+        ) as Promise<ChatThreadSendChatMessageResponse>;
+      }
     );
   }
 
@@ -112,13 +131,19 @@ export class ChatThreadImpl implements ChatThread {
    * @param chatThreadId The thread id of the message.
    * @param options The options parameters.
    */
-  listChatMessages(
+  async listChatMessages(
     chatThreadId: string,
     options?: ChatThreadListChatMessagesOptionalParams
   ): Promise<ChatThreadListChatMessagesResponse> {
-    return this.client.sendOperationRequest(
-      { chatThreadId, options },
-      listChatMessagesOperationSpec
+    return tracingClient.withSpan(
+      "ChatApiClient.listChatMessages",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { chatThreadId, options },
+          listChatMessagesOperationSpec
+        ) as Promise<ChatThreadListChatMessagesResponse>;
+      }
     );
   }
 
@@ -128,14 +153,20 @@ export class ChatThreadImpl implements ChatThread {
    * @param chatMessageId The message id.
    * @param options The options parameters.
    */
-  getChatMessage(
+  async getChatMessage(
     chatThreadId: string,
     chatMessageId: string,
     options?: ChatThreadGetChatMessageOptionalParams
   ): Promise<ChatThreadGetChatMessageResponse> {
-    return this.client.sendOperationRequest(
-      { chatThreadId, chatMessageId, options },
-      getChatMessageOperationSpec
+    return tracingClient.withSpan(
+      "ChatApiClient.getChatMessage",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { chatThreadId, chatMessageId, options },
+          getChatMessageOperationSpec
+        ) as Promise<ChatThreadGetChatMessageResponse>;
+      }
     );
   }
 
@@ -146,15 +177,21 @@ export class ChatThreadImpl implements ChatThread {
    * @param updateChatMessageRequest Details of the request to update the message.
    * @param options The options parameters.
    */
-  updateChatMessage(
+  async updateChatMessage(
     chatThreadId: string,
     chatMessageId: string,
     updateChatMessageRequest: UpdateChatMessageRequest,
     options?: ChatThreadUpdateChatMessageOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { chatThreadId, chatMessageId, updateChatMessageRequest, options },
-      updateChatMessageOperationSpec
+    return tracingClient.withSpan(
+      "ChatApiClient.updateChatMessage",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { chatThreadId, chatMessageId, updateChatMessageRequest, options },
+          updateChatMessageOperationSpec
+        ) as Promise<void>;
+      }
     );
   }
 
@@ -164,14 +201,20 @@ export class ChatThreadImpl implements ChatThread {
    * @param chatMessageId The message id.
    * @param options The options parameters.
    */
-  deleteChatMessage(
+  async deleteChatMessage(
     chatThreadId: string,
     chatMessageId: string,
     options?: ChatThreadDeleteChatMessageOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { chatThreadId, chatMessageId, options },
-      deleteChatMessageOperationSpec
+    return tracingClient.withSpan(
+      "ChatApiClient.deleteChatMessage",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { chatThreadId, chatMessageId, options },
+          deleteChatMessageOperationSpec
+        ) as Promise<void>;
+      }
     );
   }
 
@@ -180,13 +223,19 @@ export class ChatThreadImpl implements ChatThread {
    * @param chatThreadId Thread id to get participants for.
    * @param options The options parameters.
    */
-  listChatParticipants(
+  async listChatParticipants(
     chatThreadId: string,
     options?: ChatThreadListChatParticipantsOptionalParams
   ): Promise<ChatThreadListChatParticipantsResponse> {
-    return this.client.sendOperationRequest(
-      { chatThreadId, options },
-      listChatParticipantsOperationSpec
+    return tracingClient.withSpan(
+      "ChatApiClient.listChatParticipants",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { chatThreadId, options },
+          listChatParticipantsOperationSpec
+        ) as Promise<ChatThreadListChatParticipantsResponse>;
+      }
     );
   }
 
@@ -196,14 +245,20 @@ export class ChatThreadImpl implements ChatThread {
    * @param participantCommunicationIdentifier Id of the thread participant to remove from the thread.
    * @param options The options parameters.
    */
-  removeChatParticipant(
+  async removeChatParticipant(
     chatThreadId: string,
     participantCommunicationIdentifier: CommunicationIdentifierModel,
     options?: ChatThreadRemoveChatParticipantOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { chatThreadId, participantCommunicationIdentifier, options },
-      removeChatParticipantOperationSpec
+    return tracingClient.withSpan(
+      "ChatApiClient.removeChatParticipant",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { chatThreadId, participantCommunicationIdentifier, options },
+          removeChatParticipantOperationSpec
+        ) as Promise<void>;
+      }
     );
   }
 
@@ -213,14 +268,20 @@ export class ChatThreadImpl implements ChatThread {
    * @param addChatParticipantsRequest Thread participants to be added to the thread.
    * @param options The options parameters.
    */
-  addChatParticipants(
+  async addChatParticipants(
     chatThreadId: string,
     addChatParticipantsRequest: AddChatParticipantsRequest,
     options?: ChatThreadAddChatParticipantsOptionalParams
   ): Promise<ChatThreadAddChatParticipantsResponse> {
-    return this.client.sendOperationRequest(
-      { chatThreadId, addChatParticipantsRequest, options },
-      addChatParticipantsOperationSpec
+    return tracingClient.withSpan(
+      "ChatApiClient.addChatParticipants",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { chatThreadId, addChatParticipantsRequest, options },
+          addChatParticipantsOperationSpec
+        ) as Promise<ChatThreadAddChatParticipantsResponse>;
+      }
     );
   }
 
@@ -230,14 +291,20 @@ export class ChatThreadImpl implements ChatThread {
    * @param updateChatThreadRequest Request payload for updating a chat thread.
    * @param options The options parameters.
    */
-  updateChatThreadProperties(
+  async updateChatThreadProperties(
     chatThreadId: string,
     updateChatThreadRequest: UpdateChatThreadRequest,
     options?: ChatThreadUpdateChatThreadPropertiesOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { chatThreadId, updateChatThreadRequest, options },
-      updateChatThreadPropertiesOperationSpec
+    return tracingClient.withSpan(
+      "ChatApiClient.updateChatThreadProperties",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { chatThreadId, updateChatThreadRequest, options },
+          updateChatThreadPropertiesOperationSpec
+        ) as Promise<void>;
+      }
     );
   }
 
@@ -246,13 +313,19 @@ export class ChatThreadImpl implements ChatThread {
    * @param chatThreadId Id of the thread.
    * @param options The options parameters.
    */
-  getChatThreadProperties(
+  async getChatThreadProperties(
     chatThreadId: string,
     options?: ChatThreadGetChatThreadPropertiesOptionalParams
   ): Promise<ChatThreadGetChatThreadPropertiesResponse> {
-    return this.client.sendOperationRequest(
-      { chatThreadId, options },
-      getChatThreadPropertiesOperationSpec
+    return tracingClient.withSpan(
+      "ChatApiClient.getChatThreadProperties",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { chatThreadId, options },
+          getChatThreadPropertiesOperationSpec
+        ) as Promise<ChatThreadGetChatThreadPropertiesResponse>;
+      }
     );
   }
 
@@ -261,13 +334,19 @@ export class ChatThreadImpl implements ChatThread {
    * @param chatThreadId Id of the thread.
    * @param options The options parameters.
    */
-  sendTypingNotification(
+  async sendTypingNotification(
     chatThreadId: string,
     options?: ChatThreadSendTypingNotificationOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { chatThreadId, options },
-      sendTypingNotificationOperationSpec
+    return tracingClient.withSpan(
+      "ChatApiClient.sendTypingNotification",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { chatThreadId, options },
+          sendTypingNotificationOperationSpec
+        ) as Promise<void>;
+      }
     );
   }
 
@@ -277,14 +356,20 @@ export class ChatThreadImpl implements ChatThread {
    * @param nextLink The nextLink from the previous successful call to the ListChatReadReceipts method.
    * @param options The options parameters.
    */
-  listChatReadReceiptsNext(
+  async listChatReadReceiptsNext(
     chatThreadId: string,
     nextLink: string,
     options?: ChatThreadListChatReadReceiptsNextOptionalParams
   ): Promise<ChatThreadListChatReadReceiptsNextResponse> {
-    return this.client.sendOperationRequest(
-      { chatThreadId, nextLink, options },
-      listChatReadReceiptsNextOperationSpec
+    return tracingClient.withSpan(
+      "ChatApiClient.listChatReadReceiptsNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { chatThreadId, nextLink, options },
+          listChatReadReceiptsNextOperationSpec
+        ) as Promise<ChatThreadListChatReadReceiptsNextResponse>;
+      }
     );
   }
 
@@ -294,14 +379,20 @@ export class ChatThreadImpl implements ChatThread {
    * @param nextLink The nextLink from the previous successful call to the ListChatMessages method.
    * @param options The options parameters.
    */
-  listChatMessagesNext(
+  async listChatMessagesNext(
     chatThreadId: string,
     nextLink: string,
     options?: ChatThreadListChatMessagesNextOptionalParams
   ): Promise<ChatThreadListChatMessagesNextResponse> {
-    return this.client.sendOperationRequest(
-      { chatThreadId, nextLink, options },
-      listChatMessagesNextOperationSpec
+    return tracingClient.withSpan(
+      "ChatApiClient.listChatMessagesNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { chatThreadId, nextLink, options },
+          listChatMessagesNextOperationSpec
+        ) as Promise<ChatThreadListChatMessagesNextResponse>;
+      }
     );
   }
 
@@ -311,14 +402,20 @@ export class ChatThreadImpl implements ChatThread {
    * @param nextLink The nextLink from the previous successful call to the ListChatParticipants method.
    * @param options The options parameters.
    */
-  listChatParticipantsNext(
+  async listChatParticipantsNext(
     chatThreadId: string,
     nextLink: string,
     options?: ChatThreadListChatParticipantsNextOptionalParams
   ): Promise<ChatThreadListChatParticipantsNextResponse> {
-    return this.client.sendOperationRequest(
-      { chatThreadId, nextLink, options },
-      listChatParticipantsNextOperationSpec
+    return tracingClient.withSpan(
+      "ChatApiClient.listChatParticipantsNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { chatThreadId, nextLink, options },
+          listChatParticipantsNextOperationSpec
+        ) as Promise<ChatThreadListChatParticipantsNextResponse>;
+      }
     );
   }
 }

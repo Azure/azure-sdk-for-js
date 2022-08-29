@@ -1802,8 +1802,33 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-automation",
+      "projectFolder": "sdk/automation/arm-automation",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-automanage",
       "projectFolder": "sdk/automanage/arm-automanage",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-devcenter",
+      "projectFolder": "sdk/devcenter/arm-devcenter",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/communication-rooms",
+      "projectFolder": "sdk/communication/communication-rooms",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-connectedvmware",
+      "projectFolder": "sdk/connectedvmware/arm-connectedvmware",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-nginx",
+      "projectFolder": "sdk/nginx/arm-nginx",
       "versionPolicyName": "management"
     }
   ]

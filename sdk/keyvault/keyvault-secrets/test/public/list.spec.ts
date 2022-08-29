@@ -189,7 +189,7 @@ describe("Secret client - list secrets in various ways", () => {
       await client.setSecret(name, "RSA");
     }
     let found = 0;
-    for await (const page of client.listPropertiesOfSecrets().byPage()) {
+    for await (const page of client.listPropertiesOfSecrets().byPage({ maxPageSize: 1 })) {
       for (const secretProperties of page) {
         // The vault might contain more secrets than the ones we inserted.
         if (!secretNames.includes(secretProperties.name)) continue;
@@ -213,7 +213,7 @@ describe("Secret client - list secrets in various ways", () => {
     }
 
     let found = 0;
-    for await (const page of client.listDeletedSecrets().byPage()) {
+    for await (const page of client.listDeletedSecrets().byPage({ maxPageSize: 1 })) {
       for (const secret of page) {
         // The vault might contain more secrets than the ones we inserted.
         if (!secretNames.includes(secret.name)) continue;
@@ -239,7 +239,9 @@ describe("Secret client - list secrets in various ways", () => {
     }
 
     const results: VersionValuePair[] = [];
-    for await (const page of client.listPropertiesOfSecretVersions(secretName).byPage()) {
+    for await (const page of client
+      .listPropertiesOfSecretVersions(secretName)
+      .byPage({ maxPageSize: 1 })) {
       for (const secretProperties of page) {
         const version = secretProperties.version!;
         const secret = await client.getSecret(secretName, { version });
@@ -260,7 +262,9 @@ describe("Secret client - list secrets in various ways", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     let totalVersions = 0;
-    for await (const page of client.listPropertiesOfSecretVersions(secretName).byPage()) {
+    for await (const page of client
+      .listPropertiesOfSecretVersions(secretName)
+      .byPage({ maxPageSize: 1 })) {
       for (const secretProperties of page) {
         assert.equal(
           secretProperties.name,
