@@ -5,6 +5,7 @@
 ```ts
 
 import { AccessToken } from '@azure/core-auth';
+import { AzureCloudOptions } from '@azure/msal-common';
 import { AzureLogger } from '@azure/logger';
 import { CommonClientOptions } from '@azure/core-client';
 import { GetTokenOptions } from '@azure/core-auth';
@@ -105,7 +106,8 @@ export class ChainedTokenCredential implements TokenCredential {
 
 // @public
 export class ClientAssertionCredential implements TokenCredential {
-    constructor(tenantId: string, clientId: string, getAssertion: () => Promise<string>, options?: TokenCredentialOptions);
+    // Warning: (ae-forgotten-export) The symbol "ClientAssertionCredentialOptions" needs to be exported by the entry point index.d.ts
+    constructor(tenantId: string, clientId: string, getAssertion: () => Promise<string>, options?: ClientAssertionCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
@@ -117,8 +119,10 @@ export class ClientCertificateCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
+// Warning: (ae-forgotten-export) The symbol "AuthorityValidationOptions" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface ClientCertificateCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
+export interface ClientCertificateCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
     sendCertificateChain?: boolean;
 }
 
@@ -144,7 +148,7 @@ export class ClientSecretCredential implements TokenCredential {
 }
 
 // @public
-export interface ClientSecretCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
+export interface ClientSecretCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
 }
 
 // @public
@@ -254,7 +258,7 @@ export interface InteractiveBrowserCredentialInBrowserOptions extends Interactiv
 }
 
 // @public
-export interface InteractiveBrowserCredentialNodeOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions {
+export interface InteractiveBrowserCredentialNodeOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
     clientId?: string;
     loginHint?: string;
     redirectUri?: string | (() => string);

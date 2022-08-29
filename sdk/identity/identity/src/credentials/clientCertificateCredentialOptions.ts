@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AuthorityValidationOptions } from "../authorityValidationOptions";
 import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 
@@ -9,7 +10,8 @@ import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
  */
 export interface ClientCertificateCredentialOptions
   extends TokenCredentialOptions,
-    CredentialPersistenceOptions {
+    CredentialPersistenceOptions,
+    AuthorityValidationOptions {
   /**
    * Option to include x5c header for SubjectName and Issuer name authorization.
    * Set this option to send base64 encoded public certificate in the client assertion header as an x5c claim

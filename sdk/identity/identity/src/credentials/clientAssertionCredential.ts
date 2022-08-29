@@ -6,8 +6,8 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 import { credentialLogger } from "../util/logging";
 import { tracingClient } from "../util/tracing";
 import { MsalFlow } from "../msal/flows";
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { MsalClientAssertion } from "../msal/nodeFlows/msalClientAssertion";
+import { ClientAssertionCredentialOptions } from "./clientAssertionCredentialOptions";
 
 const logger = credentialLogger("ClientAssertionCredential");
 
@@ -18,7 +18,7 @@ export class ClientAssertionCredential implements TokenCredential {
   private msalFlow: MsalFlow;
   private tenantId: string;
   private clientId: string;
-  private options: TokenCredentialOptions;
+  private options: ClientAssertionCredentialOptions;
 
   /**
    * Creates an instance of the ClientAssertionCredential with the details
@@ -34,7 +34,7 @@ export class ClientAssertionCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     getAssertion: () => Promise<string>,
-    options: TokenCredentialOptions = {}
+    options: ClientAssertionCredentialOptions = {}
   ) {
     if (!tenantId || !clientId || !getAssertion) {
       throw new Error(
