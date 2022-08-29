@@ -343,6 +343,13 @@ async function main() {
   ];
   const fuzzySearchPoller = await client.beginFuzzySearchBatch(fuzzySearchRequests);
   console.log(await fuzzySearchPoller.pollUntilDone());
+
+  console.log(" --- Resume search fuzzy batch:");
+  const originalFuzzySearchPoller = await client.beginFuzzySearchBatch(fuzzySearchRequests);
+  console.log(await originalFuzzySearchPoller.getResult());
+  const serializedState = originalFuzzySearchPoller.toString();
+  const rehydratedFuzzySearchPoller = await client.resumeFuzzySearchBatch(serializedState);
+  console.log(await rehydratedFuzzySearchPoller.getResult());
 }
 
 main();

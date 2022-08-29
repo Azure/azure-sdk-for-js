@@ -301,10 +301,6 @@ export interface BatchPollerOptions {
    * Time between each polling in milliseconds.
    */
   updateIntervalInMs?: number;
-  /**
-   * A serialized poller, used to resume an existing operation
-   */
-  resumeFrom?: string;
 }
 
 /**

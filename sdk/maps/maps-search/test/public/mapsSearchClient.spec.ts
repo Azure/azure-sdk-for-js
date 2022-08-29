@@ -637,36 +637,10 @@ describe("LRO", function (this: Suite) {
       assert.equal(batchResult.totalRequests, batchRequests.length);
       assert.equal(batchResult.batchItems.length, batchRequests.length);
     });
-
-    it("should return a poller that can retrieve the batchId", async function () {
-      const batchRequests = [{ searchQuery: { query: "pizza", countryCodeFilter: ["fr"] } }];
-
-      const poller = await client.beginFuzzySearchBatch(batchRequests, {
-        updateIntervalInMs: pollingInterval,
-      });
-
-      assert.isDefined(poller.getBatchId());
-
-      await poller.pollUntilDone();
-
-      assert.isDefined(poller.getBatchId());
-    });
   });
 
-  describe("#beginGetFuzzySearchBatchResult", function () {
-    it("should throw error if batchId is missing", async function () {
-      // "query is missing or empty"
-      assert.isRejected(client.beginGetFuzzySearchBatchResult(""));
-    });
-
-    it("should throw error if invalid batchId is given", async function () {
-      // "Invalid value : [batchId] for parameter batchRequestId"
-      assert.isRejected(
-        client.beginGetFuzzySearchBatchResult("11111111-2222-3333-4444-5555555555557")
-      );
-    });
-
-    it("could retrieve batch results with batchId", async function () {
+  describe("#resumeFuzzySearchBatch", function () {
+    it("should be able to resume the previous request", async function () {
       const batchRequests = [
         { searchQuery: { query: "pizza", countryCodeFilter: ["fr"] } },
         { searchQuery: { query: "pizza", coordinates: { latitude: 25, longitude: 121 } } },
@@ -680,22 +654,21 @@ describe("LRO", function (this: Suite) {
       ];
 
       // Initiate fuzzy search batch
-      const poller1 = await client.beginFuzzySearchBatch(batchRequests, {
+      const originalPoller = await client.beginFuzzySearchBatch(batchRequests, {
         updateIntervalInMs: pollingInterval,
       });
-      const batchId = poller1.getBatchId() as string;
-      assert.ok(batchId);
+      const serializedState = originalPoller.toString();
 
-      // Use saved batchId to retrieve the result
-      const poller2 = await client.beginGetFuzzySearchBatchResult(batchId, {
+      // Use serialized state to retrieve the result
+      const rehydratedPoller = await client.resumeFuzzySearchBatch(serializedState, {
         updateIntervalInMs: pollingInterval,
       });
-      const batchResult = await poller2.pollUntilDone();
+      const batchResult = await rehydratedPoller.pollUntilDone();
       assert.equal(batchResult.totalRequests, batchRequests.length);
       assert.equal(batchResult.batchItems.length, batchRequests.length);
     });
 
-    it("should obtain the same result as beginFuzzySearchBatch ", async function () {
+    it("should obtain the same result from the rehydrated poller after the lro is finished", async function () {
       const batchRequests = [
         { searchQuery: { query: "pizza", countryCodeFilter: ["fr"] } },
         { searchQuery: { query: "pizza", coordinates: { latitude: 25, longitude: 121 } } },
@@ -709,19 +682,18 @@ describe("LRO", function (this: Suite) {
       ];
 
       // Initiate fuzzy search batch
-      const poller1 = await client.beginFuzzySearchBatch(batchRequests, {
+      const originalPoller = await client.beginFuzzySearchBatch(batchRequests, {
         updateIntervalInMs: pollingInterval,
       });
-      const batchResult1 = await poller1.pollUntilDone();
-      const batchId = poller1.getBatchId() as string;
-      assert.ok(batchId);
+      const originalResult = await originalPoller.pollUntilDone();
 
-      // Use saved batchId to retrieve the result
-      const poller2 = await client.beginGetFuzzySearchBatchResult(batchId, {
+      // Use serialized state to retrieve the result
+      const serializedState = originalPoller.toString();
+      const rehydratedPoller = await client.resumeFuzzySearchBatch(serializedState, {
         updateIntervalInMs: pollingInterval,
       });
-      const batchResult2 = await poller2.pollUntilDone();
-      assert.deepEqual(batchResult1, batchResult2);
+      const rehydratedResult = await rehydratedPoller.pollUntilDone();
+      assert.deepEqual(originalResult, rehydratedResult);
     });
   });
 
@@ -746,36 +718,10 @@ describe("LRO", function (this: Suite) {
       assert.equal(batchResult.totalRequests, batchRequests.length);
       assert.equal(batchResult.batchItems.length, batchRequests.length);
     });
-
-    it("should return a poller that can be used to retrieve the batchId", async function () {
-      const batchRequests = [{ query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } }];
-
-      const poller = await client.beginSearchAddressBatch(batchRequests, {
-        updateIntervalInMs: pollingInterval,
-      });
-
-      assert.isDefined(poller.getBatchId());
-
-      await poller.pollUntilDone();
-
-      assert.isDefined(poller.getBatchId());
-    });
   });
 
-  describe("#beginGetSearchAddressBatchResult", function () {
-    it("should throw error if batchId is missing", async function () {
-      // "query is missing or empty"
-      assert.isRejected(client.beginGetSearchAddressBatchResult(""));
-    });
-
-    it("should throw error if invalid batchId is given", async function () {
-      // "Invalid value : [batchId] for parameter batchRequestId"
-      assert.isRejected(
-        client.beginGetSearchAddressBatchResult("11111111-2222-3333-4444-5555555555557")
-      );
-    });
-
-    it("could retrieve a previous submitted batch results", async function () {
+  describe("#resumeSearchAddressBatch", function () {
+    it("should be able to resume the previous request", async function () {
       const batchRequests = [
         { query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } },
         { query: "One, Microsoft Way, Redmond, WA 98052", options: { top: 3 } },
@@ -783,22 +729,21 @@ describe("LRO", function (this: Suite) {
       ];
 
       // Initiate search address batch
-      const poller1 = await client.beginSearchAddressBatch(batchRequests, {
+      const originalPoller = await client.beginSearchAddressBatch(batchRequests, {
         updateIntervalInMs: pollingInterval,
       });
-      const batchId = poller1.getBatchId() as string;
-      assert.ok(batchId);
 
-      // Use saved batchId to retrieve the result
-      const poller2 = await client.beginGetSearchAddressBatchResult(batchId, {
+      // Use serialized state to retrieve the result
+      const serializedState = originalPoller.toString();
+      const rehydratedPoller = await client.resumeSearchAddressBatch(serializedState, {
         updateIntervalInMs: pollingInterval,
       });
-      const batchResult = await poller2.pollUntilDone();
+      const batchResult = await rehydratedPoller.pollUntilDone();
       assert.equal(batchResult.totalRequests, batchRequests.length);
       assert.equal(batchResult.batchItems.length, batchRequests.length);
     });
 
-    it("should obtain the same result as beginSearchAddressBatch ", async function () {
+    it("should obtain the same result from the rehydrated poller after the lro is finished", async function () {
       const batchRequests = [
         { query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } },
         { query: "One, Microsoft Way, Redmond, WA 98052", options: { top: 3 } },
@@ -806,19 +751,18 @@ describe("LRO", function (this: Suite) {
       ];
 
       // Initiate search address batch
-      const poller1 = await client.beginSearchAddressBatch(batchRequests, {
+      const originalPoller = await client.beginSearchAddressBatch(batchRequests, {
         updateIntervalInMs: pollingInterval,
       });
-      const batchResult1 = await poller1.pollUntilDone();
-      const batchId = poller1.getBatchId() as string;
-      assert.ok(batchId);
+      const result = await originalPoller.pollUntilDone();
 
       // Use saved batchId to retrieve the result
-      const poller2 = await client.beginGetSearchAddressBatchResult(batchId, {
+      const serializedState = originalPoller.toString();
+      const rehydratedPoller = await client.resumeSearchAddressBatch(serializedState, {
         updateIntervalInMs: pollingInterval,
       });
-      const batchResult2 = await poller2.pollUntilDone();
-      assert.deepEqual(batchResult1, batchResult2);
+      const rehydratedResult = await rehydratedPoller.pollUntilDone();
+      assert.deepEqual(result, rehydratedResult);
     });
   });
 
@@ -847,36 +791,10 @@ describe("LRO", function (this: Suite) {
       assert.equal(batchResult.totalRequests, batchRequests.length);
       assert.equal(batchResult.batchItems.length, batchRequests.length);
     });
-
-    it("should return a poller that can retrieve the batchId", async function () {
-      const batchRequests = [{ coordinates: { latitude: 47.621028, longitude: -122.34817 } }];
-
-      const poller = await client.beginReverseSearchAddressBatch(batchRequests, {
-        updateIntervalInMs: pollingInterval,
-      });
-
-      assert.isDefined(poller.getBatchId());
-
-      await poller.pollUntilDone();
-
-      assert.isDefined(poller.getBatchId());
-    });
   });
 
-  describe("#beginGetReverseSearchAddressBatchResult", function () {
-    it("should throw error if batchId is missing", async function () {
-      // "query is missing or empty"
-      assert.isRejected(client.beginGetReverseSearchAddressBatchResult(""));
-    });
-
-    it("should throw error if invalid batchId is given", async function () {
-      // "Invalid value : [batchId] for parameter batchRequestId"
-      assert.isRejected(
-        client.beginGetReverseSearchAddressBatchResult("11111111-2222-3333-4444-5555555555557")
-      );
-    });
-
-    it("could retrieve a previous submitted batch results", async function () {
+  describe("#resumeReverseSearchAddressBatch", function () {
+    it("should be able to resume the previous request", async function () {
       const batchRequests = [
         { coordinates: { latitude: 48.858561, longitude: 2.294911 } },
         {
@@ -887,22 +805,21 @@ describe("LRO", function (this: Suite) {
       ];
 
       // Initiate search address batch
-      const poller1 = await client.beginReverseSearchAddressBatch(batchRequests, {
+      const originalPoller = await client.beginReverseSearchAddressBatch(batchRequests, {
         updateIntervalInMs: pollingInterval,
       });
-      const batchId = poller1.getBatchId() as string;
-      assert.ok(batchId);
 
-      // Use saved batchId to retrieve the result
-      const poller2 = await client.beginGetReverseSearchAddressBatchResult(batchId, {
+      // Use serialized state to retrieve the result
+      const serializedState = originalPoller.toString();
+      const rehydratedPoller = await client.resumeReverseSearchAddressBatch(serializedState, {
         updateIntervalInMs: pollingInterval,
       });
-      const batchResult = await poller2.pollUntilDone();
+      const batchResult = await rehydratedPoller.pollUntilDone();
       assert.equal(batchResult.totalRequests, batchRequests.length);
       assert.equal(batchResult.batchItems.length, batchRequests.length);
     });
 
-    it("should obtain the same result as beginReverseSearchAddressBatch", async function () {
+    it("should obtain the same result from the rehydrated poller after the lro is finished", async function () {
       const batchRequests = [
         { coordinates: { latitude: 48.858561, longitude: 2.294911 } },
         {
@@ -913,19 +830,18 @@ describe("LRO", function (this: Suite) {
       ];
 
       // Initiate search address batch
-      const poller1 = await client.beginReverseSearchAddressBatch(batchRequests, {
+      const originalPoller = await client.beginReverseSearchAddressBatch(batchRequests, {
         updateIntervalInMs: pollingInterval,
       });
-      const batchResult1 = await poller1.pollUntilDone();
-      const batchId = poller1.getBatchId() as string;
-      assert.ok(batchId);
+      const result = await originalPoller.pollUntilDone();
 
       // Use saved batchId to retrieve the result
-      const poller2 = await client.beginGetReverseSearchAddressBatchResult(batchId, {
+      const serializedState = originalPoller.toString();
+      const rehydratedPoller = await client.resumeReverseSearchAddressBatch(serializedState, {
         updateIntervalInMs: pollingInterval,
       });
-      const batchResult2 = await poller2.pollUntilDone();
-      assert.deepEqual(batchResult1, batchResult2);
+      const rehydratedResult = await rehydratedPoller.pollUntilDone();
+      assert.deepEqual(result, rehydratedResult);
     });
   });
 });
