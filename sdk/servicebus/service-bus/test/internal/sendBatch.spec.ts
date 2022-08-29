@@ -265,13 +265,11 @@ describe("Send Batch", () => {
       await afterEachTest();
     });
 
-    function prepareMessages(useSessions: boolean): ServiceBusMessage[] {
-      const messagesToSend: ServiceBusMessage[] = [];
-      messagesToSend.push({
+    function prepareMessage(useSessions: boolean): ServiceBusMessage {
+      return {
         body: Buffer.alloc(1024 * 1024),
         sessionId: useSessions ? `s` : undefined,
-      });
-      return messagesToSend;
+      };
     }
 
     async function testSend(): Promise<void> {
