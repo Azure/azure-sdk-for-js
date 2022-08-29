@@ -212,6 +212,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
 
     if (!isServiceBusMessageBatch(messages) && !Array.isArray(messages)) {
       // Case 1: Single message
+      throwIfNotValidServiceBusMessage(messages, errorInvalidMessageTypeSingleOrArray);
       return tracingClient.withSpan(
         "ServiceBusSender.send",
         options ?? {},
