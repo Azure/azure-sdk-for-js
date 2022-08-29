@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay } from "@azure/core-util";
+import { delay, isError } from "@azure/core-util";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import {
   PipelineRequestOptions,
-  RestError,
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
@@ -141,46 +140,35 @@ export const imdsMsi: MSI = {
       getTokenOptions,
       async (options) => {
         requestOptions.tracingOptions = options.tracingOptions;
+
+        // Create a request with a timeout since we expect that
+        // not having a "Metadata" header should cause an error to be
+        // returned quickly from the endpoint, proving its availability.
+        const request = createPipelineRequest(requestOptions);
+
+        // Default to 300 if the default of 0 is used.
+        // Negative values can still be used to disable the timeout.
+        request.timeout = options.requestOptions?.timeout || 300;
+
+        // This MSI uses the imdsEndpoint to get the token, which only uses http://
+        request.allowInsecureConnection = true;
+
         try {
-          // Create a request with a timeout since we expect that
-          // not having a "Metadata" header should cause an error to be
-          // returned quickly from the endpoint, proving its availability.
-          const request = createPipelineRequest(requestOptions);
-
-          request.timeout = options.requestOptions?.timeout ?? 300;
-
-          // This MSI uses the imdsEndpoint to get the token, which only uses http://
-          request.allowInsecureConnection = true;
-
-          try {
-            logger.info(`${msiName}: Pinging the Azure IMDS endpoint`);
-            await identityClient.sendRequest(request);
-          } catch (err: any) {
-            if (
-              (err.name === "RestError" && err.code === RestError.REQUEST_SEND_ERROR) ||
-              err.name === "AbortError" ||
-              err.code === "ENETUNREACH" || // Network unreachable
-              err.code === "ECONNREFUSED" || // connection refused
-              err.code === "EHOSTDOWN" // host is down
-            ) {
-              // If the request failed, or Node.js was unable to establish a connection,
-              // or the host was down, we'll assume the IMDS endpoint isn't available.
-              logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
-              return false;
-            }
+          logger.info(`${msiName}: Pinging the Azure IMDS endpoint`);
+          await identityClient.sendRequest(request);
+        } catch (err: unknown) {
+          // If the request failed, or Node.js was unable to establish a connection,
+          // or the host was down, we'll assume the IMDS endpoint isn't available.
+          if (isError(err)) {
+            logger.verbose(`${msiName}: Caught error ${err.name}: ${err.message}`);
           }
-
-          // If we received any response, the endpoint is available
-          logger.info(`${msiName}: The Azure IMDS endpoint is available`);
-          return true;
-        } catch (err: any) {
-          // createWebResource failed.
-          // This error should bubble up to the user.
-          logger.info(
-            `${msiName}: Error when creating the WebResource for the Azure IMDS endpoint: ${err.message}`
-          );
-          throw err;
+          logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
+          return false;
         }
+
+        // If we received any response, the endpoint is available
+        logger.info(`${msiName}: The Azure IMDS endpoint is available`);
+        return true;
       }
     );
   },
