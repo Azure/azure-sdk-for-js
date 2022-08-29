@@ -8,30 +8,30 @@
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "6fead899-57d3-4abc-a95c-4a30f07dc705"
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.14.2 OS/(x64-Linux-5.4.0-1086-azure)",
+        "x-ms-client-request-id": "fc00c7c7-c70f-464b-81fa-7cdd09a538df"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "10907",
+        "Content-Length": "10906",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 28 Jul 2022 03:28:01 GMT",
+        "Date": "Mon, 29 Aug 2022 10:31:48 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-azuremaps-region": "West US 2",
-        "X-MSEdge-Ref": "Ref A: 120E4BDAD9A84E0B920AC67DE5649BEA Ref B: TYBEDGE0407 Ref C: 2022-07-28T03:28:02Z"
+        "x-ms-azuremaps-region": "West Europe",
+        "X-MSEdge-Ref": "Ref A: 3B7BE8F44DBD4CDB9B447B72983752D7 Ref B: SG1EDGE0117 Ref C: 2022-08-29T10:31:49Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "restaurant",
           "queryType": "NON_NEAR",
-          "queryTime": 11,
+          "queryTime": 7,
           "numResults": 10,
           "offset": 0,
-          "totalResults": 6489609,
+          "totalResults": 6488977,
           "fuzzyLevel": 1,
           "geoBias": {
             "lat": 47.606038,
@@ -409,80 +409,6 @@
           },
           {
             "type": "POI",
-            "id": "840539003065656",
-            "score": 2.574524641,
-            "dist": 100.3708594951675,
-            "info": "search:ta:840539003065656-US",
-            "poi": {
-              "name": "Matthew Hoffman",
-              "phone": "\u002B1 206-701-2000",
-              "categorySet": [
-                {
-                  "id": 7315042
-                }
-              ],
-              "categories": [
-                "restaurant",
-                "sandwich"
-              ],
-              "classifications": [
-                {
-                  "code": "RESTAURANT",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "sandwich"
-                    },
-                    {
-                      "nameLocale": "en-US",
-                      "name": "restaurant"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "901",
-              "streetName": "5th Avenue",
-              "municipalitySubdivision": "Central Business District",
-              "municipality": "Seattle",
-              "countrySecondarySubdivision": "King",
-              "countrySubdivision": "WA",
-              "countrySubdivisionName": "Washington",
-              "postalCode": "98104",
-              "extendedPostalCode": "98104-1608",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "901 5th Avenue, Seattle, WA 98104",
-              "localName": "Seattle"
-            },
-            "position": {
-              "lat": 47.60597,
-              "lon": -122.33201
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.60687,
-                "lon": -122.33334
-              },
-              "btmRightPoint": {
-                "lat": 47.60507,
-                "lon": -122.33068
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.60619,
-                  "lon": -122.33147
-                }
-              }
-            ]
-          },
-          {
-            "type": "POI",
             "id": "840539003183394",
             "score": 2.574524641,
             "dist": 100.25757297388647,
@@ -552,6 +478,80 @@
                 "position": {
                   "lat": 47.6072,
                   "lon": -122.33394
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "840539003065656",
+            "score": 2.574524641,
+            "dist": 100.3708594951675,
+            "info": "search:ta:840539003065656-US",
+            "poi": {
+              "name": "Matthew Hoffman",
+              "phone": "\u002B1 206-701-2000",
+              "categorySet": [
+                {
+                  "id": 7315042
+                }
+              ],
+              "categories": [
+                "restaurant",
+                "sandwich"
+              ],
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "sandwich"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "901",
+              "streetName": "5th Avenue",
+              "municipalitySubdivision": "Central Business District",
+              "municipality": "Seattle",
+              "countrySecondarySubdivision": "King",
+              "countrySubdivision": "WA",
+              "countrySubdivisionName": "Washington",
+              "postalCode": "98104",
+              "extendedPostalCode": "98104-1608",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "901 5th Avenue, Seattle, WA 98104",
+              "localName": "Seattle"
+            },
+            "position": {
+              "lat": 47.60597,
+              "lon": -122.33201
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.60687,
+                "lon": -122.33334
+              },
+              "btmRightPoint": {
+                "lat": 47.60507,
+                "lon": -122.33068
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.60619,
+                  "lon": -122.33147
                 }
               }
             ]

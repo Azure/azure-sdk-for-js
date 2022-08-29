@@ -16,28 +16,28 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "a9427ee2-9756-4583-91b8-c38f6698f41d",
-        "x-ms-useragent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "4c4a2103-e37d-4be7-9ea9-6a7659de0da7",
+        "x-ms-useragent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.2 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "5938",
+        "Content-Length": "5939",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 28 Jul 2022 03:28:22 GMT",
+        "Date": "Mon, 29 Aug 2022 10:32:03 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-azuremaps-region": "West US 2",
-        "X-MSEdge-Ref": "Ref A: 9D2D287D34B84281B0A81B6DE2571870 Ref B: TYAEDGE0909 Ref C: 2022-07-28T03:28:22Z"
+        "x-ms-azuremaps-region": "West Europe",
+        "X-MSEdge-Ref": "Ref A: BA51E019C08C48EAAD85DCD4CABF043F Ref B: SIN30EDGE0110 Ref C: 2022-08-29T10:32:03Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "pizza",
           "queryType": "NON_NEAR",
-          "queryTime": 67,
+          "queryTime": 59,
           "numResults": 10,
           "offset": 0,
           "totalResults": 61,
@@ -46,7 +46,7 @@
         "results": [
           {
             "type": "Street",
-            "id": "US/STR/p2/4139479",
+            "id": "US/STR/p2/4041865",
             "score": 2.1169600487,
             "matchConfidence": {
               "score": 1
@@ -80,10 +80,44 @@
           },
           {
             "type": "Street",
-            "id": "BR/STR/p0/873853",
+            "id": "BR/STR/p0/1104976",
             "score": 2.0962057114,
             "matchConfidence": {
-              "score": 0.8981427065112028
+              "score": 0.9219333062538507
+            },
+            "address": {
+              "streetName": "Rua Lu\u00EDz Pizza",
+              "municipality": "Assis",
+              "countrySubdivision": "S\u00E3o Paulo",
+              "postalCode": "19800, 19814",
+              "extendedPostalCode": "19800-170, 19814-010, 19814-350, 19814-351",
+              "countryCode": "BR",
+              "country": "Brazil",
+              "countryCodeISO3": "BRA",
+              "freeformAddress": "Rua Lu\u00EDz Pizza, 19800, 19814, Assis",
+              "localName": "Assis"
+            },
+            "position": {
+              "lat": -22.65827,
+              "lon": -50.41392
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": -22.65412,
+                "lon": -50.414
+              },
+              "btmRightPoint": {
+                "lat": -22.6616,
+                "lon": -50.41386
+              }
+            }
+          },
+          {
+            "type": "Street",
+            "id": "BR/STR/p0/1140036",
+            "score": 2.0962057114,
+            "matchConfidence": {
+              "score": 0.8982761315246426
             },
             "address": {
               "streetName": "Rua Toledo Pizza",
@@ -112,10 +146,10 @@
           },
           {
             "type": "Street",
-            "id": "BR/STR/p0/1908822",
+            "id": "BR/STR/p0/1322762",
             "score": 2.0962057114,
             "matchConfidence": {
-              "score": 0.8981427065112028
+              "score": 0.8982761315246426
             },
             "address": {
               "streetName": "Rua Toledo Pizza",
@@ -147,41 +181,7 @@
           },
           {
             "type": "Street",
-            "id": "BR/STR/p0/2600422",
-            "score": 2.0962057114,
-            "matchConfidence": {
-              "score": 0.9218463104759915
-            },
-            "address": {
-              "streetName": "Rua Lu\u00EDz Pizza",
-              "municipality": "Assis",
-              "countrySubdivision": "S\u00E3o Paulo",
-              "postalCode": "19800, 19814",
-              "extendedPostalCode": "19800-170, 19814-010, 19814-350, 19814-351",
-              "countryCode": "BR",
-              "country": "Brazil",
-              "countryCodeISO3": "BRA",
-              "freeformAddress": "Rua Lu\u00EDz Pizza, 19800, 19814, Assis",
-              "localName": "Assis"
-            },
-            "position": {
-              "lat": -22.65827,
-              "lon": -50.41392
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": -22.65412,
-                "lon": -50.414
-              },
-              "btmRightPoint": {
-                "lat": -22.6616,
-                "lon": -50.41386
-              }
-            }
-          },
-          {
-            "type": "Street",
-            "id": "IT/STR/p0/506019",
+            "id": "IT/STR/p0/1071370",
             "score": 2.0959999561,
             "matchConfidence": {
               "score": 1
@@ -215,114 +215,7 @@
           },
           {
             "type": "Street",
-            "id": "US/STR/p0/1581291",
-            "score": 2.0959999561,
-            "matchConfidence": {
-              "score": 1
-            },
-            "address": {
-              "streetName": "Pizza Lane",
-              "municipality": "Eastern",
-              "countrySecondarySubdivision": "Pendleton",
-              "countrySubdivision": "WV",
-              "countrySubdivisionName": "West Virginia",
-              "postalCode": "26802",
-              "extendedPostalCode": "26802-8016, 26802-8043",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "Pizza Lane, Brandywine, WV 26802",
-              "localName": "Brandywine"
-            },
-            "position": {
-              "lat": 38.62674,
-              "lon": -79.24476
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 38.62697,
-                "lon": -79.2452
-              },
-              "btmRightPoint": {
-                "lat": 38.62645,
-                "lon": -79.24399
-              }
-            }
-          },
-          {
-            "type": "Street",
-            "id": "US/STR/p0/4089958",
-            "score": 2.0959999561,
-            "matchConfidence": {
-              "score": 1
-            },
-            "address": {
-              "streetName": "Pizza Lane",
-              "municipality": "Wilson",
-              "countrySecondarySubdivision": "Teton",
-              "countrySubdivision": "WY",
-              "countrySubdivisionName": "Wyoming",
-              "postalCode": "83014",
-              "extendedPostalCode": "83014-9164",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "Pizza Lane, Wilson, WY 83014",
-              "localName": "Wilson"
-            },
-            "position": {
-              "lat": 43.51855,
-              "lon": -110.84023
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 43.51882,
-                "lon": -110.84204
-              },
-              "btmRightPoint": {
-                "lat": 43.51846,
-                "lon": -110.83869
-              }
-            }
-          },
-          {
-            "type": "Street",
-            "id": "US/STR/p1/4515692",
-            "score": 2.0959999561,
-            "matchConfidence": {
-              "score": 1
-            },
-            "address": {
-              "streetName": "Pizza Lane",
-              "municipality": "Dover",
-              "countrySecondarySubdivision": "Hillsborough",
-              "countrySubdivision": "FL",
-              "countrySubdivisionName": "Florida",
-              "postalCode": "33527",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "Pizza Lane, Dover, FL 33527",
-              "localName": "Dover"
-            },
-            "position": {
-              "lat": 27.97313,
-              "lon": -82.24548
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 27.97433,
-                "lon": -82.24578
-              },
-              "btmRightPoint": {
-                "lat": 27.97163,
-                "lon": -82.24548
-              }
-            }
-          },
-          {
-            "type": "Street",
-            "id": "US/STR/p2/246265",
+            "id": "US/STR/p1/135505",
             "score": 2.0959999561,
             "matchConfidence": {
               "score": 1
@@ -358,10 +251,117 @@
           },
           {
             "type": "Street",
-            "id": "BR/STR/p0/1679700",
+            "id": "US/STR/p1/4180992",
+            "score": 2.0959999561,
+            "matchConfidence": {
+              "score": 1
+            },
+            "address": {
+              "streetName": "Pizza Lane",
+              "municipality": "Wilson",
+              "countrySecondarySubdivision": "Teton",
+              "countrySubdivision": "WY",
+              "countrySubdivisionName": "Wyoming",
+              "postalCode": "83014",
+              "extendedPostalCode": "83014-9164",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "Pizza Lane, Wilson, WY 83014",
+              "localName": "Wilson"
+            },
+            "position": {
+              "lat": 43.51855,
+              "lon": -110.84023
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 43.51882,
+                "lon": -110.84204
+              },
+              "btmRightPoint": {
+                "lat": 43.51846,
+                "lon": -110.83869
+              }
+            }
+          },
+          {
+            "type": "Street",
+            "id": "US/STR/p3/5281413",
+            "score": 2.0959999561,
+            "matchConfidence": {
+              "score": 1
+            },
+            "address": {
+              "streetName": "Pizza Lane",
+              "municipality": "Dover",
+              "countrySecondarySubdivision": "Hillsborough",
+              "countrySubdivision": "FL",
+              "countrySubdivisionName": "Florida",
+              "postalCode": "33527",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "Pizza Lane, Dover, FL 33527",
+              "localName": "Dover"
+            },
+            "position": {
+              "lat": 27.97313,
+              "lon": -82.24548
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 27.97433,
+                "lon": -82.24578
+              },
+              "btmRightPoint": {
+                "lat": 27.97163,
+                "lon": -82.24548
+              }
+            }
+          },
+          {
+            "type": "Street",
+            "id": "US/STR/p3/5991376",
+            "score": 2.0959999561,
+            "matchConfidence": {
+              "score": 1
+            },
+            "address": {
+              "streetName": "Pizza Lane",
+              "municipality": "Eastern",
+              "countrySecondarySubdivision": "Pendleton",
+              "countrySubdivision": "WV",
+              "countrySubdivisionName": "West Virginia",
+              "postalCode": "26802",
+              "extendedPostalCode": "26802-8016, 26802-8043",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "Pizza Lane, Brandywine, WV 26802",
+              "localName": "Brandywine"
+            },
+            "position": {
+              "lat": 38.62674,
+              "lon": -79.24476
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 38.62697,
+                "lon": -79.2452
+              },
+              "btmRightPoint": {
+                "lat": 38.62645,
+                "lon": -79.24399
+              }
+            }
+          },
+          {
+            "type": "Street",
+            "id": "BR/STR/p0/489460",
             "score": 2.075854063,
             "matchConfidence": {
-              "score": 0.8836922763704675
+              "score": 0.8837949034069463
             },
             "address": {
               "streetName": "Rua Doutor Luiz Pizza",

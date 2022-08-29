@@ -10,8 +10,8 @@
         "Content-Length": "149",
         "Content-Type": "application/json",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "99b4ce70-ce39-4f28-bd13-2a40b97fc826"
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.14.2 OS/(x64-Linux-5.4.0-1086-azure)",
+        "x-ms-client-request-id": "0c9cbbdf-4bbe-43fb-8075-c32e4c3528de"
       },
       "RequestBody": {
         "batchItems": [
@@ -30,18 +30,18 @@
       "ResponseHeaders": {
         "Content-Length": "2",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 28 Jul 2022 03:28:03 GMT",
-        "Location": "https://atlas.microsoft.com/search/fuzzy/batch/4df530d2-b336-4546-81f9-eb58be9c56b0?api-version=1.0",
+        "Date": "Mon, 29 Aug 2022 10:31:49 GMT",
+        "Location": "https://atlas.microsoft.com/search/fuzzy/batch/cd34e2b5-1cc9-45fe-b80f-e700a9f991fb?api-version=1.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-azuremaps-region": "West US 2",
-        "X-MSEdge-Ref": "Ref A: 4A9A97E570004814880667344DC8861E Ref B: TYBEDGE0407 Ref C: 2022-07-28T03:28:03Z"
+        "x-ms-azuremaps-region": "West Europe",
+        "X-MSEdge-Ref": "Ref A: 040EA766699A44E2AF374B9493808927 Ref B: SG1EDGE0117 Ref C: 2022-08-29T10:31:50Z"
       },
       "ResponseBody": "\u0022\u0022"
     },
     {
-      "RequestUri": "https://atlas.microsoft.com/search/fuzzy/batch/4df530d2-b336-4546-81f9-eb58be9c56b0?api-version=1.0",
+      "RequestUri": "https://atlas.microsoft.com/search/fuzzy/batch/cd34e2b5-1cc9-45fe-b80f-e700a9f991fb?api-version=1.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -49,20 +49,20 @@
         "Connection": "keep-alive",
         "Content-Type": "application/json",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "46a8b334-b761-4a23-abe9-45f00456d005"
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.14.2 OS/(x64-Linux-5.4.0-1086-azure)",
+        "x-ms-client-request-id": "98c3fb70-e874-4656-a567-c5ce0c0123fc"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Thu, 28 Jul 2022 03:28:03 GMT",
+        "Date": "Mon, 29 Aug 2022 10:31:49 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-azuremaps-region": "West US 2",
-        "X-MSEdge-Ref": "Ref A: A139DACBDC3F420FB0ED2E792114E9FD Ref B: TYBEDGE0407 Ref C: 2022-07-28T03:28:03Z"
+        "x-ms-azuremaps-region": "West Europe",
+        "X-MSEdge-Ref": "Ref A: B79C28B23138497883EBAEF30646E958 Ref B: SG1EDGE0117 Ref C: 2022-08-29T10:31:50Z"
       },
       "ResponseBody": {
         "batchItems": [
@@ -72,20 +72,21 @@
               "summary": {
                 "query": "pizza",
                 "queryType": "NON_NEAR",
-                "queryTime": 6,
+                "queryTime": 7,
                 "numResults": 10,
                 "offset": 0,
-                "totalResults": 19877,
+                "totalResults": 19829,
                 "fuzzyLevel": 1
               },
               "results": [
                 {
                   "type": "POI",
-                  "id": "250009036671933",
+                  "id": "250009002691554",
                   "score": 2.1454398632,
-                  "info": "search:ta:250009036671933-FR",
+                  "info": "search:ta:250009002691554-FR",
                   "poi": {
-                    "name": "Pizza Son\u0027",
+                    "name": "Le Chanzy",
+                    "phone": "\u002B33 3 29 83 62 25",
                     "categorySet": [
                       {
                         "id": 7315036
@@ -112,50 +113,50 @@
                     ]
                   },
                   "address": {
-                    "streetNumber": "7",
-                    "streetName": "Rue Andr\u00E9 Foy",
-                    "municipality": "Landudec",
-                    "countrySecondarySubdivision": "Finist\u00E8re",
-                    "countrySubdivision": "Bretagne",
-                    "postalCode": "29710",
+                    "streetNumber": "18",
+                    "streetName": "Rue Aristide Briand",
+                    "municipality": "Stenay",
+                    "countrySecondarySubdivision": "Meuse",
+                    "countrySubdivision": "Grand Est",
+                    "postalCode": "55700",
                     "countryCode": "FR",
                     "country": "France",
                     "countryCodeISO3": "FRA",
-                    "freeformAddress": "7 Rue Andr\u00E9 Foy, 29710 Landudec",
-                    "localName": "Landudec"
+                    "freeformAddress": "18 Rue Aristide Briand, 55700 Stenay",
+                    "localName": "Stenay"
                   },
                   "position": {
-                    "lat": 48.00002,
-                    "lon": -4.33423
+                    "lat": 49.49062,
+                    "lon": 5.18596
                   },
                   "viewport": {
                     "topLeftPoint": {
-                      "lat": 48.00092,
-                      "lon": -4.33557
+                      "lat": 49.49152,
+                      "lon": 5.18458
                     },
                     "btmRightPoint": {
-                      "lat": 47.99912,
-                      "lon": -4.33289
+                      "lat": 49.48972,
+                      "lon": 5.18734
                     }
                   },
                   "entryPoints": [
                     {
                       "type": "main",
                       "position": {
-                        "lat": 47.99993,
-                        "lon": -4.33423
+                        "lat": 49.49071,
+                        "lon": 5.18598
                       }
                     }
                   ]
                 },
                 {
                   "type": "POI",
-                  "id": "250009002305610",
+                  "id": "250001000448336",
                   "score": 2.1454398632,
-                  "info": "search:ta:250009002305610-FR",
+                  "info": "search:ta:250001000448336-FR",
                   "poi": {
-                    "name": "Pizzi Gonzales",
-                    "phone": "\u002B33 2 98 66 13 13",
+                    "name": "Pizza Plus",
+                    "phone": "\u002B33 3 29 80 38 86",
                     "categorySet": [
                       {
                         "id": 7315036
@@ -182,55 +183,53 @@
                     ]
                   },
                   "address": {
-                    "streetName": "Place des Quatre Fr\u00E8res Kerivel",
-                    "municipality": "Douarnenez",
-                    "countrySecondarySubdivision": "Finistere",
-                    "countrySubdivision": "Brittany",
-                    "postalCode": "29100",
+                    "streetName": "Rue Jean-Baptiste Collin",
+                    "municipality": "Stenay",
+                    "countrySecondarySubdivision": "Meuse",
+                    "countrySubdivision": "Grand Est",
+                    "postalCode": "55700",
                     "countryCode": "FR",
                     "country": "France",
                     "countryCodeISO3": "FRA",
-                    "freeformAddress": "Place des Quatre Fr\u00E8res Kerivel, 29100 Douarnenez",
-                    "localName": "Douarnenez"
+                    "freeformAddress": "Rue Jean-Baptiste Collin, 55700 Stenay",
+                    "localName": "Stenay"
                   },
                   "position": {
-                    "lat": 48.09605,
-                    "lon": -4.3427
+                    "lat": 49.49306,
+                    "lon": 5.18897
                   },
                   "viewport": {
                     "topLeftPoint": {
-                      "lat": 48.09695,
-                      "lon": -4.34405
+                      "lat": 49.49396,
+                      "lon": 5.18759
                     },
                     "btmRightPoint": {
-                      "lat": 48.09515,
-                      "lon": -4.34135
+                      "lat": 49.49216,
+                      "lon": 5.19035
                     }
                   },
                   "entryPoints": [
                     {
                       "type": "main",
                       "position": {
-                        "lat": 48.09605,
-                        "lon": -4.3427
+                        "lat": 49.49315,
+                        "lon": 5.18896
                       }
                     }
                   ]
                 },
                 {
                   "type": "POI",
-                  "id": "250001000020498",
+                  "id": "250009011475027",
                   "score": 2.1454398632,
-                  "info": "search:ta:250001000020498-FR",
+                  "info": "search:ta:250009011475027-FR",
                   "poi": {
-                    "name": "Pizzeria Chez Michel",
-                    "phone": "\u002B33 2 99 56 47 10",
+                    "name": "Pizza Bueno",
                     "categorySet": [
                       {
                         "id": 7315036
                       }
                     ],
-                    "url": "www.pizzeriachezmichel.com",
                     "categories": [
                       "pizza",
                       "restaurant"
@@ -252,49 +251,49 @@
                     ]
                   },
                   "address": {
-                    "streetName": "Chauss\u00E9e du Sillon",
-                    "municipality": "Saint-Malo",
-                    "countrySecondarySubdivision": "Ille-et-Vilaine",
-                    "countrySubdivision": "Bretagne",
-                    "postalCode": "35400",
+                    "streetName": "Rue Bournizet",
+                    "municipality": "Vouziers",
+                    "countrySecondarySubdivision": "Ardennes",
+                    "countrySubdivision": "Grand Est",
+                    "postalCode": "08400",
                     "countryCode": "FR",
                     "country": "France",
                     "countryCodeISO3": "FRA",
-                    "freeformAddress": "Chauss\u00E9e du Sillon, 35400 Saint-Malo",
-                    "localName": "Saint-Malo"
+                    "freeformAddress": "Rue Bournizet, 08400 Vouziers",
+                    "localName": "Vouziers"
                   },
                   "position": {
-                    "lat": 48.65559,
-                    "lon": -2.00546
+                    "lat": 49.39779,
+                    "lon": 4.69844
                   },
                   "viewport": {
                     "topLeftPoint": {
-                      "lat": 48.65649,
-                      "lon": -2.00682
+                      "lat": 49.39869,
+                      "lon": 4.69706
                     },
                     "btmRightPoint": {
-                      "lat": 48.65469,
-                      "lon": -2.0041
+                      "lat": 49.39689,
+                      "lon": 4.69982
                     }
                   },
                   "entryPoints": [
                     {
                       "type": "main",
                       "position": {
-                        "lat": 48.65539,
-                        "lon": -2.00532
+                        "lat": 49.39758,
+                        "lon": 4.69851
                       }
                     }
                   ]
                 },
                 {
                   "type": "POI",
-                  "id": "250001000580420",
+                  "id": "250001000095988",
                   "score": 2.1454398632,
-                  "info": "search:ta:250001000580420-FR",
+                  "info": "search:ta:250001000095988-FR",
                   "poi": {
-                    "name": "Pizzeria Elgady",
-                    "phone": "\u002B33 2 96 89 19 28",
+                    "name": "La Palma",
+                    "phone": "\u002B33 3 89 81 46 22",
                     "categorySet": [
                       {
                         "id": 7315036
@@ -321,50 +320,49 @@
                     ]
                   },
                   "address": {
-                    "streetNumber": "11",
-                    "streetName": "Rue Mathurin Roger",
-                    "municipality": "Plou\u00EBr-sur-Rance",
-                    "countrySecondarySubdivision": "C\u00F4tes-d\u0027Armor",
-                    "countrySubdivision": "Bretagne",
-                    "postalCode": "22490",
+                    "streetName": "Rue du Freiberg",
+                    "municipality": "Landser",
+                    "countrySecondarySubdivision": "Haut-Rhin",
+                    "countrySubdivision": "Grand Est",
+                    "postalCode": "68440",
                     "countryCode": "FR",
                     "country": "France",
                     "countryCodeISO3": "FRA",
-                    "freeformAddress": "11 Rue Mathurin Roger, 22490 Plou\u00EBr-sur-Rance",
-                    "localName": "Plou\u00EBr-sur-Rance"
+                    "freeformAddress": "Rue du Freiberg, 68440 Landser",
+                    "localName": "Landser"
                   },
                   "position": {
-                    "lat": 48.52953,
-                    "lon": -2.00548
+                    "lat": 47.6861,
+                    "lon": 7.39574
                   },
                   "viewport": {
                     "topLeftPoint": {
-                      "lat": 48.53043,
-                      "lon": -2.00684
+                      "lat": 47.687,
+                      "lon": 7.3944
                     },
                     "btmRightPoint": {
-                      "lat": 48.52863,
-                      "lon": -2.00412
+                      "lat": 47.6852,
+                      "lon": 7.39708
                     }
                   },
                   "entryPoints": [
                     {
                       "type": "main",
                       "position": {
-                        "lat": 48.52961,
-                        "lon": -2.00536
+                        "lat": 47.68612,
+                        "lon": 7.39584
                       }
                     }
                   ]
                 },
                 {
                   "type": "POI",
-                  "id": "250001000580594",
+                  "id": "250009004350693",
                   "score": 2.1454398632,
-                  "info": "search:ta:250001000580594-FR",
+                  "info": "search:ta:250009004350693-FR",
                   "poi": {
-                    "name": "Da Pietro",
-                    "phone": "\u002B33 2 99 79 10 96",
+                    "name": "Pizz\u00E9ria da Marco",
+                    "phone": "\u002B33 3 89 07 35 05",
                     "categorySet": [
                       {
                         "id": 7315036
@@ -391,56 +389,55 @@
                     ]
                   },
                   "address": {
-                    "streetNumber": "39",
-                    "streetName": "Rue Vasselot",
-                    "municipality": "Rennes",
-                    "countrySecondarySubdivision": "Ille-et-Vilaine",
-                    "countrySubdivision": "Bretagne",
-                    "postalCode": "35000",
+                    "streetNumber": "13",
+                    "streetName": "Rue Principale",
+                    "municipality": "Oltingue",
+                    "countrySecondarySubdivision": "Haut-Rhin",
+                    "countrySubdivision": "Grand Est",
+                    "postalCode": "68480",
                     "countryCode": "FR",
                     "country": "France",
                     "countryCodeISO3": "FRA",
-                    "freeformAddress": "39 Rue Vasselot, 35000 Rennes",
-                    "localName": "Rennes"
+                    "freeformAddress": "13 Rue Principale, 68480 Oltingue",
+                    "localName": "Oltingue"
                   },
                   "position": {
-                    "lat": 48.10869,
-                    "lon": -1.67697
+                    "lat": 47.4925,
+                    "lon": 7.3916
                   },
                   "viewport": {
                     "topLeftPoint": {
-                      "lat": 48.10959,
-                      "lon": -1.67832
+                      "lat": 47.4934,
+                      "lon": 7.39027
                     },
                     "btmRightPoint": {
-                      "lat": 48.10779,
-                      "lon": -1.67562
+                      "lat": 47.4916,
+                      "lon": 7.39293
                     }
                   },
                   "entryPoints": [
                     {
                       "type": "main",
                       "position": {
-                        "lat": 48.1086,
-                        "lon": -1.677
+                        "lat": 47.49239,
+                        "lon": 7.39148
                       }
                     }
                   ]
                 },
                 {
                   "type": "POI",
-                  "id": "250009004915637",
+                  "id": "250009009711899",
                   "score": 2.1454398632,
-                  "info": "search:ta:250009004915637-FR",
+                  "info": "search:ta:250009009711899-FR",
                   "poi": {
-                    "name": "L\u0027Olivier",
-                    "phone": "\u002B33 2 99 40 40 48",
+                    "name": "Pizza SLK",
+                    "phone": "\u002B33 6 88 24 76 28",
                     "categorySet": [
                       {
                         "id": 7315036
                       }
                     ],
-                    "url": "www.pizzeriasaintmalo.com",
                     "categories": [
                       "pizza",
                       "restaurant"
@@ -462,49 +459,49 @@
                     ]
                   },
                   "address": {
-                    "streetName": "Chauss\u00E9e du Sillon",
-                    "municipality": "Saint-Malo",
-                    "countrySecondarySubdivision": "Ille-et-Vilaine",
-                    "countrySubdivision": "Bretagne",
-                    "postalCode": "35400",
+                    "streetNumber": "22",
+                    "streetName": "Rue Lafayette",
+                    "municipality": "Chaumont",
+                    "countrySecondarySubdivision": "Haute-Marne",
+                    "countrySubdivision": "Grand Est",
+                    "postalCode": "52000",
                     "countryCode": "FR",
                     "country": "France",
                     "countryCodeISO3": "FRA",
-                    "freeformAddress": "Chauss\u00E9e du Sillon, 35400 Saint-Malo",
-                    "localName": "Saint-Malo"
+                    "freeformAddress": "22 Rue Lafayette, 52000 Chaumont",
+                    "localName": "Chaumont"
                   },
                   "position": {
-                    "lat": 48.6532,
-                    "lon": -2.01195
+                    "lat": 48.09482,
+                    "lon": 5.14989
                   },
                   "viewport": {
                     "topLeftPoint": {
-                      "lat": 48.6541,
-                      "lon": -2.01331
+                      "lat": 48.09572,
+                      "lon": 5.14854
                     },
                     "btmRightPoint": {
-                      "lat": 48.6523,
-                      "lon": -2.01059
+                      "lat": 48.09392,
+                      "lon": 5.15124
                     }
                   },
                   "entryPoints": [
                     {
                       "type": "main",
                       "position": {
-                        "lat": 48.65329,
-                        "lon": -2.01201
+                        "lat": 48.0949,
+                        "lon": 5.14984
                       }
                     }
                   ]
                 },
                 {
                   "type": "POI",
-                  "id": "250009036698931",
+                  "id": "250009010853738",
                   "score": 2.1454398632,
-                  "info": "search:ta:250009036698931-FR",
+                  "info": "search:ta:250009010853738-FR",
                   "poi": {
-                    "name": "Oh Pizza Mia",
-                    "phone": "\u002B33 2 99 20 05 05",
+                    "name": "Pizza des C\u00F4tes",
                     "categorySet": [
                       {
                         "id": 7315036
@@ -531,49 +528,50 @@
                     ]
                   },
                   "address": {
-                    "streetName": "La Costardais",
-                    "municipality": "Miniac-Morvan",
-                    "countrySecondarySubdivision": "Ille-et-Vilaine",
-                    "countrySubdivision": "Bretagne",
-                    "postalCode": "35540",
+                    "streetNumber": "27",
+                    "streetName": "Rue des Gros Noyers",
+                    "municipality": "Noisseville",
+                    "countrySecondarySubdivision": "Moselle",
+                    "countrySubdivision": "Grand Est",
+                    "postalCode": "57645",
                     "countryCode": "FR",
                     "country": "France",
                     "countryCodeISO3": "FRA",
-                    "freeformAddress": "La Costardais, 35540 Miniac-Morvan",
-                    "localName": "Miniac-Morvan"
+                    "freeformAddress": "27 Rue des Gros Noyers, 57645 Noisseville",
+                    "localName": "Noisseville"
                   },
                   "position": {
-                    "lat": 48.53088,
-                    "lon": -1.91557
+                    "lat": 49.13271,
+                    "lon": 6.28068
                   },
                   "viewport": {
                     "topLeftPoint": {
-                      "lat": 48.53178,
-                      "lon": -1.91693
+                      "lat": 49.13361,
+                      "lon": 6.27931
                     },
                     "btmRightPoint": {
-                      "lat": 48.52998,
-                      "lon": -1.91421
+                      "lat": 49.13181,
+                      "lon": 6.28205
                     }
                   },
                   "entryPoints": [
                     {
                       "type": "main",
                       "position": {
-                        "lat": 48.53085,
-                        "lon": -1.9157
+                        "lat": 49.13257,
+                        "lon": 6.28075
                       }
                     }
                   ]
                 },
                 {
                   "type": "POI",
-                  "id": "250009011279536",
+                  "id": "250009042435816",
                   "score": 2.1454398632,
-                  "info": "search:ta:250009011279536-FR",
+                  "info": "search:ta:250009042435816-FR",
                   "poi": {
-                    "name": "Arriba Pizza",
-                    "phone": "\u002B33 2 99 64 71 71",
+                    "name": "Le Trente 9",
+                    "phone": "\u002B33 3 87 39 39 39",
                     "categorySet": [
                       {
                         "id": 7315036
@@ -600,56 +598,55 @@
                     ]
                   },
                   "address": {
-                    "streetNumber": "1",
-                    "streetName": "Rue du Centre",
-                    "municipality": "Saint-Gilles",
-                    "countrySecondarySubdivision": "Ille-et-Vilaine",
-                    "countrySubdivision": "Bretagne",
-                    "postalCode": "35590",
+                    "streetNumber": "195",
+                    "streetName": "Rue du G\u00E9n\u00E9ral Metman",
+                    "municipality": "Metz",
+                    "countrySecondarySubdivision": "Moselle",
+                    "countrySubdivision": "Grand Est",
+                    "postalCode": "57070",
                     "countryCode": "FR",
                     "country": "France",
                     "countryCodeISO3": "FRA",
-                    "freeformAddress": "1 Rue du Centre, 35590 Saint-Gilles",
-                    "localName": "Saint-Gilles"
+                    "freeformAddress": "195 Rue du G\u00E9n\u00E9ral Metman, 57070 Metz",
+                    "localName": "Metz"
                   },
                   "position": {
-                    "lat": 48.15413,
-                    "lon": -1.82974
+                    "lat": 49.11908,
+                    "lon": 6.23713
                   },
                   "viewport": {
                     "topLeftPoint": {
-                      "lat": 48.15503,
-                      "lon": -1.83109
+                      "lat": 49.11998,
+                      "lon": 6.23576
                     },
                     "btmRightPoint": {
-                      "lat": 48.15323,
-                      "lon": -1.82839
+                      "lat": 49.11818,
+                      "lon": 6.2385
                     }
                   },
                   "entryPoints": [
                     {
                       "type": "main",
                       "position": {
-                        "lat": 48.15413,
-                        "lon": -1.82961
+                        "lat": 49.11926,
+                        "lon": 6.23801
                       }
                     }
                   ]
                 },
                 {
                   "type": "POI",
-                  "id": "250009008174235",
+                  "id": "250009011499775",
                   "score": 2.1454398632,
-                  "info": "search:ta:250009008174235-FR",
+                  "info": "search:ta:250009011499775-FR",
                   "poi": {
-                    "name": "La Bella Ora",
-                    "phone": "\u002B33 2 98 52 77 57",
+                    "name": "La Pizz",
+                    "phone": "\u002B33 9 84 02 70 04",
                     "categorySet": [
                       {
                         "id": 7315036
                       }
                     ],
-                    "url": "www.labellaorapizza.e-monsite.com",
                     "categories": [
                       "pizza",
                       "restaurant"
@@ -671,61 +668,55 @@
                     ]
                   },
                   "address": {
-                    "streetNumber": "10",
-                    "streetName": "Rue de Quimper",
-                    "municipality": "Pouldreuzic",
-                    "countrySecondarySubdivision": "Finist\u00E8re",
-                    "countrySubdivision": "Bretagne",
-                    "postalCode": "29710",
+                    "streetNumber": "24",
+                    "streetName": "Grande Rue",
+                    "municipality": "La Bresse",
+                    "countrySecondarySubdivision": "Vosges",
+                    "countrySubdivision": "Grand Est",
+                    "postalCode": "88250",
                     "countryCode": "FR",
                     "country": "France",
                     "countryCodeISO3": "FRA",
-                    "freeformAddress": "10 Rue de Quimper, 29710 Pouldreuzic",
-                    "localName": "Pouldreuzic"
+                    "freeformAddress": "24 Grande Rue, 88250 La Bresse",
+                    "localName": "La Bresse"
                   },
                   "position": {
-                    "lat": 47.95501,
-                    "lon": -4.35921
+                    "lat": 48.0007,
+                    "lon": 6.87111
                   },
                   "viewport": {
                     "topLeftPoint": {
-                      "lat": 47.95591,
-                      "lon": -4.36055
+                      "lat": 48.0016,
+                      "lon": 6.86977
                     },
                     "btmRightPoint": {
-                      "lat": 47.95411,
-                      "lon": -4.35787
+                      "lat": 47.9998,
+                      "lon": 6.87245
                     }
                   },
                   "entryPoints": [
                     {
                       "type": "main",
                       "position": {
-                        "lat": 47.95509,
-                        "lon": -4.35928
+                        "lat": 48.00068,
+                        "lon": 6.87124
                       }
                     }
                   ]
                 },
                 {
                   "type": "POI",
-                  "id": "250009036609017",
+                  "id": "250009013446908",
                   "score": 2.1454398632,
-                  "info": "search:ta:250009036609017-FR",
+                  "info": "search:ta:250009013446908-FR",
                   "poi": {
-                    "name": "Domino\u0027s Pizza Rennes",
-                    "phone": "\u002B33 2 99 31 01 01",
-                    "brands": [
-                      {
-                        "name": "Domino\u0027s Pizza"
-                      }
-                    ],
+                    "name": "Pizza Nadia",
+                    "phone": "\u002B33 3 88 91 85 44",
                     "categorySet": [
                       {
                         "id": 7315036
                       }
                     ],
-                    "url": "pizza.dominos.fr",
                     "categories": [
                       "pizza",
                       "restaurant"
@@ -747,38 +738,38 @@
                     ]
                   },
                   "address": {
-                    "streetNumber": "90",
-                    "streetName": "Rue de Saint-Brieuc",
-                    "municipality": "Rennes",
-                    "countrySecondarySubdivision": "Ille-et-Vilaine",
-                    "countrySubdivision": "Bretagne",
-                    "postalCode": "35000",
+                    "streetNumber": "41",
+                    "streetName": "Grand\u0027Rue",
+                    "municipality": "Diemeringen",
+                    "countrySecondarySubdivision": "Bas-Rhin",
+                    "countrySubdivision": "Grand Est",
+                    "postalCode": "67430",
                     "countryCode": "FR",
                     "country": "France",
                     "countryCodeISO3": "FRA",
-                    "freeformAddress": "90 Rue de Saint-Brieuc, 35000 Rennes",
-                    "localName": "Rennes"
+                    "freeformAddress": "41 Grand\u0027Rue, 67430 Diemeringen",
+                    "localName": "Diemeringen"
                   },
                   "position": {
-                    "lat": 48.11497,
-                    "lon": -1.70709
+                    "lat": 48.94005,
+                    "lon": 7.18678
                   },
                   "viewport": {
                     "topLeftPoint": {
-                      "lat": 48.11587,
-                      "lon": -1.70844
+                      "lat": 48.94095,
+                      "lon": 7.18541
                     },
                     "btmRightPoint": {
-                      "lat": 48.11407,
-                      "lon": -1.70574
+                      "lat": 48.93915,
+                      "lon": 7.18815
                     }
                   },
                   "entryPoints": [
                     {
                       "type": "main",
                       "position": {
-                        "lat": 48.1149,
-                        "lon": -1.70718
+                        "lat": 48.94011,
+                        "lon": 7.1869
                       }
                     }
                   ]
@@ -792,10 +783,10 @@
               "summary": {
                 "query": "pizza",
                 "queryType": "NON_NEAR",
-                "queryTime": 10,
+                "queryTime": 11,
                 "numResults": 10,
                 "offset": 0,
-                "totalResults": 377579,
+                "totalResults": 377227,
                 "fuzzyLevel": 1,
                 "geoBias": {
                   "lat": 25,
@@ -832,11 +823,11 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           }
                         ]
                       }
@@ -909,11 +900,11 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           }
                         ]
                       }
@@ -986,11 +977,11 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           }
                         ]
                       }
@@ -1063,11 +1054,11 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           }
                         ]
                       }
@@ -1140,11 +1131,11 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           }
                         ]
                       }
@@ -1216,11 +1207,11 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           }
                         ]
                       }
@@ -1292,11 +1283,11 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           }
                         ]
                       }
@@ -1364,11 +1355,11 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           }
                         ]
                       }
@@ -1441,11 +1432,11 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           }
                         ]
                       }
@@ -1518,11 +1509,11 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           }
                         ]
                       }
@@ -1575,10 +1566,10 @@
               "summary": {
                 "query": "pizza",
                 "queryType": "NON_NEAR",
-                "queryTime": 54,
+                "queryTime": 9,
                 "numResults": 10,
                 "offset": 0,
-                "totalResults": 1031,
+                "totalResults": 1034,
                 "fuzzyLevel": 1,
                 "geoBias": {
                   "lat": 25,
