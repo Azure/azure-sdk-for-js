@@ -4,7 +4,7 @@
 /**
  * @summary Classification policy crud
  */
-import { RouterAdministrationClient } from "@azure/communication-jobrouter";
+import { RouterAdministrationClient } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";

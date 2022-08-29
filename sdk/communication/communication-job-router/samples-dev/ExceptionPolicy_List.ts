@@ -6,7 +6,7 @@
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
-import { ExceptionPolicyItem, RouterAdministrationClient } from "@azure/communication-jobrouter";
+import { ExceptionPolicyItem, RouterAdministrationClient } from "@azure/communication-job-router";
 import { assert } from "chai";
 dotenv.config();
 

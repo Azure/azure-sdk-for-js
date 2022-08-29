@@ -10,7 +10,7 @@ import {
   ExceptionPolicy,
   JobQueue,
   QueueLengthExceptionTrigger,
-  RouterAdministrationClient } from "@azure/communication-jobrouter";
+  RouterAdministrationClient } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";

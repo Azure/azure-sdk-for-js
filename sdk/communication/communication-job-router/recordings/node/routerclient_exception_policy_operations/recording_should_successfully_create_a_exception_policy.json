@@ -10,7 +10,7 @@
         "Connection": "keep-alive",
         "Content-Length": "245",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-jobrouter/V2022-07-18-preview azsdk-js-azure-communication-jobrouter/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.3.0 OS/(x64-Windows_NT-10.0.22000)",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.3.0 OS/(x64-Windows_NT-10.0.22000)",
         "x-ms-client-request-id": "5e60fa3c-ee02-4548-acb0-56f7896aa87d",
         "x-ms-content-sha256": "g/FFONEq6b2TPcd7RLMusaLauV9XSyvcW81/lUW4LUU=",
         "x-ms-date": "Thu, 25 Aug 2022 22:06:13 GMT"

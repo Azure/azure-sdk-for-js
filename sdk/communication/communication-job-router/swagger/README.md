@@ -1,13 +1,13 @@
-# Azure Communication Services JobRouter
+# Azure Communication Services Job Router
 
 > see [https://aka.ms/autorest](https://aka.ms/autorest)
 
 ## Configuration
 
 ```yaml
-package-name: azure-communication-jobrouter
+package-name: azure-communication-job-router
 title: JobRouterApiClient
-description: JobRouter Client
+description: Job Router Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated

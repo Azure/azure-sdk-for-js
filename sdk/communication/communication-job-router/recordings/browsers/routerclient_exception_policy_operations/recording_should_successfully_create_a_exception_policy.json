@@ -23,7 +23,7 @@
         "x-ms-client-request-id": "b1048655-7fd4-4b2e-a8c3-8eabe49a6b32",
         "x-ms-content-sha256": "g/FFONEq6b2TPcd7RLMusaLauV9XSyvcW81/lUW4LUU=",
         "x-ms-date": "Thu, 25 Aug 2022 22:08:35 GMT",
-        "x-ms-useragent": "azsdk-js-communication-jobrouter/V2022-07-18-preview azsdk-js-azure-communication-jobrouter/1.0.0-beta.1 core-rest-pipeline/1.9.2 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.9.2 OS/Win32"
       },
       "RequestBody": {
         "name": "test-policy",

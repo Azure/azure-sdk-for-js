@@ -23,7 +23,7 @@
         "x-ms-client-request-id": "7e65928b-21f8-48a0-a27e-7915c6ed3342",
         "x-ms-content-sha256": "g/FFONEq6b2TPcd7RLMusaLauV9XSyvcW81/lUW4LUU=",
         "x-ms-date": "Thu, 25 Aug 2022 22:08:37 GMT",
-        "x-ms-useragent": "azsdk-js-communication-jobrouter/V2022-07-18-preview azsdk-js-azure-communication-jobrouter/1.0.0-beta.1 core-rest-pipeline/1.9.2 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.9.2 OS/Win32"
       },
       "RequestBody": {
         "name": "test-policy",
@@ -106,7 +106,7 @@
         "x-ms-client-request-id": "798f6854-3ebd-4faf-91e9-9e1979fcd10e",
         "x-ms-content-sha256": "8Az\u002BIAidH2al/XWx7uVmnLfoIIFq4UkYoIeqBpDaau8=",
         "x-ms-date": "Thu, 25 Aug 2022 22:08:38 GMT",
-        "x-ms-useragent": "azsdk-js-communication-jobrouter/V2022-07-18-preview azsdk-js-azure-communication-jobrouter/1.0.0-beta.1 core-rest-pipeline/1.9.2 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.9.2 OS/Win32"
       },
       "RequestBody": {
         "name": "some new name",

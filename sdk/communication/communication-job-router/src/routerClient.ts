@@ -111,7 +111,7 @@ export class RouterClient {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isRouterClientOptions(credentialOrOptions) ? credentialOrOptions : maybeOptions;
 
-    const libInfo = `azsdk-js-communication-jobrouter/${SDK_VERSION}`;
+    const libInfo = `azsdk-js-communication-job-router/${SDK_VERSION}`;
 
     if (!options.userAgentOptions) {
       options.userAgentOptions = {};

@@ -3,7 +3,7 @@
 /**
  * @summary Quick start workflow for creating queue, job and worker, routing/matching job with worker
  */
-import { DistributionPolicy, JobQueue, RouterJob, RouterAdministrationClient, RouterClient, RouterWorkerResponse } from "@azure/communication-jobrouter";
+import { DistributionPolicy, JobQueue, RouterJob, RouterAdministrationClient, RouterClient, RouterWorkerResponse } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
@@ -82,7 +82,7 @@ async function quickStart(): Promise<void> {
   // 
   // We should get a RouterWorkerOfferIssued from our EventGrid subscription.
   
-  // However, we could also wait a few seconds and then query the worker directly against the JobRouter API to see if 
+  // However, we could also wait a few seconds and then query the worker directly against the Job Router API to see if
   // an offer was issued to it.
   const workerResult = await routerClient.getWorker(workerRequest.id);
   for await  (let offer of workerResult.offers!)

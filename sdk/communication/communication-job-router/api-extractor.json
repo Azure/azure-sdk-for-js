@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/communication-jobrouter.d.ts"
+    "publicTrimmedFilePath": "./types/communication-job-router.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {

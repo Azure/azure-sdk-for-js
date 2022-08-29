@@ -1,6 +1,6 @@
-# Azure Communication JobRouter client sdk for JavaScript
+# Azure Communication Job Router client sdk for JavaScript
 
-This package contains a JS SDK for Azure Communication Services for JobRouter.
+This package contains a JS SDK for Azure Communication Services for Job Router.
 
 ## Getting started
 
@@ -12,7 +12,7 @@ This package contains a JS SDK for Azure Communication Services for JobRouter.
 ### Installing
 
 ```bash
-npm install @azure/communication-jobrouter
+npm install @azure/communication-job-router
 ```
 
 ### Browser support
@@ -69,7 +69,7 @@ Create a new Azure Communication service resource on Azure https://ms.portal.azu
 
 ###Install the Azure Communication Services Router SDK
 In the application directory, install the Azure Communication Services Router client library for JavaScript package by using the `npm install --save` command
-`npm install @azure/communication-jobrouter`
+`npm install @azure/communication-job-router`
 
 ## Examples
 
@@ -77,7 +77,7 @@ In the application directory, install the Azure Communication Services Router cl
 First we need to initialize a Router client.
 
 ```js
-const { RouterClient } = require("@azure/communication-jobrouter");
+const { RouterClient } = require("@azure/communication-job-router");
 
 const acsConnectionString =
   "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
@@ -379,4 +379,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_portal]: https://portal.azure.com
 [azure_powershell]: https://docs.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-jobrouter%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-job-router%2FREADME.png)

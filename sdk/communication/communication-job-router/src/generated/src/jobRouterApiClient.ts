@@ -39,7 +39,7 @@ export class JobRouterApiClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-azure-communication-jobrouter/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-azure-communication-job-router/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

@@ -3,4 +3,4 @@
 
 import { createClientLogger } from "@azure/logger";
 
-export const logger = createClientLogger("communication-jobrouter");
+export const logger = createClientLogger("communication-job-router");

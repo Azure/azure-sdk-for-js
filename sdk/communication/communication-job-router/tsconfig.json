@@ -4,7 +4,7 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types",
     "paths": {
-      "@azure/communication-jobrouter": ["./src/index"]
+      "@azure/communication-job-router": ["./src/index"]
     }
   },
   "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm", "./samples/**/*.ts"],

@@ -3,11 +3,11 @@
 /**
  * @summary Exception policy crud
  */
-import { RouterAdministrationClient } from "@azure/communication-jobrouter";
+import { RouterAdministrationClient } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
-import { ExceptionPolicy, QueueLengthExceptionTrigger } from "@azure/communication-jobrouter";
+import { ExceptionPolicy, QueueLengthExceptionTrigger } from "@azure/communication-job-router";
 dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
