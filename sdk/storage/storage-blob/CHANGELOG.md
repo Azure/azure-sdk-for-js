@@ -1,10 +1,25 @@
 # Release History
 
-## 12.12.0-beta.1 (Unreleased)
+## 12.12.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 12.12.0-beta.1 (2022-08-26)
 
 ### Features Added
 
 - Added support for service version 2021-10-04.
+
+### Bugs Fixed
+
+- Fixed a hang issue in BlobClient.downloadToBuffer when encountering transient network failure.
+- Refined URL parsing method to let it be able to correctly parse URLs with account name in path.
 
 ## 12.11.0 (2022-07-08)
 

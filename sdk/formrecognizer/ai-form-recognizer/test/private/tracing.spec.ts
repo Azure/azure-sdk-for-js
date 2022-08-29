@@ -82,9 +82,9 @@ describe("supports tracing", function () {
     it("getModel", () =>
       assert.supportsTracing(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await dmac.getModel("test", options);
+          await dmac.getDocumentModel("test", options);
         }),
-        ["DocumentModelAdministrationClient.getModel"]
+        ["DocumentModelAdministrationClient.getDocumentModel"]
       ));
 
     it("getOperation", () =>

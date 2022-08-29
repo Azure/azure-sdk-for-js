@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added retriable behavior for 502, 503 and 504 status codes.
+
 ### Breaking Changes
 
 ### Bugs Fixed

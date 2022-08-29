@@ -27,8 +27,8 @@ export interface VirtualMachines {
   /**
    * Returns a list of all virtual machines for a lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   listByLab(
@@ -39,8 +39,8 @@ export interface VirtualMachines {
   /**
    * Returns the properties for a lab virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -54,8 +54,8 @@ export interface VirtualMachines {
   /**
    * Action to start a lab virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -69,8 +69,8 @@ export interface VirtualMachines {
   /**
    * Action to start a lab virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -84,8 +84,8 @@ export interface VirtualMachines {
   /**
    * Action to stop a lab virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -99,8 +99,8 @@ export interface VirtualMachines {
   /**
    * Action to stop a lab virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -115,8 +115,8 @@ export interface VirtualMachines {
    * Re-image a lab virtual machine. The virtual machine will be deleted and recreated using the latest
    * published snapshot of the reference environment of the lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -131,8 +131,8 @@ export interface VirtualMachines {
    * Re-image a lab virtual machine. The virtual machine will be deleted and recreated using the latest
    * published snapshot of the reference environment of the lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -147,8 +147,8 @@ export interface VirtualMachines {
    * Action to redeploy a lab virtual machine to a different compute node. For troubleshooting
    * connectivity.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -163,8 +163,8 @@ export interface VirtualMachines {
    * Action to redeploy a lab virtual machine to a different compute node. For troubleshooting
    * connectivity.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -178,8 +178,8 @@ export interface VirtualMachines {
   /**
    * Resets a lab virtual machine password.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param body The request body.
@@ -195,8 +195,8 @@ export interface VirtualMachines {
   /**
    * Resets a lab virtual machine password.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param body The request body.

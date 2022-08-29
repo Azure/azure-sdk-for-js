@@ -8,6 +8,8 @@ import { OperationOptions } from "@azure/core-client";
 import { parseNotificationHubJobEntry } from "../serializers/notificationHubJobSerializer.js";
 import { tracingClient } from "../utils/tracing.js";
 
+const OPERATION_NAME = "getNotificationHubJob";
+
 /**
  * Gets a Notification Hub Job by the ID.
  * @param context - The Notification Hubs client.
@@ -21,13 +23,13 @@ export function getNotificationHubJob(
   options: OperationOptions = {}
 ): Promise<NotificationHubJob> {
   return tracingClient.withSpan(
-    "NotificationHubsClientContext-getNotificationHubJob",
+    `NotificationHubsClientContext-${OPERATION_NAME}`,
     options,
     async (updatedOptions) => {
       const endpoint = context.requestUrl();
       endpoint.pathname += `/jobs/${jobId}`;
 
-      const headers = context.createHeaders();
+      const headers = await context.createHeaders(OPERATION_NAME);
       headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
 
       const request = createRequest(endpoint, "GET", headers, updatedOptions);

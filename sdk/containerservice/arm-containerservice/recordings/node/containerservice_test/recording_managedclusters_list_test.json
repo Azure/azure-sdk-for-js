@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/managedClusters?api-version=2022-06-02-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters?api-version=2022-07-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-containerservice/17.1.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "bbe72651-39c1-49cf-9eed-0034590708bc"
+        "User-Agent": "azsdk-js-arm-containerservice/17.1.0 core-rest-pipeline/1.9.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "4e14b853-7c2f-41e1-b470-add092833653"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Mon, 25 Jul 2022 03:25:19 GMT",
+        "Date": "Thu, 25 Aug 2022 05:58:09 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "nginx",
@@ -25,10 +25,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "3ad7c896-c4a4-4abb-bcd6-0b0910165df8",
-        "x-ms-ratelimit-remaining-subscription-reads": "11892",
-        "x-ms-request-id": "62a9260b-976b-4e79-a108-209362af562b",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220725T032520Z:3ad7c896-c4a4-4abb-bcd6-0b0910165df8"
+        "x-ms-correlation-request-id": "38fa4483-134f-4964-8c42-9abf3823a094",
+        "x-ms-ratelimit-remaining-subscription-reads": "11665",
+        "x-ms-request-id": "8920006d-2dff-4ec3-a7cf-e8b7d3c09ca2",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220825T055809Z:38fa4483-134f-4964-8c42-9abf3823a094"
       },
       "ResponseBody": {
         "value": [
@@ -42,11 +42,11 @@
               "powerState": {
                 "code": "Running"
               },
-              "kubernetesVersion": "1.22.11",
-              "currentKubernetesVersion": "1.22.11",
+              "kubernetesVersion": "1.23.8",
+              "currentKubernetesVersion": "1.23.8",
               "dnsPrefix": "aksjssdk",
-              "fqdn": "aksjssdk-e3509191.hcp.eastus.azmk8s.io",
-              "azurePortalFQDN": "aksjssdk-e3509191.portal.hcp.eastus.azmk8s.io",
+              "fqdn": "aksjssdk-c6e0e310.hcp.eastus.azmk8s.io",
+              "azurePortalFQDN": "aksjssdk-c6e0e310.portal.hcp.eastus.azmk8s.io",
               "agentPoolProfiles": [
                 {
                   "name": "aksagent",
@@ -64,11 +64,12 @@
                   "powerState": {
                     "code": "Running"
                   },
-                  "orchestratorVersion": "1.22.11",
+                  "orchestratorVersion": "1.23.8",
+                  "currentOrchestratorVersion": "1.23.8",
                   "mode": "System",
                   "osType": "Linux",
                   "osSKU": "Ubuntu",
-                  "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.07.04",
+                  "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.08.10",
                   "enableFIPS": false
                 }
               ],
@@ -86,7 +87,7 @@
                   },
                   "effectiveOutboundIPs": [
                     {
-                      "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/6958ce37-b75f-445c-90cc-c5add78789ff"
+                      "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/fbc48e2a-76cc-4a8e-acbb-c813a0486042"
                     }
                   ]
                 },
@@ -109,8 +110,7 @@
               "securityProfile": {},
               "storageProfile": {
                 "diskCSIDriver": {
-                  "enabled": true,
-                  "version": "v1"
+                  "enabled": true
                 },
                 "fileCSIDriver": {
                   "enabled": true
@@ -118,9 +118,6 @@
                 "snapshotController": {
                   "enabled": true
                 }
-              },
-              "oidcIssuerProfile": {
-                "enabled": false
               }
             },
             "sku": {

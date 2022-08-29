@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/storageaccountzzzxxx/blobServices/default/containers?api-version=2021-09-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/storageaccountzzzxxx/blobServices/default/containers?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-storage/17.2.3 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "904b84a1-080b-4dc5-b993-9355137af268"
+        "User-Agent": "azsdk-js-arm-storage/18.0.0 core-rest-pipeline/1.9.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "ddc8ee38-7994-45a7-a9ed-e01097cc9a2e"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Wed, 15 Jun 2022 08:29:30 GMT",
+        "Date": "Thu, 18 Aug 2022 01:33:28 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0",
@@ -25,10 +25,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "c64b358a-c2e7-4286-a84a-76f227e92a63",
+        "x-ms-correlation-request-id": "b6fad7be-b452-4d97-aae7-8d9ed9e1da9a",
         "x-ms-ratelimit-remaining-subscription-reads": "11993",
-        "x-ms-request-id": "79e1ed43-771d-4496-8347-d7661e0785bd",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220615T082931Z:c64b358a-c2e7-4286-a84a-76f227e92a63"
+        "x-ms-request-id": "78df46c9-a845-4641-a6de-a63e541c3e67",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220818T013329Z:b6fad7be-b452-4d97-aae7-8d9ed9e1da9a"
       },
       "ResponseBody": {
         "value": [
@@ -36,7 +36,7 @@
             "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/storageaccountzzzxxx/blobServices/default/containers/mycontainerxxx",
             "name": "mycontainerxxx",
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
-            "etag": "\u00220x8DA4EA9291A60FC\u0022",
+            "etag": "\u00220x8DA80B9A58BC30B\u0022",
             "properties": {
               "immutableStorageWithVersioning": {
                 "enabled": false
@@ -48,7 +48,7 @@
               "publicAccess": "None",
               "leaseStatus": "Unlocked",
               "leaseState": "Available",
-              "lastModifiedTime": "2022-06-15T08:29:27.0000000Z",
+              "lastModifiedTime": "2022-08-18T01:33:26.0000000Z",
               "hasImmutabilityPolicy": false,
               "hasLegalHold": false
             }
