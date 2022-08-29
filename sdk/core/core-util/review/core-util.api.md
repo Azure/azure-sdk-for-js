@@ -20,6 +20,9 @@ export function getErrorMessage(e: unknown): string;
 export function getRandomIntegerInclusive(min: number, max: number): number;
 
 // @public
+export function isDefined<T>(thing: T | undefined | null): thing is T;
+
+// @public
 export function isError(e: unknown): e is Error;
 
 // @public
@@ -27,6 +30,12 @@ export const isNode: boolean;
 
 // @public
 export function isObject(input: unknown): input is UnknownObject;
+
+// @public
+export function isObjectWithProperties<Thing, PropertyName extends string>(thing: Thing, properties: PropertyName[]): thing is Thing & Record<PropertyName, unknown>;
+
+// @public
+export function objectHasProperty<Thing, PropertyName extends string>(thing: Thing, property: PropertyName): thing is Thing & Record<PropertyName, unknown>;
 
 // @public
 export type UnknownObject = {

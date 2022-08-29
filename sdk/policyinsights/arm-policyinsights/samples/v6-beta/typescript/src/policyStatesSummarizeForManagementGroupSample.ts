@@ -30,10 +30,7 @@ async function summarizeAtManagementGroupScope() {
   const filter =
     "PolicyDefinitionAction eq 'deny' or PolicyDefinitionAction eq 'audit'";
   const options: PolicyStatesSummarizeForManagementGroupOptionalParams = {
-    top,
-    fromParam,
-    to,
-    filter
+    queryOptions: { top: top, from: fromParam, to: to, filter: filter }
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);

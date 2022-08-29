@@ -6,16 +6,17 @@
   },
   "initOptions": {
     "initScript": {
-      "path": "sh .scripts/automation_init.sh"
+      "path": "sh .scripts/automation_init.sh",
+      "stderr": {
+        "showInComment": ".*ERROR.*"
+      }
     }
   },
   "generateOptions": {
     "generateScript": {
       "path": "sh .scripts/automation_generate.sh",
       "stderr": {
-        "showInComment": "^\\[AUTOREST\\]",
-        "scriptError": "^\\[ERROR\\]",
-        "scriptWarning": "^\\[WARNING\\]"
+        "showInComment": ".*ERROR.*"
       }
     },
     "parseGenerateOutput": true

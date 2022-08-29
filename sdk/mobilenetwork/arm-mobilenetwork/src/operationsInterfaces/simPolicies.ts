@@ -25,7 +25,7 @@ import {
 /** Interface representing a SimPolicies. */
 export interface SimPolicies {
   /**
-   * Gets all the simPolicies in a mobile network.
+   * Gets all the SIM policies in a mobile network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param options The options parameters.
@@ -36,7 +36,7 @@ export interface SimPolicies {
     options?: SimPoliciesListByMobileNetworkOptionalParams
   ): PagedAsyncIterableIterator<SimPolicy>;
   /**
-   * Deletes the specified sim policy.
+   * Deletes the specified SIM policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
@@ -49,7 +49,7 @@ export interface SimPolicies {
     options?: SimPoliciesDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Deletes the specified sim policy.
+   * Deletes the specified SIM policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
@@ -62,7 +62,7 @@ export interface SimPolicies {
     options?: SimPoliciesDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Gets information about the specified sim policy.
+   * Gets information about the specified SIM policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
@@ -75,11 +75,11 @@ export interface SimPolicies {
     options?: SimPoliciesGetOptionalParams
   ): Promise<SimPoliciesGetResponse>;
   /**
-   * Creates or updates a SimPolicy.
+   * Creates or updates a SIM policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
-   * @param parameters Parameters supplied to the create or update sim policy operation.
+   * @param parameters Parameters supplied to the create or update SIM policy operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
@@ -95,11 +95,11 @@ export interface SimPolicies {
     >
   >;
   /**
-   * Creates or updates a SimPolicy.
+   * Creates or updates a SIM policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
-   * @param parameters Parameters supplied to the create or update sim policy operation.
+   * @param parameters Parameters supplied to the create or update SIM policy operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
@@ -110,11 +110,11 @@ export interface SimPolicies {
     options?: SimPoliciesCreateOrUpdateOptionalParams
   ): Promise<SimPoliciesCreateOrUpdateResponse>;
   /**
-   * Update sim policy tags.
+   * Updates SIM policy tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
-   * @param parameters Parameters supplied to update Sim Policy tags.
+   * @param parameters Parameters supplied to update SIM policy tags.
    * @param options The options parameters.
    */
   updateTags(

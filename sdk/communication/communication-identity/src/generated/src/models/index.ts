@@ -80,7 +80,9 @@ export interface CommunicationIdentityAccessTokenRequest {
 
 /** Known values of {@link CommunicationIdentityTokenScope} that the service accepts. */
 export enum KnownCommunicationIdentityTokenScope {
+  /** Chat */
   Chat = "chat",
+  /** Voip */
   Voip = "voip"
 }
 

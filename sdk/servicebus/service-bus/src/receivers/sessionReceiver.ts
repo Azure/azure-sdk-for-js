@@ -112,6 +112,7 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
  */
 export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver {
   public sessionId: string;
+  public identifier: string;
 
   /**
    * Denotes if close() was called on this receiver
@@ -136,6 +137,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   ) {
     throwErrorIfConnectionClosed(_context);
     this.sessionId = _messageSession.sessionId;
+    this.identifier = _messageSession.identifier;
   }
 
   private _throwIfReceiverOrConnectionClosed(): void {
@@ -301,7 +303,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       timeoutInMs: this._retryOptions?.timeoutInMs,
     };
     const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
-      if (options.fromSequenceNumber) {
+      if (options.fromSequenceNumber !== undefined) {
         return this._context
           .getManagementClient(this.entityPath)
           .peekBySequenceNumber(
@@ -498,6 +500,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
         errorSource: "receive",
         entityPath: this.entityPath,
         fullyQualifiedNamespace: this._context.config.host,
+        identifier: this.identifier,
       });
     }
   }

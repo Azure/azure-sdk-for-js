@@ -31,7 +31,7 @@ import { CreateMessageBatchOptions } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
-import { isDefined } from "../util/typeGuards";
+import { isDefined } from "@azure/core-util";
 import { defaultDataTransformer } from "../dataTransformer";
 
 /**
@@ -64,7 +64,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   private _retryOptions: RetryOptions;
 
   constructor(
-    private clientId: string,
+    private identifier: string,
     connectionContext: ConnectionContext,
     entityPath: string,
     retryOptions: RetryOptions
@@ -140,7 +140,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       target: {
         address: this.address,
       },
-      source: this.clientId,
+      source: this.identifier,
       onError: this._onAmqpError,
       onClose: this._onAmqpClose,
       onSessionError: this._onSessionError,
@@ -457,14 +457,14 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   }
 
   static create(
-    clientId: string,
+    identifier: string,
     context: ConnectionContext,
     entityPath: string,
     retryOptions: RetryOptions
   ): MessageSender {
     throwErrorIfConnectionClosed(context);
 
-    const sbSender = new MessageSender(clientId, context, entityPath, retryOptions);
+    const sbSender = new MessageSender(identifier, context, entityPath, retryOptions);
     context.senders[sbSender.name] = sbSender;
     return sbSender;
   }

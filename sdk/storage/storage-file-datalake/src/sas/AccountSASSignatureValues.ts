@@ -58,6 +58,11 @@ export interface AccountSASSignatureValues {
   ipRange?: SasIPRange;
 
   /**
+   * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
+   */
+  encryptionScope?: string;
+
+  /**
    * The values that indicate the services accessible with this SAS. Please refer to {@link AccountSASServices} to
    * construct this value.
    */
@@ -112,7 +117,7 @@ export function generateAccountSASQueryParameters(
       accountSASSignatureValues.ipRange ? ipRangeToString(accountSASSignatureValues.ipRange) : "",
       accountSASSignatureValues.protocol ? accountSASSignatureValues.protocol : "",
       version,
-      "", // Reserve for encryption scope
+      accountSASSignatureValues.encryptionScope ? accountSASSignatureValues.encryptionScope : "", // Reserve for encryption scope
       "", // Account SAS requires an additional newline character
     ].join("\n");
   } else {
@@ -143,6 +148,19 @@ export function generateAccountSASQueryParameters(
     accountSASSignatureValues.protocol,
     accountSASSignatureValues.startsOn,
     accountSASSignatureValues.expiresOn,
-    accountSASSignatureValues.ipRange
+    accountSASSignatureValues.ipRange,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    accountSASSignatureValues.encryptionScope
   );
 }

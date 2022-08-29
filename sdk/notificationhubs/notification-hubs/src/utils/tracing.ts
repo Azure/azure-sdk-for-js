@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { SDK_VERSION } from "./constants.js";
 import { createTracingClient } from "@azure/core-tracing";
 
 /**
@@ -10,5 +11,5 @@ import { createTracingClient } from "@azure/core-tracing";
 export const tracingClient = createTracingClient({
   namespace: "Microsoft.NotificationHubs",
   packageName: "@azure/notification-hubs",
-  packageVersion: "1.0.0",
+  packageVersion: SDK_VERSION,
 });

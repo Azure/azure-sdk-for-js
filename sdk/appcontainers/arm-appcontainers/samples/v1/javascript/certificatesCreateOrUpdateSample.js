@@ -26,6 +26,7 @@ async function createOrUpdateCertificate() {
     location: "East US",
     properties: {
       password: "private key password",
+      value: Buffer.from("PFX-or-PEM-blob"),
     },
   };
   const options = {

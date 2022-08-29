@@ -2,8 +2,13 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Suite } from "mocha";
-import { Container } from "../../../src";
-import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+import { Container, CosmosClient } from "../../../src";
+import {
+  getTestContainer,
+  removeAllDatabases,
+  defaultClient,
+  defaultComputeGatewayClient,
+} from "../common/TestHelpers";
 
 interface ItemPayload {
   id?: string;
@@ -27,8 +32,12 @@ const createPayload = function (id: string): ItemPayload {
   };
 };
 
-const executeTestCase = async function (scenario: TestScenario) {
-  const container: Container = await getTestContainer(scenario.name, undefined, {
+const executeTestCase = async function (
+  scenario: TestScenario,
+  useComputeGateway: boolean = false
+) {
+  const client: CosmosClient = useComputeGateway ? defaultComputeGatewayClient : defaultClient;
+  const container: Container = await getTestContainer(scenario.name, client, {
     partitionKey: {
       paths: ["/pk"],
       version: undefined,
@@ -104,15 +113,19 @@ const executeTestCase = async function (scenario: TestScenario) {
   }
 };
 
+const executeTestCaseOnComputeGateway = async function (scenario: TestScenario) {
+  return executeTestCase(scenario, true);
+};
+
 describe("Id encoding", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function () {
     await removeAllDatabases();
   });
 
-  it("plainVanillaId", async function () {
+  it("RGW_plainVanillaId", async function () {
     const scenario: TestScenario = {
-      name: "PlainVanillaId",
+      name: "RGW_PlainVanillaId",
       id: "Test",
       expectedCreateStatusCode: 201,
       expectedReadStatusCode: 200,
@@ -123,9 +136,22 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("ContainerIdWithUnicode鱀", async function () {
+  it("CGW_plainVanillaId", async function () {
     const scenario: TestScenario = {
-      name: "ContainerIdWithUnicode鱀",
+      name: "CGW_PlainVanillaId",
+      id: "Test",
+      expectedCreateStatusCode: 201,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
+    };
+
+    await executeTestCaseOnComputeGateway(scenario);
+  });
+
+  it("RGW_ContainerIdWithUnicode鱀", async function () {
+    const scenario: TestScenario = {
+      name: "RGW_ContainerIdWithUnicode鱀",
       id: "Test",
       expectedCreateStatusCode: 201,
       expectedReadStatusCode: 200,
@@ -136,9 +162,22 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("idWithWhitespaces", async function () {
+  it("CGW_ContainerIdWithUnicode鱀", async function () {
     const scenario: TestScenario = {
-      name: "IdWithWhitespaces",
+      name: "CGW_ContainerIdWithUnicode鱀",
+      id: "Test",
+      expectedCreateStatusCode: 201,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
+    };
+
+    await executeTestCaseOnComputeGateway(scenario);
+  });
+
+  it("RGW_idWithWhitespaces", async function () {
+    const scenario: TestScenario = {
+      name: "RGW_IdWithWhitespaces",
       id: "This is a test",
       expectedCreateStatusCode: 201,
       expectedReadStatusCode: 200,
@@ -149,9 +188,22 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("idStartingWithWhitespace", async function () {
+  it("CGW_idWithWhitespaces", async function () {
     const scenario: TestScenario = {
-      name: "IdStartingWithWhitespace",
+      name: "CGW_IdWithWhitespaces",
+      id: "This is a test",
+      expectedCreateStatusCode: 201,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
+    };
+
+    await executeTestCaseOnComputeGateway(scenario);
+  });
+
+  it("RGW_idStartingWithWhitespace", async function () {
+    const scenario: TestScenario = {
+      name: "RGW_IdStartingWithWhitespace",
       id: " Test",
       expectedCreateStatusCode: 201,
       expectedReadStatusCode: 200,
@@ -162,9 +214,22 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("idStartingWithWhitespaces", async function () {
+  it("CGW_idStartingWithWhitespace", async function () {
     const scenario: TestScenario = {
-      name: "IdStartingWithWhitespaces",
+      name: "CGW_IdStartingWithWhitespace",
+      id: " Test",
+      expectedCreateStatusCode: 201,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
+    };
+
+    await executeTestCaseOnComputeGateway(scenario);
+  });
+
+  it("RGW_idStartingWithWhitespaces", async function () {
+    const scenario: TestScenario = {
+      name: "RGW_IdStartingWithWhitespaces",
       id: "   Test",
       expectedCreateStatusCode: 201,
       expectedReadStatusCode: 200,
@@ -175,9 +240,35 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("idEndingWithWhitespace", async function () {
+  it("CGW_idStartingWithWhitespaces", async function () {
     const scenario: TestScenario = {
-      name: "IdEndingWithWhitespace",
+      name: "CGW_IdStartingWithWhitespaces",
+      id: "   Test",
+      expectedCreateStatusCode: 201,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
+    };
+
+    await executeTestCaseOnComputeGateway(scenario);
+  });
+
+  it("RGW_idEndingWithWhitespace", async function () {
+    const scenario: TestScenario = {
+      name: "RGW_IdEndingWithWhitespace",
+      id: "Test ",
+      expectedCreateStatusCode: 201,
+      expectedReadStatusCode: 401,
+      expectedReplaceStatusCode: 401,
+      expectedDeleteStatusCode: 401,
+    };
+
+    await executeTestCase(scenario);
+  });
+
+  it("CGW_idEndingWithWhitespace", async function () {
+    const scenario: TestScenario = {
+      name: "CGW_IdEndingWithWhitespace",
       id: "Test ",
       expectedCreateStatusCode: 201,
       expectedReadStatusCode: 200,
@@ -185,12 +276,25 @@ describe("Id encoding", function (this: Suite) {
       expectedDeleteStatusCode: 204,
     };
 
+    await executeTestCaseOnComputeGateway(scenario);
+  });
+
+  it("RGW_idEndingWithWhitespaces", async function () {
+    const scenario: TestScenario = {
+      name: "RGW_IdEndingWithWhitespaces",
+      id: "Test   ",
+      expectedCreateStatusCode: 201,
+      expectedReadStatusCode: 401,
+      expectedReplaceStatusCode: 401,
+      expectedDeleteStatusCode: 401,
+    };
+
     await executeTestCase(scenario);
   });
 
-  it("idEndingWithWhitespaces", async function () {
+  it("CGW_idEndingWithWhitespaces", async function () {
     const scenario: TestScenario = {
-      name: "IdEndingWithWhitespaces",
+      name: "CGW_IdEndingWithWhitespaces",
       id: "Test   ",
       expectedCreateStatusCode: 201,
       expectedReadStatusCode: 200,
@@ -198,12 +302,12 @@ describe("Id encoding", function (this: Suite) {
       expectedDeleteStatusCode: 204,
     };
 
-    await executeTestCase(scenario);
+    await executeTestCaseOnComputeGateway(scenario);
   });
 
-  it("idWithUnicodeCharacters", async function () {
+  it("RGW_idWithUnicodeCharacters", async function () {
     const scenario: TestScenario = {
-      name: "IdWithUnicodeCharacters",
+      name: "RGW_IdWithUnicodeCharacters",
       id: "WithUnicode鱀",
       expectedCreateStatusCode: 201,
       expectedReadStatusCode: 200,
@@ -214,9 +318,22 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("idWithAllowedSpecialCharacters", async function () {
+  it("CGW_idWithUnicodeCharacters", async function () {
     const scenario: TestScenario = {
-      name: "IdWithAllowedSpecialCharacters",
+      name: "CGW_IdWithUnicodeCharacters",
+      id: "WithUnicode鱀",
+      expectedCreateStatusCode: 201,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
+    };
+
+    await executeTestCaseOnComputeGateway(scenario);
+  });
+
+  it("RGW_idWithAllowedSpecialCharacters", async function () {
+    const scenario: TestScenario = {
+      name: "RGW_IdWithAllowedSpecialCharacters",
       id: "WithAllowedSpecial,=.:~+-@()^${}[]!_Chars",
       expectedCreateStatusCode: 201,
       expectedReadStatusCode: 200,
@@ -227,14 +344,27 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("idWithBase64EncodedIdCharacters", async function () {
+  it("CGW_idWithAllowedSpecialCharacters", async function () {
+    const scenario: TestScenario = {
+      name: "CGW_IdWithAllowedSpecialCharacters",
+      id: "WithAllowedSpecial,=.:~+-@()^${}[]!_Chars",
+      expectedCreateStatusCode: 201,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
+    };
+
+    await executeTestCaseOnComputeGateway(scenario);
+  });
+
+  it("RGW_idWithBase64EncodedIdCharacters", async function () {
     const base64EncodedId =
       "BQE1D3PdG4N4bzU9TKaCIM3qc0TVcZ2/Y3jnsRfwdHC1ombkX3F1dot/SG0/UTq9AbgdX3" +
       "kOWoP6qL6lJqWeKgV3zwWWPZO/t5X0ehJzv9LGkWld07LID2rhWhGT6huBM6Q=";
     const safeBase64EncodedId = base64EncodedId.replace(/\//g, "-");
 
     const scenario: TestScenario = {
-      name: "IdWithBase64EncodedIdCharacters",
+      name: "RGW_IdWithBase64EncodedIdCharacters",
       id: safeBase64EncodedId,
       expectedCreateStatusCode: 201,
       expectedReadStatusCode: 200,
@@ -245,9 +375,40 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("idEndingWithPercentEncodedWhitespace", async function () {
+  it("CGW_idWithBase64EncodedIdCharacters", async function () {
+    const base64EncodedId =
+      "BQE1D3PdG4N4bzU9TKaCIM3qc0TVcZ2/Y3jnsRfwdHC1ombkX3F1dot/SG0/UTq9AbgdX3" +
+      "kOWoP6qL6lJqWeKgV3zwWWPZO/t5X0ehJzv9LGkWld07LID2rhWhGT6huBM6Q=";
+    const safeBase64EncodedId = base64EncodedId.replace(/\//g, "-");
+
     const scenario: TestScenario = {
-      name: "IdEndingWithPercentEncodedWhitespace",
+      name: "CGW_IdWithBase64EncodedIdCharacters",
+      id: safeBase64EncodedId,
+      expectedCreateStatusCode: 201,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
+    };
+
+    await executeTestCaseOnComputeGateway(scenario);
+  });
+
+  it("RGW_idEndingWithPercentEncodedWhitespace", async function () {
+    const scenario: TestScenario = {
+      name: "RGW_IdEndingWithPercentEncodedWhitespace",
+      id: "IdEndingWithPercentEncodedWhitespace%20",
+      expectedCreateStatusCode: 201,
+      expectedReadStatusCode: 401,
+      expectedReplaceStatusCode: 401,
+      expectedDeleteStatusCode: 401,
+    };
+
+    await executeTestCase(scenario);
+  });
+
+  it("CGW_idEndingWithPercentEncodedWhitespace", async function () {
+    const scenario: TestScenario = {
+      name: "CGW_IdEndingWithPercentEncodedWhitespace",
       id: "IdEndingWithPercentEncodedWhitespace%20",
       expectedCreateStatusCode: 201,
       expectedReadStatusCode: 200,
@@ -255,12 +416,25 @@ describe("Id encoding", function (this: Suite) {
       expectedDeleteStatusCode: 204,
     };
 
+    await executeTestCaseOnComputeGateway(scenario);
+  });
+
+  it("RGW_idWithPercentEncodedSpecialChar", async function () {
+    const scenario: TestScenario = {
+      name: "RGW_IdWithPercentEncodedSpecialChar",
+      id: "WithPercentEncodedSpecialChar%E9%B1%80",
+      expectedCreateStatusCode: 201,
+      expectedReadStatusCode: 401,
+      expectedReplaceStatusCode: 401,
+      expectedDeleteStatusCode: 401,
+    };
+
     await executeTestCase(scenario);
   });
 
-  it("idWithPercentEncodedSpecialChar", async function () {
+  it("CGW_idWithPercentEncodedSpecialChar", async function () {
     const scenario: TestScenario = {
-      name: "IdWithPercentEncodedSpecialChar",
+      name: "CGW_IdWithPercentEncodedSpecialChar",
       id: "WithPercentEncodedSpecialChar%E9%B1%80",
       expectedCreateStatusCode: 201,
       expectedReadStatusCode: 200,
@@ -268,12 +442,12 @@ describe("Id encoding", function (this: Suite) {
       expectedDeleteStatusCode: 204,
     };
 
-    await executeTestCase(scenario);
+    await executeTestCaseOnComputeGateway(scenario);
   });
 
-  it("idWithDisallowedCharQuestionMark", async function () {
+  it("RGW_idWithDisallowedCharQuestionMark", async function () {
     const scenario: TestScenario = {
-      name: "IdWithDisallowedCharQuestionMark",
+      name: "RGW_IdWithDisallowedCharQuestionMark",
       id: "Disallowed?Chars",
       expectedCreateStatusCode: 201,
       expectedReadStatusCode: 200,
@@ -284,9 +458,22 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("idWithDisallowedCharForwardSlash", async function () {
+  it("CGW_idWithDisallowedCharQuestionMark", async function () {
     const scenario: TestScenario = {
-      name: "IdWithDisallowedCharForwardSlash",
+      name: "CGW_IdWithDisallowedCharQuestionMark",
+      id: "Disallowed?Chars",
+      expectedCreateStatusCode: 201,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
+    };
+
+    await executeTestCaseOnComputeGateway(scenario);
+  });
+
+  it("RGW_idWithDisallowedCharForwardSlash", async function () {
+    const scenario: TestScenario = {
+      name: "RGW_IdWithDisallowedCharForwardSlash",
       id: "Disallowed/Chars",
       expectedCreateStatusCode: 400,
       expectedCreateErrorMessage: "Id contains illegal chars.",
@@ -295,9 +482,20 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("idWithDisallowedCharBackSlash", async function () {
+  it("CGW_idWithDisallowedCharForwardSlash", async function () {
     const scenario: TestScenario = {
-      name: "IdWithDisallowedCharBackSlash",
+      name: "CGW_IdWithDisallowedCharForwardSlash",
+      id: "Disallowed/Chars",
+      expectedCreateStatusCode: 400,
+      expectedCreateErrorMessage: "Id contains illegal chars.",
+    };
+
+    await executeTestCaseOnComputeGateway(scenario);
+  });
+
+  it("RGW_idWithDisallowedCharBackSlash", async function () {
+    const scenario: TestScenario = {
+      name: "RGW_IdWithDisallowedCharBackSlash",
       id: "Disallowed\\Chars",
       expectedCreateStatusCode: 400,
       expectedCreateErrorMessage: "Id contains illegal chars.",
@@ -306,22 +504,55 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("idWithDisallowedCharPoundSign", async function () {
+  it("CGW_idWithDisallowedCharBackSlash", async function () {
     const scenario: TestScenario = {
-      name: "IdWithDisallowedCharPoundSign",
+      name: "CGW_IdWithDisallowedCharBackSlash",
+      id: "Disallowed\\Chars",
+      expectedCreateStatusCode: 400,
+      expectedCreateErrorMessage: "Id contains illegal chars.",
+    };
+
+    await executeTestCaseOnComputeGateway(scenario);
+  });
+
+  it("RGW_idWithDisallowedCharPoundSign", async function () {
+    const scenario: TestScenario = {
+      name: "RGW_IdWithDisallowedCharPoundSign",
       id: "Disallowed#Chars",
-      expectedCreateStatusCode: 201,
-      expectedReadStatusCode: 200,
-      expectedReplaceStatusCode: 200,
-      expectedDeleteStatusCode: 204,
+      expectedCreateStatusCode: 400,
+      expectedCreateErrorMessage: "Id contains illegal chars.",
     };
 
     await executeTestCase(scenario);
   });
 
-  it("idWithCarriageReturn", async function () {
+  it("CGW_idWithDisallowedCharPoundSign", async function () {
     const scenario: TestScenario = {
-      name: "IdWithCarriageReturn",
+      name: "CGW_IdWithDisallowedCharPoundSign",
+      id: "Disallowed#Chars",
+      expectedCreateStatusCode: 400,
+      expectedCreateErrorMessage: "Id contains illegal chars.",
+    };
+
+    await executeTestCaseOnComputeGateway(scenario);
+  });
+
+  it("RGW_idWithCarriageReturn", async function () {
+    const scenario: TestScenario = {
+      name: "RGW_IdWithCarriageReturn",
+      id: "With\rCarriageReturn",
+      expectedCreateStatusCode: 201,
+      expectedReadStatusCode: undefined,
+      expectedReplaceStatusCode: undefined,
+      expectedDeleteStatusCode: undefined,
+    };
+
+    await executeTestCase(scenario);
+  });
+
+  it("CGW_idWithCarriageReturn", async function () {
+    const scenario: TestScenario = {
+      name: "CGW_IdWithCarriageReturn",
       id: "With\rCarriageReturn",
       expectedCreateStatusCode: 201,
       expectedReadStatusCode: 200,
@@ -329,12 +560,25 @@ describe("Id encoding", function (this: Suite) {
       expectedDeleteStatusCode: 204,
     };
 
+    await executeTestCaseOnComputeGateway(scenario);
+  });
+
+  it("RGW_idWithTab", async function () {
+    const scenario: TestScenario = {
+      name: "RGW_IdWithTab",
+      id: "With\tTab",
+      expectedCreateStatusCode: 201,
+      expectedReadStatusCode: undefined,
+      expectedReplaceStatusCode: undefined,
+      expectedDeleteStatusCode: undefined,
+    };
+
     await executeTestCase(scenario);
   });
 
-  it("idWithTab", async function () {
+  it("CGW_idWithTab", async function () {
     const scenario: TestScenario = {
-      name: "IdWithTab",
+      name: "CGW_IdWithTab",
       id: "With\tTab",
       expectedCreateStatusCode: 201,
       expectedReadStatusCode: 200,
@@ -342,12 +586,25 @@ describe("Id encoding", function (this: Suite) {
       expectedDeleteStatusCode: 204,
     };
 
+    await executeTestCaseOnComputeGateway(scenario);
+  });
+
+  it("RGW_idWithLineFeed", async function () {
+    const scenario: TestScenario = {
+      name: "RGW_IdWithLineFeed",
+      id: "With\nLineFeed",
+      expectedCreateStatusCode: 201,
+      expectedReadStatusCode: undefined,
+      expectedReplaceStatusCode: undefined,
+      expectedDeleteStatusCode: undefined,
+    };
+
     await executeTestCase(scenario);
   });
 
-  it("idWithLineFeed", async function () {
+  it("CGW_idWithLineFeed", async function () {
     const scenario: TestScenario = {
-      name: "IdWithLineFeed",
+      name: "CGW_IdWithLineFeed",
       id: "With\nLineFeed",
       expectedCreateStatusCode: 201,
       expectedReadStatusCode: 200,
@@ -355,6 +612,6 @@ describe("Id encoding", function (this: Suite) {
       expectedDeleteStatusCode: 204,
     };
 
-    await executeTestCase(scenario);
+    await executeTestCaseOnComputeGateway(scenario);
   });
 });

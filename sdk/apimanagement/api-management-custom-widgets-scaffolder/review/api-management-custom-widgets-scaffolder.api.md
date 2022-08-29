@@ -5,10 +5,29 @@
 ```ts
 
 // @public
+export interface CustomWidgetCommonConfig {
+    displayName: string;
+    iconUrl?: string;
+    technology: ScaffoldTech;
+}
+
+// @public
+export interface DeploymentConfig {
+    apiVersion?: string;
+    managementApiEndpoint: string;
+    resourceId: string;
+}
+
+// @public
 export const displayNameToName: (displayName: string) => string;
 
 // @public
-export function generateProject(widgetConfig: TCustomWidgetCommonConfig, deploymentConfig: TDeploymentConfig, options?: TOptions): Promise<void>;
+export function generateProject(widgetConfig: CustomWidgetCommonConfig, deploymentConfig: DeploymentConfig, options?: Options): Promise<void>;
+
+// @public
+export interface Options {
+    openUrl?: string;
+}
 
 // @public
 export const OVERRIDE_DEFAULT_PORT = 3000;
@@ -17,29 +36,10 @@ export const OVERRIDE_DEFAULT_PORT = 3000;
 export const OVERRIDE_PORT_KEY = "MS_APIM_CW_localhost_port";
 
 // @public
-export interface TCustomWidgetCommonConfig {
-    displayName: string;
-    iconUrl?: string;
-    technology: TScaffoldTech;
-}
+export type ScaffoldTech = "typescript" | "react" | "vue";
 
 // @public
-export interface TDeploymentConfig {
-    apiVersion?: string;
-    managementApiEndpoint: string;
-    resourceId: string;
-}
-
-// @public
-export const TECHNOLOGIES: TScaffoldTech[];
-
-// @public
-export interface TOptions {
-    openUrl?: string;
-}
-
-// @public
-export type TScaffoldTech = "typescript" | "react";
+export const TECHNOLOGIES: ScaffoldTech[];
 
 // @public
 export const widgetFolderName: (name: string) => string;

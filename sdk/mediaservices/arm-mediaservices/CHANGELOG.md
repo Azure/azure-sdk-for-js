@@ -1,6 +1,6 @@
 # Release History
 
-## 12.0.1 (Unreleased)
+## 12.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,91 @@
 
 ### Other Changes
 
+## 12.1.0 (2022-07-29)
+    
+**Features**
+
+  - Added Interface AacAudio
+  - Added Interface AbsoluteClipTime
+  - Added Interface AccountFilter
+  - Added Interface Asset
+  - Added Interface AssetFilter
+  - Added Interface AssetTrack
+  - Added Interface Audio_2
+  - Added Interface AudioAnalyzerPreset
+  - Added Interface AudioOverlay
+  - Added Interface AudioTrack
+  - Added Interface AudioTrackDescriptor
+  - Added Interface BuiltInStandardEncoderPreset
+  - Added Interface ContentKeyPolicy
+  - Added Interface ContentKeyPolicyClearKeyConfiguration
+  - Added Interface ContentKeyPolicyFairPlayConfiguration
+  - Added Interface ContentKeyPolicyOpenRestriction
+  - Added Interface ContentKeyPolicyPlayReadyConfiguration
+  - Added Interface ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader
+  - Added Interface ContentKeyPolicyPlayReadyContentEncryptionKeyFromKeyIdentifier
+  - Added Interface ContentKeyPolicyRsaTokenKey
+  - Added Interface ContentKeyPolicySymmetricTokenKey
+  - Added Interface ContentKeyPolicyTokenRestriction
+  - Added Interface ContentKeyPolicyUnknownConfiguration
+  - Added Interface ContentKeyPolicyUnknownRestriction
+  - Added Interface ContentKeyPolicyWidevineConfiguration
+  - Added Interface ContentKeyPolicyX509CertificateTokenKey
+  - Added Interface CopyAudio
+  - Added Interface CopyVideo
+  - Added Interface FaceDetectorPreset
+  - Added Interface FromAllInputFile
+  - Added Interface FromEachInputFile
+  - Added Interface H264Layer
+  - Added Interface H264Video
+  - Added Interface H265Layer
+  - Added Interface H265Video
+  - Added Interface H265VideoLayer
+  - Added Interface Image_2
+  - Added Interface ImageFormat
+  - Added Interface InputFile
+  - Added Interface Job
+  - Added Interface JobInputAsset
+  - Added Interface JobInputClip
+  - Added Interface JobInputHttp
+  - Added Interface JobInputs
+  - Added Interface JobInputSequence
+  - Added Interface JobOutputAsset
+  - Added Interface JpgFormat
+  - Added Interface JpgImage
+  - Added Interface JpgLayer
+  - Added Interface LiveEvent
+  - Added Interface LiveOutput
+  - Added Interface MediaService
+  - Added Interface Mp4Format
+  - Added Interface MultiBitrateFormat
+  - Added Interface PngFormat
+  - Added Interface PngImage
+  - Added Interface PngLayer
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface ProxyResource
+  - Added Interface SelectAudioTrackByAttribute
+  - Added Interface SelectAudioTrackById
+  - Added Interface SelectVideoTrackByAttribute
+  - Added Interface SelectVideoTrackById
+  - Added Interface StandardEncoderPreset
+  - Added Interface StreamingEndpoint
+  - Added Interface StreamingLocator
+  - Added Interface StreamingPolicy
+  - Added Interface TextTrack_2
+  - Added Interface TrackedResource
+  - Added Interface Transform
+  - Added Interface TransportStreamFormat
+  - Added Interface UtcClipTime
+  - Added Interface Video
+  - Added Interface VideoAnalyzerPreset
+  - Added Interface VideoLayer
+  - Added Interface VideoOverlay
+  - Added Interface VideoTrack
+  - Added Interface VideoTrackDescriptor
+    
+    
 ## 12.0.0 (2022-06-24)
     
 **Features**

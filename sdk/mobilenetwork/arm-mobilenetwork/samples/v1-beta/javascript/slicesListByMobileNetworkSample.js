@@ -15,9 +15,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists all slices in the mobile network.
  *
  * @summary Lists all slices in the mobile network.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-03-01-preview/examples/SliceListByMobileNetwork.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-04-01-preview/examples/SliceListByMobileNetwork.json
  */
-async function listMobileNetworkSlicesInAMobileNetwork() {
+async function listNetworkSlicesInAMobileNetwork() {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const mobileNetworkName = "testMobileNetwork";
@@ -30,4 +30,4 @@ async function listMobileNetworkSlicesInAMobileNetwork() {
   console.log(resArray);
 }
 
-listMobileNetworkSlicesInAMobileNetwork().catch(console.error);
+listNetworkSlicesInAMobileNetwork().catch(console.error);

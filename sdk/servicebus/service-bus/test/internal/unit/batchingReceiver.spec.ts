@@ -50,7 +50,6 @@ describe("BatchingReceiver unit tests", () => {
     it("is plumbed into BatchingReceiver from ServiceBusReceiverImpl", async () => {
       const origAbortSignal = createAbortSignalForTest();
       const receiver = new ServiceBusReceiverImpl(
-        "serviceBusClientId",
         createConnectionContextForTests(),
         "fakeEntityPath",
         "peekLock",
