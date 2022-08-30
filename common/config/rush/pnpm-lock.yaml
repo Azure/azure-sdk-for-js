@@ -4095,7 +4095,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220828
+      typescript: 4.9.0-dev.20220829
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -9098,8 +9098,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220828:
-    resolution: {integrity: sha512-XM4H+zuGTaVi+ZLpLZ6jNTTlE4t1keC6g2e4x3JztjzIHEN/RfV2NncqflIkWD39Fh7qqCckFboFqVcG7M+QuA==}
+  /typescript/4.9.0-dev.20220829:
+    resolution: {integrity: sha512-JPUwN18SBzfknl8eLExxWrNo8H98PrZMQdNTXRFYlQFv6qg56e3H/gaJn8Bmo2xz6L1vADwzbMHIp4PAWjskQw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11209,7 +11209,7 @@ packages:
     dev: false
 
   file:projects/arm-containerinstance.tgz:
-    resolution: {integrity: sha512-ay+mC9Jr0E2P2GJ2//mWJCC+b/QgOMwb0BeY/s5IpbGPDZRfC1jfaM/1uXVM4GesLdUEjn/zYZD8+jnmRCuuPw==, tarball: file:projects/arm-containerinstance.tgz}
+    resolution: {integrity: sha512-amF4MBdcRmOdGpVhUhYh7/Sq7z92DIcDj7RVNDrmzTge1AqR/cPxUXEAv//v5K0j4e2sXXRQcvGDVAr3JNno7g==, tarball: file:projects/arm-containerinstance.tgz}
     name: '@rush-temp/arm-containerinstance'
     version: 0.0.0
     dependencies:
@@ -11229,7 +11229,7 @@ packages:
       rollup: 2.77.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
@@ -15669,7 +15669,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-kJTGc13v98By2R/RRGv8OLG+OUGpQlnEsh3awDVosiZK5hW2fr34X1S1RQEabHvPuXQt4s5qG1sikvbhovRrpA==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-f2VzRwK94ENNXQYhHUwoDmbYDN0TOFYwlwLo3qthLuSROqb3XRi0Klw4LgqiIgQKO2NxU3nQzAeDaeVs6NegvQ==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:

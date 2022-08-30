@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-containerinstance/8.2.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "1a983adf-c4ee-4ca7-b08b-cf0a2305eba4"
+        "User-Agent": "azsdk-js-arm-containerinstance/9.0.0 core-rest-pipeline/1.9.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "dc7eec76-29ac-4b10-a9a3-21c1cc69f40c"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 11 Jul 2022 08:34:28 GMT",
+        "Date": "Tue, 30 Aug 2022 07:17:57 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
@@ -27,17 +27,17 @@
           "Accept-Encoding"
         ],
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "870531f9-509a-4c73-8204-d78f03fe9426",
+        "x-ms-correlation-request-id": "dd62f4bc-217f-4c7a-a749-8275f1e3e66b",
         "x-ms-ratelimit-remaining-subscription-deletes": "14999",
         "x-ms-ratelimit-remaining-subscription-resource-requests-pt1h": "299",
         "x-ms-ratelimit-remaining-subscription-resource-requests-pt5m": "99",
-        "x-ms-request-id": "eastus:d8c4b479-7daf-4ba4-8591-793bbcfa1a2b",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220711T083428Z:870531f9-509a-4c73-8204-d78f03fe9426"
+        "x-ms-request-id": "eastus:d8c7ba0b-1389-4f8e-840d-a772f4f9672e",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220830T071758Z:dd62f4bc-217f-4c7a-a749-8275f1e3e66b"
       },
       "ResponseBody": {
         "properties": {
           "sku": "Standard",
-          "provisioningState": "Succeeded",
+          "provisioningState": "Creating",
           "containers": [
             {
               "name": "my-containerinstancexx",
@@ -53,44 +53,10 @@
                 "instanceView": {
                   "restartCount": 0,
                   "currentState": {
-                    "state": "Running",
-                    "startTime": "2022-07-11T08:34:12Z",
-                    "detailStatus": ""
+                    "state": "Waiting",
+                    "detailStatus": "ContainerCreating"
                   },
-                  "events": [
-                    {
-                      "count": 1,
-                      "firstTimestamp": "2022-07-11T08:34:01Z",
-                      "lastTimestamp": "2022-07-11T08:34:01Z",
-                      "name": "Pulling",
-                      "message": "Pulling image \u0022nginx\u0022",
-                      "type": "Normal"
-                    },
-                    {
-                      "count": 1,
-                      "firstTimestamp": "2022-07-11T08:34:12Z",
-                      "lastTimestamp": "2022-07-11T08:34:12Z",
-                      "name": "Pulled",
-                      "message": "Successfully pulled image \u0022nginx\u0022 in 10.807709834s",
-                      "type": "Normal"
-                    },
-                    {
-                      "count": 1,
-                      "firstTimestamp": "2022-07-11T08:34:12Z",
-                      "lastTimestamp": "2022-07-11T08:34:12Z",
-                      "name": "Created",
-                      "message": "Created container my-containerinstancexx",
-                      "type": "Normal"
-                    },
-                    {
-                      "count": 1,
-                      "firstTimestamp": "2022-07-11T08:34:12Z",
-                      "lastTimestamp": "2022-07-11T08:34:12Z",
-                      "name": "Started",
-                      "message": "Started container my-containerinstancexx",
-                      "type": "Normal"
-                    }
-                  ]
+                  "events": []
                 },
                 "resources": {
                   "requests": {
@@ -122,7 +88,7 @@
           ],
           "instanceView": {
             "events": [],
-            "state": "Running"
+            "state": "Pending"
           },
           "diagnostics": {
             "logAnalytics": {
@@ -131,7 +97,7 @@
           }
         },
         "identity": {
-          "principalId": "64240530-4280-43f7-83ee-308e2d517832",
+          "principalId": "a145710a-3246-49e8-bf48-ddcc15f873b5",
           "tenantId": "88888888-8888-8888-8888-888888888888",
           "type": "SystemAssigned"
         },
@@ -149,29 +115,26 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-containerinstance/8.2.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "f5711c29-2c75-489b-b15a-8e9c87965d09"
+        "User-Agent": "azsdk-js-arm-containerinstance/9.0.0 core-rest-pipeline/1.9.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "105edc80-044a-4ce9-a0b6-c0b6f5aa412a"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
+        "Content-Length": "12",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 11 Jul 2022 08:34:28 GMT",
+        "Date": "Tue, 30 Aug 2022 07:17:57 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "Vary": [
-          "Accept-Encoding",
-          "Accept-Encoding"
-        ],
+        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "0416bdb8-94b4-4039-9a4c-720bbb46160f",
-        "x-ms-ratelimit-remaining-subscription-reads": "11524",
-        "x-ms-request-id": "eastus:fcaae6d2-7a1f-4fdc-a22c-818f8ef997e5",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220711T083428Z:0416bdb8-94b4-4039-9a4c-720bbb46160f"
+        "x-ms-correlation-request-id": "d5df31b4-44f6-4270-a632-15366e60047b",
+        "x-ms-ratelimit-remaining-subscription-reads": "11516",
+        "x-ms-request-id": "d5df31b4-44f6-4270-a632-15366e60047b",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220830T071758Z:d5df31b4-44f6-4270-a632-15366e60047b"
       },
       "ResponseBody": {
         "value": []

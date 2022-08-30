@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-containerinstance/8.2.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "9ed71671-8759-481b-9690-de8bf9228dc6"
+        "User-Agent": "azsdk-js-arm-containerinstance/9.0.0 core-rest-pipeline/1.9.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "d03b813a-3601-4b98-87f0-5d4d221b4d59"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 11 Jul 2022 08:34:23 GMT",
+        "Date": "Tue, 30 Aug 2022 07:17:52 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
@@ -27,17 +27,17 @@
           "Accept-Encoding"
         ],
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "c92e374f-f46a-44c5-89f7-00920fb63b8a",
-        "x-ms-ratelimit-remaining-subscription-reads": "11525",
-        "x-ms-request-id": "eastus:82d3b323-d529-47f6-8ae0-ab98c4cf68fb",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220711T083423Z:c92e374f-f46a-44c5-89f7-00920fb63b8a"
+        "x-ms-correlation-request-id": "405273ac-7cec-4c0d-b7f1-1e7b3b639d00",
+        "x-ms-ratelimit-remaining-subscription-reads": "11517",
+        "x-ms-request-id": "eastus:9d85a237-91a8-4756-8ce9-88039d8915fc",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220830T071752Z:405273ac-7cec-4c0d-b7f1-1e7b3b639d00"
       },
       "ResponseBody": {
         "value": [
           {
             "properties": {
               "sku": "Standard",
-              "provisioningState": "Succeeded",
+              "provisioningState": "Creating",
               "containers": [
                 {
                   "name": "my-containerinstancexx",
@@ -85,7 +85,7 @@
               }
             },
             "identity": {
-              "principalId": "64240530-4280-43f7-83ee-308e2d517832",
+              "principalId": "a145710a-3246-49e8-bf48-ddcc15f873b5",
               "tenantId": "88888888-8888-8888-8888-888888888888",
               "type": "SystemAssigned"
             },

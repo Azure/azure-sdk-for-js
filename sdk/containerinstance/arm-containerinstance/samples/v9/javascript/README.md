@@ -20,6 +20,7 @@ These sample programs show how to use the JavaScript client libraries for in som
 | [locationListCapabilitiesSample.js][locationlistcapabilitiessample]                     | Get the list of CPU/memory/GPU capabilities of a region. x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/CapabilitiesList.json                                                                                                                                                                                                                                     |
 | [locationListUsageSample.js][locationlistusagesample]                                   | Get the usage for a subscription x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/ContainerGroupUsage.json                                                                                                                                                                                                                                                          |
 | [operationsListSample.js][operationslistsample]                                         | List the operations for Azure Container Instance service. x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/OperationsList.json                                                                                                                                                                                                                                      |
+| [subnetServiceAssociationLinkDeleteSample.js][subnetserviceassociationlinkdeletesample] | Delete container group virtual network association links. The operation does not delete other resources provided by the user. x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/SubnetServiceAssociationLinkDelete.json                                                                                                                                              |
 
 ## Prerequisites
 
@@ -59,22 +60,23 @@ npx cross-env  node containerGroupsCreateOrUpdateSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[containergroupscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/javascript/containerGroupsCreateOrUpdateSample.js
-[containergroupsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/javascript/containerGroupsDeleteSample.js
-[containergroupsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/javascript/containerGroupsGetSample.js
-[containergroupslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/javascript/containerGroupsListByResourceGroupSample.js
-[containergroupslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/javascript/containerGroupsListSample.js
-[containergroupsrestartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/javascript/containerGroupsRestartSample.js
-[containergroupsstartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/javascript/containerGroupsStartSample.js
-[containergroupsstopsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/javascript/containerGroupsStopSample.js
-[containergroupsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/javascript/containerGroupsUpdateSample.js
-[containersattachsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/javascript/containersAttachSample.js
-[containersexecutecommandsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/javascript/containersExecuteCommandSample.js
-[containerslistlogssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/javascript/containersListLogsSample.js
-[locationlistcachedimagessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/javascript/locationListCachedImagesSample.js
-[locationlistcapabilitiessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/javascript/locationListCapabilitiesSample.js
-[locationlistusagesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/javascript/locationListUsageSample.js
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/javascript/operationsListSample.js
+[containergroupscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/javascript/containerGroupsCreateOrUpdateSample.js
+[containergroupsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/javascript/containerGroupsDeleteSample.js
+[containergroupsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/javascript/containerGroupsGetSample.js
+[containergroupslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/javascript/containerGroupsListByResourceGroupSample.js
+[containergroupslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/javascript/containerGroupsListSample.js
+[containergroupsrestartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/javascript/containerGroupsRestartSample.js
+[containergroupsstartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/javascript/containerGroupsStartSample.js
+[containergroupsstopsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/javascript/containerGroupsStopSample.js
+[containergroupsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/javascript/containerGroupsUpdateSample.js
+[containersattachsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/javascript/containersAttachSample.js
+[containersexecutecommandsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/javascript/containersExecuteCommandSample.js
+[containerslistlogssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/javascript/containersListLogsSample.js
+[locationlistcachedimagessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/javascript/locationListCachedImagesSample.js
+[locationlistcapabilitiessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/javascript/locationListCapabilitiesSample.js
+[locationlistusagesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/javascript/locationListUsageSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/javascript/operationsListSample.js
+[subnetserviceassociationlinkdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/javascript/subnetServiceAssociationLinkDeleteSample.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-containerinstance?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerinstance/arm-containerinstance/README.md
