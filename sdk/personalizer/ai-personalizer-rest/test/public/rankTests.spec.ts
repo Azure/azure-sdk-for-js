@@ -47,8 +47,8 @@ describe("Rank Tests", () => {
     if (isUnexpected(response)) {
       throw response.body.error.code;
     }
-    assert.equal(actions.length, response.body.ranking?.length);
-    response.body.ranking?.every((val, index) => val === actions[index]);
+    assert.equal(actions.length, response.body.ranking.length);
+    response.body.ranking.every((val, index) => val.id === actions[index].id);
   });
 
   it("rank with context features", async function () {
@@ -90,7 +90,7 @@ describe("Rank Tests", () => {
     if (isUnexpected(response)) {
       throw response.body.error.code;
     }
-    assert.equal(actions.length, response.body.ranking?.length);
-    response.body.ranking?.every((val, index) => val === actions[index]);
+    assert.equal(actions.length, response.body.ranking.length);
+    response.body.ranking.every((val, index) => val.id === actions[index].id);
   });
 });

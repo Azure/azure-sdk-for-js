@@ -118,17 +118,17 @@ export interface PolicyContractOutput {
 
 export interface EvaluationOutput {
   /** The ID of the evaluation. */
-  id?: string;
+  id: string;
   /** The name of the evaluation. */
-  name?: string;
+  name: string;
   /** The start time of the evaluation. */
-  startTime?: string;
+  startTime: string;
   /** The end time of the evaluation. */
-  endTime?: string;
+  endTime: string;
   /** The ID of the job processing the evaluation. */
-  jobId?: string;
+  jobId: string;
   /** The status of the job processing the evaluation. */
-  status?:
+  status:
     | "completed"
     | "pending"
     | "failed"
@@ -141,41 +141,41 @@ export interface EvaluationOutput {
   /** Feature Importance. */
   featureImportance?: Array<Array<string>>;
   /** Evaluation type (manual or through Automatic Optimization). */
-  evaluationType?: "Manual" | "Auto";
+  evaluationType: "Manual" | "Auto";
   /** Thr optimal policy. */
   optimalPolicy?: string;
   /** Creation time. */
-  creationTime?: string;
+  creationTime: string;
 }
 
 export interface PolicyResultOutput {
   /** The name of the Learning Settings. */
-  name?: string;
+  name: string;
   /** The arguments of the Learning Settings. */
-  arguments?: string;
+  arguments: string;
   /** The source of the Learning Settings. */
-  policySource?: "Online" | "Baseline" | "Random" | "Custom" | "OfflineExperimentation";
+  policySource: "Online" | "Baseline" | "Random" | "Custom" | "OfflineExperimentation";
   /** The aggregate results of the Offline Evaluation. */
-  summary?: Array<PolicyResultSummaryOutput>;
+  summary: Array<PolicyResultSummaryOutput>;
   /** The aggregate total of the Offline Evaluation. */
-  totalSummary?: PolicyResultTotalSummaryOutput;
+  totalSummary: PolicyResultTotalSummaryOutput;
 }
 
 export interface PolicyResultSummaryOutput {
   /** Timestamp of the aggregation. */
-  timeStamp?: string;
+  timeStamp: string;
   /** Numerator for IPS estimator. */
-  ipsEstimatorNumerator?: number;
+  ipsEstimatorNumerator: number;
   /** Denominator for IPS estimator. */
-  ipsEstimatorDenominator?: number;
+  ipsEstimatorDenominator: number;
   /** Denominator for SNIPS estimator. */
-  snipsEstimatorDenominator?: number;
+  snipsEstimatorDenominator: number;
   /**
    * Time window for aggregation.
    * For example, PT5M (5 mins). For information about the time format,
    * see http://en.wikipedia.org/wiki/ISO_8601#Durations
    */
-  aggregateTimeWindow?: string;
+  aggregateTimeWindow: string;
   /** Probability of non-zero values for the Policy evaluation. */
   nonZeroProbability?: number;
   /** Sum of Squares for the Policy evaluation results. */
@@ -183,62 +183,62 @@ export interface PolicyResultSummaryOutput {
   /** Gaussian confidence interval for the Policy evaluation. */
   confidenceInterval?: number;
   /** Average reward. */
-  averageReward?: number;
+  averageReward: number;
 }
 
 export interface PolicyResultTotalSummaryOutput extends PolicyResultSummaryOutput {}
 
 export interface LogsPropertiesOutput {
   /** Date range. */
-  dateRange?: LogsPropertiesDateRangeOutput;
+  dateRange: LogsPropertiesDateRangeOutput;
 }
 
 export interface LogsPropertiesDateRangeOutput extends DateRangeOutput {}
 
 export interface DateRangeOutput {
   /** Start date for the range. */
-  from?: string;
+  from: string;
   /** End date for the range. */
-  to?: string;
+  to: string;
 }
 
 export interface ModelPropertiesOutput {
   /** Creation time of the model. */
-  creationTime?: string;
+  creationTime: string;
   /** Last time the model was modified. */
-  lastModifiedTime?: string;
+  lastModifiedTime: string;
 }
 
 export interface MultiSlotRankResponseOutput {
   /** Each slot has a corresponding rewardActionID which is the action ID recommended by Personalizer. */
-  slots?: Array<SlotResponseOutput>;
+  slots: Array<SlotResponseOutput>;
   /** The eventId for the round trip from request to response. */
-  eventId?: string;
+  eventId: string;
 }
 
 export interface SlotResponseOutput {
   /** Id is the slot ID. */
   id: string;
   /** RewardActionID is the action ID recommended by Personalizer. */
-  rewardActionId?: string;
+  rewardActionId: string;
 }
 
 export interface RankResponseOutput {
   /** The calculated ranking for the current request. */
-  ranking?: Array<RankedActionOutput>;
+  ranking: Array<RankedActionOutput>;
   /** The eventId for the round trip from request to response. */
-  eventId?: string;
+  eventId: string;
   /**
    * The action chosen by the Personalizer service.
    * This is the action your application should display, and for which to report the reward.
    * This might not be the first found in 'ranking'.
    */
-  rewardActionId?: string;
+  rewardActionId: string;
 }
 
 export interface RankedActionOutput {
   /** Id of the action */
-  id?: string;
+  id: string;
   /** Probability of the action */
-  probability?: number;
+  probability: number;
 }

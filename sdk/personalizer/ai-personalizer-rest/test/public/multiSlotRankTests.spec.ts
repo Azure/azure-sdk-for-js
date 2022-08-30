@@ -9,7 +9,6 @@ import Personalizer, {
   PersonalizerClient,
   RankableAction,
   SlotRequest,
-  SlotResponseOutput,
 } from "../../src";
 import { env } from "process";
 import { assert } from "chai";
@@ -49,14 +48,14 @@ describe("Multi-Slot Rank Tests", () => {
 
     assert.equal(response.body.eventId, eventId);
     assert.exists(response.body.slots);
-    assert.equal(slots.length, response.body.slots?.length);
+    assert.equal(slots.length, response.body.slots.length);
     assert.equal(
       0,
-      response.body.slots?.findIndex((slot) => slot.rewardActionId === "NewsArticle")
+      response.body.slots.findIndex((slot) => slot.rewardActionId === "NewsArticle")
     );
     assert.equal(
       1,
-      response.body.slots?.findIndex((slot) => slot.rewardActionId === "SportsArticle")
+      response.body.slots.findIndex((slot) => slot.rewardActionId === "SportsArticle")
     );
   });
 
@@ -69,11 +68,9 @@ describe("Multi-Slot Rank Tests", () => {
     if (isUnexpected(response)) {
       throw response.body.error.code;
     }
-    const responseBody = response.body;
-    const responseSlots = responseBody.slots as Array<SlotResponseOutput>;
-    assert.equal(slots.length, responseSlots.length);
-    assert.equal("NewsArticle", responseSlots[0].rewardActionId);
-    assert.equal("SportsArticle", responseSlots[1].rewardActionId);
+    assert.equal(slots.length, response.body.slots.length);
+    assert.equal("NewsArticle", response.body.slots[0].rewardActionId);
+    assert.equal("SportsArticle", response.body.slots[1].rewardActionId);
   });
 });
 
