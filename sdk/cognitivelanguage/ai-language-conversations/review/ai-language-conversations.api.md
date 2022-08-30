@@ -222,9 +222,7 @@ export interface ConversationalTaskResult extends AnalyzeConversationTaskResult 
     result: AnalyzeConversationResult;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "ConversationAnalysisClient" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
+// @public (undocumented)
 export class ConversationAnalysisClient {
     constructor(endpoint: string, credential: TokenCredential | KeyCredential, options?: ConversationAnalysisClientOptionalParams);
     analyzeConversation(task: AnalyzeConversationTaskUnion, options?: AnalyzeConversationOptionalParams): Promise<AnalyzeConversationResponse>;

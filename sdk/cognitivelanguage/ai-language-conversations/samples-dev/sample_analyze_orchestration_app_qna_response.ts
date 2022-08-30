@@ -9,7 +9,7 @@
  * @azsdk-weight 50
  */
 
-import { ConversationAnalysisClient, ConversationalTask } from "@azure/ai-language-conversations"
+import { ConversationAnalysisClient, ConversationalTask, ConversationalTaskResult, OrchestrationPrediction, QuestionAnsweringTargetIntentResult } from "@azure/ai-language-conversations"
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -45,23 +45,27 @@ const body: ConversationalTask = {
 
 export async function main(){
     //Analyze query
-    const { result } = await service.analyzeConversation(body);
+    const { result } = await service.analyzeConversation(body) as ConversationalTaskResult;
     console.log("query: ", result.query);
     console.log("project kind: ", result.prediction.projectKind);
 
-    const top_intent = result.prediction.topIntent;
+    const top_intent = result.prediction.topIntent || "None";
     console.log("\ntop intent: ", top_intent);
-    const top_intent_object = result.prediction.intents[top_intent];
+    
+    const prediction = result.prediction as OrchestrationPrediction;
+    const top_intent_object = prediction.intents[top_intent] as QuestionAnsweringTargetIntentResult;
     console.log("confidence score: ", top_intent_object.confidence);
     console.log("project kind: ", top_intent_object.targetProjectKind);
 
     if(top_intent_object.targetProjectKind == "QuestionAnswering"){
         console.log("\nqna response:");
         const qna_response = top_intent_object.result;
-        qna_response.answers.forEach(answer => {
-            console.log("\nanswer: ", answer.answer);
-            console.log("confidence score: ", answer.confidence);
-        })
+        if(qna_response?.answers){
+            for(const answer of qna_response.answers){
+                console.log("\nanswer: ", answer.answer);
+                console.log("confidence score: ", answer.confidence);
+            }
+        }
     }
 }
 

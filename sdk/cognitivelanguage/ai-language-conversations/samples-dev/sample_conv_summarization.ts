@@ -8,7 +8,7 @@
  * @azsdk-weight 50
  */
 
-import { ConversationAnalysisClient } from "@azure/ai-language-conversations"
+import { AnalyzeConversationSummarizationResult, ConversationAnalysisClient, ConversationTasksState } from "@azure/ai-language-conversations"
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -63,23 +63,26 @@ const poller = await service.beginConversationAnalysis({
         }
     ]
 });
-    const actionResult = await poller.pollUntilDone();
-    const task_result = actionResult.tasks.items[0];
+    const actionResult = await poller.pollUntilDone() as ConversationTasksState;
+    if(actionResult.tasks.items === undefined)
+        return;
+
+    const task_result = actionResult.tasks.items[0] as AnalyzeConversationSummarizationResult;
     console.log("... view task status ...");
     console.log("status: %s", task_result.status);
     const resolution_result = task_result.results;
     if(resolution_result.errors && resolution_result.errors.length != 0){
         console.log("... errors occured ...");
-        resolution_result.errors.forEach(error => {
+        for(const error of resolution_result.errors){
             console.log(error);
-        });
+        };
     }else{
         const conversation_result = resolution_result.conversations[0];
         if(conversation_result.warnings && conversation_result.warnings.length != 0){
             console.log("... view warnings ...");
-            conversation_result.warning.forEach(warning => {
+            for(const warning of conversation_result.warnings){
                 console.log(warning);
-            });
+            };
         }else{
             const summaries = conversation_result.summaries;
             console.log("... view task result ...");
