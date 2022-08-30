@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ConversationAnalysisClient } from "@azure/ai-language-conversations";
-import { ConversationAnalysisOptions } from "../../../src/";
+import { ConversationAnalysisClient, ConversationAnalysisOptions } from "../../../src/";
 import { AzureKeyCredential } from "@azure/core-auth";
 import {
   Recorder,

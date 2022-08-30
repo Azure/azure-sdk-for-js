@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-    ConversationAnalysisClient
-  } from "@azure/ai-language-conversations";
+import { ConversationAnalysisClient } from "../../src";
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient";
 import { Context, Suite } from "mocha";
 import { assert, matrix } from "@azure/test-utils";

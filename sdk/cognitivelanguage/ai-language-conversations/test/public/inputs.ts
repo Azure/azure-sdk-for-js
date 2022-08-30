@@ -1,4 +1,4 @@
-import { AnalyzeConversationJobsInput, ConversationalTask } from "@azure/ai-language-conversations"
+import { AnalyzeConversationJobsInput, ConversationalTask } from "../../src"
 
 export const conv1: ConversationalTask = {
     "kind": "Conversation",
