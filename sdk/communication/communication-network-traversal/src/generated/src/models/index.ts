@@ -69,7 +69,9 @@ export interface CommunicationError {
 
 /** Known values of {@link RouteType} that the service accepts. */
 export enum KnownRouteType {
+  /** Any */
   Any = "any",
+  /** Nearest */
   Nearest = "nearest"
 }
 

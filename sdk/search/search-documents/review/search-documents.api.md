@@ -1288,6 +1288,13 @@ export enum KnownRegexFlags {
 }
 
 // @public
+export enum KnownSearchAudience {
+    AzureChina = "https://search.azure.cn",
+    AzureGovernment = "https://search.azure.us",
+    AzurePublicCloud = "https://search.azure.com"
+}
+
+// @public
 export enum KnownSearchIndexerDataSourceType {
     AdlsGen2 = "adlsgen2",
     AzureBlob = "azureblob",
@@ -1863,6 +1870,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
 export interface SearchClientOptions extends ExtendedCommonClientOptions {
     // @deprecated
     apiVersion?: string;
+    audience?: string;
     serviceVersion?: string;
 }
 
@@ -1949,6 +1957,7 @@ export class SearchIndexClient {
 export interface SearchIndexClientOptions extends ExtendedCommonClientOptions {
     // @deprecated
     apiVersion?: string;
+    audience?: string;
     serviceVersion?: string;
 }
 
@@ -2011,6 +2020,7 @@ export class SearchIndexerClient {
 export interface SearchIndexerClientOptions extends ExtendedCommonClientOptions {
     // @deprecated
     apiVersion?: string;
+    audience?: string;
     serviceVersion?: string;
 }
 

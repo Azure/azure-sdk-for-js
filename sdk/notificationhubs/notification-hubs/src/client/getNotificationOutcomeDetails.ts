@@ -8,6 +8,8 @@ import { OperationOptions } from "@azure/core-client";
 import { parseNotificationDetails } from "../serializers/notificationDetailsSerializer.js";
 import { tracingClient } from "../utils/tracing.js";
 
+const OPERATION_NAME = "getNotificationOutcomeDetails";
+
 /**
  * Retrieves the results of a send operation. This can retrieve intermediate results if the send is being processed
  * or final results if the Send* has completed. This API can only be called for Standard SKU and above.
@@ -22,13 +24,13 @@ export function getNotificationOutcomeDetails(
   options: OperationOptions = {}
 ): Promise<NotificationDetails> {
   return tracingClient.withSpan(
-    "NotificationHubsClientContext-getNotificationOutcomeDetails",
+    `NotificationHubsClientContext-${OPERATION_NAME}`,
     options,
     async (updatedOptions) => {
       const endpoint = context.requestUrl();
       endpoint.pathname += `/messages/${notificationId}`;
 
-      const headers = context.createHeaders();
+      const headers = await context.createHeaders(OPERATION_NAME);
       const request = createRequest(endpoint, "GET", headers, updatedOptions);
       const response = await sendRequest(context, request, 200);
 

@@ -3,7 +3,6 @@
 
 import { Point2D } from "../transforms/polygon";
 import {
-  DocumentPageKind,
   DocumentSpan,
   DocumentTableCellKind,
   DocumentField as GeneratedDocumentField,
@@ -169,8 +168,6 @@ export interface DocumentKeyValuePair {
 
 /** Content and layout elements extracted from a page from the input. */
 export interface DocumentPage {
-  /** Kind of document page. */
-  kind: DocumentPageKind;
   /** 1-based page number in the input document. */
   pageNumber: number;
   /** The general orientation of the content in clockwise direction, measured in degrees between (-180, 180]. */

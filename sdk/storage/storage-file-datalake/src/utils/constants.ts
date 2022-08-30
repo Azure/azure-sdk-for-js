@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const SDK_VERSION: string = "12.10.1";
-export const SERVICE_VERSION: string = "2021-08-06";
+export const SDK_VERSION: string = "12.11.0-beta.2";
+export const SERVICE_VERSION: string = "2021-10-04";
 
 export const KB: number = 1024;
 export const MB: number = KB * 1024;
@@ -229,3 +229,28 @@ export const PathResultTypeConstants = {
   FileResourceType: "file",
   DirectoryResourceType: "directory",
 };
+
+/// List of ports used for path style addressing.
+/// Path style addressing means that storage account is put in URI's Path segment in instead of in host.
+export const PathStylePorts = [
+  "10000",
+  "10001",
+  "10002",
+  "10003",
+  "10004",
+  "10100",
+  "10101",
+  "10102",
+  "10103",
+  "10104",
+  "11000",
+  "11001",
+  "11002",
+  "11003",
+  "11004",
+  "11100",
+  "11101",
+  "11102",
+  "11103",
+  "11104",
+];

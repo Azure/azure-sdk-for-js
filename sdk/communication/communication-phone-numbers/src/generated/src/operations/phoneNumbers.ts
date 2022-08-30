@@ -6,12 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { tracingClient } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PhoneNumbers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { PhoneNumbersClientContext } from "../phoneNumbersClientContext";
+import { PhoneNumbersClient } from "../phoneNumbersClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -43,13 +44,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PhoneNumbers operations. */
 export class PhoneNumbersImpl implements PhoneNumbers {
-  private readonly client: PhoneNumbersClientContext;
+  private readonly client: PhoneNumbersClient;
 
   /**
    * Initialize a new instance of the class PhoneNumbers class.
    * @param client Reference to the service client
    */
-  constructor(client: PhoneNumbersClientContext) {
+  constructor(client: PhoneNumbersClient) {
     this.client = client;
   }
 
@@ -120,7 +121,15 @@ export class PhoneNumbersImpl implements PhoneNumbers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<PhoneNumbersSearchAvailablePhoneNumbersResponse> => {
-      return this.client.sendOperationRequest(args, spec);
+      return tracingClient.withSpan(
+        "PhoneNumbersClient.beginSearchAvailablePhoneNumbers",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<
+            PhoneNumbersSearchAvailablePhoneNumbersResponse
+          >;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -160,11 +169,13 @@ export class PhoneNumbersImpl implements PhoneNumbers {
       { countryCode, phoneNumberType, assignmentType, capabilities, options },
       searchAvailablePhoneNumbersOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -198,13 +209,19 @@ export class PhoneNumbersImpl implements PhoneNumbers {
    * @param searchId The search Id.
    * @param options The options parameters.
    */
-  getSearchResult(
+  async getSearchResult(
     searchId: string,
     options?: PhoneNumbersGetSearchResultOptionalParams
   ): Promise<PhoneNumbersGetSearchResultResponse> {
-    return this.client.sendOperationRequest(
-      { searchId, options },
-      getSearchResultOperationSpec
+    return tracingClient.withSpan(
+      "PhoneNumbersClient.getSearchResult",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { searchId, options },
+          getSearchResultOperationSpec
+        ) as Promise<PhoneNumbersGetSearchResultResponse>;
+      }
     );
   }
 
@@ -224,7 +241,15 @@ export class PhoneNumbersImpl implements PhoneNumbers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<PhoneNumbersPurchasePhoneNumbersResponse> => {
-      return this.client.sendOperationRequest(args, spec);
+      return tracingClient.withSpan(
+        "PhoneNumbersClient.beginPurchasePhoneNumbers",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<
+            PhoneNumbersPurchasePhoneNumbersResponse
+          >;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -264,10 +289,12 @@ export class PhoneNumbersImpl implements PhoneNumbers {
       { options },
       purchasePhoneNumbersOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -286,13 +313,19 @@ export class PhoneNumbersImpl implements PhoneNumbers {
    * @param operationId The id of the operation
    * @param options The options parameters.
    */
-  getOperation(
+  async getOperation(
     operationId: string,
     options?: PhoneNumbersGetOperationOptionalParams
   ): Promise<PhoneNumbersGetOperationResponse> {
-    return this.client.sendOperationRequest(
-      { operationId, options },
-      getOperationOperationSpec
+    return tracingClient.withSpan(
+      "PhoneNumbersClient.getOperation",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { operationId, options },
+          getOperationOperationSpec
+        ) as Promise<PhoneNumbersGetOperationResponse>;
+      }
     );
   }
 
@@ -301,13 +334,19 @@ export class PhoneNumbersImpl implements PhoneNumbers {
    * @param operationId The id of the operation
    * @param options The options parameters.
    */
-  cancelOperation(
+  async cancelOperation(
     operationId: string,
     options?: PhoneNumbersCancelOperationOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { operationId, options },
-      cancelOperationOperationSpec
+    return tracingClient.withSpan(
+      "PhoneNumbersClient.cancelOperation",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { operationId, options },
+          cancelOperationOperationSpec
+        ) as Promise<void>;
+      }
     );
   }
 
@@ -330,7 +369,15 @@ export class PhoneNumbersImpl implements PhoneNumbers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<PhoneNumbersUpdateCapabilitiesResponse> => {
-      return this.client.sendOperationRequest(args, spec);
+      return tracingClient.withSpan(
+        "PhoneNumbersClient.beginUpdateCapabilities",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<
+            PhoneNumbersUpdateCapabilitiesResponse
+          >;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -370,11 +417,13 @@ export class PhoneNumbersImpl implements PhoneNumbers {
       { phoneNumber, options },
       updateCapabilitiesOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -397,13 +446,19 @@ export class PhoneNumbersImpl implements PhoneNumbers {
    *                    +11234567890.
    * @param options The options parameters.
    */
-  getByNumber(
+  async getByNumber(
     phoneNumber: string,
     options?: PhoneNumbersGetByNumberOptionalParams
   ): Promise<PhoneNumbersGetByNumberResponse> {
-    return this.client.sendOperationRequest(
-      { phoneNumber, options },
-      getByNumberOperationSpec
+    return tracingClient.withSpan(
+      "PhoneNumbersClient.getByNumber",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { phoneNumber, options },
+          getByNumberOperationSpec
+        ) as Promise<PhoneNumbersGetByNumberResponse>;
+      }
     );
   }
 
@@ -425,7 +480,15 @@ export class PhoneNumbersImpl implements PhoneNumbers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<PhoneNumbersReleasePhoneNumberResponse> => {
-      return this.client.sendOperationRequest(args, spec);
+      return tracingClient.withSpan(
+        "PhoneNumbersClient.beginReleasePhoneNumber",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<
+            PhoneNumbersReleasePhoneNumberResponse
+          >;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -465,10 +528,12 @@ export class PhoneNumbersImpl implements PhoneNumbers {
       { phoneNumber, options },
       releasePhoneNumberOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -488,12 +553,18 @@ export class PhoneNumbersImpl implements PhoneNumbers {
    * Gets the list of all purchased phone numbers.
    * @param options The options parameters.
    */
-  private _listPhoneNumbers(
+  private async _listPhoneNumbers(
     options?: PhoneNumbersListPhoneNumbersOptionalParams
   ): Promise<PhoneNumbersListPhoneNumbersResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listPhoneNumbersOperationSpec
+    return tracingClient.withSpan(
+      "PhoneNumbersClient._listPhoneNumbers",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          listPhoneNumbersOperationSpec
+        ) as Promise<PhoneNumbersListPhoneNumbersResponse>;
+      }
     );
   }
 
@@ -502,13 +573,19 @@ export class PhoneNumbersImpl implements PhoneNumbers {
    * @param nextLink The nextLink from the previous successful call to the ListPhoneNumbers method.
    * @param options The options parameters.
    */
-  private _listPhoneNumbersNext(
+  private async _listPhoneNumbersNext(
     nextLink: string,
     options?: PhoneNumbersListPhoneNumbersNextOptionalParams
   ): Promise<PhoneNumbersListPhoneNumbersNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listPhoneNumbersNextOperationSpec
+    return tracingClient.withSpan(
+      "PhoneNumbersClient._listPhoneNumbersNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          listPhoneNumbersNextOperationSpec
+        ) as Promise<PhoneNumbersListPhoneNumbersNextResponse>;
+      }
     );
   }
 }

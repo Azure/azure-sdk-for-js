@@ -178,7 +178,7 @@ matrix(
           it("getModel() verification", async () => {
             const model = await requireModel();
 
-            const modelDetails = await client.getModel(model.modelId);
+            const modelDetails = await client.getDocumentModel(model.modelId);
 
             assert.strictEqual(modelDetails.modelId, model.modelId);
             assert.strictEqual(modelDetails.description, model.description);
@@ -208,7 +208,7 @@ matrix(
         describe("model information", async () => {
           it("iterate models in account", async () => {
             const modelsInAccount = [];
-            for await (const model of client.listModels()) {
+            for await (const model of client.listDocumentModels()) {
               assert.ok(model.modelId);
               modelsInAccount.push(model.modelId);
             }
@@ -219,7 +219,7 @@ matrix(
           });
 
           it("old-style iteration with next model info", async () => {
-            const iter = client.listModels();
+            const iter = client.listDocumentModels();
             const item = getYieldedValue(await iter.next());
             assert.ok(item, `Expecting a model but got ${item}`);
             assert.ok(item.modelId, `Expecting a model id but got ${item.modelId}`);
@@ -232,7 +232,7 @@ matrix(
             await Promise.all(
               allModels.map(async (modelId) => {
                 try {
-                  await client.getModel(modelId);
+                  await client.getDocumentModel(modelId);
                   throw new Error(
                     `The service returned model info for ${modelId}, but we thought we had deleted it!`
                   );
@@ -339,7 +339,7 @@ matrix(
 
         assert.ok(copyResult.createdDateTime, "Expecting valid 'trainingStartedOn' property");
 
-        const targetModel = await trainingClient.getModel(copyResult.modelId);
+        const targetModel = await trainingClient.getDocumentModel(copyResult.modelId);
 
         assert.equal(targetModel.modelId, targetAuth.targetModelId);
         assert.equal(targetModel.modelId, copyResult.modelId);

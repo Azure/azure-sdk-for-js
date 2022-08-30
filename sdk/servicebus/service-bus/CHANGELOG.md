@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Updating the `sendMessages` API to not batch the messages when it is just a single message. This allows users to send individual large message (>1MB) using the `sendMessages` API. [#23014](https://github.com/Azure/azure-sdk-for-js/pull/23014)
+
 ### Other Changes
 
 ## 7.7.0 (2022-08-09)

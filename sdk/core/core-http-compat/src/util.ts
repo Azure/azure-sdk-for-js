@@ -1,19 +1,76 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpMethods, ProxySettings } from "@azure/core-rest-pipeline";
+import {
+  HttpMethods,
+  ProxySettings,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "@azure/core-rest-pipeline";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders as HttpHeadersV2, PipelineRequest } from "@azure/core-rest-pipeline";
 
-export function toWebResourceLike(request: PipelineRequest): WebResourceLike {
-  return {
+const originalRequest = Symbol("Original PipelineRequest");
+type CompatWebResourceLike = WebResourceLike & { [originalRequest]?: PipelineRequest };
+
+export function toPipelineRequest(webResource: WebResourceLike): PipelineRequest {
+  const compatWebResource = webResource as CompatWebResourceLike;
+  const request = compatWebResource[originalRequest];
+  const headers = createHttpHeaders(webResource.headers.toJson({ preserveCase: true }));
+  if (request) {
+    request.headers = headers;
+    return request;
+  } else {
+    return createPipelineRequest({
+      url: webResource.url,
+      method: webResource.method,
+      headers,
+      withCredentials: webResource.withCredentials,
+      timeout: webResource.timeout,
+      requestId: webResource.requestId,
+    });
+  }
+}
+
+export function toWebResourceLike(
+  request: PipelineRequest,
+  options?: { createProxy?: boolean }
+): WebResourceLike {
+  const webResource: WebResourceLike = {
     url: request.url,
     method: request.method,
     headers: toHttpHeaderLike(request.headers),
     withCredentials: request.withCredentials,
     timeout: request.timeout,
-    requestId: request.headers.get("x-ms-client-request-id") || "",
+    requestId: request.headers.get("x-ms-client-request-id") || request.requestId,
   };
+
+  if (options?.createProxy) {
+    return new Proxy(webResource, {
+      get(target, prop, receiver) {
+        if (prop === originalRequest) {
+          return request;
+        }
+        return Reflect.get(target, prop, receiver);
+      },
+      set(target: any, prop, value, receiver) {
+        if (prop === "url") {
+          request.url = value;
+        } else if (prop === "method") {
+          request.method = value;
+        } else if (prop === "withCredentials") {
+          request.withCredentials = value;
+        } else if (prop === "timeout") {
+          request.timeout = value;
+        } else if (prop === "requestId") {
+          request.requestId = value;
+        }
+        return Reflect.set(target, prop, value, receiver);
+      },
+    });
+  } else {
+    return webResource;
+  }
 }
 
 export function toHttpHeaderLike(headers: HttpHeadersV2): HttpHeadersLike {

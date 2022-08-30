@@ -7,8 +7,8 @@
 
 // Model:       prebuilt-vaccinationCard
 // Description: Extract key information from US Covid-19 CDC vaccination cards.
-// API Version: 2022-06-30-preview
-// Created:     Thu Jul 14 2022
+// API Version: 2022-08-31
+// Created:     Tue Aug 23 2022
 
 import * as fr from "@azure/ai-form-recognizer";
 
@@ -48,7 +48,7 @@ export interface VaccinationCovid19Us {
   /**
    * Document type: "vaccination.covid19.us".
    */
-  docType: "vaccinationCar.covid.us";
+  docType: "vaccination.covid19.us";
   /**
    * Document fields.
    */
@@ -76,7 +76,7 @@ export interface VaccinationCovid19UsFields {
    */
   cardHolderInfo?: fr.DocumentObjectField<VaccinationCovid19UsCardHolderInfo>;
   /**
-   * `VaccinationCovid19Us` "Vaccines" field
+   * Array holding all the Covid-19 shots received by the cardholder
    */
   vaccines?: fr.DocumentArrayField<fr.DocumentObjectField<VaccinationCovid19UsVaccinesElement>>;
 }
@@ -86,33 +86,35 @@ export interface VaccinationCovid19UsFields {
  */
 export interface VaccinationCovid19UsCardHolderInfo {
   /**
-   * `VaccinationCovid19Us` "FirstName" field
+   * Cardholder first name
    */
   firstName?: fr.DocumentStringField;
   /**
-   * `VaccinationCovid19Us` "LastNames" field
+   * Cardholder last name
    */
   lastNames?: fr.DocumentStringField;
   /**
-   * `VaccinationCovid19Us` "DateOfBirth" field
+   * Cardholder date of birth
    */
   dateOfBirth?: fr.DocumentDateField;
   /**
-   * `VaccinationCovid19Us` "PatientNumber" field
+   * Cardholder Patient number if present
    */
   patientNumber?: fr.DocumentStringField;
 }
 
 /**
  * Describes the fields of `VaccinationCovid19UsVaccinesElement`.
+ *
+ * Array holding all the Covid-19 shots received by the cardholder
  */
 export interface VaccinationCovid19UsVaccinesElement {
   /**
-   * `VaccinationCovid19Us` "Manufacturer" field
+   * Manifacturer of the vaccine dose
    */
   manufacturer?: fr.DocumentStringField;
   /**
-   * `VaccinationCovid19Us` "DateAdministered" field
+   * Date at which the dose was administrated
    */
   dateAdministered?: fr.DocumentDateField;
 }
@@ -124,10 +126,10 @@ function modelInfo() {
   return {
     modelId: "prebuilt-vaccinationCard",
     description: "Extract key information from US Covid-19 CDC vaccination cards.",
-    createdDateTime: "2022-06-30T00:00:00.000Z",
-    apiVersion: "2022-06-30-preview",
+    createdDateTime: "2022-08-31T00:00:00.000Z",
+    apiVersion: "2022-08-31",
     docTypes: {
-      "vaccinationCard.covid.us": {
+      "vaccination.covid19.us": {
         buildMode: "template",
         fieldSchema: {
           CardHolderInfo: {
@@ -135,28 +137,41 @@ function modelInfo() {
             properties: {
               FirstName: {
                 type: "string",
+                description: "Cardholder first name",
+                example: "John",
               },
               LastNames: {
                 type: "string",
+                description: "Cardholder last name",
+                example: "Contoso",
               },
               DateOfBirth: {
                 type: "date",
+                description: "Cardholder date of birth",
+                example: "12/25/1980",
               },
               PatientNumber: {
                 type: "string",
+                description: "Cardholder Patient number if present",
+                example: "AB123456789",
               },
             },
           },
           Vaccines: {
             type: "array",
+            description: "Array holding all the Covid-19 shots received by the cardholder",
             items: {
               type: "object",
               properties: {
                 Manufacturer: {
                   type: "string",
+                  description: "Manifacturer of the vaccine dose",
+                  example: "Pfizer Covid-19 vaccine",
                 },
                 DateAdministered: {
                   type: "date",
+                  description: "Date at which the dose was administrated",
+                  example: "12/25/2022",
                 },
               },
             },
