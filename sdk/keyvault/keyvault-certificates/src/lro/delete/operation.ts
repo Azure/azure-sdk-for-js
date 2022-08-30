@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import {
   DeleteCertificateOptions,
   DeletedCertificate,
@@ -77,12 +77,14 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
       "DeleteCertificatePoller.getDeletedCertificate",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getDeletedCertificate(
-          this.vaultUrl,
-          certificateName,
-          updatedOptions
-        );
-        return getDeletedCertificateFromDeletedCertificateBundle(result._response.parsedBody);
+        let parsedBody: any;
+        await this.client.getDeletedCertificate(this.vaultUrl, certificateName, {
+          ...updatedOptions,
+          onResponse: (response) => {
+            parsedBody = response.parsedBody;
+          },
+        });
+        return getDeletedCertificateFromDeletedCertificateBundle(parsedBody);
       }
     );
   }

@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  ModelVersionData,
+  ModelVersion,
   ModelVersionsListOptionalParams,
   ModelVersionsDeleteOptionalParams,
   ModelVersionsGetOptionalParams,
@@ -32,7 +32,7 @@ export interface ModelVersions {
     workspaceName: string,
     name: string,
     options?: ModelVersionsListOptionalParams
-  ): PagedAsyncIterableIterator<ModelVersionData>;
+  ): PagedAsyncIterableIterator<ModelVersion>;
   /**
    * Delete version.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -77,7 +77,7 @@ export interface ModelVersions {
     workspaceName: string,
     name: string,
     version: string,
-    body: ModelVersionData,
+    body: ModelVersion,
     options?: ModelVersionsCreateOrUpdateOptionalParams
   ): Promise<ModelVersionsCreateOrUpdateResponse>;
 }

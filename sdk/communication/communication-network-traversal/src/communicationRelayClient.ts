@@ -13,9 +13,8 @@ import {
 } from "@azure/communication-common";
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { NetworkRelayRestClient } from "./generated/src/networkRelayRestClient";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { createSpan } from "./common/tracing";
 import { logger } from "./common/logger";
+import { tracingClient } from "./generated/src/tracing";
 
 const isCommunicationRelayClientOptions = (
   options: any
@@ -64,9 +63,10 @@ export class CommunicationRelayClient {
 
   /**
    * Initializes a new instance of the CommunicationRelayClient class.
-   * @param connectionString - Connection string to connect to an Azure Communication Service resource.
+   * @param connectionStringOrEndpoint - Connection string to connect to an Azure Communication Service resource.
    *                         Example: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret";
-   * @param options - Optional. Options to configure the HTTP pipeline.
+   * @param credentialOrOptions - TokenCredential that is used to authenticate requests to the service or options to configure the HTTP pipeline.
+   * @param maybeOptions - Optional. Options to configure the HTTP pipeline.
    */
   public constructor(
     connectionStringOrEndpoint: string,
@@ -104,19 +104,16 @@ export class CommunicationRelayClient {
    *
    * @param options - Additional options for the request.
    */
-  public async getRelayConfiguration(
+  public getRelayConfiguration(
     options?: GetRelayConfigurationOptions
   ): Promise<CommunicationRelayConfiguration>;
 
   /**
    * Gets a TURN credential for a user
    *
-   * @param user - The user for whom to issue a token
-   * @param routeType - The specified routeType for the relay request
-   * @param ttl - The specified time to live for the relay credential in seconds
    * @param options - Additional options for the request.
    */
-  public async getRelayConfiguration(
+  public getRelayConfiguration(
     options: GetRelayConfigurationOptions = {}
   ): Promise<CommunicationRelayConfiguration> {
     const requestOptions: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams =
@@ -128,23 +125,12 @@ export class CommunicationRelayClient {
       requestOptions.ttl = options.ttl;
     }
 
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "CommunicationNetworkTraversal_IssueRelayConfiguration",
-      requestOptions
+      requestOptions,
+      (updatedOptions) => {
+        return this.client.communicationNetworkTraversal.issueRelayConfiguration(updatedOptions);
+      }
     );
-
-    try {
-      return await this.client.communicationNetworkTraversal.issueRelayConfiguration(
-        updatedOptions
-      );
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 }

@@ -85,8 +85,6 @@ import {
   SearchResult as GeneratedSearchResult,
 } from "./generated/data/models";
 
-export const DEFAULT_SEARCH_SCOPE = "https://search.azure.com/.default";
-
 export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
   if (!skills) {
     return skills;

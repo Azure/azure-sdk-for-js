@@ -1,4 +1,32 @@
 # Release History
+
+## 1.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.1.0 (2022-08-02)
+    
+**Features**
+
+  - Added Interface AuthConfig
+  - Added Interface Certificate
+  - Added Interface ContainerApp
+  - Added Interface CustomHostnameAnalysisResult
+  - Added Interface DaprComponent
+  - Added Interface ManagedEnvironment
+  - Added Interface ManagedEnvironmentStorage
+  - Added Interface ProxyResource
+  - Added Interface Replica
+  - Added Interface Revision
+  - Added Interface SourceControl
+  - Added Interface TrackedResource
+    
     
 ## 1.0.0 (2022-05-20)
 

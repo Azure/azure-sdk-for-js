@@ -13,7 +13,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
 import {
-  CodeContainerData,
+  CodeContainer,
   CodeContainersListNextOptionalParams,
   CodeContainersListOptionalParams,
   CodeContainersListResponse,
@@ -48,7 +48,7 @@ export class CodeContainersImpl implements CodeContainers {
     resourceGroupName: string,
     workspaceName: string,
     options?: CodeContainersListOptionalParams
-  ): PagedAsyncIterableIterator<CodeContainerData> {
+  ): PagedAsyncIterableIterator<CodeContainer> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
       next() {
@@ -67,7 +67,7 @@ export class CodeContainersImpl implements CodeContainers {
     resourceGroupName: string,
     workspaceName: string,
     options?: CodeContainersListOptionalParams
-  ): AsyncIterableIterator<CodeContainerData[]> {
+  ): AsyncIterableIterator<CodeContainer[]> {
     let result = await this._list(resourceGroupName, workspaceName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -87,7 +87,7 @@ export class CodeContainersImpl implements CodeContainers {
     resourceGroupName: string,
     workspaceName: string,
     options?: CodeContainersListOptionalParams
-  ): AsyncIterableIterator<CodeContainerData> {
+  ): AsyncIterableIterator<CodeContainer> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
@@ -164,7 +164,7 @@ export class CodeContainersImpl implements CodeContainers {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    body: CodeContainerData,
+    body: CodeContainer,
     options?: CodeContainersCreateOrUpdateOptionalParams
   ): Promise<CodeContainersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -245,7 +245,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CodeContainerData
+      bodyMapper: Mappers.CodeContainer
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -268,10 +268,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CodeContainerData
+      bodyMapper: Mappers.CodeContainer
     },
     201: {
-      bodyMapper: Mappers.CodeContainerData
+      bodyMapper: Mappers.CodeContainer
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

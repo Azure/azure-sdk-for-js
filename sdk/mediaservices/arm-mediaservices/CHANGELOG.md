@@ -1,6 +1,6 @@
 # Release History
 
-## 11.0.1 (Unreleased)
+## 12.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,130 @@
 
 ### Other Changes
 
+## 12.1.0 (2022-07-29)
+    
+**Features**
+
+  - Added Interface AacAudio
+  - Added Interface AbsoluteClipTime
+  - Added Interface AccountFilter
+  - Added Interface Asset
+  - Added Interface AssetFilter
+  - Added Interface AssetTrack
+  - Added Interface Audio_2
+  - Added Interface AudioAnalyzerPreset
+  - Added Interface AudioOverlay
+  - Added Interface AudioTrack
+  - Added Interface AudioTrackDescriptor
+  - Added Interface BuiltInStandardEncoderPreset
+  - Added Interface ContentKeyPolicy
+  - Added Interface ContentKeyPolicyClearKeyConfiguration
+  - Added Interface ContentKeyPolicyFairPlayConfiguration
+  - Added Interface ContentKeyPolicyOpenRestriction
+  - Added Interface ContentKeyPolicyPlayReadyConfiguration
+  - Added Interface ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader
+  - Added Interface ContentKeyPolicyPlayReadyContentEncryptionKeyFromKeyIdentifier
+  - Added Interface ContentKeyPolicyRsaTokenKey
+  - Added Interface ContentKeyPolicySymmetricTokenKey
+  - Added Interface ContentKeyPolicyTokenRestriction
+  - Added Interface ContentKeyPolicyUnknownConfiguration
+  - Added Interface ContentKeyPolicyUnknownRestriction
+  - Added Interface ContentKeyPolicyWidevineConfiguration
+  - Added Interface ContentKeyPolicyX509CertificateTokenKey
+  - Added Interface CopyAudio
+  - Added Interface CopyVideo
+  - Added Interface FaceDetectorPreset
+  - Added Interface FromAllInputFile
+  - Added Interface FromEachInputFile
+  - Added Interface H264Layer
+  - Added Interface H264Video
+  - Added Interface H265Layer
+  - Added Interface H265Video
+  - Added Interface H265VideoLayer
+  - Added Interface Image_2
+  - Added Interface ImageFormat
+  - Added Interface InputFile
+  - Added Interface Job
+  - Added Interface JobInputAsset
+  - Added Interface JobInputClip
+  - Added Interface JobInputHttp
+  - Added Interface JobInputs
+  - Added Interface JobInputSequence
+  - Added Interface JobOutputAsset
+  - Added Interface JpgFormat
+  - Added Interface JpgImage
+  - Added Interface JpgLayer
+  - Added Interface LiveEvent
+  - Added Interface LiveOutput
+  - Added Interface MediaService
+  - Added Interface Mp4Format
+  - Added Interface MultiBitrateFormat
+  - Added Interface PngFormat
+  - Added Interface PngImage
+  - Added Interface PngLayer
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface ProxyResource
+  - Added Interface SelectAudioTrackByAttribute
+  - Added Interface SelectAudioTrackById
+  - Added Interface SelectVideoTrackByAttribute
+  - Added Interface SelectVideoTrackById
+  - Added Interface StandardEncoderPreset
+  - Added Interface StreamingEndpoint
+  - Added Interface StreamingLocator
+  - Added Interface StreamingPolicy
+  - Added Interface TextTrack_2
+  - Added Interface TrackedResource
+  - Added Interface Transform
+  - Added Interface TransportStreamFormat
+  - Added Interface UtcClipTime
+  - Added Interface Video
+  - Added Interface VideoAnalyzerPreset
+  - Added Interface VideoLayer
+  - Added Interface VideoOverlay
+  - Added Interface VideoTrack
+  - Added Interface VideoTrackDescriptor
+    
+    
+## 12.0.0 (2022-06-24)
+    
+**Features**
+
+  - Added operation group MediaServicesOperationResults
+  - Added operation group MediaServicesOperationStatuses
+  - Added operation Mediaservices.beginCreateOrUpdate
+  - Added operation Mediaservices.beginCreateOrUpdateAndWait
+  - Added operation Mediaservices.beginUpdate
+  - Added operation Mediaservices.beginUpdateAndWait
+  - Added Interface MediaServiceOperationStatus
+  - Added Interface MediaservicesCreateOrUpdateHeaders
+  - Added Interface MediaServicesOperationResultsGetHeaders
+  - Added Interface MediaServicesOperationResultsGetOptionalParams
+  - Added Interface MediaServicesOperationStatusesGetOptionalParams
+  - Added Interface MediaservicesUpdateHeaders
+  - Added Type Alias MediaServicesOperationResultsGetResponse
+  - Added Type Alias MediaServicesOperationStatusesGetResponse
+  - Interface AzureMediaServicesOptionalParams has a new optional parameter apiVersion
+  - Interface MediaservicesCreateOrUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface MediaservicesCreateOrUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface MediaservicesUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface MediaservicesUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface MediaServiceUpdate has a new optional parameter privateEndpointConnections
+  - Interface MediaServiceUpdate has a new optional parameter provisioningState
+  - Class AzureMediaServices has a new parameter apiVersion
+  - Class AzureMediaServices has a new parameter mediaServicesOperationResults
+  - Class AzureMediaServices has a new parameter mediaServicesOperationStatuses
+  - Add parameters of MediaservicesCreateOrUpdateHeaders to TypeAlias MediaservicesCreateOrUpdateResponse
+  - Add parameters of MediaservicesUpdateHeaders to TypeAlias MediaservicesUpdateResponse
+  - Type Alias MediaService has a new parameter provisioningState
+  - Type Alias MediaService has a new parameter privateEndpointConnections
+
+**Breaking Changes**
+
+  - Removed operation Mediaservices.createOrUpdate
+  - Removed operation Mediaservices.update
+    
+    
 ## 11.0.0 (2022-04-14)
     
 **Features**

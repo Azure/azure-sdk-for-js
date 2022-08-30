@@ -160,9 +160,9 @@ export interface CloudCapacity {
 }
 
 // @public
-export type CloudInventoryItem = InventoryItemProperties & {
+export interface CloudInventoryItem extends InventoryItemProperties {
     inventoryType: "Cloud";
-};
+}
 
 // @public
 export interface CloudListResult {
@@ -292,15 +292,15 @@ export interface HardwareProfileUpdate {
 }
 
 // @public
-export type InventoryItem = ProxyResource & {
-    readonly systemData?: SystemData;
-    kind?: string;
-    inventoryType: InventoryType;
-    readonly managedResourceId?: string;
-    readonly uuid?: string;
+export interface InventoryItem extends ProxyResource {
     readonly inventoryItemName?: string;
+    inventoryType: InventoryType;
+    kind?: string;
+    readonly managedResourceId?: string;
     readonly provisioningState?: string;
-};
+    readonly systemData?: SystemData;
+    readonly uuid?: string;
+}
 
 // @public
 export interface InventoryItemDetails {
@@ -375,75 +375,54 @@ export type IsCustomizable = string;
 
 // @public
 export enum KnownAllocationMethod {
-    // (undocumented)
     Dynamic = "Dynamic",
-    // (undocumented)
     Static = "Static"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownCreateDiffDisk {
-    // (undocumented)
     False = "false",
-    // (undocumented)
     True = "true"
 }
 
 // @public
 export enum KnownDynamicMemoryEnabled {
-    // (undocumented)
     False = "false",
-    // (undocumented)
     True = "true"
 }
 
 // @public
 export enum KnownInventoryType {
-    // (undocumented)
     Cloud = "Cloud",
-    // (undocumented)
     VirtualMachine = "VirtualMachine",
-    // (undocumented)
     VirtualMachineTemplate = "VirtualMachineTemplate",
-    // (undocumented)
     VirtualNetwork = "VirtualNetwork"
 }
 
 // @public
 export enum KnownIsCustomizable {
-    // (undocumented)
     False = "false",
-    // (undocumented)
     True = "true"
 }
 
 // @public
 export enum KnownLimitCpuForMigration {
-    // (undocumented)
     False = "false",
-    // (undocumented)
     True = "true"
 }
 
 // @public
 export enum KnownOsType {
-    // (undocumented)
     Linux = "Linux",
-    // (undocumented)
     Other = "Other",
-    // (undocumented)
     Windows = "Windows"
 }
 
@@ -517,7 +496,8 @@ export interface OsProfile {
 export type OsType = string;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface Resource {
@@ -700,14 +680,14 @@ export interface VirtualMachineDeleteCheckpoint {
 }
 
 // @public
-export type VirtualMachineInventoryItem = InventoryItemProperties & {
-    inventoryType: "VirtualMachine";
-    readonly osType?: OsType;
-    readonly osName?: string;
-    readonly powerState?: string;
-    ipAddresses?: string[];
+export interface VirtualMachineInventoryItem extends InventoryItemProperties {
     cloud?: InventoryItemDetails;
-};
+    inventoryType: "VirtualMachine";
+    ipAddresses?: string[];
+    readonly osName?: string;
+    readonly osType?: OsType;
+    readonly powerState?: string;
+}
 
 // @public
 export interface VirtualMachineListResult {
@@ -878,13 +858,13 @@ export interface VirtualMachineTemplate {
 }
 
 // @public
-export type VirtualMachineTemplateInventoryItem = InventoryItemProperties & {
-    inventoryType: "VirtualMachineTemplate";
+export interface VirtualMachineTemplateInventoryItem extends InventoryItemProperties {
     readonly cpuCount?: number;
+    inventoryType: "VirtualMachineTemplate";
     readonly memoryMB?: number;
-    readonly osType?: OsType;
     readonly osName?: string;
-};
+    readonly osType?: OsType;
+}
 
 // @public
 export interface VirtualMachineTemplateListResult {
@@ -1000,9 +980,9 @@ export interface VirtualNetwork {
 }
 
 // @public
-export type VirtualNetworkInventoryItem = InventoryItemProperties & {
+export interface VirtualNetworkInventoryItem extends InventoryItemProperties {
     inventoryType: "VirtualNetwork";
-};
+}
 
 // @public
 export interface VirtualNetworkListResult {

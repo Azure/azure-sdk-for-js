@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" class="height-fill">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{displayName}}</title>
+  <link rel="stylesheet" href="./styles/app.scss">
+  <script type="module">
+    import {askForSecrets} from "@azure/api-management-custom-widgets-tools"
+    import App from "./index"
+
+    async function loadSecrets() {
+      const secrets = await askForSecrets("app")
+      const appInstance = new App(secrets)
+      if (!secrets.userId) return
+
+      appInstance.request(`/users/${secrets.userId}`)
+        .then(e => e.json())
+        .then(({properties}) => {
+          if (properties.email) document.getElementById("email").value = properties.email
+        })
+    }
+
+    loadSecrets()
+      .catch(e => console.error("Failed to retrieve secrets from the Developer Portal. The app might not work as expected!", e))
+      .finally(() => {
+        for (const element of document.getElementsByClassName("loading")) {
+          element.classList.remove("loading")
+        }
+      })
+  </script>
+</head>
+<body class="height-fill loading">
+<form id="form" method="post" target="_blank" class="flex-columns-container height-fill">
+  <div class="form-group">
+    <label id="values.label1" for="email" class="form-label"></label>
+    <input id="email" type="email" class="form-control" name="email" placeholder="example@contoso.com" />
+  </div>
+  <div class="form-group height-fill flex-columns-container">
+    <label id="values.label2" for="message" class="form-label"></label>
+    <textarea id="message" class="form-control flex-grow" name="message"></textarea>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="button button-primary">Submit</button>
+  </div>
+</form>
+</body>
+</html>

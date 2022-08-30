@@ -6,7 +6,6 @@
  * @packageDocumentation
  */
 
-export { CertificateCredential, isCertificateCredential } from "./certificateCredential";
 export { createRestError } from "./restError";
 export * from "./getClient";
 export * from "./common";

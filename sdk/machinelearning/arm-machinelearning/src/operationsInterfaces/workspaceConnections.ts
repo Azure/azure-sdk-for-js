@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  WorkspaceConnection,
+  WorkspaceConnectionPropertiesV2BasicResource,
   WorkspaceConnectionsListOptionalParams,
   WorkspaceConnectionsCreateOptionalParams,
   WorkspaceConnectionsCreateResponse,
@@ -21,7 +21,6 @@ import {
 /** Interface representing a WorkspaceConnections. */
 export interface WorkspaceConnections {
   /**
-   * List all connections under a AML workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The options parameters.
@@ -30,9 +29,8 @@ export interface WorkspaceConnections {
     resourceGroupName: string,
     workspaceName: string,
     options?: WorkspaceConnectionsListOptionalParams
-  ): PagedAsyncIterableIterator<WorkspaceConnection>;
+  ): PagedAsyncIterableIterator<WorkspaceConnectionPropertiesV2BasicResource>;
   /**
-   * Add a new workspace connection.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param connectionName Friendly name of the workspace connection
@@ -43,11 +41,10 @@ export interface WorkspaceConnections {
     resourceGroupName: string,
     workspaceName: string,
     connectionName: string,
-    parameters: WorkspaceConnection,
+    parameters: WorkspaceConnectionPropertiesV2BasicResource,
     options?: WorkspaceConnectionsCreateOptionalParams
   ): Promise<WorkspaceConnectionsCreateResponse>;
   /**
-   * Get the detail of a workspace connection.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param connectionName Friendly name of the workspace connection
@@ -60,7 +57,6 @@ export interface WorkspaceConnections {
     options?: WorkspaceConnectionsGetOptionalParams
   ): Promise<WorkspaceConnectionsGetResponse>;
   /**
-   * Delete a workspace connection.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param connectionName Friendly name of the workspace connection

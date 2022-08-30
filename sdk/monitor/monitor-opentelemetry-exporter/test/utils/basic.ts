@@ -3,7 +3,13 @@
 
 import * as opentelemetry from "@opentelemetry/api";
 import { BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
-import { AzureMonitorTraceExporter } from "../../src";
+import {
+  MeterProvider,
+  PeriodicExportingMetricReader,
+  PeriodicExportingMetricReaderOptions,
+} from "@opentelemetry/sdk-metrics-base";
+
+import { AzureMonitorTraceExporter, AzureMonitorMetricExporter } from "../../src";
 import { Expectation, Scenario } from "./types";
 import { msToTimeSpan } from "../../src/utils/breezeUtils";
 import { SpanStatusCode } from "@opentelemetry/api";
@@ -19,15 +25,16 @@ const COMMON_ENVELOPE_PARAMS: Partial<Envelope> = {
   sampleRate: 100,
 };
 
-const exporter = new AzureMonitorTraceExporter({
-  connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`,
-});
-const processor = new FlushSpanProcessor(exporter);
+export class TraceBasicScenario implements Scenario {
+  private _processor: any;
 
-export class BasicScenario implements Scenario {
   prepare(): void {
+    const exporter = new AzureMonitorTraceExporter({
+      connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`,
+    });
+    this._processor = new FlushSpanProcessor(exporter);
     const provider = new BasicTracerProvider();
-    provider.addSpanProcessor(processor);
+    provider.addSpanProcessor(this._processor);
     provider.register();
   }
 
@@ -87,7 +94,7 @@ export class BasicScenario implements Scenario {
   }
 
   flush(): Promise<void> {
-    return processor.forceFlush();
+    return this._processor.forceFlush();
   }
 
   expectation: Expectation[] = [
@@ -98,7 +105,7 @@ export class BasicScenario implements Scenario {
         baseType: "RequestData",
         baseData: {
           version: 2,
-          name: "BasicScenario.Root",
+          name: "TraceBasicScenario.Root",
           duration: msToTimeSpan(600),
           responseCode: "0",
           success: true,
@@ -115,7 +122,7 @@ export class BasicScenario implements Scenario {
             baseType: "RemoteDependencyData",
             baseData: {
               version: 2,
-              name: "BasicScenario.Child.1",
+              name: "TraceBasicScenario.Child.1",
               duration: msToTimeSpan(100),
               success: true,
               resultCode: "0",
@@ -133,7 +140,7 @@ export class BasicScenario implements Scenario {
             baseType: "RemoteDependencyData",
             baseData: {
               version: 2,
-              name: "BasicScenario.Child.2",
+              name: "TraceBasicScenario.Child.2",
               duration: msToTimeSpan(100),
               success: true,
               resultCode: "0",
@@ -179,6 +186,134 @@ export class BasicScenario implements Scenario {
           children: [],
         },
       ],
+    },
+  ];
+}
+
+export class MetricBasicScenario implements Scenario {
+  private _provider = new MeterProvider();
+
+  prepare(): void {
+    const exporter = new AzureMonitorMetricExporter({
+      connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`,
+    });
+    const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
+      exporter: exporter,
+      exportIntervalMillis: 100,
+    };
+    const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
+
+    this._provider.addMetricReader(metricReader);
+  }
+
+  async run(): Promise<void> {
+    const meter = this._provider.getMeter("basic");
+    let counter = meter.createCounter("testCounter");
+    let counter2 = meter.createCounter("testCounter2");
+    let histogram = meter.createHistogram("testHistogram");
+    let histogram2 = meter.createHistogram("testHistogram2");
+    let attributes = { testAttribute: "testValue" };
+    counter.add(1);
+    counter.add(2);
+    counter2.add(12, attributes);
+    histogram.record(1);
+    histogram.record(2);
+    histogram.record(3);
+    histogram.record(4);
+    histogram2.record(12, attributes);
+    await delay(0);
+  }
+
+  cleanup(): void {
+    this._provider.shutdown();
+  }
+
+  flush(): Promise<void> {
+    return delay(100);
+  }
+
+  expectation: Expectation[] = [
+    {
+      ...COMMON_ENVELOPE_PARAMS,
+      name: "Microsoft.ApplicationInsights.Metric",
+      data: {
+        baseType: "MetricData",
+        baseData: {
+          version: 2,
+          metrics: [
+            {
+              name: "testCounter",
+              value: 3,
+              count: 1,
+              dataPointType: "Aggregation",
+            },
+          ],
+        } as any,
+      },
+      children: [],
+    },
+    {
+      ...COMMON_ENVELOPE_PARAMS,
+      name: "Microsoft.ApplicationInsights.Metric",
+      data: {
+        baseType: "MetricData",
+        baseData: {
+          version: 2,
+          metrics: [
+            {
+              name: "testCounter2",
+              value: 12,
+              count: 1,
+              dataPointType: "Aggregation",
+            },
+          ],
+          properties: { testAttribute: "testValue" },
+        } as any,
+      },
+      children: [],
+    },
+    {
+      ...COMMON_ENVELOPE_PARAMS,
+      name: "Microsoft.ApplicationInsights.Metric",
+      data: {
+        baseType: "MetricData",
+        baseData: {
+          version: 2,
+          metrics: [
+            {
+              name: "testHistogram",
+              value: 10,
+              count: 4,
+              max: 4,
+              min: 1,
+              dataPointType: "Aggregation",
+            },
+          ],
+        } as any,
+      },
+      children: [],
+    },
+    {
+      ...COMMON_ENVELOPE_PARAMS,
+      name: "Microsoft.ApplicationInsights.Metric",
+      data: {
+        baseType: "MetricData",
+        baseData: {
+          version: 2,
+          metrics: [
+            {
+              name: "testHistogram2",
+              value: 12,
+              count: 1,
+              max: 12,
+              min: 12,
+              dataPointType: "Aggregation",
+            },
+          ],
+          properties: { testAttribute: "testValue" },
+        } as any,
+      },
+      children: [],
     },
   ];
 }

@@ -26,4 +26,14 @@ export interface XmlOptions {
    * key used to access the XML value content when parsing XML.
    */
   xmlCharKey?: string;
+
+  /**
+   * property name for a CDATA section.
+   */
+  cdataPropName?: string;
+
+  /**
+   * XML nodes to exclude from parsing.
+   */
+  stopNodes?: string[];
 }

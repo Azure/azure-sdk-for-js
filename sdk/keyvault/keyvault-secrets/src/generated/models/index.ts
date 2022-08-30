@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
+import * as coreHttpCompat from "@azure/core-http-compat";
 
 /** The secret set parameters. */
 export interface SecretSetParameters {
@@ -70,7 +71,7 @@ export interface KeyVaultError {
    * The key vault server error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly error?: ErrorModel | null;
+  readonly error?: ErrorModel;
 }
 
 /** The key vault server error. */
@@ -89,7 +90,7 @@ export interface ErrorModel {
    * The key vault server error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly innerError?: ErrorModel | null;
+  readonly innerError?: ErrorModel;
 }
 
 /** The secret update parameters. */
@@ -263,7 +264,7 @@ export enum KnownDeletionRecoveryLevel {
 export type DeletionRecoveryLevel = string;
 
 /** Optional parameters. */
-export interface SetSecretOptionalParams extends coreHttp.OperationOptions {
+export interface SetSecretOptionalParams extends coreClient.OperationOptions {
   /** Application specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
   /** Type of the secret value such as a password. */
@@ -273,34 +274,18 @@ export interface SetSecretOptionalParams extends coreHttp.OperationOptions {
 }
 
 /** Contains response data for the setSecret operation. */
-export type SetSecretResponse = SecretBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SecretBundle;
-  };
-};
+export type SetSecretResponse = SecretBundle;
 
 /** Optional parameters. */
-export interface DeleteSecretOptionalParams extends coreHttp.OperationOptions {}
+export interface DeleteSecretOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the deleteSecret operation. */
-export type DeleteSecretResponse = DeletedSecretBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DeletedSecretBundle;
-  };
-};
+export type DeleteSecretResponse = DeletedSecretBundle;
 
 /** Optional parameters. */
-export interface UpdateSecretOptionalParams extends coreHttp.OperationOptions {
+export interface UpdateSecretOptionalParams
+  extends coreClient.OperationOptions {
   /** Type of the secret value such as a password. */
   contentType?: string;
   /** The secret management attributes. */
@@ -310,215 +295,108 @@ export interface UpdateSecretOptionalParams extends coreHttp.OperationOptions {
 }
 
 /** Contains response data for the updateSecret operation. */
-export type UpdateSecretResponse = SecretBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SecretBundle;
-  };
-};
+export type UpdateSecretResponse = SecretBundle;
 
 /** Optional parameters. */
-export interface GetSecretOptionalParams extends coreHttp.OperationOptions {}
+export interface GetSecretOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSecret operation. */
-export type GetSecretResponse = SecretBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SecretBundle;
-  };
-};
+export type GetSecretResponse = SecretBundle;
 
 /** Optional parameters. */
-export interface GetSecretsOptionalParams extends coreHttp.OperationOptions {
+export interface GetSecretsOptionalParams extends coreClient.OperationOptions {
   /** Maximum number of results to return in a page. If not specified, the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getSecrets operation. */
-export type GetSecretsResponse = SecretListResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SecretListResult;
-  };
-};
+export type GetSecretsResponse = SecretListResult;
 
 /** Optional parameters. */
 export interface GetSecretVersionsOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Maximum number of results to return in a page. If not specified, the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getSecretVersions operation. */
-export type GetSecretVersionsResponse = SecretListResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SecretListResult;
-  };
-};
+export type GetSecretVersionsResponse = SecretListResult;
 
 /** Optional parameters. */
 export interface GetDeletedSecretsOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getDeletedSecrets operation. */
-export type GetDeletedSecretsResponse = DeletedSecretListResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DeletedSecretListResult;
-  };
-};
+export type GetDeletedSecretsResponse = DeletedSecretListResult;
 
 /** Optional parameters. */
 export interface GetDeletedSecretOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDeletedSecret operation. */
-export type GetDeletedSecretResponse = DeletedSecretBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DeletedSecretBundle;
-  };
-};
+export type GetDeletedSecretResponse = DeletedSecretBundle;
 
 /** Optional parameters. */
 export interface PurgeDeletedSecretOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface RecoverDeletedSecretOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the recoverDeletedSecret operation. */
-export type RecoverDeletedSecretResponse = SecretBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SecretBundle;
-  };
-};
+export type RecoverDeletedSecretResponse = SecretBundle;
 
 /** Optional parameters. */
-export interface BackupSecretOptionalParams extends coreHttp.OperationOptions {}
+export interface BackupSecretOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the backupSecret operation. */
-export type BackupSecretResponse = BackupSecretResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: BackupSecretResult;
-  };
-};
+export type BackupSecretResponse = BackupSecretResult;
 
 /** Optional parameters. */
 export interface RestoreSecretOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the restoreSecret operation. */
-export type RestoreSecretResponse = SecretBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SecretBundle;
-  };
-};
+export type RestoreSecretResponse = SecretBundle;
 
 /** Optional parameters. */
 export interface GetSecretsNextOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Maximum number of results to return in a page. If not specified, the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getSecretsNext operation. */
-export type GetSecretsNextResponse = SecretListResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SecretListResult;
-  };
-};
+export type GetSecretsNextResponse = SecretListResult;
 
 /** Optional parameters. */
 export interface GetSecretVersionsNextOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Maximum number of results to return in a page. If not specified, the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getSecretVersionsNext operation. */
-export type GetSecretVersionsNextResponse = SecretListResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SecretListResult;
-  };
-};
+export type GetSecretVersionsNextResponse = SecretListResult;
 
 /** Optional parameters. */
 export interface GetDeletedSecretsNextOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getDeletedSecretsNext operation. */
-export type GetDeletedSecretsNextResponse = DeletedSecretListResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DeletedSecretListResult;
-  };
-};
+export type GetDeletedSecretsNextResponse = DeletedSecretListResult;
 
 /** Optional parameters. */
 export interface KeyVaultClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+  extends coreHttpCompat.ExtendedServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }

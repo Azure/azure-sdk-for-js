@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists all of the private link resources in the specified account.
  *
  * @summary Lists all of the private link resources in the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/PrivateLinkResourcesList.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PrivateLinkResourcesList.json
  */
 async function listPrivateLinkResource() {
   const subscriptionId = "subid";

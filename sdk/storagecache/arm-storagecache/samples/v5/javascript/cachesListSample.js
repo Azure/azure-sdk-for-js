@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Returns all Caches the user has access to under a subscription.
  *
  * @summary Returns all Caches the user has access to under a subscription.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/Caches_List.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_List.json
  */
 async function cachesList() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

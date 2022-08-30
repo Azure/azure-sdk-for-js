@@ -1269,7 +1269,7 @@ export const cloudServiceName: OperationURLParameter = {
 export const apiVersion4: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-03-01",
+    defaultValue: "2022-04-04",
     isConstant: true,
     serializedName: "api-version",
     type: {

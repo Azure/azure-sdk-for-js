@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists all the userAssignedIdentities available under the specified subscription.
  *
  * @summary Lists all the userAssignedIdentities available under the specified subscription.
- * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2021-09-30-preview/examples/IdentityListBySubscription.json
+ * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/IdentityListBySubscription.json
  */
 async function identityListBySubscription() {
   const subscriptionId = "subid";

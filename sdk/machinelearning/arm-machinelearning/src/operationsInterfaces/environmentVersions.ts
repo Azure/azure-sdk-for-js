@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  EnvironmentVersionData,
+  EnvironmentVersion,
   EnvironmentVersionsListOptionalParams,
   EnvironmentVersionsDeleteOptionalParams,
   EnvironmentVersionsGetOptionalParams,
@@ -32,7 +32,7 @@ export interface EnvironmentVersions {
     workspaceName: string,
     name: string,
     options?: EnvironmentVersionsListOptionalParams
-  ): PagedAsyncIterableIterator<EnvironmentVersionData>;
+  ): PagedAsyncIterableIterator<EnvironmentVersion>;
   /**
    * Delete version.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -77,7 +77,7 @@ export interface EnvironmentVersions {
     workspaceName: string,
     name: string,
     version: string,
-    body: EnvironmentVersionData,
+    body: EnvironmentVersion,
     options?: EnvironmentVersionsCreateOrUpdateOptionalParams
   ): Promise<EnvironmentVersionsCreateOrUpdateResponse>;
 }

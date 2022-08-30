@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
+import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import {
   DeletionRecoveryLevel,
   KeyUsageType,
@@ -17,7 +18,7 @@ export const LATEST_API_VERSION = "7.3";
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
  */
-export interface CertificateClientOptions extends coreHttp.PipelineOptions {
+export interface CertificateClientOptions extends ExtendedCommonClientOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
@@ -482,7 +483,7 @@ export interface DeletedCertificate extends KeyVaultCertificateWithPolicy {
  * An interface representing the optional parameters that can be
  * passed to {@link beginCreateCertificate}, {@link beginDeleteCertificate} and {@link beginRecoverDeletedCertificate}
  */
-export interface CertificatePollerOptions extends coreHttp.OperationOptions {
+export interface CertificatePollerOptions extends coreClient.OperationOptions {
   /**
    * Time between each polling
    */
@@ -523,38 +524,38 @@ export type GetCertificateOperationOptions = CertificatePollerOptions;
  */
 export interface CreateCertificateOptions
   extends CertificateProperties,
-    coreHttp.OperationOptions {}
+    coreClient.OperationOptions {}
 
 /**
  * Options for {@link cancelCertificateOperation}.
  */
-export type CancelCertificateOperationOptions = coreHttp.OperationOptions;
+export type CancelCertificateOperationOptions = coreClient.OperationOptions;
 
 /**
  * Options for {@link backupCertificate}.
  */
-export type BackupCertificateOptions = coreHttp.OperationOptions;
+export type BackupCertificateOptions = coreClient.OperationOptions;
 
 /**
  * Options for {@link deleteCertificateOperation}.
  */
-export type DeleteCertificateOperationOptions = coreHttp.OperationOptions;
+export type DeleteCertificateOperationOptions = coreClient.OperationOptions;
 
 /**
  * Options for {@link deleteCertificate}.
  * @internal
  */
-export type DeleteCertificateOptions = coreHttp.OperationOptions;
+export type DeleteCertificateOptions = coreClient.OperationOptions;
 
 /**
  * Options for {@link deleteContacts}.
  */
-export type DeleteContactsOptions = coreHttp.OperationOptions;
+export type DeleteContactsOptions = coreClient.OperationOptions;
 
 /**
  * Options for {@link importCertificate}.
  */
-export interface ImportCertificateOptions extends coreHttp.OperationOptions {
+export interface ImportCertificateOptions extends coreClient.OperationOptions {
   /**
    * Determines whether the object is enabled.
    */
@@ -577,17 +578,17 @@ export interface ImportCertificateOptions extends coreHttp.OperationOptions {
 /**
  * Options for {@link deleteIssuer}.
  */
-export type DeleteIssuerOptions = coreHttp.OperationOptions;
+export type DeleteIssuerOptions = coreClient.OperationOptions;
 
 /**
  * Options for {@link setContacts}.
  */
-export type SetContactsOptions = coreHttp.OperationOptions;
+export type SetContactsOptions = coreClient.OperationOptions;
 
 /**
  * Options for {@link createIssuer}.
  */
-export interface CreateIssuerOptions extends coreHttp.OperationOptions {
+export interface CreateIssuerOptions extends coreClient.OperationOptions {
   /**
    * The user name/account name/account id.
    */
@@ -613,7 +614,7 @@ export interface CreateIssuerOptions extends coreHttp.OperationOptions {
 /**
  * Options for {@link purgeDeletedCertificate}.
  */
-export type PurgeDeletedCertificateOptions = coreHttp.OperationOptions;
+export type PurgeDeletedCertificateOptions = coreClient.OperationOptions;
 
 /**
  * Options for {@link updateIssuer}.
@@ -628,37 +629,37 @@ export interface UpdateIssuerOptions extends CreateIssuerOptions {
 /**
  * Options for {@link getContacts}.
  */
-export type GetContactsOptions = coreHttp.OperationOptions;
+export type GetContactsOptions = coreClient.OperationOptions;
 
 /**
  * Options for {@link getIssuer}.
  */
-export type GetIssuerOptions = coreHttp.OperationOptions;
+export type GetIssuerOptions = coreClient.OperationOptions;
 
 /**
  * Options for {@link getPlainCertificateOperation}.
  */
-export type GetPlainCertificateOperationOptions = coreHttp.OperationOptions;
+export type GetPlainCertificateOperationOptions = coreClient.OperationOptions;
 
 /**
  * Options for {@link getCertificateVersion}.
  */
-export type GetCertificateVersionOptions = coreHttp.OperationOptions;
+export type GetCertificateVersionOptions = coreClient.OperationOptions;
 
 /**
  * Options for {@link getCertificatePolicy}.
  */
-export type GetCertificatePolicyOptions = coreHttp.OperationOptions;
+export type GetCertificatePolicyOptions = coreClient.OperationOptions;
 
 /**
  * Options for {@link getDeletedCertificate}.
  */
-export type GetDeletedCertificateOptions = coreHttp.OperationOptions;
+export type GetDeletedCertificateOptions = coreClient.OperationOptions;
 
 /**
  * Options for {@link getCertificate}.
  */
-export type GetCertificateOptions = coreHttp.OperationOptions;
+export type GetCertificateOptions = coreClient.OperationOptions;
 
 /**
  * An interface representing the shape of the Certificate Tags. The tags are just string key-value pairs.
@@ -670,12 +671,12 @@ export type CertificateTags = { [propertyName: string]: string };
  */
 export interface UpdateCertificatePropertiesOptions
   extends CertificateProperties,
-    coreHttp.OperationOptions {}
+    coreClient.OperationOptions {}
 
 /**
  * Options for {@link updateCertificatePolicy}.
  */
-export type UpdateCertificatePolicyOptions = coreHttp.OperationOptions;
+export type UpdateCertificatePolicyOptions = coreClient.OperationOptions;
 
 /**
  * An interface representing the properties of a certificate issuer
@@ -732,7 +733,7 @@ export interface CertificateIssuer extends IssuerProperties {
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfCertificates}.
  */
-export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationOptions {
+export interface ListPropertiesOfCertificatesOptions extends coreClient.OperationOptions {
   /**
    * Specifies whether to include certificates which are not completely provisioned.
    */
@@ -742,17 +743,17 @@ export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationO
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfCertificateVersions}.
  */
-export type ListPropertiesOfCertificateVersionsOptions = coreHttp.OperationOptions;
+export type ListPropertiesOfCertificateVersionsOptions = coreClient.OperationOptions;
 
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfIssuers}.
  */
-export type ListPropertiesOfIssuersOptions = coreHttp.OperationOptions;
+export type ListPropertiesOfIssuersOptions = coreClient.OperationOptions;
 
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listDeletedCertificates}.
  */
-export interface ListDeletedCertificatesOptions extends coreHttp.OperationOptions {
+export interface ListDeletedCertificatesOptions extends coreClient.OperationOptions {
   /**
    * Specifies whether to include certificates which are not completely provisioned.
    */
@@ -762,18 +763,18 @@ export interface ListDeletedCertificatesOptions extends coreHttp.OperationOption
 /**
  * An interface representing optional parameters for {@link mergeCertificate}.
  */
-export type MergeCertificateOptions = coreHttp.OperationOptions;
+export type MergeCertificateOptions = coreClient.OperationOptions;
 
 /**
  * An interface representing optional parameters for {@link recoverDeletedCertificate}.
  * @internal
  */
-export type RecoverDeletedCertificateOptions = coreHttp.OperationOptions;
+export type RecoverDeletedCertificateOptions = coreClient.OperationOptions;
 
 /**
  * An interface representing optional parameters for {@link restoreCertificateBackup}.
  */
-export type RestoreCertificateBackupOptions = coreHttp.OperationOptions;
+export type RestoreCertificateBackupOptions = coreClient.OperationOptions;
 
 /**
  * The shape of the contact information for the vault certificates.

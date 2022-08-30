@@ -30,7 +30,7 @@ async function listRemediationsAtIndividualResourceScopeWithQueryParameters() {
   const resArray = new Array();
   for await (let item of client.remediations.listForResource(
     resourceId,
-    options
+    { queryOptions: options }
   )) {
     resArray.push(item);
   }

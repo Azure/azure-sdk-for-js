@@ -207,11 +207,11 @@ export interface EmergingIssuesGetOptionalParams extends coreClient.OperationOpt
 export type EmergingIssuesGetResponse = EmergingIssuesGetResult;
 
 // @public
-export type EmergingIssuesGetResult = Resource & {
+export interface EmergingIssuesGetResult extends Resource {
     refreshTimestamp?: Date;
-    statusBanners?: StatusBanner[];
     statusActiveEvents?: StatusActiveEvent[];
-};
+    statusBanners?: StatusBanner[];
+}
 
 // @public
 export interface EmergingIssuesListNextOptionalParams extends coreClient.OperationOptions {
@@ -242,21 +242,15 @@ export interface ImpactedRegion {
 
 // @public
 export enum KnownSeverityValues {
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     Information = "Information",
-    // (undocumented)
     Warning = "Warning"
 }
 
 // @public
 export enum KnownStageValues {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Archived = "Archived",
-    // (undocumented)
     Resolve = "Resolve"
 }
 

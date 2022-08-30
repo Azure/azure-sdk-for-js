@@ -1097,6 +1097,36 @@ function deserializeSequenceType(
   return responseBody;
 }
 
+function getIndexDiscriminator(
+  discriminators: Record<string, CompositeMapper>,
+  discriminatorValue: string,
+  typeName: string
+): CompositeMapper | undefined {
+  const typeNamesToCheck = [typeName];
+  while (typeNamesToCheck.length) {
+    const currentName = typeNamesToCheck.shift();
+    const indexDiscriminator =
+      discriminatorValue === currentName
+        ? discriminatorValue
+        : currentName + "." + discriminatorValue;
+    if (Object.prototype.hasOwnProperty.call(discriminators, indexDiscriminator)) {
+      return discriminators[indexDiscriminator];
+    } else {
+      for (const [name, mapper] of Object.entries(discriminators)) {
+        if (
+          name.startsWith(currentName + ".") &&
+          mapper.type.uberParent === currentName &&
+          mapper.type.className
+        ) {
+          typeNamesToCheck.push(mapper.type.className);
+        }
+      }
+    }
+  }
+
+  return undefined;
+}
+
 function getPolymorphicMapper(
   serializer: Serializer,
   mapper: CompositeMapper,
@@ -1104,6 +1134,7 @@ function getPolymorphicMapper(
   polymorphicPropertyName: "clientName" | "serializedName"
 ): CompositeMapper {
   const polymorphicDiscriminator = getPolymorphicDiscriminatorRecursively(serializer, mapper);
+
   if (polymorphicDiscriminator) {
     let discriminatorName = polymorphicDiscriminator[polymorphicPropertyName];
     if (discriminatorName) {
@@ -1112,13 +1143,14 @@ function getPolymorphicMapper(
         discriminatorName = discriminatorName.replace(/\\/gi, "");
       }
       const discriminatorValue = object[discriminatorName];
-      if (discriminatorValue !== undefined && discriminatorValue !== null) {
-        const typeName = mapper.type.uberParent || mapper.type.className;
-        const indexDiscriminator =
-          discriminatorValue === typeName
-            ? discriminatorValue
-            : typeName + "." + discriminatorValue;
-        const polymorphicMapper = serializer.modelMappers.discriminators[indexDiscriminator];
+      const typeName = mapper.type.uberParent ?? mapper.type.className;
+
+      if (typeof discriminatorValue === "string" && typeName) {
+        const polymorphicMapper = getIndexDiscriminator(
+          serializer.modelMappers.discriminators,
+          discriminatorValue,
+          typeName
+        );
         if (polymorphicMapper) {
           mapper = polymorphicMapper;
         }

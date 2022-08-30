@@ -14,13 +14,12 @@
 const {
   TextAnalyticsClient,
   AzureKeyCredential,
-  PiiEntityDomain
+  PiiEntityDomain,
 } = require("@azure/ai-text-analytics");
 const { assert } = require("console");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   console.log(`Running recognizePii sample`);
@@ -48,7 +47,7 @@ async function main() {
 
   console.log(`There are no PHI entities in this text: "${textNoPHI}"`);
   const [resultWithPHI] = await client.recognizePiiEntities([textNoPHI], "en", {
-    domainFilter: PiiEntityDomain.PROTECTED_HEALTH_INFORMATION
+    domainFilter: PiiEntityDomain.PROTECTED_HEALTH_INFORMATION,
   });
   if (!resultWithPHI.error) {
     console.log(`Also there is nothing to redact: "${resultWithPHI.redactedText}"`);
@@ -63,7 +62,7 @@ async function main() {
     }
   }
   const [resultWithSSNPII] = await client.recognizePiiEntities([textMultiplePIIs], "en", {
-    categoriesFilter: ["USSocialSecurityNumber"]
+    categoriesFilter: ["USSocialSecurityNumber"],
   });
   if (!resultWithSSNPII.error) {
     console.log(
@@ -79,3 +78,5 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

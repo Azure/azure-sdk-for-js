@@ -9,7 +9,12 @@ import {
   createConnectionContextForCredential,
 } from "./constructorHelpers";
 import { ConnectionContext } from "./connectionContext";
-import { ServiceBusReceiverOptions, ServiceBusSessionReceiverOptions, ReceiveMode } from "./models";
+import {
+  ServiceBusReceiverOptions,
+  ServiceBusSessionReceiverOptions,
+  ReceiveMode,
+  ServiceBusSenderOptions,
+} from "./models";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "./receivers/receiver";
 import {
   ServiceBusSessionReceiver,
@@ -19,7 +24,9 @@ import { ServiceBusRuleManager, ServiceBusRuleManagerImpl } from "./serviceBusRu
 import { ServiceBusSender, ServiceBusSenderImpl } from "./sender";
 import { entityPathMisMatchError } from "./util/errors";
 import { MessageSession } from "./session/messageSession";
-import { isCredential, isDefined } from "./util/typeGuards";
+import { isDefined } from "@azure/core-util";
+import { isCredential } from "./util/typeGuards";
+import { ensureValidIdentifier } from "./util/utils";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -33,6 +40,11 @@ export class ServiceBusClient {
    * This is likely to be similar to <yournamespace>.servicebus.windows.net.
    */
   public fullyQualifiedNamespace: string;
+  /**
+   * The name used to identify this ServiceBusClient.
+   * If not specified or empty, a random unique one will be generated.
+   */
+  public identifier: string;
   /**
    * Creates an instance of the ServiceBusClient class which can be used to create senders and receivers to
    * the Azure Service Bus namespace provided in the connection string. No connection is made to the service
@@ -96,6 +108,10 @@ export class ServiceBusClient {
       );
     }
     this.fullyQualifiedNamespace = this._connectionContext.config.host;
+    this.identifier = ensureValidIdentifier(
+      this.fullyQualifiedNamespace,
+      this._clientOptions.identifier
+    );
     this._clientOptions.retryOptions = this._clientOptions.retryOptions || {};
 
     const timeoutInMs = this._clientOptions.retryOptions.timeoutInMs;
@@ -213,7 +229,8 @@ export class ServiceBusClient {
       receiveMode,
       maxLockAutoRenewDurationInMs,
       options?.skipParsingBodyAsJson ?? false,
-      this._clientOptions.retryOptions
+      this._clientOptions.retryOptions,
+      options?.identifier
     );
   }
 
@@ -335,6 +352,7 @@ export class ServiceBusClient {
     }
 
     const messageSession = await MessageSession.create(
+      ensureValidIdentifier(entityPath, options?.identifier),
       this._connectionContext,
       entityPath,
       sessionId,
@@ -421,6 +439,7 @@ export class ServiceBusClient {
     );
 
     const messageSession = await MessageSession.create(
+      ensureValidIdentifier(entityPath, options?.identifier),
       this._connectionContext,
       entityPath,
       undefined,
@@ -450,13 +469,14 @@ export class ServiceBusClient {
    * to the service until one of the methods on the sender is called.
    * @param queueOrTopicName - The name of a queue or topic to send messages to.
    */
-  createSender(queueOrTopicName: string): ServiceBusSender {
+  createSender(queueOrTopicName: string, options: ServiceBusSenderOptions = {}): ServiceBusSender {
     validateEntityPath(this._connectionContext.config, queueOrTopicName);
 
     return new ServiceBusSenderImpl(
       this._connectionContext,
       queueOrTopicName,
-      this._clientOptions.retryOptions
+      this._clientOptions.retryOptions,
+      options.identifier
     );
   }
 

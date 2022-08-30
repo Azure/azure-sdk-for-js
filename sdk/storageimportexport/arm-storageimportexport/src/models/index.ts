@@ -376,9 +376,13 @@ export interface Operation {
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -396,12 +400,19 @@ export type CreatedByType = string;
 
 /** Known values of {@link DriveState} that the service accepts. */
 export enum KnownDriveState {
+  /** Specified */
   Specified = "Specified",
+  /** Received */
   Received = "Received",
+  /** NeverReceived */
   NeverReceived = "NeverReceived",
+  /** Transferring */
   Transferring = "Transferring",
+  /** Completed */
   Completed = "Completed",
+  /** CompletedMoreInfo */
   CompletedMoreInfo = "CompletedMoreInfo",
+  /** ShippedBack */
   ShippedBack = "ShippedBack"
 }
 
@@ -422,7 +433,9 @@ export type DriveState = string;
 
 /** Known values of {@link EncryptionKekType} that the service accepts. */
 export enum KnownEncryptionKekType {
+  /** MicrosoftManaged */
   MicrosoftManaged = "MicrosoftManaged",
+  /** CustomerManaged */
   CustomerManaged = "CustomerManaged"
 }
 
@@ -438,8 +451,11 @@ export type EncryptionKekType = string;
 
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
+  /** None */
   None = "None",
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned"
 }
 

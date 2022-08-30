@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Constants, RetryOptions } from "@azure/core-amqp";
-import { isDefined } from "./typeGuards";
+import { isDefined } from "@azure/core-util";
 
 /**
  * @internal

@@ -15,9 +15,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Deletes role instances in a cloud service.
  *
  * @summary Deletes role instances in a cloud service.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-03-01/examples/DeleteCloudServiceRoleInstances.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudServiceRoleInstance_Delete_ByCloudService.json
  */
-async function deleteCloudServiceRoleInstances() {
+async function deleteCloudServiceRoleInstancesInACloudService() {
   const subscriptionId = "{subscription-id}";
   const resourceGroupName = "ConstosoRG";
   const cloudServiceName = "{cs-name}";
@@ -35,4 +35,4 @@ async function deleteCloudServiceRoleInstances() {
   console.log(result);
 }
 
-deleteCloudServiceRoleInstances().catch(console.error);
+deleteCloudServiceRoleInstancesInACloudService().catch(console.error);

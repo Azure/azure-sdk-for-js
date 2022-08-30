@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/PoolCreate_SharedImageGallery.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolCreate_SharedImageGallery.json
  */
 async function createPoolCustomImage() {
   const subscriptionId = "subid";
@@ -51,7 +51,7 @@ createPoolCustomImage().catch(console.error);
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/PoolCreate_CloudServiceConfiguration.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolCreate_CloudServiceConfiguration.json
  */
 async function createPoolFullCloudServiceConfiguration() {
   const subscriptionId = "subid";
@@ -154,7 +154,7 @@ createPoolFullCloudServiceConfiguration().catch(console.error);
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/PoolCreate_VirtualMachineConfiguration.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolCreate_VirtualMachineConfiguration.json
  */
 async function createPoolFullVirtualMachineConfiguration() {
   const subscriptionId = "subid";
@@ -244,7 +244,7 @@ createPoolFullVirtualMachineConfiguration().catch(console.error);
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/PoolCreate_MinimalCloudServiceConfiguration.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolCreate_MinimalCloudServiceConfiguration.json
  */
 async function createPoolMinimalCloudServiceConfiguration() {
   const subscriptionId = "subid";
@@ -273,7 +273,7 @@ createPoolMinimalCloudServiceConfiguration().catch(console.error);
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/PoolCreate_MinimalVirtualMachineConfiguration.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolCreate_MinimalVirtualMachineConfiguration.json
  */
 async function createPoolMinimalVirtualMachineConfiguration() {
   const subscriptionId = "subid";
@@ -317,7 +317,7 @@ createPoolMinimalVirtualMachineConfiguration().catch(console.error);
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/PoolCreate_NoPublicIPAddresses.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolCreate_NoPublicIPAddresses.json
  */
 async function createPoolNoPublicIP() {
   const subscriptionId = "subid";
@@ -358,7 +358,7 @@ createPoolNoPublicIP().catch(console.error);
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/PoolCreate_PublicIPs.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolCreate_PublicIPs.json
  */
 async function createPoolPublicIPs() {
   const subscriptionId = "subid";
@@ -404,7 +404,7 @@ createPoolPublicIPs().catch(console.error);
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/PoolCreate_UserAssignedIdentities.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolCreate_UserAssignedIdentities.json
  */
 async function createPoolUserAssignedIdentities() {
   const subscriptionId = "subid";
@@ -455,7 +455,7 @@ createPoolUserAssignedIdentities().catch(console.error);
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/PoolCreate_VirtualMachineConfiguration_Extensions.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolCreate_VirtualMachineConfiguration_Extensions.json
  */
 async function createPoolVirtualMachineConfigurationExtensions() {
   const subscriptionId = "subid";

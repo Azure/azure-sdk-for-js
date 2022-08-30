@@ -13,7 +13,10 @@ import {
 } from "@azure/core-client";
 import {
   CustomLocation as CustomLocationMapper,
-  PatchableCustomLocations as PatchableCustomLocationsMapper
+  PatchableCustomLocations as PatchableCustomLocationsMapper,
+  CustomLocationFindTargetResourceGroupProperties as CustomLocationFindTargetResourceGroupPropertiesMapper,
+  ResourceSyncRule as ResourceSyncRuleMapper,
+  PatchableResourceSyncRule as PatchableResourceSyncRuleMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -43,7 +46,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-08-15",
+    defaultValue: "2021-08-31-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -161,6 +164,11 @@ export const provisioningState: OperationParameter = {
   mapper: PatchableCustomLocationsMapper
 };
 
+export const parameters2: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: CustomLocationFindTargetResourceGroupPropertiesMapper
+};
+
 export const nextLink: OperationURLParameter = {
   parameterPath: "nextLink",
   mapper: {
@@ -171,4 +179,47 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const childResourceName: OperationURLParameter = {
+  parameterPath: "childResourceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
+      ),
+      MaxLength: 63,
+      MinLength: 1
+    },
+    serializedName: "childResourceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters3: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ResourceSyncRuleMapper
+};
+
+export const tags1: OperationParameter = {
+  parameterPath: ["options", "tags"],
+  mapper: PatchableResourceSyncRuleMapper
+};
+
+export const priority: OperationParameter = {
+  parameterPath: ["options", "priority"],
+  mapper: PatchableResourceSyncRuleMapper
+};
+
+export const selector: OperationParameter = {
+  parameterPath: ["options", "selector"],
+  mapper: PatchableResourceSyncRuleMapper
+};
+
+export const targetResourceGroup: OperationParameter = {
+  parameterPath: ["options", "targetResourceGroup"],
+  mapper: PatchableResourceSyncRuleMapper
 };

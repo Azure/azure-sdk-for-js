@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  DatastoreData,
+  Datastore,
   DatastoresListOptionalParams,
   DatastoresDeleteOptionalParams,
   DatastoresGetOptionalParams,
@@ -32,7 +32,7 @@ export interface Datastores {
     resourceGroupName: string,
     workspaceName: string,
     options?: DatastoresListOptionalParams
-  ): PagedAsyncIterableIterator<DatastoreData>;
+  ): PagedAsyncIterableIterator<Datastore>;
   /**
    * Delete datastore.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -71,7 +71,7 @@ export interface Datastores {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    body: DatastoreData,
+    body: Datastore,
     options?: DatastoresCreateOrUpdateOptionalParams
   ): Promise<DatastoresCreateOrUpdateResponse>;
   /**

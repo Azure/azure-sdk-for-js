@@ -6,7 +6,7 @@ REST API for managing Azure Lab Services images.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/labservices/arm-labservices) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-labservices) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-labservices?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-labservices) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

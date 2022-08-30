@@ -6,7 +6,7 @@ import { AccessToken } from "@azure/core-auth";
 import { formatError } from "../../util/logging";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { parseCertificate } from "./msalClientCertificate";
-import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
+import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 
 /**
  * Options that can be passed to configure MSAL to handle On-Behalf-Of authentication requests.

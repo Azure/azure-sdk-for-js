@@ -1,17 +1,24 @@
 # Release History
 
-
-## 2.1.0-beta.3 (Unknown)
+## 3.0.0-beta.1 (2022-08-24)
 
 ### Features Added
-
+- Added support in `EnvironmentCredential` to read a certificate password from an environment variable `AZURE_CLIENT_CERTIFICATE_PASSWORD`
+- Added samples for supporting AAD authentication in Azure Redis Cache
 ### Breaking Changes
+- Removed `VisualStudioCodeCredential` from `DefaultAzureCredential` token chain. [Issue 20500](https://github.com/Azure/azure-sdk-for-js/issues/20500) tracks this.
+
+## 2.1.0 (2022-07-08)
+
+### Features Added
+- Added support for new credential `ClientAssertionCredential`, which accepts a callback function for the signed JWT assertion for a client certificate. See [MSAL Client Assertion for more information](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-node/docs/initialize-confidential-client-application.md).
 
 ### Bugs Fixed
 
 - Fixed a bug that would break the AzureCliCredential if the Azure CLI reported a warning. See: [21075](https://github.com/Azure/azure-sdk-for-js/issues/21075).
 - Fixed a bug in `AuthorizationCodeCredential` where the tenant id was not being used. The `common` tenant was the only tenant being used by this credential.
 - Fixed a bug in `AuthorizationCodeCredential` where the public client was not being used. Due to this bug, without passing in the client secret, this credential would fail.
+- Fixed a bug in `DefaultAzureCredential` and `AzureCLICredential` where the errors thrown by the latter credential were not of type `CredentialUnavailableError`. This caused only the error of `AzureCLICredential` being thrown and the other chained errors of `DefaultAzureCredential` were not thrown. See: [22066](https://github.com/Azure/azure-sdk-for-js/issues/22066)
 
 ### Other Changes
 

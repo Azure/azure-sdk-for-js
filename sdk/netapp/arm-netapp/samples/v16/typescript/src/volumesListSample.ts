@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List all volumes within the capacity pool
  *
  * @summary List all volumes within the capacity pool
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-01-01/examples/Volumes_List.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-03-01/examples/Volumes_List.json
  */
 async function volumesList() {
   const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";

@@ -1,0 +1,60 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Management/managementgroups/20000000-0001-0000-0000-000000000123//providers/Microsoft.Authorization/policyAssignments/passigment?api-version=2021-06-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-policy/5.0.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "56ec080f-e035-4e35-a650-d9aa0e76e5f7"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 01 Jul 2022 08:13:24 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "693fc1e5-52c5-4dd2-8353-806c17fa6808",
+        "x-ms-ratelimit-remaining-tenant-reads": "11992",
+        "x-ms-request-id": "693fc1e5-52c5-4dd2-8353-806c17fa6808",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220701T081324Z:693fc1e5-52c5-4dd2-8353-806c17fa6808"
+      },
+      "ResponseBody": {
+        "properties": {
+          "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/20000000-0001-0000-0000-000000000123/providers/Microsoft.Authorization/policyDefinitions/jspolicy",
+          "scope": "/providers/Microsoft.Management/managementgroups/20000000-0001-0000-0000-000000000123",
+          "metadata": {
+            "createdBy": "c4e92f5c-3a0d-4845-aacc-5ac8a7905cdf",
+            "createdOn": "2022-07-01T08:13:23.983166Z",
+            "updatedBy": null,
+            "updatedOn": null
+          },
+          "enforcementMode": "Default"
+        },
+        "id": "/providers/Microsoft.Management/managementgroups/20000000-0001-0000-0000-000000000123/providers/Microsoft.Authorization/policyAssignments/passigment",
+        "type": "Microsoft.Authorization/policyAssignments",
+        "name": "passigment",
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2022-07-01T08:13:23.9506267Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2022-07-01T08:13:23.9506267Z"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

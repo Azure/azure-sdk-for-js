@@ -274,6 +274,9 @@
     },
     {
       "path": "sdk/instrumentation/opentelemetry-instrumentation-azure-sdk"
+    },
+    {
+      "path": "sdk/core/core-http-compat"
     }
   ],
   "settings": {

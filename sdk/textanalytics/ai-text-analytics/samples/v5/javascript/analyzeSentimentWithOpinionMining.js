@@ -14,8 +14,7 @@
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
@@ -25,29 +24,28 @@ const documents = [
   {
     text: "The food and service were unacceptable, but the concierge were nice",
     id: "0",
-    language: "en"
+    language: "en",
   },
   {
-    text:
-      "The rooms were beautiful but dirty. The AC was good and quiet, but the elevator was broken",
+    text: "The rooms were beautiful but dirty. The AC was good and quiet, but the elevator was broken",
     id: "1",
-    language: "en"
+    language: "en",
   },
   {
     text: "The breakfast was good, but the toilet was smelly",
     id: "2",
-    language: "en"
+    language: "en",
   },
   {
     text: "Loved this hotel - good breakfast - nice shuttle service.",
     id: "3",
-    language: "en"
+    language: "en",
   },
   {
     text: "I had a great unobstructed view of the Microsoft campus",
     id: "4",
-    language: "en"
-  }
+    language: "en",
+  },
 ];
 
 async function main() {
@@ -89,3 +87,5 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

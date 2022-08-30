@@ -15,9 +15,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Reimage asynchronous operation reinstalls the operating system on instances of web roles or worker roles.
  *
  * @summary Reimage asynchronous operation reinstalls the operating system on instances of web roles or worker roles.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-03-01/examples/ReimageCloudServiceRoleInstances.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudServiceRoleInstance_Reimage_ByCloudService.json
  */
-async function reimageCloudServiceRoleInstances() {
+async function reimageCloudServiceRoleInstancesInACloudService() {
   const subscriptionId = "{subscription-id}";
   const resourceGroupName = "ConstosoRG";
   const cloudServiceName = "{cs-name}";
@@ -35,4 +35,4 @@ async function reimageCloudServiceRoleInstances() {
   console.log(result);
 }
 
-reimageCloudServiceRoleInstances().catch(console.error);
+reimageCloudServiceRoleInstancesInACloudService().catch(console.error);

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Updates an existing PrivateLinkScope's tags. To update other fields use the CreateOrUpdate method.
  *
  * @summary Updates an existing PrivateLinkScope's tags. To update other fields use the CreateOrUpdate method.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2019-10-17-preview/examples/PrivateLinkScopesUpdateTagsOnly.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-07-01-preview/examples/PrivateLinkScopesUpdateTagsOnly.json
  */
 async function privateLinkScopeUpdateTagsOnly() {
   const subscriptionId = "subid";

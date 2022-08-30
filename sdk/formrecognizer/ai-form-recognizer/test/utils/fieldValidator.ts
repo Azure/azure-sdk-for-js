@@ -8,7 +8,7 @@
 
 import { assert } from "chai";
 
-import { AnalyzedDocument } from "../../src/lro/analyze";
+import { AnalyzedDocument } from "../../src/lro/analysis";
 import {
   DocumentArrayField,
   DocumentDateField,

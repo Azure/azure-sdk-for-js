@@ -21,6 +21,11 @@ import { CoreRestPipelineLro } from "./coreRestPipelineLro";
 import { getYieldedValue } from "@azure/test-utils";
 
 /**
+ * Dummy value for the path of the initial request
+ */
+const initialPath = "path";
+
+/**
  * This helper creates an array of route processors where each processor is represented
  * as a generator. This generator representation is needed to handle a sequence of GET
  * requests to the same route. In particular, the first GET request may get
@@ -37,13 +42,17 @@ function toLroProcessors(responses: LroResponseSpec[]): RouteProcessor[] {
     }
   >();
   for (const response of responses) {
-    const key = createRouteKey(response);
+    const { method, path = initialPath, status, body, headers } = response;
+    const key = createRouteKey({ method, path });
     const routeProcessor = routeCountMap.get(key);
     if (routeProcessor !== undefined) {
-      routeProcessor.responseProcessors.push(createProcessor(response));
+      routeProcessor.responseProcessors.push(createProcessor({ status, body, headers }));
     } else {
-      const { method, path } = response;
-      routeCountMap.set(key, { method, path, responseProcessors: [createProcessor(response)] });
+      routeCountMap.set(key, {
+        method,
+        path,
+        responseProcessors: [createProcessor({ status, body, headers })],
+      });
     }
   }
   return [...routeCountMap.values()].map(({ responseProcessors, ...rest }) => ({
@@ -72,7 +81,7 @@ function createClient(routes: RouteProcessor[]): HttpClient {
   };
 }
 
-export type Response = LroBody & { statusCode: number };
+type Response = LroBody & { statusCode: number };
 
 function createSendOp(settings: {
   client: HttpClient;
@@ -107,11 +116,10 @@ export function createPoller<TState>(settings: {
   lroResourceLocationConfig?: LroResourceLocationConfig;
   processResult?: (result: unknown, state: TState) => Response;
   updateState?: (state: TState, lastResponse: RawResponse) => void;
-  cancel?: (state: TState) => Promise<void>;
 }): PollerLike<PollOperationState<Response>, Response> {
-  const { routes, lroResourceLocationConfig, processResult, updateState, cancel } = settings;
+  const { routes, lroResourceLocationConfig, processResult, updateState } = settings;
   const client = createClient(toLroProcessors(routes));
-  const { method: requestMethod, path } = routes[0];
+  const { method: requestMethod, path = initialPath } = routes[0];
   const lro = new CoreRestPipelineLro(createSendOp({ client }), {
     method: throwIfUndefined(requestMethod),
     url: throwIfUndefined(path),
@@ -125,7 +133,6 @@ export function createPoller<TState>(settings: {
     lroResourceLocationConfig,
     processResult,
     updateState,
-    cancel,
   });
 }
 

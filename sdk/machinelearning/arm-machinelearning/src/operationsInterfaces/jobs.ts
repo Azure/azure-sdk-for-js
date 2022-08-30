@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  JobBaseData,
+  JobBase,
   JobsListOptionalParams,
   JobsDeleteOptionalParams,
   JobsGetOptionalParams,
@@ -32,7 +32,7 @@ export interface Jobs {
     resourceGroupName: string,
     workspaceName: string,
     options?: JobsListOptionalParams
-  ): PagedAsyncIterableIterator<JobBaseData>;
+  ): PagedAsyncIterableIterator<JobBase>;
   /**
    * Deletes a Job (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -84,17 +84,30 @@ export interface Jobs {
     resourceGroupName: string,
     workspaceName: string,
     id: string,
-    body: JobBaseData,
+    body: JobBase,
     options?: JobsCreateOrUpdateOptionalParams
   ): Promise<JobsCreateOrUpdateResponse>;
   /**
-   * Cancels a Job.
+   * Cancels a Job (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param id The name and identifier for the Job. This is case-sensitive.
    * @param options The options parameters.
    */
-  cancel(
+  beginCancel(
+    resourceGroupName: string,
+    workspaceName: string,
+    id: string,
+    options?: JobsCancelOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Cancels a Job (asynchronous).
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param id The name and identifier for the Job. This is case-sensitive.
+   * @param options The options parameters.
+   */
+  beginCancelAndWait(
     resourceGroupName: string,
     workspaceName: string,
     id: string,
