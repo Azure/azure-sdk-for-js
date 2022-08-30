@@ -27,7 +27,7 @@ function encodeDate(input: unknown): string | unknown {
  * Encodes Date objects.
  */
 export function odata(strings: TemplateStringsArray, ...values: unknown[]): string {
-  const fixEncoding = (value: unknown, string: string) => {
+  const fixEncoding = (value: unknown, string: string): string | unknown => {
     return encodeDate(escapeQuotesIfString(value, string));
   };
   const results = [];
