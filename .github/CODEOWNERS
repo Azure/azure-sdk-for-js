@@ -68,7 +68,7 @@
 /sdk/containerregistry/ @jeremymeng @timovv
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/ @jay-most @kushagraThapar @simorenoh @simplynaveen20 @xinlian12 @sajeetharan
+/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli
 
 # ServiceLabel: %Cosmos %Service Attention
 #/<NotInRepo>/ @sajeetharan @simorenoh @pjohari-ms
@@ -877,7 +877,7 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 #/<NotInRepo>/          @darshanhs90 @AshishGargMicrosoft
 
 # ServiceLabel: %Automation %Service Attention
-#/<NotInRepo>/          @jaspkaur28
+#/<NotInRepo>/          @jaspkaur28 @omairabdullah
 
 # ServiceLabel: %AVS %Service Attention
 #/<NotInRepo>/          @divka78 @amitchat @aishu
