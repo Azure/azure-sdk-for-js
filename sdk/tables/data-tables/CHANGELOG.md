@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix encoding for Date objects when filtering on a DateTime field [#23058](https://github.com/Azure/azure-sdk-for-js/pull/23058)
+
 ### Other Changes
 
 ## 13.1.2 (2022-06-07)
