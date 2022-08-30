@@ -191,13 +191,11 @@ async function main() {
 
     if (typeof messageNumber !== "number") {
       console.log(
-        `Message with id of ${
-          message.messageId
+        `Message with id of ${message.messageId
         } had a messageNumber property with an incorrect type (${typeof messageNumber})`
       );
       throw new TypeError(
-        `Message with id of ${
-          message.messageId
+        `Message with id of ${message.messageId
         } had a messageNumber property with an incorrect type (${typeof messageNumber})`
       );
     }
