@@ -20,7 +20,6 @@ import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-a
 import { ConversationAnalysisClient as GeneratedClient } from "./generated";
 import { createTracingClient, TracingClient } from "@azure/core-tracing";
 
-/** @internal */
 export class ConversationAnalysisClient {
   private readonly _client: GeneratedClient;
   private readonly _tracing: TracingClient;
@@ -36,34 +35,9 @@ export class ConversationAnalysisClient {
     credential: TokenCredential | KeyCredential,
     options: ConversationAnalysisClientOptionalParams = {}
   ) {
-    if (endpoint === undefined) {
-      throw new Error("'endpoint' cannot be null");
-    }
 
-    // Initializing default values for options
-    if (!options) {
-      options = {};
-    }
-    const defaults: ConversationAnalysisClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
-    };
+    this._client = new GeneratedClient(endpoint, options);
 
-    const packageDetails = `azsdk-js-ai-language-conversations/1.0.0-beta.1`;
-    const userAgentPrefix =
-      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
-        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
-        : `${packageDetails}`;
-
-    const optionsWithDefaults = {
-      ...defaults,
-      ...options,
-      userAgentOptions: {
-        userAgentPrefix
-      },
-      baseUri: options.endpoint ?? options.baseUri ?? "{Endpoint}/language"
-    };
-    
-    this._client = new GeneratedClient(endpoint, optionsWithDefaults);
     this._tracing = createTracingClient({
       packageName: "@azure/ai-language-conversations",
       packageVersion: SDK_VERSION,
@@ -86,9 +60,7 @@ export class ConversationAnalysisClient {
     task: AnalyzeConversationTaskUnion,
     options?: AnalyzeConversationOptionalParams
   ): Promise<AnalyzeConversationResponse> {
-    return this._tracing.withSpan("ConversationAnalysisClient.analyzeConversation", options || {}, (updatedOptions: any) => {
-      return this._client.analyzeConversation(task, updatedOptions);
-    });
+    return this._tracing.withSpan("ConversationAnalysisClient.analyzeConversation", options || {}, (updatedOptions) => this._client.analyzeConversation(task, updatedOptions));
   }
 
   /**
@@ -105,9 +77,7 @@ export class ConversationAnalysisClient {
       ConversationAnalysisResponse
     >
   > {
-    return this._tracing.withSpan("ConversationAnalysisClient.beginConversationAnalysis", options || {}, (updatedOptions: any) => {
-      return this._client.beginConversationAnalysis(task, updatedOptions);
-    });
+    return this._tracing.withSpan("ConversationAnalysisClient.beginConversationAnalysis", options || {}, (updatedOptions) => this._client.beginConversationAnalysis(task, updatedOptions));
   }
 
   /**
@@ -119,8 +89,6 @@ export class ConversationAnalysisClient {
     task: AnalyzeConversationJobsInput,
     options?: ConversationAnalysisOptionalParams
   ): Promise<ConversationAnalysisResponse> {
-    return this._tracing.withSpan("ConversationAnalysisClient.beginConversationAnalysisAndWait", options || {}, async (updatedOptions: any) => {
-      return await this._client.beginConversationAnalysisAndWait(task, updatedOptions);
-    });
+    return this._tracing.withSpan("ConversationAnalysisClient.beginConversationAnalysisAndWait", options || {}, (updatedOptions) => this._client.beginConversationAnalysisAndWait(task, updatedOptions));
   }
 }
