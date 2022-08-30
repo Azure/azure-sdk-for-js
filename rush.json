@@ -1835,6 +1835,11 @@
       "packageName": "@azure/arm-nginx",
       "projectFolder": "sdk/nginx/arm-nginx",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hybridaks",
+      "projectFolder": "sdk/hybridaks/arm-hybridaks",
+      "versionPolicyName": "management"
     }
   ]
 }

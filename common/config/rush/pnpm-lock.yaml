@@ -91,6 +91,7 @@ specifiers:
   '@rush-temp/arm-hdinsight': file:./projects/arm-hdinsight.tgz
   '@rush-temp/arm-healthbot': file:./projects/arm-healthbot.tgz
   '@rush-temp/arm-healthcareapis': file:./projects/arm-healthcareapis.tgz
+  '@rush-temp/arm-hybridaks': file:./projects/arm-hybridaks.tgz
   '@rush-temp/arm-hybridcompute': file:./projects/arm-hybridcompute.tgz
   '@rush-temp/arm-hybridkubernetes': file:./projects/arm-hybridkubernetes.tgz
   '@rush-temp/arm-imagebuilder': file:./projects/arm-imagebuilder.tgz
@@ -396,6 +397,7 @@ dependencies:
   '@rush-temp/arm-hdinsight': file:projects/arm-hdinsight.tgz
   '@rush-temp/arm-healthbot': file:projects/arm-healthbot.tgz
   '@rush-temp/arm-healthcareapis': file:projects/arm-healthcareapis.tgz
+  '@rush-temp/arm-hybridaks': file:projects/arm-hybridaks.tgz
   '@rush-temp/arm-hybridcompute': file:projects/arm-hybridcompute.tgz
   '@rush-temp/arm-hybridkubernetes': file:projects/arm-hybridkubernetes.tgz
   '@rush-temp/arm-imagebuilder': file:projects/arm-imagebuilder.tgz
@@ -4095,7 +4097,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220828
+      typescript: 4.9.0-dev.20220829
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -9098,8 +9100,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220828:
-    resolution: {integrity: sha512-XM4H+zuGTaVi+ZLpLZ6jNTTlE4t1keC6g2e4x3JztjzIHEN/RfV2NncqflIkWD39Fh7qqCckFboFqVcG7M+QuA==}
+  /typescript/4.9.0-dev.20220829:
+    resolution: {integrity: sha512-JPUwN18SBzfknl8eLExxWrNo8H98PrZMQdNTXRFYlQFv6qg56e3H/gaJn8Bmo2xz6L1vADwzbMHIp4PAWjskQw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12398,6 +12400,33 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-hybridaks.tgz:
+    resolution: {integrity: sha512-kQuFI3VsODBL6bbjE7kwOHX6WacIqVKTiFxvnjTItfnsKZGlQwykqoXM32DIoN0DENSia6qu9GOY1w9I0HsDig==, tarball: file:projects/arm-hybridaks.tgz}
+    name: '@rush-temp/arm-hybridaks'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.16.3
+    transitivePeerDependencies:
+      - '@types/node'
+      - supports-color
+    dev: false
+
   file:projects/arm-hybridcompute.tgz:
     resolution: {integrity: sha512-D2rtn/wbxeY6eP10mUt42c7m58m7tFOGLH06X18f0CFMKmlcrht8TUUYWNEwxSRer/xRArvDHd7uS7HB7l+38Q==, tarball: file:projects/arm-hybridcompute.tgz}
     name: '@rush-temp/arm-hybridcompute'
@@ -15669,7 +15698,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-kJTGc13v98By2R/RRGv8OLG+OUGpQlnEsh3awDVosiZK5hW2fr34X1S1RQEabHvPuXQt4s5qG1sikvbhovRrpA==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-f2VzRwK94ENNXQYhHUwoDmbYDN0TOFYwlwLo3qthLuSROqb3XRi0Klw4LgqiIgQKO2NxU3nQzAeDaeVs6NegvQ==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
