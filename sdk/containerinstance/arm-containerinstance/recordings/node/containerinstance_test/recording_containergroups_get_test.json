@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-containerinstance/9.0.0 core-rest-pipeline/1.9.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "3f870cde-0b8e-4c4a-a0f0-3b9bb5151ce0"
+        "x-ms-client-request-id": "0a60228a-049d-43f0-b140-d6b7104cf2f6"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 30 Aug 2022 07:17:51 GMT",
+        "Date": "Tue, 30 Aug 2022 08:50:50 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
@@ -27,15 +27,15 @@
           "Accept-Encoding"
         ],
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "e9951410-e466-4dca-bf0b-8850d8fd7e30",
-        "x-ms-ratelimit-remaining-subscription-reads": "11518",
-        "x-ms-request-id": "eastus:214e10f4-c182-49fb-80c2-63ef0f33f098",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220830T071751Z:e9951410-e466-4dca-bf0b-8850d8fd7e30"
+        "x-ms-correlation-request-id": "81c393d8-6547-4706-8130-6d8b2b5ffd3c",
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "eastus:631ea5ef-21ff-4f1b-97b4-38a4a213f0f1",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220830T085051Z:81c393d8-6547-4706-8130-6d8b2b5ffd3c"
       },
       "ResponseBody": {
         "properties": {
           "sku": "Standard",
-          "provisioningState": "Creating",
+          "provisioningState": "Succeeded",
           "containers": [
             {
               "name": "my-containerinstancexx",
@@ -48,6 +48,48 @@
                   }
                 ],
                 "environmentVariables": [],
+                "instanceView": {
+                  "restartCount": 0,
+                  "currentState": {
+                    "state": "Running",
+                    "startTime": "2022-08-30T08:43:34Z",
+                    "detailStatus": ""
+                  },
+                  "events": [
+                    {
+                      "count": 1,
+                      "firstTimestamp": "2022-08-30T08:43:22Z",
+                      "lastTimestamp": "2022-08-30T08:43:22Z",
+                      "name": "Pulling",
+                      "message": "Pulling image \u0022nginx\u0022",
+                      "type": "Normal"
+                    },
+                    {
+                      "count": 1,
+                      "firstTimestamp": "2022-08-30T08:43:33Z",
+                      "lastTimestamp": "2022-08-30T08:43:33Z",
+                      "name": "Pulled",
+                      "message": "Successfully pulled image \u0022nginx\u0022 in 10.922010482s",
+                      "type": "Normal"
+                    },
+                    {
+                      "count": 1,
+                      "firstTimestamp": "2022-08-30T08:43:34Z",
+                      "lastTimestamp": "2022-08-30T08:43:34Z",
+                      "name": "Created",
+                      "message": "Created container my-containerinstancexx",
+                      "type": "Normal"
+                    },
+                    {
+                      "count": 1,
+                      "firstTimestamp": "2022-08-30T08:43:34Z",
+                      "lastTimestamp": "2022-08-30T08:43:34Z",
+                      "name": "Started",
+                      "message": "Started container my-containerinstancexx",
+                      "type": "Normal"
+                    }
+                  ]
+                },
                 "resources": {
                   "requests": {
                     "memoryInGB": 1.5,
@@ -78,7 +120,7 @@
           ],
           "instanceView": {
             "events": [],
-            "state": "Pending"
+            "state": "Running"
           },
           "diagnostics": {
             "logAnalytics": {
@@ -87,7 +129,7 @@
           }
         },
         "identity": {
-          "principalId": "a145710a-3246-49e8-bf48-ddcc15f873b5",
+          "principalId": "0ed01b3d-1080-4b59-b48a-a828eaf996b5",
           "tenantId": "88888888-8888-8888-8888-888888888888",
           "type": "SystemAssigned"
         },
