@@ -14,10 +14,10 @@ dotenv.config();
 
 //Get secrets
 //You will have to set these environment variables for the sample to work
-const clu_endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
-const clu_key = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
+const cluEndpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
+const cluKey = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
 
-const service: ConversationAnalysisClient = new ConversationAnalysisClient(clu_endpoint, new AzureKeyCredential(clu_key));
+const service: ConversationAnalysisClient = new ConversationAnalysisClient(cluEndpoint, new AzureKeyCredential(cluKey));
 
 export async function main(){
 //Analyze query
@@ -62,21 +62,21 @@ const poller = await service.beginConversationAnalysis({
         }
     ]
 });
-    const actionResult = await poller.pollUntilDone() as any;
+    const actionResult = await poller.pollUntilDone();
     const task_result = actionResult.tasks.items[0];
     console.log("... view task status ...");
     console.log("status: %s", task_result.status);
     const resolution_result = task_result.results;
     if(resolution_result.errors && resolution_result.errors.length != 0){
         console.log("... errors occured ...");
-        resolution_result.errors.forEach((error: any) => {
+        resolution_result.errors.forEach(error => {
             console.log(error);
         });
     }else{
         const conversation_result = resolution_result.conversations[0];
         if(conversation_result.warnings && conversation_result.warnings.length != 0){
             console.log("... view warnings ...");
-            conversation_result.warning.forEach((warning: any) => {
+            conversation_result.warning.forEach(warning => {
                 console.log(warning);
             });
         }else{

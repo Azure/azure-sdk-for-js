@@ -19,8 +19,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
-const project_name = process.env.AZURE_CONVERSATIONS_PROJECT_NAME || "<project-name>";
-const deployment_name = process.env.AZURE_CONVERSATIONS_DEPLOYMENT_NAME || "<deployment-name>";
+const projectName = process.env.AZURE_CONVERSATIONS_PROJECT_NAME || "<project-name>";
+const deploymentName = process.env.AZURE_CONVERSATIONS_DEPLOYMENT_NAME || "<deployment-name>";
 
 const body: ConversationalTask = {
     "kind": "Conversation",
@@ -32,8 +32,8 @@ const body: ConversationalTask = {
         }
     },
     "parameters": {
-        "projectName": project_name,
-        "deploymentName": deployment_name
+        "projectName": projectName,
+        "deploymentName": deploymentName
     }
 }
 
@@ -43,8 +43,8 @@ async function sample_authentication_api_key(){
     const endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
     const key = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
 
-    const clu_client = new ConversationAnalysisClient(endpoint, new AzureKeyCredential(key));
-    const result = await clu_client.analyzeConversation(body);
+    const client = new ConversationAnalysisClient(endpoint, new AzureKeyCredential(key));
+    const result = await client.analyzeConversation(body);
     console.log(result);
 }
 
@@ -57,8 +57,8 @@ async function sample_authentication_with_azure_active_directory(){
     const endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
     const credential = new DefaultAzureCredential();
 
-    const clu_client = new ConversationAnalysisClient(endpoint, credential);
-    const result = await clu_client.analyzeConversation(body);
+    const client = new ConversationAnalysisClient(endpoint, credential);
+    const result = await client.analyzeConversation(body);
     console.log(result);
 }
 

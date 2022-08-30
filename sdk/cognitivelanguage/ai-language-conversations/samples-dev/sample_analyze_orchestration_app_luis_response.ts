@@ -16,12 +16,12 @@ dotenv.config();
 
 //Get secrets
 //You will have to set these environment variables for the sample to work
-const clu_endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
-const clu_key = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
-const project_name = process.env.AZURE_CONVERSATIONS_WORKFLOW_PROJECT_NAME || "<project-name>";
-const deployment_name = process.env.AZURE_CONVERSATIONS_WORKFLOW_DEPLOYMENT_NAME || "<deployment-name>";
+const cluEndpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
+const cluKey = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
+const projectName = process.env.AZURE_CONVERSATIONS_WORKFLOW_PROJECT_NAME || "<project-name>";
+const deploymentName = process.env.AZURE_CONVERSATIONS_WORKFLOW_DEPLOYMENT_NAME || "<deployment-name>";
 
-const service: ConversationAnalysisClient = new ConversationAnalysisClient(clu_endpoint, new AzureKeyCredential(clu_key));
+const service: ConversationAnalysisClient = new ConversationAnalysisClient(cluEndpoint, new AzureKeyCredential(cluKey));
 
 const body: ConversationalTask = {
     "kind": "Conversation",
@@ -35,8 +35,8 @@ const body: ConversationalTask = {
         },
     },
     "parameters": {
-        "projectName": project_name,
-        "deploymentName": deployment_name,
+        "projectName": projectName,
+        "deploymentName": deploymentName,
         "verbose": true,
         "isLoggingEnabled": false
     }
@@ -44,7 +44,7 @@ const body: ConversationalTask = {
 
 export async function main(){
 //Analyze query
-    const { result } = await service.analyzeConversation(body) as any;
+    const { result } = await service.analyzeConversation(body);
     console.log("query: ", result.query);
     console.log("project kind: ", result.prediction.projectKind);
     const top_intent = result.prediction.topIntent;
@@ -58,7 +58,7 @@ export async function main(){
         const luis_response = top_intent_object.result.prediction;
         console.log("top intent: ", luis_response.topIntent);
         console.log("\nentities:");
-        luis_response.entities.forEach((entity: any) => {
+        luis_response.entities.forEach(entity => {
             console.log("\n", entity);
         })
     }

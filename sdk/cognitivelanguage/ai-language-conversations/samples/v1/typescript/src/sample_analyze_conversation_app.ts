@@ -8,19 +8,19 @@
  * @summary Conversational query analysis for intents and entities extraction
  */
 
-import { ConversationAnalysisClient, ConversationalTask, ConversationPrediction } from "@azure/ai-language-conversations"
+import { ConversationAnalysisClient, ConversationalTask } from "@azure/ai-language-conversations"
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 dotenv.config();
 
 //Get secrets
 //You will have to set these environment variables for the sample to work
-const clu_endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
-const clu_key = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
-const project_name = process.env.AZURE_CONVERSATIONS_PROJECT_NAME || "<project-name>";
-const deployment_name = process.env.AZURE_CONVERSATIONS_DEPLOYMENT_NAME || "<deployment-name>";
+const cluEndpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
+const cluKey = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
+const projectName = process.env.AZURE_CONVERSATIONS_PROJECT_NAME || "<project-name>";
+const deploymentName = process.env.AZURE_CONVERSATIONS_DEPLOYMENT_NAME || "<deployment-name>";
 
-const service: ConversationAnalysisClient = new ConversationAnalysisClient(clu_endpoint, new AzureKeyCredential(clu_key));
+const service: ConversationAnalysisClient = new ConversationAnalysisClient(cluEndpoint, new AzureKeyCredential(cluKey));
 
 const body: ConversationalTask = {
     "kind": "Conversation",
@@ -32,31 +32,31 @@ const body: ConversationalTask = {
         }
     },
     "parameters": {
-        "projectName": project_name,
-        "deploymentName": deployment_name
+        "projectName": projectName,
+        "deploymentName": deploymentName
     }
 }
 
 export async function main() {
     //Analyze query
-    const { result } = await service.analyzeConversation(body) as any;
+    const { result } = await service.analyzeConversation(body);
     console.log("query: ", result.query);
     console.log("project kind: ", result.prediction.projectKind);
     console.log("top intent: ", result.prediction.topIntent);
 
-    const prediction: ConversationPrediction = result.prediction as ConversationPrediction;
+    const prediction = result.prediction;
     console.log("category: ", prediction.intents[0].category);
     console.log("confidence score: ", prediction.intents[0].confidence);
     console.log("entities:");
 
-    prediction.entities.forEach((entity: any) => {
+    prediction.entities.forEach(entity => {
         console.log("\ncategory: ", entity.category);
         console.log("text: ", entity.text);
         console.log("confidence score: ", entity.confidence);
 
         if(entity.resolutions){
             console.log("resolutions:");
-            entity.resolutions.forEach((resolution: any) => {
+            entity.resolutions.forEach(resolution => {
                 console.log("kind: ", resolution.resolutionKind);
                 console.log("value: ", resolution.value);
             })
@@ -64,7 +64,7 @@ export async function main() {
 
         if(entity.extraInformation){
             console.log("extra info:")
-            entity.extraInformation.forEach((data: any) => {
+            entity.extraInformation.forEach(data => {
                 console.log("kind: ", data.extraInformationKind);
                 if(data.extraInformationKind == "ListKey")
                     console.log("key: ", data.key);

@@ -9,7 +9,7 @@
  * and an API key
  */
 
-import { ConversationAnalysisClient } from "@azure/ai-language-conversations"
+import { ConversationalTask, ConversationAnalysisClient } from "@azure/ai-language-conversations"
 // To use an API Key, import `AzureKeyCredential`
 import { AzureKeyCredential } from "@azure/core-auth";
 // To use Azure AD, import `DefaultAzureCredential`
@@ -17,17 +17,37 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-function sample_authentication_api_key(){
+// You will need to set these environment variables or edit the following values
+const projectName = process.env.AZURE_CONVERSATIONS_PROJECT_NAME || "<project-name>";
+const deploymentName = process.env.AZURE_CONVERSATIONS_DEPLOYMENT_NAME || "<deployment-name>";
+
+const body: ConversationalTask = {
+    "kind": "Conversation",
+    "analysisInput": {
+        "conversationItem": {
+            "id": "id__7863",
+            "participantId": "id__7863",
+            "text": "Send an email to Carol about the tomorrow's demo"
+        }
+    },
+    "parameters": {
+        "projectName": projectName,
+        "deploymentName": deploymentName
+    }
+}
+
+async function sample_authentication_api_key(){
     console.log("\n.. authentication_with_api_key")
     // You will need to set these environment variables or edit the following values
     const endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
     const key = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
 
-    const clu_client = new ConversationAnalysisClient(endpoint, new AzureKeyCredential(key));
-    console.log(`A CLU client is created for the endpoint ${clu_client.endpoint}, using API Key`);
+    const client = new ConversationAnalysisClient(endpoint, new AzureKeyCredential(key));
+    const result = await client.analyzeConversation(body);
+    console.log(result);
 }
 
-function sample_authentication_with_azure_active_directory(){
+async function sample_authentication_with_azure_active_directory(){
     //DefaultAzureCredential will use the values from these environment
     //variables: AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
@@ -36,8 +56,9 @@ function sample_authentication_with_azure_active_directory(){
     const endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
     const credential = new DefaultAzureCredential();
 
-    const clu_client = new ConversationAnalysisClient(endpoint, credential);
-    console.log(`A CLU client is created for the endpoint ${clu_client.endpoint}, using AAD`);
+    const client = new ConversationAnalysisClient(endpoint, credential);
+    const result = await client.analyzeConversation(body);
+    console.log(result);
 }
 
 function main(){
