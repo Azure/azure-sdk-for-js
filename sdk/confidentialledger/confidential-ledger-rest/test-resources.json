@@ -2,7 +2,7 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "ledgerName": {
+    "baseName": {
       "type": "string",
       "metadata": {
         "defaultValue": "0000-test-js",
@@ -42,9 +42,9 @@
   "variables": {},
   "resources": [
     {
-      "name": "[parameters('ledgerName')]",
+      "name": "[parameters('baseName')]",
       "type": "Microsoft.ConfidentialLedger/ledgers",
-      "ledgerUri": "[concat('https://', parameters('ledgerName'), '.confidential-ledger.azure.com')]",
+      "ledgerUri": "[concat('https://', parameters('baseName'), '.confidential-ledger.azure.com')]",
       "apiVersion": "2020-12-01-preview",
       "location": "[parameters('location')]",
       "properties": {
@@ -66,7 +66,7 @@
   "outputs": {
     "LEDGER_NAME": {
       "type": "string",
-      "value": "[parameters('ledgerName')]"
+      "value": "[parameters('baseName')]"
     },
     "LEDGER_URI": {
       "type": "string",
@@ -74,7 +74,7 @@
     },
     "IDENTITY_SERVICE_URL": {
       "type": "string",
-      "value": "[concat('https://identity.confidential-ledger.core.azure.com/ledgerIdentity/', parameters('ledgerName'))]"
+      "value": "[concat('https://identity.confidential-ledger.core.azure.com/ledgerIdentity/', parameters('baseName'))]"
     }
   }
 }
