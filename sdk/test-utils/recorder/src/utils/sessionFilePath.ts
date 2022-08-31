@@ -8,7 +8,17 @@ import { relativeRecordingsPath } from "./relativePathCalculator";
 import { RecorderError } from "./utils";
 
 export function sessionFilePath(testContext: Mocha.Test): string {
-  const recordingsFolder = !isNode ? env.RECORDINGS_RELATIVE_PATH : relativeRecordingsPath(); // sdk/service/project/recordings
+  let recordingsFolder: string;
+  if (isNode) {
+    recordingsFolder = relativeRecordingsPath(); // sdk/service/project/recordings
+  } else if (env.RECORDINGS_RELATIVE_PATH) {
+    recordingsFolder = env.RECORDINGS_RELATIVE_PATH;
+  } else {
+    throw new RecorderError(
+      "RECORDINGS_RELATIVE_PATH was not set while in browser mode. Ensure that process.env.RELATIVE_RECORDINGS_PATH has been set properly in your Karma configuration."
+    );
+  }
+
   return `${recordingsFolder}/${recordingFilePath(testContext)}`;
   // sdk/service/project/recordings/{node|browsers}/<describe-block-title>/recording_<test-title>.json
 }

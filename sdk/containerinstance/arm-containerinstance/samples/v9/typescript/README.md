@@ -20,6 +20,7 @@ These sample programs show how to use the TypeScript client libraries for in som
 | [locationListCapabilitiesSample.ts][locationlistcapabilitiessample]                     | Get the list of CPU/memory/GPU capabilities of a region. x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/CapabilitiesList.json                                                                                                                                                                                                                                     |
 | [locationListUsageSample.ts][locationlistusagesample]                                   | Get the usage for a subscription x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/ContainerGroupUsage.json                                                                                                                                                                                                                                                          |
 | [operationsListSample.ts][operationslistsample]                                         | List the operations for Azure Container Instance service. x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/OperationsList.json                                                                                                                                                                                                                                      |
+| [subnetServiceAssociationLinkDeleteSample.ts][subnetserviceassociationlinkdeletesample] | Delete container group virtual network association links. The operation does not delete other resources provided by the user. x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/SubnetServiceAssociationLinkDelete.json                                                                                                                                              |
 
 ## Prerequisites
 
@@ -71,22 +72,23 @@ npx cross-env  node dist/containerGroupsCreateOrUpdateSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[containergroupscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/typescript/src/containerGroupsCreateOrUpdateSample.ts
-[containergroupsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/typescript/src/containerGroupsDeleteSample.ts
-[containergroupsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/typescript/src/containerGroupsGetSample.ts
-[containergroupslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/typescript/src/containerGroupsListByResourceGroupSample.ts
-[containergroupslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/typescript/src/containerGroupsListSample.ts
-[containergroupsrestartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/typescript/src/containerGroupsRestartSample.ts
-[containergroupsstartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/typescript/src/containerGroupsStartSample.ts
-[containergroupsstopsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/typescript/src/containerGroupsStopSample.ts
-[containergroupsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/typescript/src/containerGroupsUpdateSample.ts
-[containersattachsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/typescript/src/containersAttachSample.ts
-[containersexecutecommandsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/typescript/src/containersExecuteCommandSample.ts
-[containerslistlogssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/typescript/src/containersListLogsSample.ts
-[locationlistcachedimagessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/typescript/src/locationListCachedImagesSample.ts
-[locationlistcapabilitiessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/typescript/src/locationListCapabilitiesSample.ts
-[locationlistusagesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/typescript/src/locationListUsageSample.ts
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v8/typescript/src/operationsListSample.ts
+[containergroupscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/typescript/src/containerGroupsCreateOrUpdateSample.ts
+[containergroupsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/typescript/src/containerGroupsDeleteSample.ts
+[containergroupsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/typescript/src/containerGroupsGetSample.ts
+[containergroupslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/typescript/src/containerGroupsListByResourceGroupSample.ts
+[containergroupslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/typescript/src/containerGroupsListSample.ts
+[containergroupsrestartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/typescript/src/containerGroupsRestartSample.ts
+[containergroupsstartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/typescript/src/containerGroupsStartSample.ts
+[containergroupsstopsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/typescript/src/containerGroupsStopSample.ts
+[containergroupsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/typescript/src/containerGroupsUpdateSample.ts
+[containersattachsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/typescript/src/containersAttachSample.ts
+[containersexecutecommandsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/typescript/src/containersExecuteCommandSample.ts
+[containerslistlogssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/typescript/src/containersListLogsSample.ts
+[locationlistcachedimagessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/typescript/src/locationListCachedImagesSample.ts
+[locationlistcapabilitiessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/typescript/src/locationListCapabilitiesSample.ts
+[locationlistusagesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/typescript/src/locationListUsageSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/typescript/src/operationsListSample.ts
+[subnetserviceassociationlinkdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/typescript/src/subnetServiceAssociationLinkDeleteSample.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-containerinstance?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerinstance/arm-containerinstance/README.md
