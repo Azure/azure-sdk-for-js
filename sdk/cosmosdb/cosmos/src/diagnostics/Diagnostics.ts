@@ -5,7 +5,7 @@ import { defaultLogger } from "../common/logger";
 
 const _startTime = new Date().getTime();
 const _defaultHeader: DiagnosticHeader = {
-  cosmosdiagnostics: "Cosmos Diagnostics Summary",
+  diagnostics: "Cosmos Diagnostics Summary",
   diagnosticStartTime: new Date().toLocaleString(),
   durationInMs: new Date().getTime() - _startTime,
   activityId: "",
@@ -93,11 +93,11 @@ function parseTransportRequestTimeline(data: string = ""): string {
 function parseDiagnosticHeader(data: string): string {
   try {
     const header: DiagnosticHeader = {
-      cosmosdiagnostics: "Started Cosmos Diagnostics",
+      diagnostics: `Cosmos Diagnostics at ${_startTime}`,
       diagnosticStartTime: new Date().toLocaleString(),
       durationInMs: new Date().getTime() - _startTime,
       activityId: parseActivityId(data),
-      data: ["Summary"],
+      data: [""],
       requestCharge: parseRequestCharge(data),
       transportRequestTimeline: parseTransportRequestTimeline(data),
       contactedRegions: parseContactedRegions(data),
@@ -139,7 +139,7 @@ export function getRegionsContacted(): string {
 }
 
 export interface DiagnosticHeader {
-  cosmosdiagnostics: string;
+  diagnostics: string;
   diagnosticStartTime: string;
   durationInMs: number;
   activityId: string;

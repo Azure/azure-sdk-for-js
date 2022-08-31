@@ -12,7 +12,6 @@ import { DatabaseDefinition } from "./DatabaseDefinition";
 import { DatabaseRequest } from "./DatabaseRequest";
 import { DatabaseResponse } from "./DatabaseResponse";
 import { validateOffer } from "../../utils/offers";
-import { CosmosException } from "../../diagnostics/CosmosException";
 import { setDiagnostics } from "../../diagnostics/Diagnostics";
 
 /**
@@ -170,7 +169,8 @@ export class Databases {
     options?: RequestOptions
   ): Promise<DatabaseResponse> {
     if (!body || body.id === null || body.id === undefined) {
-      throw new CosmosException("body parameter must be an object with an id property");
+      setDiagnostics("body parameter must be an object with an id property");
+      throw new Error("body parameter must be an object with an id property");
     }
     /*
       1. Attempt to read the Database (based on an assumption that most databases will already exist, so its faster)
@@ -185,10 +185,10 @@ export class Databases {
         // Must merge the headers to capture RU costskaty
         mergeHeaders(createResponse.headers, err.headers);
         // add error to diagnostics.
-        new CosmosException(err);
+        setDiagnostics(`${err}`);
         return createResponse;
       } else {
-        new CosmosException(err);
+        setDiagnostics(err);
       }
     }
   }

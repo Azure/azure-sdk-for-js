@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
+
 import { Suite } from "mocha";
-import { Container, CosmosClient } from "../../../src";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
-import { CosmosException } from "../../../src/diagnostics/CosmosException";
 import { removeAllDatabases } from "../common/TestHelpers";
-//import { removeAllDatabases } from "../common/TestHelpers";
-//import { recordDiagnostics } from "../../../src/diagnostics/CosmosDiagnostics";
-//import { CosmosException } from "../../../src/diagnostics/CosmosException";
-//import { createOrUpsertPermission, getTestDatabase } from "../common/TestHelpers";
+import { CosmosClient } from "../../../src";
 
 describe("Cosmos Diagnostic Tests", async function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
@@ -18,55 +13,31 @@ describe("Cosmos Diagnostic Tests", async function (this: Suite) {
     await removeAllDatabases();
   });
 
-  describe("Cosmos diagnostic test", function () {
-    it("should return cosmos diagnostics", async function () {
-      const client = new CosmosClient({ key: masterKey, endpoint });
-      const db = await client.databases.createIfNotExists({ id: "diagnostics" });
-      console.log(db.getcosmosDiagnostics());
-    });
-
-    it("should handle duration condition", async function () {
-      const client = new CosmosClient({ key: masterKey, endpoint });
-      const response = await client.databases.createIfNotExists({ id: "CosmosDiagnosticsTest" });
-      const readItem = await response.database.read();
-      const diagnostics = response.activityId;
-      console.log(diagnostics);
-      assert(diagnostics);
-      assert(JSON.parse(diagnostics));
-      assert(typeof readItem.getcosmosDiagnostisDurationInMs() === "number");
-      assert(
-        readItem.getcosmosDiagnostisDurationInMs() > 0 ||
-          readItem.getcosmosDiagnostisDurationInMs() === undefined
-      );
-      assert(!diagnostics.includes('""systemHistory":null'));
-      // assert(diagnostics.includes('"RequestStats ":"Create"'));
-      // //assert(diagnostics.includes('"metaDataName":"CONTAINER_LOOK_UP"'));
-      //assert(diagnostics.includes('"serializationType":"PARTITION_KEY_FETCH_SERIALIZATION"'));
-      // assert.notStrictEqual(undefined, readItem.getDuration, "duration not present");
-      //ssert(diagnostics.match('(?s).*?"activityId":"[^\\s"]+".*'));
-      //validateRegionContacted(createResponse.getDiagnostics(), testGatewayClient.asyncClient());
-    });
-
-    it("should throw cosmos exception", async function () {
-      try {
-        const client = new CosmosClient({ key: masterKey, endpoint });
-        const { database: database } = await client.databases.createIfNotExists({
-          id: "CosmosDiagnosticsTest",
-        });
-        // create container
-        const { resource: containerdef } = await database.containers.create({
-          id: "sample container",
-        });
-        const container: Container = database.container(containerdef.id);
-        // read items
-        const items = await container.items.readAll().fetchAll();
-        if (items.getcosmosDiagnostisDurationInMs() > 60) {
-          assert(items.getcosmosDiagnostisDurationInMs());
-          throw new CosmosException(`custom message`);
-        }
-      } catch (err: any) {
-        assert(err);
-      }
+  describe.only("Cosmos diagnostic test", function () {
+    it.only("should return cosmos diagnostics", async function () {
+      const client = new CosmosClient({
+        key: masterKey,
+        endpoint: endpoint,
+        connectionPolicy: { enableBackgroundEndpointRefreshing: false },
+      });
+      // ensuring a database & container exists for us to work with
+      const databases = await client.databases.create({
+        id: "CosmosDiagnosticsTestdb",
+      });
+      console.log(databases.getCosmosDiagnostics());
+      const containers = await databases.database.containers.create({
+        id: "CosmosDiagnosticsTestContainer",
+      });
+      console.log(containers.getCosmosDiagnostics());
+      await containers.container.items.create({
+        id: "1",
+        category: "fun",
+        name: "Cosmos diagnostics",
+        description: "Cosmos diagnostics is fun ⚡.",
+        isComplete: false,
+      });
+      const item = await containers.container.items.readAll().fetchAll();
+      console.log(item.getCosmosDiagnostics());
     });
   });
 });

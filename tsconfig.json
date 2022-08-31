@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "module": "es6",
+    "module": "esnext",
     "lib": [],
     "declaration": true,
     "declarationMap": true,

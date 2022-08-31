@@ -211,7 +211,7 @@ export class Containers {
         const createResponse = await this.create(body, options);
         // Must merge the headers to capture RU costskaty
         mergeHeaders(createResponse.headers, err.headers);
-        new CosmosException(err);
+        setDiagnostics(`${err}`);
         return createResponse;
       } else {
         setDiagnostics(`${err}`);
