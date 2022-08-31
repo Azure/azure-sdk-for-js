@@ -9,7 +9,16 @@
  * @azsdk-weight 50
  */
 
-import { ConversationAnalysisClient, ConversationalTask, ConversationalTaskResult, ConversationTargetIntentResult, OrchestrationPrediction, ConversationIntent, EntitySubtype, ListKey } from "@azure/ai-language-conversations"
+import {
+  ConversationAnalysisClient,
+  ConversationalTask,
+  ConversationalTaskResult,
+  ConversationTargetIntentResult,
+  OrchestrationPrediction,
+  ConversationIntent,
+  EntitySubtype,
+  ListKey,
+} from "@azure/ai-language-conversations";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 
@@ -17,87 +26,89 @@ dotenv.config();
 
 //Get secrets
 //You will have to set these environment variables for the sample to work
-const cluEndpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
+const cluEndpoint =
+  process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
 const cluKey = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
 const projectName = process.env.AZURE_CONVERSATIONS_WORKFLOW_PROJECT_NAME || "<project-name>";
-const deploymentName = process.env.AZURE_CONVERSATIONS_WORKFLOW_DEPLOYMENT_NAME || "<deployment-name>";
+const deploymentName =
+  process.env.AZURE_CONVERSATIONS_WORKFLOW_DEPLOYMENT_NAME || "<deployment-name>";
 
-const service: ConversationAnalysisClient = new ConversationAnalysisClient(cluEndpoint, new AzureKeyCredential(cluKey));
+const service: ConversationAnalysisClient = new ConversationAnalysisClient(
+  cluEndpoint,
+  new AzureKeyCredential(cluKey)
+);
 
 const body: ConversationalTask = {
-    "kind": "Conversation",
-    "analysisInput": {
-        "conversationItem": {
-            "participantId": "1",
-            "id": "1",
-            "modality": "text",
-            "language": "en",
-            "text": "Send an email to Carol about the tomorrow's demo"
-        },
+  kind: "Conversation",
+  analysisInput: {
+    conversationItem: {
+      participantId: "1",
+      id: "1",
+      modality: "text",
+      language: "en",
+      text: "Send an email to Carol about the tomorrow's demo",
     },
-    "parameters": {
-        "projectName": projectName,
-        "deploymentName": deploymentName,
-        "verbose": true,
-        "isLoggingEnabled": false
-    }
-}
+  },
+  parameters: {
+    projectName: projectName,
+    deploymentName: deploymentName,
+    verbose: true,
+    isLoggingEnabled: false,
+  },
+};
 
 export async function main() {
-//Analyze query
-    const { result } = await service.analyzeConversation(body) as ConversationalTaskResult;
-    console.log("query: ", result.query);
-    console.log("project kind: ", result.prediction.projectKind);
+  //Analyze query
+  const { result } = (await service.analyzeConversation(body)) as ConversationalTaskResult;
+  console.log("query: ", result.query);
+  console.log("project kind: ", result.prediction.projectKind);
 
-    const top_intent = result.prediction.topIntent || "None";
-    console.log("top intent: ", top_intent);
+  const top_intent = result.prediction.topIntent || "None";
+  console.log("top intent: ", top_intent);
 
-    const prediction = result.prediction as OrchestrationPrediction;
-    const top_intent_object = prediction.intents[top_intent] as ConversationTargetIntentResult;
-    console.log(prediction);
-    console.log("confidence score: ", top_intent_object.confidence);
-    console.log("project kind: ", top_intent_object.targetProjectKind);
+  const prediction = result.prediction as OrchestrationPrediction;
+  const top_intent_object = prediction.intents[top_intent] as ConversationTargetIntentResult;
+  console.log(prediction);
+  console.log("confidence score: ", top_intent_object.confidence);
+  console.log("project kind: ", top_intent_object.targetProjectKind);
 
-    if(top_intent_object.targetProjectKind == "Conversation"){
-        console.log("\nview conversation result:");
+  if (top_intent_object.targetProjectKind == "Conversation") {
+    console.log("\nview conversation result:");
 
-        if(top_intent_object.result && top_intent_object.result.prediction){
-            console.log("\ntop intent: ", top_intent_object.result.prediction.topIntent);
-            
-            const intent = top_intent_object.result.prediction.intents[0] as ConversationIntent;
-            console.log("category: ", intent.category);
-            console.log("confidence score: ", intent.confidence);
+    if (top_intent_object.result && top_intent_object.result.prediction) {
+      console.log("\ntop intent: ", top_intent_object.result.prediction.topIntent);
 
-            console.log("\nview entities:");
-            top_intent_object.result.prediction.entities.forEach(entity => {
-                console.log("\ncategory: ", entity.category);
-                console.log("text: ", entity.text);
-                console.log("confidence score: %f", entity.confidence);
+      const intent = top_intent_object.result.prediction.intents[0] as ConversationIntent;
+      console.log("category: ", intent.category);
+      console.log("confidence score: ", intent.confidence);
 
-                if(entity.resolutions){
-                    console.log("resolutions:");
-                    entity.resolutions.forEach(resolution => {
-                        console.log("kind: ", resolution.resolutionKind);
-                        if('value' in resolution)
-                            console.log("value: ", resolution.value);
-                    })
-                }
+      console.log("\nview entities:");
+      top_intent_object.result.prediction.entities.forEach((entity) => {
+        console.log("\ncategory: ", entity.category);
+        console.log("text: ", entity.text);
+        console.log("confidence score: %f", entity.confidence);
 
-                if(entity.extraInformation){
-                    console.log("extra info:")
-                    entity.extraInformation.forEach((data: EntitySubtype | ListKey) => {
-                        console.log("kind: ", data.extraInformationKind);
-                        if(data.extraInformationKind == "ListKey")
-                            console.log("key: ", data.key);
-                        if(data.extraInformationKind == "EntitySubtype")
-                            console.log("value: ", data.value);
-                    });
-                }
-            });
+        if (entity.resolutions) {
+          console.log("resolutions:");
+          entity.resolutions.forEach((resolution) => {
+            console.log("kind: ", resolution.resolutionKind);
+            if ("value" in resolution) console.log("value: ", resolution.value);
+          });
         }
+
+        if (entity.extraInformation) {
+          console.log("extra info:");
+          entity.extraInformation.forEach((data: EntitySubtype | ListKey) => {
+            console.log("kind: ", data.extraInformationKind);
+            if (data.extraInformationKind == "ListKey") console.log("key: ", data.key);
+            if (data.extraInformationKind == "EntitySubtype") console.log("value: ", data.value);
+          });
+        }
+      });
     }
+  }
 }
 
 main().catch((err) => {
-    console.error("The sample encountered an error:", err);
+  console.error("The sample encountered an error:", err);
 });

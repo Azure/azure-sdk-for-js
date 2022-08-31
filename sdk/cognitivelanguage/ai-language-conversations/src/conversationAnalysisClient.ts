@@ -1,24 +1,27 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
  */
 
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  ConversationAnalysisClientOptionalParams,
-  AnalyzeConversationTaskUnion,
+  AnalyzeConversationJobsInput,
   AnalyzeConversationOptionalParams,
   AnalyzeConversationResponse,
-  AnalyzeConversationJobsInput,
+  AnalyzeConversationTaskUnion,
+  ConversationAnalysisClientOptionalParams,
   ConversationAnalysisOptionalParams,
-  ConversationAnalysisResponse
+  ConversationAnalysisResponse,
 } from "./generated/models";
-import { conversationAnalysisAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import { DEFAULT_COGNITIVE_SCOPE, SDK_VERSION } from "./constants";
-import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { PollOperationState, PollerLike } from "@azure/core-lro";
+import { TracingClient, createTracingClient } from "@azure/core-tracing";
 import { ConversationAnalysisClient as GeneratedClient } from "./generated";
-import { createTracingClient, TracingClient } from "@azure/core-tracing";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { conversationAnalysisAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
 export class ConversationAnalysisClient {
   private readonly _client: GeneratedClient;
@@ -26,16 +29,15 @@ export class ConversationAnalysisClient {
 
   /**
    * Initializes a new instance of the ConversationAnalysisClient class.
-   * @param endpoint Supported Cognitive Services endpoint (e.g.,
+   * @param endpoint - Supported Cognitive Services endpoint (e.g.,
    *                 https://<resource-name>.api.cognitiveservices.azure.com).
-   * @param options The parameter options
+   * @param options - The parameter options
    */
-   constructor(
+  constructor(
     endpoint: string,
     credential: TokenCredential | KeyCredential,
     options: ConversationAnalysisClientOptionalParams = {}
   ) {
-
     this._client = new GeneratedClient(endpoint, options);
 
     this._tracing = createTracingClient({
@@ -53,42 +55,51 @@ export class ConversationAnalysisClient {
 
   /**
    * Analyzes the input conversation utterance.
-   * @param task A single conversational task to execute.
-   * @param options The options parameters.
+   * @param task - A single conversational task to execute.
+   * @param options - The options parameters.
    */
   analyzeConversation(
     task: AnalyzeConversationTaskUnion,
     options?: AnalyzeConversationOptionalParams
   ): Promise<AnalyzeConversationResponse> {
-    return this._tracing.withSpan("ConversationAnalysisClient.analyzeConversation", options || {}, (updatedOptions) => this._client.analyzeConversation(task, updatedOptions));
+    return this._tracing.withSpan(
+      "ConversationAnalysisClient.analyzeConversation",
+      options || {},
+      (updatedOptions) => this._client.analyzeConversation(task, updatedOptions)
+    );
   }
 
   /**
    * Submit a collection of conversations for analysis. Specify one or more unique tasks to be executed.
-   * @param task The collection of conversations to analyze and one or more tasks to execute.
-   * @param options The options parameters.
+   * @param task - The collection of conversations to analyze and one or more tasks to execute.
+   * @param options - The options parameters.
    */
   async beginConversationAnalysis(
     task: AnalyzeConversationJobsInput,
     options?: ConversationAnalysisOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConversationAnalysisResponse>,
-      ConversationAnalysisResponse
-    >
+    PollerLike<PollOperationState<ConversationAnalysisResponse>, ConversationAnalysisResponse>
   > {
-    return this._tracing.withSpan("ConversationAnalysisClient.beginConversationAnalysis", options || {}, (updatedOptions) => this._client.beginConversationAnalysis(task, updatedOptions));
+    return this._tracing.withSpan(
+      "ConversationAnalysisClient.beginConversationAnalysis",
+      options || {},
+      (updatedOptions) => this._client.beginConversationAnalysis(task, updatedOptions)
+    );
   }
 
   /**
    * Submit a collection of conversations for analysis. Specify one or more unique tasks to be executed.
-   * @param task The collection of conversations to analyze and one or more tasks to execute.
-   * @param options The options parameters.
+   * @param task - The collection of conversations to analyze and one or more tasks to execute.
+   * @param options - The options parameters.
    */
   async beginConversationAnalysisAndWait(
     task: AnalyzeConversationJobsInput,
     options?: ConversationAnalysisOptionalParams
   ): Promise<ConversationAnalysisResponse> {
-    return this._tracing.withSpan("ConversationAnalysisClient.beginConversationAnalysisAndWait", options || {}, (updatedOptions) => this._client.beginConversationAnalysisAndWait(task, updatedOptions));
+    return this._tracing.withSpan(
+      "ConversationAnalysisClient.beginConversationAnalysisAndWait",
+      options || {},
+      (updatedOptions) => this._client.beginConversationAnalysisAndWait(task, updatedOptions)
+    );
   }
 }

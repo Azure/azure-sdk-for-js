@@ -4,7 +4,9 @@
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Conversational Language Understanding service.",
   "version": "1.0.0-beta.1",
-  "engines": { "node": ">=12.0.0" },
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "dependencies": {
     "@azure/core-lro": "^2.2.0",
     "@azure/abort-controller": "^1.0.0",
@@ -14,7 +16,14 @@
     "@azure/core-tracing": "1.0.0",
     "tslib": "^2.2.0"
   },
-  "keywords": ["node", "azure", "typescript", "browser", "isomorphic"],
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic",
+    "cloud"
+  ],
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -68,12 +77,11 @@
     "uglify-js": "^3.4.9",
     "rimraf": "^3.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/README.md",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
   "files": [
     "dist/**/*.js",
     "dist/**/*.js.map",
@@ -83,7 +91,6 @@
     "dist-esm/**/*.js.map",
     "dist-esm/**/*.d.ts",
     "dist-esm/**/*.d.ts.map",
-    "src/**/*.ts",
     "README.md",
     "LICENSE",
     "rollup.config.js",

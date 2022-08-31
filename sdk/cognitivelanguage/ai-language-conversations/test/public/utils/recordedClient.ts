@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import { ConversationAnalysisClient, ConversationAnalysisOptions } from "../../../src/";
-import { AzureKeyCredential } from "@azure/core-auth";
 import {
   Recorder,
   RecorderStartOptions,
   assertEnvironmentVariable,
   env,
 } from "@azure-tools/test-recorder";
+import { AzureKeyCredential } from "@azure/core-auth";
 import { Test } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
 
@@ -20,7 +20,7 @@ const envSetupForPlayback: { [k: string]: string } = {
   LANGUAGE_CLU_PROJECT_NAME: "<project-name>",
   LANGUAGE_CLU_DEPLOYMENT_NAME: "<deployment-name>",
   LANGUAGE_ORCHESTRATION_PROJECT_NAME: "<project-name>",
-  LANGUAGE_ORCHESTRATION_DEPLOYMENT_NAME: "<deployment-name>"
+  LANGUAGE_ORCHESTRATION_DEPLOYMENT_NAME: "<deployment-name>",
 };
 
 const recorderStartOptions: RecorderStartOptions = {
@@ -50,7 +50,11 @@ export function createClient(options: {
       return new ConversationAnalysisClient(endpoint, createTestCredential(), updatedOptions);
     }
     case "DummyAPIKey": {
-      return new ConversationAnalysisClient(endpoint, new AzureKeyCredential("whatever"), updatedOptions);
+      return new ConversationAnalysisClient(
+        endpoint,
+        new AzureKeyCredential("whatever"),
+        updatedOptions
+      );
     }
     default: {
       throw Error(`Unsupported authentication method: ${authMethod}`);

@@ -25,15 +25,15 @@ function ignoreNiseSinonEval(warning) {
   return (
     warning.code === "EVAL" &&
     warning.id &&
-      (warning.id.includes("node_modules/nise") ||
-        warning.id.includes("node_modules/sinon")) === true
+    (warning.id.includes("node_modules/nise") || warning.id.includes("node_modules/sinon")) === true
   );
 }
 
 function ignoreChaiCircularDependency(warning) {
   return (
     warning.code === "CIRCULAR_DEPENDENCY" &&
-    warning.importer && warning.importer.includes("node_modules/chai") === true
+    warning.importer &&
+    warning.importer.includes("node_modules/chai") === true
   );
 }
 
@@ -58,22 +58,22 @@ function makeBrowserTestConfig() {
   const config = {
     input: {
       include: ["dist-esm/test/**/*.spec.js"],
-      exclude: ["dist-esm/test/**/node/**"]
+      exclude: ["dist-esm/test/**/node/**"],
     },
     output: {
       file: `dist-test/index.browser.js`,
       format: "umd",
-      sourcemap: true
+      sourcemap: true,
     },
     preserveSymlinks: false,
     plugins: [
       multiEntry({ exports: false }),
       nodeResolve({
-        mainFields: ["module", "browser"]
+        mainFields: ["module", "browser"],
       }),
       cjs(),
       json(),
-      sourcemaps()
+      sourcemaps(),
       //viz({ filename: "dist-test/browser-stats.html", sourcemap: true })
     ],
     onwarn: makeOnWarnForTesting(),
@@ -81,20 +81,20 @@ function makeBrowserTestConfig() {
     // rollup started respecting the "sideEffects" field in package.json.  Since
     // our package.json sets "sideEffects=false", this also applies to test
     // code, which causes all tests to be removed by tree-shaking.
-    treeshake: false
+    treeshake: false,
   };
 
   return config;
 }
 
 const defaultConfigurationOptions = {
-  disableBrowserBundle: false
+  disableBrowserBundle: false,
 };
 
 export function makeConfig(pkg, options) {
   options = {
     ...defaultConfigurationOptions,
-    ...(options || {})
+    ...(options || {}),
   };
 
   const baseConfig = {
@@ -103,11 +103,11 @@ export function makeConfig(pkg, options) {
     external: [
       ...nodeBuiltins,
       ...Object.keys(pkg.dependencies),
-      ...Object.keys(pkg.devDependencies)
+      ...Object.keys(pkg.devDependencies),
     ],
     output: { file: "dist/index.js", format: "cjs", sourcemap: true },
     preserveSymlinks: false,
-    plugins: [sourcemaps(), nodeResolve()]
+    plugins: [sourcemaps(), nodeResolve()],
   };
 
   const config = [baseConfig];
