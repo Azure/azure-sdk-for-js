@@ -32,5 +32,6 @@ export const recorderOptions: RecorderStartOptions = {
 export async function createRecorder(context: Test | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
+  await recorder.setMatcher("HeaderlessMatcher");
   return recorder;
 }

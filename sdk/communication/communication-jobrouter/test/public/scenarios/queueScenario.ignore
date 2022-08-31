@@ -1,0 +1,110 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { assert } from "chai";
+import { RouterAdministrationClient, RouterClient, RouterJob, } from "../../../src";
+import { Context } from "mocha";
+import {
+  classificationPolicyRequest,
+  distributionPolicyRequest,
+  exceptionPolicyRequest,
+  jobRequest,
+  queueRequest,
+  classificationPolicyConditional,
+  conditionalScenarioJob,
+  classificationPolicyPassthrough,
+  passthroughScenarioJob,
+  classificationPolicyCombined,
+  frenchJob,
+  englishJob,
+  englishQueue,
+  frenchQueue
+} from "../utils/testData";
+import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
+import { timeoutMs } from "../utils/constants";
+
+describe("RouterClient", function() {
+  const sleepMs: number = 1500;
+  let adminClient: RouterAdministrationClient;
+
+  // HACK: Intentionally block to avoid 'duplicate sequence number' error from service
+  function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  describe("Queue Scenario", function() {
+    this.beforeAll(async function(this: Context) {
+      ({ client: adminClient } = createRecordedRouterClientWithConnectionString(this));
+
+      await adminClient.createDistributionPolicy(
+        distributionPolicyRequest.id!,
+        distributionPolicyRequest
+      );
+      await adminClient.createExceptionPolicy(exceptionPolicyRequest.id!, exceptionPolicyRequest);
+      await adminClient.createQueue(queueRequest.id!, queueRequest);
+      await adminClient.createClassificationPolicy(
+        classificationPolicyRequest.id!,
+        classificationPolicyRequest
+      );
+      await adminClient.createJob(jobRequest.id!, jobRequest);
+    });
+
+    this.afterAll(async function(this: Context) {
+      await sleep(sleepMs);
+      await adminClient.deleteJob(jobRequest.id!);
+      await adminClient.deleteClassificationPolicy(classificationPolicyRequest.id!);
+      await adminClient.deleteQueue(queueRequest.id!);
+      await adminClient.deleteExceptionPolicy(exceptionPolicyRequest.id!);
+      await adminClient.deleteDistributionPolicy(distributionPolicyRequest.id!);
+    });
+
+    it("should complete with conditional selector", async () => {
+      await adminClient.createClassificationPolicy(classificationPolicyConditional.id!, classificationPolicyConditional);
+      await adminClient.createJob(conditionalScenarioJob.id!, conditionalScenarioJob);
+
+      let job: RouterJob = conditionalScenarioJob;
+      while (job.jobStatus !== "queued") {
+        job = await adminClient.getJob(conditionalScenarioJob.id!);
+      }
+
+      assert.equal(job.jobStatus, "queued");
+      assert.equal(job.queueId, queueRequest.id);
+    }).timeout(timeoutMs);
+
+    it("should complete with passthrough selector", async () => {
+      await adminClient.createClassificationPolicy(classificationPolicyPassthrough.id!, classificationPolicyPassthrough);
+      await adminClient.createJob(passthroughScenarioJob.id!, passthroughScenarioJob);
+
+      let job: RouterJob = passthroughScenarioJob;
+      while (job.jobStatus !== "queued") {
+        job = await adminClient.getJob(passthroughScenarioJob.id!);
+      }
+
+      assert.equal(job.jobStatus, "queued");
+      assert.equal(job.queueId, queueRequest.id);
+    }).timeout(timeoutMs);
+
+    it("should complete with combined selectors", async () => {
+      await adminClient.createClassificationPolicy(classificationPolicyCombined.id!, classificationPolicyCombined);
+      await adminClient.createQueue(englishQueue.id!, englishQueue);
+      await adminClient.createQueue(frenchQueue.id!, frenchQueue);
+
+      let job1: RouterJob = englishJob;
+      await adminClient.createJob(englishJob.id!, englishJob);
+      while (job1.jobStatus !== "queued") {
+        job1 = await adminClient.getJob(englishJob.id!);
+      }
+
+      let job2: RouterJob = frenchJob;
+      await adminClient.createJob(frenchJob.id!, frenchJob);
+      while (job2.jobStatus !== "queued") {
+        job2 = await adminClient.getJob(frenchJob.id!);
+      }
+
+      assert.equal(job1.jobStatus, "queued");
+      assert.equal(job2.jobStatus, "queued");
+      assert.equal(job1.queueId, englishQueue.id!);
+      assert.equal(job2.queueId, frenchQueue.id!);
+    }).timeout(timeoutMs);
+  });
+});
