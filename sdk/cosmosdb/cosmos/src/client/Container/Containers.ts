@@ -21,6 +21,7 @@ import { ContainerRequest } from "./ContainerRequest";
 import { ContainerResponse } from "./ContainerResponse";
 import { validateOffer } from "../../utils/offers";
 import { CosmosException } from "../../diagnostics/CosmosException";
+import { setDiagnostics } from "../../diagnostics/Diagnostics";
 
 /**
  * Operations for creating new containers, and reading/querying all containers
@@ -108,7 +109,8 @@ export class Containers {
   ): Promise<ContainerResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
-      throw new CosmosException(err);
+      setDiagnostics(`${err}`);
+      throw err;
     }
     const path = getPathFromLink(this.database.url, ResourceType.container);
     const id = getIdFromLink(this.database.url);
@@ -195,7 +197,7 @@ export class Containers {
     options?: RequestOptions
   ): Promise<ContainerResponse> {
     if (!body || body.id === null || body.id === undefined) {
-      throw new Error("body parameter must be an object with an id property");
+      throw new CosmosException("body parameter must be an object with an id property");
     }
     /*
       1. Attempt to read the Container (based on an assumption that most containers will already exist, so its faster)
@@ -212,7 +214,8 @@ export class Containers {
         new CosmosException(err);
         return createResponse;
       } else {
-        throw new CosmosException(err);
+        setDiagnostics(`${err}`);
+        throw err;
       }
     }
   }

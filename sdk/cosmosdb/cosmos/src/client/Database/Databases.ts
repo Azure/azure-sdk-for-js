@@ -13,6 +13,7 @@ import { DatabaseRequest } from "./DatabaseRequest";
 import { DatabaseResponse } from "./DatabaseResponse";
 import { validateOffer } from "../../utils/offers";
 import { CosmosException } from "../../diagnostics/CosmosException";
+import { setDiagnostics } from "../../diagnostics/Diagnostics";
 
 /**
  * Operations for creating new databases, and reading/querying all databases
@@ -102,7 +103,8 @@ export class Databases {
   ): Promise<DatabaseResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
-      throw new CosmosException(err);
+      setDiagnostics(`${err}`);
+      throw err;
     }
 
     validateOffer(body);

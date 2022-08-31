@@ -3,7 +3,7 @@
 import { Constants } from "../common/constants";
 import { sleep } from "../common/helper";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
-import { CosmosException } from "../diagnostics/CosmosException";
+import { setDiagnostics } from "../diagnostics/Diagnostics";
 import { Response } from "../request";
 import { RequestContext } from "../request/RequestContext";
 import { DefaultRetryPolicy } from "./defaultRetryPolicy";
@@ -107,7 +107,8 @@ export async function execute({
       headers[Constants.ThrottleRetryWaitTimeInMs] =
         retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMs;
       err.headers = { ...err.headers, ...headers };
-      throw new CosmosException(err);
+      setDiagnostics(err);
+      throw err;
     } else {
       requestContext.retryCount++;
       const newUrl = (results as any)[1]; // TODO: any hack

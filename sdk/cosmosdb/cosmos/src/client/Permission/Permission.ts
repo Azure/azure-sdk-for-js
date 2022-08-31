@@ -8,6 +8,7 @@ import {
   isResourceValid,
   ResourceType,
 } from "../../common";
+import { setDiagnostics } from "../../diagnostics/Diagnostics";
 import { RequestOptions } from "../../request/RequestOptions";
 import { User } from "../User";
 import { PermissionBody } from "./PermissionBody";
@@ -63,6 +64,7 @@ export class Permission {
   ): Promise<PermissionResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
+      setDiagnostics(`${err}`);
       throw err;
     }
 

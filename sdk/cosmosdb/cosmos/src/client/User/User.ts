@@ -8,6 +8,7 @@ import {
   isResourceValid,
   ResourceType,
 } from "../../common";
+import { setDiagnostics } from "../../diagnostics/Diagnostics";
 import { RequestOptions } from "../../request";
 import { Database } from "../Database";
 import { Permission, Permissions } from "../Permission";
@@ -77,6 +78,7 @@ export class User {
   public async replace(body: UserDefinition, options?: RequestOptions): Promise<UserResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
+      setDiagnostics(`${err}`);
       throw err;
     }
 

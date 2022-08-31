@@ -3,6 +3,7 @@
 import { ClientContext } from "../../ClientContext";
 import { Constants, isResourceValid, ResourceType } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
+import { setDiagnostics } from "../../diagnostics/Diagnostics";
 import { RequestOptions } from "../../request";
 import { OfferDefinition } from "./OfferDefinition";
 import { OfferResponse } from "./OfferResponse";
@@ -50,6 +51,7 @@ export class Offer {
   public async replace(body: OfferDefinition, options?: RequestOptions): Promise<OfferResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
+      setDiagnostics(`${err}`);
       throw err;
     }
     const response = await this.clientContext.replace<OfferDefinition>({

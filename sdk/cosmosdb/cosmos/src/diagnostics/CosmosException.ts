@@ -12,10 +12,10 @@ import {
 
 export class CosmosException extends Error implements ErrorResponse {
   constructor(m?: any) {
-    super(m);
+    super(`${m}`);
     Object.setPrototypeOf(this, CosmosException.prototype);
     if (typeof m !== "undefined") {
-      setDiagnostics(m);
+      setDiagnostics(`${m}`);
     }
   }
   [key: string]: any;

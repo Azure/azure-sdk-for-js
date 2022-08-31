@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
 import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
+import { setDiagnostics } from "../../diagnostics/Diagnostics";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
@@ -77,6 +78,7 @@ export class Triggers {
 
     const err = {};
     if (!isResourceValid(body, err)) {
+      setDiagnostics(`${err}`);
       throw err;
     }
 

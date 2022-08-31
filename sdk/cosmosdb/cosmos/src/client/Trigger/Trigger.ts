@@ -8,6 +8,7 @@ import {
   isResourceValid,
   ResourceType,
 } from "../../common";
+import { setDiagnostics } from "../../diagnostics/Diagnostics";
 import { RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { TriggerDefinition } from "./TriggerDefinition";
@@ -67,6 +68,7 @@ export class Trigger {
 
     const err = {};
     if (!isResourceValid(body, err)) {
+      setDiagnostics(`${err}`);
       throw err;
     }
 

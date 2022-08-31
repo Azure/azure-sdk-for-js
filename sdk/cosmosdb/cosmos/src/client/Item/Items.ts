@@ -27,6 +27,7 @@ import {
 } from "../../utils/batch";
 import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
+import { setDiagnostics } from "../../diagnostics/Diagnostics";
 
 /**
  * @hidden
@@ -270,6 +271,7 @@ export class Items {
 
     const err = {};
     if (!isItemResourceValid(body, err)) {
+      setDiagnostics(`${err}`);
       throw err;
     }
 
@@ -342,6 +344,7 @@ export class Items {
 
     const err = {};
     if (!isItemResourceValid(body, err)) {
+      setDiagnostics(`${err}`);
       throw err;
     }
 

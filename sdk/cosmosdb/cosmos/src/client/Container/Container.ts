@@ -23,7 +23,7 @@ import { PartitionKeyRange } from "./PartitionKeyRange";
 import { Offer, OfferDefinition } from "../Offer";
 import { OfferResponse } from "../Offer/OfferResponse";
 import { Resource } from "../Resource";
-import { CosmosException } from "../../diagnostics/CosmosException";
+import { setDiagnostics } from "../../diagnostics/Diagnostics";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -143,7 +143,8 @@ export class Container {
   ): Promise<ContainerResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
-      throw new CosmosException(err);
+      setDiagnostics(`${err}`);
+      throw err;
     }
 
     const path = getPathFromLink(this.url);

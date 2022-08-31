@@ -62,8 +62,11 @@ describe("Containers", function (this: Suite) {
           },
         ],
       };
-      const { resources: results } = await database.containers.query(querySpec).fetchAll();
+      const { resources: results, getCosmosDiagnostics } = await database.containers
+        .query(querySpec)
+        .fetchAll();
       assert(results.length > 0, "number of results for the query should be > 0");
+      console.log(getCosmosDiagnostics());
 
       const { resources: ranges } = await container.readPartitionKeyRanges().fetchAll();
       assert(ranges.length > 0, "container should have at least 1 partition");
@@ -393,7 +396,8 @@ describe("createIfNotExists", function () {
 
   it("should handle container does not exist", async function () {
     const def: ContainerDefinition = { id: "does not exist" };
-    const { container } = await database.containers.createIfNotExists(def);
+    const { container, getCosmosDiagnostics } = await database.containers.createIfNotExists(def);
+    console.log(getCosmosDiagnostics);
     const { resource: readDef } = await container.read();
     assert.equal(def.id, readDef.id);
   });

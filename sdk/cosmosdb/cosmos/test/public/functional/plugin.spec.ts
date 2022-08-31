@@ -5,6 +5,7 @@ import { RequestContext } from "../../../src";
 import { Plugin, Next, PluginConfig } from "../../../src";
 
 import * as assert from "assert";
+import { CosmosException } from "../../../src/diagnostics/CosmosException";
 
 describe("Plugin", function () {
   it("should handle all requests", async function () {
@@ -62,7 +63,7 @@ describe("Plugin", function () {
       return successResponse;
     };
     const alwaysThrow: Plugin<any> = async () => {
-      throw new Error("I always throw!");
+      throw new CosmosException("I always throw!");
     };
 
     const options: CosmosClientOptions = {

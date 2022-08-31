@@ -8,6 +8,7 @@ import {
   isResourceValid,
   ResourceType,
 } from "../../common";
+import { setDiagnostics } from "../../diagnostics/Diagnostics";
 import { PartitionKey } from "../../documents/PartitionKey";
 import { undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, ResourceResponse } from "../../request";
@@ -68,6 +69,7 @@ export class StoredProcedure {
 
     const err = {};
     if (!isResourceValid(body, err)) {
+      setDiagnostics(`${err}`);
       throw err;
     }
 
