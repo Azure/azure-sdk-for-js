@@ -31,7 +31,7 @@ describe("delay", function () {
       abortErrorMsg: StandardAbortMessage,
     });
     try {
-      controller.abort()
+      controller.abort();
       await delayPromise;
       assert.fail();
     } catch (err: any) {
@@ -39,5 +39,4 @@ describe("delay", function () {
       assert.strictEqual(err.message, StandardAbortMessage);
     }
   });
-
 });
