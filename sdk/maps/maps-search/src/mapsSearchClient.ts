@@ -159,7 +159,7 @@ export class MapsSearchClient {
       this.client.pipeline.addPolicy(
         bearerTokenAuthenticationPolicy({
           credential,
-          scopes: "https://atlas.microsoft.com/.default",
+          scopes: `${options.endpoint || "https://atlas.microsoft.com"}/.default`,
         })
       );
       this.client.pipeline.addPolicy(createMapsClientIdPolicy(clientId));

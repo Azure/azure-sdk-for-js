@@ -15,7 +15,10 @@ import {
 /**
  * Client options used to configure the Maps Search Client
  */
-export type MapsSearchClientOptions = CommonClientOptions;
+export type MapsSearchClientOptions = CommonClientOptions & {
+  /** Overrides client endpoint. Default: "https://atlas.microsoft.com"*/
+  endpoint?: string;
+};
 
 /**
  * Options for retrieving polygon geometries given geometry ids

@@ -18,6 +18,39 @@ import chaiPromises from "chai-as-promised";
 
 chaiUse(chaiPromises);
 
+describe("Endpoint can be overwritten", function (this: Suite) {
+  let recorder: Recorder;
+  const fastTimeout = 10000;
+
+  beforeEach(async function (this: Context) {
+    testLogger.verbose(`Recorder: starting...`);
+    recorder = await createRecorder(this);
+  });
+
+  afterEach(async function () {
+    testLogger.verbose(`Recorder: stopping...`);
+    await recorder.stop();
+  });
+
+  before(function (this: Context) {
+    this.timeout(fastTimeout);
+  });
+
+  it("should be executed without specifying endpoint", async function () {
+    const client = createClient(recorder.configureClientOptions({}));
+    const geometries = await client.getGeometries(["8bceafe8-3d98-4445-b29b-fd81d3e9adf5"]);
+    assert.isOk(geometries);
+  });
+
+  it("should be executed with different endpoint", async function () {
+    const client = createClient(
+      recorder.configureClientOptions({ endpoint: "https://us.atlas.microsoft.com/" })
+    );
+    const geometries = await client.getGeometries(["8bceafe8-3d98-4445-b29b-fd81d3e9adf5"]);
+    assert.isOk(geometries);
+  });
+});
+
 describe("Get Geometries", function (this: Suite) {
   let recorder: Recorder;
   let client: MapsSearchClient;

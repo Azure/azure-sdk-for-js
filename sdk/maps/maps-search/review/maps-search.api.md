@@ -473,7 +473,9 @@ export class MapsSearchClient {
 }
 
 // @public
-export type MapsSearchClientOptions = CommonClientOptions;
+export type MapsSearchClientOptions = CommonClientOptions & {
+    endpoint?: string;
+};
 
 // @public
 export type MatchType = string;
