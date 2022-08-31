@@ -56,7 +56,7 @@ async function main() {
     contextFeatures: contextFeatures,
   };
 
-  console.log("Sending rank request");
+  log("Sending rank request");
   const rankResponse = await client.path("/rank").post({ body: request });
   if (isUnexpected(rankResponse)) {
     throw rankResponse.body.error.code;
@@ -64,13 +64,13 @@ async function main() {
 
   const rankOutput = rankResponse.body;
   const eventId = rankOutput.eventId as string;
-  console.log(
+  log(
     `Rank returned response with event id ${eventId} and recommended ${rankOutput.rewardActionId} as the best action`
   );
 
   // The event response will be determined by how the user interacted with the action that was presented to them.
   // Let us say that they like the action and so we associate a reward of 1.
-  console.log("Sending reward event");
+  log("Sending reward event");
   const eventResponse = await client
     .path("/events/{eventId}/reward", eventId)
     .post({ body: { value: 1 } });
@@ -78,7 +78,11 @@ async function main() {
     throw eventResponse.body.error.code;
   }
 
-  console.log("Completed sending reward response");
+  log("Completed sending reward response");
+}
+
+function log(message: string) {
+  console.log(message);
 }
 
 main().catch((err: PersonalizerErrorOutput) => {

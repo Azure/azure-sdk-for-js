@@ -11,7 +11,7 @@ description: Personalizer Client
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/cognitiveservices/data-plane/Personalizer/preview/v1.1-preview.3/Personalizer.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/0f3093e589c010a5f238c0bd89ef2118696ba8a8/specification/cognitiveservices/data-plane/Personalizer/preview/v1.1-preview.3/Personalizer.json
 override-client-name: PersonalizerClient
 security:
   - AADToken
