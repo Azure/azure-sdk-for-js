@@ -40,7 +40,7 @@
   },
   "functions": [],
   "variables": {
-    "ledgerUri": "[concat('https://', parameters('baseName'), '.confidential-ledger.azure.com')]"
+    "ledgerUri": "[format('https://{0}.confidential-ledger.azure.com', parameters('ledgerUri'))]"
   },
   "resources": [
     {
