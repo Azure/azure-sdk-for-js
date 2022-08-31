@@ -6,13 +6,12 @@
 
 /// <reference lib="esnext.asynciterable" />
 
+import { CommonClientOptions } from '@azure/core-client';
 import { CommunicationTokenCredential } from '@azure/communication-common';
 import * as coreClient from '@azure/core-client';
-import * as coreHttp from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
+import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
-import { RequestPolicyFactory } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -133,11 +132,6 @@ export interface CreateQueueOptions extends JobRouterAdministrationUpsertQueueOp
     };
     name?: string;
 }
-
-// @public
-export const createSetHeadersPolicy: (headers: {
-    [propertyName: string]: any;
-}) => RequestPolicyFactory;
 
 // @public
 export interface CreateWorkerOptions extends JobRouterUpsertWorkerOptionalParams {
@@ -367,22 +361,22 @@ export enum KnownRouterWorkerState {
 export type LabelOperator = "equal" | "notEqual" | "lessThan" | "lessThanEqual" | "greaterThan" | "greaterThanEqual";
 
 // @public
-export interface ListClassificationPoliciesOptions extends coreHttp.OperationOptions {
+export interface ListClassificationPoliciesOptions extends OperationOptions {
     maxPageSize?: number;
 }
 
 // @public
-export interface ListDistributionPoliciesOptions extends coreHttp.OperationOptions {
+export interface ListDistributionPoliciesOptions extends OperationOptions {
     maxPageSize?: number;
 }
 
 // @public
-export interface ListExceptionPoliciesOptions extends coreHttp.OperationOptions {
+export interface ListExceptionPoliciesOptions extends OperationOptions {
     maxPageSize?: number;
 }
 
 // @public
-export interface ListJobsOptions extends coreHttp.OperationOptions {
+export interface ListJobsOptions extends OperationOptions {
     channelId?: string;
     classificationPolicyId?: string;
     jobStateSelector?: JobStateSelector;
@@ -396,12 +390,12 @@ export interface ListPageSettings {
 }
 
 // @public
-export interface ListQueuesOptions extends coreHttp.OperationOptions {
+export interface ListQueuesOptions extends OperationOptions {
     maxPageSize?: number;
 }
 
 // @public
-export interface ListWorkersOptions extends coreHttp.OperationOptions {
+export interface ListWorkersOptions extends OperationOptions {
     channelId?: string;
     hasCapacity?: boolean;
     maxPageSize?: number;
@@ -494,7 +488,7 @@ export class RouterAdministrationClient {
 }
 
 // @public
-export interface RouterAdministrationClientOptions extends PipelineOptions {
+export interface RouterAdministrationClientOptions extends CommonClientOptions {
     headers?: {
         [propertyName: string]: any;
     };
@@ -528,7 +522,7 @@ export class RouterClient {
 }
 
 // @public
-export interface RouterClientOptions extends PipelineOptions {
+export interface RouterClientOptions extends CommonClientOptions {
     headers?: {
         [propertyName: string]: any;
     };
@@ -674,13 +668,13 @@ export interface UpdateExceptionPolicyOptions extends JobRouterAdministrationUps
 }
 
 // @public
-export interface UpdateJobClassificationOptions extends coreHttp.OperationOptions {
+export interface UpdateJobClassificationOptions extends OperationOptions {
     forceClassification?: boolean;
     patch?: RouterJob;
 }
 
 // @public
-export interface UpdateJobLabelsOptions extends coreHttp.OperationOptions {
+export interface UpdateJobLabelsOptions extends OperationOptions {
     forceClassification?: boolean;
     patch?: RouterJob;
 }

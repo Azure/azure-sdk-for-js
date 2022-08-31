@@ -16,7 +16,7 @@ describe("RouterClient", function() {
 
   describe("Distribution Policy Operations", function() {
     this.beforeAll(async function(this: Context) {
-      ({ client, recorder } = createRecordedRouterClientWithConnectionString(this));
+      ({ client, recorder } = async createRecordedRouterClientWithConnectionString(this));
     });
 
     afterEach(async function(this: Context) {
