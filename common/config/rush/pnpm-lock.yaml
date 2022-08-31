@@ -201,7 +201,7 @@ specifiers:
   '@rush-temp/communication-common': file:./projects/communication-common.tgz
   '@rush-temp/communication-email': file:./projects/communication-email.tgz
   '@rush-temp/communication-identity': file:./projects/communication-identity.tgz
-  '@rush-temp/communication-jobrouter': file:./projects/communication-jobrouter.tgz
+  '@rush-temp/communication-job-router': file:./projects/communication-job-router.tgz
   '@rush-temp/communication-network-traversal': file:./projects/communication-network-traversal.tgz
   '@rush-temp/communication-phone-numbers': file:./projects/communication-phone-numbers.tgz
   '@rush-temp/communication-rooms': file:./projects/communication-rooms.tgz
@@ -503,7 +503,7 @@ dependencies:
   '@rush-temp/communication-common': file:projects/communication-common.tgz
   '@rush-temp/communication-email': file:projects/communication-email.tgz
   '@rush-temp/communication-identity': file:projects/communication-identity.tgz
-  '@rush-temp/communication-jobrouter': file:projects/communication-jobrouter.tgz
+  '@rush-temp/communication-job-router': file:projects/communication-job-router.tgz
   '@rush-temp/communication-network-traversal': file:projects/communication-network-traversal.tgz
   '@rush-temp/communication-phone-numbers': file:projects/communication-phone-numbers.tgz
   '@rush-temp/communication-rooms': file:projects/communication-rooms.tgz
@@ -15551,9 +15551,9 @@ packages:
       - utf-8-validate
     dev: false
 
-  file:projects/communication-jobrouter.tgz:
-    resolution: {integrity: sha512-kJTGc13v98By2R/RRGv8OLG+OUGpQlnEsh3awDVosiZK5hW2fr34X1S1RQEabHvPuXQt4s5qG1sikvbhovRrpA==, tarball: file:projects/communication-jobrouter.tgz}
-    name: '@rush-temp/communication-jobrouter'
+  file:projects/communication-job-router.tgz:
+    resolution: {integrity: sha512-kJTGc13v98By2R/RRGv8OLG+OUGpQlnEsh3awDVosiZK5hW2fr34X1S1RQEabHvPuXQt4s5qG1sikvbhovRrpA==, tarball: file:projects/communication-job-router.tgz}
+    name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
