@@ -129,7 +129,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/conversationAnalysisClient.ts",
+        "path": "src/generated/conversationAnalysisClient.ts",
         "prefix": "packageDetails"
       }
     ]

@@ -8,7 +8,6 @@ The language service conversations API is a suite of natural language processing
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/ai-language-conversations) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-language-conversations?view=azure-node-preview) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples)
 
 ## Getting started
