@@ -7,8 +7,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { Durations, LogsQueryClient, LogsQueryResultStatus } = require("@azure/monitor-query");
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 const monitorWorkspaceId = process.env.MONITOR_WORKSPACE_ID;
 
@@ -26,10 +25,10 @@ async function main() {
   console.log(`Running '${kustoQuery}' over the last One Hour`);
   const queryLogsOptions = {
     // explicitly control the amount of time the server can spend processing the query.
-    serverTimeoutInSeconds: 60,
+    serverTimeoutInSeconds: 600,
     // optionally enable returning additional statistics about the query's execution.
     // (by default this is off)
-    includeQueryStatistics: true
+    includeQueryStatistics: true,
   };
 
   const result = await logsQueryClient.queryWorkspace(
@@ -86,3 +85,5 @@ main().catch((err) => {
   console.error("The sample encountered an error:", err);
   process.exit(1);
 });
+
+module.exports = { main };
