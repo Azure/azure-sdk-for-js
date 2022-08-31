@@ -8,7 +8,7 @@
  */
 
 const DeviceUpdate = require("@azure-rest/iot-device-update").default,
-  { isUnexpected } = require("@azure-rest/iot-device-update");
+  { isUnexpected, paginate } = require("@azure-rest/iot-device-update");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -30,24 +30,28 @@ async function main() {
   const providersResult = await client
     .path("/deviceUpdate/{instanceId}/updates/providers", instanceId)
     .get();
+
   if (isUnexpected(providersResult)) {
     throw providersResult.body;
   }
-  providersResult.body.value.forEach((provider) => {
-    console.log(provider);
-  });
 
+  const providers = paginate(client, providersResult);
+  for await (const provider of providers) {
+    console.log(provider);
+  }
   console.log("\nNames in provider '" + provider + "':");
   const namesResult = await client
     .path("/deviceUpdate/{instanceId}/updates/providers/{provider}/names", instanceId, provider)
     .get();
+
   if (isUnexpected(namesResult)) {
     throw namesResult.body;
   }
-  namesResult.body.value.forEach((name) => {
-    console.log(name);
-  });
 
+  const names = paginate(client, namesResult);
+  for await (const name of names) {
+    console.log(name);
+  }
   console.log("\nVersions in provider '" + provider + "' and name '" + name + "':");
   const versionsResult = await client
     .path(
@@ -57,12 +61,15 @@ async function main() {
       name
     )
     .get();
+
   if (isUnexpected(versionsResult)) {
     throw versionsResult.body;
   }
-  versionsResult.body.value.forEach((version) => {
+
+  const versions = paginate(client, versionsResult);
+  for await (const version of versions) {
     console.log(version);
-  });
+  }
 }
 
 main().catch(console.error);

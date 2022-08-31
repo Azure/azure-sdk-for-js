@@ -71,30 +71,30 @@ export interface DeviceUpdateGetFileHeaderParam {
 
 export type DeviceUpdateGetFileParameters = DeviceUpdateGetFileHeaderParam & RequestParameters;
 
-export interface DeviceUpdateListOperationsQueryParamProperties {
+export interface DeviceUpdateListOperationStatusesQueryParamProperties {
   /** Optional to filter operations by status property. Only one specific filter is supported: "status eq 'NotStarted' or status eq 'Running'" */
   filter?: string;
   /** Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n. */
   top?: number;
 }
 
-export interface DeviceUpdateListOperationsQueryParam {
-  queryParameters?: DeviceUpdateListOperationsQueryParamProperties;
+export interface DeviceUpdateListOperationStatusesQueryParam {
+  queryParameters?: DeviceUpdateListOperationStatusesQueryParamProperties;
 }
 
-export type DeviceUpdateListOperationsParameters = DeviceUpdateListOperationsQueryParam &
+export type DeviceUpdateListOperationStatusesParameters = DeviceUpdateListOperationStatusesQueryParam &
   RequestParameters;
 
-export interface DeviceUpdateGetOperationHeaders {
+export interface DeviceUpdateGetOperationStatusHeaders {
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   "If-None-Match"?: string;
 }
 
-export interface DeviceUpdateGetOperationHeaderParam {
-  headers: RawHttpHeadersInput & DeviceUpdateGetOperationHeaders;
+export interface DeviceUpdateGetOperationStatusHeaderParam {
+  headers: RawHttpHeadersInput & DeviceUpdateGetOperationStatusHeaders;
 }
 
-export type DeviceUpdateGetOperationParameters = DeviceUpdateGetOperationHeaderParam &
+export type DeviceUpdateGetOperationStatusParameters = DeviceUpdateGetOperationStatusHeaderParam &
   RequestParameters;
 
 export interface DeviceManagementListDeviceClassesQueryParamProperties {
@@ -245,30 +245,30 @@ export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymen
 export type DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentParameters = DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentQueryParam &
   RequestParameters;
 
-export interface DeviceManagementGetOperationHeaders {
+export interface DeviceManagementGetOperationStatusHeaders {
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   "If-None-Match"?: string;
 }
 
-export interface DeviceManagementGetOperationHeaderParam {
-  headers: RawHttpHeadersInput & DeviceManagementGetOperationHeaders;
+export interface DeviceManagementGetOperationStatusHeaderParam {
+  headers: RawHttpHeadersInput & DeviceManagementGetOperationStatusHeaders;
 }
 
-export type DeviceManagementGetOperationParameters = DeviceManagementGetOperationHeaderParam &
+export type DeviceManagementGetOperationStatusParameters = DeviceManagementGetOperationStatusHeaderParam &
   RequestParameters;
 
-export interface DeviceManagementListOperationsQueryParamProperties {
+export interface DeviceManagementListOperationStatusesQueryParamProperties {
   /** Restricts the set of operations returned. Only one specific filter is supported: "status eq 'NotStarted' or status eq 'Running'" */
   filter?: string;
   /** Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n. */
   top?: number;
 }
 
-export interface DeviceManagementListOperationsQueryParam {
-  queryParameters?: DeviceManagementListOperationsQueryParamProperties;
+export interface DeviceManagementListOperationStatusesQueryParam {
+  queryParameters?: DeviceManagementListOperationStatusesQueryParamProperties;
 }
 
-export type DeviceManagementListOperationsParameters = DeviceManagementListOperationsQueryParam &
+export type DeviceManagementListOperationStatusesParameters = DeviceManagementListOperationStatusesQueryParam &
   RequestParameters;
 
 export interface DeviceManagementStartLogCollectionBodyParam {
@@ -288,14 +288,14 @@ export type DeviceManagementGetLogCollectionParameters = RequestParameters;
 export type DeviceManagementListLogCollectionsParameters = RequestParameters;
 export type DeviceManagementGetLogCollectionDetailedStatusParameters = RequestParameters;
 
-export interface DeviceManagementListDeviceHealthQueryParamProperties {
+export interface DeviceManagementListHealthOfDevicesQueryParamProperties {
   /** Restricts the set of devices for which device health is returned. You can filter on status, device id and module id. */
   filter: string;
 }
 
-export interface DeviceManagementListDeviceHealthQueryParam {
-  queryParameters: DeviceManagementListDeviceHealthQueryParamProperties;
+export interface DeviceManagementListHealthOfDevicesQueryParam {
+  queryParameters: DeviceManagementListHealthOfDevicesQueryParamProperties;
 }
 
-export type DeviceManagementListDeviceHealthParameters = DeviceManagementListDeviceHealthQueryParam &
+export type DeviceManagementListHealthOfDevicesParameters = DeviceManagementListHealthOfDevicesQueryParam &
   RequestParameters;

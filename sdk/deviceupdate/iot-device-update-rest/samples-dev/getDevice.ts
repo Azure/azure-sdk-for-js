@@ -8,7 +8,7 @@
  * @azsdk-weight 40
  */
 
-import DeviceUpdate, { isUnexpected } from "@azure-rest/iot-device-update";
+import DeviceUpdate, { isUnexpected, paginate } from "@azure-rest/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -31,48 +31,60 @@ async function main() {
   const devicesResult = await client
     .path("/deviceUpdate/{instanceId}/management/devices", instanceId)
     .get();
+
   if (isUnexpected(devicesResult)) {
     throw devicesResult.body;
   }
-  devicesResult.body.value.forEach((device: any) => {
+
+  const devices = paginate(client, devicesResult);
+  for await (const device of devices) {
     console.log(device.deviceId);
-  });
+  }
 
   console.log("\nDevice groups:");
   const groupsResult = await client
     .path("/deviceUpdate/{instanceId}/management/groups", instanceId)
     .get();
+
   if (isUnexpected(groupsResult)) {
     throw groupsResult.body;
   }
-  groupsResult.body.value.forEach((group: any) => {
+
+  const groups = paginate(client, groupsResult);
+  for await (const group of groups) {
     console.log(group.groupId);
-  });
+  }
 
   console.log("\nDevice classes:");
   const deviceClassesResult = await client
     .path("/deviceUpdate/{instanceId}/management/deviceClasses", instanceId)
     .get();
+
   if (isUnexpected(deviceClassesResult)) {
     throw deviceClassesResult.body;
   }
-  deviceClassesResult.body.value.forEach((deviceClass: any) => {
+
+  const deviceClasses = paginate(client, deviceClassesResult);
+  for await (const deviceClass of deviceClasses) {
     console.log(deviceClass.deviceClassId);
-  });
+  }
 
   console.log("\nFor group '" + groupId + "', best updates are:");
   const bestUpdatesResult = await client
     .path("/deviceUpdate/{instanceId}/management/groups/{groupId}/bestUpdates", instanceId, groupId)
     .get();
+
   if (isUnexpected(bestUpdatesResult)) {
     throw bestUpdatesResult.body;
   }
-  bestUpdatesResult.body.value.forEach((bestUpdate: any) => {
+
+  const bestUpdates = paginate(client, bestUpdatesResult);
+  for await (const bestUpdate of bestUpdates) {
     console.log("  For device class '" + bestUpdate.deviceClassId + "':");
     console.log("    " + bestUpdate.update.updateId.provider);
     console.log("    " + bestUpdate.update.updateId.name);
     console.log("    " + bestUpdate.update.updateId.version);
-  });
+  }
 }
 
 main().catch(console.error);

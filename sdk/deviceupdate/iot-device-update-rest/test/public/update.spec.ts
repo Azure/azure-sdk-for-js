@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { DeviceUpdateClient } from "../../src";
+import { DeviceUpdateClient, isUnexpected } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { Recorder } from "@azure-tools/test-recorder";
@@ -28,7 +28,7 @@ describe("update test", () => {
     const response = await client
       .path("/deviceUpdate/{instanceId}/updates/providers", "sdkinstance")
       .get();
-    if (response.status !== "200") {
+    if (isUnexpected(response)) {
       assert.fail(
         `GET "/deviceUpdate/sdkInstance/updates/providers" failed with ${response.status}`
       );
@@ -43,7 +43,7 @@ describe("update test", () => {
         provider
       )
       .get();
-    if (response.status !== "200") {
+    if (isUnexpected(response)) {
       assert.fail(
         `GET "/deviceUpdate/sdkInstance/updates/providers/fabrikam/names" failed with ${response.status}`
       );
@@ -66,7 +66,7 @@ describe("update test", () => {
         name
       )
       .get();
-    if (response.status !== "200") {
+    if (isUnexpected(response)) {
       assert.fail(
         `GET "/deviceUpdate/sdkInstance/updates/providers/fabrikam/names/vacuum/versions" failed with ${response.status}`
       );
@@ -95,7 +95,7 @@ describe("update test", () => {
         version
       )
       .get();
-    if (response.status !== "200") {
+    if (isUnexpected(response)) {
       assert.fail(
         `GET "/deviceUpdate/sdkInstance/updates/providers/fabrikam/names/vacuum" failed with ${response.status}`
       );
@@ -125,7 +125,7 @@ describe("update test", () => {
         version
       )
       .get();
-    if (response.status !== "200") {
+    if (isUnexpected(response)) {
       assert.fail(
         `GET "/deviceUpdate/sdkInstance/updates/providers/fabrikam/names/vacuum/versions/1.2" failed with ${response.status}`
       );

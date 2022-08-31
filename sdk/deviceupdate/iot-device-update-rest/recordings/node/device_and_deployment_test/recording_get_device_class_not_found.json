@@ -9,22 +9,23 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-iot-device-update-rest/1.0.0-beta.3 core-rest-pipeline/1.9.2 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "ca7b3b22-1666-4b3a-8272-14de769fc671"
+        "x-ms-client-request-id": "0d10a27b-cca6-4043-a7cb-9132b2b568f6"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
+        "Cache-Control": "max-age=30, private",
         "Content-Length": "183",
         "Content-Type": "application/problem\u002Bjson; charset=utf-8",
-        "Date": "Wed, 24 Aug 2022 18:16:13 GMT",
-        "mise-correlation-id": "ab88e860-63b8-4268-b978-07c86a22becd",
-        "traceparent": "00-ba13cc1bddb48198b7b5dd4f8a815fe9-823af69c2da52f0c-00"
+        "Date": "Wed, 31 Aug 2022 22:14:27 GMT",
+        "mise-correlation-id": "12745a4c-06da-42f2-882e-ea694474ebe5",
+        "traceparent": "00-58a22eb8526671a719f0d9df7e8b2344-04e0a66c411f8781-00"
       },
       "ResponseBody": {
         "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
         "title": "Not Found",
         "status": 404,
-        "traceId": "00-ba13cc1bddb48198b7b5dd4f8a815fe9-4b2e2c1c36ca1d9f-00"
+        "traceId": "00-58a22eb8526671a719f0d9df7e8b2344-3ac111d29dc3006d-00"
       }
     }
   ],

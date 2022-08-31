@@ -73,12 +73,6 @@ export interface DeviceUpdateGetUpdate200Response extends HttpResponse {
 }
 
 /** Get a specific update version. */
-export interface DeviceUpdateGetUpdate304Response extends HttpResponse {
-  status: "304";
-  body: Record<string, unknown>;
-}
-
-/** Get a specific update version. */
 export interface DeviceUpdateGetUpdatedefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
@@ -157,49 +151,37 @@ export interface DeviceUpdateGetFile200Response extends HttpResponse {
 }
 
 /** Get a specific update file from the version. */
-export interface DeviceUpdateGetFile304Response extends HttpResponse {
-  status: "304";
-  body: Record<string, unknown>;
-}
-
-/** Get a specific update file from the version. */
 export interface DeviceUpdateGetFiledefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** Get a list of all import update operations. Completed operations are kept for 7 days before auto-deleted. Delete operations are not returned by this API version. */
-export interface DeviceUpdateListOperations200Response extends HttpResponse {
+export interface DeviceUpdateListOperationStatuses200Response extends HttpResponse {
   status: "200";
   body: UpdateOperationsListOutput;
 }
 
 /** Get a list of all import update operations. Completed operations are kept for 7 days before auto-deleted. Delete operations are not returned by this API version. */
-export interface DeviceUpdateListOperationsdefaultResponse extends HttpResponse {
+export interface DeviceUpdateListOperationStatusesdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
-export interface DeviceUpdateGetOperation200Headers {
+export interface DeviceUpdateGetOperationStatus200Headers {
   /** Number of seconds to wait before checking the operation status again. */
   "retry-after"?: string;
 }
 
 /** Retrieve operation status. */
-export interface DeviceUpdateGetOperation200Response extends HttpResponse {
+export interface DeviceUpdateGetOperationStatus200Response extends HttpResponse {
   status: "200";
   body: UpdateOperationOutput;
-  headers: RawHttpHeaders & DeviceUpdateGetOperation200Headers;
+  headers: RawHttpHeaders & DeviceUpdateGetOperationStatus200Headers;
 }
 
 /** Retrieve operation status. */
-export interface DeviceUpdateGetOperation304Response extends HttpResponse {
-  status: "304";
-  body: Record<string, unknown>;
-}
-
-/** Retrieve operation status. */
-export interface DeviceUpdateGetOperationdefaultResponse extends HttpResponse {
+export interface DeviceUpdateGetOperationStatusdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -611,38 +593,32 @@ export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymen
   body: ErrorResponseOutput;
 }
 
-export interface DeviceManagementGetOperation200Headers {
+export interface DeviceManagementGetOperationStatus200Headers {
   /** Number of seconds to wait before checking the operation status again. */
   "retry-after"?: string;
 }
 
 /** Retrieve operation status. */
-export interface DeviceManagementGetOperation200Response extends HttpResponse {
+export interface DeviceManagementGetOperationStatus200Response extends HttpResponse {
   status: "200";
   body: DeviceOperationOutput;
-  headers: RawHttpHeaders & DeviceManagementGetOperation200Headers;
+  headers: RawHttpHeaders & DeviceManagementGetOperationStatus200Headers;
 }
 
 /** Retrieve operation status. */
-export interface DeviceManagementGetOperation304Response extends HttpResponse {
-  status: "304";
-  body: Record<string, unknown>;
-}
-
-/** Retrieve operation status. */
-export interface DeviceManagementGetOperationdefaultResponse extends HttpResponse {
+export interface DeviceManagementGetOperationStatusdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** Get a list of all device import operations. Completed operations are kept for 7 days before auto-deleted. */
-export interface DeviceManagementListOperations200Response extends HttpResponse {
+export interface DeviceManagementListOperationStatuses200Response extends HttpResponse {
   status: "200";
   body: DeviceOperationsListOutput;
 }
 
 /** Get a list of all device import operations. Completed operations are kept for 7 days before auto-deleted. */
-export interface DeviceManagementListOperationsdefaultResponse extends HttpResponse {
+export interface DeviceManagementListOperationStatusesdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -697,13 +673,13 @@ export interface DeviceManagementGetLogCollectionDetailedStatusdefaultResponse
 }
 
 /** Get list of device health */
-export interface DeviceManagementListDeviceHealth200Response extends HttpResponse {
+export interface DeviceManagementListHealthOfDevices200Response extends HttpResponse {
   status: "200";
   body: DeviceHealthListOutput;
 }
 
 /** Get list of device health */
-export interface DeviceManagementListDeviceHealthdefaultResponse extends HttpResponse {
+export interface DeviceManagementListHealthOfDevicesdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }

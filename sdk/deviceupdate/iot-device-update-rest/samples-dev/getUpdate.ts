@@ -45,6 +45,16 @@ async function main() {
       version
     )
     .get();
+
+  if (isUnexpected(updateResult)) {
+    throw updateResult.body;
+  }
+
+  console.log("Update:");
+  console.log("  Provider: " + updateResult.body.updateId.provider);
+  console.log("  Name: " + updateResult.body.updateId.name);
+  console.log("  Version: " + updateResult.body.updateId.version);
+  console.log("Metadata:");
   console.log(updateResult.body);
 
   console.log("\nEnumerate update files:");
@@ -57,6 +67,7 @@ async function main() {
       version
     )
     .get();
+
   if (isUnexpected(filesResult)) {
     throw filesResult.body;
   }
@@ -76,6 +87,14 @@ async function main() {
         fileId
       )
       .get();
+
+    if (isUnexpected(fileResult)) {
+      throw fileResult.body;
+    }
+
+    console.log("File:");
+    console.log("  FileId: " + fileResult.body.fileId);
+    console.log("Metadata:");
     console.log(fileResult.body);
   });
 }

@@ -7,7 +7,6 @@ import {
   DeviceUpdateImportUpdate202Response,
   DeviceUpdateImportUpdatedefaultResponse,
   DeviceUpdateGetUpdate200Response,
-  DeviceUpdateGetUpdate304Response,
   DeviceUpdateGetUpdatedefaultResponse,
   DeviceUpdateDeleteUpdate202Response,
   DeviceUpdateDeleteUpdatedefaultResponse,
@@ -20,13 +19,11 @@ import {
   DeviceUpdateListFiles200Response,
   DeviceUpdateListFilesdefaultResponse,
   DeviceUpdateGetFile200Response,
-  DeviceUpdateGetFile304Response,
   DeviceUpdateGetFiledefaultResponse,
-  DeviceUpdateListOperations200Response,
-  DeviceUpdateListOperationsdefaultResponse,
-  DeviceUpdateGetOperation200Response,
-  DeviceUpdateGetOperation304Response,
-  DeviceUpdateGetOperationdefaultResponse,
+  DeviceUpdateListOperationStatuses200Response,
+  DeviceUpdateListOperationStatusesdefaultResponse,
+  DeviceUpdateGetOperationStatus200Response,
+  DeviceUpdateGetOperationStatusdefaultResponse,
   DeviceManagementListDeviceClasses200Response,
   DeviceManagementListDeviceClassesdefaultResponse,
   DeviceManagementGetDeviceClass200Response,
@@ -91,11 +88,10 @@ import {
   DeviceManagementGetDeviceClassSubgroupDeploymentStatusdefaultResponse,
   DeviceManagementListDeviceStatesForDeviceClassSubgroupDeployment200Response,
   DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse,
-  DeviceManagementGetOperation200Response,
-  DeviceManagementGetOperation304Response,
-  DeviceManagementGetOperationdefaultResponse,
-  DeviceManagementListOperations200Response,
-  DeviceManagementListOperationsdefaultResponse,
+  DeviceManagementGetOperationStatus200Response,
+  DeviceManagementGetOperationStatusdefaultResponse,
+  DeviceManagementListOperationStatuses200Response,
+  DeviceManagementListOperationStatusesdefaultResponse,
   DeviceManagementStartLogCollection201Response,
   DeviceManagementStartLogCollectiondefaultResponse,
   DeviceManagementGetLogCollection200Response,
@@ -104,8 +100,8 @@ import {
   DeviceManagementListLogCollectionsdefaultResponse,
   DeviceManagementGetLogCollectionDetailedStatus200Response,
   DeviceManagementGetLogCollectionDetailedStatusdefaultResponse,
-  DeviceManagementListDeviceHealth200Response,
-  DeviceManagementListDeviceHealthdefaultResponse,
+  DeviceManagementListHealthOfDevices200Response,
+  DeviceManagementListHealthOfDevicesdefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
@@ -114,7 +110,6 @@ const responseMap: Record<string, string[]> = {
   "GET /deviceUpdate/{instanceId}/updates:import": ["202"],
   "GET /deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}": [
     "200",
-    "304",
   ],
   "DELETE /deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}": [
     "202",
@@ -127,10 +122,9 @@ const responseMap: Record<string, string[]> = {
   ],
   "GET /deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files/{fileId}": [
     "200",
-    "304",
   ],
   "GET /deviceUpdate/{instanceId}/updates/operations": ["200"],
-  "GET /deviceUpdate/{instanceId}/updates/operations/{operationId}": ["200", "304"],
+  "GET /deviceUpdate/{instanceId}/updates/operations/{operationId}": ["200"],
   "GET /deviceUpdate/{instanceId}/management/deviceClasses": ["200"],
   "GET /deviceUpdate/{instanceId}/management/deviceClasses/{deviceClassId}": ["200"],
   "PATCH /deviceUpdate/{instanceId}/management/deviceClasses/{deviceClassId}": ["200"],
@@ -192,7 +186,7 @@ const responseMap: Record<string, string[]> = {
   "GET /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments/{deploymentId}/devicestates": [
     "200",
   ],
-  "GET /deviceUpdate/{instanceId}/management/operations/{operationId}": ["200", "304"],
+  "GET /deviceUpdate/{instanceId}/management/operations/{operationId}": ["200"],
   "GET /deviceUpdate/{instanceId}/management/operations": ["200"],
   "PUT /deviceUpdate/{instanceId}/management/deviceDiagnostics/logCollections/{operationId}": [
     "201",
@@ -214,10 +208,7 @@ export function isUnexpected(
   response: DeviceUpdateImportUpdate202Response | DeviceUpdateImportUpdatedefaultResponse
 ): response is DeviceUpdateImportUpdatedefaultResponse;
 export function isUnexpected(
-  response:
-    | DeviceUpdateGetUpdate200Response
-    | DeviceUpdateGetUpdate304Response
-    | DeviceUpdateGetUpdatedefaultResponse
+  response: DeviceUpdateGetUpdate200Response | DeviceUpdateGetUpdatedefaultResponse
 ): response is DeviceUpdateGetUpdatedefaultResponse;
 export function isUnexpected(
   response: DeviceUpdateDeleteUpdate202Response | DeviceUpdateDeleteUpdatedefaultResponse
@@ -235,20 +226,18 @@ export function isUnexpected(
   response: DeviceUpdateListFiles200Response | DeviceUpdateListFilesdefaultResponse
 ): response is DeviceUpdateListFilesdefaultResponse;
 export function isUnexpected(
-  response:
-    | DeviceUpdateGetFile200Response
-    | DeviceUpdateGetFile304Response
-    | DeviceUpdateGetFiledefaultResponse
+  response: DeviceUpdateGetFile200Response | DeviceUpdateGetFiledefaultResponse
 ): response is DeviceUpdateGetFiledefaultResponse;
 export function isUnexpected(
-  response: DeviceUpdateListOperations200Response | DeviceUpdateListOperationsdefaultResponse
-): response is DeviceUpdateListOperationsdefaultResponse;
+  response:
+    | DeviceUpdateListOperationStatuses200Response
+    | DeviceUpdateListOperationStatusesdefaultResponse
+): response is DeviceUpdateListOperationStatusesdefaultResponse;
 export function isUnexpected(
   response:
-    | DeviceUpdateGetOperation200Response
-    | DeviceUpdateGetOperation304Response
-    | DeviceUpdateGetOperationdefaultResponse
-): response is DeviceUpdateGetOperationdefaultResponse;
+    | DeviceUpdateGetOperationStatus200Response
+    | DeviceUpdateGetOperationStatusdefaultResponse
+): response is DeviceUpdateGetOperationStatusdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementListDeviceClasses200Response
@@ -397,15 +386,14 @@ export function isUnexpected(
 ): response is DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse;
 export function isUnexpected(
   response:
-    | DeviceManagementGetOperation200Response
-    | DeviceManagementGetOperation304Response
-    | DeviceManagementGetOperationdefaultResponse
-): response is DeviceManagementGetOperationdefaultResponse;
+    | DeviceManagementGetOperationStatus200Response
+    | DeviceManagementGetOperationStatusdefaultResponse
+): response is DeviceManagementGetOperationStatusdefaultResponse;
 export function isUnexpected(
   response:
-    | DeviceManagementListOperations200Response
-    | DeviceManagementListOperationsdefaultResponse
-): response is DeviceManagementListOperationsdefaultResponse;
+    | DeviceManagementListOperationStatuses200Response
+    | DeviceManagementListOperationStatusesdefaultResponse
+): response is DeviceManagementListOperationStatusesdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementStartLogCollection201Response
@@ -428,9 +416,9 @@ export function isUnexpected(
 ): response is DeviceManagementGetLogCollectionDetailedStatusdefaultResponse;
 export function isUnexpected(
   response:
-    | DeviceManagementListDeviceHealth200Response
-    | DeviceManagementListDeviceHealthdefaultResponse
-): response is DeviceManagementListDeviceHealthdefaultResponse;
+    | DeviceManagementListHealthOfDevices200Response
+    | DeviceManagementListHealthOfDevicesdefaultResponse
+): response is DeviceManagementListHealthOfDevicesdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceUpdateListUpdates200Response
@@ -438,7 +426,6 @@ export function isUnexpected(
     | DeviceUpdateImportUpdate202Response
     | DeviceUpdateImportUpdatedefaultResponse
     | DeviceUpdateGetUpdate200Response
-    | DeviceUpdateGetUpdate304Response
     | DeviceUpdateGetUpdatedefaultResponse
     | DeviceUpdateDeleteUpdate202Response
     | DeviceUpdateDeleteUpdatedefaultResponse
@@ -451,13 +438,11 @@ export function isUnexpected(
     | DeviceUpdateListFiles200Response
     | DeviceUpdateListFilesdefaultResponse
     | DeviceUpdateGetFile200Response
-    | DeviceUpdateGetFile304Response
     | DeviceUpdateGetFiledefaultResponse
-    | DeviceUpdateListOperations200Response
-    | DeviceUpdateListOperationsdefaultResponse
-    | DeviceUpdateGetOperation200Response
-    | DeviceUpdateGetOperation304Response
-    | DeviceUpdateGetOperationdefaultResponse
+    | DeviceUpdateListOperationStatuses200Response
+    | DeviceUpdateListOperationStatusesdefaultResponse
+    | DeviceUpdateGetOperationStatus200Response
+    | DeviceUpdateGetOperationStatusdefaultResponse
     | DeviceManagementListDeviceClasses200Response
     | DeviceManagementListDeviceClassesdefaultResponse
     | DeviceManagementGetDeviceClass200Response
@@ -522,11 +507,10 @@ export function isUnexpected(
     | DeviceManagementGetDeviceClassSubgroupDeploymentStatusdefaultResponse
     | DeviceManagementListDeviceStatesForDeviceClassSubgroupDeployment200Response
     | DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse
-    | DeviceManagementGetOperation200Response
-    | DeviceManagementGetOperation304Response
-    | DeviceManagementGetOperationdefaultResponse
-    | DeviceManagementListOperations200Response
-    | DeviceManagementListOperationsdefaultResponse
+    | DeviceManagementGetOperationStatus200Response
+    | DeviceManagementGetOperationStatusdefaultResponse
+    | DeviceManagementListOperationStatuses200Response
+    | DeviceManagementListOperationStatusesdefaultResponse
     | DeviceManagementStartLogCollection201Response
     | DeviceManagementStartLogCollectiondefaultResponse
     | DeviceManagementGetLogCollection200Response
@@ -535,8 +519,8 @@ export function isUnexpected(
     | DeviceManagementListLogCollectionsdefaultResponse
     | DeviceManagementGetLogCollectionDetailedStatus200Response
     | DeviceManagementGetLogCollectionDetailedStatusdefaultResponse
-    | DeviceManagementListDeviceHealth200Response
-    | DeviceManagementListDeviceHealthdefaultResponse
+    | DeviceManagementListHealthOfDevices200Response
+    | DeviceManagementListHealthOfDevicesdefaultResponse
 ): response is
   | DeviceUpdateListUpdatesdefaultResponse
   | DeviceUpdateImportUpdatedefaultResponse
@@ -547,8 +531,8 @@ export function isUnexpected(
   | DeviceUpdateListVersionsdefaultResponse
   | DeviceUpdateListFilesdefaultResponse
   | DeviceUpdateGetFiledefaultResponse
-  | DeviceUpdateListOperationsdefaultResponse
-  | DeviceUpdateGetOperationdefaultResponse
+  | DeviceUpdateListOperationStatusesdefaultResponse
+  | DeviceUpdateGetOperationStatusdefaultResponse
   | DeviceManagementListDeviceClassesdefaultResponse
   | DeviceManagementGetDeviceClassdefaultResponse
   | DeviceManagementUpdateDeviceClassdefaultResponse
@@ -581,13 +565,13 @@ export function isUnexpected(
   | DeviceManagementRetryDeploymentdefaultResponse
   | DeviceManagementGetDeviceClassSubgroupDeploymentStatusdefaultResponse
   | DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse
-  | DeviceManagementGetOperationdefaultResponse
-  | DeviceManagementListOperationsdefaultResponse
+  | DeviceManagementGetOperationStatusdefaultResponse
+  | DeviceManagementListOperationStatusesdefaultResponse
   | DeviceManagementStartLogCollectiondefaultResponse
   | DeviceManagementGetLogCollectiondefaultResponse
   | DeviceManagementListLogCollectionsdefaultResponse
   | DeviceManagementGetLogCollectionDetailedStatusdefaultResponse
-  | DeviceManagementListDeviceHealthdefaultResponse {
+  | DeviceManagementListHealthOfDevicesdefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

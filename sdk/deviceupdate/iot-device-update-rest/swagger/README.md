@@ -12,7 +12,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/d01a6a71b73e6b3cac477eae7e78454c3f6d4340/specification/deviceupdate/data-plane/Microsoft.DeviceUpdate/stable/2022-10-01/deviceupdate.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/7c840caa77ac200f43636930d82fc31cf117241e/specification/deviceupdate/data-plane/Microsoft.DeviceUpdate/stable/2022-10-01/deviceupdate.json
 package-version: 1.0.0-beta.3
 rest-level-client: true
 add-credentials: true
