@@ -35,4 +35,4 @@ resource baseName_resource 'Microsoft.ConfidentialLedger/ledgers@2020-12-01-prev
 
 output LEDGER_NAME string = baseName
 output LEDGERURI string = ledgerUri
-output IDENTITY_SERVICE_URL string = 'https://identity.confidential-ledger.core.azure.com/ledgerIdentity/${baseName}'
+output IDENTITY_SERVICE_URL string = 'https://identity.confidential-ledger.core.azure.com'
