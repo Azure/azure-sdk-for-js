@@ -6,10 +6,6 @@ stages:
       PackageName: "@azure/confidential-ledger"
       ServiceDirectory: confidentialledger
       EnvVars:
-        LEDGERURI: https://$(LEDGER_NAME).confidential-ledger.azure.com
-        LEDGER_IDENTITY: $(LEDGER_NAME)
-        IDENTITY_SERVICE_URL: https://identity.confidential-ledger.core.azure.com/ledgerIdentity/$(LEDGER_NAME)
         AZURE_CLIENT_ID: $(CONFIDENTIALLEDGER_CLIENT_ID)
         AZURE_TENANT_ID: $(CONFIDENTIALLEDGER_TENANT_ID)
         AZURE_CLIENT_SECRET: $(CONFIDENTIALLEDGER_CLIENT_SECRET)
-        LEDGER_NAME: $(LEDGER_NAME)
