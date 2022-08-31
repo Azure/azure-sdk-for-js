@@ -72,9 +72,9 @@
       "type": "string",
       "value": "[resources[0]('ledgerUri')]"
     },
-    "USER_AAD": {
+    "IDENTITY_SERVICE_URL": {
       "type": "string",
-      "value": "[parameters('principalId')]"
+      "value": "[concat('https://identity.confidential-ledger.core.azure.com/ledgerIdentity/', parameters('ledgerName'))]"
     }
   }
 }
