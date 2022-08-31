@@ -13,14 +13,14 @@ import { Test } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const envSetupForPlayback: { [k: string]: string } = {
-  LANGUAGE_API_KEY: "",
+  LANGUAGE_API_KEY: "sanitized",
   // Second API key
-  LANGUAGE_API_KEY_ALT: "",
-  ENDPOINT: "",
-  LANGUAGE_CLU_PROJECT_NAME: "",
-  LANGUAGE_CLU_DEPLOYMENT_NAME: "",
-  LANGUAGE_ORCHESTRATION_PROJECT_NAME: "",
-  LANGUAGE_ORCHESTRATION_DEPLOYMENT_NAME: ""
+  LANGUAGE_API_KEY_ALT: "sanitized",
+  ENDPOINT: "https://endpoint",
+  LANGUAGE_CLU_PROJECT_NAME: "<project-name>",
+  LANGUAGE_CLU_DEPLOYMENT_NAME: "<deployment-name>",
+  LANGUAGE_ORCHESTRATION_PROJECT_NAME: "<project-name>",
+  LANGUAGE_ORCHESTRATION_DEPLOYMENT_NAME: "<deployment-name>"
 };
 
 const recorderStartOptions: RecorderStartOptions = {

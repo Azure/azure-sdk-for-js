@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "/language/analyze-conversations/jobs?api-version=2022-05-15-preview",
+      "RequestUri": "https://endpoint/language/analyze-conversations/jobs?api-version=2022-05-15-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,9 +9,9 @@
         "Connection": "keep-alive",
         "Content-Length": "885",
         "Content-Type": "application/json",
-        "Ocp-Apim-Subscription-Key": "",
-        "User-Agent": "azsdk-js-ai-language-conversations/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "bff053a3-719b-44cb-9375-4131e2bf220b"
+        "Ocp-Apim-Subscription-Key": "sanitized",
+        "User-Agent": "azsdk-js-ai-language-conversations/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "6252eae7-6d74-463e-b27f-7c953b277bc2"
       },
       "RequestBody": {
         "displayName": "Analyze PII in conversation",
@@ -67,10 +67,10 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "2a142874-909a-4da3-b66b-30a0df17c94e",
+        "apim-request-id": "539c3a2e-a27c-4044-8cc6-6006a6c6ec83",
         "Content-Length": "0",
-        "Date": "Wed, 03 Aug 2022 08:55:55 GMT",
-        "operation-location": "/language/analyze-conversations/jobs/c4788dcf-6174-4a92-b5e4-11d00d18fb2d?api-version=2022-05-15-preview",
+        "Date": "Wed, 31 Aug 2022 20:55:10 GMT",
+        "operation-location": "https://endpoint/language/analyze-conversations/jobs/e69e8c10-d8de-48ea-85f4-4b8edfc071c1?api-version=2022-05-15-preview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
         "x-envoy-upstream-service-time": "189"
@@ -78,33 +78,73 @@
       "ResponseBody": null
     },
     {
-      "RequestUri": "/language/analyze-conversations/jobs/c4788dcf-6174-4a92-b5e4-11d00d18fb2d?api-version=2022-05-15-preview",
+      "RequestUri": "https://endpoint/language/analyze-conversations/jobs/e69e8c10-d8de-48ea-85f4-4b8edfc071c1?api-version=2022-05-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "Ocp-Apim-Subscription-Key": "",
-        "User-Agent": "azsdk-js-ai-language-conversations/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "6c961d6a-f88b-4973-9fea-bc0c62397b66"
+        "Ocp-Apim-Subscription-Key": "sanitized",
+        "User-Agent": "azsdk-js-ai-language-conversations/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "eb943c91-1793-4c34-9a9d-f43cd64c6c3b"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "7c3d1263-69f1-4027-b30f-48fa122b199b",
-        "Content-Length": "324",
+        "apim-request-id": "fb515a57-dac2-4b77-bfa6-591abdd92ed7",
+        "Content-Length": "327",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 03 Aug 2022 08:55:55 GMT",
+        "Date": "Wed, 31 Aug 2022 20:55:10 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "9"
+        "x-envoy-upstream-service-time": "8"
       },
       "ResponseBody": {
-        "jobId": "c4788dcf-6174-4a92-b5e4-11d00d18fb2d",
-        "lastUpdatedDateTime": "2022-08-03T08:55:55Z",
-        "createdDateTime": "2022-08-03T08:55:55Z",
-        "expirationDateTime": "2022-08-04T08:55:55Z",
+        "jobId": "e69e8c10-d8de-48ea-85f4-4b8edfc071c1",
+        "lastUpdatedDateTime": "2022-08-31T20:55:11Z",
+        "createdDateTime": "2022-08-31T20:55:10Z",
+        "expirationDateTime": "2022-09-01T20:55:10Z",
+        "status": "notStarted",
+        "errors": [],
+        "displayName": "Analyze PII in conversation",
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-conversations/jobs/e69e8c10-d8de-48ea-85f4-4b8edfc071c1?api-version=2022-05-15-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "sanitized",
+        "User-Agent": "azsdk-js-ai-language-conversations/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "635d00c4-48c0-4594-bde2-3b879e6a9f52"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "44fa6240-8a61-422e-a457-4a59a9c0096e",
+        "Content-Length": "324",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 31 Aug 2022 20:55:10 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "7"
+      },
+      "ResponseBody": {
+        "jobId": "e69e8c10-d8de-48ea-85f4-4b8edfc071c1",
+        "lastUpdatedDateTime": "2022-08-31T20:55:11Z",
+        "createdDateTime": "2022-08-31T20:55:10Z",
+        "expirationDateTime": "2022-09-01T20:55:10Z",
         "status": "running",
         "errors": [],
         "displayName": "Analyze PII in conversation",
@@ -118,33 +158,33 @@
       }
     },
     {
-      "RequestUri": "/language/analyze-conversations/jobs/c4788dcf-6174-4a92-b5e4-11d00d18fb2d?api-version=2022-05-15-preview",
+      "RequestUri": "https://endpoint/language/analyze-conversations/jobs/e69e8c10-d8de-48ea-85f4-4b8edfc071c1?api-version=2022-05-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "Ocp-Apim-Subscription-Key": "",
-        "User-Agent": "azsdk-js-ai-language-conversations/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "5b26a516-464b-4e82-a05b-5e048444f508"
+        "Ocp-Apim-Subscription-Key": "sanitized",
+        "User-Agent": "azsdk-js-ai-language-conversations/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "aaf3de80-baf3-488e-981b-87a2be42ff63"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "efb215fc-187e-43a0-9a2a-0b106516aac6",
+        "apim-request-id": "a153390f-2e38-41ea-996f-ff8e2418310c",
         "Content-Length": "1528",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 03 Aug 2022 08:55:55 GMT",
+        "Date": "Wed, 31 Aug 2022 20:55:13 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "81"
+        "x-envoy-upstream-service-time": "19"
       },
       "ResponseBody": {
-        "jobId": "c4788dcf-6174-4a92-b5e4-11d00d18fb2d",
-        "lastUpdatedDateTime": "2022-08-03T08:55:55Z",
-        "createdDateTime": "2022-08-03T08:55:55Z",
-        "expirationDateTime": "2022-08-04T08:55:55Z",
+        "jobId": "e69e8c10-d8de-48ea-85f4-4b8edfc071c1",
+        "lastUpdatedDateTime": "2022-08-31T20:55:11Z",
+        "createdDateTime": "2022-08-31T20:55:10Z",
+        "expirationDateTime": "2022-09-01T20:55:10Z",
         "status": "succeeded",
         "errors": [],
         "displayName": "Analyze PII in conversation",
@@ -156,7 +196,7 @@
           "items": [
             {
               "kind": "conversationalPIIResults",
-              "lastUpdateDateTime": "2022-08-03T08:55:55.9750653Z",
+              "lastUpdateDateTime": "2022-08-31T20:55:11.5039747Z",
               "status": "succeeded",
               "results": {
                 "conversations": [

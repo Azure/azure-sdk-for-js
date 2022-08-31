@@ -1,17 +1,17 @@
 {
   "Entries": [
     {
-      "RequestUri": "/language/:analyze-conversations?api-version=2022-05-15-preview",
+      "RequestUri": "https://endpoint/language/:analyze-conversations?api-version=2022-05-15-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "Content-Length": "275",
+        "Content-Length": "306",
         "Content-Type": "application/json",
-        "Ocp-Apim-Subscription-Key": "",
-        "User-Agent": "azsdk-js-ai-language-conversations/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "3ee74fa3-db81-4756-8f2b-8a3a2ed135ad"
+        "Ocp-Apim-Subscription-Key": "sanitized",
+        "User-Agent": "azsdk-js-ai-language-conversations/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "4104f0e9-b4f1-4cfb-b579-2ae33eb2c5f2"
       },
       "RequestBody": {
         "kind": "Conversation",
@@ -25,25 +25,25 @@
           }
         },
         "parameters": {
-          "projectName": "",
-          "deploymentName": "",
+          "projectName": "\u003Cproject-name\u003E",
+          "deploymentName": "\u003Cdeployment-name\u003E",
           "verbose": true,
           "isLoggingEnabled": false
         }
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "b38e7261-7ac2-4fbd-a1a9-9f7663fbd731",
+        "apim-request-id": "a67f9643-93df-4910-90c5-c2ee41d593d7",
         "Cache-Control": "no-store, proxy-revalidate, no-cache, max-age=0, private",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.Language.ConversationalLanguageUnderstanding.Prediction=1",
-        "Date": "Wed, 03 Aug 2022 08:55:46 GMT",
+        "Date": "Wed, 31 Aug 2022 20:55:02 GMT",
         "Pragma": "no-cache",
-        "request-id": "b38e7261-7ac2-4fbd-a1a9-9f7663fbd731",
+        "request-id": "a67f9643-93df-4910-90c5-c2ee41d593d7",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "247"
+        "x-envoy-upstream-service-time": "216"
       },
       "ResponseBody": {
         "kind": "ConversationResult",
@@ -114,8 +114,8 @@
                   {
                     "resolutionKind": "DateTimeResolution",
                     "dateTimeSubKind": "Date",
-                    "timex": "2022-08-04",
-                    "value": "2022-08-04"
+                    "timex": "2022-09-01",
+                    "value": "2022-09-01"
                   }
                 ],
                 "extraInformation": [
