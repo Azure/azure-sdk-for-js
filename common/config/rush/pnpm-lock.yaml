@@ -11202,7 +11202,7 @@ packages:
     dev: false
 
   file:projects/arm-containerinstance.tgz:
-    resolution: {integrity: sha512-ay+mC9Jr0E2P2GJ2//mWJCC+b/QgOMwb0BeY/s5IpbGPDZRfC1jfaM/1uXVM4GesLdUEjn/zYZD8+jnmRCuuPw==, tarball: file:projects/arm-containerinstance.tgz}
+    resolution: {integrity: sha512-amF4MBdcRmOdGpVhUhYh7/Sq7z92DIcDj7RVNDrmzTge1AqR/cPxUXEAv//v5K0j4e2sXXRQcvGDVAr3JNno7g==, tarball: file:projects/arm-containerinstance.tgz}
     name: '@rush-temp/arm-containerinstance'
     version: 0.0.0
     dependencies:
@@ -11222,7 +11222,7 @@ packages:
       rollup: 2.77.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
@@ -15662,7 +15662,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-6nVlMIXXq0CBBajQnG9kRKg9IxNYV+SHBj+ArnKNWTxe6N4nZANarQKsc/MVBNnmXP61vFi1kZAzf76Z1yodKg==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-Z0gKv5fmUgPoBAfOOr0OoTC417yOWNldOoxw7JS13pa7U9djFNlq74YD93rqJRd1ZFPIoULtrRjxSSIQFyKfUw==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
@@ -17746,7 +17746,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-l6uIJgKu3ZlOYHGibs0MyCu/6buu1Gn18k4GZrM5VxRvLsgrYrPtpIuje4OhOavTcUJHZUr9z0js9aj62LRrhQ==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-uYNA85j+CoCAPZJhr5o9NUFu9PqxGRyhx8sSitM/AO7/sTiopKyXPG6Gj8brwzpF8uRvGt5voMMRqxDTO6FgeA==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
