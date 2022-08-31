@@ -10,7 +10,7 @@ import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-a
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { logger } from "./utils";
 import { SipRoutingClient as SipRoutingGeneratedClient } from "./generated/src/siprouting/sipRoutingClient";
-import { CommunicationError, SipConfigurationPatch } from "./generated/src/siprouting/models";
+import { SipConfigurationPatch, SipRoutingError } from "./generated/src/siprouting/models";
 import { SipTrunk, SipTrunkRoute } from "./models";
 import { mapTrunks, mapTrunksToRestModel } from "./mappers";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
@@ -126,7 +126,7 @@ export class SipRoutingClient {
         return Promise.resolve(trunk);
       }
 
-      throw { code: "NotFound", message: "Not Found" } as CommunicationError;
+      throw { code: "NotFound", message: "Not Found" } as SipRoutingError;
     });
   }
 
@@ -198,7 +198,7 @@ export class SipRoutingClient {
         return Promise.resolve(storedTrunk);
       }
 
-      throw { code: "NotFound", message: "Not Found" } as CommunicationError;
+      throw { code: "NotFound", message: "Not Found" } as SipRoutingError;
     });
   }
 

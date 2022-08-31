@@ -49,11 +49,11 @@ export interface SipTrunkRoute {
 /** The Communication Services error. */
 export interface CommunicationErrorResponse {
   /** The Communication Services error. */
-  error: CommunicationError;
+  error: SipRoutingError;
 }
 
 /** The Communication Services error. */
-export interface CommunicationError {
+export interface SipRoutingError {
   /** The error code. */
   code: string;
   /** The error message. */
@@ -67,12 +67,12 @@ export interface CommunicationError {
    * Further details about specific errors that led to this error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly details?: CommunicationError[];
+  readonly details?: SipRoutingError[];
   /**
    * The inner error if any.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly innerError?: CommunicationError;
+  readonly innerError?: SipRoutingError;
 }
 
 /** Represents a SIP configuration patch. */

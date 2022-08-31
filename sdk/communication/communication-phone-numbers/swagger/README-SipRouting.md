@@ -44,6 +44,15 @@ directive:
     transform: >
       $["x-ms-client-name"] = "SipTrunkRoute";
 ```
+### Directive renaming "CommunicationError" model to "SipRoutingError"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: "$.definitions.CommunicationError"
+    transform: >
+      $["x-ms-client-name"] = "SipRoutingError";
+```
 
 ### Directive changing "TrunkPatch" as nullable
 

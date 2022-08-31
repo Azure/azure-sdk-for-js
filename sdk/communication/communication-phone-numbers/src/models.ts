@@ -48,7 +48,7 @@ export {
   PhoneNumberSource,
 } from "./generated/src/models/";
 
-export { SipTrunkRoute, CommunicationError } from "./generated/src/siprouting/models";
+export { SipRoutingError, SipTrunkRoute } from "./generated/src/siprouting/models";
 
 /**
  * Represents a SIP trunk for routing calls. See RFC 4904.

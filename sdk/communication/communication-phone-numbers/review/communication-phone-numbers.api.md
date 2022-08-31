@@ -31,15 +31,6 @@ export interface BeginUpdatePhoneNumberCapabilitiesOptions extends OperationOpti
 }
 
 // @public
-export interface CommunicationError {
-    code: string;
-    readonly details?: CommunicationError[];
-    readonly innerError?: CommunicationError;
-    message: string;
-    readonly target?: string;
-}
-
-// @public
 export type GetPurchasedPhoneNumberOptions = OperationOptions;
 
 // @public
@@ -158,6 +149,15 @@ export class SipRoutingClient {
 
 // @public
 export interface SipRoutingClientOptions extends CommonClientOptions {
+}
+
+// @public
+export interface SipRoutingError {
+    code: string;
+    readonly details?: SipRoutingError[];
+    readonly innerError?: SipRoutingError;
+    message: string;
+    readonly target?: string;
 }
 
 // @public

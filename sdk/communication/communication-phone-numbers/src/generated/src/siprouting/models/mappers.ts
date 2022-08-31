@@ -110,17 +110,17 @@ export const CommunicationErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "CommunicationError"
+          className: "SipRoutingError"
         }
       }
     }
   }
 };
 
-export const CommunicationError: coreClient.CompositeMapper = {
+export const SipRoutingError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CommunicationError",
+    className: "SipRoutingError",
     modelProperties: {
       code: {
         serializedName: "code",
@@ -151,7 +151,7 @@ export const CommunicationError: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CommunicationError"
+              className: "SipRoutingError"
             }
           }
         }
@@ -160,7 +160,7 @@ export const CommunicationError: coreClient.CompositeMapper = {
         serializedName: "innererror",
         type: {
           name: "Composite",
-          className: "CommunicationError"
+          className: "SipRoutingError"
         }
       }
     }
