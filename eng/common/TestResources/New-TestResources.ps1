@@ -2,7 +2,7 @@
 
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
-git 
+
 #Requires -Version 6.0
 #Requires -PSEdition Core
 #Requires -Modules @{ModuleName='Az.Accounts'; ModuleVersion='1.6.4'}
