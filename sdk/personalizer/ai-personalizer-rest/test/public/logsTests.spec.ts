@@ -26,8 +26,10 @@ describe("Log Tests", () => {
   it("delete log tests", async function () {
     await deleteLogsAsync(client);
     const logProperties = await getLogPropertiesAsync(client);
-    assert.isUndefined(logProperties.dateRange.from);
-    assert.isUndefined(logProperties.dateRange.to);
+    if (logProperties.dateRange != null) {
+      assert.isUndefined(logProperties.dateRange.from);
+      assert.isUndefined(logProperties.dateRange.to);
+    }
   });
 });
 

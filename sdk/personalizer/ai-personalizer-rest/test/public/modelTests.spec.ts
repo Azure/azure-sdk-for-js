@@ -42,8 +42,7 @@ async function exportModelAsync(
   client: PersonalizerClient,
   signed: boolean = false
 ): Promise<Uint8Array> {
-  const queryParameters: Record<string, unknown> = { signed: signed };
-  const response = await client.path("/model").get(queryParameters);
+  const response = await client.path("/model").get({ queryParameters: { "signed": signed } });
   if (isUnexpected(response)) {
     throw response.body.error.code;
   }
