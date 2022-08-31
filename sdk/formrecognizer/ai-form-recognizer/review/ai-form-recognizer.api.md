@@ -71,11 +71,11 @@ export type AnalyzeResultOperationStatus = "notStarted" | "running" | "failed" |
 export { AzureKeyCredential }
 
 // @public
-export interface BeginBuildModelOptions extends CreateModelOptions {
+export interface BeginBuildDocumentModelOptions extends CreateDocumentModelOptions {
 }
 
 // @public
-export interface BeginComposeModelOptions extends CreateModelOptions {
+export interface BeginComposeDocumentModelOptions extends CreateDocumentModelOptions {
 }
 
 // @public
@@ -104,11 +104,11 @@ export interface CopyAuthorization {
 }
 
 // @public
-export function createModelFromSchema(schema: Omit<DocumentModelDetails, "createdDateTime">): DocumentModel<AnalyzeResult<unknown>>;
+export interface CreateDocumentModelOptions extends OperationOptions, CommonModelCreationOptions, PollerOptions<DocumentModelOperationState> {
+}
 
 // @public
-export interface CreateModelOptions extends OperationOptions, CommonModelCreationOptions, PollerOptions<DocumentModelOperationState> {
-}
+export function createModelFromSchema(schema: Omit<DocumentModelDetails, "createdDateTime">): DocumentModel<AnalyzeResult<unknown>>;
 
 // @public
 export interface CurrencyValue {
@@ -123,7 +123,7 @@ export interface CustomDocumentModelsDetails {
 }
 
 // @public
-export interface DeleteModelOptions extends OperationOptions {
+export interface DeleteDocumentModelOptions extends OperationOptions {
 }
 
 // @public
@@ -267,10 +267,10 @@ export class DocumentModelAdministrationClient {
     constructor(endpoint: string, credential: TokenCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: DocumentModelAdministrationClientOptions);
-    beginBuildModel(modelId: string, containerUrl: string, buildMode: DocumentModelBuildMode, options?: BeginBuildModelOptions): Promise<DocumentModelPoller>;
-    beginComposeModel(modelId: string, componentModelIds: Iterable<string>, options?: BeginComposeModelOptions): Promise<DocumentModelPoller>;
+    beginBuildDocumentModel(modelId: string, containerUrl: string, buildMode: DocumentModelBuildMode, options?: BeginBuildDocumentModelOptions): Promise<DocumentModelPoller>;
+    beginComposeDocumentModel(modelId: string, componentModelIds: Iterable<string>, options?: BeginComposeDocumentModelOptions): Promise<DocumentModelPoller>;
     beginCopyModelTo(sourceModelId: string, authorization: CopyAuthorization, options?: BeginCopyModelOptions): Promise<DocumentModelPoller>;
-    deleteModel(modelId: string, options?: DeleteModelOptions): Promise<void>;
+    deleteDocumentModel(modelId: string, options?: DeleteDocumentModelOptions): Promise<void>;
     getCopyAuthorization(destinationModelId: string, options?: GetCopyAuthorizationOptions): Promise<CopyAuthorization>;
     getDocumentModel(modelId: string, options?: GetModelOptions): Promise<DocumentModelDetails>;
     getOperation(operationId: string, options?: GetOperationOptions): Promise<OperationDetails>;

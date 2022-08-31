@@ -34,7 +34,7 @@ async function main() {
 
   const client = new DocumentModelAdministrationClient(endpoint, credential);
 
-  const poller = await client.beginBuildModel(
+  const poller = await client.beginBuildDocumentModel(
     modelId,
     trainingDataSasUrl,
     DocumentModelBuildMode.Template
