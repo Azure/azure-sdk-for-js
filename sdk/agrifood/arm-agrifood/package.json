@@ -2,7 +2,7 @@
   "name": "@azure/arm-agrifood",
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
-  "description": "A generated SDK for AzureAgFoodPlatformRPService.",
+  "description": "A generated SDK for AgriFoodMgmtClient.",
   "version": "1.0.0-beta.1",
   "engines": {
     "node": ">=12.0.0"
@@ -104,7 +104,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/azureAgFoodPlatformRPService.ts",
+        "path": "src/agriFoodMgmtClient.ts",
         "prefix": "packageDetails"
       }
     ]

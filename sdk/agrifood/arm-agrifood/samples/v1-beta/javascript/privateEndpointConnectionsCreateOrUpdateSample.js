@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { AzureAgFoodPlatformRPService } = require("@azure/arm-agrifood");
+const { AgriFoodMgmtClient } = require("@azure/arm-agrifood");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -29,7 +29,7 @@ async function privateEndpointConnectionsCreateOrUpdate() {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureAgFoodPlatformRPService(credential, subscriptionId);
+  const client = new AgriFoodMgmtClient(credential, subscriptionId);
   const result = await client.privateEndpointConnections.createOrUpdate(
     resourceGroupName,
     farmBeatsResourceName,

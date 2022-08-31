@@ -932,7 +932,7 @@ export interface PrivateLinkResourcesGetOptionalParams
 export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
 
 /** Optional parameters. */
-export interface AzureAgFoodPlatformRPServiceOptionalParams
+export interface AgriFoodMgmtClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;

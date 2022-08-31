@@ -8,5 +8,5 @@
 
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
-export { AzureAgFoodPlatformRPService } from "./azureAgFoodPlatformRPService";
+export { AgriFoodMgmtClient } from "./agriFoodMgmtClient";
 export * from "./operationsInterfaces";

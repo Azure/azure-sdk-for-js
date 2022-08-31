@@ -13,16 +13,11 @@ import { PollOperationState } from '@azure/core-lro';
 // @public
 export type ActionType = string;
 
-// @public
-export interface ArmAsyncOperation {
-    status?: string;
-}
-
 // @public (undocumented)
-export class AzureAgFoodPlatformRPService extends coreClient.ServiceClient {
+export class AgriFoodMgmtClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureAgFoodPlatformRPServiceOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AgriFoodMgmtClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -44,10 +39,15 @@ export class AzureAgFoodPlatformRPService extends coreClient.ServiceClient {
 }
 
 // @public
-export interface AzureAgFoodPlatformRPServiceOptionalParams extends coreClient.ServiceClientOptions {
+export interface AgriFoodMgmtClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
+}
+
+// @public
+export interface ArmAsyncOperation {
+    status?: string;
 }
 
 // @public

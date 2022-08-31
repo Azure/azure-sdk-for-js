@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { AzureAgFoodPlatformRPService } = require("@azure/arm-agrifood");
+const { AgriFoodMgmtClient } = require("@azure/arm-agrifood");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -22,7 +22,7 @@ async function farmBeatsModelsDelete() {
   const resourceGroupName = "examples-rg";
   const farmBeatsResourceName = "examples-farmBeatsResourceName";
   const credential = new DefaultAzureCredential();
-  const client = new AzureAgFoodPlatformRPService(credential, subscriptionId);
+  const client = new AgriFoodMgmtClient(credential, subscriptionId);
   const result = await client.farmBeatsModels.delete(resourceGroupName, farmBeatsResourceName);
   console.log(result);
 }

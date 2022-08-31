@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { AzureAgFoodPlatformRPService } = require("@azure/arm-agrifood");
+const { AgriFoodMgmtClient } = require("@azure/arm-agrifood");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -25,7 +25,7 @@ async function farmBeatsModelsUpdate() {
     tags: { key1: "value1", key2: "value2" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureAgFoodPlatformRPService(credential, subscriptionId);
+  const client = new AgriFoodMgmtClient(credential, subscriptionId);
   const result = await client.farmBeatsModels.beginUpdateAndWait(
     resourceGroupName,
     farmBeatsResourceName,
@@ -52,7 +52,7 @@ async function farmBeatsModelsUpdateWithSensor() {
     tags: { key1: "value1", key2: "value2" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureAgFoodPlatformRPService(credential, subscriptionId);
+  const client = new AgriFoodMgmtClient(credential, subscriptionId);
   const result = await client.farmBeatsModels.beginUpdateAndWait(
     resourceGroupName,
     farmBeatsResourceName,

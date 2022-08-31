@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { AzureAgFoodPlatformRPService } = require("@azure/arm-agrifood");
+const { AgriFoodMgmtClient } = require("@azure/arm-agrifood");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -24,7 +24,7 @@ async function locationsCheckNameAvailabilityAlreadyExists() {
     type: "Microsoft.AgFoodPlatform/farmBeats",
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureAgFoodPlatformRPService(credential, subscriptionId);
+  const client = new AgriFoodMgmtClient(credential, subscriptionId);
   const result = await client.locations.checkNameAvailability(body);
   console.log(result);
 }
@@ -44,7 +44,7 @@ async function locationsCheckNameAvailabilityAvailable() {
     type: "Microsoft.AgFoodPlatform/farmBeats",
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureAgFoodPlatformRPService(credential, subscriptionId);
+  const client = new AgriFoodMgmtClient(credential, subscriptionId);
   const result = await client.locations.checkNameAvailability(body);
   console.log(result);
 }

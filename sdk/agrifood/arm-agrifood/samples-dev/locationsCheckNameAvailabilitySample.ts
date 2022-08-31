@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CheckNameAvailabilityRequest,
-  AzureAgFoodPlatformRPService
+  AgriFoodMgmtClient
 } from "@azure/arm-agrifood";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -27,7 +27,7 @@ async function locationsCheckNameAvailabilityAlreadyExists() {
     type: "Microsoft.AgFoodPlatform/farmBeats"
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureAgFoodPlatformRPService(credential, subscriptionId);
+  const client = new AgriFoodMgmtClient(credential, subscriptionId);
   const result = await client.locations.checkNameAvailability(body);
   console.log(result);
 }
@@ -47,7 +47,7 @@ async function locationsCheckNameAvailabilityAvailable() {
     type: "Microsoft.AgFoodPlatform/farmBeats"
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureAgFoodPlatformRPService(credential, subscriptionId);
+  const client = new AgriFoodMgmtClient(credential, subscriptionId);
   const result = await client.locations.checkNameAvailability(body);
   console.log(result);
 }
