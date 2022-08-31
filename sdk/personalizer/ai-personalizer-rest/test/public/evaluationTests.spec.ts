@@ -11,9 +11,11 @@ import Personalizer, {
   isUnexpected,
   PersonalizerClient,
 } from "../../src";
+
 import { env } from "process";
 
-describe("Evaluation Tests", () => {
+// skipping Evaluation tests since we need a static resource for this which is not viable in javascript sdk.
+describe.skip("Evaluation Tests", () => {
   let recorder: Recorder;
   let client: PersonalizerClient;
 

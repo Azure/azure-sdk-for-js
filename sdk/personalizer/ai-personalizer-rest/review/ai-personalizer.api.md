@@ -21,8 +21,8 @@ export default createClient;
 
 // @public (undocumented)
 export interface DateRangeOutput {
-    from?: string;
-    to?: string;
+    from: string;
+    to: string;
 }
 
 // @public (undocumented)
@@ -41,17 +41,17 @@ export interface EvaluationContract {
 
 // @public (undocumented)
 export interface EvaluationOutput {
-    creationTime?: string;
-    endTime?: string;
-    evaluationType?: "Manual" | "Auto";
+    creationTime: string;
+    endTime: string;
+    evaluationType: "Manual" | "Auto";
     featureImportance?: Array<Array<string>>;
-    id?: string;
-    jobId?: string;
-    name?: string;
+    id: string;
+    jobId: string;
+    name: string;
     optimalPolicy?: string;
     policyResults?: Array<PolicyResultOutput>;
-    startTime?: string;
-    status?: "completed" | "pending" | "failed" | "notSubmitted" | "timeout" | "optimalPolicyApplied" | "onlinePolicyRetained";
+    startTime: string;
+    status: "completed" | "pending" | "failed" | "notSubmitted" | "timeout" | "optimalPolicyApplied" | "onlinePolicyRetained";
 }
 
 // @public (undocumented)
@@ -372,7 +372,7 @@ export interface LogsPropertiesDateRangeOutput extends DateRangeOutput {
 
 // @public (undocumented)
 export interface LogsPropertiesOutput {
-    dateRange?: LogsPropertiesDateRangeOutput;
+    dateRange: LogsPropertiesDateRangeOutput;
 }
 
 // @public (undocumented)
@@ -458,8 +458,8 @@ export type ModelImportParameters = ModelImportMediaTypesParam & ModelImportBody
 
 // @public (undocumented)
 export interface ModelPropertiesOutput {
-    creationTime?: string;
-    lastModifiedTime?: string;
+    creationTime: string;
+    lastModifiedTime: string;
 }
 
 // @public
@@ -584,8 +584,8 @@ export interface MultiSlotRankRequest {
 
 // @public (undocumented)
 export interface MultiSlotRankResponseOutput {
-    eventId?: string;
-    slots?: Array<SlotResponseOutput>;
+    eventId: string;
+    slots: Array<SlotResponseOutput>;
 }
 
 // @public (undocumented)
@@ -656,24 +656,24 @@ export type PolicyResetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface PolicyResultOutput {
-    arguments?: string;
-    name?: string;
-    policySource?: "Online" | "Baseline" | "Random" | "Custom" | "OfflineExperimentation";
-    summary?: Array<PolicyResultSummaryOutput>;
-    totalSummary?: PolicyResultTotalSummaryOutput;
+    arguments: string;
+    name: string;
+    policySource: "Online" | "Baseline" | "Random" | "Custom" | "OfflineExperimentation";
+    summary: Array<PolicyResultSummaryOutput>;
+    totalSummary: PolicyResultTotalSummaryOutput;
 }
 
 // @public (undocumented)
 export interface PolicyResultSummaryOutput {
-    aggregateTimeWindow?: string;
-    averageReward?: number;
+    aggregateTimeWindow: string;
+    averageReward: number;
     confidenceInterval?: number;
-    ipsEstimatorDenominator?: number;
-    ipsEstimatorNumerator?: number;
+    ipsEstimatorDenominator: number;
+    ipsEstimatorNumerator: number;
     nonZeroProbability?: number;
-    snipsEstimatorDenominator?: number;
+    snipsEstimatorDenominator: number;
     sumOfSquares?: number;
-    timeStamp?: string;
+    timeStamp: string;
 }
 
 // @public (undocumented)
@@ -743,8 +743,8 @@ export interface RankdefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export interface RankedActionOutput {
-    id?: string;
-    probability?: number;
+    id: string;
+    probability: number;
 }
 
 // @public (undocumented)
@@ -766,9 +766,9 @@ export interface RankRequest {
 
 // @public (undocumented)
 export interface RankResponseOutput {
-    eventId?: string;
-    ranking?: Array<RankedActionOutput>;
-    rewardActionId?: string;
+    eventId: string;
+    ranking: Array<RankedActionOutput>;
+    rewardActionId: string;
 }
 
 // @public (undocumented)
@@ -922,7 +922,7 @@ export interface SlotRequest {
 // @public (undocumented)
 export interface SlotResponseOutput {
     id: string;
-    rewardActionId?: string;
+    rewardActionId: string;
 }
 
 // @public (undocumented)
