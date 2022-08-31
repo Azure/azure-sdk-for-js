@@ -727,7 +727,7 @@ describe("Batching Receiver", () => {
 
     it(
       noSessionTestClientType +
-        ": No settlement of the message is retained with incremented deliveryCount",
+      ": No settlement of the message is retained with incremented deliveryCount",
       async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testNoSettlement();
@@ -736,7 +736,7 @@ describe("Batching Receiver", () => {
 
     it(
       withSessionTestClientType +
-        ": No settlement of the message is retained with incremented deliveryCount",
+      ": No settlement of the message is retained with incremented deliveryCount",
       async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         await testNoSettlement();
@@ -774,7 +774,7 @@ describe("Batching Receiver", () => {
 
     it(
       withSessionTestClientType +
-        ": Receive n messages but subscription only has m messages, where m < n",
+      ": Receive n messages but subscription only has m messages, where m < n",
       async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
 
@@ -913,10 +913,7 @@ describe("Batching Receiver", () => {
 
         const result = await Promise.all([
           onDetachedCalledPromise,
-          delay(Constants.defaultOperationTimeoutInMs * 1.5, undefined, {
-            abortSignal: undefined,
-            abortErrorMsg: "ondetachednevercalled",
-          }),
+          delay(Constants.defaultOperationTimeoutInMs * 1.5),
         ]);
 
         if (typeof result === "string" && result === "ondetachednevercalled") {

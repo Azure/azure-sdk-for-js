@@ -15,14 +15,26 @@ const StandardAbortMessage = "The operation was aborted.";
  *   @param abortErrorMsg - The abort error message associated with containing operation.
  * @returns Promise that is resolved after timeInMs
  */
+
+export interface DelayOptions {
+  abortSignal?: AbortSignalLike;
+  abortErrorMsg?: string;
+}
+export function delay<T>(timeInMs: number, options?: DelayOptions): Promise<T | void>;
+export function delay<T>(timeInMs: number, value: T, options?: DelayOptions): Promise<T | void>;
+
 export function delay<T>(
   timeInMs: number,
-  value?: T,
-  options?: {
-    abortSignal?: AbortSignalLike;
-    abortErrorMsg?: string;
-  }
+  valueOrOption?: T | DelayOptions,
+  options?: DelayOptions
 ): Promise<T | void> {
+  let value: T | undefined = undefined;
+  if (isDelayOption(valueOrOption)) {
+    options = valueOrOption;
+  } else {
+    value = valueOrOption;
+  }
+
   return new Promise((resolve, reject) => {
     let timer: ReturnType<typeof setTimeout> | undefined = undefined;
     let onAborted: (() => void) | undefined = undefined;
@@ -60,4 +72,8 @@ export function delay<T>(
       options.abortSignal.addEventListener("abort", onAborted);
     }
   });
+}
+
+function isDelayOption<T>(value: T | DelayOptions): value is DelayOptions {
+  return Boolean((value as DelayOptions).abortErrorMsg || (value as DelayOptions).abortSignal);
 }

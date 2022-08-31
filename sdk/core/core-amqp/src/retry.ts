@@ -263,7 +263,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
           targetDelayInMs,
           updatedConfig.operationType
         );
-        await delay(targetDelayInMs, undefined, {
+        await delay(targetDelayInMs, {
           abortSignal: updatedConfig.abortSignal,
           abortErrorMsg: `The retry operation has been cancelled by the user.`,
         });
