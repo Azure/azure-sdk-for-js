@@ -314,6 +314,7 @@ dependencies:
   '@rush-temp/ai-form-recognizer': file:projects/ai-form-recognizer.tgz
   '@rush-temp/ai-language-text': file:projects/ai-language-text.tgz
   '@rush-temp/ai-metrics-advisor': file:projects/ai-metrics-advisor.tgz
+  '@rush-temp/ai-personalizer': file:projects/ai-personalizer.tgz
   '@rush-temp/ai-text-analytics': file:projects/ai-text-analytics.tgz
   '@rush-temp/api-management-custom-widgets-scaffolder': file:projects/api-management-custom-widgets-scaffolder.tgz
   '@rush-temp/api-management-custom-widgets-tools': file:projects/api-management-custom-widgets-tools.tgz
@@ -4096,7 +4097,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220829
+      typescript: 4.9.0-dev.20220831
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -9099,8 +9100,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220829:
-    resolution: {integrity: sha512-JPUwN18SBzfknl8eLExxWrNo8H98PrZMQdNTXRFYlQFv6qg56e3H/gaJn8Bmo2xz6L1vADwzbMHIp4PAWjskQw==}
+  /typescript/4.9.0-dev.20220831:
+    resolution: {integrity: sha512-FXVLQI/P9R7uT/I0ODGrIPmV9uDlQXufoe+RUcvZOvTtLzk2Kd1H9rr+e3l6hiSho6ikrnvews2LWF5AulwO/w==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -15713,7 +15714,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-f2VzRwK94ENNXQYhHUwoDmbYDN0TOFYwlwLo3qthLuSROqb3XRi0Klw4LgqiIgQKO2NxU3nQzAeDaeVs6NegvQ==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-OBDRudn5gm5DtRCtSrKzlg3sI4ghfYAuLNkVUWZqcSXTg5XTEHjAkwrwhwh67SYP5E32pPlK3Er9BmCu7vvRow==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:

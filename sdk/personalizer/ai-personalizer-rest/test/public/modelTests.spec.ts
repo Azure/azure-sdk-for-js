@@ -23,7 +23,7 @@ describe("Model Tests", () => {
     await recorder.stop();
   });
 
-  it("model import and export tests", async function () {
+  it.skip("model import and export tests", async function () {
     const unSignedModelBytes = await exportModelAsync(client);
     const signedModelBytes = await exportModelAsync(client, true);
     await importModelAsync(client, signedModelBytes);
@@ -42,7 +42,7 @@ async function exportModelAsync(
   client: PersonalizerClient,
   signed: boolean = false
 ): Promise<Uint8Array> {
-  const response = await client.path("/model").get({ queryParameters: { "signed": signed } });
+  const response = await client.path("/model").get({ queryParameters: { signed: signed } });
   if (isUnexpected(response)) {
     throw response.body.error.code;
   }
