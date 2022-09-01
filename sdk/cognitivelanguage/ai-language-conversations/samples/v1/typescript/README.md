@@ -88,7 +88,7 @@ what you can do with the Azure Conversational Language Understanding client libr
 
 [sample_authentication]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1/typescript/src/sample_authentication.ts
 
-[sample_analyze_conversation_app]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1/typescript/src/sample_analyze_conversations_app.ts
+[sample_analyze_conversation_app]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1/typescript/src/sample_analyze_conversation_app.ts
 
 [sample_analyze_orchestration_app_conv_response]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1/typescript/src/sample_analyze_orchestration_app_conv_response.ts
 
@@ -100,4 +100,4 @@ what you can do with the Azure Conversational Language Understanding client libr
 
 [sample_conv_pii_transcript_input]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1/typescript/src/sample_conv_pii_transcript_input.ts
 
-[api_reference_documentation]: https://docs.microsoft.com/javascript/api/@azure/ai-language-conversations
+[api_reference_documentation]: https://docs.microsoft.com/en-us/rest/api/language/conversation-analysis-runtime
