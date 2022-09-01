@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import * as sinon from "sinon";
+import { AbortController } from "@azure/abort-controller";
 import { assert } from "chai";
 import { delay } from "../../src";
-import { AbortController } from "@azure/abort-controller";
 
 describe("delay", function () {
   afterEach(function () {
