@@ -166,3 +166,25 @@ export const containerExecRequest: OperationParameter = {
   parameterPath: "containerExecRequest",
   mapper: ContainerExecRequestMapper
 };
+
+export const virtualNetworkName: OperationURLParameter = {
+  parameterPath: "virtualNetworkName",
+  mapper: {
+    serializedName: "virtualNetworkName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const subnetName: OperationURLParameter = {
+  parameterPath: "subnetName",
+  mapper: {
+    serializedName: "subnetName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
