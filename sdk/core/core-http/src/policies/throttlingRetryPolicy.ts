@@ -88,7 +88,7 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
       if (delayInMs) {
         this.numberOfRetries += 1;
 
-        await delay(delayInMs, undefined, {
+        await delay(delayInMs, {
           abortSignal: httpRequest.abortSignal,
           abortErrorMsg: StandardAbortMessage,
         });

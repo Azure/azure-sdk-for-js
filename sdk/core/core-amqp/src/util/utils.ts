@@ -174,7 +174,8 @@ export class Timeout {
  * @param abortErrorMsg - The abort error message associated with containing operation.
  * @param value - The value to be resolved with after a timeout of t milliseconds.
  * @returns - Resolved promise
- * @deprecated
+ *
+ * This function is @deprecated. Please refer to `delay` method in @azure/core-util.
  */
 export async function delay<T>(
   delayInMs: number,

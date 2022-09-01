@@ -12,10 +12,16 @@ export function computeSha256Hash(content: string, encoding: "base64" | "hex"): 
 // @public
 export function computeSha256Hmac(key: string, stringToSign: string, encoding: "base64" | "hex"): Promise<string>;
 
-// Warning: (ae-forgotten-export) The symbol "DelayOptions" needs to be exported by the entry point index.d.ts
-//
 // @public
 export function delay(timeInMs: number, options?: DelayOptions): Promise<void>;
+
+// @public
+export interface DelayOptions {
+    // (undocumented)
+    abortErrorMsg?: string;
+    // (undocumented)
+    abortSignal?: AbortSignalLike;
+}
 
 // @public
 export function getErrorMessage(e: unknown): string;
