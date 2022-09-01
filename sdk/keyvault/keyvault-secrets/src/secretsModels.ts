@@ -18,6 +18,12 @@ export interface SecretClientOptions extends ExtendedCommonClientOptions {
    * The accepted versions of the KeyVault's service API.
    */
   serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3";
+
+  /**
+   * Whether to verify the authentication challenge resource matches the Key Vault or Managed HSM domain.
+   * Defaults to true.
+   */
+  verifyChallengeResource?: boolean;
 }
 
 /**

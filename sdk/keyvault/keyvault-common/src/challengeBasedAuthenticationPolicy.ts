@@ -50,8 +50,12 @@ type ChallengeState =
  *
  * Following the first request of a client, follow-up requests will get the cached token
  * if possible.
+ *
+ * @param verifyChallengeResource - whether to verify the challenge resource matches the Key Vault or Managed HSM domain.
  */
-export function createChallengeCallbacks(): ChallengeCallbacks {
+export function createChallengeCallbacks(
+  verifyChallengeResource: boolean = true
+): ChallengeCallbacks {
   let challengeState: ChallengeState = { status: "none" };
 
   function requestToOptions(request: PipelineRequest): GetTokenOptions {
@@ -115,6 +119,23 @@ export function createChallengeCallbacks(): ChallengeCallbacks {
 
     if (!scope) {
       throw new Error("Missing scope.");
+    }
+
+    if (verifyChallengeResource) {
+      let scopeAsUrl: URL;
+      try {
+        scopeAsUrl = new URL(scope);
+      } catch (e) {
+        throw new Error(`The challenge contains invalid scope '${scope}'`);
+      }
+
+      const requestUrl = new URL(request.url);
+
+      if (!requestUrl.hostname.endsWith(`.${scopeAsUrl.hostname}`)) {
+        throw new Error(
+          `Challenge resource host '${scopeAsUrl.hostname}' does not match request domain`
+        );
+      }
     }
 
     const accessToken = await options.getAccessToken([scope], {

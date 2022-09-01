@@ -3,7 +3,7 @@
 
 import { CertificateClient } from "../../../src";
 import { uniqueString } from "./recorderUtils";
-import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, isLiveMode, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { getServiceVersion } from "./common";
 import TestClient from "./testClient";
 import { Context } from "mocha";
@@ -64,6 +64,7 @@ export async function authenticate(
     credential,
     recorder.configureClientOptions({
       serviceVersion,
+      verifyChallengeResource: isLiveMode(),
     })
   );
   const testClient = new TestClient(client);

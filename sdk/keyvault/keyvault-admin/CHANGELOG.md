@@ -1,10 +1,13 @@
 # Release History
 
-## 4.2.3 (Unreleased)
+## 4.3.0 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
+
+- Verify the challenge resource matches the vault domain.
+  This should affect few customers who can set `verifyChallengeResource` in the options bag to `false` to disable.
 
 ### Bugs Fixed
 

@@ -134,6 +134,7 @@ export class SecretClient {
 // @public
 export interface SecretClientOptions extends ExtendedCommonClientOptions {
     serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3";
+    verifyChallengeResource?: boolean;
 }
 
 // @public

@@ -385,7 +385,7 @@ function getOrInitializeClient(
   const authPolicy = bearerTokenAuthenticationPolicy({
     credential,
     scopes: [], // Scopes are going to be defined by the challenge callbacks.
-    challengeCallbacks: createChallengeCallbacks(),
+    challengeCallbacks: createChallengeCallbacks(options.verifyChallengeResource),
   });
 
   const internalPipelineOptions = {
