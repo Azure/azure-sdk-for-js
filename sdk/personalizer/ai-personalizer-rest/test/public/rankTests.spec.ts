@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import createPersonalizerClient, {
@@ -10,7 +10,6 @@ import createPersonalizerClient, {
   RankableAction,
   isUnexpected,
 } from "../../src";
-import { env } from "process";
 import { assert } from "chai";
 
 describe("Rank Tests", () => {
@@ -32,7 +31,7 @@ describe("Rank Tests", () => {
     await recorder.stop();
   });
 
-  it("rank with no context features", async function () {
+  it.only("rank with no context features", async function () {
     const actions: RankableAction[] = [
       {
         id: "Person",
