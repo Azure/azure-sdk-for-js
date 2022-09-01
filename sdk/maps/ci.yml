@@ -34,7 +34,3 @@ extends:
         safeName: azuremapscommon
       - name: azure-maps-search
         safeName: azuremapssearch
-      - name: azure-maps-route
-        safeName: azuremapsroute
-      - name: azure-maps-render
-        safeName: azuremapsrender
