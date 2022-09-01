@@ -376,13 +376,13 @@ For information on request throttling at the Log Analytics service level, see [R
 
 #### Set logs query timeout
 
-Some logs queries take longer than 3 minutes to execute. The default server timeout is 3 minutes. You can increase the server timeout to a maximum of 10 minutes. In the following example, the `LogsQueryOptions` object's `serverTimeoutInSeconds` property is used to decrease the server timeout to 1 minute:
+Some logs queries take longer than 3 minutes to execute. The default server timeout is 3 minutes. You can increase the server timeout to a maximum of 10 minutes. In the following example, the `LogsQueryOptions` object's `serverTimeoutInSeconds` property is used to increase the server timeout to 10 minutes:
 
 ```ts
 // setting optional parameters
 const queryLogsOptions: LogsQueryOptions = {
   // explicitly control the amount of time the server can spend processing the query.
-  serverTimeoutInSeconds: 60
+  serverTimeoutInSeconds: 600 // 600 seconds = 10 minutes
 };
 
 const result = await logsQueryClient.queryWorkspace(
