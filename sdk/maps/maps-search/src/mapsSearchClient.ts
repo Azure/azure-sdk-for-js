@@ -228,8 +228,8 @@ export class MapsSearchClient {
 
     const internalOptions = mapFuzzySearchOptions(updatedOptions);
     if (coordinates) {
-      internalOptions.lat = coordinates.latitude;
-      internalOptions.lon = coordinates.longitude;
+      internalOptions.lat = coordinates[0];
+      internalOptions.lon = coordinates[1];
     }
 
     if (countryCodeFilter) {
@@ -272,8 +272,8 @@ export class MapsSearchClient {
 
     const internalOptions = mapSearchPointOfInterestOptions(updatedOptions);
     if (coordinates) {
-      internalOptions.lat = coordinates.latitude;
-      internalOptions.lon = coordinates.longitude;
+      internalOptions.lat = coordinates[0];
+      internalOptions.lon = coordinates[1];
     }
 
     if (countryCodeFilter) {
@@ -315,8 +315,8 @@ export class MapsSearchClient {
     try {
       const result = await this.client.search.searchNearbyPointOfInterest(
         this.defaultFormat,
-        coordinates.latitude,
-        coordinates.longitude,
+        coordinates[0],
+        coordinates[1],
         internalOptions
       );
       return mapSearchAddressResult(result);
@@ -352,8 +352,8 @@ export class MapsSearchClient {
     };
     const internalOptions = mapSearchPointOfInterestOptions(updatedOptions);
     if (coordinates) {
-      internalOptions.lat = coordinates.latitude;
-      internalOptions.lon = coordinates.longitude;
+      internalOptions.lat = coordinates[0];
+      internalOptions.lon = coordinates[1];
     }
 
     if (countryCodeFilter) {
@@ -452,7 +452,7 @@ export class MapsSearchClient {
     try {
       const result = await this.client.search.reverseSearchAddress(
         this.defaultFormat,
-        [coordinates.latitude, coordinates.longitude],
+        [coordinates[0], coordinates[1]],
         internalOptions
       );
       return mapReverseSearchAddressResult(result);
@@ -485,7 +485,7 @@ export class MapsSearchClient {
     try {
       const result = await this.client.search.reverseSearchCrossStreetAddress(
         this.defaultFormat,
-        [coordinates.latitude, coordinates.longitude],
+        [coordinates[0], coordinates[1]],
         internalOptions
       );
       return mapReverseSearchCrossStreetAddressResult(result);

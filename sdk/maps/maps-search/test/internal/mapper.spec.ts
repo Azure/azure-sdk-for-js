@@ -69,28 +69,15 @@ import {
   mapSearchPointOfInterestOptions,
   mapStringToLatLon,
   toBoundingBox,
-  toLatLon,
   toLatLonString,
 } from "../../src/models/mappers";
 import { OperationOptions } from "@azure/core-client";
 import { assert } from "chai";
 
 describe("LatLon/BoundingBox mappers", () => {
-  describe("toLatLon", () => {
-    it("should create a LatLon object", () => {
-      const lat = 45.2;
-      const lon = 120.3;
-      const latLon = toLatLon(lat, lon);
-
-      assert.hasAllKeys(latLon, ["latitude", "longitude"]);
-      assert.equal(latLon.latitude, lat);
-      assert.equal(latLon.longitude, lon);
-    });
-  });
-
   describe("toLatLonString", () => {
     it("should serialize properly", () => {
-      const latLon = toLatLon(45.2, 120.3);
+      const latLon: LatLon = [45.2, 120.3];
 
       assert.equal(toLatLonString(latLon), "45.2,120.3");
     });
@@ -102,21 +89,21 @@ describe("LatLon/BoundingBox mappers", () => {
         lat: 45.2,
         lon: 120.3,
       };
-      const latLon = mapLatLongPairAbbreviatedToLatLon(latLongAbbr) as LatLon;
+      const latLon = mapLatLongPairAbbreviatedToLatLon(latLongAbbr);
 
       assert.isNotNull(latLon);
-      assert.equal(latLongAbbr.lat, latLon.latitude);
-      assert.equal(latLongAbbr.lon, latLon.longitude);
+      assert.equal(latLongAbbr.lat, latLon[0]);
+      assert.equal(latLongAbbr.lon, latLon[1]);
     });
   });
 
   describe("mapStringToLatLon", () => {
     it("should deserialize lat-lon string", () => {
-      const latLon = mapStringToLatLon("45.2,120.3") as LatLon;
+      const latLon = mapStringToLatLon("45.2,120.3");
 
       assert.isNotNull(latLon);
-      assert.equal(latLon.latitude, 45.2);
-      assert.equal(latLon.longitude, 120.3);
+      assert.equal(latLon[0], 45.2);
+      assert.equal(latLon[1], 120.3);
     });
 
     it("should throw error if the input string is invalid", () => {
@@ -126,8 +113,8 @@ describe("LatLon/BoundingBox mappers", () => {
 
   describe("toBoundingBox", () => {
     it("should create a BondingBox object", () => {
-      const topLeft = toLatLon(45.2, 12.3);
-      const bottomRight = toLatLon(45.1, 120.4);
+      const topLeft: LatLon = [45.2, 12.3];
+      const bottomRight: LatLon = [45.1, 120.4];
       const bbox = toBoundingBox(topLeft, bottomRight);
 
       assert.hasAllKeys(bbox, ["topLeft", "bottomRight"]);
@@ -140,7 +127,7 @@ describe("LatLon/BoundingBox mappers", () => {
     const topLeft: LatLongPairAbbreviated = { lat: 45.2, lon: 12.3 };
     const bottomRight: LatLongPairAbbreviated = { lat: 45.1, lon: 120.4 };
 
-    it("should convert an internel bounding box to a BondingBox object", () => {
+    it("should convert an internal bounding box to a BondingBox object", () => {
       const concreteBbox: BoundingBoxInternal = {
         topLeft: topLeft,
         bottomRight: bottomRight,
@@ -156,7 +143,7 @@ describe("LatLon/BoundingBox mappers", () => {
     const northEast = "45.2,12.4";
     const southWest = "45.1,12.3";
 
-    it("should convert an internel bounding box to a BondingBox object", () => {
+    it("should convert an internal bounding box to a BondingBox object", () => {
       const concreteBbox: BoundingBoxCompassNotation = {
         northEast: northEast,
         southWest: southWest,
@@ -165,10 +152,10 @@ describe("LatLon/BoundingBox mappers", () => {
       assert.hasAllKeys(bbox, ["topLeft", "bottomRight"]);
       assert.isDefined(bbox.topLeft);
       assert.isDefined(bbox.bottomRight);
-      assert.equal(bbox.topLeft.latitude, 45.2);
-      assert.equal(bbox.topLeft.longitude, 12.3);
-      assert.equal(bbox.bottomRight.latitude, 45.1);
-      assert.equal(bbox.bottomRight.longitude, 12.4);
+      assert.equal(bbox.topLeft[0], 45.2);
+      assert.equal(bbox.topLeft[1], 12.3);
+      assert.equal(bbox.bottomRight[0], 45.1);
+      assert.equal(bbox.bottomRight[1], 12.4);
     });
 
     it("should return undefined if the input is also undefined", () => {
@@ -261,7 +248,7 @@ describe("Options mappers", () => {
   describe("mapSearchAddressOptions", () => {
     it("should only return properties of SearchAddressOptionalParams", () => {
       const options: SearchAddressOptions = {
-        coordinates: { latitude: 50, longitude: 100 },
+        coordinates: [50, 100],
       };
       const convertedOptions = mapSearchAddressOptions(options);
       assert.hasAllKeys(convertedOptions, searchAddressOptionalParamsKeys);
@@ -272,8 +259,8 @@ describe("Options mappers", () => {
     it("should only return properties of SearchPointOfInterestOptionalParams", () => {
       const options: SearchPointOfInterestBaseOptions = {
         boundingBox: {
-          bottomRight: { latitude: 60, longitude: 50 },
-          topLeft: { latitude: 61, longitude: 49 },
+          bottomRight: [60, 50],
+          topLeft: [61, 49],
         },
       };
       const convertedOptions = mapSearchPointOfInterestOptions(options);
@@ -285,8 +272,8 @@ describe("Options mappers", () => {
     it("should only return properties of FuzzySearchOptionalParams", () => {
       const options: FuzzySearchBaseOptions = {
         boundingBox: {
-          bottomRight: { latitude: 60, longitude: 50 },
-          topLeft: { latitude: 61, longitude: 49 },
+          bottomRight: [60, 50],
+          topLeft: [61, 49],
         },
       };
       const convertedOptions = mapFuzzySearchOptions(options);
@@ -382,28 +369,16 @@ describe("Result mappers", () => {
         queryType: "NON_NEAR",
         queryTime: 100,
         numResults: 1,
-        geoBias: {
-          latitude: 47.301293179130347,
-          longitude: -120.88247999999997,
-        },
+        geoBias: [47.301293179130347, -120.88247999999997],
         results: [
           {
             type: "Point Address",
             id: "id",
             score: 8.074,
-            position: {
-              latitude: 47.6308,
-              longitude: -122.1385,
-            },
+            position: [47.6308, -122.1385],
             viewport: {
-              topLeft: {
-                latitude: 47.6317,
-                longitude: -122.13983,
-              },
-              bottomRight: {
-                latitude: 47.6299,
-                longitude: -122.13717,
-              },
+              topLeft: [47.6317, -122.13983],
+              bottomRight: [47.6299, -122.13717],
             },
             address: {
               streetName: "street name",
@@ -459,11 +434,11 @@ describe("Result mappers", () => {
               freeformAddress: "Matsuyama, Shikoku",
               municipality: "Matsuyama",
               boundingBox: {
-                topLeft: { latitude: 33.583073, longitude: 133.309204 },
-                bottomRight: { latitude: 33.561634, longitude: 133.356155 },
+                topLeft: [33.583073, 133.309204],
+                bottomRight: [33.561634, 133.356155],
               },
             },
-            position: { latitude: 33.56, longitude: 133.35 },
+            position: [33.56, 133.35],
           },
         ],
       };
@@ -505,7 +480,7 @@ describe("Result mappers", () => {
               countryCodeISO3: "NLD",
               freeformAddress: "Sarphatistraat & Frederiksplein, 1017 Amsterdam",
             },
-            position: { latitude: 52.36, longitude: 4.9 },
+            position: [52.36, 4.9],
           },
         ],
       };
@@ -584,14 +559,8 @@ describe("Result mappers", () => {
                   id: "id",
                   score: 10.22519207,
                   viewport: {
-                    topLeft: {
-                      latitude: 47.64016,
-                      longitude: -122.12466,
-                    },
-                    bottomRight: {
-                      latitude: 47.64012,
-                      longitude: -122.12424,
-                    },
+                    topLeft: [47.64016, -122.12466],
+                    bottomRight: [47.64012, -122.12424],
                   },
                   address: {
                     streetName: "Microsoft Way",
@@ -603,7 +572,7 @@ describe("Result mappers", () => {
                     localName: "Redmond",
                   },
 
-                  position: { latitude: 47.64016, longitude: -122.1245 },
+                  position: [47.64016, -122.1245],
                 },
               ],
             },
@@ -681,7 +650,7 @@ describe("Result mappers", () => {
                     countryCodeISO3: "FRA",
                     freeformAddress: "Avenue Anatole France, 75007 Paris",
                   },
-                  position: { latitude: 48.85849, longitude: 2.29482 },
+                  position: [48.85849, 2.29482],
                 },
               ],
             },
@@ -708,7 +677,7 @@ describe("Result mappers", () => {
   describe("createFuzzySearchBatchRequest", () => {
     it("should properly transform the request objects to query strings", () => {
       const query = "pizza";
-      const coordinates = { latitude: 47.59118, longitude: -122.3327 };
+      const coordinates: LatLon = [47.59118, -122.3327];
       const countryCodeFilter = ["fr", "us"];
       const options1: FuzzySearchOptions = {
         entityType: KnownGeographicEntityType.Country,
@@ -731,8 +700,8 @@ describe("Result mappers", () => {
       };
       const options4: FuzzySearchOptions = {
         boundingBox: {
-          topLeft: { latitude: 47.59118, longitude: -122.3327 },
-          bottomRight: { latitude: 45.59118, longitude: -121.3327 },
+          topLeft: [47.59118, -122.3327],
+          bottomRight: [45.59118, -121.3327],
         },
         top: 10,
         skip: 3,
@@ -810,14 +779,14 @@ describe("Result mappers", () => {
       const options1: SearchAddressOptions = {
         entityType: KnownGeographicEntityType.Country,
         countryCodeFilter: ["fr", "us"],
-        coordinates: { latitude: 47.59118, longitude: -122.3327 },
+        coordinates: [47.59118, -122.3327],
         isTypeAhead: false,
         radiusInMeters: 5000,
       };
       const options2: SearchAddressOptions = {
         boundingBox: {
-          topLeft: { latitude: 47.59118, longitude: -122.3327 },
-          bottomRight: { latitude: 45.59118, longitude: -121.3327 },
+          topLeft: [47.59118, -122.3327],
+          bottomRight: [45.59118, -121.3327],
         },
         top: 10,
         skip: 3,
@@ -863,7 +832,7 @@ describe("Result mappers", () => {
   });
   describe("createReverseSearchAddressBatchRequest", () => {
     it("should properly transform the request objects to query strings", () => {
-      const coordinates = { latitude: 60.12, longitude: -100.34 };
+      const coordinates: LatLon = [60.12, -100.34];
       const options1: ReverseSearchAddressOptions = {
         radiusInMeters: 5000,
         language: "en-US",

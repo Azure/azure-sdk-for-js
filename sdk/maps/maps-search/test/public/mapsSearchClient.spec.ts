@@ -3,11 +3,13 @@
 
 import { Context, Suite } from "mocha";
 import {
+  FuzzySearchRequest,
   GeoJsonCircleOrPolygonFeatureCollection,
   GeoJsonLineString,
   GeoJsonPolygon,
   GeoJsonPolygonCollection,
   KnownSearchAddressResultType,
+  ReverseSearchAddressRequest,
   SearchAddressResultItem,
 } from "../../src";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
@@ -221,15 +223,12 @@ describe("Reverse Search Address", function (this: Suite) {
 
   it("should throw error is query is invalid", async function () {
     // "The provided coordinates in query are invalid, out of range, or not in the expected format"
-    assert.isRejected(client.reverseSearchAddress({ latitude: -100, longitude: 121 }));
-    assert.isRejected(client.reverseSearchAddress({ latitude: 25, longitude: 250 }));
+    assert.isRejected(client.reverseSearchAddress([-100, 121]));
+    assert.isRejected(client.reverseSearchAddress([25, 250]));
   });
 
   it("should return non-empty results", async function () {
-    const searchResult = await client.reverseSearchAddress({
-      latitude: 25,
-      longitude: 121,
-    });
+    const searchResult = await client.reverseSearchAddress([25, 121]);
     assert.isNotEmpty(searchResult.results);
     searchResult.results.forEach((r) => {
       assert.isString(r.address.streetName);
@@ -259,15 +258,12 @@ describe("Reverse Search Cross Street Address", function (this: Suite) {
 
   it("should throw error if query is invalid", async function () {
     // "The provided coordinates in query are invalid, out of range, or not in the expected format"
-    assert.isRejected(client.reverseSearchCrossStreetAddress({ latitude: -100, longitude: 121 }));
-    assert.isRejected(client.reverseSearchCrossStreetAddress({ latitude: 25, longitude: 250 }));
+    assert.isRejected(client.reverseSearchCrossStreetAddress([-100, 121]));
+    assert.isRejected(client.reverseSearchCrossStreetAddress([25, 250]));
   });
 
   it("should return non-empty results", async function () {
-    const searchResult = await client.reverseSearchCrossStreetAddress({
-      latitude: 47.59118,
-      longitude: -122.3327,
-    });
+    const searchResult = await client.reverseSearchCrossStreetAddress([47.59118, -122.3327]);
     assert.isNotEmpty(searchResult);
     searchResult.results.forEach((r) => {
       assert.isString(r.address?.crossStreet);
@@ -312,20 +308,14 @@ describe("POI search", function (this: Suite) {
       assert.isRejected(
         client.searchPointOfInterest({
           query: "",
-          coordinates: {
-            latitude: 25,
-            longitude: 121,
-          },
+          coordinates: [25, 121],
         })
       );
       // "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
       assert.isRejected(
         client.searchPointOfInterest({
           query: "juice bars",
-          coordinates: {
-            latitude: -200,
-            longitude: 121,
-          },
+          coordinates: [-200, 121],
         })
       );
     });
@@ -333,10 +323,7 @@ describe("POI search", function (this: Suite) {
     it("should return non-empty results", async function () {
       const searchResult = await client.searchPointOfInterest({
         query: "juice bars",
-        coordinates: {
-          latitude: 47.606038,
-          longitude: -122.333345,
-        },
+        coordinates: [47.606038, -122.333345],
       });
       assertPOISearchResults(searchResult.results);
     });
@@ -344,19 +331,11 @@ describe("POI search", function (this: Suite) {
 
   describe("#SearchNearbyPointOfInterest", function () {
     it("should throw errors if LatLon is not valid", async function () {
-      assert.isRejected(
-        client.searchNearbyPointOfInterest({
-          latitude: -200,
-          longitude: 121,
-        })
-      );
+      assert.isRejected(client.searchNearbyPointOfInterest([-200, 121]));
     });
 
     it("should return non-empty results", async function () {
-      const searchResult = await client.searchNearbyPointOfInterest({
-        latitude: 47.606038,
-        longitude: -122.333345,
-      });
+      const searchResult = await client.searchNearbyPointOfInterest([47.606038, -122.333345]);
       assertPOISearchResults(searchResult.results);
     });
   });
@@ -367,20 +346,14 @@ describe("POI search", function (this: Suite) {
       assert.isRejected(
         client.searchPointOfInterestCategory({
           query: "",
-          coordinates: {
-            latitude: 25,
-            longitude: 121,
-          },
+          coordinates: [25, 121],
         })
       );
       // "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
       assert.isRejected(
         client.searchPointOfInterestCategory({
           query: "Restaurant",
-          coordinates: {
-            latitude: -200,
-            longitude: 121,
-          },
+          coordinates: [-200, 121],
         })
       );
     });
@@ -388,10 +361,7 @@ describe("POI search", function (this: Suite) {
     it("should return non-empty results", async function () {
       const searchResult = await client.searchPointOfInterestCategory({
         query: "Restaurant",
-        coordinates: {
-          latitude: 47.606038,
-          longitude: -122.333345,
-        },
+        coordinates: [47.606038, -122.333345],
       });
       assertPOISearchResults(searchResult.results);
     });
@@ -487,19 +457,13 @@ describe("General search", function (this: Suite) {
       assert.isRejected(
         client.fuzzySearch({
           query: "",
-          coordinates: {
-            latitude: 25,
-            longitude: 121,
-          },
+          coordinates: [25, 121],
         })
       );
       assert.isRejected(
         client.fuzzySearch({
           query: "Restaurant",
-          coordinates: {
-            latitude: -200,
-            longitude: 121,
-          },
+          coordinates: [-200, 121],
         })
       );
     });
@@ -507,10 +471,7 @@ describe("General search", function (this: Suite) {
     it("should return non-empty results", async function () {
       const searchResult = await client.fuzzySearch({
         query: "Restaurant",
-        coordinates: {
-          latitude: 47.606038,
-          longitude: -122.333345,
-        },
+        coordinates: [47.606038, -122.333345],
       });
       assertSearchResults(searchResult.results);
     });
@@ -649,14 +610,14 @@ describe("LRO", function (this: Suite) {
       assert.isRejected(client.beginFuzzySearchBatch([]));
     });
     it("could take an array of fuzzy search requests as input", async function () {
-      const batchRequests = [
+      const batchRequests: FuzzySearchRequest[] = [
         { searchQuery: { query: "pizza", countryCodeFilter: ["fr"] } },
-        { searchQuery: { query: "pizza", coordinates: { latitude: 25, longitude: 121 } } },
+        { searchQuery: { query: "pizza", coordinates: [25, 121] } },
         {
           searchQuery: {
             query: "pizza",
             countryCodeFilter: ["tw"],
-            coordinates: { latitude: 25, longitude: 121 },
+            coordinates: [25, 121],
           },
         },
       ];
@@ -674,14 +635,14 @@ describe("LRO", function (this: Suite) {
 
   describe("#resumeFuzzySearchBatch", function () {
     it("should be able to resume the previous request", async function () {
-      const batchRequests = [
+      const batchRequests: FuzzySearchRequest[] = [
         { searchQuery: { query: "pizza", countryCodeFilter: ["fr"] } },
-        { searchQuery: { query: "pizza", coordinates: { latitude: 25, longitude: 121 } } },
+        { searchQuery: { query: "pizza", coordinates: [25, 121] } },
         {
           searchQuery: {
             query: "pizza",
             countryCodeFilter: ["tw"],
-            coordinates: { latitude: 25, longitude: 121 },
+            coordinates: [25, 121],
           },
         },
       ];
@@ -702,14 +663,14 @@ describe("LRO", function (this: Suite) {
     });
 
     it("should obtain the same result from the rehydrated poller after the lro is finished", async function () {
-      const batchRequests = [
+      const batchRequests: FuzzySearchRequest[] = [
         { searchQuery: { query: "pizza", countryCodeFilter: ["fr"] } },
-        { searchQuery: { query: "pizza", coordinates: { latitude: 25, longitude: 121 } } },
+        { searchQuery: { query: "pizza", coordinates: [25, 121] } },
         {
           searchQuery: {
             query: "pizza",
             countryCodeFilter: ["tw"],
-            coordinates: { latitude: 25, longitude: 121 },
+            coordinates: [25, 121],
           },
         },
       ];
@@ -806,13 +767,13 @@ describe("LRO", function (this: Suite) {
     });
 
     it("could take an array of fuzzy search requests as input", async function () {
-      const batchRequests = [
-        { coordinates: { latitude: 48.858561, longitude: 2.294911 } },
+      const batchRequests: ReverseSearchAddressRequest[] = [
+        { coordinates: [48.858561, 2.294911] },
         {
-          coordinates: { latitude: 47.639765, longitude: -122.127896 },
+          coordinates: [47.639765, -122.127896],
           options: { radiusInMeters: 5000 },
         },
-        { coordinates: { latitude: 47.621028, longitude: -122.34817 } },
+        { coordinates: [47.621028, -122.34817] },
       ];
 
       const poller = await client.beginReverseSearchAddressBatch(batchRequests, {
@@ -828,13 +789,13 @@ describe("LRO", function (this: Suite) {
 
   describe("#resumeReverseSearchAddressBatch", function () {
     it("should be able to resume the previous request", async function () {
-      const batchRequests = [
-        { coordinates: { latitude: 48.858561, longitude: 2.294911 } },
+      const batchRequests: ReverseSearchAddressRequest[] = [
+        { coordinates: [48.858561, 2.294911] },
         {
-          coordinates: { latitude: 47.639765, longitude: -122.127896 },
+          coordinates: [47.639765, -122.127896],
           options: { radiusInMeters: 5000 },
         },
-        { coordinates: { latitude: 47.621028, longitude: -122.34817 } },
+        { coordinates: [47.621028, -122.34817] },
       ];
 
       // Initiate search address batch
@@ -853,13 +814,13 @@ describe("LRO", function (this: Suite) {
     });
 
     it("should obtain the same result from the rehydrated poller after the lro is finished", async function () {
-      const batchRequests = [
-        { coordinates: { latitude: 48.858561, longitude: 2.294911 } },
+      const batchRequests: ReverseSearchAddressRequest[] = [
+        { coordinates: [48.858561, 2.294911] },
         {
-          coordinates: { latitude: 47.639765, longitude: -122.127896 },
+          coordinates: [47.639765, -122.127896],
           options: { radiusInMeters: 5000 },
         },
-        { coordinates: { latitude: 47.621028, longitude: -122.34817 } },
+        { coordinates: [47.621028, -122.34817] },
       ];
 
       // Initiate search address batch

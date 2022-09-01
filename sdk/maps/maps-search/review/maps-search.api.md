@@ -438,12 +438,7 @@ export enum KnownSearchIndexes {
 }
 
 // @public
-export interface LatLon {
-    // (undocumented)
-    latitude: number;
-    // (undocumented)
-    longitude: number;
-}
+export type LatLon = [latitude: number, longitude: number];
 
 // @public
 export type LocalizedMapView = string;
