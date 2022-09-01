@@ -3120,7 +3120,7 @@ packages:
     dev: false
 
   /array-flatten/1.1.1:
-    resolution: {integrity: sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=}
+    resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
     dev: false
 
   /array-includes/3.1.5:
@@ -3381,7 +3381,7 @@ packages:
     dev: false
 
   /buffer-equal-constant-time/1.0.1:
-    resolution: {integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=}
+    resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
     dev: false
 
   /buffer-from/1.1.2:
@@ -3531,7 +3531,7 @@ packages:
     dev: false
 
   /charenc/0.0.2:
-    resolution: {integrity: sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc=}
+    resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
     dev: false
 
   /check-error/1.0.2:
@@ -4088,7 +4088,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220831
+      typescript: 4.9.0-dev.20220901
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -9091,8 +9091,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220831:
-    resolution: {integrity: sha512-FXVLQI/P9R7uT/I0ODGrIPmV9uDlQXufoe+RUcvZOvTtLzk2Kd1H9rr+e3l6hiSho6ikrnvews2LWF5AulwO/w==}
+  /typescript/4.9.0-dev.20220901:
+    resolution: {integrity: sha512-6nVAA+LnuU09b62zRKm0XRiLUv6h62UDfgVulk9kmBjZmc35qlh3p3bA4LulqJ/euCG3bzCksyhL0ZeOw/bO/A==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -16287,7 +16287,7 @@ packages:
     dev: false
 
   file:projects/core-lro.tgz:
-    resolution: {integrity: sha512-Iekt5Nq7NjJhqKxKQv5GMYYjJn4Ri/D9JJNxlNYwM1UQl1rIBkWSSKiRGu/7a6tjcxGqGN2bURJUFXfKqwxVxQ==, tarball: file:projects/core-lro.tgz}
+    resolution: {integrity: sha512-0KYl8Q3FwAcxMpjqDQLMU0lfU1egH97ni5xAs4FYUCak6717aFuR2DILHaGhYjsT9oTff5xBdlN0F2fdhGRA6g==, tarball: file:projects/core-lro.tgz}
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
@@ -17174,7 +17174,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-aCsI89Bvj/Jlilt/8fI4SluTSqTL+xPprPomF/s8wFr89sqswow7QyTCCHe/NtKoMZj64ySMjS3jOW+Yw7vY1w==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-2zccxm7yRqXeac2OyhOxJT+eqmxwMNS4fJprsu27L20MGJn8TJkKrJl9613nZnvMUOgsoL0dm6eBG7/gU44EQg==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
@@ -17185,6 +17185,7 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      '@types/uuid': 8.3.4
       chai: 4.3.6
       dotenv: 8.6.0
       eslint: 8.20.0
@@ -17210,6 +17211,7 @@ packages:
       source-map-support: 0.5.21
       tslib: 2.4.0
       typescript: 4.6.4
+      uuid: 8.3.2
     transitivePeerDependencies:
       - bufferutil
       - debug
