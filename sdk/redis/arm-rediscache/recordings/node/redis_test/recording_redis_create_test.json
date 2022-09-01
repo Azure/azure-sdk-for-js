@@ -302,8 +302,8 @@
             "maxmemory-delta": "642"
           },
           "accessKeys": {
-            "primaryKey": "awadeHSeNWatIXF44MjaoUmYPm1BFf5aaAzCaDjoQrE=",
-            "secondaryKey": "iaTdc7QvaPExd0za3fBFZXtQsL7PXwwGlAzCaHRaaZM="
+            "primaryKey": "SecretPlaceholder",
+            "secondaryKey": "SecretPlaceholder"
           },
           "hostName": "myrediscachexxx111.redis.cache.windows.net",
           "port": 6379,
