@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AbortSignalLike } from "@azure/abort-controller";
 import { CancellableAsyncLock, CancellableAsyncLockImpl } from "./lock";
 import { WebSocketImpl } from "rhea-promise";
+import { delay as wrapperDelay } from "@azure/core-util";
 
 /**
  * @internal
@@ -165,7 +167,29 @@ export class Timeout {
   }
 }
 
-export { delay } from "@azure/core-util";
+/**
+ * A wrapper for setTimeout that resolves a promise after t milliseconds.
+ * @param delayInMs - The number of milliseconds to be delayed.
+ * @param abortSignal - The abortSignal associated with containing operation.
+ * @param abortErrorMsg - The abort error message associated with containing operation.
+ * @param value - The value to be resolved with after a timeout of t milliseconds.
+ * @returns - Resolved promise
+ * @deprecated
+ */
+export async function delay<T>(
+  delayInMs: number,
+  abortSignal?: AbortSignalLike,
+  abortErrorMsg?: string,
+  value?: T
+): Promise<T | void> {
+  await wrapperDelay(delayInMs, {
+    abortSignal: abortSignal,
+    abortErrorMsg: abortErrorMsg,
+  });
+  if (value !== undefined) {
+    return value;
+  }
+}
 
 /**
  * @internal

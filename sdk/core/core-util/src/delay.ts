@@ -7,34 +7,22 @@ import { isDefined } from "./typeGuards";
 const StandardAbortMessage = "The operation was aborted.";
 
 /**
+ * Options for support abort functionality for the delay method
+ */
+export interface DelayOptions {
+  abortSignal?: AbortSignalLike;
+  abortErrorMsg?: string;
+}
+
+/**
  * A wrapper for setTimeout that resolves a promise after timeInMs milliseconds.
  * @param timeInMs - The number of milliseconds to be delayed.
- * @param value - The value to be resolved with after a timeout of t milliseconds.
  * @param options - The options for delay - currently abort options
  *   @param abortSignal - The abortSignal associated with containing operation.
  *   @param abortErrorMsg - The abort error message associated with containing operation.
  * @returns Promise that is resolved after timeInMs
  */
-
-export interface DelayOptions {
-  abortSignal?: AbortSignalLike;
-  abortErrorMsg?: string;
-}
-export function delay<T>(timeInMs: number, options?: DelayOptions): Promise<T | void>;
-export function delay<T>(timeInMs: number, value: T, options?: DelayOptions): Promise<T | void>;
-
-export function delay<T>(
-  timeInMs: number,
-  valueOrOption?: T | DelayOptions,
-  options?: DelayOptions
-): Promise<T | void> {
-  let value: T | undefined = undefined;
-  if (isDelayOption(valueOrOption)) {
-    options = valueOrOption;
-  } else {
-    value = valueOrOption;
-  }
-
+export function delay(timeInMs: number, options?: DelayOptions): Promise<void> {
   return new Promise((resolve, reject) => {
     let timer: ReturnType<typeof setTimeout> | undefined = undefined;
     let onAborted: (() => void) | undefined = undefined;
@@ -65,15 +53,11 @@ export function delay<T>(
 
     timer = setTimeout(() => {
       removeListeners();
-      resolve(value);
+      resolve();
     }, timeInMs);
 
     if (options?.abortSignal) {
       options.abortSignal.addEventListener("abort", onAborted);
     }
   });
-}
-
-function isDelayOption<T>(value: T | DelayOptions): value is DelayOptions {
-  return Boolean((value as DelayOptions).abortErrorMsg || (value as DelayOptions).abortSignal);
 }

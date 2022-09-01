@@ -22,7 +22,7 @@ describe("delay", function () {
     await delayPromise;
   });
 
-  it.only("should return when the abort signal is called", async function () {
+  it("should return when the abort signal is called", async function () {
     const delayTime = 2500;
     const controller = new AbortController();
     const StandardAbortMessage = "The operation was aborted.";

@@ -14,11 +14,8 @@ export function computeSha256Hmac(key: string, stringToSign: string, encoding: "
 
 // Warning: (ae-forgotten-export) The symbol "DelayOptions" needs to be exported by the entry point index.d.ts
 //
-// @public (undocumented)
-export function delay<T>(timeInMs: number, options?: DelayOptions): Promise<T | void>;
-
-// @public (undocumented)
-export function delay<T>(timeInMs: number, value: T, options?: DelayOptions): Promise<T | void>;
+// @public
+export function delay(timeInMs: number, options?: DelayOptions): Promise<void>;
 
 // @public
 export function getErrorMessage(e: unknown): string;
