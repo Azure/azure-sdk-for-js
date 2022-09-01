@@ -28,11 +28,14 @@ describe("update test", () => {
     const response = await client
       .path("/deviceUpdate/{instanceId}/updates/providers", "sdkinstance")
       .get();
+
     if (isUnexpected(response)) {
       assert.fail(
         `GET "/deviceUpdate/sdkInstance/updates/providers" failed with ${response.status}`
       );
     }
+
+    assert.equal("200", response.status);
   });
 
   it("list names", async function () {
@@ -43,17 +46,21 @@ describe("update test", () => {
         provider
       )
       .get();
+
     if (isUnexpected(response)) {
       assert.fail(
         `GET "/deviceUpdate/sdkInstance/updates/providers/fabrikam/names" failed with ${response.status}`
       );
     }
+
+    assert.equal("200", response.status);
   });
 
   it("get name not found", async function () {
     const response = await client
       .path("/deviceUpdate/{instanceId}/updates/providers/{provider}/names", "sdkinstance", "foo")
       .get();
+
     assert.equal(response.status, "404");
   });
 
@@ -66,11 +73,14 @@ describe("update test", () => {
         name
       )
       .get();
+
     if (isUnexpected(response)) {
       assert.fail(
         `GET "/deviceUpdate/sdkInstance/updates/providers/fabrikam/names/vacuum/versions" failed with ${response.status}`
       );
     }
+
+    assert.equal("200", response.status);
   });
 
   it("get version not found", async function () {
@@ -82,6 +92,7 @@ describe("update test", () => {
         "bar"
       )
       .get();
+
     assert.equal(response.status, "404");
   });
 
@@ -95,11 +106,14 @@ describe("update test", () => {
         version
       )
       .get();
+
     if (isUnexpected(response)) {
       assert.fail(
         `GET "/deviceUpdate/sdkInstance/updates/providers/fabrikam/names/vacuum" failed with ${response.status}`
       );
     }
+
+    assert.equal("200", response.status);
   });
 
   it("get update not found", async function () {
@@ -112,6 +126,7 @@ describe("update test", () => {
         "1.2"
       )
       .get();
+
     assert.equal(response.status, "404");
   });
 
@@ -125,11 +140,14 @@ describe("update test", () => {
         version
       )
       .get();
+
     if (isUnexpected(response)) {
       assert.fail(
         `GET "/deviceUpdate/sdkInstance/updates/providers/fabrikam/names/vacuum/versions/1.2" failed with ${response.status}`
       );
     }
+
+    assert.equal("200", response.status);
   });
 
   it("list files not found", async function () {
@@ -142,6 +160,7 @@ describe("update test", () => {
         "1.2"
       )
       .get();
+
     assert.equal(response.status, "404");
   });
 }).timeout(600000);

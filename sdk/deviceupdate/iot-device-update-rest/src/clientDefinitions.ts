@@ -59,6 +59,7 @@ import {
   DeviceUpdateImportUpdate202Response,
   DeviceUpdateImportUpdatedefaultResponse,
   DeviceUpdateGetUpdate200Response,
+  DeviceUpdateGetUpdate304Response,
   DeviceUpdateGetUpdatedefaultResponse,
   DeviceUpdateDeleteUpdate202Response,
   DeviceUpdateDeleteUpdatedefaultResponse,
@@ -71,10 +72,12 @@ import {
   DeviceUpdateListFiles200Response,
   DeviceUpdateListFilesdefaultResponse,
   DeviceUpdateGetFile200Response,
+  DeviceUpdateGetFile304Response,
   DeviceUpdateGetFiledefaultResponse,
   DeviceUpdateListOperationStatuses200Response,
   DeviceUpdateListOperationStatusesdefaultResponse,
   DeviceUpdateGetOperationStatus200Response,
+  DeviceUpdateGetOperationStatus304Response,
   DeviceUpdateGetOperationStatusdefaultResponse,
   DeviceManagementListDeviceClasses200Response,
   DeviceManagementListDeviceClassesdefaultResponse,
@@ -141,6 +144,7 @@ import {
   DeviceManagementListDeviceStatesForDeviceClassSubgroupDeployment200Response,
   DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse,
   DeviceManagementGetOperationStatus200Response,
+  DeviceManagementGetOperationStatus304Response,
   DeviceManagementGetOperationStatusdefaultResponse,
   DeviceManagementListOperationStatuses200Response,
   DeviceManagementListOperationStatusesdefaultResponse,
@@ -177,7 +181,11 @@ export interface DeviceUpdateGetUpdate {
   /** Get a specific update version. */
   get(
     options?: DeviceUpdateGetUpdateParameters
-  ): StreamableMethod<DeviceUpdateGetUpdate200Response | DeviceUpdateGetUpdatedefaultResponse>;
+  ): StreamableMethod<
+    | DeviceUpdateGetUpdate200Response
+    | DeviceUpdateGetUpdate304Response
+    | DeviceUpdateGetUpdatedefaultResponse
+  >;
   /** Delete a specific update version. This is a long-running-operation; use Operation-Location response header value to check for operation status. */
   delete(
     options?: DeviceUpdateDeleteUpdateParameters
@@ -222,7 +230,11 @@ export interface DeviceUpdateGetFile {
   /** Get a specific update file from the version. */
   get(
     options?: DeviceUpdateGetFileParameters
-  ): StreamableMethod<DeviceUpdateGetFile200Response | DeviceUpdateGetFiledefaultResponse>;
+  ): StreamableMethod<
+    | DeviceUpdateGetFile200Response
+    | DeviceUpdateGetFile304Response
+    | DeviceUpdateGetFiledefaultResponse
+  >;
 }
 
 export interface DeviceUpdateListOperationStatuses {
@@ -239,7 +251,9 @@ export interface DeviceUpdateGetOperationStatus {
   get(
     options?: DeviceUpdateGetOperationStatusParameters
   ): StreamableMethod<
-    DeviceUpdateGetOperationStatus200Response | DeviceUpdateGetOperationStatusdefaultResponse
+    | DeviceUpdateGetOperationStatus200Response
+    | DeviceUpdateGetOperationStatus304Response
+    | DeviceUpdateGetOperationStatusdefaultResponse
   >;
 }
 
@@ -533,6 +547,7 @@ export interface DeviceManagementGetOperationStatus {
     options?: DeviceManagementGetOperationStatusParameters
   ): StreamableMethod<
     | DeviceManagementGetOperationStatus200Response
+    | DeviceManagementGetOperationStatus304Response
     | DeviceManagementGetOperationStatusdefaultResponse
   >;
 }

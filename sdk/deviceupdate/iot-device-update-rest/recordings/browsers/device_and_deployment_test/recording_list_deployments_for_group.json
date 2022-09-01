@@ -17,17 +17,17 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "6ac38c0d-82c8-4900-a2d9-de1a05c99099",
-        "x-ms-useragent": "azsdk-js-iot-device-update-rest/1.0.0-beta.3 core-rest-pipeline/1.9.2 OS/Win32"
+        "x-ms-client-request-id": "2d7f1346-0b1b-4203-9c14-7601e5984de3",
+        "x-ms-useragent": "azsdk-js-iot-device-update-rest/1.0.0 core-rest-pipeline/1.9.2 OS/Win32"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "5677",
+        "Content-Length": "6622",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 31 Aug 2022 22:14:46 GMT",
-        "mise-correlation-id": "c20ee5b4-1453-455a-a76c-0842502c0b35",
-        "traceparent": "00-83fc0764b1b4605a887fb70d95740b5d-5f29771cd41745c1-00"
+        "Date": "Thu, 01 Sep 2022 21:44:11 GMT",
+        "mise-correlation-id": "0e98da47-28c5-4312-a259-cfc8e3541119",
+        "traceparent": "00-7c5c6ba83c2d41c4c66c3a1a3b7b0d10-4a71cbb7179e7be9-00"
       },
       "ResponseBody": {
         "value": [
@@ -211,6 +211,38 @@
             "deploymentId": "3706728501f54ef4b4d6574eaef7fb6c",
             "groupId": "dpokluda-test",
             "startDateTime": "2022-08-13T00:21:37.385494\u002B00:00",
+            "update": {
+              "updateId": {
+                "provider": "fabrikam",
+                "name": "vacuum",
+                "version": "2022.809.131.21"
+              }
+            },
+            "isCloudInitiatedRollback": false,
+            "deviceClassSubgroups": [
+              "0919e3ae422a2bfa8c84ff905813e60351e456d1"
+            ]
+          },
+          {
+            "deploymentId": "e70fdd3f-e304-4ebe-9b2f-1816bdd1957d",
+            "groupId": "dpokluda-test",
+            "startDateTime": "2022-09-01T01:05:45.271\u002B00:00",
+            "update": {
+              "updateId": {
+                "provider": "fabrikam",
+                "name": "vacuum",
+                "version": "2022.809.131.21"
+              }
+            },
+            "isCloudInitiatedRollback": false,
+            "deviceClassSubgroups": [
+              "0919e3ae422a2bfa8c84ff905813e60351e456d1"
+            ]
+          },
+          {
+            "deploymentId": "a5f6a54b-938d-44b6-8baa-8dc72017ae54",
+            "groupId": "dpokluda-test",
+            "startDateTime": "2022-09-01T01:09:53.54\u002B00:00",
             "update": {
               "updateId": {
                 "provider": "fabrikam",

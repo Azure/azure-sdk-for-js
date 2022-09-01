@@ -50,6 +50,11 @@ async function main() {
     throw updateResult.body;
   }
 
+  if (updateResult.status === "304") {
+    console.log("no change");
+    return;
+  }
+
   console.log("Update:");
   console.log("  Provider: " + updateResult.body.updateId.provider);
   console.log("  Name: " + updateResult.body.updateId.name);
@@ -90,6 +95,11 @@ async function main() {
 
     if (isUnexpected(fileResult)) {
       throw fileResult.body;
+    }
+
+    if (fileResult.status === "304") {
+      console.log("no change");
+      return;
     }
 
     console.log("File:");

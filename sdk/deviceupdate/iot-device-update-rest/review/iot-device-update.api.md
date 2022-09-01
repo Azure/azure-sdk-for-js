@@ -624,7 +624,7 @@ export type DeviceManagementGetLogCollectionParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DeviceManagementGetOperationStatus {
-    get(options?: DeviceManagementGetOperationStatusParameters): StreamableMethod<DeviceManagementGetOperationStatus200Response | DeviceManagementGetOperationStatusdefaultResponse>;
+    get(options?: DeviceManagementGetOperationStatusParameters): StreamableMethod<DeviceManagementGetOperationStatus200Response | DeviceManagementGetOperationStatus304Response | DeviceManagementGetOperationStatusdefaultResponse>;
 }
 
 // @public (undocumented)
@@ -640,6 +640,22 @@ export interface DeviceManagementGetOperationStatus200Response extends HttpRespo
     headers: RawHttpHeaders & DeviceManagementGetOperationStatus200Headers;
     // (undocumented)
     status: "200";
+}
+
+// @public (undocumented)
+export interface DeviceManagementGetOperationStatus304Headers {
+    // (undocumented)
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface DeviceManagementGetOperationStatus304Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    headers: RawHttpHeaders & DeviceManagementGetOperationStatus304Headers;
+    // (undocumented)
+    status: "304";
 }
 
 // @public
@@ -1335,7 +1351,7 @@ export type DeviceUpdateDeleteUpdateParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DeviceUpdateGetFile {
-    get(options?: DeviceUpdateGetFileParameters): StreamableMethod<DeviceUpdateGetFile200Response | DeviceUpdateGetFiledefaultResponse>;
+    get(options?: DeviceUpdateGetFileParameters): StreamableMethod<DeviceUpdateGetFile200Response | DeviceUpdateGetFile304Response | DeviceUpdateGetFiledefaultResponse>;
 }
 
 // @public
@@ -1344,6 +1360,22 @@ export interface DeviceUpdateGetFile200Response extends HttpResponse {
     body: UpdateFileOutput;
     // (undocumented)
     status: "200";
+}
+
+// @public (undocumented)
+export interface DeviceUpdateGetFile304Headers {
+    // (undocumented)
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface DeviceUpdateGetFile304Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    headers: RawHttpHeaders & DeviceUpdateGetFile304Headers;
+    // (undocumented)
+    status: "304";
 }
 
 // @public
@@ -1370,7 +1402,7 @@ export type DeviceUpdateGetFileParameters = DeviceUpdateGetFileHeaderParam & Req
 
 // @public (undocumented)
 export interface DeviceUpdateGetOperationStatus {
-    get(options?: DeviceUpdateGetOperationStatusParameters): StreamableMethod<DeviceUpdateGetOperationStatus200Response | DeviceUpdateGetOperationStatusdefaultResponse>;
+    get(options?: DeviceUpdateGetOperationStatusParameters): StreamableMethod<DeviceUpdateGetOperationStatus200Response | DeviceUpdateGetOperationStatus304Response | DeviceUpdateGetOperationStatusdefaultResponse>;
 }
 
 // @public (undocumented)
@@ -1386,6 +1418,22 @@ export interface DeviceUpdateGetOperationStatus200Response extends HttpResponse 
     headers: RawHttpHeaders & DeviceUpdateGetOperationStatus200Headers;
     // (undocumented)
     status: "200";
+}
+
+// @public (undocumented)
+export interface DeviceUpdateGetOperationStatus304Headers {
+    // (undocumented)
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface DeviceUpdateGetOperationStatus304Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    headers: RawHttpHeaders & DeviceUpdateGetOperationStatus304Headers;
+    // (undocumented)
+    status: "304";
 }
 
 // @public
@@ -1413,7 +1461,7 @@ export type DeviceUpdateGetOperationStatusParameters = DeviceUpdateGetOperationS
 // @public (undocumented)
 export interface DeviceUpdateGetUpdate {
     delete(options?: DeviceUpdateDeleteUpdateParameters): StreamableMethod<DeviceUpdateDeleteUpdate202Response | DeviceUpdateDeleteUpdatedefaultResponse>;
-    get(options?: DeviceUpdateGetUpdateParameters): StreamableMethod<DeviceUpdateGetUpdate200Response | DeviceUpdateGetUpdatedefaultResponse>;
+    get(options?: DeviceUpdateGetUpdateParameters): StreamableMethod<DeviceUpdateGetUpdate200Response | DeviceUpdateGetUpdate304Response | DeviceUpdateGetUpdatedefaultResponse>;
 }
 
 // @public
@@ -1422,6 +1470,22 @@ export interface DeviceUpdateGetUpdate200Response extends HttpResponse {
     body: UpdateOutput;
     // (undocumented)
     status: "200";
+}
+
+// @public (undocumented)
+export interface DeviceUpdateGetUpdate304Headers {
+    // (undocumented)
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface DeviceUpdateGetUpdate304Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    headers: RawHttpHeaders & DeviceUpdateGetUpdate304Headers;
+    // (undocumented)
+    status: "304";
 }
 
 // @public
@@ -1765,7 +1829,7 @@ export function isUnexpected(response: DeviceUpdateListUpdates200Response | Devi
 export function isUnexpected(response: DeviceUpdateImportUpdate202Response | DeviceUpdateImportUpdatedefaultResponse): response is DeviceUpdateImportUpdatedefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DeviceUpdateGetUpdate200Response | DeviceUpdateGetUpdatedefaultResponse): response is DeviceUpdateGetUpdatedefaultResponse;
+export function isUnexpected(response: DeviceUpdateGetUpdate200Response | DeviceUpdateGetUpdate304Response | DeviceUpdateGetUpdatedefaultResponse): response is DeviceUpdateGetUpdatedefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: DeviceUpdateDeleteUpdate202Response | DeviceUpdateDeleteUpdatedefaultResponse): response is DeviceUpdateDeleteUpdatedefaultResponse;
@@ -1783,13 +1847,13 @@ export function isUnexpected(response: DeviceUpdateListVersions200Response | Dev
 export function isUnexpected(response: DeviceUpdateListFiles200Response | DeviceUpdateListFilesdefaultResponse): response is DeviceUpdateListFilesdefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DeviceUpdateGetFile200Response | DeviceUpdateGetFiledefaultResponse): response is DeviceUpdateGetFiledefaultResponse;
+export function isUnexpected(response: DeviceUpdateGetFile200Response | DeviceUpdateGetFile304Response | DeviceUpdateGetFiledefaultResponse): response is DeviceUpdateGetFiledefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: DeviceUpdateListOperationStatuses200Response | DeviceUpdateListOperationStatusesdefaultResponse): response is DeviceUpdateListOperationStatusesdefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DeviceUpdateGetOperationStatus200Response | DeviceUpdateGetOperationStatusdefaultResponse): response is DeviceUpdateGetOperationStatusdefaultResponse;
+export function isUnexpected(response: DeviceUpdateGetOperationStatus200Response | DeviceUpdateGetOperationStatus304Response | DeviceUpdateGetOperationStatusdefaultResponse): response is DeviceUpdateGetOperationStatusdefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: DeviceManagementListDeviceClasses200Response | DeviceManagementListDeviceClassesdefaultResponse): response is DeviceManagementListDeviceClassesdefaultResponse;
@@ -1888,7 +1952,7 @@ export function isUnexpected(response: DeviceManagementGetDeviceClassSubgroupDep
 export function isUnexpected(response: DeviceManagementListDeviceStatesForDeviceClassSubgroupDeployment200Response | DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse): response is DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DeviceManagementGetOperationStatus200Response | DeviceManagementGetOperationStatusdefaultResponse): response is DeviceManagementGetOperationStatusdefaultResponse;
+export function isUnexpected(response: DeviceManagementGetOperationStatus200Response | DeviceManagementGetOperationStatus304Response | DeviceManagementGetOperationStatusdefaultResponse): response is DeviceManagementGetOperationStatusdefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: DeviceManagementListOperationStatuses200Response | DeviceManagementListOperationStatusesdefaultResponse): response is DeviceManagementListOperationStatusesdefaultResponse;

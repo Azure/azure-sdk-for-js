@@ -17,17 +17,17 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "266535fc-dac0-4976-8c39-8773761f8319",
-        "x-ms-useragent": "azsdk-js-iot-device-update-rest/1.0.0-beta.3 core-rest-pipeline/1.9.2 OS/Win32"
+        "x-ms-client-request-id": "41c814da-ed0f-4d0b-af5f-ce561ac71f9f",
+        "x-ms-useragent": "azsdk-js-iot-device-update-rest/1.0.0 core-rest-pipeline/1.9.2 OS/Win32"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "1091",
+        "Content-Length": "1095",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 31 Aug 2022 22:14:45 GMT",
-        "mise-correlation-id": "dada1946-9cb4-431a-b59f-914227460f18",
-        "traceparent": "00-54970f6aacce51da8ec722ee2c909fbc-9f2306b007f0811f-00"
+        "Date": "Thu, 01 Sep 2022 21:44:08 GMT",
+        "mise-correlation-id": "a736beda-4ac1-403e-b9cc-869beec96c5c",
+        "traceparent": "00-fc35a49943c715afb2781cc0b81d053f-20a0c80000bf74e4-00"
       },
       "ResponseBody": {
         "value": [
@@ -50,7 +50,7 @@
             "subgroupsWithUpdatesInProgressCount": 0,
             "subgroupsWithOnLatestUpdateCount": 0,
             "deployments": [
-              "3706728501f54ef4b4d6574eaef7fb6c"
+              "a5f6a54b-938d-44b6-8baa-8dc72017ae54"
             ]
           },
           {

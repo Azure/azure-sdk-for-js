@@ -26,17 +26,21 @@ describe("device and deployment test", () => {
     const response = await client
       .path("/deviceUpdate/{instanceId}/management/devices", "sdkinstance")
       .get();
+
     if (isUnexpected(response)) {
       assert.fail(
         `GET "/deviceUpdate/sdkInstance/management/devices" failed with ${response.status}`
       );
     }
+
+    assert.equal("200", response.status);
   });
 
   it("get device not found", async function () {
     const response = await client
       .path("/deviceUpdate/{instanceId}/management/devices/{deviceId}", "sdkinstance", "foo")
       .get();
+
     assert.equal(response.status, "404");
   });
 
@@ -44,28 +48,35 @@ describe("device and deployment test", () => {
     const response = await client
       .path("/deviceUpdate/{instanceId}/management/groups", "sdkinstance")
       .get();
+
     if (isUnexpected(response)) {
       assert.fail(
         `GET "/deviceUpdate/sdkInstance/management/groups" failed with ${response.status}`
       );
     }
+
+    assert.equal("200", response.status);
   });
 
   it("get group", async function () {
     const response = await client
       .path("/deviceUpdate/{instanceId}/management/groups/{groupId}", "sdkinstance", group)
       .get();
+
     if (isUnexpected(response)) {
       assert.fail(
         `GET "/deviceUpdate/sdkInstance/updates/providers/fabrikam/names/vacuum" failed with ${response.status}`
       );
     }
+
+    assert.equal("200", response.status);
   });
 
   it("get group not found", async function () {
     const response = await client
       .path("/deviceUpdate/{instanceId}/management/groups/{groupId}", "sdkinstance", "foo")
       .get();
+
     assert.equal(response.status, "404");
   });
 
@@ -73,11 +84,14 @@ describe("device and deployment test", () => {
     const response = await client
       .path("/deviceUpdate/{instanceId}/management/deviceClasses", "sdkinstance")
       .get();
+
     if (isUnexpected(response)) {
       assert.fail(
         `GET "/deviceUpdate/sdkInstance/management/deviceClasses" failed with ${response.status}`
       );
     }
+
+    assert.equal("200", response.status);
   });
 
   it("get device class not found", async function () {
@@ -88,6 +102,7 @@ describe("device and deployment test", () => {
         "foo"
       )
       .get();
+
     assert.equal(response.status, "404");
   });
 
@@ -99,11 +114,14 @@ describe("device and deployment test", () => {
         group
       )
       .get();
+
     if (isUnexpected(response)) {
       assert.fail(
         `GET "/deviceUpdate/sdkInstance/management/groups/group/bestUpdates" failed with ${response.status}`
       );
     }
+
+    assert.equal("200", response.status);
   });
 
   it("list best updates for group not found", async function () {
@@ -114,6 +132,7 @@ describe("device and deployment test", () => {
         "foo"
       )
       .get();
+
     assert.equal(response.status, "404");
   });
 
@@ -125,11 +144,14 @@ describe("device and deployment test", () => {
         group
       )
       .get();
+
     if (isUnexpected(response)) {
       assert.fail(
         `GET "/deviceUpdate/sdkInstance/management/groups/group/deployments" failed with ${response.status}`
       );
     }
+
+    assert.equal("200", response.status);
   });
 
   it("list deployments for group not found", async function () {
@@ -140,6 +162,7 @@ describe("device and deployment test", () => {
         "foo"
       )
       .get();
+
     assert.equal(response.status, "404");
   });
 }).timeout(600000);

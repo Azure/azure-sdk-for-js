@@ -7,6 +7,7 @@ import {
   DeviceUpdateImportUpdate202Response,
   DeviceUpdateImportUpdatedefaultResponse,
   DeviceUpdateGetUpdate200Response,
+  DeviceUpdateGetUpdate304Response,
   DeviceUpdateGetUpdatedefaultResponse,
   DeviceUpdateDeleteUpdate202Response,
   DeviceUpdateDeleteUpdatedefaultResponse,
@@ -19,10 +20,12 @@ import {
   DeviceUpdateListFiles200Response,
   DeviceUpdateListFilesdefaultResponse,
   DeviceUpdateGetFile200Response,
+  DeviceUpdateGetFile304Response,
   DeviceUpdateGetFiledefaultResponse,
   DeviceUpdateListOperationStatuses200Response,
   DeviceUpdateListOperationStatusesdefaultResponse,
   DeviceUpdateGetOperationStatus200Response,
+  DeviceUpdateGetOperationStatus304Response,
   DeviceUpdateGetOperationStatusdefaultResponse,
   DeviceManagementListDeviceClasses200Response,
   DeviceManagementListDeviceClassesdefaultResponse,
@@ -89,6 +92,7 @@ import {
   DeviceManagementListDeviceStatesForDeviceClassSubgroupDeployment200Response,
   DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse,
   DeviceManagementGetOperationStatus200Response,
+  DeviceManagementGetOperationStatus304Response,
   DeviceManagementGetOperationStatusdefaultResponse,
   DeviceManagementListOperationStatuses200Response,
   DeviceManagementListOperationStatusesdefaultResponse,
@@ -110,6 +114,7 @@ const responseMap: Record<string, string[]> = {
   "GET /deviceUpdate/{instanceId}/updates:import": ["202"],
   "GET /deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}": [
     "200",
+    "304",
   ],
   "DELETE /deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}": [
     "202",
@@ -122,9 +127,10 @@ const responseMap: Record<string, string[]> = {
   ],
   "GET /deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files/{fileId}": [
     "200",
+    "304",
   ],
   "GET /deviceUpdate/{instanceId}/updates/operations": ["200"],
-  "GET /deviceUpdate/{instanceId}/updates/operations/{operationId}": ["200"],
+  "GET /deviceUpdate/{instanceId}/updates/operations/{operationId}": ["200", "304"],
   "GET /deviceUpdate/{instanceId}/management/deviceClasses": ["200"],
   "GET /deviceUpdate/{instanceId}/management/deviceClasses/{deviceClassId}": ["200"],
   "PATCH /deviceUpdate/{instanceId}/management/deviceClasses/{deviceClassId}": ["200"],
@@ -186,7 +192,7 @@ const responseMap: Record<string, string[]> = {
   "GET /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments/{deploymentId}/devicestates": [
     "200",
   ],
-  "GET /deviceUpdate/{instanceId}/management/operations/{operationId}": ["200"],
+  "GET /deviceUpdate/{instanceId}/management/operations/{operationId}": ["200", "304"],
   "GET /deviceUpdate/{instanceId}/management/operations": ["200"],
   "PUT /deviceUpdate/{instanceId}/management/deviceDiagnostics/logCollections/{operationId}": [
     "201",
@@ -208,7 +214,10 @@ export function isUnexpected(
   response: DeviceUpdateImportUpdate202Response | DeviceUpdateImportUpdatedefaultResponse
 ): response is DeviceUpdateImportUpdatedefaultResponse;
 export function isUnexpected(
-  response: DeviceUpdateGetUpdate200Response | DeviceUpdateGetUpdatedefaultResponse
+  response:
+    | DeviceUpdateGetUpdate200Response
+    | DeviceUpdateGetUpdate304Response
+    | DeviceUpdateGetUpdatedefaultResponse
 ): response is DeviceUpdateGetUpdatedefaultResponse;
 export function isUnexpected(
   response: DeviceUpdateDeleteUpdate202Response | DeviceUpdateDeleteUpdatedefaultResponse
@@ -226,7 +235,10 @@ export function isUnexpected(
   response: DeviceUpdateListFiles200Response | DeviceUpdateListFilesdefaultResponse
 ): response is DeviceUpdateListFilesdefaultResponse;
 export function isUnexpected(
-  response: DeviceUpdateGetFile200Response | DeviceUpdateGetFiledefaultResponse
+  response:
+    | DeviceUpdateGetFile200Response
+    | DeviceUpdateGetFile304Response
+    | DeviceUpdateGetFiledefaultResponse
 ): response is DeviceUpdateGetFiledefaultResponse;
 export function isUnexpected(
   response:
@@ -236,6 +248,7 @@ export function isUnexpected(
 export function isUnexpected(
   response:
     | DeviceUpdateGetOperationStatus200Response
+    | DeviceUpdateGetOperationStatus304Response
     | DeviceUpdateGetOperationStatusdefaultResponse
 ): response is DeviceUpdateGetOperationStatusdefaultResponse;
 export function isUnexpected(
@@ -387,6 +400,7 @@ export function isUnexpected(
 export function isUnexpected(
   response:
     | DeviceManagementGetOperationStatus200Response
+    | DeviceManagementGetOperationStatus304Response
     | DeviceManagementGetOperationStatusdefaultResponse
 ): response is DeviceManagementGetOperationStatusdefaultResponse;
 export function isUnexpected(
@@ -426,6 +440,7 @@ export function isUnexpected(
     | DeviceUpdateImportUpdate202Response
     | DeviceUpdateImportUpdatedefaultResponse
     | DeviceUpdateGetUpdate200Response
+    | DeviceUpdateGetUpdate304Response
     | DeviceUpdateGetUpdatedefaultResponse
     | DeviceUpdateDeleteUpdate202Response
     | DeviceUpdateDeleteUpdatedefaultResponse
@@ -438,10 +453,12 @@ export function isUnexpected(
     | DeviceUpdateListFiles200Response
     | DeviceUpdateListFilesdefaultResponse
     | DeviceUpdateGetFile200Response
+    | DeviceUpdateGetFile304Response
     | DeviceUpdateGetFiledefaultResponse
     | DeviceUpdateListOperationStatuses200Response
     | DeviceUpdateListOperationStatusesdefaultResponse
     | DeviceUpdateGetOperationStatus200Response
+    | DeviceUpdateGetOperationStatus304Response
     | DeviceUpdateGetOperationStatusdefaultResponse
     | DeviceManagementListDeviceClasses200Response
     | DeviceManagementListDeviceClassesdefaultResponse
@@ -508,6 +525,7 @@ export function isUnexpected(
     | DeviceManagementListDeviceStatesForDeviceClassSubgroupDeployment200Response
     | DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse
     | DeviceManagementGetOperationStatus200Response
+    | DeviceManagementGetOperationStatus304Response
     | DeviceManagementGetOperationStatusdefaultResponse
     | DeviceManagementListOperationStatuses200Response
     | DeviceManagementListOperationStatusesdefaultResponse
