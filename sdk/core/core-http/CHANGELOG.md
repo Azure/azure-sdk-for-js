@@ -1,16 +1,10 @@
 # Release History
 
-## 2.2.7 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 2.2.7 (2022-09-01)
 
 ### Bugs Fixed
 
 - Addressed an issue where when header casing is preserved via a custom `HttpClient`, we would not deserialize headers correctly. [PR #22888](https://github.com/Azure/azure-sdk-for-js/pull/22888)
-
-### Other Changes
 
 ## 2.2.6 (2022-08-04)
 

@@ -13,7 +13,8 @@ describe("Multi-Slot Event Tests", () => {
   let recorder: Recorder;
   let client: PersonalizerClient;
 
-  before(async function (this: Context) {
+  beforeEach(async function (this: Context) {
+    recorder = await createRecorder(this);
     client = createPersonalizerClient(
       env["PERSONALIZER_ENDPOINT_MULTI_SLOT"] ?? "",
       {
@@ -24,10 +25,6 @@ describe("Multi-Slot Event Tests", () => {
     if (!(await isMultiSlotEnabledAsync(client))) {
       await enableMultiSlotAsync(client);
     }
-  });
-
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
   });
 
   afterEach(async function () {

@@ -73,6 +73,8 @@ export interface PollOperation<TState, TResult> {
    * It returns a promise that should be resolved with an updated version of the poller's operation.
    *
    * @param options - Optional properties passed to the operation's update method.
+   *
+   * @deprecated `cancel` has been deprecated because it was not implemented.
    */
   cancel(options?: { abortSignal?: AbortSignalLike }): Promise<PollOperation<TState, TResult>>;
 

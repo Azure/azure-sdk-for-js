@@ -31,7 +31,7 @@ describe("Rank Tests", () => {
     await recorder.stop();
   });
 
-  it.only("rank with no context features", async function () {
+  it("rank with no context features", async function () {
     const actions: RankableAction[] = [
       {
         id: "Person",
