@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, delay } from "@azure-tools/test-recorder";
+import { env, Recorder, delay } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
@@ -11,8 +11,6 @@ import createPersonalizerClient, {
   isUnexpected,
   PersonalizerClient,
 } from "../../src";
-
-import { env } from "process";
 
 // skipping Evaluation tests since we need a static resource for this which is not viable in javascript sdk.
 describe.skip("Evaluation Tests", () => {

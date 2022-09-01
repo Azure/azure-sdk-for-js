@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import createPersonalizerClient, {
@@ -9,7 +9,6 @@ import createPersonalizerClient, {
   ModelPropertiesOutput,
   PersonalizerClient,
 } from "../../src";
-import { env } from "process";
 import { assert } from "chai";
 
 describe("Model Tests", () => {
