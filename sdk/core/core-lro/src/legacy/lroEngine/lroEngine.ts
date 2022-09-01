@@ -1,25 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  LongRunningOperation,
-  LroEngineOptions,
-  PollerConfig,
-  ResumablePollOperationState,
-} from "./models";
+import { LroEngineOptions, PollerConfig } from "./models";
 import { GenericPollOperation } from "./operation";
+import { LongRunningOperation } from "../../http/models";
+import { POLL_INTERVAL_IN_MS } from "../../poller/constants";
 import { PollOperationState } from "../pollOperation";
 import { Poller } from "../poller";
-
-function deserializeState<TResult, TState>(
-  serializedState: string
-): TState & ResumablePollOperationState<TResult> {
-  try {
-    return JSON.parse(serializedState).state;
-  } catch (e) {
-    throw new Error(`LroEngine: Unable to deserialize state: ${serializedState}`);
-  }
-}
+import { RestorableOperationState } from "../../poller/models";
+import { deserializeState } from "../../poller/operation";
 
 /**
  * The LRO Engine, a class that performs polling.
@@ -31,10 +20,10 @@ export class LroEngine<TResult, TState extends PollOperationState<TResult>> exte
   private config: PollerConfig;
 
   constructor(lro: LongRunningOperation<TResult>, options?: LroEngineOptions<TResult, TState>) {
-    const { intervalInMs = 2000, resumeFrom } = options || {};
-    const state: TState & ResumablePollOperationState<TResult> = resumeFrom
+    const { intervalInMs = POLL_INTERVAL_IN_MS, resumeFrom } = options || {};
+    const state: RestorableOperationState<TState> = resumeFrom
       ? deserializeState(resumeFrom)
-      : ({} as TState & ResumablePollOperationState<TResult>);
+      : ({} as RestorableOperationState<TState>);
 
     const operation = new GenericPollOperation(
       state,

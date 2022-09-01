@@ -1,14 +1,11 @@
 # Release History
 
-## 2.2.6 (Unreleased)
+## 2.3.0 (2022-09-01)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Provides `createHttpPoller` which creates a simple poller that can work out of the box for most Azure long-running operations.
+- Deprecates `cancelOperation` in `PollerLike` because not every operation supports cancellation.
 
 ## 2.2.5 (2022-08-08)
 

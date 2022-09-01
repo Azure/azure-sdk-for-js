@@ -2,21 +2,14 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { CancelOnProgress, PollOperationState } from "@azure/core-lro";
-import { PagedAnalyzeHealthcareEntitiesResult } from "../../analyzeHealthcareEntitiesResult";
-import { delay } from "../../util";
-
-import { AnalysisPoller, AnalysisPollerOptions } from "../poller";
-import {
-  AnalyzeHealthcareOperationState,
-  BeginAnalyzeHealthcareEntitiesOptions,
-  BeginAnalyzeHealthcarePollerOperation,
-} from "./operation";
+import { CancelOnProgress } from "../poller/models";
+import { PollOperationState } from "./pollOperation";
 
 /**
  * Abstract representation of a poller, intended to expose just the minimal API that the user needs to work with.
  */
-export interface PollerLikeWithCancellation<TState extends PollOperationState<TResult>, TResult> {
+// eslint-disable-next-line no-use-before-define
+export interface PollerLike<TState extends PollOperationState<TResult>, TResult> {
   /**
    * Returns a promise that will resolve once a single polling request finishes.
    * It does this by calling the update method of the Poller's operation.
@@ -25,7 +18,7 @@ export interface PollerLikeWithCancellation<TState extends PollOperationState<TR
   /**
    * Returns a promise that will resolve once the underlying operation is completed.
    */
-  pollUntilDone(): Promise<TResult>;
+  pollUntilDone(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<TResult>;
   /**
    * Invokes the provided callback after each polling is completed,
    * sending the current state of the poller's operation.
@@ -47,6 +40,7 @@ export interface PollerLikeWithCancellation<TState extends PollOperationState<TR
   isStopped(): boolean;
   /**
    * Attempts to cancel the underlying operation.
+   * @deprecated `cancelOperation` has been deprecated because it was not implemented.
    */
   cancelOperation(options?: { abortSignal?: AbortSignalLike }): Promise<void>;
   /**
@@ -67,54 +61,4 @@ export interface PollerLikeWithCancellation<TState extends PollOperationState<TR
    * by invoking the operation's toString method.
    */
   toString(): string;
-}
-
-/**
- * @internal
- */
-interface HealthcarePollerOptions extends AnalysisPollerOptions {
-  readonly options?: BeginAnalyzeHealthcareEntitiesOptions;
-}
-
-/**
- * Result type of the Health Long-Running-Operation (LRO)
- */
-export type AnalyzeHealthcareEntitiesPollerLike = PollerLikeWithCancellation<
-  AnalyzeHealthcareOperationState,
-  PagedAnalyzeHealthcareEntitiesResult
->;
-
-/**
- * Class that represents a poller that waits for the healthcare results.
- * @internal
- */
-export class BeginAnalyzeHealthcarePoller extends AnalysisPoller<
-  AnalyzeHealthcareOperationState,
-  PagedAnalyzeHealthcareEntitiesResult
-> {
-  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-  constructor(inputs: HealthcarePollerOptions) {
-    const { client, tracing, documents, options, updateIntervalInMs = 5000, resumeFrom } = inputs;
-
-    let state: AnalyzeHealthcareOperationState | undefined;
-
-    if (resumeFrom) {
-      state = JSON.parse(resumeFrom).state;
-    }
-    const operation = new BeginAnalyzeHealthcarePollerOperation(
-      (state || {}) as any,
-      client,
-      tracing,
-      documents,
-      options
-    );
-
-    super(operation);
-
-    this.updateIntervalInMs = updateIntervalInMs;
-  }
-
-  public delay(): Promise<void> {
-    return delay(this.updateIntervalInMs);
-  }
 }
