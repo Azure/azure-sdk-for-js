@@ -368,7 +368,7 @@ export function createSasTokenProvider(data: {
 // @public
 export const defaultCancellableLock: CancellableAsyncLock;
 
-// @public
+// @public @deprecated
 export function delay<T>(delayInMs: number, abortSignal?: AbortSignalLike, abortErrorMsg?: string, value?: T): Promise<T | void>;
 
 // @public

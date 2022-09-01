@@ -913,7 +913,12 @@ describe("Batching Receiver", () => {
 
         const result = await Promise.all([
           onDetachedCalledPromise,
-          delay(Constants.defaultOperationTimeoutInMs * 1.5),
+          delay(
+            Constants.defaultOperationTimeoutInMs * 1.5,
+            undefined,
+            undefined,
+            "ondetachednevercalled"
+          ),
         ]);
 
         if (typeof result === "string" && result === "ondetachednevercalled") {
