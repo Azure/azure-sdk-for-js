@@ -6,7 +6,7 @@ const should = chai.should();
 const assert = chai.assert;
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { OperationOptions, ServiceBusMessage } from "../../src";
+import { OperationOptions, ServiceBusAdministrationClient, ServiceBusClient, ServiceBusMessage } from "../../src";
 import { TestClientType } from "../public/utils/testUtils";
 import {
   EntityName,
@@ -16,6 +16,8 @@ import {
   getRandomTestClientTypeWithNoSessions,
 } from "../public/utils/testutils2";
 import { ServiceBusSender, ServiceBusSenderImpl } from "../../src/sender";
+import { getEnvVarValue } from "../public/utils/envVarUtils";
+import { delay } from "@azure/core-util";
 
 describe("Send Batch", () => {
   let sender: ServiceBusSender;
@@ -34,9 +36,7 @@ describe("Send Batch", () => {
   });
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
-    entityNames = await serviceBusClient.test.createTestEntities(entityType, {
-      maxMessageSizeInKilobytes: 102400,
-    });
+    entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -257,37 +257,6 @@ describe("Send Batch", () => {
     it(`${withSessionTestClientType}: SendBatch`, async function (): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
       await testSendBatch();
-    });
-  });
-
-  describe("Send single message - size > 1 MB", function (): void {
-    afterEach(async () => {
-      await afterEachTest();
-    });
-
-    function prepareMessage(useSessions: boolean): ServiceBusMessage {
-      return {
-        body: Buffer.alloc(1024 * 1024),
-        sessionId: useSessions ? `s` : undefined,
-      };
-    }
-
-    async function testSend(): Promise<void> {
-      // Prepare messages to send
-      const messageToSend = prepareMessage(entityNames.usesSessions);
-      await sender.sendMessages(messageToSend);
-      // receive all the messages in receive and delete mode
-      await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, [messageToSend]);
-    }
-
-    it(`${noSessionTestClientType}: SendBatch`, async function (): Promise<void> {
-      await beforeEachTest(noSessionTestClientType);
-      await testSend();
-    });
-
-    it(`${withSessionTestClientType}: SendBatch`, async function (): Promise<void> {
-      await beforeEachTest(withSessionTestClientType);
-      await testSend();
     });
   });
 
@@ -546,3 +515,100 @@ describe("Send Batch", () => {
     );
   });
 });
+
+
+describe('Premium namespaces - Sending', () => {
+  const premiumConnectionString = getEnvVarValue("SERVICEBUS_CONNECTION_STRING_PREMIUM");
+  let atomClient: ServiceBusAdministrationClient;
+
+  before(function (this: Mocha.Context) {
+    if (!premiumConnectionString) {
+      this.skip();
+    }
+    atomClient = new ServiceBusAdministrationClient(premiumConnectionString);
+  });
+  let sender: ServiceBusSender;
+  let serviceBusClient: ServiceBusClient;
+  let queueName: string | undefined;
+  let topicName: string | undefined;
+  let subscriptionName: string | undefined;
+  let withSessions: boolean;
+
+  const noSessionTestClientType = Math.random() > 0.5 ? TestClientType.UnpartitionedQueue : TestClientType.UnpartitionedTopic;
+  const withSessionTestClientType = Math.random() > 0.5 ? TestClientType.UnpartitionedQueueWithSessions : TestClientType.UnpartitionedTopicWithSessions;
+
+  before(() => {
+    serviceBusClient = new ServiceBusClient(premiumConnectionString || "");
+  });
+
+  after(async () => {
+    await serviceBusClient.close()
+  });
+
+  async function beforeEachTest(entityType: TestClientType): Promise<void> {
+    atomClient = new ServiceBusAdministrationClient(premiumConnectionString || "");
+    withSessions = !entityType.includes("WithSessions");
+    const randomSeed = Math.ceil(Math.random() * 10000 + 1000);
+    const isQueue = entityType.includes("Queue");
+    if (isQueue) {
+      queueName = "queue-" + randomSeed;
+      await atomClient.createQueue(queueName, { requiresSession: withSessions, maxMessageSizeInKilobytes: 10240 }) // 10 MB
+      sender = serviceBusClient.createSender(queueName)
+    } else {
+      topicName = "topic-" + randomSeed;
+      subscriptionName = "subscription-" + randomSeed;
+      await atomClient.createTopic(topicName, { maxMessageSizeInKilobytes: 10240 }); // 10 MB
+      await atomClient.createSubscription(topicName, subscriptionName, { requiresSession: withSessions })
+      sender = serviceBusClient.createSender(topicName)
+    }
+  }
+
+  async function afterEachTest(): Promise<void> {
+    await sender.close();
+    if (queueName) {
+      await atomClient.deleteQueue(queueName);
+      queueName = undefined;
+    } else if (topicName) {
+      await atomClient.deleteTopic(topicName);
+      topicName = undefined;
+    }
+  }
+
+  describe("Send single message - size > 1 MB (Large messages)", function (): void {
+    afterEach(async () => {
+      await afterEachTest();
+    });
+
+    function prepareMessage(useSessions: boolean): ServiceBusMessage {
+      return {
+        body: Buffer.alloc(1024 * 1024),
+        sessionId: useSessions ? `s` : undefined,
+      };
+    }
+
+    async function testSend(): Promise<void> {
+      // Prepare messages to send
+      const messageToSend = prepareMessage(withSessions);
+      await sender.sendMessages(messageToSend);
+      await delay(1000);
+      should.equal(
+        queueName
+          ? (await atomClient.getQueueRuntimeProperties(queueName)).totalMessageCount
+          : (await atomClient.getSubscriptionRuntimeProperties(topicName!, subscriptionName!))
+            .totalMessageCount,
+        1,
+        `Unexpected number of messages are present in the entity.`
+      );
+    }
+
+    it(`${noSessionTestClientType}: SendBatch`, async function (): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      await testSend();
+    });
+
+    it(`${withSessionTestClientType}: SendBatch`, async function (): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await testSend();
+    });
+  });
+})
