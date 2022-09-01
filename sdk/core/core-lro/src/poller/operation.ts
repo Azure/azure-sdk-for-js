@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationConfig, OperationStatus, RestorableOperationState, StateProxy } from "./models";
+import { Operation, OperationStatus, RestorableOperationState, StateProxy } from "./models";
 import { logger } from "../logger";
 import { terminalStates } from "./constants";
 
@@ -73,11 +73,7 @@ function buildResult<TResponse, TResult, TState>(inputs: {
  * Initiates the long-running operation.
  */
 export async function initOperation<TResponse, TResult, TState>(inputs: {
-  init: () => Promise<
-    OperationConfig & {
-      response: TResponse;
-    }
-  >;
+  init: Operation<TResponse, unknown>["init"];
   stateProxy: StateProxy<TState, TResult>;
   getOperationStatus: (
     response: TResponse,
@@ -111,12 +107,12 @@ export async function initOperation<TResponse, TResult, TState>(inputs: {
   return state;
 }
 
-async function pollOperationHelper<Location, TResponse, TState, TResult, TOptions>(inputs: {
-  poll: (location: Location, options?: TOptions) => Promise<TResponse>;
+async function pollOperationHelper<TResponse, TState, TResult, TOptions>(inputs: {
+  poll: Operation<TResponse, TOptions>["poll"];
   stateProxy: StateProxy<TState, TResult>;
   state: RestorableOperationState<TState>;
-  operationLocation: Location;
-  resourceLocation?: Location;
+  operationLocation: string;
+  resourceLocation?: string;
   getOperationStatus: (
     response: TResponse,
     state: RestorableOperationState<TState>
@@ -158,7 +154,7 @@ async function pollOperationHelper<Location, TResponse, TState, TResult, TOption
 
 /** Polls the long-running operation. */
 export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs: {
-  poll: (location: string, options?: TOptions) => Promise<TResponse>;
+  poll: Operation<TResponse, TOptions>["poll"];
   stateProxy: StateProxy<TState, TResult>;
   state: RestorableOperationState<TState>;
   getOperationStatus: (
