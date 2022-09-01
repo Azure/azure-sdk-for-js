@@ -222,12 +222,11 @@ export interface ConversationalTaskResult extends AnalyzeConversationTaskResult 
     result: AnalyzeConversationResult;
 }
 
-// @public (undocumented)
+// @public
 export class ConversationAnalysisClient {
     constructor(endpoint: string, credential: TokenCredential | KeyCredential, options?: ConversationAnalysisClientOptionalParams);
     analyzeConversation(task: AnalyzeConversationTaskUnion, options?: AnalyzeConversationOptionalParams): Promise<AnalyzeConversationResponse>;
     beginConversationAnalysis(task: AnalyzeConversationJobsInput, options?: ConversationAnalysisOptionalParams): Promise<PollerLike<PollOperationState<ConversationAnalysisResponse>, ConversationAnalysisResponse>>;
-    beginConversationAnalysisAndWait(task: AnalyzeConversationJobsInput, options?: ConversationAnalysisOptionalParams): Promise<ConversationAnalysisResponse>;
 }
 
 // @public

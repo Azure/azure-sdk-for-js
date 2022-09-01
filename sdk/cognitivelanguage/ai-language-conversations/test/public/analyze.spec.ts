@@ -114,40 +114,6 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
         assert.exists(qna_result.answers[0].answer);
         assert.isAbove(qna_result.answers[0].confidence, 0);
       });
-
-      it("Test Conversation App PII transcript", async function () {
-        const message = (await client.beginConversationAnalysisAndWait(conv5)) as any;
-        // Assert main object
-        assert.equal(message.status, "succeeded");
-
-        // Assert task result
-        const task_result = message.tasks.items[0];
-        assert.equal(task_result.status, "succeeded");
-        assert.equal(task_result.kind, "conversationalPIIResults");
-
-        // Assert Conversation Result
-        const conversation_items = task_result.results.conversations[0].conversationItems;
-        assert.exists(conversation_items);
-        conversation_items.forEach((conversation: any) => {
-          assert.exists(conversation.redactedContent);
-          assert.exists(conversation.entities);
-        });
-      });
-
-      it("Test Conversation Summarization App", async function () {
-        const message = (await client.beginConversationAnalysisAndWait(conv6)) as any;
-        // Assert main object
-        assert.equal(message.status, "succeeded");
-
-        // Assert task result
-        const task_result = message.tasks.items[0];
-        assert.equal(task_result.status, "succeeded");
-        assert.equal(task_result.kind, "conversationalSummarizationResults");
-
-        // Assert Conversation Result
-        const conversation_result = task_result.results.conversations[0];
-        assert.exists(conversation_result.summaries);
-      });
     });
 
     describe("#async", () => {
