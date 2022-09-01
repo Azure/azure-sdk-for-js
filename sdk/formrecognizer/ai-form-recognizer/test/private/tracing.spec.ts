@@ -116,7 +116,7 @@ describe("supports tracing", function () {
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await (await dmac.beginBuildDocumentModel("test", "test", "neural", options)).poll();
         }),
-        ["DocumentModelAdministrationClient.beginBuildModel"]
+        ["DocumentModelAdministrationClient.beginBuildDocumentModel"]
       ));
 
     it("beginComposeModel", () =>
@@ -124,7 +124,7 @@ describe("supports tracing", function () {
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await dmac.beginComposeDocumentModel("test", [], options);
         }),
-        ["DocumentModelAdministrationClient.beginComposeModel"]
+        ["DocumentModelAdministrationClient.beginComposeDocumentModel"]
       ));
 
     it("getCopyAuthorization", () =>
