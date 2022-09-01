@@ -70,7 +70,7 @@ export const serviceVersions = ["7.2"] as const;
  * @returns - The service version to test
  */
 export function getServiceVersion(): SUPPORTED_API_VERSIONS {
-  return env.SERVICE_VERSION || LATEST_API_VERSION;
+  return (env.SERVICE_VERSION as SUPPORTED_API_VERSIONS) || LATEST_API_VERSION;
 }
 
 /**

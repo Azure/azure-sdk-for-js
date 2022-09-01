@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ClientSecretCredential } from "@azure/identity";
-import { env, isPlaybackMode, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { KeyClient } from "@azure/keyvault-keys";
 import { v4 as uuidv4 } from "uuid";
 import { Context } from "mocha";
@@ -15,19 +15,15 @@ export async function authenticate(
   that: Context,
   serviceVersion: ReturnType<typeof getServiceVersion>
 ): Promise<any> {
-  const generatedUUIDs: string[] = [];
+  const recorder = new Recorder(that.currentTest);
+  let generatedUUIDs = 0;
   function generateFakeUUID(): string {
-    if (isPlaybackMode()) {
-      return "b36b00af-89c6-435f-a43d-9a3087015c27";
-    }
-    const uuid = uuidv4();
-    generatedUUIDs.push(uuid);
-    return uuid;
+    return recorder.variable(`uuid-${++generatedUUIDs}`, uuidv4());
   }
 
   const suffix = uniqueString();
-  const recorderEnvSetup: RecorderEnvironmentSetup = {
-    replaceableVariables: {
+  const recorderStartOptions: RecorderStartOptions = {
+    envSetupForPlayback: {
       AZURE_MANAGEDHSM_URI: "https://azure_managedhsm.managedhsm.azure.net/",
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
@@ -38,38 +34,28 @@ export async function authenticate(
       BLOB_STORAGE_URI: "https://uri.blob.core.windows.net/",
       CLIENT_OBJECT_ID: "01ea9a65-813e-4238-8204-bf7328d63fc6",
     },
-    customizationsOnRecordings: [
-      (recording: any): any =>
-        recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
-      (recording: any): any =>
-        suffix === "" ? recording : recording.replace(new RegExp(suffix, "g"), ""),
-      (recording: any): any =>
-        recording.replace(
-          /keyvault_name\.[a-z-]+\.azure[a-z-]*\.net/g,
-          `keyvault_name.managedhsm.azure.net`
-        ),
-      (recording: any): any => {
-        for (const uuid of generatedUUIDs) {
-          recording = recording.replace(
-            new RegExp(uuid, "g"),
-            "b36b00af-89c6-435f-a43d-9a3087015c27"
-          );
-        }
-        return recording;
-      },
-    ],
-    queryParametersToSkip: [],
+    sanitizerOptions: {
+      generalSanitizers: [
+        {
+          target: `"access_token": "[^"]*"`,
+          regex: true,
+          value: '"access_token": "<REDACTED>"',
+        },
+        {
+          target: `keyvault_name\.[a-z-]+\.azure[a-z-]*\.net`,
+          regex: true,
+          value: `keyvault_name.managedhsm.azure.net`,
+        },
+        ...(suffix === "" ? [] : [{ target: `"${suffix}"`, value: "" }]),
+      ],
+    },
   };
-  const recorder = record(that, recorderEnvSetup);
 
-  const credential = new ClientSecretCredential(
-    getEnvironmentVariable("AZURE_TENANT_ID"),
-    getEnvironmentVariable("AZURE_CLIENT_ID"),
-    getEnvironmentVariable("AZURE_CLIENT_SECRET"),
-    {
-      authorityHost: env.AZURE_AUTHORITY_HOST, // undefined by default is expected
-    }
-  );
+  await recorder.start(recorderStartOptions);
+
+  const credential = createTestCredential({
+    authorityHost: env.AZURE_AUTHORITY_HOST, // undefined by default is expected
+  });
 
   const keyVaultHsmUrl = getEnvironmentVariable("AZURE_MANAGEDHSM_URI");
 
