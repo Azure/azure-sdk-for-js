@@ -138,8 +138,8 @@ export class PatchSchedulesImpl implements PatchSchedules {
   createOrUpdate(
     resourceGroupName: string,
     name: string,
-    parameters: RedisPatchSchedule,
     defaultParam: DefaultName,
+    parameters: RedisPatchSchedule,
     options?: PatchSchedulesCreateOrUpdateOptionalParams
   ): Promise<PatchSchedulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(

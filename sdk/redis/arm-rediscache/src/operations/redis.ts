@@ -336,10 +336,12 @@ export class RedisImpl implements Redis {
       { resourceGroupName, name, parameters, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -371,16 +373,86 @@ export class RedisImpl implements Redis {
    * @param parameters Parameters supplied to the Update Redis operation.
    * @param options The options parameters.
    */
-  update(
+  async beginUpdate(
+    resourceGroupName: string,
+    name: string,
+    parameters: RedisUpdateParameters,
+    options?: RedisUpdateOptionalParams
+  ): Promise<
+    PollerLike<PollOperationState<RedisUpdateResponse>, RedisUpdateResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<RedisUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, name, parameters, options },
+      updateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update an existing Redis cache.
+   * @param resourceGroupName The name of the resource group.
+   * @param name The name of the Redis cache.
+   * @param parameters Parameters supplied to the Update Redis operation.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
     resourceGroupName: string,
     name: string,
     parameters: RedisUpdateParameters,
     options?: RedisUpdateOptionalParams
   ): Promise<RedisUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, name, parameters, options },
-      updateOperationSpec
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      name,
+      parameters,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -438,10 +510,12 @@ export class RedisImpl implements Redis {
       { resourceGroupName, name, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -619,10 +693,12 @@ export class RedisImpl implements Redis {
       { resourceGroupName, name, parameters, options },
       importDataOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -704,10 +780,12 @@ export class RedisImpl implements Redis {
       { resourceGroupName, name, parameters, options },
       exportDataOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -867,6 +945,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
+      bodyMapper: Mappers.RedisResource
+    },
+    201: {
+      bodyMapper: Mappers.RedisResource
+    },
+    202: {
+      bodyMapper: Mappers.RedisResource
+    },
+    204: {
       bodyMapper: Mappers.RedisResource
     },
     default: {
