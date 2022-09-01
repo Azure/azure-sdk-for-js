@@ -5,7 +5,7 @@ import { Recorder, delay } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import Personalizer, {
+import createPersonalizerClient, {
   EvaluationContract,
   EvaluationOutput,
   isUnexpected,
@@ -21,9 +21,13 @@ describe.skip("Evaluation Tests", () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    client = Personalizer(env["PERSONALIZER_ENDPOINT_SINGLE_SLOT"] ?? "", {
-      key: env["PERSONALIZER_API_KEY_SINGLE_SLOT"] ?? "",
-    });
+    client = createPersonalizerClient(
+      env["PERSONALIZER_ENDPOINT_SINGLE_SLOT"] ?? "",
+      {
+        key: env["PERSONALIZER_API_KEY_SINGLE_SLOT"] ?? "",
+      },
+      recorder.configureClientOptions({})
+    );
   });
 
   afterEach(async function () {

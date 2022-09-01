@@ -4,7 +4,7 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import Personalizer, {
+import createPersonalizerClient, {
   PersonalizerClient,
   RankRequest,
   RankableAction,
@@ -19,9 +19,13 @@ describe("Rank Tests", () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    client = Personalizer(env["PERSONALIZER_ENDPOINT_SINGLE_SLOT"] ?? "", {
-      key: env["PERSONALIZER_API_KEY_SINGLE_SLOT"] ?? "",
-    });
+    client = createPersonalizerClient(
+      env["PERSONALIZER_ENDPOINT_SINGLE_SLOT"] ?? "",
+      {
+        key: env["PERSONALIZER_API_KEY_SINGLE_SLOT"] ?? "",
+      },
+      recorder.configureClientOptions({})
+    );
   });
 
   afterEach(async function () {

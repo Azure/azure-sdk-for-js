@@ -11,6 +11,10 @@ const envSetupForPlayback: Record<string, string> = {
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "azure_subscription_id",
+  PERSONALIZER_API_KEY_MULTI_SLOT: "multislotapikey",
+  PERSONALIZER_API_KEY_SINGLE_SLOT: "singleslotapikey",
+  PERSONALIZER_ENDPOINT_MULTI_SLOT: "https://REDACTED.cognitiveservices.azure.com/",
+  PERSONALIZER_ENDPOINT_SINGLE_SLOT: "https://REDACTED.cognitiveservices.azure.com/",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {

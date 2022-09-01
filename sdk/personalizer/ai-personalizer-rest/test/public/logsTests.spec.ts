@@ -5,7 +5,11 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import Personalizer, { isUnexpected, LogsPropertiesOutput, PersonalizerClient } from "../../src";
+import createPersonalizerClient, {
+  isUnexpected,
+  LogsPropertiesOutput,
+  PersonalizerClient,
+} from "../../src";
 import { env } from "process";
 
 describe("Log Tests", () => {
@@ -14,9 +18,13 @@ describe("Log Tests", () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    client = Personalizer(env["PERSONALIZER_ENDPOINT_MULTI_SLOT"] ?? "", {
-      key: env["PERSONALIZER_API_KEY_MULTI_SLOT"] ?? "",
-    });
+    client = createPersonalizerClient(
+      env["PERSONALIZER_ENDPOINT_MULTI_SLOT"] ?? "",
+      {
+        key: env["PERSONALIZER_API_KEY_MULTI_SLOT"] ?? "",
+      },
+      recorder.configureClientOptions({})
+    );
   });
 
   afterEach(async function () {

@@ -4,7 +4,7 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import Personalizer, { PersonalizerClient } from "../../src";
+import createPersonalizerClient, { PersonalizerClient } from "../../src";
 import { env } from "process";
 import { assert } from "chai";
 
@@ -14,9 +14,13 @@ describe("Event Tests", () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    client = Personalizer(env["PERSONALIZER_ENDPOINT_SINGLE_SLOT"] ?? "", {
-      key: env["PERSONALIZER_API_KEY_SINGLE_SLOT"] ?? "",
-    });
+    client = createPersonalizerClient(
+      env["PERSONALIZER_ENDPOINT_SINGLE_SLOT"] ?? "",
+      {
+        key: env["PERSONALIZER_API_KEY_SINGLE_SLOT"] ?? "",
+      },
+      recorder.configureClientOptions({})
+    );
   });
 
   afterEach(async function () {

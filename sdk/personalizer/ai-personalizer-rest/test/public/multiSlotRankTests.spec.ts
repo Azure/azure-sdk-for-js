@@ -4,7 +4,7 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import Personalizer, {
+import createPersonalizerClient, {
   isUnexpected,
   PersonalizerClient,
   RankableAction,
@@ -19,9 +19,13 @@ describe("Multi-Slot Rank Tests", () => {
   let client: PersonalizerClient;
 
   before(async function (this: Context) {
-    client = Personalizer(env["PERSONALIZER_ENDPOINT_MULTI_SLOT"] ?? "", {
-      key: env["PERSONALIZER_API_KEY_MULTI_SLOT"] ?? "",
-    });
+    client = createPersonalizerClient(
+      env["PERSONALIZER_ENDPOINT_MULTI_SLOT"] ?? "",
+      {
+        key: env["PERSONALIZER_API_KEY_MULTI_SLOT"] ?? "",
+      },
+      recorder.configureClientOptions({})
+    );
     if (!(await isMultiSlotEnabledAsync(client))) {
       await enableMultiSlotAsync(client);
     }
