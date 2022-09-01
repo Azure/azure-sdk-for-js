@@ -81,12 +81,13 @@ export function inferLroMode(inputs: {
   const azureAsyncOperation = getAzureAsyncOperationHeader(rawResponse);
   const pollingUrl = getOperationLocationPollingUrl({ operationLocation, azureAsyncOperation });
   const location = getLocationHeader(rawResponse);
+  const normalizedRequestMethod = requestMethod?.toLocaleUpperCase();
   if (pollingUrl !== undefined) {
     return {
       mode: "OperationLocation",
       operationLocation: pollingUrl,
       resourceLocation: findResourceLocation({
-        requestMethod,
+        requestMethod: normalizedRequestMethod,
         location,
         requestPath,
         resourceLocationConfig,
@@ -97,7 +98,7 @@ export function inferLroMode(inputs: {
       mode: "ResourceLocation",
       operationLocation: location,
     };
-  } else if (requestMethod === "PUT" && requestPath) {
+  } else if (normalizedRequestMethod === "PUT" && requestPath) {
     return {
       mode: "Body",
       operationLocation: requestPath,
