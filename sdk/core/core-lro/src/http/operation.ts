@@ -282,6 +282,6 @@ export async function pollHttpOperation<TState, TResult>(inputs: {
      * The expansion here is intentional because `lro` could be an object that
      * references an inner this, so we need to preserve a reference to it.
      */
-    poll: async (location, options) => lro.sendPollRequest(location, options),
+    poll: async (location, inputOptions) => lro.sendPollRequest(location, inputOptions),
   });
 }
