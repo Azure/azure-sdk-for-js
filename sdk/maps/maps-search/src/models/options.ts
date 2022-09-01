@@ -131,9 +131,7 @@ export interface FuzzySearchBaseOptions extends SearchPointOfInterestBaseOptions
 /**
  * Fuzzy search query
  */
-export type SearchQuery =
-  | { query: string; coordinates: LatLon }
-  | { query: string; countryCodeFilter: string[] };
+export type SearchQuery = { query: string; coordinates?: LatLon; countryCodeFilter?: string[] };
 
 /**
  * Options for fuzzy search

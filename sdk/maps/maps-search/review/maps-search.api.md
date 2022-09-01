@@ -728,10 +728,8 @@ export type SearchPointOfInterestOptions = SearchPointOfInterestBaseOptions & Op
 // @public
 export type SearchQuery = {
     query: string;
-    coordinates: LatLon;
-} | {
-    query: string;
-    countryCodeFilter: string[];
+    coordinates?: LatLon;
+    countryCodeFilter?: string[];
 };
 
 // @public

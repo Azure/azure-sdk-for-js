@@ -409,11 +409,7 @@ export function createFuzzySearchBatchRequest(requests: FuzzySearchRequest[]): B
   return {
     batchItems: requests.map((r) => {
       const options = r.options;
-      const { query, coordinates, countryCodeFilter } = r.searchQuery as {
-        query: string;
-        coordinates?: LatLon;
-        countryCodeFilter?: string[];
-      };
+      const { query, coordinates, countryCodeFilter } = r.searchQuery;
       // Add top level query parameters
       let queryText = `?query=${query}`;
       if (coordinates) {
