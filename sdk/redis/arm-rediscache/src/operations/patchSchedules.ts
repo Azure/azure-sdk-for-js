@@ -131,8 +131,8 @@ export class PatchSchedulesImpl implements PatchSchedules {
    * Create or replace the patching schedule for Redis cache.
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the Redis cache.
-   * @param parameters Parameters to set the patching schedule for Redis cache.
    * @param defaultParam Default string modeled as parameter for auto generation to work correctly.
+   * @param parameters Parameters to set the patching schedule for Redis cache.
    * @param options The options parameters.
    */
   createOrUpdate(
