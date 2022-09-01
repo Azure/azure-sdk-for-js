@@ -36,9 +36,9 @@ async function main() {
   }
 
   const devices = paginate(client, devicesResult);
-  for await(const device of devices) {
+  for await (const device of devices) {
     console.log(device.deviceId);
-  };
+  }
 
   console.log("\nDevice groups:");
   const groupsResult = await client
@@ -50,9 +50,9 @@ async function main() {
   }
 
   const groups = paginate(client, groupsResult);
-  for await(const group of groups) {
+  for await (const group of groups) {
     console.log(group.groupId);
-  };
+  }
 
   console.log("\nDevice classes:");
   const deviceClassesResult = await client
@@ -64,9 +64,9 @@ async function main() {
   }
 
   const deviceClasses = paginate(client, deviceClassesResult);
-  for await(const deviceClass of deviceClasses) {
+  for await (const deviceClass of deviceClasses) {
     console.log(deviceClass.deviceClassId);
-  };
+  }
 
   console.log("\nFor group '" + groupId + "', best updates are:");
   const bestUpdatesResult = await client
@@ -78,12 +78,12 @@ async function main() {
   }
 
   const bestUpdates = paginate(client, bestUpdatesResult);
-  for await(const bestUpdate of bestUpdates) {
+  for await (const bestUpdate of bestUpdates) {
     console.log("  For device class '" + bestUpdate.deviceClassId + "':");
     console.log("    " + bestUpdate.update.updateId.provider);
     console.log("    " + bestUpdate.update.updateId.name);
     console.log("    " + bestUpdate.update.updateId.version);
-  };
+  }
 }
 
 main().catch(console.error);

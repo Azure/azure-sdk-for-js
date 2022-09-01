@@ -28,6 +28,8 @@
   "dependencies": {
     "@azure-rest/iot-device-update": "next",
     "dotenv": "latest",
-    "@azure/identity": "^2.0.1"
+    "@azure/identity": "^2.0.1",
+    "uuid": "^8.3.0",
+    "@azure/core-util": "^1.0.1"
   }
 }

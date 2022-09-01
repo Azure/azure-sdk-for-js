@@ -38,6 +38,7 @@ async function main() {
   for await (const device of devices) {
     console.log(device.deviceId);
   }
+
   console.log("\nDevice groups:");
   const groupsResult = await client
     .path("/deviceUpdate/{instanceId}/management/groups", instanceId)
@@ -51,6 +52,7 @@ async function main() {
   for await (const group of groups) {
     console.log(group.groupId);
   }
+
   console.log("\nDevice classes:");
   const deviceClassesResult = await client
     .path("/deviceUpdate/{instanceId}/management/deviceClasses", instanceId)
@@ -64,6 +66,7 @@ async function main() {
   for await (const deviceClass of deviceClasses) {
     console.log(deviceClass.deviceClassId);
   }
+
   console.log("\nFor group '" + groupId + "', best updates are:");
   const bestUpdatesResult = await client
     .path("/deviceUpdate/{instanceId}/management/groups/{groupId}/bestUpdates", instanceId, groupId)

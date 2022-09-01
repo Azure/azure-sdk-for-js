@@ -39,6 +39,7 @@ async function main() {
   for await (const provider of providers) {
     console.log(provider);
   }
+
   console.log("\nNames in provider '" + provider + "':");
   const namesResult = await client
     .path("/deviceUpdate/{instanceId}/updates/providers/{provider}/names", instanceId, provider)
@@ -52,6 +53,7 @@ async function main() {
   for await (const name of names) {
     console.log(name);
   }
+
   console.log("\nVersions in provider '" + provider + "' and name '" + name + "':");
   const versionsResult = await client
     .path(

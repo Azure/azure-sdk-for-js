@@ -5,16 +5,16 @@
  * This sample demonstrates how import a device update to Device Update for IoT Hub.
  *
  * @summary Demonstrates the use of a Update Import.
- * @azsdk-weight 40
  */
 
-import DeviceUpdate, { getLongRunningPoller, isUnexpected } from "@azure-rest/iot-device-update";
-import { readFileSync, statSync } from "fs";
+const DeviceUpdate = require("@azure-rest/iot-device-update").default,
+  { getLongRunningPoller, isUnexpected } = require("@azure-rest/iot-device-update");
+const { readFileSync, statSync } = require("fs");
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { computeSha256Hash } from "@azure/core-util";
-import dotenv from "dotenv";
-import { parse } from "path";
+const { DefaultAzureCredential } = require("@azure/identity");
+const { computeSha256Hash } = require("@azure/core-util");
+const dotenv = require("dotenv");
+const { parse } = require("path");
 
 dotenv.config();
 
@@ -67,17 +67,17 @@ async function main() {
   console.log(`Import succeeded!`);
 }
 
-function getFileSize(filePath: string) {
+function getFileSize(filePath) {
   const stats = statSync(filePath);
   return stats.size;
 }
 
-function getFileName(filePath: string) {
+function getFileName(filePath) {
   const fileName = parse(filePath).base;
   return fileName;
 }
 
-function getFileHash(filePath: string) {
+function getFileHash(filePath) {
   const fileContent = readFileSync(filePath, { encoding: "utf8" });
   return computeSha256Hash(fileContent, "base64");
 }

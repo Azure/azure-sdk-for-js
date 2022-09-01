@@ -7,7 +7,7 @@
  * @summary Demonstrates the use of a DeviceUpdateClient to get a specific update version in Device Update for IoT Hub.
  */
 
-import DeviceUpdate, { isUnexpected, paginate } from "@azure-rest/iot-device-update";
+import DeviceUpdate, { isUnexpected } from "@azure-rest/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -44,7 +44,7 @@ async function main() {
       version
     )
     .get();
-  
+
   if (isUnexpected(updateResult)) {
     throw updateResult.body;
   }
@@ -90,10 +90,10 @@ async function main() {
     if (isUnexpected(fileResult)) {
       throw fileResult.body;
     }
-      
+
     console.log("File:");
-    console.log("  FileId: " + fileResult.body.fileId)
-    console.log("Metadata:")
+    console.log("  FileId: " + fileResult.body.fileId);
+    console.log("Metadata:");
     console.log(fileResult.body);
   });
 }

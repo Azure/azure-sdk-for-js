@@ -5,7 +5,6 @@
  * This sample demonstrates how import a device update to Device Update for IoT Hub.
  *
  * @summary Demonstrates the use of a Update Import.
- * @azsdk-weight 40
  */
 
 import DeviceUpdate, { getLongRunningPoller, isUnexpected } from "@azure-rest/iot-device-update";
@@ -40,18 +39,17 @@ async function main() {
     .post({
       body: [
         {
-          importManifest: {
-            hashes: {
-              sha256: sha256,
-            },
-            sizeInBytes,
-            url: manifestUrl,
+          importManifest: { 
+            hashes: { 
+              sha256: sha256 
+            }, 
+            sizeInBytes, 
+            url: manifestUrl 
           },
-          files: [
-            {
-              filename: filename,
-              url: payloadUrl,
-            },
+          files: [{ 
+              filename: filename, 
+              url: payloadUrl 
+            }
           ],
         },
       ],
