@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller";
 import { CancellableAsyncLock, CancellableAsyncLockImpl } from "./lock";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { WebSocketImpl } from "rhea-promise";
 import { delay as wrapperDelay } from "@azure/core-util";
 
@@ -175,7 +175,7 @@ export class Timeout {
  * @param value - The value to be resolved with after a timeout of t milliseconds.
  * @returns - Resolved promise
  *
- * This function is @deprecated. Please refer to `delay` method in @azure/core-util.
+ * This function is @deprecated please refer to `delay` method in `@azure/core-util`
  */
 export async function delay<T>(
   delayInMs: number,
