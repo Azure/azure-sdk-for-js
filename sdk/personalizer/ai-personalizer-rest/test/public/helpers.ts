@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { delay } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { PersonalizerClient, ServiceConfiguration } from "../../src";
 
@@ -35,6 +36,7 @@ export async function enableMultiSlotAsync(client: PersonalizerClient): Promise<
       .path("/configurations/service")
       .put({ body: newConfiguration });
     assert.equal(updateConfigurationResponse.status, "200");
+    delay(30000);
   }
 
   const multiSlotPolicy = {
@@ -45,4 +47,5 @@ export async function enableMultiSlotAsync(client: PersonalizerClient): Promise<
     .path("/configurations/policy")
     .put({ body: multiSlotPolicy });
   assert.equal(updatePolicyResponse.status, "200");
+  delay(30000);
 }

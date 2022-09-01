@@ -4,7 +4,11 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import Personalizer, { isUnexpected, ModelPropertiesOutput, PersonalizerClient } from "../../src";
+import createPersonalizerClient, {
+  isUnexpected,
+  ModelPropertiesOutput,
+  PersonalizerClient,
+} from "../../src";
 import { env } from "process";
 import { assert } from "chai";
 
@@ -14,15 +18,20 @@ describe("Model Tests", () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    client = Personalizer(env["PERSONALIZER_ENDPOINT_SINGLE_SLOT"] ?? "", {
-      key: env["PERSONALIZER_API_KEY_SINGLE_SLOT"] ?? "",
-    });
+    client = createPersonalizerClient(
+      env["PERSONALIZER_ENDPOINT_SINGLE_SLOT"] ?? "",
+      {
+        key: env["PERSONALIZER_API_KEY_SINGLE_SLOT"] ?? "",
+      },
+      recorder.configureClientOptions({})
+    );
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
+  // Issue: https://github.com/Azure/azure-sdk-for-js/issues/23071
   it.skip("model import and export tests", async function () {
     const unSignedModelBytes = await exportModelAsync(client);
     const signedModelBytes = await exportModelAsync(client, true);

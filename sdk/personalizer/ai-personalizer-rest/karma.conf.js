@@ -60,6 +60,11 @@ module.exports = function (config) {
       "AZURE_CLIENT_ID",
       "AZURE_TENANT_ID",
       "SUBSCRIPTION_ID",
+      "RECORDINGS_RELATIVE_PATH",
+      "PERSONALIZER_API_KEY_MULTI_SLOT",
+      "PERSONALIZER_API_KEY_SINGLE_SLOT",
+      "PERSONALIZER_ENDPOINT_MULTI_SLOT",
+      "PERSONALIZER_ENDPOINT_SINGLE_SLOT",
     ],
 
     // test results reporter to use
