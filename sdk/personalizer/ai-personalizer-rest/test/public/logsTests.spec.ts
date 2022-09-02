@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import createPersonalizerClient, {
-  isUnexpected,
   LogsPropertiesOutput,
   PersonalizerClient,
+  isUnexpected,
 } from "../../src";
 
 describe("Log Tests", () => {

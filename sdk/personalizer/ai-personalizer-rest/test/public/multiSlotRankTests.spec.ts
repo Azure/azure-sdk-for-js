@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import createPersonalizerClient, {
-  isUnexpected,
   PersonalizerClient,
   RankableAction,
   SlotRequest,
+  isUnexpected,
 } from "../../src";
 import { assert } from "chai";
 import { enableMultiSlotAsync, isMultiSlotEnabledAsync } from "./helpers";

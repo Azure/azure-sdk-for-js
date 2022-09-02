@@ -1,14 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
-import createPersonalizerClient, {
-  isUnexpected,
-  PersonalizerClient,
-} from "../../src";
+import createPersonalizerClient, { PersonalizerClient, isUnexpected } from "../../src";
 
 describe("AAD Tests", () => {
   let recorder: Recorder;
@@ -35,4 +32,3 @@ describe("AAD Tests", () => {
     }
   });
 });
-

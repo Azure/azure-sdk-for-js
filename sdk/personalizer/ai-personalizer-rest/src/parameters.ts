@@ -3,14 +3,14 @@
 
 import { RequestParameters } from "@azure-rest/core-client";
 import {
-  ServiceConfiguration,
-  PolicyReferenceContract,
-  PolicyContract,
   EvaluationContract,
-  RewardRequest,
-  MultiSlotRewardRequest,
   MultiSlotRankRequest,
+  MultiSlotRewardRequest,
+  PolicyContract,
+  PolicyReferenceContract,
   RankRequest,
+  RewardRequest,
+  ServiceConfiguration,
 } from "./models";
 
 export type ServiceConfigurationGetParameters = RequestParameters;

@@ -4,14 +4,14 @@
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse } from "@azure-rest/core-client";
 import {
-  ServiceConfigurationOutput,
   ErrorResponseOutput,
-  PolicyContractOutput,
   EvaluationOutput,
   LogsPropertiesOutput,
   ModelPropertiesOutput,
   MultiSlotRankResponseOutput,
+  PolicyContractOutput,
   RankResponseOutput,
+  ServiceConfigurationOutput,
 } from "./outputModels";
 
 /** Get the Personalizer service configuration. */

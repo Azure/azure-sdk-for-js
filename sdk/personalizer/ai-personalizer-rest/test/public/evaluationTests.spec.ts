@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, Recorder, delay } from "@azure-tools/test-recorder";
+import { Recorder, delay, env } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import createPersonalizerClient, {
   EvaluationContract,
   EvaluationOutput,
-  isUnexpected,
   PersonalizerClient,
+  isUnexpected,
 } from "../../src";
 
 // skipping Evaluation tests since we need a static resource for this which is not viable in javascript sdk.

@@ -41,7 +41,7 @@ async function main() {
   log(`Rank returned response with event id ${eventId} and recommended the following:`);
   for (const slotResponse of slotResponses) {
     log(`  Action ${slotResponse.rewardActionId} for slot ${slotResponse.id}`);
- }
+  }
 
   // The event response will be determined by how the user interacted with the action that was presented to them.
   // Let us say that they like the action presented to them for the Main Article slot and so we associate a reward of 1.

@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, Recorder, delay } from "@azure-tools/test-recorder";
+import { Recorder, delay, env } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import createPersonalizerClient, {
-  isUnexpected,
   PersonalizerClient,
   PolicyContract,
   PolicyContractOutput,
@@ -14,6 +13,7 @@ import createPersonalizerClient, {
   ServiceConfiguration,
   ServiceConfigurationOutput,
   ServiceConfigurationUpdateParameters,
+  isUnexpected,
 } from "../../src";
 
 describe("Configuration Tests", () => {
