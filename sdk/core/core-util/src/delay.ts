@@ -10,7 +10,13 @@ const StandardAbortMessage = "The operation was aborted.";
  * Options for support abort functionality for the delay method
  */
 export interface DelayOptions {
+  /**
+   * The abortSignal associated with containing operation.
+   */
   abortSignal?: AbortSignalLike;
+  /**
+   * The abort error message associated with containing operation.
+   */
   abortErrorMsg?: string;
 }
 
@@ -18,8 +24,6 @@ export interface DelayOptions {
  * A wrapper for setTimeout that resolves a promise after timeInMs milliseconds.
  * @param timeInMs - The number of milliseconds to be delayed.
  * @param options - The options for delay - currently abort options
- *   @param abortSignal - The abortSignal associated with containing operation.
- *   @param abortErrorMsg - The abort error message associated with containing operation.
  * @returns Promise that is resolved after timeInMs
  */
 export function delay(timeInMs: number, options?: DelayOptions): Promise<void> {

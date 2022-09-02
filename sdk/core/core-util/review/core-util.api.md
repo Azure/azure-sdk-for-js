@@ -17,9 +17,7 @@ export function delay(timeInMs: number, options?: DelayOptions): Promise<void>;
 
 // @public
 export interface DelayOptions {
-    // (undocumented)
     abortErrorMsg?: string;
-    // (undocumented)
     abortSignal?: AbortSignalLike;
 }
 
