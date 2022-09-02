@@ -50,7 +50,7 @@ export async function createClient(): Promise<ConfidentialLedgerClient> {
   const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 
   console.log("Azure tenant id = " + env.AZURE_TENANT_ID);
-  console.log("Azure ledger uri = " + env.LEDGER)
+  console.log("Azure ledger uri = " + env.LEDGER_URI);
 
   const clientCredential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
