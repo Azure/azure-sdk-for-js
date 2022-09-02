@@ -13,8 +13,8 @@ describe("Cosmos Diagnostic Tests", async function (this: Suite) {
     await removeAllDatabases();
   });
 
-  describe.only("Cosmos diagnostic test", function () {
-    it.only("should return cosmos diagnostics", async function () {
+  describe("Cosmos diagnostic test", function () {
+    it("should return cosmos diagnostics", async function () {
       const client = new CosmosClient({
         key: masterKey,
         endpoint: endpoint,
