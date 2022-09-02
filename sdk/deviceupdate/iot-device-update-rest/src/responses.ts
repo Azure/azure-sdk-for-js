@@ -48,6 +48,12 @@ export interface DeviceUpdateListUpdatesdefaultResponse extends HttpResponse {
   body: ErrorResponseOutput;
 }
 
+/** Import new update version. This is a long-running-operation; use Operation-Location response header value to check for operation status. */
+export interface DeviceUpdateImportUpdate200Response extends HttpResponse {
+  status: "200";
+  body: UpdateOutput;
+}
+
 export interface DeviceUpdateImportUpdate202Headers {
   /** Url to retrieve the import operation status. */
   "operation-location"?: string;
@@ -72,15 +78,10 @@ export interface DeviceUpdateGetUpdate200Response extends HttpResponse {
   body: UpdateOutput;
 }
 
-export interface DeviceUpdateGetUpdate304Headers {
-  "x-ms-error-code"?: string;
-}
-
 /** Get a specific update version. */
 export interface DeviceUpdateGetUpdate304Response extends HttpResponse {
   status: "304";
   body: Record<string, unknown>;
-  headers: RawHttpHeaders & DeviceUpdateGetUpdate304Headers;
 }
 
 /** Get a specific update version. */
@@ -161,15 +162,10 @@ export interface DeviceUpdateGetFile200Response extends HttpResponse {
   body: UpdateFileOutput;
 }
 
-export interface DeviceUpdateGetFile304Headers {
-  "x-ms-error-code"?: string;
-}
-
 /** Get a specific update file from the version. */
 export interface DeviceUpdateGetFile304Response extends HttpResponse {
   status: "304";
   body: Record<string, unknown>;
-  headers: RawHttpHeaders & DeviceUpdateGetFile304Headers;
 }
 
 /** Get a specific update file from the version. */
@@ -202,15 +198,10 @@ export interface DeviceUpdateGetOperationStatus200Response extends HttpResponse 
   headers: RawHttpHeaders & DeviceUpdateGetOperationStatus200Headers;
 }
 
-export interface DeviceUpdateGetOperationStatus304Headers {
-  "x-ms-error-code"?: string;
-}
-
 /** Retrieve operation status. */
 export interface DeviceUpdateGetOperationStatus304Response extends HttpResponse {
   status: "304";
   body: Record<string, unknown>;
-  headers: RawHttpHeaders & DeviceUpdateGetOperationStatus304Headers;
 }
 
 /** Retrieve operation status. */
@@ -638,15 +629,10 @@ export interface DeviceManagementGetOperationStatus200Response extends HttpRespo
   headers: RawHttpHeaders & DeviceManagementGetOperationStatus200Headers;
 }
 
-export interface DeviceManagementGetOperationStatus304Headers {
-  "x-ms-error-code"?: string;
-}
-
 /** Retrieve operation status. */
 export interface DeviceManagementGetOperationStatus304Response extends HttpResponse {
   status: "304";
   body: Record<string, unknown>;
-  headers: RawHttpHeaders & DeviceManagementGetOperationStatus304Headers;
 }
 
 /** Retrieve operation status. */

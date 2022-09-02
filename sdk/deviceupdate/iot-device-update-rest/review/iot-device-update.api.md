@@ -642,18 +642,10 @@ export interface DeviceManagementGetOperationStatus200Response extends HttpRespo
     status: "200";
 }
 
-// @public (undocumented)
-export interface DeviceManagementGetOperationStatus304Headers {
-    // (undocumented)
-    "x-ms-error-code"?: string;
-}
-
 // @public
 export interface DeviceManagementGetOperationStatus304Response extends HttpResponse {
     // (undocumented)
     body: Record<string, unknown>;
-    // (undocumented)
-    headers: RawHttpHeaders & DeviceManagementGetOperationStatus304Headers;
     // (undocumented)
     status: "304";
 }
@@ -1362,18 +1354,10 @@ export interface DeviceUpdateGetFile200Response extends HttpResponse {
     status: "200";
 }
 
-// @public (undocumented)
-export interface DeviceUpdateGetFile304Headers {
-    // (undocumented)
-    "x-ms-error-code"?: string;
-}
-
 // @public
 export interface DeviceUpdateGetFile304Response extends HttpResponse {
     // (undocumented)
     body: Record<string, unknown>;
-    // (undocumented)
-    headers: RawHttpHeaders & DeviceUpdateGetFile304Headers;
     // (undocumented)
     status: "304";
 }
@@ -1420,18 +1404,10 @@ export interface DeviceUpdateGetOperationStatus200Response extends HttpResponse 
     status: "200";
 }
 
-// @public (undocumented)
-export interface DeviceUpdateGetOperationStatus304Headers {
-    // (undocumented)
-    "x-ms-error-code"?: string;
-}
-
 // @public
 export interface DeviceUpdateGetOperationStatus304Response extends HttpResponse {
     // (undocumented)
     body: Record<string, unknown>;
-    // (undocumented)
-    headers: RawHttpHeaders & DeviceUpdateGetOperationStatus304Headers;
     // (undocumented)
     status: "304";
 }
@@ -1472,18 +1448,10 @@ export interface DeviceUpdateGetUpdate200Response extends HttpResponse {
     status: "200";
 }
 
-// @public (undocumented)
-export interface DeviceUpdateGetUpdate304Headers {
-    // (undocumented)
-    "x-ms-error-code"?: string;
-}
-
 // @public
 export interface DeviceUpdateGetUpdate304Response extends HttpResponse {
     // (undocumented)
     body: Record<string, unknown>;
-    // (undocumented)
-    headers: RawHttpHeaders & DeviceUpdateGetUpdate304Headers;
     // (undocumented)
     status: "304";
 }
@@ -1512,7 +1480,15 @@ export type DeviceUpdateGetUpdateParameters = DeviceUpdateGetUpdateHeaderParam &
 
 // @public (undocumented)
 export interface DeviceUpdateImportUpdate {
-    post(options: DeviceUpdateImportUpdateParameters): StreamableMethod<DeviceUpdateImportUpdate202Response | DeviceUpdateImportUpdatedefaultResponse>;
+    post(options: DeviceUpdateImportUpdateParameters): StreamableMethod<DeviceUpdateImportUpdate200Response | DeviceUpdateImportUpdate202Response | DeviceUpdateImportUpdatedefaultResponse>;
+}
+
+// @public
+export interface DeviceUpdateImportUpdate200Response extends HttpResponse {
+    // (undocumented)
+    body: UpdateOutput;
+    // (undocumented)
+    status: "200";
 }
 
 // @public (undocumented)
@@ -1826,7 +1802,7 @@ export interface InstructionsOutput {
 export function isUnexpected(response: DeviceUpdateListUpdates200Response | DeviceUpdateListUpdatesdefaultResponse): response is DeviceUpdateListUpdatesdefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DeviceUpdateImportUpdate202Response | DeviceUpdateImportUpdatedefaultResponse): response is DeviceUpdateImportUpdatedefaultResponse;
+export function isUnexpected(response: DeviceUpdateImportUpdate200Response | DeviceUpdateImportUpdate202Response | DeviceUpdateImportUpdatedefaultResponse): response is DeviceUpdateImportUpdatedefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: DeviceUpdateGetUpdate200Response | DeviceUpdateGetUpdate304Response | DeviceUpdateGetUpdatedefaultResponse): response is DeviceUpdateGetUpdatedefaultResponse;

@@ -63,6 +63,7 @@ async function main() {
     throw result.body.error;
   }
 
+  console.log(result.body);
   console.log(`Import succeeded!`);
 }
 

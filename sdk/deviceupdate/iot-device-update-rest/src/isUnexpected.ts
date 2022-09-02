@@ -4,6 +4,7 @@
 import {
   DeviceUpdateListUpdates200Response,
   DeviceUpdateListUpdatesdefaultResponse,
+  DeviceUpdateImportUpdate200Response,
   DeviceUpdateImportUpdate202Response,
   DeviceUpdateImportUpdatedefaultResponse,
   DeviceUpdateGetUpdate200Response,
@@ -110,8 +111,8 @@ import {
 
 const responseMap: Record<string, string[]> = {
   "GET /deviceUpdate/{instanceId}/updates": ["200"],
-  "POST /deviceUpdate/{instanceId}/updates:import": ["202"],
-  "GET /deviceUpdate/{instanceId}/updates:import": ["202"],
+  "POST /deviceUpdate/{instanceId}/updates:import": ["200", "202"],
+  "GET /deviceUpdate/{instanceId}/updates:import": ["200", "202"],
   "GET /deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}": [
     "200",
     "304",
@@ -211,7 +212,10 @@ export function isUnexpected(
   response: DeviceUpdateListUpdates200Response | DeviceUpdateListUpdatesdefaultResponse
 ): response is DeviceUpdateListUpdatesdefaultResponse;
 export function isUnexpected(
-  response: DeviceUpdateImportUpdate202Response | DeviceUpdateImportUpdatedefaultResponse
+  response:
+    | DeviceUpdateImportUpdate200Response
+    | DeviceUpdateImportUpdate202Response
+    | DeviceUpdateImportUpdatedefaultResponse
 ): response is DeviceUpdateImportUpdatedefaultResponse;
 export function isUnexpected(
   response:
@@ -437,6 +441,7 @@ export function isUnexpected(
   response:
     | DeviceUpdateListUpdates200Response
     | DeviceUpdateListUpdatesdefaultResponse
+    | DeviceUpdateImportUpdate200Response
     | DeviceUpdateImportUpdate202Response
     | DeviceUpdateImportUpdatedefaultResponse
     | DeviceUpdateGetUpdate200Response

@@ -56,6 +56,7 @@ import {
 import {
   DeviceUpdateListUpdates200Response,
   DeviceUpdateListUpdatesdefaultResponse,
+  DeviceUpdateImportUpdate200Response,
   DeviceUpdateImportUpdate202Response,
   DeviceUpdateImportUpdatedefaultResponse,
   DeviceUpdateGetUpdate200Response,
@@ -173,7 +174,9 @@ export interface DeviceUpdateImportUpdate {
   post(
     options: DeviceUpdateImportUpdateParameters
   ): StreamableMethod<
-    DeviceUpdateImportUpdate202Response | DeviceUpdateImportUpdatedefaultResponse
+    | DeviceUpdateImportUpdate200Response
+    | DeviceUpdateImportUpdate202Response
+    | DeviceUpdateImportUpdatedefaultResponse
   >;
 }
 
