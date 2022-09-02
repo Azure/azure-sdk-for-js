@@ -16,8 +16,8 @@ import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-function createClient(Endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): PersonalizerClient;
-export default createClient;
+function createPersonalizerClient(Endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): PersonalizerClient;
+export default createPersonalizerClient;
 
 // @public (undocumented)
 export interface DateRangeOutput {

@@ -48,10 +48,10 @@ describe("Configuration Tests", () => {
       },
     };
 
-    const updatedConfiguration = await updateConfigurationAsync(client, configuration);
+    const updatedConfiguration = await updateConfiguration(client, configuration);
     assertServiceConfigurationEquals(updatedConfiguration, configuration.body);
     await delay(30 * 1000);
-    const newConfiguration = await getConfigurationAsync(client);
+    const newConfiguration = await getConfiguration(client);
     assertServiceConfigurationEquals(newConfiguration, configuration.body);
   });
 
@@ -63,10 +63,10 @@ describe("Configuration Tests", () => {
           "--cb_explore_adf --quadratic GT --quadratic MR --quadratic GR --quadratic ME --quadratic OT --quadratic OE --quadratic OR --quadratic MS --quadratic GX --ignore A --cb_type ips --epsilon 0.2",
       },
     };
-    const updatedPolicy = await updatePolicyAsync(client, policy);
+    const updatedPolicy = await updatePolicy(client, policy);
     assertPolicyEquals(updatedPolicy, policy.body);
     await delay(30 * 1000);
-    const newPolicy = await getPolicyAsync(client);
+    const newPolicy = await getPolicy(client);
     assertPolicyEquals(newPolicy, policy.body);
   });
 
@@ -75,17 +75,15 @@ describe("Configuration Tests", () => {
       name: "app1",
       arguments: "--cb_explore_adf --epsilon 0.2 --power_t 0 -l 0.001 --cb_type mtr -q ::",
     };
-    const resetPolicy = await resetPolicyAsync(client);
-    assertPolicyEquals(resetPolicy, expectedPolicy);
+    const policyWithReset = await resetPolicy(client);
+    assertPolicyEquals(policyWithReset, expectedPolicy);
     await delay(30 * 1000);
-    const newPolicy = await getPolicyAsync(client);
+    const newPolicy = await getPolicy(client);
     assertPolicyEquals(newPolicy, expectedPolicy);
   });
 });
 
-async function getConfigurationAsync(
-  client: PersonalizerClient
-): Promise<ServiceConfigurationOutput> {
+async function getConfiguration(client: PersonalizerClient): Promise<ServiceConfigurationOutput> {
   const response = await client.path("/configurations/service").get();
   if (isUnexpected(response)) {
     throw response.body.error;
@@ -93,7 +91,7 @@ async function getConfigurationAsync(
   return response.body;
 }
 
-async function updateConfigurationAsync(
+async function updateConfiguration(
   client: PersonalizerClient,
   configuration: ServiceConfigurationUpdateParameters
 ): Promise<ServiceConfigurationOutput> {
@@ -104,7 +102,7 @@ async function updateConfigurationAsync(
   return response.body;
 }
 
-async function getPolicyAsync(client: PersonalizerClient): Promise<PolicyContractOutput> {
+async function getPolicy(client: PersonalizerClient): Promise<PolicyContractOutput> {
   const response = await client.path("/configurations/policy").get();
   if (isUnexpected(response)) {
     throw response.body.error;
@@ -112,7 +110,7 @@ async function getPolicyAsync(client: PersonalizerClient): Promise<PolicyContrac
   return response.body;
 }
 
-async function updatePolicyAsync(
+async function updatePolicy(
   client: PersonalizerClient,
   policy: PolicyUpdateParameters
 ): Promise<PolicyContractOutput> {
@@ -123,7 +121,7 @@ async function updatePolicyAsync(
   return response.body;
 }
 
-async function resetPolicyAsync(client: PersonalizerClient): Promise<PolicyContractOutput> {
+async function resetPolicy(client: PersonalizerClient): Promise<PolicyContractOutput> {
   const response = await client.path("/configurations/policy").delete();
   if (isUnexpected(response)) {
     throw response.body.error;

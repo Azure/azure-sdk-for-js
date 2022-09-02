@@ -6,7 +6,7 @@ import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import createPersonalizerClient, { PersonalizerClient } from "../../src";
 import { assert } from "chai";
-import { enableMultiSlotAsync, isMultiSlotEnabledAsync } from "./helpers";
+import { enableMultiSlot, isMultiSlotEnabled } from "./helpers";
 
 describe("Multi-Slot Event Tests", () => {
   let recorder: Recorder;
@@ -21,8 +21,8 @@ describe("Multi-Slot Event Tests", () => {
       },
       recorder.configureClientOptions({})
     );
-    if (!(await isMultiSlotEnabledAsync(client))) {
-      await enableMultiSlotAsync(client);
+    if (!(await isMultiSlotEnabled(client))) {
+      await enableMultiSlot(client);
     }
   });
 

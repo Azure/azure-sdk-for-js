@@ -31,8 +31,8 @@ describe("Log Tests", () => {
   });
 
   it("delete log tests", async function () {
-    await deleteLogsAsync(client);
-    const logProperties = await getLogPropertiesAsync(client);
+    await deleteLogs(client);
+    const logProperties = await getLogProperties(client);
     if (logProperties.dateRange != null) {
       assert.isUndefined(logProperties.dateRange.from);
       assert.isUndefined(logProperties.dateRange.to);
@@ -40,14 +40,14 @@ describe("Log Tests", () => {
   });
 });
 
-async function deleteLogsAsync(client: PersonalizerClient) {
+async function deleteLogs(client: PersonalizerClient) {
   const response = await client.path("/logs").delete();
   if (isUnexpected(response)) {
     throw response.body.error;
   }
 }
 
-async function getLogPropertiesAsync(client: PersonalizerClient): Promise<LogsPropertiesOutput> {
+async function getLogProperties(client: PersonalizerClient): Promise<LogsPropertiesOutput> {
   const response = await client.path("/logs/properties").get();
   if (isUnexpected(response)) {
     throw response.body.error;

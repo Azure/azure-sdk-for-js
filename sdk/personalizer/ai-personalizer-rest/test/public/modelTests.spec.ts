@@ -32,21 +32,21 @@ describe("Model Tests", () => {
 
   // Issue: https://github.com/Azure/azure-sdk-for-js/issues/23071
   it.skip("model import and export tests", async function () {
-    const unSignedModelBytes = await exportModelAsync(client);
-    const signedModelBytes = await exportModelAsync(client, true);
-    await importModelAsync(client, signedModelBytes);
-    const newUnSignedModelBytes = await exportModelAsync(client);
+    const unSignedModelBytes = await exportModel(client);
+    const signedModelBytes = await exportModel(client, true);
+    await importModel(client, signedModelBytes);
+    const newUnSignedModelBytes = await exportModel(client);
     assertArrayEquals(unSignedModelBytes, newUnSignedModelBytes);
   });
 
   it("model properties tests", async function () {
-    const modelProperties: ModelPropertiesOutput = await getModelPropertiesAsync(client);
+    const modelProperties: ModelPropertiesOutput = await getModelProperties(client);
     assert.exists(modelProperties.creationTime);
     assert.exists(modelProperties.lastModifiedTime);
   });
 });
 
-async function exportModelAsync(
+async function exportModel(
   client: PersonalizerClient,
   signed: boolean = false
 ): Promise<Uint8Array> {
@@ -57,14 +57,14 @@ async function exportModelAsync(
   return response.body;
 }
 
-async function importModelAsync(client: PersonalizerClient, modelBytes: Uint8Array) {
+async function importModel(client: PersonalizerClient, modelBytes: Uint8Array) {
   const response = await client.path("/model").put({ body: modelBytes });
   if (isUnexpected(response)) {
     throw response.body.error;
   }
 }
 
-async function getModelPropertiesAsync(client: PersonalizerClient): Promise<ModelPropertiesOutput> {
+async function getModelProperties(client: PersonalizerClient): Promise<ModelPropertiesOutput> {
   const response = await client.path("/model/properties").get();
   return response.body;
 }

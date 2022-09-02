@@ -24,8 +24,7 @@ describe("AAD Tests", () => {
     await recorder.stop();
   });
 
-  // test is failing browser mode. Needs investigation.
-  it.skip("get configuration using aad authentication test", async function () {
+  it("get configuration using aad authentication test", async function () {
     const response = await client.path("/configurations/service").get();
     if (isUnexpected(response)) {
       throw response.body.error;

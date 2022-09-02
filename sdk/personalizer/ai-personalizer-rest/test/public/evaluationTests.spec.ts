@@ -40,20 +40,20 @@ describe.skip("Evaluation Tests", () => {
       enableOfflineExperimentation: true,
       policies: [],
     };
-    const response = await createEvaluationAsync(client, evaluationContract);
+    const response = await createEvaluation(client, evaluationContract);
     if (isUnexpected(response)) {
       throw response.body.error;
     }
     let evaluation = response.body;
     assert.exists(evaluation.id);
     const evaluationId = evaluation.id ?? "";
-    await waitForEvaluationToFinishAsync(client, evaluationId);
-    evaluation = await getEvaluationAsync(client, evaluationId);
+    await waitForEvaluationToFinish(client, evaluationId);
+    evaluation = await getEvaluation(client, evaluationId);
     assert.notEqual(
       evaluation.policyResults?.find((policy) => policy.policySource === "Online"),
       undefined
     );
-    await deleteEvaluationAsync(client, evaluationId);
+    await deleteEvaluation(client, evaluationId);
   });
 
   it("list evaluations test", async function () {
@@ -62,21 +62,21 @@ describe.skip("Evaluation Tests", () => {
   });
 });
 
-async function createEvaluationAsync(
+async function createEvaluation(
   client: PersonalizerClient,
   evaluationContract: EvaluationContract
 ) {
   return client.path("/evaluations").post({ body: evaluationContract });
 }
 
-async function waitForEvaluationToFinishAsync(client: PersonalizerClient, evaluationId: string) {
-  while (!(await isEvaluationFinalAsync(client, evaluationId))) {
+async function waitForEvaluationToFinish(client: PersonalizerClient, evaluationId: string) {
+  while (!(await isEvaluationFinal(client, evaluationId))) {
     delay(60 * 1000);
   }
 }
 
-async function isEvaluationFinalAsync(client: PersonalizerClient, evaluationId: string) {
-  const evaluation = await getEvaluationAsync(client, evaluationId);
+async function isEvaluationFinal(client: PersonalizerClient, evaluationId: string) {
+  const evaluation = await getEvaluation(client, evaluationId);
   return (
     evaluation.status === "completed" ||
     evaluation.status === "failed" ||
@@ -84,7 +84,7 @@ async function isEvaluationFinalAsync(client: PersonalizerClient, evaluationId: 
   );
 }
 
-async function getEvaluationAsync(
+async function getEvaluation(
   client: PersonalizerClient,
   evaluationId: string
 ): Promise<EvaluationOutput> {
@@ -96,7 +96,7 @@ async function getEvaluationAsync(
   return response.body;
 }
 
-async function deleteEvaluationAsync(client: PersonalizerClient, evaluationId: string) {
+async function deleteEvaluation(client: PersonalizerClient, evaluationId: string) {
   const response = await client.path("/evaluations/{evaluationId}", evaluationId).delete();
   if (isUnexpected(response)) {
     throw response.body.error;

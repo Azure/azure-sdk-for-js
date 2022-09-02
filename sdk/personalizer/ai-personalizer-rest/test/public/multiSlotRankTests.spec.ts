@@ -11,7 +11,7 @@ import createPersonalizerClient, {
   isUnexpected,
 } from "../../src";
 import { assert } from "chai";
-import { enableMultiSlotAsync, isMultiSlotEnabledAsync } from "./helpers";
+import { enableMultiSlot, isMultiSlotEnabled } from "./helpers";
 
 describe("Multi-Slot Rank Tests", () => {
   let recorder: Recorder;
@@ -26,8 +26,8 @@ describe("Multi-Slot Rank Tests", () => {
       },
       recorder.configureClientOptions({})
     );
-    if (!(await isMultiSlotEnabledAsync(client))) {
-      await enableMultiSlotAsync(client);
+    if (!(await isMultiSlotEnabled(client))) {
+      await enableMultiSlot(client);
     }
   });
 

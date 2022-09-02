@@ -5,12 +5,12 @@ import { delay } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { PersonalizerClient, ServiceConfiguration } from "../../src";
 
-export async function isMultiSlotEnabledAsync(client: PersonalizerClient): Promise<boolean> {
+export async function isMultiSlotEnabled(client: PersonalizerClient): Promise<boolean> {
   const policy = await client.path("/configurations/policy").get();
   return policy.body.arguments.includes("--ccb_explore_adf");
 }
 
-export async function enableMultiSlotAsync(client: PersonalizerClient): Promise<void> {
+export async function enableMultiSlot(client: PersonalizerClient): Promise<void> {
   const policy = await client.path("/configurations/policy").get();
   if (policy.body.arguments.includes("--ccb_explore_adf")) {
     return;
