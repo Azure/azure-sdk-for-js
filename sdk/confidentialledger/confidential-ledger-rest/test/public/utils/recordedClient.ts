@@ -49,6 +49,9 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 export async function createClient(): Promise<ConfidentialLedgerClient> {
   const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 
+  console.log("Azure tenant id = " + env.AZURE_TENANT_ID);
+  console.log("Azure ledger uri = " + env.LEDGER)
+
   const clientCredential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,
@@ -62,7 +65,7 @@ export async function createClient(): Promise<ConfidentialLedgerClient> {
     env.IDENTITY_SERVICE_URL ? env.IDENTITY_SERVICE_URL : null
   );
 
-  return ConfidentialLedger(env.ENDPOINT, ledgerIdentityCertificate, clientCredential, {
+  return ConfidentialLedger(env.LEDGER_URI, ledgerIdentityCertificate, clientCredential, {
     httpClient,
   });
 }
