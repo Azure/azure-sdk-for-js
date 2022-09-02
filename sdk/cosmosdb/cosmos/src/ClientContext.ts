@@ -2,6 +2,11 @@
 // Licensed under the MIT license.
 import { v4 } from "uuid";
 const uuid = v4;
+import {
+  bearerTokenAuthenticationPolicy,
+  createEmptyPipeline,
+  Pipeline,
+} from "@azure/core-rest-pipeline";
 import { PartitionKeyRange } from "./client/Container/PartitionKeyRange";
 import { Resource } from "./client/Resource";
 import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/constants";
@@ -23,10 +28,8 @@ import { request as executeRequest } from "./request/RequestHandler";
 import { SessionContainer } from "./session/sessionContainer";
 import { SessionContext } from "./session/SessionContext";
 import { BulkOptions } from "./utils/batch";
-import { AzureLogger, createClientLogger } from "@azure/logger";
-import { Pipeline } from "@azure/core-rest-pipeline";
-
-const logger: AzureLogger = createClientLogger("ClientContext");
+import { sanitizeEndpoint } from "./utils/checkURL";
+import { defaultLogger } from "./common/logger";
 
 const QueryJsonContentType = "application/query+json";
 
@@ -46,6 +49,26 @@ export class ClientContext {
     this.connectionPolicy = cosmosClientOptions.connectionPolicy;
     this.sessionContainer = new SessionContainer();
     this.partitionKeyDefinitionCache = {};
+    this.pipeline = null;
+    if (cosmosClientOptions.aadCredentials) {
+      this.pipeline = createEmptyPipeline();
+      const hrefEndpoint = sanitizeEndpoint(cosmosClientOptions.endpoint);
+      const scope = `${hrefEndpoint}/.default`;
+      this.pipeline.addPolicy(
+        bearerTokenAuthenticationPolicy({
+          credential: cosmosClientOptions.aadCredentials,
+          scopes: scope,
+          challengeCallbacks: {
+            async authorizeRequest({ request, getAccessToken }) {
+              const tokenResponse = await getAccessToken([scope], {});
+              const AUTH_PREFIX = `type=aad&ver=1.0&sig=`;
+              const authorizationToken = `${AUTH_PREFIX}${tokenResponse.token}`;
+              request.headers.set("Authorization", authorizationToken);
+            },
+          },
+        })
+      );
+    }
   }
   /** @hidden */
   public async read<T>({
@@ -151,16 +174,16 @@ export class ClientContext {
       }
     }
     this.applySessionToken(request);
-    logger.info(
+    defaultLogger.info(
       "query " +
         requestId +
         " started" +
         (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : "")
     );
-    logger.verbose(request);
+    defaultLogger.warning(request);
     const start = Date.now();
     const response = await executeRequest(request);
-    logger.info("query " + requestId + " finished - " + (Date.now() - start) + "ms");
+    defaultLogger.info("query " + requestId + " finished - " + (Date.now() - start) + "ms");
     this.captureSessionToken(undefined, path, OperationType.Query, response.headers);
     return this.processQueryFeedResponse(response, !!query, resultFn);
   }
