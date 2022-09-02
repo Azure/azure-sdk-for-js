@@ -21,7 +21,10 @@
     "cloud",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "personalizer",
+    "reinforcement learning",
+    "contextual bandit"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",

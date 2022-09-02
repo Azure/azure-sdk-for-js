@@ -4,12 +4,11 @@
 /**
  * @summary Demonstrates the use of a Personalizer client to rank actions and reward the presented action.
  */
-import Personalizer, {
-  ErrorResponseOutput,
+import createPersonalizerClient, {
+  isUnexpected,
   PersonalizerErrorOutput,
   RankableAction,
   RankRequest,
-  RankResponseOutput,
 } from "@azure-rest/ai-personalizer";
 
 // Load the .env file if it exists
@@ -20,7 +19,7 @@ async function main() {
   const endpoint = process.env.PERSONALIZER_ENDPOINT || "<endpoint>";
   const key = process.env.PERSONALIZER_API_KEY || "<test-key>";
 
-  const client = Personalizer(endpoint, { key: key });
+  const client = createPersonalizerClient(endpoint, { key });
 
   // The list of actions (videos in this case) to be ranked with metadata associated for each action.
   const actions: RankableAction[] = [
@@ -57,30 +56,33 @@ async function main() {
     contextFeatures: contextFeatures,
   };
 
-  console.log("Sending rank request");
+  log("Sending rank request");
   const rankResponse = await client.path("/rank").post({ body: request });
-  if (rankResponse.status != "201") {
-    const error = rankResponse.body as ErrorResponseOutput;
-    throw error.error;
+  if (isUnexpected(rankResponse)) {
+    throw rankResponse.body.error;
   }
-  const rankOutput = rankResponse.body as RankResponseOutput;
+
+  const rankOutput = rankResponse.body;
   const eventId = rankOutput.eventId as string;
-  console.log(
+  log(
     `Rank returned response with event id ${eventId} and recommended ${rankOutput.rewardActionId} as the best action`
   );
 
   // The event response will be determined by how the user interacted with the action that was presented to them.
   // Let us say that they like the action and so we associate a reward of 1.
-  console.log("Sending reward event");
+  log("Sending reward event");
   const eventResponse = await client
     .path("/events/{eventId}/reward", eventId)
     .post({ body: { value: 1 } });
-  if (eventResponse.status != "204") {
-    const error = eventResponse.body as ErrorResponseOutput;
-    throw error.error;
+  if (isUnexpected(eventResponse)) {
+    throw eventResponse.body.error;
   }
 
-  console.log("Completed sending reward response");
+  log("Completed sending reward response");
+}
+
+function log(message: string) {
+  console.log(message);
 }
 
 main().catch((err: PersonalizerErrorOutput) => {
