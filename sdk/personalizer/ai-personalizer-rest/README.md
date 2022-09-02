@@ -9,8 +9,7 @@ Key links:
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/personalizer/ai-personalizer-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-personalizer)
 - [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/ai-personalizer?view=azure-node-preview)
-- [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
-
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/personalizer/ai-personalizer-rest/samples/v1-beta/javascript)
 ## Getting started
 
 ### Currently supported environments

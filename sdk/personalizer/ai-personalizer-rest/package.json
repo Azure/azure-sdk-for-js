@@ -3,14 +3,17 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "version": "1.0.0-beta.1",
-  "description": "",
+  "description": "A client library for the Azure Personalizer service.",
   "keywords": [
     "node",
     "azure",
     "cloud",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "personalizer",
+    "reinforcement learning",
+    "contextual bandit"
   ],
   "license": "MIT",
   "main": "dist/index.js",
@@ -114,12 +117,11 @@
   "//sampleConfiguration": {
     "productName": "Azure Personalizer",
     "productSlugs": [
-      "azure"
+      "azure",
+      "azure-cognitive-services",
+      "azure-personalizer"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/en-us/azure/cognitive-services/personalizer/"
-  },
-  "browser": {
-    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
+    "apiRefLink": "https://docs.microsoft.com/azure/cognitive-services/personalizer/"
   }
 }

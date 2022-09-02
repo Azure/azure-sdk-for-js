@@ -48,7 +48,7 @@ describe("Rank Tests", () => {
     };
     const response = await client.path("/rank").post({ body: request });
     if (isUnexpected(response)) {
-      throw response.body.error.code;
+      throw response.body.error;
     }
     assert.equal(actions.length, response.body.ranking.length);
     response.body.ranking.every((val, index) => val.id === actions[index].id);
@@ -91,7 +91,7 @@ describe("Rank Tests", () => {
     };
     const response = await client.path("/rank").post({ body: request });
     if (isUnexpected(response)) {
-      throw response.body.error.code;
+      throw response.body.error;
     }
     assert.equal(actions.length, response.body.ranking.length);
     response.body.ranking.every((val, index) => val.id === actions[index].id);

@@ -4,7 +4,7 @@
 /**
  * @summary Demonstrates the use of a Personalizer client to rank actions for multiple slots and reward the presented action.
  */
-import Personalizer, {
+import createPersonalizerClient, {
   isUnexpected,
   MultiSlotRankRequest,
   PersonalizerErrorOutput,
@@ -21,7 +21,7 @@ async function main() {
   const endpoint = process.env.PERSONALIZER_ENDPOINT || "<endpoint>";
   const key = process.env.PERSONALIZER_API_KEY || "<test-key>";
 
-  const client = Personalizer(endpoint, { key: key });
+  const client = createPersonalizerClient(endpoint, { key });
 
   const request: MultiSlotRankRequest = {
     slots: getSlots(),
@@ -32,16 +32,16 @@ async function main() {
   log("Sending multi-slot rank request");
   const rankResponse = await client.path("/multislot/rank").post({ body: request });
   if (isUnexpected(rankResponse)) {
-    throw rankResponse.body.error.code;
+    throw rankResponse.body.error;
   }
 
   const rankOutput = rankResponse.body;
   const eventId = rankOutput.eventId as string;
   const slotResponses = rankOutput.slots as SlotResponseOutput[];
   log(`Rank returned response with event id ${eventId} and recommended the following:`);
-  slotResponses.forEach(function (slotResponse) {
-    log(`Action ${slotResponse.rewardActionId} for slot ${slotResponse.id}`);
-  });
+  for (const slotResponse of slotResponses) {
+    log(`  Action ${slotResponse.rewardActionId} for slot ${slotResponse.id}`);
+ }
 
   // The event response will be determined by how the user interacted with the action that was presented to them.
   // Let us say that they like the action presented to them for the Main Article slot and so we associate a reward of 1.
@@ -51,7 +51,7 @@ async function main() {
     .path("/multislot/events/{eventId}/reward", eventId)
     .post({ body: { reward: [{ slotId: "Main Article", value: 1 }] } });
   if (isUnexpected(eventResponse)) {
-    throw eventResponse.body.error.code;
+    throw eventResponse.body.error;
   }
 
   log("Completed sending reward response");

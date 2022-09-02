@@ -88,7 +88,7 @@ async function getConfigurationAsync(
 ): Promise<ServiceConfigurationOutput> {
   const response = await client.path("/configurations/service").get();
   if (isUnexpected(response)) {
-    throw response.body.error.code;
+    throw response.body.error;
   }
   return response.body;
 }
@@ -99,7 +99,7 @@ async function updateConfigurationAsync(
 ): Promise<ServiceConfigurationOutput> {
   const response = await client.path("/configurations/service").put(configuration);
   if (isUnexpected(response)) {
-    throw response.body.error.code;
+    throw response.body.error;
   }
   return response.body;
 }
@@ -107,7 +107,7 @@ async function updateConfigurationAsync(
 async function getPolicyAsync(client: PersonalizerClient): Promise<PolicyContractOutput> {
   const response = await client.path("/configurations/policy").get();
   if (isUnexpected(response)) {
-    throw response.body.error.code;
+    throw response.body.error;
   }
   return response.body;
 }
@@ -118,7 +118,7 @@ async function updatePolicyAsync(
 ): Promise<PolicyContractOutput> {
   const response = await client.path("/configurations/policy").put(policy);
   if (isUnexpected(response)) {
-    throw response.body.error.code;
+    throw response.body.error;
   }
   return response.body;
 }
@@ -126,7 +126,7 @@ async function updatePolicyAsync(
 async function resetPolicyAsync(client: PersonalizerClient): Promise<PolicyContractOutput> {
   const response = await client.path("/configurations/policy").delete();
   if (isUnexpected(response)) {
-    throw response.body.error.code;
+    throw response.body.error;
   }
   return response.body;
 }

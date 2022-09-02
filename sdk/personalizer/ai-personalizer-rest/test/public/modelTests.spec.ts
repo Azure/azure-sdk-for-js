@@ -52,7 +52,7 @@ async function exportModelAsync(
 ): Promise<Uint8Array> {
   const response = await client.path("/model").get({ queryParameters: { signed: signed } });
   if (isUnexpected(response)) {
-    throw response.body.error.code;
+    throw response.body.error;
   }
   return response.body;
 }
@@ -60,7 +60,7 @@ async function exportModelAsync(
 async function importModelAsync(client: PersonalizerClient, modelBytes: Uint8Array) {
   const response = await client.path("/model").put({ body: modelBytes });
   if (isUnexpected(response)) {
-    throw response.body.error.code;
+    throw response.body.error;
   }
 }
 

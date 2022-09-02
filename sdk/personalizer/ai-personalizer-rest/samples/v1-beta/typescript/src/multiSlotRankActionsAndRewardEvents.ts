@@ -4,7 +4,7 @@
 /**
  * @summary Demonstrates the use of a Personalizer client to rank actions for multiple slots and reward the presented action.
  */
-import Personalizer, {
+import createPersonalizerClient, {
   ErrorResponseOutput,
   MultiSlotRankRequest,
   MultiSlotRankResponseOutput,
@@ -22,7 +22,7 @@ async function main() {
   const endpoint = process.env.PERSONALIZER_ENDPOINT || "<endpoint>";
   const key = process.env.PERSONALIZER_API_KEY || "<test-key>";
 
-  const client = Personalizer(endpoint, { key: key });
+  const client = createPersonalizerClient(endpoint, { key });
 
   const request: MultiSlotRankRequest = {
     slots: getSlots(),

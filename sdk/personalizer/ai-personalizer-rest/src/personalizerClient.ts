@@ -5,7 +5,7 @@ import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { PersonalizerClient } from "./clientDefinitions";
 
-export default function createClient(
+export default function createPersonalizerClient(
   Endpoint: string,
   credentials: TokenCredential | KeyCredential,
   options: ClientOptions = {}

@@ -43,7 +43,7 @@ describe("Multi-Slot Rank Tests", () => {
       .path("/multislot/rank")
       .post({ body: { actions: actions, slots: slots, eventId: eventId } });
     if (isUnexpected(response)) {
-      throw response.body.error.code;
+      throw response.body.error;
     }
 
     assert.equal(response.body.eventId, eventId);
@@ -66,7 +66,7 @@ describe("Multi-Slot Rank Tests", () => {
       .path("/multislot/rank")
       .post({ body: { actions: actions, slots: slots, contextFeatures: getContextFeatures() } });
     if (isUnexpected(response)) {
-      throw response.body.error.code;
+      throw response.body.error;
     }
     assert.equal(slots.length, response.body.slots.length);
     assert.equal("NewsArticle", response.body.slots[0].rewardActionId);

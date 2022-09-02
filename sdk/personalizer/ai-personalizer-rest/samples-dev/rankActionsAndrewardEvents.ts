@@ -4,7 +4,7 @@
 /**
  * @summary Demonstrates the use of a Personalizer client to rank actions and reward the presented action.
  */
-import Personalizer, {
+import createPersonalizerClient, {
   isUnexpected,
   PersonalizerErrorOutput,
   RankableAction,
@@ -19,7 +19,7 @@ async function main() {
   const endpoint = process.env.PERSONALIZER_ENDPOINT || "<endpoint>";
   const key = process.env.PERSONALIZER_API_KEY || "<test-key>";
 
-  const client = Personalizer(endpoint, { key: key });
+  const client = createPersonalizerClient(endpoint, { key });
 
   // The list of actions (videos in this case) to be ranked with metadata associated for each action.
   const actions: RankableAction[] = [
@@ -59,7 +59,7 @@ async function main() {
   log("Sending rank request");
   const rankResponse = await client.path("/rank").post({ body: request });
   if (isUnexpected(rankResponse)) {
-    throw rankResponse.body.error.code;
+    throw rankResponse.body.error;
   }
 
   const rankOutput = rankResponse.body;
@@ -75,7 +75,7 @@ async function main() {
     .path("/events/{eventId}/reward", eventId)
     .post({ body: { value: 1 } });
   if (isUnexpected(eventResponse)) {
-    throw eventResponse.body.error.code;
+    throw eventResponse.body.error;
   }
 
   log("Completed sending reward response");

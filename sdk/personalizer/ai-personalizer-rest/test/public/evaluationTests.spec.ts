@@ -42,7 +42,7 @@ describe.skip("Evaluation Tests", () => {
     };
     const response = await createEvaluationAsync(client, evaluationContract);
     if (isUnexpected(response)) {
-      throw response.body.error.code;
+      throw response.body.error;
     }
     let evaluation = response.body;
     assert.exists(evaluation.id);
@@ -90,7 +90,7 @@ async function getEvaluationAsync(
 ): Promise<EvaluationOutput> {
   const response = await client.path("/evaluations/{evaluationId}", evaluationId).get();
   if (isUnexpected(response)) {
-    throw response.body.error.code;
+    throw response.body.error;
   }
 
   return response.body;
@@ -99,6 +99,6 @@ async function getEvaluationAsync(
 async function deleteEvaluationAsync(client: PersonalizerClient, evaluationId: string) {
   const response = await client.path("/evaluations/{evaluationId}", evaluationId).delete();
   if (isUnexpected(response)) {
-    throw response.body.error.code;
+    throw response.body.error;
   }
 }

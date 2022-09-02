@@ -43,14 +43,14 @@ describe("Log Tests", () => {
 async function deleteLogsAsync(client: PersonalizerClient) {
   const response = await client.path("/logs").delete();
   if (isUnexpected(response)) {
-    throw response.body.error.code;
+    throw response.body.error;
   }
 }
 
 async function getLogPropertiesAsync(client: PersonalizerClient): Promise<LogsPropertiesOutput> {
   const response = await client.path("/logs/properties").get();
   if (isUnexpected(response)) {
-    throw response.body.error.code;
+    throw response.body.error;
   }
   return response.body;
 }
