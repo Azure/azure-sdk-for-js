@@ -45,8 +45,8 @@ npx cross-env PERSONALIZER_ENDPOINT="<personalizer endpoint>" PERSONALIZER_API_K
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[multislotrankactionsandrewardevents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/personalizer/ai-personalizer-rest/samples/v1-beta/javascript/multiSlotRankActionsAndrewardEvents.js
-[rankactionsandrewardevents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/personalizer/ai-personalizer-rest/samples/v1-beta/javascript/rankActionsAndrewardEvents.js
+[multislotrankactionsandrewardevents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk
+[rankactionsandrewardevents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk
 [apiref]: https://docs.microsoft.com/azure/cognitive-services/personalizer/
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/personalizer/ai-personalizer-rest/README.md
