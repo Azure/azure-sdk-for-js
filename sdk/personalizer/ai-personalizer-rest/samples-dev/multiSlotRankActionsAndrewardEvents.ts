@@ -23,10 +23,39 @@ async function main() {
 
   const client = createPersonalizerClient(endpoint, { key });
 
+  // We want to rank the actions for two slots.
+  const slots: SlotRequest[] = [
+    {
+      id: "Main Article",
+      baselineAction: "NewsArticle",
+      features: [{ Size: "Large", Position: "Top Middle" }],
+    },
+    {
+      id: "Side Bar",
+      baselineAction: "SportsArticle",
+      features: [{ Size: "Small", Position: "Bottom Right" }],
+    },
+  ];
+
+  // The list of actions to be ranked with metadata associated for each action.
+  const actions: RankableAction[] = [
+    { id: "NewsArticle", features: [{ type: "News" }] },
+    { id: "SportsArticle", features: [{ type: "Sports" }] },
+    { id: "EntertainmentArticle", features: [{ type: "Entertainment" }] },
+  ];
+
+  // The current context.
+  const contextFeatures = [
+    { User: { ProfileType: "AnonymousUser", LatLong: "47.6,-122.1" } },
+    { Environment: { DayOfMonth: "28", MonthOfYear: "8", Weather: "Sunny" } },
+    { Device: { Mobile: true, Windows: true } },
+    { RecentActivity: { ItemsInCart: 3 } },
+  ];
+
   const request: MultiSlotRankRequest = {
-    slots: getSlots(),
-    actions: getActions(),
-    contextFeatures: getContextFeatures(),
+    slots: slots,
+    actions: actions,
+    contextFeatures: contextFeatures,
   };
 
   log("Sending multi-slot rank request");
@@ -55,41 +84,6 @@ async function main() {
   }
 
   log("Completed sending reward response");
-}
-
-// We want to rank the actions for two slots.
-function getSlots(): SlotRequest[] {
-  return [
-    {
-      id: "Main Article",
-      baselineAction: "NewsArticle",
-      features: [{ Size: "Large", Position: "Top Middle" }],
-    },
-    {
-      id: "Side Bar",
-      baselineAction: "SportsArticle",
-      features: [{ Size: "Small", Position: "Bottom Right" }],
-    },
-  ];
-}
-
-// The list of actions to be ranked with metadata associated for each action.
-function getActions(): RankableAction[] {
-  return [
-    { id: "NewsArticle", features: [{ type: "News" }] },
-    { id: "SportsArticle", features: [{ type: "Sports" }] },
-    { id: "EntertainmentArticle", features: [{ type: "Entertainment" }] },
-  ];
-}
-
-// The current context.
-function getContextFeatures() {
-  return [
-    { User: { ProfileType: "AnonymousUser", LatLong: "47.6,-122.1" } },
-    { Environment: { DayOfMonth: "28", MonthOfYear: "8", Weather: "Sunny" } },
-    { Device: { Mobile: true, Windows: true } },
-    { RecentActivity: { ItemsInCart: 3 } },
-  ];
 }
 
 function log(message: string) {
