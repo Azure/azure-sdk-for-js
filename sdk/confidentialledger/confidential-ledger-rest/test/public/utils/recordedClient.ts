@@ -62,9 +62,6 @@ export async function createClient(): Promise<ConfidentialLedgerClient> {
     env.IDENTITY_SERVICE_URL ? env.IDENTITY_SERVICE_URL : null
   );
 
-  // const cert = env.PUBLIC_KEY;
-  // const key = env.PRIVATE_KEY;
-
   return ConfidentialLedger(env.ENDPOINT, ledgerIdentityCertificate, clientCredential, {
     httpClient,
   });
