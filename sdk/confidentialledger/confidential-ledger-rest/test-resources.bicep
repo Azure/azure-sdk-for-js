@@ -10,7 +10,7 @@ param principalId string = 'ec667af1-0642-45f0-be8a-b76758a35dde'
 @description('Location for all resources.')
 param location string = 'EastUS'
 param tenantId string
-param clientId string
+param testApplicationId string
 
 var ledgerUri = 'https://${baseName}.confidential-ledger.azure.com'
 
@@ -26,7 +26,7 @@ resource baseName_resource 'Microsoft.ConfidentialLedger/ledgers@2020-12-01-prev
         ledgerRoleName: 'Administrator'
       }
       {
-        principalId: clientId
+        principalId: testApplicationId
         ledgerRoleName: 'Administrator'
       }
     ]
