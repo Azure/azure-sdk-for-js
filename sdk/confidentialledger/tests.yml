@@ -4,7 +4,7 @@ stages:
   - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure-rest/confidential-ledger"
-      ServiceDirectory: confidentialledger/confidentialledger
+      ServiceDirectory: confidentialledger
       EnvVars:
         AZURE_CLIENT_ID: $(CONFIDENTIALLEDGER_CLIENT_ID)
         AZURE_TENANT_ID: $(CONFIDENTIALLEDGER_TENANT_ID)
