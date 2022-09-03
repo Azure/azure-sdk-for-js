@@ -40,6 +40,7 @@ describe("Get Collections", () => {
       if (isUnexpected(postResult)) {
         throw postResult.body;
       }
+    }
 
     const result = await client.path("/app/collections").get();
 
