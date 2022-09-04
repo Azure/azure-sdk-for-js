@@ -2,7 +2,7 @@
   "name": "@azure/core-http",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "2.2.7",
+  "version": "2.2.8",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -119,7 +119,7 @@
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-auth": "^1.3.0",
     "@azure/core-tracing": "1.0.0-preview.13",
-    "@azure/core-util": "^1.0.1",
+    "@azure/core-util": "^1.1.0",
     "@azure/logger": "^1.0.0",
     "@types/node-fetch": "^2.5.0",
     "@types/tunnel": "^0.0.3",
