@@ -14,7 +14,7 @@ import {
   ConversationAnalysisClientOptionalParams,
   ConversationAnalysisOptionalParams,
   ConversationAnalysisResponse,
-} from "./generated/models";
+} from "./models";
 import { DEFAULT_COGNITIVE_SCOPE, SDK_VERSION } from "./constants";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
@@ -103,7 +103,11 @@ export class ConversationAnalysisClient {
     return this._tracing.withSpan(
       "ConversationAnalysisClient.analyzeConversation",
       options || {},
-      (updatedOptions) => this._client.analyzeConversation(task, updatedOptions)
+      (updatedOptions) =>
+        this._client.analyzeConversation(
+          task,
+          updatedOptions
+        ) as Promise<AnalyzeConversationResponse>
     );
   }
 
@@ -121,7 +125,10 @@ export class ConversationAnalysisClient {
     return this._tracing.withSpan(
       "ConversationAnalysisClient.beginConversationAnalysis",
       options || {},
-      (updatedOptions) => this._client.beginConversationAnalysis(task, updatedOptions)
+      (updatedOptions) =>
+        this._client.beginConversationAnalysis(task, updatedOptions) as Promise<
+          PollerLike<PollOperationState<ConversationAnalysisResponse>, ConversationAnalysisResponse>
+        >
     );
   }
 }

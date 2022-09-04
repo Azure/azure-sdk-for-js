@@ -14,4 +14,4 @@
 export { AzureKeyCredential } from "@azure/core-auth";
 
 export { ConversationAnalysisClient } from "./conversationAnalysisClient";
-export * from "./generated/models";
+export * from "./models";

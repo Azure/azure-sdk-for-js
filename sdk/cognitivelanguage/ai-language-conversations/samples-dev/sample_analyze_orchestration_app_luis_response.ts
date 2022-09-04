@@ -9,14 +9,7 @@
  * @azsdk-weight 50
  */
 
-import {
-  ConversationAnalysisClient,
-  ConversationalTask,
-  ConversationalTaskResult,
-  ConversationPrediction,
-  OrchestrationPrediction,
-  LuisTargetIntentResult,
-} from "@azure/ai-language-conversations";
+import { ConversationAnalysisClient, ConversationalTask } from "@azure/ai-language-conversations";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -56,26 +49,28 @@ const body: ConversationalTask = {
 
 export async function main() {
   //Analyze query
-  const { result } = (await service.analyzeConversation(body)) as ConversationalTaskResult;
+  const { result } = await service.analyzeConversation(body);
   console.log("query: ", result.query);
   console.log("project kind: ", result.prediction.projectKind);
 
   const top_intent = result.prediction.topIntent || "None";
   console.log("top intent: ", top_intent);
 
-  const prediction = result.prediction as OrchestrationPrediction;
-  const top_intent_object = prediction.intents[top_intent] as LuisTargetIntentResult;
-  console.log("confidence score: ", top_intent_object.confidence);
-  console.log("project kind: ", top_intent_object.targetProjectKind);
+  const prediction = result.prediction;
+  if (prediction.projectKind == "Orchestration") {
+    const top_intent_object = prediction.intents[top_intent];
+    console.log("confidence score: ", top_intent_object.confidence);
+    console.log("project kind: ", top_intent_object.targetProjectKind);
 
-  if (top_intent_object.targetProjectKind == "Luis" && top_intent_object.result) {
-    console.log("\nluis response:");
+    if (top_intent_object.targetProjectKind == "Luis" && top_intent_object.result) {
+      console.log("\nluis response:");
 
-    const luis_response = top_intent_object.result.prediction as ConversationPrediction;
-    console.log("top intent: ", luis_response.topIntent);
-    console.log("\nentities:");
-    for (const entity of luis_response.entities) {
-      console.log("\n", entity);
+      const luis_response = top_intent_object.result.prediction;
+      console.log("top intent: ", luis_response.topIntent);
+      console.log("\nentities:");
+      for (const entity of luis_response.entities) {
+        console.log("\n", entity);
+      }
     }
   }
 }

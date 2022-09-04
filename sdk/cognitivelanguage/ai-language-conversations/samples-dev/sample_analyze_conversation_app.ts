@@ -9,15 +9,7 @@
  * @azsdk-weight 50
  */
 
-import {
-  ConversationAnalysisClient,
-  ConversationalTask,
-  ConversationEntity,
-  ConversationalTaskResult,
-  ConversationPrediction,
-  EntitySubtype,
-  ListKey,
-} from "@azure/ai-language-conversations";
+import { ConversationAnalysisClient, ConversationalTask } from "@azure/ai-language-conversations";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 
@@ -53,38 +45,40 @@ const body: ConversationalTask = {
 
 export async function main() {
   //Analyze query
-  const { result } = (await service.analyzeConversation(body)) as ConversationalTaskResult;
+  const { result } = await service.analyzeConversation(body);
   console.log("query: ", result.query);
   console.log("project kind: ", result.prediction.projectKind);
   console.log("top intent: ", result.prediction.topIntent);
 
-  const prediction = result.prediction as ConversationPrediction;
-  console.log("category: ", prediction.intents[0].category);
-  console.log("confidence score: ", prediction.intents[0].confidence);
-  console.log("entities:");
+  const prediction = result.prediction;
+  if (prediction.projectKind == "Conversation") {
+    console.log("category: ", prediction.intents[0].category);
+    console.log("confidence score: ", prediction.intents[0].confidence);
+    console.log("entities:");
 
-  prediction.entities.forEach((entity: ConversationEntity) => {
-    console.log("\ncategory: ", entity.category);
-    console.log("text: ", entity.text);
-    console.log("confidence score: ", entity.confidence);
+    for (const entity of prediction.entities) {
+      console.log("\ncategory: ", entity.category);
+      console.log("text: ", entity.text);
+      console.log("confidence score: ", entity.confidence);
 
-    if (entity.resolutions) {
-      console.log("resolutions:");
-      entity.resolutions.forEach((resolution) => {
-        console.log("kind: ", resolution.resolutionKind);
-        if ("value" in resolution) console.log("value: ", resolution.value);
-      });
+      if (entity.resolutions) {
+        console.log("resolutions:");
+        for (const resolution of entity.resolutions) {
+          console.log("kind: ", resolution.resolutionKind);
+          if ("value" in resolution) console.log("value: ", resolution.value);
+        }
+      }
+
+      if (entity.extraInformation) {
+        console.log("extra info:");
+        for (const data of entity.extraInformation) {
+          console.log("kind: ", data.extraInformationKind);
+          if (data.extraInformationKind == "ListKey") console.log("key: ", data.key);
+          if (data.extraInformationKind == "EntitySubtype") console.log("value: ", data.value);
+        }
+      }
     }
-
-    if (entity.extraInformation) {
-      console.log("extra info:");
-      entity.extraInformation.forEach((data: EntitySubtype | ListKey) => {
-        console.log("kind: ", data.extraInformationKind);
-        if (data.extraInformationKind == "ListKey") console.log("key: ", data.key);
-        if (data.extraInformationKind == "EntitySubtype") console.log("value: ", data.value);
-      });
-    }
-  });
+  }
 }
 
 main().catch((err) => {
