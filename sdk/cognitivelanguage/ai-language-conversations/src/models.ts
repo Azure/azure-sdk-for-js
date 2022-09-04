@@ -982,7 +982,7 @@ export enum KnownAnalyzeConversationTaskKind {
 }
 
 /**
- * Defines values for AnalyzeConversationTaskKind. 
+ * Defines values for AnalyzeConversationTaskKind.
  * {@link KnownAnalyzeConversationTaskKind} can be used interchangeably with AnalyzeConversationTaskKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -997,7 +997,7 @@ export enum KnownAnalyzeConversationTaskResultsKind {
 }
 
 /**
- * Defines values for AnalyzeConversationTaskResultsKind. 
+ * Defines values for AnalyzeConversationTaskResultsKind.
  * {@link KnownAnalyzeConversationTaskResultsKind} can be used interchangeably with AnalyzeConversationTaskResultsKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -1046,27 +1046,27 @@ export enum KnownErrorCode {
 }
 
 /**
- * Defines values for ErrorCode. 
+ * Defines values for ErrorCode.
  * {@link KnownErrorCode} can be used interchangeably with ErrorCode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **InvalidRequest** 
- * **InvalidArgument** 
- * **Unauthorized** 
- * **Forbidden** 
- * **NotFound** 
- * **ProjectNotFound** 
- * **OperationNotFound** 
- * **AzureCognitiveSearchNotFound** 
- * **AzureCognitiveSearchIndexNotFound** 
- * **TooManyRequests** 
- * **AzureCognitiveSearchThrottling** 
- * **AzureCognitiveSearchIndexLimitReached** 
- * **InternalServerError** 
- * **ServiceUnavailable** 
- * **Timeout** 
- * **QuotaExceeded** 
- * **Conflict** 
+ * **InvalidRequest**
+ * **InvalidArgument**
+ * **Unauthorized**
+ * **Forbidden**
+ * **NotFound**
+ * **ProjectNotFound**
+ * **OperationNotFound**
+ * **AzureCognitiveSearchNotFound**
+ * **AzureCognitiveSearchIndexNotFound**
+ * **TooManyRequests**
+ * **AzureCognitiveSearchThrottling**
+ * **AzureCognitiveSearchIndexLimitReached**
+ * **InternalServerError**
+ * **ServiceUnavailable**
+ * **Timeout**
+ * **QuotaExceeded**
+ * **Conflict**
  * **Warning**
  */
 export type ErrorCode = string;
@@ -1104,23 +1104,23 @@ export enum KnownInnerErrorCode {
 }
 
 /**
- * Defines values for InnerErrorCode. 
+ * Defines values for InnerErrorCode.
  * {@link KnownInnerErrorCode} can be used interchangeably with InnerErrorCode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **InvalidRequest** 
- * **InvalidParameterValue** 
- * **KnowledgeBaseNotFound** 
- * **AzureCognitiveSearchNotFound** 
- * **AzureCognitiveSearchThrottling** 
- * **ExtractionFailure** 
- * **InvalidRequestBodyFormat** 
- * **EmptyRequest** 
- * **MissingInputDocuments** 
- * **InvalidDocument** 
- * **ModelVersionIncorrect** 
- * **InvalidDocumentBatch** 
- * **UnsupportedLanguageCode** 
+ * **InvalidRequest**
+ * **InvalidParameterValue**
+ * **KnowledgeBaseNotFound**
+ * **AzureCognitiveSearchNotFound**
+ * **AzureCognitiveSearchThrottling**
+ * **ExtractionFailure**
+ * **InvalidRequestBodyFormat**
+ * **EmptyRequest**
+ * **MissingInputDocuments**
+ * **InvalidDocument**
+ * **ModelVersionIncorrect**
+ * **InvalidDocumentBatch**
+ * **UnsupportedLanguageCode**
  * **InvalidCountryHint**
  */
 export type InnerErrorCode = string;
@@ -1134,11 +1134,11 @@ export enum KnownInputModality {
 }
 
 /**
- * Defines values for InputModality. 
+ * Defines values for InputModality.
  * {@link KnownInputModality} can be used interchangeably with InputModality,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **transcript** 
+ * **transcript**
  * **text**
  */
 export type InputModality = string;
@@ -1154,12 +1154,12 @@ export enum KnownConversationDomain {
 }
 
 /**
- * Defines values for ConversationDomain. 
+ * Defines values for ConversationDomain.
  * {@link KnownConversationDomain} can be used interchangeably with ConversationDomain,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **finance** 
- * **healthcare** 
+ * **finance**
+ * **healthcare**
  * **generic**
  */
 export type ConversationDomain = string;
@@ -1173,11 +1173,11 @@ export enum KnownAnalyzeConversationLROTaskKind {
 }
 
 /**
- * Defines values for AnalyzeConversationLROTaskKind. 
+ * Defines values for AnalyzeConversationLROTaskKind.
  * {@link KnownAnalyzeConversationLROTaskKind} can be used interchangeably with AnalyzeConversationLROTaskKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ConversationalPIITask** 
+ * **ConversationalPIITask**
  * **ConversationalSummarizationTask**
  */
 export type AnalyzeConversationLROTaskKind = string;
@@ -1201,16 +1201,16 @@ export enum KnownJobState {
 }
 
 /**
- * Defines values for JobState. 
+ * Defines values for JobState.
  * {@link KnownJobState} can be used interchangeably with JobState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **notStarted** 
- * **running** 
- * **succeeded** 
- * **partiallyCompleted** 
- * **failed** 
- * **cancelled** 
+ * **notStarted**
+ * **running**
+ * **succeeded**
+ * **partiallyCompleted**
+ * **failed**
+ * **cancelled**
  * **cancelling**
  */
 export type JobState = string;
@@ -1224,11 +1224,11 @@ export enum KnownAnalyzeConversationResultsKind {
 }
 
 /**
- * Defines values for AnalyzeConversationResultsKind. 
+ * Defines values for AnalyzeConversationResultsKind.
  * {@link KnownAnalyzeConversationResultsKind} can be used interchangeably with AnalyzeConversationResultsKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ConversationalPIIResults** 
+ * **ConversationalPIIResults**
  * **ConversationalSummarizationResults**
  */
 export type AnalyzeConversationResultsKind =
@@ -1252,15 +1252,15 @@ export enum KnownTaskState {
 }
 
 /**
- * Defines values for TaskState. 
+ * Defines values for TaskState.
  * {@link KnownTaskState} can be used interchangeably with TaskState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **notStarted** 
- * **running** 
- * **succeeded** 
- * **failed** 
- * **cancelled** 
+ * **notStarted**
+ * **running**
+ * **succeeded**
+ * **failed**
+ * **cancelled**
  * **cancelling**
  */
 export type TaskState = string;
@@ -1276,12 +1276,12 @@ export enum KnownRole {
 }
 
 /**
- * Defines values for Role. 
+ * Defines values for Role.
  * {@link KnownRole} can be used interchangeably with Role,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **agent** 
- * **customer** 
+ * **agent**
+ * **customer**
  * **generic**
  */
 export type Role = string;
@@ -1297,12 +1297,12 @@ export enum KnownStringIndexType {
 }
 
 /**
- * Defines values for StringIndexType. 
+ * Defines values for StringIndexType.
  * {@link KnownStringIndexType} can be used interchangeably with StringIndexType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **TextElements_v8**: Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo. 
- * **UnicodeCodePoint**: Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python. 
+ * **TextElements_v8**: Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo.
+ * **UnicodeCodePoint**: Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python.
  * **Utf16CodeUnit**: Returned offset and length values will correspond to UTF-16 code units. Use this option if your application is written in a language that support Unicode, for example Java, JavaScript.
  */
 export type StringIndexType = string;
@@ -1320,13 +1320,13 @@ export enum KnownTargetProjectKind {
 }
 
 /**
- * Defines values for TargetProjectKind. 
+ * Defines values for TargetProjectKind.
  * {@link KnownTargetProjectKind} can be used interchangeably with TargetProjectKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Luis** 
- * **Conversation** 
- * **QuestionAnswering** 
+ * **Luis**
+ * **Conversation**
+ * **QuestionAnswering**
  * **NonLinked**
  */
 export type TargetProjectKind = string;
@@ -1340,11 +1340,11 @@ export enum KnownProjectKind {
 }
 
 /**
- * Defines values for ProjectKind. 
+ * Defines values for ProjectKind.
  * {@link KnownProjectKind} can be used interchangeably with ProjectKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Conversation** 
+ * **Conversation**
  * **Orchestration**
  */
 export type ProjectKind = string;
@@ -1384,24 +1384,24 @@ export enum KnownResolutionKind {
 }
 
 /**
- * Defines values for ResolutionKind. 
+ * Defines values for ResolutionKind.
  * {@link KnownResolutionKind} can be used interchangeably with ResolutionKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Boolean** 
- * **DateTime** 
- * **Number** 
- * **Ordinal** 
- * **Speed** 
- * **Weight** 
- * **Length** 
- * **Volume** 
- * **Area** 
- * **Age** 
- * **Information** 
- * **Temperature** 
- * **Currency** 
- * **NumericRange** 
+ * **Boolean**
+ * **DateTime**
+ * **Number**
+ * **Ordinal**
+ * **Speed**
+ * **Weight**
+ * **Length**
+ * **Volume**
+ * **Area**
+ * **Age**
+ * **Information**
+ * **Temperature**
+ * **Currency**
+ * **NumericRange**
  * **TemporalSpan**
  */
 export type ResolutionKind = string;
@@ -1415,11 +1415,11 @@ export enum KnownExtraInformationKind {
 }
 
 /**
- * Defines values for ExtraInformationKind. 
+ * Defines values for ExtraInformationKind.
  * {@link KnownExtraInformationKind} can be used interchangeably with ExtraInformationKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **EntitySubtype** 
+ * **EntitySubtype**
  * **ListKey**
  */
 export type ExtraInformationKind = string;
@@ -1433,11 +1433,11 @@ export enum KnownRankerKind {
 }
 
 /**
- * Defines values for RankerKind. 
+ * Defines values for RankerKind.
  * {@link KnownRankerKind} can be used interchangeably with RankerKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **QuestionOnly**: Question only ranker. 
+ * **QuestionOnly**: Question only ranker.
  * **Default**: Default ranker.
  */
 export type RankerKind = string;
@@ -1451,11 +1451,11 @@ export enum KnownLogicalOperationKind {
 }
 
 /**
- * Defines values for LogicalOperationKind. 
+ * Defines values for LogicalOperationKind.
  * {@link KnownLogicalOperationKind} can be used interchangeably with LogicalOperationKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **AND** 
+ * **AND**
  * **OR**
  */
 export type LogicalOperationKind = string;
@@ -1475,14 +1475,14 @@ export enum KnownAgeUnit {
 }
 
 /**
- * Defines values for AgeUnit. 
+ * Defines values for AgeUnit.
  * {@link KnownAgeUnit} can be used interchangeably with AgeUnit,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unspecified** 
- * **Year** 
- * **Month** 
- * **Week** 
+ * **Unspecified**
+ * **Year**
+ * **Month**
+ * **Week**
  * **Day**
  */
 export type AgeUnit = string;
@@ -1548,37 +1548,37 @@ export enum KnownVolumeUnit {
 }
 
 /**
- * Defines values for VolumeUnit. 
+ * Defines values for VolumeUnit.
  * {@link KnownVolumeUnit} can be used interchangeably with VolumeUnit,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unspecified** 
- * **CubicMeter** 
- * **CubicCentimeter** 
- * **CubicMillimeter** 
- * **Hectoliter** 
- * **Decaliter** 
- * **Liter** 
- * **Centiliter** 
- * **Milliliter** 
- * **CubicYard** 
- * **CubicInch** 
- * **CubicFoot** 
- * **CubicMile** 
- * **FluidOunce** 
- * **Teaspoon** 
- * **Tablespoon** 
- * **Pint** 
- * **Quart** 
- * **Cup** 
- * **Gill** 
- * **Pinch** 
- * **FluidDram** 
- * **Barrel** 
- * **Minim** 
- * **Cord** 
- * **Peck** 
- * **Bushel** 
+ * **Unspecified**
+ * **CubicMeter**
+ * **CubicCentimeter**
+ * **CubicMillimeter**
+ * **Hectoliter**
+ * **Decaliter**
+ * **Liter**
+ * **Centiliter**
+ * **Milliliter**
+ * **CubicYard**
+ * **CubicInch**
+ * **CubicFoot**
+ * **CubicMile**
+ * **FluidOunce**
+ * **Teaspoon**
+ * **Tablespoon**
+ * **Pint**
+ * **Quart**
+ * **Cup**
+ * **Gill**
+ * **Pinch**
+ * **FluidDram**
+ * **Barrel**
+ * **Minim**
+ * **Cord**
+ * **Peck**
+ * **Bushel**
  * **Hogshead**
  */
 export type VolumeUnit = string;
@@ -1616,23 +1616,23 @@ export enum KnownSpeedUnit {
 }
 
 /**
- * Defines values for SpeedUnit. 
+ * Defines values for SpeedUnit.
  * {@link KnownSpeedUnit} can be used interchangeably with SpeedUnit,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unspecified** 
- * **MetersPerSecond** 
- * **KilometersPerHour** 
- * **KilometersPerMinute** 
- * **KilometersPerSecond** 
- * **MilesPerHour** 
- * **Knot** 
- * **FootPerSecond** 
- * **FootPerMinute** 
- * **YardsPerMinute** 
- * **YardsPerSecond** 
- * **MetersPerMillisecond** 
- * **CentimetersPerMillisecond** 
+ * **Unspecified**
+ * **MetersPerSecond**
+ * **KilometersPerHour**
+ * **KilometersPerMinute**
+ * **KilometersPerSecond**
+ * **MilesPerHour**
+ * **Knot**
+ * **FootPerSecond**
+ * **FootPerMinute**
+ * **YardsPerMinute**
+ * **YardsPerSecond**
+ * **MetersPerMillisecond**
+ * **CentimetersPerMillisecond**
  * **KilometersPerMillisecond**
  */
 export type SpeedUnit = string;
@@ -1668,22 +1668,22 @@ export enum KnownAreaUnit {
 }
 
 /**
- * Defines values for AreaUnit. 
+ * Defines values for AreaUnit.
  * {@link KnownAreaUnit} can be used interchangeably with AreaUnit,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unspecified** 
- * **SquareKilometer** 
- * **SquareHectometer** 
- * **SquareDecameter** 
- * **SquareDecimeter** 
- * **SquareMeter** 
- * **SquareCentimeter** 
- * **SquareMillimeter** 
- * **SquareInch** 
- * **SquareFoot** 
- * **SquareMile** 
- * **SquareYard** 
+ * **Unspecified**
+ * **SquareKilometer**
+ * **SquareHectometer**
+ * **SquareDecameter**
+ * **SquareDecimeter**
+ * **SquareMeter**
+ * **SquareCentimeter**
+ * **SquareMillimeter**
+ * **SquareInch**
+ * **SquareFoot**
+ * **SquareMile**
+ * **SquareYard**
  * **Acre**
  */
 export type AreaUnit = string;
@@ -1727,26 +1727,26 @@ export enum KnownLengthUnit {
 }
 
 /**
- * Defines values for LengthUnit. 
+ * Defines values for LengthUnit.
  * {@link KnownLengthUnit} can be used interchangeably with LengthUnit,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unspecified** 
- * **Kilometer** 
- * **Hectometer** 
- * **Decameter** 
- * **Meter** 
- * **Decimeter** 
- * **Centimeter** 
- * **Millimeter** 
- * **Micrometer** 
- * **Nanometer** 
- * **Picometer** 
- * **Mile** 
- * **Yard** 
- * **Inch** 
- * **Foot** 
- * **LightYear** 
+ * **Unspecified**
+ * **Kilometer**
+ * **Hectometer**
+ * **Decameter**
+ * **Meter**
+ * **Decimeter**
+ * **Centimeter**
+ * **Millimeter**
+ * **Micrometer**
+ * **Nanometer**
+ * **Picometer**
+ * **Mile**
+ * **Yard**
+ * **Inch**
+ * **Foot**
+ * **LightYear**
  * **Pt**
  */
 export type LengthUnit = string;
@@ -1782,22 +1782,22 @@ export enum KnownInformationUnit {
 }
 
 /**
- * Defines values for InformationUnit. 
+ * Defines values for InformationUnit.
  * {@link KnownInformationUnit} can be used interchangeably with InformationUnit,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unspecified** 
- * **Bit** 
- * **Kilobit** 
- * **Megabit** 
- * **Gigabit** 
- * **Terabit** 
- * **Petabit** 
- * **Byte** 
- * **Kilobyte** 
- * **Megabyte** 
- * **Gigabyte** 
- * **Terabyte** 
+ * **Unspecified**
+ * **Bit**
+ * **Kilobit**
+ * **Megabit**
+ * **Gigabit**
+ * **Terabit**
+ * **Petabit**
+ * **Byte**
+ * **Kilobyte**
+ * **Megabyte**
+ * **Gigabyte**
+ * **Terabyte**
  * **Petabyte**
  */
 export type InformationUnit = string;
@@ -1817,14 +1817,14 @@ export enum KnownTemperatureUnit {
 }
 
 /**
- * Defines values for TemperatureUnit. 
+ * Defines values for TemperatureUnit.
  * {@link KnownTemperatureUnit} can be used interchangeably with TemperatureUnit,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unspecified** 
- * **Fahrenheit** 
- * **Kelvin** 
- * **Rankine** 
+ * **Unspecified**
+ * **Fahrenheit**
+ * **Kelvin**
+ * **Rankine**
  * **Celsius**
  */
 export type TemperatureUnit = string;
@@ -1866,25 +1866,25 @@ export enum KnownWeightUnit {
 }
 
 /**
- * Defines values for WeightUnit. 
+ * Defines values for WeightUnit.
  * {@link KnownWeightUnit} can be used interchangeably with WeightUnit,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unspecified** 
- * **Kilogram** 
- * **Gram** 
- * **Milligram** 
- * **Gallon** 
- * **MetricTon** 
- * **Ton** 
- * **Pound** 
- * **Ounce** 
- * **Grain** 
- * **PennyWeight** 
- * **LongTonBritish** 
- * **ShortTonUS** 
- * **ShortHundredWeightUS** 
- * **Stone** 
+ * **Unspecified**
+ * **Kilogram**
+ * **Gram**
+ * **Milligram**
+ * **Gallon**
+ * **MetricTon**
+ * **Ton**
+ * **Pound**
+ * **Ounce**
+ * **Grain**
+ * **PennyWeight**
+ * **LongTonBritish**
+ * **ShortTonUS**
+ * **ShortHundredWeightUS**
+ * **Stone**
  * **Dram**
  */
 export type WeightUnit = string;
@@ -1904,14 +1904,14 @@ export enum KnownDateTimeSubKind {
 }
 
 /**
- * Defines values for DateTimeSubKind. 
+ * Defines values for DateTimeSubKind.
  * {@link KnownDateTimeSubKind} can be used interchangeably with DateTimeSubKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Time** 
- * **Date** 
- * **DateTime** 
- * **Duration** 
+ * **Time**
+ * **Date**
+ * **DateTime**
+ * **Duration**
  * **Set**
  */
 export type DateTimeSubKind = string;
@@ -1957,27 +1957,27 @@ export enum KnownTemporalModifier {
 }
 
 /**
- * Defines values for TemporalModifier. 
+ * Defines values for TemporalModifier.
  * {@link KnownTemporalModifier} can be used interchangeably with TemporalModifier,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **AfterApprox** 
- * **Before** 
- * **BeforeStart** 
- * **Approx** 
- * **ReferenceUndefined** 
- * **SinceEnd** 
- * **AfterMid** 
- * **Start** 
- * **After** 
- * **BeforeEnd** 
- * **Until** 
- * **End** 
- * **Less** 
- * **Since** 
- * **AfterStart** 
- * **BeforeApprox** 
- * **Mid** 
+ * **AfterApprox**
+ * **Before**
+ * **BeforeStart**
+ * **Approx**
+ * **ReferenceUndefined**
+ * **SinceEnd**
+ * **AfterMid**
+ * **Start**
+ * **After**
+ * **BeforeEnd**
+ * **Until**
+ * **End**
+ * **Less**
+ * **Since**
+ * **AfterStart**
+ * **BeforeApprox**
+ * **Mid**
  * **More**
  */
 export type TemporalModifier = string;
@@ -1999,15 +1999,15 @@ export enum KnownNumberKind {
 }
 
 /**
- * Defines values for NumberKind. 
+ * Defines values for NumberKind.
  * {@link KnownNumberKind} can be used interchangeably with NumberKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Integer** 
- * **Decimal** 
- * **Power** 
- * **Fraction** 
- * **Percent** 
+ * **Integer**
+ * **Decimal**
+ * **Power**
+ * **Fraction**
+ * **Percent**
  * **Unspecified**
  */
 export type NumberKind = string;
@@ -2023,12 +2023,12 @@ export enum KnownRelativeTo {
 }
 
 /**
- * Defines values for RelativeTo. 
+ * Defines values for RelativeTo.
  * {@link KnownRelativeTo} can be used interchangeably with RelativeTo,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Current** 
- * **End** 
+ * **Current**
+ * **End**
  * **Start**
  */
 export type RelativeTo = string;
@@ -2058,19 +2058,19 @@ export enum KnownRangeKind {
 }
 
 /**
- * Defines values for RangeKind. 
+ * Defines values for RangeKind.
  * {@link KnownRangeKind} can be used interchangeably with RangeKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Number** 
- * **Speed** 
- * **Weight** 
- * **Length** 
- * **Volume** 
- * **Area** 
- * **Age** 
- * **Information** 
- * **Temperature** 
+ * **Number**
+ * **Speed**
+ * **Weight**
+ * **Length**
+ * **Volume**
+ * **Area**
+ * **Age**
+ * **Information**
+ * **Temperature**
  * **Currency**
  */
 export type RangeKind = string;
@@ -2096,17 +2096,17 @@ export enum KnownConversationPIICategory {
 }
 
 /**
- * Defines values for ConversationPIICategory. 
+ * Defines values for ConversationPIICategory.
  * {@link KnownConversationPIICategory} can be used interchangeably with ConversationPIICategory,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Address** 
- * **CreditCard** 
- * **Email** 
- * **Name** 
- * **NumericIdentifier** 
- * **PhoneNumber** 
- * **All** 
+ * **Address**
+ * **CreditCard**
+ * **Email**
+ * **Name**
+ * **NumericIdentifier**
+ * **PhoneNumber**
+ * **All**
  * **Default**
  */
 export type ConversationPIICategory = string;
@@ -2124,13 +2124,13 @@ export enum KnownTranscriptContentType {
 }
 
 /**
- * Defines values for TranscriptContentType. 
+ * Defines values for TranscriptContentType.
  * {@link KnownTranscriptContentType} can be used interchangeably with TranscriptContentType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **lexical** 
- * **itn** 
- * **maskedItn** 
+ * **lexical**
+ * **itn**
+ * **maskedItn**
  * **text**
  */
 export type TranscriptContentType = string;
@@ -2144,11 +2144,11 @@ export enum KnownSummaryAspect {
 }
 
 /**
- * Defines values for SummaryAspect. 
+ * Defines values for SummaryAspect.
  * {@link KnownSummaryAspect} can be used interchangeably with SummaryAspect,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **issue** 
+ * **issue**
  * **resolution**
  */
 export type SummaryAspect = string;
