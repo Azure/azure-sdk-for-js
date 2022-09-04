@@ -100,4 +100,4 @@ what you can do with the Azure Conversational Language Understanding client libr
 
 [sample_conv_pii_transcript_input]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1/typescript/src/sample_conv_pii_transcript_input.ts
 
-[api_reference_documentation]: https://docs.microsoft.com/en-us/rest/api/language/conversation-analysis-runtime
+[api_reference_documentation]: https://docs.microsoft.com/rest/api/language/conversation-analysis-runtime
