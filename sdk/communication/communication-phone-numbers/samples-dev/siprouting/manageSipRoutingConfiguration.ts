@@ -20,11 +20,11 @@ export async function main() {
   // Set trunks
   await client.setTrunks([
     {
-      fqdn: "sbc.one.domain.com",
+      fqdn: "<first trunk fqdn>",
       sipSignalingPort: 1234,
     },
     {
-      fqdn: "sbc.two.domain.com",
+      fqdn: "<second trunk fqdn>",
       sipSignalingPort: 1234,
     },
   ]);
@@ -33,21 +33,21 @@ export async function main() {
   await client.setRoutes([
     {
       name: "First Route",
-      description: "route's description",
+      description: "<first route description>",
       numberPattern: "^+[1-9][0-9]{3,23}$",
-      trunks: ["sbc.one.domain.com"],
+      trunks: ["<first trunk fqdn>"],
     },
     {
       name: "Second Route",
-      description: "route's description",
+      description: "<second route description>",
       numberPattern: "^.*$",
-      trunks: ["sbc.two.domain.com", "sbc.one.domain.com"],
+      trunks: ["<second trunk fqdn>", "<first trunk fqdn>"],
     },
   ]);
 
   // Update a trunk
   await client.setTrunk({
-    fqdn: "sbc.one.domain.com",
+    fqdn: "<first trunk fqdn>",
     sipSignalingPort: 4321,
   });
 
