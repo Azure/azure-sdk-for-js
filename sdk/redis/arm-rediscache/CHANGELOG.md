@@ -1,6 +1,6 @@
 # Release History
     
-## 7.0.0 (2022-09-01)
+## 7.0.0 (2022-09-05)
     
 **Features**
 
@@ -35,6 +35,7 @@
 
   - Removed operation LinkedServer.delete
   - Removed operation Redis.update
+  - Operation PatchSchedules.createOrUpdate has a new signature
     
     
 ## 6.1.0 (2022-03-07)
