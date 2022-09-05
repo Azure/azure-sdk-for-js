@@ -10,8 +10,8 @@
         "Content-Length": "143",
         "Content-Type": "application/json",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.14.2 OS/(x64-Linux-5.4.0-1086-azure)",
-        "x-ms-client-request-id": "ace26863-4cdb-4680-9318-52f8055818be"
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1089-azure)",
+        "x-ms-client-request-id": "6e0bd879-9a3d-48be-b8fb-e5450c1fa70d"
       },
       "RequestBody": {
         "route": {
@@ -38,9 +38,9 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "11802",
+        "Content-Length": "11764",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 29 Aug 2022 10:31:49 GMT",
+        "Date": "Mon, 05 Sep 2022 08:45:30 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": [
           "Accept-Encoding",
@@ -49,13 +49,13 @@
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: F5F56D2D76B44A25A9F482BCF7BFA71A Ref B: SG1EDGE0111 Ref C: 2022-08-29T10:31:48Z"
+        "X-MSEdge-Ref": "Ref A: 00A6D9950E6B450C96FC8A6DB4349749 Ref B: SIN30EDGE0114 Ref C: 2022-09-05T08:45:30Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "burger",
           "queryType": "NON_NEAR",
-          "queryTime": 224,
+          "queryTime": 184,
           "numResults": 10,
           "offset": 0,
           "totalResults": 10,
@@ -133,8 +133,8 @@
                 }
               }
             ],
-            "detourTime": -305,
-            "detourDistance": -12555
+            "detourTime": -422,
+            "detourDistance": -14583
           },
           {
             "type": "POI",
@@ -209,85 +209,8 @@
                 }
               }
             ],
-            "detourTime": -183,
+            "detourTime": -182,
             "detourDistance": -7588
-          },
-          {
-            "type": "POI",
-            "id": "840539000289900",
-            "score": 2.7962782383,
-            "dist": 1191.0238462297789,
-            "query": "burger",
-            "info": "search:ta:840539000289900-US",
-            "poi": {
-              "name": "Herfy\u0027s Burger",
-              "phone": "\u002B1 425-641-2003",
-              "categorySet": [
-                {
-                  "id": 7315015
-                }
-              ],
-              "url": "www.yelp.com/biz/herfys-burgers-redmond-2",
-              "categories": [
-                "fast food",
-                "restaurant"
-              ],
-              "classifications": [
-                {
-                  "code": "RESTAURANT",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "restaurant"
-                    },
-                    {
-                      "nameLocale": "en-US",
-                      "name": "fast food"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "15167",
-              "streetName": "Northeast 24th Street",
-              "municipality": "Redmond",
-              "countrySecondarySubdivision": "King",
-              "countrySubdivision": "WA",
-              "countrySubdivisionName": "Washington",
-              "postalCode": "98052",
-              "extendedPostalCode": "98052-5544",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "15167 Northeast 24th Street, Redmond, WA 98052",
-              "localName": "Redmond"
-            },
-            "position": {
-              "lat": 47.63139,
-              "lon": -122.13889
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.63229,
-                "lon": -122.14022
-              },
-              "btmRightPoint": {
-                "lat": 47.63049,
-                "lon": -122.13756
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.63149,
-                  "lon": -122.1388
-                }
-              }
-            ],
-            "detourTime": 89,
-            "detourDistance": -1002
           },
           {
             "type": "POI",
@@ -363,32 +286,27 @@
                 }
               }
             ],
-            "detourTime": 94,
+            "detourTime": 93,
             "detourDistance": -1344
           },
           {
             "type": "POI",
-            "id": "840539000634040",
-            "score": 2.7949669361,
-            "dist": 1519.0817019821163,
+            "id": "840531000533803",
+            "score": 2.7693781853,
+            "dist": 1127.9399853212014,
             "query": "burger",
-            "info": "search:ta:840539000634040-US",
+            "info": "search:ta:840531000533803-US",
             "poi": {
-              "name": "Wayback Burgers",
-              "phone": "\u002B1 425-644-1300",
-              "brands": [
-                {
-                  "name": "Wayback Burgers"
-                }
-              ],
+              "name": "Wibbley\u0027s Gourmet Burgers",
+              "phone": "\u002B1 425-747-7818",
               "categorySet": [
                 {
-                  "id": 7315015
+                  "id": 7315069
                 }
               ],
-              "url": "www.waybackburgers.com",
+              "url": "wibbleys.com",
               "categories": [
-                "fast food",
+                "hamburgers",
                 "restaurant"
               ],
               "classifications": [
@@ -401,14 +319,14 @@
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "fast food"
+                      "name": "hamburgers"
                     }
                   ]
                 }
               ]
             },
             "address": {
-              "streetNumber": "1645",
+              "streetNumber": "2255",
               "streetName": "140th Avenue Northeast",
               "municipalitySubdivision": "Bel Red",
               "municipality": "Bellevue",
@@ -416,44 +334,120 @@
               "countrySubdivision": "WA",
               "countrySubdivisionName": "Washington",
               "postalCode": "98005",
+              "extendedPostalCode": "98005-1819",
               "countryCode": "US",
               "country": "United States",
               "countryCodeISO3": "USA",
-              "freeformAddress": "1645 140th Avenue Northeast, Bellevue, WA 98005",
+              "freeformAddress": "2255 140th Avenue Northeast, Bellevue, WA 98005",
               "localName": "Bellevue"
             },
             "position": {
-              "lat": 47.62626,
-              "lon": -122.15487
+              "lat": 47.63066,
+              "lon": -122.15504
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.62716,
-                "lon": -122.1562
+                "lat": 47.63156,
+                "lon": -122.15637
               },
               "btmRightPoint": {
-                "lat": 47.62536,
-                "lon": -122.15354
+                "lat": 47.62976,
+                "lon": -122.15371
               }
             },
             "entryPoints": [
               {
-                "type": "minor",
+                "type": "main",
                 "position": {
-                  "lat": 47.62645,
-                  "lon": -122.15446
+                  "lat": 47.63066,
+                  "lon": -122.15374
+                }
+              }
+            ],
+            "detourTime": 169,
+            "detourDistance": -257
+          },
+          {
+            "type": "POI",
+            "id": "840539003121789",
+            "score": 2.7706930637,
+            "dist": 791.5402830443106,
+            "query": "burger",
+            "info": "search:ta:840539003121789-US",
+            "poi": {
+              "name": "Burger Deluxe Dining",
+              "categorySet": [
+                {
+                  "id": 7315069
+                }
+              ],
+              "categories": [
+                "hamburgers",
+                "restaurant"
+              ],
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "hamburgers"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "5600",
+              "streetName": "148th Avenue Northeast",
+              "municipality": "Redmond",
+              "countrySecondarySubdivision": "King",
+              "countrySubdivision": "WA",
+              "countrySubdivisionName": "Washington",
+              "postalCode": "98052",
+              "extendedPostalCode": "98052-5104",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "5600 148th Avenue Northeast, Redmond, WA 98052",
+              "localName": "Redmond"
+            },
+            "position": {
+              "lat": 47.65912,
+              "lon": -122.13861
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.66236,
+                "lon": -122.14342
+              },
+              "btmRightPoint": {
+                "lat": 47.65588,
+                "lon": -122.1338
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.66012,
+                  "lon": -122.14318
                 }
               },
               {
                 "type": "main",
                 "position": {
-                  "lat": 47.62579,
-                  "lon": -122.15377
+                  "lat": 47.65908,
+                  "lon": -122.14319
                 }
               }
             ],
-            "detourTime": 180,
-            "detourDistance": -304
+            "detourTime": 191,
+            "detourDistance": -825
           },
           {
             "type": "POI",
@@ -542,7 +536,7 @@
                 }
               }
             ],
-            "detourTime": 195,
+            "detourTime": 192,
             "detourDistance": 12643
           },
           {
@@ -632,8 +626,168 @@
                 }
               }
             ],
-            "detourTime": 199,
+            "detourTime": 196,
             "detourDistance": -42
+          },
+          {
+            "type": "POI",
+            "id": "840531000465149",
+            "score": 2.898733139,
+            "dist": 161.17565489389224,
+            "query": "burger",
+            "info": "search:ta:840531000465149-US",
+            "poi": {
+              "name": "BURGER KING",
+              "phone": "\u002B1 425-453-5775",
+              "brands": [
+                {
+                  "name": "BURGER KING"
+                }
+              ],
+              "categorySet": [
+                {
+                  "id": 7315015
+                }
+              ],
+              "url": "burgerking.com/store-locator/store/restaurant_2700",
+              "categories": [
+                "fast food",
+                "restaurant"
+              ],
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "fast food"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "11723",
+              "streetName": "Northeast 8th Street",
+              "municipalitySubdivision": "Willburton",
+              "municipality": "Bellevue",
+              "countrySecondarySubdivision": "King",
+              "countrySubdivision": "WA",
+              "countrySubdivisionName": "Washington",
+              "postalCode": "98005",
+              "extendedPostalCode": "98005-3003",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "11723 Northeast 8th Street, Bellevue, WA 98005",
+              "localName": "Bellevue"
+            },
+            "position": {
+              "lat": 47.61683,
+              "lon": -122.18338
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.61773,
+                "lon": -122.18471
+              },
+              "btmRightPoint": {
+                "lat": 47.61593,
+                "lon": -122.18205
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.61723,
+                  "lon": -122.1834
+                }
+              }
+            ],
+            "detourTime": 201,
+            "detourDistance": 309
+          },
+          {
+            "type": "POI",
+            "id": "840539003122177",
+            "score": 2.7946257591,
+            "dist": 1603.845158876708,
+            "query": "burger",
+            "info": "search:ta:840539003122177-US",
+            "poi": {
+              "name": "Burger Brawler",
+              "phone": "\u002B1 425-362-6082",
+              "categorySet": [
+                {
+                  "id": 7315069
+                }
+              ],
+              "url": "www.lincolnsfh.com",
+              "categories": [
+                "hamburgers",
+                "restaurant"
+              ],
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "hamburgers"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "440",
+              "streetName": "Bellevue Way Northeast",
+              "municipality": "Bellevue",
+              "countrySecondarySubdivision": "King",
+              "countrySubdivision": "WA",
+              "countrySubdivisionName": "Washington",
+              "postalCode": "98004",
+              "extendedPostalCode": "98004-5015",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "440 Bellevue Way Northeast, Bellevue, WA 98004",
+              "localName": "Bellevue"
+            },
+            "position": {
+              "lat": 47.61443,
+              "lon": -122.20124
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.61533,
+                "lon": -122.20257
+              },
+              "btmRightPoint": {
+                "lat": 47.61353,
+                "lon": -122.19991
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.61442,
+                  "lon": -122.20157
+                }
+              }
+            ],
+            "detourTime": 246,
+            "detourDistance": 1146
           },
           {
             "type": "POI",
@@ -710,170 +864,8 @@
                 }
               }
             ],
-            "detourTime": 412,
+            "detourTime": 407,
             "detourDistance": 8882
-          },
-          {
-            "type": "POI",
-            "id": "840531000466211",
-            "score": 2.7681465149,
-            "dist": 1439.7714801462355,
-            "query": "burger",
-            "info": "search:ta:840531000466211-US",
-            "poi": {
-              "name": "Broiler Bay Burgers",
-              "phone": "\u002B1 425-646-3474",
-              "categorySet": [
-                {
-                  "id": 7315069
-                }
-              ],
-              "url": "broilerbay.com",
-              "categories": [
-                "hamburgers",
-                "restaurant"
-              ],
-              "classifications": [
-                {
-                  "code": "RESTAURANT",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "restaurant"
-                    },
-                    {
-                      "nameLocale": "en-US",
-                      "name": "hamburgers"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "10636",
-              "streetName": "Main Street",
-              "municipality": "Bellevue",
-              "countrySecondarySubdivision": "King",
-              "countrySubdivision": "WA",
-              "countrySubdivisionName": "Washington",
-              "postalCode": "98004",
-              "extendedPostalCode": "98004-5922",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "10636 Main Street, Bellevue, WA 98004",
-              "localName": "Bellevue"
-            },
-            "position": {
-              "lat": 47.61054,
-              "lon": -122.19804
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.61144,
-                "lon": -122.19937
-              },
-              "btmRightPoint": {
-                "lat": 47.60964,
-                "lon": -122.19671
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.61012,
-                  "lon": -122.19803
-                }
-              }
-            ],
-            "detourTime": 538,
-            "detourDistance": 226
-          },
-          {
-            "type": "POI",
-            "id": "840539002169056",
-            "score": 2.7732198238,
-            "dist": 6501.943096976129,
-            "query": "burger",
-            "info": "search:ta:840539002169056-US",
-            "poi": {
-              "name": "Coastline Burgers",
-              "phone": "\u002B1 425-822-1770",
-              "categorySet": [
-                {
-                  "id": 7315069
-                }
-              ],
-              "url": "coastlineburgers.com",
-              "categories": [
-                "hamburgers",
-                "restaurant"
-              ],
-              "classifications": [
-                {
-                  "code": "RESTAURANT",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "restaurant"
-                    },
-                    {
-                      "nameLocale": "en-US",
-                      "name": "hamburgers"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "116",
-              "streetName": "Central Way",
-              "municipalitySubdivision": "Moss Bay",
-              "municipality": "Kirkland",
-              "countrySecondarySubdivision": "King",
-              "countrySubdivision": "WA",
-              "countrySubdivisionName": "Washington",
-              "postalCode": "98033",
-              "extendedPostalCode": "98033-6159",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "116 Central Way, Kirkland, WA 98033",
-              "localName": "Kirkland"
-            },
-            "position": {
-              "lat": 47.67687,
-              "lon": -122.20695
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.67777,
-                "lon": -122.20829
-              },
-              "btmRightPoint": {
-                "lat": 47.67597,
-                "lon": -122.20561
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.67671,
-                  "lon": -122.20688
-                }
-              },
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.67671,
-                  "lon": -122.20687
-                }
-              }
-            ],
-            "detourTime": 556,
-            "detourDistance": 11893
           }
         ]
       }

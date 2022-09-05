@@ -8,27 +8,27 @@
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.14.2 OS/(x64-Linux-5.4.0-1086-azure)",
-        "x-ms-client-request-id": "1e062efb-a8cc-4858-b9b6-2c9a3008627f"
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1089-azure)",
+        "x-ms-client-request-id": "aa718714-856d-4c69-b4e6-214d11ba9015"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "5940",
+        "Content-Length": "5941",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 29 Aug 2022 10:31:46 GMT",
+        "Date": "Mon, 05 Sep 2022 08:45:28 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: B557F8F2694045D5B59927967C13E5EF Ref B: SIN30EDGE0110 Ref C: 2022-08-29T10:31:46Z"
+        "X-MSEdge-Ref": "Ref A: B78B3220B7774AD0BA0022C93F0EFF4F Ref B: SIN30EDGE0114 Ref C: 2022-09-05T08:45:28Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "pizza",
           "queryType": "NON_NEAR",
-          "queryTime": 7,
+          "queryTime": 67,
           "numResults": 10,
           "offset": 0,
           "totalResults": 61,
@@ -37,7 +37,7 @@
         "results": [
           {
             "type": "Street",
-            "id": "US/STR/p2/4041865",
+            "id": "US/STR/p1/6392073",
             "score": 2.1169600487,
             "matchConfidence": {
               "score": 1
@@ -71,76 +71,10 @@
           },
           {
             "type": "Street",
-            "id": "BR/STR/p0/1104976",
+            "id": "BR/STR/p0/24729",
             "score": 2.0962057114,
             "matchConfidence": {
-              "score": 0.9219333062538507
-            },
-            "address": {
-              "streetName": "Rua Lu\u00EDz Pizza",
-              "municipality": "Assis",
-              "countrySubdivision": "S\u00E3o Paulo",
-              "postalCode": "19800, 19814",
-              "extendedPostalCode": "19800-170, 19814-010, 19814-350, 19814-351",
-              "countryCode": "BR",
-              "country": "Brasil",
-              "countryCodeISO3": "BRA",
-              "freeformAddress": "Rua Lu\u00EDz Pizza, 19800, 19814, Assis",
-              "localName": "Assis"
-            },
-            "position": {
-              "lat": -22.65827,
-              "lon": -50.41392
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": -22.65412,
-                "lon": -50.414
-              },
-              "btmRightPoint": {
-                "lat": -22.6616,
-                "lon": -50.41386
-              }
-            }
-          },
-          {
-            "type": "Street",
-            "id": "BR/STR/p0/1140036",
-            "score": 2.0962057114,
-            "matchConfidence": {
-              "score": 0.8982761315246426
-            },
-            "address": {
-              "streetName": "Rua Toledo Pizza",
-              "municipality": "Laguna",
-              "countrySubdivision": "Santa Catarina",
-              "countryCode": "BR",
-              "country": "Brasil",
-              "countryCodeISO3": "BRA",
-              "freeformAddress": "Rua Toledo Pizza, Laguna",
-              "localName": "Laguna"
-            },
-            "position": {
-              "lat": -28.48941,
-              "lon": -48.77317
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": -28.48071,
-                "lon": -48.78341
-              },
-              "btmRightPoint": {
-                "lat": -28.49869,
-                "lon": -48.76294
-              }
-            }
-          },
-          {
-            "type": "Street",
-            "id": "BR/STR/p0/1322762",
-            "score": 2.0962057114,
-            "matchConfidence": {
-              "score": 0.8982761315246426
+              "score": 0.8982758449584431
             },
             "address": {
               "streetName": "Rua Toledo Pizza",
@@ -172,7 +106,73 @@
           },
           {
             "type": "Street",
-            "id": "IT/STR/p0/1071370",
+            "id": "BR/STR/p0/1091472",
+            "score": 2.0962057114,
+            "matchConfidence": {
+              "score": 0.8982758449584431
+            },
+            "address": {
+              "streetName": "Rua Toledo Pizza",
+              "municipality": "Laguna",
+              "countrySubdivision": "Santa Catarina",
+              "countryCode": "BR",
+              "country": "Brasil",
+              "countryCodeISO3": "BRA",
+              "freeformAddress": "Rua Toledo Pizza, Laguna",
+              "localName": "Laguna"
+            },
+            "position": {
+              "lat": -28.48941,
+              "lon": -48.77317
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": -28.48071,
+                "lon": -48.78341
+              },
+              "btmRightPoint": {
+                "lat": -28.49869,
+                "lon": -48.76294
+              }
+            }
+          },
+          {
+            "type": "Street",
+            "id": "BR/STR/p0/2611435",
+            "score": 2.0962057114,
+            "matchConfidence": {
+              "score": 0.9219339610867394
+            },
+            "address": {
+              "streetName": "Rua Lu\u00EDz Pizza",
+              "municipality": "Assis",
+              "countrySubdivision": "S\u00E3o Paulo",
+              "postalCode": "19800, 19814",
+              "extendedPostalCode": "19800-170, 19814-010, 19814-350, 19814-351",
+              "countryCode": "BR",
+              "country": "Brasil",
+              "countryCodeISO3": "BRA",
+              "freeformAddress": "Rua Lu\u00EDz Pizza, 19800, 19814, Assis",
+              "localName": "Assis"
+            },
+            "position": {
+              "lat": -22.65827,
+              "lon": -50.41392
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": -22.65412,
+                "lon": -50.414
+              },
+              "btmRightPoint": {
+                "lat": -22.6616,
+                "lon": -50.41386
+              }
+            }
+          },
+          {
+            "type": "Street",
+            "id": "IT/STR/p0/1280902",
             "score": 2.0959999561,
             "matchConfidence": {
               "score": 1
@@ -206,43 +206,7 @@
           },
           {
             "type": "Street",
-            "id": "US/STR/p1/135505",
-            "score": 2.0959999561,
-            "matchConfidence": {
-              "score": 1
-            },
-            "address": {
-              "streetName": "Pizza Lane",
-              "municipality": "Stambaugh",
-              "countrySecondarySubdivision": "Iron",
-              "countrySubdivision": "MI",
-              "countrySubdivisionName": "Michigan",
-              "postalCode": "49935",
-              "extendedPostalCode": "49935-8901",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "Pizza Lane, Iron River, MI 49935",
-              "localName": "Iron River"
-            },
-            "position": {
-              "lat": 46.06282,
-              "lon": -88.71562
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 46.06563,
-                "lon": -88.71685
-              },
-              "btmRightPoint": {
-                "lat": 46.06023,
-                "lon": -88.71399
-              }
-            }
-          },
-          {
-            "type": "Street",
-            "id": "US/STR/p1/4180992",
+            "id": "US/STR/p0/6277093",
             "score": 2.0959999561,
             "matchConfidence": {
               "score": 1
@@ -278,7 +242,7 @@
           },
           {
             "type": "Street",
-            "id": "US/STR/p3/5281413",
+            "id": "US/STR/p2/3722302",
             "score": 2.0959999561,
             "matchConfidence": {
               "score": 1
@@ -313,7 +277,43 @@
           },
           {
             "type": "Street",
-            "id": "US/STR/p3/5991376",
+            "id": "US/STR/p2/4577268",
+            "score": 2.0959999561,
+            "matchConfidence": {
+              "score": 1
+            },
+            "address": {
+              "streetName": "Pizza Lane",
+              "municipality": "Stambaugh",
+              "countrySecondarySubdivision": "Iron",
+              "countrySubdivision": "MI",
+              "countrySubdivisionName": "Michigan",
+              "postalCode": "49935",
+              "extendedPostalCode": "49935-8901",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "Pizza Lane, Iron River, MI 49935",
+              "localName": "Iron River"
+            },
+            "position": {
+              "lat": 46.06282,
+              "lon": -88.71562
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 46.06563,
+                "lon": -88.71685
+              },
+              "btmRightPoint": {
+                "lat": 46.06023,
+                "lon": -88.71399
+              }
+            }
+          },
+          {
+            "type": "Street",
+            "id": "US/STR/p3/4162000",
             "score": 2.0959999561,
             "matchConfidence": {
               "score": 1
@@ -349,10 +349,10 @@
           },
           {
             "type": "Street",
-            "id": "BR/STR/p0/489460",
+            "id": "BR/STR/p0/1425479",
             "score": 2.075854063,
             "matchConfidence": {
-              "score": 0.8837949034069463
+              "score": 0.8837961786487926
             },
             "address": {
               "streetName": "Rua Doutor Luiz Pizza",

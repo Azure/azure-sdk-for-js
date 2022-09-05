@@ -17,26 +17,26 @@
         "Sec-Fetch-Site": "same-site",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "4f839790-a345-4618-a62d-2ae42a116ea5",
-        "x-ms-useragent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.2 OS/Linuxx86_64"
+        "x-ms-client-request-id": "cd186c48-66d1-450a-97a5-073ba9c29ddd",
+        "x-ms-useragent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "10558",
+        "Content-Length": "10557",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 29 Aug 2022 10:32:04 GMT",
+        "Date": "Mon, 05 Sep 2022 08:45:47 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: ED5581467EC94496A363FAF5F1559E18 Ref B: SG1EDGE0117 Ref C: 2022-08-29T10:32:04Z"
+        "X-MSEdge-Ref": "Ref A: 300B0D44CC61487099C54D47AABDA759 Ref B: SG1EDGE0311 Ref C: 2022-09-05T08:45:47Z"
       },
       "ResponseBody": {
         "summary": {
           "queryType": "NEARBY",
-          "queryTime": 52,
+          "queryTime": 9,
           "numResults": 10,
           "offset": 0,
           "totalResults": 70420,
@@ -201,6 +201,74 @@
           },
           {
             "type": "POI",
+            "id": "840537000014398",
+            "score": 99.9808273315,
+            "dist": 19.174818094404408,
+            "info": "search:ta:840537000014398-US",
+            "poi": {
+              "name": "Narrows Labs",
+              "phone": "\u002B1 800-321-3579",
+              "categorySet": [
+                {
+                  "id": 9352
+                }
+              ],
+              "categories": [
+                "company"
+              ],
+              "classifications": [
+                {
+                  "code": "COMPANY",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "company"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "1004",
+              "streetName": "4th Avenue",
+              "municipalitySubdivision": "Central Business District",
+              "municipality": "Seattle",
+              "countrySecondarySubdivision": "King",
+              "countrySubdivision": "WA",
+              "countrySubdivisionName": "Washington",
+              "postalCode": "98104",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "1004 4th Avenue, Seattle, WA 98104",
+              "localName": "Seattle"
+            },
+            "position": {
+              "lat": 47.60612,
+              "lon": -122.33312
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.60702,
+                "lon": -122.33445
+              },
+              "btmRightPoint": {
+                "lat": 47.60522,
+                "lon": -122.33179
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.60617,
+                  "lon": -122.333
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
             "id": "840539001096914",
             "score": 99.9808273315,
             "dist": 19.174818094404408,
@@ -247,74 +315,6 @@
               "country": "United States",
               "countryCodeISO3": "USA",
               "freeformAddress": "1001 4Th Ave, Seattle, WA 98185",
-              "localName": "Seattle"
-            },
-            "position": {
-              "lat": 47.60612,
-              "lon": -122.33312
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.60702,
-                "lon": -122.33445
-              },
-              "btmRightPoint": {
-                "lat": 47.60522,
-                "lon": -122.33179
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.60617,
-                  "lon": -122.333
-                }
-              }
-            ]
-          },
-          {
-            "type": "POI",
-            "id": "840537000014398",
-            "score": 99.9808273315,
-            "dist": 19.174818094404408,
-            "info": "search:ta:840537000014398-US",
-            "poi": {
-              "name": "Narrows Labs",
-              "phone": "\u002B1 800-321-3579",
-              "categorySet": [
-                {
-                  "id": 9352
-                }
-              ],
-              "categories": [
-                "company"
-              ],
-              "classifications": [
-                {
-                  "code": "COMPANY",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "company"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "1004",
-              "streetName": "4th Avenue",
-              "municipalitySubdivision": "Central Business District",
-              "municipality": "Seattle",
-              "countrySecondarySubdivision": "King",
-              "countrySubdivision": "WA",
-              "countrySubdivisionName": "Washington",
-              "postalCode": "98104",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "1004 4th Avenue, Seattle, WA 98104",
               "localName": "Seattle"
             },
             "position": {

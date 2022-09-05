@@ -8,26 +8,26 @@
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.14.2 OS/(x64-Linux-5.4.0-1086-azure)",
-        "x-ms-client-request-id": "ad0cd0b2-6656-4393-b028-d023d7e1a8ee"
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1089-azure)",
+        "x-ms-client-request-id": "c8deb885-84f5-462f-b298-78f2366c33c7"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Length": "10558",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 29 Aug 2022 10:31:47 GMT",
+        "Date": "Mon, 05 Sep 2022 08:45:29 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: B7319AFF5BB244DC842EB8845E5F2B81 Ref B: SIN30EDGE0110 Ref C: 2022-08-29T10:31:47Z"
+        "X-MSEdge-Ref": "Ref A: CDDF737949D34BC0AA9E888D9098290C Ref B: SIN30EDGE0114 Ref C: 2022-09-05T08:45:29Z"
       },
       "ResponseBody": {
         "summary": {
           "queryType": "NEARBY",
-          "queryTime": 55,
+          "queryTime": 74,
           "numResults": 10,
           "offset": 0,
           "totalResults": 70420,
@@ -61,11 +61,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "public transport stop"
+                      "name": "bus stop"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "bus stop"
+                      "name": "public transport stop"
                     }
                   ]
                 }
@@ -140,11 +140,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "shop"
+                      "name": "real estate agents"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "real estate agents"
+                      "name": "shop"
                     }
                   ]
                 }
@@ -186,6 +186,74 @@
                 "position": {
                   "lat": 47.60588,
                   "lon": -122.33344
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "840537000014398",
+            "score": 99.9808273315,
+            "dist": 19.174818094404408,
+            "info": "search:ta:840537000014398-US",
+            "poi": {
+              "name": "Narrows Labs",
+              "phone": "\u002B1 800-321-3579",
+              "categorySet": [
+                {
+                  "id": 9352
+                }
+              ],
+              "categories": [
+                "company"
+              ],
+              "classifications": [
+                {
+                  "code": "COMPANY",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "company"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "1004",
+              "streetName": "4th Avenue",
+              "municipalitySubdivision": "Central Business District",
+              "municipality": "Seattle",
+              "countrySecondarySubdivision": "King",
+              "countrySubdivision": "WA",
+              "countrySubdivisionName": "Washington",
+              "postalCode": "98104",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "1004 4th Avenue, Seattle, WA 98104",
+              "localName": "Seattle"
+            },
+            "position": {
+              "lat": 47.60612,
+              "lon": -122.33312
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.60702,
+                "lon": -122.33445
+              },
+              "btmRightPoint": {
+                "lat": 47.60522,
+                "lon": -122.33179
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.60617,
+                  "lon": -122.333
                 }
               }
             ]
@@ -238,74 +306,6 @@
               "country": "United States",
               "countryCodeISO3": "USA",
               "freeformAddress": "1001 4Th Ave, Seattle, WA 98185",
-              "localName": "Seattle"
-            },
-            "position": {
-              "lat": 47.60612,
-              "lon": -122.33312
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.60702,
-                "lon": -122.33445
-              },
-              "btmRightPoint": {
-                "lat": 47.60522,
-                "lon": -122.33179
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.60617,
-                  "lon": -122.333
-                }
-              }
-            ]
-          },
-          {
-            "type": "POI",
-            "id": "840537000014398",
-            "score": 99.9808273315,
-            "dist": 19.174818094404408,
-            "info": "search:ta:840537000014398-US",
-            "poi": {
-              "name": "Narrows Labs",
-              "phone": "\u002B1 800-321-3579",
-              "categorySet": [
-                {
-                  "id": 9352
-                }
-              ],
-              "categories": [
-                "company"
-              ],
-              "classifications": [
-                {
-                  "code": "COMPANY",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "company"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "1004",
-              "streetName": "4th Avenue",
-              "municipalitySubdivision": "Central Business District",
-              "municipality": "Seattle",
-              "countrySecondarySubdivision": "King",
-              "countrySubdivision": "WA",
-              "countrySubdivisionName": "Washington",
-              "postalCode": "98104",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "1004 4th Avenue, Seattle, WA 98104",
               "localName": "Seattle"
             },
             "position": {
@@ -569,11 +569,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "service"
+                      "name": "company"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "company"
+                      "name": "service"
                     }
                   ]
                 }
@@ -710,11 +710,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "public transport stop"
+                      "name": "bus stop"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "bus stop"
+                      "name": "public transport stop"
                     }
                   ]
                 }

@@ -8,30 +8,30 @@
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.14.2 OS/(x64-Linux-5.4.0-1086-azure)",
-        "x-ms-client-request-id": "f47e859d-5327-4ad9-af7f-eb8d41c1779a"
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1089-azure)",
+        "x-ms-client-request-id": "6ac4785b-c9ff-4a8b-b39c-724bf4c4fa41"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "10908",
+        "Content-Length": "10933",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 29 Aug 2022 10:31:47 GMT",
+        "Date": "Mon, 05 Sep 2022 08:45:30 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: 73936E0156F941B099EEF61F91D7016D Ref B: SG1EDGE0117 Ref C: 2022-08-29T10:31:47Z"
+        "X-MSEdge-Ref": "Ref A: D2AECBF3A2A1434BA3B0C6CD4BC5C370 Ref B: SG1EDGE0311 Ref C: 2022-09-05T08:45:30Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "restaurant",
           "queryType": "NON_NEAR",
-          "queryTime": 733,
+          "queryTime": 440,
           "numResults": 10,
           "offset": 0,
-          "totalResults": 6444354,
+          "totalResults": 6444355,
           "fuzzyLevel": 1,
           "geoBias": {
             "lat": 47.606038,
@@ -138,11 +138,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "sushi"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "sushi"
                     }
                   ]
                 }
@@ -213,11 +213,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "french"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "french"
                     }
                   ]
                 }
@@ -357,11 +357,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "sushi"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "sushi"
                     }
                   ]
                 }
@@ -403,6 +403,80 @@
                 "position": {
                   "lat": 47.60549,
                   "lon": -122.33436
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "840539003065656",
+            "score": 2.574524641,
+            "dist": 100.3708594951675,
+            "info": "search:ta:840539003065656-US",
+            "poi": {
+              "name": "Matthew Hoffman",
+              "phone": "\u002B1 206-701-2000",
+              "categorySet": [
+                {
+                  "id": 7315042
+                }
+              ],
+              "categories": [
+                "restaurant",
+                "sandwich"
+              ],
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "sandwich"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "901",
+              "streetName": "5th Avenue",
+              "municipalitySubdivision": "Central Business District",
+              "municipality": "Seattle",
+              "countrySecondarySubdivision": "King",
+              "countrySubdivision": "WA",
+              "countrySubdivisionName": "Washington",
+              "postalCode": "98104",
+              "extendedPostalCode": "98104-1608",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "901 5th Avenue, Seattle, WA 98104",
+              "localName": "Seattle"
+            },
+            "position": {
+              "lat": 47.60597,
+              "lon": -122.33201
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.60687,
+                "lon": -122.33334
+              },
+              "btmRightPoint": {
+                "lat": 47.60507,
+                "lon": -122.33068
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.60619,
+                  "lon": -122.33147
                 }
               }
             ]
@@ -478,80 +552,6 @@
                 "position": {
                   "lat": 47.6072,
                   "lon": -122.33394
-                }
-              }
-            ]
-          },
-          {
-            "type": "POI",
-            "id": "840539003065656",
-            "score": 2.574524641,
-            "dist": 100.3708594951675,
-            "info": "search:ta:840539003065656-US",
-            "poi": {
-              "name": "Matthew Hoffman",
-              "phone": "\u002B1 206-701-2000",
-              "categorySet": [
-                {
-                  "id": 7315042
-                }
-              ],
-              "categories": [
-                "restaurant",
-                "sandwich"
-              ],
-              "classifications": [
-                {
-                  "code": "RESTAURANT",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "sandwich"
-                    },
-                    {
-                      "nameLocale": "en-US",
-                      "name": "restaurant"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "901",
-              "streetName": "5th Avenue",
-              "municipalitySubdivision": "Central Business District",
-              "municipality": "Seattle",
-              "countrySecondarySubdivision": "King",
-              "countrySubdivision": "WA",
-              "countrySubdivisionName": "Washington",
-              "postalCode": "98104",
-              "extendedPostalCode": "98104-1608",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "901 5th Avenue, Seattle, WA 98104",
-              "localName": "Seattle"
-            },
-            "position": {
-              "lat": 47.60597,
-              "lon": -122.33201
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.60687,
-                "lon": -122.33334
-              },
-              "btmRightPoint": {
-                "lat": 47.60507,
-                "lon": -122.33068
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.60619,
-                  "lon": -122.33147
                 }
               }
             ]
@@ -707,21 +707,22 @@
           },
           {
             "type": "POI",
-            "id": "840531000518724",
+            "id": "840531000475812",
             "score": 2.5745222569,
             "dist": 129.68130419307732,
-            "info": "search:ta:840531000518724-US",
+            "info": "search:ta:840531000475812-US",
             "poi": {
-              "name": "Sister\u0027s Garden Caf\u00E9",
-              "phone": "\u002B1 206-467-5608",
+              "name": "Atlantic Street Pizza",
+              "phone": "\u002B1 206-624-7200",
               "categorySet": [
                 {
-                  "id": 7315143
+                  "id": 7315036
                 }
               ],
+              "url": "atlanticstreetpizza.com/",
               "categories": [
-                "restaurant",
-                "salad bar"
+                "pizza",
+                "restaurant"
               ],
               "classifications": [
                 {
@@ -729,11 +730,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "salad bar"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "pizza"
                     }
                   ]
                 }

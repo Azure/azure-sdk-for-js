@@ -19,8 +19,8 @@
         "Sec-Fetch-Site": "same-site",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "26bba1f3-d88c-40ba-939f-fac4051ee53a",
-        "x-ms-useragent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.2 OS/Linuxx86_64"
+        "x-ms-client-request-id": "e405ea11-fc3e-4190-a682-3b44fcef92d3",
+        "x-ms-useragent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
       },
       "RequestBody": {
         "route": {
@@ -47,9 +47,9 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "11705",
+        "Content-Length": "11762",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 29 Aug 2022 10:32:04 GMT",
+        "Date": "Mon, 05 Sep 2022 08:45:49 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": [
           "Accept-Encoding",
@@ -58,13 +58,13 @@
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: 39E72CBFB0B04CB2961A656F58C480BC Ref B: SG1EDGE0117 Ref C: 2022-08-29T10:32:05Z"
+        "X-MSEdge-Ref": "Ref A: 5DFE6DD4D7234D0A916D70D2E7D55BCE Ref B: SG1EDGE0311 Ref C: 2022-09-05T08:45:48Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "burger",
           "queryType": "NON_NEAR",
-          "queryTime": 218,
+          "queryTime": 257,
           "numResults": 10,
           "offset": 0,
           "totalResults": 10,
@@ -142,84 +142,8 @@
                 }
               }
             ],
-            "detourTime": -305,
-            "detourDistance": -12555
-          },
-          {
-            "type": "POI",
-            "id": "840539001131385",
-            "score": 2.7889442444,
-            "dist": 2982.2653055700466,
-            "query": "burger",
-            "info": "search:ta:840539001131385-US",
-            "poi": {
-              "name": "Herfy\u0027s Burgers",
-              "phone": "\u002B1 425-882-8668",
-              "categorySet": [
-                {
-                  "id": 7315069
-                }
-              ],
-              "categories": [
-                "hamburgers",
-                "restaurant"
-              ],
-              "classifications": [
-                {
-                  "code": "RESTAURANT",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "restaurant"
-                    },
-                    {
-                      "nameLocale": "en-US",
-                      "name": "hamburgers"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "8460",
-              "streetName": "164th Avenue Northeast",
-              "municipality": "Redmond",
-              "countrySecondarySubdivision": "King",
-              "countrySubdivision": "WA",
-              "countrySubdivisionName": "Washington",
-              "postalCode": "98052",
-              "extendedPostalCode": "98052-1503",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "8460 164th Avenue Northeast, Redmond, WA 98052",
-              "localName": "Redmond"
-            },
-            "position": {
-              "lat": 47.67823,
-              "lon": -122.12124
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.67913,
-                "lon": -122.12258
-              },
-              "btmRightPoint": {
-                "lat": 47.67733,
-                "lon": -122.1199
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.67824,
-                  "lon": -122.12159
-                }
-              }
-            ],
-            "detourTime": -281,
-            "detourDistance": -9379
+            "detourTime": -422,
+            "detourDistance": -14583
           },
           {
             "type": "POI",
@@ -294,7 +218,7 @@
                 }
               }
             ],
-            "detourTime": -183,
+            "detourTime": -182,
             "detourDistance": -7588
           },
           {
@@ -371,8 +295,175 @@
                 }
               }
             ],
-            "detourTime": 89,
+            "detourTime": 88,
             "detourDistance": -1002
+          },
+          {
+            "type": "POI",
+            "id": "840531000533803",
+            "score": 2.7693781853,
+            "dist": 1127.9399853212014,
+            "query": "burger",
+            "info": "search:ta:840531000533803-US",
+            "poi": {
+              "name": "Wibbley\u0027s Gourmet Burgers",
+              "phone": "\u002B1 425-747-7818",
+              "categorySet": [
+                {
+                  "id": 7315069
+                }
+              ],
+              "url": "wibbleys.com",
+              "categories": [
+                "hamburgers",
+                "restaurant"
+              ],
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "hamburgers"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "2255",
+              "streetName": "140th Avenue Northeast",
+              "municipalitySubdivision": "Bel Red",
+              "municipality": "Bellevue",
+              "countrySecondarySubdivision": "King",
+              "countrySubdivision": "WA",
+              "countrySubdivisionName": "Washington",
+              "postalCode": "98005",
+              "extendedPostalCode": "98005-1819",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "2255 140th Avenue Northeast, Bellevue, WA 98005",
+              "localName": "Bellevue"
+            },
+            "position": {
+              "lat": 47.63066,
+              "lon": -122.15504
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.63156,
+                "lon": -122.15637
+              },
+              "btmRightPoint": {
+                "lat": 47.62976,
+                "lon": -122.15371
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.63066,
+                  "lon": -122.15374
+                }
+              }
+            ],
+            "detourTime": 169,
+            "detourDistance": -257
+          },
+          {
+            "type": "POI",
+            "id": "840539000634040",
+            "score": 2.7949669361,
+            "dist": 1519.0817019821163,
+            "query": "burger",
+            "info": "search:ta:840539000634040-US",
+            "poi": {
+              "name": "Wayback Burgers",
+              "phone": "\u002B1 425-644-1300",
+              "brands": [
+                {
+                  "name": "Wayback Burgers"
+                }
+              ],
+              "categorySet": [
+                {
+                  "id": 7315015
+                }
+              ],
+              "url": "www.waybackburgers.com",
+              "categories": [
+                "fast food",
+                "restaurant"
+              ],
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "fast food"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "1645",
+              "streetName": "140th Avenue Northeast",
+              "municipalitySubdivision": "Bel Red",
+              "municipality": "Bellevue",
+              "countrySecondarySubdivision": "King",
+              "countrySubdivision": "WA",
+              "countrySubdivisionName": "Washington",
+              "postalCode": "98005",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "1645 140th Avenue Northeast, Bellevue, WA 98005",
+              "localName": "Bellevue"
+            },
+            "position": {
+              "lat": 47.62626,
+              "lon": -122.15487
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.62716,
+                "lon": -122.1562
+              },
+              "btmRightPoint": {
+                "lat": 47.62536,
+                "lon": -122.15354
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "minor",
+                "position": {
+                  "lat": 47.62645,
+                  "lon": -122.15446
+                }
+              },
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.62579,
+                  "lon": -122.15377
+                }
+              }
+            ],
+            "detourTime": 178,
+            "detourDistance": -304
           },
           {
             "type": "POI",
@@ -461,98 +552,8 @@
                 }
               }
             ],
-            "detourTime": 195,
+            "detourTime": 192,
             "detourDistance": 12643
-          },
-          {
-            "type": "POI",
-            "id": "840531000465150",
-            "score": 2.8922464848,
-            "dist": 1748.7957271682615,
-            "query": "burger",
-            "info": "search:ta:840531000465150-US",
-            "poi": {
-              "name": "BURGER KING",
-              "phone": "\u002B1 425-746-7508",
-              "brands": [
-                {
-                  "name": "BURGER KING"
-                }
-              ],
-              "categorySet": [
-                {
-                  "id": 7315015
-                }
-              ],
-              "url": "burgerking.com/store-locator/store/restaurant_490",
-              "categories": [
-                "fast food",
-                "restaurant"
-              ],
-              "classifications": [
-                {
-                  "code": "RESTAURANT",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "restaurant"
-                    },
-                    {
-                      "nameLocale": "en-US",
-                      "name": "fast food"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "14620",
-              "streetName": "Northeast 24th Street",
-              "municipalitySubdivision": "Bridle Trails",
-              "municipality": "Bellevue",
-              "countrySecondarySubdivision": "King",
-              "countrySubdivision": "WA",
-              "countrySubdivisionName": "Washington",
-              "postalCode": "98007",
-              "extendedPostalCode": "98007-3723",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "14620 Northeast 24th Street, Bellevue, WA 98007",
-              "localName": "Bellevue"
-            },
-            "position": {
-              "lat": 47.63187,
-              "lon": -122.14472
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.63277,
-                "lon": -122.14605
-              },
-              "btmRightPoint": {
-                "lat": 47.63097,
-                "lon": -122.14339
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "minor",
-                "position": {
-                  "lat": 47.63188,
-                  "lon": -122.14458
-                }
-              },
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.63155,
-                  "lon": -122.14461
-                }
-              }
-            ],
-            "detourTime": 199,
-            "detourDistance": -42
           },
           {
             "type": "POI",
@@ -634,7 +635,7 @@
                 }
               }
             ],
-            "detourTime": 203,
+            "detourTime": 201,
             "detourDistance": 309
           },
           {
@@ -710,25 +711,25 @@
                 }
               }
             ],
-            "detourTime": 249,
+            "detourTime": 246,
             "detourDistance": 1146
           },
           {
             "type": "POI",
-            "id": "840539003122177",
-            "score": 2.7946257591,
-            "dist": 1603.845158876708,
+            "id": "840539002366655",
+            "score": 2.7806251049,
+            "dist": 4895.0590447372215,
             "query": "burger",
-            "info": "search:ta:840539003122177-US",
+            "info": "search:ta:840539002366655-US",
             "poi": {
-              "name": "Burger Brawler",
-              "phone": "\u002B1 425-362-6082",
+              "name": "Burger Addict",
+              "phone": "\u002B1 425-305-5572",
               "categorySet": [
                 {
                   "id": 7315069
                 }
               ],
-              "url": "www.lincolnsfh.com",
+              "url": "www.burgeraddict.com",
               "categories": [
                 "hamburgers",
                 "restaurant"
@@ -750,45 +751,46 @@
               ]
             },
             "address": {
-              "streetNumber": "440",
-              "streetName": "Bellevue Way Northeast",
-              "municipality": "Bellevue",
+              "streetNumber": "12016",
+              "streetName": "Northeast 85th Street",
+              "municipalitySubdivision": "North Rose Hill",
+              "municipality": "Kirkland",
               "countrySecondarySubdivision": "King",
               "countrySubdivision": "WA",
               "countrySubdivisionName": "Washington",
-              "postalCode": "98004",
-              "extendedPostalCode": "98004-5015",
+              "postalCode": "98033",
+              "extendedPostalCode": "98033-8039",
               "countryCode": "US",
               "country": "United States",
               "countryCodeISO3": "USA",
-              "freeformAddress": "440 Bellevue Way Northeast, Bellevue, WA 98004",
-              "localName": "Bellevue"
+              "freeformAddress": "12016 Northeast 85th Street, Kirkland, WA 98033",
+              "localName": "Kirkland"
             },
             "position": {
-              "lat": 47.61443,
-              "lon": -122.20124
+              "lat": 47.68023,
+              "lon": -122.17996
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.61533,
-                "lon": -122.20257
+                "lat": 47.68116,
+                "lon": -122.18134
               },
               "btmRightPoint": {
-                "lat": 47.61353,
-                "lon": -122.19991
+                "lat": 47.6793,
+                "lon": -122.17858
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 47.61442,
-                  "lon": -122.20157
+                  "lat": 47.67931,
+                  "lon": -122.18013
                 }
               }
             ],
-            "detourTime": 249,
-            "detourDistance": 1146
+            "detourTime": 407,
+            "detourDistance": 8882
           },
           {
             "type": "POI",
@@ -872,7 +874,7 @@
                 }
               }
             ],
-            "detourTime": 556,
+            "detourTime": 549,
             "detourDistance": 11893
           }
         ]
