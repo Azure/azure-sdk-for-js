@@ -14,8 +14,8 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 | **File Name**                                 | **Description**                                                    |
 | --------------------------------------------- | ------------------------------------------------------------------ |
+| [search.ts][search]                           | An overview of Search API usage. Simple queries are performed.     |
 | [batchRequest.ts][batchrequest]               | Demonstrates how to manipulate batch requests.                     |
-| [search.ts][search]                           | Demonstrates Search API usage. Simple queries are performed.       |
 | [searchAddressResult.ts][searchaddressresult] | Demonstrates how to manipulate the response `SearchAddressResult`. |
 
 ## Prerequisites
@@ -57,21 +57,21 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/batchRequest.js
+node dist/search.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env MAPS_SUBSCRIPTION_KEY="<maps subscription key>" node dist/batchRequest.js
+npx cross-env MAPS_SUBSCRIPTION_KEY="<maps subscription key>" node dist/search.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[batchrequest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search/samples/v1-beta/typescript/src/batchRequest.ts
 [search]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search/samples/v1-beta/typescript/src/search.ts
+[batchrequest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search/samples/v1-beta/typescript/src/batchRequest.ts
 [searchaddressresult]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search/samples/v1-beta/typescript/src/searchAddressResult.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/maps-search
 [freesub]: https://azure.microsoft.com/free/

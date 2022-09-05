@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates Search API usage. Simple queries are performed.
+ * @summary An overview of Search API usage. Simple queries are performed.
+ * @azsdk-weight 100
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { DefaultAzureCredential } from "@azure/identity";
 import { GeoJsonLineString, GeoJsonPolygon, LatLon } from "../../maps-common/src";
 import {
   MapsSearchClient,
@@ -19,34 +20,27 @@ import {
 } from "@azure/maps-search";
 import * as dotenv from "dotenv";
 dotenv.config();
-/**
- * Azure Maps supports two ways to authenticate requests:
- * - Shared Key authentication (subscription-key)
- * - Azure Active Directory (Azure AD) authentication
- *
- * In this sample you can put MAPS_SUBSCRIPTION_KEY into .env file to use the first approach or populate
- * the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for trying out AAD auth.
- *
- * More info is available at https://docs.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
- */
 
 async function main() {
-  let client: MapsSearchClient;
+  /**
+   * Azure Maps supports two ways to authenticate requests:
+   * - Shared Key authentication (subscription-key)
+   * - Azure Active Directory (Azure AD) authentication
+   *
+   * In this sample you can put MAPS_SUBSCRIPTION_KEY into .env file to use the first approach or populate
+   * the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for trying out AAD auth.
+   *
+   * More info is available at https://docs.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
+   */
+  /** Shared Key authentication (subscription-key) */
+  const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
+  const credential = new AzureKeyCredential(subscriptionKey);
+  const client = new MapsSearchClient(credential);
 
-  if (process.env.MAPS_SUBSCRIPTION_KEY) {
-    // Use subscription key authentication
-    const credential = new AzureKeyCredential(process.env.MAPS_SUBSCRIPTION_KEY);
-    client = new MapsSearchClient(credential);
-  } else {
-    // Use Azure AD authentication
-    if (process.env.MAPS_CLIENT_ID) {
-      const credential = new DefaultAzureCredential();
-      const mapsClientId = process.env.MAPS_CLIENT_ID;
-      client = new MapsSearchClient(credential, mapsClientId);
-    } else {
-      throw Error("Cannot authenticate the client.");
-    }
-  }
+  /** Azure Active Directory (Azure AD) authentication */
+  // const credential = new DefaultAzureCredential();
+  // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
+  // const client = new MapsSearchClient(credential, mapsClientId);
 
   console.log(" --- Geocode address:");
   console.log(await client.searchAddress("400 Broad, Seattle"));

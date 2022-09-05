@@ -5,8 +5,8 @@
  * @summary Demonstrates how to manipulate the response `SearchAddressResult`.
  */
 
-// import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { DefaultAzureCredential } from "@azure/identity";
 import { MapsSearchClient, KnownSearchAddressResultType } from "@azure/maps-search";
 import * as dotenv from "dotenv";
 

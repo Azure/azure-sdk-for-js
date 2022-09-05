@@ -5,7 +5,6 @@
  * @summary Demonstrates how to manipulate batch requests.
  */
 
-// import { DefaultAzureCredential } from "@azure/identity";
 const { AzureKeyCredential } = require("@azure/core-auth");
 const { MapsSearchClient } = require("@azure/maps-search");
 require("dotenv").config();

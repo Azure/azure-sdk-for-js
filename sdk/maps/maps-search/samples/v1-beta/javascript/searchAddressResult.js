@@ -5,7 +5,6 @@
  * @summary Demonstrates how to manipulate the response `SearchAddressResult`.
  */
 
-// import { DefaultAzureCredential } from "@azure/identity";
 const { AzureKeyCredential } = require("@azure/core-auth");
 const { MapsSearchClient, KnownSearchAddressResultType } = require("@azure/maps-search");
 require("dotenv").config();

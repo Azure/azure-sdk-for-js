@@ -14,8 +14,8 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 | **File Name**                                 | **Description**                                                    |
 | --------------------------------------------- | ------------------------------------------------------------------ |
+| [search.js][search]                           | An overview of Search API usage. Simple queries are performed.     |
 | [batchRequest.js][batchrequest]               | Demonstrates how to manipulate batch requests.                     |
-| [search.js][search]                           | Demonstrates Search API usage. Simple queries are performed.       |
 | [searchAddressResult.js][searchaddressresult] | Demonstrates how to manipulate the response `SearchAddressResult`. |
 
 ## Prerequisites
@@ -45,21 +45,21 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node batchRequest.js
+node search.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env MAPS_SUBSCRIPTION_KEY="<maps subscription key>" node batchRequest.js
+npx cross-env MAPS_SUBSCRIPTION_KEY="<maps subscription key>" node search.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[batchrequest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search/samples/v1-beta/javascript/batchRequest.js
 [search]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search/samples/v1-beta/javascript/search.js
+[batchrequest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search/samples/v1-beta/javascript/batchRequest.js
 [searchaddressresult]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search/samples/v1-beta/javascript/searchAddressResult.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/maps-search
 [freesub]: https://azure.microsoft.com/free/
