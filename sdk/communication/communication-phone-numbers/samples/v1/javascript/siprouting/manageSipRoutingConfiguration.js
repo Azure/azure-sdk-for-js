@@ -7,6 +7,8 @@ const { SipRoutingClient } = require("@azure/communication-phone-numbers");
 const dotenv = require("dotenv");
 dotenv.config();
 
+// NOTE: Before running the example please make sure that the trunks and the routes are empty for specified connection string.
+// Otherwise the example may fail on data constraints.
 const connectionString = process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
   "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
 
@@ -15,10 +17,6 @@ async function main() {
 
   // Build client
   const client = new SipRoutingClient(connectionString);
-
-  // Clear
-  await client.setRoutes([]);
-  await client.setTrunks([]);
 
   // Set trunks
   await client.setTrunks([
