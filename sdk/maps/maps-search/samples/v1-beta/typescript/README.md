@@ -12,10 +12,11 @@ urlFragment: maps-search-typescript-beta
 
 These sample programs show how to use the TypeScript client libraries for Azure Maps Search in some common scenarios.
 
-| **File Name**                   | **Description**                                              |
-| ------------------------------- | ------------------------------------------------------------ |
-| [batchRequest.ts][batchrequest] | Demonstrates how to manipulate batch requests.               |
-| [search.ts][search]             | Demonstrates Search API usage. Simple queries are performed. |
+| **File Name**                                 | **Description**                                                    |
+| --------------------------------------------- | ------------------------------------------------------------------ |
+| [batchRequest.ts][batchrequest]               | Demonstrates how to manipulate batch requests.                     |
+| [search.ts][search]                           | Demonstrates Search API usage. Simple queries are performed.       |
+| [searchAddressResult.ts][searchaddressresult] | Demonstrates how to manipulate the response `SearchAddressResult`. |
 
 ## Prerequisites
 
@@ -71,6 +72,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [batchrequest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search/samples/v1-beta/typescript/src/batchRequest.ts
 [search]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search/samples/v1-beta/typescript/src/search.ts
+[searchaddressresult]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search/samples/v1-beta/typescript/src/searchAddressResult.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/maps-search
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuremapsresource]: https://docs.microsoft.com/azure/azure-maps/how-to-create-template
