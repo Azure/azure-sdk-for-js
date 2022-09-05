@@ -6,9 +6,9 @@ import { SipTrunk as RestSipTrunk } from "./generated/src/siprouting/models";
 
 /**
  * @internal
- * Mapping SIP trunks REST model to SDK model
+ * Transforming SIP trunks REST model to SDK model
  */
-export const mapTrunks = (
+export const transformFromRestModel = (
   trunks: { [propertyName: string]: RestSipTrunk } | undefined
 ): SipTrunk[] => {
   const result: SipTrunk[] = [];
@@ -25,9 +25,9 @@ export const mapTrunks = (
 
 /**
  * @internal
- * Mapping SIP trunks SDK model to REST model
+ * Transforming SIP trunks SDK model to REST model
  */
-export const mapTrunksToRestModel = (
+export const transformIntoRestModel = (
   trunks: SipTrunk[]
 ): { [propertyName: string]: RestSipTrunk } => {
   const result: { [propertyName: string]: RestSipTrunk } = {};

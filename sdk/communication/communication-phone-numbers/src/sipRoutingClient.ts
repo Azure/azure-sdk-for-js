@@ -12,7 +12,7 @@ import { logger } from "./utils";
 import { SipRoutingClient as SipRoutingGeneratedClient } from "./generated/src/siprouting/sipRoutingClient";
 import { SipConfigurationPatch, SipRoutingError } from "./generated/src/siprouting/models";
 import { SipTrunk, SipTrunkRoute } from "./models";
-import { mapTrunks, mapTrunksToRestModel } from "./mappers";
+import { transformFromRestModel, transformIntoRestModel } from "./mappers";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { tracingClient } from "./generated/src/tracing";
 
@@ -108,7 +108,7 @@ export class SipRoutingClient {
       options,
       async (updatedOptions) => {
         const config = await this.client.getSipConfiguration(updatedOptions);
-        return mapTrunks(config.trunks);
+        return transformFromRestModel(config.trunks);
       }
     );
   }
@@ -152,9 +152,9 @@ export class SipRoutingClient {
    */
   public async setTrunks(trunks: SipTrunk[], options: OperationOptions = {}): Promise<SipTrunk[]> {
     return tracingClient.withSpan("SipRoutingClient-setTrunks", options, async (updatedOptions) => {
-      const patch: SipConfigurationPatch = { trunks: mapTrunksToRestModel(trunks) };
+      const patch: SipConfigurationPatch = { trunks: transformIntoRestModel(trunks) };
       let config = await this.client.getSipConfiguration(updatedOptions);
-      const storedFqdns = mapTrunks(config.trunks).map((trunk) => trunk.fqdn);
+      const storedFqdns = transformFromRestModel(config.trunks).map((trunk) => trunk.fqdn);
       const setFqdns = trunks.map((trunk) => trunk.fqdn);
       storedFqdns.forEach((storedFqdn) => {
         const shouldDeleteStoredTrunk = !setFqdns.find((value) => value === storedFqdn);
@@ -172,7 +172,7 @@ export class SipRoutingClient {
         config = await this.client.patchSipConfiguration(payload);
       }
 
-      return mapTrunks(config.trunks);
+      return transformFromRestModel(config.trunks);
     });
   }
 
@@ -184,14 +184,14 @@ export class SipRoutingClient {
   public async setTrunk(trunk: SipTrunk, options: OperationOptions = {}): Promise<SipTrunk> {
     return tracingClient.withSpan("SipRoutingClient-setTrunk", options, async (updatedOptions) => {
       const patch: SipConfigurationPatch = {
-        trunks: mapTrunksToRestModel([trunk]),
+        trunks: transformIntoRestModel([trunk]),
       };
       const payload = {
         ...updatedOptions,
         ...patch,
       };
       const config = await this.client.patchSipConfiguration(payload);
-      const storedTrunk = mapTrunks(config.trunks).find(
+      const storedTrunk = transformFromRestModel(config.trunks).find(
         (value: SipTrunk) => value.fqdn === trunk.fqdn
       );
       if (storedTrunk) {
