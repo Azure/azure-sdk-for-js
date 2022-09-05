@@ -94,6 +94,11 @@ You can use an authenticated client to convert an address into latitude and long
 
 ```javascript
 const searchResult = await client.searchAddress("400 Broad, Seattle");
+for (const {
+  position: { lat, lon },
+} of searchResult.results) {
+  console.log(`Latitude: ${lat}, Longitude: ${lon}`);
+}
 ```
 
 ### Search for an address or Point of Interest
@@ -102,6 +107,9 @@ You can use Fuzzy Search to search an address or a point of interest (POI). The 
 
 ```javascript
 const fuzzySearchResult = await client.fuzzySearch({ query: "pizza", countryCodeFilter: ["fr"] });
+for (const result of fuzzySearchResult.results) {
+  console.log(result);
+}
 ```
 
 ### Make a Reverse Address Search to translate coordinate location to street address
@@ -110,12 +118,12 @@ You can translate coordinates into human readable street addresses. This process
 This is often used for applications that consume GPS feeds and want to discover addresses at specific coordinate points.
 
 ```javascript
-const coordinates: LatLon = {
-  latitude: 47.59118,
-  longitude: -122.3327,
-};
+const coordinates: LatLon = [47.59118, -122.3327]; // [latitude, longitude]
 
-const reverseSearchResult = await client.reverseSearchAddress(coordinates);
+const { addresses } = await client.reverseSearchAddress(coordinates);
+for (const { address } of addresses) {
+  console.log(address);
+}
 ```
 
 ### Translate coordinate location into a human understandable cross street
@@ -123,12 +131,12 @@ const reverseSearchResult = await client.reverseSearchAddress(coordinates);
 Translate coordinate location into a human understandable cross street by using Search Address Reverse Cross Street API. Most often, this is needed in tracking applications that receive a GPS feed from a device or asset, and wish to know where the coordinate is located.
 
 ```javascript
-const coordinates: LatLon = {
-  latitude: 47.59118,
-  longitude: -122.3327,
-};
+const coordinates: LatLon = [47.59118, -122.3327];
 
-const reverseSearchResult = await client.reverseSearchCrossStreetAddress(coordinates);
+const { addresses } = await client.reverseSearchCrossStreetAddress(coordinates);
+for (const { address } of addresses) {
+  console.log(address);
+}
 ```
 
 ## Troubleshooting
