@@ -12,9 +12,10 @@ urlFragment: maps-search-javascript-beta
 
 These sample programs show how to use the JavaScript client libraries for Azure Maps Search in some common scenarios.
 
-| **File Name**       | **Description**                                              |
-| ------------------- | ------------------------------------------------------------ |
-| [search.js][search] | Demonstrates Search API usage. Simple queries are performed. |
+| **File Name**                   | **Description**                                              |
+| ------------------------------- | ------------------------------------------------------------ |
+| [batchRequest.js][batchrequest] | Demonstrates how to manipulate batch requests.               |
+| [search.js][search]             | Demonstrates Search API usage. Simple queries are performed. |
 
 ## Prerequisites
 
@@ -43,19 +44,20 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node search.js
+node batchRequest.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env MAPS_SUBSCRIPTION_KEY="<maps subscription key>" MAPS_SUBSCRIPTION_KEY="<maps subscription key>" MAPS_CLIENT_ID="<maps client id>" MAPS_CLIENT_ID="<maps client id>" node search.js
+npx cross-env MAPS_SUBSCRIPTION_KEY="<maps subscription key>" node batchRequest.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[batchrequest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search/samples/v1-beta/javascript/batchRequest.js
 [search]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search/samples/v1-beta/javascript/search.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/maps-search
 [freesub]: https://azure.microsoft.com/free/

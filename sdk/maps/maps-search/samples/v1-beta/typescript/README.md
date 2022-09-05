@@ -12,9 +12,10 @@ urlFragment: maps-search-typescript-beta
 
 These sample programs show how to use the TypeScript client libraries for Azure Maps Search in some common scenarios.
 
-| **File Name**       | **Description**                                              |
-| ------------------- | ------------------------------------------------------------ |
-| [search.ts][search] | Demonstrates Search API usage. Simple queries are performed. |
+| **File Name**                   | **Description**                                              |
+| ------------------------------- | ------------------------------------------------------------ |
+| [batchRequest.ts][batchrequest] | Demonstrates how to manipulate batch requests.               |
+| [search.ts][search]             | Demonstrates Search API usage. Simple queries are performed. |
 
 ## Prerequisites
 
@@ -55,19 +56,20 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/search.js
+node dist/batchRequest.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env MAPS_SUBSCRIPTION_KEY="<maps subscription key>" MAPS_SUBSCRIPTION_KEY="<maps subscription key>" MAPS_CLIENT_ID="<maps client id>" MAPS_CLIENT_ID="<maps client id>" node dist/search.js
+npx cross-env MAPS_SUBSCRIPTION_KEY="<maps subscription key>" node dist/batchRequest.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[batchrequest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search/samples/v1-beta/typescript/src/batchRequest.ts
 [search]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search/samples/v1-beta/typescript/src/search.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/maps-search
 [freesub]: https://azure.microsoft.com/free/
