@@ -6,7 +6,7 @@
  */
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { DefaultAzureCredential } from "@azure/identity";
+// import { DefaultAzureCredential } from "@azure/identity";
 import { MapsSearchClient, FuzzySearchRequest } from "@azure/maps-search";
 import * as dotenv from "dotenv";
 

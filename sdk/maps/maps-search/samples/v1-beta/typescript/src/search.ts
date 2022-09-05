@@ -6,7 +6,7 @@
  */
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { DefaultAzureCredential } from "@azure/identity";
+// import { DefaultAzureCredential } from "@azure/identity";
 import { GeoJsonLineString, GeoJsonPolygon, LatLon } from "../../maps-common/src";
 import {
   MapsSearchClient,

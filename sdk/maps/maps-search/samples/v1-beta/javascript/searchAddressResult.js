@@ -6,6 +6,7 @@
  */
 
 const { AzureKeyCredential } = require("@azure/core-auth");
+// import { DefaultAzureCredential } from "@azure/identity";
 const { MapsSearchClient, KnownSearchAddressResultType } = require("@azure/maps-search");
 require("dotenv").config();
 
