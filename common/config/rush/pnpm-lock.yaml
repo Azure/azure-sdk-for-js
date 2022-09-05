@@ -4092,7 +4092,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220902
+      typescript: 4.9.0-dev.20220904
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -9095,8 +9095,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220902:
-    resolution: {integrity: sha512-K1iMNFhcRuYtQxDQD2JHECQ0x24OzwOD09TBFuRsIhnxzOG6XUU01tkKcCYgb//DkNDD6Jy+MpHf8SxzvPCnIA==}
+  /typescript/4.9.0-dev.20220904:
+    resolution: {integrity: sha512-zUWjUShDSE1RGYlcSbiHF/VgqEl9mGMw07z6qhsRjtYLyRftM65b4WPk/EziV/TwN3uf8kAJcoyIxuDrxlt8tg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11249,7 +11249,7 @@ packages:
     dev: false
 
   file:projects/arm-consumption.tgz:
-    resolution: {integrity: sha512-NQFxrW/D3odjtPrxLs6gwb+AyosrVpjGVmISx1HvJpfEs12cYKRWGNNYGnKdiv4vjyKW8RWrBEg4SP8duHVDGQ==, tarball: file:projects/arm-consumption.tgz}
+    resolution: {integrity: sha512-SzkSELrTTgv1Zp/sAhPA8P7G+QYZJM73lP8YypxDugcUaHG2cdodi5N4NoChoeIR7HdTimpFLCS/cRTPVh2w5Q==, tarball: file:projects/arm-consumption.tgz}
     name: '@rush-temp/arm-consumption'
     version: 0.0.0
     dependencies:
@@ -11260,6 +11260,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11267,11 +11269,10 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 

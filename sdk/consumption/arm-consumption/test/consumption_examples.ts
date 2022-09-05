@@ -49,7 +49,7 @@ describe("Consumption test", () => {
   let vmName: string;
   let scope: string;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
     subscriptionId = env.SUBSCRIPTION_ID;
     // This is an example of how the environment variables are used
@@ -66,68 +66,68 @@ describe("Consumption test", () => {
     scope = "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
-  it("budgets create test", async function() {
-    const res = await client.budgets.createOrUpdate(scope,budgetName,{
+  it("budgets create test", async function () {
+    const res = await client.budgets.createOrUpdate(scope, budgetName, {
       category: "Cost",
-        amount: 100,
-        timeGrain: "Monthly",
-        timePeriod: {
-            startDate: new Date("2021-12-01T00:00:00Z"),
-            endDate: new Date("2021-12-31T00:00:00Z")
-        },
-        filter: {
-            and: [
-                {
-                    dimensions: {
-                        name: "ResourceId",
-                        operator: "In",
-                        values: [
-                            "/subscriptions/"+subscriptionId+"/resourceGroups/"+resourceGroup+"/providers/Microsoft.Compute/virtualMachines/"+vmName
-                        ]
-                    }
-                },
-                {
-                    tags: {
-                        name: "category",
-                        operator: "In",
-                        values: [
-                            "Dev",
-                            "Prod"
-                        ]
-                    }
-                }
-            ]
-        },
-        notifications: {
-            Actual_GreaterThan_80_Percent: {
-                enabled: true,
-                operator: "GreaterThan",
-                threshold: 80,
-                contactEmails: [
-                    "johndoe@contoso.com",
-                    "janesmith@contoso.com"
-                ],
-                contactRoles: [
-                    "Contributor",
-                    "Reader"
-                ],
-                thresholdType: "Actual"
+      amount: 100,
+      timeGrain: "Monthly",
+      timePeriod: {
+        startDate: new Date("2021-12-01T00:00:00Z"),
+        endDate: new Date("2021-12-31T00:00:00Z")
+      },
+      filter: {
+        and: [
+          {
+            dimensions: {
+              name: "ResourceId",
+              operator: "In",
+              values: [
+                "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Compute/virtualMachines/" + vmName
+              ]
             }
+          },
+          {
+            tags: {
+              name: "category",
+              operator: "In",
+              values: [
+                "Dev",
+                "Prod"
+              ]
+            }
+          }
+        ]
+      },
+      notifications: {
+        Actual_GreaterThan_80_Percent: {
+          enabled: true,
+          operator: "GreaterThan",
+          threshold: 80,
+          contactEmails: [
+            "johndoe@contoso.com",
+            "janesmith@contoso.com"
+          ],
+          contactRoles: [
+            "Contributor",
+            "Reader"
+          ],
+          thresholdType: "Actual"
         }
+      }
     });
-    assert.equal(res.name,budgetName);
+    assert.equal(res.name, budgetName);
   });
 
-  it("budgets get test", async function() {
-    const res = await client.budgets.get(scope,budgetName);
-    assert.equal(res.name,budgetName);
+  it("budgets get test", async function () {
+    const res = await client.budgets.get(scope, budgetName);
+    assert.equal(res.name, budgetName);
   });
 
-  it("budgets delete test", async function() {
-    const res = await client.budgets.delete(scope,budgetName);
+  it("budgets delete test", async function () {
+    const res = await client.budgets.delete(scope, budgetName);
   });
 });
