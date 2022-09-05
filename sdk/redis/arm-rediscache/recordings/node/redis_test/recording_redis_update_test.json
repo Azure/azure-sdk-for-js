@@ -1,0 +1,201 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Cache/redis/myrediscachexxx111?api-version=2022-05-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-rediscache/7.0.0 core-rest-pipeline/1.9.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "9caedbbc-a11e-4ac2-9443-999251b9c70d"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 01 Sep 2022 03:04:17 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "3d6239d7-956f-450e-810f-2d5814aeadbe",
+        "x-ms-ratelimit-remaining-subscription-reads": "11651",
+        "x-ms-request-id": "9fd457ea-2992-4db5-b1a8-7d20e4d98c54",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220901T030417Z:3d6239d7-956f-450e-810f-2d5814aeadbe",
+        "x-rp-server-mvid": "1d4d9b62-2466-4e49-81a7-239328084a93"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Cache/Redis/myrediscachexxx111",
+        "location": "East US",
+        "name": "myrediscachexxx111",
+        "type": "Microsoft.Cache/Redis",
+        "tags": {},
+        "properties": {
+          "provisioningState": "Succeeded",
+          "redisVersion": "6.0",
+          "sku": {
+            "name": "Premium",
+            "family": "P",
+            "capacity": 1
+          },
+          "enableNonSslPort": true,
+          "instances": [
+            {
+              "sslPort": 15000,
+              "nonSslPort": 13000,
+              "isMaster": false,
+              "isPrimary": false
+            },
+            {
+              "sslPort": 15001,
+              "nonSslPort": 13001,
+              "isMaster": false,
+              "isPrimary": false
+            },
+            {
+              "sslPort": 15002,
+              "nonSslPort": 13002,
+              "isMaster": false,
+              "isPrimary": false
+            },
+            {
+              "sslPort": 15003,
+              "nonSslPort": 13003,
+              "isMaster": false,
+              "isPrimary": false
+            }
+          ],
+          "minimumTlsVersion": "1.2",
+          "publicNetworkAccess": "Enabled",
+          "redisConfiguration": {
+            "maxmemory-policy": "allkeys-lru",
+            "maxclients": "7500",
+            "maxmemory-reserved": "642",
+            "maxfragmentationmemory-reserved": "642",
+            "maxmemory-delta": "642"
+          },
+          "accessKeys": null,
+          "hostName": "myrediscachexxx111.redis.cache.windows.net",
+          "port": 6379,
+          "sslPort": 6380,
+          "subnetId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/networknamex/subnets/subnetworknamex",
+          "staticIP": "10.0.0.5",
+          "shardCount": 2,
+          "linkedServers": []
+        },
+        "zones": [
+          "1"
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Cache/redis/myrediscachexxx111?api-version=2022-05-01",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "40",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-rediscache/7.0.0 core-rest-pipeline/1.9.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "8d5e25f3-9d58-461b-9e79-7acc388b6e1d"
+      },
+      "RequestBody": {
+        "properties": {
+          "enableNonSslPort": true
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 01 Sep 2022 03:04:18 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "e8c719ec-729d-48d2-96b8-8fd64e64152b",
+        "x-ms-ratelimit-remaining-subscription-writes": "1195",
+        "x-ms-request-id": "073ca369-07f8-4592-9eb8-64f2b5bf5e86",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220901T030418Z:e8c719ec-729d-48d2-96b8-8fd64e64152b",
+        "x-rp-server-mvid": "1d4d9b62-2466-4e49-81a7-239328084a93"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Cache/Redis/myrediscachexxx111",
+        "location": "East US",
+        "name": "myrediscachexxx111",
+        "type": "Microsoft.Cache/Redis",
+        "tags": {},
+        "properties": {
+          "provisioningState": "Succeeded",
+          "redisVersion": "6.0",
+          "sku": {
+            "name": "Premium",
+            "family": "P",
+            "capacity": 1
+          },
+          "enableNonSslPort": true,
+          "instances": [
+            {
+              "sslPort": 15000,
+              "nonSslPort": 13000,
+              "isMaster": false,
+              "isPrimary": false
+            },
+            {
+              "sslPort": 15001,
+              "nonSslPort": 13001,
+              "isMaster": false,
+              "isPrimary": false
+            },
+            {
+              "sslPort": 15002,
+              "nonSslPort": 13002,
+              "isMaster": false,
+              "isPrimary": false
+            },
+            {
+              "sslPort": 15003,
+              "nonSslPort": 13003,
+              "isMaster": false,
+              "isPrimary": false
+            }
+          ],
+          "minimumTlsVersion": "1.2",
+          "publicNetworkAccess": "Enabled",
+          "redisConfiguration": {
+            "maxmemory-policy": "allkeys-lru",
+            "maxclients": "7500",
+            "maxmemory-reserved": "642",
+            "maxfragmentationmemory-reserved": "642",
+            "maxmemory-delta": "642"
+          },
+          "accessKeys": null,
+          "hostName": "myrediscachexxx111.redis.cache.windows.net",
+          "port": 6379,
+          "sslPort": 6380,
+          "subnetId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/networknamex/subnets/subnetworknamex",
+          "staticIP": "10.0.0.5",
+          "shardCount": 2,
+          "linkedServers": []
+        },
+        "zones": [
+          "1"
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

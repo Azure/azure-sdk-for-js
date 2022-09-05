@@ -14135,7 +14135,7 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-cgrn1Lqtga5bArhVbAmnQhf4Ox4Ik9xqruujCVvvexD1rmosYSc98pXzF6F1k5D6Gu3iI8foSYQMiMwvu0AaUA==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-V4UK6jcDyI9pIgICRtToTT8DTQztAZ13OxEAR6blVALbIbVzhrBooYnXatela+dhw2MwnDbjFweLnExbClTqlg==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
@@ -14148,6 +14148,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14155,11 +14157,10 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
