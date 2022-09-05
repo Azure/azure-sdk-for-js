@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { RestError, RequestBodyType } from "@azure/core-rest-pipeline";
+import { RestError, RequestBodyType, LogPolicyOptions } from "@azure/core-rest-pipeline";
 import { GeneratedClient } from "./generated/generatedClient";
 import { WebPubSubGroup, WebPubSubGroupImpl } from "./groupClient";
 import { AzureKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
@@ -76,6 +76,7 @@ export interface WebPubSubServiceClientOptions extends CommonClientOptions {
    * Reverse proxy endpoint (for example, your Azure API management endpoint)
    */
   reverseProxyEndpoint?: string;
+  loggingOptions?: LogPolicyOptions;
 }
 
 /**
@@ -286,7 +287,7 @@ export class WebPubSubServiceClient {
       ...this.clientOptions,
       ...{
         apiVersion: this.apiVersion,
-        loggingOptions: {
+        loggingOptions: this.clientOptions?.loggingOptions ?? {
           logger: logger.info,
         },
       },

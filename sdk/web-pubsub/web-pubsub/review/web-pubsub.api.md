@@ -6,6 +6,7 @@
 
 import { AzureKeyCredential } from '@azure/core-auth';
 import { CommonClientOptions } from '@azure/core-client';
+import { LogPolicyOptions } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure/core-client';
 import { RequestBodyType } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
@@ -198,6 +199,8 @@ export class WebPubSubServiceClient {
 
 // @public
 export interface WebPubSubServiceClientOptions extends CommonClientOptions {
+    // (undocumented)
+    loggingOptions?: LogPolicyOptions;
     reverseProxyEndpoint?: string;
 }
 
