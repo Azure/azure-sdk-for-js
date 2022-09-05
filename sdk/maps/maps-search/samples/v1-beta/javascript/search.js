@@ -42,7 +42,7 @@ async function main() {
   console.log(await client.searchAddress("400 Broad, Seattle"));
 
   console.log(" --- Reverse-geocode coordinates to address:");
-  const coordinates = { latitude: 47.59118, longitude: -122.3327 };
+  const coordinates = [47.59118, -122.3327];
   console.log(await client.reverseSearchAddress(coordinates));
 
   console.log(" --- Reverse-geocode coordinates to cross street address:");
@@ -87,7 +87,7 @@ async function main() {
   }
 
   console.log(" --- Search nearby POI:");
-  const searchNearbyCoordinate = { latitude: 40.70627, longitude: -74.011454 };
+  const searchNearbyCoordinate = [40.70627, -74.011454];
   const searchNearbyOptions = { radiusInMeters: 8046 };
   console.log(
     await client.searchNearbyPointOfInterest(searchNearbyCoordinate, searchNearbyOptions)
@@ -102,7 +102,7 @@ async function main() {
   console.log(
     await client.searchPointOfInterest({
       query: searchPOIQuery,
-      coordinates: { latitude: 47.606038, longitude: -122.333345 },
+      coordinates: [47.606038, -122.333345],
       ...searchPOIOptions,
     })
   );
@@ -120,7 +120,7 @@ async function main() {
   console.log(
     await client.searchPointOfInterest({
       query: searchPOIQuery,
-      coordinates: { latitude: 47.606038, longitude: -122.333345 },
+      coordinates: [47.606038, -122.333345],
       countryCodeFilter: ["fr"],
       ...searchPOIOptions,
     })
@@ -135,7 +135,7 @@ async function main() {
   console.log(
     await client.searchPointOfInterestCategory({
       query: searchPOICategoryQuery,
-      coordinates: { latitude: 47.606038, longitude: -122.333345 },
+      coordinates: [47.606038, -122.333345],
       ...searchPOICategoryOptions,
     })
   );
@@ -153,7 +153,7 @@ async function main() {
   console.log(
     await client.searchPointOfInterestCategory({
       query: searchPOICategoryQuery,
-      coordinates: { latitude: 47.606038, longitude: -122.333345 },
+      coordinates: [47.606038, -122.333345],
       countryCodeFilter: ["fr"],
       ...searchPOICategoryOptions,
     })
@@ -298,12 +298,12 @@ async function main() {
 
   console.log(" --- Search address reverse batch (long-running):");
   const reverseSearchAddressRequests = [
-    { coordinates: { latitude: 148.858561, longitude: 2.294911 } },
+    { coordinates: [148.858561, 2.294911] },
     {
-      coordinates: { latitude: 47.639765, longitude: -122.127896 },
+      coordinates: [47.639765, -122.127896],
       options: { radiusInMeters: 5000 },
     },
-    { coordinates: { latitude: 47.621028, longitude: -122.34817 } },
+    { coordinates: [47.621028, -122.34817] },
   ];
   const reverseSearchPoller = await client.beginReverseSearchAddressBatch(
     reverseSearchAddressRequests
@@ -313,7 +313,7 @@ async function main() {
   console.log(" --- Search fuzzy batch (long-running):");
   const fuzzySearchRequests = [
     {
-      searchQuery: { query: "atm", coordinates: { latitude: 48.858561, longitude: 2.294911 } },
+      searchQuery: { query: "atm", coordinates: [48.858561, 2.294911] },
       options: { radiusInMeters: 5000, top: 5 },
     },
     {
@@ -326,13 +326,20 @@ async function main() {
     {
       searchQuery: {
         query: "Starbucks",
-        coordinates: { latitude: 47.621028, longitude: -122.34817 },
+        coordinates: [47.621028, -122.34817],
       },
       options: { radiusInMeters: 5000 },
     },
   ];
   const fuzzySearchPoller = await client.beginFuzzySearchBatch(fuzzySearchRequests);
   console.log(await fuzzySearchPoller.pollUntilDone());
+
+  console.log(" --- Resume search fuzzy batch:");
+  const originalFuzzySearchPoller = await client.beginFuzzySearchBatch(fuzzySearchRequests);
+  console.log(await originalFuzzySearchPoller.getResult());
+  const serializedState = originalFuzzySearchPoller.toString();
+  const rehydratedFuzzySearchPoller = await client.resumeFuzzySearchBatch(serializedState);
+  console.log(await rehydratedFuzzySearchPoller.getResult());
 }
 
 main();
