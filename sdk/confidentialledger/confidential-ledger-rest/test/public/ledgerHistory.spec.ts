@@ -41,12 +41,12 @@ describe("Get ledger history", () => {
 
   it("should obtain ledger entries from ledger", async function () {
     const result = await client.path("/app/transactions").get();
-    console.log("result from /app/transactions: " + result.body);
+    console.log("result from /app/transactions: " + result.status);
 
     assert.equal(result.status, "200");
 
     const currentTransactionsResult = await client.path("/app/transactions/current").get();
-    console.log("result from /app/transactions/current: " + currentTransactionsResult.body);
+    console.log("result from /app/transactions/current: " + currentTransactionsResult.status);
 
     assert.equal(result.status, "200");
 
