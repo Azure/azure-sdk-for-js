@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ConfidentialLedgerClient, isUnexpected } from "../../src";
+import { 
+  ConfidentialLedgerClient, 
+  LedgerEntry,
+  CreateLedgerEntryParameters,
+  isUnexpected } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
 import { Context } from "mocha";
@@ -14,6 +18,21 @@ describe("Get ledger history", () => {
   beforeEach(async function (this: Context) {
     recorder = createRecorder(this);
     client = await createClient();
+
+    const entry: LedgerEntry = {
+      contents: "ledger history test",
+    };
+    const ledgerEntry: CreateLedgerEntryParameters = {
+      contentType: "application/json",
+      body: entry,
+    };
+    const result = await client.path("/app/transactions").post(ledgerEntry);
+
+    if (isUnexpected(result)) {
+      throw result.body;
+    }
+
+    assert.equal(result.status, "200");
   });
 
   afterEach(async function () {
@@ -22,10 +41,12 @@ describe("Get ledger history", () => {
 
   it("should obtain ledger entries from ledger", async function () {
     const result = await client.path("/app/transactions").get();
+    console.log("result from /app/transactions: " + result.body);
 
     assert.equal(result.status, "200");
 
     const currentTransactionsResult = await client.path("/app/transactions/current").get();
+    console.log("result from /app/transactions/current: " + currentTransactionsResult.body);
 
     assert.equal(result.status, "200");
 
