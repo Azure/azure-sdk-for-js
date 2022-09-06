@@ -14,8 +14,8 @@ describe("SipRoutingClient - set trunks", function () {
   let client: SipRoutingClient;
   let recorder: Recorder;
 
-  beforeEach(function (this: Context) {
-    ({ client, recorder } = createRecordedClient(this));
+  beforeEach(async function (this: Context) {
+    ({ client, recorder } = await createRecordedClient(this));
   });
 
   afterEach(async function (this: Context) {

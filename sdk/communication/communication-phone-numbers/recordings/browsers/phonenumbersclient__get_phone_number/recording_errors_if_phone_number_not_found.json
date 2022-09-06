@@ -1,29 +1,48 @@
 {
- "recordings": [
-  {
-   "method": "GET",
-   "url": "https://endpoint/phoneNumbers/%2B14155550100",
-   "query": {
-    "api-version": "2022-06-01-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"NotFound\",\"message\":\"Input phoneNumber +14155550100 cannot be found.\",\"target\":\"phonenumber\"}}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
-    "content-type": "application/json",
-    "date": "Tue, 09 Aug 2022 23:39:57 GMT",
-    "ms-cv": "DJ+yYw/uYE2RXZ1n5zBOwQ.0",
-    "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0TfDyYgAAAADMKcgzvIZ0SKeP0Z2iogM+TEFYMzExMDAwMTA4MDQ1ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
-    "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "933ms"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "6f59980391ba29cbfe24ed7a38b9500d"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/phoneNumbers/%2B14155550100?api-version=2022-06-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Wed, 07 Sep 2022 13:39:36 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
+        "Content-Type": "application/json",
+        "Date": "Wed, 07 Sep 2022 13:39:38 GMT",
+        "MS-CV": "B/Yxv15AdUad02N00NBYpQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0GZ8YYwAAAAD8QY1iTHOST4CEY75KlI3xUFJHMDFFREdFMDkxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "685ms"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "NotFound",
+          "message": "Input phoneNumber \u002B14155550100 cannot be found.",
+          "target": "phonenumber"
+        }
+      }
+    }
+  ],
+  "Variables": {}
 }

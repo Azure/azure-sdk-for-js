@@ -1,36 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
+import { Context, Test } from "mocha";
 import * as dotenv from "dotenv";
 
 import {
   Recorder,
-  RecorderEnvironmentSetup,
+  RecorderStartOptions,
   env,
-  isLiveMode,
   isPlaybackMode,
-  record,
+  SanitizerOptions,
 } from "@azure-tools/test-recorder";
 import { SipRoutingClient } from "../../../../src";
 import { parseConnectionString } from "@azure/communication-common";
-import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
-import { createXhrHttpClient, isNode } from "@azure/test-utils";
-import { AdditionalPolicyConfig } from "@azure/core-client";
-import { createMSUserAgentPolicy } from "../../utils/msUserAgentPolicy";
+import { TokenCredential } from "@azure/identity";
+import { isNode } from "@azure/test-utils";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 if (isNode) {
   dotenv.config();
 }
-
-const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 
 export interface RecordedClient<T> {
   client: T;
   recorder: Recorder;
 }
 
-const replaceableVariables: { [k: string]: string } = {
+const envSetupForPlayback: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=YQ==",
   SKIP_UPDATE_CAPABILITIES_LIVE_TESTS: "false",
   COMMUNICATION_ENDPOINT: "https://endpoint/",
@@ -40,34 +36,55 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_USERAGENT_OVERRIDE: "fake-useragent",
 };
 
-export const environmentSetup: RecorderEnvironmentSetup = {
-  replaceableVariables,
-  customizationsOnRecordings: [
-    (recording: string): string => recording.replace(/(https:\/\/)([^/'",}]*)/, "$1endpoint"),
-    (recording: string): string =>
-      recording.replace(/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}/gi, "sanitized"),
+const sanitizerOptions: SanitizerOptions = {
+  connectionStringSanitizers: [
+    {
+      actualConnString: env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING,
+      fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"],
+    },
   ],
-  queryParametersToSkip: [],
+  generalSanitizers: [
+    { regex: true, target: `"access_token"\\s?:\\s?"[^"]*"`, value: `"access_token":"sanitized"` },
+    {
+      regex: true,
+      target: `(https://)([^/'",}]*)`,
+      value: `$1endpoint`,
+    },
+    {
+      regex: true,
+      target: `[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}`,
+      value: `sanitized`,
+    },
+  ],
 };
 
-const additionalPolicies: AdditionalPolicyConfig[] = [
-  {
-    policy: createMSUserAgentPolicy(),
-    position: "perRetry",
-  },
-];
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback,
+  sanitizerOptions: sanitizerOptions,
+};
 
-export function createRecordedClient(context: Context): RecordedClient<SipRoutingClient> {
-  const recorder = record(context, environmentSetup);
+export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+  const recorder = new Recorder(context);
+  await recorder.start(recorderOptions);
+  await recorder.setMatcher("CustomDefaultMatcher", {
+    excludedHeaders: [
+      "Accept-Language", // This is env-dependent
+      "x-ms-content-sha256", // This is dependent on the current datetime
+    ],
+  });
+  return recorder;
+}
 
-  // casting is a workaround to enable min-max testing
-  return {
-    client: new SipRoutingClient(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, {
-      httpClient,
-      additionalPolicies,
-    }),
-    recorder,
-  };
+export async function createRecordedClient(context: Context)
+  : Promise<RecordedClient<SipRoutingClient>> {
+  const recorder = await createRecorder(context.currentTest);
+
+  const client = new SipRoutingClient(
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
+    recorder.configureClientOptions({})
+  );
+
+  return { client, recorder };
 }
 
 export function createMockToken(): TokenCredential {
@@ -78,43 +95,23 @@ export function createMockToken(): TokenCredential {
   };
 }
 
-export function createRecordedClientWithToken(
-  context: Context
-): RecordedClient<SipRoutingClient> | undefined {
-  const recorder = record(context, environmentSetup);
+export async function createRecordedClientWithToken(context: Context)
+  : Promise<RecordedClient<SipRoutingClient>> {
+  const recorder = await createRecorder(context.currentTest);
+
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
-    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? ""
   ).endpoint;
+
   if (isPlaybackMode()) {
     credential = createMockToken();
-
-    // casting is a workaround to enable min-max testing
-    return {
-      client: new SipRoutingClient(endpoint, credential, {
-        httpClient,
-      }),
-      recorder,
-    };
-  }
-
-  if (isNode) {
-    credential = new DefaultAzureCredential();
   } else {
-    credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET,
-      { httpClient }
-    );
+    credential = createTestCredential();
   }
+
+  const client = new SipRoutingClient(endpoint, credential, recorder.configureClientOptions({}));
 
   // casting is a workaround to enable min-max testing
-  return {
-    client: new SipRoutingClient(endpoint, credential, {
-      httpClient,
-      additionalPolicies,
-    }),
-    recorder,
-  };
+  return { client, recorder };
 }
