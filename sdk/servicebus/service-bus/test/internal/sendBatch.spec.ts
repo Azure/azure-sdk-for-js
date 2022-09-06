@@ -6,7 +6,12 @@ const should = chai.should();
 const assert = chai.assert;
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { OperationOptions, ServiceBusAdministrationClient, ServiceBusClient, ServiceBusMessage } from "../../src";
+import {
+  OperationOptions,
+  ServiceBusAdministrationClient,
+  ServiceBusClient,
+  ServiceBusMessage,
+} from "../../src";
 import { TestClientType } from "../public/utils/testUtils";
 import {
   EntityName,
@@ -516,8 +521,7 @@ describe("Send Batch", () => {
   });
 });
 
-
-describe('Premium namespaces - Sending', () => {
+describe("Premium namespaces - Sending", () => {
   const premiumConnectionString = getEnvVarValue("SERVICEBUS_CONNECTION_STRING_PREMIUM");
   let atomClient: ServiceBusAdministrationClient;
 
@@ -534,15 +538,19 @@ describe('Premium namespaces - Sending', () => {
   let subscriptionName: string | undefined;
   let withSessions: boolean;
 
-  const noSessionTestClientType = Math.random() > 0.5 ? TestClientType.UnpartitionedQueue : TestClientType.UnpartitionedTopic;
-  const withSessionTestClientType = Math.random() > 0.5 ? TestClientType.UnpartitionedQueueWithSessions : TestClientType.UnpartitionedTopicWithSessions;
+  const noSessionTestClientType =
+    Math.random() > 0.5 ? TestClientType.UnpartitionedQueue : TestClientType.UnpartitionedTopic;
+  const withSessionTestClientType =
+    Math.random() > 0.5
+      ? TestClientType.UnpartitionedQueueWithSessions
+      : TestClientType.UnpartitionedTopicWithSessions;
 
   before(() => {
     serviceBusClient = new ServiceBusClient(premiumConnectionString || "");
   });
 
   after(async () => {
-    await serviceBusClient.close()
+    await serviceBusClient.close();
   });
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
@@ -552,14 +560,19 @@ describe('Premium namespaces - Sending', () => {
     const isQueue = entityType.includes("Queue");
     if (isQueue) {
       queueName = "queue-" + randomSeed;
-      await atomClient.createQueue(queueName, { requiresSession: withSessions, maxMessageSizeInKilobytes: 10240 }) // 10 MB
-      sender = serviceBusClient.createSender(queueName)
+      await atomClient.createQueue(queueName, {
+        requiresSession: withSessions,
+        maxMessageSizeInKilobytes: 10240,
+      }); // 10 MB
+      sender = serviceBusClient.createSender(queueName);
     } else {
       topicName = "topic-" + randomSeed;
       subscriptionName = "subscription-" + randomSeed;
       await atomClient.createTopic(topicName, { maxMessageSizeInKilobytes: 10240 }); // 10 MB
-      await atomClient.createSubscription(topicName, subscriptionName, { requiresSession: withSessions })
-      sender = serviceBusClient.createSender(topicName)
+      await atomClient.createSubscription(topicName, subscriptionName, {
+        requiresSession: withSessions,
+      });
+      sender = serviceBusClient.createSender(topicName);
     }
   }
 
@@ -595,7 +608,7 @@ describe('Premium namespaces - Sending', () => {
         queueName
           ? (await atomClient.getQueueRuntimeProperties(queueName)).totalMessageCount
           : (await atomClient.getSubscriptionRuntimeProperties(topicName!, subscriptionName!))
-            .totalMessageCount,
+              .totalMessageCount,
         1,
         `Unexpected number of messages are present in the entity.`
       );
@@ -611,4 +624,4 @@ describe('Premium namespaces - Sending', () => {
       await testSend();
     });
   });
-})
+});
