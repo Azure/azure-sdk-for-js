@@ -1,13 +1,13 @@
 let nock = require('nock');
 
-module.exports.hash = "9c57232930559691160384c39aa0ef3c";
+module.exports.hash = "4a64e1a7ed1d5206cb73572bc9a5afc9";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .put('/indexes(%27hotel-live-test4%27)', {"name":"hotel-live-test4","fields":[{"name":"id","type":"Edm.String","key":true,"searchable":false,"filterable":false,"sortable":false,"facetable":false},{"name":"awesomenessLevel","type":"Edm.Double","searchable":false,"filterable":true,"sortable":true,"facetable":true},{"name":"description","type":"Edm.String","searchable":true,"filterable":false,"sortable":false,"facetable":false},{"name":"details","type":"Edm.ComplexType","fields":[{"name":"tags","type":"Collection(Edm.String)","searchable":true}]},{"name":"hiddenWeight","type":"Edm.Int32","retrievable":false,"searchable":false,"filterable":false,"sortable":false,"facetable":false}]})
+  .put('/indexes(%27hotel-live-test4%27)', {"name":"hotel-live-test4","fields":[{"name":"id","type":"Edm.String","key":true,"searchable":false,"filterable":false,"sortable":false,"facetable":false},{"name":"awesomenessLevel","type":"Edm.Double","searchable":false,"filterable":true,"sortable":true,"facetable":true},{"name":"description","type":"Edm.String","searchable":true,"filterable":false,"sortable":false,"facetable":false},{"name":"details","type":"Edm.ComplexType","fields":[{"name":"tags","type":"Collection(Edm.String)","searchable":true,"filterable":false,"sortable":false,"facetable":false}]},{"name":"hiddenWeight","type":"Edm.Int32","retrievable":false,"searchable":false,"filterable":false,"sortable":false,"facetable":false}]})
   .query(true)
-  .reply(201, {"@odata.context":"https://endpoint/$metadata#indexes/$entity","@odata.etag":"\"0x8D9252C88533541\"","name":"hotel-live-test4","defaultScoringProfile":null,"fields":[{"name":"id","type":"Edm.String","searchable":false,"filterable":false,"retrievable":true,"sortable":false,"facetable":false,"key":true,"indexAnalyzer":null,"searchAnalyzer":null,"analyzer":null,"normalizer":null,"synonymMaps":[]},{"name":"awesomenessLevel","type":"Edm.Double","searchable":false,"filterable":true,"retrievable":true,"sortable":true,"facetable":true,"key":false,"indexAnalyzer":null,"searchAnalyzer":null,"analyzer":null,"normalizer":null,"synonymMaps":[]},{"name":"description","type":"Edm.String","searchable":true,"filterable":false,"retrievable":true,"sortable":false,"facetable":false,"key":false,"indexAnalyzer":null,"searchAnalyzer":null,"analyzer":null,"normalizer":null,"synonymMaps":[]},{"name":"details","type":"Edm.ComplexType","fields":[{"name":"tags","type":"Collection(Edm.String)","searchable":true,"filterable":true,"retrievable":true,"sortable":false,"facetable":true,"key":false,"indexAnalyzer":null,"searchAnalyzer":null,"analyzer":null,"normalizer":null,"synonymMaps":[]}]},{"name":"hiddenWeight","type":"Edm.Int32","searchable":false,"filterable":false,"retrievable":false,"sortable":false,"facetable":false,"key":false,"indexAnalyzer":null,"searchAnalyzer":null,"analyzer":null,"normalizer":null,"synonymMaps":[]}],"scoringProfiles":[],"corsOptions":null,"suggesters":[],"analyzers":[],"normalizers":[],"tokenizers":[],"tokenFilters":[],"charFilters":[],"encryptionKey":null,"similarity":{"@odata.type":"#Microsoft.Azure.Search.BM25Similarity","k1":null,"b":null}}, [
+  .reply(201, {"@odata.context":"https://endpoint/$metadata#indexes/$entity","@odata.etag":"\"0x8DA904BF26F93E0\"","name":"hotel-live-test4","defaultScoringProfile":null,"fields":[{"name":"id","type":"Edm.String","searchable":false,"filterable":false,"retrievable":true,"sortable":false,"facetable":false,"key":true,"indexAnalyzer":null,"searchAnalyzer":null,"analyzer":null,"synonymMaps":[]},{"name":"awesomenessLevel","type":"Edm.Double","searchable":false,"filterable":true,"retrievable":true,"sortable":true,"facetable":true,"key":false,"indexAnalyzer":null,"searchAnalyzer":null,"analyzer":null,"synonymMaps":[]},{"name":"description","type":"Edm.String","searchable":true,"filterable":false,"retrievable":true,"sortable":false,"facetable":false,"key":false,"indexAnalyzer":null,"searchAnalyzer":null,"analyzer":null,"synonymMaps":[]},{"name":"details","type":"Edm.ComplexType","fields":[{"name":"tags","type":"Collection(Edm.String)","searchable":true,"filterable":false,"retrievable":true,"sortable":false,"facetable":false,"key":false,"indexAnalyzer":null,"searchAnalyzer":null,"analyzer":null,"synonymMaps":[]}]},{"name":"hiddenWeight","type":"Edm.Int32","searchable":false,"filterable":false,"retrievable":false,"sortable":false,"facetable":false,"key":false,"indexAnalyzer":null,"searchAnalyzer":null,"analyzer":null,"synonymMaps":[]}],"scoringProfiles":[],"corsOptions":null,"suggesters":[],"analyzers":[],"tokenizers":[],"tokenFilters":[],"charFilters":[],"encryptionKey":null,"similarity":{"@odata.type":"#Microsoft.Azure.Search.BM25Similarity","k1":null,"b":null}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -17,13 +17,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'ETag',
-  'W/"0x8D9252C88533541"',
+  'W/"0x8DA904BF26F93E0"',
   'Location',
-  "https://endpoint/indexes('hotel-live-test4')?api-version=2020-06-30-Preview",
+  "https://endpoint/indexes('hotel-live-test4')?api-version=2020-06-30",
   'request-id',
-  '221258eb-fe32-4f5e-8c00-954eae936bc0',
+  '74670854-c494-4776-955e-69f99d67a327',
   'elapsed-time',
-  '617',
+  '624',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -31,15 +31,15 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Tue, 01 Jun 2021 18:39:04 GMT',
+  'Tue, 06 Sep 2022 21:08:29 GMT',
   'Content-Length',
-  '1696'
+  '1591'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/indexes(%27hotel-live-test4%27)')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195eff71fa307f9737777fb77cd916edf5472303971a5c10d0dff7a39d77074f1feedddf3b3938b87fefdefdfddddff7236ab5cc16397d3dafdabcdc2e8bcb7c1bddeed337b3fc3c5b97edeb695517cb8b9775755e94d474b92ecbd147e7455ece9a8f1e7def171b08c58cde69af57f8fd74b618bf6ef11a7d26686713bc7c9e954d8eb7cb36af838fea9cdae797f2595bafe9a3a6aa5bf95bdb9c67531a8dffc9dbfcdab466021c2fb3f2fa07796dd094bebb9f669dbf9755bdc8cac2fba4b95e56cbebc517d90a63fcfe2f19d961665779532df265de34cff3cbbca4017a837e5aad811e01e08e035cfd410bca1bc72c7f7b43960f78c40af18734e459de4ceb62d516d59246e68d363ac582a63f58c576e368b58d375cfde4e764bc6d56940d8dcb1beb49b55895f9bb37f884f0ecb13f4999f7c6495596f91414dbc2cb42a83bf4bd602b23141af894924fde9350d2e28746279f52f36236cb97dfcd8b8b794b83d3c163c467cbf6de1e7d24bd0aa28a9d3f60fd2818b17eb669c8fac90f6fccf451a006f9e3d147f459f3250b067da0afae2f2e4881e6357d8226a633fdd3f5a51fb4d5db7cd9fdfb1993483f21f2d5c107f9725a5f73afbf1708a0fd168ba2cc6aa8fe47d6a6e884fcf817c5b4ae9aeabc1d1fff605de7e3d74c97f1932ff6eebf76ef1141770db889fcf24b7ec9ff03f38492e1a0060000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195eff71fa307f9737777fb77cd916edf5472303971a5c10d0dff7a39d77074f8f1feeec3f79b6f7e9b387f74e777edf8fa8d5325be4f4f5bc6af372bb2c2ef36d74bb4fdfccf2f36c5db6afa7555d2c2f5ed6d5795152d3e5ba2c471f9d1779396b3e7af4bd5f6c2014337aa7bd5ee1f7d3d962fcbac56bf499a09d4df0f279563639de2edbbc0e3eaa736a9f5fca676dbda68f9aaa6ee56f6d739e4d6934fe276ff36bd39a0970bccccaeb1fe4b54153faee7e9a75fe6eae97d5f27af145b6c288beff4b467650d955de548b7c9937cdf3fc322f6938de109f566b204300b89b00337f8882e0c611cadfde00e5031e9f42fc5919e02c6fa675b16a8b6a49e3f0c6169d3e41ca1f9ae2b6716cdac61b9c7ef243185d9b156543a3f04676522d5665feee0d3e21ac7a8c4cf2e2bd715295653e057db6f0b290e50e7d2fb8c97864c4ff6fa78b4f9979319be5cbefe6c5c5bca5c1e86031c2b3657b6f8f3e923e02bc6e1aa07ef6733842fa285057fcf1e823faacf992999c3ed057d71717a4e8f29a3e4113035aff6cabb7f9b2e8fcfd8cc7af9f106deae0837c39adafb993df0ba3d36e8a4551663534f223abea95da3ffe4531adaba63a6fc7c73f58d7f9f8350f7afce48bbdfbafdd7b44ad5d036e22bffc925ff2ff00756d3f9b37060000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -51,13 +51,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'ETag',
-  'W/"0x8D9252C88533541"',
+  'W/"0x8DA904BF26F93E0"',
   'Vary',
   'Accept-Encoding',
   'request-id',
-  'fa46be46-6871-4315-9bbf-4fb8ec9c1cb7',
+  '7b6f12ef-e03c-407d-8484-8f02d9ba9832',
   'elapsed-time',
-  '16',
+  '19',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -65,9 +65,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Tue, 01 Jun 2021 18:39:04 GMT',
+  'Tue, 06 Sep 2022 21:08:29 GMT',
   'Content-Length',
-  '672'
+  '645'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
@@ -81,11 +81,11 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'request-id',
-  '97d4d90e-f4c3-4353-ac02-fec9090b735c',
+  'e271ef88-e8b5-4155-821d-b051d4e2ea24',
   'elapsed-time',
-  '118',
+  '141',
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Tue, 01 Jun 2021 18:39:04 GMT'
+  'Tue, 06 Sep 2022 21:08:29 GMT'
 ]);
