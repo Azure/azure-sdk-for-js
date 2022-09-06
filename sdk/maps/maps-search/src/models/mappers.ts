@@ -41,28 +41,18 @@ import { OperationOptions } from "@azure/core-client";
 /* LatLon / BoundingBox mappers */
 
 /**
- * @internal
- */
-export function toLatLon(lat: number, lon: number): LatLon {
-  return {
-    latitude: lat,
-    longitude: lon,
-  };
-}
-
-/**
  *
  * @internal
  */
 export function toLatLonString(coordinates: LatLon): string {
-  return `${coordinates.latitude},${coordinates.longitude}`;
+  return `${coordinates[0]},${coordinates[1]}`;
 }
 
 /**
  * @internal
  */
 export function mapLatLongPairAbbreviatedToLatLon(latLongAbbr: LatLongPairAbbreviated): LatLon {
-  return toLatLon(latLongAbbr.lat, latLongAbbr.lon);
+  return [latLongAbbr.lat, latLongAbbr.lon];
 }
 
 /**
@@ -75,7 +65,7 @@ export function mapStringToLatLon(LatLonStr: string): LatLon {
       const lat = Number(LatLonArray[0]);
       const lon = Number(LatLonArray[1]);
       if (!isNaN(lat) && !isNaN(lon)) {
-        return toLatLon(lat, lon);
+        return [lat, lon];
       }
     }
   }
@@ -115,7 +105,7 @@ export function mapBoundingBoxFromCompassNotation(
       const left = southAndWest[1];
       const bottom = southAndWest[0];
       const right = northAndEast[1];
-      return toBoundingBox(toLatLon(top, left), toLatLon(bottom, right));
+      return toBoundingBox([top, left], [bottom, right]);
     }
   }
   return undefined;
@@ -171,8 +161,8 @@ export function mapSearchAddressOptions(
   return {
     isTypeAhead: options.isTypeAhead,
     countryCodeFilter: options.countryCodeFilter,
-    lat: options.coordinates?.latitude,
-    lon: options.coordinates?.longitude,
+    lat: options.coordinates?.[0],
+    lon: options.coordinates?.[1],
     radiusInMeters: options.radiusInMeters,
     topLeft: options.boundingBox ? toLatLonString(options.boundingBox.topLeft) : undefined,
     btmRight: options.boundingBox ? toLatLonString(options.boundingBox.bottomRight) : undefined,
@@ -241,7 +231,7 @@ export function mapSearchAddressResult(
       return {
         ...resultObject,
         ...(address && { address: mapAddress(address) }),
-        ...(position && { position: toLatLon(position.lat, position.lon) }),
+        ...(position && { position: [position.lat, position.lon] }),
         ...(viewport && { viewport: mapBoundingBox(viewport) }),
         ...(entryPoints && {
           entryPoints: entryPoints.map((p) => {
@@ -402,9 +392,9 @@ function createPartialQueryStringFromOptions(
         partialQuery += `&${clientToServiceNamesArray[k]}=${v.join(",")}`;
       }
     } else if (k === "coordinates") {
-      partialQuery += `&lat=${v.latitude}&lon=${v.longitude}`;
+      partialQuery += `&lat=${v[0]}&lon=${v[1]}`;
     } else if (k === "boundingBox") {
-      partialQuery += `&topLeft=${v.topLeft.latitude},${v.topLeft.longitude}&btmRight=${v.bottomRight.latitude},${v.bottomRight.longitude}`;
+      partialQuery += `&topLeft=${v.topLeft[0]},${v.topLeft[1]}&btmRight=${v.bottomRight[0]},${v.bottomRight[1]}`;
     } else {
       partialQuery += `&${k}=${v}`;
     }
@@ -419,15 +409,11 @@ export function createFuzzySearchBatchRequest(requests: FuzzySearchRequest[]): B
   return {
     batchItems: requests.map((r) => {
       const options = r.options;
-      const { query, coordinates, countryCodeFilter } = r.searchQuery as {
-        query: string;
-        coordinates?: LatLon;
-        countryCodeFilter?: string[];
-      };
+      const { query, coordinates, countryCodeFilter } = r.searchQuery;
       // Add top level query parameters
       let queryText = `?query=${query}`;
       if (coordinates) {
-        queryText += `&lat=${coordinates.latitude}&lon=${coordinates.longitude}`;
+        queryText += `&lat=${coordinates[0]}&lon=${coordinates[1]}`;
       }
       if (countryCodeFilter && countryCodeFilter.length > 0) {
         queryText += `&countrySet=${countryCodeFilter.join(",")}`;
@@ -470,7 +456,7 @@ export function createReverseSearchAddressBatchRequest(
   return {
     batchItems: requests.map((r) => {
       // Add top level query parameters
-      let queryText = `?query=${r.coordinates.latitude},${r.coordinates.longitude}`;
+      let queryText = `?query=${r.coordinates[0]},${r.coordinates[1]}`;
 
       // Add optional query parameters
       if (r.options) {

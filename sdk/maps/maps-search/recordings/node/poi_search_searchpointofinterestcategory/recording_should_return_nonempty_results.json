@@ -8,30 +8,30 @@
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "eed80c25-e096-4c70-81ef-486c1185bce9"
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1089-azure)",
+        "x-ms-client-request-id": "6ac4785b-c9ff-4a8b-b39c-724bf4c4fa41"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "10908",
+        "Content-Length": "10933",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 28 Jul 2022 03:28:01 GMT",
+        "Date": "Mon, 05 Sep 2022 08:45:30 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-azuremaps-region": "West US 2",
-        "X-MSEdge-Ref": "Ref A: A63A8E59DCD040408C8DF22D099702B0 Ref B: TYBEDGE0407 Ref C: 2022-07-28T03:28:01Z"
+        "x-ms-azuremaps-region": "West Europe",
+        "X-MSEdge-Ref": "Ref A: D2AECBF3A2A1434BA3B0C6CD4BC5C370 Ref B: SG1EDGE0311 Ref C: 2022-09-05T08:45:30Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "restaurant",
           "queryType": "NON_NEAR",
-          "queryTime": 473,
+          "queryTime": 440,
           "numResults": 10,
           "offset": 0,
-          "totalResults": 6445029,
+          "totalResults": 6444355,
           "fuzzyLevel": 1,
           "geoBias": {
             "lat": 47.606038,
@@ -64,11 +64,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "pizza"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "pizza"
                     }
                   ]
                 }
@@ -138,11 +138,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "sushi"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "sushi"
                     }
                   ]
                 }
@@ -213,11 +213,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "french"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "french"
                     }
                   ]
                 }
@@ -357,11 +357,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "sushi"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "sushi"
                     }
                   ]
                 }
@@ -707,21 +707,22 @@
           },
           {
             "type": "POI",
-            "id": "840531000518724",
+            "id": "840531000475812",
             "score": 2.5745222569,
             "dist": 129.68130419307732,
-            "info": "search:ta:840531000518724-US",
+            "info": "search:ta:840531000475812-US",
             "poi": {
-              "name": "Sister\u0027s Garden Caf\u00E9",
-              "phone": "\u002B1 206-467-5608",
+              "name": "Atlantic Street Pizza",
+              "phone": "\u002B1 206-624-7200",
               "categorySet": [
                 {
-                  "id": 7315143
+                  "id": 7315036
                 }
               ],
+              "url": "atlanticstreetpizza.com/",
               "categories": [
-                "restaurant",
-                "salad bar"
+                "pizza",
+                "restaurant"
               ],
               "classifications": [
                 {
@@ -729,11 +730,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "salad bar"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "pizza"
                     }
                   ]
                 }

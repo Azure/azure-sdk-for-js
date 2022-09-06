@@ -1,0 +1,2382 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://atlas.microsoft.com/search/fuzzy/batch/json?api-version=1.0",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Content-Length": "149",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "subscription-key": "azure_maps_subscription_key",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "e4fd1948-673d-46eb-a02c-4319353ec021",
+        "x-ms-useragent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "batchItems": [
+          {
+            "query": "?query=pizza\u0026countrySet=fr"
+          },
+          {
+            "query": "?query=pizza\u0026lat=25\u0026lon=121"
+          },
+          {
+            "query": "?query=pizza\u0026lat=25\u0026lon=121\u0026countrySet=tw"
+          }
+        ]
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Content-Length": "2",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 05 Sep 2022 08:45:50 GMT",
+        "Location": "https://atlas.microsoft.com/search/fuzzy/batch/6de0066a-9c66-42ad-8eb1-777c904307cf?api-version=1.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-azuremaps-region": "West Europe",
+        "X-MSEdge-Ref": "Ref A: C3C2023BFF9D43BAA135E978F9DDADA9 Ref B: SIN30EDGE0114 Ref C: 2022-09-05T08:45:51Z"
+      },
+      "ResponseBody": "\u0022\u0022"
+    },
+    {
+      "RequestUri": "https://atlas.microsoft.com/search/fuzzy/batch/6de0066a-9c66-42ad-8eb1-777c904307cf?api-version=1.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "subscription-key": "azure_maps_subscription_key",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "0b7eafb5-d0e3-4c45-b2c4-63a624ef278f",
+        "x-ms-useragent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json",
+        "Date": "Mon, 05 Sep 2022 08:45:50 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-azuremaps-region": "West Europe",
+        "X-MSEdge-Ref": "Ref A: 20665EC572FE4FA1822C2DB7242B361D Ref B: SIN30EDGE0114 Ref C: 2022-09-05T08:45:51Z"
+      },
+      "ResponseBody": {
+        "batchItems": [
+          {
+            "statusCode": 200,
+            "response": {
+              "summary": {
+                "query": "pizza",
+                "queryType": "NON_NEAR",
+                "queryTime": 9,
+                "numResults": 10,
+                "offset": 0,
+                "totalResults": 19829,
+                "fuzzyLevel": 1
+              },
+              "results": [
+                {
+                  "type": "POI",
+                  "id": "250009036854579",
+                  "score": 2.1454398632,
+                  "info": "search:ta:250009036854579-FR",
+                  "poi": {
+                    "name": "Gaston Pizza",
+                    "phone": "\u002B33 6 09 58 54 73",
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "url": "gastonpizza.free.fr",
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "128",
+                    "streetName": "Rue de la Lironde",
+                    "municipality": "Montpellier",
+                    "countrySecondarySubdivision": "H\u00E9rault",
+                    "countrySubdivision": "Occitanie",
+                    "postalCode": "34090",
+                    "countryCode": "FR",
+                    "country": "France",
+                    "countryCodeISO3": "FRA",
+                    "freeformAddress": "128 Rue de la Lironde, 34090 Montpellier",
+                    "localName": "Montpellier"
+                  },
+                  "position": {
+                    "lat": 43.64287,
+                    "lon": 3.84559
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 43.64377,
+                      "lon": 3.84435
+                    },
+                    "btmRightPoint": {
+                      "lat": 43.64197,
+                      "lon": 3.84683
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 43.64285,
+                        "lon": 3.84575
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "250009036647391",
+                  "score": 2.1454398632,
+                  "info": "search:ta:250009036647391-FR",
+                  "poi": {
+                    "name": "La Pizza du Village",
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "223",
+                    "streetName": "Chemin de Galet",
+                    "municipality": "Saint-Geni\u00E8s-de-Comolas",
+                    "countrySecondarySubdivision": "Gard",
+                    "countrySubdivision": "Occitanie",
+                    "postalCode": "30150",
+                    "countryCode": "FR",
+                    "country": "France",
+                    "countryCodeISO3": "FRA",
+                    "freeformAddress": "223 Chemin de Galet, 30150 Saint-Geni\u00E8s-de-Comolas",
+                    "localName": "Saint-Geni\u00E8s-de-Comolas"
+                  },
+                  "position": {
+                    "lat": 44.07099,
+                    "lon": 4.71958
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 44.07189,
+                      "lon": 4.71833
+                    },
+                    "btmRightPoint": {
+                      "lat": 44.07009,
+                      "lon": 4.72083
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 44.07099,
+                        "lon": 4.7197
+                      }
+                    },
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 44.07098,
+                        "lon": 4.7197
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "250009013500131",
+                  "score": 2.1454398632,
+                  "info": "search:ta:250009013500131-FR",
+                  "poi": {
+                    "name": "Tropikal Pizza",
+                    "phone": "\u002B33 4 67 42 41 49",
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetName": "Route de Saint-Paul",
+                    "municipality": "Montarnaud",
+                    "countrySecondarySubdivision": "H\u00E9rault",
+                    "countrySubdivision": "Occitanie",
+                    "postalCode": "34570",
+                    "countryCode": "FR",
+                    "country": "France",
+                    "countryCodeISO3": "FRA",
+                    "freeformAddress": "Route de Saint-Paul, 34570 Montarnaud",
+                    "localName": "Montarnaud"
+                  },
+                  "position": {
+                    "lat": 43.64285,
+                    "lon": 3.69576
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 43.64375,
+                      "lon": 3.69452
+                    },
+                    "btmRightPoint": {
+                      "lat": 43.64195,
+                      "lon": 3.697
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 43.64289,
+                        "lon": 3.69588
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "250009011125659",
+                  "score": 2.1454398632,
+                  "info": "search:ta:250009011125659-FR",
+                  "poi": {
+                    "name": "Pat \u0026 Pizz",
+                    "phone": "\u002B33 5 61 34 98 80",
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "70 B",
+                    "streetName": "Boulevard Deltour",
+                    "municipality": "Toulouse",
+                    "countrySecondarySubdivision": "Haute-Garonne",
+                    "countrySubdivision": "Occitanie",
+                    "postalCode": "31500",
+                    "countryCode": "FR",
+                    "country": "France",
+                    "countryCodeISO3": "FRA",
+                    "freeformAddress": "70 B Boulevard Deltour, 31500 Toulouse",
+                    "localName": "Toulouse"
+                  },
+                  "position": {
+                    "lat": 43.59641,
+                    "lon": 1.47334
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 43.59731,
+                      "lon": 1.4721
+                    },
+                    "btmRightPoint": {
+                      "lat": 43.59551,
+                      "lon": 1.47458
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 43.59638,
+                        "lon": 1.47322
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "250009003994160",
+                  "score": 2.1454398632,
+                  "info": "search:ta:250009003994160-FR",
+                  "poi": {
+                    "name": "La Caverne",
+                    "phone": "\u002B33 5 62 91 53 74",
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetName": "Avenue du Tourmalet",
+                    "municipalitySubdivision": "La Mongie",
+                    "municipality": "Bagn\u00E8res-de-Bigorre",
+                    "countrySecondarySubdivision": "Hautes-Pyr\u00E9n\u00E9es",
+                    "countrySubdivision": "Occitanie",
+                    "postalCode": "65200",
+                    "countryCode": "FR",
+                    "country": "France",
+                    "countryCodeISO3": "FRA",
+                    "freeformAddress": "Avenue du Tourmalet, 65200 Bagn\u00E8res-de-Bigorre",
+                    "localName": "Bagn\u00E8res-de-Bigorre"
+                  },
+                  "position": {
+                    "lat": 42.91037,
+                    "lon": 0.17396
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 42.91127,
+                      "lon": 0.17273
+                    },
+                    "btmRightPoint": {
+                      "lat": 42.90947,
+                      "lon": 0.17519
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 42.91045,
+                        "lon": 0.17392
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "250009012600615",
+                  "score": 2.1454398632,
+                  "info": "search:ta:250009012600615-FR",
+                  "poi": {
+                    "name": "Pizzeria Montpizzat",
+                    "phone": "\u002B33 6 11 48 29 85",
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "8 B",
+                    "streetName": "Rue des \u00C9coles",
+                    "municipality": "Montpezat",
+                    "countrySecondarySubdivision": "Gard",
+                    "countrySubdivision": "Occitanie",
+                    "postalCode": "30730",
+                    "countryCode": "FR",
+                    "country": "France",
+                    "countryCodeISO3": "FRA",
+                    "freeformAddress": "8 B Rue des \u00C9coles, 30730 Montpezat",
+                    "localName": "Montpezat"
+                  },
+                  "position": {
+                    "lat": 43.85124,
+                    "lon": 4.15743
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 43.85214,
+                      "lon": 4.15618
+                    },
+                    "btmRightPoint": {
+                      "lat": 43.85034,
+                      "lon": 4.15868
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 43.85129,
+                        "lon": 4.1573
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "250009008015440",
+                  "score": 2.1454398632,
+                  "info": "search:ta:250009008015440-FR",
+                  "poi": {
+                    "name": "Pizza Saint-Eloi",
+                    "phone": "\u002B33 4 67 61 97 74",
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "5",
+                    "streetName": "Rue Henri Dunant",
+                    "municipality": "Montpellier",
+                    "countrySecondarySubdivision": "H\u00E9rault",
+                    "countrySubdivision": "Occitanie",
+                    "postalCode": "34090",
+                    "countryCode": "FR",
+                    "country": "France",
+                    "countryCodeISO3": "FRA",
+                    "freeformAddress": "5 Rue Henri Dunant, 34090 Montpellier",
+                    "localName": "Montpellier"
+                  },
+                  "position": {
+                    "lat": 43.62685,
+                    "lon": 3.86832
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 43.62775,
+                      "lon": 3.86708
+                    },
+                    "btmRightPoint": {
+                      "lat": 43.62595,
+                      "lon": 3.86956
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 43.62676,
+                        "lon": 3.86835
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "250009003264072",
+                  "score": 2.1454398632,
+                  "info": "search:ta:250009003264072-FR",
+                  "poi": {
+                    "name": "Pizz-Burger",
+                    "phone": "\u002B33 4 95 27 81 06",
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "18",
+                    "streetName": "Rue de la Mis\u00E9ricorde",
+                    "municipality": "Propriano",
+                    "countrySecondarySubdivision": "Southern Corsica",
+                    "countrySubdivision": "Corsica",
+                    "postalCode": "20110",
+                    "countryCode": "FR",
+                    "country": "France",
+                    "countryCodeISO3": "FRA",
+                    "freeformAddress": "18 Rue de la Mis\u00E9ricorde, 20110 Propriano",
+                    "localName": "Propriano"
+                  },
+                  "position": {
+                    "lat": 41.67604,
+                    "lon": 8.90551
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 41.67694,
+                      "lon": 8.90431
+                    },
+                    "btmRightPoint": {
+                      "lat": 41.67514,
+                      "lon": 8.90671
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 41.67602,
+                        "lon": 8.9054
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "250009008185529",
+                  "score": 2.1454398632,
+                  "info": "search:ta:250009008185529-FR",
+                  "poi": {
+                    "name": "Restaurant A Casuccia",
+                    "phone": "\u002B33 4 95 47 11 28",
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetName": "Rampe de la Fontaine",
+                    "municipality": "Corte",
+                    "countrySecondarySubdivision": "Haute-Corse",
+                    "countrySubdivision": "Corse",
+                    "postalCode": "20250",
+                    "countryCode": "FR",
+                    "country": "France",
+                    "countryCodeISO3": "FRA",
+                    "freeformAddress": "Rampe de la Fontaine, 20250 Corte",
+                    "localName": "Corte"
+                  },
+                  "position": {
+                    "lat": 42.30528,
+                    "lon": 9.14989
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 42.30618,
+                      "lon": 9.14867
+                    },
+                    "btmRightPoint": {
+                      "lat": 42.30438,
+                      "lon": 9.15111
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 42.30545,
+                        "lon": 9.1498
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "250009012769757",
+                  "score": 2.1454398632,
+                  "info": "search:ta:250009012769757-FR",
+                  "poi": {
+                    "name": "Pizza de la Gare",
+                    "phone": "\u002B33 4 95 32 37 65",
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetName": "Rue Jacques Faggianelli",
+                    "municipality": "Bastia",
+                    "countrySecondarySubdivision": "Haute-Corse",
+                    "countrySubdivision": "Corse",
+                    "postalCode": "20600",
+                    "countryCode": "FR",
+                    "country": "France",
+                    "countryCodeISO3": "FRA",
+                    "freeformAddress": "Rue Jacques Faggianelli, 20600 Bastia",
+                    "localName": "Bastia"
+                  },
+                  "position": {
+                    "lat": 42.69764,
+                    "lon": 9.45064
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 42.69854,
+                      "lon": 9.44942
+                    },
+                    "btmRightPoint": {
+                      "lat": 42.69674,
+                      "lon": 9.45186
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 42.69759,
+                        "lon": 9.45064
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "statusCode": 200,
+            "response": {
+              "summary": {
+                "query": "pizza",
+                "queryType": "NON_NEAR",
+                "queryTime": 7,
+                "numResults": 10,
+                "offset": 0,
+                "totalResults": 377233,
+                "fuzzyLevel": 1,
+                "geoBias": {
+                  "lat": 25,
+                  "lon": 121
+                }
+              },
+              "results": [
+                {
+                  "type": "POI",
+                  "id": "158009002150213",
+                  "score": 2.5349826813,
+                  "dist": 11334.911817378865,
+                  "info": "search:ta:158009002150213-TW",
+                  "poi": {
+                    "name": "Pizza Hut Hsinchu Hukou Store",
+                    "phone": "\u002B886 3 590 6000",
+                    "brands": [
+                      {
+                        "name": "Pizza Hut"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "79",
+                    "streetName": "Chenggong Road",
+                    "municipalitySubdivision": "Hukou Township",
+                    "municipality": "Hsinchu County",
+                    "countrySubdivision": "Taiwan",
+                    "postalCode": "303",
+                    "extendedPostalCode": "30344",
+                    "countryCode": "TW",
+                    "country": "Taiwan",
+                    "countryCodeISO3": "TWN",
+                    "freeformAddress": "79, Chenggong Road, Hukou Township, Hsinchu County 30344",
+                    "localName": "Hukou Township"
+                  },
+                  "position": {
+                    "lat": 24.90622,
+                    "lon": 121.04407
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 24.90712,
+                      "lon": 121.04308
+                    },
+                    "btmRightPoint": {
+                      "lat": 24.90532,
+                      "lon": 121.04506
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 24.90617,
+                        "lon": 121.04415
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "158009002168123",
+                  "score": 2.5341627598,
+                  "dist": 11457.765315943818,
+                  "info": "search:ta:158009002168123-TW",
+                  "poi": {
+                    "name": "Pizza Hut Taoyuan Xinwu Store",
+                    "phone": "\u002B886 3 497 0856",
+                    "brands": [
+                      {
+                        "name": "Pizza Hut"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "166",
+                    "streetName": "Zhongshan Road",
+                    "municipalitySubdivision": "Xinwu District",
+                    "municipality": "Taoyuan City",
+                    "countrySubdivision": "Taoyuan City",
+                    "postalCode": "327",
+                    "extendedPostalCode": "32748",
+                    "countryCode": "TW",
+                    "country": "Taiwan",
+                    "countryCodeISO3": "TWN",
+                    "freeformAddress": "166, Zhongshan Road, Xinwu District, Taoyuan City 32748",
+                    "localName": "Xinwu District"
+                  },
+                  "position": {
+                    "lat": 24.97186,
+                    "lon": 121.10936
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 24.97276,
+                      "lon": 121.10837
+                    },
+                    "btmRightPoint": {
+                      "lat": 24.97096,
+                      "lon": 121.11035
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 24.97178,
+                        "lon": 121.1093
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "158009002154753",
+                  "score": 2.5293753147,
+                  "dist": 12155.128902623723,
+                  "info": "search:ta:158009002154753-TW",
+                  "poi": {
+                    "name": "Domino\u0027s Pizza Hukou Zhongzheng Restaurant",
+                    "phone": "\u002B886 3 590 5000",
+                    "brands": [
+                      {
+                        "name": "Domino\u0027s"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "219",
+                    "streetName": "Zhongzheng Road Section 1",
+                    "municipalitySubdivision": "Hukou Township",
+                    "municipality": "Hsinchu County",
+                    "countrySubdivision": "Taiwan",
+                    "postalCode": "303",
+                    "extendedPostalCode": "30342",
+                    "countryCode": "TW",
+                    "country": "Taiwan",
+                    "countryCodeISO3": "TWN",
+                    "freeformAddress": "219, Zhongzheng Road Section 1, Hukou Township, Hsinchu County 30342",
+                    "localName": "Hukou Township"
+                  },
+                  "position": {
+                    "lat": 24.89952,
+                    "lon": 121.04748
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 24.90042,
+                      "lon": 121.04649
+                    },
+                    "btmRightPoint": {
+                      "lat": 24.89862,
+                      "lon": 121.04847
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 24.89949,
+                        "lon": 121.04738
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "158009002155612",
+                  "score": 2.5136375427,
+                  "dist": 14260.600898438535,
+                  "info": "search:ta:158009002155612-TW",
+                  "poi": {
+                    "name": "Pizza Hut Taoyuan Guanyin Store",
+                    "phone": "\u002B886 3 498 2118",
+                    "brands": [
+                      {
+                        "name": "Pizza Hut"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "907",
+                    "streetName": "Zhongshan Road Section 2",
+                    "municipalitySubdivision": "Guanyin District",
+                    "municipality": "Taoyuan City",
+                    "countrySubdivision": "Taoyuan City",
+                    "postalCode": "328",
+                    "extendedPostalCode": "32848",
+                    "countryCode": "TW",
+                    "country": "Taiwan",
+                    "countryCodeISO3": "TWN",
+                    "freeformAddress": "907, Zhongshan Road Section 2, Guanyin District, Taoyuan City 32848",
+                    "localName": "Guanyin District"
+                  },
+                  "position": {
+                    "lat": 25.0099,
+                    "lon": 121.14109
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 25.0108,
+                      "lon": 121.1401
+                    },
+                    "btmRightPoint": {
+                      "lat": 25.009,
+                      "lon": 121.14208
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 25.00982,
+                        "lon": 121.14104
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "158009002165414",
+                  "score": 2.5127086639,
+                  "dist": 14377.7749022998,
+                  "info": "search:ta:158009002165414-TW",
+                  "poi": {
+                    "name": "Domino\u0027s Pizza Guanyin Xinpo Store",
+                    "phone": "\u002B886 3 498 5822",
+                    "brands": [
+                      {
+                        "name": "Domino\u0027s"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "967",
+                    "streetName": "Zhongshan Road Section 2",
+                    "municipalitySubdivision": "Guanyin District",
+                    "municipality": "Taoyuan City",
+                    "countrySubdivision": "Taoyuan City",
+                    "postalCode": "328",
+                    "countryCode": "TW",
+                    "country": "Taiwan",
+                    "countryCodeISO3": "TWN",
+                    "freeformAddress": "967, Zhongshan Road Section 2, Guanyin District, Taoyuan City 328",
+                    "localName": "Guanyin District"
+                  },
+                  "position": {
+                    "lat": 25.00911,
+                    "lon": 121.14232
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 25.01001,
+                      "lon": 121.14133
+                    },
+                    "btmRightPoint": {
+                      "lat": 25.00821,
+                      "lon": 121.14331
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 25.00902,
+                        "lon": 121.14225
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "158009001318102",
+                  "score": 2.5112905502,
+                  "dist": 14555.434957206897,
+                  "info": "search:ta:158009001318102-TW",
+                  "poi": {
+                    "name": "\u62FF\u5761\u91CC\u65B0\u8C50\u5E97",
+                    "phone": "\u002B886 3 559 0588",
+                    "brands": [
+                      {
+                        "name": "Napoli"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "189-1",
+                    "streetName": "Xinxing Road",
+                    "municipalitySubdivision": "Xinfeng Township",
+                    "municipality": "Hsinchu County",
+                    "countrySubdivision": "Taiwan",
+                    "postalCode": "304",
+                    "countryCode": "TW",
+                    "country": "Taiwan",
+                    "countryCodeISO3": "TWN",
+                    "freeformAddress": "189-1, Xinxing Road, Xinfeng Township, Hsinchu County 304",
+                    "localName": "Xinfeng Township"
+                  },
+                  "position": {
+                    "lat": 24.86917,
+                    "lon": 120.99528
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 24.87007,
+                      "lon": 120.99429
+                    },
+                    "btmRightPoint": {
+                      "lat": 24.86827,
+                      "lon": 120.99627
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 24.86907,
+                        "lon": 120.99537
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "158009002152801",
+                  "score": 2.5109858513,
+                  "dist": 14593.43338675432,
+                  "info": "search:ta:158009002152801-TW",
+                  "poi": {
+                    "name": "Pizza Hut Hsinchu Xinfeng Store",
+                    "phone": "\u002B886 3 559 9111",
+                    "brands": [
+                      {
+                        "name": "Pizza Hut"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "171",
+                    "streetName": "Xinxing Road",
+                    "municipalitySubdivision": "Xinfeng Township",
+                    "municipality": "Hsinchu County",
+                    "countrySubdivision": "Taiwan",
+                    "postalCode": "304",
+                    "extendedPostalCode": "30444",
+                    "countryCode": "TW",
+                    "country": "Taiwan",
+                    "countryCodeISO3": "TWN",
+                    "freeformAddress": "171, Xinxing Road, Xinfeng Township, Hsinchu County 30444",
+                    "localName": "Xinfeng Township"
+                  },
+                  "position": {
+                    "lat": 24.86885,
+                    "lon": 120.99459
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 24.86975,
+                      "lon": 120.9936
+                    },
+                    "btmRightPoint": {
+                      "lat": 24.86795,
+                      "lon": 120.99558
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 24.86864,
+                        "lon": 120.99483
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "158009001725073",
+                  "score": 2.5108249187,
+                  "dist": 14613.472220701267,
+                  "info": "search:ta:158009001725073-TW",
+                  "poi": {
+                    "name": "\u6BD4\u85A9\u5BB6\u65CF50\u5143\u6BD4\u85A9 \u65B0\u7AF9\u65B0\u8C50\u5E97",
+                    "phone": "\u002B886 3 559 9095",
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "171",
+                    "streetName": "Xinxing Road",
+                    "municipalitySubdivision": "Xinfeng Township",
+                    "municipality": "Hsinchu County",
+                    "countrySubdivision": "Taiwan",
+                    "postalCode": "304",
+                    "extendedPostalCode": "30444",
+                    "countryCode": "TW",
+                    "country": "Taiwan",
+                    "countryCodeISO3": "TWN",
+                    "freeformAddress": "171, Xinxing Road, Xinfeng Township, Hsinchu County 30444",
+                    "localName": "Xinfeng Township"
+                  },
+                  "position": {
+                    "lat": 24.86867,
+                    "lon": 120.99458
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 24.86957,
+                      "lon": 120.99359
+                    },
+                    "btmRightPoint": {
+                      "lat": 24.86777,
+                      "lon": 120.99557
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 24.86854,
+                        "lon": 120.9947
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "158009002166980",
+                  "score": 2.5100557804,
+                  "dist": 14708.95915754533,
+                  "info": "search:ta:158009002166980-TW",
+                  "poi": {
+                    "name": "Domino\u0027s Pizza Xinfeng Xinxing Restaurant",
+                    "phone": "\u002B886 3 557 6611",
+                    "brands": [
+                      {
+                        "name": "Domino\u0027s Pizza"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "146-15",
+                    "streetName": "Xinxing Road",
+                    "municipalitySubdivision": "Xinfeng Township",
+                    "municipality": "Hsinchu County",
+                    "countrySubdivision": "Taiwan",
+                    "postalCode": "304",
+                    "extendedPostalCode": "30444",
+                    "countryCode": "TW",
+                    "country": "Taiwan",
+                    "countryCodeISO3": "TWN",
+                    "freeformAddress": "146-15, Xinxing Road, Xinfeng Township, Hsinchu County 30444",
+                    "localName": "Xinfeng Township"
+                  },
+                  "position": {
+                    "lat": 24.86782,
+                    "lon": 120.99431
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 24.86872,
+                      "lon": 120.99332
+                    },
+                    "btmRightPoint": {
+                      "lat": 24.86692,
+                      "lon": 120.9953
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 24.86797,
+                        "lon": 120.99415
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "158009001316049",
+                  "score": 2.4848582745,
+                  "dist": 17649.691992150107,
+                  "info": "search:ta:158009001316049-TW",
+                  "poi": {
+                    "name": "\u62FF\u5761\u91CC\u694A\u6885\u5E97",
+                    "phone": "\u002B886 3 475 0200",
+                    "brands": [
+                      {
+                        "name": "Napoli"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "184",
+                    "streetName": "Dacheng Road",
+                    "municipalitySubdivision": "Yangmei District",
+                    "municipality": "Taoyuan City",
+                    "countrySubdivision": "Taoyuan City",
+                    "postalCode": "326",
+                    "extendedPostalCode": "32643",
+                    "countryCode": "TW",
+                    "country": "Taiwan",
+                    "countryCodeISO3": "TWN",
+                    "freeformAddress": "184, Dacheng Road, Yangmei District, Taoyuan City 32643",
+                    "localName": "Yangmei District"
+                  },
+                  "position": {
+                    "lat": 24.91224,
+                    "lon": 121.14588
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 24.91314,
+                      "lon": 121.14489
+                    },
+                    "btmRightPoint": {
+                      "lat": 24.91134,
+                      "lon": 121.14687
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 24.91224,
+                        "lon": 121.14578
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "statusCode": 200,
+            "response": {
+              "summary": {
+                "query": "pizza",
+                "queryType": "NON_NEAR",
+                "queryTime": 8,
+                "numResults": 10,
+                "offset": 0,
+                "totalResults": 1034,
+                "fuzzyLevel": 1,
+                "geoBias": {
+                  "lat": 25,
+                  "lon": 121
+                }
+              },
+              "results": [
+                {
+                  "type": "POI",
+                  "id": "158009002150213",
+                  "score": 2.5349826813,
+                  "dist": 11334.911817378865,
+                  "info": "search:ta:158009002150213-TW",
+                  "poi": {
+                    "name": "Pizza Hut Hsinchu Hukou Store",
+                    "phone": "\u002B886 3 590 6000",
+                    "brands": [
+                      {
+                        "name": "Pizza Hut"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "79",
+                    "streetName": "Chenggong Road",
+                    "municipalitySubdivision": "Hukou Township",
+                    "municipality": "Hsinchu County",
+                    "countrySubdivision": "Taiwan",
+                    "postalCode": "303",
+                    "extendedPostalCode": "30344",
+                    "countryCode": "TW",
+                    "country": "Taiwan",
+                    "countryCodeISO3": "TWN",
+                    "freeformAddress": "79, Chenggong Road, Hukou Township, Hsinchu County 30344",
+                    "localName": "Hukou Township"
+                  },
+                  "position": {
+                    "lat": 24.90622,
+                    "lon": 121.04407
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 24.90712,
+                      "lon": 121.04308
+                    },
+                    "btmRightPoint": {
+                      "lat": 24.90532,
+                      "lon": 121.04506
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 24.90617,
+                        "lon": 121.04415
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "158009002168123",
+                  "score": 2.5341627598,
+                  "dist": 11457.765315943818,
+                  "info": "search:ta:158009002168123-TW",
+                  "poi": {
+                    "name": "Pizza Hut Taoyuan Xinwu Store",
+                    "phone": "\u002B886 3 497 0856",
+                    "brands": [
+                      {
+                        "name": "Pizza Hut"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "166",
+                    "streetName": "Zhongshan Road",
+                    "municipalitySubdivision": "Xinwu District",
+                    "municipality": "Taoyuan City",
+                    "countrySubdivision": "Taoyuan City",
+                    "postalCode": "327",
+                    "extendedPostalCode": "32748",
+                    "countryCode": "TW",
+                    "country": "Taiwan",
+                    "countryCodeISO3": "TWN",
+                    "freeformAddress": "166, Zhongshan Road, Xinwu District, Taoyuan City 32748",
+                    "localName": "Xinwu District"
+                  },
+                  "position": {
+                    "lat": 24.97186,
+                    "lon": 121.10936
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 24.97276,
+                      "lon": 121.10837
+                    },
+                    "btmRightPoint": {
+                      "lat": 24.97096,
+                      "lon": 121.11035
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 24.97178,
+                        "lon": 121.1093
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "158009002154753",
+                  "score": 2.5293753147,
+                  "dist": 12155.128902623723,
+                  "info": "search:ta:158009002154753-TW",
+                  "poi": {
+                    "name": "Domino\u0027s Pizza Hukou Zhongzheng Restaurant",
+                    "phone": "\u002B886 3 590 5000",
+                    "brands": [
+                      {
+                        "name": "Domino\u0027s"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "219",
+                    "streetName": "Zhongzheng Road Section 1",
+                    "municipalitySubdivision": "Hukou Township",
+                    "municipality": "Hsinchu County",
+                    "countrySubdivision": "Taiwan",
+                    "postalCode": "303",
+                    "extendedPostalCode": "30342",
+                    "countryCode": "TW",
+                    "country": "Taiwan",
+                    "countryCodeISO3": "TWN",
+                    "freeformAddress": "219, Zhongzheng Road Section 1, Hukou Township, Hsinchu County 30342",
+                    "localName": "Hukou Township"
+                  },
+                  "position": {
+                    "lat": 24.89952,
+                    "lon": 121.04748
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 24.90042,
+                      "lon": 121.04649
+                    },
+                    "btmRightPoint": {
+                      "lat": 24.89862,
+                      "lon": 121.04847
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 24.89949,
+                        "lon": 121.04738
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "158009002155612",
+                  "score": 2.5136375427,
+                  "dist": 14260.600898438535,
+                  "info": "search:ta:158009002155612-TW",
+                  "poi": {
+                    "name": "Pizza Hut Taoyuan Guanyin Store",
+                    "phone": "\u002B886 3 498 2118",
+                    "brands": [
+                      {
+                        "name": "Pizza Hut"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "907",
+                    "streetName": "Zhongshan Road Section 2",
+                    "municipalitySubdivision": "Guanyin District",
+                    "municipality": "Taoyuan City",
+                    "countrySubdivision": "Taoyuan City",
+                    "postalCode": "328",
+                    "extendedPostalCode": "32848",
+                    "countryCode": "TW",
+                    "country": "Taiwan",
+                    "countryCodeISO3": "TWN",
+                    "freeformAddress": "907, Zhongshan Road Section 2, Guanyin District, Taoyuan City 32848",
+                    "localName": "Guanyin District"
+                  },
+                  "position": {
+                    "lat": 25.0099,
+                    "lon": 121.14109
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 25.0108,
+                      "lon": 121.1401
+                    },
+                    "btmRightPoint": {
+                      "lat": 25.009,
+                      "lon": 121.14208
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 25.00982,
+                        "lon": 121.14104
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "158009002165414",
+                  "score": 2.5127086639,
+                  "dist": 14377.7749022998,
+                  "info": "search:ta:158009002165414-TW",
+                  "poi": {
+                    "name": "Domino\u0027s Pizza Guanyin Xinpo Store",
+                    "phone": "\u002B886 3 498 5822",
+                    "brands": [
+                      {
+                        "name": "Domino\u0027s"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "967",
+                    "streetName": "Zhongshan Road Section 2",
+                    "municipalitySubdivision": "Guanyin District",
+                    "municipality": "Taoyuan City",
+                    "countrySubdivision": "Taoyuan City",
+                    "postalCode": "328",
+                    "countryCode": "TW",
+                    "country": "Taiwan",
+                    "countryCodeISO3": "TWN",
+                    "freeformAddress": "967, Zhongshan Road Section 2, Guanyin District, Taoyuan City 328",
+                    "localName": "Guanyin District"
+                  },
+                  "position": {
+                    "lat": 25.00911,
+                    "lon": 121.14232
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 25.01001,
+                      "lon": 121.14133
+                    },
+                    "btmRightPoint": {
+                      "lat": 25.00821,
+                      "lon": 121.14331
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 25.00902,
+                        "lon": 121.14225
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "158009001318102",
+                  "score": 2.5112905502,
+                  "dist": 14555.434957206897,
+                  "info": "search:ta:158009001318102-TW",
+                  "poi": {
+                    "name": "\u62FF\u5761\u91CC\u65B0\u8C50\u5E97",
+                    "phone": "\u002B886 3 559 0588",
+                    "brands": [
+                      {
+                        "name": "Napoli"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "189-1",
+                    "streetName": "Xinxing Road",
+                    "municipalitySubdivision": "Xinfeng Township",
+                    "municipality": "Hsinchu County",
+                    "countrySubdivision": "Taiwan",
+                    "postalCode": "304",
+                    "countryCode": "TW",
+                    "country": "Taiwan",
+                    "countryCodeISO3": "TWN",
+                    "freeformAddress": "189-1, Xinxing Road, Xinfeng Township, Hsinchu County 304",
+                    "localName": "Xinfeng Township"
+                  },
+                  "position": {
+                    "lat": 24.86917,
+                    "lon": 120.99528
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 24.87007,
+                      "lon": 120.99429
+                    },
+                    "btmRightPoint": {
+                      "lat": 24.86827,
+                      "lon": 120.99627
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 24.86907,
+                        "lon": 120.99537
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "158009002152801",
+                  "score": 2.5109858513,
+                  "dist": 14593.43338675432,
+                  "info": "search:ta:158009002152801-TW",
+                  "poi": {
+                    "name": "Pizza Hut Hsinchu Xinfeng Store",
+                    "phone": "\u002B886 3 559 9111",
+                    "brands": [
+                      {
+                        "name": "Pizza Hut"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "171",
+                    "streetName": "Xinxing Road",
+                    "municipalitySubdivision": "Xinfeng Township",
+                    "municipality": "Hsinchu County",
+                    "countrySubdivision": "Taiwan",
+                    "postalCode": "304",
+                    "extendedPostalCode": "30444",
+                    "countryCode": "TW",
+                    "country": "Taiwan",
+                    "countryCodeISO3": "TWN",
+                    "freeformAddress": "171, Xinxing Road, Xinfeng Township, Hsinchu County 30444",
+                    "localName": "Xinfeng Township"
+                  },
+                  "position": {
+                    "lat": 24.86885,
+                    "lon": 120.99459
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 24.86975,
+                      "lon": 120.9936
+                    },
+                    "btmRightPoint": {
+                      "lat": 24.86795,
+                      "lon": 120.99558
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 24.86864,
+                        "lon": 120.99483
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "158009001725073",
+                  "score": 2.5108249187,
+                  "dist": 14613.472220701267,
+                  "info": "search:ta:158009001725073-TW",
+                  "poi": {
+                    "name": "\u6BD4\u85A9\u5BB6\u65CF50\u5143\u6BD4\u85A9 \u65B0\u7AF9\u65B0\u8C50\u5E97",
+                    "phone": "\u002B886 3 559 9095",
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "171",
+                    "streetName": "Xinxing Road",
+                    "municipalitySubdivision": "Xinfeng Township",
+                    "municipality": "Hsinchu County",
+                    "countrySubdivision": "Taiwan",
+                    "postalCode": "304",
+                    "extendedPostalCode": "30444",
+                    "countryCode": "TW",
+                    "country": "Taiwan",
+                    "countryCodeISO3": "TWN",
+                    "freeformAddress": "171, Xinxing Road, Xinfeng Township, Hsinchu County 30444",
+                    "localName": "Xinfeng Township"
+                  },
+                  "position": {
+                    "lat": 24.86867,
+                    "lon": 120.99458
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 24.86957,
+                      "lon": 120.99359
+                    },
+                    "btmRightPoint": {
+                      "lat": 24.86777,
+                      "lon": 120.99557
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 24.86854,
+                        "lon": 120.9947
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "158009002166980",
+                  "score": 2.5100557804,
+                  "dist": 14708.95915754533,
+                  "info": "search:ta:158009002166980-TW",
+                  "poi": {
+                    "name": "Domino\u0027s Pizza Xinfeng Xinxing Restaurant",
+                    "phone": "\u002B886 3 557 6611",
+                    "brands": [
+                      {
+                        "name": "Domino\u0027s Pizza"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "146-15",
+                    "streetName": "Xinxing Road",
+                    "municipalitySubdivision": "Xinfeng Township",
+                    "municipality": "Hsinchu County",
+                    "countrySubdivision": "Taiwan",
+                    "postalCode": "304",
+                    "extendedPostalCode": "30444",
+                    "countryCode": "TW",
+                    "country": "Taiwan",
+                    "countryCodeISO3": "TWN",
+                    "freeformAddress": "146-15, Xinxing Road, Xinfeng Township, Hsinchu County 30444",
+                    "localName": "Xinfeng Township"
+                  },
+                  "position": {
+                    "lat": 24.86782,
+                    "lon": 120.99431
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 24.86872,
+                      "lon": 120.99332
+                    },
+                    "btmRightPoint": {
+                      "lat": 24.86692,
+                      "lon": 120.9953
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 24.86797,
+                        "lon": 120.99415
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "158009001316049",
+                  "score": 2.4848582745,
+                  "dist": 17649.691992150107,
+                  "info": "search:ta:158009001316049-TW",
+                  "poi": {
+                    "name": "\u62FF\u5761\u91CC\u694A\u6885\u5E97",
+                    "phone": "\u002B886 3 475 0200",
+                    "brands": [
+                      {
+                        "name": "Napoli"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 7315036
+                      }
+                    ],
+                    "categories": [
+                      "pizza",
+                      "restaurant"
+                    ],
+                    "classifications": [
+                      {
+                        "code": "RESTAURANT",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "restaurant"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "pizza"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "184",
+                    "streetName": "Dacheng Road",
+                    "municipalitySubdivision": "Yangmei District",
+                    "municipality": "Taoyuan City",
+                    "countrySubdivision": "Taoyuan City",
+                    "postalCode": "326",
+                    "extendedPostalCode": "32643",
+                    "countryCode": "TW",
+                    "country": "Taiwan",
+                    "countryCodeISO3": "TWN",
+                    "freeformAddress": "184, Dacheng Road, Yangmei District, Taoyuan City 32643",
+                    "localName": "Yangmei District"
+                  },
+                  "position": {
+                    "lat": 24.91224,
+                    "lon": 121.14588
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 24.91314,
+                      "lon": 121.14489
+                    },
+                    "btmRightPoint": {
+                      "lat": 24.91134,
+                      "lon": 121.14687
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 24.91224,
+                        "lon": 121.14578
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "summary": {
+          "successfulRequests": 3,
+          "totalRequests": 3
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

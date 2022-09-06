@@ -54,12 +54,10 @@ export interface BatchItem<TResult> {
 
 // @public
 export interface BatchPoller<TBatchResult> extends PollerLike<PollOperationState<TBatchResult>, TBatchResult> {
-    getBatchId(): string | undefined;
 }
 
 // @public
 export interface BatchPollerOptions {
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
@@ -440,12 +438,7 @@ export enum KnownSearchIndexes {
 }
 
 // @public
-export interface LatLon {
-    // (undocumented)
-    latitude: number;
-    // (undocumented)
-    longitude: number;
-}
+export type LatLon = [latitude: number, longitude: number];
 
 // @public
 export type LocalizedMapView = string;
@@ -455,14 +448,14 @@ export class MapsSearchClient {
     constructor(credential: AzureKeyCredential, options?: MapsSearchClientOptions);
     constructor(credential: TokenCredential, mapsAccountClientId: string, options?: MapsSearchClientOptions);
     beginFuzzySearchBatch(requests: FuzzySearchRequest[], options?: FuzzySearchBatchOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
-    beginGetFuzzySearchBatchResult(batchId: string, options?: FuzzySearchBatchOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
-    beginGetReverseSearchAddressBatchResult(batchId: string, options?: ReverseSearchAddressBatchOptions): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>>;
-    beginGetSearchAddressBatchResult(batchId: string, options?: SearchAddressBatchOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
     beginReverseSearchAddressBatch(requests: ReverseSearchAddressRequest[], options?: ReverseSearchAddressBatchOptions): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>>;
     beginSearchAddressBatch(requests: SearchAddressRequest[], options?: SearchAddressBatchOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
     fuzzySearch(searchQuery: SearchQuery, options?: FuzzySearchOptions & OperationOptions): Promise<SearchAddressResult>;
     getGeometries(geometryIds: string[], options?: GetGeometriesOptions): Promise<EntityGeometry[]>;
     getPointOfInterestCategories(options?: GetPointOfInterestCategoriesOptions): Promise<PointOfInterestCategory[]>;
+    resumeFuzzySearchBatch(resumeFrom: string, options?: FuzzySearchBatchOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
+    resumeReverseSearchAddressBatch(resumeFrom: string, options?: ReverseSearchAddressBatchOptions): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>>;
+    resumeSearchAddressBatch(resumeFrom: string, options: SearchAddressBatchOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
     reverseSearchAddress(coordinates: LatLon, options?: ReverseSearchAddressOptions & OperationOptions): Promise<ReverseSearchAddressResult>;
     reverseSearchCrossStreetAddress(coordinates: LatLon, options?: ReverseSearchCrossStreetAddressOptions): Promise<ReverseSearchCrossStreetAddressResult>;
     searchAddress(query: string, options?: SearchAddressOptions & OperationOptions): Promise<SearchAddressResult>;
@@ -475,7 +468,9 @@ export class MapsSearchClient {
 }
 
 // @public
-export type MapsSearchClientOptions = CommonClientOptions;
+export type MapsSearchClientOptions = CommonClientOptions & {
+    endpoint?: string;
+};
 
 // @public
 export type MatchType = string;
@@ -733,10 +728,8 @@ export type SearchPointOfInterestOptions = SearchPointOfInterestBaseOptions & Op
 // @public
 export type SearchQuery = {
     query: string;
-    coordinates: LatLon;
-} | {
-    query: string;
-    countryCodeFilter: string[];
+    coordinates?: LatLon;
+    countryCodeFilter?: string[];
 };
 
 // @public

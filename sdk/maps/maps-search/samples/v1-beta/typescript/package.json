@@ -31,12 +31,12 @@
   "dependencies": {
     "@azure/maps-search": "next",
     "dotenv": "latest",
-    "@azure/identity": "2.0.4",
-    "@azure/core-auth": "^1.3.0"
+    "@azure/core-auth": "^1.3.0",
+    "@azure/identity": "2.0.4"
   },
   "devDependencies": {
     "@types/node": "^12.0.0",
-    "typescript": "~4.4.0",
+    "typescript": "~4.6.0",
     "rimraf": "latest"
   }
 }

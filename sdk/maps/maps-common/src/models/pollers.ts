@@ -6,10 +6,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 
 /** Batch operation poller interface */
 export interface BatchPoller<TBatchResult>
-  extends PollerLike<PollOperationState<TBatchResult>, TBatchResult> {
-  /** Get the batch id for the long-running operation */
-  getBatchId(): string | undefined;
-}
+  extends PollerLike<PollOperationState<TBatchResult>, TBatchResult> {}
 
 /**
  * @internal
@@ -26,20 +23,8 @@ export class BatchPollerProxy<TBatchResult, TInternalBatchResult>
     private mapper: (res: TInternalBatchResult) => TBatchResult
   ) {}
 
-  private batchId: string | undefined;
-
   public async poll(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
     await this.internalPoller.poll(options);
-
-    // Retrieve and save batchId
-    const { state } = JSON.parse(this.internalPoller.toString());
-    const pollingUrl: string = state.pollingURL;
-    if (typeof state.pollingURL === "string") {
-      const batchIds = pollingUrl.match(/{?\w{8}-?\w{4}-?\w{4}-?\w{4}-?\w{12}}?/g);
-      if (batchIds) {
-        this.batchId = batchIds[0];
-      }
-    }
   }
 
   public async cancelOperation(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
@@ -113,10 +98,6 @@ export class BatchPollerProxy<TBatchResult, TInternalBatchResult>
       return this.mapper(result);
     }
     return undefined;
-  }
-
-  public getBatchId(): string | undefined {
-    return this.batchId;
   }
 
   public toString(): string {

@@ -16,31 +16,31 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "7529a39c-ffb4-4f8e-ab7f-c595e219e43a",
-        "x-ms-useragent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "dac83281-5af0-4966-a643-0f0edae6dd38",
+        "x-ms-useragent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "10908",
+        "Content-Length": "10931",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 28 Jul 2022 03:28:26 GMT",
+        "Date": "Mon, 05 Sep 2022 08:45:48 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-azuremaps-region": "West US 2",
-        "X-MSEdge-Ref": "Ref A: 8BD5AE55A99F4BF5A7BD8C0CD1197102 Ref B: TYO01EDGE1021 Ref C: 2022-07-28T03:28:25Z"
+        "x-ms-azuremaps-region": "West Europe",
+        "X-MSEdge-Ref": "Ref A: 13359A8CFA7348AB8E3839903365A2F2 Ref B: SIN30EDGE0114 Ref C: 2022-09-05T08:45:49Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "restaurant",
           "queryType": "NON_NEAR",
-          "queryTime": 591,
+          "queryTime": 8,
           "numResults": 10,
           "offset": 0,
-          "totalResults": 6489609,
+          "totalResults": 6488978,
           "fuzzyLevel": 1,
           "geoBias": {
             "lat": 47.606038,
@@ -73,11 +73,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "pizza"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "pizza"
                     }
                   ]
                 }
@@ -716,21 +716,22 @@
           },
           {
             "type": "POI",
-            "id": "840531000518724",
+            "id": "840531000475812",
             "score": 2.5745222569,
             "dist": 129.68130419307732,
-            "info": "search:ta:840531000518724-US",
+            "info": "search:ta:840531000475812-US",
             "poi": {
-              "name": "Sister\u0027s Garden Caf\u00E9",
-              "phone": "\u002B1 206-467-5608",
+              "name": "Atlantic Street Pizza",
+              "phone": "\u002B1 206-624-7200",
               "categorySet": [
                 {
-                  "id": 7315143
+                  "id": 7315036
                 }
               ],
+              "url": "atlanticstreetpizza.com/",
               "categories": [
-                "restaurant",
-                "salad bar"
+                "pizza",
+                "restaurant"
               ],
               "classifications": [
                 {
@@ -738,11 +739,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "salad bar"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "pizza"
                     }
                   ]
                 }

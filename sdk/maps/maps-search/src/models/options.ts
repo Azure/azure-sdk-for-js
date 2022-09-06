@@ -15,7 +15,10 @@ import {
 /**
  * Client options used to configure the Maps Search Client
  */
-export type MapsSearchClientOptions = CommonClientOptions;
+export type MapsSearchClientOptions = CommonClientOptions & {
+  /** Overrides client endpoint. Default: "https://atlas.microsoft.com"*/
+  endpoint?: string;
+};
 
 /**
  * Options for retrieving polygon geometries given geometry ids
@@ -128,9 +131,7 @@ export interface FuzzySearchBaseOptions extends SearchPointOfInterestBaseOptions
 /**
  * Fuzzy search query
  */
-export type SearchQuery =
-  | { query: string; coordinates: LatLon }
-  | { query: string; countryCodeFilter: string[] };
+export type SearchQuery = { query: string; coordinates?: LatLon; countryCodeFilter?: string[] };
 
 /**
  * Options for fuzzy search
@@ -301,10 +302,6 @@ export interface BatchPollerOptions {
    * Time between each polling in milliseconds.
    */
   updateIntervalInMs?: number;
-  /**
-   * A serialized poller, used to resume an existing operation
-   */
-  resumeFrom?: string;
 }
 
 /**

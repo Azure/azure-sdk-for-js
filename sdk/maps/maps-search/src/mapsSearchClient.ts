@@ -3,7 +3,6 @@
 
 import { AzureKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
-  BatchPoller,
   GeoJsonFeatureCollection,
   GeoJsonLineString,
   LatLon,
@@ -11,6 +10,7 @@ import {
   StructuredAddress,
 } from "./models/models";
 import {
+  BatchPoller,
   BatchPollerProxy,
   createAzureMapsKeyCredentialPolicy,
   createMapsClientIdPolicy,
@@ -56,6 +56,9 @@ import {
   SearchSearchInsideGeometryOptionalParams as SearchInsideGeometryOptionalParams,
   SearchSearchNearbyPointOfInterestOptionalParams as SearchNearbyPointOfInterestOptionalParams,
   SearchSearchStructuredAddressOptionalParams as SearchStructuredAddressOptionalParams,
+  SearchFuzzySearchBatchOptionalParams,
+  SearchSearchAddressBatchOptionalParams,
+  SearchReverseSearchAddressBatchOptionalParams,
 } from "./generated/models";
 import {
   InternalPipelineOptions,
@@ -156,7 +159,7 @@ export class MapsSearchClient {
       this.client.pipeline.addPolicy(
         bearerTokenAuthenticationPolicy({
           credential,
-          scopes: "https://atlas.microsoft.com/.default",
+          scopes: `${options.endpoint || "https://atlas.microsoft.com"}/.default`,
         })
       );
       this.client.pipeline.addPolicy(createMapsClientIdPolicy(clientId));
@@ -225,8 +228,8 @@ export class MapsSearchClient {
 
     const internalOptions = mapFuzzySearchOptions(updatedOptions);
     if (coordinates) {
-      internalOptions.lat = coordinates.latitude;
-      internalOptions.lon = coordinates.longitude;
+      internalOptions.lat = coordinates[0];
+      internalOptions.lon = coordinates[1];
     }
 
     if (countryCodeFilter) {
@@ -269,8 +272,8 @@ export class MapsSearchClient {
 
     const internalOptions = mapSearchPointOfInterestOptions(updatedOptions);
     if (coordinates) {
-      internalOptions.lat = coordinates.latitude;
-      internalOptions.lon = coordinates.longitude;
+      internalOptions.lat = coordinates[0];
+      internalOptions.lon = coordinates[1];
     }
 
     if (countryCodeFilter) {
@@ -312,8 +315,8 @@ export class MapsSearchClient {
     try {
       const result = await this.client.search.searchNearbyPointOfInterest(
         this.defaultFormat,
-        coordinates.latitude,
-        coordinates.longitude,
+        coordinates[0],
+        coordinates[1],
         internalOptions
       );
       return mapSearchAddressResult(result);
@@ -349,8 +352,8 @@ export class MapsSearchClient {
     };
     const internalOptions = mapSearchPointOfInterestOptions(updatedOptions);
     if (coordinates) {
-      internalOptions.lat = coordinates.latitude;
-      internalOptions.lon = coordinates.longitude;
+      internalOptions.lat = coordinates[0];
+      internalOptions.lon = coordinates[1];
     }
 
     if (countryCodeFilter) {
@@ -449,7 +452,7 @@ export class MapsSearchClient {
     try {
       const result = await this.client.search.reverseSearchAddress(
         this.defaultFormat,
-        [coordinates.latitude, coordinates.longitude],
+        [coordinates[0], coordinates[1]],
         internalOptions
       );
       return mapReverseSearchAddressResult(result);
@@ -482,7 +485,7 @@ export class MapsSearchClient {
     try {
       const result = await this.client.search.reverseSearchCrossStreetAddress(
         this.defaultFormat,
-        [coordinates.latitude, coordinates.longitude],
+        [coordinates[0], coordinates[1]],
         internalOptions
       );
       return mapReverseSearchCrossStreetAddressResult(result);
@@ -618,50 +621,40 @@ export class MapsSearchClient {
     requests: FuzzySearchRequest[],
     options: FuzzySearchBatchOptions = {}
   ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
+    return this.createFuzzySearchBatchPoller(requests, options);
+  }
+
+  /**
+   * Continue the fuzzy search request with a serialized state from other poller.
+   *
+   * @example
+   * ```js
+   * const serializedState = poller.toString()
+   * const rehydratedPoller = resumeFuzzySearchBatch(serializedState)
+   * rehydratedPoller.poll()
+   * ```
+   *
+   * @param resumeFrom - The serialized state from the previous poller.
+   * @param options - Optional parameters for the operation.
+   *
+   */
+  public async resumeFuzzySearchBatch(
+    resumeFrom: string,
+    options: FuzzySearchBatchOptions = {}
+  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
+    return this.createFuzzySearchBatchPoller(undefined, { ...options, resumeFrom });
+  }
+
+  private async createFuzzySearchBatchPoller(
+    requests: FuzzySearchRequest[] = [],
+    options: SearchFuzzySearchBatchOptionalParams = {}
+  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
     const { span, updatedOptions } = createSpan("MapsSearchClient-beginFuzzySearchBatch", options);
     const batchRequest = createFuzzySearchBatchRequest(requests);
     try {
       const internalPoller = await this.client.search.beginFuzzySearchBatch(
         this.defaultFormat,
         batchRequest,
-        updatedOptions
-      );
-      const poller = new BatchPollerProxy<
-        BatchResult<SearchAddressResult>,
-        SearchAddressBatchResult
-      >(internalPoller, mapSearchAddressBatchResult);
-
-      await poller.poll();
-      return poller;
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Retrieves the result of a previous fuzzy search batch request.
-   * The method returns a poller for retrieving the result.
-   *
-   * @param batchId - Batch id for querying the operation.
-   * @param options - Optional parameters for the operation
-   */
-  public async beginGetFuzzySearchBatchResult(
-    batchId: string,
-    options: FuzzySearchBatchOptions = {}
-  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
-    const { span, updatedOptions } = createSpan(
-      "MapsSearchClient-beginGetFuzzySearchBatchResult",
-      options
-    );
-    try {
-      const internalPoller = await this.client.search.beginGetFuzzySearchBatch(
-        batchId,
         updatedOptions
       );
       const poller = new BatchPollerProxy<
@@ -693,6 +686,34 @@ export class MapsSearchClient {
     requests: SearchAddressRequest[],
     options: SearchAddressBatchOptions = {}
   ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
+    return this.createSearchAddressBatchPoller(requests, options);
+  }
+
+  /**
+   * Continue the address search request with a serialized state from other poller.
+   *
+   * @example
+   * ```js
+   * const serializedState = poller.toString()
+   * const rehydratedPoller = resumeFuzzySearchBatch(serializedState)
+   * rehydratedPoller.poll()
+   * ```
+   *
+   * @param resumeFrom - The serialized state from the previous poller.
+   * @param options - Optional parameters for the operation.
+   *
+   */
+  public async resumeSearchAddressBatch(
+    resumeFrom: string,
+    options: SearchAddressBatchOptions
+  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
+    return this.createSearchAddressBatchPoller(undefined, { ...options, resumeFrom });
+  }
+
+  private async createSearchAddressBatchPoller(
+    requests: SearchAddressRequest[] = [],
+    options: SearchSearchAddressBatchOptionalParams = {}
+  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginSearchAddressBatch",
       options
@@ -702,44 +723,6 @@ export class MapsSearchClient {
       const internalPoller = await this.client.search.beginSearchAddressBatch(
         this.defaultFormat,
         batchRequest,
-        updatedOptions
-      );
-      const poller = new BatchPollerProxy<
-        BatchResult<SearchAddressResult>,
-        SearchAddressBatchResult
-      >(internalPoller, mapSearchAddressBatchResult);
-
-      await poller.poll();
-      return poller;
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Retrieves the result of a previous search address batch request
-   * The method returns a poller for retrieving the result.
-   *
-   * @param batchId - Batch id for querying the operation.
-   * @param options - Optional parameters for the operation
-   */
-  public async beginGetSearchAddressBatchResult(
-    batchId: string,
-    options: SearchAddressBatchOptions = {}
-  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
-    const { span, updatedOptions } = createSpan(
-      "MapsSearchClient-beginGetSearchAddressBatchResult",
-      options
-    );
-    try {
-      const internalPoller = await this.client.search.beginGetSearchAddressBatch(
-        batchId,
         updatedOptions
       );
       const poller = new BatchPollerProxy<
@@ -771,6 +754,34 @@ export class MapsSearchClient {
     requests: ReverseSearchAddressRequest[],
     options: ReverseSearchAddressBatchOptions = {}
   ): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>> {
+    return this.createReverseSearchAddressBatchPoller(requests, options);
+  }
+
+  /**
+   * Continue the reverse address search request with a serialized state from other poller.
+   *
+   * @example
+   * ```js
+   * const serializedState = poller.toString()
+   * const rehydratedPoller = resumeReverseSearchAddressBatch(serializedState)
+   * rehydratedPoller.poll()
+   * ```
+   *
+   * @param resumeFrom - The serialized state from the previous poller.
+   * @param options - Optional parameters for the operation.
+   *
+   */
+  public async resumeReverseSearchAddressBatch(
+    resumeFrom: string,
+    options: ReverseSearchAddressBatchOptions = {}
+  ): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>> {
+    return this.createReverseSearchAddressBatchPoller(undefined, { ...options, resumeFrom });
+  }
+
+  private async createReverseSearchAddressBatchPoller(
+    requests: ReverseSearchAddressRequest[] = [],
+    options: SearchReverseSearchAddressBatchOptionalParams = {}
+  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginReverseSearchAddressBatch",
       options
@@ -783,44 +794,6 @@ export class MapsSearchClient {
         updatedOptions
       );
 
-      const poller = new BatchPollerProxy<
-        BatchResult<ReverseSearchAddressResult>,
-        ReverseSearchAddressBatchResult
-      >(internalPoller, mapReverseSearchAddressBatchResult);
-
-      await poller.poll();
-      return poller;
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Retrieves the result of a previous reverse search address batch request.
-   * The method returns a poller for retrieving the result.
-   *
-   * @param batchId - Batch id for querying the operation.
-   * @param options - Optional parameters for the operation
-   */
-  public async beginGetReverseSearchAddressBatchResult(
-    batchId: string,
-    options: ReverseSearchAddressBatchOptions = {}
-  ): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>> {
-    const { span, updatedOptions } = createSpan(
-      "MapsSearchClient-beginGetReverseSearchAddressBatchResult",
-      options
-    );
-    try {
-      const internalPoller = await this.client.search.beginGetReverseSearchAddressBatch(
-        batchId,
-        updatedOptions
-      );
       const poller = new BatchPollerProxy<
         BatchResult<ReverseSearchAddressResult>,
         ReverseSearchAddressBatchResult

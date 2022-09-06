@@ -12,9 +12,11 @@ urlFragment: maps-search-javascript-beta
 
 These sample programs show how to use the JavaScript client libraries for Azure Maps Search in some common scenarios.
 
-| **File Name**       | **Description**                                              |
-| ------------------- | ------------------------------------------------------------ |
-| [search.js][search] | Demonstrates Search API usage. Simple queries are performed. |
+| **File Name**                                 | **Description**                                                    |
+| --------------------------------------------- | ------------------------------------------------------------------ |
+| [search.js][search]                           | An overview of Search API usage. Simple queries are performed.     |
+| [batchRequest.js][batchrequest]               | Demonstrates how to manipulate batch requests.                     |
+| [searchAddressResult.js][searchaddressresult] | Demonstrates how to manipulate the response `SearchAddressResult`. |
 
 ## Prerequisites
 
@@ -49,7 +51,7 @@ node search.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env MAPS_SUBSCRIPTION_KEY="<maps subscription key>" MAPS_SUBSCRIPTION_KEY="<maps subscription key>" MAPS_CLIENT_ID="<maps client id>" MAPS_CLIENT_ID="<maps client id>" node search.js
+npx cross-env MAPS_SUBSCRIPTION_KEY="<maps subscription key>" node search.js
 ```
 
 ## Next Steps
@@ -57,7 +59,9 @@ npx cross-env MAPS_SUBSCRIPTION_KEY="<maps subscription key>" MAPS_SUBSCRIPTION_
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [search]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search/samples/v1-beta/javascript/search.js
-[apiref]: https://docs.microsoft.com/rest/api/maps/search
+[batchrequest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search/samples/v1-beta/javascript/batchRequest.js
+[searchaddressresult]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search/samples/v1-beta/javascript/searchAddressResult.js
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/maps-search
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuremapsresource]: https://docs.microsoft.com/azure/azure-maps/how-to-create-template
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-search/README.md

@@ -8,27 +8,27 @@
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "570daaff-dad7-4c6d-8177-bc53bb503425"
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1089-azure)",
+        "x-ms-client-request-id": "aa718714-856d-4c69-b4e6-214d11ba9015"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "5940",
+        "Content-Length": "5941",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 28 Jul 2022 03:27:58 GMT",
+        "Date": "Mon, 05 Sep 2022 08:45:28 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-azuremaps-region": "West US 2",
-        "X-MSEdge-Ref": "Ref A: B5B06E4479824BCA95BBA329F11E49BC Ref B: TYBEDGE0407 Ref C: 2022-07-28T03:27:58Z"
+        "x-ms-azuremaps-region": "West Europe",
+        "X-MSEdge-Ref": "Ref A: B78B3220B7774AD0BA0022C93F0EFF4F Ref B: SIN30EDGE0114 Ref C: 2022-09-05T08:45:28Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "pizza",
           "queryType": "NON_NEAR",
-          "queryTime": 64,
+          "queryTime": 67,
           "numResults": 10,
           "offset": 0,
           "totalResults": 61,
@@ -37,7 +37,7 @@
         "results": [
           {
             "type": "Street",
-            "id": "US/STR/p2/4139479",
+            "id": "US/STR/p1/6392073",
             "score": 2.1169600487,
             "matchConfidence": {
               "score": 1
@@ -71,42 +71,10 @@
           },
           {
             "type": "Street",
-            "id": "BR/STR/p0/873853",
+            "id": "BR/STR/p0/24729",
             "score": 2.0962057114,
             "matchConfidence": {
-              "score": 0.8981427065112028
-            },
-            "address": {
-              "streetName": "Rua Toledo Pizza",
-              "municipality": "Laguna",
-              "countrySubdivision": "Santa Catarina",
-              "countryCode": "BR",
-              "country": "Brasil",
-              "countryCodeISO3": "BRA",
-              "freeformAddress": "Rua Toledo Pizza, Laguna",
-              "localName": "Laguna"
-            },
-            "position": {
-              "lat": -28.48941,
-              "lon": -48.77317
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": -28.48071,
-                "lon": -48.78341
-              },
-              "btmRightPoint": {
-                "lat": -28.49869,
-                "lon": -48.76294
-              }
-            }
-          },
-          {
-            "type": "Street",
-            "id": "BR/STR/p0/1908822",
-            "score": 2.0962057114,
-            "matchConfidence": {
-              "score": 0.8981427065112028
+              "score": 0.8982758449584431
             },
             "address": {
               "streetName": "Rua Toledo Pizza",
@@ -138,10 +106,42 @@
           },
           {
             "type": "Street",
-            "id": "BR/STR/p0/2600422",
+            "id": "BR/STR/p0/1091472",
             "score": 2.0962057114,
             "matchConfidence": {
-              "score": 0.9218463104759915
+              "score": 0.8982758449584431
+            },
+            "address": {
+              "streetName": "Rua Toledo Pizza",
+              "municipality": "Laguna",
+              "countrySubdivision": "Santa Catarina",
+              "countryCode": "BR",
+              "country": "Brasil",
+              "countryCodeISO3": "BRA",
+              "freeformAddress": "Rua Toledo Pizza, Laguna",
+              "localName": "Laguna"
+            },
+            "position": {
+              "lat": -28.48941,
+              "lon": -48.77317
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": -28.48071,
+                "lon": -48.78341
+              },
+              "btmRightPoint": {
+                "lat": -28.49869,
+                "lon": -48.76294
+              }
+            }
+          },
+          {
+            "type": "Street",
+            "id": "BR/STR/p0/2611435",
+            "score": 2.0962057114,
+            "matchConfidence": {
+              "score": 0.9219339610867394
             },
             "address": {
               "streetName": "Rua Lu\u00EDz Pizza",
@@ -172,7 +172,7 @@
           },
           {
             "type": "Street",
-            "id": "IT/STR/p0/506019",
+            "id": "IT/STR/p0/1280902",
             "score": 2.0959999561,
             "matchConfidence": {
               "score": 1
@@ -206,43 +206,7 @@
           },
           {
             "type": "Street",
-            "id": "US/STR/p0/1581291",
-            "score": 2.0959999561,
-            "matchConfidence": {
-              "score": 1
-            },
-            "address": {
-              "streetName": "Pizza Lane",
-              "municipality": "Eastern",
-              "countrySecondarySubdivision": "Pendleton",
-              "countrySubdivision": "WV",
-              "countrySubdivisionName": "West Virginia",
-              "postalCode": "26802",
-              "extendedPostalCode": "26802-8016, 26802-8043",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "Pizza Lane, Brandywine, WV 26802",
-              "localName": "Brandywine"
-            },
-            "position": {
-              "lat": 38.62674,
-              "lon": -79.24476
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 38.62697,
-                "lon": -79.2452
-              },
-              "btmRightPoint": {
-                "lat": 38.62645,
-                "lon": -79.24399
-              }
-            }
-          },
-          {
-            "type": "Street",
-            "id": "US/STR/p0/4089958",
+            "id": "US/STR/p0/6277093",
             "score": 2.0959999561,
             "matchConfidence": {
               "score": 1
@@ -278,7 +242,7 @@
           },
           {
             "type": "Street",
-            "id": "US/STR/p1/4515692",
+            "id": "US/STR/p2/3722302",
             "score": 2.0959999561,
             "matchConfidence": {
               "score": 1
@@ -313,7 +277,7 @@
           },
           {
             "type": "Street",
-            "id": "US/STR/p2/246265",
+            "id": "US/STR/p2/4577268",
             "score": 2.0959999561,
             "matchConfidence": {
               "score": 1
@@ -349,10 +313,46 @@
           },
           {
             "type": "Street",
-            "id": "BR/STR/p0/1679700",
+            "id": "US/STR/p3/4162000",
+            "score": 2.0959999561,
+            "matchConfidence": {
+              "score": 1
+            },
+            "address": {
+              "streetName": "Pizza Lane",
+              "municipality": "Eastern",
+              "countrySecondarySubdivision": "Pendleton",
+              "countrySubdivision": "WV",
+              "countrySubdivisionName": "West Virginia",
+              "postalCode": "26802",
+              "extendedPostalCode": "26802-8016, 26802-8043",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "Pizza Lane, Brandywine, WV 26802",
+              "localName": "Brandywine"
+            },
+            "position": {
+              "lat": 38.62674,
+              "lon": -79.24476
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 38.62697,
+                "lon": -79.2452
+              },
+              "btmRightPoint": {
+                "lat": 38.62645,
+                "lon": -79.24399
+              }
+            }
+          },
+          {
+            "type": "Street",
+            "id": "BR/STR/p0/1425479",
             "score": 2.075854063,
             "matchConfidence": {
-              "score": 0.8836922763704675
+              "score": 0.8837961786487926
             },
             "address": {
               "streetName": "Rua Doutor Luiz Pizza",

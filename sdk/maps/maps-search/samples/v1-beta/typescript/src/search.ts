@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates Search API usage. Simple queries are performed.
+ * @summary An overview of Search API usage. Simple queries are performed.
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
-import { GeoJsonLineString, GeoJsonPolygon } from "../../maps-common/src";
+// import { DefaultAzureCredential } from "@azure/identity";
+import { GeoJsonLineString, GeoJsonPolygon, LatLon } from "../../maps-common/src";
 import {
   MapsSearchClient,
   StructuredAddress,
@@ -19,40 +19,33 @@ import {
 } from "@azure/maps-search";
 import * as dotenv from "dotenv";
 dotenv.config();
-/**
- * Azure Maps supports two ways to authenticate requests:
- * - Shared Key authentication (subscription-key)
- * - Azure Active Directory (Azure AD) authentication
- *
- * In this sample you can put MAPS_SUBSCRIPTION_KEY into .env file to use the first approach or populate
- * the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for trying out AAD auth.
- *
- * More info is available at https://docs.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
- */
 
 async function main() {
-  let client: MapsSearchClient;
+  /**
+   * Azure Maps supports two ways to authenticate requests:
+   * - Shared Key authentication (subscription-key)
+   * - Azure Active Directory (Azure AD) authentication
+   *
+   * In this sample you can put MAPS_SUBSCRIPTION_KEY into .env file to use the first approach or populate
+   * the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for trying out AAD auth.
+   *
+   * More info is available at https://docs.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
+   */
+  /** Shared Key authentication (subscription-key) */
+  const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
+  const credential = new AzureKeyCredential(subscriptionKey);
+  const client = new MapsSearchClient(credential);
 
-  if (process.env.MAPS_SUBSCRIPTION_KEY) {
-    // Use subscription key authentication
-    const credential = new AzureKeyCredential(process.env.MAPS_SUBSCRIPTION_KEY);
-    client = new MapsSearchClient(credential);
-  } else {
-    // Use Azure AD authentication
-    if (process.env.MAPS_CLIENT_ID) {
-      const credential = new DefaultAzureCredential();
-      const mapsClientId = process.env.MAPS_CLIENT_ID;
-      client = new MapsSearchClient(credential, mapsClientId);
-    } else {
-      throw Error("Cannot authenticate the client.");
-    }
-  }
+  /** Azure Active Directory (Azure AD) authentication */
+  // const credential = new DefaultAzureCredential();
+  // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
+  // const client = new MapsSearchClient(credential, mapsClientId);
 
   console.log(" --- Geocode address:");
   console.log(await client.searchAddress("400 Broad, Seattle"));
 
   console.log(" --- Reverse-geocode coordinates to address:");
-  const coordinates = { latitude: 47.59118, longitude: -122.3327 };
+  const coordinates: LatLon = [47.59118, -122.3327];
   console.log(await client.reverseSearchAddress(coordinates));
 
   console.log(" --- Reverse-geocode coordinates to cross street address:");
@@ -89,7 +82,7 @@ async function main() {
   let geometryIds: string[] = [];
   fuzzyResult = await client.fuzzySearch({ query: "Netherlands", countryCodeFilter: ["NL"] });
   if (fuzzyResult.results) {
-    fuzzyResult.results.forEach((res) => {
+    fuzzyResult.results.forEach((res: any) => {
       if (res.dataSources && res.dataSources.geometry && res.dataSources.geometry.id) {
         geometryIds.push(res.dataSources.geometry.id);
       }
@@ -97,7 +90,7 @@ async function main() {
   }
 
   console.log(" --- Search nearby POI:");
-  const searchNearbyCoordinate = { latitude: 40.70627, longitude: -74.011454 };
+  const searchNearbyCoordinate: LatLon = [40.70627, -74.011454];
   const searchNearbyOptions = { radiusInMeters: 8046 };
   console.log(
     await client.searchNearbyPointOfInterest(searchNearbyCoordinate, searchNearbyOptions)
@@ -112,7 +105,7 @@ async function main() {
   console.log(
     await client.searchPointOfInterest({
       query: searchPOIQuery,
-      coordinates: { latitude: 47.606038, longitude: -122.333345 },
+      coordinates: [47.606038, -122.333345],
       ...searchPOIOptions,
     })
   );
@@ -130,7 +123,7 @@ async function main() {
   console.log(
     await client.searchPointOfInterest({
       query: searchPOIQuery,
-      coordinates: { latitude: 47.606038, longitude: -122.333345 },
+      coordinates: [47.606038, -122.333345],
       countryCodeFilter: ["fr"],
       ...searchPOIOptions,
     })
@@ -145,7 +138,7 @@ async function main() {
   console.log(
     await client.searchPointOfInterestCategory({
       query: searchPOICategoryQuery,
-      coordinates: { latitude: 47.606038, longitude: -122.333345 },
+      coordinates: [47.606038, -122.333345],
       ...searchPOICategoryOptions,
     })
   );
@@ -163,7 +156,7 @@ async function main() {
   console.log(
     await client.searchPointOfInterestCategory({
       query: searchPOICategoryQuery,
-      coordinates: { latitude: 47.606038, longitude: -122.333345 },
+      coordinates: [47.606038, -122.333345],
       countryCodeFilter: ["fr"],
       ...searchPOICategoryOptions,
     })
@@ -308,12 +301,12 @@ async function main() {
 
   console.log(" --- Search address reverse batch (long-running):");
   const reverseSearchAddressRequests: ReverseSearchAddressRequest[] = [
-    { coordinates: { latitude: 148.858561, longitude: 2.294911 } },
+    { coordinates: [148.858561, 2.294911] },
     {
-      coordinates: { latitude: 47.639765, longitude: -122.127896 },
+      coordinates: [47.639765, -122.127896],
       options: { radiusInMeters: 5000 },
     },
-    { coordinates: { latitude: 47.621028, longitude: -122.34817 } },
+    { coordinates: [47.621028, -122.34817] },
   ];
   const reverseSearchPoller = await client.beginReverseSearchAddressBatch(
     reverseSearchAddressRequests
@@ -323,7 +316,7 @@ async function main() {
   console.log(" --- Search fuzzy batch (long-running):");
   const fuzzySearchRequests: FuzzySearchRequest[] = [
     {
-      searchQuery: { query: "atm", coordinates: { latitude: 48.858561, longitude: 2.294911 } },
+      searchQuery: { query: "atm", coordinates: [48.858561, 2.294911] },
       options: { radiusInMeters: 5000, top: 5 },
     },
     {
@@ -336,13 +329,20 @@ async function main() {
     {
       searchQuery: {
         query: "Starbucks",
-        coordinates: { latitude: 47.621028, longitude: -122.34817 },
+        coordinates: [47.621028, -122.34817],
       },
       options: { radiusInMeters: 5000 },
     },
   ];
   const fuzzySearchPoller = await client.beginFuzzySearchBatch(fuzzySearchRequests);
   console.log(await fuzzySearchPoller.pollUntilDone());
+
+  console.log(" --- Resume search fuzzy batch:");
+  const originalFuzzySearchPoller = await client.beginFuzzySearchBatch(fuzzySearchRequests);
+  console.log(await originalFuzzySearchPoller.getResult());
+  const serializedState = originalFuzzySearchPoller.toString();
+  const rehydratedFuzzySearchPoller = await client.resumeFuzzySearchBatch(serializedState);
+  console.log(await rehydratedFuzzySearchPoller.getResult());
 }
 
 main();
