@@ -4092,7 +4092,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220904
+      typescript: 4.9.0-dev.20220905
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -9095,8 +9095,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220904:
-    resolution: {integrity: sha512-zUWjUShDSE1RGYlcSbiHF/VgqEl9mGMw07z6qhsRjtYLyRftM65b4WPk/EziV/TwN3uf8kAJcoyIxuDrxlt8tg==}
+  /typescript/4.9.0-dev.20220905:
+    resolution: {integrity: sha512-Y3m8ommI+wTpwdh1vNdp5a2AvvD7UYkUfuUJkB+DrM/7z4XMTCEVcZXjiH5OwICNHy9k9N6ZeaTTokpcNj4kVg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12326,7 +12326,7 @@ packages:
     dev: false
 
   file:projects/arm-hanaonazure.tgz:
-    resolution: {integrity: sha512-HyPdhqcJ7VKjsr06mijY0OGhw/YwYSKloz6TijXhqFB2IdLv5ik59Cyj0rEE5gDoHbOAfwPABC3wVPRFggDPsQ==, tarball: file:projects/arm-hanaonazure.tgz}
+    resolution: {integrity: sha512-KYq7+A1qAMLJUjIz0+DNiylw/GjXBSvlWYZywQS3dNVVBpDT7LwlkVEzpNOqAKUvmxQC8V+8uRXYUlS+uoUiog==, tarball: file:projects/arm-hanaonazure.tgz}
     name: '@rush-temp/arm-hanaonazure'
     version: 0.0.0
     dependencies:
@@ -12338,6 +12338,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12349,7 +12351,6 @@ packages:
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
