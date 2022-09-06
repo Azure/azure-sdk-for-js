@@ -1,15 +1,52 @@
 # Release History
+    
+## 13.0.0 (2022-09-06)
+    
+**Features**
 
-## 12.1.1 (Unreleased)
+  - Added operation LiveEvents.asyncOperation
+  - Added operation LiveEvents.operationLocation
+  - Added operation LiveOutputs.asyncOperation
+  - Added operation LiveOutputs.operationLocation
+  - Added operation StreamingEndpoints.asyncOperation
+  - Added operation StreamingEndpoints.operationLocation
+  - Added Interface AsyncOperationResult
+  - Added Interface ClearKeyEncryptionConfiguration
+  - Added Interface DashSettings
+  - Added Interface LiveEventsAsyncOperationOptionalParams
+  - Added Interface LiveEventsOperationLocationOptionalParams
+  - Added Interface LiveOutputsAsyncOperationOptionalParams
+  - Added Interface LiveOutputsOperationLocationOptionalParams
+  - Added Interface StreamingEndpointsAsyncOperationOptionalParams
+  - Added Interface StreamingEndpointsOperationLocationOptionalParams
+  - Added Type Alias AsyncOperationStatus
+  - Added Type Alias LiveEventsAsyncOperationResponse
+  - Added Type Alias LiveEventsOperationLocationResponse
+  - Added Type Alias LiveOutputsAsyncOperationResponse
+  - Added Type Alias LiveOutputsOperationLocationResponse
+  - Added Type Alias SecurityLevel
+  - Added Type Alias StreamingEndpointsAsyncOperationResponse
+  - Added Type Alias StreamingEndpointsOperationLocationResponse
+  - Interface AudioTrack has a new optional parameter bitRate
+  - Interface AudioTrack has a new optional parameter dashSettings
+  - Interface AudioTrack has a new optional parameter displayName
+  - Interface AudioTrack has a new optional parameter fileName
+  - Interface AudioTrack has a new optional parameter hlsSettings
+  - Interface AudioTrack has a new optional parameter languageCode
+  - Interface AudioTrack has a new optional parameter mpeg4TrackId
+  - Interface CommonEncryptionCbcs has a new optional parameter clearKeyEncryptionConfiguration
+  - Interface CommonEncryptionCenc has a new optional parameter clearKeyEncryptionConfiguration
+  - Interface ContentKeyPolicyPlayReadyLicense has a new optional parameter securityLevel
+  - Interface LiveOutput has a new optional parameter rewindWindowLength
+  - Added Enum KnownAsyncOperationStatus
+  - Added Enum KnownSecurityLevel
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AzureMediaServicesOptionalParams no longer has parameter apiVersion
+  - Class AzureMediaServices no longer has parameter apiVersion
+    
+    
 ## 12.1.0 (2022-07-29)
     
 **Features**
