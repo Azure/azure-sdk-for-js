@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   createPipelineFromOptions,
   InternalPipelineOptions,
   operationOptionsToRequestOptionsBase,
-  PipelineOptions
+  PipelineOptions,
+  RequestPolicyFactory,
+  bearerTokenAuthenticationPolicy
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { SDK_VERSION } from "./constants";
@@ -40,6 +42,7 @@ import {
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
+import { KnownSearchAudience } from "./searchAudience";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -49,6 +52,13 @@ export interface SearchIndexerClientOptions extends PipelineOptions {
    * The API version to use when communicating with the service.
    */
   apiVersion?: string;
+
+  /**
+   * The Audience to use for authentication with Azure Active Directory (AAD). The
+   * audience is not considered when using a shared key.
+   * {@link KnownSearchAudience} can be used interchangeably with audience
+   */
+  audience?: string;
 }
 
 /**
@@ -60,7 +70,7 @@ export class SearchIndexerClient {
   /**
    * The API version to use when communicating with the service.
    */
-  public readonly apiVersion: string = "2020-06-30-Preview";
+  public readonly apiVersion: string = "2020-06-30";
 
   /**
    * The endpoint of the search service
@@ -92,7 +102,7 @@ export class SearchIndexerClient {
    */
   constructor(
     endpoint: string,
-    credential: KeyCredential,
+    credential: KeyCredential | TokenCredential,
     options: SearchIndexerClientOptions = {}
   ) {
     this.endpoint = endpoint;
@@ -124,10 +134,15 @@ export class SearchIndexerClient {
       }
     };
 
-    const pipeline = createPipelineFromOptions(
-      internalPipelineOptions,
-      createSearchApiKeyCredentialPolicy(credential)
-    );
+    const scope: string = options.audience
+      ? `${options.audience}/.default`
+      : `${KnownSearchAudience.AzurePublicCloud}/.default`;
+
+    const requestPolicyFactory: RequestPolicyFactory = isTokenCredential(credential)
+      ? bearerTokenAuthenticationPolicy(credential, scope)
+      : createSearchApiKeyCredentialPolicy(credential);
+
+    const pipeline = createPipelineFromOptions(internalPipelineOptions, requestPolicyFactory);
 
     if (Array.isArray(pipeline.requestPolicyFactories)) {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("minimal"));

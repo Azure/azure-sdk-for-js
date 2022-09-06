@@ -1,6 +1,6 @@
 {
   "name": "@azure/search-documents",
-  "version": "11.2.1",
+  "version": "11.3.0",
   "description": "Azure client library to use Cognitive Search for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -41,7 +41,8 @@
     "LICENSE"
   ],
   "browser": {
-    "./dist-esm/src/base64.js": "./dist-esm/src/base64.browser.js"
+    "./dist-esm/src/base64.js": "./dist-esm/src/base64.browser.js",
+    "./dist-esm/src/synonymMapHelper.js": "./dist-esm/src/synonymMapHelper.browser.js"
   },
   "//metadata": {
     "constantPaths": [

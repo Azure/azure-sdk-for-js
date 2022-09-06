@@ -14,9 +14,31 @@ describe("serialization.serialize", () => {
   });
 
   it("circular", () => {
-    const circluarInput: any = { a: null };
-    circluarInput.a = circluarInput;
-    assert.throws(() => serialize(circluarInput));
+    const circularInput: any = { a: null };
+    circularInput.a = circularInput;
+    const result = serialize(circularInput);
+    assert.deepEqual(circularInput, result);
+  });
+
+  it("recursive 1", () => {
+    const child = { hello: "world" };
+    const documents = [
+      { id: "1", children: [child] },
+      { id: "2", children: [child] }
+    ];
+    const result = serialize(documents);
+    assert.deepEqual(documents, result);
+  });
+
+  it("recursive 2", () => {
+    const child = { hello: Infinity, world: -Infinity, universe: NaN };
+    const documents = [
+      { id: "1", children: [child] },
+      { id: "2", children: [child] },
+      { id: "3", children: [child] }
+    ];
+    const result = serialize(documents);
+    assert.deepEqual(documents, result);
   });
 
   it("NaN", () => {
@@ -47,9 +69,31 @@ describe("serialization.deserialize", () => {
   });
 
   it("circular", () => {
-    const circluarInput: any = { a: null };
-    circluarInput.a = circluarInput;
-    assert.throws(() => deserialize(circluarInput));
+    const circularInput: any = { a: null };
+    circularInput.a = circularInput;
+    const result = deserialize(circularInput);
+    assert.deepEqual(circularInput, result);
+  });
+
+  it("recursive 1", () => {
+    const child = { hello: "world" };
+    const documents = [
+      { id: "1", children: [child] },
+      { id: "2", children: [child] }
+    ];
+    const result = deserialize(documents);
+    assert.deepEqual(documents, result);
+  });
+
+  it("recursive 2", () => {
+    const child = { hello: "INF", world: "-INF", universe: "NaN" };
+    const documents = [
+      { id: "1", children: [child] },
+      { id: "2", children: [child] },
+      { id: "3", children: [child] }
+    ];
+    const result = deserialize(documents);
+    assert.deepEqual(documents, result);
   });
 
   it("NaN", () => {
