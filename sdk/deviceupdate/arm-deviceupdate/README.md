@@ -6,7 +6,7 @@ Microsoft Device Update resource provider.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceupdate/arm-deviceupdate) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-deviceupdate) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-deviceupdate?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-deviceupdate) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

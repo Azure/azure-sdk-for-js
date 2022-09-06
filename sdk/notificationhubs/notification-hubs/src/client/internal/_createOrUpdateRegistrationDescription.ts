@@ -36,7 +36,7 @@ export async function createOrUpdateRegistrationDescription(
   registration.registrationId = undefined;
   registration.etag = undefined;
 
-  const headers = context.createHeaders();
+  const headers = await context.createHeaders(`${operationName}Registration`);
   headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
 
   if (operationName === "update") {

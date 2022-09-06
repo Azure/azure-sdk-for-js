@@ -387,6 +387,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/ai-personalizer",
+      "projectFolder": "sdk/personalizer/ai-personalizer-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/search-documents",
       "projectFolder": "sdk/search/search-documents",
       "versionPolicyName": "client"
@@ -444,6 +449,11 @@
     {
       "packageName": "@azure/communication-sms",
       "projectFolder": "sdk/communication/communication-sms",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/communication-job-router",
+      "projectFolder": "sdk/communication/communication-job-router",
       "versionPolicyName": "client"
     },
     {
@@ -1802,14 +1812,39 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-automation",
+      "projectFolder": "sdk/automation/arm-automation",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-automanage",
       "projectFolder": "sdk/automanage/arm-automanage",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-devcenter",
+      "projectFolder": "sdk/devcenter/arm-devcenter",
       "versionPolicyName": "management"
     },
     {
       "packageName": "@azure/communication-rooms",
       "projectFolder": "sdk/communication/communication-rooms",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-connectedvmware",
+      "projectFolder": "sdk/connectedvmware/arm-connectedvmware",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-nginx",
+      "projectFolder": "sdk/nginx/arm-nginx",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-agrifood",
+      "projectFolder": "sdk/agrifood/arm-agrifood",
+      "versionPolicyName": "management"
     }
   ]
 }

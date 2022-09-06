@@ -6,6 +6,8 @@ import { NotificationHubsClientContext } from "./index.js";
 import { OperationOptions } from "@azure/core-client";
 import { tracingClient } from "../utils/tracing.js";
 
+const OPERATION_NAME = "createRegistrationId";
+
 /**
  * Creates a new registration ID.
  * @param context - The Notification Hubs client.
@@ -17,13 +19,13 @@ export function createRegistrationId(
   options: OperationOptions = {}
 ): Promise<string> {
   return tracingClient.withSpan(
-    "NotificationHubsClientContext-createRegistrationId",
+    `NotificationHubsClientContext-${OPERATION_NAME}`,
     options,
     async (updatedOptions) => {
       const endpoint = context.requestUrl();
       endpoint.pathname += "/registrationIDs";
 
-      const headers = context.createHeaders();
+      const headers = await context.createHeaders(OPERATION_NAME);
       headers.set("Content-Type", "application/xml;type=entry;charset=utf-8");
 
       const request = createRequest(endpoint, "POST", headers, updatedOptions);

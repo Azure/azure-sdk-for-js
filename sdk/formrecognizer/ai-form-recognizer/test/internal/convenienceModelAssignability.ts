@@ -3,8 +3,6 @@
 
 import {
   Document as GeneratedDocument,
-  DocumentCaption as GeneratedDocumentCaption,
-  DocumentFootnote as GeneratedDocumentFootnote,
   DocumentKeyValueElement as GeneratedDocumentKeyValueElement,
   DocumentLine as GeneratedDocumentLine,
   DocumentPage as GeneratedDocumentPage,
@@ -16,8 +14,6 @@ import {
 } from "../../src/generated";
 import {
   Document,
-  DocumentCaption,
-  DocumentFootnote,
   DocumentKeyValueElement,
   DocumentLine,
   DocumentPage,
@@ -40,8 +36,6 @@ declare const documentLine: DocumentLine;
 declare const documentParagraph: DocumentParagraph;
 declare const documentTable: DocumentTable;
 declare const documentTableCell: DocumentTableCell;
-declare const documentCaption: DocumentCaption;
-declare const documentFootnote: DocumentFootnote;
 declare const documentKeyValueElement: DocumentKeyValueElement;
 declare const document: Document;
 declare const documentPage: DocumentPage;
@@ -51,8 +45,6 @@ checkAssign<Omit<GeneratedDocumentSelectionMark, "polygon">>(selectionMark);
 checkAssign<Omit<GeneratedDocumentLine, "polygon">>(documentLine);
 checkAssign<Omit<GeneratedDocumentParagraph, "boundingRegions">>(documentParagraph);
 checkAssign<Omit<GeneratedDocumentTableCell, "boundingRegions">>(documentTableCell);
-checkAssign<Omit<GeneratedDocumentCaption, "boundingRegions">>(documentCaption);
-checkAssign<Omit<GeneratedDocumentFootnote, "boundingRegions">>(documentFootnote);
 checkAssign<Omit<GeneratedDocumentTable, "boundingRegions" | "cells" | "caption" | "footnotes">>(
   documentTable
 );
@@ -70,8 +62,6 @@ declare const generatedDocumentLine: GeneratedDocumentLine;
 declare const generatedDocumentParagraph: GeneratedDocumentParagraph;
 declare const generatedDocumentTable: GeneratedDocumentTable;
 declare const generatedDocumentTableCell: GeneratedDocumentTableCell;
-declare const generatedDocumentCaption: GeneratedDocumentCaption;
-declare const generatedDocumentFootnote: GeneratedDocumentFootnote;
 declare const generatedDocumentKeyValueElement: GeneratedDocumentKeyValueElement;
 declare const generatedDocument: GeneratedDocument;
 declare const generatedDocumentPage: GeneratedDocumentPage;
@@ -81,8 +71,6 @@ checkAssign<Omit<DocumentSelectionMark, "polygon">>(generatedSelectionMark);
 checkAssign<Omit<DocumentLine, "polygon" | "words">>(generatedDocumentLine);
 checkAssign<Omit<DocumentParagraph, "boundingRegions">>(generatedDocumentParagraph);
 checkAssign<Omit<DocumentTableCell, "boundingRegions">>(generatedDocumentTableCell);
-checkAssign<Omit<DocumentCaption, "boundingRegions">>(generatedDocumentCaption);
-checkAssign<Omit<DocumentFootnote, "boundingRegions">>(generatedDocumentFootnote);
 checkAssign<Omit<DocumentTable, "boundingRegions" | "cells" | "caption" | "footnotes">>(
   generatedDocumentTable
 );

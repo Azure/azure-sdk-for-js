@@ -3,6 +3,7 @@
 
 import * as fs from "fs";
 import * as util from "util";
+import { REQUEST_TIMEOUT } from "./constants";
 
 /**
  * Reads a readable stream into buffer. Fill the buffer from offset to end.
@@ -24,8 +25,13 @@ export async function streamToBuffer(
   const count = end - offset; // Total amount of data needed in stream
 
   return new Promise<void>((resolve, reject) => {
+    const timeout = setTimeout(
+      () => reject(new Error(`The operation cannot be completed in timeout.`)),
+      REQUEST_TIMEOUT
+    );
     stream.on("readable", () => {
       if (pos >= count) {
+        clearTimeout(timeout);
         resolve();
         return;
       }
@@ -46,6 +52,7 @@ export async function streamToBuffer(
     });
 
     stream.on("end", () => {
+      clearTimeout(timeout);
       if (pos < count) {
         reject(
           new Error(
@@ -56,7 +63,10 @@ export async function streamToBuffer(
       resolve();
     });
 
-    stream.on("error", reject);
+    stream.on("error", (msg) => {
+      clearTimeout(timeout);
+      reject(msg);
+    });
   });
 }
 

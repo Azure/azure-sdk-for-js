@@ -50,7 +50,7 @@ export default {
       return
     }
 
-    request(`/subscriptions/000/resourceGroups/000/providers/Microsoft.ApiManagement/service/000/users/${secrets.userId}`)
+    request(`/users/${secrets.userId}`)
       .then(e => e.json())
       .then(({properties}) => this.defaultEmail = properties.email)
       .catch(e => {

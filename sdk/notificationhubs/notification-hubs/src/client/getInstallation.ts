@@ -7,6 +7,8 @@ import { NotificationHubsClientContext } from "./index.js";
 import { OperationOptions } from "@azure/core-client";
 import { tracingClient } from "../utils/tracing.js";
 
+const OPERATION_NAME = "getInstallation";
+
 /**
  * Gets an Azure Notification Hub installation by the installation ID.
  * @param context - The Notification Hubs client.
@@ -20,12 +22,13 @@ export function getInstallation(
   options: OperationOptions = {}
 ): Promise<Installation> {
   return tracingClient.withSpan(
-    "NotificationHubsClientContext-getInstallation",
+    `NotificationHubsClientContext-${OPERATION_NAME}`,
     options,
     async (updatedOptions) => {
       const endpoint = context.requestUrl();
       endpoint.pathname += `/installations/${installationId}`;
-      const headers = context.createHeaders();
+
+      const headers = await context.createHeaders(OPERATION_NAME);
       headers.set("Content-Type", "application/json");
 
       const request = createRequest(endpoint, "GET", headers, updatedOptions);
