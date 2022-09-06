@@ -491,6 +491,14 @@ const REGISTRATION_FEED = `<?xml version="1.0" encoding="utf-8" ?>
   </entry>
 </feed>`;
 
+const EMPTY_REGISTRATION_FEED = `<?xml version="1.0" encoding="utf-8" ?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title type="text">Registrations</title>
+  <id>https://testns.servicebus.windows.net/testhub/registrations/?api-version=2020-06</id>
+  <updated>2022-09-06T20:06:33Z</updated>
+  <link rel="self" href="https://testns.servicebus.windows.net/testhub/registrations/?api-version=2020-06" />
+</feed>`;
+
 describe("parseRegistrationFeed", () => {
   it("should parse a registration feed", async () => {
     const registrations = await registrationDescriptionParser.parseRegistrationFeed(
@@ -508,6 +516,14 @@ describe("parseRegistrationFeed", () => {
     assert.equal(appleRegistration.registrationId, "{Registration Id}");
     assert.equal(appleRegistration.deviceToken, "{DeviceToken}");
     assert.deepEqual(appleRegistration.tags, ["myTag", "myOtherTag"]);
+  });
+
+  it("should parse an empty feed", async () => {
+    const registrations = await registrationDescriptionParser.parseRegistrationFeed(
+      EMPTY_REGISTRATION_FEED
+    );
+
+    assert.equal(registrations.length, 0);
   });
 });
 
