@@ -106,7 +106,7 @@ describe("supports tracing", function () {
     it("deleteModel", () =>
       assert.supportsTracing(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await dmac.deleteModel("test", options);
+          await dmac.deleteDocumentModel("test", options);
         }),
         ["DocumentModelAdministrationClient.deleteDocumentModel"]
       ));
@@ -114,17 +114,17 @@ describe("supports tracing", function () {
     it("beginBuildModel", () =>
       assert.supportsTracing(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await (await dmac.beginBuildModel("test", "test", "neural", options)).poll();
+          await (await dmac.beginBuildDocumentModel("test", "test", "neural", options)).poll();
         }),
-        ["DocumentModelAdministrationClient.beginBuildModel"]
+        ["DocumentModelAdministrationClient.beginBuildDocumentModel"]
       ));
 
     it("beginComposeModel", () =>
       assert.supportsTracing(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await dmac.beginComposeModel("test", [], options);
+          await dmac.beginComposeDocumentModel("test", [], options);
         }),
-        ["DocumentModelAdministrationClient.beginComposeModel"]
+        ["DocumentModelAdministrationClient.beginComposeDocumentModel"]
       ));
 
     it("getCopyAuthorization", () =>
