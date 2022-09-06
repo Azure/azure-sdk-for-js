@@ -1,25 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  AccessToken,
-  NamedKeyCredential,
-  SASCredential,
-  isNamedKeyCredential,
-  isSASCredential,
-} from "@azure/core-auth";
-import { isObjectWithProperties } from "@azure/core-util";
 import { signString } from "./hmacSha256.js";
+
+/**
+ * Represents a named key credential.
+ */
+export interface NamedKeyCredential {
+  /**
+   * The Shared Access Signature key name.
+   */
+  sharedAccessKeyName: string;
+
+  /**
+   * The Shared Access Signature key value.
+   */
+  sharedAccessKey: string;
+}
+
+/**
+ * Represents an access token for a SAS Credential.
+ */
+export interface AccessToken {
+  /**
+   * The SAS Token.
+   */
+  token: string;
+
+  /**
+   * The expiration time of the token.
+   */
+  expiresOnTimestamp: number;
+}
 
 /**
  * A SasTokenProvider provides an alternative to TokenCredential for providing an `AccessToken`.
  * @hidden
  */
 export interface SasTokenProvider {
-  /**
-   * Property used to distinguish SasTokenProvider from TokenCredential.
-   */
-  isSasTokenProvider: true;
   /**
    * Gets the token provided by this provider.
    *
@@ -35,23 +53,8 @@ export interface SasTokenProvider {
  * @param data - The sharedAccessKeyName/sharedAccessKey pair or the sharedAccessSignature.
  * @hidden
  */
-export function createSasTokenProvider(
-  data:
-    | { sharedAccessKeyName: string; sharedAccessKey: string }
-    | { sharedAccessSignature: string }
-    | NamedKeyCredential
-    | SASCredential
-): SasTokenProvider {
-  if (isNamedKeyCredential(data) || isSASCredential(data)) {
-    return new SasTokenProviderImpl(data);
-  } else if (isObjectWithProperties(data, ["sharedAccessKeyName", "sharedAccessKey"])) {
-    return new SasTokenProviderImpl({
-      name: data.sharedAccessKeyName,
-      key: data.sharedAccessKey,
-    } as NamedKeyCredential);
-  } else {
-    return new SasTokenProviderImpl({ signature: data.sharedAccessSignature });
-  }
+export function createSasTokenProvider(data: NamedKeyCredential): SasTokenProvider {
+  return new SasTokenProviderImpl(data);
 }
 
 /**
@@ -71,13 +74,13 @@ export class SasTokenProviderImpl implements SasTokenProvider {
   /**
    * The SASCredential containing the key name and secret key value.
    */
-  private _credential: SASCredential | NamedKeyCredential;
+  private _credential: NamedKeyCredential;
 
   /**
    * Initializes a new instance of SasTokenProvider
    * @param credential - The source `NamedKeyCredential` or `SASCredential`.
    */
-  constructor(credential: SASCredential | NamedKeyCredential) {
+  constructor(credential: NamedKeyCredential) {
     this._credential = credential;
   }
 
@@ -86,19 +89,12 @@ export class SasTokenProviderImpl implements SasTokenProvider {
    * @param audience - The audience for which the token is desired.
    */
   async getToken(audience: string): Promise<AccessToken> {
-    if (isNamedKeyCredential(this._credential)) {
-      return createToken(
-        this._credential.name,
-        this._credential.key,
-        Math.floor(Date.now() / 1000) + 3600,
-        audience
-      );
-    } else {
-      return {
-        token: this._credential.signature,
-        expiresOnTimestamp: 0,
-      };
-    }
+    return createToken(
+      this._credential.sharedAccessKeyName,
+      this._credential.sharedAccessKey,
+      Math.floor(Date.now() / 1000) + 3600,
+      audience
+    );
   }
 }
 
