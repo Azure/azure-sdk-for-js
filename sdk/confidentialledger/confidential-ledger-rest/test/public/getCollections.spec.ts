@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ConfidentialLedgerClient, CreateLedgerEntryParameters, isUnexpected, LedgerEntry } from "../../src";
+import {
+  ConfidentialLedgerClient,
+  CreateLedgerEntryParameters,
+  isUnexpected,
+  LedgerEntry,
+} from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
 import { Context } from "mocha";

@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { 
-  ConfidentialLedgerClient, 
+import {
+  ConfidentialLedgerClient,
   LedgerEntry,
   CreateLedgerEntryParameters,
-  isUnexpected } from "../../src";
+  isUnexpected,
+} from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
 import { Context } from "mocha";
@@ -39,7 +40,7 @@ describe("Get ledger history", () => {
     await recorder.stop();
   });
 
-  it("should obtain ledger entries from ledger", async function () {
+  it.skip("should obtain ledger entries from ledger", async function () {
     const result = await client.path("/app/transactions").get();
     console.log("result from /app/transactions: " + result.status);
 

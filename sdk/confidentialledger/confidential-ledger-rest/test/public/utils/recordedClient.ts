@@ -54,7 +54,7 @@ export async function createClient(): Promise<ConfidentialLedgerClient> {
     env.AZURE_CLIENT_ID,
     env.AZURE_CLIENT_SECRET
   );
-  
+
   const { ledgerIdentityCertificate } = await getLedgerIdentity(
     env.LEDGER_NAME,
     env.IDENTITY_SERVICE_URL ? env.IDENTITY_SERVICE_URL : null
