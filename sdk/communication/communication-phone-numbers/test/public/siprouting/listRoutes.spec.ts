@@ -6,58 +6,63 @@ import { Context } from "mocha";
 
 import { SipRoutingClient } from "../../../src";
 
+import { matrix } from "@azure/test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
-import { createRecordedClient } from "./utils/recordedClient";
+import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 
-describe("SipRoutingClient - list routes", function () {
-  let client: SipRoutingClient;
-  let recorder: Recorder;
+matrix([[true, false]], async function (useAad) {
+  describe(`SipRoutingClient - list routes${useAad ? " [AAD]" : ""}`, function () {
+    let client: SipRoutingClient;
+    let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    ({ client, recorder } = await createRecordedClient(this));
-  });
+    beforeEach(async function (this: Context) {
+      ({ client, recorder } = useAad 
+        ? await createRecordedClientWithToken(this)
+        : await createRecordedClient(this));
+    });
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
-      await recorder.stop();
-    }
-  });
+    afterEach(async function (this: Context) {
+      if (!this.currentTest?.isPending()) {
+        await recorder.stop();
+      }
+    });
 
-  it("can retrieve routes", async () => {
-    assert.isArray(await client.listRoutes());
-  });
+    it("can retrieve routes", async () => {
+      assert.isArray(await client.listRoutes());
+    });
 
-  it("can retrieve empty routes", async () => {
-    await client.setRoutes([]);
+    it("can retrieve empty routes", async () => {
+      await client.setRoutes([]);
 
-    const routes = await client.listRoutes();
+      const routes = await client.listRoutes();
 
-    assert.isNotNull(routes);
-    assert.isArray(routes);
-    assert.isEmpty(routes);
-  });
+      assert.isNotNull(routes);
+      assert.isArray(routes);
+      assert.isEmpty(routes);
+    });
 
-  it("can retrieve not empty routes", async () => {
-    const expectedRoutes = [
-      {
-        name: "myFirstRoute",
-        description: "myFirstRoute's description",
-        numberPattern: "^+[1-9][0-9]{3,23}$",
-        trunks: [],
-      },
-      {
-        name: "mySecondRoute",
-        description: "mySecondRoute's description",
-        numberPattern: "^+[1-9][0-9]{3,23}$",
-        trunks: [],
-      },
-    ];
-    await client.setRoutes(expectedRoutes);
+    it("can retrieve not empty routes", async () => {
+      const expectedRoutes = [
+        {
+          name: "myFirstRoute",
+          description: "myFirstRoute's description",
+          numberPattern: "^+[1-9][0-9]{3,23}$",
+          trunks: [],
+        },
+        {
+          name: "mySecondRoute",
+          description: "mySecondRoute's description",
+          numberPattern: "^+[1-9][0-9]{3,23}$",
+          trunks: [],
+        },
+      ];
+      await client.setRoutes(expectedRoutes);
 
-    const routes = await client.listRoutes();
+      const routes = await client.listRoutes();
 
-    assert.isNotNull(routes);
-    assert.isArray(routes);
-    assert.deepEqual(routes, expectedRoutes);
+      assert.isNotNull(routes);
+      assert.isArray(routes);
+      assert.deepEqual(routes, expectedRoutes);
+    });
   });
 });
