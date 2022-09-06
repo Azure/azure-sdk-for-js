@@ -10,7 +10,6 @@ The following client libraries use this package:
 
 - @azure/maps-search
 - @azure/maps-route
-- @azure/maps-render
 
 ## Getting started
 
