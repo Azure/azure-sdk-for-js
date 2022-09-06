@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Regenerates the auth token for the notebook workspace
  *
  * @summary Regenerates the auth token for the notebook workspace
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBNotebookWorkspaceRegenerateAuthToken.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-08-15/examples/CosmosDBNotebookWorkspaceRegenerateAuthToken.json
  */
 async function cosmosDbNotebookWorkspaceRegenerateAuthToken() {
   const subscriptionId = "subid";

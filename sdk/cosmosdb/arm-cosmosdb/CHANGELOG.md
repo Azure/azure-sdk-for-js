@@ -1,4 +1,64 @@
 # Release History
+
+## 15.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 15.2.0 (2022-09-05)
+    
+**Features**
+
+  - Added operation MongoDBResources.beginCreateUpdateMongoRoleDefinition
+  - Added operation MongoDBResources.beginCreateUpdateMongoRoleDefinitionAndWait
+  - Added operation MongoDBResources.beginCreateUpdateMongoUserDefinition
+  - Added operation MongoDBResources.beginCreateUpdateMongoUserDefinitionAndWait
+  - Added operation MongoDBResources.beginDeleteMongoRoleDefinition
+  - Added operation MongoDBResources.beginDeleteMongoRoleDefinitionAndWait
+  - Added operation MongoDBResources.beginDeleteMongoUserDefinition
+  - Added operation MongoDBResources.beginDeleteMongoUserDefinitionAndWait
+  - Added operation MongoDBResources.getMongoRoleDefinition
+  - Added operation MongoDBResources.getMongoUserDefinition
+  - Added operation MongoDBResources.listMongoRoleDefinitions
+  - Added operation MongoDBResources.listMongoUserDefinitions
+  - Added Interface AccountKeyMetadata
+  - Added Interface DatabaseAccountKeysMetadata
+  - Added Interface MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams
+  - Added Interface MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams
+  - Added Interface MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams
+  - Added Interface MongoDBResourcesDeleteMongoUserDefinitionOptionalParams
+  - Added Interface MongoDBResourcesGetMongoRoleDefinitionOptionalParams
+  - Added Interface MongoDBResourcesGetMongoUserDefinitionOptionalParams
+  - Added Interface MongoDBResourcesListMongoRoleDefinitionsOptionalParams
+  - Added Interface MongoDBResourcesListMongoUserDefinitionsOptionalParams
+  - Added Interface MongoRoleDefinitionCreateUpdateParameters
+  - Added Interface MongoRoleDefinitionGetResults
+  - Added Interface MongoRoleDefinitionListResult
+  - Added Interface MongoUserDefinitionCreateUpdateParameters
+  - Added Interface MongoUserDefinitionGetResults
+  - Added Interface MongoUserDefinitionListResult
+  - Added Interface Privilege
+  - Added Interface PrivilegeResource
+  - Added Interface Role
+  - Added Type Alias MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse
+  - Added Type Alias MongoDBResourcesCreateUpdateMongoUserDefinitionResponse
+  - Added Type Alias MongoDBResourcesGetMongoRoleDefinitionResponse
+  - Added Type Alias MongoDBResourcesGetMongoUserDefinitionResponse
+  - Added Type Alias MongoDBResourcesListMongoRoleDefinitionsResponse
+  - Added Type Alias MongoDBResourcesListMongoUserDefinitionsResponse
+  - Added Type Alias MongoRoleDefinitionType
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enablePartitionMerge
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter keysMetadata
+  - Interface DatabaseAccountGetResults has a new optional parameter enablePartitionMerge
+  - Interface DatabaseAccountGetResults has a new optional parameter keysMetadata
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter enablePartitionMerge
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter keysMetadata
+    
     
 ## 15.1.0 (2022-07-18)
     

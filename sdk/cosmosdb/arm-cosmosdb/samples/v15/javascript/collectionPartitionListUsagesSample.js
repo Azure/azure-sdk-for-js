@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Retrieves the usages (most recent storage data) for the given collection, split by partition.
  *
  * @summary Retrieves the usages (most recent storage data) for the given collection, split by partition.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBCollectionPartitionGetUsages.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-08-15/examples/CosmosDBCollectionPartitionGetUsages.json
  */
 async function cosmosDbCollectionGetUsages() {
   const subscriptionId = "subid";

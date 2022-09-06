@@ -6,6 +6,7 @@
 
 import { AggregationTemporality } from '@opentelemetry/sdk-metrics-base';
 import { ExportResult } from '@opentelemetry/core';
+import { InstrumentType } from '@opentelemetry/sdk-metrics-base';
 import { PushMetricExporter } from '@opentelemetry/sdk-metrics-base';
 import { ReadableSpan } from '@opentelemetry/sdk-trace-base';
 import { ResourceMetrics } from '@opentelemetry/sdk-metrics-base';
@@ -32,7 +33,7 @@ export class AzureMonitorMetricExporter extends AzureMonitorBaseExporter impleme
     constructor(options?: AzureExporterConfig);
     export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): Promise<void>;
     forceFlush(): Promise<void>;
-    selectAggregationTemporality(): AggregationTemporality;
+    selectAggregationTemporality(_instrumentType: InstrumentType): AggregationTemporality;
     shutdown(): Promise<void>;
 }
 

@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update an Azure Cosmos DB Table
  *
  * @summary Create or update an Azure Cosmos DB Table
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBTableCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-08-15/examples/CosmosDBTableCreateUpdate.json
  */
 async function cosmosDbTableReplace() {
   const subscriptionId = "subid";

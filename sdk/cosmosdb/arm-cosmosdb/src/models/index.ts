@@ -227,6 +227,39 @@ export interface Capacity {
   totalThroughputLimit?: number;
 }
 
+/** The metadata related to each access key for the given Cosmos DB database account. */
+export interface DatabaseAccountKeysMetadata {
+  /**
+   * The metadata related to the Primary Read-Write Key for the given Cosmos DB database account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryMasterKey?: AccountKeyMetadata;
+  /**
+   * The metadata related to the Secondary Read-Write Key for the given Cosmos DB database account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secondaryMasterKey?: AccountKeyMetadata;
+  /**
+   * The metadata related to the Primary Read-Only Key for the given Cosmos DB database account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryReadonlyMasterKey?: AccountKeyMetadata;
+  /**
+   * The metadata related to the Secondary Read-Only Key for the given Cosmos DB database account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secondaryReadonlyMasterKey?: AccountKeyMetadata;
+}
+
+/** The metadata related to an access key for a given database account. */
+export interface AccountKeyMetadata {
+  /**
+   * Generation time in UTC of the key in ISO-8601 format. If the value is missing from the object, it means that the last key regeneration was triggered before 2022-06-18.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly generationTime?: Date;
+}
+
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
@@ -322,6 +355,13 @@ export interface DatabaseAccountUpdateParameters {
   disableLocalAuth?: boolean;
   /** The object that represents all properties related to capacity enforcement on an account. */
   capacity?: Capacity;
+  /**
+   * This property is ignored during the update operation, as the metadata is read-only. The object represents the metadata for the Account Keys of the Cosmos DB account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keysMetadata?: DatabaseAccountKeysMetadata;
+  /** Flag to indicate enabling/disabling of Partition Merge feature on the account */
+  enablePartitionMerge?: boolean;
 }
 
 /** The list of new failover policies for the failover priority change. */
@@ -1437,6 +1477,78 @@ export interface PrivateLinkResourceListResult {
 }
 
 /** The set of data plane operations permitted through this Role Definition. */
+export interface Privilege {
+  /** An Azure Cosmos DB Mongo DB Resource. */
+  resource?: PrivilegeResource;
+  /** An array of actions that are allowed. */
+  actions?: string[];
+}
+
+/** An Azure Cosmos DB Mongo DB Resource. */
+export interface PrivilegeResource {
+  /** The database name the role is applied. */
+  db?: string;
+  /** The collection name the role is applied. */
+  collection?: string;
+}
+
+/** The set of roles permitted through this Role Definition. */
+export interface Role {
+  /** The database name the role is applied. */
+  db?: string;
+  /** The role name. */
+  role?: string;
+}
+
+/** Parameters to create and update an Azure Cosmos DB Mongo Role Definition. */
+export interface MongoRoleDefinitionCreateUpdateParameters {
+  /** A user-friendly name for the Role Definition. Must be unique for the database account. */
+  roleName?: string;
+  /** Indicates whether the Role Definition was built-in or user created. */
+  type?: MongoRoleDefinitionType;
+  /** The database name for which access is being granted for this Role Definition. */
+  databaseName?: string;
+  /** A set of privileges contained by the Role Definition. This will allow application of this Role Definition on the entire database account or any underlying Database / Collection. Scopes higher than Database are not enforceable as privilege. */
+  privileges?: Privilege[];
+  /** The set of roles inherited by this Role Definition. */
+  roles?: Role[];
+}
+
+/** The relevant Mongo Role Definitions. */
+export interface MongoRoleDefinitionListResult {
+  /**
+   * List of Mongo Role Definitions and their properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: MongoRoleDefinitionGetResults[];
+}
+
+/** Parameters to create and update an Azure Cosmos DB Mongo User Definition. */
+export interface MongoUserDefinitionCreateUpdateParameters {
+  /** The user name for User Definition. */
+  userName?: string;
+  /** The password for User Definition. Response does not contain user password. */
+  password?: string;
+  /** The database name for which access is being granted for this User Definition. */
+  databaseName?: string;
+  /** A custom definition for the USer Definition. */
+  customData?: string;
+  /** The set of roles inherited by the User Definition. */
+  roles?: Role[];
+  /** The Mongo Auth mechanism. For now, we only support auth mechanism SCRAM-SHA-256. */
+  mechanisms?: string;
+}
+
+/** The relevant User Definition. */
+export interface MongoUserDefinitionListResult {
+  /**
+   * List of User Definition and their properties
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: MongoUserDefinitionGetResults[];
+}
+
+/** The set of data plane operations permitted through this Role Definition. */
 export interface Permission {
   /** An array of data actions that are allowed. */
   dataActions?: string[];
@@ -2100,6 +2212,13 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
   disableLocalAuth?: boolean;
   /** The object that represents all properties related to capacity enforcement on an account. */
   capacity?: Capacity;
+  /**
+   * The object that represents the metadata for the Account Keys of the Cosmos DB account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keysMetadata?: DatabaseAccountKeysMetadata;
+  /** Flag to indicate enabling/disabling of Partition Merge feature on the account */
+  enablePartitionMerge?: boolean;
 }
 
 /** Parameters to create and update Cosmos DB database accounts. */
@@ -2163,6 +2282,13 @@ export interface DatabaseAccountCreateUpdateParameters
   restoreParameters?: RestoreParameters;
   /** The object that represents all properties related to capacity enforcement on an account. */
   capacity?: Capacity;
+  /**
+   * This property is ignored during the update/create operation, as the metadata is read-only. The object represents the metadata for the Account Keys of the Cosmos DB account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keysMetadata?: DatabaseAccountKeysMetadata;
+  /** Flag to indicate enabling/disabling of Partition Merge feature on the account */
+  enablePartitionMerge?: boolean;
 }
 
 /** An Azure Cosmos DB SQL database. */
@@ -2592,6 +2718,36 @@ export interface PrivateLinkResource extends ARMProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly requiredZoneNames?: string[];
+}
+
+/** An Azure Cosmos DB Mongo Role Definition. */
+export interface MongoRoleDefinitionGetResults extends ARMProxyResource {
+  /** A user-friendly name for the Role Definition. Must be unique for the database account. */
+  roleName?: string;
+  /** Indicates whether the Role Definition was built-in or user created. */
+  typePropertiesType?: MongoRoleDefinitionType;
+  /** The database name for which access is being granted for this Role Definition. */
+  databaseName?: string;
+  /** A set of privileges contained by the Role Definition. This will allow application of this Role Definition on the entire database account or any underlying Database / Collection. Scopes higher than Database are not enforceable as privilege. */
+  privileges?: Privilege[];
+  /** The set of roles inherited by this Role Definition. */
+  roles?: Role[];
+}
+
+/** An Azure Cosmos DB User Definition */
+export interface MongoUserDefinitionGetResults extends ARMProxyResource {
+  /** The user name for User Definition. */
+  userName?: string;
+  /** The password for User Definition. Response does not contain user password. */
+  password?: string;
+  /** The database name for which access is being granted for this User Definition. */
+  databaseName?: string;
+  /** A custom definition for the USer Definition. */
+  customData?: string;
+  /** The set of roles inherited by the User Definition. */
+  roles?: Role[];
+  /** The Mongo Auth mechanism. For now, we only support auth mechanism SCRAM-SHA-256. */
+  mechanisms?: string;
 }
 
 /** An Azure Cosmos DB SQL Role Definition. */
@@ -3520,6 +3676,8 @@ export type DefaultConsistencyLevel =
   | "ConsistentPrefix";
 /** Defines values for NetworkAclBypass. */
 export type NetworkAclBypass = "None" | "AzureServices";
+/** Defines values for MongoRoleDefinitionType. */
+export type MongoRoleDefinitionType = "BuiltInRole" | "CustomRole";
 /** Defines values for RoleDefinitionType. */
 export type RoleDefinitionType = "BuiltInRole" | "CustomRole";
 
@@ -4307,6 +4465,76 @@ export interface MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptio
 
 /** Contains response data for the migrateMongoDBCollectionToManualThroughput operation. */
 export type MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse = ThroughputSettingsGetResults;
+
+/** Optional parameters. */
+export interface MongoDBResourcesGetMongoRoleDefinitionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getMongoRoleDefinition operation. */
+export type MongoDBResourcesGetMongoRoleDefinitionResponse = MongoRoleDefinitionGetResults;
+
+/** Optional parameters. */
+export interface MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createUpdateMongoRoleDefinition operation. */
+export type MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse = MongoRoleDefinitionGetResults;
+
+/** Optional parameters. */
+export interface MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface MongoDBResourcesListMongoRoleDefinitionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listMongoRoleDefinitions operation. */
+export type MongoDBResourcesListMongoRoleDefinitionsResponse = MongoRoleDefinitionListResult;
+
+/** Optional parameters. */
+export interface MongoDBResourcesGetMongoUserDefinitionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getMongoUserDefinition operation. */
+export type MongoDBResourcesGetMongoUserDefinitionResponse = MongoUserDefinitionGetResults;
+
+/** Optional parameters. */
+export interface MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createUpdateMongoUserDefinition operation. */
+export type MongoDBResourcesCreateUpdateMongoUserDefinitionResponse = MongoUserDefinitionGetResults;
+
+/** Optional parameters. */
+export interface MongoDBResourcesDeleteMongoUserDefinitionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface MongoDBResourcesListMongoUserDefinitionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listMongoUserDefinitions operation. */
+export type MongoDBResourcesListMongoUserDefinitionsResponse = MongoUserDefinitionListResult;
 
 /** Optional parameters. */
 export interface MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams

@@ -1,23 +1,52 @@
 # Release History
 
+## 3.17.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 3.17.0 (2022-08-19)
+
+### Features Added
+
+#### GA: Azure Cosmos DB Integrated Cache
+
+- Support DedicatedGatewayRequestOptions and MaxIntegratedCacheStaleness [#21240](https://github.com/Azure/azure-sdk-for-js/pull/21240)
+- Upgrade cosmos with azure core tracing [#22284](https://github.com/Azure/azure-sdk-for-js/pull/22284)
+- Removed old logging and implement Azure core logging coverage [#18723](https://github.com/Azure/azure-sdk-for-js/pull/18723?)
+
+### Bugs Fixed
+
+- ParallelQueryExecutionContextBase breaks use of abortSignal [#18544](https://github.com/Azure/azure-sdk-for-js/pull/18544)
+- Fixes id encoding issues when using special characters fo RoutingGateway
+
 ## 3.16.3 (2022-07-13)
 
 ### Bugs Fixed
-- Fixes issues with "id" encoding when using special characters that should be allowed in the "id" property of a document.  [#22548](https://github.com/Azure/azure-sdk-for-js/pull/22548)
+
+- Fixes issues with "id" encoding when using special characters that should be allowed in the "id" property of a document. [#22548](https://github.com/Azure/azure-sdk-for-js/pull/22548)
 
 ## 3.16.2 (2022-06-24)
 
 ### Bugs Fixed
-- Adds support to run queries with group by over a column with null values.  [#22345](https://github.com/Azure/azure-sdk-for-js/pull/22345)
+
+- Adds support to run queries with group by over a column with null values. [#22345](https://github.com/Azure/azure-sdk-for-js/pull/22345)
 
 ## 3.16.1 (2022-05-31)
 
 ### Bugs Fixed
+
 - Fix [#22003](https://github.com/Azure/azure-sdk-for-js/issues/22003) missing interface error. [#22015](https://github.com/Azure/azure-sdk-for-js/pull/22015)
 
 ## 3.16.0 (2022-05-23)
 
 ### Features Added
+
 - Allow users like cosmos-explorer to specify hierarchical partition keys. https://github.com/Azure/azure-sdk-for-js/pull/21934
 - Support Dedicated Gateway RequestOptions and Max Integrated Cache Staleness. https://github.com/Azure/azure-sdk-for-js/pull/21240
 
@@ -107,8 +136,8 @@ const client = new CosmosClient({
   connectionPolicy: {
     ...defaultConnectionPolicy,
     endpointRefreshRateInMs: 700,
-    enableBackgroundEndpointRefreshing: true
-  }
+    enableBackgroundEndpointRefreshing: true,
+  },
 });
 ```
 
@@ -253,17 +282,17 @@ database.container.create(containerDefinition)
 const operations: OperationInput[] = [
   {
     operationType: "Create",
-    resourceBody: { id: "doc1", name: "sample", key: "A" }
+    resourceBody: { id: "doc1", name: "sample", key: "A" },
   },
   {
     operationType: "Upsert",
-    resourceBody: { id: "doc2", name: "other", key: "A" }
+    resourceBody: { id: "doc2", name: "other", key: "A" },
   },
   {
     operationType: "Read",
     id: "readItemId",
-    partitionKey: "key"
-  }
+    partitionKey: "key",
+  },
 ];
 
 await database.container.items.bulk(operations);
@@ -480,14 +509,14 @@ Constructor options have been simplified:
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
   auth: {
-    masterKey: "your-primary-key"
-  }
+    masterKey: "your-primary-key",
+  },
 });
 
 // v3
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
-  key: "your-primary-key"
+  key: "your-primary-key",
 });
 ```
 

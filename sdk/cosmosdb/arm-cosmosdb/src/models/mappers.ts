@@ -541,6 +541,59 @@ export const Capacity: coreClient.CompositeMapper = {
   }
 };
 
+export const DatabaseAccountKeysMetadata: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatabaseAccountKeysMetadata",
+    modelProperties: {
+      primaryMasterKey: {
+        serializedName: "primaryMasterKey",
+        type: {
+          name: "Composite",
+          className: "AccountKeyMetadata"
+        }
+      },
+      secondaryMasterKey: {
+        serializedName: "secondaryMasterKey",
+        type: {
+          name: "Composite",
+          className: "AccountKeyMetadata"
+        }
+      },
+      primaryReadonlyMasterKey: {
+        serializedName: "primaryReadonlyMasterKey",
+        type: {
+          name: "Composite",
+          className: "AccountKeyMetadata"
+        }
+      },
+      secondaryReadonlyMasterKey: {
+        serializedName: "secondaryReadonlyMasterKey",
+        type: {
+          name: "Composite",
+          className: "AccountKeyMetadata"
+        }
+      }
+    }
+  }
+};
+
+export const AccountKeyMetadata: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccountKeyMetadata",
+    modelProperties: {
+      generationTime: {
+        serializedName: "generationTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const SystemData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -837,6 +890,19 @@ export const DatabaseAccountUpdateParameters: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Capacity"
+        }
+      },
+      keysMetadata: {
+        serializedName: "properties.keysMetadata",
+        type: {
+          name: "Composite",
+          className: "DatabaseAccountKeysMetadata"
+        }
+      },
+      enablePartitionMerge: {
+        serializedName: "properties.enablePartitionMerge",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -3694,6 +3760,222 @@ export const PrivateLinkResourceListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const Privilege: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Privilege",
+    modelProperties: {
+      resource: {
+        serializedName: "resource",
+        type: {
+          name: "Composite",
+          className: "PrivilegeResource"
+        }
+      },
+      actions: {
+        serializedName: "actions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PrivilegeResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivilegeResource",
+    modelProperties: {
+      db: {
+        serializedName: "db",
+        type: {
+          name: "String"
+        }
+      },
+      collection: {
+        serializedName: "collection",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Role: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Role",
+    modelProperties: {
+      db: {
+        serializedName: "db",
+        type: {
+          name: "String"
+        }
+      },
+      role: {
+        serializedName: "role",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MongoRoleDefinitionCreateUpdateParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MongoRoleDefinitionCreateUpdateParameters",
+    modelProperties: {
+      roleName: {
+        serializedName: "properties.roleName",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "properties.type",
+        type: {
+          name: "Enum",
+          allowedValues: ["BuiltInRole", "CustomRole"]
+        }
+      },
+      databaseName: {
+        serializedName: "properties.databaseName",
+        type: {
+          name: "String"
+        }
+      },
+      privileges: {
+        serializedName: "properties.privileges",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Privilege"
+            }
+          }
+        }
+      },
+      roles: {
+        serializedName: "properties.roles",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Role"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MongoRoleDefinitionListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MongoRoleDefinitionListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MongoRoleDefinitionGetResults"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MongoUserDefinitionCreateUpdateParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MongoUserDefinitionCreateUpdateParameters",
+    modelProperties: {
+      userName: {
+        serializedName: "properties.userName",
+        type: {
+          name: "String"
+        }
+      },
+      password: {
+        serializedName: "properties.password",
+        type: {
+          name: "String"
+        }
+      },
+      databaseName: {
+        serializedName: "properties.databaseName",
+        type: {
+          name: "String"
+        }
+      },
+      customData: {
+        serializedName: "properties.customData",
+        type: {
+          name: "String"
+        }
+      },
+      roles: {
+        serializedName: "properties.roles",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Role"
+            }
+          }
+        }
+      },
+      mechanisms: {
+        serializedName: "properties.mechanisms",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MongoUserDefinitionListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MongoUserDefinitionListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MongoUserDefinitionGetResults"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const Permission: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5164,6 +5446,19 @@ export const DatabaseAccountGetResults: coreClient.CompositeMapper = {
           name: "Composite",
           className: "Capacity"
         }
+      },
+      keysMetadata: {
+        serializedName: "properties.keysMetadata",
+        type: {
+          name: "Composite",
+          className: "DatabaseAccountKeysMetadata"
+        }
+      },
+      enablePartitionMerge: {
+        serializedName: "properties.enablePartitionMerge",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -5394,6 +5689,19 @@ export const DatabaseAccountCreateUpdateParameters: coreClient.CompositeMapper =
         type: {
           name: "Composite",
           className: "Capacity"
+        }
+      },
+      keysMetadata: {
+        serializedName: "properties.keysMetadata",
+        type: {
+          name: "Composite",
+          className: "DatabaseAccountKeysMetadata"
+        }
+      },
+      enablePartitionMerge: {
+        serializedName: "properties.enablePartitionMerge",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -6518,6 +6826,111 @@ export const PrivateLinkResource: coreClient.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const MongoRoleDefinitionGetResults: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MongoRoleDefinitionGetResults",
+    modelProperties: {
+      ...ARMProxyResource.type.modelProperties,
+      roleName: {
+        serializedName: "properties.roleName",
+        type: {
+          name: "String"
+        }
+      },
+      typePropertiesType: {
+        serializedName: "properties.type",
+        type: {
+          name: "Enum",
+          allowedValues: ["BuiltInRole", "CustomRole"]
+        }
+      },
+      databaseName: {
+        serializedName: "properties.databaseName",
+        type: {
+          name: "String"
+        }
+      },
+      privileges: {
+        serializedName: "properties.privileges",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Privilege"
+            }
+          }
+        }
+      },
+      roles: {
+        serializedName: "properties.roles",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Role"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MongoUserDefinitionGetResults: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MongoUserDefinitionGetResults",
+    modelProperties: {
+      ...ARMProxyResource.type.modelProperties,
+      userName: {
+        serializedName: "properties.userName",
+        type: {
+          name: "String"
+        }
+      },
+      password: {
+        serializedName: "properties.password",
+        type: {
+          name: "String"
+        }
+      },
+      databaseName: {
+        serializedName: "properties.databaseName",
+        type: {
+          name: "String"
+        }
+      },
+      customData: {
+        serializedName: "properties.customData",
+        type: {
+          name: "String"
+        }
+      },
+      roles: {
+        serializedName: "properties.roles",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Role"
+            }
+          }
+        }
+      },
+      mechanisms: {
+        serializedName: "properties.mechanisms",
+        type: {
+          name: "String"
         }
       }
     }

@@ -1,6 +1,22 @@
 # Release History
 
-## 1.9.1 (Unreleased)
+## 1.9.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.9.2 (2022-09-01)
+
+### Other Changes
+
+- Move `defaultLogPolicy` to after `Sign` phase in `createPipelineFromOptions`. [#22930](https://github.com/Azure/azure-sdk-for-js/pull/22930)
+
+## 1.9.1 (2022-08-04)
 
 ### Bugs Fixed
 

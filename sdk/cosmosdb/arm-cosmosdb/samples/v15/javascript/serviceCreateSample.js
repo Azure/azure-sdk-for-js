@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Creates a service.
  *
  * @summary Creates a service.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBDataTransferServiceCreate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-08-15/examples/CosmosDBDataTransferServiceCreate.json
  */
 async function dataTransferServiceCreate() {
   const subscriptionId = "subid";
@@ -44,7 +44,7 @@ dataTransferServiceCreate().catch(console.error);
  * This sample demonstrates how to Creates a service.
  *
  * @summary Creates a service.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBGraphAPIComputeServiceCreate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-08-15/examples/CosmosDBGraphAPIComputeServiceCreate.json
  */
 async function graphApiComputeServiceCreate() {
   const subscriptionId = "subid";
@@ -73,7 +73,7 @@ graphApiComputeServiceCreate().catch(console.error);
  * This sample demonstrates how to Creates a service.
  *
  * @summary Creates a service.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBMaterializedViewsBuilderServiceCreate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-08-15/examples/CosmosDBMaterializedViewsBuilderServiceCreate.json
  */
 async function materializedViewsBuilderServiceCreate() {
   const subscriptionId = "subid";
@@ -102,7 +102,7 @@ materializedViewsBuilderServiceCreate().catch(console.error);
  * This sample demonstrates how to Creates a service.
  *
  * @summary Creates a service.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBSqlDedicatedGatewayServiceCreate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-08-15/examples/CosmosDBSqlDedicatedGatewayServiceCreate.json
  */
 async function sqlDedicatedGatewayServiceCreate() {
   const subscriptionId = "subid";

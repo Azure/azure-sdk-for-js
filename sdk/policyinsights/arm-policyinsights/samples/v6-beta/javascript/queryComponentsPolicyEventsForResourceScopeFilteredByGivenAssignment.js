@@ -28,7 +28,9 @@ async function queryComponentsPolicyEventsForResourceScopeFilteredByGivenAssignm
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.policyEvents.listQueryResultsForResource(resourceId, options)) {
+  for await (let item of client.policyEvents.listQueryResultsForResource("default", resourceId, {
+    queryOptions: options,
+  })) {
     resArray.push(item);
   }
   console.log(resArray);

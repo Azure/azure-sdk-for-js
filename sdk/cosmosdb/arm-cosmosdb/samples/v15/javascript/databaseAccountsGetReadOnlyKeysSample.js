@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists the read-only access keys for the specified Azure Cosmos DB database account.
  *
  * @summary Lists the read-only access keys for the specified Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBDatabaseAccountListReadOnlyKeys.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-08-15/examples/CosmosDBDatabaseAccountListReadOnlyKeys.json
  */
 async function cosmosDbDatabaseAccountListReadOnlyKeys() {
   const subscriptionId = "subid";

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List all data centers in a particular managed Cassandra cluster.
  *
  * @summary List all data centers in a particular managed Cassandra cluster.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBManagedCassandraDataCenterList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-08-15/examples/CosmosDBManagedCassandraDataCenterList.json
  */
 async function cosmosDbManagedCassandraDataCenterList() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

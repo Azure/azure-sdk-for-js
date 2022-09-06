@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Reverts the volume relocation process, cleans up the new volume and starts using the former-existing volume.
  *
  * @summary Reverts the volume relocation process, cleans up the new volume and starts using the former-existing volume.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-01-01/examples/Volumes_RevertRelocation.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-03-01/examples/Volumes_RevertRelocation.json
  */
 async function volumesRevertRelocation() {
   const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";

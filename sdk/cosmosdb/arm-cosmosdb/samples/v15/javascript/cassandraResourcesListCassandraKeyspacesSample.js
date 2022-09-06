@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists the Cassandra keyspaces under an existing Azure Cosmos DB database account.
  *
  * @summary Lists the Cassandra keyspaces under an existing Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBCassandraKeyspaceList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-08-15/examples/CosmosDBCassandraKeyspaceList.json
  */
 async function cosmosDbCassandraKeyspaceList() {
   const subscriptionId = "subid";

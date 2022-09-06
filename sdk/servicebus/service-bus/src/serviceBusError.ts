@@ -3,7 +3,7 @@
 
 import { isMessagingError, MessagingError, translate } from "@azure/core-amqp";
 import { AmqpError } from "rhea-promise";
-import { isObjectWithProperties } from "./util/typeGuards";
+import { isObjectWithProperties } from "@azure/core-util";
 
 /**
  * Service Bus failure codes.

@@ -28,6 +28,8 @@ import {
   ContinuousBackupRestoreLocation as ContinuousBackupRestoreLocationMapper,
   MongoDBDatabaseCreateUpdateParameters as MongoDBDatabaseCreateUpdateParametersMapper,
   MongoDBCollectionCreateUpdateParameters as MongoDBCollectionCreateUpdateParametersMapper,
+  MongoRoleDefinitionCreateUpdateParameters as MongoRoleDefinitionCreateUpdateParametersMapper,
+  MongoUserDefinitionCreateUpdateParameters as MongoUserDefinitionCreateUpdateParametersMapper,
   TableCreateUpdateParameters as TableCreateUpdateParametersMapper,
   CassandraKeyspaceCreateUpdateParameters as CassandraKeyspaceCreateUpdateParametersMapper,
   CassandraTableCreateUpdateParameters as CassandraTableCreateUpdateParametersMapper,
@@ -113,7 +115,7 @@ export const accountName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-05-15",
+    defaultValue: "2022-08-15",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -404,6 +406,38 @@ export const collectionName: OperationURLParameter = {
 export const createUpdateMongoDBCollectionParameters: OperationParameter = {
   parameterPath: "createUpdateMongoDBCollectionParameters",
   mapper: MongoDBCollectionCreateUpdateParametersMapper
+};
+
+export const mongoRoleDefinitionId: OperationURLParameter = {
+  parameterPath: "mongoRoleDefinitionId",
+  mapper: {
+    serializedName: "mongoRoleDefinitionId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const createUpdateMongoRoleDefinitionParameters: OperationParameter = {
+  parameterPath: "createUpdateMongoRoleDefinitionParameters",
+  mapper: MongoRoleDefinitionCreateUpdateParametersMapper
+};
+
+export const mongoUserDefinitionId: OperationURLParameter = {
+  parameterPath: "mongoUserDefinitionId",
+  mapper: {
+    serializedName: "mongoUserDefinitionId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const createUpdateMongoUserDefinitionParameters: OperationParameter = {
+  parameterPath: "createUpdateMongoUserDefinitionParameters",
+  mapper: MongoUserDefinitionCreateUpdateParametersMapper
 };
 
 export const tableName: OperationURLParameter = {

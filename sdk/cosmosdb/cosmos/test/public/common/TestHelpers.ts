@@ -18,8 +18,17 @@ import { masterKey } from "../common/_fakeTestSecrets";
 import { DatabaseRequest } from "../../../src";
 import { ContainerRequest } from "../../../src";
 
-const defaultClient = new CosmosClient({
+const defaultRoutingGatewayPort: string = ":8081";
+const defaultComputeGatewayPort: string = ":8903";
+
+export const defaultClient = new CosmosClient({
   endpoint,
+  key: masterKey,
+  connectionPolicy: { enableBackgroundEndpointRefreshing: false },
+});
+
+export const defaultComputeGatewayClient = new CosmosClient({
+  endpoint: endpoint.replace(defaultRoutingGatewayPort, defaultComputeGatewayPort),
   key: masterKey,
   connectionPolicy: { enableBackgroundEndpointRefreshing: false },
 });

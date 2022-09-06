@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Retrieves the metrics determined by the given filter for the given database account and collection.
  *
  * @summary Retrieves the metrics determined by the given filter for the given database account and collection.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBCollectionGetMetrics.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-08-15/examples/CosmosDBCollectionGetMetrics.json
  */
 async function cosmosDbCollectionGetMetrics() {
   const subscriptionId = "subid";

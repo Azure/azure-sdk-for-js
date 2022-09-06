@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Update RUs per second of an Azure Cosmos DB SQL container
  *
  * @summary Update RUs per second of an Azure Cosmos DB SQL container
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBSqlContainerThroughputUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-08-15/examples/CosmosDBSqlContainerThroughputUpdate.json
  */
 async function cosmosDbSqlContainerThroughputUpdate() {
   const subscriptionId = "subid";

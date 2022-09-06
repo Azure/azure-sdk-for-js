@@ -1,14 +1,12 @@
 # Release History
 
-## 2.1.1 (Unreleased)
+## 3.0.0-beta.1 (2022-08-24)
 
 ### Features Added
-
+- Added support in `EnvironmentCredential` to read a certificate password from an environment variable `AZURE_CLIENT_CERTIFICATE_PASSWORD`
+- Added samples for supporting AAD authentication in Azure Redis Cache
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Removed `VisualStudioCodeCredential` from `DefaultAzureCredential` token chain. [Issue 20500](https://github.com/Azure/azure-sdk-for-js/issues/20500) tracks this.
 
 ## 2.1.0 (2022-07-08)
 

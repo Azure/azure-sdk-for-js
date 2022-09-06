@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Retrieves metric definitions for the given collection.
  *
  * @summary Retrieves metric definitions for the given collection.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBCollectionGetMetricDefinitions.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-08-15/examples/CosmosDBCollectionGetMetricDefinitions.json
  */
 async function cosmosDbCollectionGetMetricDefinitions() {
   const subscriptionId = "subid";

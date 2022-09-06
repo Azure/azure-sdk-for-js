@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Updates the properties of an existing Azure Cosmos DB database account.
  *
  * @summary Updates the properties of an existing Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBDatabaseAccountPatch.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-08-15/examples/CosmosDBDatabaseAccountPatch.json
  */
 async function cosmosDbDatabaseAccountPatch() {
   const subscriptionId = "subid";
@@ -40,6 +40,7 @@ async function cosmosDbDatabaseAccountPatch() {
     defaultIdentity: "FirstPartyIdentity",
     enableAnalyticalStorage: true,
     enableFreeTier: false,
+    enablePartitionMerge: true,
     identity: {
       type: "SystemAssigned,UserAssigned",
       userAssignedIdentities: {

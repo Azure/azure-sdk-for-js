@@ -209,13 +209,18 @@ export class MetricBasicScenario implements Scenario {
   async run(): Promise<void> {
     const meter = this._provider.getMeter("basic");
     let counter = meter.createCounter("testCounter");
+    let counter2 = meter.createCounter("testCounter2");
     let histogram = meter.createHistogram("testHistogram");
+    let histogram2 = meter.createHistogram("testHistogram2");
+    let attributes = { testAttribute: "testValue" };
     counter.add(1);
     counter.add(2);
+    counter2.add(12, attributes);
     histogram.record(1);
     histogram.record(2);
     histogram.record(3);
     histogram.record(4);
+    histogram2.record(12, attributes);
     await delay(0);
   }
 
@@ -225,7 +230,6 @@ export class MetricBasicScenario implements Scenario {
 
   flush(): Promise<void> {
     return delay(100);
-    // return metricReader.forceFlush();
   }
 
   expectation: Expectation[] = [
@@ -243,13 +247,70 @@ export class MetricBasicScenario implements Scenario {
               count: 1,
               dataPointType: "Aggregation",
             },
+          ],
+        } as any,
+      },
+      children: [],
+    },
+    {
+      ...COMMON_ENVELOPE_PARAMS,
+      name: "Microsoft.ApplicationInsights.Metric",
+      data: {
+        baseType: "MetricData",
+        baseData: {
+          version: 2,
+          metrics: [
+            {
+              name: "testCounter2",
+              value: 12,
+              count: 1,
+              dataPointType: "Aggregation",
+            },
+          ],
+          properties: { testAttribute: "testValue" },
+        } as any,
+      },
+      children: [],
+    },
+    {
+      ...COMMON_ENVELOPE_PARAMS,
+      name: "Microsoft.ApplicationInsights.Metric",
+      data: {
+        baseType: "MetricData",
+        baseData: {
+          version: 2,
+          metrics: [
             {
               name: "testHistogram",
               value: 10,
               count: 4,
+              max: 4,
+              min: 1,
               dataPointType: "Aggregation",
             },
           ],
+        } as any,
+      },
+      children: [],
+    },
+    {
+      ...COMMON_ENVELOPE_PARAMS,
+      name: "Microsoft.ApplicationInsights.Metric",
+      data: {
+        baseType: "MetricData",
+        baseData: {
+          version: 2,
+          metrics: [
+            {
+              name: "testHistogram2",
+              value: 12,
+              count: 1,
+              max: 12,
+              min: 12,
+              dataPointType: "Aggregation",
+            },
+          ],
+          properties: { testAttribute: "testValue" },
         } as any,
       },
       children: [],

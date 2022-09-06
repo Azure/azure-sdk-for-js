@@ -11,7 +11,7 @@ import {
   LogsQueryClient,
   LogsTable,
   LogsQueryOptions,
-  LogsQueryResultStatus
+  LogsQueryResultStatus,
 } from "@azure/monitor-query";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -32,10 +32,10 @@ export async function main() {
   console.log(`Running '${kustoQuery}' over the last One Hour`);
   const queryLogsOptions: LogsQueryOptions = {
     // explicitly control the amount of time the server can spend processing the query.
-    serverTimeoutInSeconds: 60,
+    serverTimeoutInSeconds: 600, // sets the timeout to 10 minutes
     // optionally enable returning additional statistics about the query's execution.
     // (by default this is off)
-    includeQueryStatistics: true
+    includeQueryStatistics: true,
   };
 
   const result = await logsQueryClient.queryWorkspace(

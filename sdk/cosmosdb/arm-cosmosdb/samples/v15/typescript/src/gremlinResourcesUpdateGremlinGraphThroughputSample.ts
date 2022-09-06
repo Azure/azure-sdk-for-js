@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Update RUs per second of an Azure Cosmos DB Gremlin graph
  *
  * @summary Update RUs per second of an Azure Cosmos DB Gremlin graph
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBGremlinGraphThroughputUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-08-15/examples/CosmosDBGremlinGraphThroughputUpdate.json
  */
 async function cosmosDbGremlinGraphThroughputUpdate() {
   const subscriptionId = "subid";

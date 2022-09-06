@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e515b6251fdc21015282d2e84b85beec7c091763/specification/storage/data-plane/Azure.Storage.Files.DataLake/preview/2021-06-08/DataLakeStorage.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/0b1123325e02aa5515ed7641923a8f7a6c8b545a/specification/storage/data-plane/Azure.Storage.Files.DataLake/preview/2021-06-08/DataLakeStorage.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -20,7 +20,7 @@ disable-async-iterators: true
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210223.1"
-package-version: 12.10.1
+package-version: 12.11.0-beta.2
 ```
 
 ## Customizations for Track 2 Generator
@@ -347,11 +347,11 @@ directive:
       ];
 ```
 
-### Update service version from "2021-06-08" to "2021-08-06"
+### Update service version from "2021-06-08" to "2021-10-04"
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2021-08-06" ];
+    transform: $.enum = [ "2021-10-04" ];
 ```

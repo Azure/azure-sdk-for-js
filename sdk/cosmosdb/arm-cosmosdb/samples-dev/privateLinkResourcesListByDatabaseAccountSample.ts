@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets the private link resources that need to be created for a Cosmos DB account.
  *
  * @summary Gets the private link resources that need to be created for a Cosmos DB account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBPrivateLinkResourceListGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-08-15/examples/CosmosDBPrivateLinkResourceListGet.json
  */
 async function getsPrivateEndpointConnection() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";

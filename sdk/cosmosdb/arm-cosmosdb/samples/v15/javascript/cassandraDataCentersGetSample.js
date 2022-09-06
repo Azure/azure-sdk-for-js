@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Get the properties of a managed Cassandra data center.
  *
  * @summary Get the properties of a managed Cassandra data center.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBManagedCassandraDataCenterGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-08-15/examples/CosmosDBManagedCassandraDataCenterGet.json
  */
 async function cosmosDbManagedCassandraDataCenterGet() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

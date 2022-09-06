@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Retrieves the connection info for the notebook workspace
  *
  * @summary Retrieves the connection info for the notebook workspace
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBNotebookWorkspaceListConnectionInfo.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-08-15/examples/CosmosDBNotebookWorkspaceListConnectionInfo.json
  */
 async function cosmosDbNotebookWorkspaceListConnectionInfo() {
   const subscriptionId = "subid";

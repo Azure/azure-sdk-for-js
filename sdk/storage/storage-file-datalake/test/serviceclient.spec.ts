@@ -9,6 +9,7 @@ import { Context } from "mocha";
 import {
   DataLakeServiceClient,
   DataLakeServiceProperties,
+  FileSystemItem,
   ServiceListFileSystemsSegmentResponse,
 } from "../src";
 import {
@@ -18,6 +19,7 @@ import {
   recorderEnvSetup,
   getGenericDataLakeServiceClient,
   isBrowser,
+  getEncryptionScope,
 } from "./utils";
 
 describe("DataLakeServiceClient", () => {
@@ -147,6 +149,70 @@ describe("DataLakeServiceClient", () => {
       assert.ok(filesystem.properties.etag.length > 0);
       assert.ok(filesystem.properties.lastModified);
     }
+  });
+
+  it("ListFileSystems - returns file system encryption scope info", async function (this: Context) {
+    let encryptionScopeName: string | undefined;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+    const serviceClient = getDataLakeServiceClient();
+
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const cClient = serviceClient.getFileSystemClient(fileSystemName);
+    await cClient.create({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+
+    const result = (await serviceClient.listFileSystems().byPage().next()).value;
+    assert.ok(result.fileSystemItems.length >= 0);
+
+    let foundTheOne = false;
+    result.fileSystemItems.forEach((element: FileSystemItem) => {
+      if (element.name === fileSystemName) {
+        foundTheOne = true;
+        assert.equal(element.properties.defaultEncryptionScope, encryptionScopeName);
+      }
+    });
+
+    assert.ok(foundTheOne, "Should have found the created file system");
+    await cClient.delete();
+  });
+
+  it("ListFileSystems - PagedAsyncIterableIterator returns file system encryption scope info", async function (this: Context) {
+    let encryptionScopeName: string | undefined;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+    const serviceClient = getDataLakeServiceClient();
+
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const cClient = serviceClient.getFileSystemClient(fileSystemName);
+    await cClient.create({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+
+    let foundTheOne = false;
+
+    for await (const filesystem of serviceClient.listFileSystems()) {
+      if (filesystem.name === fileSystemName) {
+        foundTheOne = true;
+        assert.equal(filesystem.properties.defaultEncryptionScope, encryptionScopeName);
+      }
+    }
+
+    assert.ok(foundTheOne, "Should have found the created file system");
+    await cClient.delete();
   });
 
   it("ListFileSystems with default parameters - null prefix shouldn't throw error", async () => {

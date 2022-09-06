@@ -11,6 +11,11 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
+export interface AccountKeyMetadata {
+    readonly generationTime?: Date;
+}
+
+// @public
 export interface AnalyticalStorageConfiguration {
     schemaType?: AnalyticalStorageSchemaType;
 }
@@ -866,9 +871,11 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
     enableCassandraConnector?: boolean;
     enableFreeTier?: boolean;
     enableMultipleWriteLocations?: boolean;
+    enablePartitionMerge?: boolean;
     identity?: ManagedServiceIdentity;
     ipRules?: IpAddressOrRange[];
     isVirtualNetworkFilterEnabled?: boolean;
+    readonly keysMetadata?: DatabaseAccountKeysMetadata;
     keyVaultKeyUri?: string;
     kind?: DatabaseAccountKind;
     locations: Location_2[];
@@ -900,11 +907,13 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
     enableCassandraConnector?: boolean;
     enableFreeTier?: boolean;
     enableMultipleWriteLocations?: boolean;
+    enablePartitionMerge?: boolean;
     readonly failoverPolicies?: FailoverPolicy[];
     identity?: ManagedServiceIdentity;
     readonly instanceId?: string;
     ipRules?: IpAddressOrRange[];
     isVirtualNetworkFilterEnabled?: boolean;
+    readonly keysMetadata?: DatabaseAccountKeysMetadata;
     keyVaultKeyUri?: string;
     kind?: DatabaseAccountKind;
     readonly locations?: Location_2[];
@@ -918,6 +927,14 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
     readonly systemData?: SystemData;
     virtualNetworkRules?: VirtualNetworkRule[];
     readonly writeLocations?: Location_2[];
+}
+
+// @public
+export interface DatabaseAccountKeysMetadata {
+    readonly primaryMasterKey?: AccountKeyMetadata;
+    readonly primaryReadonlyMasterKey?: AccountKeyMetadata;
+    readonly secondaryMasterKey?: AccountKeyMetadata;
+    readonly secondaryReadonlyMasterKey?: AccountKeyMetadata;
 }
 
 // @public
@@ -1137,9 +1154,11 @@ export interface DatabaseAccountUpdateParameters {
     enableCassandraConnector?: boolean;
     enableFreeTier?: boolean;
     enableMultipleWriteLocations?: boolean;
+    enablePartitionMerge?: boolean;
     identity?: ManagedServiceIdentity;
     ipRules?: IpAddressOrRange[];
     isVirtualNetworkFilterEnabled?: boolean;
+    readonly keysMetadata?: DatabaseAccountKeysMetadata;
     keyVaultKeyUri?: string;
     location?: string;
     locations?: Location_2[];
@@ -2040,10 +2059,18 @@ export interface MongoDBResources {
     beginCreateUpdateMongoDBCollectionAndWait(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, createUpdateMongoDBCollectionParameters: MongoDBCollectionCreateUpdateParameters, options?: MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams): Promise<MongoDBResourcesCreateUpdateMongoDBCollectionResponse>;
     beginCreateUpdateMongoDBDatabase(resourceGroupName: string, accountName: string, databaseName: string, createUpdateMongoDBDatabaseParameters: MongoDBDatabaseCreateUpdateParameters, options?: MongoDBResourcesCreateUpdateMongoDBDatabaseOptionalParams): Promise<PollerLike<PollOperationState<MongoDBResourcesCreateUpdateMongoDBDatabaseResponse>, MongoDBResourcesCreateUpdateMongoDBDatabaseResponse>>;
     beginCreateUpdateMongoDBDatabaseAndWait(resourceGroupName: string, accountName: string, databaseName: string, createUpdateMongoDBDatabaseParameters: MongoDBDatabaseCreateUpdateParameters, options?: MongoDBResourcesCreateUpdateMongoDBDatabaseOptionalParams): Promise<MongoDBResourcesCreateUpdateMongoDBDatabaseResponse>;
+    beginCreateUpdateMongoRoleDefinition(mongoRoleDefinitionId: string, resourceGroupName: string, accountName: string, createUpdateMongoRoleDefinitionParameters: MongoRoleDefinitionCreateUpdateParameters, options?: MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams): Promise<PollerLike<PollOperationState<MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse>, MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse>>;
+    beginCreateUpdateMongoRoleDefinitionAndWait(mongoRoleDefinitionId: string, resourceGroupName: string, accountName: string, createUpdateMongoRoleDefinitionParameters: MongoRoleDefinitionCreateUpdateParameters, options?: MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams): Promise<MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse>;
+    beginCreateUpdateMongoUserDefinition(mongoUserDefinitionId: string, resourceGroupName: string, accountName: string, createUpdateMongoUserDefinitionParameters: MongoUserDefinitionCreateUpdateParameters, options?: MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams): Promise<PollerLike<PollOperationState<MongoDBResourcesCreateUpdateMongoUserDefinitionResponse>, MongoDBResourcesCreateUpdateMongoUserDefinitionResponse>>;
+    beginCreateUpdateMongoUserDefinitionAndWait(mongoUserDefinitionId: string, resourceGroupName: string, accountName: string, createUpdateMongoUserDefinitionParameters: MongoUserDefinitionCreateUpdateParameters, options?: MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams): Promise<MongoDBResourcesCreateUpdateMongoUserDefinitionResponse>;
     beginDeleteMongoDBCollection(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: MongoDBResourcesDeleteMongoDBCollectionOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteMongoDBCollectionAndWait(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: MongoDBResourcesDeleteMongoDBCollectionOptionalParams): Promise<void>;
     beginDeleteMongoDBDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: MongoDBResourcesDeleteMongoDBDatabaseOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteMongoDBDatabaseAndWait(resourceGroupName: string, accountName: string, databaseName: string, options?: MongoDBResourcesDeleteMongoDBDatabaseOptionalParams): Promise<void>;
+    beginDeleteMongoRoleDefinition(mongoRoleDefinitionId: string, resourceGroupName: string, accountName: string, options?: MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteMongoRoleDefinitionAndWait(mongoRoleDefinitionId: string, resourceGroupName: string, accountName: string, options?: MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams): Promise<void>;
+    beginDeleteMongoUserDefinition(mongoUserDefinitionId: string, resourceGroupName: string, accountName: string, options?: MongoDBResourcesDeleteMongoUserDefinitionOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteMongoUserDefinitionAndWait(mongoUserDefinitionId: string, resourceGroupName: string, accountName: string, options?: MongoDBResourcesDeleteMongoUserDefinitionOptionalParams): Promise<void>;
     beginMigrateMongoDBCollectionToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams): Promise<PollerLike<PollOperationState<MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse>, MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse>>;
     beginMigrateMongoDBCollectionToAutoscaleAndWait(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams): Promise<MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse>;
     beginMigrateMongoDBCollectionToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptionalParams): Promise<PollerLike<PollOperationState<MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse>, MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse>>;
@@ -2062,8 +2089,12 @@ export interface MongoDBResources {
     getMongoDBCollectionThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: MongoDBResourcesGetMongoDBCollectionThroughputOptionalParams): Promise<MongoDBResourcesGetMongoDBCollectionThroughputResponse>;
     getMongoDBDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: MongoDBResourcesGetMongoDBDatabaseOptionalParams): Promise<MongoDBResourcesGetMongoDBDatabaseResponse>;
     getMongoDBDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: MongoDBResourcesGetMongoDBDatabaseThroughputOptionalParams): Promise<MongoDBResourcesGetMongoDBDatabaseThroughputResponse>;
+    getMongoRoleDefinition(mongoRoleDefinitionId: string, resourceGroupName: string, accountName: string, options?: MongoDBResourcesGetMongoRoleDefinitionOptionalParams): Promise<MongoDBResourcesGetMongoRoleDefinitionResponse>;
+    getMongoUserDefinition(mongoUserDefinitionId: string, resourceGroupName: string, accountName: string, options?: MongoDBResourcesGetMongoUserDefinitionOptionalParams): Promise<MongoDBResourcesGetMongoUserDefinitionResponse>;
     listMongoDBCollections(resourceGroupName: string, accountName: string, databaseName: string, options?: MongoDBResourcesListMongoDBCollectionsOptionalParams): PagedAsyncIterableIterator<MongoDBCollectionGetResults>;
     listMongoDBDatabases(resourceGroupName: string, accountName: string, options?: MongoDBResourcesListMongoDBDatabasesOptionalParams): PagedAsyncIterableIterator<MongoDBDatabaseGetResults>;
+    listMongoRoleDefinitions(resourceGroupName: string, accountName: string, options?: MongoDBResourcesListMongoRoleDefinitionsOptionalParams): PagedAsyncIterableIterator<MongoRoleDefinitionGetResults>;
+    listMongoUserDefinitions(resourceGroupName: string, accountName: string, options?: MongoDBResourcesListMongoUserDefinitionsOptionalParams): PagedAsyncIterableIterator<MongoUserDefinitionGetResults>;
 }
 
 // @public
@@ -2085,6 +2116,24 @@ export interface MongoDBResourcesCreateUpdateMongoDBDatabaseOptionalParams exten
 export type MongoDBResourcesCreateUpdateMongoDBDatabaseResponse = MongoDBDatabaseGetResults;
 
 // @public
+export interface MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse = MongoRoleDefinitionGetResults;
+
+// @public
+export interface MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MongoDBResourcesCreateUpdateMongoUserDefinitionResponse = MongoUserDefinitionGetResults;
+
+// @public
 export interface MongoDBResourcesDeleteMongoDBCollectionOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2092,6 +2141,18 @@ export interface MongoDBResourcesDeleteMongoDBCollectionOptionalParams extends c
 
 // @public
 export interface MongoDBResourcesDeleteMongoDBDatabaseOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MongoDBResourcesDeleteMongoUserDefinitionOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -2125,6 +2186,20 @@ export interface MongoDBResourcesGetMongoDBDatabaseThroughputOptionalParams exte
 export type MongoDBResourcesGetMongoDBDatabaseThroughputResponse = ThroughputSettingsGetResults;
 
 // @public
+export interface MongoDBResourcesGetMongoRoleDefinitionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MongoDBResourcesGetMongoRoleDefinitionResponse = MongoRoleDefinitionGetResults;
+
+// @public
+export interface MongoDBResourcesGetMongoUserDefinitionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MongoDBResourcesGetMongoUserDefinitionResponse = MongoUserDefinitionGetResults;
+
+// @public
 export interface MongoDBResourcesListMongoDBCollectionsOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -2137,6 +2212,20 @@ export interface MongoDBResourcesListMongoDBDatabasesOptionalParams extends core
 
 // @public
 export type MongoDBResourcesListMongoDBDatabasesResponse = MongoDBDatabaseListResult;
+
+// @public
+export interface MongoDBResourcesListMongoRoleDefinitionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MongoDBResourcesListMongoRoleDefinitionsResponse = MongoRoleDefinitionListResult;
+
+// @public
+export interface MongoDBResourcesListMongoUserDefinitionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MongoDBResourcesListMongoUserDefinitionsResponse = MongoUserDefinitionListResult;
 
 // @public
 export interface MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams extends coreClient.OperationOptions {
@@ -2216,6 +2305,57 @@ export interface MongoIndexKeys {
 export interface MongoIndexOptions {
     expireAfterSeconds?: number;
     unique?: boolean;
+}
+
+// @public
+export interface MongoRoleDefinitionCreateUpdateParameters {
+    databaseName?: string;
+    privileges?: Privilege[];
+    roleName?: string;
+    roles?: Role[];
+    type?: MongoRoleDefinitionType;
+}
+
+// @public
+export interface MongoRoleDefinitionGetResults extends ARMProxyResource {
+    databaseName?: string;
+    privileges?: Privilege[];
+    roleName?: string;
+    roles?: Role[];
+    typePropertiesType?: MongoRoleDefinitionType;
+}
+
+// @public
+export interface MongoRoleDefinitionListResult {
+    readonly value?: MongoRoleDefinitionGetResults[];
+}
+
+// @public
+export type MongoRoleDefinitionType = "BuiltInRole" | "CustomRole";
+
+// @public
+export interface MongoUserDefinitionCreateUpdateParameters {
+    customData?: string;
+    databaseName?: string;
+    mechanisms?: string;
+    password?: string;
+    roles?: Role[];
+    userName?: string;
+}
+
+// @public
+export interface MongoUserDefinitionGetResults extends ARMProxyResource {
+    customData?: string;
+    databaseName?: string;
+    mechanisms?: string;
+    password?: string;
+    roles?: Role[];
+    userName?: string;
+}
+
+// @public
+export interface MongoUserDefinitionListResult {
+    readonly value?: MongoUserDefinitionGetResults[];
 }
 
 // @public
@@ -2592,6 +2732,18 @@ export interface PrivateLinkServiceConnectionStateProperty {
 }
 
 // @public
+export interface Privilege {
+    actions?: string[];
+    resource?: PrivilegeResource;
+}
+
+// @public
+export interface PrivilegeResource {
+    collection?: string;
+    db?: string;
+}
+
+// @public
 export interface ProxyResource extends Resource {
 }
 
@@ -2893,6 +3045,12 @@ export interface RestoreParameters {
     restoreMode?: RestoreMode;
     restoreSource?: string;
     restoreTimestampInUtc?: Date;
+}
+
+// @public
+export interface Role {
+    db?: string;
+    role?: string;
 }
 
 // @public

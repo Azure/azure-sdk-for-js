@@ -16,7 +16,7 @@ import { Buffer } from "buffer";
 
 import { parseURL } from "./parseUrl";
 import { isJSONLikeObject } from "./utils";
-import { isDefined } from "./typeGuards";
+import { isDefined } from "@azure/core-util";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { InternalQueueOptions } from "../serializers/queueResourceSerializer";
