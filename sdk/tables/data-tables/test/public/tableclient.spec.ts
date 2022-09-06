@@ -194,51 +194,45 @@ describe(`TableClient`, () => {
     });
 
     it("should filter dates correctly", async function () {
-      await client.createTable();
-
       const propertyName = "date";
       const comparisonDate = new Date("2019-07-10T12:00:00-0700");
 
-      try {
-        const entities = [
-          {
-            partitionKey: "p1",
-            rowKey: "r1",
-            [propertyName]: new Date(comparisonDate.valueOf() - 1),
-          },
-          {
-            partitionKey: "p1",
-            rowKey: "r2",
-            [propertyName]: comparisonDate,
-          },
-          {
-            partitionKey: "p1",
-            rowKey: "r3",
-            [propertyName]: new Date(comparisonDate.valueOf() + 1),
-          },
-        ];
+      const entities = [
+        {
+          partitionKey: "p1",
+          rowKey: "r1",
+          [propertyName]: new Date(comparisonDate.valueOf() - 1),
+        },
+        {
+          partitionKey: "p1",
+          rowKey: "r2",
+          [propertyName]: comparisonDate,
+        },
+        {
+          partitionKey: "p1",
+          rowKey: "r3",
+          [propertyName]: new Date(comparisonDate.valueOf() + 1),
+        },
+      ];
 
-        for (const entity of entities) {
-          await client.createEntity(entity);
-        }
-
-        const entityIterable = client.listEntities({
-          queryOptions: {
-            filter: odata`${propertyName} lt ${comparisonDate}`,
-          },
-        });
-
-        const responseDates = [];
-        for await (const entity of entityIterable) {
-          assert.property(entity, propertyName);
-          assert.typeOf(entity[propertyName], "Date");
-          responseDates.push(entity[propertyName] as Date);
-        }
-
-        assert.deepEqual(new Set(responseDates), new Set([entities[0][propertyName]]));
-      } finally {
-        await client.deleteTable();
+      for (const entity of entities) {
+        await client.createEntity(entity);
       }
+
+      const entityIterable = client.listEntities({
+        queryOptions: {
+          filter: odata`${propertyName} lt ${comparisonDate}`,
+        },
+      });
+
+      const responseDates = [];
+      for await (const entity of entityIterable) {
+        assert.property(entity, propertyName);
+        assert.typeOf(entity[propertyName], "Date");
+        responseDates.push(entity[propertyName] as Date);
+      }
+
+      assert.deepEqual(new Set(responseDates), new Set([entities[0][propertyName]]));
     });
   });
 
