@@ -76,6 +76,8 @@ export class EmailClient {
       emailMessage
     );
 
+    console.log(response);
+
     return {
       messageId: response.xMsRequestId ?? "",
     };
