@@ -187,7 +187,11 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
    */
   async parseRegistrationFeed(bodyText: string): Promise<RegistrationDescription[]> {
     const xml = await parseXML(bodyText, { includeRoot: true });
-    const results = [];
+    const results: RegistrationDescription[] = [];
+    if (!isDefined(xml.feed.entry)) {
+      return results;
+    }
+
     for (const entry of xml.feed.entry) {
       delete entry.content["$"];
 
