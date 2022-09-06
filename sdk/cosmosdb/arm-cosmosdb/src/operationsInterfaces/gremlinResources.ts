@@ -41,10 +41,7 @@ import {
   GremlinResourcesMigrateGremlinGraphToAutoscaleOptionalParams,
   GremlinResourcesMigrateGremlinGraphToAutoscaleResponse,
   GremlinResourcesMigrateGremlinGraphToManualThroughputOptionalParams,
-  GremlinResourcesMigrateGremlinGraphToManualThroughputResponse,
-  ContinuousBackupRestoreLocation,
-  GremlinResourcesRetrieveContinuousBackupInformationOptionalParams,
-  GremlinResourcesRetrieveContinuousBackupInformationResponse
+  GremlinResourcesMigrateGremlinGraphToManualThroughputResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -485,45 +482,4 @@ export interface GremlinResources {
     graphName: string,
     options?: GremlinResourcesMigrateGremlinGraphToManualThroughputOptionalParams
   ): Promise<GremlinResourcesMigrateGremlinGraphToManualThroughputResponse>;
-  /**
-   * Retrieves continuous backup information for a gremlin graph.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param graphName Cosmos DB graph name.
-   * @param location The name of the continuous backup restore location.
-   * @param options The options parameters.
-   */
-  beginRetrieveContinuousBackupInformation(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    graphName: string,
-    location: ContinuousBackupRestoreLocation,
-    options?: GremlinResourcesRetrieveContinuousBackupInformationOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<
-        GremlinResourcesRetrieveContinuousBackupInformationResponse
-      >,
-      GremlinResourcesRetrieveContinuousBackupInformationResponse
-    >
-  >;
-  /**
-   * Retrieves continuous backup information for a gremlin graph.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param graphName Cosmos DB graph name.
-   * @param location The name of the continuous backup restore location.
-   * @param options The options parameters.
-   */
-  beginRetrieveContinuousBackupInformationAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    graphName: string,
-    location: ContinuousBackupRestoreLocation,
-    options?: GremlinResourcesRetrieveContinuousBackupInformationOptionalParams
-  ): Promise<GremlinResourcesRetrieveContinuousBackupInformationResponse>;
 }
