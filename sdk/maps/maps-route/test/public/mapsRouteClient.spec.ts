@@ -5,6 +5,7 @@ import { Context, Suite } from "mocha";
 import {
   KnownRouteType,
   KnownTravelMode,
+  LatLon,
   RouteDirectionParameters,
   RouteDirectionsRequest,
   RouteMatrixQuery,
@@ -37,12 +38,9 @@ describe("Get Route Directions", function (this: Suite) {
   });
 
   it("should accept LatLon[] and return route directions", async function () {
-    const routePoints = [
-      {
-        latitude: 52.50931,
-        longitude: 13.42936,
-      },
-      { latitude: 52.50274, longitude: 13.43872 },
+    const routePoints: LatLon[] = [
+      [52.50931, 13.42936],
+      [52.50274, 13.43872],
     ];
     const routeDirectionsResult = await client.getRouteDirections(routePoints);
 
@@ -76,12 +74,9 @@ describe("Get Route Directions With Additional Parameters", function () {
   });
 
   it("should accept additional parameters and return route directions", async function () {
-    const routePoints = [
-      {
-        latitude: 47.6133869,
-        longitude: -122.0235832,
-      },
-      { latitude: 47.5565375, longitude: -122.1411044 },
+    const routePoints: LatLon[] = [
+      [47.6133869, -122.0235832],
+      [47.5565375, -122.1411044],
     ];
 
     const additionalParams: RouteDirectionParameters = {
@@ -139,7 +134,7 @@ describe("Get Route Range", function () {
   });
 
   it("should accept LatLon and return reachable range", async function () {
-    const startCoordinates = { latitude: 50.97452, longitude: 5.86605 };
+    const startCoordinates: LatLon = [50.97452, 5.86605];
     const routeRangeBudget = { timeBudgetInSeconds: 6000 };
 
     const routeRangeResult = await client.getRouteRange(startCoordinates, routeRangeBudget);
@@ -179,9 +174,9 @@ describe("LRO", function (this: Suite) {
       const batchRequests: RouteDirectionsRequest[] = [
         {
           routePoints: [
-            { latitude: 47.639987, longitude: -122.128384 },
-            { latitude: 47.621252, longitude: -122.184408 },
-            { latitude: 47.596437, longitude: -122.332 },
+            [47.639987, -122.128384],
+            [47.621252, -122.184408],
+            [47.596437, -122.332],
           ],
           options: {
             routeType: KnownRouteType.Fastest,
@@ -191,8 +186,8 @@ describe("LRO", function (this: Suite) {
         },
         {
           routePoints: [
-            { latitude: 47.620659, longitude: -122.348934 },
-            { latitude: 47.610101, longitude: -122.342015 },
+            [47.620659, -122.348934],
+            [47.610101, -122.342015],
           ],
           options: {
             routeType: KnownRouteType.Economy,
@@ -202,8 +197,8 @@ describe("LRO", function (this: Suite) {
         },
         {
           routePoints: [
-            { latitude: 40.759856, longitude: -73.985108 },
-            { latitude: 40.771136, longitude: -73.973506 },
+            [40.759856, -73.985108],
+            [40.771136, -73.973506],
           ],
           options: {
             routeType: KnownRouteType.Shortest,
@@ -226,8 +221,8 @@ describe("LRO", function (this: Suite) {
       const batchRequests: RouteDirectionsRequest[] = [
         {
           routePoints: [
-            { latitude: 47.620659, longitude: -122.348934 },
-            { latitude: 47.610101, longitude: -122.342015 },
+            [47.620659, -122.348934],
+            [47.610101, -122.342015],
           ],
           options: {
             routeType: KnownRouteType.Economy,
@@ -266,9 +261,9 @@ describe("LRO", function (this: Suite) {
       const batchRequests: RouteDirectionsRequest[] = [
         {
           routePoints: [
-            { latitude: 47.639987, longitude: -122.128384 },
-            { latitude: 47.621252, longitude: -122.184408 },
-            { latitude: 47.596437, longitude: -122.332 },
+            [47.639987, -122.128384],
+            [47.621252, -122.184408],
+            [47.596437, -122.332],
           ],
           options: {
             routeType: KnownRouteType.Fastest,
@@ -278,8 +273,8 @@ describe("LRO", function (this: Suite) {
         },
         {
           routePoints: [
-            { latitude: 47.620659, longitude: -122.348934 },
-            { latitude: 47.610101, longitude: -122.342015 },
+            [47.620659, -122.348934],
+            [47.610101, -122.342015],
           ],
           options: {
             routeType: KnownRouteType.Economy,
@@ -310,9 +305,9 @@ describe("LRO", function (this: Suite) {
       const batchRequests: RouteDirectionsRequest[] = [
         {
           routePoints: [
-            { latitude: 47.639987, longitude: -122.128384 },
-            { latitude: 47.621252, longitude: -122.184408 },
-            { latitude: 47.596437, longitude: -122.332 },
+            [47.639987, -122.128384],
+            [47.621252, -122.184408],
+            [47.596437, -122.332],
           ],
           options: {
             routeType: KnownRouteType.Fastest,
@@ -322,8 +317,8 @@ describe("LRO", function (this: Suite) {
         },
         {
           routePoints: [
-            { latitude: 47.620659, longitude: -122.348934 },
-            { latitude: 47.610101, longitude: -122.342015 },
+            [47.620659, -122.348934],
+            [47.610101, -122.342015],
           ],
           options: {
             routeType: KnownRouteType.Economy,

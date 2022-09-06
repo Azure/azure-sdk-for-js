@@ -28,8 +28,9 @@ import {
 import {
   createRouteDirectionsBatchRequest,
   mapRouteDirectionsBatchResult,
+  mapResponseToRouteDirections,
   toColonDelimitedLatLonString,
-  toNumericArray,
+  mapResponseToRouteRangeResult,
 } from "./models/mappers";
 import { OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -135,11 +136,12 @@ export class MapsRouteClient {
 
     const { span, updatedOptions } = createSpan("MapsRouteClient-getRouteDirections", options);
     try {
-      return await this.client.routeOperations.getRouteDirections(
+      const result = await this.client.routeOperations.getRouteDirections(
         this.defaultFormat,
         toColonDelimitedLatLonString(routePoints),
         updatedOptions
       );
+      return mapResponseToRouteDirections(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -168,7 +170,7 @@ export class MapsRouteClient {
       options
     );
     try {
-      return await this.client.routeOperations.getRouteDirectionsWithAdditionalParameters(
+      const result = await this.client.routeOperations.getRouteDirectionsWithAdditionalParameters(
         this.defaultFormat,
         toColonDelimitedLatLonString(routePoints),
         {
@@ -180,6 +182,7 @@ export class MapsRouteClient {
         },
         updatedOptions
       );
+      return mapResponseToRouteDirections(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -204,11 +207,15 @@ export class MapsRouteClient {
   ): Promise<RouteRangeResult> {
     const { span, updatedOptions } = createSpan("MapsRouteClient-getRouteRange", options);
     try {
-      return await this.client.routeOperations.getRouteRange(
+      const result = await this.client.routeOperations.getRouteRange(
         this.defaultFormat,
-        toNumericArray(coordinates),
-        { ...updatedOptions, ...budget }
+        coordinates,
+        {
+          ...updatedOptions,
+          ...budget,
+        }
       );
+      return mapResponseToRouteRangeResult(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

@@ -1,8 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BatchRequest, ErrorResponse, RouteDirectionsBatchResult } from "src/generated";
-import { BatchResult, RouteDirections } from "./results";
+import {
+  BatchRequest,
+  ErrorResponse,
+  LatLongPair,
+  RouteDirectionsBatchResult,
+  RouteGetRouteDirectionsResponse,
+  RouteGetRouteRangeResponse,
+} from "src/generated";
+import { BatchResult, RouteDirections, RouteRangeResult } from "./results";
 import { RouteDirectionsOptions, RouteDirectionsRequest } from "./options";
 import { LatLon } from "./models";
 
@@ -10,13 +17,13 @@ import { LatLon } from "./models";
  * @internal
  */
 export function toLatLonString(coordinates: LatLon): string {
-  return `${coordinates.latitude},${coordinates.longitude}`;
+  return `${coordinates[0]},${coordinates[1]}`;
 }
 
 /**
  * @internal
  */
-export function toNumericArray(coordinates: LatLon): number[] {
+export function toLatLonTuple(coordinates: LatLongPair): LatLon {
   return [coordinates.latitude, coordinates.longitude];
 }
 
@@ -108,5 +115,49 @@ export function createRouteDirectionsBatchRequest(
       }
       return { query: queryText };
     }),
+  };
+}
+
+/**
+ * @internal
+ */
+export function mapResponseToRouteDirections({
+  routes,
+  ...restResponse
+}: RouteGetRouteDirectionsResponse): RouteDirections {
+  return {
+    routes: routes.map(({ legs, guidance, ...restRoute }) => ({
+      legs: legs.map((leg) => ({
+        ...leg,
+        points: leg.points.map(toLatLonTuple),
+      })),
+      ...(guidance && {
+        guidance: {
+          instructionGroups: guidance.instructionGroups,
+          instructions: guidance.instructions.map(({ point, ...instruction }) => ({
+            ...(point && { point: toLatLonTuple(point) }),
+            ...instruction,
+          })),
+        },
+      }),
+      ...restRoute,
+    })),
+    ...restResponse,
+  };
+}
+
+/**
+ * @internal
+ */
+export function mapResponseToRouteRangeResult({
+  reachableRange,
+  ...restResponse
+}: RouteGetRouteRangeResponse): RouteRangeResult {
+  return {
+    reachableRange: {
+      center: toLatLonTuple(reachableRange.center),
+      boundary: reachableRange.boundary.map(toLatLonTuple),
+    },
+    ...restResponse,
   };
 }
