@@ -47,7 +47,7 @@ module.exports = function (config) {
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
-      "COMMUNICATION_CONNECTION_STRING",
+      "COMMUNICATION_CONNECTION_STRING_EMAIL",
       "RECIPIENT_ADDRESS",
       "SENDER_ADDRESS",
       "TEST_MODE",
