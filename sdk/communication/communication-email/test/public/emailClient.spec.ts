@@ -21,7 +21,10 @@ describe(`EmailClient [Playback/Live]`, () => {
     }
   });
 
-  it("successfully sends an email to a single recipient", async function () {
+  it.only("successfully sends an email to a single recipient", async function () {
+    console.log("Yogesh - DEBUG");
+    console.log(env.COMMUNICATION_CONNECTION_STRING);
+    console.log(env.SENDER_ADDRESS);
     const emailMessage: EmailMessage = {
       sender: env.SENDER_ADDRESS || "",
       recipients: {
