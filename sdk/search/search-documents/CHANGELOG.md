@@ -1,6 +1,6 @@
 # Release History
 
-## 11.3.0 (Unreleased)
+## 11.3.0 (2022-09-06)
 
 ### Features Added
 
@@ -17,7 +17,7 @@
 
 - This GA release includes AAD with multi-cloud support and all the bug fixes since the last [11.2.0](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/CHANGELOG.md#1120-2021-06-08) GA release. Other preview features and breaking changes from the [11.3.0-beta.1](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/CHANGELOG.md#1130-beta1-2021-07-07) to [11.3.0-beta.8](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/CHANGELOG.md#1130-beta8-unreleased) releases are not included in this GA release.
 
-## 11.3.0-beta.8 (2022-08-22)
+## 11.3.0-beta.8 (2022-09-06)
 
 - Added `core-http-compat` dependency
 - Enabled national cloud support for Azure Search SDK. Please refer [#22887](https://github.com/Azure/azure-sdk-for-js/pull/22887) for further details.
