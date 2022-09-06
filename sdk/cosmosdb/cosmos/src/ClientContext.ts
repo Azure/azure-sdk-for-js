@@ -29,7 +29,9 @@ import { SessionContainer } from "./session/sessionContainer";
 import { SessionContext } from "./session/SessionContext";
 import { BulkOptions } from "./utils/batch";
 import { sanitizeEndpoint } from "./utils/checkURL";
-import { defaultLogger } from "./common/logger";
+import { AzureLogger, createClientLogger } from "@azure/logger";
+
+const logger: AzureLogger = createClientLogger("ClientContext");
 
 const QueryJsonContentType = "application/query+json";
 
@@ -174,16 +176,16 @@ export class ClientContext {
       }
     }
     this.applySessionToken(request);
-    defaultLogger.info(
+    logger.info(
       "query " +
         requestId +
         " started" +
         (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : "")
     );
-    defaultLogger.warning(request);
+    logger.warning(request);
     const start = Date.now();
     const response = await executeRequest(request);
-    defaultLogger.info("query " + requestId + " finished - " + (Date.now() - start) + "ms");
+    logger.info("query " + requestId + " finished - " + (Date.now() - start) + "ms");
     this.captureSessionToken(undefined, path, OperationType.Query, response.headers);
     return this.processQueryFeedResponse(response, !!query, resultFn);
   }

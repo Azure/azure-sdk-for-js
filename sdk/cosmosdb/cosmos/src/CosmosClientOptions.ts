@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { TokenCredential } from "@azure/identity";
+import { TokenCredential } from "@azure/core-auth";
 import { TokenProvider } from "./auth";
 import { PermissionDefinition } from "./client";
 import { ConnectionPolicy, ConsistencyLevel } from "./documents";
