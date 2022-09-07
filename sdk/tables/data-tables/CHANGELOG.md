@@ -1,5 +1,15 @@
 # Release History
 
+## 13.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 13.2.0 (2022-09-07)
 
 ### Features Added
