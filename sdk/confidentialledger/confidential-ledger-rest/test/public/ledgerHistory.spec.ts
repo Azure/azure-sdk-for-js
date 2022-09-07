@@ -20,7 +20,7 @@ describe("Get ledger history", () => {
     await recorder.stop();
   });
 
-  it("should obtain ledger entries from ledger", async function () {
+  it.skip("should obtain ledger entries from ledger", async function () {
     const result = await client.path("/app/transactions").get();
 
     assert.equal(result.status, "200");
