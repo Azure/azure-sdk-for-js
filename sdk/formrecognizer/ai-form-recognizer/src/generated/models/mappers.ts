@@ -1450,7 +1450,7 @@ export const CopyAuthorization: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      expirationOn: {
+      expirationDateTime: {
         serializedName: "expirationDateTime",
         required: true,
         type: {

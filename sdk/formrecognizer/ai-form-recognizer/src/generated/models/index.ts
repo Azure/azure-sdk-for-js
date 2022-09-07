@@ -399,7 +399,7 @@ export interface CopyAuthorization {
   /** Token used to authorize the request. */
   accessToken: string;
   /** Date/time when the access token expires. */
-  expirationOn: Date;
+  expirationDateTime: Date;
 }
 
 /** List Operations response object. */

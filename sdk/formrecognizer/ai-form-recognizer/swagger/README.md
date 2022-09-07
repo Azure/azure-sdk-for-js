@@ -61,3 +61,13 @@ directive:
         $[p]["x-ms-client-name"] = p.replace(/DateTime$/, "On");
       }
 ```
+
+But we'll opt-out for `CopyAuthorization#expirationDateTime`.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.CopyAuthorization.properties.expirationDateTime
+    transform: >
+      delete $["x-ms-client-name"];
+```
