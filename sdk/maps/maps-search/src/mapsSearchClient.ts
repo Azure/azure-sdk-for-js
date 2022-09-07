@@ -695,7 +695,7 @@ export class MapsSearchClient {
    * @example
    * ```js
    * const serializedState = poller.toString()
-   * const rehydratedPoller = resumeFuzzySearchBatch(serializedState)
+   * const rehydratedPoller = resumeSearchAddressBatch(serializedState)
    * rehydratedPoller.poll()
    * ```
    *
@@ -781,7 +781,7 @@ export class MapsSearchClient {
   private async createReverseSearchAddressBatchPoller(
     requests: ReverseSearchAddressRequest[] = [],
     options: SearchReverseSearchAddressBatchOptionalParams = {}
-  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
+  ): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>> {
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginReverseSearchAddressBatch",
       options
