@@ -76,18 +76,6 @@ export class TableTransaction {
   /**
    * Adds an update action to the transaction
    * @param entity - entity to update
-   * @param updateMode - update mode
-   * @param updateOptions - options for the update operation
-   */
-  updateEntity<T extends object = Record<string, unknown>>(
-    entity: TableEntity<T>,
-    updateMode?: UpdateMode
-  ): void;
-
-  /**
-   * Adds an update action to the transaction
-   * @param entity - entity to update
-   * @param updateMode - update mode
    * @param updateOptions - options for the update operation
    */
   updateEntity<T extends object = Record<string, unknown>>(
@@ -110,8 +98,8 @@ export class TableTransaction {
   /**
    * Adds an update action to the transaction
    * @param entity - entity to update
-   * @param updateMode - update mode
-   * @param options - options for the update operation
+   * @param updateModeOrOptions - update mode or update options
+   * @param updateOptions - options for the update operation
    */
   updateEntity<T extends object = Record<string, unknown>>(
     entity: TableEntity<T>,
