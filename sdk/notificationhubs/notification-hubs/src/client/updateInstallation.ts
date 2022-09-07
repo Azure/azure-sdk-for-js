@@ -4,7 +4,7 @@
 import { createRequest, parseNotificationResponse, sendRequest } from "./internal/_client.js";
 import { JsonPatch } from "../models/installation.js";
 import { NotificationHubsClientContext } from "./index.js";
-import { NotificationHubsResponse } from "../models/response.js";
+import { NotificationHubsResponse } from "../models/notificationDetails.js";
 import { OperationOptions } from "@azure/core-client";
 import { tracingClient } from "../utils/tracing.js";
 

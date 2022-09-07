@@ -12,7 +12,7 @@ import {
 import {
   NotificationHubsMessageResponse,
   NotificationHubsResponse,
-} from "../../models/response.js";
+} from "../../models/notificationDetails.js";
 import { NotificationHubsClientContext } from "../index.js";
 import { OperationOptions } from "@azure/core-client";
 import { isDefined } from "../../utils/utils.js";
@@ -84,6 +84,7 @@ export async function parseNotificationSendResponse(
       success: 0,
       failure: 0,
       results: [],
+      state: "Enqueued",
     };
   }
 }

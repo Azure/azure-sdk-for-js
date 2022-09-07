@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { NotificationHubsMessageResponse, RegistrationResult } from "../models/response.js";
+import {
+  NotificationHubsMessageResponse,
+  RegistrationResult,
+} from "../models/notificationDetails.js";
 import { getInteger, getString, isDefined } from "../utils/utils.js";
 import { parseXML } from "@azure/core-xml";
 
@@ -15,6 +18,7 @@ export async function parseNotificationOutcome(
     success: getInteger(outcome.Success, "Success"),
     failure: getInteger(outcome.Failure, "Failure"),
     results: parseRegistrationResults(outcome.Results.RegistrationResult),
+    state: "DetailedStateAvailable",
   };
 }
 

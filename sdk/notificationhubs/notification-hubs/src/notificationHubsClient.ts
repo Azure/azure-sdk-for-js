@@ -2,6 +2,11 @@
 // Licensed under the MIT license.
 
 import { Installation, JsonPatch, PushHandle } from "./models/installation.js";
+import {
+  NotificationDetails,
+  NotificationHubsMessageResponse,
+  NotificationHubsResponse,
+} from "./models/notificationDetails.js";
 import { NotificationHubsClientContext, createClientContext } from "./client/index.js";
 import {
   NotificationHubsClientOptions,
@@ -9,9 +14,7 @@ import {
   RegistrationQueryOptions,
   SendOperationOptions,
 } from "./models/options.js";
-import { NotificationHubsMessageResponse, NotificationHubsResponse } from "./models/response.js";
 import { Notification } from "./models/notification.js";
-import { NotificationDetails } from "./models/notificationDetails.js";
 import { NotificationHubJob } from "./models/notificationHubJob.js";
 import { OperationOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";

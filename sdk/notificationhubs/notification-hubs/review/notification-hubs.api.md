@@ -559,6 +559,7 @@ export interface NotificationHubsMessageResponse extends NotificationHubsRespons
     failure: number;
     notificationId?: string;
     results: RegistrationResult[];
+    state: NotificationOutcomeState;
     success: number;
 }
 
