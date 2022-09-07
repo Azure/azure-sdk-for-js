@@ -99,7 +99,7 @@ export class CommunicationIdentityClient {
    *
    * @param user - The user whose tokens are being issued.
    * @param scopes - Scopes to include in the token.
-   * @param tokenExpirationInMinutes - Custom validity period of the Communication Identity access token within <60,1440> minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
+   * @param tokenExpirationInMinutes - Custom validity period of the Communication Identity access token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
    * @param options - Additional options for the request.
    */
   public getToken(
@@ -128,34 +128,17 @@ export class CommunicationIdentityClient {
     tokenExpirationInMinutesOrOptions?: number | OperationOptions,
     options?: OperationOptions
   ): Promise<CommunicationAccessToken> {
-    let operationOptions: OperationOptions;
 
-    if (options) {
-      operationOptions = options;
-    } else if (
-      tokenExpirationInMinutesOrOptions &&
-      typeof tokenExpirationInMinutesOrOptions !== "number"
-    ) {
-      operationOptions = tokenExpirationInMinutesOrOptions as OperationOptions;
-    } else {
-      operationOptions = {};
-    }
+    let operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams = this.parseTokenExpirationInMinutesOrOptions(tokenExpirationInMinutesOrOptions, options);
 
     return tracingClient.withSpan(
       "CommunicationIdentity-issueToken",
       operationOptions,
       (updatedOptions) => {
-        let additionalOptions: CommunicationIdentityIssueAccessTokenOptionalParams;
-        additionalOptions = updatedOptions;
-
-        if (typeof tokenExpirationInMinutesOrOptions === "number") {
-          additionalOptions.expiresInMinutes = tokenExpirationInMinutesOrOptions;
-        }
-
         return this.client.communicationIdentityOperations.issueAccessToken(
           user.communicationUserId,
           scopes,
-          additionalOptions
+          updatedOptions
         );
       }
     );
@@ -189,9 +172,11 @@ export class CommunicationIdentityClient {
    * @param options - Additional options for the request.
    */
   public createUser(options: OperationOptions = {}): Promise<CommunicationUserIdentifier> {
+    let operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams = options;
+    operationOptions.expiresInMinutes = undefined;
     return tracingClient.withSpan(
       "CommunicationIdentity-createUser",
-      options,
+      operationOptions,
       async (updatedOptions) => {
         const result = await this.client.communicationIdentityOperations.create(updatedOptions);
         return {
@@ -205,7 +190,7 @@ export class CommunicationIdentityClient {
    * Creates a single user and a token simultaneously.
    *
    * @param scopes - Scopes to include in the token.
-   * @param tokenExpirationInMinutes - Custom validity period of the Communication Identity access token within <60,1440> minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
+   * @param tokenExpirationInMinutes - Custom validity period of the Communication Identity access token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
    * @param options - Additional options for the request.
    */
   public createUserAndToken(
@@ -230,33 +215,15 @@ export class CommunicationIdentityClient {
     tokenExpirationInMinutesOrOptions?: number | OperationOptions,
     options?: OperationOptions
   ) {
-    let operationOptions: OperationOptions;
-
-    if (options) {
-      operationOptions = options;
-    } else if (
-      tokenExpirationInMinutesOrOptions &&
-      typeof tokenExpirationInMinutesOrOptions !== "number"
-    ) {
-      operationOptions = tokenExpirationInMinutesOrOptions as OperationOptions;
-    } else {
-      operationOptions = {};
-    }
+    let operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams = this.parseTokenExpirationInMinutesOrOptions(tokenExpirationInMinutesOrOptions, options);
 
     return tracingClient.withSpan(
       "CommunicationIdentity-createUserAndToken",
       operationOptions,
       async (updatedOptions) => {
-        let additionalOptions: CommunicationIdentityIssueAccessTokenOptionalParams;
-        additionalOptions = updatedOptions;
-
-        if (typeof tokenExpirationInMinutesOrOptions === "number") {
-          additionalOptions.expiresInMinutes = tokenExpirationInMinutesOrOptions;
-        }
-
         const { identity, accessToken } = await this.client.communicationIdentityOperations.create({
           createTokenWithScopes: scopes,
-          ...additionalOptions,
+          ...updatedOptions,
         });
         return {
           ...accessToken!,
@@ -309,5 +276,25 @@ export class CommunicationIdentityClient {
         );
       }
     );
+  }
+
+  private parseTokenExpirationInMinutesOrOptions(
+    tokenExpirationInMinutesOrOptions?: number | OperationOptions,
+    options?: OperationOptions
+    ) {
+      let optionsWithTokenExpiration: CommunicationIdentityIssueAccessTokenOptionalParams = {};
+
+      if (options) {
+        optionsWithTokenExpiration = options; 
+      }
+      if (tokenExpirationInMinutesOrOptions && typeof tokenExpirationInMinutesOrOptions === "number") {
+        optionsWithTokenExpiration.expiresInMinutes = tokenExpirationInMinutesOrOptions;
+        return optionsWithTokenExpiration;
+      }
+      else 
+      {
+        optionsWithTokenExpiration.expiresInMinutes = undefined;
+        return optionsWithTokenExpiration;
+      }
   }
 }

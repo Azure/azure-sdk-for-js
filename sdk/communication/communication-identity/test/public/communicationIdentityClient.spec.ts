@@ -59,9 +59,16 @@ matrix([[true, false]], async function (useAad: boolean) {
       assert.instanceOf(expiresOn, Date);
     });
 
-    it("successfully gets a token with custom expiration", async function () {
+    it("successfully gets a token with min valid custom expiration", async function () {
       const user: CommunicationUserIdentifier = await client.createUser();
       const { token, expiresOn } = await client.getToken(user, ["chat"], 60);
+      assert.isString(token);
+      assert.instanceOf(expiresOn, Date);
+    });
+
+    it("successfully gets a token with max valid custom expiration", async function () {
+      const user: CommunicationUserIdentifier = await client.createUser();
+      const { token, expiresOn } = await client.getToken(user, ["chat"], 1440);
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
     });
@@ -118,6 +125,26 @@ matrix([[true, false]], async function (useAad: boolean) {
           assert.fail("Should have thrown an error");
         } catch (e: any) {
           assert.equal(e.statusCode, 401);
+        }
+      });
+
+      it("throws an error when attempting to issue a token with min invalid expiration", async function () {
+        const user: CommunicationUserIdentifier = await client.createUser();
+        try {
+          await client.getToken(user, ["chat"], 1441);
+          assert.fail("Should have thrown an error");
+        } catch (e: any) {
+          assert.equal(e.statusCode, 400);
+        }
+      });
+
+      it("throws an error when attempting to issue a token with max invalid expiration", async function () {
+        const user: CommunicationUserIdentifier = await client.createUser();
+        try {
+          await client.getToken(user, ["chat"], 59);
+          assert.fail("Should have thrown an error");
+        } catch (e: any) {
+          assert.equal(e.statusCode, 400);
         }
       });
 
