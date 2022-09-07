@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { ExceptionPolicy, ExceptionPolicyResponse, RouterAdministrationClient } from "../../src";
+import { ExceptionPolicy, ExceptionPolicyResponse, RouterAdministrationClient } from "../../../src";
 import { assert } from "chai";
-import { createRecordedRouterClientWithConnectionString } from "../internal/utils/mockClient";
+import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { Context } from "mocha";
-import { exceptionPolicyRequest } from "./utils/testData";
+import { classificationPolicyRequest, exceptionPolicyRequest, queueRequest } from "../utils/testData";
 
 // TODO . Complete unit and integration tests https://github.com/Azure/azure-sdk-for-js/issues/23007
 describe("RouterClient", function() {
@@ -82,11 +82,14 @@ describe("RouterClient", function() {
     }).timeout(8000);
 
     it("should successfully delete a exception policy", async function() {
+      await administrationClient.deleteClassificationPolicy(classificationPolicyRequest.id!);
+      await administrationClient.deleteQueue(queueRequest.id!);
+      
       await administrationClient.createExceptionPolicy(
         exceptionPolicyRequest.id!,
         exceptionPolicyRequest
       );
-      await administrationClient.deleteExceptionPolicy(exceptionPolicyRequest.id!, {});
+      await administrationClient.deleteExceptionPolicy(exceptionPolicyRequest.id!);
     }).timeout(8000);
   });
 });

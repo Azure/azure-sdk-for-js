@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { JobOffer, RouterClient, RouterWorker } from "../../../src";
+import { JobOffer, RouterAdministrationClient, RouterClient, RouterWorker } from "../../../src";
 import { Context } from "mocha";
 import {
   classificationPolicyRequest,
@@ -17,6 +17,7 @@ import { timeoutMs } from "../utils/constants";
 
 describe("RouterClient", function() {
   const sleepMs: number = 1500;
+  let administrationClient: RouterAdministrationClient;
   let client: RouterClient;
 
   // HACK: Intentionally block to avoid 'duplicate sequence number' error from service
@@ -26,15 +27,15 @@ describe("RouterClient", function() {
 
   describe("Assignment Scenario", function() {
     this.beforeAll(async function(this: Context) {
-      ({ client } = createRecordedRouterClientWithConnectionString(this));
+      ({ administrationClient, client } = await createRecordedRouterClientWithConnectionString(this));
 
-      await client.createDistributionPolicy(
+      await administrationClient.createDistributionPolicy(
         distributionPolicyRequest.id!,
         distributionPolicyRequest
       );
-      await client.createExceptionPolicy(exceptionPolicyRequest.id!, exceptionPolicyRequest);
-      await client.createQueue(queueRequest.id!, queueRequest);
-      await client.createClassificationPolicy(
+      await administrationClient.createExceptionPolicy(exceptionPolicyRequest.id!, exceptionPolicyRequest);
+      await administrationClient.createQueue(queueRequest.id!, queueRequest);
+      await administrationClient.createClassificationPolicy(
         classificationPolicyRequest.id!,
         classificationPolicyRequest
       );
@@ -46,10 +47,10 @@ describe("RouterClient", function() {
       await sleep(sleepMs);
       await client.deleteJob(jobRequest.id!);
       await client.deleteWorker(workerRequest.id!);
-      await client.deleteClassificationPolicy(classificationPolicyRequest.id!);
-      await client.deleteQueue(queueRequest.id!);
-      await client.deleteExceptionPolicy(exceptionPolicyRequest.id!);
-      await client.deleteDistributionPolicy(distributionPolicyRequest.id!);
+      await administrationClient.deleteClassificationPolicy(classificationPolicyRequest.id!);
+      await administrationClient.deleteQueue(queueRequest.id!);
+      await administrationClient.deleteExceptionPolicy(exceptionPolicyRequest.id!);
+      await administrationClient.deleteDistributionPolicy(distributionPolicyRequest.id!);
     });
 
     it("should complete assignment scenario", async () => {
@@ -74,19 +75,19 @@ describe("RouterClient", function() {
         jobRequest.id!,
         acceptOfferResponse.assignmentId
       );
-      assert.equal(completeJobResponse._response.status, 200);
+      assert.isNotNull(completeJobResponse);
 
       const closeJobResponse = await client.closeJob(
         jobRequest.id!,
         acceptOfferResponse.assignmentId
       );
-      assert.equal(closeJobResponse._response.status, 200);
+      assert.isNotNull(closeJobResponse);
 
       const { assignments } = await client.getJob(jobRequest.id!);
       const assignment = assignments?.[0];
-      assert.isNotNull(assignment?.assignTime);
-      assert.isNotNull(assignment?.completeTime);
-      assert.isNotNull(assignment?.closeTime);
+      assert.isNotNull(assignment?.assignedOn);
+      assert.isNotNull(assignment?.completedOn);
+      assert.isNotNull(assignment?.closedOn);
       assert.equal(assignment?.workerId, workerRequest.id);
     }).timeout(timeoutMs);
   });

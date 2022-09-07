@@ -3,7 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { RouterJob, RouterClient } from "../../../src";
+import { RouterJob, RouterClient, RouterAdministrationClient } from "../../../src";
 import { Context } from "mocha";
 import {
   classificationPolicyRequest,
@@ -18,6 +18,7 @@ import { timeoutMs } from "../utils/constants";
 describe("RouterClient", function() {
   const sleepMs: number = 1500;
   let recorder: Recorder;
+  let administrationClient: RouterAdministrationClient;
   let client: RouterClient;
   let request: RouterJob = jobRequest;
 
@@ -28,15 +29,15 @@ describe("RouterClient", function() {
 
   describe("Job Operations", function() {
     this.beforeAll(async function(this: Context) {
-      ({ client, recorder } = createRecordedRouterClientWithConnectionString(this));
+      ({ administrationClient, client, recorder } = await createRecordedRouterClientWithConnectionString(this));
 
-      await client.createDistributionPolicy(
+      await administrationClient.createDistributionPolicy(
         distributionPolicyRequest.id!,
         distributionPolicyRequest
       );
-      await client.createExceptionPolicy(exceptionPolicyRequest.id!, exceptionPolicyRequest);
-      await client.createQueue(queueRequest.id!, queueRequest);
-      await client.createClassificationPolicy(
+      await administrationClient.createExceptionPolicy(exceptionPolicyRequest.id!, exceptionPolicyRequest);
+      await administrationClient.createQueue(queueRequest.id!, queueRequest);
+      await administrationClient.createClassificationPolicy(
         classificationPolicyRequest.id!,
         classificationPolicyRequest
       );
@@ -52,10 +53,10 @@ describe("RouterClient", function() {
 
     this.afterAll(async function(this: Context) {
       await sleep(sleepMs);
-      await client.deleteClassificationPolicy(classificationPolicyRequest.id!, {});
-      await client.deleteQueue(queueRequest.id!, {});
-      await client.deleteExceptionPolicy(exceptionPolicyRequest.id!, {});
-      await client.deleteDistributionPolicy(distributionPolicyRequest.id!, {});
+      await administrationClient.deleteClassificationPolicy(classificationPolicyRequest.id!, {});
+      await administrationClient.deleteQueue(queueRequest.id!, {});
+      await administrationClient.deleteExceptionPolicy(exceptionPolicyRequest.id!, {});
+      await administrationClient.deleteDistributionPolicy(distributionPolicyRequest.id!, {});
     });
 
     it("should create a job", async function() {
@@ -85,7 +86,7 @@ describe("RouterClient", function() {
     }).timeout(timeoutMs);
 
     it("should get in-queue position for a job", async function() {
-      const result = await client.getInQueuePosition(request.id!);
+      const result = await client.getQueuePosition(request.id!);
 
       assert.isDefined(result);
       assert.isDefined(result.position);
@@ -111,7 +112,7 @@ describe("RouterClient", function() {
     }).timeout(timeoutMs);
 
     it("should list jobs", () => {
-      const result = client.listJobs("all");
+      const result = client.listJobs({maxPageSize: 1});
 
       assert.isNotNull(result.next());
       assert.isNotNull(result.next());

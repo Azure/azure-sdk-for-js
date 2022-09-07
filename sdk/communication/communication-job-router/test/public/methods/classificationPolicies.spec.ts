@@ -40,10 +40,10 @@ describe("RouterClient", function() {
     });
 
     this.afterAll(async function(this: Context) {
-      await administrationClient.deleteClassificationPolicy(classificationPolicyRequest.id!);
-      await administrationClient.deleteQueue(queueRequest.id!);
-      await administrationClient.deleteExceptionPolicy(exceptionPolicyRequest.id!);
-      await administrationClient.deleteDistributionPolicy(distributionPolicyRequest.id!);
+      // await administrationClient.deleteClassificationPolicy(classificationPolicyRequest.id!);
+      // await administrationClient.deleteQueue(queueRequest.id!);
+      // await administrationClient.deleteExceptionPolicy(exceptionPolicyRequest.id!);
+      // await administrationClient.deleteDistributionPolicy(distributionPolicyRequest.id!);
     });
 
     it("should create a classification policy", async function() {

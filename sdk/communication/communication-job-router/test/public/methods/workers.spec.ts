@@ -4,7 +4,7 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { RouterWorker, RouterClient } from "../../../src";
+import { RouterWorker, RouterClient, RouterAdministrationClient } from "../../../src";
 import {
   workerRequest,
   queueRequest,
@@ -16,20 +16,21 @@ import { timeoutMs } from "../utils/constants";
 
 describe("RouterClient", function() {
   let recorder: Recorder;
+  let administrationClient: RouterAdministrationClient;
   let client: RouterClient;
   let request: RouterWorker = workerRequest;
 
   // Order matters (registration idempotency)
   describe("Worker Operations", function() {
     this.beforeAll(async function(this: Context) {
-      ({ client, recorder } = createRecordedRouterClientWithConnectionString(this));
+      ({  administrationClient, client, recorder } = await createRecordedRouterClientWithConnectionString(this));
 
-      await client.createDistributionPolicy(
+      await administrationClient.createDistributionPolicy(
         distributionPolicyRequest.id!,
         distributionPolicyRequest
       );
-      await client.createExceptionPolicy(exceptionPolicyRequest.id!, exceptionPolicyRequest);
-      await client.createQueue(queueRequest.id!, queueRequest);
+      await administrationClient.createExceptionPolicy(exceptionPolicyRequest.id!, exceptionPolicyRequest);
+      await administrationClient.createQueue(queueRequest.id!, queueRequest);
     });
 
     afterEach(async function(this: Context) {
@@ -39,9 +40,9 @@ describe("RouterClient", function() {
     });
 
     this.afterAll(async function(this: Context) {
-      await client.deleteQueue(queueRequest.id!);
-      await client.deleteExceptionPolicy(exceptionPolicyRequest.id!);
-      await client.deleteDistributionPolicy(distributionPolicyRequest.id!);
+      await administrationClient.deleteQueue(queueRequest.id!);
+      await administrationClient.deleteExceptionPolicy(exceptionPolicyRequest.id!);
+      await administrationClient.deleteDistributionPolicy(distributionPolicyRequest.id!);
     });
 
     it("should create a worker", async function() {
@@ -76,13 +77,13 @@ describe("RouterClient", function() {
     it("should register and deregister a worker", async function() {
       const response: RouterWorker = await client.createWorker(request.id!, request);
 
-      let result = await client.registerWorker(response.id!, response);
+      let result = await client.registerWorker(response.id!);
 
       assert.isDefined(result);
       assert.isDefined(result?.id);
       assert.equal(result.availableForOffers, true);
 
-      result = await client.deregisterWorker(response.id!, response);
+      result = await client.deregisterWorker(response.id!);
 
       assert.isDefined(result);
       assert.isDefined(result?.id);
@@ -91,7 +92,7 @@ describe("RouterClient", function() {
 
     it("should delete a worker", async function() {
       const response: RouterWorker = await client.createWorker(request.id!, request);
-      await client.deregisterWorker(response.id!, response);
+      await client.deregisterWorker(response.id!);
 
       const result = await client.deleteWorker(response.id!);
 
