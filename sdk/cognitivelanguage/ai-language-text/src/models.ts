@@ -947,5 +947,5 @@ export interface PollerLike<TState extends OperationState<TResult>, TResult>
   /**
    * sends a cancellation request.
    */
-  cancelOperation: () => Promise<void>;
+  sendCancellationRequest: () => Promise<void>;
 }

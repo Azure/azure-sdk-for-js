@@ -298,7 +298,7 @@ export function createPollerWithCancellation(settings: {
   const { client, options, poller, id, tracing } = settings;
   return {
     ...poller,
-    cancelOperation: async () => {
+    sendCancellationRequest: async () => {
       await tracing.withSpan(`${clientName}.beginAnalyzeBatch`, options, async (finalOptions) =>
         throwError(
           getRawResponse(
