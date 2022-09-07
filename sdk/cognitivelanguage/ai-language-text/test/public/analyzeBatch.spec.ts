@@ -858,7 +858,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           const pollPromise = poller.pollUntilDone();
           poller.onProgress(async (state) => {
             if (state.actionInProgressCount < actions.length) {
-              await poller.cancelOperation();
+              await poller.sendCancellationRequest();
             }
           });
           await assert.isRejected(pollPromise, /Operation was canceled/);

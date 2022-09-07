@@ -754,7 +754,7 @@ export interface PiiEntityRecognitionSuccessResult extends TextAnalysisSuccessRe
 
 // @public
 export interface PollerLike<TState extends OperationState<TResult>, TResult> extends SimplePollerLike<TState, TResult> {
-    cancelOperation: () => Promise<void>;
+    sendCancellationRequest: () => Promise<void>;
 }
 
 // @public
