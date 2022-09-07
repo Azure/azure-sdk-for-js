@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Add overloads to `TableTransaction.updateEntity` so `undefined` doesn't need to be passed explicitly for an optional argument. [#23132](https://github.com/Azure/azure-sdk-for-js/pull/23132)
+
 ## 13.1.2 (2022-06-07)
 
 ### Features Added
