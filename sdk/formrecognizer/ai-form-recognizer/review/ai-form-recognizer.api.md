@@ -108,7 +108,7 @@ export interface CreateDocumentModelOptions extends OperationOptions, CommonMode
 }
 
 // @public
-export function createModelFromSchema(schema: Omit<DocumentModelDetails, "createdDateTime">): DocumentModel<AnalyzeResult<unknown>>;
+export function createModelFromSchema(schema: Omit<DocumentModelDetails, "createdOn">): DocumentModel<AnalyzeResult<unknown>>;
 
 // @public
 export interface CurrencyValue {
@@ -313,7 +313,7 @@ export interface DocumentModelCopyToOperationDetails extends OperationDetails {
 // @public
 export interface DocumentModelDetails {
     apiVersion?: string;
-    createdDateTime: Date;
+    createdOn: Date;
     description?: string;
     docTypes?: {
         [propertyName: string]: DocumentTypeDetails;
@@ -341,7 +341,7 @@ export type DocumentModelPoller = PollerLike<DocumentModelOperationState, Docume
 // @public
 export interface DocumentModelSummary {
     apiVersion?: string;
-    createdDateTime: Date;
+    createdOn: Date;
     description?: string;
     modelId: string;
     tags?: {
@@ -554,10 +554,10 @@ export interface ListOperationsOptions extends OperationOptions {
 // @public
 export interface OperationDetails {
     apiVersion?: string;
-    createdDateTime: Date;
+    createdOn: Date;
     error?: ErrorModel;
     kind: "documentModelBuild" | "documentModelCompose" | "documentModelCopyTo";
-    lastUpdatedDateTime: Date;
+    lastUpdatedOn: Date;
     operationId: string;
     percentCompleted?: number;
     resourceLocation: string;
@@ -579,9 +579,9 @@ export type OperationStatus = "notStarted" | "running" | "failed" | "succeeded" 
 // @public
 export interface OperationSummary {
     apiVersion?: string;
-    createdDateTime: Date;
+    createdOn: Date;
     kind: OperationKind;
-    lastUpdatedDateTime: Date;
+    lastUpdatedOn: Date;
     operationId: string;
     percentCompleted?: number;
     resourceLocation: string;

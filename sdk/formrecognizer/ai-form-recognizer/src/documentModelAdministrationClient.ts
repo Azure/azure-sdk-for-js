@@ -180,7 +180,7 @@ export class DocumentModelAdministrationClient {
    * const {
    *   modelId, // identical to the modelId given when creating the model
    *   description, // identical to the description given when creating the model
-   *   createdDateTime, // the Date (timestamp) that the model was created
+   *   createdOn, // the Date (timestamp) that the model was created
    *   docTypes // information about the document types in the model and their field schemas
    * } = modelDetails;
    * ```
@@ -248,7 +248,7 @@ export class DocumentModelAdministrationClient {
    * const {
    *   modelId, // identical to the modelId given when creating the model
    *   description, // identical to the description given when creating the model
-   *   createdDateTime, // the Date (timestamp) that the model was created
+   *   createdOn, // the Date (timestamp) that the model was created
    *   docTypes // information about the document types of the composed submodels
    * } = modelDetails;
    * ```
@@ -349,7 +349,7 @@ export class DocumentModelAdministrationClient {
    * const {
    *   modelId, // identical to the modelId given when creating the copy authorization
    *   description, // identical to the description given when creating the copy authorization
-   *   createdDateTime, // the Date (timestamp) that the model was created
+   *   createdOn, // the Date (timestamp) that the model was created
    *   docTypes // information about the document types of the model (identical to the original, source model)
    * } = modelDetails;
    * ```
@@ -515,7 +515,7 @@ export class DocumentModelAdministrationClient {
    * const {
    *   modelId, // identical to the modelId given when calling `getDocumentModel`
    *   description, // a textual description of the model, if provided during model creation
-   *   createdDateTime, // the Date (timestamp) that the model was created
+   *   createdOn, // the Date (timestamp) that the model was created
    *   // information about the document types in the model and their field schemas
    *   docTypes: {
    *     // the document type of the prebuilt business card model
@@ -628,8 +628,8 @@ export class DocumentModelAdministrationClient {
    *   kind, // the operation kind, one of "documentModelBuild", "documentModelCompose", or "documentModelCopyTo"
    *   status, // the status of the operation, one of "notStarted", "running", "failed", "succeeded", or "canceled"
    *   percentCompleted, // a number between 0 and 100 representing the progress of the operation
-   *   createdDateTime, // a Date object that reflects the time when the operation was started
-   *   lastUpdatedDateTime, // a Date object that reflects the time when the operation state was last modified
+   *   createdOn, // a Date object that reflects the time when the operation was started
+   *   lastUpdatedOn, // a Date object that reflects the time when the operation state was last modified
    * } = await client.getOperation(operationId);
    * ```
    */
