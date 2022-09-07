@@ -434,7 +434,7 @@ describe("bulk/batch item operations", function () {
       // Patch add 
       assert.strictEqual(response[5].resourceBody.great, "goodValue");
       assert.strictEqual(response[5].statusCode, 200);
-      //Patch move
+      // Patch move
       assert.strictEqual(response[9].resourceBody.goodKey, "greatValue");
       assert.strictEqual(response[9].statusCode, 200);
     });
