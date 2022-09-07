@@ -51,11 +51,13 @@ async function main() {
   });
 
   // Not required but can set test send to true for debugging purposes.
-  const sendOptions: SendOperationOptions = { enableTestSend: false };
+  const sendOptions: SendOperationOptions = { enableTestSend: true };
   const result = await sendNotification(context, tags, notification, sendOptions);
 
   console.log(`Tag List send Tracking ID: ${result.trackingId}`);
   console.log(`Tag List Correlation ID: ${result.correlationId}`);
+  console.log(`Success: ${result.success}`);
+  console.log(`Failure: ${result.failure}`);
 
   // Only available in Standard SKU and above
   if (result.notificationId) {

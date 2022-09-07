@@ -1,0 +1,40 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { NotificationHubsMessageResponse, RegistrationResult } from "../models/response.js";
+import { getInteger, getString, isDefined } from "../utils/utils.js";
+import { parseXML } from "@azure/core-xml";
+
+export async function parseNotificationOutcome(
+  bodyText: string
+): Promise<NotificationHubsMessageResponse> {
+  const xml = await parseXML(bodyText, { includeRoot: true });
+  const outcome = xml.NotificationOutcome;
+
+  return {
+    success: getInteger(outcome.Success, "Success"),
+    failure: getInteger(outcome.Failure, "Failure"),
+    results: parseRegistrationResults(outcome.Results.RegistrationResult),
+  };
+}
+
+function parseRegistrationResults(results?: Record<string, any>): RegistrationResult[] {
+  const registrationResults: RegistrationResult[] = [];
+
+  if (!isDefined(results)) {
+    return registrationResults;
+  }
+
+  const resultsArray = Array.isArray(results) ? results : [results];
+
+  for (const result of resultsArray) {
+    registrationResults.push({
+      applicationPlatform: getString(result.ApplicationPlatform, "ApplicationPlatform"),
+      registrationId: getString(result.RegistrationId, "RegistrationId"),
+      outcome: getString(result.Outcome, "Outcome"),
+      pnsHandle: getString(result.PnsHandle, "PnsHandle"),
+    });
+  }
+
+  return registrationResults;
+}

@@ -28,7 +28,7 @@ export function sendNotificationPayload(
       endpoint.pathname += "/messages/";
 
       if (options.enableTestSend) {
-        endpoint.searchParams.append("debug", "true");
+        endpoint.searchParams.append("test", "true");
       }
 
       const headers = await context.createHeaders(method);

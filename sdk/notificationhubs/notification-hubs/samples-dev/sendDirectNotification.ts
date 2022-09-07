@@ -22,7 +22,6 @@ import {
   NotificationHubsClientContext,
   createClientContext,
 } from "@azure/notification-hubs/client";
-import { SendOperationOptions } from "@azure/notification-hubs/models/options";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { delay } from "@azure/core-util";
 import { getNotificationOutcomeDetails } from "@azure/notification-hubs/client/getNotificationOutcomeDetails";
@@ -53,9 +52,7 @@ async function main() {
     },
   });
 
-  // Not required but can set test send to true for debugging purposes.
-  const sendOptions: SendOperationOptions = { enableTestSend: false };
-  const result = await sendDirectNotification(context, devicetoken, notification, sendOptions);
+  const result = await sendDirectNotification(context, devicetoken, notification);
 
   console.log(`Direct send Tracking ID: ${result.trackingId}`);
   console.log(`Direct send Correlation ID: ${result.correlationId}`);

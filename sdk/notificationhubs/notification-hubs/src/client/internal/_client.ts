@@ -16,6 +16,7 @@ import {
 import { NotificationHubsClientContext } from "../index.js";
 import { OperationOptions } from "@azure/core-client";
 import { isDefined } from "../../utils/utils.js";
+import { parseNotificationOutcome } from "../../serializers/notificationOutcomeSerializer.js";
 import { parseXMLError } from "../../utils/xmlUtils.js";
 
 /**
@@ -55,9 +56,9 @@ export function parseNotificationResponse(response: PipelineResponse): Notificat
 /**
  * @internal
  */
-export function parseNotificationSendResponse(
+export async function parseNotificationSendResponse(
   response: PipelineResponse
-): NotificationHubsMessageResponse {
+): Promise<NotificationHubsMessageResponse> {
   const result = parseNotificationResponse(response);
   let notificationId: string | undefined;
   if (result.location) {
@@ -65,10 +66,26 @@ export function parseNotificationSendResponse(
     notificationId = locationUrl.pathname.split("/")[3];
   }
 
-  return {
-    ...result,
-    notificationId,
-  };
+  const requestUrl = new URL(response.request.url);
+  const isTestSend = requestUrl.searchParams.has("test");
+  const hasTags = response.request.headers.has("ServiceBusNotification-Tags");
+
+  if (isTestSend && hasTags) {
+    const outcome = await parseNotificationOutcome(response.bodyAsText!);
+    return {
+      ...result,
+      ...outcome,
+      notificationId,
+    };
+  } else {
+    return {
+      ...result,
+      notificationId,
+      success: 0,
+      failure: 0,
+      results: [],
+    };
+  }
 }
 
 /**

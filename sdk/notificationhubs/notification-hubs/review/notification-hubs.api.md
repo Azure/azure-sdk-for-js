@@ -556,7 +556,10 @@ export interface NotificationHubsClientOptions extends CommonClientOptions {
 
 // @public
 export interface NotificationHubsMessageResponse extends NotificationHubsResponse {
+    failure: number;
     notificationId?: string;
+    results: RegistrationResult[];
+    success: number;
 }
 
 // @public
@@ -586,7 +589,7 @@ export class NotificationHubsServiceClient {
     scheduleBroadcastNotification(scheduledTime: Date, notification: Notification, options?: OperationOptions): Promise<NotificationHubsMessageResponse>;
     scheduleNotification(scheduledTime: Date, tags: string[] | string, notification: Notification, options?: OperationOptions): Promise<NotificationHubsMessageResponse>;
     sendBroadcastNotification(notification: Notification, options?: SendOperationOptions): Promise<NotificationHubsMessageResponse>;
-    sendDirectNotification(pushHandle: PushHandle, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubsMessageResponse>;
+    sendDirectNotification(pushHandle: PushHandle, notification: Notification, options?: OperationOptions): Promise<NotificationHubsMessageResponse>;
     sendNotification(tags: string[] | string, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubsMessageResponse>;
     submitNotificationHubJob(job: NotificationHubJob, options?: OperationOptions): Promise<NotificationHubJob>;
     updateInstallation(installationId: string, patches: JsonPatch[], options?: OperationOptions): Promise<NotificationHubsResponse>;
@@ -632,6 +635,14 @@ export interface RegistrationQueryOptions extends RegistrationQueryLimitOptions 
 export interface RegistrationQueryResponse {
     continuationToken?: string;
     registrations: RegistrationDescription[];
+}
+
+// @public
+export interface RegistrationResult {
+    applicationPlatform: string;
+    outcome: string;
+    pnsHandle: string;
+    registrationId: string;
 }
 
 // @public

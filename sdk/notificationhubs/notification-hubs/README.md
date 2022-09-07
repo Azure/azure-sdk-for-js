@@ -355,7 +355,7 @@ for await (const pages of registrations.byPage()) {
 
 Notification Hubs supports sending notifications to devices either directly using the unique PNS provided identifier, using tags for audience send, or a general broadcast to all devices.  Using the Standard SKU and above, [scheduled send](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-send-push-notifications-scheduled) allows the user to schedule notifications up to seven days in advance.  All send operations return a Tracking ID and Correlation ID which can be used for Notification Hubs support cases.  With the Standard SKU and above, a Notification ID is also returned which can be used to get notification telemetry via the `getNotificationOutcomeDetails` method.
 
-For debugging purposes, the `enableTestSend` options can be set to `true` which gets immediate feedback from the PNS on the `send*` methods, however, is not supported in production scenarios.  This is not supported on the scheduled send methods.
+For debugging purposes, the `enableTestSend` options can be set to `true` which gets immediate feedback from the PNS on the `sendNotification` method, however, is not supported in production scenarios.  This is not supported on the scheduled send methods.
 
 Raw JSON or XML strings can be sent to the send or scheduled send methods, or the notification builders can be used which helps construct messages per PNS such as APNs, Firebase, Baidu, ADM and WNS.  These builders will build the native message format and fill in associated HTTP headers so there is no guessing about which fields are available for each PNS.
 
@@ -403,9 +403,7 @@ const message = createAppleNotification({
   },
 });
 
-// Not required but can set test send to true for debugging purposes.
-const sendOptions: SendOperationOptions = { enableTestSend: false };
-const result = await client.sendBroadcastNotification(message, sendOptions);
+const result = await client.sendBroadcastNotification(message);
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -436,9 +434,7 @@ const message = createAppleNotification({
   },
 });
 
-// Not required but can set test send to true for debugging purposes.
-const sendOptions: SendOperationOptions = { enableTestSend: false };
-const result = await sendBroadcastNotification(context, message, sendOptions);
+const result = await sendBroadcastNotification(context, message);
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -473,9 +469,7 @@ const message = createAppleNotification({
   },
 });
 
-// Not required but can set test send to true for debugging purposes.
-const sendOptions: SendOperationOptions = { enableTestSend: false };
-const result = await client.sendDirectNotification(devicetoken, message, sendOptions);
+const result = await client.sendDirectNotification(devicetoken, message);
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -507,8 +501,6 @@ const message = createAppleNotification({
   },
 });
 
-// Not required but can set test send to true for debugging purposes.
-const sendOptions: SendOperationOptions = { enableTestSend: false };
 const result = await sendDirectNotification(context, devicetoken, message, sendOptions);
 
 console.log(`Tracking ID: ${result.trackingId}`);
@@ -620,9 +612,7 @@ const message = createAppleNotification({
   },
 });
 
-// Not required but can set test send to true for debugging purposes.
-const sendOptions: SendOperationOptions = { enableTestSend: false };
-const result = await client.scheduleNotification(scheduledTime, tagExpression, message, sendOptions);
+const result = await client.scheduleNotification(scheduledTime, tagExpression, message);
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -655,9 +645,7 @@ const message = createAppleNotification({
   },
 });
 
-// Not required but can set test send to true for debugging purposes.
-const sendOptions: SendOperationOptions = { enableTestSend: false };
-const result = await scheduleNotification(context, scheduledTime, tagExpression, message, sendOptions);
+const result = await scheduleNotification(context, scheduledTime, tagExpression, message);
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -672,11 +660,11 @@ console.log(`Notification ID: ${result.notificationId}`);
 
 Azure Notification Hubs has a complete guide to troubleshooting problems with dropped notifications in the [Diagnose dropped notifications in Azure Notification Hubs Guide](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer).  
 
-[Test send](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer#enabletestsend-property) is supported supported in the send methods with the `enableTestSend` option:
+[Test send](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer#enabletestsend-property) is supported supported in the `sendNotification` method with the `enableTestSend` option:
 
 ```typescript
 const sendOptions: SendOperationOptions = { enableTestSend: true };
-const result = await client.sendDirectNotification(devicetoken, message, sendOptions);
+const result = await client.sendNotification(tags, message, sendOptions);
 ```
 
 ### Logging

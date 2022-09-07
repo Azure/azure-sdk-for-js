@@ -4,9 +4,16 @@
 
 ### Features Added
 
+- Added implementation for `enableTestSend` to gather detailed statistics.
+
 ### Breaking Changes
 
+- `enableTestSend` option is no longer available for `sendDirectNotification`.
+
 ### Bugs Fixed
+
+- #23065
+- #23089
 
 ### Other Changes
 

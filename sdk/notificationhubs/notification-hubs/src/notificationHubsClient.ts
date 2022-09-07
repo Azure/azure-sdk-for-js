@@ -201,14 +201,13 @@ export class NotificationHubsServiceClient {
    * Sends a direct push notification to a device with the given push handle.
    * @param pushHandle - The push handle which is the unique identifier for the device.
    * @param notification - The notification to send to the device.
-   * @param options - Configuration options for the direct send operation which can contain custom headers
-   * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
+   * @param options - The options for sending a direct notification.
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
   sendDirectNotification(
     pushHandle: PushHandle,
     notification: Notification,
-    options: SendOperationOptions = {}
+    options: OperationOptions = {}
   ): Promise<NotificationHubsMessageResponse> {
     return sendDirectNotificationMethod(this._client, pushHandle, notification, options);
   }
