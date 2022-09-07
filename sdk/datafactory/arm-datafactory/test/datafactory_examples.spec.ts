@@ -35,7 +35,7 @@ export const testPollingOptions = {
 };
 
 
-describe("ContainerInstance test", () => {
+describe("Datafactory test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: DataFactoryManagementClient;
@@ -53,7 +53,7 @@ describe("ContainerInstance test", () => {
     client = new DataFactoryManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
-    factoryName = "exampleFactoryName";
+    factoryName = "examplefactorytest";
   });
 
   afterEach(async function () {
@@ -80,7 +80,7 @@ describe("ContainerInstance test", () => {
     for await (let item of client.factories.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 1);
+    assert.equal(resArray.length, 2);
   });
 
   it("datafactory delete test", async function () {
@@ -89,6 +89,6 @@ describe("ContainerInstance test", () => {
     for await (let item of client.factories.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 0);
+    assert.equal(resArray.length, 1);
   });
 })
