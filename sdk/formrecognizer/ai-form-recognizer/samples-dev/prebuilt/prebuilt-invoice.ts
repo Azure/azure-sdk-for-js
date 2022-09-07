@@ -361,12 +361,12 @@ function modelInfo() {
             example: "Contoso Billing",
           },
           ServiceAddress: {
-            type: "string",
+            type: "address",
             description: "Explicit service address or property address for the customer",
             example: "123 Service St, Redmond WA, 98052",
           },
           ServiceAddressRecipient: {
-            type: "address",
+            type: "string",
             description: "Name associated with the ServiceAddress",
             example: "Microsoft Services",
           },

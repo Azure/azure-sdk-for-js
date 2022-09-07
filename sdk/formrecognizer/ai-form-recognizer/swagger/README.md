@@ -49,3 +49,15 @@ directive:
     where: $.parameters.QueryStringIndexType
     transform: $["x-ms-parameter-location"] = "client";
 ```
+
+### Suffix `DateTime` -> `On`
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions[*].properties
+    transform: >
+      for (const p of Object.keys($).filter((k) => k.endsWith("DateTime"))) {
+        $[p]["x-ms-client-name"] = p.replace(/DateTime$/, "On");
+      }
+```
