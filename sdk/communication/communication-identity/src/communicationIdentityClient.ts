@@ -129,7 +129,7 @@ export class CommunicationIdentityClient {
     options?: OperationOptions
   ): Promise<CommunicationAccessToken> {
 
-    let operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams = this.parseTokenExpirationInMinutesOrOptions(tokenExpirationInMinutesOrOptions, options);
+    const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams = this.parseTokenExpirationInMinutesOrOptions(tokenExpirationInMinutesOrOptions, options);
 
     return tracingClient.withSpan(
       "CommunicationIdentity-issueToken",
@@ -172,7 +172,7 @@ export class CommunicationIdentityClient {
    * @param options - Additional options for the request.
    */
   public createUser(options: OperationOptions = {}): Promise<CommunicationUserIdentifier> {
-    let operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams = options;
+    const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams = options;
     operationOptions.expiresInMinutes = undefined;
     return tracingClient.withSpan(
       "CommunicationIdentity-createUser",
@@ -214,8 +214,8 @@ export class CommunicationIdentityClient {
     scopes: TokenScope[],
     tokenExpirationInMinutesOrOptions?: number | OperationOptions,
     options?: OperationOptions
-  ) {
-    let operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams = this.parseTokenExpirationInMinutesOrOptions(tokenExpirationInMinutesOrOptions, options);
+  ): Promise<CommunicationUserToken> {
+    const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams = this.parseTokenExpirationInMinutesOrOptions(tokenExpirationInMinutesOrOptions, options);
 
     return tracingClient.withSpan(
       "CommunicationIdentity-createUserAndToken",
@@ -281,7 +281,7 @@ export class CommunicationIdentityClient {
   private parseTokenExpirationInMinutesOrOptions(
     tokenExpirationInMinutesOrOptions?: number | OperationOptions,
     options?: OperationOptions
-    ) {
+    ): CommunicationIdentityIssueAccessTokenOptionalParams {
       let optionsWithTokenExpiration: CommunicationIdentityIssueAccessTokenOptionalParams = {};
 
       if (options) {
