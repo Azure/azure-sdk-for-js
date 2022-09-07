@@ -59,8 +59,8 @@ export async function createClient(): Promise<ConfidentialLedgerClient> {
 
   // const credential = new DefaultAzureCredential({ httpClient });
   const { ledgerIdentityCertificate } = await getLedgerIdentity(
-    env.LEDGER_IDENTITY,
-    env.IDENTITY_SERVICE_URL
+    env.LEDGER_NAME,
+    env.IDENTITY_SERVICE_URL ? env.IDENTITY_SERVICE_URL : null
   );
 
   const cert = env.PUBLIC_KEY;

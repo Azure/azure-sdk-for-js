@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ConfidentialLedgerClient, isUnexpected } from "../../src";
+import { ConfidentialLedgerClient, CreateLedgerEntryParameters, isUnexpected, LedgerEntry } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
 import { Context } from "mocha";
@@ -21,9 +21,28 @@ describe("Get Collections", () => {
   });
 
   it("should list all available document formats", async function () {
-    const result = await client.path("/app/collections").get();
+    const modulus = 5;
 
-    console.log(result);
+    // we want to send 2001 messages total
+    for (let i = 0; i < modulus; i++) {
+      const entry: LedgerEntry = {
+        contents: "add collection number " + i,
+      };
+
+      const ledgerEntry: CreateLedgerEntryParameters = {
+        contentType: "application/json",
+        body: entry,
+        queryParameters: { collectionId: "" + i },
+      };
+
+      const postResult = await client.path("/app/transactions").post(ledgerEntry);
+
+      if (isUnexpected(postResult)) {
+        throw postResult.body;
+      }
+    }
+
+    const result = await client.path("/app/collections").get();
 
     assert.equal(result.status, "200");
 
