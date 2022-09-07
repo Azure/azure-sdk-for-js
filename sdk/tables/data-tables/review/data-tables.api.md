@@ -416,7 +416,9 @@ export class TableTransaction {
     actions: TransactionAction[];
     createEntity<T extends object = Record<string, unknown>>(entity: TableEntity<T>): void;
     deleteEntity(partitionKey: string, rowKey: string): void;
-    updateEntity<T extends object = Record<string, unknown>>(entity: TableEntity<T>, updateMode?: UpdateMode, updateOptions?: UpdateTableEntityOptions): void;
+    updateEntity<T extends object = Record<string, unknown>>(entity: TableEntity<T>, updateMode?: UpdateMode): void;
+    updateEntity<T extends object = Record<string, unknown>>(entity: TableEntity<T>, updateOptions?: UpdateTableEntityOptions): void;
+    updateEntity<T extends object = Record<string, unknown>>(entity: TableEntity<T>, updateMode: UpdateMode, updateOptions?: UpdateTableEntityOptions): void;
     upsertEntity<T extends object = Record<string, unknown>>(entity: TableEntity<T>, updateMode?: UpdateMode): void;
 }
 
