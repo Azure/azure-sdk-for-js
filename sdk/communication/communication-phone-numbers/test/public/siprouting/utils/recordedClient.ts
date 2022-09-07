@@ -75,8 +75,9 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
   return recorder;
 }
 
-export async function createRecordedClient(context: Context)
-  : Promise<RecordedClient<SipRoutingClient>> {
+export async function createRecordedClient(
+  context: Context
+): Promise<RecordedClient<SipRoutingClient>> {
   const recorder = await createRecorder(context.currentTest);
 
   const client = new SipRoutingClient(
@@ -95,8 +96,9 @@ export function createMockToken(): TokenCredential {
   };
 }
 
-export async function createRecordedClientWithToken(context: Context)
-  : Promise<RecordedClient<SipRoutingClient>> {
+export async function createRecordedClientWithToken(
+  context: Context
+): Promise<RecordedClient<SipRoutingClient>> {
   const recorder = await createRecorder(context.currentTest);
 
   let credential: TokenCredential;

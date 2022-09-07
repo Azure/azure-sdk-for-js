@@ -26,16 +26,13 @@ export const createMockHttpClient = <T = Record<string, unknown>>(
   };
 };
 
-export const listTrunksHttpClient: HttpClient = createMockHttpClient<SipTrunk[]>(
-  200,
-  [
-    {
-      fqdn: "one.trunk.contoso.com",
-      sipSignalingPort: 1234,
-    },
-    {
-      fqdn: "two.trunk.contoso.com",
-      sipSignalingPort: 4321,
-    },
-  ]
-);
+export const listTrunksHttpClient: HttpClient = createMockHttpClient<SipTrunk[]>(200, [
+  {
+    fqdn: "one.trunk.contoso.com",
+    sipSignalingPort: 1234,
+  },
+  {
+    fqdn: "two.trunk.contoso.com",
+    sipSignalingPort: 4321,
+  },
+]);

@@ -16,7 +16,7 @@ matrix([[true, false]], async function (useAad) {
     let recorder: Recorder;
 
     beforeEach(async function (this: Context) {
-      ({ client, recorder } = useAad 
+      ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(this)
         : await createRecordedClient(this));
     });

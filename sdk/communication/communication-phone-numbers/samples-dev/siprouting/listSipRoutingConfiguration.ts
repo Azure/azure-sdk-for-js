@@ -6,7 +6,8 @@ import { SipRoutingClient } from "@azure/communication-phone-numbers";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const connectionString = process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
+const connectionString =
+  process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
   "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
 
 export async function main() {

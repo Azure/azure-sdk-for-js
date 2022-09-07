@@ -83,12 +83,13 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
   return recorder;
 }
 
-export async function createRecordedClient(context: Context)
-  : Promise<RecordedClient<PhoneNumbersClient>> {
+export async function createRecordedClient(
+  context: Context
+): Promise<RecordedClient<PhoneNumbersClient>> {
   const recorder = await createRecorder(context.currentTest);
 
   const client = new PhoneNumbersClient(
-    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "", 
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
     recorder.configureClientOptions({})
   );
 
