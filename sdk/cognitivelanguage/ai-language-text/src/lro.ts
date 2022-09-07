@@ -10,14 +10,19 @@ import {
   GeneratedClient,
   TextDocumentInput,
 } from "./generated";
-import { AnalyzeBatchOperationState, AnalyzeBatchResult, PagedAnalyzeBatchResult } from "./models";
+import {
+  AnalyzeBatchOperationState,
+  AnalyzeBatchResult,
+  PagedAnalyzeBatchResult,
+  PollerLike,
+} from "./models";
 import {
   FullOperationResponse,
   OperationOptions,
   OperationSpec,
   createSerializer,
 } from "@azure/core-client";
-import { LongRunningOperation, LroResponse, RawResponse } from "@azure/core-lro";
+import { LongRunningOperation, LroResponse, SimplePollerLike } from "@azure/core-lro";
 import { PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
 import { throwError, transformAnalyzeBatchResults } from "./transforms";
 import { HttpMethods } from "@azure/core-rest-pipeline";
@@ -47,10 +52,10 @@ async function getRawResponse<TOptions extends OperationOptions, TResponse>(
   options: TOptions
 ): Promise<LroResponse<TResponse>> {
   const { onResponse } = options || {};
-  let rawResponse: FullOperationResponse | undefined = undefined;
+  let rawResponse: FullOperationResponse;
   const flatResponse = await getResponse({
     ...options,
-    onResponse: (response: FullOperationResponse, flatResponseParam: unknown) => {
+    onResponse: (response, flatResponseParam) => {
       rawResponse = response;
       onResponse?.(response, flatResponseParam);
     },
@@ -96,7 +101,7 @@ async function sendRequest<TOptions extends OperationOptions>(settings: {
 /**
  * @internal
  */
-export function createSendPollRequest<TOptions extends OperationOptions>(settings: {
+function createSendPollRequest<TOptions extends OperationOptions>(settings: {
   client: GeneratedClient;
   tracing: TracingClient;
   options: TOptions;
@@ -132,7 +137,7 @@ export function createAnalyzeBatchLro(settings: {
   };
   documents: TextDocumentInput[];
   tasks: AnalyzeBatchActionUnion[];
-}): LongRunningOperation<unknown> {
+}): LongRunningOperation {
   const {
     client,
     commonOptions,
@@ -143,8 +148,6 @@ export function createAnalyzeBatchLro(settings: {
     tracing,
   } = settings;
   return {
-    requestMethod: "POST",
-    requestPath: "/analyze-text/jobs",
     async sendInitialRequest(): Promise<LroResponse<unknown>> {
       return tracing.withSpan(
         `${clientName}.beginAnalyzeBatch`,
@@ -183,13 +186,13 @@ export function createAnalyzeBatchLro(settings: {
 /**
  * @internal
  */
-export function getDocsFromState(serializedState: string): TextDocumentInput[] {
+export function getDocIDsFromState(serializedState: string): string[] {
   try {
-    const { documents } = JSON.parse(serializedState).state;
-    return documents;
+    const { docIds } = JSON.parse(serializedState).state;
+    return docIds;
   } catch (e) {
     logger.error(
-      `Documents are not found in the LRO's state. The results may not be ordered correctly.`
+      `Document IDs are not found in the LRO's state. The results may not be ordered correctly.`
     );
     return [];
   }
@@ -202,11 +205,9 @@ export function createCreateAnalyzeBatchPollerLro<OptionsT extends OperationOpti
   client: GeneratedClient;
   tracing: TracingClient;
   options: OptionsT;
-}): LongRunningOperation<unknown> {
+}): LongRunningOperation {
   const { client, options, tracing } = settings;
   return {
-    requestMethod: "POST",
-    requestPath: "/analyze-text/jobs",
     async sendInitialRequest(): Promise<LroResponse<unknown>> {
       throw new Error(`The operation has already started`);
     },
@@ -225,13 +226,13 @@ export function createCreateAnalyzeBatchPollerLro<OptionsT extends OperationOpti
 export function processAnalyzeResult(options: {
   client: GeneratedClient;
   tracing: TracingClient;
-  documents: TextDocumentInput[];
+  docIds: string[];
   opOptions: AnalyzeTextJobStatusOptionalParams;
-  continuationToken?: string;
+  state: { continuationToken: string };
 }): (result: unknown, state: AnalyzeBatchOperationState) => PagedAnalyzeBatchResult {
-  return (_result: unknown, state: AnalyzeBatchOperationState): PagedAnalyzeBatchResult => {
-    const { client, documents, opOptions, tracing, continuationToken } = options;
-    const pageURL = continuationToken ?? (state as any).pollingURL;
+  return (): PagedAnalyzeBatchResult => {
+    const { client, docIds, opOptions, tracing, state } = options;
+    const pageURL = state.continuationToken;
     const pagedResult: PagedResult<AnalyzeBatchResult[]> = {
       firstPageLink: pageURL,
       getPage: async (pageLink: string, maxPageSize?: number) => {
@@ -247,7 +248,7 @@ export function processAnalyzeResult(options: {
         });
         const flatResponse = response.flatResponse as AnalyzeTextJobStatusResponse;
         return {
-          page: transformAnalyzeBatchResults(documents, flatResponse.tasks.items),
+          page: transformAnalyzeBatchResults(docIds, flatResponse.tasks.items),
           nextPageLink: flatResponse.nextLink,
         };
       },
@@ -263,24 +264,23 @@ type Writable<T> = {
 /**
  * @internal
  */
-export function createUpdateAnalyzeState(documents?: TextDocumentInput[]) {
-  return (state: AnalyzeBatchOperationState, lastResponse: RawResponse): void => {
-    const { createdOn, modifiedOn, id, status, displayName, expiresOn, tasks } =
-      lastResponse.body as AnalyzeTextJobStatusResponse;
+export function createUpdateAnalyzeState(docIds?: string[]) {
+  return (state: AnalyzeBatchOperationState, lastResponse: LroResponse): void => {
+    const { createdOn, modifiedOn, id, displayName, expiresOn, tasks } =
+      lastResponse.flatResponse as AnalyzeTextJobStatusResponse;
     const mutableState = state as Writable<AnalyzeBatchOperationState> & {
-      documents?: TextDocumentInput[];
+      docIds?: string[];
     };
     mutableState.createdOn = createdOn;
     mutableState.modifiedOn = modifiedOn;
     mutableState.expiresOn = expiresOn;
     mutableState.displayName = displayName;
     mutableState.id = id;
-    mutableState.status = status;
     mutableState.actionSucceededCount = tasks.completed;
     mutableState.actionFailedCount = tasks.failed;
     mutableState.actionInProgressCount = tasks.inProgress;
-    if (mutableState.documents === undefined && documents !== undefined) {
-      mutableState.documents = documents;
+    if (mutableState.docIds === undefined && docIds !== undefined) {
+      mutableState.docIds = docIds;
     }
   };
 }
@@ -288,20 +288,25 @@ export function createUpdateAnalyzeState(documents?: TextDocumentInput[]) {
 /**
  * @internal
  */
-export function createCancelOperation(settings: {
+export function createPollerWithCancellation(settings: {
+  poller: SimplePollerLike<AnalyzeBatchOperationState, PagedAnalyzeBatchResult>;
   client: GeneratedClient;
   tracing: TracingClient;
   options: AnalyzeTextJobStatusOptionalParams;
-}): (state: AnalyzeBatchOperationState) => Promise<void> {
-  return async ({ id }): Promise<void> => {
-    const { client, options, tracing } = settings;
-    await tracing.withSpan(`${clientName}.beginAnalyzeBatch`, options, async (finalOptions) =>
-      throwError(
-        getRawResponse(
-          (paramOptions) => client.analyzeText.cancelJob(id, paramOptions),
-          finalOptions
+  id: string;
+}): PollerLike<AnalyzeBatchOperationState, PagedAnalyzeBatchResult> {
+  const { client, options, poller, id, tracing } = settings;
+  return {
+    ...poller,
+    cancelOperation: async () => {
+      await tracing.withSpan(`${clientName}.beginAnalyzeBatch`, options, async (finalOptions) =>
+        throwError(
+          getRawResponse(
+            (paramOptions) => client.analyzeText.cancelJob(id, paramOptions),
+            finalOptions
+          )
         )
-      )
-    );
+      );
+    },
   };
 }
