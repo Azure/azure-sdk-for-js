@@ -3,7 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { RouterJob, RouterClient, RouterAdministrationClient } from "../../../src";
+import { RouterJob, RouterClient, RouterAdministrationClient, CreateJobOptions } from "../../../src";
 import { Context } from "mocha";
 import {
   classificationPolicyRequest,
@@ -60,7 +60,8 @@ describe("RouterClient", function() {
     });
 
     it("should create a job", async function() {
-      const result = await client.createJob(request.id!, request);
+      let options: CreateJobOptions = {...request};
+      const result = await client.createJob(request.id!, options);
 
       assert.isDefined(result);
       assert.isDefined(result.id);

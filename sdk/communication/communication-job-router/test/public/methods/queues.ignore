@@ -3,7 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { JobQueue, RouterAdministrationClient, RouterClient } from "../../../src";
+import { JobQueue, RouterAdministrationClient } from "../../../src";
 import { Context } from "mocha";
 import {
   distributionPolicyRequest,
@@ -20,7 +20,7 @@ describe("RouterClient", function() {
 
   describe("Queue Operations", function() {
     this.beforeAll(async function(this: Context) {
-      ({  administrationClient, client, recorder } = await createRecordedRouterClientWithConnectionString(this));
+      ({  administrationClient, recorder } = await createRecordedRouterClientWithConnectionString(this));
 
       await administrationClient.createDistributionPolicy(
         distributionPolicyRequest.id!,

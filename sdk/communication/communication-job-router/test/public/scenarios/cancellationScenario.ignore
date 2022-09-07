@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { RouterClient, RouterJob } from "../../../src";
+import { RouterAdministrationClient, RouterClient, RouterJob } from "../../../src";
 import { Context } from "mocha";
 import {
   classificationPolicyRequest,
@@ -16,6 +16,7 @@ import { timeoutMs } from "../utils/constants";
 
 describe("RouterClient", function() {
   const sleepMs: number = 1500;
+  let administrationClient: RouterAdministrationClient;
   let client: RouterClient;
 
   // HACK: Intentionally block to avoid 'duplicate sequence number' error from service
@@ -25,15 +26,15 @@ describe("RouterClient", function() {
 
   describe("Cancellation Scenario", function() {
     this.beforeAll(async function(this: Context) {
-      ({ client } = createRecordedRouterClientWithConnectionString(this));
+      ({ client, administrationClient } = await createRecordedRouterClientWithConnectionString(this));
 
-      await client.createDistributionPolicy(
+      await administrationClient.createDistributionPolicy(
         distributionPolicyRequest.id!,
         distributionPolicyRequest
       );
-      await client.createExceptionPolicy(exceptionPolicyRequest.id!, exceptionPolicyRequest);
-      await client.createQueue(queueRequest.id!, queueRequest);
-      await client.createClassificationPolicy(
+      await administrationClient.createExceptionPolicy(exceptionPolicyRequest.id!, exceptionPolicyRequest);
+      await administrationClient.createQueue(queueRequest.id!, queueRequest);
+      await administrationClient.createClassificationPolicy(
         classificationPolicyRequest.id!,
         classificationPolicyRequest
       );
@@ -43,10 +44,10 @@ describe("RouterClient", function() {
     this.afterAll(async function(this: Context) {
       await sleep(sleepMs);
       await client.deleteJob(jobRequest.id!);
-      await client.deleteClassificationPolicy(classificationPolicyRequest.id!);
-      await client.deleteQueue(queueRequest.id!);
-      await client.deleteExceptionPolicy(exceptionPolicyRequest.id!);
-      await client.deleteDistributionPolicy(distributionPolicyRequest.id!);
+      await administrationClient.deleteClassificationPolicy(classificationPolicyRequest.id!);
+      await administrationClient.deleteQueue(queueRequest.id!);
+      await administrationClient.deleteExceptionPolicy(exceptionPolicyRequest.id!);
+      await administrationClient.deleteDistributionPolicy(distributionPolicyRequest.id!);
     });
 
     it("should complete cancellation scenario", async () => {
