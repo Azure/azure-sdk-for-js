@@ -4074,24 +4074,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220905
-    dev: false
-
-  /downlevel-dts/0.4.0:
-    resolution: {integrity: sha512-nh5vM3n2pRhPwZqh0iWo5gpItPAYEGEWw9yd0YpI+lO60B7A3A6iJlxDbt7kKVNbqBXKsptL+jwE/Yg5Go66WQ==}
-    hasBin: true
-    dependencies:
-      shelljs: 0.8.5
-      typescript: 3.9.10
-    dev: false
-
-  /downlevel-dts/0.8.0:
-    resolution: {integrity: sha512-wBy+Q0Ya/1XRz9MMaj3BXH95E8aSckY3lppmUnf8Qv7dUg0wbWm3szDiVL4PdAvwcS7JbBBDPhCXeAGNT3ttFQ==}
-    hasBin: true
-    dependencies:
-      semver: 7.3.7
-      shelljs: 0.8.5
-      typescript: 4.7.4
+      typescript: 4.9.0-dev.20220907
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -9047,12 +9030,6 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/3.9.10:
-    resolution: {integrity: sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
-    dev: false
-
   /typescript/4.2.4:
     resolution: {integrity: sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==}
     engines: {node: '>=4.2.0'}
@@ -9077,8 +9054,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220905:
-    resolution: {integrity: sha512-Y3m8ommI+wTpwdh1vNdp5a2AvvD7UYkUfuUJkB+DrM/7z4XMTCEVcZXjiH5OwICNHy9k9N6ZeaTTokpcNj4kVg==}
+  /typescript/4.9.0-dev.20220907:
+    resolution: {integrity: sha512-wRH/8rol9ktq6cQ6NxT7fsaa7bcVBSl7KcE27AGfzlbvq6c1/KlOOXywzhtsCHFtNLPBucsirHBZxFx3gdfpBg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9629,7 +9606,7 @@ packages:
     dev: false
 
   file:projects/abort-controller.tgz:
-    resolution: {integrity: sha512-OtbiJoaHj6TgXOZV064m2QaTT3ZL8q8p+S8nWr9jb0GONPjzttDgOwypQEqVbHScJCVh8dF8yIzo0aok8+/W+Q==, tarball: file:projects/abort-controller.tgz}
+    resolution: {integrity: sha512-iZ7aJXlaj+pycKC8gu2w6clXeEfFrqK9jteeEu+3CtzAfYbn9QJLuA/fDCjje7rLkpL5jb/29J4j/m+t6fZVhQ==, tarball: file:projects/abort-controller.tgz}
     name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
@@ -9639,7 +9616,7 @@ packages:
       '@types/node': 12.20.55
       chai: 4.3.6
       cross-env: 7.0.3
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       karma: 6.4.0
       karma-chrome-launcher: 3.1.1
@@ -15437,7 +15414,7 @@ packages:
     dev: false
 
   file:projects/attestation.tgz:
-    resolution: {integrity: sha512-esk6BPXhLvX29lA+iXg7wDklhsHZkJsHogPW+tk/bi9fiquDN9N3ILwFjPL6om7U8ldAOIzA1KNYpXZF9HVriw==, tarball: file:projects/attestation.tgz}
+    resolution: {integrity: sha512-tIhdENyWaKUbTgw73ichEO5ogqVir6Au8JcwxDAocXVOltekbNuVFQ5iuJv6q8wUxJC+yxh27/kyx7r76lBjTg==, tarball: file:projects/attestation.tgz}
     name: '@rush-temp/attestation'
     version: 0.0.0
     dependencies:
@@ -15453,7 +15430,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       esm: 3.2.25
       inherits: 2.0.4
@@ -16096,7 +16073,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-pmhAhEV7WPmwGRzozN8Fx26qQy9ehWyoDPHaGwXYJoeq4NJh8edYjiJUFSYjnoAR50ugeUigSf9vhbIpNLmPHw==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-Onvt6vPrPaZEf90OHVyaCxFzQSohcwkz58OoqG8Rcpb4pLkZwls7qdJQyAO61+jCJkZeY8iaYHpdoTxnj+Hshg==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -16117,7 +16094,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       debug: 4.3.4
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       events: 3.3.0
       jssha: 3.2.0
@@ -16154,7 +16131,7 @@ packages:
     dev: false
 
   file:projects/core-auth.tgz:
-    resolution: {integrity: sha512-aqDitu1SeQDIJtm0jcCfpfrhgVxFMMshhh4SDlEW/vGQo8WSVx41K/wbTQzmcd5PVmxDeRGCOlilp3kgsrPnIA==, tarball: file:projects/core-auth.tgz}
+    resolution: {integrity: sha512-HyTXFhEDe0uzHBQvGf+ucRYBK2VC6Mw/39HXM7HO3oSDoxxPDwvSE5TverYNWG1k4Od4TtzeJEQ9HDbSefXqdg==, tarball: file:projects/core-auth.tgz}
     name: '@rush-temp/core-auth'
     version: 0.0.0
     dependencies:
@@ -16164,7 +16141,7 @@ packages:
       '@types/node': 12.20.55
       chai: 4.3.6
       cross-env: 7.0.3
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       inherits: 2.0.4
       mocha: 7.2.0
@@ -16179,7 +16156,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-6PZ587NIybJLDzewczuBOSlwGt+EdWwp/NzVly2Aj95laOU2F5+dMQ6zNGW9ppWssvq2ddvcMHRtI68LP3N2vw==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-hu09NW1RHo8OtrhQjAwHu0ylaENhrlDwBMiSjAH36alOd8W5/dl79kvoxEc7uneVR2mrER3SbMkSlaBnBqlLRg==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -16190,7 +16167,7 @@ packages:
       '@types/sinon': 9.0.11
       chai: 4.3.6
       cross-env: 7.0.3
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       inherits: 2.0.4
       karma: 6.4.0
@@ -16262,13 +16239,13 @@ packages:
     dev: false
 
   file:projects/core-http-compat.tgz:
-    resolution: {integrity: sha512-xXqg640P5Tl6R5LK7vmQaVvbLNVOvLoj5Iz3G4fu+fokU+tyfLyWIvdJ0fswTl1cCB6zoNloNiKW5ZuxDCivEQ==, tarball: file:projects/core-http-compat.tgz}
+    resolution: {integrity: sha512-fiRBREggj7ifCKjKRQwZTpQbMGXIT6cqql2ztEM1GS0ApJsKyXOzArjk/wbRufEA4SszAPikvGaSEuXUP6qlbQ==, tarball: file:projects/core-http-compat.tgz}
     name: '@rush-temp/core-http-compat'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.18.11
       cross-env: 7.0.3
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -16280,14 +16257,14 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-yDY3LEm3jF8po8h66XbwFw66c0GrHajLXzYPm0ZI04dsBbouCaydnBjfXMOlXzX5cf4Ognt/IZJwii++cuRPyg==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-n1MOXXGJ5ZJfkShfEAqkkkVTWCbRzcOn+MGzyOGzZ8wqDw3hsyL3w9sqDyqymIA1DmtMXCBJxJ/spOxENVBBew==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/logger-js': 1.3.2
       '@microsoft/api-extractor': 7.18.11
-      '@opentelemetry/api': 1.1.0
+      '@opentelemetry/api': 1.2.0
       '@types/chai': 4.3.1
       '@types/express': 4.17.13
       '@types/mocha': 7.0.2
@@ -16301,7 +16278,7 @@ packages:
       '@types/xml2js': 0.4.11
       chai: 4.3.6
       cross-env: 7.0.3
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       express: 4.18.1
       fetch-mock: 9.11.0_node-fetch@2.6.7
@@ -16387,7 +16364,7 @@ packages:
     dev: false
 
   file:projects/core-paging.tgz:
-    resolution: {integrity: sha512-UBwyM2tICq6eQcAUdF7/Om1PV/cEmDzffEFGgp36BAmoFNhAcZNZbgKtpRAYtdh0/eWeV1ey0u+QO8NH7msGHA==, tarball: file:projects/core-paging.tgz}
+    resolution: {integrity: sha512-MO/ebeXCfrMrXvfHCvbTfZ/PrrSlACm8K9NWBFvBIMHojGaEeFTgphF64v2svsxs4EB2KZkrmuXomOBUKJdkwg==, tarball: file:projects/core-paging.tgz}
     name: '@rush-temp/core-paging'
     version: 0.0.0
     dependencies:
@@ -16396,7 +16373,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       chai: 4.3.6
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       karma: 6.4.0
       karma-chrome-launcher: 3.1.1
@@ -16423,12 +16400,12 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-ogCKDnbP8OQA8XUr8szudiw3+MbWGrNX5uHd0a3X3EZuzFBJ2HGWCn+ohVXDw1MZxZulZx3I1bDqXKJwD4oTIQ==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-LnUhzRQ6t3pPy65pSTXa7e3dhpzj2vytYtyHRuslLDNHdNvxGmwKBT7hjnW9aX8Zym+7bKtFhgYKFxnkyhUl8w==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.18.11
-      '@opentelemetry/api': 1.1.0
+      '@opentelemetry/api': 1.2.0
       '@types/chai': 4.3.1
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -16438,7 +16415,7 @@ packages:
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       form-data: 4.0.0
       http-proxy-agent: 5.0.0
@@ -16515,7 +16492,7 @@ packages:
     dev: false
 
   file:projects/core-util.tgz:
-    resolution: {integrity: sha512-u99xloPf+9d2zflGy5avvlGyJ3IvzAx5A+SiDb0LfBDm7oGY90btStYqGQu/JoJVQZV/M5OBXJG8ZQPo9CmKBg==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-hL2vBQoDHtG9XCEdlCpW2qoOVMXqjFypJzzjBvQj76z337AOC3CvEea/xQZfSpAW2VgphZ5U1s4XPiCKZVFJ0w==, tarball: file:projects/core-util.tgz}
     name: '@rush-temp/core-util'
     version: 0.0.0
     dependencies:
@@ -16526,7 +16503,7 @@ packages:
       '@types/sinon': 9.0.11
       chai: 4.3.6
       cross-env: 7.0.3
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       inherits: 2.0.4
       karma: 6.4.0
@@ -16556,7 +16533,7 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-5+zd043sDM/odtnG6BPT/QsrUgTlw6vfUQmyu3qEqC79GCGbe9m/bbXvkBlnGd7hOjJ/zfO/4CHjn50h23MhgA==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-g3aq/KaDJnZ8FWQ5jH4Znc/cQVgb1RDs1wQniKsZyFQnozBDlmb6spY/BGcTYjuTVrMficaE1wjl0LLzDe0V/g==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
@@ -16568,7 +16545,7 @@ packages:
       '@types/trusted-types': 2.0.2
       chai: 4.3.6
       cross-env: 7.0.3
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       fast-xml-parser: 4.0.9
       inherits: 2.0.4
@@ -16599,7 +16576,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-5ZHaxJL1qEYsrBVXw8iBNAPmdEFL0rDyU5EZJuBRwd4DfUywxC62z9ZAY+Z6mutvp2nw6KYp2XM+mZjdz3t2OQ==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-UVXjD7aSyN6vneHslg8k8NUhaZuJRloSxQfdBIaR4NKiQvJHxyxt9y3Cx8BnvieG/1kcb2L1tLpHAleP5etUUQ==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -16616,7 +16593,7 @@ packages:
       cross-env: 7.0.3
       debug: 4.3.4
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       esm: 3.2.25
       execa: 5.1.1
@@ -16644,7 +16621,7 @@ packages:
     dev: false
 
   file:projects/data-tables.tgz:
-    resolution: {integrity: sha512-2OgZTkw36PM0E42fQdwUcXztliZsmLxr0IphmWxPHVX9+sClvhw2luZqJpT+cqI+s5rAylZpfQxAyU9Rec+Wzw==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-ch1/y8lUo+cKs37Upz85bl808a/BMj46UaiQ9Ck2ktRGJBfLM8kbRIBSEVQx8yaLKYhWd1bpamB6xAJ7WwsGEw==, tarball: file:projects/data-tables.tgz}
     name: '@rush-temp/data-tables'
     version: 0.0.0
     dependencies:
@@ -16658,7 +16635,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       inherits: 2.0.4
       karma: 6.4.0
@@ -16876,7 +16853,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-3MP8WDsR4x4J1MalkxH/uAfXFAFui9Xq2ECDKco2/vnkVtZL8/cxL11wmFznaQK7xi5YB4Y9hPs8j4pgFQt30A==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-BDfJhQgkJEpvPpim9kvPz/y8Jsk1VbG+mfrBJzLv/dY2U2JqgRqZnihNsPmOhi/f4FYQ0sLnAYvGmKXfer7Nkw==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -16908,7 +16885,7 @@ packages:
       cross-env: 7.0.3
       debug: 4.3.4
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       esm: 3.2.25
       https-proxy-agent: 5.0.1
@@ -17671,7 +17648,7 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-ygrwt0/tmSjaMWOxlw6loVyQHrkd/u6t238qQk93FvYAaemzwxDfXBaK3Qjqow/I3ukxI6yerEWLe/q/Vv6E7Q==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-0SUGicIRG2NxqvZiDr31kdYfs1tDnNLPDg6TxvNFEfFYvpdX+D1gTZkkQKr8QX2rbvlLUsI8MnQK478NnxZF2Q==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
@@ -17685,7 +17662,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 7.32.0
       esm: 3.2.25
       inherits: 2.0.4
@@ -17756,7 +17733,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-UQ+CAknpZTVG2+I5QLPP84iW8p1nJvY9XEvQkplzyUaOH9NZjgihLOqZqoqsQDJq9+YtXHj+RaD8C5WaoyydCw==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-c2NVgKJbruEF9TxX3hPOberc2EsFlA9hSYsThewLfxGudDZfIrdCdzV/JaI22i7av55glqrsD7b+VgDnBU03aQ==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -17774,7 +17751,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       esm: 3.2.25
       inherits: 2.0.4
@@ -17851,7 +17828,7 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-ZG+f1EGZFiMt4qmrG4z5FX87hEaTTtbVYL4x1HTpW5NxfeBsxfQ0FoTVnCreFOI6t6iHufRq2YVgJWEjCcsFFA==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-s5B2qBw/uLn9MkmM9JmzoqZjUGBB3W82RwXsZ/hOn6A+9zvygnVAL90lkkOKLZMtA6GKHwzKkn+qyZD9/2zgXw==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -17869,7 +17846,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.4.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       esm: 3.2.25
       inherits: 2.0.4
@@ -18707,7 +18684,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-4BFDdUHII5PS39w2G8t9solKkyizGJmqFNPm8gXFwqRBmEt780G6ANxvnSGaexuT4ClIyombsIbfmV8fpSOlnQ==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-U7DwKgY1xyAPPDh/QIPh9c6CcBHKD0m627nJXFJPgIHQYHCPY2IDCAi0RVopcuiXi66bo7byyLMyf3H4F4E2Bw==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
@@ -18731,7 +18708,7 @@ packages:
       cross-env: 7.0.3
       debug: 4.3.4
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       esm: 3.2.25
       events: 3.3.0
@@ -18778,7 +18755,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-1SUBRaUHI95F/BKGpCtojJDTRG3CCY1Xrsl5d8i1ZEsNeC/8w7ygTQ0KuNTo36HdJZG7oC2jLlGflGH8IDN6vA==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-GzOcYhzEdPibWsB/lwfEyiO2lStqMEjeQCbr9jiG2nLffI61KTU4kYrJNxmvpW4xPzkgl/yXChJ8KSmirAhjsA==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
@@ -18794,7 +18771,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       es6-promise: 4.2.8
       eslint: 8.20.0
       esm: 3.2.25
@@ -18836,7 +18813,7 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-qDo1huwNIXEJQCjUeglX8o1AWfrh1av5mCDPYF7jLkTvZzsSPu4fa0/rTvm58YpijKedX+6NZ2MON74Ef05Ahw==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-RJu7eKVpXWjwSVT0fXR6oTPLtQ5omcoo4L+yIXWqxU2uSNpkeZ+yLXCoE9h1xUDOTG3RK9IjsNxpEzUSW2GsUQ==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
@@ -18852,7 +18829,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       es6-promise: 4.2.8
       eslint: 8.20.0
       esm: 3.2.25
@@ -18893,7 +18870,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-2eExDHsqV9Bg4IBD90AfSz1g846lfKKUW/YgB7682x7NbG+KlyTJyP1bFsUp5qx0E99kPqn7XwrWGJsZtj5n3A==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-FEhViszvLpmnwBeiOwAyA95MQlxq2EmsRRLarMjSdYIwo4JdwK5Akcp5o+tQCX1yHGyEmPKmKEg6B6EPFt7ekg==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -18907,7 +18884,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       es6-promise: 4.2.8
       eslint: 8.20.0
       esm: 3.2.25
@@ -18949,7 +18926,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-KHONbu5Mlc3wwuxmAYtrlpmWkzOZHTdUOzeHuHZhokEfkKi2qDPr03PRosEcq7rJ94v2cq0L/oAFz5P9jibaFw==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-d2LKLklH/qnB362R+PG61cM3WiZI0e46hShH2VU+ncG///84DHhhikew1xh/L15lLr3p2olyqywyoObG7r46OA==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -18963,7 +18940,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       es6-promise: 4.2.8
       eslint: 8.20.0
       esm: 3.2.25
@@ -19004,7 +18981,7 @@ packages:
     dev: false
 
   file:projects/storage-internal-avro.tgz:
-    resolution: {integrity: sha512-A1mgAYsyLYPAzmEhsyHE0SvjU5c4q4RgRKJV3jkMgPohKP6H5TeOS5vRozWodAn2K1lJvpNjjpPkoDOYTKweug==, tarball: file:projects/storage-internal-avro.tgz}
+    resolution: {integrity: sha512-C2HBOVOkL6RFML/+TWUeIY+Lj24L01+m1MKbo48O/Rh3X9FAmt/meR9zw0sp1xN53e+LKjXEr5Ri8pAOI2IjFQ==, tarball: file:projects/storage-internal-avro.tgz}
     name: '@rush-temp/storage-internal-avro'
     version: 0.0.0
     dependencies:
@@ -19015,7 +18992,7 @@ packages:
       '@types/node': 12.20.55
       chai: 4.3.6
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       es6-promise: 4.2.8
       eslint: 8.20.0
       esm: 3.2.25
@@ -19055,7 +19032,7 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-U5Lnj68Di/NyPv5Q8+MgNiTHAk5tfL8wAnvTHXDWgMuwfNeEzNnptub/vghg88ylb0ZK6zygYKbjz0+cR5VKrg==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-gpO3zUeJspRswGgDjOOhpGfrtmcApT+qQui1n3nsjyhxIHKVWsmfXzdx0dDRFpy041UQiRvNTPpju6eMTazNYg==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:
@@ -19069,7 +19046,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       es6-promise: 4.2.8
       eslint: 8.20.0
       esm: 3.2.25
@@ -19387,7 +19364,7 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-tM92b/xsz8s3l1+YA8+8BPxfhG1qesqcHjQd/RTvrriA5NtEZ8Ul0LTgM4B5TqlrDDEAmGQAaawY7afDIqISyw==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-5mewmZQbh+BCAaZ0UWDRGVki5Uam2udDdxt143/8OgzlBRTIhQLhqNPPYdRhYHPUOyO/Qe/zjhc6OCrEvUUspA==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
@@ -19399,7 +19376,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       esm: 3.2.25
       inherits: 2.0.4
