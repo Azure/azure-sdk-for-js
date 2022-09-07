@@ -143,11 +143,11 @@ const client = new DocumentAnalysisClient("<endpoint>", new DefaultAzureCredenti
 
 `DocumentModelAdministrationClient` provides operations for managing (creating, reading, listing, and deleting) models in the Form Recognizer resource:
 
-- `beginBuildModel` starts an operation to create a new document model from your own training data set. The created model can extract fields according to a custom schema. The training data are expected to be located in an Azure Storage container and organized according to a particular convention. See the [service's documentation on creating a training data set][fr-build-training-set] for a more detailed explanation of applying labels to a training data set.
-- `beginComposeModel` starts an operation to compose multiple models into a single model. When used for custom form recognition, the new composed model will first perform a classification of the input documents to determine which of its submodels is most appropriate.
+- `beginBuildDocumentModel` starts an operation to create a new document model from your own training data set. The created model can extract fields according to a custom schema. The training data are expected to be located in an Azure Storage container and organized according to a particular convention. See the [service's documentation on creating a training data set][fr-build-training-set] for a more detailed explanation of applying labels to a training data set.
+- `beginComposeDocumentModel` starts an operation to compose multiple models into a single model. When used for custom form recognition, the new composed model will first perform a classification of the input documents to determine which of its submodels is most appropriate.
 - `beginCopyModelTo` starts an operation to copy a custom model from one Form Recognizer resource to another (or even to the same Form Recognizer resource). It requires a `CopyAuthorization` from the target Form Recognizer resource, which can be generated using the `getCopyAuthorization` method.
 - `getResourceDetails` retrieves information about the Form Recognizer resource's limits, such as the number of custom models and the maximum number of models the resource can support.
-- `getModel`, `listModels`, and `deleteModel` enable managing models in the resource.
+- `getDocumentModel`, `listDocumentModels`, and `deleteDocumentModel` enable managing models in the resource.
 - `getOperation` and `listOperations` enable viewing the status of model creation operations, even those operations that are ongoing or that have failed. Operations are retained for 24 hours.
 
 Please note that models can also be created using the Form Recognizer service's graphical user interface: [Form Recognizer Studio (Preview)][fr-studio].
@@ -320,7 +320,7 @@ Each of the above prebuilt models produces `documents` (extracted instances of t
 
 For information about the fields of all of these models, see [the service's documentation of the available prebuilt models](https://aka.ms/azsdk/formrecognizer/models).
 
-The fields of all prebuilt models may also be accessed programmatically using the `getModel` method (by their model IDs) of `DocumentModelAdministrationClient` and inspecting the `docTypes` field in the result.
+The fields of all prebuilt models may also be accessed programmatically using the `getDocumentModel` method (by their model IDs) of `DocumentModelAdministrationClient` and inspecting the `docTypes` field in the result.
 
 ### Use the "layout" prebuilt
 
@@ -518,7 +518,7 @@ async function main() {
   // The second parameter is the SAS-encoded URL to an Azure Storage container with the training documents.
   // The third parameter is the build mode: one of "template" (the only mode prior to 4.0.0-beta.3) or "neural".
   // See https://aka.ms/azsdk/formrecognizer/buildmode for more information about build modes.
-  const poller = await client.beginBuildModel("<model ID>", containerSasUrl, "template", {
+  const poller = await client.beginBuildDocumentModel("<model ID>", containerSasUrl, "template", {
     // The model description is optional and can be any text.
     description: "This is my new model!",
     onProgress: ({ status }) => {
@@ -571,10 +571,10 @@ async function main() {
   const apiKey = "<api key>";
   const client = new DocumentModelAdministrationClient(endpoint, new AzureKeyCredential(apiKey));
 
-  // Produces an async iterable that supports paging (`PagedAsyncIterableIterator`). The `listModels` method will only
+  // Produces an async iterable that supports paging (`PagedAsyncIterableIterator`). The `listDocumentModels` method will only
   // iterate over model summaries, which do not include detailed schema information. Schema information is only returned
-  // from `getModel` as part of the full model information.
-  const models = client.listModels();
+  // from `getDocumentModel` as part of the full model information.
+  const models = client.listDocumentModels();
   let i = 1;
   for await (const summary of models) {
     console.log(`Model ${i++}:`, summary);
@@ -582,23 +582,23 @@ async function main() {
 
   // The iterable is paged, and the application can control the flow of paging if needed
   i = 1;
-  for await (const page of client.listModels().byPage()) {
+  for await (const page of client.listDocumentModels().byPage()) {
     for (const summary of page) {
       console.log(`Model ${i++}`, summary);
     }
   }
 
   // We can also get a full ModelInfo by ID. Here we only show the basic information. See the documentation and the
-  // `getModel` sample program for information about the `docTypes` field, which contains the model's document type
+  // `getDocumentModel` sample program for information about the `docTypes` field, which contains the model's document type
   // schemas.
-  const model = await client.getModel("<model ID>");
+  const model = await client.getDocumentModel("<model ID>");
   console.log("ID", model.modelId);
   console.log("Created:", model.createdDateTime);
   console.log("Description: ", model.description ?? "<none>");
 
   // A model can also be deleted by its model ID. Once it is deleted, it CANNOT be recovered.
   const modelIdToDelete = "<model ID that should be deleted forever>";
-  await client.deleteModel(modelIdToDelete);
+  await client.deleteDocumentModel(modelIdToDelete);
 }
 
 main().catch((err) => {

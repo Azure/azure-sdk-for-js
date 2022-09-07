@@ -1,14 +1,14 @@
 # Release History
 
-## 13.1.3 (Unreleased)
+## 13.2.0 (2022-09-06)
 
 ### Features Added
 
-### Breaking Changes
+- Add option to `transaction.updateEntity()` [#22562](https://github.com/Azure/azure-sdk-for-js/pull/22562). (A community contribution, courtesy of _[tmcgannon](https://github.com/tmcgannon))_
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix encoding for Date objects when filtering on a DateTime field [#23058](https://github.com/Azure/azure-sdk-for-js/pull/23058)
 
 - Add overloads to `TableTransaction.updateEntity` so `undefined` doesn't need to be passed explicitly for an optional argument. [#23132](https://github.com/Azure/azure-sdk-for-js/pull/23132)
 
