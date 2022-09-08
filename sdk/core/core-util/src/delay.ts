@@ -32,9 +32,7 @@ export function delay(timeInMs: number, options?: DelayOptions): Promise<void> {
     let onAborted: (() => void) | undefined = undefined;
 
     const rejectOnAbort = (): void => {
-      return reject(
-        new AbortError(options?.abortErrorMsg ?? StandardAbortMessage)
-      );
+      return reject(new AbortError(options?.abortErrorMsg ?? StandardAbortMessage));
     };
 
     const removeListeners = (): void => {
