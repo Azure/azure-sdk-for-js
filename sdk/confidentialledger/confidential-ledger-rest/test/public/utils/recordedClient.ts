@@ -60,7 +60,9 @@ export async function createClient(): Promise<ConfidentialLedgerClient> {
     env.IDENTITY_SERVICE_URL ? env.IDENTITY_SERVICE_URL : null
   );
 
-  return ConfidentialLedger(env.LEDGER_URI, ledgerIdentityCertificate, clientCredential, { httpClient });
+  return ConfidentialLedger(env.LEDGER_URI, ledgerIdentityCertificate, clientCredential, {
+    httpClient,
+  });
 }
 
 /**
