@@ -254,6 +254,19 @@ export function getOperationStatus<TState>(
   }
 }
 
+export function getResourceLocation<TState>(
+  { flatResponse }: LroResponse,
+  state: RestorableOperationState<TState>
+): string | undefined {
+  if (typeof flatResponse === "object") {
+    const resourceLocation = (flatResponse as { resourceLocation?: string }).resourceLocation;
+    if (resourceLocation !== undefined) {
+      state.config.resourceLocation = resourceLocation;
+    }
+  }
+  return state.config.resourceLocation;
+}
+
 /** Polls the long-running operation. */
 export async function pollHttpOperation<TState, TResult>(inputs: {
   lro: LongRunningOperation;
@@ -277,6 +290,7 @@ export async function pollHttpOperation<TState, TResult>(inputs: {
     getPollingInterval: parseRetryAfter,
     getOperationLocation,
     getOperationStatus,
+    getResourceLocation,
     options,
     /**
      * The expansion here is intentional because `lro` could be an object that
