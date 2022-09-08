@@ -112,11 +112,14 @@ async function pollOperationHelper<TResponse, TState, TResult, TOptions>(inputs:
   stateProxy: StateProxy<TState, TResult>;
   state: RestorableOperationState<TState>;
   operationLocation: string;
-  resourceLocation?: string;
   getOperationStatus: (
     response: TResponse,
     state: RestorableOperationState<TState>
   ) => OperationStatus;
+  getResourceLocation: (
+    response: TResponse,
+    state: RestorableOperationState<TState>
+  ) => string | undefined;
   options?: TOptions;
 }): Promise<{
   status: OperationStatus;
@@ -127,8 +130,8 @@ async function pollOperationHelper<TResponse, TState, TResult, TOptions>(inputs:
     state,
     stateProxy,
     operationLocation,
-    resourceLocation,
     getOperationStatus,
+    getResourceLocation,
     options,
   } = inputs;
   const response = await poll(operationLocation, options).catch(
@@ -143,11 +146,14 @@ async function pollOperationHelper<TResponse, TState, TResult, TOptions>(inputs:
     state,
     stateProxy,
   });
-  if (status === "succeeded" && resourceLocation !== undefined) {
-    return {
-      response: await poll(resourceLocation).catch(setStateError({ state, stateProxy })),
-      status,
-    };
+  if (status === "succeeded") {
+    const resourceLocation = getResourceLocation(response, state);
+    if (resourceLocation !== undefined) {
+      return {
+        response: await poll(resourceLocation).catch(setStateError({ state, stateProxy })),
+        status,
+      };
+    }
   }
   return { response, status };
 }
@@ -161,6 +167,10 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
     response: TResponse,
     state: RestorableOperationState<TState>
   ) => OperationStatus;
+  getResourceLocation: (
+    response: TResponse,
+    state: RestorableOperationState<TState>
+  ) => string | undefined;
   getPollingInterval?: (response: TResponse) => number | undefined;
   setDelay: (intervalInMs: number) => void;
   getOperationLocation?: (
@@ -179,6 +189,7 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
     stateProxy,
     options,
     getOperationStatus,
+    getResourceLocation,
     getOperationLocation,
     withOperationLocation,
     getPollingInterval,
@@ -187,7 +198,7 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
     setDelay,
     isDone,
   } = inputs;
-  const { operationLocation, resourceLocation } = state.config;
+  const { operationLocation } = state.config;
   if (operationLocation !== undefined) {
     const { response, status } = await pollOperationHelper({
       poll,
@@ -195,7 +206,7 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
       state,
       stateProxy,
       operationLocation,
-      resourceLocation,
+      getResourceLocation,
       options,
     });
     if (

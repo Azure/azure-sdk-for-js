@@ -38,8 +38,8 @@ export const DocumentModelBuildMode = {
 } as const;
 
 /**
- * Options common to all operations that define new models, such as `beginBuildModel`, `beginComposeModel`, and
- * `getCopyAuthorization`.
+ * Options common to all operations that define new models, such as `beginBuildDocumentModel`,
+ * `beginComposeDocumentModel`, and `getCopyAuthorization`.
  */
 export interface CommonModelCreationOptions {
   /**

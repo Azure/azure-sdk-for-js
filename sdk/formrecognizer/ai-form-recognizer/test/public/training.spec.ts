@@ -33,10 +33,7 @@ const containerSasUrl = (): string =>
  * environment.
  */
 matrix(
-  [
-    [/* true, */ false],
-    [DocumentModelBuildMode.Template /* , DocumentModelBuildMode.Neural*/],
-  ] as const,
+  [[true, false], [DocumentModelBuildMode.Template /* , DocumentModelBuildMode.Neural*/]] as const,
   async (useAad, buildMode) => {
     describe(`[${useAad ? "AAD" : "API Key"}] model management`, () => {
       let recorder: Recorder;
@@ -337,7 +334,7 @@ matrix(
         assert.ok(copyResult, "Expecting valid copy result");
         assert.equal(copyResult.modelId, targetAuth.targetModelId);
 
-        assert.ok(copyResult.createdDateTime, "Expecting valid 'trainingStartedOn' property");
+        assert.ok(copyResult.createdOn, "Expecting valid 'trainingStartedOn' property");
 
         const targetModel = await trainingClient.getDocumentModel(copyResult.modelId);
 
