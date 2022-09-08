@@ -11,9 +11,13 @@ export async function hmac(key: string, message: string): Promise<string> {
     [...unescape(encodeURIComponent(message))].map((c) => c.charCodeAt(0))
   );
   const encodedKey = encodeUTF8(atob(key));
-  const cryptoKey = await getGlobalCrypto().subtle.importKey("raw", encodedKey, importParams, false, [
-    "sign",
-  ]);
+  const cryptoKey = await getGlobalCrypto().subtle.importKey(
+    "raw",
+    encodedKey,
+    importParams,
+    false,
+    ["sign"]
+  );
   const signature = await getGlobalCrypto().subtle.sign(importParams, cryptoKey, encodedMessage);
 
   return encodeBase64(signature);
