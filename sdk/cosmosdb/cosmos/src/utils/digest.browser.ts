@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { encodeUTF8 } from "./encode";
-import { globalCrypto } from "./globalCrypto";
+import { getGlobalCrypto } from "./globalCrypto";
 
 export async function digest(str: string): Promise<string> {
   const data = encodeUTF8(str);
-  const hash = await globalCrypto.subtle.digest("SHA-256", data);
+  const hash = await getGlobalCrypto().subtle.digest("SHA-256", data);
   return bufferToHex(hash);
 }
 

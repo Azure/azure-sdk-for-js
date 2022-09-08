@@ -1,17 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// eslint-disable-next-line @azure/azure-sdk/ts-no-window
-const globalRef: any = typeof self === "undefined" ? window : self;
+let globalCrypto: Crypto | undefined;
 
-if (!globalRef) {
-  throw new Error("Could not find global");
+export function getGlobalCrypto() {
+  if (globalCrypto) {
+    return globalCrypto;
+  }
+  // eslint-disable-next-line @azure/azure-sdk/ts-no-window
+  const globalRef: any = typeof self === "undefined" ? window : self;
+
+  if (!globalRef) {
+    throw new Error("Could not find global");
+  }
+
+  globalCrypto = globalRef.crypto || globalRef.msCrypto;
+
+  if (!globalCrypto || !globalCrypto.subtle) {
+    throw new Error("Environment does not support required cryptography functions");
+  }
+
+  return globalCrypto;
 }
-
-const globalCrypto: Crypto = globalRef.crypto || globalRef.msCrypto;
-
-if (!globalCrypto || !globalCrypto.subtle) {
-  throw new Error("Environment does not support cryptography functions");
-}
-
-export { globalCrypto };

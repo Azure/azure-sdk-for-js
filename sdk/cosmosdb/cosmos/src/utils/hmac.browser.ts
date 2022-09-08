@@ -3,7 +3,7 @@
 
 import { encodeUTF8, encodeBase64 } from "./encode";
 import atob from "./atob";
-import { globalCrypto } from "./globalCrypto";
+import { getGlobalCrypto } from "./globalCrypto";
 
 export async function hmac(key: string, message: string): Promise<string> {
   const importParams: HmacImportParams = { name: "HMAC", hash: { name: "SHA-256" } };
@@ -11,10 +11,10 @@ export async function hmac(key: string, message: string): Promise<string> {
     [...unescape(encodeURIComponent(message))].map((c) => c.charCodeAt(0))
   );
   const encodedKey = encodeUTF8(atob(key));
-  const cryptoKey = await globalCrypto.subtle.importKey("raw", encodedKey, importParams, false, [
+  const cryptoKey = await getGlobalCrypto().subtle.importKey("raw", encodedKey, importParams, false, [
     "sign",
   ]);
-  const signature = await globalCrypto.subtle.sign(importParams, cryptoKey, encodedMessage);
+  const signature = await getGlobalCrypto().subtle.sign(importParams, cryptoKey, encodedMessage);
 
   return encodeBase64(signature);
 }
