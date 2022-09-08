@@ -8,23 +8,23 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.1 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22000)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22000)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 07 Sep 2022 13:34:54 GMT"
+        "x-ms-date": "Thu, 08 Sep 2022 23:04:16 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Sep 2022 13:34:57 GMT",
-        "MS-CV": "O0K8650ul0imrfZRJwiCxA.0",
+        "Date": "Thu, 08 Sep 2022 23:04:22 GMT",
+        "MS-CV": "tb9CQCu660i0C8PGwvu0MQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0/50YYwAAAAAbBrsHuHRcRIsqiE18AHB3UFJHMDFFREdFMDkxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "08XQaYwAAAACuvvlAY1CkQayBMA75kPzmUFJHMDFFREdFMDkxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "2588ms"
+        "X-Processing-Time": "4942ms"
       },
       "ResponseBody": {
         "phoneNumbers": [
@@ -32,15 +32,15 @@
             "id": "14155550100",
             "phoneNumber": "\u002B14155550100",
             "countryCode": "US",
-            "phoneNumberType": "geographic",
+            "phoneNumberType": "tollFree",
             "capabilities": {
               "calling": "outbound",
               "sms": "none"
             },
-            "assignmentType": "person",
-            "purchaseDate": "2022-09-06T11:53:19.3588161\u002B00:00",
+            "assignmentType": "application",
+            "purchaseDate": "2022-09-07T20:14:39.8083432\u002B00:00",
             "cost": {
-              "amount": 1.0,
+              "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
             },
@@ -59,6 +59,26 @@
             },
             "assignmentType": "application",
             "purchaseDate": "2022-09-06T12:09:43.2712485\u002B00:00",
+            "cost": {
+              "amount": 2.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud"
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "tollFree",
+            "capabilities": {
+              "calling": "none",
+              "sms": "inbound\u002Boutbound"
+            },
+            "assignmentType": "application",
+            "purchaseDate": "2022-09-07T13:40:19.9163901\u002B00:00",
             "cost": {
               "amount": 2.0,
               "currencyCode": "USD",
