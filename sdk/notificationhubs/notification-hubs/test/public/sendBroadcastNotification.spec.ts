@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { SendOperationOptions } from "../../src/models/options.js";
 import { assert } from "@azure/test-utils";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { createClientContext } from "@azure/notification-hubs/client";
@@ -30,7 +31,9 @@ describe("sendBroadcastNotification()", () => {
       },
     });
 
-    const result = await sendBroadcastNotification(context, notification);
+    // Not required but can set test send to true for debugging purposes.
+    const sendOptions: SendOperationOptions = { enableTestSend: false };
+    const result = await sendBroadcastNotification(context, notification, sendOptions);
 
     assert.isDefined(result.trackingId);
     assert.isDefined(result.correlationId);

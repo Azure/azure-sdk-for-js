@@ -19,9 +19,6 @@ import { isDefined } from "../../utils/utils.js";
 import { parseNotificationOutcome } from "../../serializers/notificationOutcomeSerializer.js";
 import { parseXMLError } from "../../utils/xmlUtils.js";
 
-/**
- * @internal
- */
 export function createRequest(
   endpoint: URL,
   method: HttpMethods,
@@ -39,7 +36,9 @@ export function createRequest(
 }
 
 /**
- * @internal
+ * Parses the HTTP response and creates a NotificationHubsResponse with header information from the operation.
+ * @param response - The HTTP response used to populate the result.
+ * @returns A NotificationHubsResponse with header information from the operation.
  */
 export function parseNotificationResponse(response: PipelineResponse): NotificationHubsResponse {
   const correlationId = response.headers.get("x-ms-correlation-request-id");
@@ -54,7 +53,9 @@ export function parseNotificationResponse(response: PipelineResponse): Notificat
 }
 
 /**
- * @internal
+ * Parses the HTTP response and creates a NotificationHubsMessageResponse with results from the notification.
+ * @param response - The HTTP response used to populate the result.
+ * @returns A NotificationHubsMessageResponse with results from the notification.
  */
 export async function parseNotificationSendResponse(
   response: PipelineResponse
@@ -68,25 +69,34 @@ export async function parseNotificationSendResponse(
 
   const requestUrl = new URL(response.request.url);
   const isTestSend = requestUrl.searchParams.has("test");
-  const hasTags = response.request.headers.has("ServiceBusNotification-Tags");
+  const isDirectSend = requestUrl.searchParams.has("direct");
 
-  if (isTestSend && hasTags) {
-    const outcome = await parseNotificationOutcome(response.bodyAsText!);
+  // Only broadcast/tag based sends are supported for test send
+  const responseBody = response.bodyAsText;
+  if (isTestSend && !isDirectSend && isDefined(responseBody)) {
+    const outcome = await parseNotificationOutcome(responseBody);
     return {
       ...result,
       ...outcome,
       notificationId,
     };
   } else {
-    return {
-      ...result,
-      notificationId,
-      success: 0,
-      failure: 0,
-      results: [],
-      state: "Enqueued",
-    };
+    return createDefaultResponse(result, notificationId);
   }
+}
+
+function createDefaultResponse(
+  response: NotificationHubsResponse,
+  notificationId?: string
+): NotificationHubsMessageResponse {
+  return {
+    ...response,
+    notificationId,
+    success: 0,
+    failure: 0,
+    results: [],
+    state: "Enqueued",
+  };
 }
 
 /**
