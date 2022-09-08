@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { MetricAttributes } from "@opentelemetry/api-metrics";
-import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics-base";
+import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
 import { TelemetryItem as Envelope, MetricsData, MetricDataPoint } from "../generated";
 import { createTagsFromResource } from "./resourceUtils";
 

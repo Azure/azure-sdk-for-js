@@ -14,7 +14,6 @@ import {
   EntityDataSource,
   EntityLinkingAction,
   EntityRecognitionAction,
-  ExtractiveSummarizationAction,
   HealthcareAction,
   HealthcareAssertion,
   HealthcareEntityCategory,
@@ -23,20 +22,18 @@ import {
   KnownInnerErrorCode,
   LanguageDetectionAction,
   LinkedEntity,
-  OperationStatus,
   PiiEntityRecognitionAction,
   RelationType,
   SentenceSentimentLabel,
   SentimentAnalysisAction,
   SentimentConfidenceScores,
-  SummarySentence,
   TargetConfidenceScores,
   TextDocumentBatchStatistics,
   TextDocumentStatistics,
   TokenSentimentLabel,
 } from "./generated";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { PollOperationState, PollerLike } from "@azure/core-lro";
+import { OperationState, SimplePollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
@@ -55,7 +52,7 @@ export interface TextAnalysisClientOptions extends CommonClientOptions {
   /**
    * The version of the Cognitive Language Service API to use.
    */
-  apiVersion?: string;
+  serviceVersion?: string;
 }
 
 /**
@@ -66,10 +63,6 @@ export interface TextAnalysisOperationOptions extends OperationOptions {
    * If set to true, response will contain input and document level statistics.
    */
   includeStatistics?: boolean;
-  /**
-   * The version of the Cognitive Language Service API to use.
-   */
-  apiVersion?: string;
 }
 
 /**
@@ -118,7 +111,6 @@ export const AnalyzeBatchActionNames = {
   KeyPhraseExtraction: "KeyPhraseExtraction",
   EntityLinking: "EntityLinking",
   Healthcare: "Healthcare",
-  ExtractiveSummarization: "ExtractiveSummarization",
   CustomEntityRecognition: "CustomEntityRecognition",
   CustomSingleLabelClassification: "CustomSingleLabelClassification",
   CustomMultiLabelClassification: "CustomMultiLabelClassification",
@@ -140,14 +132,6 @@ export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
   SentimentAnalysis: SentimentAnalysisAction;
   LanguageDetection: LanguageDetectionAction;
 }[ActionName];
-
-/**
- * Known values of the {@link HealthcareAction.fhirVersion} parameter.
- */
-export enum KnownFhirVersion {
-  /** 4.0.1 */
-  "4.0.1" = "4.0.1",
-}
 
 /**
  * The type of results of every action in ${@link AnalyzeActionNames}.
@@ -551,11 +535,6 @@ export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
    * Relations between healthcare entities.
    */
   readonly entityRelations: HealthcareEntityRelation[];
-  /**
-   * JSON bundle containing a FHIR compatible object for consumption in other
-   * Healthcare tools. For additional information see {@link https://www.hl7.org/fhir/overview.html}.
-   */
-  readonly fhirBundle?: Record<string, any>;
 }
 
 /**
@@ -567,29 +546,6 @@ export type HealthcareErrorResult = TextAnalysisErrorResult;
  * The result of the healthcare analysis action on a single document.
  */
 export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
-
-/**
- * The result of the extractive summarization action on a single document.
- */
-export type SummarizationExtractionResult =
-  | SummarizationExtractionSuccessResult
-  | SummarizationExtractionErrorResult;
-
-/**
- * The result of the extractive summarization action on a single document,
- * containing a collection of the summary identified in that document.
- */
-export interface SummarizationExtractionSuccessResult extends TextAnalysisSuccessResult {
-  /**
-   * A list of sentences composing a summary of the input document.
-   */
-  readonly sentences: SummarySentence[];
-}
-
-/**
- * An error result from the extractive summarization action on a single document.
- */
-export type SummarizationExtractionErrorResult = TextAnalysisErrorResult;
 
 /**
  * The result of the custom entity recognition action on a single document.
@@ -716,16 +672,6 @@ export interface HealthcareBatchAction extends AnalyzeBatchActionCommon, Healthc
   kind: "Healthcare";
 }
 
-/** Options for an extractive summarization batch action. */
-export interface ExtractiveSummarizationBatchAction
-  extends AnalyzeBatchActionCommon,
-    ExtractiveSummarizationAction {
-  /**
-   * The kind of the action.
-   */
-  kind: "ExtractiveSummarization";
-}
-
 /** Options for a sentiment analysis batch action. */
 export interface SentimentAnalysisBatchAction
   extends AnalyzeBatchActionCommon,
@@ -775,7 +721,6 @@ export type AnalyzeBatchAction =
   | KeyPhraseExtractionBatchAction
   | PiiEntityRecognitionBatchAction
   | HealthcareBatchAction
-  | ExtractiveSummarizationBatchAction
   | SentimentAnalysisBatchAction
   | CustomEntityRecognitionBatchAction
   | CustomSingleLabelClassificationBatchAction
@@ -904,12 +849,6 @@ export type HealthcareBatchResult = ActionMetadata &
   BatchActionResult<HealthcareResult, "Healthcare">;
 
 /**
- * The result of an extractive summarization batch action.
- */
-export type ExtractiveSummarizationBatchResult = ActionMetadata &
-  BatchActionResult<SummarizationExtractionResult, "ExtractiveSummarization">;
-
-/**
  * The result of a custom entity recognition batch action.
  */
 export type CustomEntityRecognitionBatchResult = CustomActionMetadata &
@@ -936,7 +875,6 @@ export type AnalyzeBatchResult =
   | PiiEntityRecognitionBatchResult
   | SentimentAnalysisBatchResult
   | HealthcareBatchResult
-  | ExtractiveSummarizationBatchResult
   | CustomEntityRecognitionBatchResult
   | CustomSingleLabelClassificationBatchResult
   | CustomMultiLabelClassificationBatchResult;
@@ -977,10 +915,6 @@ export interface AnalyzeBatchOperationMetadata {
    */
   readonly modifiedOn: Date;
   /**
-   * The current status of the operation.
-   */
-  readonly status: OperationStatus;
-  /**
    * Number of successfully completed actions.
    */
   readonly actionSucceededCount: number;
@@ -1002,5 +936,16 @@ export interface AnalyzeBatchOperationMetadata {
  * The state of the begin analyze polling operation.
  */
 export interface AnalyzeBatchOperationState
-  extends PollOperationState<PagedAnalyzeBatchResult>,
+  extends OperationState<PagedAnalyzeBatchResult>,
     AnalyzeBatchOperationMetadata {}
+
+/**
+ * Abstract representation of a poller, intended to expose just the minimal API that the user needs to work with.
+ */
+export interface PollerLike<TState extends OperationState<TResult>, TResult>
+  extends SimplePollerLike<TState, TResult> {
+  /**
+   * sends a cancellation request.
+   */
+  sendCancellationRequest: () => Promise<void>;
+}
