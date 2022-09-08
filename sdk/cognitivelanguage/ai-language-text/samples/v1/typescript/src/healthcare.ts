@@ -6,17 +6,18 @@
  * healthcare-related entities in some documents and prints them to the
  * console.
  *
- * @summary detects healthcare entities in a piece of text and creates an FHIR representation
+ * @summary detects healthcare entities in a piece of text
  */
 
-const {
+import {
+  AnalyzeBatchAction,
   AzureKeyCredential,
-  KnownFhirVersion,
   TextAnalysisClient,
-} = require("@azure/ai-language-text");
+} from "@azure/ai-language-text";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
@@ -28,14 +29,13 @@ const documents = [
   "Patient does not suffer from high blood pressure.",
 ];
 
-async function main() {
+export async function main() {
   console.log("== Healthcare Sample ==");
 
   const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
-  const actions = [
+  const actions: AnalyzeBatchAction[] = [
     {
       kind: "Healthcare",
-      fhirVersion: KnownFhirVersion["4.0.1"],
     },
   ];
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");
@@ -85,9 +85,6 @@ async function main() {
           }
         }
       }
-      if (result.fhirBundle) {
-        console.log(`FHIR object: ${JSON.stringify(result.fhirBundle, undefined, 2)}`);
-      }
     }
   }
 }
@@ -95,5 +92,3 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
-
-module.exports = { main };

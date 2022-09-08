@@ -6,10 +6,10 @@ products:
   - azure
   - azure-cognitive-services
   - language-service
-urlFragment: ai-language-text-typescript-beta
+urlFragment: ai-language-text-typescript
 ---
 
-# Azure Cognitive Language Service client library samples for TypeScript (Beta)
+# Azure Cognitive Language Service client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for Azure Cognitive Language Service in some common scenarios.
 
@@ -25,8 +25,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [customEntityRecognition.ts][customentityrecognition]                 | detects custom text in a piece of text                                              |
 | [customMultiLabelClassification.ts][custommultilabelclassification]   | multi-label classification of pieces of text                                        |
 | [customSingleLabelClassification.ts][customsinglelabelclassification] | single-label classification of pieces of text                                       |
-| [extractiveSummarization.ts][extractivesummarization]                 | extracts a summary from an article                                                  |
-| [healthcare.ts][healthcare]                                           | detects healthcare entities in a piece of text and creates an FHIR representation   |
+| [healthcare.ts][healthcare]                                           | detects healthcare entities in a piece of text                                      |
 | [opinionMining.ts][opinionmining]                                     | analyzes the sentiment of a piece of text and mine opinions about different targets |
 | [authenticationMethods.ts][authenticationmethods]                     | authenticates a service client using both Azure Active Directory and an API key     |
 | [batching.ts][batching]                                               | applies multiple Text Analytics actions per document                                |
@@ -86,25 +85,24 @@ npx cross-env ENDPOINT="<endpoint>" LANGUAGE_API_KEY="<language api key>" node d
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[entitylinking]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/entityLinking.ts
-[entityrecognition]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/entityRecognition.ts
-[keyphraseextraction]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/keyPhraseExtraction.ts
-[languagedetection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/languageDetection.ts
-[piientityrecognition]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/piiEntityRecognition.ts
-[sentimentanalysis]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/sentimentAnalysis.ts
-[stats]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/stats.ts
-[customentityrecognition]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/customEntityRecognition.ts
-[custommultilabelclassification]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/customMultiLabelClassification.ts
-[customsinglelabelclassification]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/customSingleLabelClassification.ts
-[extractivesummarization]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/extractiveSummarization.ts
-[healthcare]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/healthcare.ts
-[opinionmining]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/opinionMining.ts
-[authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/authenticationMethods.ts
-[batching]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/batching.ts
-[modelversion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/modelVersion.ts
-[paging]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/paging.ts
-[rehydratepolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/rehydratePolling.ts
-[apiref]: https://aka.ms/ai-language-text-js-api
+[entitylinking]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/entityLinking.ts
+[entityrecognition]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/entityRecognition.ts
+[keyphraseextraction]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/keyPhraseExtraction.ts
+[languagedetection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/languageDetection.ts
+[piientityrecognition]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/piiEntityRecognition.ts
+[sentimentanalysis]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/sentimentAnalysis.ts
+[stats]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/stats.ts
+[customentityrecognition]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/customEntityRecognition.ts
+[custommultilabelclassification]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/customMultiLabelClassification.ts
+[customsinglelabelclassification]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/customSingleLabelClassification.ts
+[healthcare]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/healthcare.ts
+[opinionmining]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/opinionMining.ts
+[authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/authenticationMethods.ts
+[batching]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/batching.ts
+[modelversion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/modelVersion.ts
+[paging]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/paging.ts
+[rehydratepolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/rehydratePolling.ts
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-language-text
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-text/README.md
