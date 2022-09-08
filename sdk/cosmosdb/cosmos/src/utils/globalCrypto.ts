@@ -11,7 +11,7 @@ if (!globalRef) {
 const globalCrypto: Crypto = globalRef.crypto || globalRef.msCrypto;
 
 if (!globalCrypto || !globalCrypto.subtle) {
-  throw new Error("Browser does not support cryptography functions");
+  throw new Error("Environment does not support cryptography functions");
 }
 
 export { globalCrypto };
