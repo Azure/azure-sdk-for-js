@@ -3,7 +3,7 @@
 
 let globalCrypto: Crypto | undefined;
 
-export function getGlobalCrypto() {
+export function getGlobalCrypto(): Crypto {
   if (globalCrypto) {
     return globalCrypto;
   }
