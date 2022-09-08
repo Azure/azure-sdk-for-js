@@ -2,16 +2,13 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to analyze user query using an orchestration project.
- * In this sample, orchestration project's top intent will map to a LUIS project
+ *  This sample demonstrates how to analyze user query using an orchestration project.
+ *  In this sample, orchestration project's top intent will map to a Qna project.
  *
- * @summary Orchestration project with LUIS response
+ * @summary Orchestration project with QnA response
  */
 
-import {
-  ConversationAnalysisClient,
-  ConversationalTask
-} from "@azure/ai-language-conversations";
+import { ConversationAnalysisClient, ConversationalTask } from "@azure/ai-language-conversations";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -38,7 +35,7 @@ const body: ConversationalTask = {
       id: "1",
       modality: "text",
       language: "en",
-      text: "Reserve a table for 2 at the Italian restaurant",
+      text: "How are you?",
     },
   },
   parameters: {
@@ -51,27 +48,27 @@ const body: ConversationalTask = {
 
 export async function main() {
   //Analyze query
-  const { result } = (await service.analyzeConversation(body));
+  const { result } = await service.analyzeConversation(body);
   console.log("query: ", result.query);
   console.log("project kind: ", result.prediction.projectKind);
 
   const top_intent = result.prediction.topIntent || "None";
-  console.log("top intent: ", top_intent);
+  console.log("\ntop intent: ", top_intent);
 
   const prediction = result.prediction;
-  if(prediction.projectKind == "Orchestration"){
+  if (prediction.projectKind == "Orchestration") {
     const top_intent_object = prediction.intents[top_intent];
     console.log("confidence score: ", top_intent_object.confidence);
     console.log("project kind: ", top_intent_object.targetProjectKind);
 
-    if (top_intent_object.targetProjectKind == "Luis" && top_intent_object.result) {
-      console.log("\nluis response:");
-
-      const luis_response = top_intent_object.result.prediction;
-      console.log("top intent: ", luis_response.topIntent);
-      console.log("\nentities:");
-      for (const entity of luis_response.entities) {
-        console.log("\n", entity);
+    if (top_intent_object.targetProjectKind == "QuestionAnswering") {
+      console.log("\nqna response:");
+      const qna_response = top_intent_object.result;
+      if (qna_response && qna_response.answers) {
+        for (const answer of qna_response.answers) {
+          console.log("\nanswer: ", answer.answer);
+          console.log("confidence score: ", answer.confidence);
+        }
       }
     }
   }

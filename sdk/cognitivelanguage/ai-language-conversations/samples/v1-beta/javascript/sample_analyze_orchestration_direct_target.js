@@ -6,13 +6,11 @@
  * In this sample, orchestration project's top intent will map to a Qna project.
  *
  * @summary Orchestration project with direct target
- * @azsdk-weight 50
  */
 
-import { ConversationAnalysisClient, ConversationalTask } from "@azure/ai-language-conversations";
-import { AzureKeyCredential } from "@azure/core-auth";
-import * as dotenv from "dotenv";
-dotenv.config();
+const { ConversationAnalysisClient } = require("@azure/ai-language-conversations");
+const { AzureKeyCredential } = require("@azure/core-auth");
+require("dotenv").config();
 
 //Get secrets
 //You will have to set these environment variables for the sample to work
@@ -23,15 +21,12 @@ const projectName = process.env.AZURE_CONVERSATIONS_WORKFLOW_PROJECT_NAME || "<p
 const deploymentName =
   process.env.AZURE_CONVERSATIONS_WORKFLOW_DEPLOYMENT_NAME || "<deployment-name>";
 
-const service: ConversationAnalysisClient = new ConversationAnalysisClient(
-  cluEndpoint,
-  new AzureKeyCredential(cluKey)
-);
+const service = new ConversationAnalysisClient(cluEndpoint, new AzureKeyCredential(cluKey));
 
 const query = "How are you?";
 const qna_app = "ChitChat-QnA";
 
-const body: ConversationalTask = {
+const body = {
   kind: "Conversation",
   analysisInput: {
     conversationItem: {
@@ -58,7 +53,7 @@ const body: ConversationalTask = {
   },
 };
 
-export async function main() {
+async function main() {
   //Analyze query
   const { result } = await service.analyzeConversation(body);
   console.log("query: ", result.query);
@@ -90,3 +85,5 @@ export async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

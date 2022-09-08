@@ -2,19 +2,15 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to analyze user query using an orchestration project.
- * In this sample, orchestration project's top intent will map to a Qna project.
+ *  This sample demonstrates how to analyze user query using an orchestration project.
+ *  In this sample, orchestration project's top intent will map to a Qna project.
  *
- * @summary Orchestration project with direct target
+ * @summary Orchestration project with QnA response
  */
 
-import {
-  ConversationAnalysisClient,
-  ConversationalTask
-} from "@azure/ai-language-conversations";
-import { AzureKeyCredential } from "@azure/core-auth";
-import * as dotenv from "dotenv";
-dotenv.config();
+const { ConversationAnalysisClient } = require("@azure/ai-language-conversations");
+const { AzureKeyCredential } = require("@azure/core-auth");
+require("dotenv").config();
 
 //Get secrets
 //You will have to set these environment variables for the sample to work
@@ -25,15 +21,9 @@ const projectName = process.env.AZURE_CONVERSATIONS_WORKFLOW_PROJECT_NAME || "<p
 const deploymentName =
   process.env.AZURE_CONVERSATIONS_WORKFLOW_DEPLOYMENT_NAME || "<deployment-name>";
 
-const service: ConversationAnalysisClient = new ConversationAnalysisClient(
-  cluEndpoint,
-  new AzureKeyCredential(cluKey)
-);
+const service = new ConversationAnalysisClient(cluEndpoint, new AzureKeyCredential(cluKey));
 
-const query = "How are you?";
-const qna_app = "ChitChat-QnA";
-
-const body: ConversationalTask = {
+const body = {
   kind: "Conversation",
   analysisInput: {
     conversationItem: {
@@ -41,28 +31,20 @@ const body: ConversationalTask = {
       id: "1",
       modality: "text",
       language: "en",
-      text: query,
+      text: "How are you?",
     },
   },
   parameters: {
     projectName: projectName,
     deploymentName: deploymentName,
+    verbose: true,
     isLoggingEnabled: false,
-    directTarget: qna_app,
-    targetProjectParameters: {
-      "ChitChat-QnA": {
-        targetProjectKind: "QuestionAnswering",
-        callingOptions: {
-          question: query,
-        },
-      },
-    },
   },
 };
 
-export async function main() {
+async function main() {
   //Analyze query
-  const { result } = (await service.analyzeConversation(body));
+  const { result } = await service.analyzeConversation(body);
   console.log("query: ", result.query);
   console.log("project kind: ", result.prediction.projectKind);
 
@@ -70,20 +52,19 @@ export async function main() {
   console.log("\ntop intent: ", top_intent);
 
   const prediction = result.prediction;
-  if(prediction.projectKind == "Orchestration"){
+  if (prediction.projectKind == "Orchestration") {
     const top_intent_object = prediction.intents[top_intent];
     console.log("confidence score: ", top_intent_object.confidence);
     console.log("project kind: ", top_intent_object.targetProjectKind);
 
     if (top_intent_object.targetProjectKind == "QuestionAnswering") {
       console.log("\nqna response:");
-
       const qna_response = top_intent_object.result;
-      if (qna_response?.answers) {
-        for(const answer of qna_response.answers){
+      if (qna_response && qna_response.answers) {
+        for (const answer of qna_response.answers) {
           console.log("\nanswer: ", answer.answer);
           console.log("confidence score: ", answer.confidence);
-        };
+        }
       }
     }
   }
@@ -92,3 +73,5 @@ export async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

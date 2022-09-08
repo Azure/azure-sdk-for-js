@@ -8,10 +8,7 @@
  * @summary Orchestration project with conversational response
  */
 
-import {
-  ConversationAnalysisClient,
-  ConversationalTask
-} from "@azure/ai-language-conversations";
+import { ConversationAnalysisClient, ConversationalTask } from "@azure/ai-language-conversations";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 
@@ -52,7 +49,7 @@ const body: ConversationalTask = {
 
 export async function main() {
   //Analyze query
-  const { result } = (await service.analyzeConversation(body));
+  const { result } = await service.analyzeConversation(body);
   console.log("query: ", result.query);
   console.log("project kind: ", result.prediction.projectKind);
 
@@ -60,7 +57,7 @@ export async function main() {
   console.log("top intent: ", top_intent);
 
   const prediction = result.prediction;
-  if(prediction.projectKind == "Orchestration"){
+  if (prediction.projectKind == "Orchestration") {
     const top_intent_object = prediction.intents[top_intent];
     console.log(prediction);
     console.log("confidence score: ", top_intent_object.confidence);
@@ -92,11 +89,11 @@ export async function main() {
 
           if (entity.extraInformation) {
             console.log("extra info:");
-            for(const data of entity.extraInformation){
+            for (const data of entity.extraInformation) {
               console.log("kind: ", data.extraInformationKind);
               if (data.extraInformationKind == "ListKey") console.log("key: ", data.key);
               if (data.extraInformationKind == "EntitySubtype") console.log("value: ", data.value);
-            };
+            }
           }
         });
       }

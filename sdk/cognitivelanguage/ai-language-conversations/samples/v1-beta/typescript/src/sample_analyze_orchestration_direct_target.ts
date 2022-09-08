@@ -6,7 +6,6 @@
  * In this sample, orchestration project's top intent will map to a Qna project.
  *
  * @summary Orchestration project with direct target
- * @azsdk-weight 50
  */
 
 import { ConversationAnalysisClient, ConversationalTask } from "@azure/ai-language-conversations";

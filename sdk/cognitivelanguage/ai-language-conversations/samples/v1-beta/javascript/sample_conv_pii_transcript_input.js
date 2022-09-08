@@ -7,10 +7,9 @@
  * @summary PII conversational analysis
  */
 
-import { AzureKeyCredential } from "@azure/core-auth";
-import { ConversationAnalysisClient } from "@azure/ai-language-conversations";
-import * as dotenv from "dotenv";
-dotenv.config();
+const { AzureKeyCredential } = require("@azure/core-auth");
+const { ConversationAnalysisClient } = require("@azure/ai-language-conversations");
+require("dotenv").config();
 
 //Get secrets
 //You will have to set these environment variables for the sample to work
@@ -18,12 +17,9 @@ const cluEndpoint =
   process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
 const cluKey = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
 
-const service: ConversationAnalysisClient = new ConversationAnalysisClient(
-  cluEndpoint,
-  new AzureKeyCredential(cluKey)
-);
+const service = new ConversationAnalysisClient(cluEndpoint, new AzureKeyCredential(cluKey));
 
-export async function main() {
+async function main() {
   //Analyze query
   const poller = await service.beginConversationAnalysis({
     displayName: "Analyze PII in conversation",
@@ -79,7 +75,7 @@ export async function main() {
   if (actionResult.tasks.items === undefined) return;
 
   const task_result = actionResult.tasks.items[0];
-  if(task_result.kind == "conversationalPIIResults"){
+  if (task_result.kind == "conversationalPIIResults") {
     console.log("... view task status ...");
     console.log("status: ", task_result.status);
     const conv_pii_result = task_result.results;
@@ -97,17 +93,17 @@ export async function main() {
         }
       } else {
         console.log("... view task result ...");
-        for(const conversation of conversation_result.conversationItems){
+        for (const conversation of conversation_result.conversationItems) {
           console.log("conversation id: ", conversation.id);
           console.log("... entities ...");
-          for(const entity of conversation.entities) {
+          for (const entity of conversation.entities) {
             console.log("text: ", entity.text);
             console.log("category: ", entity.category);
             console.log("confidence: ", entity.confidenceScore);
             console.log("offset: ", entity.offset);
             console.log("length: ", entity.length);
-          };
-        };
+          }
+        }
       }
     }
   }
@@ -116,3 +112,5 @@ export async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

@@ -7,10 +7,9 @@
  * @summary Conversation Summarization
  */
 
-import { AzureKeyCredential } from "@azure/core-auth";
-import { ConversationAnalysisClient } from "@azure/ai-language-conversations";
-import * as dotenv from "dotenv";
-dotenv.config();
+const { AzureKeyCredential } = require("@azure/core-auth");
+const { ConversationAnalysisClient } = require("@azure/ai-language-conversations");
+require("dotenv").config();
 
 //Get secrets
 //You will have to set these environment variables for the sample to work
@@ -18,12 +17,9 @@ const cluEndpoint =
   process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
 const cluKey = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
 
-const service: ConversationAnalysisClient = new ConversationAnalysisClient(
-  cluEndpoint,
-  new AzureKeyCredential(cluKey)
-);
+const service = new ConversationAnalysisClient(cluEndpoint, new AzureKeyCredential(cluKey));
 
-export async function main() {
+async function main() {
   //Analyze query
   const poller = await service.beginConversationAnalysis({
     displayName: "Analyze conversations from xxx",
@@ -71,7 +67,7 @@ export async function main() {
   if (actionResult.tasks.items === undefined) return;
 
   const task_result = actionResult.tasks.items[0];
-  if(task_result.kind == "conversationalSummarizationResults"){
+  if (task_result.kind == "conversationalSummarizationResults") {
     console.log("... view task status ...");
     console.log("status: %s", task_result.status);
     const resolution_result = task_result.results;
@@ -100,3 +96,5 @@ export async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };
