@@ -146,12 +146,14 @@ async function pollOperationHelper<TResponse, TState, TResult, TOptions>(inputs:
     state,
     stateProxy,
   });
-  const resourceLocation = getResourceLocation(response, state);
-  if (status === "succeeded" && resourceLocation !== undefined) {
-    return {
-      response: await poll(resourceLocation).catch(setStateError({ state, stateProxy })),
-      status,
-    };
+  if (status === "succeeded") {
+    const resourceLocation = getResourceLocation(response, state);
+    if (resourceLocation !== undefined) {
+      return {
+        response: await poll(resourceLocation).catch(setStateError({ state, stateProxy })),
+        status,
+      };
+    }
   }
   return { response, status };
 }

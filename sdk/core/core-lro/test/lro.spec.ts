@@ -1375,7 +1375,7 @@ matrix([["createPoller", "LroEngine"]] as const, async function (implName: Imple
                 },
               ],
             });
-            assert.deepEqual(result, { id: "100", name: "foo" });
+            assert.deepInclude(result, { id: "100", name: "foo" });
           });
 
           it("should handle postAsyncRetrycanceled", async () => {
