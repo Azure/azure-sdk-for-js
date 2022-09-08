@@ -99,6 +99,13 @@ export interface BuildCreatePollerOptions<TResponse, TState> {
     state: RestorableOperationState<TState>
   ) => string | undefined;
   /**
+   * Gets the resource location from a response.
+   */
+  getResourceLocation: (
+    response: TResponse,
+    state: RestorableOperationState<TState>
+  ) => string | undefined;
+  /**
    * Gets from the response the time interval the service suggests the client to
    * wait before sending the next polling request.
    */
