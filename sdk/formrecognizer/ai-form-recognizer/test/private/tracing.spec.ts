@@ -111,7 +111,7 @@ describe("supports tracing", function () {
         ["DocumentModelAdministrationClient.deleteDocumentModel"]
       ));
 
-    it("beginBuildModel", () =>
+    it("beginBuildDocumentModel", () =>
       assert.supportsTracing(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await (await dmac.beginBuildDocumentModel("test", "test", "neural", options)).poll();
@@ -119,7 +119,7 @@ describe("supports tracing", function () {
         ["DocumentModelAdministrationClient.beginBuildDocumentModel"]
       ));
 
-    it("beginComposeModel", () =>
+    it("beginComposeDocumentModel", () =>
       assert.supportsTracing(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await dmac.beginComposeDocumentModel("test", [], options);
