@@ -33,7 +33,7 @@ export function delay(timeInMs: number, options?: DelayOptions): Promise<void> {
 
     const rejectOnAbort = (): void => {
       return reject(
-        new AbortError(options?.abortErrorMsg ? options?.abortErrorMsg : StandardAbortMessage)
+        new AbortError(options?.abortErrorMsg ?? StandardAbortMessage)
       );
     };
 
