@@ -595,7 +595,7 @@ function modelInfo() {
   return {
     modelId: "prebuilt-receipt",
     description: "Extract key information from receipts.",
-    createdDateTime: "2022-08-31T00:00:00.000Z",
+    createdOn: "2022-08-31T00:00:00.000Z",
     apiVersion: "2022-08-31",
     docTypes: {
       receipt: {

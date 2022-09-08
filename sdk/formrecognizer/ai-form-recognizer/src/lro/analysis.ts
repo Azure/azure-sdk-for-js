@@ -403,8 +403,8 @@ export function toDocumentAnalysisPollOperationState<Result>(
   return {
     status: response.status,
     modelId: modelId,
-    lastUpdatedOn: response.lastUpdatedDateTime,
-    createdOn: response.createdDateTime,
+    lastUpdatedOn: response.lastUpdatedOn,
+    createdOn: response.createdOn,
     operationLocation,
     result: response.analyzeResult && definition.transformResult(response.analyzeResult),
     error: response.error && new FormRecognizerError(response.error),

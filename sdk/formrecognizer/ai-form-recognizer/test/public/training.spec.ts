@@ -337,7 +337,7 @@ matrix(
         assert.ok(copyResult, "Expecting valid copy result");
         assert.equal(copyResult.modelId, targetAuth.targetModelId);
 
-        assert.ok(copyResult.createdDateTime, "Expecting valid 'trainingStartedOn' property");
+        assert.ok(copyResult.createdOn, "Expecting valid 'trainingStartedOn' property");
 
         const targetModel = await trainingClient.getDocumentModel(copyResult.modelId);
 

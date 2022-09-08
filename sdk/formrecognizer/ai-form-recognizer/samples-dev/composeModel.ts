@@ -86,7 +86,7 @@ export async function main() {
 
   console.log("Model ID:", composedModel.modelId);
   console.log("Description:", composedModel.description);
-  console.log("Created:", composedModel.createdDateTime);
+  console.log("Created:", composedModel.createdOn);
 
   // The composed model should have a document type for each one of the individually built models that are composed into
   // this larger model.

@@ -20,7 +20,7 @@ async function main() {
 
   for await (const modelSummary of client.listDocumentModels()) {
     console.log("- ID", modelSummary.modelId);
-    console.log("  Created:", modelSummary.createdDateTime);
+    console.log("  Created:", modelSummary.createdOn);
     console.log("  Description: ", modelSummary.description || "<none>");
 
     // The model summary does not include `docTypes`, so we must additionally call `getModel` to retrieve them
