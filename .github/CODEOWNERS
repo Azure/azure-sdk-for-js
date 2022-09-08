@@ -109,6 +109,9 @@
 # PRLabel: %Purview
 /sdk/purview/ @qiaozha
 
+# PRLabel: %Personalizer
+/sdk/personalizer/ @sharathmalladi 
+
 # PRLabel: %Farmbeats
 /sdk/agrifood/ @joheredi
 

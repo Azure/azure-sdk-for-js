@@ -26,7 +26,7 @@ async function main() {
   const model = await client.getDocumentModel(modelId);
 
   console.log("ID", model.modelId);
-  console.log("Created:", model.createdDateTime);
+  console.log("Created:", model.createdOn);
   console.log("Description: ", model.description || "<none>");
 
   console.log("Document Types:");

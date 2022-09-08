@@ -89,7 +89,7 @@ matrix(
             if (!_model) {
               // Compute a unique name for the model
               modelId = recorder.variable(getId().toString(), `modelName${getRandomNumber()}`);
-              const poller = await client.beginBuildModel(
+              const poller = await client.beginBuildDocumentModel(
                 modelId,
                 containerSasUrl(),
                 buildMode,
@@ -227,7 +227,7 @@ matrix(
 
           it("delete models from the account", async () => {
             // Delete all of the models
-            await Promise.all(allModels.map((modelId) => client.deleteModel(modelId)));
+            await Promise.all(allModels.map((modelId) => client.deleteDocumentModel(modelId)));
 
             await Promise.all(
               allModels.map(async (modelId) => {
@@ -257,7 +257,7 @@ matrix(
         // Helper function to train/validate single model
         async function makeModel(prefix: string): Promise<string> {
           const modelId = recorder.variable(prefix, `${prefix}${getRandomNumber()}`);
-          const poller = await client.beginBuildModel(
+          const poller = await client.beginBuildDocumentModel(
             modelId,
             containerSasUrl(),
             buildMode,
@@ -278,7 +278,7 @@ matrix(
           "composedModelName",
           `composedModelName${getRandomNumber()}`
         );
-        const composePoller = await client.beginComposeModel(
+        const composePoller = await client.beginComposeDocumentModel(
           modelId,
           componentModelIds,
           testPollingOptions
@@ -314,7 +314,7 @@ matrix(
         );
         const modelId = recorder.variable("copySource", `copySource${getRandomNumber()}`);
 
-        const trainingPoller = await trainingClient.beginBuildModel(
+        const trainingPoller = await trainingClient.beginBuildDocumentModel(
           modelId,
           containerSasUrl(),
           buildMode,
@@ -337,7 +337,7 @@ matrix(
         assert.ok(copyResult, "Expecting valid copy result");
         assert.equal(copyResult.modelId, targetAuth.targetModelId);
 
-        assert.ok(copyResult.createdDateTime, "Expecting valid 'trainingStartedOn' property");
+        assert.ok(copyResult.createdOn, "Expecting valid 'trainingStartedOn' property");
 
         const targetModel = await trainingClient.getDocumentModel(copyResult.modelId);
 

@@ -126,7 +126,7 @@ function modelInfo() {
   return {
     modelId: "prebuilt-vaccinationCard",
     description: "Extract key information from US Covid-19 CDC vaccination cards.",
-    createdDateTime: "2022-08-31T00:00:00.000Z",
+    createdOn: "2022-08-31T00:00:00.000Z",
     apiVersion: "2022-08-31",
     docTypes: {
       "vaccination.covid19.us": {
