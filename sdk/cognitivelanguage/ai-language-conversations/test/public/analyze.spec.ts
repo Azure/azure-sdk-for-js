@@ -27,12 +27,13 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
 
     describe("#sync", () => {
       it("Test Conversation App", async function () {
-        const message = (await client.analyzeConversation(conv1)) as any;
+        const message = await client.analyzeConversation(conv1);
         // Assert prediction type
         assert.equal(message.kind, "ConversationResult");
         assert.exists(message.result.query);
-        assert.equal(message.result.prediction.projectKind, "Conversation");
-
+        if (message.result.prediction.projectKind !== "Conversation") {
+          assert.fail("Expected a Conversation prediction");
+        }
         // Assert top intent
         assert.equal(message.result.prediction.topIntent, "Send");
         assert.isAtLeast(message.result.prediction.intents.length, 1);
@@ -47,18 +48,24 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
       });
 
       it("Test Orchestration App Conversational Response", async function () {
-        const message = (await client.analyzeConversation(conv2)) as any;
+        const message = await client.analyzeConversation(conv2);
         // Assert prediction type
         assert.equal(message.kind, "ConversationResult");
         assert.exists(message.result.query);
-        assert.equal(message.result.prediction.projectKind, "Orchestration");
-
+        if (message.result.prediction.projectKind !== "Orchestration") {
+          assert.fail("Expected an Orchestration prediction");
+        }
         // Assert top matching project
         assert.equal(message.result.prediction.topIntent, "EmailIntent");
         assert.exists(message.result.prediction.intents.EmailIntent);
         const top_intent_object = message.result.prediction.intents.EmailIntent;
-        assert.equal(top_intent_object.targetProjectKind, "Conversation");
 
+        if (
+          top_intent_object.targetProjectKind !== "Conversation" ||
+          top_intent_object.result?.prediction === undefined
+        ) {
+          assert.fail("Expected a Conversational response");
+        }
         // Assert intent
         const conversation_result = top_intent_object.result.prediction;
         assert.equal(conversation_result.topIntent, "Send");
@@ -74,12 +81,14 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
       });
 
       it.skip("Test Orchestration App LUIS Response", async function () {
-        const message = (await client.analyzeConversation(conv3)) as any;
+        const message = await client.analyzeConversation(conv3);
         // Assert prediction type
         assert.equal(message.kind, "ConversationResult");
         assert.exists(message.result.query);
-        assert.equal(message.result.prediction.projectKind, "Orchestration");
 
+        if (message.result.prediction.projectKind !== "Orchestration") {
+          assert.fail("Expected an Orchestration prediction");
+        }
         // Assert top matching project
         assert.equal(message.result.prediction.topIntent, "RestaurantIntent");
         assert.exists(message.result.prediction.intents.RestaurantIntent);
@@ -87,21 +96,29 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
         assert.equal(top_intent_object.targetProjectKind, "Luis");
 
         // Assert intent
+        if (
+          top_intent_object.targetProjectKind !== "Luis" ||
+          top_intent_object.result?.prediction === undefined
+        ) {
+          assert.fail("Expected a LUIS response");
+        }
         const luis_result = top_intent_object.result.prediction;
         assert.equal(luis_result.topIntent, "Reserve");
         assert.isAtLeast(luis_result.intents.length, 1);
-        assert.isAbove(luis_result.intents.Reserve.confidence, 0);
+        assert.isAbove(luis_result.intents[0].confidence, 0);
 
         // Assert entities
         assert.isAtLeast(luis_result.entities.length, 1);
       });
 
       it("Test Orchestration App QnA Response", async function () {
-        const message = (await client.analyzeConversation(conv4)) as any;
+        const message = await client.analyzeConversation(conv4);
         // Assert prediction type
         assert.equal(message.kind, "ConversationResult");
         assert.exists(message.result.query);
-        assert.equal(message.result.prediction.projectKind, "Orchestration");
+        if (message.result.prediction.projectKind !== "Orchestration") {
+          assert.fail("Expected an Orchestration prediction");
+        }
 
         // Assert top matching project
         assert.equal(message.result.prediction.topIntent, "ChitChat-QnA");
@@ -110,20 +127,32 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
         assert.equal(top_intent_object.targetProjectKind, "QuestionAnswering");
 
         // Assert intent
-        const qna_result = top_intent_object.result;
-        assert.exists(qna_result.answers[0].answer);
-        assert.isAbove(qna_result.answers[0].confidence, 0);
+        if (
+          top_intent_object.targetProjectKind !== "QuestionAnswering" ||
+          top_intent_object.result?.answers === undefined
+        ) {
+          assert.fail("Expected a QnA response");
+        }
+        assert.exists(top_intent_object.result.answers[0].answer);
+        assert.isAbove(top_intent_object.result.answers[0].confidence || 0, 0);
       });
     });
 
     describe("#async", () => {
       it("Test Conversation App PII transcript", async function () {
-        const poller = (await client.beginConversationAnalysis(conv5)) as any;
+        const poller = await client.beginConversationAnalysis(conv5);
         const message = await poller.pollUntilDone();
         // Assert main object
         assert.equal(message.status, "succeeded");
 
         // Assert task result
+        if (
+          message.tasks.items === undefined ||
+          message.tasks.items[0].kind !== "conversationalPIIResults"
+        ) {
+          assert.fail("Expected a Conversational PII result");
+        }
+
         const task_result = message.tasks.items[0];
         assert.equal(task_result.status, "succeeded");
         assert.equal(task_result.kind, "conversationalPIIResults");
@@ -131,22 +160,28 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
         // Assert Conversation Result
         const conversation_items = task_result.results.conversations[0].conversationItems;
         assert.exists(conversation_items);
-        conversation_items.forEach((conversation: any) => {
+        conversation_items.forEach((conversation) => {
           assert.exists(conversation.redactedContent);
           assert.exists(conversation.entities);
         });
       });
 
       it("Test Conversation Summarization App", async function () {
-        const poller = (await client.beginConversationAnalysis(conv6)) as any;
+        const poller = await client.beginConversationAnalysis(conv6);
         const message = await poller.pollUntilDone();
         // Assert main object
         assert.equal(message.status, "succeeded");
 
         // Assert task result
+        if (
+          message.tasks.items === undefined ||
+          message.tasks.items[0].kind !== "conversationalSummarizationResults"
+        ) {
+          assert.fail("Expected a Conversational Summarization result");
+        }
+
         const task_result = message.tasks.items[0];
         assert.equal(task_result.status, "succeeded");
-        assert.equal(task_result.kind, "conversationalSummarizationResults");
 
         // Assert Conversation Result
         const conversation_result = task_result.results.conversations[0];
