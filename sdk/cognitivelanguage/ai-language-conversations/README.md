@@ -12,7 +12,7 @@ Key links:
 - [Package (NPM)](https://www.npmjs.com/package/@azure/ai-language-conversations)
 - [API reference documentation](https://aka.ms/clujsapidocs)
 - [Product documentation](https://docs.microsoft.com/azure/cognitive-services/language-service/)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples-dev)
 
 ## Getting started
 
@@ -95,7 +95,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples) directory for detailed examples on how to use this library.
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples-dev) directory for detailed examples on how to use this library.
 
 ## Contributing
 
