@@ -60,7 +60,6 @@ export async function main() {
   const prediction = result.prediction;
   if (prediction.projectKind == "Orchestration") {
     const top_intent_object = prediction.intents[top_intent];
-    console.log(prediction);
     console.log("confidence score: ", top_intent_object.confidence);
     console.log("project kind: ", top_intent_object.targetProjectKind);
 
