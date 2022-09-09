@@ -35,11 +35,11 @@ matrix([[true, false]], async function (useAad) {
       };
       const storedTrunk = await client.setTrunk(trunk);
       assert.deepEqual(storedTrunk, trunk);
-      assert.exists((await client.listTrunks()).find((value) => value.fqdn === trunk.fqdn));
+      assert.exists((await client.getTrunks()).find((value) => value.fqdn === trunk.fqdn));
 
       await client.deleteTrunk("111.fqdn.com");
 
-      assert.notExists((await client.listTrunks()).find((value) => value.fqdn === trunk.fqdn));
+      assert.notExists((await client.getTrunks()).find((value) => value.fqdn === trunk.fqdn));
     });
 
     it("cannot delete a not existing trunk but succeeds", async () => {
@@ -47,10 +47,10 @@ matrix([[true, false]], async function (useAad) {
 
       await client.deleteTrunk("notExisting.fqdn.com");
 
-      const listTrunks = await client.listTrunks();
-      assert.isNotNull(listTrunks);
-      assert.isArray(listTrunks);
-      assert.isEmpty(listTrunks);
+      const storedTrunks = await client.getTrunks();
+      assert.isNotNull(storedTrunks);
+      assert.isArray(storedTrunks);
+      assert.isEmpty(storedTrunks);
     });
   });
 });

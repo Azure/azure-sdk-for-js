@@ -99,18 +99,14 @@ export class SipRoutingClient {
   }
 
   /**
-   * Lists the SIP trunks.
+   * Gets the SIP trunks.
    * @param options - The options parameters.
    */
-  public async listTrunks(options: OperationOptions = {}): Promise<SipTrunk[]> {
-    return tracingClient.withSpan(
-      "SipRoutingClient-listTrunks",
-      options,
-      async (updatedOptions) => {
-        const config = await this.client.getSipConfiguration(updatedOptions);
-        return transformFromRestModel(config.trunks);
-      }
-    );
+  public async getTrunks(options: OperationOptions = {}): Promise<SipTrunk[]> {
+    return tracingClient.withSpan("SipRoutingClient-getTrunks", options, async (updatedOptions) => {
+      const config = await this.client.getSipConfiguration(updatedOptions);
+      return transformFromRestModel(config.trunks);
+    });
   }
 
   /**
@@ -120,7 +116,7 @@ export class SipRoutingClient {
    */
   public async getTrunk(fqdn: string, options: OperationOptions = {}): Promise<SipTrunk> {
     return tracingClient.withSpan("SipRoutingClient-getTrunk", options, async (updatedOptions) => {
-      const trunks = await this.listTrunks(updatedOptions);
+      const trunks = await this.getTrunks(updatedOptions);
       const trunk = trunks.find((value: SipTrunk) => value.fqdn === fqdn);
       if (trunk) {
         return Promise.resolve(trunk);
@@ -131,18 +127,14 @@ export class SipRoutingClient {
   }
 
   /**
-   * Lists the SIP trunk routes.
+   * Gets the SIP trunk routes.
    * @param options - The options parameters.
    */
-  public async listRoutes(options: OperationOptions = {}): Promise<SipTrunkRoute[]> {
-    return tracingClient.withSpan(
-      "SipRoutingClient-listRoutes",
-      options,
-      async (updatedOptions) => {
-        const config = await this.client.getSipConfiguration(updatedOptions);
-        return config.routes || [];
-      }
-    );
+  public async getRoutes(options: OperationOptions = {}): Promise<SipTrunkRoute[]> {
+    return tracingClient.withSpan("SipRoutingClient-getRoutes", options, async (updatedOptions) => {
+      const config = await this.client.getSipConfiguration(updatedOptions);
+      return config.routes || [];
+    });
   }
 
   /**
@@ -220,7 +212,7 @@ export class SipRoutingClient {
         ...patch,
       };
       const config = await this.client.patchSipConfiguration(payload);
-      const storedRoutes = config.routes || (await this.listRoutes(updatedOptions));
+      const storedRoutes = config.routes || (await this.getRoutes(updatedOptions));
       return storedRoutes;
     });
   }

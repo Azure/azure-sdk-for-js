@@ -7,7 +7,7 @@ import { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
 import sinon from "sinon";
 import { SipRoutingClient } from "../../../src/sipRoutingClient";
-import { listTrunksHttpClient } from "../../public/siprouting/utils/mockHttpClients";
+import { getTrunksHttpClient } from "../../public/siprouting/utils/mockHttpClients";
 import { SDK_VERSION } from "../../../src/utils/constants";
 import { Context } from "mocha";
 import { createMockToken } from "../../public/utils/recordedClient";
@@ -17,7 +17,7 @@ describe("SipRoutingClient - headers", function () {
   const endpoint = "https://contoso.spool.azure.local";
   const accessKey = "banana";
   let client = new SipRoutingClient(endpoint, new AzureKeyCredential(accessKey), {
-    httpClient: listTrunksHttpClient,
+    httpClient: getTrunksHttpClient,
   });
   let request: PipelineRequest;
 
@@ -26,8 +26,8 @@ describe("SipRoutingClient - headers", function () {
   });
 
   it("calls the spy", async function () {
-    const spy = sinon.spy(listTrunksHttpClient, "sendRequest");
-    await client.listTrunks();
+    const spy = sinon.spy(getTrunksHttpClient, "sendRequest");
+    await client.getTrunks();
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
@@ -63,11 +63,11 @@ describe("SipRoutingClient - headers", function () {
 
   it("sets signed authorization header with connection string", async function () {
     client = new SipRoutingClient(`endpoint=${endpoint};accessKey=${accessKey}`, {
-      httpClient: listTrunksHttpClient,
+      httpClient: getTrunksHttpClient,
     });
 
-    const spy = sinon.spy(listTrunksHttpClient, "sendRequest");
-    await client.listTrunks();
+    const spy = sinon.spy(getTrunksHttpClient, "sendRequest");
+    await client.getTrunks();
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
@@ -82,11 +82,11 @@ describe("SipRoutingClient - headers", function () {
     const credential: TokenCredential = createMockToken();
 
     client = new SipRoutingClient(endpoint, credential, {
-      httpClient: listTrunksHttpClient,
+      httpClient: getTrunksHttpClient,
     });
 
-    const spy = sinon.spy(listTrunksHttpClient, "sendRequest");
-    await client.listTrunks();
+    const spy = sinon.spy(getTrunksHttpClient, "sendRequest");
+    await client.getTrunks();
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
@@ -96,14 +96,14 @@ describe("SipRoutingClient - headers", function () {
 
   it("can set custom user-agent prefix", async function () {
     client = new SipRoutingClient(`endpoint=${endpoint};accessKey=${accessKey}`, {
-      httpClient: listTrunksHttpClient,
+      httpClient: getTrunksHttpClient,
       userAgentOptions: {
         userAgentPrefix: "siproutingclient-headers-test",
       },
     });
 
-    const spy = sinon.spy(listTrunksHttpClient, "sendRequest");
-    await client.listTrunks();
+    const spy = sinon.spy(getTrunksHttpClient, "sendRequest");
+    await client.getTrunks();
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];

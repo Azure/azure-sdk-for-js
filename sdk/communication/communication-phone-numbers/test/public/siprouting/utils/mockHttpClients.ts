@@ -26,7 +26,7 @@ export const createMockHttpClient = <T = Record<string, unknown>>(
   };
 };
 
-export const listTrunksHttpClient: HttpClient = createMockHttpClient<SipTrunk[]>(200, [
+export const getTrunksHttpClient: HttpClient = createMockHttpClient<SipTrunk[]>(200, [
   {
     fqdn: "one.trunk.contoso.com",
     sipSignalingPort: 1234,

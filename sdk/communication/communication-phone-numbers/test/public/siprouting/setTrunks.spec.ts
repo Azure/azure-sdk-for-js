@@ -62,8 +62,8 @@ matrix([[true, false]], async function (useAad) {
       const setTrunks = await client.setTrunks(trunks);
       assert.deepEqual(setTrunks, trunks);
 
-      const listTrunks = await client.listTrunks();
-      assert.deepEqual(listTrunks, trunks);
+      const storedTrunks = await client.getTrunks();
+      assert.deepEqual(storedTrunks, trunks);
     });
 
     it("can set multiple existing trunks", async () => {
@@ -79,8 +79,8 @@ matrix([[true, false]], async function (useAad) {
       const setTrunks = await client.setTrunks(trunks);
       assert.deepEqual(setTrunks, trunks);
 
-      const listTrunks = await client.listTrunks();
-      assert.deepEqual(listTrunks, trunks);
+      const storedTrunks = await client.getTrunks();
+      assert.deepEqual(storedTrunks, trunks);
     });
 
     it("can set empty trunks when empty before", async () => {
@@ -88,10 +88,10 @@ matrix([[true, false]], async function (useAad) {
 
       await client.setTrunks([]);
 
-      const listTrunks = await client.listTrunks();
-      assert.isNotNull(listTrunks);
-      assert.isArray(listTrunks);
-      assert.isEmpty(listTrunks);
+      const storedTrunks = await client.getTrunks();
+      assert.isNotNull(storedTrunks);
+      assert.isArray(storedTrunks);
+      assert.isEmpty(storedTrunks);
     });
 
     it("can set empty trunks when not empty before", async () => {
@@ -103,10 +103,10 @@ matrix([[true, false]], async function (useAad) {
 
       await client.setTrunks([]);
 
-      const listTrunks = await client.listTrunks();
-      assert.isNotNull(listTrunks);
-      assert.isArray(listTrunks);
-      assert.isEmpty(listTrunks);
+      const storedTrunks = await client.getTrunks();
+      assert.isNotNull(storedTrunks);
+      assert.isArray(storedTrunks);
+      assert.isEmpty(storedTrunks);
     });
 
     it("cannot set invalid fqdn trunk", async () => {
@@ -175,10 +175,10 @@ matrix([[true, false]], async function (useAad) {
         await client.setTrunks([{ fqdn: "111.fqdn.com", sipSignalingPort: 1234 }]);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
-        const listTrunks = await client.listTrunks();
-        assert.isNotNull(listTrunks);
-        assert.isArray(listTrunks);
-        assert.deepEqual(listTrunks, expectedTrunks);
+        const storedTrunks = await client.getTrunks();
+        assert.isNotNull(storedTrunks);
+        assert.isArray(storedTrunks);
+        assert.deepEqual(storedTrunks, expectedTrunks);
         return;
       }
       assert.fail("UnprocessableConfiguration expected.");
@@ -213,8 +213,8 @@ matrix([[true, false]], async function (useAad) {
       ];
       await client.setTrunks(trunks);
 
-      assert.deepEqual(await client.listTrunks(), trunks);
-      assert.deepEqual(await client.listRoutes(), routes);
+      assert.deepEqual(await client.getTrunks(), trunks);
+      assert.deepEqual(await client.getRoutes(), routes);
     });
   });
 });

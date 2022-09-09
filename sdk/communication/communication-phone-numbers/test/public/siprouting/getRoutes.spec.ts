@@ -11,7 +11,7 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 
 matrix([[true, false]], async function (useAad) {
-  describe(`SipRoutingClient - list routes${useAad ? " [AAD]" : ""}`, function () {
+  describe(`SipRoutingClient - get routes${useAad ? " [AAD]" : ""}`, function () {
     let client: SipRoutingClient;
     let recorder: Recorder;
 
@@ -28,13 +28,13 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can retrieve routes", async () => {
-      assert.isArray(await client.listRoutes());
+      assert.isArray(await client.getRoutes());
     });
 
     it("can retrieve empty routes", async () => {
       await client.setRoutes([]);
 
-      const routes = await client.listRoutes();
+      const routes = await client.getRoutes();
 
       assert.isNotNull(routes);
       assert.isArray(routes);
@@ -58,7 +58,7 @@ matrix([[true, false]], async function (useAad) {
       ];
       await client.setRoutes(expectedRoutes);
 
-      const routes = await client.listRoutes();
+      const routes = await client.getRoutes();
 
       assert.isNotNull(routes);
       assert.isArray(routes);

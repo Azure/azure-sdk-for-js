@@ -12,7 +12,7 @@ import { createRecordedClient, createRecordedClientWithToken } from "./utils/rec
 import { matrix } from "@azure/test-utils";
 
 matrix([[true, false]], async function (useAad) {
-  describe(`SipRoutingClient - list trunks${useAad ? " [AAD]" : ""}`, function () {
+  describe(`SipRoutingClient - get trunks${useAad ? " [AAD]" : ""}`, function () {
     let client: SipRoutingClient;
     let recorder: Recorder;
 
@@ -48,13 +48,13 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can retrieve trunks", async () => {
-      assert.isArray(await client.listTrunks());
+      assert.isArray(await client.getTrunks());
     });
 
     it("can retrieve empty trunks", async () => {
       await client.setTrunks([]);
 
-      const trunks = await client.listTrunks();
+      const trunks = await client.getTrunks();
 
       assert.isNotNull(trunks);
       assert.isArray(trunks);
@@ -69,7 +69,7 @@ matrix([[true, false]], async function (useAad) {
       ];
       await client.setTrunks(expectedTrunks);
 
-      const trunks = await client.listTrunks();
+      const trunks = await client.getTrunks();
 
       assert.isNotNull(trunks);
       assert.isArray(trunks);
