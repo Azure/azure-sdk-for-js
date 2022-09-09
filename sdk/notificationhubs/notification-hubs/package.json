@@ -119,7 +119,6 @@
     "karma-edge-launcher": "^0.4.2",
     "karma-env-preprocessor": "^0.1.1",
     "karma-firefox-launcher": "^2.1.2",
-    "karma-ie-launcher": "^1.0.0",
     "karma-json-preprocessor": "^0.3.3",
     "karma-json-to-file-reporter": "^1.0.1",
     "karma-junit-reporter": "^2.0.1",

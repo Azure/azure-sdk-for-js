@@ -22,8 +22,10 @@ List of breaking changes:
 
 ### Bugs Fixed
 
-- #23065
-- #23089
+- #23065 - Update @azure/core-util package on npm
+- #23089 - xml.feed.entry is not iterable
+- #23149 - Cannot register FCM device
+- #23139 - Add support for Test Send for Tag-Based Send Only
 
 ### Other Changes
 

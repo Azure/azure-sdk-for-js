@@ -16,7 +16,6 @@ module.exports = function (config) {
       "karma-chrome-launcher",
       "karma-edge-launcher",
       "karma-firefox-launcher",
-      "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
       "karma-sourcemap-loader",
