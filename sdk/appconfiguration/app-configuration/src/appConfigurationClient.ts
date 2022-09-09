@@ -37,7 +37,10 @@ import {
   deserializationPolicy,
   deserializationPolicyName,
 } from "@azure/core-client";
+<<<<<<< HEAD
 import { PagedAsyncIterableIterator, PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
+=======
+>>>>>>> 4dabab3cf1 (Fix eslint warnings)
 import { PipelinePolicy, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
@@ -56,7 +59,11 @@ import {
 } from "./internal/helpers";
 import { AppConfiguration } from "./generated/src/appConfiguration";
 import { FeatureFlagValue } from "./featureFlag";
+<<<<<<< HEAD
 import { PagedAsyncIterableIterator, getPagedAsyncIterator, PagedResult} from "@azure/core-paging";
+=======
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+>>>>>>> 4dabab3cf1 (Fix eslint warnings)
 import { SecretReferenceValue } from "./secretReference";
 import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
 import { tracingClient } from "./internal/tracing";
@@ -439,6 +446,44 @@ export class AppConfigurationClient {
           HttpResponseField<AppConfigurationGetRevisionsHeaders>;
       }
     );
+<<<<<<< HEAD
+=======
+
+    yield* this.createListRevisionsPageFromResponse(currentResponse);
+
+    while (currentResponse.nextLink) {
+      currentResponse = (await tracingClient.withSpan(
+        "AppConfigurationClient.listRevisions",
+        options,
+        (updatedOptions) => {
+          return this.client.getRevisions({
+            ...updatedOptions,
+            ...formatAcceptDateTime(options),
+            ...formatFiltersAndSelect(options),
+            after: extractAfterTokenFromNextLink(currentResponse.nextLink!),
+          });
+        }
+      )) as GetRevisionsResponse & HttpResponseField<AppConfigurationGetRevisionsHeaders>;
+
+      if (!currentResponse.items) {
+        break;
+      }
+
+      yield* this.createListRevisionsPageFromResponse(currentResponse);
+    }
+  }
+
+  private *createListRevisionsPageFromResponse(
+    currentResponse: GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>
+  ): Generator<ListRevisionsPage> {
+    yield {
+      ...currentResponse,
+      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
+      continuationToken: currentResponse.nextLink
+        ? extractAfterTokenFromNextLink(currentResponse.nextLink)
+        : undefined,
+    };
+>>>>>>> 4dabab3cf1 (Fix eslint warnings)
   }
 
   /**
