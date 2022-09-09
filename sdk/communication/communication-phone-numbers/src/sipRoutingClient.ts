@@ -119,7 +119,7 @@ export class SipRoutingClient {
       const trunks = await this.getTrunks(updatedOptions);
       const trunk = trunks.find((value: SipTrunk) => value.fqdn === fqdn);
       if (trunk) {
-        return Promise.resolve(trunk);
+        return trunk;
       }
 
       throw { code: "NotFound", message: "Not Found" } as SipRoutingError;
@@ -187,7 +187,7 @@ export class SipRoutingClient {
         (value: SipTrunk) => value.fqdn === trunk.fqdn
       );
       if (storedTrunk) {
-        return Promise.resolve(storedTrunk);
+        return storedTrunk;
       }
 
       throw { code: "NotFound", message: "Not Found" } as SipRoutingError;

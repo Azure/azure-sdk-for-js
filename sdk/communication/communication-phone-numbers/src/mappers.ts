@@ -8,9 +8,9 @@ import { SipTrunk as RestSipTrunk } from "./generated/src/siprouting/models";
  * @internal
  * Transforming SIP trunks REST model to SDK model
  */
-export const transformFromRestModel = (
+export function transformFromRestModel(
   trunks: { [propertyName: string]: RestSipTrunk } | undefined
-): SipTrunk[] => {
+): SipTrunk[] {
   const result: SipTrunk[] = [];
 
   if (trunks) {
@@ -21,15 +21,15 @@ export const transformFromRestModel = (
   }
 
   return result;
-};
+}
 
 /**
  * @internal
  * Transforming SIP trunks SDK model to REST model
  */
-export const transformIntoRestModel = (
-  trunks: SipTrunk[]
-): { [propertyName: string]: RestSipTrunk } => {
+export function transformIntoRestModel(trunks: SipTrunk[]): {
+  [propertyName: string]: RestSipTrunk;
+} {
   const result: { [propertyName: string]: RestSipTrunk } = {};
 
   trunks.forEach((trunk: SipTrunk) => {
@@ -37,4 +37,4 @@ export const transformIntoRestModel = (
   });
 
   return result;
-};
+}
