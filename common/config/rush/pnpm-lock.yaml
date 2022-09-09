@@ -16934,7 +16934,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-aCsI89Bvj/Jlilt/8fI4SluTSqTL+xPprPomF/s8wFr89sqswow7QyTCCHe/NtKoMZj64ySMjS3jOW+Yw7vY1w==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-2zccxm7yRqXeac2OyhOxJT+eqmxwMNS4fJprsu27L20MGJn8TJkKrJl9613nZnvMUOgsoL0dm6eBG7/gU44EQg==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
@@ -16943,6 +16943,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      '@types/uuid': 8.3.4
       chai: 4.3.6
       dotenv: 8.6.0
       eslint: 8.23.0
@@ -16968,6 +16969,7 @@ packages:
       source-map-support: 0.5.21
       tslib: 2.4.0
       typescript: 4.6.4
+      uuid: 8.3.2
     transitivePeerDependencies:
       - bufferutil
       - debug
