@@ -133,5 +133,16 @@
         "prefix": "packageDetails"
       }
     ]
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure Cognitive Language Service",
+    "productSlugs": [
+      "azure",
+      "azure-cognitive-services",
+      "language-service"
+    ],
+    "requiredResources": {
+      "Azure Cognitive Services instance": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
+    }
   }
 }
