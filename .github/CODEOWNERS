@@ -128,7 +128,7 @@
 /sdk/web-pubsub/ @vicancy @xirzec @bterlson
 
 # PRLabel: %EngSys
-/sdk/template/ @praveenkuttappan @mikeharder @weshaggard @benbp
+/sdk/template/ @ckairen @mikeharder @weshaggard @benbp
 
 /sdk/test-utils/ @HarshaNalluru @timovv
 
@@ -1424,9 +1424,9 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 ###########
 # Eng Sys
 ###########
-/eng/   @praveenkuttappan @mikeharder @weshaggard @benbp
-/**/tests.yml   @praveenkuttappan @benbp
-/**/ci.yml      @praveenkuttappan @benbp
+/eng/   @ckairen @mikeharder @weshaggard @benbp
+/**/tests.yml   @ckairen @benbp
+/**/ci.yml      @ckairen @benbp
 
 ###########
 # Config
