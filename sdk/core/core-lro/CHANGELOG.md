@@ -1,14 +1,10 @@
 # Release History
 
-## 2.3.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 2.3.1 (2022-09-09)
 
 ### Bugs Fixed
 
-### Other Changes
+- Add missing support for fetching resources linked to in the body of the final polling response.
 
 ## 2.3.0 (2022-09-01)
 
