@@ -26,6 +26,8 @@ const replaceableVariables: { [k: string]: string } = {
   LEDGER_IDENTITY: "FAKE_CERT",
   IDENTITY_SERVICE_URL: "https://identity.confidential-ledger.core.azure.com/",
   USER_ID: "00000000-0000-0000-0000-000000000000",
+  // we need this dummy variable since the test environment doesn't have access to local .env files
+  LEDGER_NAME: "emily-java-sdk-tests"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
