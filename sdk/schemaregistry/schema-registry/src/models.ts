@@ -12,9 +12,27 @@ export interface SchemaProperties {
 
   /**
    * Serialization type of schema.
-   * Currently only 'avro' is supported, but this is subject to change.
    */
   format: string;
+
+  /** Schema group under which schema is or should be registered. */
+  groupName: string;
+
+  /** Name of schema.*/
+  name: string;
+
+  /** The version of schema */
+  version: number;
+}
+
+/**
+ * Version of a schema
+ */
+export interface SchemaVersion {
+  /**
+   * Version of the schema
+   */
+  version: number;
 
   /** Schema group under which schema is or should be registered. */
   groupName: string;
@@ -35,7 +53,6 @@ export interface SchemaDescription {
 
   /**
    * The format of schema and it must match the serialization type of the schema's group.
-   * "Avro" is the only currently accepted value at the time of this package's release.
    */
   format: string;
 
@@ -79,6 +96,11 @@ export interface GetSchemaPropertiesOptions extends OperationOptions {}
 export interface GetSchemaOptions extends OperationOptions {}
 
 /**
+ * Options to configure SchemaRegistryClient.getSchemaByVersion.
+ */
+export interface GetSchemaByVersionOptions extends OperationOptions {}
+
+/**
  * Represents a store of registered schemas.
  *
  * Implemented by SchemaRegistryClient to store the schemas using the Azure
@@ -119,4 +141,11 @@ export interface SchemaRegistry {
    * @returns Schema with given ID.
    */
   getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema>;
+
+  /**
+   * Gets an existing schema by version.
+   * @param schema - Schema version
+   * @returns Schema with given version
+   */
+  getSchemaByVersion(schema: SchemaVersion, options: GetSchemaByVersionOptions): Promise<Schema>;
 }
