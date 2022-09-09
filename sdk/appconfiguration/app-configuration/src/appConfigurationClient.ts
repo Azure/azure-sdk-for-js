@@ -4,11 +4,6 @@
 // https://azure.github.io/azure-sdk/typescript_design.html#ts-config-lib
 /// <reference lib="esnext.asynciterable" />
 
-import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
-import { AppConfiguration } from "./generated/src/appConfiguration";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-
 import {
   AddConfigurationSettingOptions,
   AddConfigurationSettingParam,
@@ -32,6 +27,20 @@ import {
   SetReadOnlyResponse,
 } from "./models";
 import {
+  AppConfigurationGetKeyValuesHeaders,
+  AppConfigurationGetRevisionsHeaders,
+  GetKeyValuesResponse,
+  GetRevisionsResponse,
+} from "./generated/src/models";
+import {
+  CommonClientOptions,
+  deserializationPolicy,
+  deserializationPolicyName,
+} from "@azure/core-client";
+import { PipelinePolicy, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import {
   assertResponse,
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromNextLink,
@@ -44,21 +53,11 @@ import {
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
 } from "./internal/helpers";
-import {
-  AppConfigurationGetKeyValuesHeaders,
-  AppConfigurationGetRevisionsHeaders,
-  GetKeyValuesResponse,
-  GetRevisionsResponse,
-} from "./generated/src/models";
-import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
+import { AppConfiguration } from "./generated/src/appConfiguration";
 import { FeatureFlagValue } from "./featureFlag";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SecretReferenceValue } from "./secretReference";
-import {
-  CommonClientOptions,
-  deserializationPolicy,
-  deserializationPolicyName,
-} from "@azure/core-client";
-import { PipelinePolicy, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
 import { tracingClient } from "./internal/tracing";
 
 const apiVersion = "1.0";
@@ -468,7 +467,7 @@ export class AppConfigurationClient {
 
   private *createListRevisionsPageFromResponse(
     currentResponse: GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>
-  ) {
+  ): Generator<ListRevisionsPage> {
     yield {
       ...currentResponse,
       items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
