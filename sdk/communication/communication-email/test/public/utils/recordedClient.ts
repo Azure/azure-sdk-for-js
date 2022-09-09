@@ -11,7 +11,8 @@ export interface RecordedEmailClient {
 }
 
 const envSetupForPlayback: { [k: string]: string } = {
-  COMMUNICATION_CONNECTION_STRING_EMAIL: "endpoint=https://someEndpoint/;accesskey=someAccessKeyw==",
+  COMMUNICATION_CONNECTION_STRING_EMAIL:
+    "endpoint=https://someEndpoint/;accesskey=someAccessKeyw==",
   SENDER_ADDRESS: "someSender@contoso.com",
   RECIPIENT_ADDRESS: "someRecipient@domain.com",
 };
