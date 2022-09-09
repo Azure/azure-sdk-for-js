@@ -37,6 +37,7 @@ function assertIsValidSchemaProperties(
   assert.equal(schemaProperties.format, expectedSerializationType);
   assert.isNotEmpty(schemaProperties.groupName);
   assert.isNotEmpty(schemaProperties.name);
+  assert.isAtLeast(schemaProperties.version, 1);
 }
 
 function assertIsValidSchema(schema: Schema, expectedSerializationType = "Avro"): asserts schema {
@@ -207,6 +208,25 @@ describe("SchemaRegistryClient", function () {
         assert.equal(rawResponse.status, 200);
       },
     });
+    assertIsValidSchema(found);
+    assert.equal(found.definition, schema.definition);
+  });
+
+  it("gets schema by version", async () => {
+    const registered = await client.registerSchema(schema, options);
+    assertIsValidSchemaProperties(registered);
+    const found = await client.getSchemaByVersion(
+      {
+        groupName: registered.groupName,
+        name: registered.name,
+        version: registered.version,
+      },
+      {
+        onResponse: (rawResponse: { status: number }) => {
+          assert.equal(rawResponse.status, 200);
+        },
+      }
+    );
     assertIsValidSchema(found);
     assert.equal(found.definition, schema.definition);
   });

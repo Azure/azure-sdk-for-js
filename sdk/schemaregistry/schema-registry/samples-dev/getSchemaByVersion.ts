@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of a SchemaRegistryClient to register and retrieve schema.
+ * @summary Demonstrates the use of getSchemaByVersion.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -48,7 +48,7 @@ export async function main() {
   // Create a new client
   const client = new SchemaRegistryClient(fullyQualifiedNamespace, new DefaultAzureCredential());
 
-  // Register a schema and get back its ID.
+  // Register a schema and get back its ID and version.
   const { id, version } = await client.registerSchema(schemaDescription);
   console.log(
     `Registered schema with the following properties:\n- ID=${id}\n- Version: ${version}`
