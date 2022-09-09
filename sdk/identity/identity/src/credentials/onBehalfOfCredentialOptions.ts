@@ -24,6 +24,11 @@ export interface OnBehalfOfCredentialSecretOptions {
    * The user assertion for the On-Behalf-Of flow.
    */
   userAssertionToken: string;
+  /**
+   * For multi-tenant applications, specifies additional tenants for which the credential may acquire tokens.
+   * Add the wildcard value "*" to allow the credential to acquire tokens for any tenant the application is installed.
+   */
+  additionallyAllowedTenants?: string[];  
 }
 
 /**
@@ -51,6 +56,11 @@ export interface OnBehalfOfCredentialCertificateOptions {
    * Set this option to send base64 encoded public certificate in the client assertion header as an x5c claim
    */
   sendCertificateChain?: boolean;
+  /**
+   * For multi-tenant applications, specifies additional tenants for which the credential may acquire tokens.
+   * Add the wildcard value "*" to allow the credential to acquire tokens for any tenant the application is installed.
+   */
+  additionallyAllowedTenants?: string[];  
 }
 
 /**

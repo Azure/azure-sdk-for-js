@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
+import { AuthorizationCodeCredentialOptions } from "./authorizationCodeCredentialOptions";
 import { credentialLogger } from "../util/logging";
 import { checkTenantId } from "../util/checkTenantId";
 import { MsalAuthorizationCode } from "../msal/nodeFlows/msalAuthorizationCode";
@@ -52,7 +52,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     clientSecret: string,
     authorizationCode: string,
     redirectUri: string,
-    options?: TokenCredentialOptions
+    options?: AuthorizationCodeCredentialOptions
   );
   /**
    * Creates an instance of AuthorizationCodeCredential with the details needed
@@ -80,7 +80,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     clientId: string,
     authorizationCode: string,
     redirectUri: string,
-    options?: TokenCredentialOptions
+    options?: AuthorizationCodeCredentialOptions
   );
   /**
    * @hidden
@@ -91,8 +91,8 @@ export class AuthorizationCodeCredential implements TokenCredential {
     clientId: string,
     clientSecretOrAuthorizationCode: string,
     authorizationCodeOrRedirectUri: string,
-    redirectUriOrOptions: string | TokenCredentialOptions | undefined,
-    options?: TokenCredentialOptions
+    redirectUriOrOptions: string | AuthorizationCodeCredentialOptions | undefined,
+    options?: AuthorizationCodeCredentialOptions
   ) {
     checkTenantId(logger, tenantId);
     let clientSecret: string | undefined = clientSecretOrAuthorizationCode;
@@ -107,7 +107,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       this.authorizationCode = clientSecretOrAuthorizationCode;
       this.redirectUri = authorizationCodeOrRedirectUri as string;
       clientSecret = undefined;
-      options = redirectUriOrOptions as TokenCredentialOptions;
+      options = redirectUriOrOptions as AuthorizationCodeCredentialOptions;
     }
 
     this.msalFlow = new MsalAuthorizationCode({

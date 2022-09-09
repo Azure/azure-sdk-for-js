@@ -2,15 +2,14 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-
-import { credentialLogger, formatError, formatSuccess, processEnvVars } from "../util/logging";
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
-import { ClientSecretCredential } from "./clientSecretCredential";
 import { AuthenticationError, CredentialUnavailableError } from "../errors";
+import { credentialLogger, formatError, formatSuccess, processEnvVars } from "../util/logging";
+import { ClientCertificateCredential } from "./clientCertificateCredential";
+import { ClientSecretCredential } from "./clientSecretCredential";
+import { EnvironmentCredentialOptions } from "./environmentCredentialOptions";
+import { UsernamePasswordCredential } from "./usernamePasswordCredential";
 import { checkTenantId } from "../util/checkTenantId";
 import { tracingClient } from "../util/tracing";
-import { ClientCertificateCredential } from "./clientCertificateCredential";
-import { UsernamePasswordCredential } from "./usernamePasswordCredential";
 
 /**
  * Contains the list of all supported environment variable names so that an
@@ -31,12 +30,6 @@ export const AllSupportedEnvironmentVariables = [
 
 const credentialName = "EnvironmentCredential";
 const logger = credentialLogger(credentialName);
-
-/**
- * Enables authentication to Azure Active Directory depending on the available environment variables.
- * Defines options for the EnvironmentCredential class.
- */
-export interface EnvironmentCredentialOptions extends TokenCredentialOptions {}
 
 /**
  * Enables authentication to Azure Active Directory using client secret

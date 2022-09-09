@@ -8,7 +8,8 @@ import { CredentialLogger } from "./logging";
 export function resolveTenantId(
   logger: CredentialLogger,
   tenantId?: string,
-  clientId?: string
+  clientId?: string,
+  additionallyAllowedTenants?: string[],
 ): string {
   if (tenantId) {
     checkTenantId(logger, tenantId);

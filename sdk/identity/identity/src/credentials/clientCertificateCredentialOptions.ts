@@ -22,4 +22,8 @@ export interface ClientCertificateCredentialOptions
   //  * If the property is not specified, the credential uses the global authority endpoint.
   //  */
   // regionalAuthority?: string;
-}
+  /**
+   * For multi-tenant applications, specifies additional tenants for which the credential may acquire tokens.
+   * Add the wildcard value "*" to allow the credential to acquire tokens for any tenant the application is installed.
+   */
+  additionallyAllowedTenants?: string[];}

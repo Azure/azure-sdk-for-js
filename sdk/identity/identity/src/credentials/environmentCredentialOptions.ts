@@ -4,16 +4,13 @@
 import { TokenCredentialOptions } from "../tokenCredentialOptions";
 
 /**
- * Options for the {@link AzureCliCredential}
+ * Enables authentication to Azure Active Directory depending on the available environment variables.
+ * Defines options for the EnvironmentCredential class.
  */
-export interface AzureCliCredentialOptions extends TokenCredentialOptions {
-  /**
-   * Allows specifying a tenant ID
-   */
-  tenantId?: string;
+export interface EnvironmentCredentialOptions extends TokenCredentialOptions {
   /**
    * For multi-tenant applications, specifies additional tenants for which the credential may acquire tokens.
    * Add the wildcard value "*" to allow the credential to acquire tokens for any tenant the application is installed.
    */
-  additionallyAllowedTenants?: string[];
+  additionallyAllowedTenants?: string[];  
 }

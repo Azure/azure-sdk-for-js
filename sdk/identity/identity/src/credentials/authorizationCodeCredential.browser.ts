@@ -3,7 +3,7 @@
 
 import { AccessToken, TokenCredential } from "@azure/core-auth";
 
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
+import { AuthorizationCodeCredentialOptions } from "./authorizationCodeCredentialOptions";
 import { credentialLogger, formatError } from "../util/logging";
 
 const BrowserNotSupportedError = new Error(
@@ -21,14 +21,14 @@ export class AuthorizationCodeCredential implements TokenCredential {
     clientSecret: string,
     authorizationCode: string,
     redirectUri: string,
-    options?: TokenCredentialOptions
+    options?: AuthorizationCodeCredentialOptions
   );
   constructor(
     tenantId: string | "common",
     clientId: string,
     authorizationCode: string,
     redirectUri: string,
-    options?: TokenCredentialOptions
+    options?: AuthorizationCodeCredentialOptions
   );
   constructor() {
     logger.info(formatError("", BrowserNotSupportedError));

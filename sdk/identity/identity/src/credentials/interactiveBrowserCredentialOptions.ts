@@ -42,6 +42,12 @@ export interface InteractiveBrowserCredentialNodeOptions
    * Setting this option skips the account selection prompt and immediately attempts to login with the specified account.
    */
   loginHint?: string;
+
+  /**
+   * For multi-tenant applications, specifies additional tenants for which the credential may acquire tokens.
+   * Add the wildcard value "*" to allow the credential to acquire tokens for any tenant the application is installed.
+   */
+  additionallyAllowedTenants?: string[];  
 }
 
 /**
@@ -78,4 +84,10 @@ export interface InteractiveBrowserCredentialInBrowserOptions extends Interactiv
    * Setting this option skips the account selection prompt and immediately attempts to login with the specified account.
    */
   loginHint?: string;
+
+  /**
+   * For multi-tenant applications, specifies additional tenants for which the credential may acquire tokens.
+   * Add the wildcard value "*" to allow the credential to acquire tokens for any tenant the application is installed.
+   */
+  additionallyAllowedTenants?: string[];  
 }
