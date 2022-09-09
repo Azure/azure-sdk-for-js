@@ -19,7 +19,7 @@ import { Context } from "mocha";
 import { ClientSecretCredential } from "@azure/identity";
 
 const replaceableVariables: { [k: string]: string } = {
-  LEDGER_URI: "https://endpoint",
+  LEDGER_URI: "https://emily-java-sdk-tests.confidential-ledger.azure.com/",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
