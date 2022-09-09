@@ -56,15 +56,7 @@ import {
 } from "./internal/helpers";
 import { AppConfiguration } from "./generated/src/appConfiguration";
 import { FeatureFlagValue } from "./featureFlag";
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { PagedAsyncIterableIterator, getPagedAsyncIterator, PagedResult} from "@azure/core-paging";
-=======
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
->>>>>>> 4dabab3cf1 (Fix eslint warnings)
-=======
-import { PagedAsyncIterableIterator, getPagedAsyncIterator, PagedResult} from "@azure/core-paging";
->>>>>>> 1dcb64a6df (use core-paging getPagedAsyncIterator method)
 import { SecretReferenceValue } from "./secretReference";
 import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
 import { tracingClient } from "./internal/tracing";
