@@ -141,11 +141,4 @@ export interface SchemaRegistry {
    * @returns Schema with given ID.
    */
   getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema>;
-
-  /**
-   * Gets an existing schema by version.
-   * @param schema - Schema version
-   * @returns Schema with given version
-   */
-  getSchemaByVersion(schema: SchemaVersion, options: GetSchemaByVersionOptions): Promise<Schema>;
 }

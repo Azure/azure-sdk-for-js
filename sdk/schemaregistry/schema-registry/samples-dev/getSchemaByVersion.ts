@@ -54,8 +54,12 @@ export async function main() {
     `Registered schema with the following properties:\n- ID=${id}\n- Version: ${version}`
   );
 
-  // Get definition of existing schema by its ID
-  const foundSchema = await client.getSchema(id);
+  // Get definition of existing schema by its version
+  const foundSchema = await client.getSchemaByVersion({
+    groupName,
+    name,
+    version,
+  });
   if (foundSchema) {
     console.log(`Got schema definition=${foundSchema.definition}`);
   }

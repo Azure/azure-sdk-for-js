@@ -50,7 +50,6 @@ export interface SchemaProperties {
 // @public
 export interface SchemaRegistry {
     getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema>;
-    getSchemaByVersion(schema: SchemaVersion, options: GetSchemaByVersionOptions): Promise<Schema>;
     getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties>;
     registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaProperties>;
 }
