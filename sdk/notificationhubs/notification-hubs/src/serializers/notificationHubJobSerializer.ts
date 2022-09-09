@@ -52,7 +52,12 @@ export async function parseNotificationHubJobEntry(bodyText: string): Promise<No
  */
 export async function parseNotificationHubJobFeed(bodyText: string): Promise<NotificationHubJob[]> {
   const xml = await parseXML(bodyText, { includeRoot: true });
-  const results = [];
+  const results: NotificationHubJob[] = [];
+
+  if (!isDefined(xml.feed.entry)) {
+    return results;
+  }
+
   for (const item of xml.feed.entry) {
     results.push(createNotificationHubJob(item.content.NotificationHubJob));
   }

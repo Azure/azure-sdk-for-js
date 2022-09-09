@@ -22,7 +22,7 @@ import {
   NotificationHubsClientContext,
   createClientContext,
 } from "@azure/notification-hubs/client";
-import { createAppleNotification } from "@azure/notification-hubs/models/notification";
+import { createFcmLegacyNotification } from "@azure/notification-hubs/models/notification";
 import { delay } from "@azure/core-util";
 import { getNotificationOutcomeDetails } from "@azure/notification-hubs/client/getNotificationOutcomeDetails";
 import { sendDirectNotification } from "@azure/notification-hubs/client/sendDirectNotification";
@@ -36,23 +36,28 @@ const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<con
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
 // Define message constants
-const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
-const devicetoken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
+const DUMMY_REGISTRATION = "bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1";
+const gcmRegistrationId = process.env.FCM_REGISTRATION_ID || DUMMY_REGISTRATION;
 
 async function main() {
   const context = createClientContext(connectionString, hubName);
 
-  const messageBody = `{ "aps" : { "alert" : { title: "Hello", body: "Hello there SDK Review!" } } }`;
+  const messageBody = `{
+	"notification":{
+		"title":"Notification Hub Test Notification",
+		"body":"This is a sample notification delivered by Azure Notification Hubs."
+	},
+	"data":{
+		"property1":"value1",
+		"property2":42
+	}
+}`;
 
-  const notification = createAppleNotification({
+  const notification = createFcmLegacyNotification({
     body: messageBody,
-    headers: {
-      "apns-priority": "10",
-      "apns-push-type": "alert",
-    },
   });
 
-  const result = await sendDirectNotification(context, devicetoken, notification);
+  const result = await sendDirectNotification(context, gcmRegistrationId, notification);
 
   console.log(`Direct send Tracking ID: ${result.trackingId}`);
   console.log(`Direct send Correlation ID: ${result.correlationId}`);
