@@ -27,8 +27,6 @@ List of breaking changes:
 - #23149 - Cannot register FCM device
 - #23139 - Add support for Test Send for Tag-Based Send Only
 
-### Other Changes
-
 ## 1.0.0-beta.3 (2022-08-25)
 
 - Fixed bug of `signKey` to use `encodeURIComponent`.
