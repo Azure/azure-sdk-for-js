@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-util",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Core library for shared utility methods",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -69,6 +69,7 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
+    "@azure/abort-controller": "^1.0.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
@@ -80,7 +81,7 @@
     "@types/sinon": "^9.0.4",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "chai": "^4.2.0",
-    "downlevel-dts": "^0.8.0",
+    "downlevel-dts": "^0.10.0",
     "cross-env": "^7.0.2",
     "eslint": "^8.0.0",
     "inherits": "^2.0.3",

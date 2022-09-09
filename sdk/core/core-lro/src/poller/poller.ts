@@ -53,6 +53,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     getOperationLocation,
     getStatusFromInitialResponse,
     getStatusFromPollResponse,
+    getResourceLocation,
     getPollingInterval,
   } = inputs;
   return async (
@@ -157,6 +158,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           withOperationLocation,
           getPollingInterval,
           getOperationStatus: getStatusFromPollResponse,
+          getResourceLocation,
           processResult,
           updateState,
           options: pollOptions,

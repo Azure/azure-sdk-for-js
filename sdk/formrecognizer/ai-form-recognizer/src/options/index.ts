@@ -3,14 +3,14 @@
 
 import { AnalyzeDocumentOptions } from "./AnalyzeDocumentsOptions";
 import {
-  CreateModelOptions,
+  CreateDocumentModelOptions,
   CommonModelCreationOptions,
   DocumentModelBuildMode,
-  BeginBuildModelOptions,
-  BeginComposeModelOptions,
+  BeginBuildDocumentModelOptions,
+  BeginComposeDocumentModelOptions,
 } from "./BuildModelOptions";
 import { BeginCopyModelOptions } from "./BeginCopyModelOptions";
-import { DeleteModelOptions } from "./DeleteModelOptions";
+import { DeleteDocumentModelOptions } from "./DeleteModelOptions";
 import {
   DocumentAnalysisClientOptions,
   DocumentModelAdministrationClientOptions,
@@ -28,9 +28,9 @@ import { PollerOptions } from "./PollerOptions";
 
 export {
   AnalyzeDocumentOptions,
-  CreateModelOptions,
-  BeginBuildModelOptions,
-  BeginComposeModelOptions,
+  CreateDocumentModelOptions,
+  BeginBuildDocumentModelOptions,
+  BeginComposeDocumentModelOptions,
   CommonModelCreationOptions,
   BeginCopyModelOptions,
   DocumentModelBuildMode,
@@ -41,7 +41,7 @@ export {
   GetResourceDetailsOptions,
   GetModelOptions,
   GetOperationOptions,
-  DeleteModelOptions,
+  DeleteDocumentModelOptions,
   ListModelsOptions,
   ListOperationsOptions,
   PollerOptions,

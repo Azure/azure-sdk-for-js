@@ -1,5 +1,17 @@
 # Release History
 
+## 1.1.1 (Unreleased)
+
+### Features Added
+
+- Update `delay` method to handle `abortSignal` functionality
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.1.0 (2022-09-01)
 
 ### Features Added
