@@ -78,6 +78,30 @@ export interface SchemaGetVersionsExceptionHeaders {
   xMsErrorCode?: string;
 }
 
+/** Defines headers for Schema_getSchemaVersion operation. */
+export interface SchemaGetSchemaVersionHeaders {
+  /** URL location of schema, identified by schema group, schema name, and version. */
+  location?: string;
+  /** The content type for given schema. Each schema type has an associated content-type. */
+  contentType?: string;
+  /** References specific schema in registry namespace. */
+  schemaId?: string;
+  /** URL location of schema, identified by schema ID. */
+  schemaIdLocation?: string;
+  /** References schema group. */
+  schemaGroupName?: string;
+  /** References schema name. */
+  schemaName?: string;
+  /** Version of the returned schema. */
+  schemaVersion?: number;
+}
+
+/** Defines headers for Schema_getSchemaVersion operation. */
+export interface SchemaGetSchemaVersionExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
 /** Defines headers for Schema_queryIdByContent operation. */
 export interface SchemaQueryIdByContentHeaders {
   /** URL location of schema, identified by schema group, schema name, and version. */
@@ -157,6 +181,28 @@ export interface SchemaGetVersionsOptionalParams
 
 /** Contains response data for the getVersions operation. */
 export type SchemaGetVersionsResponse = SchemaVersions;
+
+/** Optional parameters. */
+export interface SchemaGetSchemaVersionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSchemaVersion operation. */
+export type SchemaGetSchemaVersionResponse = SchemaGetSchemaVersionHeaders & {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+};
 
 /** Optional parameters. */
 export interface SchemaQueryIdByContentOptionalParams
