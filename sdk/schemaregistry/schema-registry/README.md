@@ -118,6 +118,19 @@ if (foundSchema) {
 }
 ```
 
+### Get definition of existing schema by version
+
+```javascript
+const { DefaultAzureCredential } = require("@azure/identity");
+const { SchemaRegistryClient } = require("@azure/schema-registry");
+
+const client = new SchemaRegistryClient("<fullyQualifiedNamespace>", new DefaultAzureCredential());
+const foundSchema = await client.getSchemaByVersion({ name:"<schema name>", groupName: "group name", version });
+if (foundSchema) {
+  console.log(`Got schema definition=${foundSchema.definition}`);
+}
+```
+
 ## Troubleshooting
 
 ### Logging
