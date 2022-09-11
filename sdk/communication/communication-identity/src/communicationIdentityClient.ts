@@ -99,7 +99,7 @@ export class CommunicationIdentityClient {
    *
    * @param user - The user whose tokens are being issued.
    * @param scopes - Scopes to include in the token.
-   * @param tokenExpirationInMinutes - Custom validity period of the Communication Identity access token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
+   * @param tokenExpirationInMinutesOrOptions - Custom validity period of the Communication Identity access token within [60,1440] minutes range or additional options for the request. If not provided, the default value of 1440 minutes (24 hours) will be used.
    * @param options - Additional options for the request.
    */
   public getToken(
@@ -170,7 +170,7 @@ export class CommunicationIdentityClient {
    * Creates a single user and a token simultaneously.
    *
    * @param scopes - Scopes to include in the token.
-   * @param tokenExpirationInMinutes - Custom validity period of the Communication Identity access token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
+   * @param tokenExpirationInMinutesOrOptions - Custom validity period of the Communication Identity access token within [60,1440] minutes range or additional options for the request. If not provided, the default value of 1440 minutes (24 hours) will be used.
    * @param options - Additional options for the request.
    */
   public createUserAndToken(
@@ -246,9 +246,7 @@ export class CommunicationIdentityClient {
     tokenExpirationInMinutesOrOptions: number | OperationOptions,
     options: OperationOptions
   ): CommunicationIdentityIssueAccessTokenOptionalParams {
-    let optionsWithTokenExpiration: CommunicationIdentityIssueAccessTokenOptionalParams = {};
-
-    optionsWithTokenExpiration = options;
+    let optionsWithTokenExpiration: CommunicationIdentityIssueAccessTokenOptionalParams = options;
 
     if (typeof tokenExpirationInMinutesOrOptions === "number") {
       optionsWithTokenExpiration.expiresInMinutes = tokenExpirationInMinutesOrOptions;
