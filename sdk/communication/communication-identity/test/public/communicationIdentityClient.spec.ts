@@ -34,9 +34,10 @@ matrix([[true, false]], async function (useAad: boolean) {
       }
     });
 
-    function isTokenExpirationValid(expectedTokenExpiration: number,
-      tokenExpiresAfter: Date):
-      boolean {
+    function isTokenExpirationValid(
+      expectedTokenExpiration: number,
+      tokenExpiresAfter: Date
+    ): boolean {
       const timeNow = Date.now();
       const expiration = tokenExpiresAfter.getTime();
       const tokenSeconds = (expiration - timeNow) / 1000;

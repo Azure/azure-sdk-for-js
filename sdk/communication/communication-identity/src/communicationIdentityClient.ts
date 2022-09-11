@@ -108,8 +108,8 @@ export class CommunicationIdentityClient {
     tokenExpirationInMinutesOrOptions: number | OperationOptions = {},
     options: OperationOptions = {}
   ): Promise<CommunicationAccessToken> {
-
-    const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams = this.parseTokenExpirationInMinutesOrOptions(tokenExpirationInMinutesOrOptions, options);
+    const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams =
+      this.parseTokenExpirationInMinutesOrOptions(tokenExpirationInMinutesOrOptions, options);
 
     return tracingClient.withSpan(
       "CommunicationIdentity-issueToken",
@@ -166,7 +166,7 @@ export class CommunicationIdentityClient {
     );
   }
 
-    /**
+  /**
    * Creates a single user and a token simultaneously.
    *
    * @param scopes - Scopes to include in the token.
@@ -178,7 +178,8 @@ export class CommunicationIdentityClient {
     tokenExpirationInMinutesOrOptions: number | OperationOptions = {},
     options: OperationOptions = {}
   ): Promise<CommunicationUserToken> {
-    const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams = this.parseTokenExpirationInMinutesOrOptions(tokenExpirationInMinutesOrOptions, options);
+    const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams =
+      this.parseTokenExpirationInMinutesOrOptions(tokenExpirationInMinutesOrOptions, options);
 
     return tracingClient.withSpan(
       "CommunicationIdentity-createUserAndToken",
@@ -244,19 +245,17 @@ export class CommunicationIdentityClient {
   private parseTokenExpirationInMinutesOrOptions(
     tokenExpirationInMinutesOrOptions: number | OperationOptions,
     options: OperationOptions
-    ): CommunicationIdentityIssueAccessTokenOptionalParams {
-      let optionsWithTokenExpiration: CommunicationIdentityIssueAccessTokenOptionalParams = {};
+  ): CommunicationIdentityIssueAccessTokenOptionalParams {
+    let optionsWithTokenExpiration: CommunicationIdentityIssueAccessTokenOptionalParams = {};
 
-      optionsWithTokenExpiration = options;
+    optionsWithTokenExpiration = options;
 
-      if (typeof tokenExpirationInMinutesOrOptions === "number") {
-        optionsWithTokenExpiration.expiresInMinutes = tokenExpirationInMinutesOrOptions;
-        return optionsWithTokenExpiration;
-      }
-      else 
-      {
-        optionsWithTokenExpiration.expiresInMinutes = undefined;
-        return optionsWithTokenExpiration;
-      }
+    if (typeof tokenExpirationInMinutesOrOptions === "number") {
+      optionsWithTokenExpiration.expiresInMinutes = tokenExpirationInMinutesOrOptions;
+      return optionsWithTokenExpiration;
+    } else {
+      optionsWithTokenExpiration.expiresInMinutes = undefined;
+      return optionsWithTokenExpiration;
+    }
   }
 }
