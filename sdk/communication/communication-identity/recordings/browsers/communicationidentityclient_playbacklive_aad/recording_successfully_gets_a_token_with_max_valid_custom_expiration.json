@@ -28,14 +28,14 @@
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01",
         "Content-Length": "31",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Sep 2022 13:35:28 GMT",
-        "MS-CV": "TiSkkaegRUuK3FTpAkeY5w.0",
+        "Date": "Sun, 11 Sep 2022 15:34:31 GMT",
+        "MS-CV": "nc5FU9KmBECGVxdE7540TA.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0IJ4YYwAAAADexXuJW\u002BXPT5I1p95/uiTNUFJHMDFFREdFMDkyMABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0BwAeYwAAAAAZGUjwIpHhQIT6ZbPAiiXrUFJHMDFFREdFMDkxMgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "32ms"
+        "X-Processing-Time": "35ms"
       },
       "ResponseBody": {
         "identity": {
@@ -74,20 +74,20 @@
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01",
-        "Content-Length": "68",
+        "Content-Length": "69",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Sep 2022 13:35:28 GMT",
-        "MS-CV": "NB1uub0IjEuKV66aCNlEVA.0",
+        "Date": "Sun, 11 Sep 2022 15:34:31 GMT",
+        "MS-CV": "N3K0kH1BF0y0F5uRIsrscA.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0IJ4YYwAAAADqdgCSQokDSbLUYy2S0A7sUFJHMDFFREdFMDkyMABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0BwAeYwAAAADU7bUZ5v6USrBXVWg51lN7UFJHMDFFREdFMDkxMgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "45ms"
+        "X-Processing-Time": "41ms"
       },
       "ResponseBody": {
         "token": "sanitized",
-        "expiresOn": "2022-09-08T13:35:28.887499\u002B00:00"
+        "expiresOn": "2022-09-12T15:34:31.7098811\u002B00:00"
       }
     }
   ],

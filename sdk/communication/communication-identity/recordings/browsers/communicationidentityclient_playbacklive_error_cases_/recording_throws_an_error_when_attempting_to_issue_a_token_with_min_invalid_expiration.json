@@ -21,7 +21,7 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 07 Sep 2022 13:35:40 GMT",
+        "x-ms-date": "Sun, 11 Sep 2022 15:34:45 GMT",
         "x-ms-useragent": "azsdk-js-communication-identity/1.2.0 core-rest-pipeline/1.9.1 OS/Win32"
       },
       "RequestBody": null,
@@ -30,14 +30,14 @@
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01",
         "Content-Length": "31",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Sep 2022 13:35:40 GMT",
-        "MS-CV": "JkI8BYnqFEqZHd\u002BpZ3NiuA.0",
+        "Date": "Sun, 11 Sep 2022 15:34:45 GMT",
+        "MS-CV": "z8FWTzGQdkGYU9P0C8ZLoA.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0LJ4YYwAAAACUFjDw2D0kRKsV4u6ZwiysUFJHMDFFREdFMDkyMABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0FQAeYwAAAADaT1LjpPFFTJQyvsh4wGNnUFJHMDFFREdFMDkxMgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "45ms"
+        "X-Processing-Time": "32ms"
       },
       "ResponseBody": {
         "identity": {
@@ -66,7 +66,7 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "ziPKEIOSpr7bTxKUMZz03S1PuMg2iw3ASqqVY9UTWBo=",
-        "x-ms-date": "Wed, 07 Sep 2022 13:35:41 GMT",
+        "x-ms-date": "Sun, 11 Sep 2022 15:34:45 GMT",
         "x-ms-useragent": "azsdk-js-communication-identity/1.2.0 core-rest-pipeline/1.9.1 OS/Win32"
       },
       "RequestBody": {
@@ -79,15 +79,15 @@
       "ResponseHeaders": {
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01",
         "Content-Type": "application/json",
-        "Date": "Wed, 07 Sep 2022 13:35:40 GMT",
-        "MS-CV": "dsDL2KsxWEWMV/imYxd7sw.0",
+        "Date": "Sun, 11 Sep 2022 15:34:45 GMT",
+        "MS-CV": "yuMAKzAxokWeqs/ZgRnb0w.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0LZ4YYwAAAABoUGFndybYR6xJXB3o3ZVHUFJHMDFFREdFMDkyMABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0FQAeYwAAAAALhVUmvlAgS6SpGWBAhembUFJHMDFFREdFMDkxMgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "29ms"
+        "X-Processing-Time": "36ms"
       },
       "ResponseBody": {
         "error": {

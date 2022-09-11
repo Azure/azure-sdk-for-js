@@ -5,7 +5,7 @@ import {
   CommunicationUserIdentifier,
   isCommunicationUserIdentifier,
 } from "@azure/communication-common";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   createRecordedCommunicationIdentityClient,
   createRecordedCommunicationIdentityClientWithToken,
@@ -34,6 +34,18 @@ matrix([[true, false]], async function (useAad: boolean) {
       }
     });
 
+    function isTokenExpirationValid(expectedTokenExpiration: number,
+      tokenExpiresAfter: Date):
+      boolean {
+      const timeNow = Date.now();
+      const expiration = tokenExpiresAfter.getTime();
+      const tokenSeconds = (expiration - timeNow) / 1000;
+      const expectedSeconds = expectedTokenExpiration * 60;
+      const timeDiff = Math.abs(expectedSeconds - tokenSeconds);
+      const allowedDiff = expectedSeconds * 0.05;
+      return timeDiff < allowedDiff;
+    }
+
     it("successfully creates a user", async function () {
       const user: CommunicationUserIdentifier = await client.createUser();
       assert.isString(user.communicationUserId);
@@ -61,16 +73,28 @@ matrix([[true, false]], async function (useAad: boolean) {
 
     it("successfully gets a token with min valid custom expiration", async function () {
       const user: CommunicationUserIdentifier = await client.createUser();
-      const { token, expiresOn } = await client.getToken(user, ["chat"], 60);
+      const expectedTokenExpiration: number = 60;
+      const { token, expiresOn } = await client.getToken(user, ["chat"], expectedTokenExpiration);
+
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
+      if (isLiveMode()) {
+        const isValid = isTokenExpirationValid(expectedTokenExpiration, expiresOn);
+        assert.isTrue(isValid);
+      }
     });
 
     it("successfully gets a token with max valid custom expiration", async function () {
       const user: CommunicationUserIdentifier = await client.createUser();
-      const { token, expiresOn } = await client.getToken(user, ["chat"], 1440);
+      const expectedTokenExpiration: number = 1440;
+      const { token, expiresOn } = await client.getToken(user, ["chat"], expectedTokenExpiration);
+
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
+      if (isLiveMode()) {
+        const isValid = isTokenExpirationValid(expectedTokenExpiration, expiresOn);
+        assert.isTrue(isValid);
+      }
     });
 
     it("successfully creates a user and gets a token in a single request", async function () {

@@ -22,11 +22,9 @@ export class CommunicationIdentityClient {
     constructor(endpoint: string, credential: KeyCredential, options?: CommunicationIdentityClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: CommunicationIdentityClientOptions);
     createUser(options?: OperationOptions): Promise<CommunicationUserIdentifier>;
-    createUserAndToken(scopes: TokenScope[], tokenExpirationInMinutes?: number, options?: OperationOptions): Promise<CommunicationUserToken>;
-    createUserAndToken(scopes: TokenScope[], options?: OperationOptions): Promise<CommunicationUserToken>;
+    createUserAndToken(scopes: TokenScope[], tokenExpirationInMinutesOrOptions?: number | OperationOptions, options?: OperationOptions): Promise<CommunicationUserToken>;
     deleteUser(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<void>;
-    getToken(user: CommunicationUserIdentifier, scopes: TokenScope[], tokenExpirationInMinutes?: number, options?: OperationOptions): Promise<CommunicationAccessToken>;
-    getToken(user: CommunicationUserIdentifier, scopes: TokenScope[], options?: OperationOptions): Promise<CommunicationAccessToken>;
+    getToken(user: CommunicationUserIdentifier, scopes: TokenScope[], tokenExpirationInMinutesOrOptions?: number | OperationOptions, options?: OperationOptions): Promise<CommunicationAccessToken>;
     getTokenForTeamsUser(options: GetTokenForTeamsUserOptions): Promise<CommunicationAccessToken>;
     revokeTokens(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<void>;
 }

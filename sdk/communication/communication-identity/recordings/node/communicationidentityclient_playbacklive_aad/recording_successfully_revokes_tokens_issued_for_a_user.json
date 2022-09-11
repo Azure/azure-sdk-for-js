@@ -22,16 +22,16 @@
       "StatusCode": 201,
       "ResponseHeaders": {
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01",
-        "Content-Length": "114",
+        "Content-Length": "115",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Sep 2022 13:34:45 GMT",
-        "MS-CV": "BPfDkDyZIkWmGaN6jeHbqQ.0",
+        "Date": "Sun, 11 Sep 2022 15:33:43 GMT",
+        "MS-CV": "ABwB3zY0HE\u002BWn/mXpvx\u002Bbg.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "09Z0YYwAAAACqMLVjW2d9SKaOV94zr/QCUFJHMDFFREdFMDkwOQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "01/8dYwAAAAACate9Kx4fT69My6IEUa/QUFJHMDFFREdFMDkxOQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "76ms"
+        "X-Processing-Time": "50ms"
       },
       "ResponseBody": {
         "identity": {
@@ -39,7 +39,7 @@
         },
         "accessToken": {
           "token": "sanitized",
-          "expiresOn": "2022-09-08T13:34:45.951777\u002B00:00"
+          "expiresOn": "2022-09-12T15:33:43.7518614\u002B00:00"
         }
       }
     },
@@ -59,14 +59,14 @@
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01",
-        "Date": "Wed, 07 Sep 2022 13:34:45 GMT",
-        "MS-CV": "orzVDDxxm0irg7OSFrGP9Q.0",
+        "Date": "Sun, 11 Sep 2022 15:33:43 GMT",
+        "MS-CV": "pggMDIe870yIyJg4llxPOw.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "09p0YYwAAAAAVsJe08sIsSaID4JV2BLN/UFJHMDFFREdFMDkwOQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "01/8dYwAAAADWKtXFp019SKcB8NGuam2\u002BUFJHMDFFREdFMDkxOQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "133ms"
+        "X-Processing-Time": "299ms"
       },
       "ResponseBody": null
     }

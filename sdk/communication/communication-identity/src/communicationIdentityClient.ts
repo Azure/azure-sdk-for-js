@@ -105,28 +105,8 @@ export class CommunicationIdentityClient {
   public getToken(
     user: CommunicationUserIdentifier,
     scopes: TokenScope[],
-    tokenExpirationInMinutes?: number,
-    options?: OperationOptions
-  ): Promise<CommunicationAccessToken>;
-
-  /**
-   * Creates a scoped user token.
-   *
-   * @param user - The user whose tokens are being issued.
-   * @param scopes - Scopes to include in the token.
-   * @param options - Additional options for the request.
-   */
-  public getToken(
-    user: CommunicationUserIdentifier,
-    scopes: TokenScope[],
-    options?: OperationOptions
-  ): Promise<CommunicationAccessToken>;
-
-  public getToken(
-    user: CommunicationUserIdentifier,
-    scopes: TokenScope[],
-    tokenExpirationInMinutesOrOptions?: number | OperationOptions,
-    options?: OperationOptions
+    tokenExpirationInMinutesOrOptions: number | OperationOptions = {},
+    options: OperationOptions = {}
   ): Promise<CommunicationAccessToken> {
 
     const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams = this.parseTokenExpirationInMinutesOrOptions(tokenExpirationInMinutesOrOptions, options);
@@ -186,7 +166,7 @@ export class CommunicationIdentityClient {
     );
   }
 
-  /**
+    /**
    * Creates a single user and a token simultaneously.
    *
    * @param scopes - Scopes to include in the token.
@@ -195,25 +175,8 @@ export class CommunicationIdentityClient {
    */
   public createUserAndToken(
     scopes: TokenScope[],
-    tokenExpirationInMinutes?: number,
-    options?: OperationOptions
-  ): Promise<CommunicationUserToken>;
-
-  /**
-   * Creates a single user and a token simultaneously.
-   *
-   * @param scopes - Scopes to include in the token.
-   * @param options - Additional options for the request.
-   */
-  public createUserAndToken(
-    scopes: TokenScope[],
-    options?: OperationOptions
-  ): Promise<CommunicationUserToken>;
-
-  public createUserAndToken(
-    scopes: TokenScope[],
-    tokenExpirationInMinutesOrOptions?: number | OperationOptions,
-    options?: OperationOptions
+    tokenExpirationInMinutesOrOptions: number | OperationOptions = {},
+    options: OperationOptions = {}
   ): Promise<CommunicationUserToken> {
     const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams = this.parseTokenExpirationInMinutesOrOptions(tokenExpirationInMinutesOrOptions, options);
 
@@ -279,15 +242,14 @@ export class CommunicationIdentityClient {
   }
 
   private parseTokenExpirationInMinutesOrOptions(
-    tokenExpirationInMinutesOrOptions?: number | OperationOptions,
-    options?: OperationOptions
+    tokenExpirationInMinutesOrOptions: number | OperationOptions,
+    options: OperationOptions
     ): CommunicationIdentityIssueAccessTokenOptionalParams {
       let optionsWithTokenExpiration: CommunicationIdentityIssueAccessTokenOptionalParams = {};
 
-      if (options) {
-        optionsWithTokenExpiration = options; 
-      }
-      if (tokenExpirationInMinutesOrOptions && typeof tokenExpirationInMinutesOrOptions === "number") {
+      optionsWithTokenExpiration = options;
+
+      if (typeof tokenExpirationInMinutesOrOptions === "number") {
         optionsWithTokenExpiration.expiresInMinutes = tokenExpirationInMinutesOrOptions;
         return optionsWithTokenExpiration;
       }

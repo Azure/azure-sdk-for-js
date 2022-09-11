@@ -24,14 +24,14 @@
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01",
         "Content-Length": "115",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Sep 2022 13:34:44 GMT",
-        "MS-CV": "mXh\u002B/O0XtECwVjdv0Xr7uw.0",
+        "Date": "Sun, 11 Sep 2022 15:33:42 GMT",
+        "MS-CV": "5QHVQzmqYkiF9uN3Vjxr2Q.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "09J0YYwAAAABpOnuSNekPRqYECy9DeaECUFJHMDFFREdFMDkwOQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "01v8dYwAAAADWcyTdGszxR46mGdEqrkqVUFJHMDFFREdFMDkxOQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "40ms"
+        "X-Processing-Time": "39ms"
       },
       "ResponseBody": {
         "identity": {
@@ -39,7 +39,7 @@
         },
         "accessToken": {
           "token": "sanitized",
-          "expiresOn": "2022-09-08T13:34:44.5049356\u002B00:00"
+          "expiresOn": "2022-09-12T15:33:42.4259419\u002B00:00"
         }
       }
     }
