@@ -165,6 +165,21 @@ describe("Challenge based authentication tests", function () {
       );
     });
 
+    it("does not throw if the resource URI matches the request", async () => {
+      await challengeCallbacks.authorizeRequestOnChallenge!({
+        getAccessToken: () => Promise.resolve(null),
+        request: createPipelineRequest({ url: "https://myvault.vault.azure.net" }),
+        response: {
+          headers: createHttpHeaders({
+            "WWW-Authenticate": `Bearer resource="https://vault.azure.net"`,
+          }),
+          request,
+          status: 200,
+        },
+        scopes: [],
+      });
+    });
+
     it("does not throw if the resource URI host does not match the request but verifyChallengeResource is false", async () => {
       challengeCallbacks = createChallengeCallbacks(false);
       await challengeCallbacks.authorizeRequestOnChallenge!({
