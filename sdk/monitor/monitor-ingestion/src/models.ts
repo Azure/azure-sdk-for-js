@@ -33,7 +33,7 @@ export interface UploadLogsError {
   /**
    * Error for failed logs
    */
-  responseError: Error;
+  cause: Error;
 }
 
 /**

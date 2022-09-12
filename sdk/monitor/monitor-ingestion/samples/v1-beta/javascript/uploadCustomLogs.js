@@ -31,7 +31,7 @@ async function main() {
   if (result.uploadStatus !== "Success") {
     console.log("Some logs have failed to complete ingestion. Upload status=", result.uploadStatus);
     for (const errors of result.errors) {
-      console.log(`Error - ${JSON.stringify(errors.responseError)}`);
+      console.log(`Error - ${JSON.stringify(errors.cause)}`);
       console.log(`Log - ${JSON.stringify(errors.failedLogs)}`);
     }
   }

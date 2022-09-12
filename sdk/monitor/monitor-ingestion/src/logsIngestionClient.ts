@@ -80,7 +80,7 @@ export class LogsIngestionClient {
         });
       } catch (e: any) {
         uploadResultErrors.push({
-          responseError: e,
+          cause: e,
           failedLogs: eachChunk,
         });
       }

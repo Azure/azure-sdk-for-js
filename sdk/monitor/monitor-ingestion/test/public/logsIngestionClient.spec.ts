@@ -106,7 +106,7 @@ describe("LogsIngestionClient live tests", function () {
     if (result.uploadStatus !== "Success") {
       result.errors.forEach((err) => {
         assert.equal(
-          err.responseError.message,
+          err.cause.message,
           `Data collection rule with immutable Id 'fake-id' not found.`
         );
       });
@@ -132,7 +132,7 @@ describe("LogsIngestionClient live tests", function () {
     if (result.uploadStatus !== "Success") {
       result.errors.forEach((err) => {
         assert.equal(
-          err.responseError.message,
+          err.cause.message,
           `Data collection rule with immutable Id 'immutable-id-123' not found.`
         );
       });

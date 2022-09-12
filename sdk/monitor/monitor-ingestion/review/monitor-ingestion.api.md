@@ -20,8 +20,8 @@ export interface LogsIngestionClientOptions extends CommonClientOptions {
 
 // @public
 export interface UploadLogsError {
+    cause: Error;
     failedLogs: Record<string, unknown>[];
-    responseError: Error;
 }
 
 // @public

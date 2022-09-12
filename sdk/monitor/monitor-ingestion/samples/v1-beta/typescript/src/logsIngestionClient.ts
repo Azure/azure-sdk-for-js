@@ -26,7 +26,7 @@ export async function main() {
   } else {
     console.log("Some logs have failed to complete ingestion");
     for (const errors of result.errors) {
-      console.log(`Error - ${JSON.stringify(errors.responseError)}`);
+      console.log(`Error - ${JSON.stringify(errors.cause)}`);
       console.log(`Log - ${JSON.stringify(errors.failedLogs)}`);
     }
   }
