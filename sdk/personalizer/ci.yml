@@ -20,7 +20,7 @@ pr:
       - feature/v4
   paths:
     include:
-      - sdk/personalizer/ai-personalizer-rest/
+      - sdk/personalizer/
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
