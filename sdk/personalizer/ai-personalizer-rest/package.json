@@ -29,9 +29,7 @@
     "dist-esm/src/",
     "types/ai-personalizer.d.ts",
     "README.md",
-    "LICENSE",
-    "review/*",
-    "CHANGELOG.md"
+    "LICENSE"
   ],
   "//metadata": {
     "constantPaths": [
