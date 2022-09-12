@@ -27,5 +27,5 @@ extends:
   parameters:
     ServiceDirectory: personalizer
     Artifacts:
-      - name: azure-ai-personalizer
-        safeName: azureaipersonalizer       
+      - name: azure-rest-ai-personalizer
+        safeName: azurerestaipersonalizer       
