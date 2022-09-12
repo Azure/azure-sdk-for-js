@@ -246,7 +246,7 @@ export class CommunicationIdentityClient {
     tokenExpirationInMinutesOrOptions: number | OperationOptions,
     options: OperationOptions
   ): CommunicationIdentityIssueAccessTokenOptionalParams {
-    let optionsWithTokenExpiration: CommunicationIdentityIssueAccessTokenOptionalParams = options;
+    const optionsWithTokenExpiration: CommunicationIdentityIssueAccessTokenOptionalParams = options;
 
     if (typeof tokenExpirationInMinutesOrOptions === "number") {
       optionsWithTokenExpiration.expiresInMinutes = tokenExpirationInMinutesOrOptions;
