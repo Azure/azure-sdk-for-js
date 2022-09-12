@@ -125,7 +125,9 @@ describe("Local cryptography public tests", () => {
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
-    const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
+    const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential, {
+      verifyChallengeResource: isLiveMode(),
+    });
 
     const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
     const text = Buffer.from(this.test!.title);
@@ -142,7 +144,9 @@ describe("Local cryptography public tests", () => {
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
-    const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
+    const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential, {
+      verifyChallengeResource: isLiveMode(),
+    });
 
     const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
     const text = Buffer.from(this.test!.title);
@@ -159,7 +163,9 @@ describe("Local cryptography public tests", () => {
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
-    const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
+    const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential, {
+      verifyChallengeResource: isLiveMode(),
+    });
 
     const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
     const data = Buffer.from("arepa");
@@ -179,7 +185,9 @@ describe("Local cryptography public tests", () => {
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
-    const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
+    const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential, {
+      verifyChallengeResource: isLiveMode(),
+    });
 
     const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
     const data = Buffer.from("arepa");
@@ -210,7 +218,7 @@ describe("Local cryptography public tests", () => {
         const cryptoClient = new CryptographyClient(
           keyVaultKey.id!,
           credential,
-          recorder.configureClientOptions({})
+          recorder.configureClientOptions({ verifyChallengeResource: isLiveMode() })
         );
 
         // Sign is not implemented yet.

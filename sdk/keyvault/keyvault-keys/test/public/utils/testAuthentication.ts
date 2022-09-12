@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { KeyClient } from "../../../src";
-import { Recorder, env, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { Recorder, env, assertEnvironmentVariable, isLiveMode } from "@azure-tools/test-recorder";
 import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -76,6 +76,7 @@ export async function authenticate(version: string, recorder: Recorder): Promise
     credential,
     recorder.configureClientOptions({
       serviceVersion: version,
+      verifyChallengeResource: isLiveMode(),
     })
   );
   const testClient = new TestClient(client);
@@ -85,7 +86,9 @@ export async function authenticate(version: string, recorder: Recorder): Promise
     hsmClient = new KeyClient(
       env.AZURE_MANAGEDHSM_URI,
       credential,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({
+        verifyChallengeResource: isLiveMode(),
+      })
     );
   }
 

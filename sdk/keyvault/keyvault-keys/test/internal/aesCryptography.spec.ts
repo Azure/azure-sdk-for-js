@@ -15,7 +15,7 @@ import { isNode } from "@azure/core-util";
 import { AesCryptographyProvider } from "../../src/cryptography/aesCryptographyProvider";
 import TestClient from "../public/utils/testClient";
 import { authenticate, envSetupForPlayback } from "../public/utils/testAuthentication";
-import { Recorder, env } from "@azure-tools/test-recorder";
+import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider";
 import { ClientSecretCredential } from "@azure/identity";
 import { getServiceVersion } from "../public/utils/common";
@@ -162,7 +162,7 @@ describe("AesCryptographyProvider internal tests", function () {
           remoteProvider = new RemoteCryptographyProvider(
             keyVaultKey,
             credential,
-            recorder.configureClientOptions({})
+            recorder.configureClientOptions({ verifyChallengeResource: isLiveMode() })
           );
 
           const text = this.test!.title;
@@ -188,7 +188,7 @@ describe("AesCryptographyProvider internal tests", function () {
           remoteProvider = new RemoteCryptographyProvider(
             keyVaultKey,
             credential,
-            recorder.configureClientOptions({})
+            recorder.configureClientOptions({ verifyChallengeResource: isLiveMode() })
           );
 
           const text = this.test!.title;
