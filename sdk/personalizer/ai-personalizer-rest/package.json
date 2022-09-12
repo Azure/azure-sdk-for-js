@@ -30,7 +30,8 @@
     "types/ai-personalizer.d.ts",
     "README.md",
     "LICENSE",
-    "review/*"
+    "review/*",
+    "CHANGELOG.md"
   ],
   "//metadata": {
     "constantPaths": [
