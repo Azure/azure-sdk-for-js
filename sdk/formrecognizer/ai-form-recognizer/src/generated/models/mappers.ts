@@ -135,14 +135,14 @@ export const AnalyzeResultOperation: coreClient.CompositeMapper = {
           allowedValues: ["notStarted", "running", "failed", "succeeded"]
         }
       },
-      createdDateTime: {
+      createdOn: {
         serializedName: "createdDateTime",
         required: true,
         type: {
           name: "DateTime"
         }
       },
-      lastUpdatedDateTime: {
+      lastUpdatedOn: {
         serializedName: "lastUpdatedDateTime",
         required: true,
         type: {
@@ -1525,14 +1525,14 @@ export const OperationSummary: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
-      createdDateTime: {
+      createdOn: {
         serializedName: "createdDateTime",
         required: true,
         type: {
           name: "DateTime"
         }
       },
-      lastUpdatedDateTime: {
+      lastUpdatedOn: {
         serializedName: "lastUpdatedDateTime",
         required: true,
         type: {
@@ -1611,14 +1611,14 @@ export const OperationDetails: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
-      createdDateTime: {
+      createdOn: {
         serializedName: "createdDateTime",
         required: true,
         type: {
           name: "DateTime"
         }
       },
-      lastUpdatedDateTime: {
+      lastUpdatedOn: {
         serializedName: "lastUpdatedDateTime",
         required: true,
         type: {
@@ -1715,7 +1715,7 @@ export const DocumentModelSummary: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      createdDateTime: {
+      createdOn: {
         serializedName: "createdDateTime",
         required: true,
         type: {
@@ -1763,7 +1763,7 @@ export const DocumentModelDetails: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      createdDateTime: {
+      createdOn: {
         serializedName: "createdDateTime",
         required: true,
         type: {

@@ -26,7 +26,7 @@ import {
 import { lro } from "./lro/util/poller";
 import {
   BeginCopyModelOptions,
-  DeleteModelOptions,
+  DeleteDocumentModelOptions,
   DocumentModelAdministrationClientOptions,
   GetCopyAuthorizationOptions,
   GetResourceDetailsOptions,
@@ -36,8 +36,8 @@ import {
   ListOperationsOptions,
 } from "./options";
 import {
-  BeginBuildModelOptions,
-  BeginComposeModelOptions,
+  BeginBuildDocumentModelOptions,
+  BeginComposeDocumentModelOptions,
   DocumentModelBuildMode,
 } from "./options/BuildModelOptions";
 import { Mappers, SERIALIZER, makeServiceClient } from "./util";
@@ -168,7 +168,7 @@ export class DocumentModelAdministrationClient {
    * const modelId = "aNewModel";
    * const containerUrl = "<training data container SAS URL>";
    *
-   * const poller = await client.beginBuildModel(modelId, containerUrl, {
+   * const poller = await client.beginBuildDocumentModel(modelId, containerUrl, {
    *   // Optionally, a text description may be attached to the model
    *   description: "This is an example model!"
    * });
@@ -180,7 +180,7 @@ export class DocumentModelAdministrationClient {
    * const {
    *   modelId, // identical to the modelId given when creating the model
    *   description, // identical to the description given when creating the model
-   *   createdDateTime, // the Date (timestamp) that the model was created
+   *   createdOn, // the Date (timestamp) that the model was created
    *   docTypes // information about the document types in the model and their field schemas
    * } = modelDetails;
    * ```
@@ -191,14 +191,14 @@ export class DocumentModelAdministrationClient {
    * @param options - optional settings for the model build operation
    * @returns a long-running operation (poller) that will eventually produce the created model information or an error
    */
-  public async beginBuildModel(
+  public async beginBuildDocumentModel(
     modelId: string,
     containerUrl: string,
     buildMode: DocumentModelBuildMode,
-    options: BeginBuildModelOptions = {}
+    options: BeginBuildDocumentModelOptions = {}
   ): Promise<DocumentModelPoller> {
     return this._tracing.withSpan(
-      "DocumentModelAdministrationClient.beginBuildModel",
+      "DocumentModelAdministrationClient.beginBuildDocumentModel",
       options,
       (finalOptions) =>
         this.createDocumentModelPoller({
@@ -237,7 +237,7 @@ export class DocumentModelAdministrationClient {
    *
    * // The resulting composed model can classify and extract data from documents
    * // conforming to any of the above document types
-   * const poller = await client.beginComposeModel(modelId, subModelIds, {
+   * const poller = await client.beginComposeDocumentModel(modelId, subModelIds, {
    *   description: "This is a composed model that can handle several document types."
    * });
    *
@@ -248,7 +248,7 @@ export class DocumentModelAdministrationClient {
    * const {
    *   modelId, // identical to the modelId given when creating the model
    *   description, // identical to the description given when creating the model
-   *   createdDateTime, // the Date (timestamp) that the model was created
+   *   createdOn, // the Date (timestamp) that the model was created
    *   docTypes // information about the document types of the composed submodels
    * } = modelDetails;
    * ```
@@ -258,13 +258,13 @@ export class DocumentModelAdministrationClient {
    * @param options - optional settings for model creation
    * @returns a long-running operation (poller) that will eventually produce the created model information or an error
    */
-  public async beginComposeModel(
+  public async beginComposeDocumentModel(
     modelId: string,
     componentModelIds: Iterable<string>,
-    options: BeginComposeModelOptions = {}
+    options: BeginComposeDocumentModelOptions = {}
   ): Promise<DocumentModelPoller> {
     return this._tracing.withSpan(
-      "DocumentModelAdministrationClient.beginComposeModel",
+      "DocumentModelAdministrationClient.beginComposeDocumentModel",
       options,
       (finalOptions) =>
         this.createDocumentModelPoller({
@@ -349,7 +349,7 @@ export class DocumentModelAdministrationClient {
    * const {
    *   modelId, // identical to the modelId given when creating the copy authorization
    *   description, // identical to the description given when creating the copy authorization
-   *   createdDateTime, // the Date (timestamp) that the model was created
+   *   createdOn, // the Date (timestamp) that the model was created
    *   docTypes // information about the document types of the model (identical to the original, source model)
    * } = modelDetails;
    * ```
@@ -515,7 +515,7 @@ export class DocumentModelAdministrationClient {
    * const {
    *   modelId, // identical to the modelId given when calling `getDocumentModel`
    *   description, // a textual description of the model, if provided during model creation
-   *   createdDateTime, // the Date (timestamp) that the model was created
+   *   createdOn, // the Date (timestamp) that the model was created
    *   // information about the document types in the model and their field schemas
    *   docTypes: {
    *     // the document type of the prebuilt business card model
@@ -628,8 +628,8 @@ export class DocumentModelAdministrationClient {
    *   kind, // the operation kind, one of "documentModelBuild", "documentModelCompose", or "documentModelCopyTo"
    *   status, // the status of the operation, one of "notStarted", "running", "failed", "succeeded", or "canceled"
    *   percentCompleted, // a number between 0 and 100 representing the progress of the operation
-   *   createdDateTime, // a Date object that reflects the time when the operation was started
-   *   lastUpdatedDateTime, // a Date object that reflects the time when the operation state was last modified
+   *   createdOn, // a Date object that reflects the time when the operation was started
+   *   lastUpdatedOn, // a Date object that reflects the time when the operation state was last modified
    * } = await client.getOperation(operationId);
    * ```
    */
@@ -701,7 +701,10 @@ export class DocumentModelAdministrationClient {
    * @param modelId - the unique ID of the model to delete from the resource
    * @param options - optional settings for the request
    */
-  public deleteModel(modelId: string, options: DeleteModelOptions = {}): Promise<void> {
+  public deleteDocumentModel(
+    modelId: string,
+    options: DeleteDocumentModelOptions = {}
+  ): Promise<void> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.deleteDocumentModel",
       options,

@@ -12,13 +12,15 @@ urlFragment: communication-phone-numbers-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Communication Services - Phone Numbers in some common scenarios.
 
-| **File Name**                                                     | **Description**                                       |
-| ----------------------------------------------------------------- | ----------------------------------------------------- |
-| [getPurchasedPhoneNumber.ts][getpurchasedphonenumber]             | Get a purchased phone number.                         |
-| [getPurchasedPhoneNumbers.ts][getpurchasedphonenumbers]           | Get a list of all purchased phone numbers.            |
-| [purchasePhoneNumber.ts][purchasephonenumber]                     | Search for a toll-free phone number then purchase it. |
-| [releasePhoneNumber.ts][releasephonenumber]                       | Release a purchased phone number.                     |
-| [updatePhoneNumberCapabilities.ts][updatephonenumbercapabilities] | Update the capabilities of a purchased phone number.  |
+| **File Name**                                                                | **Description**                                       |
+| ---------------------------------------------------------------------------- | ----------------------------------------------------- |
+| [getPurchasedPhoneNumber.ts][getpurchasedphonenumber]                        | Get a purchased phone number.                         |
+| [getPurchasedPhoneNumbers.ts][getpurchasedphonenumbers]                      | Get a list of all purchased phone numbers.            |
+| [purchasePhoneNumber.ts][purchasephonenumber]                                | Search for a toll-free phone number then purchase it. |
+| [releasePhoneNumber.ts][releasephonenumber]                                  | Release a purchased phone number.                     |
+| [updatePhoneNumberCapabilities.ts][updatephonenumbercapabilities]            | Update the capabilities of a purchased phone number.  |
+| [siprouting/getSipRoutingConfiguration.js][getsiproutingconfiguration]       | Get SIP trunks and call routing routes.               |
+| [siprouting/manageSipRoutingConfiguration.js][managesiproutingconfiguration] | Manage SIP trunks and call routing routes.            |
 
 ## Prerequisites
 
@@ -77,6 +79,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [purchasephonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-phone-numbers/samples/v1/typescript/src/purchasePhoneNumber.ts
 [releasephonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-phone-numbers/samples/v1/typescript/src/releasePhoneNumber.ts
 [updatephonenumbercapabilities]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-phone-numbers/samples/v1/typescript/src/updatePhoneNumberCapabilities.ts
+[getsiproutingconfiguration]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-phone-numbers/samples/v1/javascript/siprouting/getSipRoutingConfiguration.js
+[managesiproutingconfiguration]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-phone-numbers/samples/v1/javascript/siprouting/manageSipRoutingConfiguration.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-phone-numbers
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
