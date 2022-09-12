@@ -161,7 +161,7 @@ describe("Challenge based authentication tests", function () {
           },
           scopes: [],
         }),
-        "Challenge resource host 'vault.azure.net' does not match request host 'foo.bar'"
+        "Challenge resource host 'vault.azure.net' does not match request domain"
       );
     });
 
