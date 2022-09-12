@@ -25,7 +25,7 @@ export interface CertificateClientOptions extends ExtendedCommonClientOptions {
   serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3";
 
   /**
-   * Whether to verify the authentication challenge resource matches the Key Vault or Managed HSM domain. The default is true.
+   * Whether to verify the authentication challenge resource matches the Key Vault domain. The default is true.
    */
   verifyChallengeResource?: boolean;
 }
