@@ -5,18 +5,15 @@
 
 import "./env";
 
-import FarmBeats, { FarmBeatsRestClient } from "../../../src";
+import FarmBeats, { FarmBeatsClient } from "../../../src";
 import {
   Recorder,
   RecorderEnvironmentSetup,
   env,
-  isLiveMode,
   record,
 } from "@azure-tools/test-recorder";
-import { createXhrHttpClient, isNode } from "@azure/test-utils";
-
+import { createTestCredential } from "@azure-tools/test-credential";
 import { ClientOptions } from "@azure-rest/core-client";
-import { ClientSecretCredential } from "@azure/identity";
 import { Context } from "mocha";
 
 const replaceableVariables: { [k: string]: string } = {
@@ -43,16 +40,10 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: [],
 };
 
-export function createClient(options?: ClientOptions): FarmBeatsRestClient {
-  const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
-  const credential = new ClientSecretCredential(
-    env.AZURE_TENANT_ID,
-    env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET,
-    { httpClient }
-  );
+export function createClient(options?: ClientOptions): FarmBeatsClient {
+  const credential = createTestCredential();
 
-  return FarmBeats(env.FARMBEATS_ENDPOINT, credential, { ...options, httpClient });
+  return FarmBeats(env.FARMBEATS_ENDPOINT, credential, { ...options });
 }
 
 /**

@@ -8,7 +8,7 @@
  * @azsdk-weight 10
  */
 
-import FarmBeats from "@azure-rest/agrifood-farming";
+import FarmBeats, { FarmerOutput } from "@azure-rest/agrifood-farming";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -34,7 +34,8 @@ async function main() {
     throw result.body.error;
   }
 
-  console.log(`Created Farmer: ${result.body.name}`);
+  const farmer = <FarmerOutput>result.body;
+  console.log(`Created Farmer: ${farmer.name}`);
 }
 
 main().catch(console.error);

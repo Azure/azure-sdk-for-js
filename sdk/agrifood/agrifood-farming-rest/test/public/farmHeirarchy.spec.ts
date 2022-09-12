@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { FarmBeatsRestClient, getLongRunningPoller } from "../../src";
+import { FarmBeatsClient, getLongRunningPoller, SatelliteDataIngestionJobOutput, SceneListResponseOutput } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
 import { Context } from "mocha";
@@ -23,7 +23,7 @@ const testFarmer = {
 
 describe("Farmer Operations", () => {
   let recorder: Recorder;
-  let client: FarmBeatsRestClient;
+  let client: FarmBeatsClient;
 
   beforeEach(function (this: Context) {
     recorder = createRecorder(this);
@@ -111,10 +111,11 @@ describe("Farmer Operations", () => {
     const poller = getLongRunningPoller(client, initialResponse);
     const result = await poller.pollUntilDone();
 
-    assert.equal(result.body.boundaryId, boundaryId);
+    const jobOutput = <SatelliteDataIngestionJobOutput>result.body;
+    assert.equal(jobOutput.boundaryId, boundaryId);
   });
 
-  it("should get corresponding scenes", async () => {
+  it.skip("should get corresponding scenes", async () => {
     const result = await client.path("/scenes").get({
       queryParameters: {
         farmerId,
@@ -132,7 +133,9 @@ describe("Farmer Operations", () => {
     if (result.status !== "200") {
       throw new Error(`Unexpected status ${result.status}`);
     }
-
-    assert.ok(result.body.value?.length, "Expected to list scenes, but got nothing");
+    else {
+      const scenes = <SceneListResponseOutput>result.body;
+      assert.ok(scenes.value?.length, "Expected to list scenes, but got nothing");
+    }
   });
 });

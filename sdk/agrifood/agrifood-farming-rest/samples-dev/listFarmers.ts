@@ -8,7 +8,7 @@
  * @azsdk-weight 20
  */
 
-import FarmBeats, { paginate } from "@azure-rest/agrifood-farming";
+import FarmBeats, { ErrorResponseOutput, FarmerOutput, paginate } from "@azure-rest/agrifood-farming";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -21,14 +21,16 @@ async function main() {
   const response = await farming.path("/farmers").get();
 
   if (response.status !== "200") {
-    throw response.body.error || new Error(`Unexpected status code ${response.status}`);
+    const error = <ErrorResponseOutput>response.body;
+    throw error.error || new Error(`Unexpected status code ${response.status}`);
   }
 
   const farmers = paginate(farming, response);
 
   // Lof each farmer id
   for await (const farmer of farmers) {
-    console.log(farmer.id);
+    const farmerOutput = <FarmerOutput>farmer;
+    console.log(farmerOutput.id);
   }
 }
 
