@@ -1,6 +1,6 @@
 # Release History
 
-## 4.3.0 (2022-09-12)
+## 4.3.0 (2022-09-20)
 
 ### Breaking Changes
 
