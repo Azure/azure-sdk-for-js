@@ -178,9 +178,13 @@ export const imdsMsi: MSI = {
   ): Promise<AccessToken | null> {
     const { identityClient, scopes, clientId, resourceId } = configuration;
 
-    logger.info(
-      `${msiName}: Using the Azure IMDS endpoint coming from the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
-    );
+    if (process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST) {
+      logger.info(
+        `${msiName}: Using the Azure IMDS endpoint coming from the environment variable AZURE_POD_IDENTITY_AUTHORITY_HOST=${process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST}.`
+      );
+    } else {
+      logger.info(`${msiName}: Using the default Azure IMDS endpoint ${imdsHost}.`);
+    }
 
     let nextDelayInMs = imdsMsiRetryConfig.startDelayInMs;
     for (let retries = 0; retries < imdsMsiRetryConfig.maxRetries; retries++) {
