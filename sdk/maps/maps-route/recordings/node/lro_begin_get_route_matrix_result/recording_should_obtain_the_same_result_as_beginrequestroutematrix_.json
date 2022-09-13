@@ -5,22 +5,13 @@
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Content-Length": "179",
         "Content-Type": "application/json",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "b0946634-8611-40a0-8be9-0c472b1ea944",
-        "x-ms-useragent": "azsdk-js-maps-route/1.0.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+        "User-Agent": "azsdk-js-maps-route/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1089-azure)",
+        "x-ms-client-request-id": "bc63e89c-390c-4a1b-bd51-fcde2b52e476"
       },
       "RequestBody": {
         "origins": {
@@ -54,43 +45,34 @@
       "ResponseHeaders": {
         "Content-Length": "0",
         "Content-Type": "application/json",
-        "Date": "Tue, 13 Sep 2022 09:34:37 GMT",
-        "Location": "https://atlas.microsoft.com/route/matrix/db2c07fd-391b-408d-8703-1bf46dfe97f6?api-version=1.0",
+        "Date": "Tue, 13 Sep 2022 09:34:24 GMT",
+        "Location": "https://atlas.microsoft.com/route/matrix/e7afa37f-2346-4eec-9a13-2990d41722d9?api-version=1.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: 2298939316A84724B6E136F32923CD35 Ref B: SIN30EDGE0512 Ref C: 2022-09-13T09:34:36Z"
+        "X-MSEdge-Ref": "Ref A: F9AFC7B3EB074AA7AF936D7B1CD03A3C Ref B: SG1EDGE0114 Ref C: 2022-09-13T09:34:23Z"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://atlas.microsoft.com/route/matrix/db2c07fd-391b-408d-8703-1bf46dfe97f6?api-version=1.0\u0026vehicleAxleWeight=0\u0026vehicleLength=0\u0026vehicleHeight=0\u0026vehicleWidth=0\u0026vehicleMaxSpeed=0\u0026vehicleWeight=0",
+      "RequestUri": "https://atlas.microsoft.com/route/matrix/e7afa37f-2346-4eec-9a13-2990d41722d9?api-version=1.0\u0026vehicleAxleWeight=0\u0026vehicleLength=0\u0026vehicleHeight=0\u0026vehicleWidth=0\u0026vehicleMaxSpeed=0\u0026vehicleWeight=0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "3fd51799-20a5-4894-b234-f203f1e362c3",
-        "x-ms-useragent": "azsdk-js-maps-route/1.0.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+        "User-Agent": "azsdk-js-maps-route/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1089-azure)",
+        "x-ms-client-request-id": "661450d0-67b5-4eae-99b6-a77ca11414c1"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Length": "1047",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 13 Sep 2022 09:34:37 GMT",
+        "Date": "Tue, 13 Sep 2022 09:34:24 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": [
           "Accept-Encoding",
@@ -99,7 +81,7 @@
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: 068B905A9F02472AB1B46350A3E906B8 Ref B: SIN30EDGE0512 Ref C: 2022-09-13T09:34:37Z"
+        "X-MSEdge-Ref": "Ref A: 9CF3F283EEAD419C8AC4E35FF0BEFA1C Ref B: SG1EDGE0114 Ref C: 2022-09-13T09:34:24Z"
       },
       "ResponseBody": {
         "formatVersion": "0.0.1",
@@ -113,8 +95,8 @@
                   "travelTimeInSeconds": 122,
                   "trafficDelayInSeconds": 0,
                   "trafficLengthInMeters": 0,
-                  "departureTime": "2022-09-13T11:34:37\u002B02:00",
-                  "arrivalTime": "2022-09-13T11:36:39\u002B02:00"
+                  "departureTime": "2022-09-13T11:34:24\u002B02:00",
+                  "arrivalTime": "2022-09-13T11:36:26\u002B02:00"
                 }
               }
             },
@@ -123,11 +105,11 @@
               "response": {
                 "routeSummary": {
                   "lengthInMeters": 666792,
-                  "travelTimeInSeconds": 22266,
+                  "travelTimeInSeconds": 22267,
                   "trafficDelayInSeconds": 158,
                   "trafficLengthInMeters": 12494,
-                  "departureTime": "2022-09-13T11:34:37\u002B02:00",
-                  "arrivalTime": "2022-09-13T17:45:43\u002B02:00"
+                  "departureTime": "2022-09-13T11:34:24\u002B02:00",
+                  "arrivalTime": "2022-09-13T17:45:30\u002B02:00"
                 }
               }
             }
@@ -141,8 +123,8 @@
                   "travelTimeInSeconds": 106,
                   "trafficDelayInSeconds": 0,
                   "trafficLengthInMeters": 0,
-                  "departureTime": "2022-09-13T11:34:37\u002B02:00",
-                  "arrivalTime": "2022-09-13T11:36:22\u002B02:00"
+                  "departureTime": "2022-09-13T11:34:24\u002B02:00",
+                  "arrivalTime": "2022-09-13T11:36:09\u002B02:00"
                 }
               }
             },
@@ -154,8 +136,8 @@
                   "travelTimeInSeconds": 22231,
                   "trafficDelayInSeconds": 158,
                   "trafficLengthInMeters": 12494,
-                  "departureTime": "2022-09-13T11:34:37\u002B02:00",
-                  "arrivalTime": "2022-09-13T17:45:08\u002B02:00"
+                  "departureTime": "2022-09-13T11:34:24\u002B02:00",
+                  "arrivalTime": "2022-09-13T17:44:55\u002B02:00"
                 }
               }
             }

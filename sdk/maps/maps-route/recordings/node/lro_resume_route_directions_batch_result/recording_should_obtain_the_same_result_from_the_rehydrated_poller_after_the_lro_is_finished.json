@@ -7,11 +7,11 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "Content-Length": "361",
+        "Content-Length": "259",
         "Content-Type": "application/json",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "azsdk-js-maps-route/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1089-azure)",
-        "x-ms-client-request-id": "10a0fe38-22ff-4090-a8ae-e829c5b7f086"
+        "x-ms-client-request-id": "140dc090-c16e-48c4-a7ef-a486ae80aad8"
       },
       "RequestBody": {
         "batchItems": [
@@ -20,9 +20,6 @@
           },
           {
             "query": "?query=47.620659,-122.348934:47.610101,-122.342015\u0026routeType=eco\u0026travelMode=bicycle\u0026traffic=false"
-          },
-          {
-            "query": "?query=40.759856,-73.985108:40.771136,-73.973506\u0026routeType=shortest\u0026travelMode=pedestrian"
           }
         ]
       },
@@ -30,18 +27,18 @@
       "ResponseHeaders": {
         "Content-Length": "2",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 13 Sep 2022 09:34:19 GMT",
-        "Location": "https://atlas.microsoft.com/route/directions/batch/48ba6129-0559-4397-b672-742ed6ee824d?api-version=1.0",
+        "Date": "Tue, 13 Sep 2022 09:34:21 GMT",
+        "Location": "https://atlas.microsoft.com/route/directions/batch/203567ba-f76f-4afe-a312-bbe8ac1bc776?api-version=1.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: CBA4C1C64A3C47E49F94155A8F95F226 Ref B: SG1EDGE0114 Ref C: 2022-09-13T09:34:19Z"
+        "X-MSEdge-Ref": "Ref A: 5261CBB3EDEF41C596F0948E9B120F55 Ref B: SG1EDGE0114 Ref C: 2022-09-13T09:34:21Z"
       },
       "ResponseBody": "\u0022\u0022"
     },
     {
-      "RequestUri": "https://atlas.microsoft.com/route/directions/batch/48ba6129-0559-4397-b672-742ed6ee824d?api-version=1.0",
+      "RequestUri": "https://atlas.microsoft.com/route/directions/batch/203567ba-f76f-4afe-a312-bbe8ac1bc776?api-version=1.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -50,19 +47,19 @@
         "Content-Type": "application/json",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "azsdk-js-maps-route/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1089-azure)",
-        "x-ms-client-request-id": "de1a5eef-288a-4d02-a47c-72b9596db228"
+        "x-ms-client-request-id": "80715196-4036-40bc-82b0-53b8570efde3"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Tue, 13 Sep 2022 09:34:20 GMT",
+        "Date": "Tue, 13 Sep 2022 09:34:22 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: 6A5D1817F0A542AAA8AE24F9013A8642 Ref B: SG1EDGE0114 Ref C: 2022-09-13T09:34:19Z"
+        "X-MSEdge-Ref": "Ref A: 3A79D804C77D43AFB2012F7CAC239408 Ref B: SG1EDGE0114 Ref C: 2022-09-13T09:34:21Z"
       },
       "ResponseBody": {
         "batchItems": [
@@ -76,8 +73,8 @@
                     "lengthInMeters": 25023,
                     "travelTimeInSeconds": 1756,
                     "trafficDelayInSeconds": 0,
-                    "departureTime": "2022-09-13T09:34:19\u002B00:00",
-                    "arrivalTime": "2022-09-13T10:03:34\u002B00:00"
+                    "departureTime": "2022-09-13T09:34:22\u002B00:00",
+                    "arrivalTime": "2022-09-13T10:03:37\u002B00:00"
                   },
                   "legs": [
                     {
@@ -85,8 +82,8 @@
                         "lengthInMeters": 5953,
                         "travelTimeInSeconds": 691,
                         "trafficDelayInSeconds": 0,
-                        "departureTime": "2022-09-13T09:34:19\u002B00:00",
-                        "arrivalTime": "2022-09-13T09:45:50\u002B00:00"
+                        "departureTime": "2022-09-13T09:34:22\u002B00:00",
+                        "arrivalTime": "2022-09-13T09:45:53\u002B00:00"
                       },
                       "points": [
                         {
@@ -1080,8 +1077,8 @@
                         "lengthInMeters": 19070,
                         "travelTimeInSeconds": 1065,
                         "trafficDelayInSeconds": 0,
-                        "departureTime": "2022-09-13T09:45:50\u002B00:00",
-                        "arrivalTime": "2022-09-13T10:03:34\u002B00:00"
+                        "departureTime": "2022-09-13T09:45:53\u002B00:00",
+                        "arrivalTime": "2022-09-13T10:03:37\u002B00:00"
                       },
                       "points": [
                         {
@@ -3011,8 +3008,8 @@
                     "lengthInMeters": 28322,
                     "travelTimeInSeconds": 1913,
                     "trafficDelayInSeconds": 0,
-                    "departureTime": "2022-09-13T09:34:19\u002B00:00",
-                    "arrivalTime": "2022-09-13T10:06:11\u002B00:00",
+                    "departureTime": "2022-09-13T09:34:22\u002B00:00",
+                    "arrivalTime": "2022-09-13T10:06:14\u002B00:00",
                     "deviationDistance": 227,
                     "deviationTime": 124,
                     "deviationPoint": {
@@ -3026,8 +3023,8 @@
                         "lengthInMeters": 9727,
                         "travelTimeInSeconds": 800,
                         "trafficDelayInSeconds": 0,
-                        "departureTime": "2022-09-13T09:34:19\u002B00:00",
-                        "arrivalTime": "2022-09-13T09:47:38\u002B00:00"
+                        "departureTime": "2022-09-13T09:34:22\u002B00:00",
+                        "arrivalTime": "2022-09-13T09:47:41\u002B00:00"
                       },
                       "points": [
                         {
@@ -4377,8 +4374,8 @@
                         "lengthInMeters": 18595,
                         "travelTimeInSeconds": 1114,
                         "trafficDelayInSeconds": 0,
-                        "departureTime": "2022-09-13T09:47:38\u002B00:00",
-                        "arrivalTime": "2022-09-13T10:06:11\u002B00:00"
+                        "departureTime": "2022-09-13T09:47:41\u002B00:00",
+                        "arrivalTime": "2022-09-13T10:06:14\u002B00:00"
                       },
                       "points": [
                         {
@@ -5976,8 +5973,8 @@
                     "lengthInMeters": 48033,
                     "travelTimeInSeconds": 2955,
                     "trafficDelayInSeconds": 34,
-                    "departureTime": "2022-09-13T09:34:19\u002B00:00",
-                    "arrivalTime": "2022-09-13T10:23:33\u002B00:00",
+                    "departureTime": "2022-09-13T09:34:22\u002B00:00",
+                    "arrivalTime": "2022-09-13T10:23:36\u002B00:00",
                     "deviationDistance": 227,
                     "deviationTime": 124,
                     "deviationPoint": {
@@ -5991,8 +5988,8 @@
                         "lengthInMeters": 6627,
                         "travelTimeInSeconds": 821,
                         "trafficDelayInSeconds": 0,
-                        "departureTime": "2022-09-13T09:34:19\u002B00:00",
-                        "arrivalTime": "2022-09-13T09:47:59\u002B00:00"
+                        "departureTime": "2022-09-13T09:34:22\u002B00:00",
+                        "arrivalTime": "2022-09-13T09:48:02\u002B00:00"
                       },
                       "points": [
                         {
@@ -7014,8 +7011,8 @@
                         "lengthInMeters": 41406,
                         "travelTimeInSeconds": 2135,
                         "trafficDelayInSeconds": 34,
-                        "departureTime": "2022-09-13T09:47:59\u002B00:00",
-                        "arrivalTime": "2022-09-13T10:23:33\u002B00:00"
+                        "departureTime": "2022-09-13T09:48:02\u002B00:00",
+                        "arrivalTime": "2022-09-13T10:23:36\u002B00:00"
                       },
                       "points": [
                         {
@@ -10729,8 +10726,8 @@
                     "lengthInMeters": 26847,
                     "travelTimeInSeconds": 2608,
                     "trafficDelayInSeconds": 0,
-                    "departureTime": "2022-09-13T09:34:19\u002B00:00",
-                    "arrivalTime": "2022-09-13T10:17:46\u002B00:00",
+                    "departureTime": "2022-09-13T09:34:22\u002B00:00",
+                    "arrivalTime": "2022-09-13T10:17:49\u002B00:00",
                     "deviationDistance": 1135,
                     "deviationTime": 233,
                     "deviationPoint": {
@@ -10744,8 +10741,8 @@
                         "lengthInMeters": 7462,
                         "travelTimeInSeconds": 843,
                         "trafficDelayInSeconds": 0,
-                        "departureTime": "2022-09-13T09:34:19\u002B00:00",
-                        "arrivalTime": "2022-09-13T09:48:21\u002B00:00"
+                        "departureTime": "2022-09-13T09:34:22\u002B00:00",
+                        "arrivalTime": "2022-09-13T09:48:24\u002B00:00"
                       },
                       "points": [
                         {
@@ -11883,8 +11880,8 @@
                         "lengthInMeters": 19385,
                         "travelTimeInSeconds": 1765,
                         "trafficDelayInSeconds": 0,
-                        "departureTime": "2022-09-13T09:48:21\u002B00:00",
-                        "arrivalTime": "2022-09-13T10:17:46\u002B00:00"
+                        "departureTime": "2022-09-13T09:48:24\u002B00:00",
+                        "arrivalTime": "2022-09-13T10:17:49\u002B00:00"
                       },
                       "points": [
                         {
@@ -14314,8 +14311,8 @@
                     "lengthInMeters": 1754,
                     "travelTimeInSeconds": 396,
                     "trafficDelayInSeconds": 0,
-                    "departureTime": "2022-09-13T09:34:20\u002B00:00",
-                    "arrivalTime": "2022-09-13T09:40:55\u002B00:00"
+                    "departureTime": "2022-09-13T09:34:22\u002B00:00",
+                    "arrivalTime": "2022-09-13T09:40:57\u002B00:00"
                   },
                   "legs": [
                     {
@@ -14323,8 +14320,8 @@
                         "lengthInMeters": 1754,
                         "travelTimeInSeconds": 396,
                         "trafficDelayInSeconds": 0,
-                        "departureTime": "2022-09-13T09:34:20\u002B00:00",
-                        "arrivalTime": "2022-09-13T09:40:55\u002B00:00"
+                        "departureTime": "2022-09-13T09:34:22\u002B00:00",
+                        "arrivalTime": "2022-09-13T09:40:57\u002B00:00"
                       },
                       "points": [
                         {
@@ -14545,321 +14542,11 @@
                 }
               ]
             }
-          },
-          {
-            "statusCode": 200,
-            "response": {
-              "formatVersion": "0.0.12",
-              "routes": [
-                {
-                  "summary": {
-                    "lengthInMeters": 1772,
-                    "travelTimeInSeconds": 1276,
-                    "trafficDelayInSeconds": 0,
-                    "departureTime": "2022-09-13T09:34:20\u002B00:00",
-                    "arrivalTime": "2022-09-13T09:55:35\u002B00:00"
-                  },
-                  "legs": [
-                    {
-                      "summary": {
-                        "lengthInMeters": 1772,
-                        "travelTimeInSeconds": 1276,
-                        "trafficDelayInSeconds": 0,
-                        "departureTime": "2022-09-13T09:34:20\u002B00:00",
-                        "arrivalTime": "2022-09-13T09:55:35\u002B00:00"
-                      },
-                      "points": [
-                        {
-                          "latitude": 40.75982,
-                          "longitude": -73.98492
-                        },
-                        {
-                          "latitude": 40.76011,
-                          "longitude": -73.98483
-                        },
-                        {
-                          "latitude": 40.75984,
-                          "longitude": -73.98417
-                        },
-                        {
-                          "latitude": 40.76047,
-                          "longitude": -73.9837
-                        },
-                        {
-                          "latitude": 40.7611,
-                          "longitude": -73.98326
-                        },
-                        {
-                          "latitude": 40.76172,
-                          "longitude": -73.98281
-                        },
-                        {
-                          "latitude": 40.76197,
-                          "longitude": -73.98262
-                        },
-                        {
-                          "latitude": 40.76236,
-                          "longitude": -73.98234
-                        },
-                        {
-                          "latitude": 40.76292,
-                          "longitude": -73.98193
-                        },
-                        {
-                          "latitude": 40.76297,
-                          "longitude": -73.9819
-                        },
-                        {
-                          "latitude": 40.76361,
-                          "longitude": -73.98145
-                        },
-                        {
-                          "latitude": 40.76423,
-                          "longitude": -73.98098
-                        },
-                        {
-                          "latitude": 40.76484,
-                          "longitude": -73.98052
-                        },
-                        {
-                          "latitude": 40.76552,
-                          "longitude": -73.98003
-                        },
-                        {
-                          "latitude": 40.76586,
-                          "longitude": -73.9798
-                        },
-                        {
-                          "latitude": 40.7662,
-                          "longitude": -73.97957
-                        },
-                        {
-                          "latitude": 40.76689,
-                          "longitude": -73.97909
-                        },
-                        {
-                          "latitude": 40.76724,
-                          "longitude": -73.9788
-                        },
-                        {
-                          "latitude": 40.76746,
-                          "longitude": -73.97862
-                        },
-                        {
-                          "latitude": 40.7675,
-                          "longitude": -73.9786
-                        },
-                        {
-                          "latitude": 40.76754,
-                          "longitude": -73.9786
-                        },
-                        {
-                          "latitude": 40.76759,
-                          "longitude": -73.97861
-                        },
-                        {
-                          "latitude": 40.76764,
-                          "longitude": -73.97863
-                        },
-                        {
-                          "latitude": 40.76775,
-                          "longitude": -73.97872
-                        },
-                        {
-                          "latitude": 40.7676,
-                          "longitude": -73.97847
-                        },
-                        {
-                          "latitude": 40.76751,
-                          "longitude": -73.97827
-                        },
-                        {
-                          "latitude": 40.76746,
-                          "longitude": -73.97814
-                        },
-                        {
-                          "latitude": 40.76782,
-                          "longitude": -73.97788
-                        },
-                        {
-                          "latitude": 40.76793,
-                          "longitude": -73.97768
-                        },
-                        {
-                          "latitude": 40.76802,
-                          "longitude": -73.97747
-                        },
-                        {
-                          "latitude": 40.76805,
-                          "longitude": -73.97733
-                        },
-                        {
-                          "latitude": 40.7681,
-                          "longitude": -73.97714
-                        },
-                        {
-                          "latitude": 40.76817,
-                          "longitude": -73.97701
-                        },
-                        {
-                          "latitude": 40.76831,
-                          "longitude": -73.97678
-                        },
-                        {
-                          "latitude": 40.76844,
-                          "longitude": -73.97662
-                        },
-                        {
-                          "latitude": 40.76854,
-                          "longitude": -73.97652
-                        },
-                        {
-                          "latitude": 40.76875,
-                          "longitude": -73.97638
-                        },
-                        {
-                          "latitude": 40.7688,
-                          "longitude": -73.97634
-                        },
-                        {
-                          "latitude": 40.76884,
-                          "longitude": -73.9763
-                        },
-                        {
-                          "latitude": 40.76887,
-                          "longitude": -73.97624
-                        },
-                        {
-                          "latitude": 40.76913,
-                          "longitude": -73.97584
-                        },
-                        {
-                          "latitude": 40.7692,
-                          "longitude": -73.97575
-                        },
-                        {
-                          "latitude": 40.76948,
-                          "longitude": -73.97548
-                        },
-                        {
-                          "latitude": 40.76962,
-                          "longitude": -73.97538
-                        },
-                        {
-                          "latitude": 40.76967,
-                          "longitude": -73.97536
-                        },
-                        {
-                          "latitude": 40.76972,
-                          "longitude": -73.97517
-                        },
-                        {
-                          "latitude": 40.76978,
-                          "longitude": -73.97501
-                        },
-                        {
-                          "latitude": 40.76979,
-                          "longitude": -73.97495
-                        },
-                        {
-                          "latitude": 40.76978,
-                          "longitude": -73.97482
-                        },
-                        {
-                          "latitude": 40.76979,
-                          "longitude": -73.97475
-                        },
-                        {
-                          "latitude": 40.76983,
-                          "longitude": -73.97465
-                        },
-                        {
-                          "latitude": 40.77,
-                          "longitude": -73.97432
-                        },
-                        {
-                          "latitude": 40.77005,
-                          "longitude": -73.97418
-                        },
-                        {
-                          "latitude": 40.77008,
-                          "longitude": -73.97406
-                        },
-                        {
-                          "latitude": 40.77009,
-                          "longitude": -73.97396
-                        },
-                        {
-                          "latitude": 40.77013,
-                          "longitude": -73.97396
-                        },
-                        {
-                          "latitude": 40.77015,
-                          "longitude": -73.97389
-                        },
-                        {
-                          "latitude": 40.77018,
-                          "longitude": -73.97381
-                        },
-                        {
-                          "latitude": 40.77021,
-                          "longitude": -73.97375
-                        },
-                        {
-                          "latitude": 40.77025,
-                          "longitude": -73.97369
-                        },
-                        {
-                          "latitude": 40.77037,
-                          "longitude": -73.97357
-                        },
-                        {
-                          "latitude": 40.77042,
-                          "longitude": -73.97355
-                        },
-                        {
-                          "latitude": 40.77047,
-                          "longitude": -73.97355
-                        },
-                        {
-                          "latitude": 40.77056,
-                          "longitude": -73.97357
-                        },
-                        {
-                          "latitude": 40.77062,
-                          "longitude": -73.97359
-                        },
-                        {
-                          "latitude": 40.77068,
-                          "longitude": -73.97359
-                        },
-                        {
-                          "latitude": 40.77096,
-                          "longitude": -73.97359
-                        },
-                        {
-                          "latitude": 40.77114,
-                          "longitude": -73.97358
-                        }
-                      ]
-                    }
-                  ],
-                  "sections": [
-                    {
-                      "startPointIndex": 0,
-                      "endPointIndex": 67,
-                      "sectionType": "TRAVEL_MODE",
-                      "travelMode": "pedestrian"
-                    }
-                  ]
-                }
-              ]
-            }
           }
         ],
         "summary": {
-          "successfulRequests": 3,
-          "totalRequests": 3
+          "successfulRequests": 2,
+          "totalRequests": 2
         }
       }
     }

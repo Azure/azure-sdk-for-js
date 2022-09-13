@@ -18,9 +18,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "eb56c3ca-9d8a-4d76-ac82-06d4b96eed9e",
-        "x-ms-useragent": "azsdk-js-maps-route/1.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "e6ae77ac-abe9-43e2-99ea-c1ab87ae90eb",
+        "x-ms-useragent": "azsdk-js-maps-route/1.0.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
       },
       "RequestBody": {
         "supportingPoints": {
@@ -50,16 +50,16 @@
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-transform, no-cache",
-        "Content-Length": "77348",
+        "Content-Length": "77338",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 26 Jul 2022 13:38:36 GMT",
+        "Date": "Tue, 13 Sep 2022 09:34:32 GMT",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-azuremaps-region": "West US 2",
-        "X-MSEdge-Ref": "Ref A: A2BFFB247F6E4333854D7C0A7B4E6813 Ref B: TPE30EDGE0607 Ref C: 2022-07-26T13:38:36Z"
+        "x-ms-azuremaps-region": "West Europe",
+        "X-MSEdge-Ref": "Ref A: 33DFCBB3978D4502817EC3CA93557A03 Ref B: SIN30EDGE0512 Ref C: 2022-09-13T09:34:31Z"
       },
       "ResponseBody": {
         "formatVersion": "0.0.12",
@@ -67,21 +67,21 @@
           {
             "summary": {
               "lengthInMeters": 75858,
-              "travelTimeInSeconds": 6454,
-              "trafficDelayInSeconds": 146,
-              "trafficLengthInMeters": 3025,
-              "departureTime": "2022-07-26T06:38:37-07:00",
-              "arrivalTime": "2022-07-26T08:26:10-07:00"
+              "travelTimeInSeconds": 5770,
+              "trafficDelayInSeconds": 0,
+              "trafficLengthInMeters": 0,
+              "departureTime": "2022-09-13T02:34:32-07:00",
+              "arrivalTime": "2022-09-13T04:10:42-07:00"
             },
             "legs": [
               {
                 "summary": {
                   "lengthInMeters": 75858,
-                  "travelTimeInSeconds": 6454,
-                  "trafficDelayInSeconds": 146,
-                  "trafficLengthInMeters": 3025,
-                  "departureTime": "2022-07-26T06:38:37-07:00",
-                  "arrivalTime": "2022-07-26T08:26:10-07:00"
+                  "travelTimeInSeconds": 5770,
+                  "trafficDelayInSeconds": 0,
+                  "trafficLengthInMeters": 0,
+                  "departureTime": "2022-09-13T02:34:32-07:00",
+                  "arrivalTime": "2022-09-13T04:10:42-07:00"
                 },
                 "points": [
                   {
@@ -3105,8 +3105,8 @@
                     "longitude": -122.30774
                   },
                   {
-                    "latitude": 47.59072,
-                    "longitude": -122.30759
+                    "latitude": 47.59075,
+                    "longitude": -122.30762
                   },
                   {
                     "latitude": 47.59067,

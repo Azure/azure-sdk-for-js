@@ -16,9 +16,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "42dde7ac-26ab-4514-ab3c-d488714abc6c",
-        "x-ms-useragent": "azsdk-js-maps-route/1.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "3577140f-db1a-41c2-8f2c-1ddedad2c447",
+        "x-ms-useragent": "azsdk-js-maps-route/1.0.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -26,14 +26,14 @@
         "Cache-Control": "no-transform, no-cache",
         "Content-Length": "1796",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 26 Jul 2022 13:38:35 GMT",
+        "Date": "Tue, 13 Sep 2022 09:34:31 GMT",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-azuremaps-region": "West US 2",
-        "X-MSEdge-Ref": "Ref A: 1F7A95C1C5D94F3DBF9784FAA69CCA97 Ref B: TPE30EDGE0607 Ref C: 2022-07-26T13:38:36Z"
+        "x-ms-azuremaps-region": "West Europe",
+        "X-MSEdge-Ref": "Ref A: 92BDBD24018D453DA091F0BA7E02D8D7 Ref B: SIN30EDGE0512 Ref C: 2022-09-13T09:34:31Z"
       },
       "ResponseBody": {
         "formatVersion": "0.0.12",
@@ -41,21 +41,21 @@
           {
             "summary": {
               "lengthInMeters": 1147,
-              "travelTimeInSeconds": 186,
+              "travelTimeInSeconds": 170,
               "trafficDelayInSeconds": 0,
               "trafficLengthInMeters": 0,
-              "departureTime": "2022-07-26T15:38:36\u002B02:00",
-              "arrivalTime": "2022-07-26T15:41:42\u002B02:00"
+              "departureTime": "2022-09-13T11:34:31\u002B02:00",
+              "arrivalTime": "2022-09-13T11:37:20\u002B02:00"
             },
             "legs": [
               {
                 "summary": {
                   "lengthInMeters": 1147,
-                  "travelTimeInSeconds": 186,
+                  "travelTimeInSeconds": 170,
                   "trafficDelayInSeconds": 0,
                   "trafficLengthInMeters": 0,
-                  "departureTime": "2022-07-26T15:38:36\u002B02:00",
-                  "arrivalTime": "2022-07-26T15:41:42\u002B02:00"
+                  "departureTime": "2022-09-13T11:34:31\u002B02:00",
+                  "arrivalTime": "2022-09-13T11:37:20\u002B02:00"
                 },
                 "points": [
                   {
