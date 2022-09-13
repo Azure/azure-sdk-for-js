@@ -7,7 +7,7 @@ import {
   MeterProvider,
   PeriodicExportingMetricReader,
   PeriodicExportingMetricReaderOptions,
-} from "@opentelemetry/sdk-metrics-base";
+} from "@opentelemetry/sdk-metrics";
 
 import { AzureMonitorTraceExporter, AzureMonitorMetricExporter } from "../../src";
 import { Expectation, Scenario } from "./types";

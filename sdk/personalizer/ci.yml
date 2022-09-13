@@ -20,13 +20,12 @@ pr:
       - feature/v4
   paths:
     include:
-      - sdk/personalizer/ci.mgmt.yml
-      - sdk/personalizer/ai-personalizer/
+      - sdk/personalizer/
 
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: personalizer
     Artifacts:
-      - name: azure-ai-personalizer
-        safeName: azureaipersonalizer       
+      - name: azure-rest-ai-personalizer
+        safeName: azurerestaipersonalizer       

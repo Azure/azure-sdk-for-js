@@ -57,3 +57,13 @@ export interface GetTokenForTeamsUserOptions extends OperationOptions {
    */
   userObjectId: string;
 }
+
+/**
+ * Options to create a single user and a token simultaneously.
+ */
+export type CreateUserAndTokenOptions = OperationOptions;
+
+/**
+ * Options to create a scoped user token.
+ */
+export type GetTokenOptions = OperationOptions;

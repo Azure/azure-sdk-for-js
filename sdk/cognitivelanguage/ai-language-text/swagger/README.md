@@ -12,9 +12,9 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/cognitiveservices-Language-2022-04-01-preview/specification/cognitiveservices/data-plane/Language/preview/2022-04-01-preview/textanalytics.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/cognitiveservices/data-plane/Language/stable/2022-05-01/analyzetext.json
 add-credentials: false
-package-version: 1.0.0-beta.1
+package-version: 1.0.1
 v3: true
 hide-clients: true
 typescript: true
@@ -52,7 +52,7 @@ directive:
     transform: $.properties.jobId["x-ms-client-name"] = "id";
   - from: swagger-document
     where: $.definitions.JobState
-    transform: $.properties.lastUpdateDateTime["x-ms-client-name"] = "modifiedOn";
+    transform: $.properties.lastUpdatedDateTime["x-ms-client-name"] = "modifiedOn";
   - from: swagger-document
     where: $.definitions.JobState
     transform: $.properties.status["x-ms-enum"].name = "OperationStatus";

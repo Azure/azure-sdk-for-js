@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Update `delay` method to handle `abortSignal` functionality
+
 ### Breaking Changes
 
 ### Bugs Fixed
