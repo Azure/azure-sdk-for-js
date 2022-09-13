@@ -12,15 +12,13 @@ import {
 import {
   NotificationHubsMessageResponse,
   NotificationHubsResponse,
-} from "../../models/response.js";
+} from "../../models/notificationDetails.js";
 import { NotificationHubsClientContext } from "../index.js";
 import { OperationOptions } from "@azure/core-client";
 import { isDefined } from "../../utils/utils.js";
+import { parseNotificationOutcome } from "../../serializers/notificationOutcomeSerializer.js";
 import { parseXMLError } from "../../utils/xmlUtils.js";
 
-/**
- * @internal
- */
 export function createRequest(
   endpoint: URL,
   method: HttpMethods,
@@ -38,7 +36,9 @@ export function createRequest(
 }
 
 /**
- * @internal
+ * Parses the HTTP response and creates a NotificationHubsResponse with header information from the operation.
+ * @param response - The HTTP response used to populate the result.
+ * @returns A NotificationHubsResponse with header information from the operation.
  */
 export function parseNotificationResponse(response: PipelineResponse): NotificationHubsResponse {
   const correlationId = response.headers.get("x-ms-correlation-request-id");
@@ -53,11 +53,13 @@ export function parseNotificationResponse(response: PipelineResponse): Notificat
 }
 
 /**
- * @internal
+ * Parses the HTTP response and creates a NotificationHubsMessageResponse with results from the notification.
+ * @param response - The HTTP response used to populate the result.
+ * @returns A NotificationHubsMessageResponse with results from the notification.
  */
-export function parseNotificationSendResponse(
+export async function parseNotificationSendResponse(
   response: PipelineResponse
-): NotificationHubsMessageResponse {
+): Promise<NotificationHubsMessageResponse> {
   const result = parseNotificationResponse(response);
   let notificationId: string | undefined;
   if (result.location) {
@@ -65,9 +67,35 @@ export function parseNotificationSendResponse(
     notificationId = locationUrl.pathname.split("/")[3];
   }
 
+  const requestUrl = new URL(response.request.url);
+  const isTestSend = requestUrl.searchParams.has("test");
+  const isDirectSend = requestUrl.searchParams.has("direct");
+
+  // Only broadcast/tag based sends are supported for test send
+  const responseBody = response.bodyAsText;
+  if (isTestSend && !isDirectSend && isDefined(responseBody)) {
+    const outcome = await parseNotificationOutcome(responseBody);
+    return {
+      ...result,
+      ...outcome,
+      notificationId,
+    };
+  } else {
+    return createDefaultResponse(result, notificationId);
+  }
+}
+
+function createDefaultResponse(
+  response: NotificationHubsResponse,
+  notificationId?: string
+): NotificationHubsMessageResponse {
   return {
-    ...result,
+    ...response,
     notificationId,
+    success: 0,
+    failure: 0,
+    results: [],
+    state: "Enqueued",
   };
 }
 

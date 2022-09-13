@@ -11,7 +11,6 @@
         "Connection": "keep-alive",
         "Content-Length": "231",
         "Content-Type": "application/json",
-        "Origin": "http://localhost:9876",
         "Referer": "http://localhost:9876/",
         "repeatability-first-sent": "Sanitized",
         "repeatability-request-id": "Sanitized",
@@ -21,11 +20,11 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "cdAYUxt1dvbHn2j6PA8HnC02VdRUG5aeXHgn7qZdsdM=",
         "x-ms-date": "Sanitized",
-        "x-ms-useragent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.8.2 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.9.2 OS/Win32"
       },
       "RequestBody": {
         "sender": "someSender@contoso.com",
@@ -65,7 +64,6 @@
         "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Origin": "http://localhost:9876",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
@@ -73,11 +71,11 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Sanitized",
-        "x-ms-useragent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.8.2 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.9.2 OS/Win32"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -86,6 +84,7 @@
         "Content-Length": "43",
         "Content-Type": "application/json; charset=utf-8",
         "Date": "Sanitized",
+        "mise-correlation-id": "481a9d88-75de-4933-a257-e0ebc3e542a2",
         "Retry-After": "60",
         "X-Azure-Ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE"

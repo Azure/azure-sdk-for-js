@@ -1,26 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegistryClient";
-import { TokenCredential } from "@azure/core-auth";
-import { createTracingClient, TracingClient } from "@azure/core-tracing";
+import { DEFAULT_SCOPE, SDK_VERSION } from "./constants";
 import {
-  bearerTokenAuthenticationPolicy,
-  InternalPipelineOptions,
-} from "@azure/core-rest-pipeline";
-import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
-
-import {
+  GetSchemaByVersionOptions,
   GetSchemaOptions,
   GetSchemaPropertiesOptions,
-  SchemaDescription,
-  SchemaRegistryClientOptions,
-  SchemaRegistry,
   RegisterSchemaOptions,
-  SchemaProperties,
   Schema,
+  SchemaDescription,
+  SchemaProperties,
+  SchemaRegistry,
+  SchemaRegistryClientOptions,
+  SchemaVersion,
 } from "./models";
-import { DEFAULT_SCOPE, SDK_VERSION } from "./constants";
+import {
+  InternalPipelineOptions,
+  bearerTokenAuthenticationPolicy,
+} from "@azure/core-rest-pipeline";
+import { TracingClient, createTracingClient } from "@azure/core-tracing";
+import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
+import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegistryClient";
+import { TokenCredential } from "@azure/core-auth";
 import { logger } from "./logger";
 
 /**
@@ -155,6 +156,38 @@ export class SchemaRegistryClient implements SchemaRegistry {
   getSchema(schemaId: string, options: GetSchemaOptions = {}): Promise<Schema> {
     return this._tracing.withSpan("SchemaRegistryClient.getSchema", options, (updatedOptions) =>
       this._client.schema.getById(schemaId, updatedOptions).then(convertSchemaResponse)
+    );
+  }
+
+  /**
+   * Gets an existing schema by version. If the schema was not found, a RestError with
+   * status code 404 will be thrown, which could be caught as follows:
+   * 
+   * ```js
+   * ...
+   * } catch (e) {
+    if (typeof e === "object" && e.statusCode === 404) {
+      ...;
+    }
+    throw e;
+  }
+   * ```
+   *
+   * @param schemaVersion - schema version.
+   * @returns Schema with given ID.
+   */
+  getSchemaByVersion(
+    schemaVersion: SchemaVersion,
+    options: GetSchemaByVersionOptions = {}
+  ): Promise<Schema> {
+    const { groupName, name, version } = schemaVersion;
+    return this._tracing.withSpan(
+      "SchemaRegistryClient.getSchemaByVersion",
+      options,
+      (updatedOptions) =>
+        this._client.schema
+          .getSchemaVersion(groupName, name, version, updatedOptions)
+          .then(convertSchemaResponse)
     );
   }
 }
