@@ -6,6 +6,7 @@ import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
+import { env } from "process";
 
 describe("Get ledger history", () => {
   let recorder: Recorder;
@@ -21,6 +22,10 @@ describe("Get ledger history", () => {
   });
 
   it("should obtain ledger entries from ledger", async function () {
+    if(env.TEST_MODE == "live") {
+      this.skip()
+    }
+
     const result = await client.path("/app/transactions").get();
 
     assert.equal(result.status, "200");
