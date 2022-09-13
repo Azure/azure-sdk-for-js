@@ -12,7 +12,7 @@ import {
   RouterJob,
   RouterRuleUnion,
   RouterWorker,
-  StaticQueueSelectorAttachment,
+  StaticQueueSelectorAttachment
 } from "../../../src";
 
 const exceptionPolicyId = "test-e-policy";
@@ -27,7 +27,6 @@ const product = "O365";
 const region = "NA";
 const english = "EN";
 const french = "FR";
-
 
 const queueIdSelector: QueueSelector = {
   key: "Id",
@@ -45,6 +44,26 @@ const frenchSelector: QueueSelector = {
   key: "Language",
   labelOperator: "equal",
   value: { default: french }
+};
+
+const isO365: RouterRuleUnion = {
+  kind: "expression-rule",
+  value: { default: `If(job.Product = "${product}", true, false)'` }
+};
+
+const isEnglish: RouterRuleUnion = {
+  kind: "expression-rule",
+  value: { default: `If(job.Language = "${english}", true, false)'` }
+};
+
+const isFrench: RouterRuleUnion = {
+  kind: "expression-rule",
+  value: { default: `If(job.Language = "${french}", true, false)'` }
+};
+
+const isTrue: RouterRuleUnion = {
+  kind: "static-rule",
+  value: { default: true }
 };
 
 export const staticQueueIdSelector: StaticQueueSelectorAttachment = {
@@ -70,26 +89,6 @@ export const passThroughSelectorProduct: PassThroughQueueSelectorAttachment = {
   labelOperator: "equal"
 };
 
-const isO365: RouterRuleUnion = {
-  kind: "expression-rule",
-  value: { default: `If(job.Product = "${product}", true, false)'` }
-};
-
-const isEnglish: RouterRuleUnion = {
-  kind: "expression-rule",
-  value: { default: `If(job.Language = "${english}", true, false)'` }
-};
-
-const isFrench: RouterRuleUnion = {
-  kind: "expression-rule",
-  value: { default: `If(job.Language = "${french}", true, false)'` }
-};
-
-const isTrue: RouterRuleUnion = {
-  kind: "static-rule",
-  value: { default: true }
-};
-
 export const conditionalQueueSelector: ConditionalQueueSelectorAttachment = {
   kind: "conditional",
   condition: isTrue,
@@ -106,14 +105,13 @@ export const conditionalEnglishSelector: ConditionalQueueSelectorAttachment = {
   kind: "conditional",
   condition: isEnglish,
   labelSelectors: [englishSelector]
-}
+};
 
 export const conditionalFrenchSelector: ConditionalQueueSelectorAttachment = {
   kind: "conditional",
   condition: isFrench,
   labelSelectors: [frenchSelector]
-}
-
+};
 
 export const exceptionPolicyRequest: ExceptionPolicy = {
   id: exceptionPolicyId,
@@ -148,19 +146,25 @@ export const classificationPolicyPassthrough: ClassificationPolicy = {
   id: `${classificationPolicyId}-passthrough`,
   name: `${classificationPolicyId}-passthrough`,
   fallbackQueueId: queueId,
-  queueSelectors: [passThroughSelectorRegion, passThroughSelectorProduct,]
+  queueSelectors: [passThroughSelectorRegion, passThroughSelectorProduct]
 };
 
 export const classificationPolicyCombined: ClassificationPolicy = {
   id: `${classificationPolicyId}-combined`,
   name: `${classificationPolicyId}-combined`,
   fallbackQueueId: queueId,
-  queueSelectors: [passThroughSelectorLanguage, passThroughSelectorProduct, conditionalEnglishSelector, conditionalFrenchSelector]
+  queueSelectors: [
+    passThroughSelectorLanguage,
+    passThroughSelectorProduct,
+    conditionalEnglishSelector,
+    conditionalFrenchSelector
+  ]
 };
 
 export const classificationPolicyRequest: ClassificationPolicy = {
   id: classificationPolicyId,
-  name: classificationPolicyId
+  name: classificationPolicyId,
+  fallbackQueueId: queueId
 };
 
 export const staticSelector: StaticQueueSelectorAttachment = {
@@ -177,7 +181,7 @@ export const distributionPolicyRequest: DistributionPolicy = {
     minConcurrentOffers: 1,
     maxConcurrentOffers: 5,
     bypassSelectors: false
-  },
+  }
 };
 
 export const queueRequest: JobQueue = {
@@ -192,24 +196,24 @@ export const englishQueue: JobQueue = {
   id: `${queueId}-english`,
   name: `${queueId}-english`,
   distributionPolicyId: distributionPolicyId,
-  labels: {Region:region, Product:product, Language:english }
-}
+  labels: { Region: region, Product: product, Language: english }
+};
 
 export const frenchQueue: JobQueue = {
   id: `${queueId}-french`,
   name: `${queueId}-french`,
   distributionPolicyId: distributionPolicyId,
-  labels: {Region:region, Product:product, Language:french }
-}
+  labels: { Region: region, Product: product, Language: french }
+};
 
 export const workerRequest: RouterWorker = {
   id: workerId,
   state: "active",
   loadRatio: 1,
   totalCapacity: 1,
-  availableForOffers: true,
+  availableForOffers: false,
   queueAssignments: {
-    queueId: { QueueId: queueId }
+    default: { QueueId: queueId }
   },
   channelConfigurations: {
     channelId: {
@@ -224,6 +228,7 @@ export const jobRequest: RouterJob = {
   channelId: channelId,
   priority: 1,
   classificationPolicyId: classificationPolicyId,
+  queueId: queueId,
   labels: {}
 };
 
@@ -232,7 +237,7 @@ export const conditionalScenarioJob: RouterJob = {
   channelId: channelId,
   priority: 1,
   classificationPolicyId: classificationPolicyConditional.id,
-  labels: [{ Product: product}]
+  labels: [{ Product: product }]
 };
 
 export const passthroughScenarioJob: RouterJob = {
@@ -240,7 +245,7 @@ export const passthroughScenarioJob: RouterJob = {
   channelId: channelId,
   priority: 1,
   classificationPolicyId: classificationPolicyPassthrough.id,
-  labels: [{ Region: region}, {Language: english }]
+  labels: [{ Region: region }, { Language: english }]
 };
 
 export const englishJob: RouterJob = {
@@ -248,7 +253,7 @@ export const englishJob: RouterJob = {
   channelId: channelId,
   priority: 1,
   classificationPolicyId: classificationPolicyCombined.id,
-  labels: [{ Product: product}, {Region: region}, {Language: english }]
+  labels: [{ Product: product }, { Region: region }, { Language: english }]
 };
 
 export const frenchJob: RouterJob = {
@@ -256,5 +261,5 @@ export const frenchJob: RouterJob = {
   channelId: channelId,
   priority: 1,
   classificationPolicyId: classificationPolicyCombined.id,
-  labels: [{ Product: product}, {Region: region}, {Language: "FR" }]
+  labels: [{ Product: product }, { Region: region }, { Language: "FR" }]
 };

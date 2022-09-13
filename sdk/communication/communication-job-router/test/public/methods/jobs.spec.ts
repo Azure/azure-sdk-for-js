@@ -3,7 +3,12 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { RouterJob, RouterClient, RouterAdministrationClient, CreateJobOptions } from "../../../src";
+import {
+  RouterJob,
+  RouterClient,
+  RouterAdministrationClient,
+  CreateJobOptions
+} from "../../../src";
 import { Context } from "mocha";
 import {
   classificationPolicyRequest,
@@ -13,110 +18,115 @@ import {
   queueRequest
 } from "../utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
-import { timeoutMs } from "../utils/constants";
+import { timeoutMs, sleep } from "../utils/constants";
+import { v4 as uuid } from "uuid";
 
 describe("RouterClient", function() {
-  const sleepMs: number = 1500;
-  let recorder: Recorder;
-  let administrationClient: RouterAdministrationClient;
   let client: RouterClient;
-  let request: RouterJob = jobRequest;
+  let administrationClient: RouterAdministrationClient;
+  let recorder: Recorder;
 
-  // HACK: Intentionally block to avoid 'duplicate sequence number' error from service
-  function sleep(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
+  const testRunId = uuid();
+  const distributionPolicyId: string = `${distributionPolicyRequest.id!}-${testRunId}`;
+  const exceptionPolicyId: string = `${exceptionPolicyRequest.id!}-${testRunId}`;
+  const queueId: string = `${queueRequest.id!}-${testRunId}`;
+  const classificationPolicyId: string = `${classificationPolicyRequest.id!}-${testRunId}`;
+  const jobId: string = `${jobRequest.id}-${testRunId}`;
 
   describe("Job Operations", function() {
     this.beforeAll(async function(this: Context) {
-      ({ administrationClient, client, recorder } = await createRecordedRouterClientWithConnectionString(this));
+      ({
+        client,
+        administrationClient,
+        recorder
+      } = await createRecordedRouterClientWithConnectionString(this));
 
       await administrationClient.createDistributionPolicy(
-        distributionPolicyRequest.id!,
+        distributionPolicyId,
         distributionPolicyRequest
       );
-      await administrationClient.createExceptionPolicy(exceptionPolicyRequest.id!, exceptionPolicyRequest);
-      await administrationClient.createQueue(queueRequest.id!, queueRequest);
+      await administrationClient.createExceptionPolicy(exceptionPolicyId, exceptionPolicyRequest);
+      await administrationClient.createQueue(queueId, queueRequest);
       await administrationClient.createClassificationPolicy(
-        classificationPolicyRequest.id!,
+        classificationPolicyId,
         classificationPolicyRequest
       );
     });
 
     afterEach(async function(this: Context) {
       if (!this.currentTest?.isPending() && recorder) {
-        // unused
+        await recorder.stop();
       }
-
-      await sleep(sleepMs);
     });
 
     this.afterAll(async function(this: Context) {
-      await sleep(sleepMs);
-      await administrationClient.deleteClassificationPolicy(classificationPolicyRequest.id!, {});
-      await administrationClient.deleteQueue(queueRequest.id!, {});
-      await administrationClient.deleteExceptionPolicy(exceptionPolicyRequest.id!, {});
-      await administrationClient.deleteDistributionPolicy(distributionPolicyRequest.id!, {});
+      await administrationClient.deleteClassificationPolicy(classificationPolicyId);
+      await administrationClient.deleteQueue(queueId);
+      await administrationClient.deleteExceptionPolicy(exceptionPolicyId);
+      await administrationClient.deleteDistributionPolicy(distributionPolicyId);
     });
 
     it("should create a job", async function() {
-      let options: CreateJobOptions = {...request};
-      const result = await client.createJob(request.id!, options);
+      let options: CreateJobOptions = { ...jobRequest };
+      const result = await client.createJob(jobId, options);
 
       assert.isDefined(result);
       assert.isDefined(result.id);
-      assert.equal(result.id, request.id);
+      assert.equal(result.id, jobId);
     }).timeout(timeoutMs);
 
     it("should get a job", async function() {
-      const result = await client.getJob(request.id!);
+      const result = await client.getJob(jobId);
 
       assert.isDefined(result);
       assert.isDefined(result.id);
-      assert.equal(result.id, request.id);
+      assert.equal(result.id, jobId);
     }).timeout(timeoutMs);
 
     it("should update a job", async function() {
-      const patch: RouterJob = { ...request, priority: 5 };
-      const result = await client.updateJob(request.id!, patch);
+      const patch: RouterJob = { ...jobRequest, priority: 5 };
+      const result = await client.updateJob(jobId, patch);
 
       assert.isDefined(result);
       assert.isDefined(result.id);
-      assert.equal(result.id, request.id);
+      assert.equal(result.id, jobId);
       assert.equal(result.priority, patch.priority);
     }).timeout(timeoutMs);
 
-    it("should get in-queue position for a job", async function() {
-      const result = await client.getQueuePosition(request.id!);
+    it("should get queue position for a job", async function() {
+      const result = await client.getQueuePosition(jobId);
 
       assert.isDefined(result);
       assert.isDefined(result.position);
-      assert.equal(request.id, result.jobId);
+      assert.equal(jobId, result.jobId);
     }).timeout(timeoutMs);
 
     it("should reclassify a job", async function() {
-      const result = await client.reclassifyJob(request.id!);
+      const result = await client.reclassifyJob(jobId);
 
       assert.isDefined(result);
+    }).timeout(timeoutMs);
+
+    it("should list jobs", async function() {
+      const result: RouterJob[] = [];
+      for await (const job of client.listJobs({ maxPageSize: 20 })) {
+        result.push(job.routerJob!);
+      }
+
+      assert.isNotEmpty(result);
     }).timeout(timeoutMs);
 
     it("should cancel a job", async function() {
-      const result = await client.cancelJob(request.id!);
+      const result = await client.cancelJob(jobId);
 
       assert.isDefined(result);
     }).timeout(timeoutMs);
 
-    it("should delete a job", async () => {
-      const result = await client.deleteJob(request.id!);
+    it("should delete a job", async function() {
+      await sleep(3000);
+      const result = await client.deleteJob(jobId);
 
       assert.isDefined(result);
-    }).timeout(timeoutMs);
-
-    it("should list jobs", () => {
-      const result = client.listJobs({maxPageSize: 1});
-
-      assert.isNotNull(result.next());
-      assert.isNotNull(result.next());
     }).timeout(timeoutMs);
   });
 });
