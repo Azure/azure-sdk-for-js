@@ -8,7 +8,7 @@ nock('https://identity.confidential-ledger.core.azure.com:443', {"encodedQueryPa
   .get('/ledgerIdentity/emily-java-sdk-tests')
   .reply(200, {"ledgerTlsCertificate":"-----BEGIN CERTIFICATE-----\nMIIBejCCASCgAwIBAgIQMNwF270tS2Ex6jsW6jP46TAKBggqhkjOPQQDAjAWMRQw\nEgYDVQQDDAtDQ0YgTmV0d29yazAeFw0yMjA3MDYyMTA0NDBaFw0yMjEwMDQyMTA0\nMzlaMBYxFDASBgNVBAMMC0NDRiBOZXR3b3JrMFkwEwYHKoZIzj0CAQYIKoZIzj0D\nAQcDQgAEDUWr/JYiEUnNS+4Ndfcci6yGRXhVWSnabgvShqrdxW4RBmsKZ+qsAWJP\nnavsVjf8Zgd8gghMm1y4Zl4PoHzTxKNQME4wDAYDVR0TBAUwAwEB/zAdBgNVHQ4E\nFgQUiIlVb/2YkHp4mXRhBuLaadG82zYwHwYDVR0jBBgwFoAUiIlVb/2YkHp4mXRh\nBuLaadG82zYwCgYIKoZIzj0EAwIDSAAwRQIgfYFw63rQ8RrH0BBs6yWbYbm+OWCq\nwyWR8oAT90gwHtACIQDNJ3eIewMJNDtUSJaRYhOIOu10evuW63wBLP/kftLAmw==\n-----END CERTIFICATE-----\n","ledgerId":"emily-java-sdk-tests"}, [
   'Date',
-  'Thu, 08 Sep 2022 21:42:17 GMT',
+  'Tue, 13 Sep 2022 15:32:14 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Server',
@@ -16,11 +16,11 @@ nock('https://identity.confidential-ledger.core.azure.com:443', {"encodedQueryPa
   'Transfer-Encoding',
   'chunked',
   'x-ms-correlation-request-id',
-  '7e54160c-ad9f-41a4-8796-3e5b6f4615ba',
+  'b3da12f3-f124-4eda-919f-e962c2d17a63',
   'x-ms-client-request-id',
-  '237ac458-312f-4610-88a6-6adb598f4feb',
+  '6c596fec-0312-43cd-a32a-4b2d0cc5a70a',
   'x-ms-machineName',
-  'identityservice-69c77996fb-fq8xn',
+  'identityservice-69c77996fb-x6cqv',
   'x-ms-image-digest',
   'sha256:ff7211ed279924272e3c73dad9a7b9a438c814cee7fca952eed9f38b393580ef',
   'x-ms-image-tag',
@@ -46,21 +46,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'e9f64318-f042-40f4-be63-3c87f6f8b700',
+  '317e3bcc-849b-43f5-bcd7-dbfc40e12f00',
   'x-ms-ests-server',
-  '2.1.13562.12 - EUS ProdSlices',
+  '2.1.13622.7 - WUS2 ProdSlices',
   'X-XSS-Protection',
   '0',
   'Set-Cookie',
-  'fpc=An42eAXqzl1IoRrag2AAa2s; expires=Sat, 08-Oct-2022 21:42:18 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AqT9ixMvQaZAnXyXXJlNJRc; expires=Thu, 13-Oct-2022 15:32:15 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrwzzh1UcULBTbAKdgLLOtAvUHAiAqv0gTWqdIp8bnCidIBQifNd4Fw3IAcq1VlcSy40i0kmaYmSZCXVttf9PlJF3RHdHo94aRnfnID0KW5uHbpun-kEXnS7TFHQ10G6RnaRtOjubzjJg8CW9NzjihZtLP3C9qMoi-pxt-qsX7u7wgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrejrQzNKLbdiWWSgpnNphWEBbY7l2htVhhqsgJ0HFXIOYGaAz60YPAGMUnCs2_tbZsE6WbcaR-g3iyicpDdy8zbdvpeNhGraF0tdHlmkeMWAvbWQBusizGUEGMoW3gn2FRIlzSN0m-14p6HTs9XTO_e6esGbRFyl7tX9peLCspOUgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 08 Sep 2022 21:42:18 GMT',
+  'Tue, 13 Sep 2022 15:32:15 GMT',
   'Content-Length',
   '980'
 ]);
@@ -83,27 +83,27 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'd5ef7f70-b793-4d9b-9120-192615741400',
+  '53b57f6e-d5c2-46f0-bb57-1e2598142600',
   'x-ms-ests-server',
-  '2.1.13622.6 - SCUS ProdSlices',
+  '2.1.13672.7 - WUS2 ProdSlices',
   'X-XSS-Protection',
   '0',
   'Set-Cookie',
-  'fpc=AuRZTN-JKGRNhiWUU7B9okg; expires=Sat, 08-Oct-2022 21:42:18 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AoxVQ99dOwxOhQOJbSjXh3g; expires=Thu, 13-Oct-2022 15:32:15 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevro1rsZ-VlQ5MumPTTeutztAjR0e3c671JUvdWQR8967fLEIIZJLKRiiHwNsteaF26HTcyHfabFfxHoxa-fJGtoLNnSUTPenF8V8LStl2O9Q94MVxNKmINkTfcC1EqB2XfBOBkOuly4gEnzUHTJcs5wOpc6uo7RRPKlQH1vKqqHKYgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrr415zAOT04qTZAuHjYOCLCj_AFj45Zl2-MM7FDy56wP1E42FuKJOPIaTnwCDv6dkASsSExa2FE-dnw-4s_kmZAQFGuyYLcpkapDel23s3z1l4-TU7P60yAtYSs-JiQ4528XBdzLNEkJSb6fY4TWZU1AxmBMPXNuSChfnMdUQDa0gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 08 Sep 2022 21:42:18 GMT',
+  'Tue, 13 Sep 2022 15:32:15 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.12.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=34f1f2c3-9f6f-4898-820f-165bdb4c63c5&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.12.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=a8a8d1d7-f800-4b42-9268-04eb45db3917&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -120,21 +120,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'f20744f5-545b-4c58-8818-ed33ac4d5b00',
+  '3f5a1bf0-0f66-40d1-8fe7-36ba0ee81e00',
   'x-ms-ests-server',
-  '2.1.13622.6 - NCUS ProdSlices',
+  '2.1.13672.7 - EUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'X-XSS-Protection',
   '0',
   'Set-Cookie',
-  'fpc=AkADOVpy86BFtRB2leYvKOQsHfw7AQAAALpYrNoOAAAA; expires=Sat, 08-Oct-2022 21:42:18 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ai33GpZnCv5CoL4BTwW3QNgsHfw7AQAAAH-ZstoOAAAA; expires=Thu, 13-Oct-2022 15:32:15 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 08 Sep 2022 21:42:18 GMT',
+  'Tue, 13 Sep 2022 15:32:15 GMT',
   'Content-Length',
   '1334'
 ]);
@@ -148,39 +148,39 @@ nock('https://emily-java-sdk-tests.confidential-ledger.azure.com:443', {"encoded
   'content-type',
   'application/json',
   'x-ms-ccf-transaction-id',
-  '4.31473',
+  '4.41232',
   'x-ms-client-request-id',
-  'e254b57e-6e6d-4fee-87f7-582d746d2cd2',
+  'dcc23ce2-3b3b-442a-b433-d611e4b9b3f6',
   'x-ms-request-id',
-  '584548262'
+  '261740655'
 ]);
 
 nock('https://emily-java-sdk-tests.confidential-ledger.azure.com:443', {"encodedQueryParams":true})
-  .get('/app/transactions/4.31473/status')
+  .get('/app/transactions/4.41232/status')
   .query(true)
-  .reply(200, {"state":"Pending","transactionId":"4.31473"}, [
+  .reply(200, {"state":"Pending","transactionId":"4.41232"}, [
   'content-length',
   '45',
   'content-type',
   'application/json',
   'x-ms-ccf-transaction-id',
-  '4.31473',
+  '4.41232',
   'x-ms-client-request-id',
-  'df7410e6-bce2-409b-a9a2-f8329110edd3',
+  '637bd395-0681-4c3f-939b-91ed3d9d6972',
   'x-ms-request-id',
-  '1187308750'
+  '446140677'
 ]);
 
 nock('https://emily-java-sdk-tests.confidential-ledger.azure.com:443', {"encodedQueryParams":true})
-  .get('/app/transactions/4.31473/receipt')
+  .get('/app/transactions/4.41232/receipt')
   .query(true)
-  .reply(406, {"error":{"code":"UncommittedLedgerEntry","message":"The specified transaction (4.31473) is not committed yet, please wait until the service reports a transaction id at least as high."}}, [
+  .reply(406, {"error":{"code":"UncommittedLedgerEntry","message":"The specified transaction (4.41232) is not committed yet, please wait until the service reports a transaction id at least as high."}}, [
   'content-length',
   '186',
   'content-type',
   'application/json',
   'x-ms-client-request-id',
-  '678077ad-5263-49de-bd41-c3476c8f9135',
+  '5509d38f-1e9e-4fb4-a4ff-87a6694acc95',
   'x-ms-request-id',
-  '1699547132'
+  '2025108483'
 ]);
