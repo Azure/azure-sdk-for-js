@@ -58,7 +58,9 @@ In addition to what is described there, this library also needs additional polyf
 - `path`
 - `process`
 
-For example, if you are using Webpack v5, you can install the following dev dependencies
+#### Bundling with Webpack
+
+If you are using Webpack v5, you can install the following dev dependencies
 
 - `npm install --save-dev buffer os-browserify path-browserify process`
 
@@ -90,6 +92,46 @@ then add the following into your webpack.config.js
 +      path: require.resolve("path-browserify"),
 +    },
    },
+```
+
+#### Bundling with Rollup
+
+If you are using Rollup bundler, install the following dev dependencies
+
+- `npm install --save-dev buffer process @rollup/plugin-commonjs @rollup/plugin-inject @rollup/plugin-node-resolve`
+
+Then include the following in your rollup.config.js
+
+```diff
++import nodeResolve from "@rollup/plugin-node-resolve";
++import cjs from "@rollup/plugin-commonjs";
++import shim from "rollup-plugin-shim";
++import inject from "@rollup/plugin-inject";
+
+export default {
+  // other configs
+  plugins: [
++    shim({
++      fs: `export default {}`,
++      net: `export default {}`,
++      tls: `export default {}`,
++      path: `export default {}`,
++      dns: `export function resolve() { }`,
++    }),
++    nodeResolve({
++      mainFields: ["module", "browser"],
++      preferBuiltins: false,
++    }),
++    cjs(),
++    inject({
++      modules: {
++        Buffer: ["buffer", "Buffer"],
++        process: "process",
++      },
++      exclude: ["./**/package.json"],
++    }),
+  ]
+};
 ```
 
 Please consult the documentation of your favorite bundler for more information on using polyfills.
