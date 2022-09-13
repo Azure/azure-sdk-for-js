@@ -28,14 +28,14 @@
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01",
         "Content-Length": "31",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Sep 2022 13:35:33 GMT",
-        "MS-CV": "p7ZIyZiQ0kmIbl9zCCz0/g.0",
+        "Date": "Sun, 11 Sep 2022 15:34:37 GMT",
+        "MS-CV": "UfRUjSmLJky\u002BzknzLaETog.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0JZ4YYwAAAADw\u002Bji84ZRKQZsGaXaI1bmgUFJHMDFFREdFMDkyMABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0DQAeYwAAAAB/UDSlZHnMS7MSxJeWC57DUFJHMDFFREdFMDkxMgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "34ms"
+        "X-Processing-Time": "45ms"
       },
       "ResponseBody": {
         "identity": {
@@ -75,12 +75,12 @@
       "ResponseHeaders": {
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01",
         "Content-Type": "application/json",
-        "Date": "Wed, 07 Sep 2022 13:35:33 GMT",
-        "MS-CV": "03ZYW9pLmkSB01SJE0y9Rg.0",
+        "Date": "Sun, 11 Sep 2022 15:34:37 GMT",
+        "MS-CV": "LF7rl4DseE\u002BlFOeltf66Mw.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Jp4YYwAAAABI1xMAAKCCRYxhHxCYtH32UFJHMDFFREdFMDkyMABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0DgAeYwAAAABI15SCBtRJSIJLlIbgOXSSUFJHMDFFREdFMDkxMgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
         "X-Processing-Time": "23ms"

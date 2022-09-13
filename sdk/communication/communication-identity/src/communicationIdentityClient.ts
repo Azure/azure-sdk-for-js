@@ -101,7 +101,6 @@ export class CommunicationIdentityClient {
    *
    * @param user - The user whose tokens are being issued.
    * @param scopes - Scopes to include in the token.
-   * @param tokenExpirationInMinutes - Custom validity period of the Communication Identity access token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
    * @param options - Additional options for the request.
    */
   public getToken(
@@ -116,11 +115,13 @@ export class CommunicationIdentityClient {
    *
    * @param user - The user whose tokens are being issued.
    * @param scopes - Scopes to include in the token.
+   * @param tokenExpirationInMinutes - Custom validity period of the Communication Identity access token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
    * @param options - Additional options for the request.
    */
   public getToken(
     user: CommunicationUserIdentifier,
     scopes: TokenScope[],
+    tokenExpirationInMinutes?: number,
     options?: GetTokenOptions
   ): Promise<CommunicationAccessToken>;
 
@@ -130,8 +131,8 @@ export class CommunicationIdentityClient {
     tokenExpirationInMinutesOrOptions?: number | GetTokenOptions,
     options?: GetTokenOptions
   ): Promise<CommunicationAccessToken> {
-
-    const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams = this.parseTokenExpirationInMinutesOrOptions(tokenExpirationInMinutesOrOptions, options);
+    const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams =
+      this.parseTokenExpirationInMinutesOrOptions(tokenExpirationInMinutesOrOptions, options);
 
     return tracingClient.withSpan(
       "CommunicationIdentity-issueToken",
@@ -192,7 +193,6 @@ export class CommunicationIdentityClient {
    * Creates a single user and a token simultaneously.
    *
    * @param scopes - Scopes to include in the token.
-   * @param tokenExpirationInMinutes - Custom validity period of the Communication Identity access token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
    * @param options - Additional options for the request.
    */
   public createUserAndToken(
@@ -205,10 +205,12 @@ export class CommunicationIdentityClient {
    * Creates a single user and a token simultaneously.
    *
    * @param scopes - Scopes to include in the token.
+   * @param tokenExpirationInMinutes - Custom validity period of the Communication Identity access token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
    * @param options - Additional options for the request.
    */
   public createUserAndToken(
     scopes: TokenScope[],
+    tokenExpirationInMinutes?: number,
     options?: CreateUserAndTokenOptions
   ): Promise<CommunicationUserToken>;
 
@@ -217,7 +219,8 @@ export class CommunicationIdentityClient {
     tokenExpirationInMinutesOrOptions?: number | CreateUserAndTokenOptions,
     options?: CreateUserAndTokenOptions
   ): Promise<CommunicationUserToken> {
-    const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams = this.parseTokenExpirationInMinutesOrOptions(tokenExpirationInMinutesOrOptions, options);
+    const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams =
+      this.parseTokenExpirationInMinutesOrOptions(tokenExpirationInMinutesOrOptions, options);
 
     return tracingClient.withSpan(
       "CommunicationIdentity-createUserAndToken",
@@ -283,20 +286,21 @@ export class CommunicationIdentityClient {
   private parseTokenExpirationInMinutesOrOptions(
     tokenExpirationInMinutesOrOptions?: number | OperationOptions,
     options?: OperationOptions
-    ): CommunicationIdentityIssueAccessTokenOptionalParams {
-      let optionsWithTokenExpiration: CommunicationIdentityIssueAccessTokenOptionalParams = {};
+  ): CommunicationIdentityIssueAccessTokenOptionalParams {
+    let optionsWithTokenExpiration: CommunicationIdentityIssueAccessTokenOptionalParams = {};
 
-      if (options) {
-        optionsWithTokenExpiration = options; 
-      }
-      if (tokenExpirationInMinutesOrOptions && typeof tokenExpirationInMinutesOrOptions === "number") {
-        optionsWithTokenExpiration.expiresInMinutes = tokenExpirationInMinutesOrOptions;
-        return optionsWithTokenExpiration;
-      }
-      else 
-      {
-        optionsWithTokenExpiration.expiresInMinutes = undefined;
-        return optionsWithTokenExpiration;
-      }
+    if (options) {
+      optionsWithTokenExpiration = options;
+    }
+    if (
+      tokenExpirationInMinutesOrOptions &&
+      typeof tokenExpirationInMinutesOrOptions === "number"
+    ) {
+      optionsWithTokenExpiration.expiresInMinutes = tokenExpirationInMinutesOrOptions;
+      return optionsWithTokenExpiration;
+    } else {
+      optionsWithTokenExpiration.expiresInMinutes = undefined;
+      return optionsWithTokenExpiration;
+    }
   }
 }
