@@ -5,7 +5,10 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
 import { MsalClientSecret } from "../msal/nodeFlows/msalClientSecret";
 import { MsalFlow } from "../msal/flows";
+import { checkTenantId } from "../util/checkTenantId";
 import { credentialLogger } from "../util/logging";
+import { processMultiTenantRequest } from "../util/validateMultiTenant";
+import { resolveAddionallyAllowedTenantIds } from "../util/resolveAddionallyAllowedTenantIds";
 import { tracingClient } from "../util/tracing";
 
 const logger = credentialLogger("ClientSecretCredential");
@@ -19,6 +22,8 @@ const logger = credentialLogger("ClientSecretCredential");
  *
  */
 export class ClientSecretCredential implements TokenCredential {
+  private tenantId: string;
+  private additionallyAllowedTenantIds: string[];
   private msalFlow: MsalFlow;
 
   /**
@@ -42,6 +47,10 @@ export class ClientSecretCredential implements TokenCredential {
         "ClientSecretCredential: tenantId, clientId, and clientSecret are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot."
       );
     }
+
+    this.tenantId = tenantId;
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenantIds);
+
     this.msalFlow = new MsalClientSecret({
       ...options,
       logger,
@@ -65,6 +74,13 @@ export class ClientSecretCredential implements TokenCredential {
       `${this.constructor.name}.getToken`,
       options,
       async (newOptions) => {
+        const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
+        if (tenantId) {
+          checkTenantId(logger, tenantId);
+        }
+
+        newOptions.tenantId = tenantId;
+
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
         return this.msalFlow.getToken(arrayScopes, newOptions);
       }

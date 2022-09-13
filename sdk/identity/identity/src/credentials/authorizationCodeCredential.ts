@@ -8,6 +8,7 @@ import { MsalFlow } from "../msal/flows";
 import { checkTenantId } from "../util/checkTenantId";
 import { credentialLogger } from "../util/logging";
 import { resolveAddionallyAllowedTenantIds } from "../util/resolveAddionallyAllowedTenantIds";
+import { processMultiTenantRequest } from "../util/validateMultiTenant";
 import { tracingClient } from "../util/tracing";
 
 const logger = credentialLogger("AuthorizationCodeCredential");
@@ -24,6 +25,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
   private disableAutomaticAuthentication?: boolean;
   private authorizationCode: string;
   private redirectUri: string;
+  private tenantId?: string;
   private additionallyAllowedTenantIds: string[];
 
   /**
@@ -111,6 +113,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       clientSecret = undefined;
       options = redirectUriOrOptions as AuthorizationCodeCredentialOptions;
     }
+    this.tenantId = tenantId;
     this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenantIds);
 
     this.msalFlow = new MsalAuthorizationCode({
@@ -138,6 +141,12 @@ export class AuthorizationCodeCredential implements TokenCredential {
       `${this.constructor.name}.getToken`,
       options,
       async (newOptions) => {
+        const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
+        if (tenantId) {
+          checkTenantId(logger, tenantId);
+        }
+
+        newOptions.tenantId = tenantId;
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
         return this.msalFlow.getToken(arrayScopes, {
           ...newOptions,

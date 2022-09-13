@@ -9,6 +9,7 @@ import { CredentialUnavailableError } from "../errors";
 import { checkTenantId } from "../util/checkTenantId";
 import { processMultiTenantRequest } from "../util/validateMultiTenant";
 import { processUtils } from "../util/processUtils";
+import { resolveAddionallyAllowedTenantIds } from "../util/resolveAddionallyAllowedTenantIds";
 import { tracingClient } from "../util/tracing";
 
 const logger = credentialLogger("AzurePowerShellCredential");
@@ -90,6 +91,7 @@ if (isWindows) {
  */
 export class AzurePowerShellCredential implements TokenCredential {
   private tenantId?: string;
+  private additionallyAllowedTenantIds: string[];
 
   /**
    * Creates an instance of the {@link AzurePowerShellCredential}.
@@ -104,6 +106,7 @@ export class AzurePowerShellCredential implements TokenCredential {
    */
   constructor(options?: AzurePowerShellCredentialOptions) {
     this.tenantId = options?.tenantId;
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenantIds);
   }
 
   /**
@@ -165,7 +168,7 @@ export class AzurePowerShellCredential implements TokenCredential {
     options: GetTokenOptions = {}
   ): Promise<AccessToken> {
     return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
-      const tenantId = processMultiTenantRequest(this.tenantId, options);
+      const tenantId = processMultiTenantRequest(this.tenantId, options, this.additionallyAllowedTenantIds);
       if (tenantId) {
         checkTenantId(logger, tenantId);
       }

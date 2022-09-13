@@ -106,7 +106,7 @@ export class AzureCliCredential implements TokenCredential {
     scopes: string | string[],
     options: GetTokenOptions = {}
   ): Promise<AccessToken> {
-    const tenantId = processMultiTenantRequest(this.tenantId, options);
+    const tenantId = processMultiTenantRequest(this.tenantId, options, this.additionallyAllowedTenantIds);
     if (tenantId) {
       checkTenantId(logger, tenantId);
     }

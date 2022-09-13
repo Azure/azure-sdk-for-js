@@ -5,7 +5,10 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 import { ClientAssertionCredentialOptions } from "./clientAssertionCredentialOptions";
 import { MsalClientAssertion } from "../msal/nodeFlows/msalClientAssertion";
 import { MsalFlow } from "../msal/flows";
+import { checkTenantId } from "../util/checkTenantId";
 import { credentialLogger } from "../util/logging";
+import { processMultiTenantRequest } from "../util/validateMultiTenant";
+import { resolveAddionallyAllowedTenantIds } from "../util/resolveAddionallyAllowedTenantIds";
 import { tracingClient } from "../util/tracing";
 
 const logger = credentialLogger("ClientAssertionCredential");
@@ -16,6 +19,7 @@ const logger = credentialLogger("ClientAssertionCredential");
 export class ClientAssertionCredential implements TokenCredential {
   private msalFlow: MsalFlow;
   private tenantId: string;
+  private additionallyAllowedTenantIds: string[];
   private clientId: string;
   private options: ClientAssertionCredentialOptions;
 
@@ -41,6 +45,7 @@ export class ClientAssertionCredential implements TokenCredential {
       );
     }
     this.tenantId = tenantId;
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenantIds);
     this.clientId = clientId;
     this.options = options;
     this.msalFlow = new MsalClientAssertion({
@@ -66,6 +71,13 @@ export class ClientAssertionCredential implements TokenCredential {
       `${this.constructor.name}.getToken`,
       options,
       async (newOptions) => {
+        const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
+        if (tenantId) {
+          checkTenantId(logger, tenantId);
+        }
+
+        newOptions.tenantId = tenantId;
+
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
         return this.msalFlow.getToken(arrayScopes, newOptions);
       }
