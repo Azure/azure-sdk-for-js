@@ -14,6 +14,38 @@ import { SimplePollerLike } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface AbstractiveSummarizationAction {
+    maxSentenceCount?: number;
+    phraseControls?: PhraseControl[];
+    stringIndexType?: StringIndexType;
+}
+
+// @public
+export interface AbstractiveSummarizationBatchAction extends AnalyzeBatchActionCommon, AbstractiveSummarizationAction {
+    kind: "AbstractiveSummarization";
+}
+
+// @public
+export type AbstractiveSummarizationBatchResult = ActionMetadata & BatchActionResult<AbstractiveSummarizationResult, "AbstractiveSummarization">;
+
+// @public
+export type AbstractiveSummarizationErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type AbstractiveSummarizationResult = AbstractiveSummarizationSuccessResult | AbstractiveSummarizationErrorResult;
+
+// @public
+export interface AbstractiveSummarizationSuccessResult extends TextAnalysisSuccessResult {
+    readonly summaries: AbstractiveSummary[];
+}
+
+// @public
+export interface AbstractiveSummary {
+    contexts?: SummaryContext[];
+    text: string;
+}
+
+// @public
 export interface ActionCommon {
     disableServiceLogs?: boolean;
 }
@@ -45,6 +77,7 @@ export const AnalyzeActionNames: {
     readonly PiiEntityRecognition: "PiiEntityRecognition";
     readonly LanguageDetection: "LanguageDetection";
     readonly SentimentAnalysis: "SentimentAnalysis";
+    readonly DynamicClassification: "DynamicClassification";
 };
 
 // @public
@@ -54,11 +87,12 @@ export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
     PiiEntityRecognition: PiiEntityRecognitionAction;
     KeyPhraseExtraction: KeyPhraseExtractionAction;
     SentimentAnalysis: SentimentAnalysisAction;
+    DynamicClassification: DynamicClassificationAction;
     LanguageDetection: LanguageDetectionAction;
 }[ActionName];
 
 // @public
-export type AnalyzeBatchAction = EntityLinkingBatchAction | EntityRecognitionBatchAction | KeyPhraseExtractionBatchAction | PiiEntityRecognitionBatchAction | HealthcareBatchAction | SentimentAnalysisBatchAction | CustomEntityRecognitionBatchAction | CustomSingleLabelClassificationBatchAction | CustomMultiLabelClassificationBatchAction;
+export type AnalyzeBatchAction = EntityLinkingBatchAction | EntityRecognitionBatchAction | KeyPhraseExtractionBatchAction | PiiEntityRecognitionBatchAction | HealthcareBatchAction | SentimentAnalysisBatchAction | ExtractiveSummarizationBatchAction | AbstractiveSummarizationBatchAction | CustomEntityRecognitionBatchAction | CustomSingleLabelClassificationBatchAction | CustomMultiLabelClassificationBatchAction;
 
 // @public
 export interface AnalyzeBatchActionCommon {
@@ -76,6 +110,8 @@ export const AnalyzeBatchActionNames: {
     readonly KeyPhraseExtraction: "KeyPhraseExtraction";
     readonly EntityLinking: "EntityLinking";
     readonly Healthcare: "Healthcare";
+    readonly ExtractiveSummarization: "ExtractiveSummarization";
+    readonly AbstractiveSummarization: "AbstractiveSummarization";
     readonly CustomEntityRecognition: "CustomEntityRecognition";
     readonly CustomSingleLabelClassification: "CustomSingleLabelClassification";
     readonly CustomMultiLabelClassification: "CustomMultiLabelClassification";
@@ -101,7 +137,7 @@ export interface AnalyzeBatchOperationState extends OperationState<PagedAnalyzeB
 export type AnalyzeBatchPoller = PollerLike<AnalyzeBatchOperationState, PagedAnalyzeBatchResult>;
 
 // @public
-export type AnalyzeBatchResult = EntityLinkingBatchResult | EntityRecognitionBatchResult | KeyPhraseExtractionBatchResult | PiiEntityRecognitionBatchResult | SentimentAnalysisBatchResult | HealthcareBatchResult | CustomEntityRecognitionBatchResult | CustomSingleLabelClassificationBatchResult | CustomMultiLabelClassificationBatchResult;
+export type AnalyzeBatchResult = EntityLinkingBatchResult | EntityRecognitionBatchResult | KeyPhraseExtractionBatchResult | PiiEntityRecognitionBatchResult | SentimentAnalysisBatchResult | HealthcareBatchResult | ExtractiveSummarizationBatchResult | AbstractiveSummarizationBatchResult | CustomEntityRecognitionBatchResult | CustomSingleLabelClassificationBatchResult | CustomMultiLabelClassificationBatchResult;
 
 // @public
 export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
@@ -110,6 +146,7 @@ export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
     PiiEntityRecognition: PiiEntityRecognitionResult[];
     KeyPhraseExtraction: KeyPhraseExtractionResult[];
     SentimentAnalysis: SentimentAnalysisResult[];
+    DynamicClassification: DynamicClassificationResult[];
     LanguageDetection: LanguageDetectionResult[];
 }[ActionName];
 
@@ -142,7 +179,7 @@ export interface BatchActionState<Kind extends AnalyzeBatchActionName> {
 }
 
 // @public
-export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName> extends BatchActionState<Kind> {
+export interface BatchActionSuccessResult<T extends DocumentDetectedLanguage, Kind extends AnalyzeBatchActionName> extends BatchActionState<Kind> {
     readonly completedOn: Date;
     readonly error?: undefined;
     readonly results: T[];
@@ -150,6 +187,7 @@ export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName
 
 // @public
 export interface BeginAnalyzeBatchOptions extends TextAnalysisOperationOptions {
+    defaultLanguage?: string;
     displayName?: string;
     updateIntervalInMs?: number;
 }
@@ -159,6 +197,9 @@ export interface ClassificationCategory {
     category: string;
     confidenceScore: number;
 }
+
+// @public
+export type ClassificationType = string;
 
 // @public
 export interface CustomActionMetadata {
@@ -241,15 +282,41 @@ export interface DetectedLanguage {
     confidenceScore: number;
     iso6391Name: string;
     name: string;
+    script?: ScriptKind;
+}
+
+// @public
+export interface DocumentDetectedLanguage {
+    detectedLanguage?: DetectedLanguage;
 }
 
 // @public
 export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixed";
 
 // @public
+export type DocumentType = string;
+
+// @public
 export interface DocumentWarning {
     code: WarningCode;
     message: string;
+}
+
+// @public
+export interface DynamicClassificationAction extends ActionPrebuilt {
+    categories: string[];
+    classificationType?: ClassificationType;
+}
+
+// @public
+export type DynamicClassificationErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type DynamicClassificationResult = DynamicClassificationSuccessResult | DynamicClassificationErrorResult;
+
+// @public
+export interface DynamicClassificationSuccessResult extends TextAnalysisSuccessResult {
+    readonly classifications: ClassificationCategory[];
 }
 
 // @public
@@ -326,7 +393,41 @@ export interface EntityRecognitionSuccessResult extends TextAnalysisSuccessResul
 }
 
 // @public
+export interface ExtractiveSummarizationAction extends ActionPrebuilt {
+    maxSentenceCount?: number;
+    orderBy?: ExtractiveSummarizationOrderingCriteria;
+    stringIndexType?: StringIndexType;
+}
+
+// @public
+export interface ExtractiveSummarizationBatchAction extends AnalyzeBatchActionCommon, ExtractiveSummarizationAction {
+    kind: "ExtractiveSummarization";
+}
+
+// @public
+export type ExtractiveSummarizationBatchResult = ActionMetadata & BatchActionResult<ExtractiveSummarizationResult, "ExtractiveSummarization">;
+
+// @public
+export type ExtractiveSummarizationErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type ExtractiveSummarizationOrderingCriteria = string;
+
+// @public
+export type ExtractiveSummarizationResult = ExtractiveSummarizationSuccessResult | ExtractiveSummarizationErrorResult;
+
+// @public
+export interface ExtractiveSummarizationSuccessResult extends TextAnalysisSuccessResult {
+    readonly sentences: SummarySentence[];
+}
+
+// @public
+export type FhirVersion = string;
+
+// @public
 export interface HealthcareAction extends ActionPrebuilt {
+    documentType?: DocumentType;
+    fhirVersion?: FhirVersion;
     stringIndexType?: StringIndexType;
 }
 
@@ -358,6 +459,7 @@ export type HealthcareEntityCategory = string;
 
 // @public
 export interface HealthcareEntityRelation {
+    readonly confidenceScore?: number;
     readonly relationType: RelationType;
     readonly roles: HealthcareEntityRelationRole[];
 }
@@ -381,6 +483,7 @@ export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
 export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
     readonly entities: HealthcareEntity[];
     readonly entityRelations: HealthcareEntityRelation[];
+    readonly fhirBundle?: Record<string, any>;
 }
 
 // @public
@@ -407,6 +510,25 @@ export interface KeyPhraseExtractionSuccessResult extends TextAnalysisSuccessRes
 }
 
 // @public
+export enum KnownClassificationType {
+    Multi = "Multi",
+    Single = "Single"
+}
+
+// @public
+export enum KnownDocumentType {
+    ClinicalTrial = "ClinicalTrial",
+    Consult = "Consult",
+    DischargeSummary = "DischargeSummary",
+    HistoryAndPhysical = "HistoryAndPhysical",
+    Imaging = "Imaging",
+    None = "None",
+    Pathology = "Pathology",
+    ProcedureNote = "ProcedureNote",
+    ProgressNote = "ProgressNote"
+}
+
+// @public
 export enum KnownErrorCode {
     AzureCognitiveSearchIndexLimitReached = "AzureCognitiveSearchIndexLimitReached",
     AzureCognitiveSearchIndexNotFound = "AzureCognitiveSearchIndexNotFound",
@@ -426,6 +548,17 @@ export enum KnownErrorCode {
     TooManyRequests = "TooManyRequests",
     Unauthorized = "Unauthorized",
     Warning = "Warning"
+}
+
+// @public
+export enum KnownExtractiveSummarizationOrderingCriteria {
+    Offset = "Offset",
+    Rank = "Rank"
+}
+
+// @public
+export enum KnownFhirVersion {
+    "4.0.1" = "4.0.1"
 }
 
 // @public
@@ -630,6 +763,36 @@ export enum KnownPiiEntityDomain {
 }
 
 // @public
+export enum KnownRelationType {
+    Abbreviation = "Abbreviation",
+    DirectionOfBodyStructure = "DirectionOfBodyStructure",
+    DirectionOfCondition = "DirectionOfCondition",
+    DirectionOfExamination = "DirectionOfExamination",
+    DirectionOfTreatment = "DirectionOfTreatment",
+    DosageOfMedication = "DosageOfMedication",
+    FormOfMedication = "FormOfMedication",
+    FrequencyOfMedication = "FrequencyOfMedication",
+    FrequencyOfTreatment = "FrequencyOfTreatment",
+    QualifierOfCondition = "QualifierOfCondition",
+    RelationOfExamination = "RelationOfExamination",
+    RouteOfMedication = "RouteOfMedication",
+    TimeOfCondition = "TimeOfCondition",
+    TimeOfEvent = "TimeOfEvent",
+    TimeOfExamination = "TimeOfExamination",
+    TimeOfMedication = "TimeOfMedication",
+    TimeOfTreatment = "TimeOfTreatment",
+    UnitOfCondition = "UnitOfCondition",
+    UnitOfExamination = "UnitOfExamination",
+    ValueOfCondition = "ValueOfCondition",
+    ValueOfExamination = "ValueOfExamination"
+}
+
+// @public
+export enum KnownScriptKind {
+    Latin = "Latin"
+}
+
+// @public
 export enum KnownStringIndexType {
     TextElementsV8 = "TextElements_v8",
     UnicodeCodePoint = "UnicodeCodePoint",
@@ -720,6 +883,15 @@ export interface Opinion {
 export type PagedAnalyzeBatchResult = PagedAsyncIterableIterator<AnalyzeBatchResult>;
 
 // @public
+export interface PhraseControl {
+    strategy: PhraseControlStrategy;
+    targetPhrase: string;
+}
+
+// @public
+export type PhraseControlStrategy = "encourage" | "discourage" | "disallow";
+
+// @public
 export type PiiEntityCategory = string;
 
 // @public
@@ -764,6 +936,9 @@ export type RelationType = string;
 export interface RestoreAnalyzeBatchPollerOptions extends TextAnalysisOperationOptions {
     updateIntervalInMs?: number;
 }
+
+// @public
+export type ScriptKind = string;
 
 // @public
 export interface SentenceSentiment {
@@ -814,6 +989,20 @@ export interface SentimentConfidenceScores {
 
 // @public
 export type StringIndexType = string;
+
+// @public
+export interface SummaryContext {
+    length: number;
+    offset: number;
+}
+
+// @public
+export interface SummarySentence {
+    length: number;
+    offset: number;
+    rankScore: number;
+    text: string;
+}
 
 // @public
 export interface TargetConfidenceScores {
@@ -878,6 +1067,7 @@ export interface TextAnalysisSuccessResult {
 
 // @public
 export interface TextDocumentBatchStatistics {
+    [property: string]: any;
     documentCount: number;
     erroneousDocumentCount: number;
     transactionCount: number;

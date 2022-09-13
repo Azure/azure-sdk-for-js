@@ -15,7 +15,8 @@ export type AnalyzeActionUnion =
   | AnalyzeTextKeyPhraseExtractionInput
   | AnalyzeTextPiiEntitiesRecognitionInput
   | AnalyzeTextLanguageDetectionInput
-  | AnalyzeTextSentimentAnalysisInput;
+  | AnalyzeTextSentimentAnalysisInput
+  | AnalyzeTextDynamicClassificationInput;
 export type AnalyzeTextTaskResultUnion =
   | AnalyzeTextTaskResult
   | SentimentTaskResult
@@ -23,7 +24,8 @@ export type AnalyzeTextTaskResultUnion =
   | EntityLinkingTaskResult
   | PiiTaskResult
   | KeyPhraseTaskResult
-  | LanguageDetectionTaskResult;
+  | LanguageDetectionTaskResult
+  | DynamicClassificationTaskResult;
 export type AnalyzeBatchActionUnion =
   | AnalyzeBatchAction
   | CustomEntitiesLROTask
@@ -34,7 +36,9 @@ export type AnalyzeBatchActionUnion =
   | EntitiesLROTask
   | EntityLinkingLROTask
   | PiiLROTask
-  | KeyPhraseLROTask;
+  | ExtractiveSummarizationLROTask
+  | KeyPhraseLROTask
+  | AbstractiveSummarizationLROTask;
 export type AnalyzeTextLROResultUnion =
   | AnalyzeTextLROResult
   | EntityRecognitionLROResult
@@ -43,9 +47,11 @@ export type AnalyzeTextLROResultUnion =
   | CustomMultiLabelClassificationLROResult
   | EntityLinkingLROResult
   | PiiEntityRecognitionLROResult
+  | ExtractiveSummarizationLROResult
   | HealthcareLROResult
   | SentimentLROResult
-  | KeyPhraseExtractionLROResult;
+  | KeyPhraseExtractionLROResult
+  | AbstractiveSummarizationLROResult;
 
 export interface AnalyzeAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -55,7 +61,8 @@ export interface AnalyzeAction {
     | "KeyPhraseExtraction"
     | "PiiEntityRecognition"
     | "LanguageDetection"
-    | "SentimentAnalysis";
+    | "SentimentAnalysis"
+    | "DynamicClassification";
 }
 
 export interface AnalyzeTextTaskResult {
@@ -66,7 +73,8 @@ export interface AnalyzeTextTaskResult {
     | "EntityLinkingResults"
     | "PiiEntityRecognitionResults"
     | "KeyPhraseExtractionResults"
-    | "LanguageDetectionResults";
+    | "LanguageDetectionResults"
+    | "DynamicClassificationResults";
 }
 
 /** Error response. */
@@ -108,6 +116,8 @@ export interface InnerErrorModel {
 export interface AnalyzeTextJobsInput {
   /** Optional display name for the analysis job. */
   displayName?: string;
+  /** Default language to use for records requesting automatic language detection. */
+  defaultLanguage?: string;
   analysisInput: MultiLanguageAnalysisInput;
   /** The set of tasks to execute on the input documents. */
   tasks: AnalyzeBatchActionUnion[];
@@ -123,7 +133,7 @@ export interface TextDocumentInput {
   id: string;
   /** The input text to process. */
   text: string;
-  /** (Optional) This is the 2 letter ISO 639-1 representation of a language. For example, use "en" for English; "es" for Spanish etc. If not set, use "en" for English as default. */
+  /** (Optional) This is the 2 letter ISO 639-1 representation of a language. For example, use "en" for English; "es" for Spanish etc. For Auto Language Detection, use "auto". If not set, use "en" for English as default. */
   language?: string;
 }
 
@@ -156,8 +166,11 @@ export interface TasksStateTasks {
   items?: AnalyzeTextLROResultUnion[];
 }
 
+/** Returns the current state of the task. */
 export interface TaskState {
+  /** The last updated time in UTC for the task. */
   lastUpdateDateTime: Date;
+  /** The status of the task at the mentioned last update time. */
   status: State;
 }
 
@@ -168,6 +181,8 @@ export interface AnalyzeTextJobStatistics {
 
 /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
 export interface TextDocumentBatchStatistics {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
   /** Number of documents submitted in the request. */
   documentCount: number;
   /** Number of valid documents. This excludes empty, over-size limit or non-supported languages documents. */
@@ -202,22 +217,6 @@ export interface ActionCommon {
   disableServiceLogs?: boolean;
 }
 
-export interface PreBuiltResult {
-  /** Errors by document id. */
-  errors: DocumentError[];
-  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
-  statistics?: TextDocumentBatchStatistics;
-  /** This field indicates which model is used for scoring. */
-  modelVersion: string;
-}
-
-export interface DocumentError {
-  /** Document Id. */
-  id: string;
-  /** Document Error. */
-  error: ErrorModel;
-}
-
 export interface CustomResult {
   /** Errors by document id. */
   errors: DocumentError[];
@@ -227,6 +226,13 @@ export interface CustomResult {
   projectName: string;
   /** This field indicates the deployment name for the model. */
   deploymentName: string;
+}
+
+export interface DocumentError {
+  /** Document Id. */
+  id: string;
+  /** Document Error. */
+  error: ErrorModel;
 }
 
 /** A word or phrase identified as an entity that is categorized within a taxonomy of types. The set of categories recognized by the Language service is described at https://docs.microsoft.com/azure/cognitive-services/language-service/named-entity-recognition/concepts/named-entity-categories . */
@@ -268,6 +274,24 @@ export interface TextDocumentStatistics {
   characterCount: number;
   /** Number of transactions for the document. */
   transactionCount: number;
+}
+
+/** The auto-detected language of the input document. */
+export interface DocumentDetectedLanguage {
+  /** If 'language' is set to 'auto' for the document in the request this field will contain a 2 letter ISO 639-1 representation of the language detected for this document. */
+  detectedLanguage?: DetectedLanguage;
+}
+
+/** Information about the language of a document as identified by the Language service. */
+export interface DetectedLanguage {
+  /** Long name of a detected language (e.g. English, French). */
+  name: string;
+  /** A two letter representation of the detected language according to the ISO 639-1 standard (e.g. en, fr). */
+  iso6391Name: string;
+  /** A confidence score between 0 and 1. Scores close to 1 indicate 100% certainty that the identified language is true. */
+  confidenceScore: number;
+  /** Identifies the script of the input document. */
+  script?: ScriptKind;
 }
 
 /** A classification result from a custom classify document single category action */
@@ -321,6 +345,8 @@ export interface EntityDataSource {
 export interface HealthcareRelation {
   /** Type of relation. Examples include: `DosageOfMedication` or 'FrequencyOfMedication', etc. */
   relationType: RelationType;
+  /** Confidence score between 0 and 1 of the extracted relation. */
+  confidenceScore?: number;
   /** The entities in the relation. */
   entities: HealthcareRelationEntity[];
 }
@@ -330,6 +356,23 @@ export interface HealthcareRelationEntity {
   ref: string;
   /** Role of entity in the relationship. For example: 'CD20-positive diffuse large B-cell lymphoma' has the following entities with their roles in parenthesis:  CD20 (GeneOrProtein), Positive (Expression), diffuse large B-cell lymphoma (Diagnosis). */
   role: string;
+}
+
+export interface PreBuiltResult {
+  /** Errors by document id. */
+  errors: InputError[];
+  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
+  statistics?: TextDocumentBatchStatistics;
+  /** This field indicates which model is used for scoring. */
+  modelVersion: string;
+}
+
+/** Contains details of errors encountered during a job execution. */
+export interface InputError {
+  /** The ID of the input. */
+  id: string;
+  /** Error encountered. */
+  error: ErrorModel;
 }
 
 /** Represents the confidence scores between 0 and 1 across all sentiment classes: positive, neutral, negative. */
@@ -436,22 +479,64 @@ export interface Match {
   length: number;
 }
 
-/** Information about the language of a document as identified by the Language service. */
-export interface DetectedLanguage {
-  /** Long name of a detected language (e.g. English, French). */
-  name: string;
-  /** A two letter representation of the detected language according to the ISO 639-1 standard (e.g. en, fr). */
-  iso6391Name: string;
-  /** A confidence score between 0 and 1. Scores close to 1 indicate 100% certainty that the identified language is true. */
-  confidenceScore: number;
+/** A sentence that is part of the extracted summary. */
+export interface SummarySentence {
+  /** The extracted sentence text. */
+  text: string;
+  /** A double value representing the relevance of the sentence within the summary. Higher values indicate higher importance. */
+  rankScore: number;
+  /** The sentence offset from the start of the document, based on the value of the parameter StringIndexType. */
+  offset: number;
+  /** The length of the sentence. */
+  length: number;
 }
 
 export interface Pagination {
   nextLink?: string;
 }
 
-export interface JobErrors {
-  errors?: ErrorModel[];
+/** Supported parameters for an Abstractive Summarization task. */
+export interface AbstractiveSummarizationTaskParametersBase {
+  /** The max number of sentences to be part of the summary. */
+  maxSentenceCount?: number;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
+   *
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+  /** Control the phrases to be used in the summary. */
+  phraseControls?: PhraseControl[];
+}
+
+/** Control the phrases to be used in the summary. */
+export interface PhraseControl {
+  /** The target phrase to control. */
+  targetPhrase: string;
+  /** The strategy to use in phrase control. */
+  strategy: PhraseControlStrategy;
+}
+
+/** An object representing the summarization results of each document. */
+export interface AbstractiveSummarizationResultBase {
+  /** Response by document */
+  documents: AbstractiveSummarizationResultBaseDocumentsItem[];
+}
+
+/** An object representing a single summary with context for given document. */
+export interface AbstractiveSummary {
+  /** The text of the summary. */
+  text: string;
+  /** The context list of the summary. */
+  contexts?: SummaryContext[];
+}
+
+/** The context of the summary. */
+export interface SummaryContext {
+  /** Start position for the context. Use of different 'stringIndexType' values can affect the offset returned. */
+  offset: number;
+  /** The length of the context. Use of different 'stringIndexType' values can affect the length returned. */
+  length: number;
 }
 
 export interface AnalyzeTextEntityLinkingInput extends AnalyzeAction {
@@ -502,7 +587,17 @@ export interface AnalyzeTextSentimentAnalysisInput extends AnalyzeAction {
   parameters?: SentimentAnalysisAction;
 }
 
-export interface SentimentTaskResult extends AnalyzeTextTaskResult {
+export interface AnalyzeTextDynamicClassificationInput extends AnalyzeAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "DynamicClassification";
+  analysisInput?: MultiLanguageAnalysisInput;
+  /** Options for a dynamic classification action. */
+  parameters?: DynamicClassificationAction;
+}
+
+export interface SentimentTaskResult
+  extends AnalyzeTextTaskResult,
+    DocumentDetectedLanguage {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "SentimentAnalysisResults";
   results: SentimentResponse;
@@ -538,6 +633,12 @@ export interface LanguageDetectionTaskResult extends AnalyzeTextTaskResult {
   results: LanguageDetectionResult;
 }
 
+export interface DynamicClassificationTaskResult extends AnalyzeTextTaskResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "DynamicClassificationResults";
+  results: DynamicClassificationResult;
+}
+
 export interface AnalyzeBatchAction extends BatchActionState {
   /** Enumeration of supported long-running Text Analysis tasks. */
   kind: AnalyzeTextLROTaskKind;
@@ -553,6 +654,16 @@ export interface AnalyzeTextJobState
     TasksState,
     AnalyzeTextJobStatistics {}
 
+/** if includeStatistics=true was specified in the request this field will contain information about the document request payload. */
+export interface DocumentRequestStatistics extends TextDocumentBatchStatistics {
+  /** Number of documents submitted in the request. */
+  documentsCount: number;
+  /** Number of valid documents. This excludes empty, over-size limit or non-supported languages documents. */
+  validDocumentsCount: number;
+  /** Number of invalid documents. This includes empty, over-size limit or non-supported languages documents. */
+  erroneousDocumentsCount: number;
+}
+
 /** Configuration common to all actions that use prebuilt models. */
 export interface ActionPrebuilt extends ActionCommon {
   /** The version of the model to be used by the action. */
@@ -565,40 +676,6 @@ export interface ActionCustom extends ActionCommon {
   projectName: string;
   /** This field indicates the deployment name for the model. */
   deploymentName: string;
-}
-
-export interface HealthcareResult extends PreBuiltResult {
-  documents: HealthcareResultDocumentsItem[];
-}
-
-export interface SentimentResponse extends PreBuiltResult {
-  /** Sentiment analysis per document. */
-  documents: SentimentResponseDocumentsItem[];
-}
-
-export interface EntitiesResult extends PreBuiltResult {
-  /** Response by document */
-  documents: EntitiesResultDocumentsItem[];
-}
-
-export interface EntityLinkingResult extends PreBuiltResult {
-  /** Response by document */
-  documents: EntityLinkingResultDocumentsItem[];
-}
-
-export interface PiiResult extends PreBuiltResult {
-  /** Response by document */
-  documents: PiiResultDocumentsItem[];
-}
-
-export interface KeyPhraseResult extends PreBuiltResult {
-  /** Response by document */
-  documents: KeyPhraseResultDocumentsItem[];
-}
-
-export interface LanguageDetectionResult extends PreBuiltResult {
-  /** Response by document */
-  documents: LanguageDetectionDocumentResult[];
 }
 
 export interface CustomEntitiesResult extends CustomResult {
@@ -625,6 +702,8 @@ export interface HealthcareEntitiesDocumentResult extends DocumentResult {
   entities: HealthcareEntity[];
   /** Healthcare entity relations. */
   relations: HealthcareRelation[];
+  /** JSON bundle containing a FHIR compatible object for consumption in other Healthcare tools. For additional information see https://www.hl7.org/fhir/overview.html. */
+  fhirBundle?: { [propertyName: string]: any };
 }
 
 export interface SentimentDocumentResult extends DocumentResult {
@@ -648,6 +727,11 @@ export interface PiiEntitiesDocumentResult extends DocumentResult {
   entities: Entity[];
 }
 
+export interface ExtractedSummaryDocumentResult extends DocumentResult {
+  /** A ranked list of sentences representing the extracted summary. */
+  sentences: SummarySentence[];
+}
+
 export interface KeyPhrasesDocumentResult extends DocumentResult {
   /** A list of representative words or phrases. The number of key phrases returned is proportional to the number of words in the input document. */
   keyPhrases: string[];
@@ -657,6 +741,98 @@ export interface LanguageDetectionDocumentResult extends DocumentResult {
   /** Detected Language. */
   detectedLanguage: DetectedLanguage;
 }
+
+/** An object representing the summarization result of a single document. */
+export interface AbstractiveSummaryDocumentResult extends DocumentResult {
+  /** A list of abstractive summaries. */
+  summaries: AbstractiveSummary[];
+}
+
+export interface CustomEntitiesResultDocumentsItem
+  extends EntitiesDocumentResult,
+    DocumentDetectedLanguage {}
+
+export interface CustomLabelClassificationResultDocumentsItem
+  extends ClassificationDocumentResult,
+    DocumentDetectedLanguage {}
+
+export interface EntitiesResultDocumentsItem
+  extends EntitiesDocumentResult,
+    DocumentDetectedLanguage {}
+
+export interface EntityLinkingResultDocumentsItem
+  extends LinkedEntitiesDocumentResult,
+    DocumentDetectedLanguage {}
+
+export interface PiiResultDocumentsItem
+  extends PiiEntitiesDocumentResult,
+    DocumentDetectedLanguage {}
+
+export interface ExtractiveSummarizationResultDocumentsItem
+  extends ExtractedSummaryDocumentResult,
+    DocumentDetectedLanguage {}
+
+export interface KeyPhraseResultDocumentsItem
+  extends KeyPhrasesDocumentResult,
+    DocumentDetectedLanguage {}
+
+export interface AbstractiveSummarizationResultBaseDocumentsItem
+  extends AbstractiveSummaryDocumentResult,
+    DocumentDetectedLanguage {}
+
+export interface HealthcareResult extends PreBuiltResult {
+  documents: HealthcareResultDocumentsItem[];
+}
+
+export interface SentimentResponse extends PreBuiltResult {
+  /** Sentiment analysis per document. */
+  documents: SentimentResponseDocumentsItem[];
+}
+
+export interface EntitiesResult extends PreBuiltResult {
+  /** Response by document */
+  documents: EntitiesResultDocumentsItem[];
+}
+
+export interface EntityLinkingResult extends PreBuiltResult {
+  /** Response by document */
+  documents: EntityLinkingResultDocumentsItem[];
+}
+
+export interface PiiResult extends PreBuiltResult {
+  /** Response by document */
+  documents: PiiResultDocumentsItem[];
+}
+
+export interface ExtractiveSummarizationResult extends PreBuiltResult {
+  /** Response by document */
+  documents: ExtractiveSummarizationResultDocumentsItem[];
+}
+
+export interface KeyPhraseResult extends PreBuiltResult {
+  /** Response by document */
+  documents: KeyPhraseResultDocumentsItem[];
+}
+
+export interface LanguageDetectionResult extends PreBuiltResult {
+  /** Response by document */
+  documents: LanguageDetectionDocumentResult[];
+}
+
+export interface DynamicClassificationResult extends PreBuiltResult {
+  /** Response by document */
+  documents: DynamicClassificationResultDocumentsItem[];
+}
+
+/** An object representing the pre-build summarization results of each document. */
+export interface AbstractiveSummarizationResult
+  extends AbstractiveSummarizationResultBase,
+    PreBuiltResult {}
+
+/** Supported parameters for the pre-build Abstractive Summarization task. */
+export interface AbstractiveSummarizationAction
+  extends AbstractiveSummarizationTaskParametersBase,
+    ActionPrebuilt {}
 
 /** Use custom models to ease the process of information extraction from unstructured documents like contracts or financial documents */
 export interface CustomEntitiesLROTask extends AnalyzeBatchAction {
@@ -707,10 +883,22 @@ export interface PiiLROTask extends AnalyzeBatchAction {
   parameters?: PiiEntityRecognitionAction;
 }
 
+/** An object representing the task definition for an Extractive Summarization task. */
+export interface ExtractiveSummarizationLROTask extends AnalyzeBatchAction {
+  /** Supported parameters for an Extractive Summarization task. */
+  parameters?: ExtractiveSummarizationAction;
+}
+
 /** An object representing the task definition for a Key Phrase Extraction task. */
 export interface KeyPhraseLROTask extends AnalyzeBatchAction {
   /** Options for a key phrase recognition action. */
   parameters?: KeyPhraseExtractionAction;
+}
+
+/** An object representing the task definition for an Abstractive Summarization task. */
+export interface AbstractiveSummarizationLROTask extends AnalyzeBatchAction {
+  /** Supported parameters for the pre-build Abstractive Summarization task. */
+  parameters: AbstractiveSummarizationAction;
 }
 
 export interface EntityRecognitionLROResult extends AnalyzeTextLROResult {
@@ -739,6 +927,10 @@ export interface PiiEntityRecognitionLROResult extends AnalyzeTextLROResult {
   results: PiiResult;
 }
 
+export interface ExtractiveSummarizationLROResult extends AnalyzeTextLROResult {
+  results: ExtractiveSummarizationResult;
+}
+
 export interface HealthcareLROResult extends AnalyzeTextLROResult {
   results: HealthcareResult;
 }
@@ -749,6 +941,13 @@ export interface SentimentLROResult extends AnalyzeTextLROResult {
 
 export interface KeyPhraseExtractionLROResult extends AnalyzeTextLROResult {
   results: KeyPhraseResult;
+}
+
+/** An object representing the results for an Abstractive Summarization task. */
+export interface AbstractiveSummarizationLROResult
+  extends AnalyzeTextLROResult {
+  /** An object representing the pre-build summarization results of each document. */
+  results: AbstractiveSummarizationResult;
 }
 
 /** Options for an entity linking action. */
@@ -807,8 +1006,34 @@ export interface SentimentAnalysisAction extends ActionPrebuilt {
   stringIndexType?: StringIndexType;
 }
 
+/** Options for a dynamic classification action. */
+export interface DynamicClassificationAction extends ActionPrebuilt {
+  /** Specifies either one or multiple categories per document. Defaults to multi classification which may return more than one class for each document. */
+  classificationType?: ClassificationType;
+  /** a list of categories to which input is classified to. */
+  categories: string[];
+}
+
 /** Supported parameters for a Healthcare task. */
 export interface HealthcareAction extends ActionPrebuilt {
+  /** The FHIR Spec version that the result will use to format the fhirBundle. For additional information see https://www.hl7.org/fhir/overview.html. */
+  fhirVersion?: FhirVersion;
+  /** Document type that can be provided as input for Fhir Documents. Expect to have fhirVersion provided when used. Behavior of using None enum is the same as not using the documentType parameter. */
+  documentType?: DocumentType;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
+   *
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+}
+
+/** Supported parameters for an Extractive Summarization task. */
+export interface ExtractiveSummarizationAction extends ActionPrebuilt {
+  /** The max number of sentences to be part of the summary. */
+  maxSentenceCount?: number;
+  /** The sorting criteria to use for the results of Extractive Summarization. */
+  orderBy?: ExtractiveSummarizationOrderingCriteria;
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
@@ -833,12 +1058,7 @@ export interface CustomSingleLabelClassificationAction extends ActionCustom {}
 /** Options for a multi-label classification custom action */
 export interface CustomMultiLabelClassificationAction extends ActionCustom {}
 
-export interface CustomEntitiesResultDocumentsItem
-  extends EntitiesDocumentResult {}
-
-export interface EntitiesResultDocumentsItem extends EntitiesDocumentResult {}
-
-export interface CustomLabelClassificationResultDocumentsItem
+export interface DynamicClassificationResultDocumentsItem
   extends ClassificationDocumentResult {}
 
 export interface HealthcareResultDocumentsItem
@@ -846,14 +1066,6 @@ export interface HealthcareResultDocumentsItem
 
 export interface SentimentResponseDocumentsItem
   extends SentimentDocumentResult {}
-
-export interface EntityLinkingResultDocumentsItem
-  extends LinkedEntitiesDocumentResult {}
-
-export interface PiiResultDocumentsItem extends PiiEntitiesDocumentResult {}
-
-export interface KeyPhraseResultDocumentsItem
-  extends KeyPhrasesDocumentResult {}
 
 /** Defines headers for AnalyzeText_submitJob operation. */
 export interface AnalyzeTextSubmitJobHeaders {
@@ -878,7 +1090,9 @@ export enum KnownAnalyzeTextTaskKind {
   /** LanguageDetection */
   LanguageDetection = "LanguageDetection",
   /** EntityLinking */
-  EntityLinking = "EntityLinking"
+  EntityLinking = "EntityLinking",
+  /** DynamicClassification */
+  DynamicClassification = "DynamicClassification"
 }
 
 /**
@@ -891,7 +1105,8 @@ export enum KnownAnalyzeTextTaskKind {
  * **PiiEntityRecognition** \
  * **KeyPhraseExtraction** \
  * **LanguageDetection** \
- * **EntityLinking**
+ * **EntityLinking** \
+ * **DynamicClassification**
  */
 export type AnalyzeTextTaskKind = string;
 
@@ -908,7 +1123,9 @@ export enum KnownAnalyzeTextTaskResultsKind {
   /** LanguageDetectionResults */
   LanguageDetectionResults = "LanguageDetectionResults",
   /** EntityLinkingResults */
-  EntityLinkingResults = "EntityLinkingResults"
+  EntityLinkingResults = "EntityLinkingResults",
+  /** DynamicClassificationResults */
+  DynamicClassificationResults = "DynamicClassificationResults"
 }
 
 /**
@@ -921,7 +1138,8 @@ export enum KnownAnalyzeTextTaskResultsKind {
  * **PiiEntityRecognitionResults** \
  * **KeyPhraseExtractionResults** \
  * **LanguageDetectionResults** \
- * **EntityLinkingResults**
+ * **EntityLinkingResults** \
+ * **DynamicClassificationResults**
  */
 export type AnalyzeTextTaskResultsKind = string;
 
@@ -1059,12 +1277,16 @@ export enum KnownAnalyzeTextLROTaskKind {
   EntityLinking = "EntityLinking",
   /** Healthcare */
   Healthcare = "Healthcare",
+  /** ExtractiveSummarization */
+  ExtractiveSummarization = "ExtractiveSummarization",
   /** CustomEntityRecognition */
   CustomEntityRecognition = "CustomEntityRecognition",
   /** CustomSingleLabelClassification */
   CustomSingleLabelClassification = "CustomSingleLabelClassification",
   /** CustomMultiLabelClassification */
-  CustomMultiLabelClassification = "CustomMultiLabelClassification"
+  CustomMultiLabelClassification = "CustomMultiLabelClassification",
+  /** AbstractiveSummarization */
+  AbstractiveSummarization = "AbstractiveSummarization"
 }
 
 /**
@@ -1078,9 +1300,11 @@ export enum KnownAnalyzeTextLROTaskKind {
  * **KeyPhraseExtraction** \
  * **EntityLinking** \
  * **Healthcare** \
+ * **ExtractiveSummarization** \
  * **CustomEntityRecognition** \
  * **CustomSingleLabelClassification** \
- * **CustomMultiLabelClassification**
+ * **CustomMultiLabelClassification** \
+ * **AbstractiveSummarization**
  */
 export type AnalyzeTextLROTaskKind = string;
 
@@ -1131,12 +1355,16 @@ export enum KnownAnalyzeTextLROResultsKind {
   EntityLinkingLROResults = "EntityLinkingLROResults",
   /** HealthcareLROResults */
   HealthcareLROResults = "HealthcareLROResults",
+  /** ExtractiveSummarizationLROResults */
+  ExtractiveSummarizationLROResults = "ExtractiveSummarizationLROResults",
   /** CustomEntityRecognitionLROResults */
   CustomEntityRecognitionLROResults = "CustomEntityRecognitionLROResults",
   /** CustomSingleLabelClassificationLROResults */
   CustomSingleLabelClassificationLROResults = "CustomSingleLabelClassificationLROResults",
   /** CustomMultiLabelClassificationLROResults */
-  CustomMultiLabelClassificationLROResults = "CustomMultiLabelClassificationLROResults"
+  CustomMultiLabelClassificationLROResults = "CustomMultiLabelClassificationLROResults",
+  /** AbstractiveSummarizationLROResults */
+  AbstractiveSummarizationLROResults = "AbstractiveSummarizationLROResults"
 }
 
 /**
@@ -1150,9 +1378,11 @@ export enum KnownAnalyzeTextLROResultsKind {
  * **KeyPhraseExtractionLROResults** \
  * **EntityLinkingLROResults** \
  * **HealthcareLROResults** \
+ * **ExtractiveSummarizationLROResults** \
  * **CustomEntityRecognitionLROResults** \
  * **CustomSingleLabelClassificationLROResults** \
- * **CustomMultiLabelClassificationLROResults**
+ * **CustomMultiLabelClassificationLROResults** \
+ * **AbstractiveSummarizationLROResults**
  */
 export type AnalyzeTextLROResultsKind = string;
 
@@ -1756,6 +1986,24 @@ export enum KnownPiiEntityCategory {
  */
 export type PiiEntityCategory = string;
 
+/** Known values of {@link ClassificationType} that the service accepts. */
+export enum KnownClassificationType {
+  /** Single */
+  Single = "Single",
+  /** Multi */
+  Multi = "Multi"
+}
+
+/**
+ * Defines values for ClassificationType. \
+ * {@link KnownClassificationType} can be used interchangeably with ClassificationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Single** \
+ * **Multi**
+ */
+export type ClassificationType = string;
+
 /** Known values of {@link WarningCode} that the service accepts. */
 export enum KnownWarningCode {
   /** LongWordsInDocument */
@@ -1773,6 +2021,75 @@ export enum KnownWarningCode {
  * **DocumentTruncated**
  */
 export type WarningCode = string;
+
+/** Known values of {@link ScriptKind} that the service accepts. */
+export enum KnownScriptKind {
+  /** Latin */
+  Latin = "Latin"
+}
+
+/**
+ * Defines values for ScriptKind. \
+ * {@link KnownScriptKind} can be used interchangeably with ScriptKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Latin**
+ */
+export type ScriptKind = string;
+
+/** Known values of {@link FhirVersion} that the service accepts. */
+export enum KnownFhirVersion {
+  /** Four01 */
+  Four01 = "4.0.1"
+}
+
+/**
+ * Defines values for FhirVersion. \
+ * {@link KnownFhirVersion} can be used interchangeably with FhirVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **4.0.1**
+ */
+export type FhirVersion = string;
+
+/** Known values of {@link DocumentType} that the service accepts. */
+export enum KnownDocumentType {
+  /** None */
+  None = "None",
+  /** ClinicalTrial */
+  ClinicalTrial = "ClinicalTrial",
+  /** DischargeSummary */
+  DischargeSummary = "DischargeSummary",
+  /** ProgressNote */
+  ProgressNote = "ProgressNote",
+  /** HistoryAndPhysical */
+  HistoryAndPhysical = "HistoryAndPhysical",
+  /** Consult */
+  Consult = "Consult",
+  /** Imaging */
+  Imaging = "Imaging",
+  /** Pathology */
+  Pathology = "Pathology",
+  /** ProcedureNote */
+  ProcedureNote = "ProcedureNote"
+}
+
+/**
+ * Defines values for DocumentType. \
+ * {@link KnownDocumentType} can be used interchangeably with DocumentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **ClinicalTrial** \
+ * **DischargeSummary** \
+ * **ProgressNote** \
+ * **HistoryAndPhysical** \
+ * **Consult** \
+ * **Imaging** \
+ * **Pathology** \
+ * **ProcedureNote**
+ */
+export type DocumentType = string;
 
 /** Known values of {@link HealthcareEntityCategory} that the service accepts. */
 export enum KnownHealthcareEntityCategory {
@@ -1812,8 +2129,8 @@ export enum KnownHealthcareEntityCategory {
   Diagnosis = "Diagnosis",
   /** SymptomOrSign */
   SymptomOrSign = "SymptomOrSign",
-  /** ConditionQualifier */
-  ConditionQualifier = "ConditionQualifier",
+  /** ConditionalQualifier */
+  ConditionalQualifier = "ConditionalQualifier",
   /** MedicationClass */
   MedicationClass = "MedicationClass",
   /** MedicationName */
@@ -1853,7 +2170,7 @@ export enum KnownHealthcareEntityCategory {
  * **HealthcareProfession** \
  * **Diagnosis** \
  * **SymptomOrSign** \
- * **ConditionQualifier** \
+ * **ConditionalQualifier** \
  * **MedicationClass** \
  * **MedicationName** \
  * **Dosage** \
@@ -1938,6 +2255,24 @@ export enum KnownRelationType {
  * **ValueOfExamination**
  */
 export type RelationType = string;
+
+/** Known values of {@link ExtractiveSummarizationOrderingCriteria} that the service accepts. */
+export enum KnownExtractiveSummarizationOrderingCriteria {
+  /** Indicates that results should be sorted in order of appearance in the text. */
+  Offset = "Offset",
+  /** Indicates that results should be sorted in order of importance (i.e. rank score) according to the model. */
+  Rank = "Rank"
+}
+
+/**
+ * Defines values for ExtractiveSummarizationOrderingCriteria. \
+ * {@link KnownExtractiveSummarizationOrderingCriteria} can be used interchangeably with ExtractiveSummarizationOrderingCriteria,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Offset**: Indicates that results should be sorted in order of appearance in the text. \
+ * **Rank**: Indicates that results should be sorted in order of importance (i.e. rank score) according to the model.
+ */
+export type ExtractiveSummarizationOrderingCriteria = string;
 /** Defines values for EntityConditionality. */
 export type EntityConditionality = "hypothetical" | "conditional";
 /** Defines values for EntityCertainty. */
@@ -1961,6 +2296,8 @@ export type SentenceSentimentLabel = "positive" | "neutral" | "negative";
 export type TokenSentimentLabel = "positive" | "mixed" | "negative";
 /** Defines values for TargetRelationType. */
 export type TargetRelationType = "assessment" | "target";
+/** Defines values for PhraseControlStrategy. */
+export type PhraseControlStrategy = "encourage" | "discourage" | "disallow";
 
 /** Optional parameters. */
 export interface AnalyzeOptionalParams extends coreClient.OperationOptions {

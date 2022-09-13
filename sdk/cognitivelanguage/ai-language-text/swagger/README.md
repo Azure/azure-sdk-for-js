@@ -12,9 +12,9 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/cognitiveservices/data-plane/Language/stable/2022-05-01/analyzetext.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/dev/cognitiveservices/data-plane/Language/analyzetext.json
 add-credentials: false
-package-version: 1.0.1
+package-version: 1.1.0-beta.1
 v3: true
 hide-clients: true
 typescript: true
@@ -24,6 +24,7 @@ typescript: true
 
 See the [AutoRest samples](https://github.com/Azure/autorest/tree/master/Samples/3b-custom-transformations)
 for more about how we're customizing things.
+
 
 ### Rename analyze-text to Analyze and analyze-test/jobs to AnalyzeBatch
 
@@ -133,6 +134,11 @@ directive:
       $["x-ms-client-name"] = "LanguageDetectionAction";
       $.description = "Options for a language detection action.";
   - from: swagger-document
+    where: $.definitions.DynamicClassificationTaskParameters
+    transform:
+      $["x-ms-client-name"] = "DynamicClassificationAction";
+      $.description = "Options for a dynamic classification action.";
+  - from: swagger-document
     where: $.definitions.HealthcareTaskParameters
     transform:
       $["x-ms-client-name"] = "HealthcareAction";
@@ -143,6 +149,15 @@ directive:
       $.properties.sentenceCount.description = "The max number of sentences to be part of the summary.";
       $.properties.sentenceCount["x-ms-client-name"] = "maxSentenceCount";
       $.properties.sortBy["x-ms-client-name"] = "orderBy";
+  - from: swagger-document
+    where: $.definitions.AbstractiveSummarizationTaskParametersBase
+    transform:
+      $.properties.sentenceCount.description = "The max number of sentences to be part of the summary.";
+      $.properties.sentenceCount["x-ms-client-name"] = "maxSentenceCount";
+  - from: swagger-document
+    where: $.definitions.AbstractiveSummarizationTaskParameters
+    transform:
+      $["x-ms-client-name"] = "AbstractiveSummarizationAction";
   - from: swagger-document
     where: $.definitions.ExtractiveSummarizationSortingCriteria
     transform:
@@ -549,4 +564,7 @@ directive:
   - from: swagger-document    
     where: $.definitions.HealthcareAssertion
     transform: $.description = "An object that describes metadata about the healthcare entity such as whether it is hypothetical or conditional.";
+  - from: swagger-document    
+    where: $.definitions.DocumentDetectedLanguage
+    transform: $.description = "The auto-detected language of the input document.";
 ```
