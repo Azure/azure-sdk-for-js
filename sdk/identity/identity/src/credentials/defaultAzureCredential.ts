@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { 
-  DefaultAzureCredentialClientIdOptions, 
+import {
+  DefaultAzureCredentialClientIdOptions,
+  DefaultAzureCredentialOptions,
   DefaultAzureCredentialResourceIdOptions,
-  DefaultAzureCredentialOptions
 } from "./defaultAzureCredentialOptions";
 import {
   ManagedIdentityCredential,

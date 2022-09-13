@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-
-import { tracingClient } from "../util/tracing";
-import { CredentialUnavailableError } from "../errors";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import child_process from "child_process";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
-import { processMultiTenantRequest } from "../util/validateMultiTenant";
+import { CredentialUnavailableError } from "../errors";
 import { checkTenantId } from "../util/checkTenantId";
+import child_process from "child_process";
+import { processMultiTenantRequest } from "../util/validateMultiTenant";
+import { resolveAddionallyAllowedTenantIds } from "../util/resolveAddionallyAllowedTenantIds";
+import { tracingClient } from "../util/tracing";
 
 /**
  * Mockable reference to the CLI credential cliCredentialFunctions
@@ -79,6 +79,7 @@ const logger = credentialLogger("AzureCliCredential");
  */
 export class AzureCliCredential implements TokenCredential {
   private tenantId?: string;
+  private additionallyAllowedTenantIds: string[];
 
   /**
    * Creates an instance of the {@link AzureCliCredential}.
@@ -90,6 +91,7 @@ export class AzureCliCredential implements TokenCredential {
    */
   constructor(options?: AzureCliCredentialOptions) {
     this.tenantId = options?.tenantId;
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenantIds);
   }
 
   /**

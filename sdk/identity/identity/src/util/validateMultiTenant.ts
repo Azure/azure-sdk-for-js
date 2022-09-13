@@ -3,17 +3,10 @@
 
 import { GetTokenOptions } from "@azure/core-auth";
 
-/**
+  /**
  * @internal
  */
-export const multiTenantDisabledErrorMessage =
-  "A getToken request was attempted with a tenant different than the tenant configured at the initialization of the credential, but multi-tenant authentication has been disabled by the environment variable AZURE_IDENTITY_DISABLE_MULTITENANTAUTH.";
-
-/**
- * @internal
- */
-export const multiTenantADFSErrorMessage =
-  "A new tenant Id can't be assigned through the GetTokenOptions when a credential has been originally configured to use the tenant `adfs`.";
+export const MULTI_TENANT_CONFIGURATION_ERROR_MESSAGE = "The current credential is not configured to acquire tokens for the current tenant. To enable acquiring tokens for this tenant add it to the AdditionallyAllowedTenants on the credential options, or add \"*\" to AdditionallyAllowedTenants to allow acquiring tokens for any tenant.";
 
 /**
  * Of getToken contains a tenantId, this functions allows picking this tenantId as the appropriate for authentication,
@@ -23,16 +16,22 @@ export const multiTenantADFSErrorMessage =
  */
 export function processMultiTenantRequest(
   tenantId?: string,
-  getTokenOptions?: GetTokenOptions
+  getTokenOptions?: GetTokenOptions,
+  additionallyAllowedTenantIds: string[] = []
 ): string | undefined {
-  if (!getTokenOptions?.tenantId) {
-    return tenantId;
-  }
+
+  let resolvedTenantId: string | undefined;
   if (process.env.AZURE_IDENTITY_DISABLE_MULTITENANTAUTH) {
-    throw new Error(multiTenantDisabledErrorMessage);
+    resolvedTenantId = tenantId;
+  } else if (tenantId === "adfs") {
+    resolvedTenantId = tenantId;
+  } else {
+    resolvedTenantId = getTokenOptions?.tenantId ?? tenantId;
   }
-  if (tenantId === "adfs") {
-    throw new Error(multiTenantADFSErrorMessage);
+
+  if (tenantId && resolvedTenantId !== tenantId && !additionallyAllowedTenantIds.includes("*") && !additionallyAllowedTenantIds.includes(tenantId)) {
+    throw new Error(MULTI_TENANT_CONFIGURATION_ERROR_MESSAGE);
   }
-  return getTokenOptions?.tenantId;
+
+  return resolvedTenantId;
 }

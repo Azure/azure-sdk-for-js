@@ -30,18 +30,25 @@ export { TokenCredentialOptions } from "./tokenCredentialOptions";
 export { InteractiveCredentialOptions } from "./credentials/interactiveCredentialOptions";
 
 export { ChainedTokenCredential } from "./credentials/chainedTokenCredential";
+
+export { ClientSecretCredential } from "./credentials/clientSecretCredential";
+export { ClientSecretCredentialOptions } from "./credentials/clientSecretCredentialOptions";
+
+export { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 export {
-  DefaultAzureCredential,
   DefaultAzureCredentialOptions,
   DefaultAzureCredentialClientIdOptions,
   DefaultAzureCredentialResourceIdOptions,
-} from "./credentials/defaultAzureCredential";
+} from "./credentials/defaultAzureCredentialOptions";
+
 export {
   EnvironmentCredential,
-  EnvironmentCredentialOptions,
 } from "./credentials/environmentCredential";
-export { ClientSecretCredential } from "./credentials/clientSecretCredential";
-export { ClientSecretCredentialOptions } from "./credentials/clientSecretCredentialOptions";
+export {
+    EnvironmentCredentialOptions,
+} from "./credentials/environmentCredentialOptions";
+
+
 export {
   ClientCertificateCredential,
   ClientCertificateCredentialPEMConfiguration,
@@ -70,23 +77,21 @@ export {
   DeviceCodeInfo,
 } from "./credentials/deviceCodeCredentialOptions";
 export { DeviceCodeCredentialOptions } from "./credentials/deviceCodeCredentialOptions";
-export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";
-export { UsernamePasswordCredentialOptions } from "./credentials/usernamePasswordCredentialOptions";
+
 export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
+export { AuthorizationCodeCredentialOptions } from "./credentials/authorizationCodeCredentialOptions";
 export { AzurePowerShellCredential } from "./credentials/azurePowerShellCredential";
 export { AzurePowerShellCredentialOptions } from "./credentials/azurePowerShellCredentialOptions";
-
-export {
-  VisualStudioCodeCredential,
-  VisualStudioCodeCredentialOptions,
-} from "./credentials/visualStudioCodeCredential";
-
-export { OnBehalfOfCredential } from "./credentials/onBehalfOfCredential";
 export {
   OnBehalfOfCredentialOptions,
   OnBehalfOfCredentialSecretOptions,
   OnBehalfOfCredentialCertificateOptions,
 } from "./credentials/onBehalfOfCredentialOptions";
+export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";
+export { UsernamePasswordCredentialOptions } from "./credentials/usernamePasswordCredentialOptions";
+export { VisualStudioCodeCredential } from "./credentials/visualStudioCodeCredential";
+export { VisualStudioCodeCredentialOptions } from "./credentials/visualStudioCodeCredentialOptions";
+export { OnBehalfOfCredential } from "./credentials/onBehalfOfCredential";
 
 export { TokenCachePersistenceOptions } from "./msal/nodeFlows/tokenCachePersistenceOptions";
 

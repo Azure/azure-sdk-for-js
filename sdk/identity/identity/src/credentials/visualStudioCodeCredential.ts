@@ -3,17 +3,15 @@
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-
-import fs from "fs";
-import os from "os";
-import path from "path";
-
 import { AzureAuthorityHosts } from "../constants";
 import { CredentialUnavailableError } from "../errors";
 import { IdentityClient } from "../client/identityClient";
 import { VisualStudioCodeCredentialOptions } from "./visualStudioCodeCredentialOptions";
 import { VSCodeCredentialFinder } from "./visualStudioCodeCredentialPlugin";
 import { checkTenantId } from "../util/checkTenantId";
+import fs from "fs";
+import os from "os";
+import path from "path";
 import { processMultiTenantRequest } from "../util/validateMultiTenant";
 
 const CommonTenantId = "common";
@@ -84,8 +82,6 @@ export function getPropertyFromVSCode(property: string): string | undefined {
     return;
   }
 }
-
-
 
 /**
  * Connects to Azure using the credential provided by the VSCode extension 'Azure Account'.

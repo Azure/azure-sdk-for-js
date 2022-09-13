@@ -2,18 +2,17 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-
-import { MsalOnBehalfOf } from "../msal/nodeFlows/msalOnBehalfOf";
-import { credentialLogger } from "../util/logging";
-import { tracingClient } from "../util/tracing";
-import { MsalFlow } from "../msal/flows";
 import {
   OnBehalfOfCredentialCertificateOptions,
   OnBehalfOfCredentialOptions,
   OnBehalfOfCredentialSecretOptions,
 } from "./onBehalfOfCredentialOptions";
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
+import { MsalFlow } from "../msal/flows";
+import { MsalOnBehalfOf } from "../msal/nodeFlows/msalOnBehalfOf";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
+import { credentialLogger } from "../util/logging";
+import { tracingClient } from "../util/tracing";
 
 const credentialName = "OnBehalfOfCredential";
 const logger = credentialLogger(credentialName);

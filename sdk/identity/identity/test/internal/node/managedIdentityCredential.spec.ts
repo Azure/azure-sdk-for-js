@@ -1,14 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { join } from "path";
-import { tmpdir } from "os";
-import { GetTokenOptions } from "@azure/core-auth";
-import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
-import { RestError } from "@azure/core-rest-pipeline";
-import { ManagedIdentityCredential } from "../../../src";
-import Sinon from "sinon";
+import { AzureAuthorityHosts, DefaultAuthorityHost, DefaultTenantId } from "../../../src/constants";
+import { AzureLogger, setLogLevel } from "@azure/logger";
+import { IdentityTestContextInterface, createResponse } from "../../httpRequestsCommon";
 import {
   imdsApiVersion,
   imdsEndpointPath,
@@ -18,12 +13,17 @@ import {
   imdsMsi,
   imdsMsiRetryConfig,
 } from "../../../src/credentials/managedIdentityCredential/imdsMsi";
-import { IdentityTestContextInterface, createResponse } from "../../httpRequestsCommon";
-import { IdentityTestContext } from "../../httpRequests";
-import { AzureAuthorityHosts, DefaultAuthorityHost, DefaultTenantId } from "../../../src/constants";
-import { AzureLogger, setLogLevel } from "@azure/logger";
-import { logger } from "../../../src/credentials/managedIdentityCredential/cloudShellMsi";
+import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
 import { Context } from "mocha";
+import { GetTokenOptions } from "@azure/core-auth";
+import { IdentityTestContext } from "../../httpRequests";
+import { ManagedIdentityCredential } from "../../../src";
+import { RestError } from "@azure/core-rest-pipeline";
+import Sinon from "sinon";
+import { assert } from "chai";
+import { join } from "path";
+import { logger } from "../../../src/credentials/managedIdentityCredential/cloudShellMsi";
+import { tmpdir } from "os";
 
 describe("ManagedIdentityCredential", function () {
   let testContext: IdentityTestContextInterface;

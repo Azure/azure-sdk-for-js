@@ -3,12 +3,12 @@
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { IdentityClient } from "../client/identityClient";
 import { TokenCredentialOptions } from "../tokenCredentialOptions";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
+import { checkTenantId } from "../util/checkTenantId";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { tracingClient } from "../util/tracing";
-import { checkTenantId } from "../util/checkTenantId";
 
 const logger = credentialLogger("UsernamePasswordCredential");
 

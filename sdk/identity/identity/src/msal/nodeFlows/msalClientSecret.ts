@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken } from "@azure/core-auth";
-
-import { CredentialFlowGetTokenOptions } from "../credentials";
 import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
+import { AccessToken } from "@azure/core-auth";
+import { CredentialFlowGetTokenOptions } from "../credentials";
 
 /**
  * Options that can be passed to configure MSAL to handle client secrets.

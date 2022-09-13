@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { isNode } from "@azure/core-util";
+
 import {
   IdentityClient,
   TokenResponse,
   getIdentityClientAuthorityHost,
 } from "../../src/client/identityClient";
+import { IdentityTestContext, prepareMSALResponses } from "../httpRequests";
+import { IdentityTestContextInterface, createResponse } from "../httpRequestsCommon";
 import { ClientSecretCredential } from "../../src";
 import { Context } from "mocha";
-import { isExpectedError } from "../authTestUtils";
 import { PlaybackTenantId } from "../msalTestUtils";
-import { IdentityTestContextInterface, createResponse } from "../httpRequestsCommon";
-import { IdentityTestContext, prepareMSALResponses } from "../httpRequests";
+import { assert } from "chai";
+import { isExpectedError } from "../authTestUtils";
+import { isNode } from "@azure/core-util";
 
 describe("IdentityClient", function () {
   let testContext: IdentityTestContextInterface;

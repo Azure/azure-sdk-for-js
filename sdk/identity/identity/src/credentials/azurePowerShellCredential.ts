@@ -2,15 +2,14 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-
-import { CredentialUnavailableError } from "../errors";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { tracingClient } from "../util/tracing";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
-import { processUtils } from "../util/processUtils";
 import { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions";
-import { processMultiTenantRequest } from "../util/validateMultiTenant";
+import { CredentialUnavailableError } from "../errors";
 import { checkTenantId } from "../util/checkTenantId";
+import { processMultiTenantRequest } from "../util/validateMultiTenant";
+import { processUtils } from "../util/processUtils";
+import { tracingClient } from "../util/tracing";
 
 const logger = credentialLogger("AzurePowerShellCredential");
 
@@ -68,10 +67,10 @@ export const powerShellPublicErrorMessages = {
 };
 
 // PowerShell Azure User not logged in error check.
-const isLoginError = (err: Error) => err.message.match(`(.*)${powerShellErrors.login}(.*)`);
+const isLoginError: (err: Error) => RegExpMatchArray | null = (err: Error) => err.message.match(`(.*)${powerShellErrors.login}(.*)`);
 
 // Az Module not Installed in Azure PowerShell check.
-const isNotInstalledError = (err: Error) => err.message.match(powerShellErrors.installed);
+const isNotInstalledError: (err: Error) => RegExpMatchArray | null = (err: Error) => err.message.match(powerShellErrors.installed);
 
 /**
  * The PowerShell commands to be tried, in order.

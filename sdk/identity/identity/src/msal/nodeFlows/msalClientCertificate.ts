@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { readFile } from "fs";
-import { createHash, createPrivateKey } from "crypto";
-import { promisify } from "util";
-import { AccessToken } from "@azure/core-auth";
-
-import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
-import { formatError } from "../../util/logging";
-import { CredentialFlowGetTokenOptions } from "../credentials";
 import {
   ClientCertificateCredentialPEMConfiguration,
   ClientCertificatePEMCertificate,
   ClientCertificatePEMCertificatePath,
 } from "../../credentials/clientCertificateCredential";
+import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
+import { createHash, createPrivateKey } from "crypto";
+import { AccessToken } from "@azure/core-auth";
 import { ClientCredentialRequest } from "@azure/msal-node";
+import { CredentialFlowGetTokenOptions } from "../credentials";
+import { formatError } from "../../util/logging";
+import { promisify } from "util";
+import { readFile } from "fs";
 
 const readFileAsync = promisify(readFile);
 

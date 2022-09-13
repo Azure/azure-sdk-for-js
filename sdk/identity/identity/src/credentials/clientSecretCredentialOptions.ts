@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
+import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
 
 /**
  * Optional parameters for the {@link ClientSecretCredential} class.
  */
 export interface ClientSecretCredentialOptions
-  extends TokenCredentialOptions,
+  extends MultiTenantTokenCredentialOptions,
     CredentialPersistenceOptions {
   // TODO: Export again once we're ready to release this feature.
   // /**
@@ -17,9 +17,4 @@ export interface ClientSecretCredentialOptions
   //  * If the property is not specified, the credential uses the global authority endpoint.
   //  */
   // regionalAuthority?: string;
-  /**
-   * For multi-tenant applications, specifies additional tenants for which the credential may acquire tokens.
-   * Add the wildcard value "*" to allow the credential to acquire tokens for any tenant the application is installed.
-   */
-  additionallyAllowedTenants?: string[];
 }

@@ -1,18 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
+import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
 
 /**
  * Defines options for the {@link UsernamePasswordCredential} class.
  */
 export interface UsernamePasswordCredentialOptions
-  extends TokenCredentialOptions,
-    CredentialPersistenceOptions {
-  /**
-   * For multi-tenant applications, specifies additional tenants for which the credential may acquire tokens.
-   * Add the wildcard value "*" to allow the credential to acquire tokens for any tenant the application is installed.
-   */
-  additionallyAllowedTenants?: string[];  
-}
+  extends MultiTenantTokenCredentialOptions,
+    CredentialPersistenceOptions {}

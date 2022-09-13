@@ -3,10 +3,11 @@
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { AuthorizationCodeCredentialOptions } from "./authorizationCodeCredentialOptions";
-import { credentialLogger } from "../util/logging";
-import { checkTenantId } from "../util/checkTenantId";
 import { MsalAuthorizationCode } from "../msal/nodeFlows/msalAuthorizationCode";
 import { MsalFlow } from "../msal/flows";
+import { checkTenantId } from "../util/checkTenantId";
+import { credentialLogger } from "../util/logging";
+import { resolveAddionallyAllowedTenantIds } from "../util/resolveAddionallyAllowedTenantIds";
 import { tracingClient } from "../util/tracing";
 
 const logger = credentialLogger("AuthorizationCodeCredential");
@@ -23,6 +24,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
   private disableAutomaticAuthentication?: boolean;
   private authorizationCode: string;
   private redirectUri: string;
+  private additionallyAllowedTenantIds: string[];
 
   /**
    * Creates an instance of AuthorizationCodeCredential with the details needed
@@ -109,6 +111,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       clientSecret = undefined;
       options = redirectUriOrOptions as AuthorizationCodeCredentialOptions;
     }
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenantIds);
 
     this.msalFlow = new MsalAuthorizationCode({
       ...options,

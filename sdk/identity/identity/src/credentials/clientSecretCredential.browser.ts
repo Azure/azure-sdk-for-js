@@ -4,9 +4,9 @@
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { IdentityClient } from "../client/identityClient";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
+import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { tracingClient } from "../util/tracing";
 
 const logger = credentialLogger("ClientSecretCredential");

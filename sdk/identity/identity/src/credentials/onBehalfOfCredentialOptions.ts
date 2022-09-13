@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
+import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
 
 /**
  * Defines the parameters to authenticate the {@link OnBehalfOfCredential} with a secret.
@@ -24,11 +24,6 @@ export interface OnBehalfOfCredentialSecretOptions {
    * The user assertion for the On-Behalf-Of flow.
    */
   userAssertionToken: string;
-  /**
-   * For multi-tenant applications, specifies additional tenants for which the credential may acquire tokens.
-   * Add the wildcard value "*" to allow the credential to acquire tokens for any tenant the application is installed.
-   */
-  additionallyAllowedTenants?: string[];  
 }
 
 /**
@@ -56,11 +51,6 @@ export interface OnBehalfOfCredentialCertificateOptions {
    * Set this option to send base64 encoded public certificate in the client assertion header as an x5c claim
    */
   sendCertificateChain?: boolean;
-  /**
-   * For multi-tenant applications, specifies additional tenants for which the credential may acquire tokens.
-   * Add the wildcard value "*" to allow the credential to acquire tokens for any tenant the application is installed.
-   */
-  additionallyAllowedTenants?: string[];  
 }
 
 /**
@@ -70,5 +60,5 @@ export type OnBehalfOfCredentialOptions = (
   | OnBehalfOfCredentialSecretOptions
   | OnBehalfOfCredentialCertificateOptions
 ) &
-  TokenCredentialOptions &
+  MultiTenantTokenCredentialOptions &
   CredentialPersistenceOptions;
