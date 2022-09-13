@@ -3,9 +3,9 @@
 
 import { Notification } from "../models/notification.js";
 import { NotificationHubsClientContext } from "./index.js";
-import { NotificationHubsMessageResponse } from "../models/response.js";
+import { NotificationHubsMessageResponse } from "../models/notificationDetails.js";
+import { OperationOptions } from "@azure/core-client";
 import { PushHandle } from "../models/installation.js";
-import { SendOperationOptions } from "../models/options.js";
 import { sendNotificationPayload } from "./internal/_sendNotificationPayload.js";
 
 /**
@@ -13,15 +13,14 @@ import { sendNotificationPayload } from "./internal/_sendNotificationPayload.js"
  * @param context - The Notification Hubs client.
  * @param pushHandle - The push handle which is the unique identifier for the device.
  * @param notification - The notification to send to the device.
- * @param options - Configuration options for the direct send operation which can contain custom headers
- * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
+ * @param options - The options for sending a direct notification.
  * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
  */
 export function sendDirectNotification(
   context: NotificationHubsClientContext,
   pushHandle: PushHandle,
   notification: Notification,
-  options: SendOperationOptions = {}
+  options: OperationOptions = {}
 ): Promise<NotificationHubsMessageResponse> {
   return sendNotificationPayload(
     context,

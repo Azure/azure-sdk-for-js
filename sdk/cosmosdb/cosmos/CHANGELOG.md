@@ -1,14 +1,10 @@
 # Release History
 
-## 3.17.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 3.17.1 (2022-09-12)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix issue with unwanted runtime dependency on `@azure/identity` [#22968](https://github.com/Azure/azure-sdk-for-js/issues/22968)
 
 ## 3.17.0 (2022-08-19)
 
