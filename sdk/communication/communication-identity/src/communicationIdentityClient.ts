@@ -99,14 +99,34 @@ export class CommunicationIdentityClient {
    *
    * @param user - The user whose tokens are being issued.
    * @param scopes - Scopes to include in the token.
-   * @param tokenExpirationInMinutesOrOptions - Custom validity period of the Communication Identity access token within [60,1440] minutes range or additional options for the request. If not provided, the default value of 1440 minutes (24 hours) will be used.
    * @param options - Additional options for the request.
    */
   public getToken(
     user: CommunicationUserIdentifier,
     scopes: TokenScope[],
-    tokenExpirationInMinutesOrOptions: number | OperationOptions = {},
-    options: OperationOptions = {}
+    options?: OperationOptions
+  ): Promise<CommunicationAccessToken>;
+
+  /**
+   * Creates a scoped user token.
+   *
+   * @param user - The user whose tokens are being issued.
+   * @param scopes - Scopes to include in the token.
+   * @param tokenExpirationInMinutes - Custom validity period of the Communication Identity access token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
+   * @param options - Additional options for the request.
+   */
+  public getToken(
+    user: CommunicationUserIdentifier,
+    scopes: TokenScope[],
+    tokenExpirationInMinutes?: number,
+    options?: OperationOptions
+  ): Promise<CommunicationAccessToken>;
+
+  public getToken(
+    user: CommunicationUserIdentifier,
+    scopes: TokenScope[],
+    tokenExpirationInMinutesOrOptions?: number | OperationOptions,
+    options?: OperationOptions
   ): Promise<CommunicationAccessToken> {
     const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams =
       this.parseTokenExpirationInMinutesOrOptions(tokenExpirationInMinutesOrOptions, options);
@@ -170,13 +190,30 @@ export class CommunicationIdentityClient {
    * Creates a single user and a token simultaneously.
    *
    * @param scopes - Scopes to include in the token.
-   * @param tokenExpirationInMinutesOrOptions - Custom validity period of the Communication Identity access token within [60,1440] minutes range or additional options for the request. If not provided, the default value of 1440 minutes (24 hours) will be used.
    * @param options - Additional options for the request.
    */
   public createUserAndToken(
     scopes: TokenScope[],
-    tokenExpirationInMinutesOrOptions: number | OperationOptions = {},
-    options: OperationOptions = {}
+    options?: OperationOptions
+  ): Promise<CommunicationUserToken>;
+
+  /**
+   * Creates a single user and a token simultaneously.
+   *
+   * @param scopes - Scopes to include in the token.
+   * @param tokenExpirationInMinutes - Custom validity period of the Communication Identity access token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
+   * @param options - Additional options for the request.
+   */
+  public createUserAndToken(
+    scopes: TokenScope[],
+    tokenExpirationInMinutes?: number,
+    options?: OperationOptions
+  ): Promise<CommunicationUserToken>;
+
+  public createUserAndToken(
+    scopes: TokenScope[],
+    tokenExpirationInMinutesOrOptions?: number | OperationOptions,
+    options?: OperationOptions
   ): Promise<CommunicationUserToken> {
     const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams =
       this.parseTokenExpirationInMinutesOrOptions(tokenExpirationInMinutesOrOptions, options);
@@ -243,12 +280,18 @@ export class CommunicationIdentityClient {
   }
 
   private parseTokenExpirationInMinutesOrOptions(
-    tokenExpirationInMinutesOrOptions: number | OperationOptions,
-    options: OperationOptions
+    tokenExpirationInMinutesOrOptions?: number | OperationOptions,
+    options?: OperationOptions
   ): CommunicationIdentityIssueAccessTokenOptionalParams {
-    const optionsWithTokenExpiration: CommunicationIdentityIssueAccessTokenOptionalParams = options;
+    let optionsWithTokenExpiration: CommunicationIdentityIssueAccessTokenOptionalParams = {};
 
-    if (typeof tokenExpirationInMinutesOrOptions === "number") {
+    if (options) {
+      optionsWithTokenExpiration = options;
+    }
+    if (
+      tokenExpirationInMinutesOrOptions &&
+      typeof tokenExpirationInMinutesOrOptions === "number"
+    ) {
       optionsWithTokenExpiration.expiresInMinutes = tokenExpirationInMinutesOrOptions;
       return optionsWithTokenExpiration;
     } else {
