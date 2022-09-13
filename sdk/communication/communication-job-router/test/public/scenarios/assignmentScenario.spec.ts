@@ -48,16 +48,10 @@ describe("RouterClient", function() {
       );
       await administrationClient.createExceptionPolicy(exceptionPolicyId, exceptionPolicyRequest);
       await administrationClient.createQueue(queueId, queueRequest);
-      // await sleep(0);
-      // await sleep(0);
-      // await sleep(0);
       await administrationClient.createClassificationPolicy(
         classificationPolicyId,
         classificationPolicyRequest
       );
-      // await sleep(0);
-
-      // await sleep(0);
       await client.createWorker(workerId, { ...workerRequest, availableForOffers: true });
     });
 
@@ -66,6 +60,8 @@ describe("RouterClient", function() {
         await recorder?.stop();
       }
 
+      await client.deregisterWorker(workerId);
+      // await sleep(0);
       await client.deleteWorker(workerId);
       await client.deleteJob(jobId);
       await administrationClient.deleteClassificationPolicy(classificationPolicyId);

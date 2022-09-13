@@ -7,8 +7,8 @@ import { JobQueue, RouterAdministrationClient } from "../../../src";
 import { Context } from "mocha";
 import {
   getDistributionPolicyRequest,
-  exceptionPolicyRequest,
-  queueRequest
+  getExceptionPolicyRequest,
+  getQueueRequest
 } from "../utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
@@ -19,9 +19,11 @@ describe("RouterClient", function() {
   let recorder: Recorder;
 
   const testRunId = uuid();
-  const queueId: string = `${queueRequest.id!}-${testRunId}`;
-  const exceptionPolicyId: string = `${exceptionPolicyRequest.id!}-${testRunId}`;
-  const distributionPolicyId: string = `${getDistributionPolicyRequest.id!}-${testRunId}`;
+  const { distributionPolicyId, distributionPolicyRequest } = getDistributionPolicyRequest(
+    testRunId
+  );
+  const { exceptionPolicyId, exceptionPolicyRequest } = getExceptionPolicyRequest(testRunId);
+  const { queueId, queueRequest } = getQueueRequest(testRunId);
 
   describe("Queue Operations", function() {
     this.beforeAll(async function(this: Context) {
@@ -31,7 +33,7 @@ describe("RouterClient", function() {
 
       await administrationClient.createDistributionPolicy(
         distributionPolicyId,
-        getDistributionPolicyRequest
+        distributionPolicyRequest
       );
       await administrationClient.createExceptionPolicy(exceptionPolicyId, exceptionPolicyRequest);
     });

@@ -15,7 +15,9 @@ describe("RouterClient", function() {
   let recorder: Recorder;
 
   const testRunId = uuid();
-  const distributionPolicyId: string = `${getDistributionPolicyRequest.id!}-${testRunId}`;
+  const { distributionPolicyId, distributionPolicyRequest } = getDistributionPolicyRequest(
+    testRunId
+  );
 
   describe("Distribution Policy Operations", function() {
     this.beforeAll(async function(this: Context) {
@@ -32,25 +34,25 @@ describe("RouterClient", function() {
     it("should create a distribution policy", async function() {
       const result = await administrationClient.createDistributionPolicy(
         distributionPolicyId,
-        getDistributionPolicyRequest
+        distributionPolicyRequest
       );
 
       assert.isDefined(result);
       assert.isDefined(result?.id);
-      assert.equal(result.name, getDistributionPolicyRequest.name);
+      assert.equal(result.name, distributionPolicyRequest.name);
     }).timeout(timeoutMs);
 
     it("should get a distribution policy", async function() {
       const result = await administrationClient.getDistributionPolicy(distributionPolicyId);
 
       assert.equal(result.id, distributionPolicyId);
-      assert.equal(result.name, getDistributionPolicyRequest.name);
-      assert.equal(result.offerTtlInSeconds, getDistributionPolicyRequest.offerTtlInSeconds);
-      assert.deepEqual(result.mode, getDistributionPolicyRequest.mode);
+      assert.equal(result.name, distributionPolicyRequest.name);
+      assert.equal(result.offerTtlInSeconds, distributionPolicyRequest.offerTtlInSeconds);
+      assert.deepEqual(result.mode, distributionPolicyRequest.mode);
     }).timeout(timeoutMs);
 
     it("should update a distribution policy", async function() {
-      const patch: DistributionPolicy = { ...getDistributionPolicyRequest, name: "new-name" };
+      const patch: DistributionPolicy = { ...distributionPolicyRequest, name: "new-name" };
       const result = await administrationClient.updateDistributionPolicy(
         distributionPolicyId,
         patch

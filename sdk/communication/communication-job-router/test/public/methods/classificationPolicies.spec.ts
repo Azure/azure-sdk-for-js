@@ -6,10 +6,10 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { ClassificationPolicy, RouterAdministrationClient } from "../../../src";
 import {
-  classificationPolicyRequest,
   getDistributionPolicyRequest,
-  exceptionPolicyRequest,
-  queueRequest
+  getExceptionPolicyRequest,
+  getQueueRequest,
+  getClassificationPolicyRequest
 } from "../utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
@@ -20,10 +20,14 @@ describe("RouterClient", function() {
   let recorder: Recorder;
 
   const testRunId = uuid();
-  const distributionPolicyId: string = `${getDistributionPolicyRequest.id!}-${testRunId}`;
-  const exceptionPolicyId: string = `${exceptionPolicyRequest.id!}-${testRunId}`;
-  const queueId: string = `${queueRequest.id!}-${testRunId}`;
-  const classificationPolicyId: string = `${classificationPolicyRequest.id!}-${testRunId}`;
+  const { distributionPolicyId, distributionPolicyRequest } = getDistributionPolicyRequest(
+    testRunId
+  );
+  const { exceptionPolicyId, exceptionPolicyRequest } = getExceptionPolicyRequest(testRunId);
+  const { queueId, queueRequest } = getQueueRequest(testRunId);
+  const { classificationPolicyId, classificationPolicyRequest } = getClassificationPolicyRequest(
+    testRunId
+  );
 
   describe("Classification Policy Operations", function() {
     this.beforeAll(async function(this: Context) {
@@ -33,7 +37,7 @@ describe("RouterClient", function() {
 
       await administrationClient.createDistributionPolicy(
         distributionPolicyId,
-        getDistributionPolicyRequest
+        distributionPolicyRequest
       );
       await administrationClient.createExceptionPolicy(exceptionPolicyId, exceptionPolicyRequest);
       await administrationClient.createQueue(queueId, queueRequest);

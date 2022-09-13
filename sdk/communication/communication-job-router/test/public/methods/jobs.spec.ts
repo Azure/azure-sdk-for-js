@@ -11,11 +11,11 @@ import {
 } from "../../../src";
 import { Context } from "mocha";
 import {
-  classificationPolicyRequest,
+  getClassificationPolicyRequest,
   getDistributionPolicyRequest,
-  exceptionPolicyRequest,
-  jobRequest,
-  queueRequest
+  getExceptionPolicyRequest,
+  getJobRequest,
+  getQueueRequest
 } from "../utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs, sleep } from "../utils/constants";
@@ -27,11 +27,15 @@ describe("RouterClient", function() {
   let recorder: Recorder;
 
   const testRunId = uuid();
-  const distributionPolicyId: string = `${getDistributionPolicyRequest.id!}-${testRunId}`;
-  const exceptionPolicyId: string = `${exceptionPolicyRequest.id!}-${testRunId}`;
-  const queueId: string = `${queueRequest.id!}-${testRunId}`;
-  const classificationPolicyId: string = `${classificationPolicyRequest.id!}-${testRunId}`;
-  const jobId: string = `${jobRequest.id}-${testRunId}`;
+  const { distributionPolicyId, distributionPolicyRequest } = getDistributionPolicyRequest(
+    testRunId
+  );
+  const { exceptionPolicyId, exceptionPolicyRequest } = getExceptionPolicyRequest(testRunId);
+  const { queueId, queueRequest } = getQueueRequest(testRunId);
+  const { classificationPolicyId, classificationPolicyRequest } = getClassificationPolicyRequest(
+    testRunId
+  );
+  const { jobId, jobRequest } = getJobRequest(testRunId);
 
   describe("Job Operations", function() {
     this.beforeAll(async function(this: Context) {
@@ -43,7 +47,7 @@ describe("RouterClient", function() {
 
       await administrationClient.createDistributionPolicy(
         distributionPolicyId,
-        getDistributionPolicyRequest
+        distributionPolicyRequest
       );
       await administrationClient.createExceptionPolicy(exceptionPolicyId, exceptionPolicyRequest);
       await administrationClient.createQueue(queueId, queueRequest);
