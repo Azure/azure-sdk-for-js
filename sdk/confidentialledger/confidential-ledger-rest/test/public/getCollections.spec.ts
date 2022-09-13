@@ -3,8 +3,8 @@
 import {
   ConfidentialLedgerClient,
   CreateLedgerEntryParameters,
-  isUnexpected,
   LedgerEntry,
+  isUnexpected,
 } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 

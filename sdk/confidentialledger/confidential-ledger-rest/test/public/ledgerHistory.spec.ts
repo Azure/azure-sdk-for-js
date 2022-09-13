@@ -22,7 +22,7 @@ describe("Get ledger history", () => {
   });
 
   it("should obtain ledger entries from ledger", async function () {
-    if (env.TEST_MODE == "live") {
+    if (env.TEST_MODE === "live") {
       this.skip();
     }
 
