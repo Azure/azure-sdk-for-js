@@ -9,7 +9,13 @@ import {
   createMapsClientIdPolicy,
 } from "../../maps-common/src";
 import { BatchResult, RouteDirections, RouteRangeResult } from "./models/results";
-import { GeneratedClient, RouteDirectionsBatchResult, RouteMatrixResult } from "./generated";
+import {
+  GeneratedClient,
+  RouteDirectionsBatchResult,
+  RouteMatrixResult,
+  RouteRequestRouteDirectionsBatchOptionalParams,
+  RouteRequestRouteMatrixOptionalParams,
+} from "./generated";
 import {
   InternalPipelineOptions,
   bearerTokenAuthenticationPolicy,
@@ -19,7 +25,6 @@ import {
   RouteDirectionsBatchOptions,
   RouteDirectionsOptions,
   RouteDirectionsRequest,
-  RouteMatrixOptions,
   RouteMatrixQuery,
   RouteMatrixRequestOptions,
   RouteRangeBudget,
@@ -27,10 +32,11 @@ import {
 } from "./models/options";
 import {
   createRouteDirectionsBatchRequest,
-  mapRouteDirectionsBatchResult,
   mapResponseToRouteDirections,
-  toColonDelimitedLatLonString,
   mapResponseToRouteRangeResult,
+  mapRouteDirectionsBatchResult,
+  mapRouteMatrixResult,
+  toColonDelimitedLatLonString,
 } from "./models/mappers";
 import { OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -238,6 +244,33 @@ export class MapsRouteClient {
     requests: RouteDirectionsRequest[],
     options: RouteDirectionsBatchOptions = {}
   ): Promise<BatchPoller<BatchResult<RouteDirections>>> {
+    return this.createRouteDirectionsBatchPoller(requests, options);
+  }
+
+  /**
+   * Continue route direction batch request with a serialized state from a previous poller.
+   *
+   * @example
+   * ```js
+   * const serializedState = poller.toString()
+   * const rehydratedPoller = resumeRequestRouteDirectionsBatch(serializedState)
+   * rehydratedPoller.poll()
+   * ```
+   *
+   * @param resumeFrom - The serialized state from a previous poller.
+   * @param options - Optional parameters for the operation
+   */
+  public async resumeRequestRouteDirectionsBatch(
+    resumeFrom: string,
+    options: RouteDirectionsBatchOptions = {}
+  ): Promise<BatchPoller<BatchResult<RouteDirections>>> {
+    return this.createRouteDirectionsBatchPoller(undefined, { ...options, resumeFrom });
+  }
+
+  private async createRouteDirectionsBatchPoller(
+    requests: RouteDirectionsRequest[] = [],
+    options: RouteRequestRouteDirectionsBatchOptionalParams = {}
+  ): Promise<BatchPoller<BatchResult<RouteDirections>>> {
     const { span, updatedOptions } = createSpan(
       "MapsRouteClient-beginRequestRouteDirectionsBatch",
       options
@@ -269,43 +302,6 @@ export class MapsRouteClient {
   }
 
   /**
-   *  Retrieves the result of a previous route direction batch request. The method returns a poller for retrieving the result.
-   *
-   * @param batchId - Batch id for querying the operation.
-   * @param options - Optional parameters for the operation
-   */
-  public async beginGetRouteDirectionsBatchResult(
-    batchId: string,
-    options: RouteDirectionsBatchOptions = {}
-  ): Promise<BatchPoller<BatchResult<RouteDirections>>> {
-    const { span, updatedOptions } = createSpan(
-      "MapsRouteClient-beginGetRouteDirectionsBatchResult",
-      options
-    );
-    try {
-      const internalPoller = await this.client.routeOperations.beginGetRouteDirectionsBatch(
-        batchId,
-        updatedOptions
-      );
-      const poller = new BatchPollerProxy<BatchResult<RouteDirections>, RouteDirectionsBatchResult>(
-        internalPoller,
-        mapRouteDirectionsBatchResult
-      );
-
-      await poller.poll();
-      return poller;
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
    * Calculates a matrix of route summaries for a set of routes defined by origin and destination locations.
    * The method returns a poller for retrieving the result later.
    *
@@ -318,6 +314,41 @@ export class MapsRouteClient {
     routeMatrixQuery: RouteMatrixQuery,
     options: RouteMatrixRequestOptions = {}
   ): Promise<BatchPoller<RouteMatrixResult>> {
+    return this.createRequestRouteMatrixPoller(routeMatrixQuery, options);
+  }
+
+  /**
+   *
+   * Resume route matrix request with a serialized state from a previous poller.
+   *
+   * @example
+   * ```js
+   * const serializedState = poller.toString()
+   * const rehydratedPoller = resumeRequestRouteMatrix(serializedState)
+   * rehydratedPoller.poll()
+   * ```
+   *
+   * @param resumeFrom - The serialized state from a previous poller.
+   * @param options - Optional parameters for the operation
+   */
+  public async resumeRequestRouteMatrix(
+    resumeFrom: string,
+    options: RouteMatrixRequestOptions = {}
+  ): Promise<BatchPoller<RouteMatrixResult>> {
+    return this.createRequestRouteMatrixPoller(
+      /** Give a dump object to avoid type issue. */
+      {
+        origins: { type: "MultiPoint", coordinates: [] },
+        destinations: { type: "MultiPoint", coordinates: [] },
+      },
+      { ...options, resumeFrom }
+    );
+  }
+
+  private async createRequestRouteMatrixPoller(
+    routeMatrixQuery: RouteMatrixQuery,
+    options: RouteRequestRouteMatrixOptionalParams = {}
+  ): Promise<BatchPoller<RouteMatrixResult>> {
     const { span, updatedOptions } = createSpan("MapsRouteClient-beginRequestRouteMatrix", options);
     try {
       const internalPoller = await this.client.routeOperations.beginRequestRouteMatrix(
@@ -328,46 +359,7 @@ export class MapsRouteClient {
 
       const poller = new BatchPollerProxy<RouteMatrixResult, RouteMatrixResult>(
         internalPoller,
-        (res) => res
-      );
-
-      await poller.poll();
-      return poller;
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Retrieves the result of a previous route matrix request.
-   * The method returns a poller for retrieving the result.
-   *
-   * @param matrixId - Batch id for querying the operation.
-   * @param options - Optional parameters for the operation
-   */
-  public async beginGetRouteMatrixResult(
-    matrixId: string,
-    options: RouteMatrixOptions = {}
-  ): Promise<BatchPoller<RouteMatrixResult>> {
-    const { span, updatedOptions } = createSpan(
-      "MapsRouteClient-beginGetRouteMatrixResult",
-      options
-    );
-    try {
-      const internalPoller = await this.client.routeOperations.beginGetRouteMatrix(
-        matrixId,
-        updatedOptions
-      );
-
-      const poller = new BatchPollerProxy<RouteMatrixResult, RouteMatrixResult>(
-        internalPoller,
-        (res) => res
+        mapRouteMatrixResult
       );
 
       await poller.poll();

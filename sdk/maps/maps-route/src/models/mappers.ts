@@ -11,7 +11,7 @@ import {
 } from "src/generated";
 import { BatchResult, RouteDirections, RouteRangeResult } from "./results";
 import { RouteDirectionsOptions, RouteDirectionsRequest } from "./options";
-import { LatLon } from "./models";
+import { LatLon, RouteMatrixResult, RouteSummary } from "./models";
 
 /**
  * @internal
@@ -35,6 +35,22 @@ export function toColonDelimitedLatLonString(coordinates: LatLon[]): string {
 }
 
 /**
+ * If the response returned from `resume*` method, the Date will be serialized to string.
+ * We need to convert it back manually.
+ */
+function mapRouteSummary({
+  arrivalTime,
+  departureTime,
+  ...restSummary
+}: RouteSummary): RouteSummary {
+  return {
+    arrivalTime: new Date(arrivalTime),
+    departureTime: new Date(departureTime),
+    ...restSummary,
+  };
+}
+
+/**
  * @Internal
  */
 export function mapRouteDirectionsBatchResult(
@@ -47,7 +63,17 @@ export function mapRouteDirectionsBatchResult(
       if (item.statusCode === 200) {
         return {
           statusCode: item.statusCode,
-          response: item.response,
+          response: {
+            ...item.response,
+            routes: item.response.routes.map(({ summary, legs, ...restRoute }) => ({
+              summary: mapRouteSummary(summary),
+              legs: legs.map(({ summary: legSummary, ...restLeg }) => ({
+                summary: mapRouteSummary(legSummary),
+                ...restLeg,
+              })),
+              ...restRoute,
+            })),
+          },
         };
       } else {
         return { statusCode: item.statusCode, response: item.response as ErrorResponse };
@@ -55,6 +81,24 @@ export function mapRouteDirectionsBatchResult(
     }),
   };
   return result;
+}
+
+/**
+ * @internal
+ */
+export function mapRouteMatrixResult({
+  matrix,
+  ...restResult
+}: RouteMatrixResult): RouteMatrixResult {
+  return {
+    matrix: matrix.map((row) =>
+      row.map(({ routeSummary, ...rest }) => ({
+        ...(routeSummary && { routeSummary: mapRouteSummary(routeSummary) }),
+        ...rest,
+      }))
+    ),
+    ...restResult,
+  };
 }
 
 /* Batch request mappers */

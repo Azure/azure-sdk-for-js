@@ -216,48 +216,10 @@ describe("LRO", function (this: Suite) {
       assert.equal(batchResult.totalRequests, batchRequests.length);
       assert.equal(batchResult.batchItems.length, batchRequests.length);
     });
-
-    it("should return a poller that can be used to retrieve the batchId", async function () {
-      const batchRequests: RouteDirectionsRequest[] = [
-        {
-          routePoints: [
-            [47.620659, -122.348934],
-            [47.610101, -122.342015],
-          ],
-          options: {
-            routeType: KnownRouteType.Economy,
-            travelMode: KnownTravelMode.Bicycle,
-            useTrafficData: false,
-          },
-        },
-      ];
-
-      const poller = await client.beginRequestRouteDirectionsBatch(batchRequests, {
-        updateIntervalInMs: pollingInterval,
-      });
-
-      assert.isDefined(poller.getBatchId());
-
-      await poller.pollUntilDone();
-
-      assert.isDefined(poller.getBatchId());
-    });
   });
 
-  describe("Begin Get Route Directions Batch Result", function () {
-    it("should throw error if batchId is missing", async function () {
-      // "query is missing or empty"
-      assert.isRejected(client.beginGetRouteDirectionsBatchResult(""));
-    });
-
-    it("should throw error if invalid batchId is given", async function () {
-      // "Invalid value : [batchId] for parameter batchRequestId"
-      assert.isRejected(
-        client.beginGetRouteDirectionsBatchResult("11111111-2222-3333-4444-5555555555557")
-      );
-    });
-
-    it("could retrieve a previous submitted batch results", async function () {
+  describe("Resume Route Directions Batch Result", function () {
+    it("should be able to resume the previous request", async function () {
       const batchRequests: RouteDirectionsRequest[] = [
         {
           routePoints: [
@@ -285,23 +247,22 @@ describe("LRO", function (this: Suite) {
       ];
 
       // Initiate route directions batch
-      const poller1 = await client.beginRequestRouteDirectionsBatch(batchRequests, {
+      const originalPoller = await client.beginRequestRouteDirectionsBatch(batchRequests, {
         updateIntervalInMs: pollingInterval,
       });
-      const batchId = poller1.getBatchId() as string;
-      assert.ok(batchId);
+      const serializedState = originalPoller.toString();
 
-      // Use saved batchId to retrieve the result
-      const poller2 = await client.beginGetRouteDirectionsBatchResult(batchId, {
+      // Use serialized state to retrieve the result
+      const rehydratedPoller = await client.resumeRequestRouteDirectionsBatch(serializedState, {
         updateIntervalInMs: pollingInterval,
       });
-      const batchResult = await poller2.pollUntilDone();
+      const batchResult = await rehydratedPoller.pollUntilDone();
 
       assert.equal(batchResult.totalRequests, batchRequests.length);
       assert.equal(batchResult.batchItems.length, batchRequests.length);
     });
 
-    it("should obtain the same result as beginRequestRouteDirectionsBatch ", async function () {
+    it("should obtain the same result from the rehydrated poller after the lro is finished", async function () {
       const batchRequests: RouteDirectionsRequest[] = [
         {
           routePoints: [
@@ -329,20 +290,19 @@ describe("LRO", function (this: Suite) {
       ];
 
       // Initiate route directions batch
-      const poller1 = await client.beginRequestRouteDirectionsBatch(batchRequests, {
+      const originalPoller = await client.beginRequestRouteDirectionsBatch(batchRequests, {
         updateIntervalInMs: pollingInterval,
       });
-      const batchResult1 = await poller1.pollUntilDone();
-      const batchId = poller1.getBatchId() as string;
-      assert.ok(batchId);
+      const originalResult = await originalPoller.pollUntilDone();
 
-      // Use saved batchId to retrieve the result
-      const poller2 = await client.beginGetRouteDirectionsBatchResult(batchId, {
+      // Use serialized state to retrieve the result
+      const serializedState = originalPoller.toString();
+      const rehydratedPoller = await client.resumeRequestRouteDirectionsBatch(serializedState, {
         updateIntervalInMs: pollingInterval,
       });
-      const batchResult2 = await poller2.pollUntilDone();
+      const rehydratedResult = await rehydratedPoller.pollUntilDone();
 
-      assert.deepEqual(batchResult1, batchResult2);
+      assert.deepEqual(originalResult, rehydratedResult);
     });
   });
 
@@ -375,51 +335,10 @@ describe("LRO", function (this: Suite) {
       assert.isNotEmpty(routeMatrixResult.summary);
       assert.equal(routeMatrixResult.summary.totalRoutes, 4);
     });
-
-    it("should return a poller that can retrieve the batchId", async function () {
-      const routeMatrixQuery: RouteMatrixQuery = {
-        origins: {
-          type: "MultiPoint",
-          coordinates: [
-            [4.85106, 52.36006],
-            [4.85056, 52.36187],
-          ],
-        },
-        destinations: {
-          type: "MultiPoint",
-          coordinates: [
-            [4.85003, 52.36241],
-            [13.42937, 52.50931],
-          ],
-        },
-      };
-
-      const poller = await client.beginRequestRouteMatrix(routeMatrixQuery, {
-        updateIntervalInMs: pollingInterval,
-      });
-
-      assert.isDefined(poller.getBatchId());
-
-      await poller.pollUntilDone();
-
-      assert.isDefined(poller.getBatchId());
-    });
   });
 
   describe("Begin Get Route Matrix Result", function () {
-    it("should throw error if matrixId is missing", async function () {
-      // "query is missing or empty"
-      assert.isRejected(client.beginGetRouteMatrixResult(""));
-    });
-
-    it("should throw error if invalid batchId is given", async function () {
-      // "Invalid value : [batchId] for parameter batchRequestId"
-      assert.isRejected(
-        client.beginGetRouteDirectionsBatchResult("11111111-2222-3333-4444-5555555555557")
-      );
-    });
-
-    it("could retrieve a previous submitted batch results", async function () {
+    it("should be able to resume the previous request", async function () {
       const routeMatrixQuery: RouteMatrixQuery = {
         origins: {
           type: "MultiPoint",
@@ -438,24 +357,23 @@ describe("LRO", function (this: Suite) {
       };
 
       // Initiate route directions batch
-      const poller1 = await client.beginRequestRouteMatrix(routeMatrixQuery, {
+      const originalPoller = await client.beginRequestRouteMatrix(routeMatrixQuery, {
         updateIntervalInMs: pollingInterval,
       });
-      const batchId = poller1.getBatchId() as string;
-      assert.ok(batchId);
+      const serializedState = originalPoller.toString();
 
       // Use saved batchId to retrieve the result
-      const poller2 = await client.beginGetRouteMatrixResult(batchId, {
+      const rehydratedPoller = await client.resumeRequestRouteMatrix(serializedState, {
         updateIntervalInMs: pollingInterval,
       });
-      const routeMatrixResult = await poller2.pollUntilDone();
+      const routeMatrixResult = await rehydratedPoller.pollUntilDone();
 
       assert.isNotEmpty(routeMatrixResult.matrix);
       assert.isNotEmpty(routeMatrixResult.summary);
       assert.equal(routeMatrixResult.summary.totalRoutes, 4);
     });
 
-    it("should obtain the same result as beginFuzzySearchBatch ", async function () {
+    it("should obtain the same result as beginRequestRouteMatrix ", async function () {
       const routeMatrixQuery: RouteMatrixQuery = {
         origins: {
           type: "MultiPoint",
@@ -474,20 +392,19 @@ describe("LRO", function (this: Suite) {
       };
 
       // Initiate route directions batch
-      const poller1 = await client.beginRequestRouteMatrix(routeMatrixQuery, {
+      const originalPoller = await client.beginRequestRouteMatrix(routeMatrixQuery, {
         updateIntervalInMs: pollingInterval,
       });
-      const routeMatrixResult1 = await poller1.pollUntilDone();
-      const matrixId = poller1.getBatchId() as string;
-      assert.ok(matrixId);
+      const originalResult = await originalPoller.pollUntilDone();
 
-      // Use saved batchId to retrieve the result
-      const poller2 = await client.beginGetRouteMatrixResult(matrixId, {
+      // Use serialized state to retrieve the result
+      const serializedState = originalPoller.toString();
+      const rehydratedPoller = await client.resumeRequestRouteMatrix(serializedState, {
         updateIntervalInMs: pollingInterval,
       });
-      const routeMatrixResult2 = await poller2.pollUntilDone();
+      const rehydratedResult = await rehydratedPoller.pollUntilDone();
 
-      assert.deepEqual(routeMatrixResult1, routeMatrixResult2);
+      assert.deepEqual(originalResult, rehydratedResult);
     });
   });
 });

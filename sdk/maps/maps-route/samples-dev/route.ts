@@ -158,7 +158,12 @@ async function main() {
   );
 
   const routeDirectionsBatchResults = await routeDirectionPoller.pollUntilDone();
-  console.log(routeDirectionsBatchResults);
+  console.log(routeDirectionsBatchResults.batchItems.map((item) => item.statusCode));
+
+  const serializedState = routeDirectionPoller.toString();
+  const rehydratedPoller = await client.resumeRequestRouteDirectionsBatch(serializedState, {});
+  const rehydratedResults = await rehydratedPoller.pollUntilDone();
+  console.log(rehydratedResults);
 
   console.log(" --- Post route matrix:");
   const routeMatrixQuery: RouteMatrixQuery = {

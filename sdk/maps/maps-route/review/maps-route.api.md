@@ -24,12 +24,10 @@ export interface BatchItem<TResult> {
 
 // @public
 export interface BatchPoller<TBatchResult> extends PollerLike<PollOperationState<TBatchResult>, TBatchResult> {
-    getBatchId(): string | undefined;
 }
 
 // @public
 export interface BatchPollerOptions {
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
@@ -387,24 +385,19 @@ export enum KnownWindingnessLevel {
 }
 
 // @public
-export interface LatLon {
-    // (undocumented)
-    latitude: number;
-    // (undocumented)
-    longitude: number;
-}
+export type LatLon = [latitude: number, longitude: number];
 
 // @public
 export class MapsRouteClient {
     constructor(credential: AzureKeyCredential, options?: MapsRouteClientOptions);
     constructor(credential: TokenCredential, mapsAccountClientId: string, options?: MapsRouteClientOptions);
-    beginGetRouteDirectionsBatchResult(batchId: string, options?: RouteDirectionsBatchOptions): Promise<BatchPoller<BatchResult<RouteDirections>>>;
-    beginGetRouteMatrixResult(matrixId: string, options?: RouteMatrixOptions): Promise<BatchPoller<RouteMatrixResult>>;
     beginRequestRouteDirectionsBatch(requests: RouteDirectionsRequest[], options?: RouteDirectionsBatchOptions): Promise<BatchPoller<BatchResult<RouteDirections>>>;
     beginRequestRouteMatrix(routeMatrixQuery: RouteMatrixQuery, options?: RouteMatrixRequestOptions): Promise<BatchPoller<RouteMatrixResult>>;
     getRouteDirections(routePoints: LatLon[], options?: RouteDirectionsOptions & OperationOptions): Promise<RouteDirections>;
     getRouteDirectionsWithAdditionalParameters(routePoints: LatLon[], routeDirectionParameters: RouteDirectionParameters, options?: RouteDirectionsOptions & OperationOptions): Promise<RouteDirections>;
     getRouteRange(coordinates: LatLon, budget: RouteRangeBudget, options?: RouteRangeOptions): Promise<RouteRangeResult>;
+    resumeRequestRouteDirectionsBatch(resumeFrom: string, options?: RouteDirectionsBatchOptions): Promise<BatchPoller<BatchResult<RouteDirections>>>;
+    resumeRequestRouteMatrix(resumeFrom: string, options?: RouteMatrixRequestOptions): Promise<BatchPoller<RouteMatrixResult>>;
 }
 
 // @public
