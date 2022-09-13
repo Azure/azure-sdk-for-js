@@ -10,7 +10,7 @@ import {
   createRecordedCommunicationIdentityClient,
   createRecordedCommunicationIdentityClientWithToken,
 } from "./utils/recordedClient";
-import { CommunicationIdentityClient } from "../../src";
+import { CommunicationIdentityClient, CreateUserAndTokenOptions, GetTokenOptions } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { matrix } from "@azure/test-utils";
@@ -74,26 +74,28 @@ matrix([[true, false]], async function (useAad: boolean) {
 
     it("successfully gets a token with min valid custom expiration", async function () {
       const user: CommunicationUserIdentifier = await client.createUser();
-      const expectedTokenExpiration: number = 60;
-      const { token, expiresOn } = await client.getToken(user, ["chat"], expectedTokenExpiration);
+      const tokenExpiresInMinutes = 60;
+      const tokenOptions: GetTokenOptions = { tokenExpiresInMinutes: tokenExpiresInMinutes };
+      const { token, expiresOn } = await client.getToken(user, ["chat"], tokenOptions);
 
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
       if (isLiveMode()) {
-        const isValid = isTokenExpirationValid(expectedTokenExpiration, expiresOn);
+        const isValid = isTokenExpirationValid(tokenExpiresInMinutes, expiresOn);
         assert.isTrue(isValid);
       }
     });
 
     it("successfully gets a token with max valid custom expiration", async function () {
       const user: CommunicationUserIdentifier = await client.createUser();
-      const expectedTokenExpiration: number = 1440;
-      const { token, expiresOn } = await client.getToken(user, ["chat"], expectedTokenExpiration);
+      const tokenExpiresInMinutes = 1440;
+      const tokenOptions: GetTokenOptions = { tokenExpiresInMinutes: tokenExpiresInMinutes };
+      const { token, expiresOn } = await client.getToken(user, ["chat"], tokenOptions);
 
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
       if (isLiveMode()) {
-        const isValid = isTokenExpirationValid(expectedTokenExpiration, expiresOn);
+        const isValid = isTokenExpirationValid(tokenExpiresInMinutes, expiresOn);
         assert.isTrue(isValid);
       }
     });
@@ -106,11 +108,12 @@ matrix([[true, false]], async function (useAad: boolean) {
     });
 
     it("successfully creates a user and a token with custom expiration in a single request", async function () {
+      const tokenOptions: CreateUserAndTokenOptions = { tokenExpiresInMinutes: 60 };
       const {
         user: newUser,
         token,
         expiresOn,
-      } = await client.createUserAndToken(["chat", "voip"], 60);
+      } = await client.createUserAndToken(["chat", "voip"], tokenOptions);
       assert.isTrue(isCommunicationUserIdentifier(newUser));
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
@@ -155,8 +158,9 @@ matrix([[true, false]], async function (useAad: boolean) {
 
       it("throws an error when attempting to issue a token with min invalid expiration", async function () {
         const user: CommunicationUserIdentifier = await client.createUser();
+        const tokenOptions: GetTokenOptions = { tokenExpiresInMinutes: 1441 };
         try {
-          await client.getToken(user, ["chat"], 1441);
+          await client.getToken(user, ["chat"], tokenOptions);
           assert.fail("Should have thrown an error");
         } catch (e: any) {
           assert.equal(e.statusCode, 400);
@@ -165,8 +169,9 @@ matrix([[true, false]], async function (useAad: boolean) {
 
       it("throws an error when attempting to issue a token with max invalid expiration", async function () {
         const user: CommunicationUserIdentifier = await client.createUser();
+        const tokenOptions: GetTokenOptions = { tokenExpiresInMinutes: 59 };
         try {
-          await client.getToken(user, ["chat"], 59);
+          await client.getToken(user, ["chat"], tokenOptions);
           assert.fail("Should have thrown an error");
         } catch (e: any) {
           assert.equal(e.statusCode, 400);

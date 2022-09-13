@@ -6,6 +6,7 @@
  */
 
 import { CommunicationIdentityClient, TokenScope } from "@azure/communication-identity";
+import { CreateUserAndTokenOptions } from "../src";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -33,7 +34,8 @@ export async function main() {
   // Create user with token with custom expiration
   console.log("Creating User and Token");
 
-  const { user, token, expiresOn } = await client.createUserAndToken(scopes, 60);
+  const userAndTokenOptions: CreateUserAndTokenOptions = { tokenExpiresInMinutes: 60 };
+  const { user, token, expiresOn } = await client.createUserAndToken(scopes, userAndTokenOptions);
 
   console.log(`Created user with id: ${user.communicationUserId}`);
   console.log(`Issued token: ${token}`);

@@ -61,9 +61,13 @@ export interface GetTokenForTeamsUserOptions extends OperationOptions {
 /**
  * Options to create a single user and a token simultaneously.
  */
-export type CreateUserAndTokenOptions = OperationOptions;
+export declare interface CreateUserAndTokenOptions extends OperationOptions {
+  tokenExpiresInMinutes?: number;
+}
 
 /**
  * Options to create a scoped user token.
  */
-export type GetTokenOptions = OperationOptions;
+export declare interface GetTokenOptions extends OperationOptions {
+  tokenExpiresInMinutes?: number;
+}

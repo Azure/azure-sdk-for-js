@@ -23,10 +23,8 @@ export class CommunicationIdentityClient {
     constructor(endpoint: string, credential: TokenCredential, options?: CommunicationIdentityClientOptions);
     createUser(options?: OperationOptions): Promise<CommunicationUserIdentifier>;
     createUserAndToken(scopes: TokenScope[], options?: CreateUserAndTokenOptions): Promise<CommunicationUserToken>;
-    createUserAndToken(scopes: TokenScope[], tokenExpirationInMinutes: number, options?: CreateUserAndTokenOptions): Promise<CommunicationUserToken>;
     deleteUser(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<void>;
     getToken(user: CommunicationUserIdentifier, scopes: TokenScope[], options?: GetTokenOptions): Promise<CommunicationAccessToken>;
-    getToken(user: CommunicationUserIdentifier, scopes: TokenScope[], tokenExpirationInMinutes: number, options?: GetTokenOptions): Promise<CommunicationAccessToken>;
     getTokenForTeamsUser(options: GetTokenForTeamsUserOptions): Promise<CommunicationAccessToken>;
     revokeTokens(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<void>;
 }
@@ -41,7 +39,10 @@ export interface CommunicationUserToken extends CommunicationAccessToken {
 }
 
 // @public
-export type CreateUserAndTokenOptions = OperationOptions;
+export interface CreateUserAndTokenOptions extends OperationOptions {
+    // (undocumented)
+    tokenExpiresInMinutes?: number;
+}
 
 // @public
 export interface GetTokenForTeamsUserOptions extends OperationOptions {
@@ -51,7 +52,10 @@ export interface GetTokenForTeamsUserOptions extends OperationOptions {
 }
 
 // @public
-export type GetTokenOptions = OperationOptions;
+export interface GetTokenOptions extends OperationOptions {
+    // (undocumented)
+    tokenExpiresInMinutes?: number;
+}
 
 // @public
 export type TokenScope = "chat" | "voip";
