@@ -32,6 +32,12 @@ import {
   DeploymentsStartOptionalParams,
   DeploymentsStopOptionalParams,
   DeploymentsRestartOptionalParams,
+  DeploymentsEnableRemoteDebuggingOptionalParams,
+  DeploymentsEnableRemoteDebuggingResponse,
+  DeploymentsDisableRemoteDebuggingOptionalParams,
+  DeploymentsDisableRemoteDebuggingResponse,
+  DeploymentsGetRemoteDebuggingConfigOptionalParams,
+  DeploymentsGetRemoteDebuggingConfigResponse,
   DeploymentsGetLogFileUrlOptionalParams,
   DeploymentsGetLogFileUrlResponse,
   DiagnosticParameters,
@@ -867,6 +873,226 @@ export class DeploymentsImpl implements Deployments {
   }
 
   /**
+   * Enable remote debugging.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param appName The name of the App resource.
+   * @param deploymentName The name of the Deployment resource.
+   * @param options The options parameters.
+   */
+  async beginEnableRemoteDebugging(
+    resourceGroupName: string,
+    serviceName: string,
+    appName: string,
+    deploymentName: string,
+    options?: DeploymentsEnableRemoteDebuggingOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<DeploymentsEnableRemoteDebuggingResponse>,
+      DeploymentsEnableRemoteDebuggingResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<DeploymentsEnableRemoteDebuggingResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, serviceName, appName, deploymentName, options },
+      enableRemoteDebuggingOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Enable remote debugging.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param appName The name of the App resource.
+   * @param deploymentName The name of the Deployment resource.
+   * @param options The options parameters.
+   */
+  async beginEnableRemoteDebuggingAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    appName: string,
+    deploymentName: string,
+    options?: DeploymentsEnableRemoteDebuggingOptionalParams
+  ): Promise<DeploymentsEnableRemoteDebuggingResponse> {
+    const poller = await this.beginEnableRemoteDebugging(
+      resourceGroupName,
+      serviceName,
+      appName,
+      deploymentName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Disable remote debugging.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param appName The name of the App resource.
+   * @param deploymentName The name of the Deployment resource.
+   * @param options The options parameters.
+   */
+  async beginDisableRemoteDebugging(
+    resourceGroupName: string,
+    serviceName: string,
+    appName: string,
+    deploymentName: string,
+    options?: DeploymentsDisableRemoteDebuggingOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<DeploymentsDisableRemoteDebuggingResponse>,
+      DeploymentsDisableRemoteDebuggingResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<DeploymentsDisableRemoteDebuggingResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, serviceName, appName, deploymentName, options },
+      disableRemoteDebuggingOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Disable remote debugging.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param appName The name of the App resource.
+   * @param deploymentName The name of the Deployment resource.
+   * @param options The options parameters.
+   */
+  async beginDisableRemoteDebuggingAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    appName: string,
+    deploymentName: string,
+    options?: DeploymentsDisableRemoteDebuggingOptionalParams
+  ): Promise<DeploymentsDisableRemoteDebuggingResponse> {
+    const poller = await this.beginDisableRemoteDebugging(
+      resourceGroupName,
+      serviceName,
+      appName,
+      deploymentName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Get remote debugging config.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param appName The name of the App resource.
+   * @param deploymentName The name of the Deployment resource.
+   * @param options The options parameters.
+   */
+  getRemoteDebuggingConfig(
+    resourceGroupName: string,
+    serviceName: string,
+    appName: string,
+    deploymentName: string,
+    options?: DeploymentsGetRemoteDebuggingConfigOptionalParams
+  ): Promise<DeploymentsGetRemoteDebuggingConfigResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, appName, deploymentName, options },
+      getRemoteDebuggingConfigOperationSpec
+    );
+  }
+
+  /**
    * Get deployment log file URL
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -1474,6 +1700,98 @@ const restartOperationSpec: coreClient.OperationSpec = {
     201: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.appName,
+    Parameters.deploymentName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const enableRemoteDebuggingOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/enableRemoteDebugging",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RemoteDebugging
+    },
+    201: {
+      bodyMapper: Mappers.RemoteDebugging
+    },
+    202: {
+      bodyMapper: Mappers.RemoteDebugging
+    },
+    204: {
+      bodyMapper: Mappers.RemoteDebugging
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.remoteDebuggingPayload,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.appName,
+    Parameters.deploymentName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const disableRemoteDebuggingOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/disableRemoteDebugging",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RemoteDebugging
+    },
+    201: {
+      bodyMapper: Mappers.RemoteDebugging
+    },
+    202: {
+      bodyMapper: Mappers.RemoteDebugging
+    },
+    204: {
+      bodyMapper: Mappers.RemoteDebugging
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.appName,
+    Parameters.deploymentName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getRemoteDebuggingConfigOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/getRemoteDebuggingConfig",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RemoteDebugging
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
