@@ -258,10 +258,12 @@ export class MessageSession extends LinkEntity<Receiver> {
   /**
    * Creates a new AMQP receiver under a new AMQP session.
    */
-  private async _init(abortSignal?: AbortSignalLike): Promise<void> {
+  private async _init(
+    opts: { abortSignal?: AbortSignalLike; timeoutInMs?: number } = {}
+  ): Promise<void> {
     try {
-      const options = this._createMessageSessionOptions(this.identifier);
-      await this.initLink(options, abortSignal);
+      const sessionOptions = this._createMessageSessionOptions(this.identifier, opts.timeoutInMs);
+      await this.initLink(sessionOptions, opts.abortSignal);
 
       if (this.link == null) {
         throw new Error("INTERNAL ERROR: failed to create receiver but without an error.");
@@ -302,7 +304,11 @@ export class MessageSession extends LinkEntity<Receiver> {
         this.sessionId,
         this.sessionLockedUntilUtc.toISOString()
       );
-      logger.verbose("%s Receiver created with receiver options: %O", this.logPrefix, options);
+      logger.verbose(
+        "%s Receiver created with receiver options: %O",
+        this.logPrefix,
+        sessionOptions
+      );
       if (!this._context.messageSessions[this.name]) {
         this._context.messageSessions[this.name] = this;
       }
@@ -327,7 +333,7 @@ export class MessageSession extends LinkEntity<Receiver> {
   /**
    * Creates the options that need to be specified while creating an AMQP receiver link.
    */
-  private _createMessageSessionOptions(clientId: string): ReceiverOptions {
+  private _createMessageSessionOptions(clientId: string, timeoutInMs?: number): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = createReceiverOptions(
       this.name,
       this.receiveMode,
@@ -348,7 +354,8 @@ export class MessageSession extends LinkEntity<Receiver> {
         onError: this._onAmqpError,
         onSessionError: this._onSessionError,
         onSettled: this._onSettled,
-      }
+      },
+      timeoutInMs
     );
 
     return rcvrOptions;
@@ -943,7 +950,10 @@ export class MessageSession extends LinkEntity<Receiver> {
   ): Promise<MessageSession> {
     throwErrorIfConnectionClosed(context);
     const messageSession = new MessageSession(identifier, context, entityPath, sessionId, options);
-    await messageSession._init(options?.abortSignal);
+    await messageSession._init({
+      abortSignal: options?.abortSignal,
+      timeoutInMs: options.retryOptions?.timeoutInMs,
+    });
     return messageSession;
   }
 

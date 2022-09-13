@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ConnectionConfig } from "@azure/core-amqp";
+import { ConnectionConfig, Constants } from "@azure/core-amqp";
 import { TokenCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";
 import {
   ServiceBusClientOptions,
@@ -438,6 +438,19 @@ export class ServiceBusClient {
       options3
     );
 
+    const operationTimeout =
+      this._clientOptions?.retryOptions?.timeoutInMs ?? Constants.defaultOperationTimeoutInMs;
+    // The number of milliseconds to use as the basis for calculating a random jitter amount
+    // opening receiver links. This is intended to ensure that multiple
+    // session operations don't timeout at the same exact moment.
+    const jitterBaseInMs = Math.min(operationTimeout * 0.01, 100);
+    // Subtract a random amount up to 100ms from the operation timeout as the jitter when attempting to open next available session link.
+    // This prevents excessive resource usage when using high amounts of concurrency and accepting the next available session.
+    // Take the min of 1% of the total timeout and the base jitter amount so that we don't end up subtracting more than 1% of the total timeout.
+    const timeoutWithJitterInMs = operationTimeout - jitterBaseInMs * Math.random();
+    // We set the operation timeout on the properties not only to include the jitter, but also because the server will otherwise
+    // restrict the maximum timeout to 1 minute and 5 seconds, regardless of the client timeout. We only do this for accepting next available
+    // session as this is the only long-polling scenario.
     const messageSession = await MessageSession.create(
       ensureValidIdentifier(entityPath, options?.identifier),
       this._connectionContext,
@@ -447,7 +460,7 @@ export class ServiceBusClient {
         maxAutoLockRenewalDurationInMs: options?.maxAutoLockRenewalDurationInMs,
         receiveMode,
         abortSignal: options?.abortSignal,
-        retryOptions: this._clientOptions.retryOptions,
+        retryOptions: { ...this._clientOptions.retryOptions, timeoutInMs: timeoutWithJitterInMs },
         skipParsingBodyAsJson: options?.skipParsingBodyAsJson ?? false,
       }
     );
