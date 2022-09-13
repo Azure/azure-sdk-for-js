@@ -53,12 +53,12 @@ import {
   SearchReverseSearchCrossStreetAddressOptionalParams as ReverseSearchCrossStreetAddressOptionalParams,
   SearchAddressBatchResult,
   SearchSearchAlongRouteOptionalParams as SearchAlongRouteOptionalParams,
+  SearchFuzzySearchBatchOptionalParams,
   SearchSearchInsideGeometryOptionalParams as SearchInsideGeometryOptionalParams,
   SearchSearchNearbyPointOfInterestOptionalParams as SearchNearbyPointOfInterestOptionalParams,
-  SearchSearchStructuredAddressOptionalParams as SearchStructuredAddressOptionalParams,
-  SearchFuzzySearchBatchOptionalParams,
-  SearchSearchAddressBatchOptionalParams,
   SearchReverseSearchAddressBatchOptionalParams,
+  SearchSearchAddressBatchOptionalParams,
+  SearchSearchStructuredAddressOptionalParams as SearchStructuredAddressOptionalParams,
 } from "./generated/models";
 import {
   InternalPipelineOptions,
@@ -705,7 +705,7 @@ export class MapsSearchClient {
    */
   public async resumeSearchAddressBatch(
     resumeFrom: string,
-    options: SearchAddressBatchOptions
+    options: SearchAddressBatchOptions = {}
   ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
     return this.createSearchAddressBatchPoller(undefined, { ...options, resumeFrom });
   }
