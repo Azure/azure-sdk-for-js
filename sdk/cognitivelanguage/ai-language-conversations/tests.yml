@@ -5,7 +5,6 @@ stages:
     parameters:
       PackageName: "@azure/ai-language-conversations"
       EnvVars:
-        TEST_MODE: "LIVE"
         ENDPOINT: $(AZURE_CONVERSATIONS_ENDPOINT)
         LANGUAGE_API_KEY: $(AZURE_CONVERSATIONS_KEY)
         LANGUAGE_CLU_PROJECT_NAME: $(AZURE_CONVERSATIONS_PROJECT_NAME)
