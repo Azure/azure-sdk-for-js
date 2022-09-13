@@ -12,7 +12,7 @@ import {
 import { Context } from "mocha";
 import {
   classificationPolicyRequest,
-  distributionPolicyRequest,
+  getDistributionPolicyRequest,
   exceptionPolicyRequest,
   jobRequest,
   queueRequest
@@ -27,7 +27,7 @@ describe("RouterClient", function() {
   let recorder: Recorder;
 
   const testRunId = uuid();
-  const distributionPolicyId: string = `${distributionPolicyRequest.id!}-${testRunId}`;
+  const distributionPolicyId: string = `${getDistributionPolicyRequest.id!}-${testRunId}`;
   const exceptionPolicyId: string = `${exceptionPolicyRequest.id!}-${testRunId}`;
   const queueId: string = `${queueRequest.id!}-${testRunId}`;
   const classificationPolicyId: string = `${classificationPolicyRequest.id!}-${testRunId}`;
@@ -43,7 +43,7 @@ describe("RouterClient", function() {
 
       await administrationClient.createDistributionPolicy(
         distributionPolicyId,
-        distributionPolicyRequest
+        getDistributionPolicyRequest
       );
       await administrationClient.createExceptionPolicy(exceptionPolicyId, exceptionPolicyRequest);
       await administrationClient.createQueue(queueId, queueRequest);
@@ -57,6 +57,8 @@ describe("RouterClient", function() {
       if (!this.currentTest?.isPending() && recorder) {
         await recorder.stop();
       }
+
+      await sleep(200);
     });
 
     this.afterAll(async function(this: Context) {

@@ -6,7 +6,7 @@ import { ExceptionPolicy, RouterAdministrationClient } from "../../../src";
 import { assert } from "chai";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { Context } from "mocha";
-import { exceptionPolicyRequest } from "../utils/testData";
+import { getExceptionPolicyRequest } from "../utils/testData";
 import { timeoutMs } from "../utils/constants";
 import { v4 as uuid } from "uuid";
 
@@ -14,8 +14,7 @@ describe("RouterClient", function() {
   let administrationClient: RouterAdministrationClient;
   let recorder: Recorder;
 
-  const testRunId = uuid();
-  const exceptionPolicyId = `${exceptionPolicyRequest.id}-${testRunId}`;
+  const { exceptionPolicyId, exceptionPolicyRequest } = getExceptionPolicyRequest(uuid());
 
   describe("Exception Policy Operations", function() {
     this.beforeAll(async function(this: Context) {

@@ -15,11 +15,10 @@ import {
   StaticQueueSelectorAttachment
 } from "../../../src";
 
-const exceptionPolicyId = "test-e-policy";
-const classificationPolicyId = "test-c-policy";
-const distributionPolicyId = "test-d-policy";
-const channelId = "test-channel";
 const queueId = "test-queue";
+const exceptionPolicyId = "test-e-policy";
+const distributionPolicyId = "test-d-policy";
+const classificationPolicyId = "test-c-policy";
 const jobId = "test-job";
 const workerId = "test-worker";
 
@@ -64,6 +63,11 @@ const isFrench: RouterRuleUnion = {
 const isTrue: RouterRuleUnion = {
   kind: "static-rule",
   value: { default: true }
+};
+
+export const staticSelector: StaticQueueSelectorAttachment = {
+  kind: "static",
+  labelSelector: { key: "value", labelOperator: "equal", value: { default: true } }
 };
 
 export const staticQueueIdSelector: StaticQueueSelectorAttachment = {
@@ -113,28 +117,6 @@ export const conditionalFrenchSelector: ConditionalQueueSelectorAttachment = {
   labelSelectors: [frenchSelector]
 };
 
-export const exceptionPolicyRequest: ExceptionPolicy = {
-  id: exceptionPolicyId,
-  name: exceptionPolicyId,
-  exceptionRules: {
-    MaxWaitTimeExceeded: {
-      actions: {
-        MoveJobToEscalatedQueue: {
-          kind: "reclassify",
-          classificationPolicyId: classificationPolicyId,
-          labelsToUpsert: {
-            escalated: true
-          }
-        }
-      },
-      trigger: {
-        kind: "wait-time",
-        thresholdSeconds: 10
-      }
-    }
-  }
-};
-
 export const classificationPolicyConditional: ClassificationPolicy = {
   id: `${classificationPolicyId}-conditional`,
   name: `${classificationPolicyId}-conditional`,
@@ -161,37 +143,6 @@ export const classificationPolicyCombined: ClassificationPolicy = {
   ]
 };
 
-export const classificationPolicyRequest: ClassificationPolicy = {
-  id: classificationPolicyId,
-  name: classificationPolicyId,
-  fallbackQueueId: queueId
-};
-
-export const staticSelector: StaticQueueSelectorAttachment = {
-  kind: "static",
-  labelSelector: { key: "value", labelOperator: "equal", value: { default: true } }
-};
-
-export const distributionPolicyRequest: DistributionPolicy = {
-  id: distributionPolicyId,
-  name: distributionPolicyId,
-  offerTtlInSeconds: 60,
-  mode: {
-    kind: "longest-idle",
-    minConcurrentOffers: 1,
-    maxConcurrentOffers: 5,
-    bypassSelectors: false
-  }
-};
-
-export const queueRequest: JobQueue = {
-  id: queueId,
-  name: queueId,
-  exceptionPolicyId: exceptionPolicyId,
-  distributionPolicyId: distributionPolicyId,
-  labels: {}
-};
-
 export const englishQueue: JobQueue = {
   id: `${queueId}-english`,
   name: `${queueId}-english`,
@@ -206,35 +157,9 @@ export const frenchQueue: JobQueue = {
   labels: { Region: region, Product: product, Language: french }
 };
 
-export const workerRequest: RouterWorker = {
-  id: workerId,
-  state: "active",
-  loadRatio: 1,
-  totalCapacity: 1,
-  availableForOffers: false,
-  queueAssignments: {
-    default: { QueueId: queueId }
-  },
-  channelConfigurations: {
-    channelId: {
-      capacityCostPerJob: 1
-    }
-  },
-  labels: {}
-};
-
-export const jobRequest: RouterJob = {
-  id: jobId,
-  channelId: channelId,
-  priority: 1,
-  classificationPolicyId: classificationPolicyId,
-  queueId: queueId,
-  labels: {}
-};
-
 export const conditionalScenarioJob: RouterJob = {
   id: `${jobId}-conditional`,
-  channelId: channelId,
+  channelId: "test-channel",
   priority: 1,
   classificationPolicyId: classificationPolicyConditional.id,
   labels: [{ Product: product }]
@@ -242,7 +167,7 @@ export const conditionalScenarioJob: RouterJob = {
 
 export const passthroughScenarioJob: RouterJob = {
   id: `${jobId}-passthrough`,
-  channelId: channelId,
+  channelId: "test-channel",
   priority: 1,
   classificationPolicyId: classificationPolicyPassthrough.id,
   labels: [{ Region: region }, { Language: english }]
@@ -250,7 +175,7 @@ export const passthroughScenarioJob: RouterJob = {
 
 export const englishJob: RouterJob = {
   id: `${jobId}-english`,
-  channelId: channelId,
+  channelId: "test-channel",
   priority: 1,
   classificationPolicyId: classificationPolicyCombined.id,
   labels: [{ Product: product }, { Region: region }, { Language: english }]
@@ -258,8 +183,142 @@ export const englishJob: RouterJob = {
 
 export const frenchJob: RouterJob = {
   id: `${jobId}-french`,
-  channelId: channelId,
+  channelId: "test-channel",
   priority: 1,
   classificationPolicyId: classificationPolicyCombined.id,
   labels: [{ Product: product }, { Region: region }, { Language: "FR" }]
 };
+
+export interface QueueRequest {
+  queueId: string;
+  queueRequest: JobQueue;
+}
+export function getQueueRequest(guid: string): QueueRequest {
+  const id = `${queueId}-${guid}`;
+  return {
+    queueId: id,
+    queueRequest: {
+      id,
+      name: queueId,
+      exceptionPolicyId: `${exceptionPolicyId}-${guid}`,
+      distributionPolicyId: `${distributionPolicyId}-${guid}`,
+      labels: {}
+    }
+  };
+}
+
+export interface ExceptionPolicyRequest {
+  exceptionPolicyId: string;
+  exceptionPolicyRequest: ExceptionPolicy;
+}
+export function getExceptionPolicyRequest(guid: string): ExceptionPolicyRequest {
+  const id = `${exceptionPolicyId}-${guid}`;
+  return {
+    exceptionPolicyId: id,
+    exceptionPolicyRequest: {
+      id,
+      name: exceptionPolicyId,
+      exceptionRules: {
+        MaxWaitTimeExceeded: {
+          actions: {
+            MoveJobToEscalatedQueue: {
+              kind: "reclassify",
+              classificationPolicyId: `${classificationPolicyId}-${guid}`,
+              labelsToUpsert: {
+                escalated: true
+              }
+            }
+          },
+          trigger: {
+            kind: "wait-time",
+            thresholdSeconds: 10
+          }
+        }
+      }
+    }
+  };
+}
+
+export interface DistributionPolicyRequest {
+  distributionPolicyId: string;
+  distributionPolicyRequest: DistributionPolicy;
+}
+export function getDistributionPolicyRequest(guid: string): DistributionPolicyRequest {
+  const id = `${distributionPolicyId}-${guid}`;
+  return {
+    distributionPolicyId: id,
+    distributionPolicyRequest: {
+      id,
+      name: distributionPolicyId,
+      offerTtlInSeconds: 60,
+      mode: {
+        kind: "longest-idle",
+        minConcurrentOffers: 1,
+        maxConcurrentOffers: 5,
+        bypassSelectors: false
+      }
+    }
+  };
+}
+
+export interface ClassificationPolicyRequest {
+  classificationPolicyId: string;
+  classificationPolicyRequest: ClassificationPolicy;
+}
+export function getClassificationPolicyRequest(guid: string): ClassificationPolicyRequest {
+  const id = `${classificationPolicyId}-${guid}`;
+  return {
+    classificationPolicyId: id,
+    classificationPolicyRequest: {
+      id,
+      name: classificationPolicyId,
+      fallbackQueueId: `${queueId}-${guid}`
+    }
+  };
+}
+
+export interface JobRequest {
+  jobId: string;
+  jobRequest: RouterJob;
+}
+export function getJobRequest(guid: string): JobRequest {
+  const id = `${jobId}-${guid}`;
+  return {
+    jobId: id,
+    jobRequest: {
+      id: jobId,
+      channelId: "test-channel",
+      priority: 1,
+      classificationPolicyId: `${classificationPolicyId}-${guid}`,
+      queueId: `${queueId}-${guid}`,
+      labels: {}
+    }
+  };
+}
+
+export interface WorkerRequest {
+  workerId: string;
+  workerRequest: RouterWorker;
+}
+export function getWorkerRequest(guid: string): WorkerRequest {
+  const id = `${workerId}-${guid}`;
+  return {
+    workerId: id,
+    workerRequest: {
+      id,
+      state: "active",
+      loadRatio: 1,
+      totalCapacity: 1,
+      availableForOffers: false,
+      queueAssignments: {
+        [`${queueId}-${guid}`]: {}
+      },
+      channelConfigurations: {
+        ["test-channel"]: {
+          capacityCostPerJob: 1
+        }
+      },
+      labels: {}
+    }
+  };
+}

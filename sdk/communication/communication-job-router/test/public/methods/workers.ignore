@@ -6,10 +6,10 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { RouterWorker, RouterClient, RouterAdministrationClient } from "../../../src";
 import {
-  workerRequest as workerRequestRaw,
-  queueRequest,
-  distributionPolicyRequest,
-  exceptionPolicyRequest
+  getQueueRequest,
+  getDistributionPolicyRequest,
+  getExceptionPolicyRequest,
+  getWorkerRequest
 } from "../utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { sleep, timeoutMs } from "../utils/constants";
@@ -21,14 +21,12 @@ describe("RouterClient", function() {
   let recorder: Recorder;
 
   const testRunId = uuid();
-  const distributionPolicyId: string = `${distributionPolicyRequest.id!}-${testRunId}`;
-  const exceptionPolicyId: string = `${exceptionPolicyRequest.id!}-${testRunId}`;
-  const queueId: string = `${queueRequest.id!}-${testRunId}`;
-  const workerId: string = `${workerRequestRaw.id!}-${testRunId}`;
-  const workerRequest: RouterWorker = {
-    ...workerRequestRaw,
-    queueAssignments: { [queueId]: { queueId } }
-  };
+  const { distributionPolicyId, distributionPolicyRequest } = getDistributionPolicyRequest(
+    testRunId
+  );
+  const { exceptionPolicyId, exceptionPolicyRequest } = getExceptionPolicyRequest(testRunId);
+  const { queueId, queueRequest } = getQueueRequest(testRunId);
+  const { workerId, workerRequest } = getWorkerRequest(testRunId);
 
   // Order matters (registration idempotency)
   describe("Worker Operations", function() {

@@ -5,7 +5,11 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { JobQueue, RouterAdministrationClient } from "../../../src";
 import { Context } from "mocha";
-import { distributionPolicyRequest, exceptionPolicyRequest, queueRequest } from "../utils/testData";
+import {
+  getDistributionPolicyRequest,
+  exceptionPolicyRequest,
+  queueRequest
+} from "../utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
 import { v4 as uuid } from "uuid";
@@ -17,7 +21,7 @@ describe("RouterClient", function() {
   const testRunId = uuid();
   const queueId: string = `${queueRequest.id!}-${testRunId}`;
   const exceptionPolicyId: string = `${exceptionPolicyRequest.id!}-${testRunId}`;
-  const distributionPolicyId: string = `${distributionPolicyRequest.id!}-${testRunId}`;
+  const distributionPolicyId: string = `${getDistributionPolicyRequest.id!}-${testRunId}`;
 
   describe("Queue Operations", function() {
     this.beforeAll(async function(this: Context) {
@@ -27,7 +31,7 @@ describe("RouterClient", function() {
 
       await administrationClient.createDistributionPolicy(
         distributionPolicyId,
-        distributionPolicyRequest
+        getDistributionPolicyRequest
       );
       await administrationClient.createExceptionPolicy(exceptionPolicyId, exceptionPolicyRequest);
     });
