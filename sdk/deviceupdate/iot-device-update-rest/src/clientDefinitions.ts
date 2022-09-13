@@ -11,8 +11,8 @@ import {
   DeviceUpdateListVersionsParameters,
   DeviceUpdateListFilesParameters,
   DeviceUpdateGetFileParameters,
-  DeviceUpdateListOperationsParameters,
-  DeviceUpdateGetOperationParameters,
+  DeviceUpdateListOperationStatusesParameters,
+  DeviceUpdateGetOperationStatusParameters,
   DeviceManagementListDeviceClassesParameters,
   DeviceManagementGetDeviceClassParameters,
   DeviceManagementUpdateDeviceClassParameters,
@@ -45,17 +45,18 @@ import {
   DeviceManagementRetryDeploymentParameters,
   DeviceManagementGetDeviceClassSubgroupDeploymentStatusParameters,
   DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentParameters,
-  DeviceManagementGetOperationParameters,
-  DeviceManagementListOperationsParameters,
+  DeviceManagementGetOperationStatusParameters,
+  DeviceManagementListOperationStatusesParameters,
   DeviceManagementStartLogCollectionParameters,
   DeviceManagementGetLogCollectionParameters,
   DeviceManagementListLogCollectionsParameters,
   DeviceManagementGetLogCollectionDetailedStatusParameters,
-  DeviceManagementListDeviceHealthParameters,
+  DeviceManagementListHealthOfDevicesParameters,
 } from "./parameters";
 import {
   DeviceUpdateListUpdates200Response,
   DeviceUpdateListUpdatesdefaultResponse,
+  DeviceUpdateImportUpdate200Response,
   DeviceUpdateImportUpdate202Response,
   DeviceUpdateImportUpdatedefaultResponse,
   DeviceUpdateGetUpdate200Response,
@@ -74,11 +75,11 @@ import {
   DeviceUpdateGetFile200Response,
   DeviceUpdateGetFile304Response,
   DeviceUpdateGetFiledefaultResponse,
-  DeviceUpdateListOperations200Response,
-  DeviceUpdateListOperationsdefaultResponse,
-  DeviceUpdateGetOperation200Response,
-  DeviceUpdateGetOperation304Response,
-  DeviceUpdateGetOperationdefaultResponse,
+  DeviceUpdateListOperationStatuses200Response,
+  DeviceUpdateListOperationStatusesdefaultResponse,
+  DeviceUpdateGetOperationStatus200Response,
+  DeviceUpdateGetOperationStatus304Response,
+  DeviceUpdateGetOperationStatusdefaultResponse,
   DeviceManagementListDeviceClasses200Response,
   DeviceManagementListDeviceClassesdefaultResponse,
   DeviceManagementGetDeviceClass200Response,
@@ -143,11 +144,11 @@ import {
   DeviceManagementGetDeviceClassSubgroupDeploymentStatusdefaultResponse,
   DeviceManagementListDeviceStatesForDeviceClassSubgroupDeployment200Response,
   DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse,
-  DeviceManagementGetOperation200Response,
-  DeviceManagementGetOperation304Response,
-  DeviceManagementGetOperationdefaultResponse,
-  DeviceManagementListOperations200Response,
-  DeviceManagementListOperationsdefaultResponse,
+  DeviceManagementGetOperationStatus200Response,
+  DeviceManagementGetOperationStatus304Response,
+  DeviceManagementGetOperationStatusdefaultResponse,
+  DeviceManagementListOperationStatuses200Response,
+  DeviceManagementListOperationStatusesdefaultResponse,
   DeviceManagementStartLogCollection201Response,
   DeviceManagementStartLogCollectiondefaultResponse,
   DeviceManagementGetLogCollection200Response,
@@ -156,8 +157,8 @@ import {
   DeviceManagementListLogCollectionsdefaultResponse,
   DeviceManagementGetLogCollectionDetailedStatus200Response,
   DeviceManagementGetLogCollectionDetailedStatusdefaultResponse,
-  DeviceManagementListDeviceHealth200Response,
-  DeviceManagementListDeviceHealthdefaultResponse,
+  DeviceManagementListHealthOfDevices200Response,
+  DeviceManagementListHealthOfDevicesdefaultResponse,
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -173,7 +174,9 @@ export interface DeviceUpdateImportUpdate {
   post(
     options: DeviceUpdateImportUpdateParameters
   ): StreamableMethod<
-    DeviceUpdateImportUpdate202Response | DeviceUpdateImportUpdatedefaultResponse
+    | DeviceUpdateImportUpdate200Response
+    | DeviceUpdateImportUpdate202Response
+    | DeviceUpdateImportUpdatedefaultResponse
   >;
 }
 
@@ -237,28 +240,28 @@ export interface DeviceUpdateGetFile {
   >;
 }
 
-export interface DeviceUpdateListOperations {
+export interface DeviceUpdateListOperationStatuses {
   /** Get a list of all import update operations. Completed operations are kept for 7 days before auto-deleted. Delete operations are not returned by this API version. */
   get(
-    options?: DeviceUpdateListOperationsParameters
+    options?: DeviceUpdateListOperationStatusesParameters
   ): StreamableMethod<
-    DeviceUpdateListOperations200Response | DeviceUpdateListOperationsdefaultResponse
+    DeviceUpdateListOperationStatuses200Response | DeviceUpdateListOperationStatusesdefaultResponse
   >;
 }
 
-export interface DeviceUpdateGetOperation {
+export interface DeviceUpdateGetOperationStatus {
   /** Retrieve operation status. */
   get(
-    options?: DeviceUpdateGetOperationParameters
+    options?: DeviceUpdateGetOperationStatusParameters
   ): StreamableMethod<
-    | DeviceUpdateGetOperation200Response
-    | DeviceUpdateGetOperation304Response
-    | DeviceUpdateGetOperationdefaultResponse
+    | DeviceUpdateGetOperationStatus200Response
+    | DeviceUpdateGetOperationStatus304Response
+    | DeviceUpdateGetOperationStatusdefaultResponse
   >;
 }
 
 export interface DeviceManagementListDeviceClasses {
-  /** Gets a list of all device classes (unique combinations of device manufacturer and model) for all devices connected to Device Update for IoT Hub. */
+  /** Gets a list of all device classes (sets of devices compatible with the same updates based on the model Id and compat properties reported in the Device Update PnP interface in IoT Hub) for all devices connected to Device Update for IoT Hub. */
   get(
     options?: DeviceManagementListDeviceClassesParameters
   ): StreamableMethod<
@@ -430,7 +433,7 @@ export interface DeviceManagementGetDeploymentStatus {
 }
 
 export interface DeviceManagementListDeviceClassSubgroupsForGroup {
-  /** Get the device class subgroups for the group. */
+  /** Get the device class subgroups for the group. A device class subgroup is the set of devices within the group that share the same device class. All devices within the same device class are compatible with the same updates. */
   get(
     options?: DeviceManagementListDeviceClassSubgroupsForGroupParameters
   ): StreamableMethod<
@@ -440,14 +443,14 @@ export interface DeviceManagementListDeviceClassSubgroupsForGroup {
 }
 
 export interface DeviceManagementGetDeviceClassSubgroup {
-  /** Gets device class subgroup details. */
+  /** Gets device class subgroup details. A device class subgroup is the set of devices within the group that share the same device class. All devices within the same device class are compatible with the same updates. */
   get(
     options?: DeviceManagementGetDeviceClassSubgroupParameters
   ): StreamableMethod<
     | DeviceManagementGetDeviceClassSubgroup200Response
     | DeviceManagementGetDeviceClassSubgroupdefaultResponse
   >;
-  /** Deletes a device class subgroup. */
+  /** Deletes a device class subgroup. This subgroup is automatically created when a Device Update-enabled device is connected to the hub and reports its properties. Groups, subgroups, and deployments are not automatically cleaned up but are retained for history purposes. Users can call this method to delete a subgroup if they do not need to retain any of the history of the subgroup and no longer need it. If a device is ever connected again for this subgroup after the subgroup was deleted it will be automatically re-created but there will be no history. */
   delete(
     options?: DeviceManagementDeleteDeviceClassSubgroupParameters
   ): StreamableMethod<
@@ -541,23 +544,24 @@ export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymen
   >;
 }
 
-export interface DeviceManagementGetOperation {
+export interface DeviceManagementGetOperationStatus {
   /** Retrieve operation status. */
   get(
-    options?: DeviceManagementGetOperationParameters
+    options?: DeviceManagementGetOperationStatusParameters
   ): StreamableMethod<
-    | DeviceManagementGetOperation200Response
-    | DeviceManagementGetOperation304Response
-    | DeviceManagementGetOperationdefaultResponse
+    | DeviceManagementGetOperationStatus200Response
+    | DeviceManagementGetOperationStatus304Response
+    | DeviceManagementGetOperationStatusdefaultResponse
   >;
 }
 
-export interface DeviceManagementListOperations {
+export interface DeviceManagementListOperationStatuses {
   /** Get a list of all device import operations. Completed operations are kept for 7 days before auto-deleted. */
   get(
-    options?: DeviceManagementListOperationsParameters
+    options?: DeviceManagementListOperationStatusesParameters
   ): StreamableMethod<
-    DeviceManagementListOperations200Response | DeviceManagementListOperationsdefaultResponse
+    | DeviceManagementListOperationStatuses200Response
+    | DeviceManagementListOperationStatusesdefaultResponse
   >;
 }
 
@@ -597,12 +601,13 @@ export interface DeviceManagementGetLogCollectionDetailedStatus {
   >;
 }
 
-export interface DeviceManagementListDeviceHealth {
+export interface DeviceManagementListHealthOfDevices {
   /** Get list of device health */
   get(
-    options: DeviceManagementListDeviceHealthParameters
+    options: DeviceManagementListHealthOfDevicesParameters
   ): StreamableMethod<
-    DeviceManagementListDeviceHealth200Response | DeviceManagementListDeviceHealthdefaultResponse
+    | DeviceManagementListHealthOfDevices200Response
+    | DeviceManagementListHealthOfDevicesdefaultResponse
   >;
 }
 
@@ -658,13 +663,13 @@ export interface Routes {
   (
     path: "/deviceUpdate/{instanceId}/updates/operations",
     instanceId: string
-  ): DeviceUpdateListOperations;
+  ): DeviceUpdateListOperationStatuses;
   /** Resource for '/deviceUpdate/\{instanceId\}/updates/operations/\{operationId\}' has methods for the following verbs: get */
   (
     path: "/deviceUpdate/{instanceId}/updates/operations/{operationId}",
     instanceId: string,
     operationId: string
-  ): DeviceUpdateGetOperation;
+  ): DeviceUpdateGetOperationStatus;
   /** Resource for '/deviceUpdate/\{instanceId\}/management/deviceClasses' has methods for the following verbs: get */
   (
     path: "/deviceUpdate/{instanceId}/management/deviceClasses",
@@ -832,12 +837,12 @@ export interface Routes {
     path: "/deviceUpdate/{instanceId}/management/operations/{operationId}",
     instanceId: string,
     operationId: string
-  ): DeviceManagementGetOperation;
+  ): DeviceManagementGetOperationStatus;
   /** Resource for '/deviceUpdate/\{instanceId\}/management/operations' has methods for the following verbs: get */
   (
     path: "/deviceUpdate/{instanceId}/management/operations",
     instanceId: string
-  ): DeviceManagementListOperations;
+  ): DeviceManagementListOperationStatuses;
   /** Resource for '/deviceUpdate/\{instanceId\}/management/deviceDiagnostics/logCollections/\{operationId\}' has methods for the following verbs: put, get */
   (
     path: "/deviceUpdate/{instanceId}/management/deviceDiagnostics/logCollections/{operationId}",
@@ -859,7 +864,7 @@ export interface Routes {
   (
     path: "/deviceUpdate/{instanceId}/management/deviceDiagnostics/deviceHealth",
     instanceId: string
-  ): DeviceManagementListDeviceHealth;
+  ): DeviceManagementListHealthOfDevices;
 }
 
 export type DeviceUpdateClient = Client & {

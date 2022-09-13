@@ -17,7 +17,7 @@ jobs:
       # Sync docs repo (this can be sparse)
       - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
         parameters:
-          SkipDefaultCheckout: true
+          SkipCheckoutNone: true
           Paths:
             - ci-configs/
             - metadata/
@@ -48,10 +48,10 @@ jobs:
           filePath: eng/common/scripts/Service-Level-Readme-Automation.ps1
           arguments: >-
             -DocRepoLocation $(DocRepoLocation)
-            -TenantId '$(opensource-aad-tenant-id)' 
-            -ClientId '$(opensource-aad-app-id)' 
+            -TenantId '$(opensource-aad-tenant-id)'
+            -ClientId '$(opensource-aad-app-id)'
             -ClientSecret '$(opensource-aad-secret)'
-            
+
         displayName: Generate Service Level Readme
 
       - task: Powershell@2
@@ -102,8 +102,8 @@ jobs:
           filePath: eng/common/scripts/Service-Level-Readme-Automation.ps1
           arguments: >-
             -DocRepoLocation $(DocRepoLocation)
-            -TenantId '$(opensource-aad-tenant-id)' 
-            -ClientId '$(opensource-aad-app-id)' 
+            -TenantId '$(opensource-aad-tenant-id)'
+            -ClientId '$(opensource-aad-app-id)'
             -ClientSecret '$(opensource-aad-secret)'
         displayName: Generate Service Level Readme
 

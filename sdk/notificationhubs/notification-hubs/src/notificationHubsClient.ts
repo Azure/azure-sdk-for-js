@@ -2,6 +2,11 @@
 // Licensed under the MIT license.
 
 import { Installation, JsonPatch, PushHandle } from "./models/installation.js";
+import {
+  NotificationDetails,
+  NotificationHubsMessageResponse,
+  NotificationHubsResponse,
+} from "./models/notificationDetails.js";
 import { NotificationHubsClientContext, createClientContext } from "./client/index.js";
 import {
   NotificationHubsClientOptions,
@@ -9,9 +14,7 @@ import {
   RegistrationQueryOptions,
   SendOperationOptions,
 } from "./models/options.js";
-import { NotificationHubsMessageResponse, NotificationHubsResponse } from "./models/response.js";
 import { Notification } from "./models/notification.js";
-import { NotificationDetails } from "./models/notificationDetails.js";
 import { NotificationHubJob } from "./models/notificationHubJob.js";
 import { OperationOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -201,14 +204,13 @@ export class NotificationHubsServiceClient {
    * Sends a direct push notification to a device with the given push handle.
    * @param pushHandle - The push handle which is the unique identifier for the device.
    * @param notification - The notification to send to the device.
-   * @param options - Configuration options for the direct send operation which can contain custom headers
-   * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
+   * @param options - The options for sending a direct notification.
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
   sendDirectNotification(
     pushHandle: PushHandle,
     notification: Notification,
-    options: SendOperationOptions = {}
+    options: OperationOptions = {}
   ): Promise<NotificationHubsMessageResponse> {
     return sendDirectNotificationMethod(this._client, pushHandle, notification, options);
   }

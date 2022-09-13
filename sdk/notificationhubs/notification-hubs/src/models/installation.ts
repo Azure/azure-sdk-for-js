@@ -126,7 +126,7 @@ export function createBaiduInstallation(
 /**
  * Represents a Firebase Legacy HTTP installation.
  */
-export interface FirebaseLegacyInstallation extends DeviceTokenInstallation {
+export interface FcmLegacyInstallation extends DeviceTokenInstallation {
   /**
    * The platform for the installation.
    */
@@ -138,9 +138,9 @@ export interface FirebaseLegacyInstallation extends DeviceTokenInstallation {
  * @param installation - A partial installation used to create the Firebase Legacy HTTP installation.
  * @returns The newly created Baidu installation.
  */
-export function createFirebaseLegacyInstallation(
-  installation: Omit<FirebaseLegacyInstallation, "platform">
-): FirebaseLegacyInstallation {
+export function createFcmLegacyInstallation(
+  installation: Omit<FcmLegacyInstallation, "platform">
+): FcmLegacyInstallation {
   return {
     ...installation,
     platform: "gcm",
@@ -228,7 +228,7 @@ export type Installation =
   | AdmInstallation
   | BaiduInstallation
   | BrowserInstallation
-  | FirebaseLegacyInstallation
+  | FcmLegacyInstallation
   | WindowsInstallation;
 
 /**
