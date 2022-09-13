@@ -22,8 +22,8 @@ describe("Get ledger history", () => {
   });
 
   it("should obtain ledger entries from ledger", async function () {
-    if(env.TEST_MODE == "live") {
-      this.skip()
+    if (env.TEST_MODE == "live") {
+      this.skip();
     }
 
     const result = await client.path("/app/transactions").get();
