@@ -44,7 +44,7 @@ export const recorderOptions: RecorderStartOptions = {
       {
         regex: true,
         target: `[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}`,
-        value: "00000000-0000-0000-0000-000000000000",
+        value: "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
       },
     ],
   },

@@ -2,12 +2,14 @@
 // Licensed under the MIT license.
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
-import { CpkInfo } from "../models";
+import { ContainerEncryptionScope } from "@azure/storage-blob";
+import { CpkInfo, FileSystemEncryptionScope } from "../models";
 
 import {
   DevelopmentConnectionString,
   EncryptionAlgorithmAES25,
   HeaderConstants,
+  PathStylePorts,
   UrlConstants,
 } from "./constants";
 
@@ -570,8 +572,11 @@ export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
   // Case 2: localhost(:port), use broad regex to match port part.
   // Case 3: Ipv4, use broad regex which just check if host contains Ipv4.
   // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
-  return /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
-    host
+  return (
+    /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
+      host
+    ) ||
+    (parsedUrl.getPort() !== undefined && PathStylePorts.includes(parsedUrl.getPort()!))
   );
 }
 
@@ -601,4 +606,17 @@ export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean)
   if (cpk && !cpk.encryptionAlgorithm) {
     cpk.encryptionAlgorithm = EncryptionAlgorithmAES25;
   }
+}
+
+export function ToBlobContainerEncryptionScope(
+  fileSystemEncryptionScope?: FileSystemEncryptionScope
+): ContainerEncryptionScope | undefined {
+  if (!fileSystemEncryptionScope) return undefined;
+
+  if (!fileSystemEncryptionScope.defaultEncryptionScope) return undefined;
+
+  return {
+    defaultEncryptionScope: fileSystemEncryptionScope.defaultEncryptionScope,
+    preventEncryptionScopeOverride: true,
+  };
 }

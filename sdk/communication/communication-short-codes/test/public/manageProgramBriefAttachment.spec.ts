@@ -3,8 +3,8 @@
 
 import { ShortCodesClient, ShortCodesUpsertUSProgramBriefOptionalParams } from "../../src";
 import {
-  assertProgramBriefAttachmentApiReachable,
-  assertProgramBriefAttachmentPageableApiReachable,
+  doesProgramBriefContainAnyAttachment,
+  getProgramBriefAttachmentWithId,
   getTestProgramBriefAttachment,
 } from "./utils/testProgramBriefAttachment";
 import { doesProgramBriefExist, getTestUSProgramBrief } from "./utils/testUSProgramBrief";
@@ -50,17 +50,43 @@ describe(`ShortCodesClient - manage Attachments`, function () {
 
     const attachment = getTestProgramBriefAttachment();
 
-    await assertProgramBriefAttachmentPageableApiReachable(
-      () => client.listUSProgramBriefAttachments(uspb.id),
-      "Listing all Program Brief Attachments"
+    assert.isFalse(
+      await doesProgramBriefContainAnyAttachment(client, uspb.id),
+      "Recently created Program Brief already contain attachments"
     );
-    await assertProgramBriefAttachmentApiReachable(
-      () => client.getUSProgramBriefAttachment(uspb.id, attachment.id),
-      "Getting a specific Program Brief Attachment"
+
+    const attachmentCreationResult = await client.createOrReplaceUSProgramBriefAttachment(
+      uspb.id,
+      attachment.id,
+      attachment.fileName,
+      attachment.fileType,
+      attachment.fileContentBase64,
+      attachment.type
+    );
+
+    assert.isOk(attachmentCreationResult);
+
+    const existingAttachment = await client.getUSProgramBriefAttachment(uspb.id, attachment.id);
+
+    assert.equal(existingAttachment.id, attachment.id);
+    assert.equal(existingAttachment.fileName, attachment.fileName);
+    assert.equal(existingAttachment.fileType, attachment.fileType);
+    assert.equal(existingAttachment.type, attachment.type);
+
+    const listedAttachment = await getProgramBriefAttachmentWithId(client, uspb.id, attachment.id);
+
+    assert.isOk(listedAttachment);
+
+    let delRes = await client.deleteUSProgramBriefAttachment(uspb.id, attachment.id);
+    assert.isOk(delRes, "Deleting Program Brief Attachment failed");
+
+    assert.isFalse(
+      await doesProgramBriefContainAnyAttachment(client, uspb.id),
+      "Failed to delete Program Brief Attachment"
     );
 
     // delete program brief, ensure it was removed
-    const delRes = await client.deleteUSProgramBrief(uspb.id);
+    delRes = await client.deleteUSProgramBrief(uspb.id);
     assert.isOk(delRes, "Deleting program brief failed");
     assert.isFalse(
       await doesProgramBriefExist(client, uspb.id),

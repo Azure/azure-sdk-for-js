@@ -134,19 +134,27 @@ export interface AzureResource {
   readonly subscriptionDisplayName?: string;
 }
 
+/** Values returned by the List operation for federated identity credentials. */
+export interface FederatedIdentityCredentialsListResult {
+  /** The collection of federated identity credentials returned by the listing operation. */
+  value?: FederatedIdentityCredential[];
+  /** The url to get the next page of results, if any. */
+  nextLink?: string;
+}
+
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** Describes an identity resource. */
-export type IdentityUpdate = Resource & {
+export interface IdentityUpdate extends Resource {
   /** The geo-location where the resource lives */
   location?: string;
   /** Resource tags */
@@ -166,10 +174,10 @@ export type IdentityUpdate = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clientId?: string;
-};
+}
 
 /** Describes a system assigned identity resource. */
-export type SystemAssignedIdentity = ProxyResource & {
+export interface SystemAssignedIdentity extends ProxyResource {
   /** The geo-location where the resource lives */
   location: string;
   /** Resource tags */
@@ -194,10 +202,20 @@ export type SystemAssignedIdentity = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clientSecretUrl?: string;
-};
+}
+
+/** Describes a federated identity credential. */
+export interface FederatedIdentityCredential extends ProxyResource {
+  /** The URL of the issuer to be trusted. */
+  issuer?: string;
+  /** The identifier of the external identity. */
+  subject?: string;
+  /** The list of audiences that can appear in the issued token. */
+  audiences?: string[];
+}
 
 /** Describes an identity resource. */
-export type Identity = TrackedResource & {
+export interface Identity extends TrackedResource {
   /**
    * The id of the tenant which the identity belongs to.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -213,7 +231,7 @@ export type Identity = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clientId?: string;
-};
+}
 
 /** Optional parameters. */
 export interface SystemAssignedIdentitiesGetByScopeOptionalParams
@@ -324,6 +342,48 @@ export interface UserAssignedIdentitiesListAssociatedResourcesNextOptionalParams
 
 /** Contains response data for the listAssociatedResourcesNext operation. */
 export type UserAssignedIdentitiesListAssociatedResourcesNextResponse = AssociatedResourcesListResult;
+
+/** Optional parameters. */
+export interface FederatedIdentityCredentialsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Number of records to return. */
+  top?: number;
+  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
+  skiptoken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type FederatedIdentityCredentialsListResponse = FederatedIdentityCredentialsListResult;
+
+/** Optional parameters. */
+export interface FederatedIdentityCredentialsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type FederatedIdentityCredentialsCreateOrUpdateResponse = FederatedIdentityCredential;
+
+/** Optional parameters. */
+export interface FederatedIdentityCredentialsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FederatedIdentityCredentialsGetResponse = FederatedIdentityCredential;
+
+/** Optional parameters. */
+export interface FederatedIdentityCredentialsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface FederatedIdentityCredentialsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Number of records to return. */
+  top?: number;
+  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
+  skiptoken?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type FederatedIdentityCredentialsListNextResponse = FederatedIdentityCredentialsListResult;
 
 /** Optional parameters. */
 export interface ManagedServiceIdentityClientOptionalParams

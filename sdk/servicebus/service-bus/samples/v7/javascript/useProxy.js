@@ -11,8 +11,7 @@ const WebSocket = require("ws");
 const { HttpsProxyAgent } = require("https-proxy-agent");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 // Define connection string for your Service Bus instance here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
@@ -55,3 +54,5 @@ main().catch((err) => {
   console.log("Use Proxy Sample - Error occurred: ", err);
   process.exit(1);
 });
+
+module.exports = { main };

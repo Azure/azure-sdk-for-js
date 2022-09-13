@@ -15,7 +15,11 @@ import {
   testPollingOptions,
 } from "../utils/recordedClients";
 
-import { DocumentAnalysisClient, DocumentModelAdministrationClient, ModelInfo } from "../../src";
+import {
+  DocumentAnalysisClient,
+  DocumentModelAdministrationClient,
+  DocumentModelDetails,
+} from "../../src";
 import { DocumentModelBuildMode } from "../../src/options/BuildModelOptions";
 
 const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");
@@ -29,10 +33,7 @@ const containerSasUrl = (): string =>
  * environment.
  */
 matrix(
-  [
-    [/* true, */ false],
-    [DocumentModelBuildMode.Template /* , DocumentModelBuildMode.Neural*/],
-  ] as const,
+  [[true, false], [DocumentModelBuildMode.Template /* , DocumentModelBuildMode.Neural*/]] as const,
   async (useAad, buildMode) => {
     describe(`[${useAad ? "AAD" : "API Key"}] model management`, () => {
       let recorder: Recorder;
@@ -73,7 +74,7 @@ matrix(
         });
 
         describe(`custom model from trainingdata-v3 (${buildMode})`, async () => {
-          let _model: ModelInfo;
+          let _model: DocumentModelDetails;
 
           let modelId: string;
 
@@ -81,11 +82,11 @@ matrix(
           // precedence, we have to create it in a test, so one test will end up
           // recording the entire creation and the other tests will still be able
           // to use it
-          async function requireModel(): Promise<ModelInfo> {
+          async function requireModel(): Promise<DocumentModelDetails> {
             if (!_model) {
               // Compute a unique name for the model
               modelId = recorder.variable(getId().toString(), `modelName${getRandomNumber()}`);
-              const poller = await client.beginBuildModel(
+              const poller = await client.beginBuildDocumentModel(
                 modelId,
                 containerSasUrl(),
                 buildMode,
@@ -152,9 +153,9 @@ matrix(
               const { documents, tables } = await poller.pollUntilDone();
 
               assert.isNotEmpty(documents);
-              const document = documents[0];
+              const document = documents?.[0];
 
-              assert.isNotEmpty(document.boundingRegions);
+              assert.isNotEmpty(document?.boundingRegions);
 
               assert.isNotEmpty(tables);
               const [table] = tables!;
@@ -162,23 +163,23 @@ matrix(
               assert.ok(table.boundingRegions?.[0].polygon);
               assert.equal(table.boundingRegions?.[0].pageNumber, 1);
 
-              assert.ok(document.fields);
-              assert.ok(document.fields["Merchant"]);
-              assert.ok(document.fields["DatedAs"]);
-              assert.ok(document.fields["CompanyPhoneNumber"]);
-              assert.ok(document.fields["CompanyName"]);
-              assert.ok(document.fields["Signature"]);
+              assert.ok(document?.fields);
+              assert.ok(document?.fields["Merchant"]);
+              assert.ok(document?.fields["DatedAs"]);
+              assert.ok(document?.fields["CompanyPhoneNumber"]);
+              assert.ok(document?.fields["CompanyName"]);
+              assert.ok(document?.fields["Signature"]);
             });
           });
 
           it("getModel() verification", async () => {
             const model = await requireModel();
 
-            const modelInfo = await client.getModel(model.modelId);
+            const modelDetails = await client.getDocumentModel(model.modelId);
 
-            assert.strictEqual(modelInfo.modelId, model.modelId);
-            assert.strictEqual(modelInfo.description, model.description);
-            assert.ok(modelInfo.docTypes);
+            assert.strictEqual(modelDetails.modelId, model.modelId);
+            assert.strictEqual(modelDetails.description, model.description);
+            assert.ok(modelDetails.docTypes);
           });
         });
 
@@ -189,7 +190,7 @@ matrix(
           it("has trained models and limits", async () => {
             const {
               customDocumentModels: { count, limit },
-            } = await client.getInfo();
+            } = await client.getResourceDetails();
 
             // Model count should be >0 because we just trained several models
             assert.isTrue(count > 0);
@@ -204,7 +205,7 @@ matrix(
         describe("model information", async () => {
           it("iterate models in account", async () => {
             const modelsInAccount = [];
-            for await (const model of client.listModels()) {
+            for await (const model of client.listDocumentModels()) {
               assert.ok(model.modelId);
               modelsInAccount.push(model.modelId);
             }
@@ -215,7 +216,7 @@ matrix(
           });
 
           it("old-style iteration with next model info", async () => {
-            const iter = client.listModels();
+            const iter = client.listDocumentModels();
             const item = getYieldedValue(await iter.next());
             assert.ok(item, `Expecting a model but got ${item}`);
             assert.ok(item.modelId, `Expecting a model id but got ${item.modelId}`);
@@ -223,12 +224,12 @@ matrix(
 
           it("delete models from the account", async () => {
             // Delete all of the models
-            await Promise.all(allModels.map((modelId) => client.deleteModel(modelId)));
+            await Promise.all(allModels.map((modelId) => client.deleteDocumentModel(modelId)));
 
             await Promise.all(
               allModels.map(async (modelId) => {
                 try {
-                  await client.getModel(modelId);
+                  await client.getDocumentModel(modelId);
                   throw new Error(
                     `The service returned model info for ${modelId}, but we thought we had deleted it!`
                   );
@@ -253,7 +254,7 @@ matrix(
         // Helper function to train/validate single model
         async function makeModel(prefix: string): Promise<string> {
           const modelId = recorder.variable(prefix, `${prefix}${getRandomNumber()}`);
-          const poller = await client.beginBuildModel(
+          const poller = await client.beginBuildDocumentModel(
             modelId,
             containerSasUrl(),
             buildMode,
@@ -274,7 +275,7 @@ matrix(
           "composedModelName",
           `composedModelName${getRandomNumber()}`
         );
-        const composePoller = await client.beginComposeModel(
+        const composePoller = await client.beginComposeDocumentModel(
           modelId,
           componentModelIds,
           testPollingOptions
@@ -310,7 +311,7 @@ matrix(
         );
         const modelId = recorder.variable("copySource", `copySource${getRandomNumber()}`);
 
-        const trainingPoller = await trainingClient.beginBuildModel(
+        const trainingPoller = await trainingClient.beginBuildDocumentModel(
           modelId,
           containerSasUrl(),
           buildMode,
@@ -333,9 +334,9 @@ matrix(
         assert.ok(copyResult, "Expecting valid copy result");
         assert.equal(copyResult.modelId, targetAuth.targetModelId);
 
-        assert.ok(copyResult.createdDateTime, "Expecting valid 'trainingStartedOn' property");
+        assert.ok(copyResult.createdOn, "Expecting valid 'trainingStartedOn' property");
 
-        const targetModel = await trainingClient.getModel(copyResult.modelId);
+        const targetModel = await trainingClient.getDocumentModel(copyResult.modelId);
 
         assert.equal(targetModel.modelId, targetAuth.targetModelId);
         assert.equal(targetModel.modelId, copyResult.modelId);

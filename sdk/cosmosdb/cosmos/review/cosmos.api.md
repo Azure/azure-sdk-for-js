@@ -405,6 +405,8 @@ export const Constants: {
     ThrottleRetryCount: string;
     ThrottleRetryWaitTimeInMs: string;
     CurrentVersion: string;
+    AzureNamespace: string;
+    AzurePackageName: string;
     SDKName: string;
     SDKVersion: string;
     Quota: {
@@ -1718,7 +1720,6 @@ export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, reso
 export interface SharedOptions {
     abortSignal?: AbortSignal_2;
     initialHeaders?: CosmosHeaders;
-    // @beta
     maxIntegratedCacheStalenessInMs?: number;
     sessionToken?: string;
 }

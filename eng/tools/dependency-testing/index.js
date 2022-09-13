@@ -37,7 +37,7 @@ let argv = require("yargs")
 const fs = require("fs");
 const path = require("path");
 const semver = require("semver");
-const packageUtils = require("eng-package-utils");
+const packageUtils = require("@azure-tools/eng-package-utils");
 // crossSpawn is used because of its ability to better handle corner cases that break when using spawn in Windows environments.
 // For more details see - https://www.npmjs.com/package/cross-spawn
 let crossSpawn = require("cross-spawn");

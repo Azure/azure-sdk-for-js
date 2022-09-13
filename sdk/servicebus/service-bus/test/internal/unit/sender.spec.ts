@@ -29,7 +29,7 @@ describe("Sender helper unit tests", () => {
 
 describe("sender unit tests", () => {
   const fakeContext = createConnectionContextForTests();
-  const sender = new ServiceBusSenderImpl(fakeContext, "fakeEntityPath");
+  const sender = new ServiceBusSenderImpl(fakeContext, "fakeEntityPath", {}, "serviceBusClientId");
   sender["_sender"].createBatch = async () => {
     return new ServiceBusMessageBatchImpl(fakeContext, 100);
   };
@@ -118,5 +118,10 @@ describe("sender unit tests", () => {
         assert.equal(err.message, expectedErrorMsg);
       }
     });
+  });
+
+  it("should set source in created sender options", () => {
+    const options = sender["_sender"]["_createSenderOptions"]();
+    assert.equal(options.source, "serviceBusClientId");
   });
 });

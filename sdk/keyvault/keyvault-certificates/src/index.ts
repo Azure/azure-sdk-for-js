@@ -5,14 +5,10 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import {
-  TokenCredential,
-  isTokenCredential,
-  signingPolicy,
-  PipelineOptions,
-  createPipelineFromOptions,
-  InternalPipelineOptions,
-} from "@azure/core-http";
+import { InternalClientPipelineOptions } from "@azure/core-client";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+
+import { TokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
@@ -80,6 +76,7 @@ import {
   KnownCertificateKeyCurveNames,
   KnownCertificateKeyTypes,
   KnownKeyUsageTypes,
+  PollerLikeWithCancellation,
 } from "./certificatesModels";
 
 import {
@@ -102,10 +99,9 @@ import {
   KeyUsageType,
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import { SDK_VERSION } from "./constants";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
+import { createChallengeCallbacks } from "../../keyvault-common/src";
 import { CreateCertificatePoller } from "./lro/create/poller";
 import { CertificateOperationPoller } from "./lro/operation/poller";
 import { DeleteCertificatePoller } from "./lro/delete/poller";
@@ -160,6 +156,7 @@ export {
   KeyVaultCertificateIdentifier,
   parseKeyVaultCertificateIdentifier,
   PollerLike,
+  PollerLikeWithCancellation,
   CreateCertificateState,
   DeleteCertificateState,
   RecoverDeletedCertificateState,
@@ -197,7 +194,6 @@ export {
   ListPropertiesOfIssuersOptions,
   ListDeletedCertificatesOptions,
   MergeCertificateOptions,
-  PipelineOptions,
   PurgeDeletedCertificateOptions,
   RestoreCertificateBackupOptions,
   SetContactsOptions,
@@ -242,37 +238,27 @@ export class CertificateClient {
    * Creates an instance of CertificateClient.
    * @param vaultUrl - the base URL to the vault.
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
-   * @param pipelineOptions - Pipeline options used to configure Key Vault API requests.
+   * @param clientOptions - Pipeline options used to configure Key Vault API requests.
    *                          Omit this parameter to use the default pipeline configuration.
    */
   constructor(
     vaultUrl: string,
     credential: TokenCredential,
-    pipelineOptions: CertificateClientOptions = {}
+    clientOptions: CertificateClientOptions = {}
   ) {
     this.vaultUrl = vaultUrl;
 
-    const libInfo = `azsdk-js-keyvault-certificates/${SDK_VERSION}`;
-    if (pipelineOptions.userAgentOptions) {
-      pipelineOptions.userAgentOptions.userAgentPrefix =
-        pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
-          ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
-          : libInfo;
-    } else {
-      pipelineOptions.userAgentOptions = {
-        userAgentPrefix: libInfo,
-      };
-    }
+    const authPolicy = bearerTokenAuthenticationPolicy({
+      credential,
+      scopes: [],
+      challengeCallbacks: createChallengeCallbacks(),
+    });
 
-    const authPolicy = isTokenCredential(credential)
-      ? challengeBasedAuthenticationPolicy(credential)
-      : signingPolicy(credential);
-
-    const internalPipelineOptions: InternalPipelineOptions = {
-      ...pipelineOptions,
+    const internalClientPipelineOptions: InternalClientPipelineOptions = {
+      ...clientOptions,
       loggingOptions: {
         logger: logger.info,
-        allowedHeaderNames: [
+        additionalAllowedHeaderNames: [
           "x-ms-keyvault-region",
           "x-ms-keyvault-network-info",
           "x-ms-keyvault-service-version",
@@ -281,9 +267,10 @@ export class CertificateClient {
     };
 
     this.client = new KeyVaultClient(
-      pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      createPipelineFromOptions(internalPipelineOptions, authPolicy)
+      clientOptions.serviceVersion || LATEST_API_VERSION,
+      internalClientPipelineOptions
     );
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   private async *listPropertiesOfCertificatesPage(
@@ -311,7 +298,11 @@ export class CertificateClient {
         "CertificateClient.listPropertiesOfCertificatesPage",
         options,
         (updatedOptions) =>
-          this.client.getCertificates(continuationState.continuationToken!, updatedOptions)
+          this.client.getCertificatesNext(
+            this.vaultUrl,
+            continuationState.continuationToken!,
+            updatedOptions
+          )
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -534,12 +525,18 @@ export class CertificateClient {
   public deleteContacts(
     options: DeleteContactsOptions = {}
   ): Promise<CertificateContact[] | undefined> {
+    let parsedBody: any;
     return tracingClient.withSpan(
       "CertificateClient.deleteContacts",
       options,
       async (updatedOptions) => {
-        const result = await this.client.deleteCertificateContacts(this.vaultUrl, updatedOptions);
-        return coreContactsToCertificateContacts(result._response.parsedBody);
+        await this.client.deleteCertificateContacts(this.vaultUrl, {
+          ...updatedOptions,
+          onResponse: (response) => {
+            parsedBody = response.parsedBody;
+          },
+        });
+        return coreContactsToCertificateContacts(parsedBody);
       }
     );
   }
@@ -570,16 +567,22 @@ export class CertificateClient {
       phone: x ? x.phone : undefined,
     }));
 
+    let parsedBody: any;
     return tracingClient.withSpan(
       "CertificateClient.setContacts",
       options,
       async (updatedOptions) => {
-        const result = await this.client.setCertificateContacts(
+        await this.client.setCertificateContacts(
           this.vaultUrl,
           { contactList: coreContacts },
-          updatedOptions
+          {
+            ...updatedOptions,
+            onResponse: (response) => {
+              parsedBody = response.parsedBody;
+            },
+          }
         );
-        return coreContactsToCertificateContacts(result._response.parsedBody);
+        return coreContactsToCertificateContacts(parsedBody);
       }
     );
   }
@@ -754,13 +757,14 @@ export class CertificateClient {
           };
         }
 
-        const result = await this.client.setCertificateIssuer(
-          this.vaultUrl,
-          issuerName,
-          provider,
-          generatedOptions
-        );
-        return toPublicIssuer(result._response.parsedBody);
+        let parsedBody: any;
+        await this.client.setCertificateIssuer(this.vaultUrl, issuerName, provider, {
+          ...generatedOptions,
+          onResponse: (response) => {
+            parsedBody = response.parsedBody;
+          },
+        });
+        return toPublicIssuer(parsedBody);
       }
     );
   }
@@ -822,13 +826,15 @@ export class CertificateClient {
           };
         }
 
-        const result = await this.client.updateCertificateIssuer(
-          this.vaultUrl,
-          issuerName,
-          generatedOptions
-        );
+        let parsedBody: any;
+        await this.client.updateCertificateIssuer(this.vaultUrl, issuerName, {
+          ...generatedOptions,
+          onResponse: (response) => {
+            parsedBody = response.parsedBody;
+          },
+        });
 
-        return toPublicIssuer(result._response.parsedBody);
+        return toPublicIssuer(parsedBody);
       }
     );
   }
@@ -850,16 +856,18 @@ export class CertificateClient {
    * @param options - The optional parameters
    */
   public getIssuer(issuerName: string, options: GetIssuerOptions = {}): Promise<CertificateIssuer> {
+    let parsedBody: any;
     return tracingClient.withSpan(
       "CertificateClient.getIssuer",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getCertificateIssuer(
-          this.vaultUrl,
-          issuerName,
-          updatedOptions
-        );
-        return toPublicIssuer(result._response.parsedBody);
+        await this.client.getCertificateIssuer(this.vaultUrl, issuerName, {
+          ...updatedOptions,
+          onResponse: (response) => {
+            parsedBody = response.parsedBody;
+          },
+        });
+        return toPublicIssuer(parsedBody);
       }
     );
   }
@@ -882,16 +890,18 @@ export class CertificateClient {
     issuerName: string,
     options: DeleteIssuerOptions = {}
   ): Promise<CertificateIssuer> {
+    let parsedBody: any;
     return tracingClient.withSpan(
       "CertificateClient.deleteIssuer",
       options,
       async (updatedOptions) => {
-        const result = await this.client.deleteCertificateIssuer(
-          this.vaultUrl,
-          issuerName,
-          updatedOptions
-        );
-        return toPublicIssuer(result._response.parsedBody);
+        await this.client.deleteCertificateIssuer(this.vaultUrl, issuerName, {
+          ...updatedOptions,
+          onResponse: (response) => {
+            parsedBody = response.parsedBody;
+          },
+        });
+        return toPublicIssuer(parsedBody);
       }
     );
   }
@@ -935,7 +945,7 @@ export class CertificateClient {
     certificateName: string,
     policy: CertificatePolicy,
     options: BeginCreateCertificateOptions = {}
-  ): Promise<PollerLike<CreateCertificateState, KeyVaultCertificateWithPolicy>> {
+  ): Promise<PollerLikeWithCancellation<CreateCertificateState, KeyVaultCertificateWithPolicy>> {
     const poller = new CreateCertificatePoller({
       vaultUrl: this.vaultUrl,
       client: this.client,
@@ -1101,16 +1111,18 @@ export class CertificateClient {
     certificateName: string,
     options: GetCertificatePolicyOptions = {}
   ): Promise<CertificatePolicy> {
+    let parsedBody: any;
     return tracingClient.withSpan(
       "CertificateClient.getCertificatePolicy",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getCertificatePolicy(
-          this.vaultUrl,
-          certificateName,
-          updatedOptions
-        );
-        return toPublicPolicy(result._response.parsedBody);
+        await this.client.getCertificatePolicy(this.vaultUrl, certificateName, {
+          ...updatedOptions,
+          onResponse: (res) => {
+            parsedBody = res.parsedBody;
+          },
+        });
+        return toPublicPolicy(parsedBody);
       }
     );
   }
@@ -1127,18 +1139,19 @@ export class CertificateClient {
     policy: CertificatePolicy,
     options: UpdateCertificatePolicyOptions = {}
   ): Promise<CertificatePolicy> {
+    let parsedBody: any;
     return tracingClient.withSpan(
       "CertificateClient.updateCertificatePolicy",
       options,
       async (updatedOptions) => {
         const corePolicy = toCorePolicy(undefined, policy);
-        const result = await this.client.updateCertificatePolicy(
-          this.vaultUrl,
-          certificateName,
-          corePolicy,
-          updatedOptions
-        );
-        return toPublicPolicy(result._response.parsedBody);
+        await this.client.updateCertificatePolicy(this.vaultUrl, certificateName, corePolicy, {
+          ...updatedOptions,
+          onResponse: (response) => {
+            parsedBody = response.parsedBody;
+          },
+        });
+        return toPublicPolicy(parsedBody);
       }
     );
   }
@@ -1173,20 +1186,19 @@ export class CertificateClient {
     version: string,
     options: UpdateCertificatePropertiesOptions = {}
   ): Promise<KeyVaultCertificate> {
+    let parsedBody: any;
     return tracingClient.withSpan(
       "CertificateClient.updateCertificateProperties",
       options,
       async (updatedOptions) => {
-        const result = await this.client.updateCertificate(
-          this.vaultUrl,
-          certificateName,
-          version,
-          {
-            ...updatedOptions,
-            certificateAttributes: toCoreAttributes(options),
-          }
-        );
-        return getCertificateFromCertificateBundle(result._response.parsedBody);
+        await this.client.updateCertificate(this.vaultUrl, certificateName, version, {
+          ...updatedOptions,
+          certificateAttributes: toCoreAttributes(options),
+          onResponse: (response) => {
+            parsedBody = response.parsedBody;
+          },
+        });
+        return getCertificateFromCertificateBundle(parsedBody);
       }
     );
   }
@@ -1216,7 +1228,7 @@ export class CertificateClient {
   public async getCertificateOperation(
     certificateName: string,
     options: GetCertificateOperationOptions = {}
-  ): Promise<PollerLike<CertificateOperationState, KeyVaultCertificateWithPolicy>> {
+  ): Promise<PollerLikeWithCancellation<CertificateOperationState, KeyVaultCertificateWithPolicy>> {
     const poller = new CertificateOperationPoller({
       certificateName,
       client: this.client,
@@ -1256,16 +1268,14 @@ export class CertificateClient {
       "CertificateClient.deleteCertificateOperation",
       options,
       async (updatedOptions) => {
-        const result = await this.client.deleteCertificateOperation(
-          this.vaultUrl,
-          certificateName,
-          updatedOptions
-        );
-        return getCertificateOperationFromCoreOperation(
-          certificateName,
-          this.vaultUrl,
-          result._response.parsedBody
-        );
+        let parsedBody: any;
+        await this.client.deleteCertificateOperation(this.vaultUrl, certificateName, {
+          ...updatedOptions,
+          onResponse: (response) => {
+            parsedBody = response.parsedBody;
+          },
+        });
+        return getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, parsedBody);
       }
     );
   }
@@ -1309,17 +1319,18 @@ export class CertificateClient {
     x509Certificates: Uint8Array[],
     options: MergeCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
+    let parsedBody: any;
     return tracingClient.withSpan(
       "CertificateClient.mergeCertificate",
       options,
       async (updatedOptions) => {
-        const result = await this.client.mergeCertificate(
-          this.vaultUrl,
-          certificateName,
-          x509Certificates,
-          updatedOptions
-        );
-        return getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
+        await this.client.mergeCertificate(this.vaultUrl, certificateName, x509Certificates, {
+          ...updatedOptions,
+          onResponse: (response) => {
+            parsedBody = response.parsedBody;
+          },
+        });
+        return getCertificateWithPolicyFromCertificateBundle(parsedBody);
       }
     );
   }
@@ -1345,16 +1356,18 @@ export class CertificateClient {
     certificateName: string,
     options: BackupCertificateOptions = {}
   ): Promise<Uint8Array | undefined> {
+    let parsedBody: any;
     return tracingClient.withSpan(
       "CertificateClient.backupCertificate",
       options,
       async (updatedOptions) => {
-        const result = await this.client.backupCertificate(
-          this.vaultUrl,
-          certificateName,
-          updatedOptions
-        );
-        return result._response.parsedBody.value;
+        await this.client.backupCertificate(this.vaultUrl, certificateName, {
+          ...updatedOptions,
+          onResponse: (response) => {
+            parsedBody = response.parsedBody;
+          },
+        });
+        return parsedBody.value;
       }
     );
   }
@@ -1383,12 +1396,18 @@ export class CertificateClient {
     backup: Uint8Array,
     options: RestoreCertificateBackupOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
+    let parsedBody: any;
     return tracingClient.withSpan(
       "CertificateClient.restoreCertificateBackup",
       options,
       async (updatedOptions) => {
-        const result = await this.client.restoreCertificate(this.vaultUrl, backup, updatedOptions);
-        return getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
+        await this.client.restoreCertificate(this.vaultUrl, backup, {
+          ...updatedOptions,
+          onResponse: (response) => {
+            parsedBody = response.parsedBody;
+          },
+        });
+        return getCertificateWithPolicyFromCertificateBundle(parsedBody);
       }
     );
   }
@@ -1418,7 +1437,11 @@ export class CertificateClient {
         "CertificateClient.listDeletedCertificatesPage",
         options,
         (updatedOptions) =>
-          this.client.getDeletedCertificates(continuationState.continuationToken!, updatedOptions)
+          this.client.getDeletedCertificatesNext(
+            this.vaultUrl,
+            continuationState.continuationToken!,
+            updatedOptions
+          )
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -1500,12 +1523,14 @@ export class CertificateClient {
       "CertificateClient.getDeletedCertificate",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getDeletedCertificate(
-          this.vaultUrl,
-          certificateName,
-          updatedOptions
-        );
-        return getDeletedCertificateFromDeletedCertificateBundle(result._response.parsedBody);
+        let parsedBody: any;
+        await this.client.getDeletedCertificate(this.vaultUrl, certificateName, {
+          ...updatedOptions,
+          onResponse: (response) => {
+            parsedBody = response.parsedBody;
+          },
+        });
+        return getDeletedCertificateFromDeletedCertificateBundle(parsedBody);
       }
     );
   }

@@ -1462,7 +1462,9 @@ export interface PrivateLinkResourceListByProjectHeaders {
 
 /** Known values of {@link ProjectStatus} that the service accepts. */
 export enum KnownProjectStatus {
+  /** Active */
   Active = "Active",
+  /** Inactive */
   Inactive = "Inactive"
 }
 
@@ -1478,9 +1480,13 @@ export type ProjectStatus = string;
 
 /** Known values of {@link PrivateEndpointConnectionPropertiesProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionPropertiesProvisioningState {
+  /** Accepted */
   Accepted = "Accepted",
+  /** InProgress */
   InProgress = "InProgress",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1498,9 +1504,13 @@ export type PrivateEndpointConnectionPropertiesProvisioningState = string;
 
 /** Known values of {@link PrivateLinkServiceConnectionStateStatus} that the service accepts. */
 export enum KnownPrivateLinkServiceConnectionStateStatus {
+  /** Approved */
   Approved = "Approved",
+  /** Pending */
   Pending = "Pending",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -1518,11 +1528,17 @@ export type PrivateLinkServiceConnectionStateStatus = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Accepted */
   Accepted = "Accepted",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed",
+  /** Moving */
   Moving = "Moving",
+  /** Succeeded */
   Succeeded = "Succeeded"
 }
 
@@ -1542,8 +1558,11 @@ export type ProvisioningState = string;
 
 /** Known values of {@link MachineBootType} that the service accepts. */
 export enum KnownMachineBootType {
+  /** Unknown */
   Unknown = "Unknown",
+  /** EFI */
   EFI = "EFI",
+  /** Bios */
   Bios = "BIOS"
 }
 
@@ -1560,10 +1579,15 @@ export type MachineBootType = string;
 
 /** Known values of {@link GroupStatus} that the service accepts. */
 export enum KnownGroupStatus {
+  /** Created */
   Created = "Created",
+  /** Updated */
   Updated = "Updated",
+  /** Running */
   Running = "Running",
+  /** Completed */
   Completed = "Completed",
+  /** Invalid */
   Invalid = "Invalid"
 }
 
@@ -1582,7 +1606,9 @@ export type GroupStatus = string;
 
 /** Known values of {@link GroupUpdateOperation} that the service accepts. */
 export enum KnownGroupUpdateOperation {
+  /** Add */
   Add = "Add",
+  /** Remove */
   Remove = "Remove"
 }
 
@@ -1598,42 +1624,79 @@ export type GroupUpdateOperation = string;
 
 /** Known values of {@link AzureLocation} that the service accepts. */
 export enum KnownAzureLocation {
+  /** Unknown */
   Unknown = "Unknown",
+  /** EastAsia */
   EastAsia = "EastAsia",
+  /** SoutheastAsia */
   SoutheastAsia = "SoutheastAsia",
+  /** AustraliaEast */
   AustraliaEast = "AustraliaEast",
+  /** AustraliaSoutheast */
   AustraliaSoutheast = "AustraliaSoutheast",
+  /** BrazilSouth */
   BrazilSouth = "BrazilSouth",
+  /** CanadaCentral */
   CanadaCentral = "CanadaCentral",
+  /** CanadaEast */
   CanadaEast = "CanadaEast",
+  /** WestEurope */
   WestEurope = "WestEurope",
+  /** NorthEurope */
   NorthEurope = "NorthEurope",
+  /** CentralIndia */
   CentralIndia = "CentralIndia",
+  /** SouthIndia */
   SouthIndia = "SouthIndia",
+  /** WestIndia */
   WestIndia = "WestIndia",
+  /** JapanEast */
   JapanEast = "JapanEast",
+  /** JapanWest */
   JapanWest = "JapanWest",
+  /** KoreaCentral */
   KoreaCentral = "KoreaCentral",
+  /** KoreaSouth */
   KoreaSouth = "KoreaSouth",
+  /** UkWest */
   UkWest = "UkWest",
+  /** UkSouth */
   UkSouth = "UkSouth",
+  /** NorthCentralUs */
   NorthCentralUs = "NorthCentralUs",
+  /** EastUs */
   EastUs = "EastUs",
+  /** WestUs2 */
   WestUs2 = "WestUs2",
+  /** SouthCentralUs */
   SouthCentralUs = "SouthCentralUs",
+  /** CentralUs */
   CentralUs = "CentralUs",
+  /** EastUs2 */
   EastUs2 = "EastUs2",
+  /** WestUs */
   WestUs = "WestUs",
+  /** WestCentralUs */
   WestCentralUs = "WestCentralUs",
+  /** GermanyCentral */
   GermanyCentral = "GermanyCentral",
+  /** GermanyNortheast */
   GermanyNortheast = "GermanyNortheast",
+  /** ChinaNorth */
   ChinaNorth = "ChinaNorth",
+  /** ChinaEast */
   ChinaEast = "ChinaEast",
+  /** USGovArizona */
   USGovArizona = "USGovArizona",
+  /** USGovTexas */
   USGovTexas = "USGovTexas",
+  /** USGovIowa */
   USGovIowa = "USGovIowa",
+  /** USGovVirginia */
   USGovVirginia = "USGovVirginia",
+  /** USDoDCentral */
   USDoDCentral = "USDoDCentral",
+  /** USDoDEast */
   USDoDEast = "USDoDEast"
 }
 
@@ -1684,45 +1747,85 @@ export type AzureLocation = string;
 
 /** Known values of {@link AzureOfferCode} that the service accepts. */
 export enum KnownAzureOfferCode {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Msazr0003P */
   Msazr0003P = "MSAZR0003P",
+  /** Msazr0044P */
   Msazr0044P = "MSAZR0044P",
+  /** Msazr0059P */
   Msazr0059P = "MSAZR0059P",
+  /** Msazr0060P */
   Msazr0060P = "MSAZR0060P",
+  /** Msazr0062P */
   Msazr0062P = "MSAZR0062P",
+  /** Msazr0063P */
   Msazr0063P = "MSAZR0063P",
+  /** Msazr0064P */
   Msazr0064P = "MSAZR0064P",
+  /** Msazr0029P */
   Msazr0029P = "MSAZR0029P",
+  /** Msazr0022P */
   Msazr0022P = "MSAZR0022P",
+  /** Msazr0023P */
   Msazr0023P = "MSAZR0023P",
+  /** Msazr0148P */
   Msazr0148P = "MSAZR0148P",
+  /** Msazr0025P */
   Msazr0025P = "MSAZR0025P",
+  /** Msazr0036P */
   Msazr0036P = "MSAZR0036P",
+  /** Msazr0120P */
   Msazr0120P = "MSAZR0120P",
+  /** Msazr0121P */
   Msazr0121P = "MSAZR0121P",
+  /** Msazr0122P */
   Msazr0122P = "MSAZR0122P",
+  /** Msazr0123P */
   Msazr0123P = "MSAZR0123P",
+  /** Msazr0124P */
   Msazr0124P = "MSAZR0124P",
+  /** Msazr0125P */
   Msazr0125P = "MSAZR0125P",
+  /** Msazr0126P */
   Msazr0126P = "MSAZR0126P",
+  /** Msazr0127P */
   Msazr0127P = "MSAZR0127P",
+  /** Msazr0128P */
   Msazr0128P = "MSAZR0128P",
+  /** Msazr0129P */
   Msazr0129P = "MSAZR0129P",
+  /** Msazr0130P */
   Msazr0130P = "MSAZR0130P",
+  /** Msazr0111P */
   Msazr0111P = "MSAZR0111P",
+  /** Msazr0144P */
   Msazr0144P = "MSAZR0144P",
+  /** Msazr0149P */
   Msazr0149P = "MSAZR0149P",
+  /** Msmcazr0044P */
   Msmcazr0044P = "MSMCAZR0044P",
+  /** Msmcazr0059P */
   Msmcazr0059P = "MSMCAZR0059P",
+  /** Msmcazr0060P */
   Msmcazr0060P = "MSMCAZR0060P",
+  /** Msmcazr0063P */
   Msmcazr0063P = "MSMCAZR0063P",
+  /** Msmcazr0120P */
   Msmcazr0120P = "MSMCAZR0120P",
+  /** Msmcazr0121P */
   Msmcazr0121P = "MSMCAZR0121P",
+  /** Msmcazr0125P */
   Msmcazr0125P = "MSMCAZR0125P",
+  /** Msmcazr0128P */
   Msmcazr0128P = "MSMCAZR0128P",
+  /** Msazrde0003P */
   Msazrde0003P = "MSAZRDE0003P",
+  /** Msazrde0044P */
   Msazrde0044P = "MSAZRDE0044P",
+  /** Msazrusgov0003P */
   Msazrusgov0003P = "MSAZRUSGOV0003P",
+  /** EA */
   EA = "EA"
 }
 
@@ -1776,7 +1879,9 @@ export type AzureOfferCode = string;
 
 /** Known values of {@link AzurePricingTier} that the service accepts. */
 export enum KnownAzurePricingTier {
+  /** Standard */
   Standard = "Standard",
+  /** Basic */
   Basic = "Basic"
 }
 
@@ -1792,10 +1897,15 @@ export type AzurePricingTier = string;
 
 /** Known values of {@link AzureStorageRedundancy} that the service accepts. */
 export enum KnownAzureStorageRedundancy {
+  /** Unknown */
   Unknown = "Unknown",
+  /** LocallyRedundant */
   LocallyRedundant = "LocallyRedundant",
+  /** ZoneRedundant */
   ZoneRedundant = "ZoneRedundant",
+  /** GeoRedundant */
   GeoRedundant = "GeoRedundant",
+  /** ReadAccessGeoRedundant */
   ReadAccessGeoRedundant = "ReadAccessGeoRedundant"
 }
 
@@ -1814,9 +1924,13 @@ export type AzureStorageRedundancy = string;
 
 /** Known values of {@link Percentile} that the service accepts. */
 export enum KnownPercentile {
+  /** Percentile50 */
   Percentile50 = "Percentile50",
+  /** Percentile90 */
   Percentile90 = "Percentile90",
+  /** Percentile95 */
   Percentile95 = "Percentile95",
+  /** Percentile99 */
   Percentile99 = "Percentile99"
 }
 
@@ -1834,9 +1948,13 @@ export type Percentile = string;
 
 /** Known values of {@link TimeRange} that the service accepts. */
 export enum KnownTimeRange {
+  /** Day */
   Day = "Day",
+  /** Week */
   Week = "Week",
+  /** Month */
   Month = "Month",
+  /** Custom */
   Custom = "Custom"
 }
 
@@ -1854,8 +1972,11 @@ export type TimeRange = string;
 
 /** Known values of {@link AssessmentStage} that the service accepts. */
 export enum KnownAssessmentStage {
+  /** InProgress */
   InProgress = "InProgress",
+  /** UnderReview */
   UnderReview = "UnderReview",
+  /** Approved */
   Approved = "Approved"
 }
 
@@ -1872,31 +1993,57 @@ export type AssessmentStage = string;
 
 /** Known values of {@link Currency} that the service accepts. */
 export enum KnownCurrency {
+  /** Unknown */
   Unknown = "Unknown",
+  /** USD */
   USD = "USD",
+  /** DKK */
   DKK = "DKK",
+  /** CAD */
   CAD = "CAD",
+  /** IDR */
   IDR = "IDR",
+  /** JPY */
   JPY = "JPY",
+  /** KRW */
   KRW = "KRW",
+  /** NZD */
   NZD = "NZD",
+  /** NOK */
   NOK = "NOK",
+  /** RUB */
   RUB = "RUB",
+  /** SAR */
   SAR = "SAR",
+  /** ZAR */
   ZAR = "ZAR",
+  /** SEK */
   SEK = "SEK",
+  /** TRY */
   TRY = "TRY",
+  /** GBP */
   GBP = "GBP",
+  /** MXN */
   MXN = "MXN",
+  /** MYR */
   MYR = "MYR",
+  /** INR */
   INR = "INR",
+  /** HKD */
   HKD = "HKD",
+  /** BRL */
   BRL = "BRL",
+  /** TWD */
   TWD = "TWD",
+  /** EUR */
   EUR = "EUR",
+  /** CHF */
   CHF = "CHF",
+  /** ARS */
   ARS = "ARS",
+  /** AUD */
   AUD = "AUD",
+  /** CNY */
   CNY = "CNY"
 }
 
@@ -1936,8 +2083,11 @@ export type Currency = string;
 
 /** Known values of {@link AzureHybridUseBenefit} that the service accepts. */
 export enum KnownAzureHybridUseBenefit {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Yes */
   Yes = "Yes",
+  /** No */
   No = "No"
 }
 
@@ -1954,7 +2104,9 @@ export type AzureHybridUseBenefit = string;
 
 /** Known values of {@link AssessmentSizingCriterion} that the service accepts. */
 export enum KnownAssessmentSizingCriterion {
+  /** PerformanceBased */
   PerformanceBased = "PerformanceBased",
+  /** AsOnPremises */
   AsOnPremises = "AsOnPremises"
 }
 
@@ -1970,8 +2122,11 @@ export type AssessmentSizingCriterion = string;
 
 /** Known values of {@link ReservedInstance} that the service accepts. */
 export enum KnownReservedInstance {
+  /** None */
   None = "None",
+  /** RI1Year */
   RI1Year = "RI1Year",
+  /** RI3Year */
   RI3Year = "RI3Year"
 }
 
@@ -1988,27 +2143,49 @@ export type ReservedInstance = string;
 
 /** Known values of {@link AzureVmFamily} that the service accepts. */
 export enum KnownAzureVmFamily {
+  /** Unknown */
   Unknown = "Unknown",
+  /** BasicA0A4 */
   BasicA0A4 = "Basic_A0_A4",
+  /** StandardA0A7 */
   StandardA0A7 = "Standard_A0_A7",
+  /** StandardA8A11 */
   StandardA8A11 = "Standard_A8_A11",
+  /** Av2Series */
   Av2Series = "Av2_series",
+  /** DSeries */
   DSeries = "D_series",
+  /** Dv2Series */
   Dv2Series = "Dv2_series",
+  /** DSSeries */
   DSSeries = "DS_series",
+  /** DSv2Series */
   DSv2Series = "DSv2_series",
+  /** FSeries */
   FSeries = "F_series",
+  /** FsSeries */
   FsSeries = "Fs_series",
+  /** GSeries */
   GSeries = "G_series",
+  /** GSSeries */
   GSSeries = "GS_series",
+  /** HSeries */
   HSeries = "H_series",
+  /** LsSeries */
   LsSeries = "Ls_series",
+  /** Dsv3Series */
   Dsv3Series = "Dsv3_series",
+  /** Dv3Series */
   Dv3Series = "Dv3_series",
+  /** Fsv2Series */
   Fsv2Series = "Fsv2_series",
+  /** Ev3Series */
   Ev3Series = "Ev3_series",
+  /** Esv3Series */
   Esv3Series = "Esv3_series",
+  /** MSeries */
   MSeries = "M_series",
+  /** DCSeries */
   DCSeries = "DC_Series"
 }
 
@@ -2044,10 +2221,15 @@ export type AzureVmFamily = string;
 
 /** Known values of {@link AzureDiskType} that the service accepts. */
 export enum KnownAzureDiskType {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Standard */
   Standard = "Standard",
+  /** Premium */
   Premium = "Premium",
+  /** StandardSSD */
   StandardSSD = "StandardSSD",
+  /** StandardOrPremium */
   StandardOrPremium = "StandardOrPremium"
 }
 
@@ -2066,12 +2248,19 @@ export type AzureDiskType = string;
 
 /** Known values of {@link AssessmentStatus} that the service accepts. */
 export enum KnownAssessmentStatus {
+  /** Created */
   Created = "Created",
+  /** Updated */
   Updated = "Updated",
+  /** Running */
   Running = "Running",
+  /** Completed */
   Completed = "Completed",
+  /** Invalid */
   Invalid = "Invalid",
+  /** OutOfSync */
   OutOfSync = "OutOfSync",
+  /** OutDated */
   OutDated = "OutDated"
 }
 
@@ -2092,39 +2281,73 @@ export type AssessmentStatus = string;
 
 /** Known values of {@link AzureDiskSize} that the service accepts. */
 export enum KnownAzureDiskSize {
+  /** Unknown */
   Unknown = "Unknown",
+  /** StandardS4 */
   StandardS4 = "Standard_S4",
+  /** StandardS6 */
   StandardS6 = "Standard_S6",
+  /** StandardS10 */
   StandardS10 = "Standard_S10",
+  /** StandardS15 */
   StandardS15 = "Standard_S15",
+  /** StandardS20 */
   StandardS20 = "Standard_S20",
+  /** StandardS30 */
   StandardS30 = "Standard_S30",
+  /** StandardS40 */
   StandardS40 = "Standard_S40",
+  /** StandardS50 */
   StandardS50 = "Standard_S50",
+  /** PremiumP4 */
   PremiumP4 = "Premium_P4",
+  /** PremiumP6 */
   PremiumP6 = "Premium_P6",
+  /** PremiumP10 */
   PremiumP10 = "Premium_P10",
+  /** PremiumP15 */
   PremiumP15 = "Premium_P15",
+  /** PremiumP20 */
   PremiumP20 = "Premium_P20",
+  /** PremiumP30 */
   PremiumP30 = "Premium_P30",
+  /** PremiumP40 */
   PremiumP40 = "Premium_P40",
+  /** PremiumP50 */
   PremiumP50 = "Premium_P50",
+  /** StandardS60 */
   StandardS60 = "Standard_S60",
+  /** StandardS70 */
   StandardS70 = "Standard_S70",
+  /** StandardS80 */
   StandardS80 = "Standard_S80",
+  /** PremiumP60 */
   PremiumP60 = "Premium_P60",
+  /** PremiumP70 */
   PremiumP70 = "Premium_P70",
+  /** PremiumP80 */
   PremiumP80 = "Premium_P80",
+  /** StandardSSDE10 */
   StandardSSDE10 = "StandardSSD_E10",
+  /** StandardSSDE15 */
   StandardSSDE15 = "StandardSSD_E15",
+  /** StandardSSDE20 */
   StandardSSDE20 = "StandardSSD_E20",
+  /** StandardSSDE30 */
   StandardSSDE30 = "StandardSSD_E30",
+  /** StandardSSDE40 */
   StandardSSDE40 = "StandardSSD_E40",
+  /** StandardSSDE50 */
   StandardSSDE50 = "StandardSSD_E50",
+  /** StandardSSDE60 */
   StandardSSDE60 = "StandardSSD_E60",
+  /** StandardSSDE70 */
   StandardSSDE70 = "StandardSSD_E70",
+  /** StandardSSDE80 */
   StandardSSDE80 = "StandardSSD_E80",
+  /** StandardSSDE4 */
   StandardSSDE4 = "StandardSSD_E4",
+  /** StandardSSDE6 */
   StandardSSDE6 = "StandardSSD_E6"
 }
 
@@ -2172,10 +2395,15 @@ export type AzureDiskSize = string;
 
 /** Known values of {@link CloudSuitability} that the service accepts. */
 export enum KnownCloudSuitability {
+  /** Unknown */
   Unknown = "Unknown",
+  /** NotSuitable */
   NotSuitable = "NotSuitable",
+  /** Suitable */
   Suitable = "Suitable",
+  /** ConditionallySuitable */
   ConditionallySuitable = "ConditionallySuitable",
+  /** ReadinessUnknown */
   ReadinessUnknown = "ReadinessUnknown"
 }
 
@@ -2194,14 +2422,23 @@ export type CloudSuitability = string;
 
 /** Known values of {@link AzureDiskSuitabilityExplanation} that the service accepts. */
 export enum KnownAzureDiskSuitabilityExplanation {
+  /** Unknown */
   Unknown = "Unknown",
+  /** NotApplicable */
   NotApplicable = "NotApplicable",
+  /** DiskSizeGreaterThanSupported */
   DiskSizeGreaterThanSupported = "DiskSizeGreaterThanSupported",
+  /** NoSuitableDiskSizeForIops */
   NoSuitableDiskSizeForIops = "NoSuitableDiskSizeForIops",
+  /** NoSuitableDiskSizeForThroughput */
   NoSuitableDiskSizeForThroughput = "NoSuitableDiskSizeForThroughput",
+  /** NoDiskSizeFoundInSelectedLocation */
   NoDiskSizeFoundInSelectedLocation = "NoDiskSizeFoundInSelectedLocation",
+  /** NoDiskSizeFoundForSelectedRedundancy */
   NoDiskSizeFoundForSelectedRedundancy = "NoDiskSizeFoundForSelectedRedundancy",
+  /** InternalErrorOccurredForDiskEvaluation */
   InternalErrorOccurredForDiskEvaluation = "InternalErrorOccurredForDiskEvaluation",
+  /** NoEaPriceFoundForDiskSize */
   NoEaPriceFoundForDiskSize = "NoEaPriceFoundForDiskSize"
 }
 
@@ -2224,18 +2461,31 @@ export type AzureDiskSuitabilityExplanation = string;
 
 /** Known values of {@link AzureDiskSuitabilityDetail} that the service accepts. */
 export enum KnownAzureDiskSuitabilityDetail {
+  /** None */
   None = "None",
+  /** NumberOfReadOperationsPerSecondMissing */
   NumberOfReadOperationsPerSecondMissing = "NumberOfReadOperationsPerSecondMissing",
+  /** NumberOfWriteOperationsPerSecondMissing */
   NumberOfWriteOperationsPerSecondMissing = "NumberOfWriteOperationsPerSecondMissing",
+  /** MegabytesPerSecondOfReadMissing */
   MegabytesPerSecondOfReadMissing = "MegabytesPerSecondOfReadMissing",
+  /** MegabytesPerSecondOfWriteMissing */
   MegabytesPerSecondOfWriteMissing = "MegabytesPerSecondOfWriteMissing",
+  /** DiskGigabytesConsumedMissing */
   DiskGigabytesConsumedMissing = "DiskGigabytesConsumedMissing",
+  /** DiskGigabytesProvisionedMissing */
   DiskGigabytesProvisionedMissing = "DiskGigabytesProvisionedMissing",
+  /** NumberOfReadOperationsPerSecondOutOfRange */
   NumberOfReadOperationsPerSecondOutOfRange = "NumberOfReadOperationsPerSecondOutOfRange",
+  /** NumberOfWriteOperationsPerSecondOutOfRange */
   NumberOfWriteOperationsPerSecondOutOfRange = "NumberOfWriteOperationsPerSecondOutOfRange",
+  /** MegabytesPerSecondOfReadOutOfRange */
   MegabytesPerSecondOfReadOutOfRange = "MegabytesPerSecondOfReadOutOfRange",
+  /** MegabytesPerSecondOfWriteOutOfRange */
   MegabytesPerSecondOfWriteOutOfRange = "MegabytesPerSecondOfWriteOutOfRange",
+  /** DiskGigabytesConsumedOutOfRange */
   DiskGigabytesConsumedOutOfRange = "DiskGigabytesConsumedOutOfRange",
+  /** DiskGigabytesProvisionedOutOfRange */
   DiskGigabytesProvisionedOutOfRange = "DiskGigabytesProvisionedOutOfRange"
 }
 
@@ -2262,8 +2512,11 @@ export type AzureDiskSuitabilityDetail = string;
 
 /** Known values of {@link AzureNetworkAdapterSuitabilityExplanation} that the service accepts. */
 export enum KnownAzureNetworkAdapterSuitabilityExplanation {
+  /** Unknown */
   Unknown = "Unknown",
+  /** NotApplicable */
   NotApplicable = "NotApplicable",
+  /** InternalErrorOccurred */
   InternalErrorOccurred = "InternalErrorOccurred"
 }
 
@@ -2280,8 +2533,11 @@ export type AzureNetworkAdapterSuitabilityExplanation = string;
 
 /** Known values of {@link AzureNetworkAdapterSuitabilityDetail} that the service accepts. */
 export enum KnownAzureNetworkAdapterSuitabilityDetail {
+  /** None */
   None = "None",
+  /** MegabytesOfDataTransmittedMissing */
   MegabytesOfDataTransmittedMissing = "MegabytesOfDataTransmittedMissing",
+  /** MegabytesOfDataTransmittedOutOfRange */
   MegabytesOfDataTransmittedOutOfRange = "MegabytesOfDataTransmittedOutOfRange"
 }
 
@@ -2298,131 +2554,257 @@ export type AzureNetworkAdapterSuitabilityDetail = string;
 
 /** Known values of {@link AzureVmSize} that the service accepts. */
 export enum KnownAzureVmSize {
+  /** Unknown */
   Unknown = "Unknown",
+  /** BasicA0 */
   BasicA0 = "Basic_A0",
+  /** BasicA1 */
   BasicA1 = "Basic_A1",
+  /** BasicA2 */
   BasicA2 = "Basic_A2",
+  /** BasicA3 */
   BasicA3 = "Basic_A3",
+  /** BasicA4 */
   BasicA4 = "Basic_A4",
+  /** StandardA0 */
   StandardA0 = "Standard_A0",
+  /** StandardA1 */
   StandardA1 = "Standard_A1",
+  /** StandardA2 */
   StandardA2 = "Standard_A2",
+  /** StandardA3 */
   StandardA3 = "Standard_A3",
+  /** StandardA4 */
   StandardA4 = "Standard_A4",
+  /** StandardA5 */
   StandardA5 = "Standard_A5",
+  /** StandardA6 */
   StandardA6 = "Standard_A6",
+  /** StandardA7 */
   StandardA7 = "Standard_A7",
+  /** StandardA8 */
   StandardA8 = "Standard_A8",
+  /** StandardA9 */
   StandardA9 = "Standard_A9",
+  /** StandardA10 */
   StandardA10 = "Standard_A10",
+  /** StandardA11 */
   StandardA11 = "Standard_A11",
+  /** StandardA1V2 */
   StandardA1V2 = "Standard_A1_v2",
+  /** StandardA2V2 */
   StandardA2V2 = "Standard_A2_v2",
+  /** StandardA4V2 */
   StandardA4V2 = "Standard_A4_v2",
+  /** StandardA8V2 */
   StandardA8V2 = "Standard_A8_v2",
+  /** StandardA2MV2 */
   StandardA2MV2 = "Standard_A2m_v2",
+  /** StandardA4MV2 */
   StandardA4MV2 = "Standard_A4m_v2",
+  /** StandardA8MV2 */
   StandardA8MV2 = "Standard_A8m_v2",
+  /** StandardD1 */
   StandardD1 = "Standard_D1",
+  /** StandardD2 */
   StandardD2 = "Standard_D2",
+  /** StandardD3 */
   StandardD3 = "Standard_D3",
+  /** StandardD4 */
   StandardD4 = "Standard_D4",
+  /** StandardD11 */
   StandardD11 = "Standard_D11",
+  /** StandardD12 */
   StandardD12 = "Standard_D12",
+  /** StandardD13 */
   StandardD13 = "Standard_D13",
+  /** StandardD14 */
   StandardD14 = "Standard_D14",
+  /** StandardD1V2 */
   StandardD1V2 = "Standard_D1_v2",
+  /** StandardD2V2 */
   StandardD2V2 = "Standard_D2_v2",
+  /** StandardD3V2 */
   StandardD3V2 = "Standard_D3_v2",
+  /** StandardD4V2 */
   StandardD4V2 = "Standard_D4_v2",
+  /** StandardD5V2 */
   StandardD5V2 = "Standard_D5_v2",
+  /** StandardD11V2 */
   StandardD11V2 = "Standard_D11_v2",
+  /** StandardD12V2 */
   StandardD12V2 = "Standard_D12_v2",
+  /** StandardD13V2 */
   StandardD13V2 = "Standard_D13_v2",
+  /** StandardD14V2 */
   StandardD14V2 = "Standard_D14_v2",
+  /** StandardD15V2 */
   StandardD15V2 = "Standard_D15_v2",
+  /** StandardDS1 */
   StandardDS1 = "Standard_DS1",
+  /** StandardDS2 */
   StandardDS2 = "Standard_DS2",
+  /** StandardDS3 */
   StandardDS3 = "Standard_DS3",
+  /** StandardDS4 */
   StandardDS4 = "Standard_DS4",
+  /** StandardDS11 */
   StandardDS11 = "Standard_DS11",
+  /** StandardDS12 */
   StandardDS12 = "Standard_DS12",
+  /** StandardDS13 */
   StandardDS13 = "Standard_DS13",
+  /** StandardDS14 */
   StandardDS14 = "Standard_DS14",
+  /** StandardDS1V2 */
   StandardDS1V2 = "Standard_DS1_v2",
+  /** StandardDS2V2 */
   StandardDS2V2 = "Standard_DS2_v2",
+  /** StandardDS3V2 */
   StandardDS3V2 = "Standard_DS3_v2",
+  /** StandardDS4V2 */
   StandardDS4V2 = "Standard_DS4_v2",
+  /** StandardDS5V2 */
   StandardDS5V2 = "Standard_DS5_v2",
+  /** StandardDS11V2 */
   StandardDS11V2 = "Standard_DS11_v2",
+  /** StandardDS12V2 */
   StandardDS12V2 = "Standard_DS12_v2",
+  /** StandardDS13V2 */
   StandardDS13V2 = "Standard_DS13_v2",
+  /** StandardDS14V2 */
   StandardDS14V2 = "Standard_DS14_v2",
+  /** StandardDS15V2 */
   StandardDS15V2 = "Standard_DS15_v2",
+  /** StandardF1 */
   StandardF1 = "Standard_F1",
+  /** StandardF2 */
   StandardF2 = "Standard_F2",
+  /** StandardF4 */
   StandardF4 = "Standard_F4",
+  /** StandardF8 */
   StandardF8 = "Standard_F8",
+  /** StandardF16 */
   StandardF16 = "Standard_F16",
+  /** StandardF1S */
   StandardF1S = "Standard_F1s",
+  /** StandardF2S */
   StandardF2S = "Standard_F2s",
+  /** StandardF4S */
   StandardF4S = "Standard_F4s",
+  /** StandardF8S */
   StandardF8S = "Standard_F8s",
+  /** StandardF16S */
   StandardF16S = "Standard_F16s",
+  /** StandardG1 */
   StandardG1 = "Standard_G1",
+  /** StandardG2 */
   StandardG2 = "Standard_G2",
+  /** StandardG3 */
   StandardG3 = "Standard_G3",
+  /** StandardG4 */
   StandardG4 = "Standard_G4",
+  /** StandardG5 */
   StandardG5 = "Standard_G5",
+  /** StandardGS1 */
   StandardGS1 = "Standard_GS1",
+  /** StandardGS2 */
   StandardGS2 = "Standard_GS2",
+  /** StandardGS3 */
   StandardGS3 = "Standard_GS3",
+  /** StandardGS4 */
   StandardGS4 = "Standard_GS4",
+  /** StandardGS5 */
   StandardGS5 = "Standard_GS5",
+  /** StandardH8 */
   StandardH8 = "Standard_H8",
+  /** StandardH16 */
   StandardH16 = "Standard_H16",
+  /** StandardH8M */
   StandardH8M = "Standard_H8m",
+  /** StandardH16M */
   StandardH16M = "Standard_H16m",
+  /** StandardH16R */
   StandardH16R = "Standard_H16r",
+  /** StandardH16Mr */
   StandardH16Mr = "Standard_H16mr",
+  /** StandardL4S */
   StandardL4S = "Standard_L4s",
+  /** StandardL8S */
   StandardL8S = "Standard_L8s",
+  /** StandardL16S */
   StandardL16S = "Standard_L16s",
+  /** StandardL32S */
   StandardL32S = "Standard_L32s",
+  /** StandardD2SV3 */
   StandardD2SV3 = "Standard_D2s_v3",
+  /** StandardD4SV3 */
   StandardD4SV3 = "Standard_D4s_v3",
+  /** StandardD8SV3 */
   StandardD8SV3 = "Standard_D8s_v3",
+  /** StandardD16SV3 */
   StandardD16SV3 = "Standard_D16s_v3",
+  /** StandardD32SV3 */
   StandardD32SV3 = "Standard_D32s_v3",
+  /** StandardD64SV3 */
   StandardD64SV3 = "Standard_D64s_v3",
+  /** StandardD2V3 */
   StandardD2V3 = "Standard_D2_v3",
+  /** StandardD4V3 */
   StandardD4V3 = "Standard_D4_v3",
+  /** StandardD8V3 */
   StandardD8V3 = "Standard_D8_v3",
+  /** StandardD16V3 */
   StandardD16V3 = "Standard_D16_v3",
+  /** StandardD32V3 */
   StandardD32V3 = "Standard_D32_v3",
+  /** StandardD64V3 */
   StandardD64V3 = "Standard_D64_v3",
+  /** StandardF2SV2 */
   StandardF2SV2 = "Standard_F2s_v2",
+  /** StandardF4SV2 */
   StandardF4SV2 = "Standard_F4s_v2",
+  /** StandardF8SV2 */
   StandardF8SV2 = "Standard_F8s_v2",
+  /** StandardF16SV2 */
   StandardF16SV2 = "Standard_F16s_v2",
+  /** StandardF32SV2 */
   StandardF32SV2 = "Standard_F32s_v2",
+  /** StandardF64SV2 */
   StandardF64SV2 = "Standard_F64s_v2",
+  /** StandardF72SV2 */
   StandardF72SV2 = "Standard_F72s_v2",
+  /** StandardE2V3 */
   StandardE2V3 = "Standard_E2_v3",
+  /** StandardE4V3 */
   StandardE4V3 = "Standard_E4_v3",
+  /** StandardE8V3 */
   StandardE8V3 = "Standard_E8_v3",
+  /** StandardE16V3 */
   StandardE16V3 = "Standard_E16_v3",
+  /** StandardE32V3 */
   StandardE32V3 = "Standard_E32_v3",
+  /** StandardE64V3 */
   StandardE64V3 = "Standard_E64_v3",
+  /** StandardE2SV3 */
   StandardE2SV3 = "Standard_E2s_v3",
+  /** StandardE4SV3 */
   StandardE4SV3 = "Standard_E4s_v3",
+  /** StandardE8SV3 */
   StandardE8SV3 = "Standard_E8s_v3",
+  /** StandardE16SV3 */
   StandardE16SV3 = "Standard_E16s_v3",
+  /** StandardE32SV3 */
   StandardE32SV3 = "Standard_E32s_v3",
+  /** StandardE64SV3 */
   StandardE64SV3 = "Standard_E64s_v3",
+  /** StandardM64S */
   StandardM64S = "Standard_M64s",
+  /** StandardM64Ms */
   StandardM64Ms = "Standard_M64ms",
+  /** StandardM128S */
   StandardM128S = "Standard_M128s",
+  /** StandardM128Ms */
   StandardM128Ms = "Standard_M128ms"
 }
 
@@ -2562,41 +2944,77 @@ export type AzureVmSize = string;
 
 /** Known values of {@link AzureVmSuitabilityExplanation} that the service accepts. */
 export enum KnownAzureVmSuitabilityExplanation {
+  /** Unknown */
   Unknown = "Unknown",
+  /** NotApplicable */
   NotApplicable = "NotApplicable",
+  /** GuestOperatingSystemArchitectureNotSupported */
   GuestOperatingSystemArchitectureNotSupported = "GuestOperatingSystemArchitectureNotSupported",
+  /** GuestOperatingSystemNotSupported */
   GuestOperatingSystemNotSupported = "GuestOperatingSystemNotSupported",
+  /** BootTypeNotSupported */
   BootTypeNotSupported = "BootTypeNotSupported",
+  /** MoreDisksThanSupported */
   MoreDisksThanSupported = "MoreDisksThanSupported",
+  /** NoSuitableVmSizeFound */
   NoSuitableVmSizeFound = "NoSuitableVmSizeFound",
+  /** OneOrMoreDisksNotSuitable */
   OneOrMoreDisksNotSuitable = "OneOrMoreDisksNotSuitable",
+  /** OneOrMoreAdaptersNotSuitable */
   OneOrMoreAdaptersNotSuitable = "OneOrMoreAdaptersNotSuitable",
+  /** InternalErrorOccurredDuringComputeEvaluation */
   InternalErrorOccurredDuringComputeEvaluation = "InternalErrorOccurredDuringComputeEvaluation",
+  /** InternalErrorOccurredDuringStorageEvaluation */
   InternalErrorOccurredDuringStorageEvaluation = "InternalErrorOccurredDuringStorageEvaluation",
+  /** InternalErrorOccurredDuringNetworkEvaluation */
   InternalErrorOccurredDuringNetworkEvaluation = "InternalErrorOccurredDuringNetworkEvaluation",
+  /** NoVmSizeSupportsStoragePerformance */
   NoVmSizeSupportsStoragePerformance = "NoVmSizeSupportsStoragePerformance",
+  /** NoVmSizeSupportsNetworkPerformance */
   NoVmSizeSupportsNetworkPerformance = "NoVmSizeSupportsNetworkPerformance",
+  /** NoVmSizeForSelectedPricingTier */
   NoVmSizeForSelectedPricingTier = "NoVmSizeForSelectedPricingTier",
+  /** NoVmSizeForSelectedAzureLocation */
   NoVmSizeForSelectedAzureLocation = "NoVmSizeForSelectedAzureLocation",
+  /** CheckRedHatLinuxVersion */
   CheckRedHatLinuxVersion = "CheckRedHatLinuxVersion",
+  /** CheckOpenSuseLinuxVersion */
   CheckOpenSuseLinuxVersion = "CheckOpenSuseLinuxVersion",
+  /** CheckWindowsServer2008R2Version */
   CheckWindowsServer2008R2Version = "CheckWindowsServer2008R2Version",
+  /** CheckCentOsVersion */
   CheckCentOsVersion = "CheckCentOsVersion",
+  /** CheckDebianLinuxVersion */
   CheckDebianLinuxVersion = "CheckDebianLinuxVersion",
+  /** CheckSuseLinuxVersion */
   CheckSuseLinuxVersion = "CheckSuseLinuxVersion",
+  /** CheckOracleLinuxVersion */
   CheckOracleLinuxVersion = "CheckOracleLinuxVersion",
+  /** CheckUbuntuLinuxVersion */
   CheckUbuntuLinuxVersion = "CheckUbuntuLinuxVersion",
+  /** CheckCoreOsLinuxVersion */
   CheckCoreOsLinuxVersion = "CheckCoreOsLinuxVersion",
+  /** WindowsServerVersionConditionallySupported */
   WindowsServerVersionConditionallySupported = "WindowsServerVersionConditionallySupported",
+  /** NoGuestOperatingSystemConditionallySupported */
   NoGuestOperatingSystemConditionallySupported = "NoGuestOperatingSystemConditionallySupported",
+  /** WindowsClientVersionsConditionallySupported */
   WindowsClientVersionsConditionallySupported = "WindowsClientVersionsConditionallySupported",
+  /** BootTypeUnknown */
   BootTypeUnknown = "BootTypeUnknown",
+  /** GuestOperatingSystemUnknown */
   GuestOperatingSystemUnknown = "GuestOperatingSystemUnknown",
+  /** WindowsServerVersionsSupportedWithCaveat */
   WindowsServerVersionsSupportedWithCaveat = "WindowsServerVersionsSupportedWithCaveat",
+  /** WindowsOSNoLongerUnderMSSupport */
   WindowsOSNoLongerUnderMSSupport = "WindowsOSNoLongerUnderMSSupport",
+  /** EndorsedWithConditionsLinuxDistributions */
   EndorsedWithConditionsLinuxDistributions = "EndorsedWithConditionsLinuxDistributions",
+  /** UnendorsedLinuxDistributions */
   UnendorsedLinuxDistributions = "UnendorsedLinuxDistributions",
+  /** NoVmSizeForStandardPricingTier */
   NoVmSizeForStandardPricingTier = "NoVmSizeForStandardPricingTier",
+  /** NoVmSizeForBasicPricingTier */
   NoVmSizeForBasicPricingTier = "NoVmSizeForBasicPricingTier"
 }
 
@@ -2646,14 +3064,23 @@ export type AzureVmSuitabilityExplanation = string;
 
 /** Known values of {@link AzureVmSuitabilityDetail} that the service accepts. */
 export enum KnownAzureVmSuitabilityDetail {
+  /** None */
   None = "None",
+  /** RecommendedSizeHasLessNetworkAdapters */
   RecommendedSizeHasLessNetworkAdapters = "RecommendedSizeHasLessNetworkAdapters",
+  /** CannotReportComputeCost */
   CannotReportComputeCost = "CannotReportComputeCost",
+  /** CannotReportStorageCost */
   CannotReportStorageCost = "CannotReportStorageCost",
+  /** CannotReportBandwidthCosts */
   CannotReportBandwidthCosts = "CannotReportBandwidthCosts",
+  /** PercentageOfCoresUtilizedMissing */
   PercentageOfCoresUtilizedMissing = "PercentageOfCoresUtilizedMissing",
+  /** PercentageOfMemoryUtilizedMissing */
   PercentageOfMemoryUtilizedMissing = "PercentageOfMemoryUtilizedMissing",
+  /** PercentageOfCoresUtilizedOutOfRange */
   PercentageOfCoresUtilizedOutOfRange = "PercentageOfCoresUtilizedOutOfRange",
+  /** PercentageOfMemoryUtilizedOutOfRange */
   PercentageOfMemoryUtilizedOutOfRange = "PercentageOfMemoryUtilizedOutOfRange"
 }
 

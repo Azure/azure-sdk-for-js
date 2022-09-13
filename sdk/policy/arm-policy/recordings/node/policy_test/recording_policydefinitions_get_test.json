@@ -1,0 +1,81 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Management/managementGroups/20000000-0001-0000-0000-000000000123/providers/Microsoft.Authorization/policyDefinitions/jspolicy?api-version=2021-06-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-policy/5.0.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "2be62869-3883-40d9-af44-6478ab80266f"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 01 Jul 2022 08:13:19 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "57191151-c3e0-4d1b-b4c3-ebca25f1f4de",
+        "x-ms-ratelimit-remaining-tenant-reads": "11999",
+        "x-ms-request-id": "57191151-c3e0-4d1b-b4c3-ebca25f1f4de",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220701T081320Z:57191151-c3e0-4d1b-b4c3-ebca25f1f4de"
+      },
+      "ResponseBody": {
+        "properties": {
+          "policyType": "Custom",
+          "mode": "Indexed",
+          "description": "Don\u0027t create a VM anywhere",
+          "metadata": {
+            "createdBy": "c4e92f5c-3a0d-4845-aacc-5ac8a7905cdf",
+            "createdOn": "2022-07-01T08:13:19.8784459Z",
+            "updatedBy": null,
+            "updatedOn": null
+          },
+          "policyRule": {
+            "if": {
+              "allof": [
+                {
+                  "source": "action",
+                  "equals": "Microsoft.Compute/virtualMachines/write"
+                },
+                {
+                  "field": "location",
+                  "in": [
+                    "eastus",
+                    "eastus2",
+                    "centralus"
+                  ]
+                }
+              ]
+            },
+            "then": {
+              "effect": "deny"
+            }
+          }
+        },
+        "id": "/providers/Microsoft.Management/managementGroups/20000000-0001-0000-0000-000000000123/providers/Microsoft.Authorization/policyDefinitions/jspolicy",
+        "type": "Microsoft.Authorization/policyDefinitions",
+        "name": "jspolicy",
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2022-07-01T08:13:19.8412238Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2022-07-01T08:13:19.8412238Z"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

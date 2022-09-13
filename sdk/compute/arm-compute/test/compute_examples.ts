@@ -58,8 +58,8 @@ describe("Compute test", () => {
     location = "eastus";
     resourceGroupName = "myjstest";
     availabilitySetName = "availabilitySets123";
-    network_name = "networknamex";
-    subnet_name = "subnetnamex";
+    network_name = "networknamexx";
+    subnet_name = "subnetnamexx";
     interface_name = "interfacex";
     virtual_machine_name = "virtualmachinex";
   });
@@ -206,7 +206,7 @@ describe("Compute test", () => {
       osProfile: {
         adminUsername: "testuser",
         computerName: "myVM",
-        adminPassword: "SecretPlaceholder",
+        adminPassword: "SecretPlaceholder123",
         windowsConfiguration: {
           enableAutomaticUpdates: true, // need automatic update for reimage
         },

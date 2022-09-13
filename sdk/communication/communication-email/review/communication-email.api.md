@@ -4,8 +4,8 @@
 
 ```ts
 
+import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
-import { PipelineOptions } from '@azure/core-http';
 
 // @public
 export interface EmailAddress {
@@ -21,7 +21,7 @@ export interface EmailAttachment {
 }
 
 // @public
-export type EmailAttachmentType = "avi" | "bmp" | "doc" | "docm" | "docx" | "gif" | "jpeg" | "mp3" | "one" | "pdf" | "png" | "ppsm" | "ppsx" | "ppt" | "pptm" | "pptx" | "pub" | "rpmsg" | "rtf" | "tif" | "txt" | "vsd" | "wav" | "wma" | "xls" | "xlsb" | "xlsm" | "xlsx";
+export type EmailAttachmentType = string;
 
 // @public
 export class EmailClient {
@@ -32,7 +32,7 @@ export class EmailClient {
 }
 
 // @public
-export interface EmailClientOptions extends PipelineOptions {
+export interface EmailClientOptions extends CommonClientOptions {
 }
 
 // @public
@@ -49,7 +49,7 @@ export interface EmailCustomHeader {
 }
 
 // @public
-export type EmailImportance = "high" | "normal" | "low";
+export type EmailImportance = string;
 
 // @public
 export interface EmailMessage {
@@ -65,8 +65,8 @@ export interface EmailMessage {
 
 // @public
 export interface EmailRecipients {
-    bCC?: EmailAddress[];
-    cC?: EmailAddress[];
+    bcc?: EmailAddress[];
+    cc?: EmailAddress[];
     to: EmailAddress[];
 }
 
@@ -76,7 +76,7 @@ export interface SendEmailResult {
 }
 
 // @public
-export type SendStatus = "queued" | "outForDelivery" | "dropped";
+export type SendStatus = string;
 
 // @public
 export interface SendStatusResult {

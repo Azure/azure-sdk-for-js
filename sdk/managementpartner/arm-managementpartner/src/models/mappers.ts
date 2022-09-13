@@ -103,18 +103,6 @@ export const ErrorModel: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ExtendedErrorInfo"
         }
-      },
-      code: {
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
       }
     }
   }

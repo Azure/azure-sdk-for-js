@@ -13,7 +13,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
 import {
-  DataContainerData,
+  DataContainer,
   DataContainersListNextOptionalParams,
   DataContainersListOptionalParams,
   DataContainersListResponse,
@@ -48,7 +48,7 @@ export class DataContainersImpl implements DataContainers {
     resourceGroupName: string,
     workspaceName: string,
     options?: DataContainersListOptionalParams
-  ): PagedAsyncIterableIterator<DataContainerData> {
+  ): PagedAsyncIterableIterator<DataContainer> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
       next() {
@@ -67,7 +67,7 @@ export class DataContainersImpl implements DataContainers {
     resourceGroupName: string,
     workspaceName: string,
     options?: DataContainersListOptionalParams
-  ): AsyncIterableIterator<DataContainerData[]> {
+  ): AsyncIterableIterator<DataContainer[]> {
     let result = await this._list(resourceGroupName, workspaceName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -87,7 +87,7 @@ export class DataContainersImpl implements DataContainers {
     resourceGroupName: string,
     workspaceName: string,
     options?: DataContainersListOptionalParams
-  ): AsyncIterableIterator<DataContainerData> {
+  ): AsyncIterableIterator<DataContainer> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
@@ -164,7 +164,7 @@ export class DataContainersImpl implements DataContainers {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    body: DataContainerData,
+    body: DataContainer,
     options?: DataContainersCreateOrUpdateOptionalParams
   ): Promise<DataContainersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -249,7 +249,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataContainerData
+      bodyMapper: Mappers.DataContainer
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -272,10 +272,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DataContainerData
+      bodyMapper: Mappers.DataContainer
     },
     201: {
-      bodyMapper: Mappers.DataContainerData
+      bodyMapper: Mappers.DataContainer
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

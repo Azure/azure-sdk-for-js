@@ -8,6 +8,7 @@ import {
   createHttpHeaders,
   isRestError,
 } from "@azure/core-rest-pipeline";
+import { ResponseBody } from "../../src/http/models";
 import { assert } from "@azure/test-utils";
 
 export interface RouteProcessor {
@@ -18,11 +19,16 @@ export interface RouteProcessor {
 
 export interface LroResponseSpec {
   method: HttpMethods;
-  path: string;
+  path?: string;
   status: number;
   body?: string;
   headers?: Record<string, string>;
 }
+
+export type ImplementationName = "LroEngine" | "createPoller";
+
+export type Result = ResponseBody & { statusCode: number };
+export type State = any;
 
 export function createProcessor(settings: {
   status: number;

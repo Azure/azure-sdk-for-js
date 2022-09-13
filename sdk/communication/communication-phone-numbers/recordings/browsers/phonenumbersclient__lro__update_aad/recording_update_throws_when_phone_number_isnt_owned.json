@@ -1,52 +1,50 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://endpoint/SomeTenantId/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=SomeClientId&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1336",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 12 May 2022 16:08:16 GMT",
-    "expires": "-1",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12818.0 - DMS PPE",
-    "x-ms-request-id": "sanitized",
-    "x-xss-protection": "0"
-   }
-  },
-  {
-   "method": "PATCH",
-   "url": "https://endpoint/phoneNumbers/%2B14155550100/capabilities",
-   "query": {
-    "api-version": "2022-06-01-preview"
-   },
-   "requestBody": "{\"calling\":\"none\",\"sms\":\"outbound\"}",
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"InternalError\",\"message\":\"The server encountered an internal error.\"}}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview",
-    "content-type": "application/json",
-    "date": "Thu, 12 May 2022 16:08:16 GMT",
-    "ms-cv": "xaw+l9ShlkOOj7EMzjEtKw.0",
-    "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "08DB9YgAAAAAdchkYTAw1S59p+57P7Gr9UFJHMDFFREdFMDcxOQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
-    "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "410ms"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "94c6d18150d845a6914ed056b481f079"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/phoneNumbers/%2B14155550100/capabilities?api-version=2022-06-01-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "35",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
+      },
+      "RequestBody": {
+        "calling": "none",
+        "sms": "outbound"
+      },
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
+        "Content-Type": "application/json",
+        "Date": "Thu, 08 Sep 2022 23:24:40 GMT",
+        "MS-CV": "7iYWqtbp1ka9sILSRZGWBQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0uHkaYwAAAAA6DWJX0\u002BbmTJIcS6ZaDRgvUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "63ms"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InternalError",
+          "message": "The server encountered an internal error."
+        }
+      }
+    }
+  ],
+  "Variables": {}
 }

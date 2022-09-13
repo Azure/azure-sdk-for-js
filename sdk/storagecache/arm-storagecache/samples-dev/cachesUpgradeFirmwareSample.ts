@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Upgrade a Cache's firmware if a new version is available. Otherwise, this operation has no effect.
  *
  * @summary Upgrade a Cache's firmware if a new version is available. Otherwise, this operation has no effect.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/Caches_UpgradeFirmware.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_UpgradeFirmware.json
  */
 async function cachesUpgradeFirmware() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

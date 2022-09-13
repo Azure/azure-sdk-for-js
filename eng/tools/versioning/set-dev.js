@@ -22,7 +22,7 @@ let argv = require("yargs")
 const process = require("process");
 const semver = require("semver");
 const path = require("path");
-const packageUtils = require("eng-package-utils");
+const packageUtils = require("@azure-tools/eng-package-utils");
 
 const commitChanges = async (rushPackages, package) => {
   // Commit the new version to the JSON document

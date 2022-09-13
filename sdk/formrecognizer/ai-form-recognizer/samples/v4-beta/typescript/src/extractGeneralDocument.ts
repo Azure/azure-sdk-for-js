@@ -10,6 +10,8 @@
 
 import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 
+import { PrebuiltDocumentModel } from "./prebuilt/prebuilt-document";
+
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -19,7 +21,8 @@ async function main() {
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
-  const poller = await client.beginExtractGeneralDocument(
+  const poller = await client.beginAnalyzeDocumentFromUrl(
+    PrebuiltDocumentModel,
     // The form recognizer service will access the following URL to a receipt image and extract data from it
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/forms/selection_mark_form.pdf"
   );
@@ -28,7 +31,7 @@ async function main() {
   // (associations between elements, such as labeled elements), and document entities.
   const { keyValuePairs } = await poller.pollUntilDone();
 
-  if (keyValuePairs.length <= 0) {
+  if (!keyValuePairs || keyValuePairs.length <= 0) {
     console.log("No key-value pairs were extracted from the document.");
   } else {
     console.log("Key-Value Pairs:");

@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-compute/19.0.0 core-rest-pipeline/1.9.0 Node/v16.13.2 OS/(x64-Windows_NT-10.0.19044)",
-        "x-ms-client-request-id": "379c80db-c029-4fd5-8512-d80f61c6d194"
+        "User-Agent": "azsdk-js-arm-compute/19.1.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "956e192f-1566-4a1d-a779-d307624418ed"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Jun 2022 12:30:54 GMT",
+        "Date": "Mon, 27 Jun 2022 07:43:16 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": [
@@ -28,11 +28,11 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "4acac2ec-5419-429b-b329-7095c8a9ff0a",
-        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/LowCostGet3Min;3996,Microsoft.Compute/LowCostGet30Min;31972",
+        "x-ms-correlation-request-id": "72b8e423-96d1-49dd-a5d2-3845591370bc",
+        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/LowCostGet3Min;3996,Microsoft.Compute/LowCostGet30Min;31986",
         "x-ms-ratelimit-remaining-subscription-reads": "11987",
-        "x-ms-request-id": "9b495dd0-bd89-4087-b589-e0b33d88fd85",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220607T123055Z:4acac2ec-5419-429b-b329-7095c8a9ff0a"
+        "x-ms-request-id": "34d1e27d-5263-4993-b430-59fd800e6e23",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220627T074316Z:72b8e423-96d1-49dd-a5d2-3845591370bc"
       },
       "ResponseBody": {
         "name": "virtualmachinex",
@@ -44,7 +44,7 @@
           "platformsettings.host_environment.service.platform_optedin_for_rootcerts": "true"
         },
         "properties": {
-          "vmId": "0c70f162-363c-4fd7-9199-065e6e2b4bcd",
+          "vmId": "1716fcad-9750-4b6a-a92c-cb590422849b",
           "hardwareProfile": {
             "vmSize": "Standard_D2_v2"
           },
@@ -54,7 +54,7 @@
               "offer": "WindowsServer",
               "sku": "2016-Datacenter",
               "version": "latest",
-              "exactVersion": "14393.5125.220505"
+              "exactVersion": "14393.5192.220612"
             },
             "osDisk": {
               "osType": "Windows",
@@ -71,12 +71,12 @@
             "dataDisks": [
               {
                 "lun": 0,
-                "name": "virtualmachinex_disk2_769d5a6c89d9420daa98102a2d962fa0",
+                "name": "virtualmachinex_disk2_1f02e8e7bfda4b19a8733ed3964460ad",
                 "createOption": "Empty",
                 "caching": "None",
                 "managedDisk": {
                   "storageAccountType": "Standard_LRS",
-                  "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk2_769d5a6c89d9420daa98102a2d962fa0"
+                  "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk2_1f02e8e7bfda4b19a8733ed3964460ad"
                 },
                 "deleteOption": "Detach",
                 "diskSizeGB": 1023,
@@ -84,12 +84,12 @@
               },
               {
                 "lun": 1,
-                "name": "virtualmachinex_disk3_8a6e05b0f9e94358b66064dfe86443a7",
+                "name": "virtualmachinex_disk3_f6791349105b4f41b28e782bb1bc0e92",
                 "createOption": "Empty",
                 "caching": "None",
                 "managedDisk": {
                   "storageAccountType": "Standard_LRS",
-                  "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk3_8a6e05b0f9e94358b66064dfe86443a7"
+                  "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk3_f6791349105b4f41b28e782bb1bc0e92"
                 },
                 "deleteOption": "Detach",
                 "diskSizeGB": 1023,
@@ -124,7 +124,7 @@
             ]
           },
           "provisioningState": "Succeeded",
-          "timeCreated": "2022-06-07T12:28:20.0244792\u002B00:00"
+          "timeCreated": "2022-06-27T07:40:40.6698336\u002B00:00"
         }
       }
     }

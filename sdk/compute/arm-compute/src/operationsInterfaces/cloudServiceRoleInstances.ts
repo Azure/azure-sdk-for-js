@@ -29,8 +29,8 @@ export interface CloudServiceRoleInstances {
   /**
    * Gets the list of all role instances in a cloud service. Use nextLink property in the response to get
    * the next page of role instances. Do this till nextLink is null to fetch all the role instances.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   list(
@@ -41,8 +41,8 @@ export interface CloudServiceRoleInstances {
   /**
    * Deletes a role instance from a cloud service.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   beginDelete(
@@ -54,8 +54,8 @@ export interface CloudServiceRoleInstances {
   /**
    * Deletes a role instance from a cloud service.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -67,8 +67,8 @@ export interface CloudServiceRoleInstances {
   /**
    * Gets a role instance from a cloud service.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   get(
@@ -80,8 +80,8 @@ export interface CloudServiceRoleInstances {
   /**
    * Retrieves information about the run-time state of a role instance in a cloud service.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   getInstanceView(
@@ -94,8 +94,8 @@ export interface CloudServiceRoleInstances {
    * The Reboot Role Instance asynchronous operation requests a reboot of a role instance in the cloud
    * service.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   beginRestart(
@@ -108,8 +108,8 @@ export interface CloudServiceRoleInstances {
    * The Reboot Role Instance asynchronous operation requests a reboot of a role instance in the cloud
    * service.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   beginRestartAndWait(
@@ -122,8 +122,8 @@ export interface CloudServiceRoleInstances {
    * The Reimage Role Instance asynchronous operation reinstalls the operating system on instances of web
    * roles or worker roles.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   beginReimage(
@@ -136,8 +136,8 @@ export interface CloudServiceRoleInstances {
    * The Reimage Role Instance asynchronous operation reinstalls the operating system on instances of web
    * roles or worker roles.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   beginReimageAndWait(
@@ -151,8 +151,8 @@ export interface CloudServiceRoleInstances {
    * roles or worker roles and initializes the storage resources that are used by them. If you do not
    * want to initialize storage resources, you can use Reimage Role Instance.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   beginRebuild(
@@ -166,8 +166,8 @@ export interface CloudServiceRoleInstances {
    * roles or worker roles and initializes the storage resources that are used by them. If you do not
    * want to initialize storage resources, you can use Reimage Role Instance.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   beginRebuildAndWait(
@@ -179,8 +179,8 @@ export interface CloudServiceRoleInstances {
   /**
    * Gets a remote desktop file for a role instance in a cloud service.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   getRemoteDesktopFile(

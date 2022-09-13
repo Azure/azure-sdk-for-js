@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function filterAndGroupWithoutAggregate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
+  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
   const from = new Date("2019-10-05T18:00:00Z");
   const filter =
@@ -33,8 +33,8 @@ async function filterAndGroupWithoutAggregate() {
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
-    subscriptionId,
-    options
+    subscriptionId2,
+    { queryOptions: options }
   )) {
     resArray.push(item);
   }

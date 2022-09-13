@@ -1,42 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Installation, JsonPatch, PushHandle } from "./models/installation.js";
 import {
-  BrowserPushChannel,
-  InstallationPatch,
-  Installation,
-  NotificationHubMessage,
-  NotificationHubResponse,
+  NotificationDetails,
+  NotificationHubsMessageResponse,
+  NotificationHubsResponse,
+} from "./models/notificationDetails.js";
+import { NotificationHubsClientContext, createClientContext } from "./client/index.js";
+import {
   NotificationHubsClientOptions,
-  PushHandle,
+  RegistrationQueryLimitOptions,
+  RegistrationQueryOptions,
   SendOperationOptions,
-} from "./models";
-import {
-  HttpHeaders,
-  HttpMethods,
-  PipelineRequest,
-  PipelineResponse,
-  createHttpHeaders,
-  createPipelineRequest,
-} from "@azure/core-rest-pipeline";
-import { OperationOptions, ServiceClient } from "@azure/core-client";
-import {
-  createTokenProviderFromConnection,
-  parseNotificationHubsConnectionString,
-} from "./utils/connectionStringUtils";
-import { SasTokenProvider } from "@azure/core-amqp";
-import { tracingClient } from "./utils/tracing";
-
-const API_VERSION = "2020-06";
+} from "./models/options.js";
+import { Notification } from "./models/notification.js";
+import { NotificationHubJob } from "./models/notificationHubJob.js";
+import { OperationOptions } from "@azure/core-client";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { RegistrationDescription } from "./models/registration.js";
+import { cancelScheduledNotification as cancelScheduledNotificationMethod } from "./client/cancelScheduledNotification.js";
+import { createOrUpdateInstallation as createOrUpdateInstallationMethod } from "./client/createOrUpdateInstallation.js";
+import { createOrUpdateRegistration as createOrUpdateRegistrationMethod } from "./client/createOrUpdateRegistration.js";
+import { createRegistrationId as createRegistrationIdMethod } from "./client/createRegistrationId.js";
+import { createRegistration as createRegistrationMethod } from "./client/createRegistration.js";
+import { deleteInstallation as deleteInstallationMethod } from "./client/deleteInstallation.js";
+import { getFeedbackContainerUrl as getFeedbackContainerUrlMethod } from "./client/getFeedbackContainerUrl.js";
+import { getInstallation as getInstallationMethod } from "./client/getInstallation.js";
+import { getNotificationHubJob as getNotificationHubJobMethod } from "./client/getNotificationHubJob.js";
+import { getNotificationOutcomeDetails as getNotificationOutcomeDetailsMethod } from "./client/getNotificationOutcomeDetails.js";
+import { getRegistration as getRegistrationMethod } from "./client/getRegistration.js";
+import { listNotificationHubJobs as listNotificationHubJobsMethod } from "./client/listNotificationHubJobs.js";
+import { listRegistrationsByTag as listRegistrationsByTagMethod } from "./client/listRegistrationsByTag.js";
+import { listRegistrations as listRegistrationsMethod } from "./client/listRegistrations.js";
+import { scheduleBroadcastNotification as scheduleBroadcastNotificationMethod } from "./client/scheduleBroadcastNotification.js";
+import { scheduleNotification as scheduleNotificationMethod } from "./client/scheduleNotification.js";
+import { sendBroadcastNotification as sendBroadcastNotificationMethod } from "./client/sendBroadcastNotification.js";
+import { sendDirectNotification as sendDirectNotificationMethod } from "./client/sendDirectNotification.js";
+import { sendNotification as sendNotificationMethod } from "./client/sendNotification.js";
+import { submitNotificationHubJob as submitNotificationHubJobMethod } from "./client/submitNotificationHubJob.js";
+import { updateInstallation as updateInstallationMethod } from "./client/updateInstallation.js";
+import { updateRegistration as updateRegistrationMethod } from "./client/updateRegistration.js";
 
 /**
  * This represents a client for Azure Notification Hubs to manage installations and send
  * messages to devices.
  */
-export class NotificationHubsClient extends ServiceClient {
-  private _baseUrl: string;
-  private _hubName: string;
-  private _sasTokenProvider: SasTokenProvider;
+export class NotificationHubsServiceClient {
+  private _client: NotificationHubsClientContext;
 
   /**
    * Creates a new instance of the NotificationClient with a connection string, hub name and options.
@@ -49,79 +60,7 @@ export class NotificationHubsClient extends ServiceClient {
     hubName: string,
     options: NotificationHubsClientOptions = {}
   ) {
-    super(options);
-    this._hubName = hubName;
-
-    const parsedConnection = parseNotificationHubsConnectionString(connectionString);
-    this._baseUrl = parsedConnection.endpoint;
-    this._sasTokenProvider = createTokenProviderFromConnection(
-      parsedConnection.sharedAccessKey,
-      parsedConnection.sharedAccessKeyName
-    );
-  }
-
-  /**
-   * Deletes an installation from a Notification Hub.
-   * @param installationId - The installation ID of the installation to delete.
-   * @param options - Configuration options for the installation delete operation.
-   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
-   */
-  public deleteInstallation(
-    installationId: string,
-    options: OperationOptions = {}
-  ): Promise<NotificationHubResponse> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-deleteInstallation",
-      options,
-      async (updatedOptions) => {
-        const endpoint = this.getBaseURL();
-        endpoint.pathname += `/installations/${installationId}`;
-        const headers = this.createHeaders();
-
-        const request = this.createRequest(endpoint, "DELETE", headers, updatedOptions);
-
-        const response = await this.sendRequest(request);
-        if (response.status !== 204) {
-          // TODO: throw special error
-          throw new Error(`deleteInstallation failed with ${response.status}`);
-        }
-
-        return this.parseNotificationResponse(response);
-      }
-    );
-  }
-
-  /**
-   * Gets an Azure Notification Hub installation by the installation ID.
-   * @param installationId - The ID of the installation to get.
-   * @param options - Configuration options for the get installation operation.
-   * @returns The installation that matches the installation ID.
-   */
-  public getInstallation(
-    installationId: string,
-    options: OperationOptions = {}
-  ): Promise<Installation> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-getInstallation",
-      options,
-      async (updatedOptions) => {
-        const endpoint = this.getBaseURL();
-        endpoint.pathname += `/installations/${installationId}`;
-        const headers = this.createHeaders();
-        headers.set("Content-Type", "application/json");
-
-        const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
-
-        const response = await this.sendRequest(request);
-        if (response.status !== 200) {
-          // TODO: throw special errors
-          throw new Error(`getInstallation failed with ${response.status}`);
-        }
-
-        const installation = JSON.parse(response.bodyAsText!) as Installation;
-        return installation;
-      }
-    );
+    this._client = createClientContext(connectionString, hubName, options);
   }
 
   /**
@@ -130,68 +69,229 @@ export class NotificationHubsClient extends ServiceClient {
    * @param options - Configuration options for the create or update installation operation.
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
-  public createOrUpdateInstallation(
+  createOrUpdateInstallation(
     installation: Installation,
     options: OperationOptions = {}
-  ): Promise<NotificationHubResponse> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-createOrUpdateInstallation",
-      options,
-      async (updatedOptions) => {
-        const endpoint = this.getBaseURL();
-        endpoint.pathname += `/installations/${installation.installationId}`;
-        const headers = this.createHeaders();
-        headers.set("Content-Type", "application/json");
-
-        const request = this.createRequest(endpoint, "PUT", headers, updatedOptions);
-
-        request.body = JSON.stringify(installation);
-
-        const response = await this.sendRequest(request);
-        if (response.status !== 200) {
-          // TODO: throw special errors
-          throw new Error(`createOrUpdateInstallation failed with ${response.status}`);
-        }
-
-        return this.parseNotificationResponse(response);
-      }
-    );
+  ): Promise<NotificationHubsResponse> {
+    return createOrUpdateInstallationMethod(this._client, installation, options);
   }
 
   /**
-   * Patches an installation using the JSON-Patch standard in RFC6902.
+   * Deletes an installation from a Notification Hub.
+   * @param installationId - The installation ID of the installation to delete.
+   * @param options - Configuration options for the installation delete operation.
+   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
+   */
+  deleteInstallation(
+    installationId: string,
+    options: OperationOptions = {}
+  ): Promise<NotificationHubsResponse> {
+    return deleteInstallationMethod(this._client, installationId, options);
+  }
+
+  /**
+   * Gets an Azure Notification Hub installation by the installation ID.
+   * @param installationId - The ID of the installation to get.
+   * @param options - Configuration options for the get installation operation.
+   * @returns The installation that matches the installation ID.
+   */
+  getInstallation(installationId: string, options: OperationOptions = {}): Promise<Installation> {
+    return getInstallationMethod(this._client, installationId, options);
+  }
+
+  /**
+   * Updates an installation using the JSON-Patch standard in RFC6902.
    * @param installationId - The ID of the installation to update.
-   * @param installationPatches - An array of patches following the JSON-Patch standard.
+   * @param patches - An array of patches following the JSON-Patch standard.
    * @param options - Configuration options for the patch installation operation.
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
-  public patchInstallation(
+  updateInstallation(
     installationId: string,
-    installationPatches: InstallationPatch[],
+    patches: JsonPatch[],
     options: OperationOptions = {}
-  ): Promise<NotificationHubResponse> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-patchInstallation",
-      options,
-      async (updatedOptions) => {
-        const endpoint = this.getBaseURL();
-        endpoint.pathname += `/installations/${installationId}`;
-        const headers = this.createHeaders();
-        headers.set("Content-Type", "application/json");
+  ): Promise<NotificationHubsResponse> {
+    return updateInstallationMethod(this._client, installationId, patches, options);
+  }
 
-        const request = this.createRequest(endpoint, "PATCH", headers, updatedOptions);
+  /**
+   * Creates a new registration ID.
+   * @param options - The options for creating a new registration ID.
+   * @returns The newly created registration ID.
+   */
+  createRegistrationId(options: OperationOptions = {}): Promise<string> {
+    return createRegistrationIdMethod(this._client, options);
+  }
 
-        request.body = JSON.stringify(installationPatches);
+  /**
+   * Creates a new registration. This method generates a registration ID,
+   * which you can subsequently use to retrieve, update, and delete this registration.
+   * @param registration - The registration to create.
+   * @param options - Options for creating a new registration.
+   * @returns The newly created registration description.
+   */
+  createRegistration(
+    registration: RegistrationDescription,
+    options: OperationOptions = {}
+  ): Promise<RegistrationDescription> {
+    return createRegistrationMethod(this._client, registration, options);
+  }
 
-        const response = await this.sendRequest(request);
-        if (response.status !== 200) {
-          // TODO: throw special errors
-          throw new Error(`patchInstallation failed with ${response.status}`);
-        }
+  /**
+   * Creates or updates a registration.
+   * @param registration - The registration to create or update.
+   * @param options - The operation options.
+   * @returns The created or updated registration description.
+   */
+  createOrUpdateRegistration(
+    registration: RegistrationDescription,
+    options: OperationOptions = {}
+  ): Promise<RegistrationDescription> {
+    return createOrUpdateRegistrationMethod(this._client, registration, options);
+  }
 
-        return this.parseNotificationResponse(response);
-      }
-    );
+  /**
+   * Updates an existing registration.
+   * @param registration - The registration to update.
+   * @param options - The operation options.
+   * @returns The updated registration description.
+   */
+  updateRegistration(
+    registration: RegistrationDescription,
+    options: OperationOptions = {}
+  ): Promise<RegistrationDescription> {
+    return updateRegistrationMethod(this._client, registration, options);
+  }
+
+  /**
+   * Gets a registration by the given registration ID.
+   * @param registrationId - The ID of the registration to get.
+   * @param options - The options for getting a registration by ID.
+   * @returns A RegistrationDescription that has the given registration ID.
+   */
+  getRegistration(
+    registrationId: string,
+    options: OperationOptions = {}
+  ): Promise<RegistrationDescription> {
+    return getRegistrationMethod(this._client, registrationId, options);
+  }
+
+  /**
+   * Gets all registrations for the notification hub with the given query options.
+   * @param options - The options for querying the registrations such as $top and $filter.
+   * @returns A paged async iterable containing all of the registrations for the notification hub.
+   */
+  listRegistrations(
+    options: RegistrationQueryOptions = {}
+  ): PagedAsyncIterableIterator<RegistrationDescription> {
+    return listRegistrationsMethod(this._client, options);
+  }
+
+  /**
+   * Lists all registrations with the matching tag.
+   * @param tag - The tag to query for matching registrations.
+   * @param options - The query options such as $top.
+   * @returns A paged async iterable containing the matching registrations for the notification hub.
+   */
+  listRegistrationsByTag(
+    tag: string,
+    options: RegistrationQueryLimitOptions = {}
+  ): PagedAsyncIterableIterator<RegistrationDescription> {
+    return listRegistrationsByTagMethod(this._client, tag, options);
+  }
+
+  /**
+   * Sends a direct push notification to a device with the given push handle.
+   * @param pushHandle - The push handle which is the unique identifier for the device.
+   * @param notification - The notification to send to the device.
+   * @param options - The options for sending a direct notification.
+   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
+   */
+  sendDirectNotification(
+    pushHandle: PushHandle,
+    notification: Notification,
+    options: OperationOptions = {}
+  ): Promise<NotificationHubsMessageResponse> {
+    return sendDirectNotificationMethod(this._client, pushHandle, notification, options);
+  }
+
+  /**
+   * Sends push notifications to devices that match the given tags or tag expression.
+   * @param tags - The tags used to target the device for push notifications in either an array or tag expression.
+   * @param notification - The notification to send to the matching devices.
+   * @param options - Configuration options for the direct send operation which can contain custom headers
+   * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
+   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
+   */
+  sendNotification(
+    tags: string[] | string,
+    notification: Notification,
+    options: SendOperationOptions = {}
+  ): Promise<NotificationHubsMessageResponse> {
+    return sendNotificationMethod(this._client, tags, notification, options);
+  }
+
+  /**
+   * Sends push notifications to all devices on the Notification Hub.
+   * @param notification - The notification to send to all devices.
+   * @param options - Configuration options for the direct send operation which can contain custom headers
+   * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
+   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
+   */
+  sendBroadcastNotification(
+    notification: Notification,
+    options: SendOperationOptions = {}
+  ): Promise<NotificationHubsMessageResponse> {
+    return sendBroadcastNotificationMethod(this._client, notification, options);
+  }
+
+  /**
+   * Schedules a push notification to devices that match the given tags or tag expression at the specified time.
+   * NOTE: This is only available in Standard SKU Azure Notification Hubs.
+   * @param scheduledTime - The Date to send the push notification.
+   * @param tags - The tags used to target the device for push notifications in either an array or tag expression.
+   * @param notification - The notification to send to the matching devices.
+   * @param options - Configuration options for the direct send operation which can contain custom headers
+   * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
+   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
+   */
+  scheduleNotification(
+    scheduledTime: Date,
+    tags: string[] | string,
+    notification: Notification,
+    options: OperationOptions = {}
+  ): Promise<NotificationHubsMessageResponse> {
+    return scheduleNotificationMethod(this._client, scheduledTime, tags, notification, options);
+  }
+
+  /**
+   * Schedules a push notification to all devices registered on the Notification Hub.
+   * NOTE: This is only available in Standard SKU Azure Notification Hubs.
+   * @param scheduledTime - The Date to send the push notification.
+   * @param notification - The notification to send to the matching devices.
+   * @param options - Configuration options for the direct send operation which can contain custom headers
+   * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
+   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
+   */
+  scheduleBroadcastNotification(
+    scheduledTime: Date,
+    notification: Notification,
+    options: OperationOptions = {}
+  ): Promise<NotificationHubsMessageResponse> {
+    return scheduleBroadcastNotificationMethod(this._client, scheduledTime, notification, options);
+  }
+
+  /**
+   * Cancels the scheduled notification with the given notification ID.
+   * @param notificationId - The notification ID from the scheduled notification.
+   * @param options - The operation options.
+   * @returns A notification hub response with correlation ID and tracking ID.
+   */
+  cancelScheduledNotification(
+    notificationId: string,
+    options: OperationOptions = {}
+  ): Promise<NotificationHubsResponse> {
+    return cancelScheduledNotificationMethod(this._client, notificationId, options);
   }
 
   /**
@@ -200,220 +300,56 @@ export class NotificationHubsClient extends ServiceClient {
    * @param options - The options for getting the push notification feedback container URL.
    * @returns The URL of the Azure Storage Container containing the feedback data.
    */
-  public getFeedbackContainerURL(options: OperationOptions = {}): Promise<string> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-getFeedbackContainerURL",
-      options,
-      async (updatedOptions) => {
-        const endpoint = this.getBaseURL();
-        endpoint.pathname += "/feedbackcontainer";
-        const headers = this.createHeaders();
-        headers.set("Content-Type", "application/xml;type=entry;charset=utf-8");
-
-        const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
-        const response = await this.sendRequest(request);
-        if (response.status !== 200) {
-          // TODO: throw special errors
-          throw new Error(`getFeedbackContainerURL failed with ${response.status}`);
-        }
-
-        return response.bodyAsText!;
-      }
-    );
+  getFeedbackContainerUrl(options: OperationOptions = {}): Promise<string> {
+    return getFeedbackContainerUrlMethod(this._client, options);
   }
 
   /**
-   * Sends a direct push notification to a device with the given push handle.
-   * @param pushHandle - The push handle which is the unique identifier for the device.
-   * @param message - The message to send to the device.
-   * @param options - Configuration options for the direct send operation which can contain custom headers
-   * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
-   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
+   * Retrieves the results of a send operation. This can retrieve intermediate results if the send is being processed
+   * or final results if the Send* has completed. This API can only be called for Standard SKU and above.
+   * @param notificationId - The notification ID returned from the send operation.
+   * @param options - The operation options.
+   * @returns The results of the send operation.
    */
-  public sendDirectNotification(
-    pushHandle: PushHandle,
-    message: NotificationHubMessage,
-    options: SendOperationOptions = {}
-  ): Promise<NotificationHubResponse> {
-    return this.sendNotificationImpl(
-      message,
-      "sendDirectNotification",
-      pushHandle,
-      undefined,
-      undefined,
-      options
-    );
+  getNotificationOutcomeDetails(
+    notificationId: string,
+    options: OperationOptions = {}
+  ): Promise<NotificationDetails> {
+    return getNotificationOutcomeDetailsMethod(this._client, notificationId, options);
   }
 
   /**
-   * Sends push notifications to devices that match the given tags or tag expression.
-   * @param tags - The tags used to target the device for push notifications in either an array or tag expression.
-   * @param message - The message to send to the matching devices.
-   * @param options - Configuration options for the direct send operation which can contain custom headers
-   * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
-   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
+   * Gets a Notification Hub Job by the ID.
+   * @param jobId - The Notification Hub Job ID.
+   * @param options - The operation options.
+   * @returns The Notification Hub Job with the matching ID.
    */
-  public sendNotification(
-    tags: string[] | string,
-    message: NotificationHubMessage,
-    options: SendOperationOptions = {}
-  ): Promise<NotificationHubResponse> {
-    return this.sendNotificationImpl(
-      message,
-      "sendNotification",
-      undefined,
-      tags,
-      undefined,
-      options
-    );
+  getNotificationHubJob(
+    jobId: string,
+    options: OperationOptions = {}
+  ): Promise<NotificationHubJob> {
+    return getNotificationHubJobMethod(this._client, jobId, options);
   }
 
   /**
-   * Schedules a push notification to devices that match the given tags or tag expression at the specified time.
-   * NOTE: This is only available in Standard SKU Azure Notification Hubs.
-   * @param scheduledTime - The Date to send the push notification.
-   * @param tags - The tags used to target the device for push notifications in either an array or tag expression.
-   * @param message - The message to send to the matching devices.
-   * @param options - Configuration options for the direct send operation which can contain custom headers
-   * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
-   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
+   * Submits a Notification Hub Job.  Note this is available to Standard SKU namespace and above.
+   * @param job - The notification hub job to submit.
+   * @param options - The operation options.
+   * @returns The notification hub job details including job ID and status.
    */
-  public scheduleNotification(
-    scheduledTime: Date,
-    tags: string[] | string,
-    message: NotificationHubMessage,
-    options: SendOperationOptions = {}
-  ): Promise<NotificationHubResponse> {
-    return this.sendNotificationImpl(
-      message,
-      "scheduleNotification",
-      undefined,
-      tags,
-      scheduledTime,
-      options
-    );
+  submitNotificationHubJob(
+    job: NotificationHubJob,
+    options: OperationOptions = {}
+  ): Promise<NotificationHubJob> {
+    return submitNotificationHubJobMethod(this._client, job, options);
   }
 
-  private sendNotificationImpl(
-    message: NotificationHubMessage,
-    method: string,
-    pushHandle?: PushHandle,
-    tags?: string | string[],
-    scheduledTime?: Date,
-    options: SendOperationOptions = {}
-  ): Promise<NotificationHubResponse> {
-    return tracingClient.withSpan(
-      `NotificationHubsClient-${method}`,
-      options,
-      async (updatedOptions) => {
-        const endpoint = this.getBaseURL();
-
-        let subPath = null;
-        if (scheduledTime) {
-          subPath = "/schedulednotifications/";
-        } else {
-          subPath = "/messages/";
-        }
-        endpoint.pathname += subPath;
-
-        if (options.debug) {
-          endpoint.searchParams.append("debug", "true");
-        }
-
-        const headers = this.createHeaders();
-        if (message.headers) {
-          for (const headerName of Object.keys(message.headers)) {
-            headers.set(headerName, message.headers[headerName]);
-          }
-        }
-
-        if (pushHandle) {
-          // TODO: Validation?
-          if (message.platform === "browser") {
-            const browserHandle = pushHandle as BrowserPushChannel;
-            headers.set("ServiceBusNotification-DeviceHandle", browserHandle.endpoint);
-            headers.set("Auth", browserHandle.auth);
-            headers.set("P256DH", browserHandle.p256dh);
-          } else {
-            headers.set("ServiceBusNotification-DeviceHandle", pushHandle as string);
-          }
-        }
-
-        if (scheduledTime) {
-          headers.set("ServiceBusNotification-ScheduleTime", scheduledTime.toISOString());
-        }
-
-        headers.set("Content-Type", message.contentType);
-        headers.set("ServiceBusNotification-Format", message.platform);
-
-        if (tags) {
-          let tagExpression = null;
-          if (Array.isArray(tags)) {
-            tagExpression = tags.join("||");
-          } else {
-            tagExpression = tags;
-          }
-          headers.set("ServiceBusNotification-Tags", tagExpression);
-        }
-
-        const request = this.createRequest(endpoint, "POST", headers, updatedOptions);
-
-        request.body = message.body;
-
-        const response = await this.sendRequest(request);
-        if (response.status !== 201) {
-          // TODO: throw special errors
-          throw new Error(`${method} failed with ${response.status}`);
-        }
-
-        return this.parseNotificationResponse(response);
-      }
-    );
-  }
-
-  private createHeaders(): HttpHeaders {
-    const authorization = this._sasTokenProvider.getToken(this._baseUrl);
-    const headers = createHttpHeaders();
-    headers.set("Authorization", authorization.token);
-    headers.set("x-ms-version", API_VERSION);
-
-    return headers;
-  }
-
-  private createRequest(
-    endpoint: URL,
-    method: HttpMethods,
-    headers: HttpHeaders,
-    options: OperationOptions
-  ): PipelineRequest {
-    return createPipelineRequest({
-      ...options.tracingOptions,
-      ...options.requestOptions,
-      url: endpoint.toString(),
-      abortSignal: options.abortSignal,
-      method,
-      headers,
-    });
-  }
-
-  private parseNotificationResponse(response: PipelineResponse): NotificationHubResponse {
-    const correlationId = response.headers.get("x-ms-correlation-request-id");
-    const trackingId = response.headers.get("TrackingId");
-    const location = response.headers.get("Location");
-
-    return {
-      correlationId,
-      trackingId,
-      location,
-    };
-  }
-
-  private getBaseURL(): URL {
-    // Node doesn't allow change in protocol but browsers do, so doing a string replace
-    const url = new URL(this._baseUrl.replace("sb://", "https://"));
-    url.pathname = this._hubName;
-    url.searchParams.set("api-version", API_VERSION);
-
-    return url;
+  /**
+   * Gets all Notification Hub Jobs for this Notification Hub.
+   * @param options - The operation options.
+   * @returns An array of all Notification Hub Jobs for this Notification Hub.
+   */
+  listNotificationHubJobs(options: OperationOptions = {}): Promise<NotificationHubJob[]> {
+    return listNotificationHubJobsMethod(this._client, options);
   }
 }

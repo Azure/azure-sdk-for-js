@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Delete the specified NetApp account
  *
  * @summary Delete the specified NetApp account
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-01-01/examples/Accounts_Delete.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-03-01/examples/Accounts_Delete.json
  */
 async function accountsDelete() {
   const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";

@@ -1,6 +1,6 @@
 # Release History
 
-## 12.10.1 (Unreleased)
+## 12.11.1 (Unreleased)
 
 ### Features Added
 
@@ -8,7 +8,16 @@
 
 ### Bugs Fixed
 
+- Fixed a hang issue in ShareFileClient.downloadToBuffer when encountering transient network failure.
+- Refined URL parsing method to let it be able to correctly parse URLs with account name in path.
+
 ### Other Changes
+
+## 12.11.0 (2022-07-08)
+
+### Features Added
+
+- Added support for service version 2021-08-06.
 
 ## 12.10.0 (2022-05-12)
 

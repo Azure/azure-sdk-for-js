@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import {
   KeyVaultCertificateWithPolicy,
   CreateCertificateOptions,
@@ -126,16 +126,14 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
       "CreateCertificatePoller.getPlainCertificateOperation",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getCertificateOperation(
-          this.vaultUrl,
-          certificateName,
-          updatedOptions
-        );
-        return getCertificateOperationFromCoreOperation(
-          certificateName,
-          this.vaultUrl,
-          result._response.parsedBody
-        );
+        let parsedBody: any;
+        await this.client.getCertificateOperation(this.vaultUrl, certificateName, {
+          ...updatedOptions,
+          onResponse: (response) => {
+            parsedBody = response.parsedBody;
+          },
+        });
+        return getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, parsedBody);
       }
     );
   }
@@ -151,17 +149,14 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
       "CreateCertificatePoller.cancelCertificateOperation",
       options,
       async (updatedOptions) => {
-        const result = await this.client.updateCertificateOperation(
-          this.vaultUrl,
-          certificateName,
-          true,
-          updatedOptions
-        );
-        return getCertificateOperationFromCoreOperation(
-          certificateName,
-          this.vaultUrl,
-          result._response.parsedBody
-        );
+        let parsedBody: any;
+        await this.client.updateCertificateOperation(this.vaultUrl, certificateName, true, {
+          ...updatedOptions,
+          onResponse: (response) => {
+            parsedBody = response.parsedBody;
+          },
+        });
+        return getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, parsedBody);
       }
     );
   }

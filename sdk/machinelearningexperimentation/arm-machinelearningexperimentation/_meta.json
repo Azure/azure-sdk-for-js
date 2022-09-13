@@ -1,8 +1,8 @@
 {
-  "commit": "184b23b63ee3a79fb41ca3aa55a31a8d9e636772",
-  "readme": "specification\\machinelearningexperimentation\\resource-manager\\readme.md",
-  "autorest_command": "autorest --version=3.7.3 --typescript --modelerfour.lenient-model-deduplication --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\work\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\machinelearningexperimentation\\resource-manager\\readme.md --use=@autorest/typescript@6.0.0-alpha.19.20220408.1 --generate-sample=true",
+  "commit": "96e52e2b911d533f95a0ad8e324c828d556c5f2b",
+  "readme": "specification/machinelearningexperimentation/resource-manager/readme.md",
+  "autorest_command": "autorest --version=3.7.3 --typescript --modelerfour.lenient-model-deduplication --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\machinelearningexperimentation\\resource-manager\\readme.md --use=@autorest/typescript@6.0.0-beta.20 --generate-sample=true",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
-  "release_tool": "@azure-tools/js-sdk-release-tools@2.2.6",
-  "use": "@autorest/typescript@6.0.0-alpha.19.20220408.1"
+  "release_tool": "@azure-tools/js-sdk-release-tools@2.3.2",
+  "use": "@autorest/typescript@6.0.0-beta.20"
 }

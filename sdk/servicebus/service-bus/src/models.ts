@@ -32,6 +32,10 @@ export interface ProcessErrorArgs {
    * The fully qualified namespace for the Service Bus.
    */
   fullyQualifiedNamespace: string;
+  /**
+   * The identifier of the client that raised this event.
+   */
+  identifier: string;
 }
 
 /**
@@ -141,11 +145,18 @@ export interface ServiceBusReceiverOptions {
   subQueueType?: "deadLetter" | "transferDeadLetter";
 
   /**
-   * The maximum duration in milliseconds until which the lock on the message will be renewed
-   * by the sdk automatically. This auto renewal stops once the message is settled.
+   * The maximum duration, in milliseconds, that the lock on the message will be renewed automatically by the client.
+   * This auto renewal stops once the message is settled.
    *
    * - **Default**: `300 * 1000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
+   *
+   * **Example:**
+   *
+   *    If the message lock expires in 2 minutes and your message processing time is 8 minutes...
+   *
+   *    Set maxAutoLockRenewalDurationInMs to 10 minutes, and the message lock will be automatically renewed for 4 times
+   *    (equivalent to having the message locked for 4 times its lock duration by leveraging the lock renewals).
    */
   maxAutoLockRenewalDurationInMs?: number;
   /**
@@ -154,6 +165,22 @@ export interface ServiceBusReceiverOptions {
    * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
    */
   skipParsingBodyAsJson?: boolean;
+  /**
+   * Sets the name to identify the receiver. This can be used to correlate logs and exceptions.
+   * If not specified or empty, a random unique one will be used.
+   */
+  identifier?: string;
+}
+
+/**
+ * Options to use when creating a sender.
+ */
+export interface ServiceBusSenderOptions {
+  /**
+   * Sets the name to identify the sender. This can be used to correlate logs and exceptions.
+   * If not specified or empty, a random unique one will be used.
+   */
+  identifier?: string;
 }
 
 /**
@@ -245,10 +272,17 @@ export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
    */
   receiveMode?: "peekLock" | "receiveAndDelete";
   /**
-   * The maximum duration in milliseconds
-   * until which, the lock on the session will be renewed automatically by the sdk.
+   * The maximum duration, in milliseconds, that the lock on the session will be renewed automatically by the client.
+   *
    * - **Default**: `300000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
+   *
+   * **Example:**
+   *
+   *    If the lock expires in 2 minutes and your processing time is 8 minutes...
+   *
+   *    Set maxAutoLockRenewalDurationInMs to 10 minutes, and the lock will be automatically renewed about 4 times
+   *    (equivalent to having the session locked for 4 times its lock duration by leveraging the lock renewals).
    */
   maxAutoLockRenewalDurationInMs?: number;
   /**
@@ -257,6 +291,11 @@ export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
    * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
    */
   skipParsingBodyAsJson?: boolean;
+  /**
+   * Sets the name to identify the session receiver. This can be used to correlate logs and exceptions.
+   * If not specified or empty, a random unique one will be used.
+   */
+  identifier?: string;
 }
 
 /**

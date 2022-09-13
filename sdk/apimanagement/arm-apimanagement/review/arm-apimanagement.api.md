@@ -21,11 +21,11 @@ export interface AccessInformationCollection {
 }
 
 // @public
-export type AccessInformationContract = Resource & {
+export interface AccessInformationContract extends Resource {
+    enabled?: boolean;
     idPropertiesId?: string;
     principalId?: string;
-    enabled?: boolean;
-};
+}
 
 // @public
 export interface AccessInformationCreateParameters {
@@ -96,47 +96,47 @@ export interface ApiContactInformation {
 }
 
 // @public
-export type ApiContract = Resource & {
-    description?: string;
-    authenticationSettings?: AuthenticationSettingsContract;
-    subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract;
-    apiType?: ApiType;
+export interface ApiContract extends Resource {
     apiRevision?: string;
+    apiRevisionDescription?: string;
+    apiType?: ApiType;
     apiVersion?: string;
+    apiVersionDescription?: string;
+    apiVersionSet?: ApiVersionSetContractDetails;
+    apiVersionSetId?: string;
+    authenticationSettings?: AuthenticationSettingsContract;
+    contact?: ApiContactInformation;
+    description?: string;
+    displayName?: string;
     isCurrent?: boolean;
     readonly isOnline?: boolean;
-    apiRevisionDescription?: string;
-    apiVersionDescription?: string;
-    apiVersionSetId?: string;
+    license?: ApiLicenseInformation;
+    path?: string;
+    protocols?: Protocol[];
+    serviceUrl?: string;
+    sourceApiId?: string;
+    subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract;
     subscriptionRequired?: boolean;
     termsOfServiceUrl?: string;
-    contact?: ApiContactInformation;
-    license?: ApiLicenseInformation;
-    sourceApiId?: string;
-    displayName?: string;
-    serviceUrl?: string;
-    path?: string;
-    protocols?: Protocol[];
-    apiVersionSet?: ApiVersionSetContractDetails;
-};
+}
 
 // @public
-export type ApiContractProperties = ApiEntityBaseContract & {
-    sourceApiId?: string;
+export interface ApiContractProperties extends ApiEntityBaseContract {
+    apiVersionSet?: ApiVersionSetContractDetails;
     displayName?: string;
-    serviceUrl?: string;
     path: string;
     protocols?: Protocol[];
-    apiVersionSet?: ApiVersionSetContractDetails;
-};
+    serviceUrl?: string;
+    sourceApiId?: string;
+}
 
 // @public
-export type ApiContractUpdateProperties = ApiEntityBaseContract & {
+export interface ApiContractUpdateProperties extends ApiEntityBaseContract {
     displayName?: string;
-    serviceUrl?: string;
     path?: string;
     protocols?: Protocol[];
-};
+    serviceUrl?: string;
+}
 
 // @public
 export interface ApiCreateOrUpdateHeaders {
@@ -180,12 +180,12 @@ export interface ApiCreateOrUpdateParameter {
 }
 
 // @public
-export type ApiCreateOrUpdateProperties = ApiContractProperties & {
-    value?: string;
+export interface ApiCreateOrUpdateProperties extends ApiContractProperties {
     format?: ContentFormat;
-    wsdlSelector?: ApiCreateOrUpdatePropertiesWsdlSelector;
     soapApiType?: SoapApiType;
-};
+    value?: string;
+    wsdlSelector?: ApiCreateOrUpdatePropertiesWsdlSelector;
+}
 
 // @public
 export interface ApiCreateOrUpdatePropertiesWsdlSelector {
@@ -1014,50 +1014,50 @@ export interface ApiManagementServiceNameAvailabilityResult {
 }
 
 // @public
-export type ApiManagementServiceProperties = ApiManagementServiceBaseProperties & {
+export interface ApiManagementServiceProperties extends ApiManagementServiceBaseProperties {
     publisherEmail: string;
     publisherName: string;
-};
+}
 
 // @public
-export type ApiManagementServiceResource = ApimResource & {
-    sku: ApiManagementServiceSkuProperties;
-    identity?: ApiManagementServiceIdentity;
-    readonly systemData?: SystemData;
-    location: string;
-    readonly etag?: string;
-    zones?: string[];
-    notificationSenderEmail?: string;
-    readonly provisioningState?: string;
-    readonly targetProvisioningState?: string;
-    readonly createdAtUtc?: Date;
-    readonly gatewayUrl?: string;
-    readonly gatewayRegionalUrl?: string;
-    readonly portalUrl?: string;
-    readonly managementApiUrl?: string;
-    readonly scmUrl?: string;
-    readonly developerPortalUrl?: string;
-    hostnameConfigurations?: HostnameConfiguration[];
-    readonly publicIPAddresses?: string[];
-    readonly privateIPAddresses?: string[];
-    publicIpAddressId?: string;
-    publicNetworkAccess?: PublicNetworkAccess;
-    virtualNetworkConfiguration?: VirtualNetworkConfiguration;
+export interface ApiManagementServiceResource extends ApimResource {
     additionalLocations?: AdditionalLocation[];
+    apiVersionConstraint?: ApiVersionConstraint;
+    certificates?: CertificateConfiguration[];
+    readonly createdAtUtc?: Date;
     customProperties?: {
         [propertyName: string]: string;
     };
-    certificates?: CertificateConfiguration[];
-    enableClientCertificate?: boolean;
+    readonly developerPortalUrl?: string;
     disableGateway?: boolean;
-    virtualNetworkType?: VirtualNetworkType;
-    apiVersionConstraint?: ApiVersionConstraint;
-    restore?: boolean;
-    privateEndpointConnections?: RemotePrivateEndpointConnectionWrapper[];
+    enableClientCertificate?: boolean;
+    readonly etag?: string;
+    readonly gatewayRegionalUrl?: string;
+    readonly gatewayUrl?: string;
+    hostnameConfigurations?: HostnameConfiguration[];
+    identity?: ApiManagementServiceIdentity;
+    location: string;
+    readonly managementApiUrl?: string;
+    notificationSenderEmail?: string;
     readonly platformVersion?: PlatformVersion;
+    readonly portalUrl?: string;
+    privateEndpointConnections?: RemotePrivateEndpointConnectionWrapper[];
+    readonly privateIPAddresses?: string[];
+    readonly provisioningState?: string;
+    readonly publicIPAddresses?: string[];
+    publicIpAddressId?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
     publisherEmail: string;
     publisherName: string;
-};
+    restore?: boolean;
+    readonly scmUrl?: string;
+    sku: ApiManagementServiceSkuProperties;
+    readonly systemData?: SystemData;
+    readonly targetProvisioningState?: string;
+    virtualNetworkConfiguration?: VirtualNetworkConfiguration;
+    virtualNetworkType?: VirtualNetworkType;
+    zones?: string[];
+}
 
 // @public
 export interface ApiManagementServiceRestoreOptionalParams extends coreClient.OperationOptions {
@@ -1100,48 +1100,48 @@ export interface ApiManagementServiceUpdateOptionalParams extends coreClient.Ope
 }
 
 // @public
-export type ApiManagementServiceUpdateParameters = ApimResource & {
-    sku?: ApiManagementServiceSkuProperties;
-    identity?: ApiManagementServiceIdentity;
-    readonly etag?: string;
-    zones?: string[];
-    notificationSenderEmail?: string;
-    readonly provisioningState?: string;
-    readonly targetProvisioningState?: string;
-    readonly createdAtUtc?: Date;
-    readonly gatewayUrl?: string;
-    readonly gatewayRegionalUrl?: string;
-    readonly portalUrl?: string;
-    readonly managementApiUrl?: string;
-    readonly scmUrl?: string;
-    readonly developerPortalUrl?: string;
-    hostnameConfigurations?: HostnameConfiguration[];
-    readonly publicIPAddresses?: string[];
-    readonly privateIPAddresses?: string[];
-    publicIpAddressId?: string;
-    publicNetworkAccess?: PublicNetworkAccess;
-    virtualNetworkConfiguration?: VirtualNetworkConfiguration;
+export interface ApiManagementServiceUpdateParameters extends ApimResource {
     additionalLocations?: AdditionalLocation[];
+    apiVersionConstraint?: ApiVersionConstraint;
+    certificates?: CertificateConfiguration[];
+    readonly createdAtUtc?: Date;
     customProperties?: {
         [propertyName: string]: string;
     };
-    certificates?: CertificateConfiguration[];
-    enableClientCertificate?: boolean;
+    readonly developerPortalUrl?: string;
     disableGateway?: boolean;
-    virtualNetworkType?: VirtualNetworkType;
-    apiVersionConstraint?: ApiVersionConstraint;
-    restore?: boolean;
-    privateEndpointConnections?: RemotePrivateEndpointConnectionWrapper[];
+    enableClientCertificate?: boolean;
+    readonly etag?: string;
+    readonly gatewayRegionalUrl?: string;
+    readonly gatewayUrl?: string;
+    hostnameConfigurations?: HostnameConfiguration[];
+    identity?: ApiManagementServiceIdentity;
+    readonly managementApiUrl?: string;
+    notificationSenderEmail?: string;
     readonly platformVersion?: PlatformVersion;
+    readonly portalUrl?: string;
+    privateEndpointConnections?: RemotePrivateEndpointConnectionWrapper[];
+    readonly privateIPAddresses?: string[];
+    readonly provisioningState?: string;
+    readonly publicIPAddresses?: string[];
+    publicIpAddressId?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
     publisherEmail?: string;
     publisherName?: string;
-};
+    restore?: boolean;
+    readonly scmUrl?: string;
+    sku?: ApiManagementServiceSkuProperties;
+    readonly targetProvisioningState?: string;
+    virtualNetworkConfiguration?: VirtualNetworkConfiguration;
+    virtualNetworkType?: VirtualNetworkType;
+    zones?: string[];
+}
 
 // @public
-export type ApiManagementServiceUpdateProperties = ApiManagementServiceBaseProperties & {
+export interface ApiManagementServiceUpdateProperties extends ApiManagementServiceBaseProperties {
     publisherEmail?: string;
     publisherName?: string;
-};
+}
 
 // @public
 export type ApiManagementServiceUpdateResponse = ApiManagementServiceResource;
@@ -1502,12 +1502,12 @@ export interface ApiReleaseCollection {
 }
 
 // @public
-export type ApiReleaseContract = Resource & {
+export interface ApiReleaseContract extends Resource {
     apiId?: string;
     readonly createdDateTime?: Date;
-    readonly updatedDateTime?: Date;
     notes?: string;
-};
+    readonly updatedDateTime?: Date;
+}
 
 // @public
 export interface ApiReleaseCreateOrUpdateHeaders {
@@ -1779,13 +1779,13 @@ export interface ApiTagDescriptionListByServiceOptionalParams extends coreClient
 export type ApiTagDescriptionListByServiceResponse = TagDescriptionCollection;
 
 // @public
-export type ApiTagResourceContractProperties = ApiEntityBaseContract & {
+export interface ApiTagResourceContractProperties extends ApiEntityBaseContract {
     id?: string;
     name?: string;
-    serviceUrl?: string;
     path?: string;
     protocols?: Protocol[];
-};
+    serviceUrl?: string;
+}
 
 // @public
 export type ApiType = string;
@@ -1848,13 +1848,13 @@ export interface ApiVersionSetCollection {
 }
 
 // @public
-export type ApiVersionSetContract = Resource & {
+export interface ApiVersionSetContract extends Resource {
     description?: string;
-    versionQueryName?: string;
-    versionHeaderName?: string;
     displayName?: string;
+    versionHeaderName?: string;
     versioningScheme?: VersioningScheme;
-};
+    versionQueryName?: string;
+}
 
 // @public
 export interface ApiVersionSetContractDetails {
@@ -1870,10 +1870,10 @@ export interface ApiVersionSetContractDetails {
 export type ApiVersionSetContractDetailsVersioningScheme = string;
 
 // @public
-export type ApiVersionSetContractProperties = ApiVersionSetEntityBase & {
+export interface ApiVersionSetContractProperties extends ApiVersionSetEntityBase {
     displayName: string;
     versioningScheme: VersioningScheme;
-};
+}
 
 // @public
 export interface ApiVersionSetCreateOrUpdateHeaders {
@@ -1962,10 +1962,10 @@ export interface ApiVersionSetUpdateParameters {
 }
 
 // @public
-export type ApiVersionSetUpdateParametersProperties = ApiVersionSetEntityBase & {
+export interface ApiVersionSetUpdateParametersProperties extends ApiVersionSetEntityBase {
     displayName?: string;
     versioningScheme?: VersioningScheme;
-};
+}
 
 // @public
 export type ApiVersionSetUpdateResponse = ApiVersionSetUpdateHeaders & ApiVersionSetContract;
@@ -1979,9 +1979,9 @@ export interface ArmIdWrapper {
 }
 
 // @public
-export type AssociationContract = Resource & {
+export interface AssociationContract extends Resource {
     provisioningState?: "created";
-};
+}
 
 // @public
 export type AsyncOperationStatus = "Started" | "InProgress" | "Succeeded" | "Failed";
@@ -2014,24 +2014,24 @@ export interface AuthorizationServerCollection {
 }
 
 // @public
-export type AuthorizationServerContract = Resource & {
-    description?: string;
+export interface AuthorizationServerContract extends Resource {
+    authorizationEndpoint?: string;
     authorizationMethods?: AuthorizationMethod[];
+    bearerTokenSendingMethods?: BearerTokenSendingMethod[];
     clientAuthenticationMethod?: ClientAuthenticationMethod[];
+    clientId?: string;
+    clientRegistrationEndpoint?: string;
+    clientSecret?: string;
+    defaultScope?: string;
+    description?: string;
+    displayName?: string;
+    grantTypes?: GrantType[];
+    resourceOwnerPassword?: string;
+    resourceOwnerUsername?: string;
+    supportState?: boolean;
     tokenBodyParameters?: TokenBodyParameterContract[];
     tokenEndpoint?: string;
-    supportState?: boolean;
-    defaultScope?: string;
-    bearerTokenSendingMethods?: BearerTokenSendingMethod[];
-    resourceOwnerUsername?: string;
-    resourceOwnerPassword?: string;
-    displayName?: string;
-    clientRegistrationEndpoint?: string;
-    authorizationEndpoint?: string;
-    grantTypes?: GrantType[];
-    clientId?: string;
-    clientSecret?: string;
-};
+}
 
 // @public
 export interface AuthorizationServerContractBaseProperties {
@@ -2048,14 +2048,14 @@ export interface AuthorizationServerContractBaseProperties {
 }
 
 // @public
-export type AuthorizationServerContractProperties = AuthorizationServerContractBaseProperties & {
-    displayName: string;
-    clientRegistrationEndpoint: string;
+export interface AuthorizationServerContractProperties extends AuthorizationServerContractBaseProperties {
     authorizationEndpoint: string;
-    grantTypes: GrantType[];
     clientId: string;
+    clientRegistrationEndpoint: string;
     clientSecret?: string;
-};
+    displayName: string;
+    grantTypes: GrantType[];
+}
 
 // @public
 export interface AuthorizationServerCreateOrUpdateHeaders {
@@ -2138,34 +2138,34 @@ export interface AuthorizationServerSecretsContract {
 }
 
 // @public
-export type AuthorizationServerUpdateContract = Resource & {
-    description?: string;
+export interface AuthorizationServerUpdateContract extends Resource {
+    authorizationEndpoint?: string;
     authorizationMethods?: AuthorizationMethod[];
+    bearerTokenSendingMethods?: BearerTokenSendingMethod[];
     clientAuthenticationMethod?: ClientAuthenticationMethod[];
+    clientId?: string;
+    clientRegistrationEndpoint?: string;
+    clientSecret?: string;
+    defaultScope?: string;
+    description?: string;
+    displayName?: string;
+    grantTypes?: GrantType[];
+    resourceOwnerPassword?: string;
+    resourceOwnerUsername?: string;
+    supportState?: boolean;
     tokenBodyParameters?: TokenBodyParameterContract[];
     tokenEndpoint?: string;
-    supportState?: boolean;
-    defaultScope?: string;
-    bearerTokenSendingMethods?: BearerTokenSendingMethod[];
-    resourceOwnerUsername?: string;
-    resourceOwnerPassword?: string;
-    displayName?: string;
-    clientRegistrationEndpoint?: string;
-    authorizationEndpoint?: string;
-    grantTypes?: GrantType[];
-    clientId?: string;
-    clientSecret?: string;
-};
+}
 
 // @public
-export type AuthorizationServerUpdateContractProperties = AuthorizationServerContractBaseProperties & {
-    displayName?: string;
-    clientRegistrationEndpoint?: string;
+export interface AuthorizationServerUpdateContractProperties extends AuthorizationServerContractBaseProperties {
     authorizationEndpoint?: string;
-    grantTypes?: GrantType[];
     clientId?: string;
+    clientRegistrationEndpoint?: string;
     clientSecret?: string;
-};
+    displayName?: string;
+    grantTypes?: GrantType[];
+}
 
 // @public
 export interface AuthorizationServerUpdateHeaders {
@@ -2215,23 +2215,23 @@ export interface BackendCollection {
 }
 
 // @public
-export type BackendContract = Resource & {
-    title?: string;
-    description?: string;
-    resourceId?: string;
-    properties?: BackendProperties;
+export interface BackendContract extends Resource {
     credentials?: BackendCredentialsContract;
+    description?: string;
+    properties?: BackendProperties;
+    protocol?: BackendProtocol;
     proxy?: BackendProxyContract;
+    resourceId?: string;
+    title?: string;
     tls?: BackendTlsProperties;
     url?: string;
-    protocol?: BackendProtocol;
-};
+}
 
 // @public
-export type BackendContractProperties = BackendBaseParameters & {
-    url: string;
+export interface BackendContractProperties extends BackendBaseParameters {
     protocol: BackendProtocol;
-};
+    url: string;
+}
 
 // @public
 export interface BackendCreateOrUpdateHeaders {
@@ -2323,9 +2323,9 @@ export interface BackendProxyContract {
 }
 
 // @public
-export type BackendReconnectContract = Resource & {
+export interface BackendReconnectContract extends Resource {
     after?: string;
-};
+}
 
 // @public
 export interface BackendReconnectOptionalParams extends coreClient.OperationOptions {
@@ -2358,10 +2358,10 @@ export interface BackendUpdateOptionalParams extends coreClient.OperationOptions
 }
 
 // @public
-export type BackendUpdateParameterProperties = BackendBaseParameters & {
-    url?: string;
+export interface BackendUpdateParameterProperties extends BackendBaseParameters {
     protocol?: BackendProtocol;
-};
+    url?: string;
+}
 
 // @public
 export interface BackendUpdateParameters {
@@ -2409,12 +2409,12 @@ export interface CacheCollection {
 }
 
 // @public
-export type CacheContract = Resource & {
-    description?: string;
+export interface CacheContract extends Resource {
     connectionString?: string;
-    useFromLocation?: string;
+    description?: string;
     resourceId?: string;
-};
+    useFromLocation?: string;
+}
 
 // @public
 export interface CacheCreateOrUpdateHeaders {
@@ -2524,12 +2524,12 @@ export interface CertificateConfiguration {
 export type CertificateConfigurationStoreName = string;
 
 // @public
-export type CertificateContract = Resource & {
-    subject?: string;
-    thumbprint?: string;
+export interface CertificateContract extends Resource {
     expirationDate?: Date;
     keyVault?: KeyVaultContractProperties;
-};
+    subject?: string;
+    thumbprint?: string;
+}
 
 // @public
 export interface CertificateCreateOrUpdateHeaders {
@@ -2743,11 +2743,11 @@ export interface ContentItemCollection {
 }
 
 // @public
-export type ContentItemContract = Resource & {
+export interface ContentItemContract extends Resource {
     properties?: {
         [propertyName: string]: any;
     };
-};
+}
 
 // @public
 export interface ContentItemCreateOrUpdateHeaders {
@@ -2819,13 +2819,13 @@ export interface ContentTypeCollection {
 }
 
 // @public
-export type ContentTypeContract = Resource & {
+export interface ContentTypeContract extends Resource {
+    description?: string;
     idPropertiesId?: string;
     namePropertiesName?: string;
-    description?: string;
     schema?: Record<string, unknown>;
     version?: string;
-};
+}
 
 // @public
 export interface ContentTypeCreateOrUpdateHeaders {
@@ -2941,12 +2941,12 @@ export interface DelegationSettingsUpdateOptionalParams extends coreClient.Opera
 }
 
 // @public
-export type DeletedServiceContract = Resource & {
-    readonly location?: string;
-    serviceId?: string;
-    scheduledPurgeDate?: Date;
+export interface DeletedServiceContract extends Resource {
     deletionDate?: Date;
-};
+    readonly location?: string;
+    scheduledPurgeDate?: Date;
+    serviceId?: string;
+}
 
 // @public
 export interface DeletedServices {
@@ -3013,17 +3013,17 @@ export interface DiagnosticCollection {
 }
 
 // @public
-export type DiagnosticContract = Resource & {
+export interface DiagnosticContract extends Resource {
     alwaysLog?: AlwaysLog;
-    loggerId?: string;
-    sampling?: SamplingSettings;
-    frontend?: PipelineDiagnosticSettings;
     backend?: PipelineDiagnosticSettings;
-    logClientIp?: boolean;
+    frontend?: PipelineDiagnosticSettings;
     httpCorrelationProtocol?: HttpCorrelationProtocol;
-    verbosity?: Verbosity;
+    logClientIp?: boolean;
+    loggerId?: string;
     operationNameFormat?: OperationNameFormat;
-};
+    sampling?: SamplingSettings;
+    verbosity?: Verbosity;
+}
 
 // @public
 export interface DiagnosticCreateOrUpdateHeaders {
@@ -3116,14 +3116,14 @@ export interface EmailTemplateCollection {
 }
 
 // @public
-export type EmailTemplateContract = Resource & {
-    subject?: string;
+export interface EmailTemplateContract extends Resource {
     body?: string;
-    title?: string;
     description?: string;
     readonly isDefault?: boolean;
     parameters?: EmailTemplateParametersContractProperties[];
-};
+    subject?: string;
+    title?: string;
+}
 
 // @public
 export interface EmailTemplateCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -3332,9 +3332,9 @@ export interface GatewayCertificateAuthorityCollection {
 }
 
 // @public
-export type GatewayCertificateAuthorityContract = Resource & {
+export interface GatewayCertificateAuthorityContract extends Resource {
     isTrusted?: boolean;
-};
+}
 
 // @public
 export interface GatewayCertificateAuthorityCreateOrUpdateHeaders {
@@ -3405,10 +3405,10 @@ export interface GatewayCollection {
 }
 
 // @public
-export type GatewayContract = Resource & {
-    locationData?: ResourceLocationDataContract;
+export interface GatewayContract extends Resource {
     description?: string;
-};
+    locationData?: ResourceLocationDataContract;
+}
 
 // @public
 export interface GatewayCreateOrUpdateHeaders {
@@ -3474,14 +3474,14 @@ export interface GatewayHostnameConfigurationCollection {
 }
 
 // @public
-export type GatewayHostnameConfigurationContract = Resource & {
-    hostname?: string;
+export interface GatewayHostnameConfigurationContract extends Resource {
     certificateId?: string;
+    hostname?: string;
+    http2Enabled?: boolean;
     negotiateClientCertificate?: boolean;
     tls10Enabled?: boolean;
     tls11Enabled?: boolean;
-    http2Enabled?: boolean;
-};
+}
 
 // @public
 export interface GatewayHostnameConfigurationCreateOrUpdateHeaders {
@@ -3640,13 +3640,13 @@ export interface GroupCollection {
 }
 
 // @public
-export type GroupContract = Resource & {
-    displayName?: string;
-    description?: string;
+export interface GroupContract extends Resource {
     readonly builtIn?: boolean;
-    typePropertiesType?: GroupType;
+    description?: string;
+    displayName?: string;
     externalId?: string;
-};
+    typePropertiesType?: GroupType;
+}
 
 // @public
 export interface GroupContractProperties {
@@ -3855,44 +3855,44 @@ export interface IdentityProviderBaseParameters {
 }
 
 // @public
-export type IdentityProviderContract = Resource & {
-    typePropertiesType?: IdentityProviderType;
-    signinTenant?: string;
+export interface IdentityProviderContract extends Resource {
     allowedTenants?: string[];
     authority?: string;
-    signupPolicyName?: string;
-    signinPolicyName?: string;
-    profileEditingPolicyName?: string;
-    passwordResetPolicyName?: string;
     clientId?: string;
     clientSecret?: string;
-};
+    passwordResetPolicyName?: string;
+    profileEditingPolicyName?: string;
+    signinPolicyName?: string;
+    signinTenant?: string;
+    signupPolicyName?: string;
+    typePropertiesType?: IdentityProviderType;
+}
 
 // @public
-export type IdentityProviderContractProperties = IdentityProviderBaseParameters & {
+export interface IdentityProviderContractProperties extends IdentityProviderBaseParameters {
     clientId: string;
     clientSecret?: string;
-};
+}
 
 // @public
-export type IdentityProviderCreateContract = Resource & {
-    typePropertiesType?: IdentityProviderType;
-    signinTenant?: string;
+export interface IdentityProviderCreateContract extends Resource {
     allowedTenants?: string[];
     authority?: string;
-    signupPolicyName?: string;
-    signinPolicyName?: string;
-    profileEditingPolicyName?: string;
-    passwordResetPolicyName?: string;
     clientId?: string;
     clientSecret?: string;
-};
+    passwordResetPolicyName?: string;
+    profileEditingPolicyName?: string;
+    signinPolicyName?: string;
+    signinTenant?: string;
+    signupPolicyName?: string;
+    typePropertiesType?: IdentityProviderType;
+}
 
 // @public
-export type IdentityProviderCreateContractProperties = IdentityProviderBaseParameters & {
+export interface IdentityProviderCreateContractProperties extends IdentityProviderBaseParameters {
     clientId: string;
     clientSecret: string;
-};
+}
 
 // @public
 export interface IdentityProviderCreateOrUpdateHeaders {
@@ -3995,10 +3995,10 @@ export interface IdentityProviderUpdateParameters {
 }
 
 // @public
-export type IdentityProviderUpdateProperties = IdentityProviderBaseParameters & {
+export interface IdentityProviderUpdateProperties extends IdentityProviderBaseParameters {
     clientId?: string;
     clientSecret?: string;
-};
+}
 
 // @public
 export type IdentityProviderUpdateResponse = IdentityProviderUpdateHeaders & IdentityProviderContract;
@@ -4017,11 +4017,11 @@ export interface IssueAttachmentCollection {
 }
 
 // @public
-export type IssueAttachmentContract = Resource & {
-    title?: string;
-    contentFormat?: string;
+export interface IssueAttachmentContract extends Resource {
     content?: string;
-};
+    contentFormat?: string;
+    title?: string;
+}
 
 // @public
 export interface IssueCollection {
@@ -4038,21 +4038,21 @@ export interface IssueCommentCollection {
 }
 
 // @public
-export type IssueCommentContract = Resource & {
-    text?: string;
+export interface IssueCommentContract extends Resource {
     createdDate?: Date;
+    text?: string;
     userId?: string;
-};
+}
 
 // @public
-export type IssueContract = Resource & {
-    createdDate?: Date;
-    state?: State;
+export interface IssueContract extends Resource {
     apiId?: string;
-    title?: string;
+    createdDate?: Date;
     description?: string;
+    state?: State;
+    title?: string;
     userId?: string;
-};
+}
 
 // @public
 export interface IssueContractBaseProperties {
@@ -4062,11 +4062,11 @@ export interface IssueContractBaseProperties {
 }
 
 // @public
-export type IssueContractProperties = IssueContractBaseProperties & {
-    title: string;
+export interface IssueContractProperties extends IssueContractBaseProperties {
     description: string;
+    title: string;
     userId: string;
-};
+}
 
 // @public
 export interface IssueGetHeaders {
@@ -4114,11 +4114,11 @@ export interface IssueUpdateContract {
 }
 
 // @public
-export type IssueUpdateContractProperties = IssueContractBaseProperties & {
-    title?: string;
+export interface IssueUpdateContractProperties extends IssueContractBaseProperties {
     description?: string;
+    title?: string;
     userId?: string;
-};
+}
 
 // @public
 type KeyType_2 = "primary" | "secondary";
@@ -4131,9 +4131,9 @@ export interface KeyVaultContractCreateProperties {
 }
 
 // @public
-export type KeyVaultContractProperties = KeyVaultContractCreateProperties & {
+export interface KeyVaultContractProperties extends KeyVaultContractCreateProperties {
     lastStatus?: KeyVaultLastAccessStatusContractProperties;
-};
+}
 
 // @public
 export interface KeyVaultLastAccessStatusContractProperties {
@@ -4144,9 +4144,7 @@ export interface KeyVaultLastAccessStatusContractProperties {
 
 // @public
 export enum KnownAccessIdName {
-    // (undocumented)
     Access = "access",
-    // (undocumented)
     GitAccess = "gitAccess"
 }
 
@@ -4164,35 +4162,24 @@ export enum KnownAlwaysLog {
 
 // @public
 export enum KnownApimIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownApiType {
-    // (undocumented)
     Graphql = "graphql",
-    // (undocumented)
     Http = "http",
-    // (undocumented)
     Soap = "soap",
-    // (undocumented)
     Websocket = "websocket"
 }
 
 // @public
 export enum KnownApiVersionSetContractDetailsVersioningScheme {
-    // (undocumented)
     Header = "Header",
-    // (undocumented)
     Query = "Query",
-    // (undocumented)
     Segment = "Segment"
 }
 
@@ -4210,9 +4197,7 @@ export enum KnownBackendProtocol {
 
 // @public
 export enum KnownBearerTokenSendingMethod {
-    // (undocumented)
     AuthorizationHeader = "authorizationHeader",
-    // (undocumented)
     Query = "query"
 }
 
@@ -4224,31 +4209,22 @@ export enum KnownBearerTokenSendingMethods {
 
 // @public
 export enum KnownCertificateConfigurationStoreName {
-    // (undocumented)
     CertificateAuthority = "CertificateAuthority",
-    // (undocumented)
     Root = "Root"
 }
 
 // @public
 export enum KnownCertificateSource {
-    // (undocumented)
     BuiltIn = "BuiltIn",
-    // (undocumented)
     Custom = "Custom",
-    // (undocumented)
     KeyVault = "KeyVault",
-    // (undocumented)
     Managed = "Managed"
 }
 
 // @public
 export enum KnownCertificateStatus {
-    // (undocumented)
     Completed = "Completed",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress"
 }
 
@@ -4260,7 +4236,6 @@ export enum KnownClientAuthenticationMethod {
 
 // @public
 export enum KnownConfigurationIdName {
-    // (undocumented)
     Configuration = "configuration"
 }
 
@@ -4272,33 +4247,23 @@ export enum KnownConfirmation {
 
 // @public
 export enum KnownConnectionStatus {
-    // (undocumented)
     Connected = "Connected",
-    // (undocumented)
     Degraded = "Degraded",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownConnectivityCheckProtocol {
-    // (undocumented)
     Http = "HTTP",
-    // (undocumented)
     Https = "HTTPS",
-    // (undocumented)
     TCP = "TCP"
 }
 
 // @public
 export enum KnownConnectivityStatusType {
-    // (undocumented)
     Failure = "failure",
-    // (undocumented)
     Initializing = "initializing",
-    // (undocumented)
     Success = "success"
 }
 
@@ -4319,13 +4284,9 @@ export enum KnownContentFormat {
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
@@ -4337,7 +4298,6 @@ export enum KnownDataMaskingMode {
 
 // @public
 export enum KnownExportApi {
-    // (undocumented)
     True = "true"
 }
 
@@ -4368,15 +4328,10 @@ export enum KnownGrantType {
 
 // @public
 export enum KnownHostnameType {
-    // (undocumented)
     DeveloperPortal = "DeveloperPortal",
-    // (undocumented)
     Management = "Management",
-    // (undocumented)
     Portal = "Portal",
-    // (undocumented)
     Proxy = "Proxy",
-    // (undocumented)
     Scm = "Scm"
 }
 
@@ -4399,23 +4354,14 @@ export enum KnownIdentityProviderType {
 
 // @public
 export enum KnownIssueType {
-    // (undocumented)
     AgentStopped = "AgentStopped",
-    // (undocumented)
     DnsResolution = "DnsResolution",
-    // (undocumented)
     GuestFirewall = "GuestFirewall",
-    // (undocumented)
     NetworkSecurityRule = "NetworkSecurityRule",
-    // (undocumented)
     Platform = "Platform",
-    // (undocumented)
     PortThrottled = "PortThrottled",
-    // (undocumented)
     SocketBind = "SocketBind",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     UserDefinedRoute = "UserDefinedRoute"
 }
 
@@ -4428,9 +4374,7 @@ export enum KnownLoggerType {
 
 // @public
 export enum KnownMethod {
-    // (undocumented)
     GET = "GET",
-    // (undocumented)
     Post = "POST"
 }
 
@@ -4453,11 +4397,8 @@ export enum KnownOperationNameFormat {
 
 // @public
 export enum KnownOrigin {
-    // (undocumented)
     Inbound = "Inbound",
-    // (undocumented)
     Local = "Local",
-    // (undocumented)
     Outbound = "Outbound"
 }
 
@@ -4485,7 +4426,6 @@ export enum KnownPolicyExportFormat {
 
 // @public
 export enum KnownPolicyIdName {
-    // (undocumented)
     Policy = "policy"
 }
 
@@ -4499,49 +4439,35 @@ export enum KnownPortalRevisionStatus {
 
 // @public
 export enum KnownPreferredIPVersion {
-    // (undocumented)
     IPv4 = "IPv4"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownProtocol {
-    // (undocumented)
     Http = "http",
-    // (undocumented)
     Https = "https",
-    // (undocumented)
     Ws = "ws",
-    // (undocumented)
     Wss = "wss"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
@@ -4559,15 +4485,12 @@ export enum KnownSamplingType {
 
 // @public
 export enum KnownSettingsTypeName {
-    // (undocumented)
     Public = "public"
 }
 
 // @public
 export enum KnownSeverity {
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     Warning = "Warning"
 }
 
@@ -4600,33 +4523,19 @@ export enum KnownState {
 
 // @public
 export enum KnownTemplateName {
-    // (undocumented)
     AccountClosedDeveloper = "accountClosedDeveloper",
-    // (undocumented)
     ApplicationApprovedNotificationMessage = "applicationApprovedNotificationMessage",
-    // (undocumented)
     ConfirmSignUpIdentityDefault = "confirmSignUpIdentityDefault",
-    // (undocumented)
     EmailChangeIdentityDefault = "emailChangeIdentityDefault",
-    // (undocumented)
     InviteUserNotificationMessage = "inviteUserNotificationMessage",
-    // (undocumented)
     NewCommentNotificationMessage = "newCommentNotificationMessage",
-    // (undocumented)
     NewDeveloperNotificationMessage = "newDeveloperNotificationMessage",
-    // (undocumented)
     NewIssueNotificationMessage = "newIssueNotificationMessage",
-    // (undocumented)
     PasswordResetByAdminNotificationMessage = "passwordResetByAdminNotificationMessage",
-    // (undocumented)
     PasswordResetIdentityDefault = "passwordResetIdentityDefault",
-    // (undocumented)
     PurchaseDeveloperNotificationMessage = "purchaseDeveloperNotificationMessage",
-    // (undocumented)
     QuotaLimitApproachingDeveloperNotificationMessage = "quotaLimitApproachingDeveloperNotificationMessage",
-    // (undocumented)
     RejectDeveloperNotificationMessage = "rejectDeveloperNotificationMessage",
-    // (undocumented)
     RequestDeveloperNotificationMessage = "requestDeveloperNotificationMessage"
 }
 
@@ -4677,15 +4586,15 @@ export interface LoggerCollection {
 }
 
 // @public
-export type LoggerContract = Resource & {
-    loggerType?: LoggerType;
-    description?: string;
+export interface LoggerContract extends Resource {
     credentials?: {
         [propertyName: string]: string;
     };
+    description?: string;
     isBuffered?: boolean;
+    loggerType?: LoggerType;
     resourceId?: string;
-};
+}
 
 // @public
 export interface LoggerCreateOrUpdateHeaders {
@@ -4802,36 +4711,36 @@ export interface NamedValueCollection {
 }
 
 // @public
-export type NamedValueContract = Resource & {
-    tags?: string[];
-    secret?: boolean;
+export interface NamedValueContract extends Resource {
     displayName?: string;
-    value?: string;
     keyVault?: KeyVaultContractProperties;
-};
-
-// @public
-export type NamedValueContractProperties = NamedValueEntityBaseParameters & {
-    displayName: string;
-    value?: string;
-    keyVault?: KeyVaultContractProperties;
-};
-
-// @public
-export type NamedValueCreateContract = Resource & {
-    tags?: string[];
     secret?: boolean;
-    displayName?: string;
+    tags?: string[];
     value?: string;
-    keyVault?: KeyVaultContractCreateProperties;
-};
+}
 
 // @public
-export type NamedValueCreateContractProperties = NamedValueEntityBaseParameters & {
+export interface NamedValueContractProperties extends NamedValueEntityBaseParameters {
     displayName: string;
+    keyVault?: KeyVaultContractProperties;
     value?: string;
+}
+
+// @public
+export interface NamedValueCreateContract extends Resource {
+    displayName?: string;
     keyVault?: KeyVaultContractCreateProperties;
-};
+    secret?: boolean;
+    tags?: string[];
+    value?: string;
+}
+
+// @public
+export interface NamedValueCreateContractProperties extends NamedValueEntityBaseParameters {
+    displayName: string;
+    keyVault?: KeyVaultContractCreateProperties;
+    value?: string;
+}
 
 // @public
 export interface NamedValueCreateOrUpdateHeaders {
@@ -4947,11 +4856,11 @@ export interface NamedValueUpdateOptionalParams extends coreClient.OperationOpti
 }
 
 // @public
-export type NamedValueUpdateParameterProperties = NamedValueEntityBaseParameters & {
+export interface NamedValueUpdateParameterProperties extends NamedValueEntityBaseParameters {
     displayName?: string;
-    value?: string;
     keyVault?: KeyVaultContractCreateProperties;
-};
+    value?: string;
+}
 
 // @public
 export interface NamedValueUpdateParameters {
@@ -5013,11 +4922,11 @@ export interface NotificationCollection {
 }
 
 // @public
-export type NotificationContract = Resource & {
-    title?: string;
+export interface NotificationContract extends Resource {
     description?: string;
     recipients?: RecipientsContractProperties;
-};
+    title?: string;
+}
 
 // @public
 export interface NotificationCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -5156,13 +5065,13 @@ export interface OpenIdConnectProviderCollection {
 }
 
 // @public
-export type OpenidConnectProviderContract = Resource & {
-    displayName?: string;
-    description?: string;
-    metadataEndpoint?: string;
+export interface OpenidConnectProviderContract extends Resource {
     clientId?: string;
     clientSecret?: string;
-};
+    description?: string;
+    displayName?: string;
+    metadataEndpoint?: string;
+}
 
 // @public
 export interface OpenIdConnectProviderCreateOrUpdateHeaders {
@@ -5274,23 +5183,23 @@ export interface OperationCollection {
 }
 
 // @public
-export type OperationContract = Resource & {
-    templateParameters?: ParameterContract[];
+export interface OperationContract extends Resource {
     description?: string;
-    request?: RequestContract;
-    responses?: ResponseContract[];
-    policies?: string;
     displayName?: string;
     method?: string;
+    policies?: string;
+    request?: RequestContract;
+    responses?: ResponseContract[];
+    templateParameters?: ParameterContract[];
     urlTemplate?: string;
-};
+}
 
 // @public
-export type OperationContractProperties = OperationEntityBaseContract & {
+export interface OperationContractProperties extends OperationEntityBaseContract {
     displayName: string;
     method: string;
     urlTemplate: string;
-};
+}
 
 // @public
 export interface OperationDisplay {
@@ -5346,15 +5255,15 @@ export interface OperationOperations {
 }
 
 // @public
-export type OperationResultContract = Resource & {
-    idPropertiesId?: string;
-    status?: AsyncOperationStatus;
-    started?: Date;
-    updated?: Date;
-    resultInfo?: string;
-    error?: ErrorResponseBody;
+export interface OperationResultContract extends Resource {
     readonly actionLog?: OperationResultLogItemContract[];
-};
+    error?: ErrorResponseBody;
+    idPropertiesId?: string;
+    resultInfo?: string;
+    started?: Date;
+    status?: AsyncOperationStatus;
+    updated?: Date;
+}
 
 // @public
 export interface OperationResultLogItemContract {
@@ -5388,11 +5297,11 @@ export interface OperationUpdateContract {
 }
 
 // @public
-export type OperationUpdateContractProperties = OperationEntityBaseContract & {
+export interface OperationUpdateContractProperties extends OperationEntityBaseContract {
     displayName?: string;
     method?: string;
     urlTemplate?: string;
-};
+}
 
 // @public
 export type Origin = string;
@@ -5482,10 +5391,10 @@ export interface PolicyCollection {
 export type PolicyContentFormat = string;
 
 // @public
-export type PolicyContract = Resource & {
-    value?: string;
+export interface PolicyContract extends Resource {
     format?: PolicyContentFormat;
-};
+    value?: string;
+}
 
 // @public
 export interface PolicyCreateOrUpdateHeaders {
@@ -5516,10 +5425,10 @@ export interface PolicyDescriptionCollection {
 }
 
 // @public
-export type PolicyDescriptionContract = Resource & {
+export interface PolicyDescriptionContract extends Resource {
     readonly description?: string;
     readonly scope?: number;
-};
+}
 
 // @public
 export interface PolicyDescriptionListByServiceOptionalParams extends coreClient.OperationOptions {
@@ -5571,12 +5480,12 @@ export type PolicyListByServiceResponse = PolicyCollection;
 export type PolicyScopeContract = "Tenant" | "Product" | "Api" | "Operation" | "All";
 
 // @public
-export type PortalDelegationSettings = Resource & {
-    url?: string;
-    validationKey?: string;
+export interface PortalDelegationSettings extends Resource {
     subscriptions?: SubscriptionsDelegationSettingsProperties;
+    url?: string;
     userRegistration?: RegistrationDelegationSettingsProperties;
-};
+    validationKey?: string;
+}
 
 // @public
 export interface PortalRevision {
@@ -5596,14 +5505,14 @@ export interface PortalRevisionCollection {
 }
 
 // @public
-export type PortalRevisionContract = Resource & {
-    description?: string;
-    readonly statusDetails?: string;
-    readonly status?: PortalRevisionStatus;
-    isCurrent?: boolean;
+export interface PortalRevisionContract extends Resource {
     readonly createdDateTime?: Date;
+    description?: string;
+    isCurrent?: boolean;
+    readonly status?: PortalRevisionStatus;
+    readonly statusDetails?: string;
     readonly updatedDateTime?: Date;
-};
+}
 
 // @public
 export interface PortalRevisionCreateOrUpdateHeaders {
@@ -5692,14 +5601,14 @@ export interface PortalSettingsCollection {
 }
 
 // @public
-export type PortalSettingsContract = Resource & {
-    url?: string;
-    validationKey?: string;
-    subscriptions?: SubscriptionsDelegationSettingsProperties;
-    userRegistration?: RegistrationDelegationSettingsProperties;
+export interface PortalSettingsContract extends Resource {
     enabled?: boolean;
+    subscriptions?: SubscriptionsDelegationSettingsProperties;
     termsOfService?: TermsOfServiceProperties;
-};
+    url?: string;
+    userRegistration?: RegistrationDelegationSettingsProperties;
+    validationKey?: string;
+}
 
 // @public
 export interface PortalSettingsListByServiceOptionalParams extends coreClient.OperationOptions {
@@ -5714,15 +5623,15 @@ export interface PortalSettingValidationKeyContract {
 }
 
 // @public
-export type PortalSigninSettings = Resource & {
+export interface PortalSigninSettings extends Resource {
     enabled?: boolean;
-};
+}
 
 // @public
-export type PortalSignupSettings = Resource & {
+export interface PortalSignupSettings extends Resource {
     enabled?: boolean;
     termsOfService?: TermsOfServiceProperties;
-};
+}
 
 // @public
 export type PreferredIPVersion = string;
@@ -5733,11 +5642,11 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -5817,11 +5726,11 @@ export interface PrivateEndpointConnectionRequestProperties {
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
-};
+}
 
 // @public
 export interface PrivateLinkResourceListResult {
@@ -5902,20 +5811,20 @@ export interface ProductCollection {
 }
 
 // @public
-export type ProductContract = Resource & {
-    description?: string;
-    terms?: string;
-    subscriptionRequired?: boolean;
+export interface ProductContract extends Resource {
     approvalRequired?: boolean;
-    subscriptionsLimit?: number;
-    state?: ProductState;
+    description?: string;
     displayName?: string;
-};
+    state?: ProductState;
+    subscriptionRequired?: boolean;
+    subscriptionsLimit?: number;
+    terms?: string;
+}
 
 // @public
-export type ProductContractProperties = ProductEntityBaseParameters & {
+export interface ProductContractProperties extends ProductEntityBaseParameters {
     displayName: string;
-};
+}
 
 // @public
 export interface ProductCreateOrUpdateHeaders {
@@ -6150,10 +6059,10 @@ export interface ProductSubscriptionsListOptionalParams extends coreClient.Opera
 export type ProductSubscriptionsListResponse = SubscriptionCollection;
 
 // @public
-export type ProductTagResourceContractProperties = ProductEntityBaseParameters & {
+export interface ProductTagResourceContractProperties extends ProductEntityBaseParameters {
     id?: string;
     name: string;
-};
+}
 
 // @public
 export interface ProductUpdateHeaders {
@@ -6176,9 +6085,9 @@ export interface ProductUpdateParameters {
 }
 
 // @public
-export type ProductUpdateProperties = ProductEntityBaseParameters & {
+export interface ProductUpdateProperties extends ProductEntityBaseParameters {
     displayName?: string;
-};
+}
 
 // @public
 export type ProductUpdateResponse = ProductUpdateHeaders & ProductContract;
@@ -6271,9 +6180,9 @@ export interface RecipientEmailCollection {
 }
 
 // @public
-export type RecipientEmailContract = Resource & {
+export interface RecipientEmailContract extends Resource {
     email?: string;
-};
+}
 
 // @public
 export interface RecipientsContractProperties {
@@ -6289,9 +6198,9 @@ export interface RecipientUserCollection {
 }
 
 // @public
-export type RecipientUserContract = Resource & {
+export interface RecipientUserContract extends Resource {
     userId?: string;
-};
+}
 
 // @public
 export interface Region {
@@ -6660,12 +6569,12 @@ export interface SchemaCollection {
 }
 
 // @public
-export type SchemaContract = Resource & {
-    contentType?: string;
-    value?: string;
-    definitions?: Record<string, unknown>;
+export interface SchemaContract extends Resource {
     components?: Record<string, unknown>;
-};
+    contentType?: string;
+    definitions?: Record<string, unknown>;
+    value?: string;
+}
 
 // @public
 export type SettingsTypeName = string;
@@ -6791,21 +6700,21 @@ export interface SubscriptionCollection {
 }
 
 // @public
-export type SubscriptionContract = Resource & {
-    ownerId?: string;
-    scope?: string;
-    displayName?: string;
-    state?: SubscriptionState;
-    readonly createdDate?: Date;
-    startDate?: Date;
-    expirationDate?: Date;
-    endDate?: Date;
-    notificationDate?: Date;
-    primaryKey?: string;
-    secondaryKey?: string;
-    stateComment?: string;
+export interface SubscriptionContract extends Resource {
     allowTracing?: boolean;
-};
+    readonly createdDate?: Date;
+    displayName?: string;
+    endDate?: Date;
+    expirationDate?: Date;
+    notificationDate?: Date;
+    ownerId?: string;
+    primaryKey?: string;
+    scope?: string;
+    secondaryKey?: string;
+    startDate?: Date;
+    state?: SubscriptionState;
+    stateComment?: string;
+}
 
 // @public
 export interface SubscriptionCreateOrUpdateHeaders {
@@ -7017,9 +6926,9 @@ export interface TagCollection {
 }
 
 // @public
-export type TagContract = Resource & {
+export interface TagContract extends Resource {
     displayName?: string;
-};
+}
 
 // @public
 export interface TagCreateOrUpdateHeaders {
@@ -7058,19 +6967,19 @@ export interface TagDescriptionCollection {
 }
 
 // @public
-export type TagDescriptionContract = Resource & {
+export interface TagDescriptionContract extends Resource {
     description?: string;
-    externalDocsUrl?: string;
-    externalDocsDescription?: string;
-    tagId?: string;
     displayName?: string;
-};
+    externalDocsDescription?: string;
+    externalDocsUrl?: string;
+    tagId?: string;
+}
 
 // @public
-export type TagDescriptionContractProperties = TagDescriptionBaseProperties & {
-    tagId?: string;
+export interface TagDescriptionContractProperties extends TagDescriptionBaseProperties {
     displayName?: string;
-};
+    tagId?: string;
+}
 
 // @public
 export interface TagDescriptionCreateParameters {
@@ -7477,16 +7386,16 @@ export interface TenantConfigurationSaveOptionalParams extends coreClient.Operat
 export type TenantConfigurationSaveResponse = OperationResultContract;
 
 // @public
-export type TenantConfigurationSyncStateContract = Resource & {
+export interface TenantConfigurationSyncStateContract extends Resource {
     branch?: string;
     commitId?: string;
-    isExport?: boolean;
-    isSynced?: boolean;
-    isGitEnabled?: boolean;
-    syncDate?: Date;
     configurationChangeDate?: Date;
+    isExport?: boolean;
+    isGitEnabled?: boolean;
+    isSynced?: boolean;
     lastOperationId?: string;
-};
+    syncDate?: Date;
+}
 
 // @public
 export interface TenantConfigurationValidateOptionalParams extends coreClient.OperationOptions {
@@ -7510,11 +7419,11 @@ export interface TenantSettingsCollection {
 }
 
 // @public
-export type TenantSettingsContract = Resource & {
+export interface TenantSettingsContract extends Resource {
     settings?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
 export interface TenantSettingsGetHeaders {
@@ -7587,25 +7496,25 @@ export interface UserConfirmationPasswordSendOptionalParams extends coreClient.O
 }
 
 // @public
-export type UserContract = Resource & {
-    state?: UserState;
-    note?: string;
-    identities?: UserIdentityContract[];
-    firstName?: string;
-    lastName?: string;
+export interface UserContract extends Resource {
     email?: string;
-    registrationDate?: Date;
+    firstName?: string;
     readonly groups?: GroupContractProperties[];
-};
+    identities?: UserIdentityContract[];
+    lastName?: string;
+    note?: string;
+    registrationDate?: Date;
+    state?: UserState;
+}
 
 // @public
-export type UserContractProperties = UserEntityBaseParameters & {
-    firstName?: string;
-    lastName?: string;
+export interface UserContractProperties extends UserEntityBaseParameters {
     email?: string;
-    registrationDate?: Date;
+    firstName?: string;
     readonly groups?: GroupContractProperties[];
-};
+    lastName?: string;
+    registrationDate?: Date;
+}
 
 // @public
 export interface UserCreateOrUpdateHeaders {
@@ -7622,14 +7531,14 @@ export interface UserCreateOrUpdateOptionalParams extends coreClient.OperationOp
 export type UserCreateOrUpdateResponse = UserCreateOrUpdateHeaders & UserContract;
 
 // @public
-export type UserCreateParameterProperties = UserEntityBaseParameters & {
+export interface UserCreateParameterProperties extends UserEntityBaseParameters {
+    appType?: AppType;
+    confirmation?: Confirmation;
     email: string;
     firstName: string;
     lastName: string;
     password?: string;
-    appType?: AppType;
-    confirmation?: Confirmation;
-};
+}
 
 // @public
 export interface UserCreateParameters {
@@ -7854,12 +7763,12 @@ export interface UserUpdateParameters {
 }
 
 // @public
-export type UserUpdateParametersProperties = UserEntityBaseParameters & {
+export interface UserUpdateParametersProperties extends UserEntityBaseParameters {
     email?: string;
-    password?: string;
     firstName?: string;
     lastName?: string;
-};
+    password?: string;
+}
 
 // @public
 export type UserUpdateResponse = UserUpdateHeaders & UserContract;

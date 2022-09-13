@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnection,
-  ParentType,
+  PrivateEndpointConnectionsParentType,
   PrivateEndpointConnectionsListByResourceOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsGetResponse,
@@ -33,7 +33,7 @@ export interface PrivateEndpointConnections {
    */
   listByResource(
     resourceGroupName: string,
-    parentType: ParentType,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     options?: PrivateEndpointConnectionsListByResourceOptionalParams
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
@@ -49,7 +49,7 @@ export interface PrivateEndpointConnections {
    */
   get(
     resourceGroupName: string,
-    parentType: ParentType,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsGetOptionalParams
@@ -67,7 +67,7 @@ export interface PrivateEndpointConnections {
    */
   beginUpdate(
     resourceGroupName: string,
-    parentType: ParentType,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
@@ -91,7 +91,7 @@ export interface PrivateEndpointConnections {
    */
   beginUpdateAndWait(
     resourceGroupName: string,
-    parentType: ParentType,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
@@ -109,7 +109,7 @@ export interface PrivateEndpointConnections {
    */
   beginDelete(
     resourceGroupName: string,
-    parentType: ParentType,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
@@ -126,7 +126,7 @@ export interface PrivateEndpointConnections {
    */
   beginDeleteAndWait(
     resourceGroupName: string,
-    parentType: ParentType,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams

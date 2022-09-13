@@ -1,5 +1,5 @@
 const path = require("path");
-const { readFile, writeFile } = require("eng-package-utils");
+const { readFile, writeFile } = require("@azure-tools/eng-package-utils");
 var spawnSync = require("child_process").spawnSync,
   child;
 

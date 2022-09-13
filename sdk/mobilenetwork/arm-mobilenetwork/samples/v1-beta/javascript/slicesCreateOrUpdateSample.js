@@ -12,12 +12,12 @@ const { MobileNetworkManagementClient } = require("@azure/arm-mobilenetwork");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Creates or updates a mobile network slice.
+ * This sample demonstrates how to Creates or updates a network slice.
  *
- * @summary Creates or updates a mobile network slice.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-03-01-preview/examples/SliceCreate.json
+ * @summary Creates or updates a network slice.
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-04-01-preview/examples/SliceCreate.json
  */
-async function createMobileNetworkSlice() {
+async function createNetworkSlice() {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const mobileNetworkName = "testMobileNetwork";
@@ -38,4 +38,4 @@ async function createMobileNetworkSlice() {
   console.log(result);
 }
 
-createMobileNetworkSlice().catch(console.error);
+createNetworkSlice().catch(console.error);

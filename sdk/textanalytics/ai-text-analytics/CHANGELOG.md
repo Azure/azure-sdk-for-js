@@ -1,52 +1,17 @@
 # Release History
 
-## 6.0.0-beta.1 (2022-05-19)
+## 5.1.1 (Unreleased)
 
-This new major version beta introduces a full redesign of the Azure Text Analytics client library, supports the new Azure Cognitive Language Service API  (version "2022-04-01-preview" and newer) and drops support for the Text Analytics service API. Application code must be updated to use the new client, please see the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/textanalytics/ai-text-analytics/MIGRATION_v5_v6.md) for detailed instructions.
+### Features Added
 
 ### Breaking Changes
 
-- This version targets Azure Cognitive Language Service API version `2022-04-01-preview` and newer. It _is not_ compatible with the Text Analytics service API. To continue to use the Text Analytics API version 3.1, please use major version 5 of the client library (`@azure/ai-text-analytics@^5.1.0`).
-- `TextAnalyticsClient` has been replaced by `TextAnalysisClient`.
-  - The new `beginAnalyzeBatch` method replaces the previous `beginAnalyzeActions` and `beginAnalyzeHealthcareEntities` methods. The specification of actions and their results has changed to be a flat list instead of being an object where actions of the same kind are grouped into their own properties.
-  - The new `analyze` method replaces the text analysis methods of the previous client. It provides a single method that can analyze documents using an action name. It replaces `analyzeSentiment`, `extractKeyPhrases`, `recognizeEntities`, `recognizePiiEntities`, `recognizeLinkedEntities`, and `detectLanguage`. The new method produces an `AnalyzeResult` that gets specialized to the type of results corresponding to the input action.
-  - Previously, types were named such that they follow the naming convention of actions as verb phrases, e.g. `RecognizeEntitiesResult`. Actions are now renamed as nouns and so their corresponding types, so `RecognizeEntitiesResult` is now named `EntityRecognitionResult`. Please consult the migration guide for a full list of all renames.
-  - In many output types, properties are now marked as read-only.
-  - `SingleCategoryClassifyActionSuccessResult` is renamed to `CustomSingleLabelClassificationSuccessResult` and the `classification` property has been renamed to `classifications` and is now an array.
-  - `statistics` and `modelVersion` has been removed from result arrays, e.g. `RecognizeEntitiesResultArray` has been replaced by `EntityRecognitionResult[]`.
-
-### New Features
-
-- Added support for healthcare analysis in the batching method (now `beginAnalyzeBatch`).
-- Added support for FHIR (a standard for health care data exchange) representation of healthcare documents in the healthcare analysis action. To use it, pass `4.0.1` to the `fhirVersion` parameter.
-- Added `restoreAnalyzeBatchPoller` to restore a poller for a batch analysis operation from a serialized poller state.
-- `byPage` method on `PagedAnalyzeBatchResult` now supports passing a `continuationToken` to a particular page of results and start fetching paging from that position.
-
-## 5.2.0-beta.2 (2021-11-02)
-
-### Features Added
-
-- We are now targeting the service's v3.2-preview.2 API as the default instead of v3.2-preview.1.
-- Adding support for a three new actions in `beginAnalyzeActions`: `recognizeCustomEntities`, `singleCategoryClassify`, and `multiCategoryClassify`. The new actions allow you to use custom models to perform entity recognition and classification actions.
+### Bugs Fixed
 
 ### Other Changes
 
-- `beginAnalyzeActions` supports actions to be named and the name is now accessible in each action result.
-- `beginAnalyzeActions` supports multiple actions of the same type so you can pass a list of any particular action type, e.g.
-
-    ```typescript
-    await client.beginAnalyzeActions(docs, { recognizePiiEntitiesActions: [
-      { modelVersion: "latest", actionName: "action1" },
-      { modelVersion: "2021-01-15", actionName: "action2" }] 
-    });
-    ```
-
-## 5.2.0-beta.1 (2021-08-09)
-
-### Features Added
-
-- We are now targeting the service's v3.2-preview.1 API as the default instead of v3.1.
-- `beginAnalyzeActions` now supports extract summary actions.
+- Depends on the latest stable version of the @azure/core-tracing library.
+- Duplicate action are no longer eagerly checked by the client before sending a batch request.
 
 ## 5.1.0 (2021-07-07)
 
@@ -55,8 +20,6 @@ This new major version beta introduces a full redesign of the Azure Text Analyti
 - We are now targeting the service's v3.1 API as the default instead of v3.1-preview.5.
 - `beginAnalyzeHealthcareEntities` now works with Azure Active Directory credentials.
 - `categoriesFilter` support was added to `RecognizePiiEntitiesAction`.
-- Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
-- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
 
 ### Breaking Changes
 

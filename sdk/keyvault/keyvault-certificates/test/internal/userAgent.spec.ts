@@ -2,30 +2,25 @@
 // Licensed under the MIT license.
 
 import { CertificateClient } from "../../src";
-import { ClientSecretCredential } from "@azure/identity";
 import { Context } from "mocha";
 import { SDK_VERSION } from "../../src/constants";
+import { TokenCredential } from "@azure/core-auth";
 import { assert } from "@azure/test-utils";
-import { env } from "@azure-tools/test-recorder";
 import fs from "fs";
-import { isNode } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 import path from "path";
 
 describe("Certificates client's user agent (only in Node, because of fs)", () => {
   it("SDK_VERSION and user-agent should match", async function () {
     let userAgent: string | undefined;
-    const client = new CertificateClient(
-      "https://myvault.vault.azure.net",
-      new ClientSecretCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, env.AZURE_CLIENT_SECRET),
-      {
-        httpClient: {
-          sendRequest: async (request) => {
-            userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
-            throw new Error("only a test");
-          },
+    const client = new CertificateClient("https://myvault.vault.azure.net", {} as TokenCredential, {
+      httpClient: {
+        sendRequest: async (request) => {
+          userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
+          throw new Error("only a test");
         },
-      }
-    );
+      },
+    });
 
     try {
       await client.getCertificate("foo");

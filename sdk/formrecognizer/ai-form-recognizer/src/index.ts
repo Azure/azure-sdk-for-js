@@ -16,7 +16,7 @@ export {
   AddressValue,
   CopyAuthorization,
   CurrencyValue,
-  DocTypeInfo,
+  DocumentTypeDetails,
   DocumentBuildMode,
   DocumentFieldSchema,
   DocumentFieldType,
@@ -26,17 +26,24 @@ export {
   DocumentStyle,
   DocumentTableCellKind,
   LengthUnit,
-  ModelInfo,
-  ModelSummary,
-  OperationInfo,
+  DocumentModelDetails,
+  DocumentModelSummary,
+  OperationSummary,
   OperationKind,
   OperationStatus,
-  GetInfoResponse,
-  CustomDocumentModelsInfo,
+  ResourceDetails,
+  CustomDocumentModelsDetails,
   AnalyzeResultOperationStatus,
   SelectionMarkState,
   ParagraphRole,
-  DocumentPageKind,
+  GetOperationResponse,
+  OperationDetails,
+  ErrorModel,
+  InnerError,
+  OperationDetailsUnion,
+  DocumentModelBuildOperationDetails,
+  DocumentModelComposeOperationDetails,
+  DocumentModelCopyToOperationDetails,
 } from "./generated";
 export {
   AnalysisPoller,
@@ -45,10 +52,9 @@ export {
   DocumentAnalysisPollOperationState,
   AnalyzedDocument,
   FormRecognizerRequestBody,
-} from "./lro/analyze";
-export { TrainingPoller, TrainingPollOperationState } from "./lro/training";
+} from "./lro/analysis";
+export { DocumentModelPoller, DocumentModelOperationState } from "./lro/administration";
 export * from "./models";
 export * from "./options";
-export * from "./prebuilt";
-export { EnglishCapitalLetter, Acronymic } from "./util";
+export * from "./documentModel";
 export { Point2D } from "./transforms/polygon";

@@ -12,12 +12,12 @@ const { MobileNetworkManagementClient } = require("@azure/arm-mobilenetwork");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Deletes the specified mobile network dataNetwork.
+ * This sample demonstrates how to Deletes the specified data network.
  *
- * @summary Deletes the specified mobile network dataNetwork.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-03-01-preview/examples/DataNetworkDelete.json
+ * @summary Deletes the specified data network.
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-04-01-preview/examples/DataNetworkDelete.json
  */
-async function deleteMobileNetworkDataNetwork() {
+async function deleteDataNetwork() {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const mobileNetworkName = "testMobileNetwork";
@@ -32,4 +32,4 @@ async function deleteMobileNetworkDataNetwork() {
   console.log(result);
 }
 
-deleteMobileNetworkDataNetwork().catch(console.error);
+deleteDataNetwork().catch(console.error);

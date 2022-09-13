@@ -13,7 +13,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
 import {
-  EnvironmentVersionData,
+  EnvironmentVersion,
   EnvironmentVersionsListNextOptionalParams,
   EnvironmentVersionsListOptionalParams,
   EnvironmentVersionsListResponse,
@@ -50,7 +50,7 @@ export class EnvironmentVersionsImpl implements EnvironmentVersions {
     workspaceName: string,
     name: string,
     options?: EnvironmentVersionsListOptionalParams
-  ): PagedAsyncIterableIterator<EnvironmentVersionData> {
+  ): PagedAsyncIterableIterator<EnvironmentVersion> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceName,
@@ -80,7 +80,7 @@ export class EnvironmentVersionsImpl implements EnvironmentVersions {
     workspaceName: string,
     name: string,
     options?: EnvironmentVersionsListOptionalParams
-  ): AsyncIterableIterator<EnvironmentVersionData[]> {
+  ): AsyncIterableIterator<EnvironmentVersion[]> {
     let result = await this._list(
       resourceGroupName,
       workspaceName,
@@ -107,7 +107,7 @@ export class EnvironmentVersionsImpl implements EnvironmentVersions {
     workspaceName: string,
     name: string,
     options?: EnvironmentVersionsListOptionalParams
-  ): AsyncIterableIterator<EnvironmentVersionData> {
+  ): AsyncIterableIterator<EnvironmentVersion> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
@@ -193,7 +193,7 @@ export class EnvironmentVersionsImpl implements EnvironmentVersions {
     workspaceName: string,
     name: string,
     version: string,
-    body: EnvironmentVersionData,
+    body: EnvironmentVersion,
     options?: EnvironmentVersionsCreateOrUpdateOptionalParams
   ): Promise<EnvironmentVersionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -284,7 +284,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EnvironmentVersionData
+      bodyMapper: Mappers.EnvironmentVersion
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -308,10 +308,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.EnvironmentVersionData
+      bodyMapper: Mappers.EnvironmentVersion
     },
     201: {
-      bodyMapper: Mappers.EnvironmentVersionData
+      bodyMapper: Mappers.EnvironmentVersion
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

@@ -959,6 +959,12 @@ export const CapacityPoolPatch: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      coolAccess: {
+        serializedName: "properties.coolAccess",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -1418,6 +1424,22 @@ export const VolumePatch: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      coolAccess: {
+        serializedName: "properties.coolAccess",
+        type: {
+          name: "Boolean"
+        }
+      },
+      coolnessPeriod: {
+        constraints: {
+          InclusiveMaximum: 63,
+          InclusiveMinimum: 7
+        },
+        serializedName: "properties.coolnessPeriod",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -1491,6 +1513,21 @@ export const BreakReplicationRequest: coreClient.CompositeMapper = {
         serializedName: "forceBreakReplication",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ReestablishReplicationRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ReestablishReplicationRequest",
+    modelProperties: {
+      sourceVolumeId: {
+        serializedName: "sourceVolumeId",
+        type: {
+          name: "String"
         }
       }
     }
@@ -3049,6 +3086,12 @@ export const VolumeGroupVolumeProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      keyVaultPrivateEndpointResourceId: {
+        serializedName: "properties.keyVaultPrivateEndpointResourceId",
+        type: {
+          name: "String"
+        }
+      },
       ldapEnabled: {
         defaultValue: false,
         serializedName: "properties.ldapEnabled",
@@ -4126,6 +4169,12 @@ export const Volume: coreClient.CompositeMapper = {
       encryptionKeySource: {
         defaultValue: "Microsoft.NetApp",
         serializedName: "properties.encryptionKeySource",
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultPrivateEndpointResourceId: {
+        serializedName: "properties.keyVaultPrivateEndpointResourceId",
         type: {
           name: "String"
         }

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists the autoscale settings for a resource group
  *
  * @summary Lists the autoscale settings for a resource group
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2015-04-01/examples/listAutoscaleSetting.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/examples/listAutoscaleSetting.json
  */
 async function listAutoscaleSettings() {
   const subscriptionId = "b67f7fec-69fc-4974-9099-a26bd6ffeda3";

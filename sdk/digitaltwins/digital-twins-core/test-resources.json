@@ -29,7 +29,7 @@
     }
   },
   "variables": {
-    "location": "[resourceGroup().location]",
+    "location": "westus2",
     "azureDigitalTwins": "[parameters('baseName')]"
   },
   "resources": [

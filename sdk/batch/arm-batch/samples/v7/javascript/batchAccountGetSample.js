@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets information about the specified Batch account.
  *
  * @summary Gets information about the specified Batch account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/BatchAccountGet.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/BatchAccountGet.json
  */
 async function batchAccountGet() {
   const subscriptionId = "subid";
@@ -33,7 +33,7 @@ batchAccountGet().catch(console.error);
  * This sample demonstrates how to Gets information about the specified Batch account.
  *
  * @summary Gets information about the specified Batch account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/PrivateBatchAccountGet.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PrivateBatchAccountGet.json
  */
 async function privateBatchAccountGet() {
   const subscriptionId = "subid";
