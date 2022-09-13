@@ -455,7 +455,7 @@ export class MapsSearchClient {
     getPointOfInterestCategories(options?: GetPointOfInterestCategoriesOptions): Promise<PointOfInterestCategory[]>;
     resumeFuzzySearchBatch(resumeFrom: string, options?: FuzzySearchBatchOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
     resumeReverseSearchAddressBatch(resumeFrom: string, options?: ReverseSearchAddressBatchOptions): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>>;
-    resumeSearchAddressBatch(resumeFrom: string, options: SearchAddressBatchOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
+    resumeSearchAddressBatch(resumeFrom: string, options?: SearchAddressBatchOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
     reverseSearchAddress(coordinates: LatLon, options?: ReverseSearchAddressOptions & OperationOptions): Promise<ReverseSearchAddressResult>;
     reverseSearchCrossStreetAddress(coordinates: LatLon, options?: ReverseSearchCrossStreetAddressOptions): Promise<ReverseSearchCrossStreetAddressResult>;
     searchAddress(query: string, options?: SearchAddressOptions & OperationOptions): Promise<SearchAddressResult>;
