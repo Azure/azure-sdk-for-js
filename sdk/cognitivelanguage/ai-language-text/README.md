@@ -394,7 +394,7 @@ main();
 
 ### Dynamic Classification
 
-On the fly classification of the input documents into one or multiple categories. Assigns either one or multiple categories per document.
+On the fly classification of the input documents into one or multiple categories. Assigns either one or multiple categories per document. This type of classification doesn't require model training.
 
 ```javascript
 const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-language-text");
