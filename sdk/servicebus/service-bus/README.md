@@ -102,34 +102,34 @@ If you are using Rollup bundler, install the following dev dependencies
 
 Then include the following in your rollup.config.js
 
-```js
-import nodeResolve from "@rollup/plugin-node-resolve";
-import cjs from "@rollup/plugin-commonjs";
-import shim from "rollup-plugin-shim";
-import inject from "@rollup/plugin-inject";
+```diff
++import nodeResolve from "@rollup/plugin-node-resolve";
++import cjs from "@rollup/plugin-commonjs";
++import shim from "rollup-plugin-shim";
++import inject from "@rollup/plugin-inject";
 
 export default {
   // other configs
   plugins: [
-    shim({
-      fs: `export default {}`,
-      net: `export default {}`,
-      tls: `export default {}`,
-      path: `export default {}`,
-      dns: `export function resolve() { }`,
-    }),
-    nodeResolve({
-      mainFields: ["module", "browser"],
-      preferBuiltins: false,
-    }),
-    cjs(),
-    inject({
-      modules: {
-        Buffer: ["buffer", "Buffer"],
-        process: "process",
-      },
-      exclude: ["./**/package.json"],
-    }),
++    shim({
++      fs: `export default {}`,
++      net: `export default {}`,
++      tls: `export default {}`,
++      path: `export default {}`,
++      dns: `export function resolve() { }`,
++    }),
++    nodeResolve({
++      mainFields: ["module", "browser"],
++      preferBuiltins: false,
++    }),
++    cjs(),
++    inject({
++      modules: {
++        Buffer: ["buffer", "Buffer"],
++        process: "process",
++      },
++      exclude: ["./**/package.json"],
++    }),
   ]
 };
 ```
