@@ -165,8 +165,41 @@ describe("Challenge based authentication tests", function () {
       );
     });
 
+    it("throws if the request host is a prefix, but not a subdomain, of the resource URI host", async () => {
+      await assert.isRejected(
+        challengeCallbacks.authorizeRequestOnChallenge!({
+          getAccessToken: () => Promise.resolve(null),
+          request: createPipelineRequest({ url: "https://myvault.azure.net" }),
+          response: {
+            headers: createHttpHeaders({
+              "WWW-Authenticate": `Bearer resource="https://vault.azure.net"`,
+            }),
+            request,
+            status: 200,
+          },
+          scopes: [],
+        }),
+        "Challenge resource host 'vault.azure.net' does not match request domain"
+      );
+    });
+
+    it("does not throw if the resource URI matches the request", async () => {
+      await challengeCallbacks.authorizeRequestOnChallenge!({
+        getAccessToken: () => Promise.resolve(null),
+        request: createPipelineRequest({ url: "https://myvault.vault.azure.net" }),
+        response: {
+          headers: createHttpHeaders({
+            "WWW-Authenticate": `Bearer resource="https://vault.azure.net"`,
+          }),
+          request,
+          status: 200,
+        },
+        scopes: [],
+      });
+    });
+
     it("does not throw if the resource URI host does not match the request but verifyChallengeResource is false", async () => {
-      challengeCallbacks = createChallengeCallbacks(false);
+      challengeCallbacks = createChallengeCallbacks({ verifyChallengeResource: false });
       await challengeCallbacks.authorizeRequestOnChallenge!({
         getAccessToken: () => Promise.resolve(null),
         request: createPipelineRequest({ url: "https://foo.bar" }),

@@ -95,7 +95,7 @@ export class KeyVaultBackupClient {
         // The scopes will be populated in the challenge callbacks based on the WWW-authenticate header
         // returned by the challenge, so pass an empty array as a placeholder.
         scopes: [],
-        challengeCallbacks: createChallengeCallbacks(options.verifyChallengeResource),
+        challengeCallbacks: createChallengeCallbacks(options),
       })
     );
   }

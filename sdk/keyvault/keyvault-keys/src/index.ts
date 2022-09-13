@@ -264,7 +264,7 @@ export class KeyClient {
     const authPolicy = bearerTokenAuthenticationPolicy({
       credential,
       scopes: [], // Scopes are going to be defined by the challenge callbacks.
-      challengeCallbacks: createChallengeCallbacks(pipelineOptions.verifyChallengeResource),
+      challengeCallbacks: createChallengeCallbacks(pipelineOptions),
     });
 
     const internalPipelineOptions = {

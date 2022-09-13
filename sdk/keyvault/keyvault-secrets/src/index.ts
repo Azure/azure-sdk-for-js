@@ -123,7 +123,7 @@ export class SecretClient {
     const authPolicy = bearerTokenAuthenticationPolicy({
       credential,
       scopes: [],
-      challengeCallbacks: createChallengeCallbacks(pipelineOptions.verifyChallengeResource),
+      challengeCallbacks: createChallengeCallbacks(pipelineOptions),
     });
 
     const internalPipelineOptions = {

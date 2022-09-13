@@ -249,7 +249,7 @@ export class CertificateClient {
     const authPolicy = bearerTokenAuthenticationPolicy({
       credential,
       scopes: [],
-      challengeCallbacks: createChallengeCallbacks(clientOptions.verifyChallengeResource),
+      challengeCallbacks: createChallengeCallbacks(clientOptions),
     });
 
     const internalClientPipelineOptions: InternalClientPipelineOptions = {
