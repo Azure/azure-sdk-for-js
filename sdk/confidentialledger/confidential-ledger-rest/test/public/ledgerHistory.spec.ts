@@ -22,7 +22,7 @@ describe("Get ledger history", () => {
   });
 
   it("should obtain ledger entries from ledger", async function () {
-    if (env.TEST_MODE === "live") {
+    if (isLiveMode()) {
       this.skip();
     }
 
@@ -43,3 +43,7 @@ describe("Get ledger history", () => {
     assert.typeOf(currentTransactionsResult.body.transactionId, "string");
   });
 });
+
+export function isLiveMode() {
+  return env.TEST_MODE?.toLowerCase() === "live";
+}
