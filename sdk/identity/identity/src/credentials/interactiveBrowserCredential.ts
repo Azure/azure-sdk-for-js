@@ -82,7 +82,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
         newOptions.tenantId = tenantId;
 
-        const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+        const arrayScopes = ensureScopes(scopes);
         return this.msalFlow.getToken(arrayScopes, {
           ...newOptions,
           disableAutomaticAuthentication: this.disableAutomaticAuthentication,

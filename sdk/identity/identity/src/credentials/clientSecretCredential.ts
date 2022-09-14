@@ -7,6 +7,7 @@ import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
 import { MsalClientSecret } from "../msal/nodeFlows/msalClientSecret";
 import { MsalFlow } from "../msal/flows";
 import { credentialLogger } from "../util/logging";
+import { ensureScopes } from "../util/scopeUtils";
 import { tracingClient } from "../util/tracing";
 
 const logger = credentialLogger("ClientSecretCredential");
@@ -75,7 +76,7 @@ export class ClientSecretCredential implements TokenCredential {
         const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
         newOptions.tenantId = tenantId;
 
-        const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+        const arrayScopes = ensureScopes(scopes);
         return this.msalFlow.getToken(arrayScopes, newOptions);
       }
     );
