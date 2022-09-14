@@ -35,6 +35,8 @@ describe("AbortController", () => {
     const controller = new AbortController();
     const aborter = controller.signal;
     const response = doAsyncOperation(aborter);
+    // should be no-op
+    aborter.throwIfAborted();
     controller.abort();
     try {
       const rs = await response;
@@ -42,6 +44,37 @@ describe("AbortController", () => {
       assert.fail();
     } catch (err: any) {
       assert.strictEqual(err.name, "AbortError");
+      // if not specified, abortSingal.reason defaults to AbortError
+      assert.strictEqual(aborter.reason.name, "AbortError");
+    }
+    try {
+      aborter.throwIfAborted();
+      assert.fail();
+    } catch (err: any) {
+      assert.strictEqual(err.name, "AbortError");
+    }
+  });
+
+  it("should abort with reason", async () => {
+    const controller = new AbortController();
+    const aborter = controller.signal;
+    const response = doAsyncOperation(aborter);
+    // should be no-op
+    aborter.throwIfAborted();
+    controller.abort({ prop: "abort reason" });
+    try {
+      const rs = await response;
+      console.log("got result", rs);
+      assert.fail();
+    } catch (err: any) {
+      assert.strictEqual(err.name, "AbortError");
+      assert.deepEqual(aborter.reason, { prop: "abort reason" });
+    }
+    try {
+      aborter.throwIfAborted();
+      assert.fail();
+    } catch (err: any) {
+      assert.deepEqual(aborter.reason, { prop: "abort reason" });
     }
   });
 

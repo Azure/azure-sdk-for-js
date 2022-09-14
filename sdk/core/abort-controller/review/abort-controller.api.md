@@ -8,7 +8,7 @@
 export class AbortController {
     constructor(parentSignals?: AbortSignalLike[]);
     constructor(...parentSignals: AbortSignalLike[]);
-    abort(): void;
+    abort(reason?: any): void;
     get signal(): AbortSignal;
     static timeout(ms: number): AbortSignal;
 }
@@ -26,16 +26,19 @@ export class AbortSignal implements AbortSignalLike {
     dispatchEvent(_event: Event): boolean;
     static get none(): AbortSignal;
     onabort: ((ev?: Event) => any) | null;
+    get reason(): any | undefined;
     removeEventListener(_type: "abort", listener: (this: AbortSignalLike, ev: any) => any): void;
+    throwIfAborted(): void;
 }
 
 // @public
 export interface AbortSignalLike {
     readonly aborted: boolean;
     addEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
+    readonly reason?: any;
     removeEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
+    throwIfAborted(): void;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

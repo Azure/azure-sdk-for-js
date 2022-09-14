@@ -4,31 +4,6 @@
 import { AbortSignal, AbortSignalLike, abortSignal } from "./AbortSignal";
 
 /**
- * This error is thrown when an asynchronous operation has been aborted.
- * Check for this error by testing the `name` that the name property of the
- * error matches `"AbortError"`.
- *
- * @example
- * ```ts
- * const controller = new AbortController();
- * controller.abort();
- * try {
- *   doAsyncWork(controller.signal)
- * } catch (e) {
- *   if (e.name === 'AbortError') {
- *     // handle abort error here.
- *   }
- * }
- * ```
- */
-export class AbortError extends Error {
-  constructor(message?: string) {
-    super(message);
-    this.name = "AbortError";
-  }
-}
-
-/**
  * An AbortController provides an AbortSignal and the associated controls to signal
  * that an asynchronous operation should be aborted.
  *
@@ -113,8 +88,9 @@ export class AbortController {
    * Signal that any operations passed this controller's associated abort signal
    * to cancel any remaining work and throw an `AbortError`.
    */
-  abort(): void {
-    abortSignal(this._signal);
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  abort(reason?: any): void {
+    abortSignal(this._signal, reason);
   }
 
   /**

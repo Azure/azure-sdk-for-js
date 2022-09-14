@@ -4,6 +4,8 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../shims-public.d.ts" />
 
+import { AbortError } from "./AbortError";
+
 type AbortEventListener = (this: AbortSignalLike, ev?: any) => any;
 
 const listenersMap = new WeakMap<AbortSignal, AbortEventListener[]>();
@@ -18,6 +20,16 @@ export interface AbortSignalLike {
    * Indicates if the signal has already been aborted.
    */
   readonly aborted: boolean;
+  /**
+   * Returns a JavaScript value that indicates the abort reason.
+   * It is undefined when the signal has not been aborted.
+   * It can be set when aborting the signal and defaults to AbortError if not specified.
+   */
+  readonly reason?: any;
+  /**
+   * Throws the signal's abort reason if the signal has been aborted; otherwise it does nothing.
+   */
+  throwIfAborted(): void;
   /**
    * Add new "abort" event listener, only support "abort" event.
    */
@@ -50,6 +62,7 @@ export interface AbortSignalLike {
  * ```
  */
 export class AbortSignal implements AbortSignalLike {
+  private _reason?: any;
   constructor() {
     listenersMap.set(this, []);
     abortedMap.set(this, false);
@@ -66,6 +79,26 @@ export class AbortSignal implements AbortSignalLike {
     }
 
     return abortedMap.get(this)!;
+  }
+
+  /**
+   * Returns a JavaScript value that indicates the abort reason.
+   * It is undefined when the signal has not been aborted.
+   * It can be set when aborting the signal and defaults to AbortError if not specified.
+   *
+   * @readonly
+   */
+  public get reason(): any | undefined {
+    return this._reason;
+  }
+
+  /**
+   * Throws the signal's abort reason if the signal has been aborted; otherwise it does nothing.
+   */
+  public throwIfAborted(): void {
+    if (this.aborted) {
+      throw this.reason;
+    }
   }
 
   /**
@@ -143,11 +176,14 @@ export class AbortSignal implements AbortSignalLike {
  *
  * @internal
  */
-// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-export function abortSignal(signal: AbortSignal): void {
+// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters,@typescript-eslint/explicit-module-boundary-types
+export function abortSignal(signal: AbortSignal, reason?: any): void {
   if (signal.aborted) {
     return;
   }
+
+  // if not specified, abortSingal.reason defaults to AbortError
+  signal["_reason"] = reason ?? new AbortError("The operation was aborted.");
 
   if (signal.onabort) {
     signal.onabort.call(signal);
