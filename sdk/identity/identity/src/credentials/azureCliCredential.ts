@@ -6,10 +6,8 @@ import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
 import { CredentialUnavailableError } from "../errors";
-import { checkTenantId } from "../util/checkTenantId";
 import child_process from "child_process";
-import { processMultiTenantRequest } from "../util/validateMultiTenant";
-import { resolveAddionallyAllowedTenantIds } from "../util/resolveAddionallyAllowedTenantIds";
+import { processMultiTenantRequest, resolveAddionallyAllowedTenantIds } from "../util/tenantIdUtils";
 import { tracingClient } from "../util/tracing";
 
 /**
@@ -107,9 +105,6 @@ export class AzureCliCredential implements TokenCredential {
     options: GetTokenOptions = {}
   ): Promise<AccessToken> {
     const tenantId = processMultiTenantRequest(this.tenantId, options, this.additionallyAllowedTenantIds);
-    if (tenantId) {
-      checkTenantId(logger, tenantId);
-    }
 
     const scope = typeof scopes === "string" ? scopes : scopes[0];
     logger.getToken.info(`Using the scope ${scope}`);

@@ -8,13 +8,12 @@ import {
   InteractiveBrowserCredentialInBrowserOptions,
   InteractiveBrowserCredentialNodeOptions,
 } from "./interactiveBrowserCredentialOptions";
+import { processMultiTenantRequest, resolveAddionallyAllowedTenantIds } from "../util/tenantIdUtils";
 import { AuthenticationRecord } from "../msal/types";
 import { MsalFlow } from "../msal/flows";
 import { MsalOpenBrowser } from "../msal/nodeFlows/msalOpenBrowser";
-import { checkTenantId } from "../util/checkTenantId";
 import { credentialLogger } from "../util/logging";
-import { resolveAddionallyAllowedTenantIds } from "../util/resolveAddionallyAllowedTenantIds";
-import { processMultiTenantRequest } from "../util/validateMultiTenant";
+import { ensureScopes } from "../util/scopeUtils";
 import { tracingClient } from "../util/tracing";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
@@ -113,7 +112,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       `${this.constructor.name}.authenticate`,
       options,
       async (newOptions) => {
-        const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+        const arrayScopes = ensureScopes(scopes);
         await this.msalFlow.getToken(arrayScopes, newOptions);
         return this.msalFlow.getActiveAccount();
       }

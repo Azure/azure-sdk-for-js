@@ -3,17 +3,16 @@
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
+import { processMultiTenantRequest, resolveAddionallyAllowedTenantIds } from "../util/tenantIdUtils";
 import { AzureAuthorityHosts } from "../constants";
 import { CredentialUnavailableError } from "../errors";
 import { IdentityClient } from "../client/identityClient";
 import { VisualStudioCodeCredentialOptions } from "./visualStudioCodeCredentialOptions";
 import { VSCodeCredentialFinder } from "./visualStudioCodeCredentialPlugin";
-import { checkTenantId } from "../util/checkTenantId";
+import { checkTenantId } from "../util/tenantIdUtils";
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { processMultiTenantRequest } from "../util/validateMultiTenant";
-import { resolveAddionallyAllowedTenantIds } from "../util/resolveAddionallyAllowedTenantIds";
 
 const CommonTenantId = "common";
 const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'

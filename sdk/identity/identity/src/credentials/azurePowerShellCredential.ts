@@ -6,10 +6,8 @@ import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 import { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions";
 import { CredentialUnavailableError } from "../errors";
-import { checkTenantId } from "../util/checkTenantId";
-import { processMultiTenantRequest } from "../util/validateMultiTenant";
+import { processMultiTenantRequest, resolveAddionallyAllowedTenantIds } from "../util/tenantIdUtils";
 import { processUtils } from "../util/processUtils";
-import { resolveAddionallyAllowedTenantIds } from "../util/resolveAddionallyAllowedTenantIds";
 import { tracingClient } from "../util/tracing";
 
 const logger = credentialLogger("AzurePowerShellCredential");

@@ -2,14 +2,13 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { processMultiTenantRequest, resolveAddionallyAllowedTenantIds } from "../util/tenantIdUtils";
 import { DeviceCodeCredentialOptions, DeviceCodeInfo } from "./deviceCodeCredentialOptions";
 import { AuthenticationRecord } from "../msal/types";
 import { MsalDeviceCode } from "../msal/nodeFlows/msalDeviceCode";
 import { MsalFlow } from "../msal/flows";
-import { checkTenantId } from "../util/checkTenantId";
 import { credentialLogger } from "../util/logging";
-import { processMultiTenantRequest } from "../util/validateMultiTenant";
-import { resolveAddionallyAllowedTenantIds } from "../util/resolveAddionallyAllowedTenantIds";
+import { ensureScopes } from "../util/scopeUtils";
 import { tracingClient } from "../util/tracing";
 
 const logger = credentialLogger("DeviceCodeCredential");
@@ -84,7 +83,7 @@ export class DeviceCodeCredential implements TokenCredential {
         const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
         newOptions.tenantId = tenantId;
 
-        const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+        const arrayScopes = ensureScopes(scopes);
         return this.msalFlow.getToken(arrayScopes, {
           ...newOptions,
           disableAutomaticAuthentication: this.disableAutomaticAuthentication,

@@ -2,14 +2,13 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { processMultiTenantRequest, resolveAddionallyAllowedTenantIds } from "../util/tenantIdUtils";
 import { MsalFlow } from "../msal/flows";
 import { MsalUsernamePassword } from "../msal/nodeFlows/msalUsernamePassword";
 import { UsernamePasswordCredentialOptions } from "./usernamePasswordCredentialOptions";
 import { credentialLogger } from "../util/logging";
-import { resolveAddionallyAllowedTenantIds } from "../util/resolveAddionallyAllowedTenantIds";
+
 import { tracingClient } from "../util/tracing";
-import { processMultiTenantRequest } from "../util/validateMultiTenant";
-import { checkTenantId } from "../util/checkTenantId";
 
 const logger = credentialLogger("UsernamePasswordCredential");
 

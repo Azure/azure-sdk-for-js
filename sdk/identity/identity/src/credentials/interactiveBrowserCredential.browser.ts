@@ -11,6 +11,7 @@ import { AuthenticationRecord } from "../msal/types";
 import { MSALAuthCode } from "../msal/browserFlows/msalAuthCode";
 import { MsalBrowserFlowOptions } from "../msal/browserFlows/msalBrowserCommon";
 import { MsalFlow } from "../msal/flows";
+import { ensureScopes } from "../util/scopeUtils";
 import { tracingClient } from "../util/tracing";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
@@ -91,7 +92,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       `${this.constructor.name}.getToken`,
       options,
       async (newOptions) => {
-        const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+        const arrayScopes = ensureScopes(scopes);
         return this.msalFlow.getToken(arrayScopes, {
           ...newOptions,
           disableAutomaticAuthentication: this.disableAutomaticAuthentication,

@@ -1,13 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { CredentialLogger, formatError } from "./logging";
+import { DeveloperSignOnClientId } from "../constants";
 import { GetTokenOptions } from "@azure/core-auth";
 
-  /**
- * @internal
- */
-// TODO: Format message
-export const MULTI_TENANT_CONFIGURATION_ERROR_MESSAGE = "The current credential is not configured to acquire tokens for the current tenant. To enable acquiring tokens for this tenant add it to the AdditionallyAllowedTenants on the credential options, or add \"*\" to AdditionallyAllowedTenants to allow acquiring tokens for any tenant.";
+export function checkTenantId(logger: CredentialLogger, tenantId: string): void {
+  if (!tenantId.match(/^[0-9a-zA-Z-.:/]+$/)) {
+    const error = new Error(
+      "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://docs.microsoft.com/partner-center/find-ids-and-domain-names."
+    );
+    logger.info(formatError("", error));
+    throw error;
+  }
+}
+
+export function resolveTenantId(
+  logger: CredentialLogger,
+  tenantId?: string,
+  clientId?: string,
+): string {
+  if (tenantId) {
+    checkTenantId(logger, tenantId);
+    return tenantId;
+  }
+  if (!clientId) {
+    clientId = DeveloperSignOnClientId;
+  }
+  if (clientId !== DeveloperSignOnClientId) {
+    return "common";
+  }
+  return "organizations";
+}
 
 function createConfigurationErrorMessage(tenantId: string) {
   return `The current credential is not configured to acquire tokens for tenant ${tenantId}. To enable acquiring tokens for this tenant add it to the AdditionallyAllowedTenants on the credential options, or add "*" to AdditionallyAllowedTenants to allow acquiring tokens for any tenant.`
@@ -26,9 +50,7 @@ export function processMultiTenantRequest(
 ): string | undefined {
 
   let resolvedTenantId: string | undefined;
-  if (process.env.AZURE_IDENTITY_DISABLE_MULTITENANTAUTH) {
-    resolvedTenantId = tenantId;
-  } else if (tenantId === "adfs") {
+  if (tenantId === "adfs") {
     resolvedTenantId = tenantId;
   } else {
     resolvedTenantId = getTokenOptions?.tenantId ?? tenantId;
