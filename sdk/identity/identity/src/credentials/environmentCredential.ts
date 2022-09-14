@@ -54,7 +54,7 @@ export class EnvironmentCredential implements TokenCredential {
    * - `AZURE_CLIENT_ID`: The client (application) ID of an App Registration in the tenant.
    *
    * If setting the AZURE_TENANT_ID, then you can also set the additionally allowed tenants
-   * - `AZURE_ADDITIONALLY_ALLOWED_TENANTS`: For multi-tenant applications, specifies additional tenants for which the credential may acquire tokens. Use * to allow all tenants.
+   * - `AZURE_ADDITIONALLY_ALLOWED_TENANTS`: For multi-tenant applications, specifies additional tenants for which the credential may acquire tokens with a single semicolon delimited string. Use * to allow all tenants.
    *
    * Environment variables used for client credential authentication:
    * - `AZURE_CLIENT_SECRET`: A client secret that was generated for the App Registration.
