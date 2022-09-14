@@ -210,6 +210,72 @@ export const SchemaGetVersionsExceptionHeaders: coreClient.CompositeMapper = {
   }
 };
 
+export const SchemaGetSchemaVersionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SchemaGetSchemaVersionHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      contentType: {
+        serializedName: "content-type",
+        type: {
+          name: "String"
+        }
+      },
+      schemaId: {
+        serializedName: "schema-id",
+        type: {
+          name: "String"
+        }
+      },
+      schemaIdLocation: {
+        serializedName: "schema-id-location",
+        type: {
+          name: "String"
+        }
+      },
+      schemaGroupName: {
+        serializedName: "schema-group-name",
+        type: {
+          name: "String"
+        }
+      },
+      schemaName: {
+        serializedName: "schema-name",
+        type: {
+          name: "String"
+        }
+      },
+      schemaVersion: {
+        serializedName: "schema-version",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SchemaGetSchemaVersionExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SchemaGetSchemaVersionExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SchemaQueryIdByContentHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

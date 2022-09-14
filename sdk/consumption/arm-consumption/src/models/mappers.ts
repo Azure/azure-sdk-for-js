@@ -3237,8 +3237,8 @@ export const LegacyUsageDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LegacyUsageDetail",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "UsageDetail",
+    polymorphicDiscriminator: UsageDetail.type.polymorphicDiscriminator,
     modelProperties: {
       ...UsageDetail.type.modelProperties,
       billingAccountId: {
@@ -3558,8 +3558,8 @@ export const ModernUsageDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ModernUsageDetail",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "UsageDetail",
+    polymorphicDiscriminator: UsageDetail.type.polymorphicDiscriminator,
     modelProperties: {
       ...UsageDetail.type.modelProperties,
       billingAccountId: {
@@ -4075,8 +4075,9 @@ export const LegacyReservationRecommendation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LegacyReservationRecommendation",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "ReservationRecommendation",
+    polymorphicDiscriminator:
+      ReservationRecommendation.type.polymorphicDiscriminator,
     modelProperties: {
       ...ReservationRecommendation.type.modelProperties,
       lookBackPeriod: {
@@ -4199,8 +4200,9 @@ export const ModernReservationRecommendation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ModernReservationRecommendation",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "ReservationRecommendation",
+    polymorphicDiscriminator:
+      ReservationRecommendation.type.polymorphicDiscriminator,
     modelProperties: {
       ...ReservationRecommendation.type.modelProperties,
       locationPropertiesLocation: {
@@ -4330,8 +4332,8 @@ export const LegacyChargeSummary: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LegacyChargeSummary",
-    uberParent: "ProxyResource",
-    polymorphicDiscriminator: ProxyResource.type.polymorphicDiscriminator,
+    uberParent: "ChargeSummary",
+    polymorphicDiscriminator: ChargeSummary.type.polymorphicDiscriminator,
     modelProperties: {
       ...ChargeSummary.type.modelProperties,
       billingPeriodId: {
@@ -4392,8 +4394,8 @@ export const ModernChargeSummary: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ModernChargeSummary",
-    uberParent: "ProxyResource",
-    polymorphicDiscriminator: ProxyResource.type.polymorphicDiscriminator,
+    uberParent: "ChargeSummary",
+    polymorphicDiscriminator: ChargeSummary.type.polymorphicDiscriminator,
     modelProperties: {
       ...ChargeSummary.type.modelProperties,
       billingPeriodId: {
@@ -4494,8 +4496,10 @@ export let discriminators = {
   "ProxyResource.ChargeSummary": ChargeSummary,
   "LegacyReservationRecommendationProperties.Single": LegacySingleScopeReservationRecommendationProperties,
   "LegacyReservationRecommendationProperties.Shared": LegacySharedScopeReservationRecommendationProperties,
-  "Resource.legacy": LegacyReservationRecommendation,
-  "Resource.modern": ModernReservationRecommendation,
-  "ProxyResource.legacy": LegacyChargeSummary,
-  "ProxyResource.modern": ModernChargeSummary
+  "UsageDetail.legacy": LegacyUsageDetail,
+  "UsageDetail.modern": ModernUsageDetail,
+  "ReservationRecommendation.legacy": LegacyReservationRecommendation,
+  "ReservationRecommendation.modern": ModernReservationRecommendation,
+  "ChargeSummary.legacy": LegacyChargeSummary,
+  "ChargeSummary.modern": ModernChargeSummary
 };

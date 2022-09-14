@@ -9,6 +9,10 @@ import { OperationOptions } from '@azure/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface GetSchemaByVersionOptions extends OperationOptions {
+}
+
+// @public
 export interface GetSchemaOptions extends OperationOptions {
 }
 
@@ -40,6 +44,7 @@ export interface SchemaProperties {
     groupName: string;
     id: string;
     name: string;
+    version: number;
 }
 
 // @public
@@ -54,6 +59,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
     readonly fullyQualifiedNamespace: string;
     getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema>;
+    getSchemaByVersion(schemaVersion: SchemaVersion, options?: GetSchemaByVersionOptions): Promise<Schema>;
     getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties>;
     registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaProperties>;
 }
@@ -61,6 +67,13 @@ export class SchemaRegistryClient implements SchemaRegistry {
 // @public
 export interface SchemaRegistryClientOptions extends CommonClientOptions {
     apiVersion?: string;
+}
+
+// @public
+export interface SchemaVersion {
+    groupName: string;
+    name: string;
+    version: number;
 }
 
 // (No @packageDocumentation comment for this package)
