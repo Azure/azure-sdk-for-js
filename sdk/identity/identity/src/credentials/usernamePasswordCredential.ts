@@ -6,8 +6,10 @@ import { MsalFlow } from "../msal/flows";
 import { MsalUsernamePassword } from "../msal/nodeFlows/msalUsernamePassword";
 import { UsernamePasswordCredentialOptions } from "./usernamePasswordCredentialOptions";
 import { credentialLogger } from "../util/logging";
+import { resolveAddionallyAllowedTenantIds } from "../util/resolveAddionallyAllowedTenantIds";
 import { tracingClient } from "../util/tracing";
-
+import { processMultiTenantRequest } from "../util/validateMultiTenant";
+import { checkTenantId } from "../util/checkTenantId";
 
 const logger = credentialLogger("UsernamePasswordCredential");
 
@@ -18,6 +20,8 @@ const logger = credentialLogger("UsernamePasswordCredential");
  * types can't be used.
  */
 export class UsernamePasswordCredential implements TokenCredential {
+  private tenantId: string;
+  private additionallyAllowedTenantIds: string[];
   private msalFlow: MsalFlow;
 
   /**
@@ -43,6 +47,10 @@ export class UsernamePasswordCredential implements TokenCredential {
         "UsernamePasswordCredential: tenantId, clientId, username and password are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot."
       );
     }
+
+    this.tenantId = tenantId;
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenantIds);
+
     this.msalFlow = new MsalUsernamePassword({
       ...options,
       logger,
@@ -71,6 +79,13 @@ export class UsernamePasswordCredential implements TokenCredential {
       `${this.constructor.name}.getToken`,
       options,
       async (newOptions) => {
+        const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
+        if (tenantId) {
+          checkTenantId(logger, tenantId);
+        }
+
+        newOptions.tenantId = tenantId;
+
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
         return this.msalFlow.getToken(arrayScopes, newOptions);
       }

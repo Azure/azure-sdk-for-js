@@ -6,7 +6,10 @@ import { DeviceCodeCredentialOptions, DeviceCodeInfo } from "./deviceCodeCredent
 import { AuthenticationRecord } from "../msal/types";
 import { MsalDeviceCode } from "../msal/nodeFlows/msalDeviceCode";
 import { MsalFlow } from "../msal/flows";
+import { checkTenantId } from "../util/checkTenantId";
 import { credentialLogger } from "../util/logging";
+import { processMultiTenantRequest } from "../util/validateMultiTenant";
+import { resolveAddionallyAllowedTenantIds } from "../util/resolveAddionallyAllowedTenantIds";
 import { tracingClient } from "../util/tracing";
 
 const logger = credentialLogger("DeviceCodeCredential");
@@ -24,6 +27,8 @@ export function defaultDeviceCodePromptCallback(deviceCodeInfo: DeviceCodeInfo):
  * that the user can enter into https://microsoft.com/devicelogin.
  */
 export class DeviceCodeCredential implements TokenCredential {
+  private tenantId?: string;
+  private additionallyAllowedTenantIds: string[];
   private msalFlow: MsalFlow;
   private disableAutomaticAuthentication?: boolean;
 
@@ -48,6 +53,8 @@ export class DeviceCodeCredential implements TokenCredential {
    * @param options - Options for configuring the client which makes the authentication requests.
    */
   constructor(options?: DeviceCodeCredentialOptions) {
+    this.tenantId = options?.tenantId;
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenantIds);
     this.msalFlow = new MsalDeviceCode({
       ...options,
       logger,
@@ -74,6 +81,13 @@ export class DeviceCodeCredential implements TokenCredential {
       `${this.constructor.name}.getToken`,
       options,
       async (newOptions) => {
+        const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
+        if (tenantId) {
+          checkTenantId(logger, tenantId);
+        }
+
+        newOptions.tenantId = tenantId;
+
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
         return this.msalFlow.getToken(arrayScopes, {
           ...newOptions,

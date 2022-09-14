@@ -13,6 +13,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import { processMultiTenantRequest } from "../util/validateMultiTenant";
+import { resolveAddionallyAllowedTenantIds } from "../util/resolveAddionallyAllowedTenantIds";
 
 const CommonTenantId = "common";
 const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'
@@ -91,6 +92,7 @@ export function getPropertyFromVSCode(property: string): string | undefined {
 export class VisualStudioCodeCredential implements TokenCredential {
   private identityClient: IdentityClient;
   private tenantId: string;
+  private additionallyAllowedTenantIds: string[];
   private cloudName: VSCodeCloudNames;
 
   /**
@@ -122,6 +124,8 @@ export class VisualStudioCodeCredential implements TokenCredential {
     } else {
       this.tenantId = CommonTenantId;
     }
+
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenantIds);
 
     checkUnsupportedTenant(this.tenantId);
   }
@@ -167,7 +171,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
   ): Promise<AccessToken> {
     await this.prepareOnce();
 
-    const tenantId = processMultiTenantRequest(this.tenantId, options) || this.tenantId;
+    const tenantId = processMultiTenantRequest(this.tenantId, options, this.additionallyAllowedTenantIds) || this.tenantId;
 
     if (findCredentials === undefined) {
       throw new CredentialUnavailableError(

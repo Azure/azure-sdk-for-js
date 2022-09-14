@@ -26,7 +26,13 @@ export const AllSupportedEnvironmentVariables = [
   "AZURE_CLIENT_CERTIFICATE_PASSWORD",
   "AZURE_USERNAME",
   "AZURE_PASSWORD",
+  "AZURE_ADDITIONALLY_ALLOWED_TENANTS",
 ];
+
+function getAdditionallyAllowedTenants(): string[] {
+  const additionallyAllowedValues = process.env.AZURE_ADDITIONALLY_ALLOWED_TENANTS ?? "";
+  return additionallyAllowedValues.split(";");
+}
 
 const credentialName = "EnvironmentCredential";
 const logger = credentialLogger(credentialName);
@@ -36,6 +42,7 @@ const logger = credentialLogger(credentialName);
  * details configured in environment variables
  */
 export class EnvironmentCredential implements TokenCredential {
+
   private _credential?:
     | ClientSecretCredential
     | ClientCertificateCredential
@@ -46,6 +53,9 @@ export class EnvironmentCredential implements TokenCredential {
    * Required environment variables:
    * - `AZURE_TENANT_ID`: The Azure Active Directory tenant (directory) ID.
    * - `AZURE_CLIENT_ID`: The client (application) ID of an App Registration in the tenant.
+   * 
+   * If setting the AZURE_TENANT_ID, then you can also set the additionally allowed tenants
+   * - `AZURE_ADDITIONALLY_ALLOWED_TENANTS`: For multi-tenant applications, specifies additional tenants for which the credential may acquire tokens. Use * to allow all tenants.
    *
    * Environment variables used for client credential authentication:
    * - `AZURE_CLIENT_SECRET`: A client secret that was generated for the App Registration.
@@ -70,6 +80,10 @@ export class EnvironmentCredential implements TokenCredential {
     const tenantId = process.env.AZURE_TENANT_ID,
       clientId = process.env.AZURE_CLIENT_ID,
       clientSecret = process.env.AZURE_CLIENT_SECRET;
+
+    const additionallyAllowedTenantIds = getAdditionallyAllowedTenants();
+    const newOptions = options || {};
+    newOptions.additionallyAllowedTenantIds = additionallyAllowedTenantIds;
 
     if (tenantId) {
       checkTenantId(logger, tenantId);

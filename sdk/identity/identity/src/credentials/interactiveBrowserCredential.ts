@@ -11,7 +11,10 @@ import {
 import { AuthenticationRecord } from "../msal/types";
 import { MsalFlow } from "../msal/flows";
 import { MsalOpenBrowser } from "../msal/nodeFlows/msalOpenBrowser";
+import { checkTenantId } from "../util/checkTenantId";
 import { credentialLogger } from "../util/logging";
+import { resolveAddionallyAllowedTenantIds } from "../util/resolveAddionallyAllowedTenantIds";
+import { processMultiTenantRequest } from "../util/validateMultiTenant";
 import { tracingClient } from "../util/tracing";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
@@ -21,6 +24,8 @@ const logger = credentialLogger("InteractiveBrowserCredential");
  * using the interactive login flow.
  */
 export class InteractiveBrowserCredential implements TokenCredential {
+  private tenantId?: string;
+  private additionallyAllowedTenantIds: string[];
   private msalFlow: MsalFlow;
   private disableAutomaticAuthentication?: boolean;
 
@@ -45,6 +50,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
       typeof options.redirectUri === "function"
         ? options.redirectUri()
         : options.redirectUri || "http://localhost";
+
+    this.tenantId = options?.tenantId;
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenantIds);
 
     this.msalFlow = new MsalOpenBrowser({
       ...options,
@@ -72,6 +80,13 @@ export class InteractiveBrowserCredential implements TokenCredential {
       `${this.constructor.name}.getToken`,
       options,
       async (newOptions) => {
+        const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
+        if (tenantId) {
+          checkTenantId(logger, tenantId);
+        }
+
+        newOptions.tenantId = tenantId;
+
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
         return this.msalFlow.getToken(arrayScopes, {
           ...newOptions,
