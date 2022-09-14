@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { processMultiTenantRequest, resolveAddionallyAllowedTenantIds } from "../util/tenantIdUtils";
+import {
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+} from "../util/tenantIdUtils";
 import { MsalFlow } from "../msal/flows";
 import { MsalUsernamePassword } from "../msal/nodeFlows/msalUsernamePassword";
 import { UsernamePasswordCredentialOptions } from "./usernamePasswordCredentialOptions";
@@ -48,7 +51,9 @@ export class UsernamePasswordCredential implements TokenCredential {
     }
 
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenants);
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants
+    );
 
     this.msalFlow = new MsalUsernamePassword({
       ...options,
@@ -78,7 +83,11 @@ export class UsernamePasswordCredential implements TokenCredential {
       `${this.constructor.name}.getToken`,
       options,
       async (newOptions) => {
-        const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
+        const tenantId = processMultiTenantRequest(
+          this.tenantId,
+          newOptions,
+          this.additionallyAllowedTenantIds
+        );
         newOptions.tenantId = tenantId;
 
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];

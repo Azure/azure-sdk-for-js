@@ -4,7 +4,10 @@
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { processMultiTenantRequest, resolveAddionallyAllowedTenantIds } from "../util/tenantIdUtils";
+import {
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+} from "../util/tenantIdUtils";
 import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
 import { IdentityClient } from "../client/identityClient";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
@@ -49,7 +52,9 @@ export class ClientSecretCredential implements TokenCredential {
   ) {
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenants);
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants
+    );
     this.clientId = clientId;
     this.clientSecret = clientSecret;
   }
@@ -72,7 +77,11 @@ export class ClientSecretCredential implements TokenCredential {
       `${this.constructor.name}.getToken`,
       options,
       async (newOptions) => {
-        const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
+        const tenantId = processMultiTenantRequest(
+          this.tenantId,
+          newOptions,
+          this.additionallyAllowedTenantIds
+        );
 
         const query = new URLSearchParams({
           response_type: "token",

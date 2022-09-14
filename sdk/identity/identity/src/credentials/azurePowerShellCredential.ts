@@ -6,7 +6,10 @@ import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 import { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions";
 import { CredentialUnavailableError } from "../errors";
-import { processMultiTenantRequest, resolveAddionallyAllowedTenantIds } from "../util/tenantIdUtils";
+import {
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+} from "../util/tenantIdUtils";
 import { processUtils } from "../util/processUtils";
 import { tracingClient } from "../util/tracing";
 
@@ -66,10 +69,12 @@ export const powerShellPublicErrorMessages = {
 };
 
 // PowerShell Azure User not logged in error check.
-const isLoginError: (err: Error) => RegExpMatchArray | null = (err: Error) => err.message.match(`(.*)${powerShellErrors.login}(.*)`);
+const isLoginError: (err: Error) => RegExpMatchArray | null = (err: Error) =>
+  err.message.match(`(.*)${powerShellErrors.login}(.*)`);
 
 // Az Module not Installed in Azure PowerShell check.
-const isNotInstalledError: (err: Error) => RegExpMatchArray | null = (err: Error) => err.message.match(powerShellErrors.installed);
+const isNotInstalledError: (err: Error) => RegExpMatchArray | null = (err: Error) =>
+  err.message.match(powerShellErrors.installed);
 
 /**
  * The PowerShell commands to be tried, in order.
@@ -104,7 +109,9 @@ export class AzurePowerShellCredential implements TokenCredential {
    */
   constructor(options?: AzurePowerShellCredentialOptions) {
     this.tenantId = options?.tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenants);
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants
+    );
   }
 
   /**
@@ -166,7 +173,11 @@ export class AzurePowerShellCredential implements TokenCredential {
     options: GetTokenOptions = {}
   ): Promise<AccessToken> {
     return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
-      const tenantId = processMultiTenantRequest(this.tenantId, options, this.additionallyAllowedTenantIds);
+      const tenantId = processMultiTenantRequest(
+        this.tenantId,
+        options,
+        this.additionallyAllowedTenantIds
+      );
       const scope = typeof scopes === "string" ? scopes : scopes[0];
       ensureValidScope(scope, logger);
       logger.getToken.info(`Using the scope ${scope}`);

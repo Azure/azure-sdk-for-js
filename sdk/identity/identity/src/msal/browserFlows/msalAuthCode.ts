@@ -9,7 +9,6 @@ import { AuthenticationRecord } from "../types";
 import { AuthenticationRequiredError } from "../../errors";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 
-
 // We keep a copy of the redirect hash.
 const redirectHash = self.location.hash;
 

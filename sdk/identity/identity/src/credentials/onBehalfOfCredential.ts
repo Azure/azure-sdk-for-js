@@ -7,7 +7,10 @@ import {
   OnBehalfOfCredentialOptions,
   OnBehalfOfCredentialSecretOptions,
 } from "./onBehalfOfCredentialOptions";
-import { processMultiTenantRequest, resolveAddionallyAllowedTenantIds } from "../util/tenantIdUtils";
+import {
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+} from "../util/tenantIdUtils";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 import { MsalFlow } from "../msal/flows";
 import { MsalOnBehalfOf } from "../msal/nodeFlows/msalOnBehalfOf";
@@ -82,7 +85,12 @@ export class OnBehalfOfCredential implements TokenCredential {
   constructor(private options: OnBehalfOfCredentialOptions) {
     const { clientSecret } = options as OnBehalfOfCredentialSecretOptions;
     const { certificatePath } = options as OnBehalfOfCredentialCertificateOptions;
-    const { tenantId, clientId, userAssertionToken, additionallyAllowedTenants: additionallyAllowedTenantIds } = options;
+    const {
+      tenantId,
+      clientId,
+      userAssertionToken,
+      additionallyAllowedTenants: additionallyAllowedTenantIds,
+    } = options;
     if (!tenantId || !clientId || !(clientSecret || certificatePath) || !userAssertionToken) {
       throw new Error(
         `${credentialName}: tenantId, clientId, clientSecret (or certificatePath) and userAssertionToken are required parameters.`
@@ -90,7 +98,9 @@ export class OnBehalfOfCredential implements TokenCredential {
     }
 
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(additionallyAllowedTenantIds);
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      additionallyAllowedTenantIds
+    );
 
     this.msalFlow = new MsalOnBehalfOf({
       ...this.options,
@@ -108,7 +118,11 @@ export class OnBehalfOfCredential implements TokenCredential {
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
     return tracingClient.withSpan(`${credentialName}.getToken`, options, async (newOptions) => {
-      const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
+      const tenantId = processMultiTenantRequest(
+        this.tenantId,
+        newOptions,
+        this.additionallyAllowedTenantIds
+      );
       newOptions.tenantId = tenantId;
 
       const arrayScopes = ensureScopes(scopes);

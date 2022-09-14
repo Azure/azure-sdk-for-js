@@ -18,7 +18,7 @@ export function checkTenantId(logger: CredentialLogger, tenantId: string): void 
 export function resolveTenantId(
   logger: CredentialLogger,
   tenantId?: string,
-  clientId?: string,
+  clientId?: string
 ): string {
   if (tenantId) {
     checkTenantId(logger, tenantId);
@@ -34,7 +34,7 @@ export function resolveTenantId(
 }
 
 function createConfigurationErrorMessage(tenantId: string) {
-  return `The current credential is not configured to acquire tokens for tenant ${tenantId}. To enable acquiring tokens for this tenant add it to the AdditionallyAllowedTenants on the credential options, or add "*" to AdditionallyAllowedTenants to allow acquiring tokens for any tenant.`
+  return `The current credential is not configured to acquire tokens for tenant ${tenantId}. To enable acquiring tokens for this tenant add it to the AdditionallyAllowedTenants on the credential options, or add "*" to AdditionallyAllowedTenants to allow acquiring tokens for any tenant.`;
 }
 
 /**
@@ -48,7 +48,6 @@ export function processMultiTenantRequest(
   getTokenOptions?: GetTokenOptions,
   additionallyAllowedTenantIds: string[] = []
 ): string | undefined {
-
   let resolvedTenantId: string | undefined;
   if (tenantId === "adfs") {
     resolvedTenantId = tenantId;
@@ -56,7 +55,12 @@ export function processMultiTenantRequest(
     resolvedTenantId = getTokenOptions?.tenantId ?? tenantId;
   }
 
-  if (tenantId && resolvedTenantId !== tenantId && !additionallyAllowedTenantIds.includes("*") && !additionallyAllowedTenantIds.includes(tenantId)) {
+  if (
+    tenantId &&
+    resolvedTenantId !== tenantId &&
+    !additionallyAllowedTenantIds.includes("*") &&
+    !additionallyAllowedTenantIds.includes(tenantId)
+  ) {
     throw new Error(createConfigurationErrorMessage(tenantId));
   }
 

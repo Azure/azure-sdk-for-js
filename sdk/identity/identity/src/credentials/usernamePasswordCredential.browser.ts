@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { checkTenantId, processMultiTenantRequest, resolveAddionallyAllowedTenantIds } from "../util/tenantIdUtils";
+import {
+  checkTenantId,
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+} from "../util/tenantIdUtils";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { credentialLogger, formatSuccess } from "../util/logging";
 import { IdentityClient } from "../client/identityClient";
@@ -48,7 +52,9 @@ export class UsernamePasswordCredential implements TokenCredential {
 
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantIdOrName;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenants);
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants
+    );
     this.clientId = clientId;
     this.username = username;
     this.password = password;
@@ -72,7 +78,11 @@ export class UsernamePasswordCredential implements TokenCredential {
       "UsernamePasswordCredential.getToken",
       options,
       async (newOptions) => {
-        const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
+        const tenantId = processMultiTenantRequest(
+          this.tenantId,
+          newOptions,
+          this.additionallyAllowedTenantIds
+        );
         newOptions.tenantId = tenantId;
 
         const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
@@ -99,6 +109,7 @@ export class UsernamePasswordCredential implements TokenCredential {
         const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
         logger.getToken.info(formatSuccess(scopes));
         return (tokenResponse && tokenResponse.accessToken) || null;
-      });
+      }
+    );
   }
 }

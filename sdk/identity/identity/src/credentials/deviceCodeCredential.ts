@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { processMultiTenantRequest, resolveAddionallyAllowedTenantIds } from "../util/tenantIdUtils";
+import {
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+} from "../util/tenantIdUtils";
 import { DeviceCodeCredentialOptions, DeviceCodeInfo } from "./deviceCodeCredentialOptions";
 import { AuthenticationRecord } from "../msal/types";
 import { MsalDeviceCode } from "../msal/nodeFlows/msalDeviceCode";
@@ -53,7 +56,9 @@ export class DeviceCodeCredential implements TokenCredential {
    */
   constructor(options?: DeviceCodeCredentialOptions) {
     this.tenantId = options?.tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenants);
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants
+    );
     this.msalFlow = new MsalDeviceCode({
       ...options,
       logger,
@@ -80,7 +85,11 @@ export class DeviceCodeCredential implements TokenCredential {
       `${this.constructor.name}.getToken`,
       options,
       async (newOptions) => {
-        const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
+        const tenantId = processMultiTenantRequest(
+          this.tenantId,
+          newOptions,
+          this.additionallyAllowedTenantIds
+        );
         newOptions.tenantId = tenantId;
 
         const arrayScopes = ensureScopes(scopes);

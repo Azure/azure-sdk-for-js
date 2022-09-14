@@ -3,7 +3,10 @@
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { processMultiTenantRequest, resolveAddionallyAllowedTenantIds } from "../util/tenantIdUtils";
+import {
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+} from "../util/tenantIdUtils";
 import { AzureAuthorityHosts } from "../constants";
 import { CredentialUnavailableError } from "../errors";
 import { IdentityClient } from "../client/identityClient";
@@ -124,7 +127,9 @@ export class VisualStudioCodeCredential implements TokenCredential {
       this.tenantId = CommonTenantId;
     }
 
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenants);
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants
+    );
 
     checkUnsupportedTenant(this.tenantId);
   }
@@ -170,7 +175,9 @@ export class VisualStudioCodeCredential implements TokenCredential {
   ): Promise<AccessToken> {
     await this.prepareOnce();
 
-    const tenantId = processMultiTenantRequest(this.tenantId, options, this.additionallyAllowedTenantIds) || this.tenantId;
+    const tenantId =
+      processMultiTenantRequest(this.tenantId, options, this.additionallyAllowedTenantIds) ||
+      this.tenantId;
 
     if (findCredentials === undefined) {
       throw new CredentialUnavailableError(

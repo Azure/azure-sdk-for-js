@@ -13,7 +13,6 @@ import { msalToPublic } from "../utils";
 import open from "open";
 import stoppable from "stoppable";
 
-
 /**
  * Options that can be passed to configure MSAL to handle authentication through opening a browser window.
  * @internal

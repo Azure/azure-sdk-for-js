@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { processMultiTenantRequest, resolveAddionallyAllowedTenantIds } from "../util/tenantIdUtils";
+import {
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+} from "../util/tenantIdUtils";
 import { ClientCertificateCredentialOptions } from "./clientCertificateCredentialOptions";
 import { MsalClientCertificate } from "../msal/nodeFlows/msalClientCertificate";
 import { MsalFlow } from "../msal/flows";
@@ -118,7 +121,9 @@ export class ClientCertificateCredential implements TokenCredential {
     }
 
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenants);
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants
+    );
 
     const configuration: ClientCertificateCredentialPEMConfiguration = {
       ...(typeof certificatePathOrConfiguration === "string"
@@ -163,7 +168,11 @@ export class ClientCertificateCredential implements TokenCredential {
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
     return tracingClient.withSpan(`${credentialName}.getToken`, options, async (newOptions) => {
-      const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
+      const tenantId = processMultiTenantRequest(
+        this.tenantId,
+        newOptions,
+        this.additionallyAllowedTenantIds
+      );
       newOptions.tenantId = tenantId;
 
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];

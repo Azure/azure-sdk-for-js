@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { processMultiTenantRequest, resolveAddionallyAllowedTenantIds } from "../util/tenantIdUtils";
+import {
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+} from "../util/tenantIdUtils";
 import { AuthorizationCodeCredentialOptions } from "./authorizationCodeCredentialOptions";
 import { MsalAuthorizationCode } from "../msal/nodeFlows/msalAuthorizationCode";
 import { MsalFlow } from "../msal/flows";
@@ -116,7 +119,9 @@ export class AuthorizationCodeCredential implements TokenCredential {
 
     // TODO: Validate tenant if provided
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenants);
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants
+    );
 
     this.msalFlow = new MsalAuthorizationCode({
       ...options,
@@ -143,7 +148,11 @@ export class AuthorizationCodeCredential implements TokenCredential {
       `${this.constructor.name}.getToken`,
       options,
       async (newOptions) => {
-        const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
+        const tenantId = processMultiTenantRequest(
+          this.tenantId,
+          newOptions,
+          this.additionallyAllowedTenantIds
+        );
         newOptions.tenantId = tenantId;
 
         const arrayScopes = ensureScopes(scopes);

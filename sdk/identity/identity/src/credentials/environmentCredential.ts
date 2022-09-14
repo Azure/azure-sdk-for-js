@@ -42,7 +42,6 @@ const logger = credentialLogger(credentialName);
  * details configured in environment variables
  */
 export class EnvironmentCredential implements TokenCredential {
-
   private _credential?:
     | ClientSecretCredential
     | ClientCertificateCredential
@@ -53,7 +52,7 @@ export class EnvironmentCredential implements TokenCredential {
    * Required environment variables:
    * - `AZURE_TENANT_ID`: The Azure Active Directory tenant (directory) ID.
    * - `AZURE_CLIENT_ID`: The client (application) ID of an App Registration in the tenant.
-   * 
+   *
    * If setting the AZURE_TENANT_ID, then you can also set the additionally allowed tenants
    * - `AZURE_ADDITIONALLY_ALLOWED_TENANTS`: For multi-tenant applications, specifies additional tenants for which the credential may acquire tokens. Use * to allow all tenants.
    *
