@@ -3,6 +3,7 @@ import { MonitorIngestionPerfTest } from "./monitorIngestionPerfTest.spec";
 
 interface UploadLogsOptions {
   logsCount: number;
+  maxConcurrency: number;
 }
 
 export class UploadLogsTest extends MonitorIngestionPerfTest<UploadLogsOptions> {
@@ -12,7 +13,13 @@ export class UploadLogsTest extends MonitorIngestionPerfTest<UploadLogsOptions> 
       description: "The number of logs to upload",
       shortName: "lc",
     },
+    maxConcurrency: {
+      defaultValue: 1,
+      description: "The maximum number of concurrent requests",
+      shortName: "mc",
+    },
   };
+
   private dataCollectionRuleId: string;
   private logs: Record<string, unknown>[] = [];
 
@@ -37,6 +44,8 @@ export class UploadLogsTest extends MonitorIngestionPerfTest<UploadLogsOptions> 
   }
 
   async run(): Promise<void> {
-    await this.client.upload(this.dataCollectionRuleId, "Custom-MyTableRawData", this.logs);
+    await this.client.upload(this.dataCollectionRuleId, "Custom-MyTableRawData", this.logs, {
+      maxConcurrency: this.parsedOptions.maxConcurrency.value,
+    });
   }
 }
