@@ -950,9 +950,40 @@ export class MessageSession extends LinkEntity<Receiver> {
   ): Promise<MessageSession> {
     throwErrorIfConnectionClosed(context);
     const messageSession = new MessageSession(identifier, context, entityPath, sessionId, options);
+    let timeoutInMs: number | undefined;
+    // Only passing client timeout in link properties for accepting next available
+    // session as this is the only long-polling scenario.
+    if (sessionId === undefined) {
+      timeoutInMs = options.retryOptions?.timeoutInMs ?? Constants.defaultOperationTimeoutInMs;
+      // The number of milliseconds to use as the basis for calculating a random jitter amount
+      // opening receiver links. This is intended to ensure that multiple
+      // session operations don't timeout at the same exact moment.
+      const openReceiveLinkBaseJitterInMs = 100;
+      // The amount of time to subtract from the client timeout when setting the server timeout when attempting to
+      // accept the next available session. This will decrease the likelihood that the client times out before receiving a
+      // response from the server.
+      const openReceiveLinkBufferInMs = 20;
+      // The amount minimum threshold for the server timeout for which we will subtract the "openReceiveLinkBufferInMs".
+      // If the server timeout is less than this, we will not subtract the additional buffer.
+      const openReceiveLinkBufferThresholdInMs = 1000;
+      // Subtract a random amount up to 100ms from the operation timeout as the jitter when attempting to open next available session link.
+      // This prevents excessive resource usage when using high amounts of concurrency and accepting the next available session.
+      // Take the min of 1% of the total timeout and the base jitter amount so that we don't end up subtracting more than 1% of the total timeout.
+      const jitterBaseInMs = Math.min(timeoutInMs * 0.01, openReceiveLinkBaseJitterInMs);
+      // We set the operation timeout on the properties not only to include the jitter, but also because the server will otherwise
+      // restrict the maximum timeout to 1 minute and 5 seconds, regardless of the client timeout. We only do this for accepting next available
+      // session as this is the only long-polling scenario.
+      timeoutInMs = Math.floor(timeoutInMs - jitterBaseInMs * Math.random());
+      // Subtract an additional constant buffer to reduce the likelihood that the client times out before the service which leads to unnecessary
+      // network traffic. If the timeout is too short, we won't do this.
+      if (timeoutInMs >= openReceiveLinkBufferThresholdInMs) {
+        timeoutInMs -= openReceiveLinkBufferInMs;
+      }
+    }
+
     await messageSession._init({
       abortSignal: options?.abortSignal,
-      timeoutInMs: options.retryOptions?.timeoutInMs,
+      timeoutInMs,
     });
     return messageSession;
   }
