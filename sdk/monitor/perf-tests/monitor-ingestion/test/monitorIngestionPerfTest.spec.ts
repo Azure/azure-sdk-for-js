@@ -9,9 +9,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export abstract class MonitorIngestionPerfTest<
-  TOptions = Record<string, unknown>
-> extends PerfTest<TOptions> {
+export abstract class MonitorIngestionPerfTest<TOptions> extends PerfTest<TOptions> {
   client: LogsIngestionClient;
 
   constructor() {
