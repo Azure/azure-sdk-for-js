@@ -22,10 +22,10 @@ export interface AccessControlClientOptions extends CommonClientOptions {
   serviceVersion?: SUPPORTED_API_VERSIONS;
 
   /**
-   * Whether to verify the authentication challenge resource matches the Key Vault or Managed HSM domain.
-   * Defaults to true.
+   * Whether to disable verification that the authentication challenge resource matches the Key Vault or Managed HSM domain.
+   * Defaults to false.
    */
-  verifyChallengeResource?: boolean;
+  disableChallengeResourceVerification?: boolean;
 }
 
 /**

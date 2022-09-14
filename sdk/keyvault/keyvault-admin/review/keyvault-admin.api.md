@@ -15,8 +15,8 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessControlClientOptions extends CommonClientOptions {
+    disableChallengeResourceVerification?: boolean;
     serviceVersion?: SUPPORTED_API_VERSIONS;
-    verifyChallengeResource?: boolean;
 }
 
 // @public
@@ -73,8 +73,8 @@ export class KeyVaultBackupClient {
 
 // @public
 export interface KeyVaultBackupClientOptions extends CommonClientOptions {
+    disableChallengeResourceVerification?: boolean;
     serviceVersion?: SUPPORTED_API_VERSIONS;
-    verifyChallengeResource?: boolean;
 }
 
 // @public

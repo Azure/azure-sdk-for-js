@@ -30,10 +30,10 @@ export interface KeyClientOptions extends ExtendedCommonClientOptions {
   serviceVersion?: string;
 
   /**
-   * Whether to verify the authentication challenge resource matches the Key Vault or Managed HSM domain.
-   * Defaults to true.
+   * Whether to disable verification that the authentication challenge resource matches the Key Vault or Managed HSM domain.
+   * Defaults to false.
    */
-  verifyChallengeResource?: boolean;
+  disableChallengeResourceVerification?: boolean;
 }
 
 /**

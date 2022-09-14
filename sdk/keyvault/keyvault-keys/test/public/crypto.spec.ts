@@ -46,7 +46,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       cryptoClient = new CryptographyClient(
         keyVaultKey,
         credential,
-        recorder.configureClientOptions({ verifyChallengeResource: isLiveMode() })
+        recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() })
       );
     });
 
@@ -127,7 +127,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
         const cryptoClientFromKey = new CryptographyClient(
           customKeyVaultKey,
           credential,
-          recorder.configureClientOptions({ verifyChallengeResource: isLiveMode() })
+          recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() })
         );
 
         const text = this.test!.title;
@@ -252,7 +252,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       cryptoClient = new CryptographyClient(
         keyVaultKey.id!,
         credential,
-        recorder.configureClientOptions({ verifyChallengeResource: isLiveMode() })
+        recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() })
       );
     });
 

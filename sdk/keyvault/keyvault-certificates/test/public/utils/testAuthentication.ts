@@ -64,7 +64,7 @@ export async function authenticate(
     credential,
     recorder.configureClientOptions({
       serviceVersion,
-      verifyChallengeResource: isLiveMode(),
+      disableChallengeResourceVerification: !isLiveMode(),
     })
   );
   const testClient = new TestClient(client);

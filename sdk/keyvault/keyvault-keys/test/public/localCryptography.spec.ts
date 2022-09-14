@@ -126,7 +126,7 @@ describe("Local cryptography public tests", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential, {
-      verifyChallengeResource: isLiveMode(),
+      disableChallengeResourceVerification: !isLiveMode(),
     });
 
     const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
@@ -145,7 +145,7 @@ describe("Local cryptography public tests", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential, {
-      verifyChallengeResource: isLiveMode(),
+      disableChallengeResourceVerification: !isLiveMode(),
     });
 
     const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
@@ -164,7 +164,7 @@ describe("Local cryptography public tests", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential, {
-      verifyChallengeResource: isLiveMode(),
+      disableChallengeResourceVerification: !isLiveMode(),
     });
 
     const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
@@ -186,7 +186,7 @@ describe("Local cryptography public tests", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential, {
-      verifyChallengeResource: isLiveMode(),
+      disableChallengeResourceVerification: !isLiveMode(),
     });
 
     const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
@@ -218,7 +218,7 @@ describe("Local cryptography public tests", () => {
         const cryptoClient = new CryptographyClient(
           keyVaultKey.id!,
           credential,
-          recorder.configureClientOptions({ verifyChallengeResource: isLiveMode() })
+          recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() })
         );
 
         // Sign is not implemented yet.

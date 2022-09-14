@@ -20,10 +20,10 @@ export interface SecretClientOptions extends ExtendedCommonClientOptions {
   serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3";
 
   /**
-   * Whether to verify the authentication challenge resource matches the Key Vault domain.
-   * Defaults to true.
+   * Whether to disable verification that the authentication challenge resource matches the Key Vault domain.
+   * Defaults to false.
    */
-  verifyChallengeResource?: boolean;
+  disableChallengeResourceVerification?: boolean;
 }
 
 /**

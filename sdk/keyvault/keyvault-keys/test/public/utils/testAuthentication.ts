@@ -76,7 +76,7 @@ export async function authenticate(version: string, recorder: Recorder): Promise
     credential,
     recorder.configureClientOptions({
       serviceVersion: version,
-      verifyChallengeResource: isLiveMode(),
+      disableChallengeResourceVerification: !isLiveMode(),
     })
   );
   const testClient = new TestClient(client);
@@ -87,7 +87,7 @@ export async function authenticate(version: string, recorder: Recorder): Promise
       env.AZURE_MANAGEDHSM_URI,
       credential,
       recorder.configureClientOptions({
-        verifyChallengeResource: isLiveMode(),
+        disableChallengeResourceVerification: !isLiveMode(),
       })
     );
   }

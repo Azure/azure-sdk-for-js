@@ -199,7 +199,7 @@ describe("Challenge based authentication tests", function () {
     });
 
     it("does not throw if the resource URI host does not match the request but verifyChallengeResource is false", async () => {
-      challengeCallbacks = createChallengeCallbacks({ verifyChallengeResource: false });
+      challengeCallbacks = createChallengeCallbacks({ disableChallengeResourceVerification: true });
       await challengeCallbacks.authorizeRequestOnChallenge!({
         getAccessToken: () => Promise.resolve(null),
         request: createPipelineRequest({ url: "https://foo.bar" }),

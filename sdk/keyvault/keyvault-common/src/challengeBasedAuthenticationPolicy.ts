@@ -39,14 +39,14 @@ type ChallengeState =
 
 export interface CreateChallengeCallbacksOptions {
   /**
-   * Whether to verify the challenge resource matches the Key Vault or Managed HSM domain.
+   * Whether to disable verification that the challenge resource matches the Key Vault or Managed HSM domain.
    *
-   * Defaults to true.
+   * Defaults to false.
    */
-  verifyChallengeResource?: boolean;
+  disableChallengeResourceVerification?: boolean;
 }
 
-function verifyScopeMatchesRequest(scope: string, request: PipelineRequest): void {
+function verifyChallengeResource(scope: string, request: PipelineRequest): void {
   let scopeAsUrl: URL;
   try {
     scopeAsUrl = new URL(scope);
@@ -78,10 +78,9 @@ function verifyScopeMatchesRequest(scope: string, request: PipelineRequest): voi
  * if possible.
  *
  */
-export function createChallengeCallbacks(
-  options: CreateChallengeCallbacksOptions = {}
-): ChallengeCallbacks {
-  const { verifyChallengeResource = true } = options;
+export function createChallengeCallbacks({
+  disableChallengeResourceVerification,
+}: CreateChallengeCallbacksOptions = {}): ChallengeCallbacks {
   let challengeState: ChallengeState = { status: "none" };
 
   function requestToOptions(request: PipelineRequest): GetTokenOptions {
@@ -147,8 +146,8 @@ export function createChallengeCallbacks(
       throw new Error("Missing scope.");
     }
 
-    if (verifyChallengeResource) {
-      verifyScopeMatchesRequest(scope, request);
+    if (!disableChallengeResourceVerification) {
+      verifyChallengeResource(scope, request);
     }
 
     const accessToken = await options.getAccessToken([scope], {
