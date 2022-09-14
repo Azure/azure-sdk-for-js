@@ -44,6 +44,6 @@ describe("Get ledger history", () => {
   });
 });
 
-export function isLiveMode() {
+export function isLiveMode(): boolean {
   return env.TEST_MODE?.toLowerCase() === "live";
 }
