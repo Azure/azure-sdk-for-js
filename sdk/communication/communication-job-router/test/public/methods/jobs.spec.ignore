@@ -18,7 +18,7 @@ import {
   getQueueRequest
 } from "../utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
-import { timeoutMs, sleep } from "../utils/constants";
+import { sleep, timeoutMs } from "../utils/constants";
 import { v4 as uuid } from "uuid";
 
 describe("RouterClient", function() {
@@ -61,8 +61,6 @@ describe("RouterClient", function() {
       if (!this.currentTest?.isPending() && recorder) {
         await recorder.stop();
       }
-
-      await sleep(200);
     });
 
     this.afterAll(async function(this: Context) {
@@ -90,6 +88,8 @@ describe("RouterClient", function() {
     }).timeout(timeoutMs);
 
     it("should update a job", async function() {
+      await sleep(400);
+
       const patch: RouterJob = { ...jobRequest, priority: 5 };
       const result = await client.updateJob(jobId, patch);
 
@@ -129,7 +129,6 @@ describe("RouterClient", function() {
     }).timeout(timeoutMs);
 
     it("should delete a job", async function() {
-      await sleep(3000);
       const result = await client.deleteJob(jobId);
 
       assert.isDefined(result);

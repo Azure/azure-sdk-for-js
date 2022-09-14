@@ -11,8 +11,7 @@ import {
   QueueSelector,
   RouterJob,
   RouterRuleUnion,
-  RouterWorker,
-  StaticQueueSelectorAttachment
+  RouterWorker
 } from "../../../src";
 
 const queueId = "test-queue";
@@ -60,87 +59,40 @@ const isFrench: RouterRuleUnion = {
   value: { default: `If(job.Language = "${french}", true, false)'` }
 };
 
-const isTrue: RouterRuleUnion = {
-  kind: "static-rule",
-  value: { default: true }
-};
-
-export const staticSelector: StaticQueueSelectorAttachment = {
-  kind: "static",
-  labelSelector: { key: "value", labelOperator: "equal", value: { default: true } }
-};
-
-export const staticQueueIdSelector: StaticQueueSelectorAttachment = {
-  kind: "static",
-  labelSelector: queueIdSelector
-};
-
-export const passThroughSelectorRegion: PassThroughQueueSelectorAttachment = {
+const passThroughSelectorRegion: PassThroughQueueSelectorAttachment = {
   kind: "pass-through",
   key: "Region",
   labelOperator: "equal"
 };
 
-export const passThroughSelectorLanguage: PassThroughQueueSelectorAttachment = {
+const passThroughSelectorLanguage: PassThroughQueueSelectorAttachment = {
   kind: "pass-through",
   key: "Language",
   labelOperator: "equal"
 };
 
-export const passThroughSelectorProduct: PassThroughQueueSelectorAttachment = {
+const passThroughSelectorProduct: PassThroughQueueSelectorAttachment = {
   kind: "pass-through",
   key: "Product",
   labelOperator: "equal"
 };
 
-export const conditionalQueueSelector: ConditionalQueueSelectorAttachment = {
-  kind: "conditional",
-  condition: isTrue,
-  labelSelectors: []
-};
-
-export const conditionalProductSelector: ConditionalQueueSelectorAttachment = {
+const conditionalProductSelector: ConditionalQueueSelectorAttachment = {
   kind: "conditional",
   condition: isO365,
   labelSelectors: [queueIdSelector]
 };
 
-export const conditionalEnglishSelector: ConditionalQueueSelectorAttachment = {
+const conditionalEnglishSelector: ConditionalQueueSelectorAttachment = {
   kind: "conditional",
   condition: isEnglish,
   labelSelectors: [englishSelector]
 };
 
-export const conditionalFrenchSelector: ConditionalQueueSelectorAttachment = {
+const conditionalFrenchSelector: ConditionalQueueSelectorAttachment = {
   kind: "conditional",
   condition: isFrench,
   labelSelectors: [frenchSelector]
-};
-
-export const classificationPolicyConditional: ClassificationPolicy = {
-  id: `${classificationPolicyId}-conditional`,
-  name: `${classificationPolicyId}-conditional`,
-  fallbackQueueId: queueId,
-  queueSelectors: [conditionalProductSelector]
-};
-
-export const classificationPolicyPassthrough: ClassificationPolicy = {
-  id: `${classificationPolicyId}-passthrough`,
-  name: `${classificationPolicyId}-passthrough`,
-  fallbackQueueId: queueId,
-  queueSelectors: [passThroughSelectorRegion, passThroughSelectorProduct]
-};
-
-export const classificationPolicyCombined: ClassificationPolicy = {
-  id: `${classificationPolicyId}-combined`,
-  name: `${classificationPolicyId}-combined`,
-  fallbackQueueId: queueId,
-  queueSelectors: [
-    passThroughSelectorLanguage,
-    passThroughSelectorProduct,
-    conditionalEnglishSelector,
-    conditionalFrenchSelector
-  ]
 };
 
 export const englishQueue: JobQueue = {
@@ -157,37 +109,77 @@ export const frenchQueue: JobQueue = {
   labels: { Region: region, Product: product, Language: french }
 };
 
-export const conditionalScenarioJob: RouterJob = {
-  id: `${jobId}-conditional`,
-  channelId: "test-channel",
-  priority: 1,
-  classificationPolicyId: classificationPolicyConditional.id,
-  labels: [{ Product: product }]
-};
+export function getClassificationPolicyConditional(guid: string): ClassificationPolicy {
+  return {
+    id: `${classificationPolicyId}-conditional-${guid}`,
+    name: `${classificationPolicyId}-conditional`,
+    fallbackQueueId: queueId,
+    queueSelectors: [conditionalProductSelector]
+  };
+}
 
-export const passthroughScenarioJob: RouterJob = {
-  id: `${jobId}-passthrough`,
-  channelId: "test-channel",
-  priority: 1,
-  classificationPolicyId: classificationPolicyPassthrough.id,
-  labels: [{ Region: region }, { Language: english }]
-};
+export function getClassificationPolicyPassthrough(guid: string): ClassificationPolicy {
+  return {
+    id: `${classificationPolicyId}-passthrough-${guid}`,
+    name: `${classificationPolicyId}-passthrough`,
+    fallbackQueueId: queueId,
+    queueSelectors: [passThroughSelectorRegion, passThroughSelectorProduct]
+  };
+}
 
-export const englishJob: RouterJob = {
-  id: `${jobId}-english`,
-  channelId: "test-channel",
-  priority: 1,
-  classificationPolicyId: classificationPolicyCombined.id,
-  labels: [{ Product: product }, { Region: region }, { Language: english }]
-};
+export function getClassificationPolicyCombined(guid: string): ClassificationPolicy {
+  return {
+    id: `${classificationPolicyId}-combined-${guid}`,
+    name: `${classificationPolicyId}-combined`,
+    fallbackQueueId: queueId,
+    queueSelectors: [
+      passThroughSelectorLanguage,
+      passThroughSelectorProduct,
+      conditionalEnglishSelector,
+      conditionalFrenchSelector
+    ]
+  };
+}
 
-export const frenchJob: RouterJob = {
-  id: `${jobId}-french`,
-  channelId: "test-channel",
-  priority: 1,
-  classificationPolicyId: classificationPolicyCombined.id,
-  labels: [{ Product: product }, { Region: region }, { Language: "FR" }]
-};
+export function getJobConditional(guid: string): RouterJob {
+  return {
+    id: `${jobId}-conditional-${guid}`,
+    channelId: "test-channel",
+    priority: 1,
+    classificationPolicyId: `${classificationPolicyId}-conditional-${guid}`,
+    labels: [{ Product: product }]
+  };
+}
+
+export function getJobPassthrough(guid: string): RouterJob {
+  return {
+    id: `${jobId}-passthrough-${guid}`,
+    channelId: "test-channel",
+    priority: 1,
+    classificationPolicyId: `${classificationPolicyId}-passthrough-${guid}`,
+    labels: [{ Region: region }, { Language: english }]
+  };
+}
+
+export function getJobEnglish(guid: string): RouterJob {
+  return {
+    id: `${jobId}-english-${guid}`,
+    channelId: "test-channel",
+    priority: 1,
+    classificationPolicyId: `${classificationPolicyId}-combined-${guid}`,
+    labels: [{ Product: product }, { Region: region }, { Language: english }]
+  };
+}
+
+export function getJobFrench(guid: string): RouterJob {
+  return {
+    id: `${jobId}-french-${guid}`,
+    channelId: "test-channel",
+    priority: 1,
+    classificationPolicyId: `${classificationPolicyId}-combined-${guid}`,
+    labels: [{ Product: product }, { Region: region }, { Language: "FR" }]
+  };
+}
 
 export interface QueueRequest {
   queueId: string;

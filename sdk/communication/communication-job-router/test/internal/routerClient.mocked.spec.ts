@@ -4,7 +4,7 @@
 import sinon from "sinon";
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import { RouterClient } from "../../src";
-import { baseUri, generateToken } from "../public/utils/connectionUtils";
+import { baseUri, generateToken } from "../public/utils/connection";
 
 describe("[Mocked] RouterClient", async () => {
   afterEach(() => {
