@@ -81,8 +81,7 @@ export class EnvironmentCredential implements TokenCredential {
       clientSecret = process.env.AZURE_CLIENT_SECRET;
 
     const additionallyAllowedTenantIds = getAdditionallyAllowedTenants();
-    const newOptions = options || {};
-    newOptions.additionallyAllowedTenants = additionallyAllowedTenantIds;
+    const newOptions = { ...options, additionallyAllowedTenantIds };
 
     if (tenantId) {
       checkTenantId(logger, tenantId);
