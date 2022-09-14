@@ -65,7 +65,7 @@ export async function main() {
     if (top_intent_object.targetProjectKind == "QuestionAnswering") {
       console.log("\nqna response:");
       const qna_response = top_intent_object.result;
-      if (qna_response?.answers) {
+      if (qna_response && qna_response.answers) {
         for (const answer of qna_response.answers) {
           console.log("\nanswer: ", answer.answer);
           console.log("confidence score: ", answer.confidence);

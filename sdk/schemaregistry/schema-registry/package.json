@@ -42,7 +42,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/generatedSchemaRegistryClientContext.ts",
+        "path": "src/generated/generatedSchemaRegistryClient.ts",
         "prefix": "packageDetails"
       },
       {
