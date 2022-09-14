@@ -91,7 +91,7 @@ export class AzureCliCredential implements TokenCredential {
    */
   constructor(options?: AzureCliCredentialOptions) {
     this.tenantId = options?.tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenantIds);
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenants);
   }
 
   /**

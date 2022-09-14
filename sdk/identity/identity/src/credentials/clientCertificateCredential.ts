@@ -120,7 +120,7 @@ export class ClientCertificateCredential implements TokenCredential {
     }
 
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenantIds);
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenants);
 
     const configuration: ClientCertificateCredentialPEMConfiguration = {
       ...(typeof certificatePathOrConfiguration === "string"
@@ -165,12 +165,8 @@ export class ClientCertificateCredential implements TokenCredential {
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
     return tracingClient.withSpan(`${credentialName}.getToken`, options, async (newOptions) => {
-        const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
-        if (tenantId) {
-          checkTenantId(logger, tenantId);
-        }
-
-        newOptions.tenantId = tenantId;
+      const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
+      newOptions.tenantId = tenantId;
 
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       return this.msalFlow.getToken(arrayScopes, newOptions);

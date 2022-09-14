@@ -45,7 +45,7 @@ export class ClientAssertionCredential implements TokenCredential {
       );
     }
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenantIds);
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenants);
     this.clientId = clientId;
     this.options = options;
     this.msalFlow = new MsalClientAssertion({
@@ -72,10 +72,6 @@ export class ClientAssertionCredential implements TokenCredential {
       options,
       async (newOptions) => {
         const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
-        if (tenantId) {
-          checkTenantId(logger, tenantId);
-        }
-
         newOptions.tenantId = tenantId;
 
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];

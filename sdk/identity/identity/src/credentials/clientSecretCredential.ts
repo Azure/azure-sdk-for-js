@@ -49,7 +49,7 @@ export class ClientSecretCredential implements TokenCredential {
     }
 
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenantIds);
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenants);
 
     this.msalFlow = new MsalClientSecret({
       ...options,
@@ -75,10 +75,6 @@ export class ClientSecretCredential implements TokenCredential {
       options,
       async (newOptions) => {
         const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
-        if (tenantId) {
-          checkTenantId(logger, tenantId);
-        }
-
         newOptions.tenantId = tenantId;
 
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];

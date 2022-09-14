@@ -125,7 +125,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
       this.tenantId = CommonTenantId;
     }
 
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenantIds);
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenants);
 
     checkUnsupportedTenant(this.tenantId);
   }

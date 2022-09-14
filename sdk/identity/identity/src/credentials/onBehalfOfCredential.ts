@@ -83,7 +83,7 @@ export class OnBehalfOfCredential implements TokenCredential {
   constructor(private options: OnBehalfOfCredentialOptions) {
     const { clientSecret } = options as OnBehalfOfCredentialSecretOptions;
     const { certificatePath } = options as OnBehalfOfCredentialCertificateOptions;
-    const { tenantId, clientId, userAssertionToken, additionallyAllowedTenantIds } = options;
+    const { tenantId, clientId, userAssertionToken, additionallyAllowedTenants: additionallyAllowedTenantIds } = options;
     if (!tenantId || !clientId || !(clientSecret || certificatePath) || !userAssertionToken) {
       throw new Error(
         `${credentialName}: tenantId, clientId, clientSecret (or certificatePath) and userAssertionToken are required parameters.`
@@ -109,12 +109,8 @@ export class OnBehalfOfCredential implements TokenCredential {
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
     return tracingClient.withSpan(`${credentialName}.getToken`, options, async (newOptions) => {
-        const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
-        if (tenantId) {
-          checkTenantId(logger, tenantId);
-        }
-
-        newOptions.tenantId = tenantId;
+      const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
+      newOptions.tenantId = tenantId;
 
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       return this.msalFlow!.getToken(arrayScopes, newOptions);

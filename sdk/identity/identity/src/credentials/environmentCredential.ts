@@ -83,7 +83,7 @@ export class EnvironmentCredential implements TokenCredential {
 
     const additionallyAllowedTenantIds = getAdditionallyAllowedTenants();
     const newOptions = options || {};
-    newOptions.additionallyAllowedTenantIds = additionallyAllowedTenantIds;
+    newOptions.additionallyAllowedTenants = additionallyAllowedTenantIds;
 
     if (tenantId) {
       checkTenantId(logger, tenantId);

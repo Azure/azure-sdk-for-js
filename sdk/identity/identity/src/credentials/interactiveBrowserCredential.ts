@@ -52,7 +52,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         : options.redirectUri || "http://localhost";
 
     this.tenantId = options?.tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenantIds);
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenants);
 
     this.msalFlow = new MsalOpenBrowser({
       ...options,
@@ -81,10 +81,6 @@ export class InteractiveBrowserCredential implements TokenCredential {
       options,
       async (newOptions) => {
         const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
-        if (tenantId) {
-          checkTenantId(logger, tenantId);
-        }
-
         newOptions.tenantId = tenantId;
 
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];

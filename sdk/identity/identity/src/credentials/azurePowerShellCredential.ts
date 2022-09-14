@@ -106,7 +106,7 @@ export class AzurePowerShellCredential implements TokenCredential {
    */
   constructor(options?: AzurePowerShellCredentialOptions) {
     this.tenantId = options?.tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenantIds);
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenants);
   }
 
   /**
@@ -169,10 +169,6 @@ export class AzurePowerShellCredential implements TokenCredential {
   ): Promise<AccessToken> {
     return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
       const tenantId = processMultiTenantRequest(this.tenantId, options, this.additionallyAllowedTenantIds);
-      if (tenantId) {
-        checkTenantId(logger, tenantId);
-      }
-
       const scope = typeof scopes === "string" ? scopes : scopes[0];
       ensureValidScope(scope, logger);
       logger.getToken.info(`Using the scope ${scope}`);

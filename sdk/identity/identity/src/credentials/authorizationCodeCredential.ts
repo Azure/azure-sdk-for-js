@@ -113,8 +113,10 @@ export class AuthorizationCodeCredential implements TokenCredential {
       clientSecret = undefined;
       options = redirectUriOrOptions as AuthorizationCodeCredentialOptions;
     }
+
+    // TODO: Validate tenant if provided
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenantIds);
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(options?.additionallyAllowedTenants);
 
     this.msalFlow = new MsalAuthorizationCode({
       ...options,
@@ -142,11 +144,8 @@ export class AuthorizationCodeCredential implements TokenCredential {
       options,
       async (newOptions) => {
         const tenantId = processMultiTenantRequest(this.tenantId, newOptions, this.additionallyAllowedTenantIds);
-        if (tenantId) {
-          checkTenantId(logger, tenantId);
-        }
-
         newOptions.tenantId = tenantId;
+
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
         return this.msalFlow.getToken(arrayScopes, {
           ...newOptions,

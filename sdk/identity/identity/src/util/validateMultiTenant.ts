@@ -6,7 +6,12 @@ import { GetTokenOptions } from "@azure/core-auth";
   /**
  * @internal
  */
+// TODO: Format message
 export const MULTI_TENANT_CONFIGURATION_ERROR_MESSAGE = "The current credential is not configured to acquire tokens for the current tenant. To enable acquiring tokens for this tenant add it to the AdditionallyAllowedTenants on the credential options, or add \"*\" to AdditionallyAllowedTenants to allow acquiring tokens for any tenant.";
+
+function createConfigurationErrorMessage(tenantId: string) {
+  return `The current credential is not configured to acquire tokens for tenant ${tenantId}. To enable acquiring tokens for this tenant add it to the AdditionallyAllowedTenants on the credential options, or add "*" to AdditionallyAllowedTenants to allow acquiring tokens for any tenant.`
+}
 
 /**
  * Of getToken contains a tenantId, this functions allows picking this tenantId as the appropriate for authentication,
@@ -30,7 +35,7 @@ export function processMultiTenantRequest(
   }
 
   if (tenantId && resolvedTenantId !== tenantId && !additionallyAllowedTenantIds.includes("*") && !additionallyAllowedTenantIds.includes(tenantId)) {
-    throw new Error(MULTI_TENANT_CONFIGURATION_ERROR_MESSAGE);
+    throw new Error(createConfigurationErrorMessage(tenantId));
   }
 
   return resolvedTenantId;
