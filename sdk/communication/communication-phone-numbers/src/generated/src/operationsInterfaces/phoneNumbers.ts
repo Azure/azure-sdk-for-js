@@ -13,7 +13,7 @@ import {
   PhoneNumbersListAvailableCountriesOptionalParams,
   PhoneNumberLocality,
   PhoneNumbersListAvailableLocalitiesOptionalParams,
-  AreaCodeResult,
+  AreaCodeItem,
   PhoneNumbersListAreaCodesOptionalParams,
   PhoneNumberOffering,
   PhoneNumbersListOfferingsOptionalParams,
@@ -66,7 +66,7 @@ export interface PhoneNumbers {
   listAreaCodes(
     countryCode: string,
     options?: PhoneNumbersListAreaCodesOptionalParams
-  ): PagedAsyncIterableIterator<AreaCodeResult>;
+  ): PagedAsyncIterableIterator<AreaCodeItem>;
   /**
    * List available offerings of capabilities with rates for the given country/region
    * @param countryCode The ISO 3166-2 country/region code, e.g. US.

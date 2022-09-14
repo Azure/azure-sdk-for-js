@@ -61,7 +61,7 @@ export interface ListLocalitiesOptions extends OperationOptions {}
 export interface ListOfferingsOptions extends OperationOptions {}
 
 export {
-  AreaCodeResult,
+  AreaCodeItem,
   PhoneNumberAdministrativeDivision,
   PhoneNumberAssignmentType,
   PhoneNumberCapabilities,

@@ -80,13 +80,13 @@ export interface PhoneNumberAdministrativeDivision {
 /** The list of available area codes. */
 export interface AreaCodes {
   /** Represents a list of available toll-free area codes. */
-  areaCodes: AreaCodeResult[];
+  areaCodes: AreaCodeItem[];
   /** Represents the URL link to the next page of phone number results. */
   nextLink?: string;
 }
 
 /** An area code. */
-export interface AreaCodeResult {
+export interface AreaCodeItem {
   /** An area code as a string. */
   areaCode?: string;
 }

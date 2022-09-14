@@ -22,7 +22,7 @@ import {
   PhoneNumberLocality,
   PhoneNumbersListAvailableLocalitiesNextOptionalParams,
   PhoneNumbersListAvailableLocalitiesOptionalParams,
-  AreaCodeResult,
+  AreaCodeItem,
   PhoneNumbersListAreaCodesNextOptionalParams,
   PhoneNumbersListAreaCodesOptionalParams,
   PhoneNumberOffering,
@@ -180,7 +180,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
   public listAreaCodes(
     countryCode: string,
     options?: PhoneNumbersListAreaCodesOptionalParams
-  ): PagedAsyncIterableIterator<AreaCodeResult> {
+  ): PagedAsyncIterableIterator<AreaCodeItem> {
     const iter = this.listAreaCodesPagingAll(countryCode, options);
     return {
       next() {
@@ -198,7 +198,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
   private async *listAreaCodesPagingPage(
     countryCode: string,
     options?: PhoneNumbersListAreaCodesOptionalParams
-  ): AsyncIterableIterator<AreaCodeResult[]> {
+  ): AsyncIterableIterator<AreaCodeItem[]> {
     let result = await this._listAreaCodes(countryCode, options);
     yield result.areaCodes || [];
     let continuationToken = result.nextLink;
@@ -216,7 +216,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
   private async *listAreaCodesPagingAll(
     countryCode: string,
     options?: PhoneNumbersListAreaCodesOptionalParams
-  ): AsyncIterableIterator<AreaCodeResult> {
+  ): AsyncIterableIterator<AreaCodeItem> {
     for await (const page of this.listAreaCodesPagingPage(
       countryCode,
       options

@@ -210,7 +210,7 @@ export const AreaCodes: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "AreaCodeResult"
+              className: "AreaCodeItem"
             }
           }
         }
@@ -225,10 +225,10 @@ export const AreaCodes: coreClient.CompositeMapper = {
   }
 };
 
-export const AreaCodeResult: coreClient.CompositeMapper = {
+export const AreaCodeItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AreaCodeResult",
+    className: "AreaCodeItem",
     modelProperties: {
       areaCode: {
         serializedName: "areaCode",

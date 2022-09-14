@@ -13,7 +13,7 @@ import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
 import {
-  AreaCodeResult,
+  AreaCodeItem,
   PhoneNumberAssignmentType,
   PhoneNumberCapabilitiesRequest,
   PhoneNumberCountry,
@@ -387,8 +387,8 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts
    * let client = new PhoneNumbersClient(credentials);
-   * for await (const areaCodeResult of client.listTollFreeAreaCodes()) {
-   *   console.log("area code: ", areaCodeResult.areaCode);
+   * for await (const areaCodeItem of client.listTollFreeAreaCodes()) {
+   *   console.log("area code: ", areaCodeItem.areaCode);
    * }
    * ```
    * List all available Toll-Free area codes.
@@ -398,7 +398,7 @@ export class PhoneNumbersClient {
   public listAvailableTollFreeAreaCodes(
     countryCode: string,
     options: ListTollFreeAreaCodesOptions = {}
-  ): PagedAsyncIterableIterator<AreaCodeResult> {
+  ): PagedAsyncIterableIterator<AreaCodeItem> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-listAvailableTollFreeAreaCodes",
       options
@@ -428,8 +428,8 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts
    * let client = new PhoneNumbersClient(credentials);
-   * for await (const areaCodeResult of client.listGeographicAreaCodes()) {
-   *   console.log("area code: ", areaCodeResult.areaCode);
+   * for await (const areaCodeItem of client.listGeographicAreaCodes()) {
+   *   console.log("area code: ", areaCodeItem.areaCode);
    * }
    * ```
    * List all available Geographic area codes.
@@ -440,7 +440,7 @@ export class PhoneNumbersClient {
     countryCode: string,
     assignmentType: PhoneNumberAssignmentType,
     options: ListGeographicAreaCodesOptions = {}
-  ): PagedAsyncIterableIterator<AreaCodeResult> {
+  ): PagedAsyncIterableIterator<AreaCodeItem> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-listAvailableGeographicFreeAreaCodes",
       options
