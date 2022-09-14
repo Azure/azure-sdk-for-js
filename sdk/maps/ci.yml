@@ -30,7 +30,5 @@ extends:
   parameters:
     ServiceDirectory: maps
     Artifacts:
-      - name: azure-maps-common
-        safeName: azuremapscommon
       - name: azure-maps-search
         safeName: azuremapssearch
