@@ -78,7 +78,8 @@ describe("security test", () => {
 
   it("SecurityContact list test", async function () {
     const resArray = new Array();
-    for await (let item of client.securityContacts.list()) {
+    const res = client.securityContacts.list()
+    for await (let item of res.byPage()) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
