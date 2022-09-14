@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { ALL_TENANTS, DeveloperSignOnClientId } from "../constants";
 import { CredentialLogger, formatError } from "./logging";
-import { DeveloperSignOnClientId } from "../constants";
 import { GetTokenOptions } from "@azure/core-auth";
 
 export function checkTenantId(logger: CredentialLogger, tenantId: string): void {
@@ -61,4 +61,19 @@ export function processMultiTenantRequest(
   }
 
   return resolvedTenantId;
+}
+
+/**
+ * @internal
+ */
+export function resolveAddionallyAllowedTenantIds(additionallyAllowedTenants?: string[]): string[] {
+  if (!additionallyAllowedTenants || additionallyAllowedTenants.length === 0) {
+    return [];
+  }
+
+  if (additionallyAllowedTenants.includes("*")) {
+    return ALL_TENANTS;
+  }
+
+  return additionallyAllowedTenants;
 }

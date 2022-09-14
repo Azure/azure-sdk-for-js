@@ -23,8 +23,7 @@ import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import { RegionalAuthority } from "../../regionalAuthority";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 import { TokenCredentialOptions } from "../../tokenCredentialOptions";
-import { processMultiTenantRequest } from "../../util/validateMultiTenant";
-import { resolveTenantId } from "../../util/resolveTenantId";
+import { processMultiTenantRequest, resolveTenantId } from "../../util/tenantIdUtils";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.

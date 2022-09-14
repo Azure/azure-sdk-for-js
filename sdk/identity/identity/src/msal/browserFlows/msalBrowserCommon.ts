@@ -5,13 +5,12 @@ import * as msalBrowser from "@azure/msal-browser";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../../errors";
 import { MsalBaseUtilities, getAuthority, getKnownAuthorities } from "../utils";
 import { MsalFlow, MsalFlowOptions } from "../flows";
+import { processMultiTenantRequest, resolveTenantId } from "../../util/tenantIdUtils";
 import { AccessToken } from "@azure/core-auth";
 import { AuthenticationRecord } from "../types";
 import { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentialOptions";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { DefaultTenantId } from "../../constants";
-import { processMultiTenantRequest } from "../../util/validateMultiTenant";
-import { resolveTenantId } from "../../util/resolveTenantId";
 
 /**
  * Union of the constructor parameters that all MSAL flow types take.

@@ -8,7 +8,7 @@ import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { EnvironmentCredentialOptions } from "./environmentCredentialOptions";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
-import { checkTenantId } from "../util/checkTenantId";
+import { checkTenantId } from "../util/tenantIdUtils";
 import { tracingClient } from "../util/tracing";
 
 /**
