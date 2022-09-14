@@ -85,12 +85,11 @@ export class DeviceCodeCredential implements TokenCredential {
       `${this.constructor.name}.getToken`,
       options,
       async (newOptions) => {
-        const tenantId = processMultiTenantRequest(
+        newOptions.tenantId  = processMultiTenantRequest(
           this.tenantId,
           newOptions,
           this.additionallyAllowedTenantIds
         );
-        newOptions.tenantId = tenantId;
 
         const arrayScopes = ensureScopes(scopes);
         return this.msalFlow.getToken(arrayScopes, {

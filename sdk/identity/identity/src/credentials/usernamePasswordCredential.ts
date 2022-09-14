@@ -10,7 +10,7 @@ import { MsalFlow } from "../msal/flows";
 import { MsalUsernamePassword } from "../msal/nodeFlows/msalUsernamePassword";
 import { UsernamePasswordCredentialOptions } from "./usernamePasswordCredentialOptions";
 import { credentialLogger } from "../util/logging";
-
+import { ensureScopes } from "../util/scopeUtils";
 import { tracingClient } from "../util/tracing";
 
 const logger = credentialLogger("UsernamePasswordCredential");
@@ -83,14 +83,13 @@ export class UsernamePasswordCredential implements TokenCredential {
       `${this.constructor.name}.getToken`,
       options,
       async (newOptions) => {
-        const tenantId = processMultiTenantRequest(
+        newOptions.tenantId  = processMultiTenantRequest(
           this.tenantId,
           newOptions,
           this.additionallyAllowedTenantIds
         );
-        newOptions.tenantId = tenantId;
 
-        const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+        const arrayScopes = ensureScopes(scopes);
         return this.msalFlow.getToken(arrayScopes, newOptions);
       }
     );

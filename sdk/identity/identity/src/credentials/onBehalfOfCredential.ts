@@ -118,12 +118,11 @@ export class OnBehalfOfCredential implements TokenCredential {
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
     return tracingClient.withSpan(`${credentialName}.getToken`, options, async (newOptions) => {
-      const tenantId = processMultiTenantRequest(
+      newOptions.tenantId  = processMultiTenantRequest(
         this.tenantId,
         newOptions,
         this.additionallyAllowedTenantIds
       );
-      newOptions.tenantId = tenantId;
 
       const arrayScopes = ensureScopes(scopes);
       return this.msalFlow!.getToken(arrayScopes, newOptions);
