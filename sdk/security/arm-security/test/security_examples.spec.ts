@@ -61,6 +61,10 @@ describe("security test", () => {
     };
   })
 
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
   it("SecurityContact create test", async function () {
     const res = await client.securityContacts.create(
       securityContactName,
