@@ -78,6 +78,7 @@ function handleRequest(request: any, response: any) {
       // terminate the process to stop CI pipeline from running forever
       server.close();
       server.unref();
+      process.exit(0);
     }, 2000);
   });
 }

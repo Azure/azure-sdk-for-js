@@ -7,16 +7,16 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { AzureLogger } from '@azure/logger';
-import * as coreHttp from '@azure/core-http';
+import * as coreClient from '@azure/core-client';
+import { ExtendedCommonClientOptions } from '@azure/core-http-compat';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface BackupSecretOptions extends coreHttp.OperationOptions {
+export interface BackupSecretOptions extends coreClient.OperationOptions {
 }
 
 // @public
@@ -45,11 +45,11 @@ export interface DeletedSecret {
 export type DeletionRecoveryLevel = string;
 
 // @public
-export interface GetDeletedSecretOptions extends coreHttp.OperationOptions {
+export interface GetDeletedSecretOptions extends coreClient.OperationOptions {
 }
 
 // @public
-export interface GetSecretOptions extends coreHttp.OperationOptions {
+export interface GetSecretOptions extends coreClient.OperationOptions {
     version?: string;
 }
 
@@ -80,15 +80,15 @@ export enum KnownDeletionRecoveryLevel {
 }
 
 // @public
-export interface ListDeletedSecretsOptions extends coreHttp.OperationOptions {
+export interface ListDeletedSecretsOptions extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ListPropertiesOfSecretsOptions extends coreHttp.OperationOptions {
+export interface ListPropertiesOfSecretsOptions extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ListPropertiesOfSecretVersionsOptions extends coreHttp.OperationOptions {
+export interface ListPropertiesOfSecretVersionsOptions extends coreClient.OperationOptions {
 }
 
 // @public
@@ -101,18 +101,16 @@ export { PageSettings }
 // @public
 export function parseKeyVaultSecretIdentifier(id: string): KeyVaultSecretIdentifier;
 
-export { PipelineOptions }
-
 export { PollerLike }
 
 export { PollOperationState }
 
 // @public
-export interface PurgeDeletedSecretOptions extends coreHttp.OperationOptions {
+export interface PurgeDeletedSecretOptions extends coreClient.OperationOptions {
 }
 
 // @public
-export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {
+export interface RestoreSecretBackupOptions extends coreClient.OperationOptions {
 }
 
 // @public
@@ -134,12 +132,12 @@ export class SecretClient {
 }
 
 // @public
-export interface SecretClientOptions extends coreHttp.PipelineOptions {
+export interface SecretClientOptions extends ExtendedCommonClientOptions {
     serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3";
 }
 
 // @public
-export interface SecretPollerOptions extends coreHttp.OperationOptions {
+export interface SecretPollerOptions extends coreClient.OperationOptions {
     intervalInMs?: number;
     resumeFrom?: string;
 }
@@ -168,7 +166,7 @@ export interface SecretProperties {
 }
 
 // @public
-export interface SetSecretOptions extends coreHttp.OperationOptions {
+export interface SetSecretOptions extends coreClient.OperationOptions {
     contentType?: string;
     enabled?: boolean;
     readonly expiresOn?: Date;
@@ -179,7 +177,7 @@ export interface SetSecretOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface UpdateSecretPropertiesOptions extends coreHttp.OperationOptions {
+export interface UpdateSecretPropertiesOptions extends coreClient.OperationOptions {
     contentType?: string;
     enabled?: boolean;
     readonly expiresOn?: Date;

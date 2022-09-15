@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { Constants } from "./constants";
-import { trimSlashFromLeftAndRight, validateResourceId } from "./helper";
+import { trimSlashFromLeftAndRight, validateResourceId, validateItemResourceId } from "./helper";
 
 /**
  * Would be used when creating or deleting a DocumentCollection
@@ -74,7 +74,7 @@ export function createDocumentUri(
   documentId: string
 ): string {
   documentId = trimSlashFromLeftAndRight(documentId);
-  validateResourceId(documentId);
+  validateItemResourceId(documentId);
 
   return (
     createDocumentCollectionUri(databaseId, collectionId) +

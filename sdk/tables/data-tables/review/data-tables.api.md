@@ -416,7 +416,8 @@ export class TableTransaction {
     actions: TransactionAction[];
     createEntity<T extends object = Record<string, unknown>>(entity: TableEntity<T>): void;
     deleteEntity(partitionKey: string, rowKey: string): void;
-    updateEntity<T extends object = Record<string, unknown>>(entity: TableEntity<T>, updateMode?: UpdateMode): void;
+    updateEntity<T extends object = Record<string, unknown>>(entity: TableEntity<T>, updateOptions?: UpdateTableEntityOptions): void;
+    updateEntity<T extends object = Record<string, unknown>>(entity: TableEntity<T>, updateMode: UpdateMode, updateOptions?: UpdateTableEntityOptions): void;
     upsertEntity<T extends object = Record<string, unknown>>(entity: TableEntity<T>, updateMode?: UpdateMode): void;
 }
 
@@ -447,7 +448,7 @@ export interface TableUpdateEntityHeaders {
 export type TransactionAction = CreateDeleteEntityAction | UpdateEntityAction;
 
 // @public
-export type UpdateEntityAction = ["update" | "upsert", TableEntity] | ["update" | "upsert", TableEntity, "Merge" | "Replace"];
+export type UpdateEntityAction = ["update" | "upsert", TableEntity] | ["update" | "upsert", TableEntity, "Merge" | "Replace"] | ["update" | "upsert", TableEntity, "Merge" | "Replace", UpdateTableEntityOptions | undefined];
 
 // @public
 export type UpdateEntityResponse = TableUpdateEntityHeaders;

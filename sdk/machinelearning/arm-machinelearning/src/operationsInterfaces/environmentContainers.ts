@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  EnvironmentContainerData,
+  EnvironmentContainer,
   EnvironmentContainersListOptionalParams,
   EnvironmentContainersDeleteOptionalParams,
   EnvironmentContainersGetOptionalParams,
@@ -30,7 +30,7 @@ export interface EnvironmentContainers {
     resourceGroupName: string,
     workspaceName: string,
     options?: EnvironmentContainersListOptionalParams
-  ): PagedAsyncIterableIterator<EnvironmentContainerData>;
+  ): PagedAsyncIterableIterator<EnvironmentContainer>;
   /**
    * Delete container.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -69,7 +69,7 @@ export interface EnvironmentContainers {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    body: EnvironmentContainerData,
+    body: EnvironmentContainer,
     options?: EnvironmentContainersCreateOrUpdateOptionalParams
   ): Promise<EnvironmentContainersCreateOrUpdateResponse>;
 }

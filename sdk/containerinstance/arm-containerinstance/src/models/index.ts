@@ -16,6 +16,77 @@ export interface ContainerGroupListResult {
   nextLink?: string;
 }
 
+/** The Resource model definition. */
+export interface Resource {
+  /**
+   * The resource id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The resource location. */
+  location?: string;
+  /** The resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The zones for the container group. */
+  zones?: string[];
+}
+
+/** The container group properties */
+export interface ContainerGroupProperties {
+  /** The identity of the container group, if configured. */
+  identity?: ContainerGroupIdentity;
+  /**
+   * The provisioning state of the container group. This only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** The containers within the container group. */
+  containers: Container[];
+  /** The image registry credentials by which the container group is created from. */
+  imageRegistryCredentials?: ImageRegistryCredential[];
+  /**
+   * Restart policy for all containers within the container group.
+   * - `Always` Always restart
+   * - `OnFailure` Restart on failure
+   * - `Never` Never restart
+   *
+   */
+  restartPolicy?: ContainerGroupRestartPolicy;
+  /** The IP address type of the container group. */
+  ipAddress?: IpAddress;
+  /** The operating system type required by the containers in the container group. */
+  osType: OperatingSystemTypes;
+  /** The list of volumes that can be mounted by containers in this container group. */
+  volumes?: Volume[];
+  /**
+   * The instance view of the container group. Only valid in response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceView?: ContainerGroupPropertiesInstanceView;
+  /** The diagnostic information for a container group. */
+  diagnostics?: ContainerGroupDiagnostics;
+  /** The subnet resource IDs for a container group. */
+  subnetIds?: ContainerGroupSubnetId[];
+  /** The DNS config information for a container group. */
+  dnsConfig?: DnsConfiguration;
+  /** The SKU for a container group. */
+  sku?: ContainerGroupSku;
+  /** The encryption properties for a container group. */
+  encryptionProperties?: EncryptionProperties;
+  /** The init containers for a container group. */
+  initContainers?: InitContainerDefinition[];
+}
+
 /** Identity for the container group. */
 export interface ContainerGroupIdentity {
   /**
@@ -30,13 +101,12 @@ export interface ContainerGroupIdentity {
   readonly tenantId?: string;
   /** The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the container group. */
   type?: ResourceIdentityType;
-  /** The list of user identities associated with the container group. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: {
-    [propertyName: string]: Components10Wh5UdSchemasContainergroupidentityPropertiesUserassignedidentitiesAdditionalproperties;
-  };
+  /** The list of user identities associated with the container group. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentities };
 }
 
-export interface Components10Wh5UdSchemasContainergroupidentityPropertiesUserassignedidentitiesAdditionalproperties {
+/** The list of user identities associated with the container group. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+export interface UserAssignedIdentities {
   /**
    * The principal id of user assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -276,7 +346,7 @@ export interface ImageRegistryCredential {
   /** The Docker image registry server without a protocol such as "http" and "https". */
   server: string;
   /** The username for the private registry. */
-  username: string;
+  username?: string;
   /** The password for the private registry. */
   password?: string;
   /** The identity for the private registry. */
@@ -295,8 +365,8 @@ export interface IpAddress {
   ip?: string;
   /** The Dns name label for the IP. */
   dnsNameLabel?: string;
-  /** The value representing the security enum. */
-  dnsNameLabelReusePolicy?: AutoGeneratedDomainNameLabelScope;
+  /** The value representing the security enum. The 'Unsecure' value is the default value if not selected and means the object's domain name label is not secured against subdomain takeover. The 'TenantReuse' value is the default value if selected and means the object's domain name label can be reused within the same tenant. The 'SubscriptionReuse' value means the object's domain name label can be reused within the same subscription. The 'ResourceGroupReuse' value means the object's domain name label can be reused within the same resource group. The 'NoReuse' value means the object's domain name label cannot be reused within the same resource group, subscription, or tenant. */
+  autoGeneratedDomainNameLabelScope?: DnsNameLabelReusePolicy;
   /**
    * The FQDN for the IP.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -453,31 +523,6 @@ export interface InitContainerPropertiesDefinitionInstanceView {
   readonly events?: Event[];
 }
 
-/** The Resource model definition. */
-export interface Resource {
-  /**
-   * The resource id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The resource location. */
-  location?: string;
-  /** The resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The zones for the container group. */
-  zones?: string[];
-}
-
 /** An error response from the Container Instance service. */
 export interface CloudError {
   /** An error response from the Container Instance service. */
@@ -539,6 +584,11 @@ export interface UsageListResult {
 
 /** A single usage result */
 export interface Usage {
+  /**
+   * Id of the usage result
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
   /**
    * Unit of the usage result
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -691,54 +741,13 @@ export interface CapabilitiesCapabilities {
 }
 
 /** A container group. */
-export type ContainerGroup = Resource & {
-  /** The identity of the container group, if configured. */
-  identity?: ContainerGroupIdentity;
-  /**
-   * The provisioning state of the container group. This only appears in the response.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /** The containers within the container group. */
-  containers: Container[];
-  /** The image registry credentials by which the container group is created from. */
-  imageRegistryCredentials?: ImageRegistryCredential[];
-  /**
-   * Restart policy for all containers within the container group.
-   * - `Always` Always restart
-   * - `OnFailure` Restart on failure
-   * - `Never` Never restart
-   *
-   */
-  restartPolicy?: ContainerGroupRestartPolicy;
-  /** The IP address type of the container group. */
-  ipAddress?: IpAddress;
-  /** The operating system type required by the containers in the container group. */
-  osType: OperatingSystemTypes;
-  /** The list of volumes that can be mounted by containers in this container group. */
-  volumes?: Volume[];
-  /**
-   * The instance view of the container group. Only valid in response.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instanceView?: ContainerGroupPropertiesInstanceView;
-  /** The diagnostic information for a container group. */
-  diagnostics?: ContainerGroupDiagnostics;
-  /** The subnet resource IDs for a container group. */
-  subnetIds?: ContainerGroupSubnetId[];
-  /** The DNS config information for a container group. */
-  dnsConfig?: DnsConfiguration;
-  /** The SKU for a container group. */
-  sku?: ContainerGroupSku;
-  /** The encryption properties for a container group. */
-  encryptionProperties?: EncryptionProperties;
-  /** The init containers for a container group. */
-  initContainers?: InitContainerDefinition[];
-};
+export interface ContainerGroup extends Resource, ContainerGroupProperties {}
 
 /** Known values of {@link ContainerNetworkProtocol} that the service accepts. */
 export enum KnownContainerNetworkProtocol {
+  /** TCP */
   TCP = "TCP",
+  /** UDP */
   UDP = "UDP"
 }
 
@@ -754,8 +763,11 @@ export type ContainerNetworkProtocol = string;
 
 /** Known values of {@link GpuSku} that the service accepts. */
 export enum KnownGpuSku {
+  /** K80 */
   K80 = "K80",
+  /** P100 */
   P100 = "P100",
+  /** V100 */
   V100 = "V100"
 }
 
@@ -772,7 +784,9 @@ export type GpuSku = string;
 
 /** Known values of {@link Scheme} that the service accepts. */
 export enum KnownScheme {
+  /** Http */
   Http = "http",
+  /** Https */
   Https = "https"
 }
 
@@ -788,8 +802,11 @@ export type Scheme = string;
 
 /** Known values of {@link ContainerGroupRestartPolicy} that the service accepts. */
 export enum KnownContainerGroupRestartPolicy {
+  /** Always */
   Always = "Always",
+  /** OnFailure */
   OnFailure = "OnFailure",
+  /** Never */
   Never = "Never"
 }
 
@@ -806,7 +823,9 @@ export type ContainerGroupRestartPolicy = string;
 
 /** Known values of {@link ContainerGroupNetworkProtocol} that the service accepts. */
 export enum KnownContainerGroupNetworkProtocol {
+  /** TCP */
   TCP = "TCP",
+  /** UDP */
   UDP = "UDP"
 }
 
@@ -822,7 +841,9 @@ export type ContainerGroupNetworkProtocol = string;
 
 /** Known values of {@link ContainerGroupIpAddressType} that the service accepts. */
 export enum KnownContainerGroupIpAddressType {
+  /** Public */
   Public = "Public",
+  /** Private */
   Private = "Private"
 }
 
@@ -836,18 +857,23 @@ export enum KnownContainerGroupIpAddressType {
  */
 export type ContainerGroupIpAddressType = string;
 
-/** Known values of {@link AutoGeneratedDomainNameLabelScope} that the service accepts. */
-export enum KnownAutoGeneratedDomainNameLabelScope {
+/** Known values of {@link DnsNameLabelReusePolicy} that the service accepts. */
+export enum KnownDnsNameLabelReusePolicy {
+  /** Unsecure */
   Unsecure = "Unsecure",
+  /** TenantReuse */
   TenantReuse = "TenantReuse",
+  /** SubscriptionReuse */
   SubscriptionReuse = "SubscriptionReuse",
+  /** ResourceGroupReuse */
   ResourceGroupReuse = "ResourceGroupReuse",
+  /** Noreuse */
   Noreuse = "Noreuse"
 }
 
 /**
- * Defines values for AutoGeneratedDomainNameLabelScope. \
- * {@link KnownAutoGeneratedDomainNameLabelScope} can be used interchangeably with AutoGeneratedDomainNameLabelScope,
+ * Defines values for DnsNameLabelReusePolicy. \
+ * {@link KnownDnsNameLabelReusePolicy} can be used interchangeably with DnsNameLabelReusePolicy,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Unsecure** \
@@ -856,11 +882,13 @@ export enum KnownAutoGeneratedDomainNameLabelScope {
  * **ResourceGroupReuse** \
  * **Noreuse**
  */
-export type AutoGeneratedDomainNameLabelScope = string;
+export type DnsNameLabelReusePolicy = string;
 
 /** Known values of {@link OperatingSystemTypes} that the service accepts. */
 export enum KnownOperatingSystemTypes {
+  /** Windows */
   Windows = "Windows",
+  /** Linux */
   Linux = "Linux"
 }
 
@@ -876,7 +904,9 @@ export type OperatingSystemTypes = string;
 
 /** Known values of {@link LogAnalyticsLogType} that the service accepts. */
 export enum KnownLogAnalyticsLogType {
+  /** ContainerInsights */
   ContainerInsights = "ContainerInsights",
+  /** ContainerInstanceLogs */
   ContainerInstanceLogs = "ContainerInstanceLogs"
 }
 
@@ -892,7 +922,9 @@ export type LogAnalyticsLogType = string;
 
 /** Known values of {@link ContainerGroupSku} that the service accepts. */
 export enum KnownContainerGroupSku {
+  /** Standard */
   Standard = "Standard",
+  /** Dedicated */
   Dedicated = "Dedicated"
 }
 
@@ -908,7 +940,9 @@ export type ContainerGroupSku = string;
 
 /** Known values of {@link ContainerInstanceOperationsOrigin} that the service accepts. */
 export enum KnownContainerInstanceOperationsOrigin {
+  /** User */
   User = "User",
+  /** System */
   System = "System"
 }
 
@@ -1100,6 +1134,15 @@ export interface ContainersAttachOptionalParams
 
 /** Contains response data for the attach operation. */
 export type ContainersAttachResponse = ContainerAttachResponse;
+
+/** Optional parameters. */
+export interface SubnetServiceAssociationLinkDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface ContainerInstanceManagementClientOptionalParams

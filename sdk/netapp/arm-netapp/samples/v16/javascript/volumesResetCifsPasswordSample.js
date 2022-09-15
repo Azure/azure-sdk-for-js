@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Reset cifs password from volume
  *
  * @summary Reset cifs password from volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-01-01/examples/Volumes_ResetCifsPassword.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-03-01/examples/Volumes_ResetCifsPassword.json
  */
 async function volumesResetCifsPassword() {
   const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";

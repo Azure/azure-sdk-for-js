@@ -38,6 +38,7 @@ import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from 
 import { LockRenewer } from "../core/autoLockRenewer";
 import { receiverLogger as logger } from "../log";
 import { translateServiceBusError } from "../serviceBusError";
+import { ensureValidIdentifier } from "../util/utils";
 
 /**
  * The default time to wait for messages _after_ the first message
@@ -53,6 +54,12 @@ export const defaultMaxTimeAfterFirstMessageForBatchingMs = 1000;
  * A receiver that does not handle sessions.
  */
 export interface ServiceBusReceiver {
+  /**
+   * A name used to identify the receiver. This can be used to correlate logs and exceptions.
+   * If not specified or empty, a random unique one will be generated.
+   */
+  identifier: string;
+
   /**
    * Streams messages to message handlers.
    * @param handlers - A handler that gets called for messages and errors.
@@ -266,6 +273,7 @@ export interface ServiceBusReceiver {
  * @internal
  */
 export class ServiceBusReceiverImpl implements ServiceBusReceiver {
+  public identifier: string;
   private _retryOptions: RetryOptions;
   /**
    * Denotes if close() was called on this receiver
@@ -296,7 +304,8 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     public receiveMode: "peekLock" | "receiveAndDelete",
     maxAutoRenewLockDurationInMs: number,
     private skipParsingBodyAsJson: boolean,
-    retryOptions: RetryOptions = {}
+    retryOptions: RetryOptions = {},
+    identifier?: string
   ) {
     throwErrorIfConnectionClosed(_context);
     this._retryOptions = retryOptions;
@@ -305,6 +314,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       maxAutoRenewLockDurationInMs,
       receiveMode
     );
+    this.identifier = ensureValidIdentifier(this.entityPath, identifier);
   }
 
   private _throwIfAlreadyReceiving(): void {
@@ -452,7 +462,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       timeoutInMs: this._retryOptions?.timeoutInMs,
     };
     const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
-      if (options.fromSequenceNumber) {
+      if (options.fromSequenceNumber !== undefined) {
         return this._context
           .getManagementClient(this.entityPath)
           .peekBySequenceNumber(
@@ -507,7 +517,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
 
     this._streamingReceiver =
       this._streamingReceiver ??
-      new StreamingReceiver(this._context, this.entityPath, {
+      new StreamingReceiver(this.identifier, this._context, this.entityPath, {
         ...options,
         receiveMode: this.receiveMode,
         retryOptions: this._retryOptions,
@@ -650,7 +660,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     entityPath: string,
     options: ReceiveOptions
   ): BatchingReceiver {
-    return BatchingReceiver.create(context, entityPath, options);
+    return BatchingReceiver.create(this.identifier, context, entityPath, options);
   }
 
   /**

@@ -21,6 +21,7 @@
 ### Other Changes
 
 - Improved formatting of error messages returned by the test proxy. [#21575](https://github.com/Azure/azure-sdk-for-js/pull/21575)
+- An error is now thrown if the RECORDINGS_RELATIVE_PATH is not set in browser mode. [#23057](https://github.com/Azure/azure-sdk-for-js/pull/23057)
 
 ## 2.0.0 (2022-04-11)
 

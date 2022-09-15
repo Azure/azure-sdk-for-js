@@ -1,0 +1,54 @@
+@import "reboot.scss";
+
+@font-face {
+  font-family: "OpenSans";
+  src: url("fonts/OpenSans-Light.ttf");
+  src: url("fonts/OpenSans-Light.ttf") format("truetype");
+}
+
+body {
+  font-family: "OpenSans", sans-serif;
+  font-weight: 500;
+  list-style: none;
+  user-select: none;
+  font-size: 13px;
+}
+
+.form {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.form-label {
+  padding: 5px 0;
+  display: block;
+  font-weight: 400;
+}
+
+.form-group {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.form-control {
+  padding: 7px;
+
+  &::placeholder {
+    font-style: italic;
+  }
+}
+
+.form-control,
+input[type="search"],
+input[type="text"],
+textarea {
+  font-family: "OpenSans", sans-serif;
+  font-weight: 500;
+  font-size: 0.9em;
+  color: #252525;
+  border: 1px solid #7f7f7fd9;
+  background-color: #ffffff;
+  display: block;
+  width: 100%;
+}

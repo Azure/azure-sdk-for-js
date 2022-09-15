@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  ComponentVersionData,
+  ComponentVersion,
   ComponentVersionsListOptionalParams,
   ComponentVersionsDeleteOptionalParams,
   ComponentVersionsGetOptionalParams,
@@ -32,7 +32,7 @@ export interface ComponentVersions {
     workspaceName: string,
     name: string,
     options?: ComponentVersionsListOptionalParams
-  ): PagedAsyncIterableIterator<ComponentVersionData>;
+  ): PagedAsyncIterableIterator<ComponentVersion>;
   /**
    * Delete version.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -77,7 +77,7 @@ export interface ComponentVersions {
     workspaceName: string,
     name: string,
     version: string,
-    body: ComponentVersionData,
+    body: ComponentVersion,
     options?: ComponentVersionsCreateOrUpdateOptionalParams
   ): Promise<ComponentVersionsCreateOrUpdateResponse>;
 }

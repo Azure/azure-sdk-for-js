@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Handles requests to list all resources in a resource group.
  *
  * @summary Handles requests to list all resources in a resource group.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2021-10-01-preview/examples/emailServices/listByResourceGroup.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/emailServices/listByResourceGroup.json
  */
 async function listEmailServiceResourcesByResourceGroup() {
   const subscriptionId = "12345";

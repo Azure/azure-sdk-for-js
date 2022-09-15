@@ -26,6 +26,7 @@ For more details, see our [support policy](https://github.com/Azure/azure-sdk-fo
 ### Prerequisites
 
 - An [Azure subscription][azure_subscription]
+- A [TokenCredential](https://docs.microsoft.com/javascript/api/@azure/core-auth/tokencredential?view=azure-node-latest) implementation, such as an [Azure Identity library credential type](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest#credential-classes).
 - To query Logs, you need an [Azure Log Analytics workspace][azure_monitor_create_using_portal].
 - To query Metrics, you need an Azure resource of any kind (Storage Account, Key Vault, Cosmos DB, etc.).
 
@@ -375,13 +376,13 @@ For information on request throttling at the Log Analytics service level, see [R
 
 #### Set logs query timeout
 
-Some logs queries take longer than 3 minutes to execute. The default server timeout is 3 minutes. You can increase the server timeout to a maximum of 10 minutes. In the following example, the `LogsQueryOptions` object's `serverTimeoutInSeconds` property is used to decrease the server timeout to 1 minute:
+Some logs queries take longer than 3 minutes to execute. The default server timeout is 3 minutes. You can increase the server timeout to a maximum of 10 minutes. In the following example, the `LogsQueryOptions` object's `serverTimeoutInSeconds` property is used to increase the server timeout to 10 minutes:
 
 ```ts
 // setting optional parameters
 const queryLogsOptions: LogsQueryOptions = {
   // explicitly control the amount of time the server can spend processing the query.
-  serverTimeoutInSeconds: 60
+  serverTimeoutInSeconds: 600 // 600 seconds = 10 minutes
 };
 
 const result = await logsQueryClient.queryWorkspace(

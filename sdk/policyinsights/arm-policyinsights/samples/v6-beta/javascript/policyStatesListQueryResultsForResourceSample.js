@@ -74,7 +74,7 @@ async function queryAllPolicyStatesAtResourceScopeAndExpandPolicyEvaluationDetai
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName";
   const expand = "PolicyEvaluationDetails";
   const options = {
-    expand,
+    queryOptions: { expand: expand },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -104,7 +104,7 @@ async function queryAllPolicyStatesAtResourceScopeWithNextLink() {
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options = {
-    skipToken,
+    queryOptions: { skipToken: skipToken },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -187,8 +187,7 @@ async function queryComponentPolicyComplianceStateAtResourceScopeFilteredByGiven
   const expand =
     "components($filter=ComplianceState eq 'NonCompliant' or ComplianceState eq 'Compliant')";
   const options = {
-    filter,
-    expand,
+    queryOptions: { filter: filter, expand: expand },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -221,8 +220,7 @@ async function queryComponentPolicyComplianceStateCountGroupedByStateTypeAtResou
   const expand =
     "components($filter=ComplianceState eq 'NonCompliant' or ComplianceState eq 'Compliant';$apply=groupby((complianceState),aggregate($count as count)))";
   const options = {
-    filter,
-    expand,
+    queryOptions: { filter: filter, expand: expand },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);

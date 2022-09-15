@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as sinon from "sinon";
-import { AzureLogger, AzureLogLevel } from "@azure/logger";
+import { AzureLogLevel, AzureLogger } from "@azure/logger";
 import { RawHttpHeaders, RestError } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions, TokenCredential } from "../src";
 

@@ -12,10 +12,10 @@ import { MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Gets all the data networks associated with a packet core data plane.
+ * This sample demonstrates how to Gets all the attached data networks associated with a packet core data plane.
  *
- * @summary Gets all the data networks associated with a packet core data plane.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-03-01-preview/examples/AttachedDataNetworkListByPacketCoreDataPlane.json
+ * @summary Gets all the attached data networks associated with a packet core data plane.
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-04-01-preview/examples/AttachedDataNetworkListByPacketCoreDataPlane.json
  */
 async function listAttachedDataNetworksInADataPlane() {
   const subscriptionId = "subid";

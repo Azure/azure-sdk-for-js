@@ -13,7 +13,7 @@ import { LabServicesSku, SkusListOptionalParams } from "../models";
 /** Interface representing a Skus. */
 export interface Skus {
   /**
-   * Returns a list of all the Azure Lab Services resource SKUs.
+   * Returns a list of Azure Lab Services resource SKUs.
    * @param options The options parameters.
    */
   list(

@@ -12,12 +12,12 @@ const { MobileNetworkManagementClient } = require("@azure/arm-mobilenetwork");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Deletes the specified mobile network slice.
+ * This sample demonstrates how to Deletes the specified network slice.
  *
- * @summary Deletes the specified mobile network slice.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-03-01-preview/examples/SliceDelete.json
+ * @summary Deletes the specified network slice.
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-04-01-preview/examples/SliceDelete.json
  */
-async function deleteMobileNetworkSlice() {
+async function deleteNetworkSlice() {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const mobileNetworkName = "testMobileNetwork";
@@ -32,4 +32,4 @@ async function deleteMobileNetworkSlice() {
   console.log(result);
 }
 
-deleteMobileNetworkSlice().catch(console.error);
+deleteNetworkSlice().catch(console.error);

@@ -342,3 +342,4 @@ export {
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";
 export { createSynonymMapFromFile } from "./synonymMapHelper";
+export { KnownSearchAudience } from "./searchAudience";

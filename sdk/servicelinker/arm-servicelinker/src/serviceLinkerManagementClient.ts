@@ -39,7 +39,7 @@ export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-servicelinker/2.0.0`;
+    const packageDetails = `azsdk-js-arm-servicelinker/2.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

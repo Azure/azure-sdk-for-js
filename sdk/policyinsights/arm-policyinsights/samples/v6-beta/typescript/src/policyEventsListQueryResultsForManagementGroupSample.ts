@@ -50,7 +50,7 @@ async function queryAtManagementGroupScopeWithNextLink() {
   const managementGroupName = "myManagementGroup";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyEventsListQueryResultsForManagementGroupOptionalParams = {
-    skipToken
+    queryOptions: { skipToken: skipToken }
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);

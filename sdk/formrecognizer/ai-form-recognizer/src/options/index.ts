@@ -3,12 +3,14 @@
 
 import { AnalyzeDocumentOptions } from "./AnalyzeDocumentsOptions";
 import {
-  BuildModelOptions,
+  CreateDocumentModelOptions,
   CommonModelCreationOptions,
   DocumentModelBuildMode,
+  BeginBuildDocumentModelOptions,
+  BeginComposeDocumentModelOptions,
 } from "./BuildModelOptions";
-import { CopyModelOptions } from "./CopyModelOptions";
-import { DeleteModelOptions } from "./DeleteModelOptions";
+import { BeginCopyModelOptions } from "./BeginCopyModelOptions";
+import { DeleteDocumentModelOptions } from "./DeleteModelOptions";
 import {
   DocumentAnalysisClientOptions,
   DocumentModelAdministrationClientOptions,
@@ -17,7 +19,7 @@ import {
   StringIndexType,
 } from "./FormRecognizerClientOptions";
 import { GetCopyAuthorizationOptions } from "./GetCopyAuthorizationOptions";
-import { GetInfoOptions } from "./GetInfoOptions";
+import { GetResourceDetailsOptions } from "./GetResourceDetailsOptions";
 import { GetModelOptions } from "./GetModelOptions";
 import { GetOperationOptions } from "./GetOperationOptions";
 import { ListModelsOptions } from "./ListModelsOptions";
@@ -26,18 +28,20 @@ import { PollerOptions } from "./PollerOptions";
 
 export {
   AnalyzeDocumentOptions,
-  BuildModelOptions,
+  CreateDocumentModelOptions,
+  BeginBuildDocumentModelOptions,
+  BeginComposeDocumentModelOptions,
   CommonModelCreationOptions,
-  CopyModelOptions,
+  BeginCopyModelOptions,
   DocumentModelBuildMode,
   FormRecognizerCommonClientOptions,
   DocumentAnalysisClientOptions,
   DocumentModelAdministrationClientOptions,
   GetCopyAuthorizationOptions,
-  GetInfoOptions,
+  GetResourceDetailsOptions,
   GetModelOptions,
   GetOperationOptions,
-  DeleteModelOptions,
+  DeleteDocumentModelOptions,
   ListModelsOptions,
   ListOperationsOptions,
   PollerOptions,

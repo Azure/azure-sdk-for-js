@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Create or update a Cache.
  *
  * @summary Create or update a Cache.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/Caches_CreateOrUpdate.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_CreateOrUpdate.json
  */
 async function cachesCreateOrUpdate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -79,6 +79,10 @@ async function cachesCreateOrUpdate() {
     subnet:
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
     tags: { dept: "Contoso" },
+    upgradeSettings: {
+      scheduledTime: new Date("2022-04-26T18:25:43.511Z"),
+      upgradeScheduleEnabled: true,
+    },
   };
   const options = { cache };
   const credential = new DefaultAzureCredential();
@@ -97,7 +101,7 @@ cachesCreateOrUpdate().catch(console.error);
  * This sample demonstrates how to Create or update a Cache.
  *
  * @summary Create or update a Cache.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/Caches_CreateOrUpdate_ldap_only.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_CreateOrUpdate_ldap_only.json
  */
 async function cachesCreateOrUpdateLdapOnly() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -146,6 +150,10 @@ async function cachesCreateOrUpdateLdapOnly() {
     subnet:
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
     tags: { dept: "Contoso" },
+    upgradeSettings: {
+      scheduledTime: new Date("2022-04-26T18:25:43.511Z"),
+      upgradeScheduleEnabled: true,
+    },
   };
   const options = { cache };
   const credential = new DefaultAzureCredential();

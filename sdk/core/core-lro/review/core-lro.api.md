@@ -10,11 +10,26 @@ import { AbortSignalLike } from '@azure/abort-controller';
 export type CancelOnProgress = () => void;
 
 // @public
-export interface LongRunningOperation<T> {
-    requestMethod: string;
-    requestPath: string;
-    sendInitialRequest: () => Promise<LroResponse<T>>;
-    sendPollRequest: (path: string) => Promise<LroResponse<T>>;
+export function createHttpPoller<TResult, TState extends OperationState<TResult>>(lro: LongRunningOperation, options?: CreateHttpPollerOptions<TResult, TState>): Promise<SimplePollerLike<TState, TResult>>;
+
+// @public
+export interface CreateHttpPollerOptions<TResult, TState> {
+    intervalInMs?: number;
+    processResult?: (result: unknown, state: TState) => TResult;
+    resourceLocationConfig?: LroResourceLocationConfig;
+    restoreFrom?: string;
+    updateState?: (state: TState, response: LroResponse) => void;
+    withOperationLocation?: (operationLocation: string) => void;
+}
+
+// @public
+export interface LongRunningOperation<T = unknown> {
+    requestMethod?: string;
+    requestPath?: string;
+    sendInitialRequest: () => Promise<LroResponse<unknown>>;
+    sendPollRequest: (path: string, options?: {
+        abortSignal?: AbortSignalLike;
+    }) => Promise<LroResponse<T>>;
 }
 
 // @public
@@ -25,7 +40,6 @@ export class LroEngine<TResult, TState extends PollOperationState<TResult>> exte
 
 // @public
 export interface LroEngineOptions<TResult, TState> {
-    cancel?: (state: TState) => Promise<void>;
     intervalInMs?: number;
     isDone?: (lastResponse: unknown, state: TState) => boolean;
     lroResourceLocationConfig?: LroResourceLocationConfig;
@@ -38,10 +52,20 @@ export interface LroEngineOptions<TResult, TState> {
 export type LroResourceLocationConfig = "azure-async-operation" | "location" | "original-uri";
 
 // @public
-export interface LroResponse<T> {
+export interface LroResponse<T = unknown> {
     flatResponse: T;
     rawResponse: RawResponse;
 }
+
+// @public
+export interface OperationState<TResult> {
+    error?: Error;
+    result?: TResult;
+    status: OperationStatus;
+}
+
+// @public
+export type OperationStatus = "notStarted" | "running" | "succeeded" | "canceled" | "failed";
 
 // @public
 export abstract class Poller<TState extends PollOperationState<TResult>, TResult> implements PollerLike<TState, TResult> {
@@ -59,7 +83,9 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
     poll(options?: {
         abortSignal?: AbortSignalLike;
     }): Promise<void>;
-    pollUntilDone(): Promise<TResult>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
     stopPolling(): void;
     toString(): string;
 }
@@ -71,6 +97,7 @@ export class PollerCancelledError extends Error {
 
 // @public
 export interface PollerLike<TState extends PollOperationState<TResult>, TResult> {
+    // @deprecated
     cancelOperation(options?: {
         abortSignal?: AbortSignalLike;
     }): Promise<void>;
@@ -82,7 +109,9 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
     poll(options?: {
         abortSignal?: AbortSignalLike;
     }): Promise<void>;
-    pollUntilDone(): Promise<TResult>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
     stopPolling(): void;
     toString(): string;
 }
@@ -94,6 +123,7 @@ export class PollerStoppedError extends Error {
 
 // @public
 export interface PollOperation<TState, TResult> {
+    // @deprecated
     cancel(options?: {
         abortSignal?: AbortSignalLike;
     }): Promise<PollOperation<TState, TResult>>;
@@ -124,6 +154,23 @@ export interface RawResponse {
         [headerName: string]: string;
     };
     statusCode: number;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<void>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    stopPolling(): void;
+    toString(): string;
 }
 
 // (No @packageDocumentation comment for this package)

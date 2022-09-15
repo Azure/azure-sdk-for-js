@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
 import { tracingClient } from "../util/tracing";
 import { CredentialUnavailableError } from "../errors";
-import { credentialLogger, formatSuccess, formatError } from "../util/logging";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import child_process from "child_process";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
@@ -155,7 +155,7 @@ export class AzureCliCredential implements TokenCredential {
         const error =
           err.name === "CredentialUnavailableError"
             ? err
-            : new Error(
+            : new CredentialUnavailableError(
                 (err as Error).message || "Unknown error while trying to retrieve the access token"
               );
         logger.getToken.info(formatError(scopes, error));

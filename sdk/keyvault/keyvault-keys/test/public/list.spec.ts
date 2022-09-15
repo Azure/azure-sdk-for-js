@@ -3,12 +3,12 @@
 
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
-import { Recorder, env, isRecordMode } from "@azure-tools/test-recorder";
+import { Recorder, env, isRecordMode, isLiveMode } from "@azure-tools/test-recorder";
 
 import { KeyClient } from "../../src";
 import { assertThrowsAbortError, getServiceVersion } from "./utils/common";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
+import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 
 describe("Keys client - list keys in various ways", () => {
@@ -19,11 +19,13 @@ describe("Keys client - list keys in various ways", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this, getServiceVersion());
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(envSetupForPlayback);
+
+    const authentication = await authenticate(getServiceVersion(), recorder);
     keySuffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;
-    recorder = authentication.recorder;
   });
 
   afterEach(async function () {
@@ -74,7 +76,11 @@ describe("Keys client - list keys in various ways", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can get the versions of a key with requestOptions timeout", async function () {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (!isLiveMode()) {
+      console.log("Skipping, timeout tests don't work on playback mode.");
+      this.skip();
+    }
+
     const iter = client.listPropertiesOfKeyVersions("doesntmatter", {
       requestOptions: { timeout: 1 },
     });
@@ -154,7 +160,10 @@ describe("Keys client - list keys in various ways", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can get several inserted keys with requestOptions timeout", async function () {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (!isLiveMode()) {
+      console.log(`Skipping, timeout tests don't work on playback mode.`);
+      this.skip();
+    }
     const iter = client.listPropertiesOfKeys({ requestOptions: { timeout: 1 } });
 
     await assertThrowsAbortError(async () => {
@@ -212,7 +221,10 @@ describe("Keys client - list keys in various ways", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("list deleted keys with requestOptions timeout", async function () {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (!isLiveMode()) {
+      console.log("Skipping, timeout tests don't work on playback mode.");
+      this.skip();
+    }
     const iter = client.listDeletedKeys({ requestOptions: { timeout: 1 } });
     await assertThrowsAbortError(async () => {
       await iter.next();

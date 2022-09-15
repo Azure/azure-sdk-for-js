@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { tracingClient } from "../tracing";
 import { Chat } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -39,13 +40,19 @@ export class ChatImpl implements Chat {
    * @param createChatThreadRequest Request payload for creating a chat thread.
    * @param options The options parameters.
    */
-  createChatThread(
+  async createChatThread(
     createChatThreadRequest: CreateChatThreadRequest,
     options?: ChatCreateChatThreadOptionalParams
   ): Promise<ChatCreateChatThreadResponse> {
-    return this.client.sendOperationRequest(
-      { createChatThreadRequest, options },
-      createChatThreadOperationSpec
+    return tracingClient.withSpan(
+      "ChatApiClient.createChatThread",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { createChatThreadRequest, options },
+          createChatThreadOperationSpec
+        ) as Promise<ChatCreateChatThreadResponse>;
+      }
     );
   }
 
@@ -53,12 +60,18 @@ export class ChatImpl implements Chat {
    * Gets the list of chat threads of a user.
    * @param options The options parameters.
    */
-  listChatThreads(
+  async listChatThreads(
     options?: ChatListChatThreadsOptionalParams
   ): Promise<ChatListChatThreadsResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listChatThreadsOperationSpec
+    return tracingClient.withSpan(
+      "ChatApiClient.listChatThreads",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          listChatThreadsOperationSpec
+        ) as Promise<ChatListChatThreadsResponse>;
+      }
     );
   }
 
@@ -67,13 +80,19 @@ export class ChatImpl implements Chat {
    * @param chatThreadId Id of the thread to be deleted.
    * @param options The options parameters.
    */
-  deleteChatThread(
+  async deleteChatThread(
     chatThreadId: string,
     options?: ChatDeleteChatThreadOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { chatThreadId, options },
-      deleteChatThreadOperationSpec
+    return tracingClient.withSpan(
+      "ChatApiClient.deleteChatThread",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { chatThreadId, options },
+          deleteChatThreadOperationSpec
+        ) as Promise<void>;
+      }
     );
   }
 
@@ -82,13 +101,19 @@ export class ChatImpl implements Chat {
    * @param nextLink The nextLink from the previous successful call to the ListChatThreads method.
    * @param options The options parameters.
    */
-  listChatThreadsNext(
+  async listChatThreadsNext(
     nextLink: string,
     options?: ChatListChatThreadsNextOptionalParams
   ): Promise<ChatListChatThreadsNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listChatThreadsNextOperationSpec
+    return tracingClient.withSpan(
+      "ChatApiClient.listChatThreadsNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          listChatThreadsNextOperationSpec
+        ) as Promise<ChatListChatThreadsNextResponse>;
+      }
     );
   }
 }

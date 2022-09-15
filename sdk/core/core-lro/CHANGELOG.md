@@ -1,6 +1,6 @@
 # Release History
 
-## 2.3.0-beta.2 (Unreleased)
+## 2.3.2 (Unreleased)
 
 ### Features Added
 
@@ -10,7 +10,30 @@
 
 ### Other Changes
 
+## 2.3.1 (2022-09-09)
+
+### Bugs Fixed
+
+- Add missing support for fetching resources linked to in the body of the final polling response.
+
+## 2.3.0 (2022-09-01)
+
+### Features Added
+
+- Provides `createHttpPoller` which creates a simple poller that can work out of the box for most Azure long-running operations.
+- Deprecates `cancelOperation` in `PollerLike` because not every operation supports cancellation.
+
+## 2.2.5 (2022-08-08)
+
+### Bugs Fixed
+
+- `LroEngine` no longer throws an error when it receives a 204 polling response.
+
+### Other Changes
+
 - Support LROs with GET as the initial request method.
+- Better logging support for the operation and the poller.
+- Removed the unused dependency `@azure/core-tracing`.
 
 ## 2.3.0-beta.1 (2022-05-18)
 

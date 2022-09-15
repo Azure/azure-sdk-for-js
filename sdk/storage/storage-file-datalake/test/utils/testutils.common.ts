@@ -19,6 +19,8 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     DFS_ACCOUNT_KEY: `${mockAccountKey}`,
     DFS_ACCOUNT_SAS: `${mockAccountKey}`,
     DFS_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
+    ENCRYPTION_SCOPE_1: "antjoscope1",
+    ENCRYPTION_SCOPE_2: "antjoscope2",
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
     DFS_ACCOUNT_TOKEN: `${mockAccountKey}`,

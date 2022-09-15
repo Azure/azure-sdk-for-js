@@ -24,13 +24,14 @@ export interface Arp {
 }
 
 // @public
-export type AttachedDataNetwork = TrackedResource & {
-    readonly provisioningState?: ProvisioningState;
-    userPlaneDataInterface: InterfaceProperties;
+export interface AttachedDataNetwork extends TrackedResource {
+    dnsAddresses?: string[];
     naptConfiguration?: NaptConfiguration;
+    readonly provisioningState?: ProvisioningState;
     userEquipmentAddressPoolPrefix?: string[];
     userEquipmentStaticAddressPoolPrefix?: string[];
-};
+    userPlaneDataInterface: InterfaceProperties;
+}
 
 // @public
 export interface AttachedDataNetworkListResult {
@@ -98,6 +99,19 @@ export interface AttachedDataNetworksUpdateTagsOptionalParams extends coreClient
 export type AttachedDataNetworksUpdateTagsResponse = AttachedDataNetwork;
 
 // @public
+export interface AzureStackEdgeDeviceResourceId {
+    id: string;
+}
+
+// @public
+export type BillingSku = string;
+
+// @public
+export interface ConnectedClusterResourceId {
+    id: string;
+}
+
+// @public
 export type CoreNetworkType = string;
 
 // @public
@@ -109,10 +123,10 @@ export interface CustomLocationResourceId {
 }
 
 // @public
-export type DataNetwork = TrackedResource & {
-    readonly provisioningState?: ProvisioningState;
+export interface DataNetwork extends TrackedResource {
     description?: string;
-};
+    readonly provisioningState?: ProvisioningState;
+}
 
 // @public
 export interface DataNetworkConfiguration {
@@ -217,7 +231,28 @@ export interface InterfaceProperties {
     ipv4Address?: string;
     ipv4Gateway?: string;
     ipv4Subnet?: string;
-    name: string;
+    name?: string;
+}
+
+// @public
+export interface KeyVaultCertificate {
+    certificateUrl?: string;
+}
+
+// @public
+export interface KeyVaultKey {
+    keyUrl?: string;
+}
+
+// @public
+export enum KnownBillingSku {
+    EdgeSite2Gbps = "EdgeSite2GBPS",
+    EdgeSite3Gbps = "EdgeSite3GBPS",
+    EdgeSite4Gbps = "EdgeSite4GBPS",
+    EvaluationPackage = "EvaluationPackage",
+    FlagshipStarterPackage = "FlagshipStarterPackage",
+    LargePackage = "LargePackage",
+    MediumPackage = "MediumPackage"
 }
 
 // @public
@@ -228,14 +263,18 @@ export enum KnownCoreNetworkType {
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -246,10 +285,14 @@ export enum KnownNaptEnabled {
 
 // @public
 export enum KnownPduSessionType {
-    // (undocumented)
     IPv4 = "IPv4",
-    // (undocumented)
     IPv6 = "IPv6"
+}
+
+// @public
+export enum KnownPlatformType {
+    AKSHCI = "AKS-HCI",
+    BaseVM = "BaseVM"
 }
 
 // @public
@@ -266,20 +309,19 @@ export enum KnownPreemptionVulnerability {
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownRecommendedVersion {
+    NotRecommended = "NotRecommended",
+    Recommended = "Recommended"
 }
 
 // @public
@@ -303,11 +345,39 @@ export enum KnownTrafficControlPermission {
 }
 
 // @public
-export type MobileNetwork = TrackedResource & {
+export enum KnownVersionState {
+    Active = "Active",
+    Deprecated = "Deprecated",
+    Preview = "Preview",
+    Unknown = "Unknown",
+    Validating = "Validating",
+    ValidationFailed = "ValidationFailed"
+}
+
+// @public
+export interface LocalDiagnosticsAccessConfiguration {
+    httpsServerCertificate?: KeyVaultCertificate;
+}
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
+
+// @public
+export interface MobileNetwork extends TrackedResource {
     readonly provisioningState?: ProvisioningState;
     publicLandMobileNetworkIdentifier: PlmnId;
     readonly serviceKey?: string;
-};
+}
 
 // @public
 export interface MobileNetworkListResult {
@@ -333,9 +403,13 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     packetCoreControlPlanes: PacketCoreControlPlanes;
     // (undocumented)
+    packetCoreControlPlaneVersions: PacketCoreControlPlaneVersions;
+    // (undocumented)
     packetCoreDataPlanes: PacketCoreDataPlanes;
     // (undocumented)
     services: Services;
+    // (undocumented)
+    simGroups: SimGroups;
     // (undocumented)
     simPolicies: SimPolicies;
     // (undocumented)
@@ -493,14 +567,18 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationList;
 
 // @public
-export type PacketCoreControlPlane = TrackedResource & {
-    readonly provisioningState?: ProvisioningState;
-    mobileNetwork: MobileNetworkResourceId;
-    customLocation?: CustomLocationResourceId;
-    coreNetworkTechnology?: CoreNetworkType;
-    version?: string;
+export interface PacketCoreControlPlane extends TrackedResource {
     controlPlaneAccessInterface: InterfaceProperties;
-};
+    coreNetworkTechnology?: CoreNetworkType;
+    identity?: ManagedServiceIdentity;
+    interopSettings?: Record<string, unknown>;
+    localDiagnosticsAccess?: LocalDiagnosticsAccessConfiguration;
+    mobileNetwork: MobileNetworkResourceId;
+    platform?: PlatformConfiguration;
+    readonly provisioningState?: ProvisioningState;
+    sku: BillingSku;
+    version?: string;
+}
 
 // @public
 export interface PacketCoreControlPlaneListResult {
@@ -578,10 +656,50 @@ export interface PacketCoreControlPlanesUpdateTagsOptionalParams extends coreCli
 export type PacketCoreControlPlanesUpdateTagsResponse = PacketCoreControlPlane;
 
 // @public
-export type PacketCoreDataPlane = TrackedResource & {
+export interface PacketCoreControlPlaneVersion extends ProxyResource {
+    readonly provisioningState?: ProvisioningState;
+    recommendedVersion?: RecommendedVersion;
+    versionState?: VersionState;
+}
+
+// @public
+export interface PacketCoreControlPlaneVersionListResult {
+    readonly nextLink?: string;
+    value?: PacketCoreControlPlaneVersion[];
+}
+
+// @public
+export interface PacketCoreControlPlaneVersions {
+    get(versionName: string, options?: PacketCoreControlPlaneVersionsGetOptionalParams): Promise<PacketCoreControlPlaneVersionsGetResponse>;
+    listByResourceGroup(options?: PacketCoreControlPlaneVersionsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<PacketCoreControlPlaneVersion>;
+}
+
+// @public
+export interface PacketCoreControlPlaneVersionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PacketCoreControlPlaneVersionsGetResponse = PacketCoreControlPlaneVersion;
+
+// @public
+export interface PacketCoreControlPlaneVersionsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PacketCoreControlPlaneVersionsListByResourceGroupNextResponse = PacketCoreControlPlaneVersionListResult;
+
+// @public
+export interface PacketCoreControlPlaneVersionsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PacketCoreControlPlaneVersionsListByResourceGroupResponse = PacketCoreControlPlaneVersionListResult;
+
+// @public
+export interface PacketCoreDataPlane extends TrackedResource {
     readonly provisioningState?: ProvisioningState;
     userPlaneAccessInterface: InterfaceProperties;
-};
+}
 
 // @public
 export interface PacketCoreDataPlaneListResult {
@@ -653,9 +771,9 @@ export interface PccRuleConfiguration {
 }
 
 // @public
-export type PccRuleQosPolicy = QosPolicy & {
+export interface PccRuleQosPolicy extends QosPolicy {
     guaranteedBitRate?: Ambr;
-};
+}
 
 // @public
 export type PduSessionType = string;
@@ -666,6 +784,17 @@ export interface PinholeTimeouts {
     tcp?: number;
     udp?: number;
 }
+
+// @public
+export interface PlatformConfiguration {
+    azureStackEdgeDevice?: AzureStackEdgeDeviceResourceId;
+    connectedCluster?: ConnectedClusterResourceId;
+    customLocation?: CustomLocationResourceId;
+    type: PlatformType;
+}
+
+// @public
+export type PlatformType = string;
 
 // @public
 export interface PlmnId {
@@ -695,6 +824,10 @@ export type PreemptionVulnerability = string;
 export type ProvisioningState = string;
 
 // @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
 export interface QosPolicy {
     allocationAndRetentionPriorityLevel?: number;
     fiveQi?: number;
@@ -702,6 +835,9 @@ export interface QosPolicy {
     preemptionCapability?: PreemptionCapability;
     preemptionVulnerability?: PreemptionVulnerability;
 }
+
+// @public
+export type RecommendedVersion = string;
 
 // @public
 export interface Resource {
@@ -715,12 +851,12 @@ export interface Resource {
 export type SdfDirection = string;
 
 // @public
-export type Service = TrackedResource & {
+export interface Service extends TrackedResource {
+    pccRules: PccRuleConfiguration[];
     readonly provisioningState?: ProvisioningState;
     servicePrecedence: number;
     serviceQosPolicy?: QosPolicy;
-    pccRules: PccRuleConfiguration[];
-};
+}
 
 // @public
 export interface ServiceDataFlowTemplate {
@@ -797,18 +933,105 @@ export interface ServicesUpdateTagsOptionalParams extends coreClient.OperationOp
 export type ServicesUpdateTagsResponse = Service;
 
 // @public
-export type Sim = TrackedResource & {
-    readonly provisioningState?: ProvisioningState;
-    readonly simState?: SimState;
-    internationalMobileSubscriberIdentity: string;
-    integratedCircuitCardIdentifier?: string;
+export interface Sim extends ProxyResource {
     authenticationKey?: string;
-    operatorKeyCode?: string;
-    mobileNetwork?: MobileNetworkResourceId;
     deviceType?: string;
+    integratedCircuitCardIdentifier?: string;
+    internationalMobileSubscriberIdentity: string;
+    operatorKeyCode?: string;
+    readonly provisioningState?: ProvisioningState;
     simPolicy?: SimPolicyResourceId;
+    readonly simState?: SimState;
     staticIpConfiguration?: SimStaticIpProperties[];
-};
+}
+
+// @public
+export interface SimGroup extends TrackedResource {
+    encryptionKey?: KeyVaultKey;
+    identity?: ManagedServiceIdentity;
+    mobileNetwork?: MobileNetworkResourceId;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface SimGroupListResult {
+    readonly nextLink?: string;
+    value?: SimGroup[];
+}
+
+// @public
+export interface SimGroupResourceId {
+    id: string;
+}
+
+// @public
+export interface SimGroups {
+    beginCreateOrUpdate(resourceGroupName: string, simGroupName: string, parameters: SimGroup, options?: SimGroupsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SimGroupsCreateOrUpdateResponse>, SimGroupsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, simGroupName: string, parameters: SimGroup, options?: SimGroupsCreateOrUpdateOptionalParams): Promise<SimGroupsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, simGroupName: string, options?: SimGroupsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, simGroupName: string, options?: SimGroupsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, simGroupName: string, options?: SimGroupsGetOptionalParams): Promise<SimGroupsGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: SimGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SimGroup>;
+    listBySubscription(options?: SimGroupsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SimGroup>;
+    updateTags(resourceGroupName: string, simGroupName: string, parameters: TagsObject, options?: SimGroupsUpdateTagsOptionalParams): Promise<SimGroupsUpdateTagsResponse>;
+}
+
+// @public
+export interface SimGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SimGroupsCreateOrUpdateResponse = SimGroup;
+
+// @public
+export interface SimGroupsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SimGroupsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SimGroupsGetResponse = SimGroup;
+
+// @public
+export interface SimGroupsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SimGroupsListByResourceGroupNextResponse = SimGroupListResult;
+
+// @public
+export interface SimGroupsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SimGroupsListByResourceGroupResponse = SimGroupListResult;
+
+// @public
+export interface SimGroupsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SimGroupsListBySubscriptionNextResponse = SimGroupListResult;
+
+// @public
+export interface SimGroupsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SimGroupsListBySubscriptionResponse = SimGroupListResult;
+
+// @public
+export interface SimGroupsUpdateTagsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SimGroupsUpdateTagsResponse = SimGroup;
 
 // @public
 export interface SimIdListResult {
@@ -877,14 +1100,14 @@ export interface SimPoliciesUpdateTagsOptionalParams extends coreClient.Operatio
 export type SimPoliciesUpdateTagsResponse = SimPolicy;
 
 // @public
-export type SimPolicy = TrackedResource & {
-    readonly provisioningState?: ProvisioningState;
-    ueAmbr: Ambr;
+export interface SimPolicy extends TrackedResource {
     defaultSlice: SliceResourceId;
-    rfspIndex?: number;
+    readonly provisioningState?: ProvisioningState;
     registrationTimer?: number;
+    rfspIndex?: number;
     sliceConfigurations: SliceConfiguration[];
-};
+    ueAmbr: Ambr;
+}
 
 // @public
 export interface SimPolicyListResult {
@@ -899,14 +1122,12 @@ export interface SimPolicyResourceId {
 
 // @public
 export interface Sims {
-    beginCreateOrUpdate(resourceGroupName: string, simName: string, parameters: Sim, options?: SimsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SimsCreateOrUpdateResponse>, SimsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, simName: string, parameters: Sim, options?: SimsCreateOrUpdateOptionalParams): Promise<SimsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, simName: string, options?: SimsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, simName: string, options?: SimsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, simName: string, options?: SimsGetOptionalParams): Promise<SimsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: SimsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Sim>;
-    listBySubscription(options?: SimsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Sim>;
-    updateTags(resourceGroupName: string, simName: string, parameters: TagsObject, options?: SimsUpdateTagsOptionalParams): Promise<SimsUpdateTagsResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, simGroupName: string, simName: string, parameters: Sim, options?: SimsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SimsCreateOrUpdateResponse>, SimsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, simGroupName: string, simName: string, parameters: Sim, options?: SimsCreateOrUpdateOptionalParams): Promise<SimsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, simGroupName: string, simName: string, options?: SimsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, simGroupName: string, simName: string, options?: SimsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, simGroupName: string, simName: string, options?: SimsGetOptionalParams): Promise<SimsGetResponse>;
+    listBySimGroup(resourceGroupName: string, simGroupName: string, options?: SimsListBySimGroupOptionalParams): PagedAsyncIterableIterator<Sim>;
 }
 
 // @public
@@ -932,32 +1153,18 @@ export interface SimsGetOptionalParams extends coreClient.OperationOptions {
 export type SimsGetResponse = Sim;
 
 // @public
-export interface SimsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface SimsListBySimGroupNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type SimsListByResourceGroupNextResponse = SimListResult;
+export type SimsListBySimGroupNextResponse = SimListResult;
 
 // @public
-export interface SimsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface SimsListBySimGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type SimsListByResourceGroupResponse = SimListResult;
-
-// @public
-export interface SimsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SimsListBySubscriptionNextResponse = SimListResult;
-
-// @public
-export interface SimsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SimsListBySubscriptionResponse = SimListResult;
+export type SimsListBySimGroupResponse = SimListResult;
 
 // @public
 export type SimState = string;
@@ -975,17 +1182,10 @@ export interface SimStaticIpPropertiesStaticIp {
 }
 
 // @public
-export interface SimsUpdateTagsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SimsUpdateTagsResponse = Sim;
-
-// @public
-export type Site = TrackedResource & {
-    readonly provisioningState?: ProvisioningState;
+export interface Site extends TrackedResource {
     networkFunctions?: SubResource[];
-};
+    readonly provisioningState?: ProvisioningState;
+}
 
 // @public
 export interface SiteListResult {
@@ -1048,11 +1248,11 @@ export interface SitesUpdateTagsOptionalParams extends coreClient.OperationOptio
 export type SitesUpdateTagsResponse = Site;
 
 // @public
-export type Slice = TrackedResource & {
+export interface Slice extends TrackedResource {
+    description?: string;
     readonly provisioningState?: ProvisioningState;
     snssai: Snssai;
-    description?: string;
-};
+}
 
 // @public
 export interface SliceConfiguration {
@@ -1155,15 +1355,24 @@ export interface TagsObject {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export type TrafficControlPermission = string;
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
+export type VersionState = string;
 
 // (No @packageDocumentation comment for this package)
 

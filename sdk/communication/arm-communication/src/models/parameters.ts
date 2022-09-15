@@ -51,7 +51,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-10-01-preview",
+    defaultValue: "2022-07-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -127,7 +127,7 @@ export const communicationServiceName: OperationURLParameter = {
   parameterPath: "communicationServiceName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9-]+$"),
+      Pattern: new RegExp("^[-\\w]+$"),
       MaxLength: 63,
       MinLength: 1
     },

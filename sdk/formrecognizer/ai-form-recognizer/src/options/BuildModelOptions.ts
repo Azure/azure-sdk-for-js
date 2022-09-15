@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import { TrainingPollOperationState } from "../lro/training";
+import { DocumentModelOperationState } from "../lro/administration";
 import { PollerOptions } from "./PollerOptions";
 
 /**
@@ -38,8 +38,8 @@ export const DocumentModelBuildMode = {
 } as const;
 
 /**
- * Options common to all operations that define new models, such as `beginBuildModel`, `beginComposeModel`, and
- * `getCopyAuthorization`.
+ * Options common to all operations that define new models, such as `beginBuildDocumentModel`,
+ * `beginComposeDocumentModel`, and `getCopyAuthorization`.
  */
 export interface CommonModelCreationOptions {
   /**
@@ -54,9 +54,19 @@ export interface CommonModelCreationOptions {
 }
 
 /**
- * Options for the model build operation.
+ * Options for the model creation operation.
  */
-export interface BuildModelOptions
+export interface CreateDocumentModelOptions
   extends OperationOptions,
     CommonModelCreationOptions,
-    PollerOptions<TrainingPollOperationState> {}
+    PollerOptions<DocumentModelOperationState> {}
+
+/**
+ * Options for the model build operation.
+ */
+export interface BeginBuildDocumentModelOptions extends CreateDocumentModelOptions {}
+
+/**
+ * Options for the model compose operation.
+ */
+export interface BeginComposeDocumentModelOptions extends CreateDocumentModelOptions {}

@@ -1720,7 +1720,6 @@ export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, reso
 export interface SharedOptions {
     abortSignal?: AbortSignal_2;
     initialHeaders?: CosmosHeaders;
-    // @beta
     maxIntegratedCacheStalenessInMs?: number;
     sessionToken?: string;
 }

@@ -1,0 +1,223 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/CRUDKeyName-cancreateanOCTkeywithoptions-/create?api-version=7.3",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "614b9008-4156-4d01-bc67-50c7de2045c7"
+      },
+      "RequestBody": null,
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "0",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "WWW-Authenticate": "Bearer authorization=\u0022https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\u0022, resource=\u0022https://managedhsm.azure.net\u0022",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-request-id": "1a12931c-de11-11ec-9e7b-000d3a602e9a",
+        "x-ms-server-latency": "2"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/CRUDKeyName-cancreateanOCTkeywithoptions-/create?api-version=7.3",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "33",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "614b9008-4156-4d01-bc67-50c7de2045c7"
+      },
+      "RequestBody": {
+        "kty": "oct-HSM",
+        "attributes": {}
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "402",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.1.236;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-region": "northus",
+        "x-ms-request-id": "1a40a522-de11-11ec-9e7b-000d3a602e9a",
+        "x-ms-server-latency": "184"
+      },
+      "ResponseBody": {
+        "attributes": {
+          "created": 1653692557,
+          "enabled": true,
+          "exportable": false,
+          "recoverableDays": 7,
+          "recoveryLevel": "CustomizedRecoverable\u002BPurgeable",
+          "updated": 1653692557
+        },
+        "key": {
+          "key_ops": [
+            "deriveKey",
+            "wrapKey",
+            "verify",
+            "sign",
+            "unwrapKey",
+            "encrypt",
+            "decrypt"
+          ],
+          "kid": "https://azure_managedhsm.managedhsm.azure.net/keys/CRUDKeyName-cancreateanOCTkeywithoptions-/dc08bbb0490009e92713e0e432d27799",
+          "kty": "oct-HSM"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/CRUDKeyName-cancreateanOCTkeywithoptions-?api-version=7.3",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "d8a66707-95aa-4234-b947-21869560b170"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "574",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.1.236;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-region": "northus",
+        "x-ms-request-id": "1a66af56-de11-11ec-9e7b-000d3a602e9a",
+        "x-ms-server-latency": "138"
+      },
+      "ResponseBody": {
+        "attributes": {
+          "created": 1653692557,
+          "enabled": true,
+          "exportable": false,
+          "recoverableDays": 7,
+          "recoveryLevel": "CustomizedRecoverable\u002BPurgeable",
+          "updated": 1653692557
+        },
+        "deletedDate": 1653692558,
+        "key": {
+          "key_ops": [
+            "deriveKey",
+            "wrapKey",
+            "encrypt",
+            "decrypt",
+            "unwrapKey",
+            "verify",
+            "sign"
+          ],
+          "kid": "https://azure_managedhsm.managedhsm.azure.net/keys/CRUDKeyName-cancreateanOCTkeywithoptions-/dc08bbb0490009e92713e0e432d27799",
+          "kty": "oct-HSM"
+        },
+        "recoveryId": "https://azure_managedhsm.managedhsm.azure.net/deletedkeys/CRUDKeyName-cancreateanOCTkeywithoptions-",
+        "scheduledPurgeDate": 1654297358
+      }
+    },
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/deletedkeys/CRUDKeyName-cancreateanOCTkeywithoptions-?api-version=7.3",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "0c57bde6-5f34-499c-ba7c-b76a4e504919"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "574",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-build-version": "1.0.20220503-3-e1430fa9-1.0.20220430-1-f02155ab-pre-openssl",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.1.236;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-region": "northus",
+        "x-ms-request-id": "1a85d566-de11-11ec-9e7b-000d3a602e9a",
+        "x-ms-server-latency": "27"
+      },
+      "ResponseBody": {
+        "attributes": {
+          "created": 1653692557,
+          "enabled": true,
+          "exportable": false,
+          "recoverableDays": 7,
+          "recoveryLevel": "CustomizedRecoverable\u002BPurgeable",
+          "updated": 1653692557
+        },
+        "deletedDate": 1653692558,
+        "key": {
+          "key_ops": [
+            "decrypt",
+            "encrypt",
+            "unwrapKey",
+            "sign",
+            "verify",
+            "wrapKey",
+            "deriveKey"
+          ],
+          "kid": "https://azure_managedhsm.managedhsm.azure.net/keys/CRUDKeyName-cancreateanOCTkeywithoptions-/dc08bbb0490009e92713e0e432d27799",
+          "kty": "oct-HSM"
+        },
+        "recoveryId": "https://azure_managedhsm.managedhsm.azure.net/deletedkeys/CRUDKeyName-cancreateanOCTkeywithoptions-",
+        "scheduledPurgeDate": 1654297358
+      }
+    },
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/deletedkeys/CRUDKeyName-cancreateanOCTkeywithoptions-?api-version=7.3",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "9bed7737-3db7-40df-813c-a819502be7ef"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "0",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.1.236;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-region": "northus",
+        "x-ms-request-id": "1a93f1be-de11-11ec-9e7b-000d3a602e9a",
+        "x-ms-server-latency": "106"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

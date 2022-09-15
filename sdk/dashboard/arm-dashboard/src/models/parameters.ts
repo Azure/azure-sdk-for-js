@@ -13,7 +13,8 @@ import {
 } from "@azure/core-client";
 import {
   ManagedGrafana as ManagedGrafanaMapper,
-  ManagedGrafanaUpdateParameters as ManagedGrafanaUpdateParametersMapper
+  ManagedGrafanaUpdateParameters as ManagedGrafanaUpdateParametersMapper,
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -43,7 +44,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-09-01-preview",
+    defaultValue: "2022-08-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -82,6 +83,7 @@ export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     constraints: {
+      MaxLength: 90,
       MinLength: 1
     },
     serializedName: "resourceGroupName",
@@ -123,4 +125,31 @@ export const requestBodyParameters: OperationParameter = {
 export const requestBodyParameters1: OperationParameter = {
   parameterPath: "requestBodyParameters",
   mapper: ManagedGrafanaUpdateParametersMapper
+};
+
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    serializedName: "privateEndpointConnectionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: PrivateEndpointConnectionMapper
+};
+
+export const privateLinkResourceName: OperationURLParameter = {
+  parameterPath: "privateLinkResourceName",
+  mapper: {
+    serializedName: "privateLinkResourceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };

@@ -8,4 +8,3 @@
 
 export * from "./models";
 export { GeneratedClient } from "./generatedClient";
-export * from "./operationsInterfaces";
