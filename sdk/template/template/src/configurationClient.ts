@@ -129,7 +129,7 @@ export class ConfigurationClient {
    * @param options - optional configuration for the operation
    */
   public async getConfigurationSetting(
-    settingss: ConfigurationSetting,
+    setting: ConfigurationSetting,
     options?: GetConfigurationSettingOptions
   ): Promise<ConfigurationSetting>;
 
