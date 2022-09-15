@@ -4,7 +4,7 @@
 import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
 import { GeneratedMonitorIngestionClient } from "./generated";
-import { UploadLogsError, UploadOptions, UploadResult } from "./models";
+import { UploadLogsError, UploadLogsOptions, UploadLogsResult } from "./models";
 import { GZippingPolicy } from "./gZippingPolicy";
 import { concurrentRun } from "./utils/concurrentPoolHelper";
 import { splitDataToChunks } from "./utils/splitDataToChunksHelper";
@@ -60,8 +60,8 @@ export class LogsIngestionClient {
     ruleId: string,
     streamName: string,
     logs: Record<string, unknown>[],
-    options?: UploadOptions
-  ): Promise<UploadResult> {
+    options?: UploadLogsOptions
+  ): Promise<UploadLogsResult> {
     // TODO: Do we need to worry about memory issues when loading data for 100GB ?? JS max allocation is 1 or 2GB
 
     // This splits logs into 1MB chunks
@@ -88,17 +88,17 @@ export class LogsIngestionClient {
 
     if (uploadResultErrors.length === 0) {
       return {
-        uploadStatus: "Success",
+        status: "Success",
       };
     } else if (uploadResultErrors.length < noOfChunks && uploadResultErrors.length > 0) {
       return {
         errors: uploadResultErrors,
-        uploadStatus: "PartialFailure",
+        status: "PartialFailure",
       };
     } else {
       return {
         errors: uploadResultErrors,
-        uploadStatus: "Failure",
+        status: "Failure",
       };
     }
   }

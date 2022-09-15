@@ -20,8 +20,8 @@ export async function main() {
   const result = await client.upload(ruleId, streamName, getObjects(10000), {
     maxConcurrency: 5,
   });
-  console.log(result.uploadStatus);
-  if (result.uploadStatus === "Success") {
+  console.log(result.status);
+  if (result.status === "Success") {
     console.log("All the logs provided are successfully ingested");
   } else {
     console.log("Some logs have failed to complete ingestion");
