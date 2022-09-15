@@ -5,7 +5,7 @@
 ### Breaking Changes
 
 - Verify the challenge resource matches the vault domain.
-  This should affect few customers who can set `verifyChallengeResource` in the options bag to `false` to disable.
+  This should affect few customers who can set `disableChallengeResourceVerification` in the options bag to `true` to disable.
 
 ## 4.5.0 (2022-08-09)
 
