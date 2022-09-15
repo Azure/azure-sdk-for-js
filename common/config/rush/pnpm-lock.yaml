@@ -15997,7 +15997,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-N01s8G0U7FDaKX51dr+TKxoqjN/sW/9yvfa1WPb+krcdlYj/HTvhfmWzSf0IymbgYWqbBkorNyHqRanOMySLBA==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-Ow99GS+DT8qWCkxDFFB3WTplq7iiCecGme2oFQM3DBCem2QN/WzKE62ohKkLe2tHXFSMCay7/QGl8RgcCL3cpQ==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -16043,10 +16043,10 @@ packages:
       shx: 0.3.4
       sinon: 9.2.4
       tough-cookie: 4.1.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_f73aca07a5ebb34bfc1f3abee339dfba
       tslib: 2.4.0
       tunnel: 0.0.6
-      typescript: 4.6.4
+      typescript: 4.8.3
       uglify-js: 3.17.0
       uuid: 8.3.2
       xhr-mock: 2.5.1
@@ -16136,7 +16136,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-LnUhzRQ6t3pPy65pSTXa7e3dhpzj2vytYtyHRuslLDNHdNvxGmwKBT7hjnW9aX8Zym+7bKtFhgYKFxnkyhUl8w==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-gRMYvYuwLY4nkzI2vQ/V2JCJNiuAk3PheGzAsIAsNy2v9cs0N6VNNgEM0VVzjCenZz7pCNN9PasHJE3WuMPbtw==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -16176,7 +16176,7 @@ packages:
       sinon: 9.2.4
       source-map-support: 0.5.21
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.8.3
       util: 0.12.4
       uuid: 8.3.2
     transitivePeerDependencies:
