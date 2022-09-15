@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import { PhoneNumberSearchRequest } from "./generated/src/models/";
+import { PhoneNumberAssignmentType, PhoneNumberSearchRequest, PhoneNumberType } from "./generated/src/models/";
 
 /**
  * The result of the phone numbers purchase operation.
@@ -54,13 +54,16 @@ export interface ListGeographicAreaCodesOptions extends OperationOptions {}
  * Additional options that can be passed to the available localities request.
  */
 export interface ListLocalitiesOptions extends OperationOptions {
-  administrativeDivision: string;
+  administrativeDivision?: string;
 }
 
 /**
  * Additional options that can be passed to the available offerings request.
  */
-export interface ListOfferingsOptions extends OperationOptions {}
+export interface ListOfferingsOptions extends OperationOptions {
+  phoneNumberType?: PhoneNumberType;
+   assignmentType?: PhoneNumberAssignmentType;
+}
 
 export {
   AreaCodeItem,

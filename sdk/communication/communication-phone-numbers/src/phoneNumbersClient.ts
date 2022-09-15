@@ -20,7 +20,6 @@ import {
   PhoneNumberLocality,
   PhoneNumberOffering,
   PhoneNumberSearchResult,
-  PhoneNumberType,
   PurchasedPhoneNumber,
 } from "./generated/src/models/";
 import {
@@ -480,9 +479,7 @@ export class PhoneNumbersClient {
    */
   public listAvailableLocalities(
     countryCode: string,
-    options: ListLocalitiesOptions = {
-      administrativeDivision: "WA"
-    }
+    options: ListLocalitiesOptions = {}
   ): PagedAsyncIterableIterator<PhoneNumberLocality> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-listAvailableLocalities",
@@ -519,14 +516,10 @@ export class PhoneNumbersClient {
    * ```
    * List all available offerings.
    * @param countryCode - The ISO 3166-2 country code.
-   * @param phoneNumberType - The phone number type to query offerings.
-   * @param assignmentType - The assignment type to query offerings.
    * @param options - The optional parameters.
    */
   public listAvailableOfferings(
     countryCode: string,
-    phoneNumberType?: PhoneNumberType,
-    assignmentType?: PhoneNumberAssignmentType,
     options: ListOfferingsOptions = {}
   ): PagedAsyncIterableIterator<PhoneNumberOffering> {
     const { span, updatedOptions } = tracingClient.startSpan(
@@ -537,8 +530,6 @@ export class PhoneNumbersClient {
     try {
       return this.client.phoneNumbers.listOfferings(countryCode, {
         ...updatedOptions,
-        phoneNumberType: phoneNumberType,
-        assignmentType: assignmentType,
       });
     } catch (e: any) {
       span.setStatus({
