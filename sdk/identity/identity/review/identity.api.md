@@ -111,9 +111,12 @@ export class ChainedTokenCredential implements TokenCredential {
 
 // @public
 export class ClientAssertionCredential implements TokenCredential {
-    // Warning: (ae-forgotten-export) The symbol "ClientAssertionCredentialOptions" needs to be exported by the entry point index.d.ts
     constructor(tenantId: string, clientId: string, getAssertion: () => Promise<string>, options?: ClientAssertionCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+}
+
+// @public
+export interface ClientAssertionCredentialOptions extends MultiTenantTokenCredentialOptions {
 }
 
 // @public

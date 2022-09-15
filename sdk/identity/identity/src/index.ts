@@ -52,6 +52,7 @@ export {
 } from "./credentials/clientCertificateCredential";
 export { ClientCertificateCredentialOptions } from "./credentials/clientCertificateCredentialOptions";
 export { ClientAssertionCredential } from "./credentials/clientAssertionCredential";
+export { ClientAssertionCredentialOptions } from "./credentials/clientAssertionCredentialOptions";
 export { CredentialPersistenceOptions } from "./credentials/credentialPersistenceOptions";
 export { AzureCliCredential } from "./credentials/azureCliCredential";
 export { AzureCliCredentialOptions } from "./credentials/azureCliCredentialOptions";
