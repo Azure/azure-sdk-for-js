@@ -22,11 +22,28 @@ describe("Identity utilities", function () {
       );
     });
 
-    it("should pick the tenant from the options", async function () {
+    it("should pick the tenant from the options if has allowed all tenants", async function () {
       assert.equal(
-        processMultiTenantRequest("credential-options-tenant-id", {
-          tenantId: "get-token-options-tenant-id",
-        }),
+        processMultiTenantRequest(
+          "credential-options-tenant-id",
+          {
+            tenantId: "get-token-options-tenant-id",
+          },
+          ["*"]
+        ),
+        "get-token-options-tenant-id"
+      );
+    });
+
+    it("should pick the tenant from the options if has allowed the options tenant", async function () {
+      assert.equal(
+        processMultiTenantRequest(
+          "credential-options-tenant-id",
+          {
+            tenantId: "get-token-options-tenant-id",
+          },
+          ["get-token-options-tenant-id"]
+        ),
         "get-token-options-tenant-id"
       );
     });

@@ -67,7 +67,7 @@ export function processMultiTenantRequest(
     tenantId &&
     resolvedTenantId !== tenantId &&
     !additionallyAllowedTenantIds.includes("*") &&
-    !additionallyAllowedTenantIds.includes(tenantId)
+    !additionallyAllowedTenantIds.some((t) => t.localeCompare(resolvedTenantId!) === 0)
   ) {
     throw new Error(createConfigurationErrorMessage(tenantId));
   }
