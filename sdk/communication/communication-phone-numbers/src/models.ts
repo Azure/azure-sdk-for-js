@@ -53,7 +53,9 @@ export interface ListGeographicAreaCodesOptions extends OperationOptions {}
 /**
  * Additional options that can be passed to the available localities request.
  */
-export interface ListLocalitiesOptions extends OperationOptions {}
+export interface ListLocalitiesOptions extends OperationOptions {
+  administrativeDivision: string;
+}
 
 /**
  * Additional options that can be passed to the available offerings request.

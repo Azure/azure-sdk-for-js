@@ -476,13 +476,13 @@ export class PhoneNumbersClient {
    * ```
    * List all available localities.
    * @param countryCode - The ISO 3166-2 country code.
-   * @param administrativeDivision - The name of the administrative division in which to list localities. Administrative division is more common known as a state or province.
    * @param options - The optional parameters.
    */
   public listAvailableLocalities(
     countryCode: string,
-    administrativeDivision?: string,
-    options: ListLocalitiesOptions = {}
+    options: ListLocalitiesOptions = {
+      administrativeDivision: "WA"
+    }
   ): PagedAsyncIterableIterator<PhoneNumberLocality> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-listAvailableLocalities",
@@ -493,7 +493,6 @@ export class PhoneNumbersClient {
       return this.client.phoneNumbers.listAvailableLocalities(countryCode, {
         ...updatedOptions,
         acceptLanguage: this.acceptLanguage,
-        administrativeDivision: administrativeDivision,
       });
     } catch (e: any) {
       span.setStatus({
