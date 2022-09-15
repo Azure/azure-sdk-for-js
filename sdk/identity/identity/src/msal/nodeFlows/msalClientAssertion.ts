@@ -10,7 +10,7 @@ import { isError } from "@azure/core-util";
  * Options that can be passed to configure MSAL to handle client assertions.
  * @internal
  */
-export interface MSALClientAssertionOptions extends MsalNodeOptions {
+export interface MsalClientAssertionOptions extends MsalNodeOptions {
   /**
    * A function that retrieves the assertion for the credential to use.
    */
@@ -23,7 +23,7 @@ export interface MSALClientAssertionOptions extends MsalNodeOptions {
  */
 export class MsalClientAssertion extends MsalNode {
   getAssertion: () => Promise<string>;
-  constructor(options: MSALClientAssertionOptions) {
+  constructor(options: MsalClientAssertionOptions) {
     super(options);
     this.requiresConfidential = true;
     this.getAssertion = options.getAssertion;

@@ -9,7 +9,7 @@ import { CredentialFlowGetTokenOptions } from "../credentials";
  * Options that can be passed to configure MSAL to handle client secrets.
  * @internal
  */
-export interface MSALClientSecretOptions extends MsalNodeOptions {
+export interface MsalClientSecretOptions extends MsalNodeOptions {
   /**
    * A client secret that was generated for the App Registration.
    */
@@ -21,7 +21,7 @@ export interface MSALClientSecretOptions extends MsalNodeOptions {
  * @internal
  */
 export class MsalClientSecret extends MsalNode {
-  constructor(options: MSALClientSecretOptions) {
+  constructor(options: MsalClientSecretOptions) {
     super(options);
     this.requiresConfidential = true;
     this.msalConfig.auth.clientSecret = options.clientSecret;

@@ -11,7 +11,7 @@ import { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredential
  * Options that can be passed to configure MSAL to handle authentication through device codes.
  * @internal
  */
-export interface MSALDeviceCodeOptions extends MsalNodeOptions {
+export interface MsalDeviceCodeOptions extends MsalNodeOptions {
   userPromptCallback: DeviceCodePromptCallback;
 }
 
@@ -22,7 +22,7 @@ export interface MSALDeviceCodeOptions extends MsalNodeOptions {
 export class MsalDeviceCode extends MsalNode {
   private userPromptCallback: DeviceCodePromptCallback;
 
-  constructor(options: MSALDeviceCodeOptions) {
+  constructor(options: MsalDeviceCodeOptions) {
     super(options);
     this.userPromptCallback = options.userPromptCallback;
   }

@@ -21,7 +21,7 @@ const readFileAsync = promisify(readFile);
  * Options that can be passed to configure MSAL to handle client certificates.
  * @internal
  */
-export interface MSALClientCertificateOptions extends MsalNodeOptions {
+export interface MsalClientCertificateOptions extends MsalNodeOptions {
   /**
    * Location of the PEM certificate.
    */
@@ -109,7 +109,7 @@ export class MsalClientCertificate extends MsalNode {
   private configuration: ClientCertificateCredentialPEMConfiguration;
   private sendCertificateChain?: boolean;
 
-  constructor(options: MSALClientCertificateOptions) {
+  constructor(options: MsalClientCertificateOptions) {
     super(options);
     this.requiresConfidential = true;
     this.configuration = options.configuration;

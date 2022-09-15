@@ -17,7 +17,7 @@ import stoppable from "stoppable";
  * Options that can be passed to configure MSAL to handle authentication through opening a browser window.
  * @internal
  */
-export interface MSALOpenBrowserOptions extends MsalNodeOptions {
+export interface MsalOpenBrowserOptions extends MsalNodeOptions {
   redirectUri: string;
   loginHint?: string;
 }
@@ -41,7 +41,7 @@ export class MsalOpenBrowser extends MsalNode {
   private hostname: string;
   private loginHint?: string;
 
-  constructor(options: MSALOpenBrowserOptions) {
+  constructor(options: MsalOpenBrowserOptions) {
     super(options);
     this.logger = credentialLogger("Node.js MSAL Open Browser");
     this.redirectUri = options.redirectUri;

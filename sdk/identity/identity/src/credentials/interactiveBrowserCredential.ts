@@ -84,7 +84,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       `${this.constructor.name}.getToken`,
       options,
       async (newOptions) => {
-        newOptions.tenantId  = processMultiTenantRequest(
+        newOptions.tenantId = processMultiTenantRequest(
           this.tenantId,
           newOptions,
           this.additionallyAllowedTenantIds
