@@ -32,7 +32,8 @@ async function main() {
   // Create user with token with custom expiration
   console.log("Creating User and Token");
 
-  const { user, token, expiresOn } = await client.createUserAndToken(scopes, 60);
+  const userAndTokenOptions = { tokenExpiresInMinutes: 60 };
+  const { user, token, expiresOn } = await client.createUserAndToken(scopes, userAndTokenOptions);
 
   console.log(`Created user with id: ${user.communicationUserId}`);
   console.log(`Issued token: ${token}`);

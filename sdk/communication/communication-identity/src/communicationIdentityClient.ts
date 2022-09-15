@@ -108,13 +108,19 @@ export class CommunicationIdentityClient {
     scopes: TokenScope[],
     options: GetTokenOptions = {}
   ): Promise<CommunicationAccessToken> {
-    return tracingClient.withSpan("CommunicationIdentity-issueToken", options, (updatedOptions) => {
-      return this.client.communicationIdentityOperations.issueAccessToken(
-        user.communicationUserId,
-        scopes,
-        updatedOptions
-      );
-    });
+    const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams =
+      this.parseOptions(options);
+    return tracingClient.withSpan(
+      "CommunicationIdentity-issueToken",
+      operationOptions,
+      (updatedOptions) => {
+        return this.client.communicationIdentityOperations.issueAccessToken(
+          user.communicationUserId,
+          scopes,
+          updatedOptions
+        );
+      }
+    );
   }
 
   /**
@@ -169,9 +175,11 @@ export class CommunicationIdentityClient {
     scopes: TokenScope[],
     options: CreateUserAndTokenOptions = {}
   ): Promise<CommunicationUserToken> {
+    const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams =
+      this.parseOptions(options);
     return tracingClient.withSpan(
       "CommunicationIdentity-createUserAndToken",
-      options,
+      operationOptions,
       async (updatedOptions) => {
         const { identity, accessToken } = await this.client.communicationIdentityOperations.create({
           createTokenWithScopes: scopes,
@@ -228,5 +236,17 @@ export class CommunicationIdentityClient {
         );
       }
     );
+  }
+
+  private parseOptions(
+    options: CreateUserAndTokenOptions | GetTokenOptions
+  ): CommunicationIdentityIssueAccessTokenOptionalParams {
+    const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams = options;
+    if (options.tokenExpiresInMinutes && typeof options.tokenExpiresInMinutes === "number") {
+      operationOptions.expiresInMinutes = options.tokenExpiresInMinutes;
+    } else {
+      operationOptions.expiresInMinutes = undefined;
+    }
+    return operationOptions;
   }
 }

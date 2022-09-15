@@ -17,6 +17,7 @@ import { matrix } from "@azure/test-utils";
 
 matrix([[true, false]], async function (useAad: boolean) {
   describe(`CommunicationIdentityClient [Playback/Live]${useAad ? " [AAD]" : ""}`, function () {
+    const ALLOWED_DEVIATION: number = 0.05;
     let recorder: Recorder;
     let client: CommunicationIdentityClient;
 
@@ -34,16 +35,17 @@ matrix([[true, false]], async function (useAad: boolean) {
       }
     });
 
-    function isTokenExpirationValid(
+    function tokenExpirationWithinAllowedDeviation(
       expectedTokenExpiration: number,
-      tokenExpiresAfter: Date
+      tokenExpiresIn: Date,
+      allowedDeviation: number
     ): boolean {
       const timeNow = Date.now();
-      const expiration = tokenExpiresAfter.getTime();
+      const expiration = tokenExpiresIn.getTime();
       const tokenSeconds = (expiration - timeNow) / 1000;
       const expectedSeconds = expectedTokenExpiration * 60;
       const timeDiff = Math.abs(expectedSeconds - tokenSeconds);
-      const allowedDiff = expectedSeconds * 0.05;
+      const allowedDiff = expectedSeconds * allowedDeviation;
       return timeDiff < allowedDiff;
     }
 
@@ -81,8 +83,15 @@ matrix([[true, false]], async function (useAad: boolean) {
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
       if (isLiveMode()) {
-        const isValid = isTokenExpirationValid(tokenExpiresInMinutes, expiresOn);
-        assert.isTrue(isValid);
+        const isValid = tokenExpirationWithinAllowedDeviation(
+          tokenExpiresInMinutes,
+          expiresOn,
+          ALLOWED_DEVIATION
+        );
+        assert.isTrue(
+          isValid,
+          `Token expiration is outside of allowed ${ALLOWED_DEVIATION * 100}% deviation.`
+        );
       }
     });
 
@@ -95,8 +104,15 @@ matrix([[true, false]], async function (useAad: boolean) {
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
       if (isLiveMode()) {
-        const isValid = isTokenExpirationValid(tokenExpiresInMinutes, expiresOn);
-        assert.isTrue(isValid);
+        const isValid = tokenExpirationWithinAllowedDeviation(
+          tokenExpiresInMinutes,
+          expiresOn,
+          ALLOWED_DEVIATION
+        );
+        assert.isTrue(
+          isValid,
+          `Token expiration is outside of allowed ${ALLOWED_DEVIATION * 100}% deviation.`
+        );
       }
     });
 
@@ -108,12 +124,12 @@ matrix([[true, false]], async function (useAad: boolean) {
     });
 
     it("successfully creates a user and a token with custom expiration in a single request", async function () {
-      const tokenOptions: CreateUserAndTokenOptions = { tokenExpiresInMinutes: 60 };
+      const userAndTokenOptions: CreateUserAndTokenOptions = { tokenExpiresInMinutes: 60 };
       const {
         user: newUser,
         token,
         expiresOn,
-      } = await client.createUserAndToken(["chat", "voip"], tokenOptions);
+      } = await client.createUserAndToken(["chat", "voip"], userAndTokenOptions);
       assert.isTrue(isCommunicationUserIdentifier(newUser));
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);

@@ -102,7 +102,8 @@ let { token } = await client.getToken(user, ["chat"]);
 ### Creating a user token with custom expiration
 
 ```typescript
-let { token } = await client.getToken(user, ["chat"], 60);
+const tokenOptions: GetTokenOptions = { tokenExpiresInMinutes: 60 };
+let { token } = await client.getToken(user, ["chat"], tokenOptions);
 ```
 
 ### Creating a user and a token in a single request
@@ -116,7 +117,8 @@ let { user, token } = await client.createUserAndToken(["chat"]);
 ### Creating a user and a token with custom expiration in a single request
 
 ```typescript
-let { user, token } = await client.createUserAndToken(["chat"], 60);
+const userAndTokenOptions: CreateUserAndTokenOptions = { tokenExpiresInMinutes: 60 };
+let { user, token } = await client.createUserAndToken(["chat"], userAndTokenOptions);
 ```
 
 ### Revoking tokens for a user
