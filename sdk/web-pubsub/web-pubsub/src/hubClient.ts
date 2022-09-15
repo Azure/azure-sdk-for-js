@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { RestError, RequestBodyType, LogPolicyOptions } from "@azure/core-rest-pipeline";
+import { RestError, RequestBodyType } from "@azure/core-rest-pipeline";
 import { GeneratedClient } from "./generated/generatedClient";
 import { WebPubSubGroup, WebPubSubGroupImpl } from "./groupClient";
 import { AzureKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
@@ -76,7 +76,28 @@ export interface WebPubSubServiceClientOptions extends CommonClientOptions {
    * Reverse proxy endpoint (for example, your Azure API management endpoint)
    */
   reverseProxyEndpoint?: string;
-  loggingOptions?: LogPolicyOptions;
+  /**
+   * Options to configure the logging options.
+   */
+  loggingOptions?: WebPubSubServiceClientLogOptions;
+}
+
+/**
+ * Options to configure the logging options.
+ */
+export declare interface WebPubSubServiceClientLogOptions {
+  /**
+   * Header names whose values will be logged when logging is enabled.
+   * Defaults include a list of well-known safe headers. Any headers
+   * specified in this field will be added to that list.  Any other values will
+   * be written to logs as "REDACTED".
+   */
+  additionalAllowedHeaderNames?: string[];
+  /**
+   * Query string names whose values will be logged when logging is enabled. By default no
+   * query string values are logged.
+   */
+  additionalAllowedQueryParameters?: string[];
 }
 
 /**
@@ -287,7 +308,11 @@ export class WebPubSubServiceClient {
       ...this.clientOptions,
       ...{
         apiVersion: this.apiVersion,
-        loggingOptions: this.clientOptions?.loggingOptions ?? {
+        loggingOptions: {
+          additionalAllowedHeaderNames:
+            this.clientOptions?.loggingOptions?.additionalAllowedHeaderNames,
+          additionalAllowedQueryParameters:
+            this.clientOptions?.loggingOptions?.additionalAllowedQueryParameters,
           logger: logger.info,
         },
       },
