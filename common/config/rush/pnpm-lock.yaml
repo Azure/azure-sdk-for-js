@@ -41,6 +41,7 @@ specifiers:
   '@rush-temp/arm-cdn': file:./projects/arm-cdn.tgz
   '@rush-temp/arm-changeanalysis': file:./projects/arm-changeanalysis.tgz
   '@rush-temp/arm-changes': file:./projects/arm-changes.tgz
+  '@rush-temp/arm-chaos': file:./projects/arm-chaos.tgz
   '@rush-temp/arm-cognitiveservices': file:./projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-commerce': file:./projects/arm-commerce.tgz
   '@rush-temp/arm-commerce-profile-2020-09-01-hybrid': file:./projects/arm-commerce-profile-2020-09-01-hybrid.tgz
@@ -349,6 +350,7 @@ dependencies:
   '@rush-temp/arm-cdn': file:projects/arm-cdn.tgz
   '@rush-temp/arm-changeanalysis': file:projects/arm-changeanalysis.tgz
   '@rush-temp/arm-changes': file:projects/arm-changes.tgz
+  '@rush-temp/arm-chaos': file:projects/arm-chaos.tgz
   '@rush-temp/arm-cognitiveservices': file:projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-commerce': file:projects/arm-commerce.tgz
   '@rush-temp/arm-commerce-profile-2020-09-01-hybrid': file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz
@@ -10784,6 +10786,33 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-chaos.tgz:
+    resolution: {integrity: sha512-MsUqKhZRz/N+z9NC1YYRwfPG2mSfZ4aUMCk9SGJrfJFGkShEp0UD3ElcLfi5AabL1ZXPT0L4EZKOT5PfvxC3bg==, tarball: file:projects/arm-chaos.tgz}
+    name: '@rush-temp/arm-chaos'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.3
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
+      tslib: 2.4.0
+      typescript: 4.6.4
+      uglify-js: 3.17.0
+    transitivePeerDependencies:
+      - '@types/node'
       - supports-color
     dev: false
 
