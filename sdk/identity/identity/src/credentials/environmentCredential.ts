@@ -91,7 +91,7 @@ export class EnvironmentCredential implements TokenCredential {
       logger.info(
         `Invoking ClientSecretCredential with tenant ID: ${tenantId}, clientId: ${clientId} and clientSecret: [REDACTED]`
       );
-      this._credential = new ClientSecretCredential(tenantId, clientId, clientSecret, options);
+      this._credential = new ClientSecretCredential(tenantId, clientId, clientSecret, newOptions);
       return;
     }
 
@@ -105,7 +105,7 @@ export class EnvironmentCredential implements TokenCredential {
         tenantId,
         clientId,
         { certificatePath, certificatePassword },
-        options
+        newOptions
       );
       return;
     }
@@ -121,7 +121,7 @@ export class EnvironmentCredential implements TokenCredential {
         clientId,
         username,
         password,
-        options
+        newOptions
       );
     }
   }
