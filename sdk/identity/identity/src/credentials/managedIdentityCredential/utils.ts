@@ -30,3 +30,35 @@ export function mapScopesToResource(scopes: string | string[]): string | undefin
 
   return scope.substr(0, scope.lastIndexOf(DefaultScopeSuffix));
 }
+
+/**
+ * Internal type roughly matching the raw responses of the authentication endpoints.
+ *
+ * @internal
+ */
+export interface TokenResponseParsedBody {
+  token?: string;
+  access_token?: string;
+  refresh_token?: string;
+  expires_in: number;
+  expires_on?: number | string;
+}
+
+/**
+ * Given a token response, return the expiration timestamp as the number of milliseconds from the Unix epoch.
+ * @param body A parsed response body from the authentication endpoint.
+ */
+export function parseExpiresOn(body: TokenResponseParsedBody): number {
+  if (typeof body.expires_on === "number") {
+    return body.expires_on * 1000;
+  } else if (typeof body.expires_on === "string") {
+    const asNumber = +body.expires_on;
+    if (!isNaN(asNumber)) {
+      return asNumber * 1000;
+    } else {
+      return Date.parse(body.expires_on);
+    }
+  } else {
+    return Date.now() + body.expires_in * 1000;
+  }
+}

@@ -159,7 +159,7 @@ describe("ManagedIdentityCredential", function () {
       "URL does not have expected version"
     );
     const expectedMessage = `azure:identity:info [Authenticated account] Client ID: HIDDEN. Tenant ID: HIDDEN. User Principal Name: No User Principal Name available. Object ID (user): HIDDEN`;
-    assert.equal((spy.getCall(spy.callCount - 4).args[0] as any as string).trim(), expectedMessage);
+    assert.equal((spy.getCall(spy.callCount - 3).args[0] as any as string).trim(), expectedMessage);
     AzureLogger.destroy();
   });
 
@@ -569,7 +569,7 @@ describe("ManagedIdentityCredential", function () {
       secureResponses: [
         createResponse(200, {
           access_token: "token",
-          expires_on: "06/20/2021 02:57:58 +00:00",
+          expires_on: "1624157878",
         }),
       ],
     });
@@ -609,7 +609,7 @@ describe("ManagedIdentityCredential", function () {
       secureResponses: [
         createResponse(200, {
           access_token: "token",
-          expires_on: "06/20/2021 02:57:58 +00:00",
+          expires_on: "1624157878",
         }),
       ],
     });
@@ -949,7 +949,7 @@ describe("ManagedIdentityCredential", function () {
 
     if (authDetails.result!.token) {
       // We use Date.now underneath.
-      assert.equal(authDetails.result!.expiresOnTimestamp, 1);
+      assert.equal(authDetails.result!.expiresOnTimestamp, 1000);
     } else {
       assert.fail("No token was returned!");
     }
@@ -991,7 +991,7 @@ describe("ManagedIdentityCredential", function () {
 
     if (authDetails.result!.token) {
       // We use Date.now underneath.
-      assert.equal(authDetails.result!.expiresOnTimestamp, 1);
+      assert.equal(authDetails.result!.expiresOnTimestamp, 1000);
     } else {
       assert.fail("No token was returned!");
     }
