@@ -11,12 +11,13 @@ if (!(Test-Path -Path $ArtifactPath))
   exit 1
 }
 
-$apiviewParser = "@azure-tools/ts-genapi@1.0.3"
+$apiviewParser = "@azure-tools/ts-genapi@latest"
 # Find and install dependencies from public npm registry
 $deps = npm view $apiviewParser --registry $NpmDevopsFeedRegistry dependencies
 if ($deps)
 {
-  $deps = $deps.replace("{", "").replace("}","").replace(" ", "").replace("'", "").replace(":", "@").split(",")
+  $deps = ($deps -replace "[{} ']")
+  $deps = $deps.replace(":", "@").split(",")
   foreach ($d in $deps)
   {
     Write-Host "Instaling $($d)"
