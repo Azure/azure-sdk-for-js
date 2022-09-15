@@ -60,6 +60,7 @@ export class LogsIngestionClient {
     ruleId: string,
     streamName: string,
     logs: Record<string, unknown>[],
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: UploadLogsOptions
   ): Promise<UploadLogsResult> {
     // TODO: Do we need to worry about memory issues when loading data for 100GB ?? JS max allocation is 1 or 2GB
