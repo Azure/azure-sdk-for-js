@@ -22,7 +22,6 @@ Param (
   [string] $Language
 )
 
-Set-StrictMode -Version 3
 . (Join-Path $PSScriptRoot ".." common scripts common.ps1)
 
 # Submit API review request and return status whether current revision is approved or pending or failed to create review
