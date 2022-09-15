@@ -46,7 +46,7 @@ export interface TokenResponseParsedBody {
 
 /**
  * Given a token response, return the expiration timestamp as the number of milliseconds from the Unix epoch.
- * @param body A parsed response body from the authentication endpoint.
+ * @param body - A parsed response body from the authentication endpoint.
  */
 export function parseExpiresOn(body: TokenResponseParsedBody): number {
   if (typeof body.expires_on === "number") {
