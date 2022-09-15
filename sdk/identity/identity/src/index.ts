@@ -23,6 +23,7 @@ export {
 export { AuthenticationRecord } from "./msal/types";
 export { serializeAuthenticationRecord, deserializeAuthenticationRecord } from "./msal/utils";
 export { TokenCredentialOptions } from "./tokenCredentialOptions";
+export { MultiTenantTokenCredentialOptions } from "./credentials/multiTenantTokenCredentialOptions";
 
 // TODO: Export again once we're ready to release this feature.
 // export { RegionalAuthority } from "./regionalAuthority";

@@ -63,8 +63,6 @@ export class AuthorizationCodeCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
-// Warning: (ae-forgotten-export) The symbol "MultiTenantTokenCredentialOptions" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface AuthorizationCodeCredentialOptions extends MultiTenantTokenCredentialOptions {
 }
@@ -296,6 +294,11 @@ export interface ManagedIdentityCredentialClientIdOptions extends TokenCredentia
 // @public
 export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredentialOptions {
     resourceId: string;
+}
+
+// @public
+export interface MultiTenantTokenCredentialOptions extends TokenCredentialOptions {
+    additionallyAllowedTenants?: string[];
 }
 
 // @public
