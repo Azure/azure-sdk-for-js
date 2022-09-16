@@ -103,30 +103,36 @@ async function main() {
     radiusInMeters: 8046,
   };
   console.log(
-    await client.searchPointOfInterest({
-      query: searchPOIQuery,
-      coordinates: [47.606038, -122.333345],
-      ...searchPOIOptions,
-    })
+    await client.searchPointOfInterest(
+      {
+        query: searchPOIQuery,
+        coordinates: [47.606038, -122.333345],
+      },
+      searchPOIOptions
+    )
   );
 
   console.log(" --- Search POI with countryCodeFilter:");
   console.log(
-    await client.searchPointOfInterest({
-      query: searchPOIQuery,
-      countryCodeFilter: ["fr"],
-      ...searchPOIOptions,
-    })
+    await client.searchPointOfInterest(
+      {
+        query: searchPOIQuery,
+        countryCodeFilter: ["fr"],
+      },
+      searchPOIOptions
+    )
   );
 
   console.log(" --- Search POI with coordinate and countryCodeFilter:");
   console.log(
-    await client.searchPointOfInterest({
-      query: searchPOIQuery,
-      coordinates: [47.606038, -122.333345],
-      countryCodeFilter: ["fr"],
-      ...searchPOIOptions,
-    })
+    await client.searchPointOfInterest(
+      {
+        query: searchPOIQuery,
+        coordinates: [47.606038, -122.333345],
+        countryCodeFilter: ["fr"],
+      },
+      searchPOIOptions
+    )
   );
 
   console.log(" --- Search POI category with coordinates:");
@@ -136,30 +142,36 @@ async function main() {
     radiusInMeters: 8046,
   };
   console.log(
-    await client.searchPointOfInterestCategory({
-      query: searchPOICategoryQuery,
-      coordinates: [47.606038, -122.333345],
-      ...searchPOICategoryOptions,
-    })
+    await client.searchPointOfInterestCategory(
+      {
+        query: searchPOICategoryQuery,
+        coordinates: [47.606038, -122.333345],
+      },
+      searchPOICategoryOptions
+    )
   );
 
   console.log(" --- Search POI category with countryCodeFilter:");
   console.log(
-    await client.searchPointOfInterestCategory({
-      query: searchPOICategoryQuery,
-      countryCodeFilter: ["fr"],
-      ...searchPOICategoryOptions,
-    })
+    await client.searchPointOfInterestCategory(
+      {
+        query: searchPOICategoryQuery,
+        countryCodeFilter: ["fr"],
+      },
+      searchPOICategoryOptions
+    )
   );
 
   console.log(" --- Search POI category with coordinates and countryCodeFilter:");
   console.log(
-    await client.searchPointOfInterestCategory({
-      query: searchPOICategoryQuery,
-      coordinates: [47.606038, -122.333345],
-      countryCodeFilter: ["fr"],
-      ...searchPOICategoryOptions,
-    })
+    await client.searchPointOfInterestCategory(
+      {
+        query: searchPOICategoryQuery,
+        coordinates: [47.606038, -122.333345],
+        countryCodeFilter: ["fr"],
+      },
+      searchPOICategoryOptions
+    )
   );
 
   console.log(" --- Get search POI category tree:");
@@ -267,7 +279,6 @@ async function main() {
             ],
           ],
         },
-        properties: {},
       },
       {
         type: "Feature",
