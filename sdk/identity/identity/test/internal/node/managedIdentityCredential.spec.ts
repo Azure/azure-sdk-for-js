@@ -63,7 +63,7 @@ describe("ManagedIdentityCredential", function () {
         createResponse(200), // IMDS Endpoint ping
         createResponse(200, {
           access_token: "token",
-          expires_on: "06/20/2019 02:57:58 +00:00",
+          expires_on: "1506484173",
         }),
       ],
     });
@@ -96,8 +96,8 @@ describe("ManagedIdentityCredential", function () {
       insecureResponses: [
         createResponse(200), // IMDS Endpoint ping
         createResponse(200, {
-          token: "token",
-          expires_on: "06/20/2019 02:57:58 +00:00",
+          access_token: "token",
+          expires_on: "1506484173",
         }),
       ],
     });
@@ -134,7 +134,7 @@ describe("ManagedIdentityCredential", function () {
         createResponse(200), // IMDS Endpoint ping
         createResponse(200, {
           access_token: `token.${base64AccessTokenData}`,
-          expires_on: "06/20/2019 02:57:58 +00:00",
+          expires_on: "1506484173",
         }),
       ],
     });
@@ -171,8 +171,8 @@ describe("ManagedIdentityCredential", function () {
       insecureResponses: [
         createResponse(200), // IMDS Endpoint ping
         createResponse(200, {
-          token: "token",
-          expires_on: "06/20/2019 02:57:58 +00:00",
+          access_token: "token",
+          expires_on: "1506484173",
         }),
       ],
     });
@@ -259,7 +259,7 @@ describe("ManagedIdentityCredential", function () {
   });
 
   it("IMDS MSI retries and succeeds on 404", async function () {
-    const { result } = await testContext.sendCredentialRequests({
+    const { result, error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential("errclient"),
       insecureResponses: [
@@ -268,10 +268,12 @@ describe("ManagedIdentityCredential", function () {
         createResponse(404),
         createResponse(200, {
           access_token: "token",
+          expires_on: "1506484173",
         }),
       ],
     });
 
+    assert.isUndefined(error);
     assert.equal(result?.token, "token");
   });
 
@@ -296,7 +298,7 @@ describe("ManagedIdentityCredential", function () {
   });
 
   it("IMDS MSI retries also retries on 503s", async function () {
-    const { result } = await testContext.sendCredentialRequests({
+    const { result, error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential("errclient"),
       insecureResponses: [
@@ -306,15 +308,16 @@ describe("ManagedIdentityCredential", function () {
         createResponse(503, {}, { "Retry-After": "2" }),
         createResponse(503, {}, { "Retry-After": "2" }),
         createResponse(503, {}, { "Retry-After": "2" }),
-        createResponse(200, { access_token: "token" }),
+        createResponse(200, { access_token: "token", expires_on: "1506484173" }),
       ],
     });
 
+    assert.isUndefined(error);
     assert.equal(result?.token, "token");
   });
 
   it("IMDS MSI retries also retries on 500s", async function () {
-    const { result } = await testContext.sendCredentialRequests({
+    const { result, error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential("errclient"),
       insecureResponses: [
@@ -324,10 +327,11 @@ describe("ManagedIdentityCredential", function () {
         createResponse(500, {}),
         createResponse(500, {}),
         createResponse(500, {}),
-        createResponse(200, { access_token: "token" }),
+        createResponse(200, { access_token: "token", expires_on: "1506484173" }),
       ],
     });
 
+    assert.isUndefined(error);
     assert.equal(result?.token, "token");
   });
 
@@ -452,7 +456,7 @@ describe("ManagedIdentityCredential", function () {
       insecureResponses: [
         createResponse(200, {
           access_token: "token",
-          expires_on: "06/20/2019 02:57:58 +00:00",
+          expires_on: "1506484173",
         }),
       ],
     });
@@ -474,7 +478,7 @@ describe("ManagedIdentityCredential", function () {
       insecureResponses: [
         createResponse(200, {
           access_token: "token",
-          expires_on: "06/20/2019 02:57:58 +00:00",
+          expires_on: "1506484173",
         }),
       ],
     });
@@ -513,9 +517,10 @@ describe("ManagedIdentityCredential", function () {
       credential,
       insecureResponses: [
         // This time, no ping should be triggered
-        createResponse(200, { access_token: "token" }),
+        createResponse(200, { access_token: "token", expires_on: "1506484173" }),
       ],
     });
+    assert.isUndefined(authDetails2.error);
     assert.equal(authDetails2.requests.length, 1);
     assert.equal(authDetails2.result?.token, "token");
   });
@@ -644,7 +649,13 @@ describe("ManagedIdentityCredential", function () {
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential(),
-      secureResponses: [createResponse(200, { access_token: "token" })],
+      secureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_in: "4310",
+          expires_on: "1663366555",
+        }),
+      ],
     });
     const authRequest = authDetails.requests[0];
     assert.equal(authRequest.method, "POST");
@@ -657,7 +668,13 @@ describe("ManagedIdentityCredential", function () {
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential({ clientId: "CLIENT-ID" }),
-      secureResponses: [createResponse(200, { access_token: "token" })],
+      secureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_in: "4310",
+          expires_on: "1663366555",
+        }),
+      ],
     });
     const authRequest = authDetails.requests[0];
     const body = new URLSearchParams(authRequest.body);
@@ -672,7 +689,13 @@ describe("ManagedIdentityCredential", function () {
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential({ resourceId: "RESOURCE-ID" }),
-      secureResponses: [createResponse(200, { access_token: "token" })],
+      secureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_in: "4310",
+          expires_on: "1663366555",
+        }),
+      ],
     });
     const authRequest = authDetails.requests[0];
     const body = new URLSearchParams(authRequest.body);
@@ -690,7 +713,13 @@ describe("ManagedIdentityCredential", function () {
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client"),
-      secureResponses: [createResponse(200, { access_token: "token" })],
+      secureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_in: "4310",
+          expires_on: "1663366555",
+        }),
+      ],
     });
     assert.equal(authDetails.result!.token, "token");
     assert.equal(msiGetTokenSpy.called, true);

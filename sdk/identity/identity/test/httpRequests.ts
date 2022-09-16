@@ -189,7 +189,8 @@ export class IdentityTestContext implements IdentityTestContextInterface {
       this.sandbox.replace(providerObject.Agent.prototype as any, "request", fakeRequest);
     } catch (e: any) {
       console.debug(
-        "Failed to replace the request. This might be expected if you're running multiple sendCredentialRequests() calls."
+        "Failed to replace the request. This might be expected if you're running multiple sendCredentialRequests() calls.",
+        e.message
       );
     }
 
