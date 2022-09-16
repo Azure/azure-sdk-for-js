@@ -159,7 +159,7 @@ export function createAnalyzeBatchLro(settings: {
           throwError(
             getRawResponse(
               (paramOptions) =>
-                client.analyzeText.submitJob(
+                client.analyzeBatch(
                   {
                     tasks,
                     analysisInput: {
