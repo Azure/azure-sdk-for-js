@@ -3,8 +3,11 @@
 
 import { AzureKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
+  GeoJsonCircleOrPolygonFeature,
+  GeoJsonCircleOrPolygonFeatureCollection,
   GeoJsonFeatureCollection,
   GeoJsonLineString,
+  GeoJsonPolygonFeature,
   LatLon,
   SearchGeometry,
   StructuredAddress,
@@ -89,6 +92,18 @@ const isMapsSearchClientOptions = (
   clientIdOrOptions: any
 ): clientIdOrOptions is MapsSearchClientOptions =>
   clientIdOrOptions && typeof clientIdOrOptions !== "string";
+
+const isGeoJsonCircleOrPolygonFeatureCollection = (
+  geometry: SearchGeometry
+): geometry is GeoJsonCircleOrPolygonFeatureCollection => {
+  return "features" in geometry;
+};
+
+const isGeoJsonPolygonFeature = (
+  feature: GeoJsonCircleOrPolygonFeature
+): feature is GeoJsonPolygonFeature => {
+  return !("properties" in feature);
+};
 
 /**
  * Client class for interacting with Azure Maps Search Service.
@@ -553,6 +568,20 @@ export class MapsSearchClient {
   ): Promise<SearchAddressResult> {
     const { span, updatedOptions } = createSpan("MapsSearchClient-searchInsideGeometry", options);
     const internalOptions = updatedOptions as SearchInsideGeometryOptionalParams;
+    /** Patch an empty object to properties since it's required */
+    if (isGeoJsonCircleOrPolygonFeatureCollection(geometry)) {
+      console.log("is feature collection");
+      geometry.features = geometry.features.map((feature) => {
+        if (isGeoJsonPolygonFeature(feature)) {
+          console.log("is polygon");
+          return {
+            ...feature,
+            properties: {},
+          };
+        }
+        return feature;
+      });
+    }
     try {
       const result = await this.client.search.searchInsideGeometry(
         this.defaultFormat,

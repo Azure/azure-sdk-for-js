@@ -556,7 +556,6 @@ describe("General search", function (this: Suite) {
                 ],
               ],
             },
-            properties: {},
           },
           {
             type: "Feature",
