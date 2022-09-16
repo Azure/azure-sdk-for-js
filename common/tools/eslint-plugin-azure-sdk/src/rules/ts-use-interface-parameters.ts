@@ -19,6 +19,7 @@ import {
   TypeReference,
   TypeReferenceNode,
   isArrayTypeNode,
+  ModifierLike,
 } from "typescript";
 import {
   FunctionDeclaration,
@@ -274,7 +275,7 @@ export = {
             if (
               modifiers !== undefined &&
               modifiers.some(
-                (modifier: Modifier): boolean => modifier.kind === SyntaxKind.PrivateKeyword
+                (modifier: Modifier | ModifierLike): boolean => modifier.kind === SyntaxKind.PrivateKeyword
               )
             ) {
               return;
