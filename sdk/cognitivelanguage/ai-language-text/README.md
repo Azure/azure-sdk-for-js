@@ -2,7 +2,7 @@
 
 [Azure Cognitive Service for Language](https://azure.microsoft.com/services/cognitive-services/language-service/) is a cloud-based service that provides advanced natural language processing over raw text, and includes the following main features:
 
-**Note:** This SDK targets Azure Cognitive Service for Language API version 2022-05-01.
+**Note:** This SDK targets Azure Cognitive Service for Language API version 2022-10-01-preview.
 
 - Language Detection
 - Sentiment Analysis
@@ -11,8 +11,11 @@
 - Recognition of Personally Identifiable Information
 - Entity Linking
 - Healthcare Analysis
+- Extractive Summarization
+- Abstractive Summarization
 - Custom Entity Recognition
 - Custom Document Classification
+- Dynamic Classification
 - Support Multiple Actions Per Document
 
 Use the client library to:
@@ -389,15 +392,48 @@ async function main() {
 main();
 ```
 
+### Dynamic Classification
+
+On the fly classification of the input documents into one or multiple categories. Assigns either one or multiple categories per document. This type of classification doesn't require model training.
+
+```javascript
+const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-language-text");
+
+const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+
+const documents = [
+  "The WHO is issuing a warning about Monkey Pox.",
+  "Mo Salah plays in Liverpool FC in England.",
+];
+
+export async function main() {
+  const results = await client.analyze("DynamicClassification", documents, "en", {
+    categories: ["Health", "Politics", "Music", "Sports"],
+    classificationType: "Multi",
+  });
+
+  for (const result of results) {
+    console.log(`- Document ${result.id}`);
+    if (!result.error) {
+      console.log("\tClassifications:");
+      for (const category of result.classifications) {
+        console.log(`\t- ${category.category}`);
+      }
+    } else {
+      console.error("  Error:", result.error);
+    }
+  }
+}
+
+main();
+```
+
 ### Healthcare Analysis
 
 Healthcare analysis identifies healthcare entities. For example, given input text "Prescribed 100mg ibuprofen, taken twice daily", the service returns "100mg" categorized as Dosage, "ibuprofen" as MedicationName, and "twice daily" as Frequency.
 
 ```javascript
-const {
-  AzureKeyCredential,
-  TextAnalysisClient,
-} = require("@azure/ai-language-text");
+const { AzureKeyCredential, TextAnalysisClient } = require("@azure/ai-language-text");
 
 const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
 
@@ -445,15 +481,96 @@ async function main() {
 main();
 ```
 
+### Extractive Summarization
+
+Extractive summarization identifies sentences that summarize the article they belong to.
+
+```javascript
+const { AzureKeyCredential, TextAnalysisClient } = require("@azure/ai-language-text");
+const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const documents = [
+  "<long article>"
+];
+async function main() {
+  const actions = [
+    {
+      kind: "ExtractiveSummarization",
+      maxSentenceCount: 2,
+    },
+  ];
+  const poller = await client.beginAnalyzeBatch(actions, documents, "en");
+  const results = await poller.pollUntilDone();
+  for await (const actionResult of results) {
+    if (actionResult.kind !== "ExtractiveSummarization") {
+      throw new Error(`Expected extractive summarization results but got: ${actionResult.kind}`);
+    }
+    if (actionResult.error) {
+      const { code, message } = actionResult.error;
+      throw new Error(`Unexpected error (${code}): ${message}`);
+    }
+    for (const result of actionResult.results) {
+      console.log(`- Document ${result.id}`);
+      if (result.error) {
+        const { code, message } = result.error;
+        throw new Error(`Unexpected error (${code}): ${message}`);
+      }
+      console.log("Summary:");
+      console.log(result.sentences.map((sentence) => sentence.text).join("\n"));
+    }
+  }
+}
+main();
+```
+
+### Abstractive Summarization
+
+Abstractive summarization generates a summary for the input articles. Abstractive summarization is different from extractive summarization in that extractive summarization is the strategy of concatenating extracted sentences from the input document into a summary, while abstractive summarization involves paraphrasing the document using novel sentences.
+
+```javascript
+const { AzureKeyCredential, TextAnalysisClient } = require("@azure/ai-language-text");
+const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const documents = [
+  "<long article>"
+];
+async function main() {
+  const actions = [
+    {
+      kind: "AbstractiveSummarization",
+      maxSentenceCount: 2,
+    },
+  ];
+  const poller = await client.beginAnalyzeBatch(actions, documents, "en");
+  const results = await poller.pollUntilDone();
+  for await (const actionResult of results) {
+    if (actionResult.kind !== "AbstractiveSummarization") {
+      throw new Error(`Expected abstractive summarization results but got: ${actionResult.kind}`);
+    }
+    if (actionResult.error) {
+      const { code, message } = actionResult.error;
+      throw new Error(`Unexpected error (${code}): ${message}`);
+    }
+    for (const result of actionResult.results) {
+      console.log(`- Document ${result.id}`);
+      if (result.error) {
+        const { code, message } = result.error;
+        throw new Error(`Unexpected error (${code}): ${message}`);
+      }
+      console.log("\t- Summary:");
+      for (const summary of result.summaries) {
+        console.log(summary.text);
+      }
+    }
+  }
+}
+main();
+```
+
 ### Custom Entity Recognition
 
 Recognize and categorize entities in text as entities using custom entity detection models built using [Azure Language Studio][lang_studio].
 
 ```javascript
-const {
-  AzureKeyCredential,
-  TextAnalysisClient,
-} = require("@azure/ai-language-text");
+const { AzureKeyCredential, TextAnalysisClient } = require("@azure/ai-language-text");
 
 const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
 
@@ -549,10 +666,7 @@ main();
 Classify documents using custom multi-label models built using [Azure Language Studio][lang_studio].
 
 ```javascript
-const {
-  AzureKeyCredential,
-  TextAnalysisClient,
-} = require("@azure/ai-language-text");
+const { AzureKeyCredential, TextAnalysisClient } = require("@azure/ai-language-text");
 
 const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
 
@@ -603,10 +717,7 @@ main();
 Applies multiple actions on each input document in one service request.
 
 ```javascript
-const {
-  AzureKeyCredential,
-  TextAnalysisClient,
-} = require("@azure/ai-language-text");
+const { AzureKeyCredential, TextAnalysisClient } = require("@azure/ai-language-text");
 
 const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
 
