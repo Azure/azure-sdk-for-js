@@ -541,7 +541,7 @@ export function transformAnalyzeBatchResults(
         const { results } = actionData as AbstractiveSummarizationLROResult;
         const { modelVersion, statistics } = results;
         return {
-          kind: "ExtractiveSummarization",
+          kind: "AbstractiveSummarization",
           results: transformDocumentResults(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
