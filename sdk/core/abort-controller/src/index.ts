@@ -12,3 +12,4 @@
 
 export { AbortController, AbortError } from "./AbortController";
 export { AbortSignal, AbortSignalLike } from "./AbortSignal";
+export const TEST_API_VIEW = 1;
