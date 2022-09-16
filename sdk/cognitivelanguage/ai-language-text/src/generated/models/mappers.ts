@@ -605,6 +605,27 @@ export const DocumentError: coreClient.CompositeMapper = {
   }
 };
 
+export const BaseResolution: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BaseResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: {
+      serializedName: "resolutionKind",
+      clientName: "resolutionKind"
+    },
+    modelProperties: {
+      resolutionKind: {
+        serializedName: "resolutionKind",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Entity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1601,6 +1622,22 @@ export const SummaryContext: coreClient.CompositeMapper = {
   }
 };
 
+export const QuantityResolution: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QuantityResolution",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const AnalyzeTextEntityLinkingInput: coreClient.CompositeMapper = {
   serializedName: "EntityLinking",
   type: {
@@ -1800,7 +1837,6 @@ export const SentimentTaskResult: coreClient.CompositeMapper = {
       AnalyzeTextTaskResult.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeTextTaskResult.type.modelProperties,
-      ...DocumentDetectedLanguage.type.modelProperties,
       results: {
         serializedName: "results",
         type: {
@@ -2116,6 +2152,415 @@ export const CustomLabelClassificationResult: coreClient.CompositeMapper = {
   }
 };
 
+export const AgeResolution: coreClient.CompositeMapper = {
+  serializedName: "AgeResolution",
+  type: {
+    name: "Composite",
+    className: "AgeResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      ...QuantityResolution.type.modelProperties,
+      unit: {
+        serializedName: "unit",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VolumeResolution: coreClient.CompositeMapper = {
+  serializedName: "VolumeResolution",
+  type: {
+    name: "Composite",
+    className: "VolumeResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      ...QuantityResolution.type.modelProperties,
+      unit: {
+        serializedName: "unit",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SpeedResolution: coreClient.CompositeMapper = {
+  serializedName: "SpeedResolution",
+  type: {
+    name: "Composite",
+    className: "SpeedResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      ...QuantityResolution.type.modelProperties,
+      unit: {
+        serializedName: "unit",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AreaResolution: coreClient.CompositeMapper = {
+  serializedName: "AreaResolution",
+  type: {
+    name: "Composite",
+    className: "AreaResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      ...QuantityResolution.type.modelProperties,
+      unit: {
+        serializedName: "unit",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LengthResolution: coreClient.CompositeMapper = {
+  serializedName: "LengthResolution",
+  type: {
+    name: "Composite",
+    className: "LengthResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      ...QuantityResolution.type.modelProperties,
+      unit: {
+        serializedName: "unit",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const InformationResolution: coreClient.CompositeMapper = {
+  serializedName: "InformationResolution",
+  type: {
+    name: "Composite",
+    className: "InformationResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      ...QuantityResolution.type.modelProperties,
+      unit: {
+        serializedName: "unit",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TemperatureResolution: coreClient.CompositeMapper = {
+  serializedName: "TemperatureResolution",
+  type: {
+    name: "Composite",
+    className: "TemperatureResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      ...QuantityResolution.type.modelProperties,
+      unit: {
+        serializedName: "unit",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WeightResolution: coreClient.CompositeMapper = {
+  serializedName: "WeightResolution",
+  type: {
+    name: "Composite",
+    className: "WeightResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      ...QuantityResolution.type.modelProperties,
+      unit: {
+        serializedName: "unit",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CurrencyResolution: coreClient.CompositeMapper = {
+  serializedName: "CurrencyResolution",
+  type: {
+    name: "Composite",
+    className: "CurrencyResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      ...QuantityResolution.type.modelProperties,
+      iso4217: {
+        serializedName: "ISO4217",
+        type: {
+          name: "String"
+        }
+      },
+      unit: {
+        serializedName: "unit",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BooleanResolution: coreClient.CompositeMapper = {
+  serializedName: "BooleanResolution",
+  type: {
+    name: "Composite",
+    className: "BooleanResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const DateTimeResolution: coreClient.CompositeMapper = {
+  serializedName: "DateTimeResolution",
+  type: {
+    name: "Composite",
+    className: "DateTimeResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      timex: {
+        serializedName: "timex",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      dateTimeSubKind: {
+        serializedName: "dateTimeSubKind",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifier: {
+        serializedName: "modifier",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NumberResolution: coreClient.CompositeMapper = {
+  serializedName: "NumberResolution",
+  type: {
+    name: "Composite",
+    className: "NumberResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      numberKind: {
+        serializedName: "numberKind",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OrdinalResolution: coreClient.CompositeMapper = {
+  serializedName: "OrdinalResolution",
+  type: {
+    name: "Composite",
+    className: "OrdinalResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      offset: {
+        serializedName: "offset",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      relativeTo: {
+        serializedName: "relativeTo",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TemporalSpanResolution: coreClient.CompositeMapper = {
+  serializedName: "TemporalSpanResolution",
+  type: {
+    name: "Composite",
+    className: "TemporalSpanResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      begin: {
+        serializedName: "begin",
+        type: {
+          name: "String"
+        }
+      },
+      end: {
+        serializedName: "end",
+        type: {
+          name: "String"
+        }
+      },
+      duration: {
+        serializedName: "duration",
+        type: {
+          name: "String"
+        }
+      },
+      modifier: {
+        serializedName: "modifier",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NumericRangeResolution: coreClient.CompositeMapper = {
+  serializedName: "NumericRangeResolution",
+  type: {
+    name: "Composite",
+    className: "NumericRangeResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      rangeKind: {
+        serializedName: "rangeKind",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      minimum: {
+        serializedName: "minimum",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      maximum: {
+        serializedName: "maximum",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const EntityWithResolution: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EntityWithResolution",
+    modelProperties: {
+      ...Entity.type.modelProperties,
+      resolutions: {
+        serializedName: "resolutions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BaseResolution"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const EntitiesDocumentResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2130,7 +2575,7 @@ export const EntitiesDocumentResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Entity"
+              className: "EntityWithResolution"
             }
           }
         }
@@ -2398,6 +2843,28 @@ export const CustomLabelClassificationResultDocumentsItem: coreClient.CompositeM
     className: "CustomLabelClassificationResultDocumentsItem",
     modelProperties: {
       ...ClassificationDocumentResult.type.modelProperties,
+      ...DocumentDetectedLanguage.type.modelProperties
+    }
+  }
+};
+
+export const HealthcareResultDocumentsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthcareResultDocumentsItem",
+    modelProperties: {
+      ...HealthcareEntitiesDocumentResult.type.modelProperties,
+      ...DocumentDetectedLanguage.type.modelProperties
+    }
+  }
+};
+
+export const SentimentResponseDocumentsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SentimentResponseDocumentsItem",
+    modelProperties: {
+      ...SentimentDocumentResult.type.modelProperties,
       ...DocumentDetectedLanguage.type.modelProperties
     }
   }
@@ -3390,30 +3857,10 @@ export const DynamicClassificationResultDocumentsItem: coreClient.CompositeMappe
   }
 };
 
-export const HealthcareResultDocumentsItem: coreClient.CompositeMapper = {
+export const GeneratedClientAnalyzeBatchHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "HealthcareResultDocumentsItem",
-    modelProperties: {
-      ...HealthcareEntitiesDocumentResult.type.modelProperties
-    }
-  }
-};
-
-export const SentimentResponseDocumentsItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SentimentResponseDocumentsItem",
-    modelProperties: {
-      ...SentimentDocumentResult.type.modelProperties
-    }
-  }
-};
-
-export const AnalyzeTextSubmitJobHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AnalyzeTextSubmitJobHeaders",
+    className: "GeneratedClientAnalyzeBatchHeaders",
     modelProperties: {
       operationLocation: {
         serializedName: "operation-location",
@@ -3443,6 +3890,7 @@ export const AnalyzeTextCancelJobHeaders: coreClient.CompositeMapper = {
 export let discriminators = {
   AnalyzeAction: AnalyzeAction,
   AnalyzeTextTaskResult: AnalyzeTextTaskResult,
+  BaseResolution: BaseResolution,
   "AnalyzeAction.EntityLinking": AnalyzeTextEntityLinkingInput,
   "AnalyzeAction.EntityRecognition": AnalyzeTextEntityRecognitionInput,
   "AnalyzeAction.KeyPhraseExtraction": AnalyzeTextKeyPhraseExtractionInput,
@@ -3459,6 +3907,21 @@ export let discriminators = {
   "AnalyzeTextTaskResult.DynamicClassificationResults": DynamicClassificationTaskResult,
   "BatchActionState.AnalyzeBatchAction": AnalyzeBatchAction,
   "TaskState.AnalyzeTextLROResult": AnalyzeTextLROResult,
+  "BaseResolution.AgeResolution": AgeResolution,
+  "BaseResolution.VolumeResolution": VolumeResolution,
+  "BaseResolution.SpeedResolution": SpeedResolution,
+  "BaseResolution.AreaResolution": AreaResolution,
+  "BaseResolution.LengthResolution": LengthResolution,
+  "BaseResolution.InformationResolution": InformationResolution,
+  "BaseResolution.TemperatureResolution": TemperatureResolution,
+  "BaseResolution.WeightResolution": WeightResolution,
+  "BaseResolution.CurrencyResolution": CurrencyResolution,
+  "BaseResolution.BooleanResolution": BooleanResolution,
+  "BaseResolution.DateTimeResolution": DateTimeResolution,
+  "BaseResolution.NumberResolution": NumberResolution,
+  "BaseResolution.OrdinalResolution": OrdinalResolution,
+  "BaseResolution.TemporalSpanResolution": TemporalSpanResolution,
+  "BaseResolution.NumericRangeResolution": NumericRangeResolution,
   "BatchActionState.CustomEntityRecognition": CustomEntitiesLROTask,
   "BatchActionState.CustomSingleLabelClassification": CustomSingleLabelClassificationLROTask,
   "BatchActionState.CustomMultiLabelClassification": CustomMultiLabelClassificationLROTask,
