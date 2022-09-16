@@ -244,7 +244,7 @@ describe("syncUploadFromURL", () => {
     }
   });
 
-  it.only("stageBlockFromURL - source SAS and destination bearer token", async function (this: Context) {
+  it("stageBlockFromURL - source SAS and destination bearer token", async function (this: Context) {
     const stokenBlobServiceClient = getTokenBSUWithDefaultCredential();
     const tokenNewBlockBlobClient = stokenBlobServiceClient
       .getContainerClient(containerClient.containerName)
@@ -272,7 +272,7 @@ describe("syncUploadFromURL", () => {
     assert.equal(listResponse.committedBlocks![1].size, content.length);
   });
 
-  it.only("stageBlockFromURL - source bear token and destination account key", async function (this: Context) {
+  it("stageBlockFromURL - source bear token and destination account key", async function (this: Context) {
     const body = "HelloWorld";
     await blockBlobClient.upload(body, body.length);
 
@@ -317,7 +317,7 @@ describe("syncUploadFromURL", () => {
     assert.equal(listResponse.committedBlocks![1].size, body.length);
   });
 
-  it.only("stageBlockFromURL - destination bearer token", async function (this: Context) {
+  it("stageBlockFromURL - destination bearer token", async function (this: Context) {
     const body = "HelloWorld";
     await blockBlobClient.upload(body, body.length);
 
