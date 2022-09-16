@@ -399,6 +399,9 @@ export interface ThrottlingRetryPolicyOptions {
 }
 
 // @public
+export function throttlingRetryStrategy(): RetryStrategy;
+
+// @public
 export function tlsPolicy(tlsSettings?: TlsSettings): PipelinePolicy;
 
 // @public
