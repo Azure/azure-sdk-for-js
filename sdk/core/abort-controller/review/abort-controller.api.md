@@ -36,8 +36,6 @@ export interface AbortSignalLike {
     removeEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
 }
 
-// @public (undocumented)
-export const TEST_API_VIEW = 1;
 
 // (No @packageDocumentation comment for this package)
 
