@@ -41,6 +41,7 @@ specifiers:
   '@rush-temp/arm-cdn': file:./projects/arm-cdn.tgz
   '@rush-temp/arm-changeanalysis': file:./projects/arm-changeanalysis.tgz
   '@rush-temp/arm-changes': file:./projects/arm-changes.tgz
+  '@rush-temp/arm-chaos': file:./projects/arm-chaos.tgz
   '@rush-temp/arm-cognitiveservices': file:./projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-commerce': file:./projects/arm-commerce.tgz
   '@rush-temp/arm-commerce-profile-2020-09-01-hybrid': file:./projects/arm-commerce-profile-2020-09-01-hybrid.tgz
@@ -349,6 +350,7 @@ dependencies:
   '@rush-temp/arm-cdn': file:projects/arm-cdn.tgz
   '@rush-temp/arm-changeanalysis': file:projects/arm-changeanalysis.tgz
   '@rush-temp/arm-changes': file:projects/arm-changes.tgz
+  '@rush-temp/arm-chaos': file:projects/arm-chaos.tgz
   '@rush-temp/arm-cognitiveservices': file:projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-commerce': file:projects/arm-commerce.tgz
   '@rush-temp/arm-commerce-profile-2020-09-01-hybrid': file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz
@@ -3949,7 +3951,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220913
+      typescript: 4.9.0-dev.20220915
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8881,8 +8883,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220913:
-    resolution: {integrity: sha512-v/DpPFVU1aThfbgdqGaTFD97b+aDqHqkAnQGb6VVsuxiO4/84aIzXp/Xsc7P6sz7+7RiWJqogy2O3Qg3DtD/Fg==}
+  /typescript/4.9.0-dev.20220915:
+    resolution: {integrity: sha512-LF91yAKWayNiea7oza0gyHyPEVIkorxhbjWV6k/nDtseepQxGM8MZVjKGFleko0Ve4Fha8vQhnxRPkF8NftIHA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10785,6 +10787,33 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-chaos.tgz:
+    resolution: {integrity: sha512-Os8pMeUKWkeL03AHySA5scua/kJrrBFs4eHqqZJqSYnLwWMcIHI4gexC+64ARilvJ0Q6UUcmUpDWkJ2g6FHCiQ==, tarball: file:projects/arm-chaos.tgz}
+    name: '@rush-temp/arm-chaos'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.3
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
+      tslib: 2.4.0
+      typescript: 4.6.4
+      uglify-js: 3.17.0
+    transitivePeerDependencies:
+      - '@types/node'
       - supports-color
     dev: false
 
@@ -19176,7 +19205,7 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-k/GF7pMwSA1AVtLLrLc0e84elTyfVBRehGmZD/vOg7paR5GvVVMROY8ankcWqMQeC2AULSBcI5jQVlq+f3zZ2A==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-u1UYodDKJishthjcETrL5SpXRq2NxLUXwGwQv9aTbDRPbM7ZpGDdAVcH8YfcU8zmrQM3urgbAuuTD49FA7OvHw==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
@@ -19202,7 +19231,7 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.8.3
     transitivePeerDependencies:
       - bufferutil
       - debug
