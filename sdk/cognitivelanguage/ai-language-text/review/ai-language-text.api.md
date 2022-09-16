@@ -67,6 +67,15 @@ export interface ActionPrebuilt extends ActionCommon {
 }
 
 // @public
+export interface AgeResolution extends BaseResolution, QuantityResolution {
+    resolutionKind: "AgeResolution";
+    unit: AgeUnit;
+}
+
+// @public
+export type AgeUnit = string;
+
+// @public
 export type AnalyzeActionName = keyof typeof AnalyzeActionNames;
 
 // @public
@@ -151,6 +160,15 @@ export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
 }[ActionName];
 
 // @public
+export interface AreaResolution extends BaseResolution, QuantityResolution {
+    resolutionKind: "AreaResolution";
+    unit: AreaUnit;
+}
+
+// @public
+export type AreaUnit = string;
+
+// @public
 export interface AssessmentSentiment {
     confidenceScores: TargetConfidenceScores;
     isNegated: boolean;
@@ -161,6 +179,14 @@ export interface AssessmentSentiment {
 }
 
 export { AzureKeyCredential }
+
+// @public
+export interface BaseResolution {
+    resolutionKind: "AgeResolution" | "VolumeResolution" | "SpeedResolution" | "AreaResolution" | "LengthResolution" | "InformationResolution" | "TemperatureResolution" | "WeightResolution" | "CurrencyResolution" | "BooleanResolution" | "DateTimeResolution" | "NumberResolution" | "OrdinalResolution" | "TemporalSpanResolution" | "NumericRangeResolution";
+}
+
+// @public (undocumented)
+export type BaseResolutionUnion = BaseResolution | AgeResolution | VolumeResolution | SpeedResolution | AreaResolution | LengthResolution | InformationResolution | TemperatureResolution | WeightResolution | CurrencyResolution | BooleanResolution | DateTimeResolution | NumberResolution | OrdinalResolution | TemporalSpanResolution | NumericRangeResolution;
 
 // @public
 export interface BatchActionErrorResult<Kind extends AnalyzeBatchActionName> extends BatchActionState<Kind> {
@@ -193,6 +219,13 @@ export interface BeginAnalyzeBatchOptions extends TextAnalysisOperationOptions {
 }
 
 // @public
+export interface BooleanResolution extends BaseResolution {
+    resolutionKind: "BooleanResolution";
+    // (undocumented)
+    value: boolean;
+}
+
+// @public
 export interface ClassificationCategory {
     category: string;
     confidenceScore: number;
@@ -200,6 +233,13 @@ export interface ClassificationCategory {
 
 // @public
 export type ClassificationType = string;
+
+// @public
+export interface CurrencyResolution extends BaseResolution, QuantityResolution {
+    iso4217?: string;
+    resolutionKind: "CurrencyResolution";
+    unit: string;
+}
 
 // @public
 export interface CustomActionMetadata {
@@ -276,6 +316,18 @@ export type CustomSingleLabelClassificationResult = CustomSingleLabelClassificat
 export interface CustomSingleLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
     readonly classifications: ClassificationCategory[];
 }
+
+// @public
+export interface DateTimeResolution extends BaseResolution {
+    dateTimeSubKind: DateTimeSubKind;
+    modifier?: TemporalModifier;
+    resolutionKind: "DateTimeResolution";
+    timex: string;
+    value: string;
+}
+
+// @public
+export type DateTimeSubKind = string;
 
 // @public
 export interface DetectedLanguage {
@@ -389,7 +441,12 @@ export type EntityRecognitionResult = EntityRecognitionSuccessResult | EntityRec
 
 // @public
 export interface EntityRecognitionSuccessResult extends TextAnalysisSuccessResult {
-    readonly entities: Entity[];
+    readonly entities: EntityWithResolution[];
+}
+
+// @public
+export interface EntityWithResolution extends Entity {
+    resolutions?: BaseResolutionUnion[];
 }
 
 // @public
@@ -487,6 +544,15 @@ export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
 }
 
 // @public
+export interface InformationResolution extends BaseResolution, QuantityResolution {
+    resolutionKind: "InformationResolution";
+    unit: InformationUnit;
+}
+
+// @public
+export type InformationUnit = string;
+
+// @public
 export interface KeyPhraseExtractionAction extends ActionPrebuilt {
 }
 
@@ -510,9 +576,44 @@ export interface KeyPhraseExtractionSuccessResult extends TextAnalysisSuccessRes
 }
 
 // @public
+export enum KnownAgeUnit {
+    Day = "Day",
+    Month = "Month",
+    Unspecified = "Unspecified",
+    Week = "Week",
+    Year = "Year"
+}
+
+// @public
+export enum KnownAreaUnit {
+    Acre = "Acre",
+    SquareCentimeter = "SquareCentimeter",
+    SquareDecameter = "SquareDecameter",
+    SquareDecimeter = "SquareDecimeter",
+    SquareFoot = "SquareFoot",
+    SquareHectometer = "SquareHectometer",
+    SquareInch = "SquareInch",
+    SquareKilometer = "SquareKilometer",
+    SquareMeter = "SquareMeter",
+    SquareMile = "SquareMile",
+    SquareMillimeter = "SquareMillimeter",
+    SquareYard = "SquareYard",
+    Unspecified = "Unspecified"
+}
+
+// @public
 export enum KnownClassificationType {
     Multi = "Multi",
     Single = "Single"
+}
+
+// @public
+export enum KnownDateTimeSubKind {
+    Date = "Date",
+    DateTime = "DateTime",
+    Duration = "Duration",
+    Set = "Set",
+    Time = "Time"
 }
 
 // @public
@@ -562,6 +663,53 @@ export enum KnownFhirVersion {
 }
 
 // @public
+export enum KnownHealthcareEntityCategory {
+    AdministrativeEvent = "AdministrativeEvent",
+    Age = "Age",
+    BodyStructure = "BodyStructure",
+    CareEnvironment = "CareEnvironment",
+    ConditionalQualifier = "ConditionalQualifier",
+    Date = "Date",
+    Diagnosis = "Diagnosis",
+    Direction = "Direction",
+    Dosage = "Dosage",
+    ExaminationName = "ExaminationName",
+    FamilyRelation = "FamilyRelation",
+    Frequency = "Frequency",
+    Gender = "Gender",
+    GeneOrProtein = "GeneOrProtein",
+    HealthcareProfession = "HealthcareProfession",
+    MeasurementUnit = "MeasurementUnit",
+    MeasurementValue = "MeasurementValue",
+    MedicationClass = "MedicationClass",
+    MedicationForm = "MedicationForm",
+    MedicationName = "MedicationName",
+    MedicationRoute = "MedicationRoute",
+    RelationalOperator = "RelationalOperator",
+    SymptomOrSign = "SymptomOrSign",
+    Time = "Time",
+    TreatmentName = "TreatmentName",
+    Variant = "Variant"
+}
+
+// @public
+export enum KnownInformationUnit {
+    Bit = "Bit",
+    Byte = "Byte",
+    Gigabit = "Gigabit",
+    Gigabyte = "Gigabyte",
+    Kilobit = "Kilobit",
+    Kilobyte = "Kilobyte",
+    Megabit = "Megabit",
+    Megabyte = "Megabyte",
+    Petabit = "Petabit",
+    Petabyte = "Petabyte",
+    Terabit = "Terabit",
+    Terabyte = "Terabyte",
+    Unspecified = "Unspecified"
+}
+
+// @public
 export enum KnownInnerErrorCode {
     AzureCognitiveSearchNotFound = "AzureCognitiveSearchNotFound",
     AzureCognitiveSearchThrottling = "AzureCognitiveSearchThrottling",
@@ -577,6 +725,37 @@ export enum KnownInnerErrorCode {
     MissingInputDocuments = "MissingInputDocuments",
     ModelVersionIncorrect = "ModelVersionIncorrect",
     UnsupportedLanguageCode = "UnsupportedLanguageCode"
+}
+
+// @public
+export enum KnownLengthUnit {
+    Centimeter = "Centimeter",
+    Decameter = "Decameter",
+    Decimeter = "Decimeter",
+    Foot = "Foot",
+    Hectometer = "Hectometer",
+    Inch = "Inch",
+    Kilometer = "Kilometer",
+    LightYear = "LightYear",
+    Meter = "Meter",
+    Micrometer = "Micrometer",
+    Mile = "Mile",
+    Millimeter = "Millimeter",
+    Nanometer = "Nanometer",
+    Picometer = "Picometer",
+    Pt = "Pt",
+    Unspecified = "Unspecified",
+    Yard = "Yard"
+}
+
+// @public
+export enum KnownNumberKind {
+    Decimal = "Decimal",
+    Fraction = "Fraction",
+    Integer = "Integer",
+    Percent = "Percent",
+    Power = "Power",
+    Unspecified = "Unspecified"
 }
 
 // @public
@@ -763,6 +942,20 @@ export enum KnownPiiEntityDomain {
 }
 
 // @public
+export enum KnownRangeKind {
+    Age = "Age",
+    Area = "Area",
+    Currency = "Currency",
+    Information = "Information",
+    Length = "Length",
+    Number = "Number",
+    Speed = "Speed",
+    Temperature = "Temperature",
+    Volume = "Volume",
+    Weight = "Weight"
+}
+
+// @public
 export enum KnownRelationType {
     Abbreviation = "Abbreviation",
     DirectionOfBodyStructure = "DirectionOfBodyStructure",
@@ -788,8 +981,52 @@ export enum KnownRelationType {
 }
 
 // @public
+export enum KnownRelativeTo {
+    Current = "Current",
+    End = "End",
+    Start = "Start"
+}
+
+// @public
+export enum KnownResolutionKind {
+    AgeResolution = "AgeResolution",
+    AreaResolution = "AreaResolution",
+    BooleanResolution = "BooleanResolution",
+    CurrencyResolution = "CurrencyResolution",
+    DateTimeResolution = "DateTimeResolution",
+    InformationResolution = "InformationResolution",
+    LengthResolution = "LengthResolution",
+    NumberResolution = "NumberResolution",
+    NumericRangeResolution = "NumericRangeResolution",
+    OrdinalResolution = "OrdinalResolution",
+    SpeedResolution = "SpeedResolution",
+    TemperatureResolution = "TemperatureResolution",
+    TemporalSpanResolution = "TemporalSpanResolution",
+    VolumeResolution = "VolumeResolution",
+    WeightResolution = "WeightResolution"
+}
+
+// @public
 export enum KnownScriptKind {
     Latin = "Latin"
+}
+
+// @public
+export enum KnownSpeedUnit {
+    CentimetersPerMillisecond = "CentimetersPerMillisecond",
+    FootPerMinute = "FootPerMinute",
+    FootPerSecond = "FootPerSecond",
+    KilometersPerHour = "KilometersPerHour",
+    KilometersPerMillisecond = "KilometersPerMillisecond",
+    KilometersPerMinute = "KilometersPerMinute",
+    KilometersPerSecond = "KilometersPerSecond",
+    Knot = "Knot",
+    MetersPerMillisecond = "MetersPerMillisecond",
+    MetersPerSecond = "MetersPerSecond",
+    MilesPerHour = "MilesPerHour",
+    Unspecified = "Unspecified",
+    YardsPerMinute = "YardsPerMinute",
+    YardsPerSecond = "YardsPerSecond"
 }
 
 // @public
@@ -797,6 +1034,37 @@ export enum KnownStringIndexType {
     TextElementsV8 = "TextElements_v8",
     UnicodeCodePoint = "UnicodeCodePoint",
     Utf16CodeUnit = "Utf16CodeUnit"
+}
+
+// @public
+export enum KnownTemperatureUnit {
+    Celsius = "Celsius",
+    Fahrenheit = "Fahrenheit",
+    Kelvin = "Kelvin",
+    Rankine = "Rankine",
+    Unspecified = "Unspecified"
+}
+
+// @public
+export enum KnownTemporalModifier {
+    After = "After",
+    AfterApprox = "AfterApprox",
+    AfterMid = "AfterMid",
+    AfterStart = "AfterStart",
+    Approx = "Approx",
+    Before = "Before",
+    BeforeApprox = "BeforeApprox",
+    BeforeEnd = "BeforeEnd",
+    BeforeStart = "BeforeStart",
+    End = "End",
+    Less = "Less",
+    Mid = "Mid",
+    More = "More",
+    ReferenceUndefined = "ReferenceUndefined",
+    Since = "Since",
+    SinceEnd = "SinceEnd",
+    Start = "Start",
+    Until = "Until"
 }
 
 // @public
@@ -833,6 +1101,58 @@ export const KnownTextAnalysisErrorCode: {
 };
 
 // @public
+export enum KnownVolumeUnit {
+    Barrel = "Barrel",
+    Bushel = "Bushel",
+    Centiliter = "Centiliter",
+    Cord = "Cord",
+    CubicCentimeter = "CubicCentimeter",
+    CubicFoot = "CubicFoot",
+    CubicInch = "CubicInch",
+    CubicMeter = "CubicMeter",
+    CubicMile = "CubicMile",
+    CubicMillimeter = "CubicMillimeter",
+    CubicYard = "CubicYard",
+    Cup = "Cup",
+    Decaliter = "Decaliter",
+    FluidDram = "FluidDram",
+    FluidOunce = "FluidOunce",
+    Gill = "Gill",
+    Hectoliter = "Hectoliter",
+    Hogshead = "Hogshead",
+    Liter = "Liter",
+    Milliliter = "Milliliter",
+    Minim = "Minim",
+    Peck = "Peck",
+    Pinch = "Pinch",
+    Pint = "Pint",
+    Quart = "Quart",
+    Tablespoon = "Tablespoon",
+    Teaspoon = "Teaspoon",
+    Unspecified = "Unspecified"
+}
+
+// @public
+export enum KnownWeightUnit {
+    Dram = "Dram",
+    Gallon = "Gallon",
+    Grain = "Grain",
+    Gram = "Gram",
+    Kilogram = "Kilogram",
+    LongTonBritish = "LongTonBritish",
+    MetricTon = "MetricTon",
+    Milligram = "Milligram",
+    Ounce = "Ounce",
+    PennyWeight = "PennyWeight",
+    Pound = "Pound",
+    ShortHundredWeightUS = "ShortHundredWeightUS",
+    ShortTonUS = "ShortTonUS",
+    Stone = "Stone",
+    Ton = "Ton",
+    Unspecified = "Unspecified"
+}
+
+// @public
 export interface LanguageDetectionAction extends ActionPrebuilt {
 }
 
@@ -855,6 +1175,15 @@ export interface LanguageDetectionSuccessResult extends TextAnalysisSuccessResul
 }
 
 // @public
+export interface LengthResolution extends BaseResolution, QuantityResolution {
+    resolutionKind: "LengthResolution";
+    unit: LengthUnit;
+}
+
+// @public
+export type LengthUnit = string;
+
+// @public
 export interface LinkedEntity {
     bingEntitySearchApiId?: string;
     dataSource: string;
@@ -874,9 +1203,35 @@ export interface Match {
 }
 
 // @public
+export type NumberKind = string;
+
+// @public
+export interface NumberResolution extends BaseResolution {
+    numberKind: NumberKind;
+    resolutionKind: "NumberResolution";
+    value: string;
+}
+
+// @public
+export interface NumericRangeResolution extends BaseResolution {
+    maximum: number;
+    minimum: number;
+    rangeKind: RangeKind;
+    resolutionKind: "NumericRangeResolution";
+}
+
+// @public
 export interface Opinion {
     readonly assessments: AssessmentSentiment[];
     readonly target: TargetSentiment;
+}
+
+// @public
+export interface OrdinalResolution extends BaseResolution {
+    offset: string;
+    relativeTo: RelativeTo;
+    resolutionKind: "OrdinalResolution";
+    value: string;
 }
 
 // @public
@@ -930,7 +1285,18 @@ export interface PollerLike<TState extends OperationState<TResult>, TResult> ext
 }
 
 // @public
+export interface QuantityResolution {
+    value: number;
+}
+
+// @public
+export type RangeKind = string;
+
+// @public
 export type RelationType = string;
+
+// @public
+export type RelativeTo = string;
 
 // @public
 export interface RestoreAnalyzeBatchPollerOptions extends TextAnalysisOperationOptions {
@@ -988,6 +1354,15 @@ export interface SentimentConfidenceScores {
 }
 
 // @public
+export interface SpeedResolution extends BaseResolution, QuantityResolution {
+    resolutionKind: "SpeedResolution";
+    unit: SpeedUnit;
+}
+
+// @public
+export type SpeedUnit = string;
+
+// @public
 export type StringIndexType = string;
 
 // @public
@@ -1017,6 +1392,27 @@ export interface TargetSentiment {
     readonly offset: number;
     readonly sentiment: TokenSentimentLabel;
     readonly text: string;
+}
+
+// @public
+export interface TemperatureResolution extends BaseResolution, QuantityResolution {
+    resolutionKind: "TemperatureResolution";
+    unit: TemperatureUnit;
+}
+
+// @public
+export type TemperatureUnit = string;
+
+// @public
+export type TemporalModifier = string;
+
+// @public
+export interface TemporalSpanResolution extends BaseResolution {
+    begin?: string;
+    duration?: string;
+    end?: string;
+    modifier?: TemporalModifier;
+    resolutionKind: "TemporalSpanResolution";
 }
 
 // @public
@@ -1091,6 +1487,24 @@ export interface TextDocumentStatistics {
 export type TokenSentimentLabel = "positive" | "mixed" | "negative";
 
 // @public
+export interface VolumeResolution extends BaseResolution, QuantityResolution {
+    resolutionKind: "VolumeResolution";
+    unit: VolumeUnit;
+}
+
+// @public
+export type VolumeUnit = string;
+
+// @public
 export type WarningCode = string;
+
+// @public
+export interface WeightResolution extends BaseResolution, QuantityResolution {
+    resolutionKind: "WeightResolution";
+    unit: WeightUnit;
+}
+
+// @public
+export type WeightUnit = string;
 
 ```

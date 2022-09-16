@@ -878,6 +878,7 @@ export interface NumericRangeResolution extends BaseResolution {
   maximum: number;
 }
 
+/** An entity with resolution. */
 export interface EntityWithResolution extends Entity {
   /** The collection of entity resolution objects. */
   resolutions?: BaseResolutionUnion[];

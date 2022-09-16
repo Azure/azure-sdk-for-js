@@ -5,11 +5,12 @@
 ### Features Added
 
 - Supports service version 2022-10-01-preview by default instead of 2022-05-01.
-- Adds back support for extractive summarization and FHIR.
+- Adds support for extractive summarization and FHIR.
 - Adds support for abstractive summarization.
 - Adds support for dynamic classification.
 - Adds support for script detection and automatic language detection.
 - Adds support for document types in healthcare analysis.
+- Adds support for entity resolution in entity recognition.
 - Adds support for confidence scores in healthcare relations.
 
 ### Breaking Changes

@@ -12,7 +12,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/dev/cognitiveservices/data-plane/Language/analyzetext.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/82b2d614f620327203c3cc344d8302a832e15759/dev/cognitiveservices/data-plane/Language/analyzetext.json
 add-credentials: false
 package-version: 1.1.0-beta.1
 v3: true
@@ -369,6 +369,8 @@ directive:
       to: AbstractiveSummarizationAction
   - where-model: DocumentDetectedLanguage
     transform: $.description = "The auto-detected language of the input document.";
+  - where-model: EntityWithResolution
+    transform: $.description = "An entity with resolution.";
 ```
 
 ## JS customizations
