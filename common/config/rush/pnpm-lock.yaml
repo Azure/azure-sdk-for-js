@@ -3949,7 +3949,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220912
+      typescript: 4.9.0-dev.20220914
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8881,8 +8881,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220912:
-    resolution: {integrity: sha512-B1WnNBtZgqkG48/Z1v4VQWxZSjJl+iJdgafU/8mLFOZyinS5Jejz04TucADMOTufHaIc4USMcYALrAg03Twg1A==}
+  /typescript/4.9.0-dev.20220914:
+    resolution: {integrity: sha512-U1GcTQISGDyNlwr/OUTQVKFGMjL5eYrzT4nTptRn6lcaiRwO0+zmdHD3FMf6ZdiV5wZMMU706GH08EgiBufIqw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12482,7 +12482,7 @@ packages:
     dev: false
 
   file:projects/arm-kusto.tgz:
-    resolution: {integrity: sha512-N12uCH9ucOOQsC50eVzUFuZi8wS249uYZhEyzPx1IxBTkPwv7YAK60FN1Pz3k3Gz+HJE7o3Ey4ADTF18Q16CYw==, tarball: file:projects/arm-kusto.tgz}
+    resolution: {integrity: sha512-a6zQOr6SltBopIRpKrmwhiKwJ/B7WkZ7v5Taj2DHgGaIdcVWJzyn0jlOX4IWFt/VVkgHgyoLf2GKFQmIV7A7Aw==, tarball: file:projects/arm-kusto.tgz}
     name: '@rush-temp/arm-kusto'
     version: 0.0.0
     dependencies:
@@ -12501,7 +12501,7 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
@@ -17957,7 +17957,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-ACRt0wrz261MTNDcEEtDfYkqhDTiiRw20AhsdJ2nkKTQwtECihm6lxFOuC3n+/2WSWp9qgEpi8bSIHrN1n/r2w==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-YpnKzYo6JuUUrhzh2YmZJba2rxDSueRobUdxEUOAcpCzQX4lSqzQp5/4tC/6e6ZQjL+UNxoC9nLTBeGMic9ybw==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
@@ -17982,7 +17982,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-datalake.tgz:
-    resolution: {integrity: sha512-dewHjtVi92xQNZXFTBBg2mElIhlItaacuMnkQC0ow0RMJWfyBwd6nVuONNPG0SKH1653tZGysRT3a54qdiejqg==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-Ox0X3U3YxqUTmWjuhPnBzrxvEGtjVbFLu9iYrHtt3k/pYhEd3Xw1Oos/cFo0KVysPW7hqzK8mFDjHRsoAhb/uA==, tarball: file:projects/perf-storage-file-datalake.tgz}
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -18000,12 +18000,11 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
   file:projects/perf-storage-file-share.tgz:
-    resolution: {integrity: sha512-9KuLR0nT5kWloC46ScHq4HD/VJXATHFewmRU1tK6WWqeyqhlSrWLgRcZ93H1Mn7v2bK6Njb7BMl2cmvZrpb1BQ==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-yDs9WjNGJcxpAl1fEm06qafAKla/DIUw+gOt2Wp1HDM79rJUXubFJv99W0Kr+K/+3ljFE86F/qEUEOe9RSm22w==, tarball: file:projects/perf-storage-file-share.tgz}
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
