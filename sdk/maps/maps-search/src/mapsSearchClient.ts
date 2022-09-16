@@ -607,13 +607,13 @@ export class MapsSearchClient {
    * Performs a fuzzy search for POIs along a specified route.
    *
    * @param query - The POI name to search for (e.g., "statue of liberty", "starbucks", "pizza").
-   * @param maxDetourTime - Maximum detour time of the point of interest in seconds. Max value is 3600 seconds
+   * @param maxDetourTimeInSeconds - Maximum detour time of the point of interest in seconds. Max value is 3600 seconds
    * @param route - This represents the route to search along and should be a valid `GeoJSON LineString` type.
    * @param options - Optional parameters for the operation
    */
   public async searchAlongRoute(
     query: string,
-    maxDetourTime: number,
+    maxDetourTimeInSeconds: number,
     route: GeoJsonLineString,
     options: SearchAlongRouteOptions = {}
   ): Promise<SearchAddressResult> {
@@ -623,7 +623,7 @@ export class MapsSearchClient {
       const result = await this.client.search.searchAlongRoute(
         this.defaultFormat,
         query,
-        maxDetourTime,
+        maxDetourTimeInSeconds,
         { route: route },
         internalOptions
       );

@@ -382,7 +382,7 @@ describe("POI search", function (this: Suite) {
       assert.isRejected(client.searchAlongRoute("", 1000, route));
     });
 
-    it("should throw error for invalid maxDetourTime", async function () {
+    it("should throw error for invalid maxDetourTimeInSeconds", async function () {
       const route: GeoJsonLineString = {
         type: "LineString",
         coordinates: [
@@ -392,7 +392,7 @@ describe("POI search", function (this: Suite) {
           [-122.132756, 47.654009],
         ],
       };
-      // "maxDetourTime value should be between 0 and 3600 inclusive"
+      // "maxDetourTimeInSeconds value should be between 0 and 3600 inclusive"
       assert.isRejected(client.searchAlongRoute("burger", 3601, route));
     });
 

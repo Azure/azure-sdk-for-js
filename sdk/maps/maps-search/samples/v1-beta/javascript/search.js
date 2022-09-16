@@ -172,7 +172,7 @@ async function main() {
 
   console.log(" --- Search along route:");
   const searchALongRouteQuery = "burger";
-  const maxDetourTime = 1000;
+  const maxDetourTimeInSeconds = 1000;
 
   const searchAlongRoute = {
     type: "LineString",
@@ -187,7 +187,7 @@ async function main() {
   console.log(
     await client.searchAlongRoute(
       searchALongRouteQuery,
-      maxDetourTime,
+      maxDetourTimeInSeconds,
       searchAlongRoute,
       searchAlongRouteOptions
     )
