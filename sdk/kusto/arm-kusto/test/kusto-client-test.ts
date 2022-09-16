@@ -102,7 +102,7 @@ describe("KustoManagementClient", () => {
     const res = await client.clusters.beginUpdateAndWait(resourceGroup, clusterName_2, updateParams, testPollingOptions);
     // assert.strictEqual(res.name, clusterName_2);
     // assert.ok(res.tags);
-
+    assert.equal(res.name, clusterName_2);
   });
 
   //kusto_client.clusters.beginDeleteAndWait
