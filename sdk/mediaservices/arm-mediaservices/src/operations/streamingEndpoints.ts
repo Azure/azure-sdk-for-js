@@ -32,6 +32,10 @@ import {
   StreamingEndpointsStopOptionalParams,
   StreamingEntityScaleUnit,
   StreamingEndpointsScaleOptionalParams,
+  StreamingEndpointsAsyncOperationOptionalParams,
+  StreamingEndpointsAsyncOperationResponse,
+  StreamingEndpointsOperationLocationOptionalParams,
+  StreamingEndpointsOperationLocationResponse,
   StreamingEndpointsListNextResponse
 } from "../models";
 
@@ -728,6 +732,52 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
   }
 
   /**
+   * Get a streaming endpoint operation status.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param operationId The ID of an ongoing async operation.
+   * @param options The options parameters.
+   */
+  asyncOperation(
+    resourceGroupName: string,
+    accountName: string,
+    operationId: string,
+    options?: StreamingEndpointsAsyncOperationOptionalParams
+  ): Promise<StreamingEndpointsAsyncOperationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, operationId, options },
+      asyncOperationOperationSpec
+    );
+  }
+
+  /**
+   * Get a streaming endpoint operation status.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param streamingEndpointName The name of the streaming endpoint, maximum length is 24.
+   * @param operationId The ID of an ongoing async operation.
+   * @param options The options parameters.
+   */
+  operationLocation(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    operationId: string,
+    options?: StreamingEndpointsOperationLocationOptionalParams
+  ): Promise<StreamingEndpointsOperationLocationResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        streamingEndpointName,
+        operationId,
+        options
+      },
+      operationLocationOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -981,6 +1031,54 @@ const scaleOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const asyncOperationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpointOperations/{operationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.operationId1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const operationLocationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}/operationLocations/{operationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StreamingEndpoint
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.operationId1,
+    Parameters.streamingEndpointName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {

@@ -1,16 +1,22 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.1.1 (Unreleased)
 
 ### Features Added
 
-- Add helper type guards `isDefined`, `isObjectWithProperties`, `objectHasProperty`.
+- Update `delay` method to handle `abortSignal` functionality
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.1.0 (2022-09-01)
+
+### Features Added
+
+- Add helper type guards `isDefined`, `isObjectWithProperties`, `objectHasProperty`.
 
 ## 1.0.0 (2022-05-05)
 

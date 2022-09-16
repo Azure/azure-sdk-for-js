@@ -148,6 +148,13 @@ const HUB_JOB_FEED = `<feed xmlns="http://www.w3.org/2005/Atom">
 </entry>
 </feed>`;
 
+const EMPTY_JOB_FEED = `<feed xmlns="http://www.w3.org/2005/Atom">
+<title type="text">jobs</title>
+<id>https://test.servicebus.windows.net/hub/jobs</id>
+<updated>2014-12-06T06:17:24Z</updated>
+<link rel="self" href="https://test.servicebus.windows.net/adm-hub/jobs"/>
+</feed>`;
+
 describe("parseNotificationHubJobEntry", () => {
   it("should parse an outgoing entry", async () => {
     const parsed = await parseNotificationHubJobEntry(HUB_JOB_OUTGOING);
@@ -178,6 +185,12 @@ describe("parseNotificationHubJobEntry", () => {
 });
 
 describe("parseNotificationHubJobFeed", () => {
+  it("should parse an empty job feed", async () => {
+    const parsed = await parseNotificationHubJobFeed(EMPTY_JOB_FEED);
+
+    assert.equal(parsed.length, 0);
+  });
+
   it("should parse a notification job feed", async () => {
     const parsed = await parseNotificationHubJobFeed(HUB_JOB_FEED);
 

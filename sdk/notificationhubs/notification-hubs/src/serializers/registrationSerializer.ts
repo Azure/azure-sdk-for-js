@@ -11,8 +11,6 @@ import {
   BaiduTemplateRegistrationDescription,
   BrowserRegistrationDescription,
   BrowserTemplateRegistrationDescription,
-  FcmRegistrationDescription,
-  FcmTemplateRegistrationDescription,
   GcmRegistrationDescription,
   GcmTemplateRegistrationDescription,
   MpnsRegistrationDescription,
@@ -120,20 +118,6 @@ export interface RegistrationDescriptionParser {
   ) => GcmTemplateRegistrationDescription;
   /**
    * @internal
-   * Creates a Firebase Cloud Messaging (GCM) registration description from the incoming parsed XML.
-   */
-  createFcmRegistrationDescription: (
-    rawRegistrationDescription: Record<string, any>
-  ) => FcmRegistrationDescription;
-  /**
-   * @internal
-   * Creates a Firebase Cloud Messaging (GCM) template registration description from the incoming parsed XML.
-   */
-  createFcmTemplateRegistrationDescription: (
-    rawRegistrationDescription: Record<string, any>
-  ) => FcmTemplateRegistrationDescription;
-  /**
-   * @internal
    * Creates a Microsoft Phone Notification Services (MPNS) registration description from the incoming parsed XML.
    */
   createMpnsRegistrationDescription: (
@@ -187,7 +171,11 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
    */
   async parseRegistrationFeed(bodyText: string): Promise<RegistrationDescription[]> {
     const xml = await parseXML(bodyText, { includeRoot: true });
-    const results = [];
+    const results: RegistrationDescription[] = [];
+    if (!isDefined(xml.feed.entry)) {
+      return results;
+    }
+
     for (const entry of xml.feed.entry) {
       delete entry.content["$"];
 
@@ -353,37 +341,6 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
       ...this.createGcmRegistrationDescription(rawRegistrationDescription),
       ...createTemplateRegistrationDescription(rawRegistrationDescription),
       type: "GcmTemplate",
-    };
-  },
-
-  /**
-   * @internal
-   * Creates an FCM registration description from incoming XML property bag.
-   */
-  createFcmRegistrationDescription(
-    rawRegistrationDescription: Record<string, any>
-  ): FcmRegistrationDescription {
-    return {
-      fcmRegistrationId: getString(
-        rawRegistrationDescription["FcmRegistrationId"],
-        "fcmRegistrationId"
-      ),
-      ...createRegistrationDescription(rawRegistrationDescription),
-      type: "Fcm",
-    };
-  },
-
-  /**
-   * @internal
-   * Creates an FCM template registration description from incoming XML property bag.
-   */
-  createFcmTemplateRegistrationDescription(
-    rawRegistrationDescription: Record<string, any>
-  ): FcmTemplateRegistrationDescription {
-    return {
-      ...this.createFcmRegistrationDescription(rawRegistrationDescription),
-      ...createTemplateRegistrationDescription(rawRegistrationDescription),
-      type: "FcmTemplate",
     };
   },
 
@@ -568,20 +525,6 @@ export interface RegistrationDescriptionSerializer {
    */
   serializeGcmTemplateRegistrationDescription(
     description: Omit<GcmTemplateRegistrationDescription, "type">
-  ): Record<string, any>;
-  /**
-   * @internal
-   * Serializes a Firebase registration description into an XML object for serialization.
-   */
-  serializeFcmRegistrationDescription(
-    description: Omit<FcmRegistrationDescription, "type">
-  ): Record<string, any>;
-  /**
-   * @internal
-   * Serializes a Firebase template registration description into an XML object for serialization.
-   */
-  serializeFcmTemplateRegistrationDescription(
-    description: Omit<FcmRegistrationDescription, "type">
   ): Record<string, any>;
   /**
    * @internal
@@ -781,32 +724,6 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
   ): Record<string, any> {
     return {
       ...this.serializeGcmRegistrationDescription(description),
-      ...serializeTemplateRegistrationDescription(description),
-    };
-  },
-
-  /**
-   * @internal
-   * Serializes an existing FCM registration description to an object for serialization.
-   */
-  serializeFcmRegistrationDescription(
-    description: Omit<FcmRegistrationDescription, "type">
-  ): Record<string, any> {
-    return {
-      ...serializeRegistrationDescription(description),
-      FcmRegistrationId: description.fcmRegistrationId,
-    };
-  },
-
-  /**
-   * @internal
-   * Serializes an existing FCM template registration description to an object for serialization.
-   */
-  serializeFcmTemplateRegistrationDescription(
-    description: Omit<FcmTemplateRegistrationDescription, "type">
-  ): Record<string, any> {
-    return {
-      ...this.serializeFcmRegistrationDescription(description),
       ...serializeTemplateRegistrationDescription(description),
     };
   },

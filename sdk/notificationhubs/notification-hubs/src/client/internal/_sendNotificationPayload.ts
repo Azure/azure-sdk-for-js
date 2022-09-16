@@ -5,7 +5,7 @@ import { BrowserPushChannel, PushHandle } from "../../models/installation.js";
 import { createRequest, parseNotificationSendResponse, sendRequest } from "./_client.js";
 import { Notification } from "../../models/notification.js";
 import { NotificationHubsClientContext } from "../index.js";
-import { NotificationHubsMessageResponse } from "../../models/response.js";
+import { NotificationHubsMessageResponse } from "../../models/notificationDetails.js";
 import { SendOperationOptions } from "../../models/options.js";
 import { tracingClient } from "../../utils/tracing.js";
 
@@ -28,7 +28,7 @@ export function sendNotificationPayload(
       endpoint.pathname += "/messages/";
 
       if (options.enableTestSend) {
-        endpoint.searchParams.append("debug", "true");
+        endpoint.searchParams.append("test", "true");
       }
 
       const headers = await context.createHeaders(method);

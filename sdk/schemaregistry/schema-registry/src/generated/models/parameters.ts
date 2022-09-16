@@ -96,6 +96,17 @@ export const schemaName: OperationURLParameter = {
   }
 };
 
+export const schemaVersion: OperationURLParameter = {
+  parameterPath: "schemaVersion",
+  mapper: {
+    serializedName: "schemaVersion",
+    required: true,
+    type: {
+      name: "Number"
+    }
+  }
+};
+
 export const schemaContent: OperationParameter = {
   parameterPath: "schemaContent",
   mapper: {

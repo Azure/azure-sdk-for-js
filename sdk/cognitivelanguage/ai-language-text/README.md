@@ -2,7 +2,7 @@
 
 [Azure Cognitive Service for Language](https://azure.microsoft.com/services/cognitive-services/language-service/) is a cloud-based service that provides advanced natural language processing over raw text, and includes the following main features:
 
-**Note:** This SDK targets Azure Cognitive Service for Language API version 2022-04-01-preview.
+**Note:** This SDK targets Azure Cognitive Service for Language API version 2022-05-01.
 
 - Language Detection
 - Sentiment Analysis
@@ -11,7 +11,6 @@
 - Recognition of Personally Identifiable Information
 - Entity Linking
 - Healthcare Analysis
-- Extractive Summarization
 - Custom Entity Recognition
 - Custom Document Classification
 - Support Multiple Actions Per Document
@@ -446,56 +445,6 @@ async function main() {
 main();
 ```
 
-### Extractive Summarization
-
-Extractive summarization identifies sentences that summarize the article they belong to.
-
-```javascript
-const {
-  AzureKeyCredential,
-  TextAnalysisClient,
-} = require("@azure/ai-language-text");
-
-const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
-
-const documents = [
-  "Prescribed 100mg ibuprofen, taken twice daily.",
-  "Patient does not suffer from high blood pressure.",
-];
-
-async function main() {
-  const actions = [
-    {
-      kind: "ExtractiveSummarization",
-      maxSentenceCount: 2,
-    },
-  ];
-  const poller = await client.beginAnalyzeBatch(actions, documents, "en");
-  const results = await poller.pollUntilDone();
-
-  for await (const actionResult of results) {
-    if (actionResult.kind !== "ExtractiveSummarization") {
-      throw new Error(`Expected extractive summarization results but got: ${actionResult.kind}`);
-    }
-    if (actionResult.error) {
-      const { code, message } = actionResult.error;
-      throw new Error(`Unexpected error (${code}): ${message}`);
-    }
-    for (const result of actionResult.results) {
-      console.log(`- Document ${result.id}`);
-      if (result.error) {
-        const { code, message } = result.error;
-        throw new Error(`Unexpected error (${code}): ${message}`);
-      }
-      console.log("Summary:");
-      console.log(result.sentences.map((sentence) => sentence.text).join("\n"));
-    }
-  }
-}
-
-main();
-```
-
 ### Custom Entity Recognition
 
 Recognize and categorize entities in text as entities using custom entity detection models built using [Azure Language Studio][lang_studio].
@@ -587,7 +536,7 @@ async function main() {
         const { code, message } = result.error;
         throw new Error(`Unexpected error (${code}): ${message}`);
       }
-      console.log(`\tClassification: ${result.classification.category}`);
+      console.log(`\tClassification: ${result.classifications[0].category}`);
     }
   }
 }

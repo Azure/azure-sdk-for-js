@@ -58,7 +58,7 @@ export function createChallengeCallbacks(): ChallengeCallbacks {
     return {
       abortSignal: request.abortSignal,
       requestOptions: {
-        timeout: request.timeout,
+        timeout: request.timeout > 0 ? request.timeout : undefined,
       },
       tracingOptions: request.tracingOptions,
     };

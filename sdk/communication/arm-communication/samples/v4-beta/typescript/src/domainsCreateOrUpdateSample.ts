@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Add a new Domains resource under the parent EmailService resource or update an existing Domains resource.
  *
  * @summary Add a new Domains resource under the parent EmailService resource or update an existing Domains resource.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2021-10-01-preview/examples/domains/createOrUpdate.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/domains/createOrUpdate.json
  */
 async function createOrUpdateDomainsResource() {
   const subscriptionId = "12345";
