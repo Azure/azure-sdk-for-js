@@ -10,8 +10,8 @@
         "Content-Length": "143",
         "Content-Type": "application/json",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1089-azure)",
-        "x-ms-client-request-id": "6e0bd879-9a3d-48be-b8fb-e5450c1fa70d"
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
+        "x-ms-client-request-id": "8e613bc4-5172-4f3b-b0ba-9293a4551f75"
       },
       "RequestBody": {
         "route": {
@@ -38,9 +38,9 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "11764",
+        "Content-Length": "11872",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 05 Sep 2022 08:45:30 GMT",
+        "Date": "Fri, 16 Sep 2022 10:55:47 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": [
           "Accept-Encoding",
@@ -49,13 +49,13 @@
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: 00A6D9950E6B450C96FC8A6DB4349749 Ref B: SIN30EDGE0114 Ref C: 2022-09-05T08:45:30Z"
+        "X-MSEdge-Ref": "Ref A: 5DC36D7F49B54193895D6210D7DDD8BC Ref B: SG1EDGE0112 Ref C: 2022-09-16T10:55:47Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "burger",
           "queryType": "NON_NEAR",
-          "queryTime": 184,
+          "queryTime": 215,
           "numResults": 10,
           "offset": 0,
           "totalResults": 10,
@@ -86,11 +86,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "hamburgers"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "hamburgers"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -133,8 +133,8 @@
                 }
               }
             ],
-            "detourTime": -422,
-            "detourDistance": -14583
+            "detourTime": -434,
+            "detourDistance": -20368
           },
           {
             "type": "POI",
@@ -209,8 +209,8 @@
                 }
               }
             ],
-            "detourTime": -182,
-            "detourDistance": -7588
+            "detourTime": -193,
+            "detourDistance": -13373
           },
           {
             "type": "POI",
@@ -237,11 +237,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "hamburgers"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "hamburgers"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -286,190 +286,25 @@
                 }
               }
             ],
-            "detourTime": 93,
-            "detourDistance": -1344
+            "detourTime": 77,
+            "detourDistance": -7246
           },
           {
             "type": "POI",
-            "id": "840531000533803",
-            "score": 2.7693781853,
-            "dist": 1127.9399853212014,
+            "id": "840539000289900",
+            "score": 2.7962782383,
+            "dist": 1191.0238462297789,
             "query": "burger",
-            "info": "search:ta:840531000533803-US",
+            "info": "search:ta:840539000289900-US",
             "poi": {
-              "name": "Wibbley\u0027s Gourmet Burgers",
-              "phone": "\u002B1 425-747-7818",
-              "categorySet": [
-                {
-                  "id": 7315069
-                }
-              ],
-              "url": "wibbleys.com",
-              "categories": [
-                "hamburgers",
-                "restaurant"
-              ],
-              "classifications": [
-                {
-                  "code": "RESTAURANT",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "restaurant"
-                    },
-                    {
-                      "nameLocale": "en-US",
-                      "name": "hamburgers"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "2255",
-              "streetName": "140th Avenue Northeast",
-              "municipalitySubdivision": "Bel Red",
-              "municipality": "Bellevue",
-              "countrySecondarySubdivision": "King",
-              "countrySubdivision": "WA",
-              "countrySubdivisionName": "Washington",
-              "postalCode": "98005",
-              "extendedPostalCode": "98005-1819",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "2255 140th Avenue Northeast, Bellevue, WA 98005",
-              "localName": "Bellevue"
-            },
-            "position": {
-              "lat": 47.63066,
-              "lon": -122.15504
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.63156,
-                "lon": -122.15637
-              },
-              "btmRightPoint": {
-                "lat": 47.62976,
-                "lon": -122.15371
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.63066,
-                  "lon": -122.15374
-                }
-              }
-            ],
-            "detourTime": 169,
-            "detourDistance": -257
-          },
-          {
-            "type": "POI",
-            "id": "840539003121789",
-            "score": 2.7706930637,
-            "dist": 791.5402830443106,
-            "query": "burger",
-            "info": "search:ta:840539003121789-US",
-            "poi": {
-              "name": "Burger Deluxe Dining",
-              "categorySet": [
-                {
-                  "id": 7315069
-                }
-              ],
-              "categories": [
-                "hamburgers",
-                "restaurant"
-              ],
-              "classifications": [
-                {
-                  "code": "RESTAURANT",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "restaurant"
-                    },
-                    {
-                      "nameLocale": "en-US",
-                      "name": "hamburgers"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "5600",
-              "streetName": "148th Avenue Northeast",
-              "municipality": "Redmond",
-              "countrySecondarySubdivision": "King",
-              "countrySubdivision": "WA",
-              "countrySubdivisionName": "Washington",
-              "postalCode": "98052",
-              "extendedPostalCode": "98052-5104",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "5600 148th Avenue Northeast, Redmond, WA 98052",
-              "localName": "Redmond"
-            },
-            "position": {
-              "lat": 47.65912,
-              "lon": -122.13861
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.66236,
-                "lon": -122.14342
-              },
-              "btmRightPoint": {
-                "lat": 47.65588,
-                "lon": -122.1338
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.66012,
-                  "lon": -122.14318
-                }
-              },
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.65908,
-                  "lon": -122.14319
-                }
-              }
-            ],
-            "detourTime": 191,
-            "detourDistance": -825
-          },
-          {
-            "type": "POI",
-            "id": "840539002313210",
-            "score": 2.8714008331,
-            "dist": 6357.368518234583,
-            "query": "burger",
-            "info": "search:ta:840539002313210-US",
-            "poi": {
-              "name": "BURGER KING",
-              "phone": "\u002B1 425-392-5011",
-              "brands": [
-                {
-                  "name": "BURGER KING"
-                }
-              ],
+              "name": "Herfy\u0027s Burger",
+              "phone": "\u002B1 425-641-2003",
               "categorySet": [
                 {
                   "id": 7315015
                 }
               ],
-              "url": "burgerking.com/store-locator/store/restaurant_2318",
+              "url": "www.yelp.com/biz/herfys-burgers-redmond-2",
               "categories": [
                 "fast food",
                 "restaurant"
@@ -491,53 +326,134 @@
               ]
             },
             "address": {
-              "streetNumber": "1705",
-              "streetName": "Northwest Gilman Boulevard",
-              "municipalitySubdivision": "Newport",
-              "municipality": "Issaquah",
+              "streetNumber": "15167",
+              "streetName": "Northeast 24th Street",
+              "municipality": "Redmond",
               "countrySecondarySubdivision": "King",
               "countrySubdivision": "WA",
               "countrySubdivisionName": "Washington",
-              "postalCode": "98027",
-              "extendedPostalCode": "98027-5314",
+              "postalCode": "98052",
+              "extendedPostalCode": "98052-5544",
               "countryCode": "US",
               "country": "United States",
               "countryCodeISO3": "USA",
-              "freeformAddress": "1705 Northwest Gilman Boulevard, Issaquah, WA 98027",
-              "localName": "Issaquah"
+              "freeformAddress": "15167 Northeast 24th Street, Redmond, WA 98052",
+              "localName": "Redmond"
             },
             "position": {
-              "lat": 47.54538,
-              "lon": -122.06367
+              "lat": 47.63139,
+              "lon": -122.13889
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.54628,
-                "lon": -122.065
+                "lat": 47.63229,
+                "lon": -122.14022
               },
               "btmRightPoint": {
-                "lat": 47.54448,
-                "lon": -122.06234
+                "lat": 47.63049,
+                "lon": -122.13756
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 47.54571,
-                  "lon": -122.06365
-                }
-              },
-              {
-                "type": "minor",
-                "position": {
-                  "lat": 47.54547,
-                  "lon": -122.06367
+                  "lat": 47.63149,
+                  "lon": -122.1388
                 }
               }
             ],
-            "detourTime": 192,
-            "detourDistance": 12643
+            "detourTime": 84,
+            "detourDistance": -6787
+          },
+          {
+            "type": "POI",
+            "id": "840539000634040",
+            "score": 2.7949669361,
+            "dist": 1519.0817019821163,
+            "query": "burger",
+            "info": "search:ta:840539000634040-US",
+            "poi": {
+              "name": "Wayback Burgers",
+              "phone": "\u002B1 425-644-1300",
+              "brands": [
+                {
+                  "name": "Wayback Burgers"
+                }
+              ],
+              "categorySet": [
+                {
+                  "id": 7315015
+                }
+              ],
+              "url": "www.waybackburgers.com",
+              "categories": [
+                "fast food",
+                "restaurant"
+              ],
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "fast food"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "1645",
+              "streetName": "140th Avenue Northeast",
+              "municipalitySubdivision": "Bel Red",
+              "municipality": "Bellevue",
+              "countrySecondarySubdivision": "King",
+              "countrySubdivision": "WA",
+              "countrySubdivisionName": "Washington",
+              "postalCode": "98005",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "1645 140th Avenue Northeast, Bellevue, WA 98005",
+              "localName": "Bellevue"
+            },
+            "position": {
+              "lat": 47.62626,
+              "lon": -122.15487
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.62716,
+                "lon": -122.1562
+              },
+              "btmRightPoint": {
+                "lat": 47.62536,
+                "lon": -122.15354
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "minor",
+                "position": {
+                  "lat": 47.62645,
+                  "lon": -122.15446
+                }
+              },
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.62579,
+                  "lon": -122.15377
+                }
+              }
+            ],
+            "detourTime": 174,
+            "detourDistance": -6089
           },
           {
             "type": "POI",
@@ -626,8 +542,98 @@
                 }
               }
             ],
-            "detourTime": 196,
-            "detourDistance": -42
+            "detourTime": 194,
+            "detourDistance": -5827
+          },
+          {
+            "type": "POI",
+            "id": "840539002313210",
+            "score": 2.8714008331,
+            "dist": 6357.368518234583,
+            "query": "burger",
+            "info": "search:ta:840539002313210-US",
+            "poi": {
+              "name": "BURGER KING",
+              "phone": "\u002B1 425-392-5011",
+              "brands": [
+                {
+                  "name": "BURGER KING"
+                }
+              ],
+              "categorySet": [
+                {
+                  "id": 7315015
+                }
+              ],
+              "url": "burgerking.com/store-locator/store/restaurant_2318",
+              "categories": [
+                "fast food",
+                "restaurant"
+              ],
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "fast food"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "1705",
+              "streetName": "Northwest Gilman Boulevard",
+              "municipalitySubdivision": "Newport",
+              "municipality": "Issaquah",
+              "countrySecondarySubdivision": "King",
+              "countrySubdivision": "WA",
+              "countrySubdivisionName": "Washington",
+              "postalCode": "98027",
+              "extendedPostalCode": "98027-5314",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "1705 Northwest Gilman Boulevard, Issaquah, WA 98027",
+              "localName": "Issaquah"
+            },
+            "position": {
+              "lat": 47.54538,
+              "lon": -122.06367
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.54628,
+                "lon": -122.065
+              },
+              "btmRightPoint": {
+                "lat": 47.54448,
+                "lon": -122.06234
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.54571,
+                  "lon": -122.06365
+                }
+              },
+              {
+                "type": "minor",
+                "position": {
+                  "lat": 47.54547,
+                  "lon": -122.06367
+                }
+              }
+            ],
+            "detourTime": 195,
+            "detourDistance": 6858
           },
           {
             "type": "POI",
@@ -709,7 +715,7 @@
                 }
               }
             ],
-            "detourTime": 201,
+            "detourTime": 205,
             "detourDistance": 309
           },
           {
@@ -738,11 +744,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "hamburgers"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "hamburgers"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -786,25 +792,25 @@
                 }
               }
             ],
-            "detourTime": 246,
+            "detourTime": 251,
             "detourDistance": 1146
           },
           {
             "type": "POI",
-            "id": "840539002366655",
-            "score": 2.7806251049,
-            "dist": 4895.0590447372215,
+            "id": "840539002169056",
+            "score": 2.7732198238,
+            "dist": 6501.943096976129,
             "query": "burger",
-            "info": "search:ta:840539002366655-US",
+            "info": "search:ta:840539002169056-US",
             "poi": {
-              "name": "Burger Addict",
-              "phone": "\u002B1 425-305-5572",
+              "name": "Coastline Burgers",
+              "phone": "\u002B1 425-822-1770",
               "categorySet": [
                 {
                   "id": 7315069
                 }
               ],
-              "url": "www.burgeraddict.com",
+              "url": "coastlineburgers.com",
               "categories": [
                 "hamburgers",
                 "restaurant"
@@ -815,57 +821,64 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "hamburgers"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "hamburgers"
+                      "name": "restaurant"
                     }
                   ]
                 }
               ]
             },
             "address": {
-              "streetNumber": "12016",
-              "streetName": "Northeast 85th Street",
-              "municipalitySubdivision": "North Rose Hill",
+              "streetNumber": "116",
+              "streetName": "Central Way",
+              "municipalitySubdivision": "Moss Bay",
               "municipality": "Kirkland",
               "countrySecondarySubdivision": "King",
               "countrySubdivision": "WA",
               "countrySubdivisionName": "Washington",
               "postalCode": "98033",
-              "extendedPostalCode": "98033-8039",
+              "extendedPostalCode": "98033-6159",
               "countryCode": "US",
               "country": "United States",
               "countryCodeISO3": "USA",
-              "freeformAddress": "12016 Northeast 85th Street, Kirkland, WA 98033",
+              "freeformAddress": "116 Central Way, Kirkland, WA 98033",
               "localName": "Kirkland"
             },
             "position": {
-              "lat": 47.68023,
-              "lon": -122.17996
+              "lat": 47.67687,
+              "lon": -122.20695
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.68116,
-                "lon": -122.18134
+                "lat": 47.67777,
+                "lon": -122.20829
               },
               "btmRightPoint": {
-                "lat": 47.6793,
-                "lon": -122.17858
+                "lat": 47.67597,
+                "lon": -122.20561
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 47.67931,
-                  "lon": -122.18013
+                  "lat": 47.67671,
+                  "lon": -122.20688
+                }
+              },
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.67671,
+                  "lon": -122.20687
                 }
               }
             ],
-            "detourTime": 407,
-            "detourDistance": 8882
+            "detourTime": 549,
+            "detourDistance": 6156
           }
         ]
       }

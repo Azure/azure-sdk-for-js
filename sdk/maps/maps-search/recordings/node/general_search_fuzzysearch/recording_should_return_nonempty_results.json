@@ -8,30 +8,30 @@
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1089-azure)",
-        "x-ms-client-request-id": "eb47b69e-ca98-4d42-8dc7-370d94b1f1e8"
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
+        "x-ms-client-request-id": "16a090f4-320a-4f64-ad08-22a47fc3db59"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "10933",
+        "Content-Length": "10937",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 05 Sep 2022 08:45:31 GMT",
+        "Date": "Fri, 16 Sep 2022 10:55:48 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: E37C13F427A04188BE446BF582BFE0D6 Ref B: SG1EDGE0311 Ref C: 2022-09-05T08:45:31Z"
+        "X-MSEdge-Ref": "Ref A: 33B7A549AD0548D2B2F5F85811B4A6D7 Ref B: SG2EDGE2315 Ref C: 2022-09-16T10:55:47Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "restaurant",
           "queryType": "NON_NEAR",
-          "queryTime": 618,
+          "queryTime": 534,
           "numResults": 10,
           "offset": 0,
-          "totalResults": 6488978,
+          "totalResults": 6488733,
           "fuzzyLevel": 1,
           "geoBias": {
             "lat": 47.606038,
@@ -138,11 +138,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "sushi"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "sushi"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -357,11 +357,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "sushi"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "sushi"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -403,80 +403,6 @@
                 "position": {
                   "lat": 47.60549,
                   "lon": -122.33436
-                }
-              }
-            ]
-          },
-          {
-            "type": "POI",
-            "id": "840539003065656",
-            "score": 2.574524641,
-            "dist": 100.3708594951675,
-            "info": "search:ta:840539003065656-US",
-            "poi": {
-              "name": "Matthew Hoffman",
-              "phone": "\u002B1 206-701-2000",
-              "categorySet": [
-                {
-                  "id": 7315042
-                }
-              ],
-              "categories": [
-                "restaurant",
-                "sandwich"
-              ],
-              "classifications": [
-                {
-                  "code": "RESTAURANT",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "sandwich"
-                    },
-                    {
-                      "nameLocale": "en-US",
-                      "name": "restaurant"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "901",
-              "streetName": "5th Avenue",
-              "municipalitySubdivision": "Central Business District",
-              "municipality": "Seattle",
-              "countrySecondarySubdivision": "King",
-              "countrySubdivision": "WA",
-              "countrySubdivisionName": "Washington",
-              "postalCode": "98104",
-              "extendedPostalCode": "98104-1608",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "901 5th Avenue, Seattle, WA 98104",
-              "localName": "Seattle"
-            },
-            "position": {
-              "lat": 47.60597,
-              "lon": -122.33201
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.60687,
-                "lon": -122.33334
-              },
-              "btmRightPoint": {
-                "lat": 47.60507,
-                "lon": -122.33068
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.60619,
-                  "lon": -122.33147
                 }
               }
             ]
@@ -552,6 +478,80 @@
                 "position": {
                   "lat": 47.6072,
                   "lon": -122.33394
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "840539003065656",
+            "score": 2.574524641,
+            "dist": 100.3708594951675,
+            "info": "search:ta:840539003065656-US",
+            "poi": {
+              "name": "Matthew Hoffman",
+              "phone": "\u002B1 206-701-2000",
+              "categorySet": [
+                {
+                  "id": 7315042
+                }
+              ],
+              "categories": [
+                "restaurant",
+                "sandwich"
+              ],
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "sandwich"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "901",
+              "streetName": "5th Avenue",
+              "municipalitySubdivision": "Central Business District",
+              "municipality": "Seattle",
+              "countrySecondarySubdivision": "King",
+              "countrySubdivision": "WA",
+              "countrySubdivisionName": "Washington",
+              "postalCode": "98104",
+              "extendedPostalCode": "98104-1608",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "901 5th Avenue, Seattle, WA 98104",
+              "localName": "Seattle"
+            },
+            "position": {
+              "lat": 47.60597,
+              "lon": -122.33201
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.60687,
+                "lon": -122.33334
+              },
+              "btmRightPoint": {
+                "lat": 47.60507,
+                "lon": -122.33068
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.60619,
+                  "lon": -122.33147
                 }
               }
             ]
@@ -707,21 +707,21 @@
           },
           {
             "type": "POI",
-            "id": "840531000475812",
+            "id": "840531000385225",
             "score": 2.5745222569,
             "dist": 129.68130419307732,
-            "info": "search:ta:840531000475812-US",
+            "info": "search:ta:840531000385225-US",
             "poi": {
-              "name": "Atlantic Street Pizza",
-              "phone": "\u002B1 206-624-7200",
+              "name": "Pabla Punjabi Cuisine",
+              "phone": "\u002B1 206-623-5587",
               "categorySet": [
                 {
-                  "id": 7315036
+                  "id": 7315023
                 }
               ],
-              "url": "atlanticstreetpizza.com/",
+              "url": "www.pablaindiancuisine.com",
               "categories": [
-                "pizza",
+                "indian",
                 "restaurant"
               ],
               "classifications": [
@@ -730,11 +730,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "indian"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "pizza"
+                      "name": "restaurant"
                     }
                   ]
                 }

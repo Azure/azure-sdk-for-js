@@ -10,8 +10,8 @@
         "Content-Length": "149",
         "Content-Type": "application/json",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1089-azure)",
-        "x-ms-client-request-id": "46996695-2ab7-4430-b68f-a9e4d1b9dc2e"
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
+        "x-ms-client-request-id": "6122d60b-e1d9-4917-affa-03b6f9d4706e"
       },
       "RequestBody": {
         "batchItems": [
@@ -30,18 +30,18 @@
       "ResponseHeaders": {
         "Content-Length": "2",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 05 Sep 2022 08:45:32 GMT",
-        "Location": "https://atlas.microsoft.com/search/fuzzy/batch/98a033d3-5b7d-461e-b570-628db85491d5?api-version=1.0",
+        "Date": "Fri, 16 Sep 2022 10:55:49 GMT",
+        "Location": "https://atlas.microsoft.com/search/fuzzy/batch/948551db-73fd-41d9-8ad8-091b3229d4fa?api-version=1.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: 09FB52C23B194EC98BFD8806DE02E651 Ref B: SG1EDGE0311 Ref C: 2022-09-05T08:45:32Z"
+        "X-MSEdge-Ref": "Ref A: 4C774B19E9704B2C8AFD08CA811D2DFB Ref B: SG2EDGE2315 Ref C: 2022-09-16T10:55:49Z"
       },
       "ResponseBody": "\u0022\u0022"
     },
     {
-      "RequestUri": "https://atlas.microsoft.com/search/fuzzy/batch/98a033d3-5b7d-461e-b570-628db85491d5?api-version=1.0",
+      "RequestUri": "https://atlas.microsoft.com/search/fuzzy/batch/948551db-73fd-41d9-8ad8-091b3229d4fa?api-version=1.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -49,20 +49,20 @@
         "Connection": "keep-alive",
         "Content-Type": "application/json",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1089-azure)",
-        "x-ms-client-request-id": "da03aa67-d517-410b-9a4e-74134c12c646"
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
+        "x-ms-client-request-id": "41b78812-2b1d-4d28-97ca-99b750dfd413"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Mon, 05 Sep 2022 08:45:33 GMT",
+        "Date": "Fri, 16 Sep 2022 10:55:49 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: 62363FAC682D4AE4BC348F86631AB4D1 Ref B: SG1EDGE0311 Ref C: 2022-09-05T08:45:32Z"
+        "X-MSEdge-Ref": "Ref A: 9DA50CCD3E224C049C1282D6D6006D80 Ref B: SG2EDGE2315 Ref C: 2022-09-16T10:55:49Z"
       },
       "ResponseBody": {
         "batchItems": [
@@ -72,27 +72,31 @@
               "summary": {
                 "query": "pizza",
                 "queryType": "NON_NEAR",
-                "queryTime": 7,
+                "queryTime": 9,
                 "numResults": 10,
                 "offset": 0,
-                "totalResults": 19829,
+                "totalResults": 19828,
                 "fuzzyLevel": 1
               },
               "results": [
                 {
                   "type": "POI",
-                  "id": "250009036854579",
+                  "id": "250009012568534",
                   "score": 2.1454398632,
-                  "info": "search:ta:250009036854579-FR",
+                  "info": "search:ta:250009012568534-FR",
                   "poi": {
-                    "name": "Gaston Pizza",
-                    "phone": "\u002B33 6 09 58 54 73",
+                    "name": "Le Kiosque \u00E0 Pizza",
+                    "phone": "\u002B33 2 97 06 48 26",
+                    "brands": [
+                      {
+                        "name": "Le Kiosque \u00E0 Pizzas"
+                      }
+                    ],
                     "categorySet": [
                       {
                         "id": 7315036
                       }
                     ],
-                    "url": "gastonpizza.free.fr",
                     "categories": [
                       "pizza",
                       "restaurant"
@@ -103,60 +107,61 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           }
                         ]
                       }
                     ]
                   },
                   "address": {
-                    "streetNumber": "128",
-                    "streetName": "Rue de la Lironde",
-                    "municipality": "Montpellier",
-                    "countrySecondarySubdivision": "H\u00E9rault",
-                    "countrySubdivision": "Occitanie",
-                    "postalCode": "34090",
+                    "streetNumber": "3",
+                    "streetName": "Rue Nathalie Le Mel",
+                    "municipality": "Hennebont",
+                    "countrySecondarySubdivision": "Morbihan",
+                    "countrySubdivision": "Bretagne",
+                    "postalCode": "56700",
                     "countryCode": "FR",
                     "country": "France",
                     "countryCodeISO3": "FRA",
-                    "freeformAddress": "128 Rue de la Lironde, 34090 Montpellier",
-                    "localName": "Montpellier"
+                    "freeformAddress": "3 Rue Nathalie Le Mel, 56700 Hennebont",
+                    "localName": "Hennebont"
                   },
                   "position": {
-                    "lat": 43.64287,
-                    "lon": 3.84559
+                    "lat": 47.79952,
+                    "lon": -3.2607
                   },
                   "viewport": {
                     "topLeftPoint": {
-                      "lat": 43.64377,
-                      "lon": 3.84435
+                      "lat": 47.80042,
+                      "lon": -3.26204
                     },
                     "btmRightPoint": {
-                      "lat": 43.64197,
-                      "lon": 3.84683
+                      "lat": 47.79862,
+                      "lon": -3.25936
                     }
                   },
                   "entryPoints": [
                     {
                       "type": "main",
                       "position": {
-                        "lat": 43.64285,
-                        "lon": 3.84575
+                        "lat": 47.79951,
+                        "lon": -3.2617
                       }
                     }
                   ]
                 },
                 {
                   "type": "POI",
-                  "id": "250009036647391",
+                  "id": "250007000059464",
                   "score": 2.1454398632,
-                  "info": "search:ta:250009036647391-FR",
+                  "info": "search:ta:250007000059464-FR",
                   "poi": {
-                    "name": "La Pizza du Village",
+                    "name": "La Locanda",
+                    "phone": "\u002B33 2 99 35 59 35",
                     "categorySet": [
                       {
                         "id": 7315036
@@ -172,73 +177,72 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           }
                         ]
                       }
                     ]
                   },
                   "address": {
-                    "streetNumber": "223",
-                    "streetName": "Chemin de Galet",
-                    "municipality": "Saint-Geni\u00E8s-de-Comolas",
-                    "countrySecondarySubdivision": "Gard",
-                    "countrySubdivision": "Occitanie",
-                    "postalCode": "30150",
+                    "streetNumber": "1",
+                    "streetName": "Avenue Roger Dodin",
+                    "municipality": "Saint-Jacques-de-la-Lande",
+                    "countrySecondarySubdivision": "Ille-et-Vilaine",
+                    "countrySubdivision": "Bretagne",
+                    "postalCode": "35136",
                     "countryCode": "FR",
                     "country": "France",
                     "countryCodeISO3": "FRA",
-                    "freeformAddress": "223 Chemin de Galet, 30150 Saint-Geni\u00E8s-de-Comolas",
-                    "localName": "Saint-Geni\u00E8s-de-Comolas"
+                    "freeformAddress": "1 Avenue Roger Dodin, 35136 Saint-Jacques-de-la-Lande",
+                    "localName": "Saint-Jacques-de-la-Lande"
                   },
                   "position": {
-                    "lat": 44.07099,
-                    "lon": 4.71958
+                    "lat": 48.07925,
+                    "lon": -1.71288
                   },
                   "viewport": {
                     "topLeftPoint": {
-                      "lat": 44.07189,
-                      "lon": 4.71833
+                      "lat": 48.08015,
+                      "lon": -1.71423
                     },
                     "btmRightPoint": {
-                      "lat": 44.07009,
-                      "lon": 4.72083
+                      "lat": 48.07835,
+                      "lon": -1.71153
                     }
                   },
                   "entryPoints": [
                     {
                       "type": "main",
                       "position": {
-                        "lat": 44.07099,
-                        "lon": 4.7197
-                      }
-                    },
-                    {
-                      "type": "main",
-                      "position": {
-                        "lat": 44.07098,
-                        "lon": 4.7197
+                        "lat": 48.07925,
+                        "lon": -1.71268
                       }
                     }
                   ]
                 },
                 {
                   "type": "POI",
-                  "id": "250009013500131",
+                  "id": "250009013386799",
                   "score": 2.1454398632,
-                  "info": "search:ta:250009013500131-FR",
+                  "info": "search:ta:250009013386799-FR",
                   "poi": {
-                    "name": "Tropikal Pizza",
-                    "phone": "\u002B33 4 67 42 41 49",
+                    "name": "Domino\u0027s Pizza Dinard",
+                    "phone": "\u002B33 2 99 46 46 66",
+                    "brands": [
+                      {
+                        "name": "Domino\u0027s Pizza"
+                      }
+                    ],
                     "categorySet": [
                       {
                         "id": 7315036
                       }
                     ],
+                    "url": "www.dominos.fr/magasin/dinard_35800",
                     "categories": [
                       "pizza",
                       "restaurant"
@@ -249,65 +253,72 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           }
                         ]
                       }
                     ]
                   },
                   "address": {
-                    "streetName": "Route de Saint-Paul",
-                    "municipality": "Montarnaud",
-                    "countrySecondarySubdivision": "H\u00E9rault",
-                    "countrySubdivision": "Occitanie",
-                    "postalCode": "34570",
+                    "streetNumber": "23, Bd",
+                    "streetName": "Boulevard F\u00E9art",
+                    "municipality": "Dinard",
+                    "countrySecondarySubdivision": "Ille-et-Vilaine",
+                    "countrySubdivision": "Bretagne",
+                    "postalCode": "35800",
                     "countryCode": "FR",
                     "country": "France",
                     "countryCodeISO3": "FRA",
-                    "freeformAddress": "Route de Saint-Paul, 34570 Montarnaud",
-                    "localName": "Montarnaud"
+                    "freeformAddress": "23, Bd Boulevard F\u00E9art, 35800 Dinard",
+                    "localName": "Dinard"
                   },
                   "position": {
-                    "lat": 43.64285,
-                    "lon": 3.69576
+                    "lat": 48.63329,
+                    "lon": -2.05479
                   },
                   "viewport": {
                     "topLeftPoint": {
-                      "lat": 43.64375,
-                      "lon": 3.69452
+                      "lat": 48.63419,
+                      "lon": -2.05615
                     },
                     "btmRightPoint": {
-                      "lat": 43.64195,
-                      "lon": 3.697
+                      "lat": 48.63239,
+                      "lon": -2.05343
                     }
                   },
                   "entryPoints": [
                     {
                       "type": "main",
                       "position": {
-                        "lat": 43.64289,
-                        "lon": 3.69588
+                        "lat": 48.63316,
+                        "lon": -2.05498
                       }
                     }
                   ]
                 },
                 {
                   "type": "POI",
-                  "id": "250009011125659",
+                  "id": "250009036824458",
                   "score": 2.1454398632,
-                  "info": "search:ta:250009011125659-FR",
+                  "info": "search:ta:250009036824458-FR",
                   "poi": {
-                    "name": "Pat \u0026 Pizz",
-                    "phone": "\u002B33 5 61 34 98 80",
+                    "name": "Domino\u0027s Pizza Brest",
+                    "phone": "\u002B33 2 98 46 28 46",
+                    "brands": [
+                      {
+                        "name": "Domino\u0027s"
+                      }
+                    ],
                     "categorySet": [
                       {
                         "id": 7315036
                       }
                     ],
+                    "url": "www.dominos.fr/carte_pizzas-31729-brest.php",
                     "categories": [
                       "pizza",
                       "restaurant"
@@ -318,61 +329,60 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           }
                         ]
                       }
                     ]
                   },
                   "address": {
-                    "streetNumber": "70 B",
-                    "streetName": "Boulevard Deltour",
-                    "municipality": "Toulouse",
-                    "countrySecondarySubdivision": "Haute-Garonne",
-                    "countrySubdivision": "Occitanie",
-                    "postalCode": "31500",
+                    "streetName": "Place Albert 1er",
+                    "municipality": "Brest",
+                    "countrySecondarySubdivision": "Finist\u00E8re",
+                    "countrySubdivision": "Bretagne",
+                    "postalCode": "29200",
                     "countryCode": "FR",
                     "country": "France",
                     "countryCodeISO3": "FRA",
-                    "freeformAddress": "70 B Boulevard Deltour, 31500 Toulouse",
-                    "localName": "Toulouse"
+                    "freeformAddress": "Place Albert 1er, 29200 Brest",
+                    "localName": "Brest"
                   },
                   "position": {
-                    "lat": 43.59641,
-                    "lon": 1.47334
+                    "lat": 48.39812,
+                    "lon": -4.48907
                   },
                   "viewport": {
                     "topLeftPoint": {
-                      "lat": 43.59731,
-                      "lon": 1.4721
+                      "lat": 48.39902,
+                      "lon": -4.49042
                     },
                     "btmRightPoint": {
-                      "lat": 43.59551,
-                      "lon": 1.47458
+                      "lat": 48.39722,
+                      "lon": -4.48772
                     }
                   },
                   "entryPoints": [
                     {
                       "type": "main",
                       "position": {
-                        "lat": 43.59638,
-                        "lon": 1.47322
+                        "lat": 48.39795,
+                        "lon": -4.48914
                       }
                     }
                   ]
                 },
                 {
                   "type": "POI",
-                  "id": "250009003994160",
+                  "id": "250009000071977",
                   "score": 2.1454398632,
-                  "info": "search:ta:250009003994160-FR",
+                  "info": "search:ta:250009000071977-FR",
                   "poi": {
-                    "name": "La Caverne",
-                    "phone": "\u002B33 5 62 91 53 74",
+                    "name": "Pad\u0027Problem",
+                    "phone": "\u002B33 2 99 91 55 87",
                     "categorySet": [
                       {
                         "id": 7315036
@@ -388,61 +398,61 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           }
                         ]
                       }
                     ]
                   },
                   "address": {
-                    "streetName": "Avenue du Tourmalet",
-                    "municipalitySubdivision": "La Mongie",
-                    "municipality": "Bagn\u00E8res-de-Bigorre",
-                    "countrySecondarySubdivision": "Hautes-Pyr\u00E9n\u00E9es",
-                    "countrySubdivision": "Occitanie",
-                    "postalCode": "65200",
+                    "streetNumber": "2",
+                    "streetName": "Place Saint-Pierre",
+                    "municipality": "Nivillac",
+                    "countrySecondarySubdivision": "Morbihan",
+                    "countrySubdivision": "Bretagne",
+                    "postalCode": "56130",
                     "countryCode": "FR",
                     "country": "France",
                     "countryCodeISO3": "FRA",
-                    "freeformAddress": "Avenue du Tourmalet, 65200 Bagn\u00E8res-de-Bigorre",
-                    "localName": "Bagn\u00E8res-de-Bigorre"
+                    "freeformAddress": "2 Place Saint-Pierre, 56130 Nivillac",
+                    "localName": "Nivillac"
                   },
                   "position": {
-                    "lat": 42.91037,
-                    "lon": 0.17396
+                    "lat": 47.5344,
+                    "lon": -2.28299
                   },
                   "viewport": {
                     "topLeftPoint": {
-                      "lat": 42.91127,
-                      "lon": 0.17273
+                      "lat": 47.5353,
+                      "lon": -2.28432
                     },
                     "btmRightPoint": {
-                      "lat": 42.90947,
-                      "lon": 0.17519
+                      "lat": 47.5335,
+                      "lon": -2.28166
                     }
                   },
                   "entryPoints": [
                     {
                       "type": "main",
                       "position": {
-                        "lat": 42.91045,
-                        "lon": 0.17392
+                        "lat": 47.53444,
+                        "lon": -2.28288
                       }
                     }
                   ]
                 },
                 {
                   "type": "POI",
-                  "id": "250009012600615",
+                  "id": "250007000030169",
                   "score": 2.1454398632,
-                  "info": "search:ta:250009012600615-FR",
+                  "info": "search:ta:250007000030169-FR",
                   "poi": {
-                    "name": "Pizzeria Montpizzat",
-                    "phone": "\u002B33 6 11 48 29 85",
+                    "name": "Le David",
+                    "phone": "\u002B33 2 96 64 32 39",
                     "categorySet": [
                       {
                         "id": 7315036
@@ -458,66 +468,71 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           }
                         ]
                       }
                     ]
                   },
                   "address": {
-                    "streetNumber": "8 B",
-                    "streetName": "Rue des \u00C9coles",
-                    "municipality": "Montpezat",
-                    "countrySecondarySubdivision": "Gard",
-                    "countrySubdivision": "Occitanie",
-                    "postalCode": "30730",
+                    "streetName": "Rue Challonge",
+                    "municipality": "Pl\u00E9dran",
+                    "countrySecondarySubdivision": "C\u00F4tes-d\u0027Armor",
+                    "countrySubdivision": "Bretagne",
+                    "postalCode": "22960",
                     "countryCode": "FR",
                     "country": "France",
                     "countryCodeISO3": "FRA",
-                    "freeformAddress": "8 B Rue des \u00C9coles, 30730 Montpezat",
-                    "localName": "Montpezat"
+                    "freeformAddress": "Rue Challonge, 22960 Pl\u00E9dran",
+                    "localName": "Pl\u00E9dran"
                   },
                   "position": {
-                    "lat": 43.85124,
-                    "lon": 4.15743
+                    "lat": 48.44467,
+                    "lon": -2.75014
                   },
                   "viewport": {
                     "topLeftPoint": {
-                      "lat": 43.85214,
-                      "lon": 4.15618
+                      "lat": 48.44557,
+                      "lon": -2.7515
                     },
                     "btmRightPoint": {
-                      "lat": 43.85034,
-                      "lon": 4.15868
+                      "lat": 48.44377,
+                      "lon": -2.74878
                     }
                   },
                   "entryPoints": [
                     {
                       "type": "main",
                       "position": {
-                        "lat": 43.85129,
-                        "lon": 4.1573
+                        "lat": 48.44467,
+                        "lon": -2.75014
                       }
                     }
                   ]
                 },
                 {
                   "type": "POI",
-                  "id": "250009008015440",
+                  "id": "250007000087412",
                   "score": 2.1454398632,
-                  "info": "search:ta:250009008015440-FR",
+                  "info": "search:ta:250007000087412-FR",
                   "poi": {
-                    "name": "Pizza Saint-Eloi",
-                    "phone": "\u002B33 4 67 61 97 74",
+                    "name": "Domino\u0027s Pizza Auray",
+                    "phone": "\u002B33 2 97 59 66 60",
+                    "brands": [
+                      {
+                        "name": "Domino\u0027s Pizza"
+                      }
+                    ],
                     "categorySet": [
                       {
                         "id": 7315036
                       }
                     ],
+                    "url": "www.dominos.fr/magasin/auray_56400",
                     "categories": [
                       "pizza",
                       "restaurant"
@@ -528,61 +543,61 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           }
                         ]
                       }
                     ]
                   },
                   "address": {
-                    "streetNumber": "5",
-                    "streetName": "Rue Henri Dunant",
-                    "municipality": "Montpellier",
-                    "countrySecondarySubdivision": "H\u00E9rault",
-                    "countrySubdivision": "Occitanie",
-                    "postalCode": "34090",
+                    "streetNumber": "38",
+                    "streetName": "Rue Aristide Briand",
+                    "municipality": "Auray",
+                    "countrySecondarySubdivision": "Morbihan",
+                    "countrySubdivision": "Bretagne",
+                    "postalCode": "56400",
                     "countryCode": "FR",
                     "country": "France",
                     "countryCodeISO3": "FRA",
-                    "freeformAddress": "5 Rue Henri Dunant, 34090 Montpellier",
-                    "localName": "Montpellier"
+                    "freeformAddress": "38 Rue Aristide Briand, 56400 Auray",
+                    "localName": "Auray"
                   },
                   "position": {
-                    "lat": 43.62685,
-                    "lon": 3.86832
+                    "lat": 47.67019,
+                    "lon": -2.98998
                   },
                   "viewport": {
                     "topLeftPoint": {
-                      "lat": 43.62775,
-                      "lon": 3.86708
+                      "lat": 47.67109,
+                      "lon": -2.99132
                     },
                     "btmRightPoint": {
-                      "lat": 43.62595,
-                      "lon": 3.86956
+                      "lat": 47.66929,
+                      "lon": -2.98864
                     }
                   },
                   "entryPoints": [
                     {
                       "type": "main",
                       "position": {
-                        "lat": 43.62676,
-                        "lon": 3.86835
+                        "lat": 47.67011,
+                        "lon": -2.99005
                       }
                     }
                   ]
                 },
                 {
                   "type": "POI",
-                  "id": "250009003264072",
+                  "id": "250009012276362",
                   "score": 2.1454398632,
-                  "info": "search:ta:250009003264072-FR",
+                  "info": "search:ta:250009012276362-FR",
                   "poi": {
-                    "name": "Pizz-Burger",
-                    "phone": "\u002B33 4 95 27 81 06",
+                    "name": "Pizza Rhuys",
+                    "phone": "\u002B33 7 62 76 79 01",
                     "categorySet": [
                       {
                         "id": 7315036
@@ -598,61 +613,60 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           }
                         ]
                       }
                     ]
                   },
                   "address": {
-                    "streetNumber": "18",
-                    "streetName": "Rue de la Mis\u00E9ricorde",
-                    "municipality": "Propriano",
-                    "countrySecondarySubdivision": "Southern Corsica",
-                    "countrySubdivision": "Corsica",
-                    "postalCode": "20110",
+                    "streetName": "All\u00E9e des Ducs de Bretagne",
+                    "municipality": "Sarzeau",
+                    "countrySecondarySubdivision": "Morbihan",
+                    "countrySubdivision": "Bretagne",
+                    "postalCode": "56370",
                     "countryCode": "FR",
                     "country": "France",
                     "countryCodeISO3": "FRA",
-                    "freeformAddress": "18 Rue de la Mis\u00E9ricorde, 20110 Propriano",
-                    "localName": "Propriano"
+                    "freeformAddress": "All\u00E9e des Ducs de Bretagne, 56370 Sarzeau",
+                    "localName": "Sarzeau"
                   },
                   "position": {
-                    "lat": 41.67604,
-                    "lon": 8.90551
+                    "lat": 47.52326,
+                    "lon": -2.76759
                   },
                   "viewport": {
                     "topLeftPoint": {
-                      "lat": 41.67694,
-                      "lon": 8.90431
+                      "lat": 47.52416,
+                      "lon": -2.76892
                     },
                     "btmRightPoint": {
-                      "lat": 41.67514,
-                      "lon": 8.90671
+                      "lat": 47.52236,
+                      "lon": -2.76626
                     }
                   },
                   "entryPoints": [
                     {
                       "type": "main",
                       "position": {
-                        "lat": 41.67602,
-                        "lon": 8.9054
+                        "lat": 47.52319,
+                        "lon": -2.7677
                       }
                     }
                   ]
                 },
                 {
                   "type": "POI",
-                  "id": "250009008185529",
+                  "id": "250009008093650",
                   "score": 2.1454398632,
-                  "info": "search:ta:250009008185529-FR",
+                  "info": "search:ta:250009008093650-FR",
                   "poi": {
-                    "name": "Restaurant A Casuccia",
-                    "phone": "\u002B33 4 95 47 11 28",
+                    "name": "Notre-Dame du Guildo",
+                    "phone": "\u002B33 2 96 41 13 78",
                     "categorySet": [
                       {
                         "id": 7315036
@@ -668,60 +682,62 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           }
                         ]
                       }
                     ]
                   },
                   "address": {
-                    "streetName": "Rampe de la Fontaine",
-                    "municipality": "Corte",
-                    "countrySecondarySubdivision": "Haute-Corse",
-                    "countrySubdivision": "Corse",
-                    "postalCode": "20250",
+                    "streetNumber": "6",
+                    "streetName": "Rue Chateaubriand",
+                    "municipalitySubdivision": "La Croix aux Merles",
+                    "municipality": "Saint-Cast-le-Guildo",
+                    "countrySecondarySubdivision": "C\u00F4tes-d\u0027Armor",
+                    "countrySubdivision": "Bretagne",
+                    "postalCode": "22380",
                     "countryCode": "FR",
                     "country": "France",
                     "countryCodeISO3": "FRA",
-                    "freeformAddress": "Rampe de la Fontaine, 20250 Corte",
-                    "localName": "Corte"
+                    "freeformAddress": "6 Rue Chateaubriand, 22380 Saint-Cast-le-Guildo",
+                    "localName": "Saint-Cast-le-Guildo"
                   },
                   "position": {
-                    "lat": 42.30528,
-                    "lon": 9.14989
+                    "lat": 48.57966,
+                    "lon": -2.22217
                   },
                   "viewport": {
                     "topLeftPoint": {
-                      "lat": 42.30618,
-                      "lon": 9.14867
+                      "lat": 48.58056,
+                      "lon": -2.22353
                     },
                     "btmRightPoint": {
-                      "lat": 42.30438,
-                      "lon": 9.15111
+                      "lat": 48.57876,
+                      "lon": -2.22081
                     }
                   },
                   "entryPoints": [
                     {
                       "type": "main",
                       "position": {
-                        "lat": 42.30545,
-                        "lon": 9.1498
+                        "lat": 48.57975,
+                        "lon": -2.22215
                       }
                     }
                   ]
                 },
                 {
                   "type": "POI",
-                  "id": "250009012769757",
+                  "id": "250007000059461",
                   "score": 2.1454398632,
-                  "info": "search:ta:250009012769757-FR",
+                  "info": "search:ta:250007000059461-FR",
                   "poi": {
-                    "name": "Pizza de la Gare",
-                    "phone": "\u002B33 4 95 32 37 65",
+                    "name": "Pizza in Box",
+                    "phone": "\u002B33 2 99 65 56 56",
                     "categorySet": [
                       {
                         "id": 7315036
@@ -737,48 +753,49 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           }
                         ]
                       }
                     ]
                   },
                   "address": {
-                    "streetName": "Rue Jacques Faggianelli",
-                    "municipality": "Bastia",
-                    "countrySecondarySubdivision": "Haute-Corse",
-                    "countrySubdivision": "Corse",
-                    "postalCode": "20600",
+                    "streetNumber": "248 Bis",
+                    "streetName": "Rue de Nantes",
+                    "municipality": "Saint-Jacques-de-la-Lande",
+                    "countrySecondarySubdivision": "Ille-et-Vilaine",
+                    "countrySubdivision": "Bretagne",
+                    "postalCode": "35136",
                     "countryCode": "FR",
                     "country": "France",
                     "countryCodeISO3": "FRA",
-                    "freeformAddress": "Rue Jacques Faggianelli, 20600 Bastia",
-                    "localName": "Bastia"
+                    "freeformAddress": "248 Bis Rue de Nantes, 35136 Saint-Jacques-de-la-Lande",
+                    "localName": "Saint-Jacques-de-la-Lande"
                   },
                   "position": {
-                    "lat": 42.69764,
-                    "lon": 9.45064
+                    "lat": 48.09417,
+                    "lon": -1.69064
                   },
                   "viewport": {
                     "topLeftPoint": {
-                      "lat": 42.69854,
-                      "lon": 9.44942
+                      "lat": 48.09507,
+                      "lon": -1.69199
                     },
                     "btmRightPoint": {
-                      "lat": 42.69674,
-                      "lon": 9.45186
+                      "lat": 48.09327,
+                      "lon": -1.68929
                     }
                   },
                   "entryPoints": [
                     {
                       "type": "main",
                       "position": {
-                        "lat": 42.69759,
-                        "lon": 9.45064
+                        "lat": 48.09375,
+                        "lon": -1.69072
                       }
                     }
                   ]
@@ -792,10 +809,10 @@
               "summary": {
                 "query": "pizza",
                 "queryType": "NON_NEAR",
-                "queryTime": 12,
+                "queryTime": 8,
                 "numResults": 10,
                 "offset": 0,
-                "totalResults": 377233,
+                "totalResults": 377156,
                 "fuzzyLevel": 1,
                 "geoBias": {
                   "lat": 25,
@@ -1575,7 +1592,7 @@
               "summary": {
                 "query": "pizza",
                 "queryType": "NON_NEAR",
-                "queryTime": 11,
+                "queryTime": 12,
                 "numResults": 10,
                 "offset": 0,
                 "totalResults": 1034,
@@ -1615,11 +1632,11 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           }
                         ]
                       }
@@ -1692,11 +1709,11 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           }
                         ]
                       }
@@ -1769,11 +1786,11 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           }
                         ]
                       }
@@ -1846,11 +1863,11 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           }
                         ]
                       }
@@ -1923,11 +1940,11 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           }
                         ]
                       }
@@ -1999,11 +2016,11 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           }
                         ]
                       }
@@ -2075,11 +2092,11 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           }
                         ]
                       }
@@ -2147,11 +2164,11 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           }
                         ]
                       }
@@ -2224,11 +2241,11 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           }
                         ]
                       }
@@ -2301,11 +2318,11 @@
                         "names": [
                           {
                             "nameLocale": "en-US",
-                            "name": "restaurant"
+                            "name": "pizza"
                           },
                           {
                             "nameLocale": "en-US",
-                            "name": "pizza"
+                            "name": "restaurant"
                           }
                         ]
                       }
