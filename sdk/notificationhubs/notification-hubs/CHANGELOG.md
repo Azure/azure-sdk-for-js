@@ -1,14 +1,11 @@
 # Release History
 
-## 1.0.0-beta.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.0.0-beta.5 (2022-09-16)
 
 ### Bugs Fixed
 
-### Other Changes
+- #23222 - `deleteRegistration` not exported on service client.
+- #23218 - single item on registration feed causes error.
 
 ## 1.0.0-beta.4 (2022-09-09)
 
