@@ -9,8 +9,12 @@ Azure Notification Hubs provide a scaled-out push engine that enables you to sen
 - Notify users of enterprise events such as new messages and work items.
 - Send codes for multi-factor authentication.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/notification-hubs/) |
-[Product documentation](https://docs.microsoft.com/azure/notification-hubs/)
+Key links:
+
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/notification-hubs/)
+- [Package (npm)](https://www.npmjs.com/package/@azure/notification-hubs)
+- [Product documentation](https://docs.microsoft.com/azure/notification-hubs/)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/samples-dev)
 
 ## Getting started
 
@@ -134,7 +138,7 @@ Device management is a core concept to Notification Hubs to be able to store the
 Installations are a newer and native JSON approach to device management that contains additional properties such as an installation ID and user ID which can be used for sending to audiences.  The installations API has a few advantages over the existing Registration APIs in the following ways:
 
 - Fully idempotent API so calling create on the installation, so an operation can be retried without worries about duplications.
-- Support for `userId` and `installationId` properties which can be then used in tag expressions such as `$InstallationId:myInstallId` and `$UserId:bob@contoso.com`.
+- Support for `userId` and `installationId` properties which can be then used in tag expressions such as `$InstallationId:{myInstallId}` and `$UserId:{bob@contoso.com}`.
 - Templates are now part of the installation instead of a separate registration and can be reference by name as a tag for sending.
 - Partial updates are supported through the [JSON Patch Standard](https://tools.ietf.org/html/rfc6902), which allows to add tags and change other data without having to first query the installation.
 
@@ -355,7 +359,7 @@ for await (const pages of registrations.byPage()) {
 
 Notification Hubs supports sending notifications to devices either directly using the unique PNS provided identifier, using tags for audience send, or a general broadcast to all devices.  Using the Standard SKU and above, [scheduled send](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-send-push-notifications-scheduled) allows the user to schedule notifications up to seven days in advance.  All send operations return a Tracking ID and Correlation ID which can be used for Notification Hubs support cases.  With the Standard SKU and above, a Notification ID is also returned which can be used to get notification telemetry via the `getNotificationOutcomeDetails` method.
 
-For debugging purposes, the `enableTestSend` options can be set to `true` which gets immediate feedback from the PNS on the `send*` methods, however, is not supported in production scenarios.  This is not supported on the scheduled send methods.
+For debugging purposes, the `enableTestSend` options can be set to `true` which gets immediate feedback from the PNS on the `sendNotification` or `sendBroadcastNotification` methods, however, is not supported in production scenarios.  This is not supported on the scheduled send methods.
 
 Raw JSON or XML strings can be sent to the send or scheduled send methods, or the notification builders can be used which helps construct messages per PNS such as APNs, Firebase, Baidu, ADM and WNS.  These builders will build the native message format and fill in associated HTTP headers so there is no guessing about which fields are available for each PNS.
 
@@ -365,6 +369,7 @@ import { buildAppleNativeMessage } from "@azure/notification-hubs";
 
 // Using the modular approach
 import { buildAppleNativeMessage } from "@azure/notification-hubs/models/notificationBuilder";
+
 
 const apnsMessage = buildAppleNativeMessage({
   alert: {
@@ -377,6 +382,7 @@ const apnsMessage = buildAppleNativeMessage({
 });
 
 // Send the message using the modular approach
+
 const result = await sendBroadcastNotification(context, apnsMessage);
 ```
 
@@ -473,9 +479,7 @@ const message = createAppleNotification({
   },
 });
 
-// Not required but can set test send to true for debugging purposes.
-const sendOptions: SendOperationOptions = { enableTestSend: false };
-const result = await client.sendDirectNotification(devicetoken, message, sendOptions);
+const result = await client.sendDirectNotification(devicetoken, message);
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -507,8 +511,6 @@ const message = createAppleNotification({
   },
 });
 
-// Not required but can set test send to true for debugging purposes.
-const sendOptions: SendOperationOptions = { enableTestSend: false };
 const result = await sendDirectNotification(context, devicetoken, message, sendOptions);
 
 console.log(`Tracking ID: ${result.trackingId}`);
@@ -620,9 +622,7 @@ const message = createAppleNotification({
   },
 });
 
-// Not required but can set test send to true for debugging purposes.
-const sendOptions: SendOperationOptions = { enableTestSend: false };
-const result = await client.scheduleNotification(scheduledTime, tagExpression, message, sendOptions);
+const result = await client.scheduleNotification(scheduledTime, tagExpression, message);
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -655,9 +655,7 @@ const message = createAppleNotification({
   },
 });
 
-// Not required but can set test send to true for debugging purposes.
-const sendOptions: SendOperationOptions = { enableTestSend: false };
-const result = await scheduleNotification(context, scheduledTime, tagExpression, message, sendOptions);
+const result = await scheduleNotification(context, scheduledTime, tagExpression, message);
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -672,11 +670,11 @@ console.log(`Notification ID: ${result.notificationId}`);
 
 Azure Notification Hubs has a complete guide to troubleshooting problems with dropped notifications in the [Diagnose dropped notifications in Azure Notification Hubs Guide](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer).  
 
-[Test send](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer#enabletestsend-property) is supported supported in the send methods with the `enableTestSend` option:
+[Test send](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer#enabletestsend-property) is supported supported in the `sendNotification` method with the `enableTestSend` option:
 
 ```typescript
 const sendOptions: SendOperationOptions = { enableTestSend: true };
-const result = await client.sendDirectNotification(devicetoken, message, sendOptions);
+const result = await client.sendNotification(tags, message, sendOptions);
 ```
 
 ### Logging
@@ -744,6 +742,3 @@ folder for more details.
 - [Azure Notification Hubs](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-overview)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%notificationhubs%2Fnotification-hubs%2FREADME.png)
-
-[azure_cli]: https://docs.microsoft.com/cli/azure
-[azure_sub]: https://azure.microsoft.com/free/

@@ -28,8 +28,8 @@ async function checkNameAvailability() {
   const result = await client.netAppResource.checkNameAvailability(
     location,
     name,
-    typeParam,
-    resourceGroup
+    resourceGroup,
+    typeParam
   );
   console.log(result);
 }
