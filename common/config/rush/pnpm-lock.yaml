@@ -3951,7 +3951,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220915
+      typescript: 4.9.0-dev.20220916
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8883,8 +8883,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220915:
-    resolution: {integrity: sha512-LF91yAKWayNiea7oza0gyHyPEVIkorxhbjWV6k/nDtseepQxGM8MZVjKGFleko0Ve4Fha8vQhnxRPkF8NftIHA==}
+  /typescript/4.9.0-dev.20220916:
+    resolution: {integrity: sha512-UuHLjqwsPLARYlNFwXEblQsiPFPRbZEx8dbitbfbx5l++DCAL2/HZdZ3VMWAS84KRFCwUxpYXdD0EvBU5S79KQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -16407,7 +16407,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-zbcXxN1CqszW9KR1TTcmmbD8cf9tpfsuN4ZW5Hq9vAts7P4vf2xJyyRgcaIUMVxlNKACBGLINh7CfVw+ZYsznA==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-h/3TBGAIs+oJtGw99+69u3khg2tjxQwCehJE69SASck2LcnQGJcc4KWckMZbK7xfhKIhTZVd8oYBoHiypfT0og==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -16438,9 +16438,9 @@ packages:
       rollup-plugin-polyfill-node: 0.8.0_rollup@2.79.0
       rollup-plugin-sourcemaps: 0.6.3_7b3c4ab1624c114eb4563c11d2337405
       rollup-plugin-visualizer: 5.8.1_rollup@2.79.0
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_f73aca07a5ebb34bfc1f3abee339dfba
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.8.3
       yaml: 1.10.2
     transitivePeerDependencies:
       - '@swc/core'
