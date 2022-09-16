@@ -3,6 +3,7 @@
 
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { TableGetAccessPolicyHeaders, TableInsertEntityHeaders } from "./generated/models";
+import { GeoredundantRetryOptions } from "./policies/georedundantRetryStrategy";
 
 /**
  * Represents the Create or Delete Entity operation to be included in a Transaction request
@@ -28,6 +29,7 @@ export type TransactionAction = CreateDeleteEntityAction | UpdateEntityAction;
 export type TableServiceClientOptions = CommonClientOptions & {
   endpoint?: string;
   version?: string;
+  georedundantRetryOptions?: GeoredundantRetryOptions;
 };
 
 /**
@@ -107,7 +109,7 @@ export type TableEntityResult<T> = T & {
    */
   rowKey?: string;
   /**
-   * Timestamp property. This property is assinged by the service on entity creation
+   * Timestamp property. This property is assigned by the service on entity creation
    * Omitted if a select filter is set and this property is not requested
    */
   timestamp?: string;
