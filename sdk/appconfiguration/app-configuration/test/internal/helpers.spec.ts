@@ -184,10 +184,9 @@ describe("helper methods", () => {
         url: "unused",
         abortSignal: {
           aborted: true,
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
-          addEventListener: () => {},
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
-          removeEventListener: () => {},
+          throwIfAborted: () => { /* no-op */ },
+          addEventListener: () => { /* no-op */ },
+          removeEventListener: () => { /* no-op */ },
         },
         method: "GET",
         withCredentials: false,
