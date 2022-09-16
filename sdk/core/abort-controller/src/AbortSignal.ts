@@ -10,7 +10,7 @@ type AbortEventListener = (this: AbortSignalLike, ev?: any) => any;
 
 const listenersMap = new WeakMap<AbortSignal, AbortEventListener[]>();
 const abortedMap = new WeakMap<AbortSignal, boolean>();
-
+const reasonMap = new WeakMap<AbortSignal, any>();
 /**
  * Allows the request to be aborted upon firing of the "abort" event.
  * Compatible with the browser built-in AbortSignal and common polyfills.
@@ -62,10 +62,10 @@ export interface AbortSignalLike {
  * ```
  */
 export class AbortSignal implements AbortSignalLike {
-  private _reason?: any;
   constructor() {
     listenersMap.set(this, []);
     abortedMap.set(this, false);
+    reasonMap.set(this, undefined);
   }
 
   /**
@@ -89,7 +89,11 @@ export class AbortSignal implements AbortSignalLike {
    * @readonly
    */
   public get reason(): any | undefined {
-    return this._reason;
+    if (this.aborted) {
+      return reasonMap.get(this);
+    }
+
+    return undefined;
   }
 
   /**
@@ -182,9 +186,6 @@ export function abortSignal(signal: AbortSignal, reason?: any): void {
     return;
   }
 
-  // if not specified, abortSingal.reason defaults to AbortError
-  signal["_reason"] = reason ?? new AbortError("The operation was aborted.");
-
   if (signal.onabort) {
     signal.onabort.call(signal);
   }
@@ -200,4 +201,6 @@ export function abortSignal(signal: AbortSignal, reason?: any): void {
   }
 
   abortedMap.set(signal, true);
+  // if not specified, abortSingal.reason defaults to AbortError
+  reasonMap.set(signal, reason ?? new AbortError("The operation was aborted."));
 }
