@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * This sample program generates summaries of two sentences at max from an article
+ * This sample program generates a summary of two sentences at max for an article
  *
- * @summary generates summaries from an article
+ * @summary generates a summary for an article
  * @azsdk-weight 50
  */
 
@@ -72,8 +72,8 @@ export async function main() {
         const { code, message } = result.error;
         throw new Error(`Unexpected error (${code}): ${message}`);
       }
+      console.log("\t- Summary:");
       for (const summary of result.summaries) {
-        console.log("Summary:");
         console.log(summary.text);
       }
     }

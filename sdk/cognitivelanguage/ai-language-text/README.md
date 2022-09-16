@@ -524,7 +524,7 @@ main();
 
 ### Abstractive Summarization
 
-Abstractive summarization generates summaries from the input articles.
+Abstractive summarization generates a summary for the input articles. Abstractive summarization is different from extractive summarization in that extractive summarization is the strategy of concatenating extracted sentences from the input document into a summary, while abstractive summarization involves paraphrasing the document using novel sentences.
 
 ```javascript
 const { AzureKeyCredential, TextAnalysisClient } = require("@azure/ai-language-text");
@@ -555,8 +555,8 @@ async function main() {
         const { code, message } = result.error;
         throw new Error(`Unexpected error (${code}): ${message}`);
       }
+      console.log("\t- Summary:");
       for (const summary of result.summaries) {
-        console.log("Summary:");
         console.log(summary.text);
       }
     }
