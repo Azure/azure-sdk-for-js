@@ -215,7 +215,7 @@ describe("SchemaRegistryClient", function () {
   it("gets schema by version", async () => {
     const registered = await client.registerSchema(schema, options);
     assertIsValidSchemaProperties(registered);
-    const found = await client.getSchemaByVersion(
+    const found = await client.getSchema(
       {
         groupName: registered.groupName,
         name: registered.name,
@@ -232,7 +232,7 @@ describe("SchemaRegistryClient", function () {
   });
 
   it("schema with whitespace", async () => {
-    const schema2: SchemaDescription = {
+    const schema2 = {
       name: "azsdk_js_test2",
       groupName: assertEnvironmentVariable("SCHEMA_REGISTRY_GROUP"),
       format: "Avro",
