@@ -98,6 +98,7 @@ export abstract class AzureMonitorBaseExporter {
   protected async _exportEnvelopes(envelopes: Envelope[]): Promise<ExportResult> {
     diag.info(`Exporting ${envelopes.length} envelope(s)`);
 
+    // TODO: Implement a special case for if we're managing a network StatsBeat
     try {
       const { result, statusCode } = await this._sender.send(envelopes);
       this._numConsecutiveRedirects = 0;
