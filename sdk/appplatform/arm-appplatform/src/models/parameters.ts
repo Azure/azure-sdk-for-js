@@ -28,10 +28,17 @@ import {
   ActiveDeploymentCollection as ActiveDeploymentCollectionMapper,
   CustomDomainValidatePayload as CustomDomainValidatePayloadMapper,
   BindingResource as BindingResourceMapper,
+  StorageResource as StorageResourceMapper,
   CertificateResource as CertificateResourceMapper,
   CustomDomainResource as CustomDomainResourceMapper,
   DeploymentResource as DeploymentResourceMapper,
-  DiagnosticParameters as DiagnosticParametersMapper
+  RemoteDebuggingPayload as RemoteDebuggingPayloadMapper,
+  DiagnosticParameters as DiagnosticParametersMapper,
+  GatewayResource as GatewayResourceMapper,
+  GatewayRouteConfigResource as GatewayRouteConfigResourceMapper,
+  GatewayCustomDomainResource as GatewayCustomDomainResourceMapper,
+  ApiPortalResource as ApiPortalResourceMapper,
+  ApiPortalCustomDomainResource as ApiPortalCustomDomainResourceMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -61,7 +68,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-04-01",
+    defaultValue: "2022-09-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -360,6 +367,22 @@ export const bindingResource: OperationParameter = {
   mapper: BindingResourceMapper
 };
 
+export const storageName: OperationURLParameter = {
+  parameterPath: "storageName",
+  mapper: {
+    serializedName: "storageName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const storageResource: OperationParameter = {
+  parameterPath: "storageResource",
+  mapper: StorageResourceMapper
+};
+
 export const certificateName: OperationURLParameter = {
   parameterPath: "certificateName",
   mapper: {
@@ -424,7 +447,70 @@ export const version: OperationQueryParameter = {
   collectionFormat: "Multi"
 };
 
+export const remoteDebuggingPayload: OperationParameter = {
+  parameterPath: ["options", "remoteDebuggingPayload"],
+  mapper: RemoteDebuggingPayloadMapper
+};
+
 export const diagnosticParameters: OperationParameter = {
   parameterPath: "diagnosticParameters",
   mapper: DiagnosticParametersMapper
+};
+
+export const gatewayName: OperationURLParameter = {
+  parameterPath: "gatewayName",
+  mapper: {
+    serializedName: "gatewayName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const gatewayResource: OperationParameter = {
+  parameterPath: "gatewayResource",
+  mapper: GatewayResourceMapper
+};
+
+export const routeConfigName: OperationURLParameter = {
+  parameterPath: "routeConfigName",
+  mapper: {
+    serializedName: "routeConfigName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const gatewayRouteConfigResource: OperationParameter = {
+  parameterPath: "gatewayRouteConfigResource",
+  mapper: GatewayRouteConfigResourceMapper
+};
+
+export const gatewayCustomDomainResource: OperationParameter = {
+  parameterPath: "gatewayCustomDomainResource",
+  mapper: GatewayCustomDomainResourceMapper
+};
+
+export const apiPortalName: OperationURLParameter = {
+  parameterPath: "apiPortalName",
+  mapper: {
+    serializedName: "apiPortalName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiPortalResource: OperationParameter = {
+  parameterPath: "apiPortalResource",
+  mapper: ApiPortalResourceMapper
+};
+
+export const apiPortalCustomDomainResource: OperationParameter = {
+  parameterPath: "apiPortalCustomDomainResource",
+  mapper: ApiPortalCustomDomainResourceMapper
 };

@@ -1608,12 +1608,12 @@ packages:
       '@rushstack/node-core-library': 3.41.0
     dev: false
 
-  /@microsoft/api-extractor-model/7.24.0:
-    resolution: {integrity: sha512-lFzF5h+quTyVB7eaKJkqrbQRDGSkrHzXyF8iMVvHdlaNrodGeyhtQeBFDuRVvBXTW2ILBiOV6ZWwUM1eGKcD+A==}
+  /@microsoft/api-extractor-model/7.24.1:
+    resolution: {integrity: sha512-H2KrRbO3beDnH2Fwt+3zXgK8KagFEzHHWNUR7weSEOssabGH5T/aADNR0k1FBidKpXokrvMM6SHamdMCVJjlBg==}
     dependencies:
       '@microsoft/tsdoc': 0.14.1
       '@microsoft/tsdoc-config': 0.16.1
-      '@rushstack/node-core-library': 3.51.1
+      '@rushstack/node-core-library': 3.51.2
     dev: false
 
   /@microsoft/api-extractor-model/7.7.10:
@@ -1641,16 +1641,16 @@ packages:
       typescript: 4.4.4
     dev: false
 
-  /@microsoft/api-extractor/7.30.0:
-    resolution: {integrity: sha512-XmtvrW74SzGvv59cjNC6+TE13XbIm4qrKKZtveoFRNbKdyTR4eIqnLmPvh1fgfolSF+iKfXlHHsQJpcgwdNztA==}
+  /@microsoft/api-extractor/7.31.1:
+    resolution: {integrity: sha512-rWEE+S1to8B2X8E8fVttwmCNS7yfvTNzlFGdla/OT8bJeS94L7Lw1Wkynwsl59gb46yvMZrQDXiRkXWzxgvc8g==}
     hasBin: true
     dependencies:
-      '@microsoft/api-extractor-model': 7.24.0
+      '@microsoft/api-extractor-model': 7.24.1
       '@microsoft/tsdoc': 0.14.1
       '@microsoft/tsdoc-config': 0.16.1
-      '@rushstack/node-core-library': 3.51.1
-      '@rushstack/rig-package': 0.3.14
-      '@rushstack/ts-command-line': 4.12.2
+      '@rushstack/node-core-library': 3.51.2
+      '@rushstack/rig-package': 0.3.15
+      '@rushstack/ts-command-line': 4.12.3
       colors: 1.2.5
       lodash: 4.17.21
       resolve: 1.17.0
@@ -2188,8 +2188,8 @@ packages:
       z-schema: 3.18.4
     dev: false
 
-  /@rushstack/node-core-library/3.51.1:
-    resolution: {integrity: sha512-xLoUztvGpaT5CphDexDPt2WbBx8D68VS5tYOkwfr98p90y0f/wepgXlTA/q5MUeZGGucASiXKp5ysdD+GPYf9A==}
+  /@rushstack/node-core-library/3.51.2:
+    resolution: {integrity: sha512-DwK2Lo62sHCsg8VsVe/WfugiL1lC5YzmhwzdWr8jLsfOCl8DzcIdLm4Plz0bOCQj/9ItJX1QGXr2jK5xw1Kzwg==}
     dependencies:
       '@types/node': 12.20.24
       colors: 1.2.5
@@ -2208,15 +2208,15 @@ packages:
       strip-json-comments: 3.1.1
     dev: false
 
-  /@rushstack/rig-package/0.3.14:
-    resolution: {integrity: sha512-Ic9EN3kWJCK6iOxEDtwED9nrM146zCDrQaUxbeGOF+q/VLZ/HNHPw+aLqrqmTl0ZT66Sf75Qk6OG+rySjTorvQ==}
+  /@rushstack/rig-package/0.3.15:
+    resolution: {integrity: sha512-jxVfvO5OnkRlYRhcVDZWvwiI2l4pv37HDJRtyg5HbD8Z/I8Xj32RICgrxS5xMeGGytobrg5S6OfPOHskg7Nw+A==}
     dependencies:
       resolve: 1.17.0
       strip-json-comments: 3.1.1
     dev: false
 
-  /@rushstack/ts-command-line/4.12.2:
-    resolution: {integrity: sha512-poBtnumLuWmwmhCEkVAgynWgtnF9Kygekxyp4qtQUSbBrkuyPQTL85c8Cva1YfoUpOdOXxezMAkUt0n5SNKGqw==}
+  /@rushstack/ts-command-line/4.12.3:
+    resolution: {integrity: sha512-Pdij22RotMXzI+HWHyYCvw0RMZhiP5a6Za/96XamZ1+mxmpSm4ujf8TROKxGAHySmR5A8iNVSlzhNMnUlFQE6g==}
     dependencies:
       '@types/argparse': 1.0.38
       argparse: 1.0.10
@@ -9439,11 +9439,11 @@ packages:
     dev: false
 
   file:projects/abort-controller.tgz:
-    resolution: {integrity: sha512-iZ7aJXlaj+pycKC8gu2w6clXeEfFrqK9jteeEu+3CtzAfYbn9QJLuA/fDCjje7rLkpL5jb/29J4j/m+t6fZVhQ==, tarball: file:projects/abort-controller.tgz}
+    resolution: {integrity: sha512-vxg9bExRecQgdbaS/rH7gyagl8t8hDEEA3xIZ1nY33e+jbHaF4iX7OEh6wLPRe1HooT7spTsv/cfr28ioB9/tA==, tarball: file:projects/abort-controller.tgz}
     name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.18.11
+      '@microsoft/api-extractor': 7.31.1
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
@@ -10270,7 +10270,7 @@ packages:
     dev: false
 
   file:projects/arm-appplatform.tgz:
-    resolution: {integrity: sha512-7zq9QIxYf9wPf4PLHgD1sE/cdFBJOmELQJBLWbUHk/P5pvzlw4r3BdoG0jZnQTutmcyILS/xnv0Wo45r4X1Svg==, tarball: file:projects/arm-appplatform.tgz}
+    resolution: {integrity: sha512-AQtrkrBiPXPfz1pHY3z7WvLbXFjyCqJKz1FfBBRcXoqY1YXONxebd5JgHJaY9NwX8sMfg7FvpF91S6ZI2OWajg==, tarball: file:projects/arm-appplatform.tgz}
     name: '@rush-temp/arm-appplatform'
     version: 0.0.0
     dependencies:
@@ -10281,6 +10281,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -10288,11 +10290,10 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -12512,7 +12513,7 @@ packages:
     dev: false
 
   file:projects/arm-kusto.tgz:
-    resolution: {integrity: sha512-N12uCH9ucOOQsC50eVzUFuZi8wS249uYZhEyzPx1IxBTkPwv7YAK60FN1Pz3k3Gz+HJE7o3Ey4ADTF18Q16CYw==, tarball: file:projects/arm-kusto.tgz}
+    resolution: {integrity: sha512-a6zQOr6SltBopIRpKrmwhiKwJ/B7WkZ7v5Taj2DHgGaIdcVWJzyn0jlOX4IWFt/VVkgHgyoLf2GKFQmIV7A7Aw==, tarball: file:projects/arm-kusto.tgz}
     name: '@rush-temp/arm-kusto'
     version: 0.0.0
     dependencies:
@@ -12531,7 +12532,7 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
@@ -15455,7 +15456,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
-      '@microsoft/api-extractor': 7.30.0
+      '@microsoft/api-extractor': 7.31.1
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
@@ -15508,7 +15509,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.30.0
+      '@microsoft/api-extractor': 7.31.1
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.0
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.79.0
@@ -15605,7 +15606,7 @@ packages:
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.30.0
+      '@microsoft/api-extractor': 7.31.1
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
       '@types/sinon': 10.0.13
@@ -15684,7 +15685,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.30.0
+      '@microsoft/api-extractor': 7.31.1
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
@@ -17071,7 +17072,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.30.0
+      '@microsoft/api-extractor': 7.31.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
@@ -17131,7 +17132,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.30.0
+      '@microsoft/api-extractor': 7.31.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
@@ -17512,7 +17513,7 @@ packages:
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.30.0
+      '@microsoft/api-extractor': 7.31.1
       '@types/chai': 4.3.3
       '@types/mocha': 9.1.1
       '@types/node': 12.20.55

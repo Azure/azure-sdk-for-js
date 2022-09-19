@@ -148,6 +148,42 @@ const HUB_JOB_FEED = `<feed xmlns="http://www.w3.org/2005/Atom">
 </entry>
 </feed>`;
 
+const SINGLE_JOB_FEED = `<feed xmlns="http://www.w3.org/2005/Atom">
+<title type="text">jobs</title>
+<id>https://test.servicebus.windows.net/hub/jobs</id>
+<updated>2014-12-06T06:17:24Z</updated>
+<link rel="self" href="https://test.servicebus.windows.net/adm-hub/jobs"/>
+<entry xmlns="http://www.w3.org/2005/Atom">
+  <id>https://test.servicebus.windows.net/hub/jobs/1?api-version=2014-09</id>
+  <title type="text">1</title>
+  <published>2014-12-06T01:48:55Z</published>
+  <updated>2014-12-06T01:48:55Z</updated>
+  <link rel="self" href="https://test.servicebus.windows.net/hub/jobs/1?api-version=2014-09"/>
+  <content type="application/xml">
+    <NotificationHubJob xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+      <JobId>3</JobId>
+      <Progress>99.99</Progress>
+      <Type>ImportCreateRegistrations</Type>
+      <Status>Completed</Status>
+      <OutputContainerUri>https://test.blob.core.windows.net/testjobs</OutputContainerUri>
+      <ImportFileUri>https://test.blob.core.windows.net/testjobs/CreateFile.txt</ImportFileUri>
+      <OutputProperties xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+        <d3p1:KeyValueOfstringstring>
+          <d3p1:Key>OutputFilePath</d3p1:Key>
+          <d3p1:Value>test//hub/3/Output.txt</d3p1:Value>
+        </d3p1:KeyValueOfstringstring>
+        <d3p1:KeyValueOfstringstring>
+          <d3p1:Key>FailedFilePath</d3p1:Key>
+          <d3p1:Value>test//hub/3/Failed.txt</d3p1:Value>
+        </d3p1:KeyValueOfstringstring>
+      </OutputProperties>
+      <CreatedAt>2014-12-06T01:48:49.9874484Z</CreatedAt>
+      <UpdatedAt>2014-12-06T01:48:54.4501165Z</UpdatedAt>
+    </NotificationHubJob>
+  </content>
+</entry>
+</feed>`;
+
 const EMPTY_JOB_FEED = `<feed xmlns="http://www.w3.org/2005/Atom">
 <title type="text">jobs</title>
 <id>https://test.servicebus.windows.net/hub/jobs</id>
@@ -189,6 +225,22 @@ describe("parseNotificationHubJobFeed", () => {
     const parsed = await parseNotificationHubJobFeed(EMPTY_JOB_FEED);
 
     assert.equal(parsed.length, 0);
+  });
+
+  it("should parse a single notification job from feed", async () => {
+    const parsed = await parseNotificationHubJobFeed(SINGLE_JOB_FEED);
+
+    assert.equal(parsed.length, 1);
+
+    const job = parsed[0];
+    assert.equal(job.jobId, "3");
+    assert.equal(job.progress, 99.99);
+    assert.equal(job.type, "ImportCreateRegistrations");
+    assert.equal(job.status, "Completed");
+    assert.equal(job.outputContainerUrl, "https://test.blob.core.windows.net/testjobs");
+    assert.equal(job.importFileUrl, "https://test.blob.core.windows.net/testjobs/CreateFile.txt");
+    assert.equal(job.outputProperties!["OutputFilePath"], "test//hub/3/Output.txt");
+    assert.equal(job.outputProperties!["FailedFilePath"], "test//hub/3/Failed.txt");
   });
 
   it("should parse a notification job feed", async () => {
