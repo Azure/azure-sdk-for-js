@@ -25,7 +25,7 @@
     "./dist-esm/src/credentials/azureApplicationCredential.js": "./dist-esm/src/credentials/azureApplicationCredential.browser.js",
     "./dist-esm/src/credentials/onBehalfOfCredential.js": "./dist-esm/src/credentials/onBehalfOfCredential.browser.js",
     "./dist-esm/src/util/authHostEnv.js": "./dist-esm/src/util/authHostEnv.browser.js",
-    "./dist-esm/src/util/tenantIdUtils.js": "./dist-esm/src/util/tenantIdUtils.browser.js",
+    "./dist-esm/src/util/processMultiTenantRequest.js": "./dist-esm/src/util/processMultiTenantRequest.browser.js",
     "./dist-esm/src/tokenCache/TokenCachePersistence.js": "./dist-esm/src/tokenCache/TokenCachePersistence.browser.js",
     "./dist-esm/src/plugins/consumer.js": "./dist-esm/src/plugins/consumer.browser.js",
     "./dist-esm/test/httpRequests.js": "./dist-esm/test/httpRequests.browser.js"
