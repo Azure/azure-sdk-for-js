@@ -24,7 +24,7 @@ async function createSecurityContactData() {
     alertNotifications: { minimalSeverity: "Low", state: "On" },
     emails: "john@contoso.com;jane@contoso.com",
     notificationsByRole: { roles: ["Owner"], state: "On" },
-    phone: "(214)275-4038",
+    phone: "+214-2754038",
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);

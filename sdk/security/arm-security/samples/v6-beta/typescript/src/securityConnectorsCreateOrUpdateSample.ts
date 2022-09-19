@@ -25,7 +25,7 @@ async function createOrUpdateASecurityConnector() {
     environmentData: { environmentType: "AwsAccount" },
     environmentName: "AWS",
     etag: "etag value (must be supplied for update)",
-    hierarchyIdentifier: "exampleHierarchyId",
+    hierarchyIdentifier: "HierarchyId1",
     location: "Central US",
     offerings: [
       {
