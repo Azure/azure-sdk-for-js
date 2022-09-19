@@ -29,7 +29,7 @@ async function main() {
     .put({ body: { principalId, roleId, scope } });
 
   if (result.status !== "200") {
-    throw result.body.error;
+    throw result.body;
   }
 
   console.log(`Created Role Assignment: ${result.body.id}`);

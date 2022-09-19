@@ -8,7 +8,10 @@
  * @azsdk-weight 20
  */
 
-import AccessControl, { paginate } from "@azure-rest/synapse-access-control";
+import AccessControl, {
+  paginate,
+  RoleAssignmentDetailsOutput,
+} from "@azure-rest/synapse-access-control";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -21,13 +24,13 @@ async function main() {
   const initialResponse = await client.path("/roleAssignments").get();
 
   if (initialResponse.status !== "200") {
-    throw initialResponse.body.error;
+    throw initialResponse.body;
   }
 
   const assignments = paginate(client, initialResponse);
 
   for await (const assignment of assignments) {
-    console.log(assignment.id);
+    console.log((assignment as RoleAssignmentDetailsOutput).id);
   }
 }
 

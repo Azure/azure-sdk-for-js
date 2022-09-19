@@ -8,7 +8,7 @@
  * @azsdk-weight 10
  */
 
-import AccessControl from "@azure-rest/synapse-access-control";
+import AccessControl, { RoleAssignmentDetailsOutput } from "@azure-rest/synapse-access-control";
 import { DefaultAzureCredential } from "@azure/identity";
 import { v4 } from "uuid";
 import dotenv from "dotenv";
@@ -32,10 +32,10 @@ async function main() {
     .put({ body: { principalId, roleId, scope } });
 
   if (result.status !== "200") {
-    throw result.body.error;
+    throw result.body;
   }
 
-  console.log(`Created Role Assignment: ${result.body.id}`);
+  console.log(`Created Role Assignment: ${(result.body as RoleAssignmentDetailsOutput).id}`);
 }
 
 main().catch(console.error);

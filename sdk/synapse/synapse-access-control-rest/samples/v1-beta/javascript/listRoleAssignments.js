@@ -19,7 +19,7 @@ async function main() {
   const initialResponse = await client.path("/roleAssignments").get();
 
   if (initialResponse.status !== "200") {
-    throw initialResponse.body.error;
+    throw initialResponse.body;
   }
 
   const assignments = paginate(client, initialResponse);

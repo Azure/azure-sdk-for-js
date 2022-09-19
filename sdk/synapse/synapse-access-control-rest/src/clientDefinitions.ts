@@ -30,14 +30,13 @@ import {
   RoleDefinitionsListScopes200Response,
   RoleDefinitionsListScopesdefaultResponse
 } from "./responses";
-import { getClient, ClientOptions, Client } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
+import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface RoleAssignmentsCheckPrincipalAccess {
   /** Check if the given principalId has access to perform list of actions at a given scope. */
   post(
     options: RoleAssignmentsCheckPrincipalAccessParameters
-  ): Promise<
+  ): StreamableMethod<
     | RoleAssignmentsCheckPrincipalAccess200Response
     | RoleAssignmentsCheckPrincipalAccessdefaultResponse
   >;
@@ -47,7 +46,7 @@ export interface RoleAssignmentsListRoleAssignments {
   /** List role assignments. */
   get(
     options?: RoleAssignmentsListRoleAssignmentsParameters
-  ): Promise<
+  ): StreamableMethod<
     | RoleAssignmentsListRoleAssignments200Response
     | RoleAssignmentsListRoleAssignmentsdefaultResponse
   >;
@@ -57,21 +56,21 @@ export interface RoleAssignmentsCreateRoleAssignment {
   /** Create role assignment. */
   put(
     options: RoleAssignmentsCreateRoleAssignmentParameters
-  ): Promise<
+  ): StreamableMethod<
     | RoleAssignmentsCreateRoleAssignment200Response
     | RoleAssignmentsCreateRoleAssignmentdefaultResponse
   >;
   /** Get role assignment by role assignment Id. */
   get(
     options?: RoleAssignmentsGetRoleAssignmentByIdParameters
-  ): Promise<
+  ): StreamableMethod<
     | RoleAssignmentsGetRoleAssignmentById200Response
     | RoleAssignmentsGetRoleAssignmentByIddefaultResponse
   >;
   /** Delete role assignment by role assignment Id. */
   delete(
     options?: RoleAssignmentsDeleteRoleAssignmentByIdParameters
-  ): Promise<
+  ): StreamableMethod<
     | RoleAssignmentsDeleteRoleAssignmentById200Response
     | RoleAssignmentsDeleteRoleAssignmentById204Response
     | RoleAssignmentsDeleteRoleAssignmentByIddefaultResponse
@@ -82,7 +81,7 @@ export interface RoleDefinitionsListRoleDefinitions {
   /** List role definitions. */
   get(
     options?: RoleDefinitionsListRoleDefinitionsParameters
-  ): Promise<
+  ): StreamableMethod<
     | RoleDefinitionsListRoleDefinitions200Response
     | RoleDefinitionsListRoleDefinitionsdefaultResponse
   >;
@@ -92,7 +91,7 @@ export interface RoleDefinitionsGetRoleDefinitionById {
   /** Get role definition by role definition Id. */
   get(
     options?: RoleDefinitionsGetRoleDefinitionByIdParameters
-  ): Promise<
+  ): StreamableMethod<
     | RoleDefinitionsGetRoleDefinitionById200Response
     | RoleDefinitionsGetRoleDefinitionByIddefaultResponse
   >;
@@ -102,7 +101,7 @@ export interface RoleDefinitionsListScopes {
   /** List rbac scopes. */
   get(
     options?: RoleDefinitionsListScopesParameters
-  ): Promise<
+  ): StreamableMethod<
     | RoleDefinitionsListScopes200Response
     | RoleDefinitionsListScopesdefaultResponse
   >;
@@ -132,20 +131,3 @@ export interface Routes {
 export type AccessControlRestClient = Client & {
   path: Routes;
 };
-
-export default function AccessControl(
-  endpoint: string,
-  credentials: TokenCredential,
-  options: ClientOptions = {}
-): AccessControlRestClient {
-  const baseUrl = options.baseUrl ?? `${endpoint}`;
-  options.apiVersion = options.apiVersion ?? "2020-12-01";
-  options = {
-    ...options,
-    credentials: {
-      scopes: ["https://dev.azuresynapse.net/.default"]
-    }
-  };
-
-  return getClient(baseUrl, credentials, options) as AccessControlRestClient;
-}
