@@ -7,7 +7,7 @@
  * @summary creates a role assignment
  */
 
-import AccessControl, { isUnexpected, RoleAssignmentDetailsOutput } from "@azure-rest/synapse-access-control";
+import AccessControl, { isUnexpected } from "@azure-rest/synapse-access-control";
 import { DefaultAzureCredential } from "@azure/identity";
 import { v4 } from "uuid";
 import dotenv from "dotenv";

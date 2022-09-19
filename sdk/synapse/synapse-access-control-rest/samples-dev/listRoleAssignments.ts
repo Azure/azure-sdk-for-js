@@ -8,11 +8,7 @@
  * @azsdk-weight 20
  */
 
-import AccessControl, {
-  isUnexpected,
-  paginate,
-  RoleAssignmentDetailsOutput,
-} from "@azure-rest/synapse-access-control";
+import AccessControl, { isUnexpected, paginate } from "@azure-rest/synapse-access-control";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
