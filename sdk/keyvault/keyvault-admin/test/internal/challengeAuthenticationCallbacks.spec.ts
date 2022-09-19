@@ -161,7 +161,7 @@ describe("Challenge based authentication tests", function () {
           },
           scopes: [],
         }),
-        "Challenge resource host 'vault.azure.net' does not match request domain"
+        "The challenge resource 'vault.azure.net' does not match the requested domain. Set disableChallengeResourceVerification to true in your client options to disable. See https://aka.ms/azsdk/blog/vault-uri for more information."
       );
     });
 
@@ -179,7 +179,7 @@ describe("Challenge based authentication tests", function () {
           },
           scopes: [],
         }),
-        "Challenge resource host 'vault.azure.net' does not match request domain"
+        "The challenge resource 'vault.azure.net' does not match the requested domain. Set disableChallengeResourceVerification to true in your client options to disable. See https://aka.ms/azsdk/blog/vault-uri for more information."
       );
     });
 
@@ -199,9 +199,7 @@ describe("Challenge based authentication tests", function () {
     });
 
     it("does not throw if the resource URI host does not match the request but verifyChallengeResource is false", async () => {
-      challengeCallbacks = createChallengeCallbacks({
-        disableChallengeResourceVerification: true,
-      });
+      challengeCallbacks = createChallengeCallbacks({ disableChallengeResourceVerification: true });
       await challengeCallbacks.authorizeRequestOnChallenge!({
         getAccessToken: () => Promise.resolve(null),
         request: createPipelineRequest({ url: "https://foo.bar" }),

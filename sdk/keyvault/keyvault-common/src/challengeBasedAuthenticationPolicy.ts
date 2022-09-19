@@ -58,7 +58,7 @@ function verifyChallengeResource(scope: string, request: PipelineRequest): void 
 
   if (!requestUrl.hostname.endsWith(`.${scopeAsUrl.hostname}`)) {
     throw new Error(
-      `Challenge resource host '${scopeAsUrl.hostname}' does not match request domain`
+      `The challenge resource '${scopeAsUrl.hostname}' does not match the requested domain. Set disableChallengeResourceVerification to true in your client options to disable. See https://aka.ms/azsdk/blog/vault-uri for more information.`
     );
   }
 }

@@ -161,7 +161,7 @@ describe("Challenge based authentication tests", function () {
           },
           scopes: [],
         }),
-        "Challenge resource host 'vault.azure.net' does not match request domain"
+        "The challenge resource 'vault.azure.net' does not match the requested domain. Set disableChallengeResourceVerification to true in your client options to disable. See https://aka.ms/azsdk/blog/vault-uri for more information."
       );
     });
 
@@ -179,7 +179,7 @@ describe("Challenge based authentication tests", function () {
           },
           scopes: [],
         }),
-        "Challenge resource host 'vault.azure.net' does not match request domain"
+        "The challenge resource 'vault.azure.net' does not match the requested domain. Set disableChallengeResourceVerification to true in your client options to disable. See https://aka.ms/azsdk/blog/vault-uri for more information."
       );
     });
 
