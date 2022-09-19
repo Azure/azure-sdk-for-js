@@ -91,8 +91,8 @@ describe("Dynatrace test", () => {
     const res = await client.monitors.beginCreateOrUpdateAndWait(
       resourceGroup,
       monitorName,
-      resource
-    );
+      resource,
+      testPollingOptions);
     assert.equal(res.name, monitorName);
   });
 

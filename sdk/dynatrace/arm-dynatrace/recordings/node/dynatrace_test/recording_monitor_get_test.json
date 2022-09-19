@@ -9,28 +9,80 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-dynatrace/1.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "eb966b0a-3980-4b5e-b2f9-c4cd94fdaa56"
+        "x-ms-client-request-id": "97cbe783-68e5-4d8c-98d7-2c9983b5f2f6"
       },
       "RequestBody": null,
-      "StatusCode": 404,
+      "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "222",
+        "Content-Length": "1300",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 19 Sep 2022 06:55:13 GMT",
+        "Date": "Mon, 19 Sep 2022 08:15:51 GMT",
+        "ETag": "\u002244012df8-0000-0100-0000-632825350000\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "72f1c4db-31e3-43f6-9677-ba426e174a8f",
-        "x-ms-failure-cause": "gateway",
-        "x-ms-request-id": "72f1c4db-31e3-43f6-9677-ba426e174a8f",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220919T065514Z:72f1c4db-31e3-43f6-9677-ba426e174a8f"
+        "x-ms-correlation-request-id": "44f505e2-8065-4f75-b2ca-50891b6aa07f",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "e5612b13-297a-4bdf-8dc7-03aab3e3c683",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220919T081552Z:44f505e2-8065-4f75-b2ca-50891b6aa07f"
       },
       "ResponseBody": {
-        "error": {
-          "code": "ResourceNotFound",
-          "message": "The Resource \u0027Dynatrace.Observability/monitors/myMonitor\u0027 under resource group \u0027myjstest\u0027 was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitor",
+        "name": "myMonitor",
+        "type": "dynatrace.observability/monitors",
+        "location": "eastus",
+        "tags": {
+          "environment": "Dev"
+        },
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2022-09-19T08:11:38.1295508Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2022-09-19T08:11:38.1295508Z"
+        },
+        "identity": {
+          "principalId": "4ae7565b-c3f2-4c91-bb0a-292ac7b0146e",
+          "tenantId": "88888888-8888-8888-8888-888888888888",
+          "type": "SystemAssigned"
+        },
+        "properties": {
+          "monitoringStatus": "Enabled",
+          "marketplaceSubscriptionStatus": "Active",
+          "dynatraceEnvironmentProperties": {
+            "userId": null,
+            "accountInfo": {
+              "accountId": null,
+              "regionId": null
+            },
+            "environmentInfo": {
+              "environmentId": null,
+              "ingestionKey": null,
+              "logsIngestionEndpoint": null,
+              "landingURL": null
+            },
+            "singleSignOnProperties": {
+              "singleSignOnState": "Initial",
+              "enterpriseAppId": null,
+              "singleSignOnUrl": null,
+              "aadDomains": null,
+              "provisioningState": "Accepted"
+            }
+          },
+          "userInfo": null,
+          "planData": {
+            "usageType": "Committed",
+            "billingCycle": "Monthly",
+            "planDetails": "dynatraceapitestplan",
+            "effectiveDate": "2019-08-30T13:14:33Z"
+          },
+          "liftrResourceCategory": "MonitorLogs",
+          "liftrResourcePreference": 0,
+          "provisioningState": "Failed"
         }
       }
     }

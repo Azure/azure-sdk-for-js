@@ -9,26 +9,35 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-dynatrace/1.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "820e3c6b-ba20-4982-9b67-9fb6c161adc3"
+        "x-ms-client-request-id": "3166f23b-008f-40aa-a5b8-72e8b6e55ad9"
       },
       "RequestBody": null,
-      "StatusCode": 204,
+      "StatusCode": 202,
       "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/ea92397d-8a2f-4757-aff5-9c77ef277245*F485CC49AD595304404013197B206AB8D2734E6EC0450F5FF1FC49A507B9E82B?api-version=2021-09-01",
         "Cache-Control": "no-cache",
-        "Date": "Mon, 19 Sep 2022 06:55:26 GMT",
+        "Content-Length": "4",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 19 Sep 2022 08:15:56 GMT",
+        "ETag": "\u00224401dbf8-0000-0100-0000-6328253c0000\u0022",
         "Expires": "-1",
+        "Location": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/ea92397d-8a2f-4757-aff5-9c77ef277245*F485CC49AD595304404013197B206AB8D2734E6EC0450F5FF1FC49A507B9E82B?api-version=2021-09-01",
+        "mise-correlation-id": "99e52bb9-1f1b-4a35-862c-d6eec4139f36",
         "Pragma": "no-cache",
+        "Request-Context": "appId=cid-v1:fab059ea-d726-424a-9451-6beb3dc74944",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "610d946b-dfe4-477f-aa1a-25ef705831db",
+        "x-ms-client-request-id": "3166f23b-008f-40aa-a5b8-72e8b6e55ad9",
+        "x-ms-correlation-request-id": "bbc76414-7bcd-457e-b58d-5afea5f67cf9",
+        "x-ms-providerhub-traffic": "True",
         "x-ms-ratelimit-remaining-subscription-deletes": "14999",
-        "x-ms-request-id": "610d946b-dfe4-477f-aa1a-25ef705831db",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220919T065526Z:610d946b-dfe4-477f-aa1a-25ef705831db"
+        "x-ms-request-id": "ea92397d-8a2f-4757-aff5-9c77ef277245",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220919T081556Z:bbc76414-7bcd-457e-b58d-5afea5f67cf9"
       },
-      "ResponseBody": null
+      "ResponseBody": "null"
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors?api-version=2021-09-01",
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/ea92397d-8a2f-4757-aff5-9c77ef277245*F485CC49AD595304404013197B206AB8D2734E6EC0450F5FF1FC49A507B9E82B?api-version=2021-09-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -36,30 +45,34 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-dynatrace/1.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "dcfbb63d-03af-41e4-a886-0abe37adf0d7"
+        "x-ms-client-request-id": "3a914661-2308-402c-ae52-fd22e19d5655"
       },
       "RequestBody": null,
-      "StatusCode": 502,
+      "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Connection": "close",
-        "Content-Length": "148",
+        "Content-Length": "554",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 19 Sep 2022 06:55:26 GMT",
+        "Date": "Mon, 19 Sep 2022 08:15:56 GMT",
+        "ETag": "\u0022420020f2-0000-0100-0000-6328253c0000\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "dcbfd900-8eea-4727-8d18-3ec136340dee",
-        "x-ms-failure-cause": "service",
-        "x-ms-request-id": "dcbfd900-8eea-4727-8d18-3ec136340dee",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220919T065527Z:dcbfd900-8eea-4727-8d18-3ec136340dee"
+        "x-ms-correlation-request-id": "83b91e15-8bb6-4670-a43c-584e59701887",
+        "x-ms-ratelimit-remaining-tenant-reads": "11892",
+        "x-ms-request-id": "eeb3a4b0-5ecd-46d4-9086-d6e38800ff54",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220919T081557Z:83b91e15-8bb6-4670-a43c-584e59701887"
       },
       "ResponseBody": {
-        "error": {
-          "code": "ProviderError",
-          "message": "Resource provider \u0027Dynatrace.Observability\u0027 failed to return collection response for type \u0027monitors\u0027."
-        }
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/ea92397d-8a2f-4757-aff5-9c77ef277245*F485CC49AD595304404013197B206AB8D2734E6EC0450F5FF1FC49A507B9E82B",
+        "name": "ea92397d-8a2f-4757-aff5-9c77ef277245*F485CC49AD595304404013197B206AB8D2734E6EC0450F5FF1FC49A507B9E82B",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitor",
+        "status": "Succeeded",
+        "startTime": "2022-09-19T08:15:56.3532151Z",
+        "endTime": "2022-09-19T08:15:56.9964935Z",
+        "error": {},
+        "properties": null
       }
     },
     {
@@ -71,100 +84,31 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-dynatrace/1.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "dcfbb63d-03af-41e4-a886-0abe37adf0d7"
+        "x-ms-client-request-id": "e28b55ae-39c4-42b3-9988-d9112b33d440"
       },
       "RequestBody": null,
-      "StatusCode": 502,
+      "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Connection": "close",
-        "Content-Length": "148",
+        "Content-Length": "12",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 19 Sep 2022 06:55:29 GMT",
+        "Date": "Mon, 19 Sep 2022 08:15:56 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "a53974ba-79d7-4c44-b608-bacbffeeaf55",
-        "x-ms-failure-cause": "service",
-        "x-ms-request-id": "a53974ba-79d7-4c44-b608-bacbffeeaf55",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220919T065529Z:a53974ba-79d7-4c44-b608-bacbffeeaf55"
+        "x-ms-correlation-request-id": "c50283f8-ef8e-4f43-b539-7fd977525dfb",
+        "x-ms-original-request-ids": [
+          "77b3f66e-283e-4311-98d3-197b90f33fb8",
+          "ebb9d463-877c-4fb5-93e2-8312b2375b5f",
+          "e0e94eb1-ec37-44f0-8413-a7e11936442f"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": "11997",
+        "x-ms-request-id": "c50283f8-ef8e-4f43-b539-7fd977525dfb",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220919T081557Z:c50283f8-ef8e-4f43-b539-7fd977525dfb"
       },
       "ResponseBody": {
-        "error": {
-          "code": "ProviderError",
-          "message": "Resource provider \u0027Dynatrace.Observability\u0027 failed to return collection response for type \u0027monitors\u0027."
-        }
-      }
-    },
-    {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors?api-version=2021-09-01",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-dynatrace/1.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "dcfbb63d-03af-41e4-a886-0abe37adf0d7"
-      },
-      "RequestBody": null,
-      "StatusCode": 502,
-      "ResponseHeaders": {
-        "Cache-Control": "no-cache",
-        "Connection": "close",
-        "Content-Length": "148",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 19 Sep 2022 06:55:30 GMT",
-        "Expires": "-1",
-        "Pragma": "no-cache",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "574792e0-5b5c-4e55-8b24-922bcba2579a",
-        "x-ms-failure-cause": "service",
-        "x-ms-request-id": "574792e0-5b5c-4e55-8b24-922bcba2579a",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220919T065531Z:574792e0-5b5c-4e55-8b24-922bcba2579a"
-      },
-      "ResponseBody": {
-        "error": {
-          "code": "ProviderError",
-          "message": "Resource provider \u0027Dynatrace.Observability\u0027 failed to return collection response for type \u0027monitors\u0027."
-        }
-      }
-    },
-    {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors?api-version=2021-09-01",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-dynatrace/1.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "dcfbb63d-03af-41e4-a886-0abe37adf0d7"
-      },
-      "RequestBody": null,
-      "StatusCode": 502,
-      "ResponseHeaders": {
-        "Cache-Control": "no-cache",
-        "Connection": "close",
-        "Content-Length": "148",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 19 Sep 2022 06:55:36 GMT",
-        "Expires": "-1",
-        "Pragma": "no-cache",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "a65deb24-2b9a-4aba-97cd-29ffe2233e37",
-        "x-ms-failure-cause": "service",
-        "x-ms-request-id": "a65deb24-2b9a-4aba-97cd-29ffe2233e37",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220919T065536Z:a65deb24-2b9a-4aba-97cd-29ffe2233e37"
-      },
-      "ResponseBody": {
-        "error": {
-          "code": "ProviderError",
-          "message": "Resource provider \u0027Dynatrace.Observability\u0027 failed to return collection response for type \u0027monitors\u0027."
-        }
+        "value": []
       }
     }
   ],
