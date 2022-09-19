@@ -4,11 +4,13 @@
 
 ### Features Added
 
-- Allow `RetryStrategy`s to specify a delay and redirect URI at the same time. [#23269](https://github.com/Azure/azure-sdk-for-js/pull/23269)
+- Export `throttlingRetryStrategy`. [#23269](https://github.com/Azure/azure-sdk-for-js/pull/23269)
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Allow `RetryStrategy`s to specify a delay and redirect URI at the same time. [#23269](https://github.com/Azure/azure-sdk-for-js/pull/23269)
 
 ### Other Changes
 
