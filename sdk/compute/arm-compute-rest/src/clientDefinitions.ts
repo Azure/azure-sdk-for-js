@@ -1,0 +1,4907 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import {
+  OperationsListParameters,
+  UsageListParameters,
+  VirtualMachineSizesListParameters,
+  VirtualMachineScaleSetsListByLocationParameters,
+  VirtualMachineScaleSetsCreateOrUpdateParameters,
+  VirtualMachineScaleSetsUpdateParameters,
+  VirtualMachineScaleSetsDeleteParameters,
+  VirtualMachineScaleSetsGetParameters,
+  VirtualMachineScaleSetsDeallocateParameters,
+  VirtualMachineScaleSetsDeleteInstancesParameters,
+  VirtualMachineScaleSetsGetInstanceViewParameters,
+  VirtualMachineScaleSetsListParameters,
+  VirtualMachineScaleSetsListAllParameters,
+  VirtualMachineScaleSetsListSkusParameters,
+  VirtualMachineScaleSetsGetOSUpgradeHistoryParameters,
+  VirtualMachineScaleSetsPowerOffParameters,
+  VirtualMachineScaleSetsRestartParameters,
+  VirtualMachineScaleSetsStartParameters,
+  VirtualMachineScaleSetsRedeployParameters,
+  VirtualMachineScaleSetsPerformMaintenanceParameters,
+  VirtualMachineScaleSetsUpdateInstancesParameters,
+  VirtualMachineScaleSetsReimageParameters,
+  VirtualMachineScaleSetsReimageAllParameters,
+  VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkParameters,
+  VirtualMachineScaleSetsConvertToSinglePlacementGroupParameters,
+  VirtualMachineScaleSetsSetOrchestrationServiceStateParameters,
+  VirtualMachineScaleSetExtensionsCreateOrUpdateParameters,
+  VirtualMachineScaleSetExtensionsUpdateParameters,
+  VirtualMachineScaleSetExtensionsDeleteParameters,
+  VirtualMachineScaleSetExtensionsGetParameters,
+  VirtualMachineScaleSetExtensionsListParameters,
+  VirtualMachineScaleSetRollingUpgradesCancelParameters,
+  VirtualMachineScaleSetRollingUpgradesStartOSUpgradeParameters,
+  VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeParameters,
+  VirtualMachineScaleSetRollingUpgradesGetLatestParameters,
+  VirtualMachineScaleSetVMExtensionsCreateOrUpdateParameters,
+  VirtualMachineScaleSetVMExtensionsUpdateParameters,
+  VirtualMachineScaleSetVMExtensionsDeleteParameters,
+  VirtualMachineScaleSetVMExtensionsGetParameters,
+  VirtualMachineScaleSetVMExtensionsListParameters,
+  VirtualMachineScaleSetVMsReimageParameters,
+  VirtualMachineScaleSetVMsReimageAllParameters,
+  VirtualMachineScaleSetVMsDeallocateParameters,
+  VirtualMachineScaleSetVMsUpdateParameters,
+  VirtualMachineScaleSetVMsDeleteParameters,
+  VirtualMachineScaleSetVMsGetParameters,
+  VirtualMachineScaleSetVMsGetInstanceViewParameters,
+  VirtualMachineScaleSetVMsListParameters,
+  VirtualMachineScaleSetVMsPowerOffParameters,
+  VirtualMachineScaleSetVMsRestartParameters,
+  VirtualMachineScaleSetVMsStartParameters,
+  VirtualMachineScaleSetVMsRedeployParameters,
+  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataParameters,
+  VirtualMachineScaleSetVMsPerformMaintenanceParameters,
+  VirtualMachineScaleSetVMsSimulateEvictionParameters,
+  VirtualMachineScaleSetVMsRunCommandParameters,
+  VirtualMachineExtensionsCreateOrUpdateParameters,
+  VirtualMachineExtensionsUpdateParameters,
+  VirtualMachineExtensionsDeleteParameters,
+  VirtualMachineExtensionsGetParameters,
+  VirtualMachineExtensionsListParameters,
+  VirtualMachinesListByLocationParameters,
+  VirtualMachinesCaptureParameters,
+  VirtualMachinesCreateOrUpdateParameters,
+  VirtualMachinesUpdateParameters,
+  VirtualMachinesDeleteParameters,
+  VirtualMachinesGetParameters,
+  VirtualMachinesInstanceViewParameters,
+  VirtualMachinesConvertToManagedDisksParameters,
+  VirtualMachinesDeallocateParameters,
+  VirtualMachinesGeneralizeParameters,
+  VirtualMachinesListParameters,
+  VirtualMachinesListAllParameters,
+  VirtualMachinesListAvailableSizesParameters,
+  VirtualMachinesPowerOffParameters,
+  VirtualMachinesReapplyParameters,
+  VirtualMachinesRestartParameters,
+  VirtualMachinesStartParameters,
+  VirtualMachinesRedeployParameters,
+  VirtualMachinesReimageParameters,
+  VirtualMachinesRetrieveBootDiagnosticsDataParameters,
+  VirtualMachinesPerformMaintenanceParameters,
+  VirtualMachinesSimulateEvictionParameters,
+  VirtualMachinesAssessPatchesParameters,
+  VirtualMachinesInstallPatchesParameters,
+  VirtualMachinesRunCommandParameters,
+  VirtualMachineImagesGetParameters,
+  VirtualMachineImagesListParameters,
+  VirtualMachineImagesListOffersParameters,
+  VirtualMachineImagesListPublishersParameters,
+  VirtualMachineImagesListSkusParameters,
+  VirtualMachineImagesListByEdgeZoneParameters,
+  VirtualMachineImagesEdgeZoneGetParameters,
+  VirtualMachineImagesEdgeZoneListParameters,
+  VirtualMachineImagesEdgeZoneListOffersParameters,
+  VirtualMachineImagesEdgeZoneListPublishersParameters,
+  VirtualMachineImagesEdgeZoneListSkusParameters,
+  VirtualMachineExtensionImagesGetParameters,
+  VirtualMachineExtensionImagesListTypesParameters,
+  VirtualMachineExtensionImagesListVersionsParameters,
+  AvailabilitySetsCreateOrUpdateParameters,
+  AvailabilitySetsUpdateParameters,
+  AvailabilitySetsDeleteParameters,
+  AvailabilitySetsGetParameters,
+  AvailabilitySetsListBySubscriptionParameters,
+  AvailabilitySetsListParameters,
+  AvailabilitySetsListAvailableSizesParameters,
+  ProximityPlacementGroupsCreateOrUpdateParameters,
+  ProximityPlacementGroupsUpdateParameters,
+  ProximityPlacementGroupsDeleteParameters,
+  ProximityPlacementGroupsGetParameters,
+  ProximityPlacementGroupsListBySubscriptionParameters,
+  ProximityPlacementGroupsListByResourceGroupParameters,
+  DedicatedHostGroupsCreateOrUpdateParameters,
+  DedicatedHostGroupsUpdateParameters,
+  DedicatedHostGroupsDeleteParameters,
+  DedicatedHostGroupsGetParameters,
+  DedicatedHostGroupsListByResourceGroupParameters,
+  DedicatedHostGroupsListBySubscriptionParameters,
+  DedicatedHostsCreateOrUpdateParameters,
+  DedicatedHostsUpdateParameters,
+  DedicatedHostsDeleteParameters,
+  DedicatedHostsGetParameters,
+  DedicatedHostsListByHostGroupParameters,
+  DedicatedHostsRestartParameters,
+  SshPublicKeysListBySubscriptionParameters,
+  SshPublicKeysListByResourceGroupParameters,
+  SshPublicKeysCreateParameters,
+  SshPublicKeysUpdateParameters,
+  SshPublicKeysDeleteParameters,
+  SshPublicKeysGetParameters,
+  SshPublicKeysGenerateKeyPairParameters,
+  ImagesCreateOrUpdateParameters,
+  ImagesUpdateParameters,
+  ImagesDeleteParameters,
+  ImagesGetParameters,
+  ImagesListByResourceGroupParameters,
+  ImagesListParameters,
+  RestorePointCollectionsCreateOrUpdateParameters,
+  RestorePointCollectionsUpdateParameters,
+  RestorePointCollectionsDeleteParameters,
+  RestorePointCollectionsGetParameters,
+  RestorePointCollectionsListParameters,
+  RestorePointCollectionsListAllParameters,
+  RestorePointsCreateParameters,
+  RestorePointsDeleteParameters,
+  RestorePointsGetParameters,
+  CapacityReservationGroupsCreateOrUpdateParameters,
+  CapacityReservationGroupsUpdateParameters,
+  CapacityReservationGroupsDeleteParameters,
+  CapacityReservationGroupsGetParameters,
+  CapacityReservationGroupsListByResourceGroupParameters,
+  CapacityReservationGroupsListBySubscriptionParameters,
+  CapacityReservationsCreateOrUpdateParameters,
+  CapacityReservationsUpdateParameters,
+  CapacityReservationsDeleteParameters,
+  CapacityReservationsGetParameters,
+  CapacityReservationsListByCapacityReservationGroupParameters,
+  LogAnalyticsExportRequestRateByIntervalParameters,
+  LogAnalyticsExportThrottledRequestsParameters,
+  VirtualMachineRunCommandsListParameters,
+  VirtualMachineRunCommandsGetParameters,
+  VirtualMachineRunCommandsCreateOrUpdateParameters,
+  VirtualMachineRunCommandsUpdateParameters,
+  VirtualMachineRunCommandsDeleteParameters,
+  VirtualMachineRunCommandsGetByVirtualMachineParameters,
+  VirtualMachineRunCommandsListByVirtualMachineParameters,
+  VirtualMachineScaleSetVMRunCommandsCreateOrUpdateParameters,
+  VirtualMachineScaleSetVMRunCommandsUpdateParameters,
+  VirtualMachineScaleSetVMRunCommandsDeleteParameters,
+  VirtualMachineScaleSetVMRunCommandsGetParameters,
+  VirtualMachineScaleSetVMRunCommandsListParameters,
+  DisksCreateOrUpdateParameters,
+  DisksUpdateParameters,
+  DisksGetParameters,
+  DisksDeleteParameters,
+  DisksListByResourceGroupParameters,
+  DisksListParameters,
+  DisksGrantAccessParameters,
+  DisksRevokeAccessParameters,
+  DiskAccessesCreateOrUpdateParameters,
+  DiskAccessesUpdateParameters,
+  DiskAccessesGetParameters,
+  DiskAccessesDeleteParameters,
+  DiskAccessesListByResourceGroupParameters,
+  DiskAccessesListParameters,
+  DiskAccessesGetPrivateLinkResourcesParameters,
+  DiskAccessesUpdateAPrivateEndpointConnectionParameters,
+  DiskAccessesGetAPrivateEndpointConnectionParameters,
+  DiskAccessesDeleteAPrivateEndpointConnectionParameters,
+  DiskAccessesListPrivateEndpointConnectionsParameters,
+  DiskEncryptionSetsCreateOrUpdateParameters,
+  DiskEncryptionSetsUpdateParameters,
+  DiskEncryptionSetsGetParameters,
+  DiskEncryptionSetsDeleteParameters,
+  DiskEncryptionSetsListByResourceGroupParameters,
+  DiskEncryptionSetsListParameters,
+  DiskEncryptionSetsListAssociatedResourcesParameters,
+  DiskRestorePointGetParameters,
+  DiskRestorePointListByRestorePointParameters,
+  DiskRestorePointGrantAccessParameters,
+  DiskRestorePointRevokeAccessParameters,
+  SnapshotsCreateOrUpdateParameters,
+  SnapshotsUpdateParameters,
+  SnapshotsGetParameters,
+  SnapshotsDeleteParameters,
+  SnapshotsListByResourceGroupParameters,
+  SnapshotsListParameters,
+  SnapshotsGrantAccessParameters,
+  SnapshotsRevokeAccessParameters,
+  ResourceSkusListParameters,
+  GalleriesCreateOrUpdateParameters,
+  GalleriesUpdateParameters,
+  GalleriesGetParameters,
+  GalleriesDeleteParameters,
+  GalleriesListByResourceGroupParameters,
+  GalleriesListParameters,
+  GalleryImagesCreateOrUpdateParameters,
+  GalleryImagesUpdateParameters,
+  GalleryImagesGetParameters,
+  GalleryImagesDeleteParameters,
+  GalleryImagesListByGalleryParameters,
+  GalleryImageVersionsCreateOrUpdateParameters,
+  GalleryImageVersionsUpdateParameters,
+  GalleryImageVersionsGetParameters,
+  GalleryImageVersionsDeleteParameters,
+  GalleryImageVersionsListByGalleryImageParameters,
+  GalleryApplicationsCreateOrUpdateParameters,
+  GalleryApplicationsUpdateParameters,
+  GalleryApplicationsGetParameters,
+  GalleryApplicationsDeleteParameters,
+  GalleryApplicationsListByGalleryParameters,
+  GalleryApplicationVersionsCreateOrUpdateParameters,
+  GalleryApplicationVersionsUpdateParameters,
+  GalleryApplicationVersionsGetParameters,
+  GalleryApplicationVersionsDeleteParameters,
+  GalleryApplicationVersionsListByGalleryApplicationParameters,
+  GallerySharingProfileUpdateParameters,
+  SharedGalleriesListParameters,
+  SharedGalleriesGetParameters,
+  SharedGalleryImagesListParameters,
+  SharedGalleryImagesGetParameters,
+  SharedGalleryImageVersionsListParameters,
+  SharedGalleryImageVersionsGetParameters,
+  CommunityGalleriesGetParameters,
+  CommunityGalleryImagesGetParameters,
+  CommunityGalleryImagesListParameters,
+  CommunityGalleryImageVersionsGetParameters,
+  CommunityGalleryImageVersionsListParameters,
+  CloudServiceRoleInstancesDeleteParameters,
+  CloudServiceRoleInstancesGetParameters,
+  CloudServiceRoleInstancesGetInstanceViewParameters,
+  CloudServiceRoleInstancesListParameters,
+  CloudServiceRoleInstancesRestartParameters,
+  CloudServiceRoleInstancesReimageParameters,
+  CloudServiceRoleInstancesRebuildParameters,
+  CloudServiceRoleInstancesGetRemoteDesktopFileParameters,
+  CloudServiceRolesGetParameters,
+  CloudServiceRolesListParameters,
+  CloudServicesCreateOrUpdateParameters,
+  CloudServicesUpdateParameters,
+  CloudServicesDeleteParameters,
+  CloudServicesGetParameters,
+  CloudServicesGetInstanceViewParameters,
+  CloudServicesListAllParameters,
+  CloudServicesListParameters,
+  CloudServicesStartParameters,
+  CloudServicesPowerOffParameters,
+  CloudServicesRestartParameters,
+  CloudServicesReimageParameters,
+  CloudServicesRebuildParameters,
+  CloudServicesDeleteInstancesParameters,
+  CloudServicesUpdateDomainWalkUpdateDomainParameters,
+  CloudServicesUpdateDomainGetUpdateDomainParameters,
+  CloudServicesUpdateDomainListUpdateDomainsParameters,
+  CloudServiceOperatingSystemsGetOSVersionParameters,
+  CloudServiceOperatingSystemsListOSVersionsParameters,
+  CloudServiceOperatingSystemsGetOSFamilyParameters,
+  CloudServiceOperatingSystemsListOSFamiliesParameters
+} from "./parameters";
+import {
+  OperationsList200Response,
+  OperationsListdefaultResponse,
+  UsageList200Response,
+  UsageListdefaultResponse,
+  VirtualMachineSizesList200Response,
+  VirtualMachineSizesListdefaultResponse,
+  VirtualMachineScaleSetsListByLocation200Response,
+  VirtualMachineScaleSetsListByLocationdefaultResponse,
+  VirtualMachineScaleSetsCreateOrUpdate200Response,
+  VirtualMachineScaleSetsCreateOrUpdate201Response,
+  VirtualMachineScaleSetsCreateOrUpdatedefaultResponse,
+  VirtualMachineScaleSetsUpdate200Response,
+  VirtualMachineScaleSetsUpdatedefaultResponse,
+  VirtualMachineScaleSetsDelete200Response,
+  VirtualMachineScaleSetsDelete202Response,
+  VirtualMachineScaleSetsDelete204Response,
+  VirtualMachineScaleSetsDeletedefaultResponse,
+  VirtualMachineScaleSetsGet200Response,
+  VirtualMachineScaleSetsGetdefaultResponse,
+  VirtualMachineScaleSetsDeallocate200Response,
+  VirtualMachineScaleSetsDeallocate202Response,
+  VirtualMachineScaleSetsDeallocatedefaultResponse,
+  VirtualMachineScaleSetsDeleteInstances200Response,
+  VirtualMachineScaleSetsDeleteInstances202Response,
+  VirtualMachineScaleSetsDeleteInstancesdefaultResponse,
+  VirtualMachineScaleSetsGetInstanceView200Response,
+  VirtualMachineScaleSetsGetInstanceViewdefaultResponse,
+  VirtualMachineScaleSetsList200Response,
+  VirtualMachineScaleSetsListdefaultResponse,
+  VirtualMachineScaleSetsListAll200Response,
+  VirtualMachineScaleSetsListAlldefaultResponse,
+  VirtualMachineScaleSetsListSkus200Response,
+  VirtualMachineScaleSetsListSkusdefaultResponse,
+  VirtualMachineScaleSetsGetOSUpgradeHistory200Response,
+  VirtualMachineScaleSetsGetOSUpgradeHistorydefaultResponse,
+  VirtualMachineScaleSetsPowerOff200Response,
+  VirtualMachineScaleSetsPowerOff202Response,
+  VirtualMachineScaleSetsPowerOffdefaultResponse,
+  VirtualMachineScaleSetsRestart200Response,
+  VirtualMachineScaleSetsRestart202Response,
+  VirtualMachineScaleSetsRestartdefaultResponse,
+  VirtualMachineScaleSetsStart200Response,
+  VirtualMachineScaleSetsStart202Response,
+  VirtualMachineScaleSetsStartdefaultResponse,
+  VirtualMachineScaleSetsRedeploy200Response,
+  VirtualMachineScaleSetsRedeploy202Response,
+  VirtualMachineScaleSetsRedeploydefaultResponse,
+  VirtualMachineScaleSetsPerformMaintenance200Response,
+  VirtualMachineScaleSetsPerformMaintenance202Response,
+  VirtualMachineScaleSetsPerformMaintenancedefaultResponse,
+  VirtualMachineScaleSetsUpdateInstances200Response,
+  VirtualMachineScaleSetsUpdateInstances202Response,
+  VirtualMachineScaleSetsUpdateInstancesdefaultResponse,
+  VirtualMachineScaleSetsReimage200Response,
+  VirtualMachineScaleSetsReimage202Response,
+  VirtualMachineScaleSetsReimagedefaultResponse,
+  VirtualMachineScaleSetsReimageAll200Response,
+  VirtualMachineScaleSetsReimageAll202Response,
+  VirtualMachineScaleSetsReimageAlldefaultResponse,
+  VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalk200Response,
+  VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkdefaultResponse,
+  VirtualMachineScaleSetsConvertToSinglePlacementGroup200Response,
+  VirtualMachineScaleSetsConvertToSinglePlacementGroupdefaultResponse,
+  VirtualMachineScaleSetsSetOrchestrationServiceState200Response,
+  VirtualMachineScaleSetsSetOrchestrationServiceState202Response,
+  VirtualMachineScaleSetsSetOrchestrationServiceStatedefaultResponse,
+  VirtualMachineScaleSetExtensionsCreateOrUpdate200Response,
+  VirtualMachineScaleSetExtensionsCreateOrUpdate201Response,
+  VirtualMachineScaleSetExtensionsCreateOrUpdatedefaultResponse,
+  VirtualMachineScaleSetExtensionsUpdate200Response,
+  VirtualMachineScaleSetExtensionsUpdate201Response,
+  VirtualMachineScaleSetExtensionsUpdatedefaultResponse,
+  VirtualMachineScaleSetExtensionsDelete200Response,
+  VirtualMachineScaleSetExtensionsDelete202Response,
+  VirtualMachineScaleSetExtensionsDelete204Response,
+  VirtualMachineScaleSetExtensionsDeletedefaultResponse,
+  VirtualMachineScaleSetExtensionsGet200Response,
+  VirtualMachineScaleSetExtensionsGetdefaultResponse,
+  VirtualMachineScaleSetExtensionsList200Response,
+  VirtualMachineScaleSetExtensionsListdefaultResponse,
+  VirtualMachineScaleSetRollingUpgradesCancel200Response,
+  VirtualMachineScaleSetRollingUpgradesCancel202Response,
+  VirtualMachineScaleSetRollingUpgradesCanceldefaultResponse,
+  VirtualMachineScaleSetRollingUpgradesStartOSUpgrade200Response,
+  VirtualMachineScaleSetRollingUpgradesStartOSUpgrade202Response,
+  VirtualMachineScaleSetRollingUpgradesStartOSUpgradedefaultResponse,
+  VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade200Response,
+  VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade202Response,
+  VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradedefaultResponse,
+  VirtualMachineScaleSetRollingUpgradesGetLatest200Response,
+  VirtualMachineScaleSetRollingUpgradesGetLatestdefaultResponse,
+  VirtualMachineScaleSetVMExtensionsCreateOrUpdate200Response,
+  VirtualMachineScaleSetVMExtensionsCreateOrUpdate201Response,
+  VirtualMachineScaleSetVMExtensionsCreateOrUpdatedefaultResponse,
+  VirtualMachineScaleSetVMExtensionsUpdate200Response,
+  VirtualMachineScaleSetVMExtensionsUpdatedefaultResponse,
+  VirtualMachineScaleSetVMExtensionsDelete200Response,
+  VirtualMachineScaleSetVMExtensionsDelete202Response,
+  VirtualMachineScaleSetVMExtensionsDelete204Response,
+  VirtualMachineScaleSetVMExtensionsDeletedefaultResponse,
+  VirtualMachineScaleSetVMExtensionsGet200Response,
+  VirtualMachineScaleSetVMExtensionsGetdefaultResponse,
+  VirtualMachineScaleSetVMExtensionsList200Response,
+  VirtualMachineScaleSetVMExtensionsListdefaultResponse,
+  VirtualMachineScaleSetVMsReimage200Response,
+  VirtualMachineScaleSetVMsReimage202Response,
+  VirtualMachineScaleSetVMsReimagedefaultResponse,
+  VirtualMachineScaleSetVMsReimageAll200Response,
+  VirtualMachineScaleSetVMsReimageAll202Response,
+  VirtualMachineScaleSetVMsReimageAlldefaultResponse,
+  VirtualMachineScaleSetVMsDeallocate200Response,
+  VirtualMachineScaleSetVMsDeallocate202Response,
+  VirtualMachineScaleSetVMsDeallocatedefaultResponse,
+  VirtualMachineScaleSetVMsUpdate200Response,
+  VirtualMachineScaleSetVMsUpdate202Response,
+  VirtualMachineScaleSetVMsUpdatedefaultResponse,
+  VirtualMachineScaleSetVMsDelete200Response,
+  VirtualMachineScaleSetVMsDelete202Response,
+  VirtualMachineScaleSetVMsDelete204Response,
+  VirtualMachineScaleSetVMsDeletedefaultResponse,
+  VirtualMachineScaleSetVMsGet200Response,
+  VirtualMachineScaleSetVMsGetdefaultResponse,
+  VirtualMachineScaleSetVMsGetInstanceView200Response,
+  VirtualMachineScaleSetVMsGetInstanceViewdefaultResponse,
+  VirtualMachineScaleSetVMsList200Response,
+  VirtualMachineScaleSetVMsListdefaultResponse,
+  VirtualMachineScaleSetVMsPowerOff200Response,
+  VirtualMachineScaleSetVMsPowerOff202Response,
+  VirtualMachineScaleSetVMsPowerOffdefaultResponse,
+  VirtualMachineScaleSetVMsRestart200Response,
+  VirtualMachineScaleSetVMsRestart202Response,
+  VirtualMachineScaleSetVMsRestartdefaultResponse,
+  VirtualMachineScaleSetVMsStart200Response,
+  VirtualMachineScaleSetVMsStart202Response,
+  VirtualMachineScaleSetVMsStartdefaultResponse,
+  VirtualMachineScaleSetVMsRedeploy200Response,
+  VirtualMachineScaleSetVMsRedeploy202Response,
+  VirtualMachineScaleSetVMsRedeploydefaultResponse,
+  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData200Response,
+  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDatadefaultResponse,
+  VirtualMachineScaleSetVMsPerformMaintenance200Response,
+  VirtualMachineScaleSetVMsPerformMaintenance202Response,
+  VirtualMachineScaleSetVMsPerformMaintenancedefaultResponse,
+  VirtualMachineScaleSetVMsSimulateEviction204Response,
+  VirtualMachineScaleSetVMsSimulateEvictiondefaultResponse,
+  VirtualMachineScaleSetVMsRunCommand200Response,
+  VirtualMachineScaleSetVMsRunCommand202Response,
+  VirtualMachineExtensionsCreateOrUpdate200Response,
+  VirtualMachineExtensionsCreateOrUpdate201Response,
+  VirtualMachineExtensionsCreateOrUpdatedefaultResponse,
+  VirtualMachineExtensionsUpdate200Response,
+  VirtualMachineExtensionsUpdatedefaultResponse,
+  VirtualMachineExtensionsDelete200Response,
+  VirtualMachineExtensionsDelete202Response,
+  VirtualMachineExtensionsDelete204Response,
+  VirtualMachineExtensionsDeletedefaultResponse,
+  VirtualMachineExtensionsGet200Response,
+  VirtualMachineExtensionsGetdefaultResponse,
+  VirtualMachineExtensionsList200Response,
+  VirtualMachineExtensionsListdefaultResponse,
+  VirtualMachinesListByLocation200Response,
+  VirtualMachinesListByLocationdefaultResponse,
+  VirtualMachinesCapture200Response,
+  VirtualMachinesCapture202Response,
+  VirtualMachinesCapturedefaultResponse,
+  VirtualMachinesCreateOrUpdate200Response,
+  VirtualMachinesCreateOrUpdate201Response,
+  VirtualMachinesCreateOrUpdatedefaultResponse,
+  VirtualMachinesUpdate200Response,
+  VirtualMachinesUpdatedefaultResponse,
+  VirtualMachinesDelete200Response,
+  VirtualMachinesDelete202Response,
+  VirtualMachinesDelete204Response,
+  VirtualMachinesDeletedefaultResponse,
+  VirtualMachinesGet200Response,
+  VirtualMachinesGetdefaultResponse,
+  VirtualMachinesInstanceView200Response,
+  VirtualMachinesInstanceViewdefaultResponse,
+  VirtualMachinesConvertToManagedDisks200Response,
+  VirtualMachinesConvertToManagedDisks202Response,
+  VirtualMachinesConvertToManagedDisksdefaultResponse,
+  VirtualMachinesDeallocate200Response,
+  VirtualMachinesDeallocate202Response,
+  VirtualMachinesDeallocatedefaultResponse,
+  VirtualMachinesGeneralize200Response,
+  VirtualMachinesGeneralizedefaultResponse,
+  VirtualMachinesList200Response,
+  VirtualMachinesListdefaultResponse,
+  VirtualMachinesListAll200Response,
+  VirtualMachinesListAlldefaultResponse,
+  VirtualMachinesListAvailableSizes200Response,
+  VirtualMachinesListAvailableSizesdefaultResponse,
+  VirtualMachinesPowerOff200Response,
+  VirtualMachinesPowerOff202Response,
+  VirtualMachinesPowerOffdefaultResponse,
+  VirtualMachinesReapply200Response,
+  VirtualMachinesReapply202Response,
+  VirtualMachinesReapplydefaultResponse,
+  VirtualMachinesRestart200Response,
+  VirtualMachinesRestart202Response,
+  VirtualMachinesRestartdefaultResponse,
+  VirtualMachinesStart200Response,
+  VirtualMachinesStart202Response,
+  VirtualMachinesStartdefaultResponse,
+  VirtualMachinesRedeploy200Response,
+  VirtualMachinesRedeploy202Response,
+  VirtualMachinesRedeploydefaultResponse,
+  VirtualMachinesReimage200Response,
+  VirtualMachinesReimage202Response,
+  VirtualMachinesReimagedefaultResponse,
+  VirtualMachinesRetrieveBootDiagnosticsData200Response,
+  VirtualMachinesRetrieveBootDiagnosticsDatadefaultResponse,
+  VirtualMachinesPerformMaintenance200Response,
+  VirtualMachinesPerformMaintenance202Response,
+  VirtualMachinesPerformMaintenancedefaultResponse,
+  VirtualMachinesSimulateEviction204Response,
+  VirtualMachinesSimulateEvictiondefaultResponse,
+  VirtualMachinesAssessPatches200Response,
+  VirtualMachinesAssessPatches202Response,
+  VirtualMachinesAssessPatchesdefaultResponse,
+  VirtualMachinesInstallPatches200Response,
+  VirtualMachinesInstallPatches202Response,
+  VirtualMachinesInstallPatchesdefaultResponse,
+  VirtualMachinesRunCommand200Response,
+  VirtualMachinesRunCommand202Response,
+  VirtualMachineImagesGet200Response,
+  VirtualMachineImagesGetdefaultResponse,
+  VirtualMachineImagesList200Response,
+  VirtualMachineImagesListdefaultResponse,
+  VirtualMachineImagesListOffers200Response,
+  VirtualMachineImagesListOffersdefaultResponse,
+  VirtualMachineImagesListPublishers200Response,
+  VirtualMachineImagesListPublishersdefaultResponse,
+  VirtualMachineImagesListSkus200Response,
+  VirtualMachineImagesListSkusdefaultResponse,
+  VirtualMachineImagesListByEdgeZone200Response,
+  VirtualMachineImagesListByEdgeZonedefaultResponse,
+  VirtualMachineImagesEdgeZoneGet200Response,
+  VirtualMachineImagesEdgeZoneGetdefaultResponse,
+  VirtualMachineImagesEdgeZoneList200Response,
+  VirtualMachineImagesEdgeZoneListdefaultResponse,
+  VirtualMachineImagesEdgeZoneListOffers200Response,
+  VirtualMachineImagesEdgeZoneListOffersdefaultResponse,
+  VirtualMachineImagesEdgeZoneListPublishers200Response,
+  VirtualMachineImagesEdgeZoneListPublishersdefaultResponse,
+  VirtualMachineImagesEdgeZoneListSkus200Response,
+  VirtualMachineImagesEdgeZoneListSkusdefaultResponse,
+  VirtualMachineExtensionImagesGet200Response,
+  VirtualMachineExtensionImagesGetdefaultResponse,
+  VirtualMachineExtensionImagesListTypes200Response,
+  VirtualMachineExtensionImagesListTypesdefaultResponse,
+  VirtualMachineExtensionImagesListVersions200Response,
+  VirtualMachineExtensionImagesListVersionsdefaultResponse,
+  AvailabilitySetsCreateOrUpdate200Response,
+  AvailabilitySetsCreateOrUpdatedefaultResponse,
+  AvailabilitySetsUpdate200Response,
+  AvailabilitySetsUpdatedefaultResponse,
+  AvailabilitySetsDelete200Response,
+  AvailabilitySetsDelete204Response,
+  AvailabilitySetsDeletedefaultResponse,
+  AvailabilitySetsGet200Response,
+  AvailabilitySetsGetdefaultResponse,
+  AvailabilitySetsListBySubscription200Response,
+  AvailabilitySetsListBySubscriptiondefaultResponse,
+  AvailabilitySetsList200Response,
+  AvailabilitySetsListdefaultResponse,
+  AvailabilitySetsListAvailableSizes200Response,
+  AvailabilitySetsListAvailableSizesdefaultResponse,
+  ProximityPlacementGroupsCreateOrUpdate200Response,
+  ProximityPlacementGroupsCreateOrUpdate201Response,
+  ProximityPlacementGroupsCreateOrUpdatedefaultResponse,
+  ProximityPlacementGroupsUpdate200Response,
+  ProximityPlacementGroupsUpdatedefaultResponse,
+  ProximityPlacementGroupsDelete200Response,
+  ProximityPlacementGroupsDeletedefaultResponse,
+  ProximityPlacementGroupsGet200Response,
+  ProximityPlacementGroupsGetdefaultResponse,
+  ProximityPlacementGroupsListBySubscription200Response,
+  ProximityPlacementGroupsListBySubscriptiondefaultResponse,
+  ProximityPlacementGroupsListByResourceGroup200Response,
+  ProximityPlacementGroupsListByResourceGroupdefaultResponse,
+  DedicatedHostGroupsCreateOrUpdate200Response,
+  DedicatedHostGroupsCreateOrUpdate201Response,
+  DedicatedHostGroupsCreateOrUpdatedefaultResponse,
+  DedicatedHostGroupsUpdate200Response,
+  DedicatedHostGroupsUpdatedefaultResponse,
+  DedicatedHostGroupsDelete200Response,
+  DedicatedHostGroupsDelete204Response,
+  DedicatedHostGroupsDeletedefaultResponse,
+  DedicatedHostGroupsGet200Response,
+  DedicatedHostGroupsGetdefaultResponse,
+  DedicatedHostGroupsListByResourceGroup200Response,
+  DedicatedHostGroupsListByResourceGroupdefaultResponse,
+  DedicatedHostGroupsListBySubscription200Response,
+  DedicatedHostGroupsListBySubscriptiondefaultResponse,
+  DedicatedHostsCreateOrUpdate200Response,
+  DedicatedHostsCreateOrUpdate201Response,
+  DedicatedHostsCreateOrUpdatedefaultResponse,
+  DedicatedHostsUpdate200Response,
+  DedicatedHostsUpdatedefaultResponse,
+  DedicatedHostsDelete200Response,
+  DedicatedHostsDelete202Response,
+  DedicatedHostsDelete204Response,
+  DedicatedHostsDeletedefaultResponse,
+  DedicatedHostsGet200Response,
+  DedicatedHostsGetdefaultResponse,
+  DedicatedHostsListByHostGroup200Response,
+  DedicatedHostsListByHostGroupdefaultResponse,
+  DedicatedHostsRestart200Response,
+  DedicatedHostsRestartdefaultResponse,
+  SshPublicKeysListBySubscription200Response,
+  SshPublicKeysListBySubscriptiondefaultResponse,
+  SshPublicKeysListByResourceGroup200Response,
+  SshPublicKeysListByResourceGroupdefaultResponse,
+  SshPublicKeysCreate200Response,
+  SshPublicKeysCreate201Response,
+  SshPublicKeysCreatedefaultResponse,
+  SshPublicKeysUpdate200Response,
+  SshPublicKeysUpdatedefaultResponse,
+  SshPublicKeysDelete200Response,
+  SshPublicKeysDelete204Response,
+  SshPublicKeysDeletedefaultResponse,
+  SshPublicKeysGet200Response,
+  SshPublicKeysGetdefaultResponse,
+  SshPublicKeysGenerateKeyPair200Response,
+  SshPublicKeysGenerateKeyPairdefaultResponse,
+  ImagesCreateOrUpdate200Response,
+  ImagesCreateOrUpdate201Response,
+  ImagesCreateOrUpdatedefaultResponse,
+  ImagesUpdate200Response,
+  ImagesUpdate201Response,
+  ImagesUpdatedefaultResponse,
+  ImagesDelete200Response,
+  ImagesDelete202Response,
+  ImagesDelete204Response,
+  ImagesDeletedefaultResponse,
+  ImagesGet200Response,
+  ImagesGetdefaultResponse,
+  ImagesListByResourceGroup200Response,
+  ImagesListByResourceGroupdefaultResponse,
+  ImagesList200Response,
+  ImagesListdefaultResponse,
+  RestorePointCollectionsCreateOrUpdate200Response,
+  RestorePointCollectionsCreateOrUpdate201Response,
+  RestorePointCollectionsCreateOrUpdatedefaultResponse,
+  RestorePointCollectionsUpdate200Response,
+  RestorePointCollectionsUpdatedefaultResponse,
+  RestorePointCollectionsDelete200Response,
+  RestorePointCollectionsDelete202Response,
+  RestorePointCollectionsDelete204Response,
+  RestorePointCollectionsDeletedefaultResponse,
+  RestorePointCollectionsGet200Response,
+  RestorePointCollectionsGetdefaultResponse,
+  RestorePointCollectionsList200Response,
+  RestorePointCollectionsListdefaultResponse,
+  RestorePointCollectionsListAll200Response,
+  RestorePointCollectionsListAlldefaultResponse,
+  RestorePointsCreate201Response,
+  RestorePointsCreatedefaultResponse,
+  RestorePointsDelete200Response,
+  RestorePointsDelete202Response,
+  RestorePointsDelete204Response,
+  RestorePointsDeletedefaultResponse,
+  RestorePointsGet200Response,
+  RestorePointsGetdefaultResponse,
+  CapacityReservationGroupsCreateOrUpdate200Response,
+  CapacityReservationGroupsCreateOrUpdate201Response,
+  CapacityReservationGroupsCreateOrUpdatedefaultResponse,
+  CapacityReservationGroupsUpdate200Response,
+  CapacityReservationGroupsUpdatedefaultResponse,
+  CapacityReservationGroupsDelete200Response,
+  CapacityReservationGroupsDelete204Response,
+  CapacityReservationGroupsDeletedefaultResponse,
+  CapacityReservationGroupsGet200Response,
+  CapacityReservationGroupsGetdefaultResponse,
+  CapacityReservationGroupsListByResourceGroup200Response,
+  CapacityReservationGroupsListByResourceGroupdefaultResponse,
+  CapacityReservationGroupsListBySubscription200Response,
+  CapacityReservationGroupsListBySubscriptiondefaultResponse,
+  CapacityReservationsCreateOrUpdate200Response,
+  CapacityReservationsCreateOrUpdate201Response,
+  CapacityReservationsCreateOrUpdatedefaultResponse,
+  CapacityReservationsUpdate200Response,
+  CapacityReservationsUpdate202Response,
+  CapacityReservationsUpdatedefaultResponse,
+  CapacityReservationsDelete200Response,
+  CapacityReservationsDelete202Response,
+  CapacityReservationsDelete204Response,
+  CapacityReservationsDeletedefaultResponse,
+  CapacityReservationsGet200Response,
+  CapacityReservationsGetdefaultResponse,
+  CapacityReservationsListByCapacityReservationGroup200Response,
+  CapacityReservationsListByCapacityReservationGroupdefaultResponse,
+  LogAnalyticsExportRequestRateByInterval200Response,
+  LogAnalyticsExportRequestRateByInterval202Response,
+  LogAnalyticsExportRequestRateByIntervaldefaultResponse,
+  LogAnalyticsExportThrottledRequests200Response,
+  LogAnalyticsExportThrottledRequests202Response,
+  LogAnalyticsExportThrottledRequestsdefaultResponse,
+  VirtualMachineRunCommandsList200Response,
+  VirtualMachineRunCommandsGet200Response,
+  VirtualMachineRunCommandsCreateOrUpdate200Response,
+  VirtualMachineRunCommandsCreateOrUpdate201Response,
+  VirtualMachineRunCommandsCreateOrUpdatedefaultResponse,
+  VirtualMachineRunCommandsUpdate200Response,
+  VirtualMachineRunCommandsUpdatedefaultResponse,
+  VirtualMachineRunCommandsDelete200Response,
+  VirtualMachineRunCommandsDelete202Response,
+  VirtualMachineRunCommandsDelete204Response,
+  VirtualMachineRunCommandsDeletedefaultResponse,
+  VirtualMachineRunCommandsGetByVirtualMachine200Response,
+  VirtualMachineRunCommandsGetByVirtualMachinedefaultResponse,
+  VirtualMachineRunCommandsListByVirtualMachine200Response,
+  VirtualMachineRunCommandsListByVirtualMachinedefaultResponse,
+  VirtualMachineScaleSetVMRunCommandsCreateOrUpdate200Response,
+  VirtualMachineScaleSetVMRunCommandsCreateOrUpdate201Response,
+  VirtualMachineScaleSetVMRunCommandsCreateOrUpdatedefaultResponse,
+  VirtualMachineScaleSetVMRunCommandsUpdate200Response,
+  VirtualMachineScaleSetVMRunCommandsUpdatedefaultResponse,
+  VirtualMachineScaleSetVMRunCommandsDelete200Response,
+  VirtualMachineScaleSetVMRunCommandsDelete202Response,
+  VirtualMachineScaleSetVMRunCommandsDelete204Response,
+  VirtualMachineScaleSetVMRunCommandsDeletedefaultResponse,
+  VirtualMachineScaleSetVMRunCommandsGet200Response,
+  VirtualMachineScaleSetVMRunCommandsGetdefaultResponse,
+  VirtualMachineScaleSetVMRunCommandsList200Response,
+  VirtualMachineScaleSetVMRunCommandsListdefaultResponse,
+  DisksCreateOrUpdate200Response,
+  DisksCreateOrUpdate202Response,
+  DisksUpdate200Response,
+  DisksUpdate202Response,
+  DisksGet200Response,
+  DisksDelete200Response,
+  DisksDelete202Response,
+  DisksDelete204Response,
+  DisksListByResourceGroup200Response,
+  DisksList200Response,
+  DisksGrantAccess200Response,
+  DisksGrantAccess202Response,
+  DisksRevokeAccess200Response,
+  DisksRevokeAccess202Response,
+  DiskAccessesCreateOrUpdate200Response,
+  DiskAccessesCreateOrUpdate202Response,
+  DiskAccessesCreateOrUpdatedefaultResponse,
+  DiskAccessesUpdate200Response,
+  DiskAccessesUpdate202Response,
+  DiskAccessesUpdatedefaultResponse,
+  DiskAccessesGet200Response,
+  DiskAccessesGetdefaultResponse,
+  DiskAccessesDelete200Response,
+  DiskAccessesDelete202Response,
+  DiskAccessesDelete204Response,
+  DiskAccessesDeletedefaultResponse,
+  DiskAccessesListByResourceGroup200Response,
+  DiskAccessesListByResourceGroupdefaultResponse,
+  DiskAccessesList200Response,
+  DiskAccessesListdefaultResponse,
+  DiskAccessesGetPrivateLinkResources200Response,
+  DiskAccessesUpdateAPrivateEndpointConnection200Response,
+  DiskAccessesUpdateAPrivateEndpointConnection202Response,
+  DiskAccessesUpdateAPrivateEndpointConnectiondefaultResponse,
+  DiskAccessesGetAPrivateEndpointConnection200Response,
+  DiskAccessesGetAPrivateEndpointConnectiondefaultResponse,
+  DiskAccessesDeleteAPrivateEndpointConnection200Response,
+  DiskAccessesDeleteAPrivateEndpointConnection202Response,
+  DiskAccessesDeleteAPrivateEndpointConnection204Response,
+  DiskAccessesDeleteAPrivateEndpointConnectiondefaultResponse,
+  DiskAccessesListPrivateEndpointConnections200Response,
+  DiskAccessesListPrivateEndpointConnectionsdefaultResponse,
+  DiskEncryptionSetsCreateOrUpdate200Response,
+  DiskEncryptionSetsCreateOrUpdate202Response,
+  DiskEncryptionSetsCreateOrUpdatedefaultResponse,
+  DiskEncryptionSetsUpdate200Response,
+  DiskEncryptionSetsUpdate202Response,
+  DiskEncryptionSetsUpdatedefaultResponse,
+  DiskEncryptionSetsGet200Response,
+  DiskEncryptionSetsGetdefaultResponse,
+  DiskEncryptionSetsDelete200Response,
+  DiskEncryptionSetsDelete202Response,
+  DiskEncryptionSetsDelete204Response,
+  DiskEncryptionSetsDeletedefaultResponse,
+  DiskEncryptionSetsListByResourceGroup200Response,
+  DiskEncryptionSetsListByResourceGroupdefaultResponse,
+  DiskEncryptionSetsList200Response,
+  DiskEncryptionSetsListdefaultResponse,
+  DiskEncryptionSetsListAssociatedResources200Response,
+  DiskEncryptionSetsListAssociatedResourcesdefaultResponse,
+  DiskRestorePointGet200Response,
+  DiskRestorePointGetdefaultResponse,
+  DiskRestorePointListByRestorePoint200Response,
+  DiskRestorePointListByRestorePointdefaultResponse,
+  DiskRestorePointGrantAccess200Response,
+  DiskRestorePointGrantAccess202Response,
+  DiskRestorePointGrantAccessdefaultResponse,
+  DiskRestorePointRevokeAccess200Response,
+  DiskRestorePointRevokeAccess202Response,
+  DiskRestorePointRevokeAccessdefaultResponse,
+  SnapshotsCreateOrUpdate200Response,
+  SnapshotsCreateOrUpdate202Response,
+  SnapshotsUpdate200Response,
+  SnapshotsUpdate202Response,
+  SnapshotsGet200Response,
+  SnapshotsDelete200Response,
+  SnapshotsDelete202Response,
+  SnapshotsDelete204Response,
+  SnapshotsListByResourceGroup200Response,
+  SnapshotsList200Response,
+  SnapshotsGrantAccess200Response,
+  SnapshotsGrantAccess202Response,
+  SnapshotsRevokeAccess200Response,
+  SnapshotsRevokeAccess202Response,
+  ResourceSkusList200Response,
+  GalleriesCreateOrUpdate200Response,
+  GalleriesCreateOrUpdate201Response,
+  GalleriesCreateOrUpdate202Response,
+  GalleriesCreateOrUpdatedefaultResponse,
+  GalleriesUpdate200Response,
+  GalleriesUpdatedefaultResponse,
+  GalleriesGet200Response,
+  GalleriesGetdefaultResponse,
+  GalleriesDelete200Response,
+  GalleriesDelete202Response,
+  GalleriesDelete204Response,
+  GalleriesDeletedefaultResponse,
+  GalleriesListByResourceGroup200Response,
+  GalleriesListByResourceGroupdefaultResponse,
+  GalleriesList200Response,
+  GalleriesListdefaultResponse,
+  GalleryImagesCreateOrUpdate200Response,
+  GalleryImagesCreateOrUpdate201Response,
+  GalleryImagesCreateOrUpdate202Response,
+  GalleryImagesCreateOrUpdatedefaultResponse,
+  GalleryImagesUpdate200Response,
+  GalleryImagesUpdatedefaultResponse,
+  GalleryImagesGet200Response,
+  GalleryImagesGetdefaultResponse,
+  GalleryImagesDelete200Response,
+  GalleryImagesDelete202Response,
+  GalleryImagesDelete204Response,
+  GalleryImagesDeletedefaultResponse,
+  GalleryImagesListByGallery200Response,
+  GalleryImagesListByGallerydefaultResponse,
+  GalleryImageVersionsCreateOrUpdate200Response,
+  GalleryImageVersionsCreateOrUpdate201Response,
+  GalleryImageVersionsCreateOrUpdate202Response,
+  GalleryImageVersionsCreateOrUpdatedefaultResponse,
+  GalleryImageVersionsUpdate200Response,
+  GalleryImageVersionsUpdatedefaultResponse,
+  GalleryImageVersionsGet200Response,
+  GalleryImageVersionsGetdefaultResponse,
+  GalleryImageVersionsDelete200Response,
+  GalleryImageVersionsDelete202Response,
+  GalleryImageVersionsDelete204Response,
+  GalleryImageVersionsDeletedefaultResponse,
+  GalleryImageVersionsListByGalleryImage200Response,
+  GalleryImageVersionsListByGalleryImagedefaultResponse,
+  GalleryApplicationsCreateOrUpdate200Response,
+  GalleryApplicationsCreateOrUpdate201Response,
+  GalleryApplicationsCreateOrUpdate202Response,
+  GalleryApplicationsCreateOrUpdatedefaultResponse,
+  GalleryApplicationsUpdate200Response,
+  GalleryApplicationsUpdatedefaultResponse,
+  GalleryApplicationsGet200Response,
+  GalleryApplicationsGetdefaultResponse,
+  GalleryApplicationsDelete200Response,
+  GalleryApplicationsDelete202Response,
+  GalleryApplicationsDelete204Response,
+  GalleryApplicationsDeletedefaultResponse,
+  GalleryApplicationsListByGallery200Response,
+  GalleryApplicationsListByGallerydefaultResponse,
+  GalleryApplicationVersionsCreateOrUpdate200Response,
+  GalleryApplicationVersionsCreateOrUpdate201Response,
+  GalleryApplicationVersionsCreateOrUpdate202Response,
+  GalleryApplicationVersionsCreateOrUpdatedefaultResponse,
+  GalleryApplicationVersionsUpdate200Response,
+  GalleryApplicationVersionsUpdatedefaultResponse,
+  GalleryApplicationVersionsGet200Response,
+  GalleryApplicationVersionsGetdefaultResponse,
+  GalleryApplicationVersionsDelete200Response,
+  GalleryApplicationVersionsDelete202Response,
+  GalleryApplicationVersionsDelete204Response,
+  GalleryApplicationVersionsDeletedefaultResponse,
+  GalleryApplicationVersionsListByGalleryApplication200Response,
+  GalleryApplicationVersionsListByGalleryApplicationdefaultResponse,
+  GallerySharingProfileUpdate200Response,
+  GallerySharingProfileUpdate202Response,
+  GallerySharingProfileUpdatedefaultResponse,
+  SharedGalleriesList200Response,
+  SharedGalleriesListdefaultResponse,
+  SharedGalleriesGet200Response,
+  SharedGalleriesGetdefaultResponse,
+  SharedGalleryImagesList200Response,
+  SharedGalleryImagesListdefaultResponse,
+  SharedGalleryImagesGet200Response,
+  SharedGalleryImagesGetdefaultResponse,
+  SharedGalleryImageVersionsList200Response,
+  SharedGalleryImageVersionsListdefaultResponse,
+  SharedGalleryImageVersionsGet200Response,
+  SharedGalleryImageVersionsGetdefaultResponse,
+  CommunityGalleriesGet200Response,
+  CommunityGalleriesGetdefaultResponse,
+  CommunityGalleryImagesGet200Response,
+  CommunityGalleryImagesGetdefaultResponse,
+  CommunityGalleryImagesList200Response,
+  CommunityGalleryImagesListdefaultResponse,
+  CommunityGalleryImageVersionsGet200Response,
+  CommunityGalleryImageVersionsGetdefaultResponse,
+  CommunityGalleryImageVersionsList200Response,
+  CommunityGalleryImageVersionsListdefaultResponse,
+  CloudServiceRoleInstancesDelete200Response,
+  CloudServiceRoleInstancesDelete202Response,
+  CloudServiceRoleInstancesDelete204Response,
+  CloudServiceRoleInstancesDeletedefaultResponse,
+  CloudServiceRoleInstancesGet200Response,
+  CloudServiceRoleInstancesGetdefaultResponse,
+  CloudServiceRoleInstancesGetInstanceView200Response,
+  CloudServiceRoleInstancesGetInstanceViewdefaultResponse,
+  CloudServiceRoleInstancesList200Response,
+  CloudServiceRoleInstancesListdefaultResponse,
+  CloudServiceRoleInstancesRestart200Response,
+  CloudServiceRoleInstancesRestart202Response,
+  CloudServiceRoleInstancesRestartdefaultResponse,
+  CloudServiceRoleInstancesReimage200Response,
+  CloudServiceRoleInstancesReimage202Response,
+  CloudServiceRoleInstancesReimagedefaultResponse,
+  CloudServiceRoleInstancesRebuild200Response,
+  CloudServiceRoleInstancesRebuild202Response,
+  CloudServiceRoleInstancesRebuilddefaultResponse,
+  CloudServiceRoleInstancesGetRemoteDesktopFile200Response,
+  CloudServiceRoleInstancesGetRemoteDesktopFiledefaultResponse,
+  CloudServiceRolesGet200Response,
+  CloudServiceRolesGetdefaultResponse,
+  CloudServiceRolesList200Response,
+  CloudServiceRolesListdefaultResponse,
+  CloudServicesCreateOrUpdate200Response,
+  CloudServicesCreateOrUpdate201Response,
+  CloudServicesCreateOrUpdatedefaultResponse,
+  CloudServicesUpdate200Response,
+  CloudServicesUpdatedefaultResponse,
+  CloudServicesDelete200Response,
+  CloudServicesDelete202Response,
+  CloudServicesDelete204Response,
+  CloudServicesDeletedefaultResponse,
+  CloudServicesGet200Response,
+  CloudServicesGetdefaultResponse,
+  CloudServicesGetInstanceView200Response,
+  CloudServicesGetInstanceViewdefaultResponse,
+  CloudServicesListAll200Response,
+  CloudServicesListAlldefaultResponse,
+  CloudServicesList200Response,
+  CloudServicesListdefaultResponse,
+  CloudServicesStart200Response,
+  CloudServicesStart202Response,
+  CloudServicesStartdefaultResponse,
+  CloudServicesPowerOff200Response,
+  CloudServicesPowerOff202Response,
+  CloudServicesPowerOffdefaultResponse,
+  CloudServicesRestart200Response,
+  CloudServicesRestart202Response,
+  CloudServicesRestartdefaultResponse,
+  CloudServicesReimage200Response,
+  CloudServicesReimage202Response,
+  CloudServicesReimagedefaultResponse,
+  CloudServicesRebuild200Response,
+  CloudServicesRebuild202Response,
+  CloudServicesRebuilddefaultResponse,
+  CloudServicesDeleteInstances200Response,
+  CloudServicesDeleteInstances202Response,
+  CloudServicesDeleteInstancesdefaultResponse,
+  CloudServicesUpdateDomainWalkUpdateDomain200Response,
+  CloudServicesUpdateDomainWalkUpdateDomain202Response,
+  CloudServicesUpdateDomainWalkUpdateDomaindefaultResponse,
+  CloudServicesUpdateDomainGetUpdateDomain200Response,
+  CloudServicesUpdateDomainGetUpdateDomaindefaultResponse,
+  CloudServicesUpdateDomainListUpdateDomains200Response,
+  CloudServicesUpdateDomainListUpdateDomainsdefaultResponse,
+  CloudServiceOperatingSystemsGetOSVersion200Response,
+  CloudServiceOperatingSystemsGetOSVersiondefaultResponse,
+  CloudServiceOperatingSystemsListOSVersions200Response,
+  CloudServiceOperatingSystemsListOSVersionsdefaultResponse,
+  CloudServiceOperatingSystemsGetOSFamily200Response,
+  CloudServiceOperatingSystemsGetOSFamilydefaultResponse,
+  CloudServiceOperatingSystemsListOSFamilies200Response,
+  CloudServiceOperatingSystemsListOSFamiliesdefaultResponse
+} from "./responses";
+import { Client, StreamableMethod } from "@azure-rest/core-client";
+
+export interface OperationsList {
+  /** Gets a list of compute operations. */
+  get(
+    options: OperationsListParameters
+  ): StreamableMethod<
+    OperationsList200Response | OperationsListdefaultResponse
+  >;
+}
+
+export interface UsageList {
+  /** Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription. */
+  get(
+    options: UsageListParameters
+  ): StreamableMethod<UsageList200Response | UsageListdefaultResponse>;
+}
+
+export interface VirtualMachineSizesList {
+  /** This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list) */
+  get(
+    options: VirtualMachineSizesListParameters
+  ): StreamableMethod<
+    VirtualMachineSizesList200Response | VirtualMachineSizesListdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetsListByLocation {
+  /** Gets all the VM scale sets under the specified subscription for the specified location. */
+  get(
+    options: VirtualMachineScaleSetsListByLocationParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsListByLocation200Response
+    | VirtualMachineScaleSetsListByLocationdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetsCreateOrUpdate {
+  /** Create or update a VM scale set. */
+  put(
+    options: VirtualMachineScaleSetsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsCreateOrUpdate200Response
+    | VirtualMachineScaleSetsCreateOrUpdate201Response
+    | VirtualMachineScaleSetsCreateOrUpdatedefaultResponse
+  >;
+  /** Update a VM scale set. */
+  patch(
+    options: VirtualMachineScaleSetsUpdateParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsUpdate200Response
+    | VirtualMachineScaleSetsUpdatedefaultResponse
+  >;
+  /** Deletes a VM scale set. */
+  delete(
+    options: VirtualMachineScaleSetsDeleteParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsDelete200Response
+    | VirtualMachineScaleSetsDelete202Response
+    | VirtualMachineScaleSetsDelete204Response
+    | VirtualMachineScaleSetsDeletedefaultResponse
+  >;
+  /** Display information about a virtual machine scale set. */
+  get(
+    options: VirtualMachineScaleSetsGetParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsGet200Response
+    | VirtualMachineScaleSetsGetdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetsDeallocate {
+  /** Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates. */
+  post(
+    options: VirtualMachineScaleSetsDeallocateParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsDeallocate200Response
+    | VirtualMachineScaleSetsDeallocate202Response
+    | VirtualMachineScaleSetsDeallocatedefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetsDeleteInstances {
+  /** Deletes virtual machines in a VM scale set. */
+  post(
+    options: VirtualMachineScaleSetsDeleteInstancesParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsDeleteInstances200Response
+    | VirtualMachineScaleSetsDeleteInstances202Response
+    | VirtualMachineScaleSetsDeleteInstancesdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetsGetInstanceView {
+  /** Gets the status of a VM scale set instance. */
+  get(
+    options: VirtualMachineScaleSetsGetInstanceViewParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsGetInstanceView200Response
+    | VirtualMachineScaleSetsGetInstanceViewdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetsList {
+  /** Gets a list of all VM scale sets under a resource group. */
+  get(
+    options: VirtualMachineScaleSetsListParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsList200Response
+    | VirtualMachineScaleSetsListdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetsListAll {
+  /** Gets a list of all VM Scale Sets in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of VM Scale Sets. Do this till nextLink is null to fetch all the VM Scale Sets. */
+  get(
+    options: VirtualMachineScaleSetsListAllParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsListAll200Response
+    | VirtualMachineScaleSetsListAlldefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetsListSkus {
+  /** Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU. */
+  get(
+    options: VirtualMachineScaleSetsListSkusParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsListSkus200Response
+    | VirtualMachineScaleSetsListSkusdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetsGetOSUpgradeHistory {
+  /** Gets list of OS upgrades on a VM scale set instance. */
+  get(
+    options: VirtualMachineScaleSetsGetOSUpgradeHistoryParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsGetOSUpgradeHistory200Response
+    | VirtualMachineScaleSetsGetOSUpgradeHistorydefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetsPowerOff {
+  /** Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges. */
+  post(
+    options: VirtualMachineScaleSetsPowerOffParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsPowerOff200Response
+    | VirtualMachineScaleSetsPowerOff202Response
+    | VirtualMachineScaleSetsPowerOffdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetsRestart {
+  /** Restarts one or more virtual machines in a VM scale set. */
+  post(
+    options: VirtualMachineScaleSetsRestartParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsRestart200Response
+    | VirtualMachineScaleSetsRestart202Response
+    | VirtualMachineScaleSetsRestartdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetsStart {
+  /** Starts one or more virtual machines in a VM scale set. */
+  post(
+    options: VirtualMachineScaleSetsStartParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsStart200Response
+    | VirtualMachineScaleSetsStart202Response
+    | VirtualMachineScaleSetsStartdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetsRedeploy {
+  /** Shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and powers them back on. */
+  post(
+    options: VirtualMachineScaleSetsRedeployParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsRedeploy200Response
+    | VirtualMachineScaleSetsRedeploy202Response
+    | VirtualMachineScaleSetsRedeploydefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetsPerformMaintenance {
+  /** Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications */
+  post(
+    options: VirtualMachineScaleSetsPerformMaintenanceParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsPerformMaintenance200Response
+    | VirtualMachineScaleSetsPerformMaintenance202Response
+    | VirtualMachineScaleSetsPerformMaintenancedefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetsUpdateInstances {
+  /** Upgrades one or more virtual machines to the latest SKU set in the VM scale set model. */
+  post(
+    options: VirtualMachineScaleSetsUpdateInstancesParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsUpdateInstances200Response
+    | VirtualMachineScaleSetsUpdateInstances202Response
+    | VirtualMachineScaleSetsUpdateInstancesdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetsReimage {
+  /** Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state. */
+  post(
+    options: VirtualMachineScaleSetsReimageParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsReimage200Response
+    | VirtualMachineScaleSetsReimage202Response
+    | VirtualMachineScaleSetsReimagedefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetsReimageAll {
+  /** Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks. */
+  post(
+    options: VirtualMachineScaleSetsReimageAllParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsReimageAll200Response
+    | VirtualMachineScaleSetsReimageAll202Response
+    | VirtualMachineScaleSetsReimageAlldefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalk {
+  /** Manual platform update domain walk to update virtual machines in a service fabric virtual machine scale set. */
+  post(
+    options: VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalk200Response
+    | VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetsConvertToSinglePlacementGroup {
+  /** Converts SinglePlacementGroup property to false for a existing virtual machine scale set. */
+  post(
+    options: VirtualMachineScaleSetsConvertToSinglePlacementGroupParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsConvertToSinglePlacementGroup200Response
+    | VirtualMachineScaleSetsConvertToSinglePlacementGroupdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetsSetOrchestrationServiceState {
+  /** Changes ServiceState property for a given service */
+  post(
+    options: VirtualMachineScaleSetsSetOrchestrationServiceStateParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetsSetOrchestrationServiceState200Response
+    | VirtualMachineScaleSetsSetOrchestrationServiceState202Response
+    | VirtualMachineScaleSetsSetOrchestrationServiceStatedefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetExtensionsCreateOrUpdate {
+  /** The operation to create or update an extension. */
+  put(
+    options: VirtualMachineScaleSetExtensionsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetExtensionsCreateOrUpdate200Response
+    | VirtualMachineScaleSetExtensionsCreateOrUpdate201Response
+    | VirtualMachineScaleSetExtensionsCreateOrUpdatedefaultResponse
+  >;
+  /** The operation to update an extension. */
+  patch(
+    options: VirtualMachineScaleSetExtensionsUpdateParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetExtensionsUpdate200Response
+    | VirtualMachineScaleSetExtensionsUpdate201Response
+    | VirtualMachineScaleSetExtensionsUpdatedefaultResponse
+  >;
+  /** The operation to delete the extension. */
+  delete(
+    options: VirtualMachineScaleSetExtensionsDeleteParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetExtensionsDelete200Response
+    | VirtualMachineScaleSetExtensionsDelete202Response
+    | VirtualMachineScaleSetExtensionsDelete204Response
+    | VirtualMachineScaleSetExtensionsDeletedefaultResponse
+  >;
+  /** The operation to get the extension. */
+  get(
+    options: VirtualMachineScaleSetExtensionsGetParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetExtensionsGet200Response
+    | VirtualMachineScaleSetExtensionsGetdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetExtensionsList {
+  /** Gets a list of all extensions in a VM scale set. */
+  get(
+    options: VirtualMachineScaleSetExtensionsListParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetExtensionsList200Response
+    | VirtualMachineScaleSetExtensionsListdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetRollingUpgradesCancel {
+  /** Cancels the current virtual machine scale set rolling upgrade. */
+  post(
+    options: VirtualMachineScaleSetRollingUpgradesCancelParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetRollingUpgradesCancel200Response
+    | VirtualMachineScaleSetRollingUpgradesCancel202Response
+    | VirtualMachineScaleSetRollingUpgradesCanceldefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgrade {
+  /** Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected. */
+  post(
+    options: VirtualMachineScaleSetRollingUpgradesStartOSUpgradeParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetRollingUpgradesStartOSUpgrade200Response
+    | VirtualMachineScaleSetRollingUpgradesStartOSUpgrade202Response
+    | VirtualMachineScaleSetRollingUpgradesStartOSUpgradedefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade {
+  /** Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the latest available extension version. Instances which are already running the latest extension versions are not affected. */
+  post(
+    options: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade200Response
+    | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade202Response
+    | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradedefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetRollingUpgradesGetLatest {
+  /** Gets the status of the latest virtual machine scale set rolling upgrade. */
+  get(
+    options: VirtualMachineScaleSetRollingUpgradesGetLatestParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetRollingUpgradesGetLatest200Response
+    | VirtualMachineScaleSetRollingUpgradesGetLatestdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdate {
+  /** The operation to create or update the VMSS VM extension. */
+  put(
+    options: VirtualMachineScaleSetVMExtensionsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMExtensionsCreateOrUpdate200Response
+    | VirtualMachineScaleSetVMExtensionsCreateOrUpdate201Response
+    | VirtualMachineScaleSetVMExtensionsCreateOrUpdatedefaultResponse
+  >;
+  /** The operation to update the VMSS VM extension. */
+  patch(
+    options: VirtualMachineScaleSetVMExtensionsUpdateParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMExtensionsUpdate200Response
+    | VirtualMachineScaleSetVMExtensionsUpdatedefaultResponse
+  >;
+  /** The operation to delete the VMSS VM extension. */
+  delete(
+    options: VirtualMachineScaleSetVMExtensionsDeleteParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMExtensionsDelete200Response
+    | VirtualMachineScaleSetVMExtensionsDelete202Response
+    | VirtualMachineScaleSetVMExtensionsDelete204Response
+    | VirtualMachineScaleSetVMExtensionsDeletedefaultResponse
+  >;
+  /** The operation to get the VMSS VM extension. */
+  get(
+    options: VirtualMachineScaleSetVMExtensionsGetParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMExtensionsGet200Response
+    | VirtualMachineScaleSetVMExtensionsGetdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetVMExtensionsList {
+  /** The operation to get all extensions of an instance in Virtual Machine Scaleset. */
+  get(
+    options: VirtualMachineScaleSetVMExtensionsListParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMExtensionsList200Response
+    | VirtualMachineScaleSetVMExtensionsListdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetVMsReimage {
+  /** Reimages (upgrade the operating system) a specific virtual machine in a VM scale set. */
+  post(
+    options: VirtualMachineScaleSetVMsReimageParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMsReimage200Response
+    | VirtualMachineScaleSetVMsReimage202Response
+    | VirtualMachineScaleSetVMsReimagedefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetVMsReimageAll {
+  /** Allows you to re-image all the disks ( including data disks ) in the a VM scale set instance. This operation is only supported for managed disks. */
+  post(
+    options: VirtualMachineScaleSetVMsReimageAllParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMsReimageAll200Response
+    | VirtualMachineScaleSetVMsReimageAll202Response
+    | VirtualMachineScaleSetVMsReimageAlldefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetVMsDeallocate {
+  /** Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and releases the compute resources it uses. You are not billed for the compute resources of this virtual machine once it is deallocated. */
+  post(
+    options: VirtualMachineScaleSetVMsDeallocateParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMsDeallocate200Response
+    | VirtualMachineScaleSetVMsDeallocate202Response
+    | VirtualMachineScaleSetVMsDeallocatedefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetVMsUpdate {
+  /** Updates a virtual machine of a VM scale set. */
+  put(
+    options: VirtualMachineScaleSetVMsUpdateParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMsUpdate200Response
+    | VirtualMachineScaleSetVMsUpdate202Response
+    | VirtualMachineScaleSetVMsUpdatedefaultResponse
+  >;
+  /** Deletes a virtual machine from a VM scale set. */
+  delete(
+    options: VirtualMachineScaleSetVMsDeleteParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMsDelete200Response
+    | VirtualMachineScaleSetVMsDelete202Response
+    | VirtualMachineScaleSetVMsDelete204Response
+    | VirtualMachineScaleSetVMsDeletedefaultResponse
+  >;
+  /** Gets a virtual machine from a VM scale set. */
+  get(
+    options: VirtualMachineScaleSetVMsGetParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMsGet200Response
+    | VirtualMachineScaleSetVMsGetdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetVMsGetInstanceView {
+  /** Gets the status of a virtual machine from a VM scale set. */
+  get(
+    options: VirtualMachineScaleSetVMsGetInstanceViewParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMsGetInstanceView200Response
+    | VirtualMachineScaleSetVMsGetInstanceViewdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetVMsList {
+  /** Gets a list of all virtual machines in a VM scale sets. */
+  get(
+    options: VirtualMachineScaleSetVMsListParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMsList200Response
+    | VirtualMachineScaleSetVMsListdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetVMsPowerOff {
+  /** Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges. */
+  post(
+    options: VirtualMachineScaleSetVMsPowerOffParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMsPowerOff200Response
+    | VirtualMachineScaleSetVMsPowerOff202Response
+    | VirtualMachineScaleSetVMsPowerOffdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetVMsRestart {
+  /** Restarts a virtual machine in a VM scale set. */
+  post(
+    options: VirtualMachineScaleSetVMsRestartParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMsRestart200Response
+    | VirtualMachineScaleSetVMsRestart202Response
+    | VirtualMachineScaleSetVMsRestartdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetVMsStart {
+  /** Starts a virtual machine in a VM scale set. */
+  post(
+    options: VirtualMachineScaleSetVMsStartParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMsStart200Response
+    | VirtualMachineScaleSetVMsStart202Response
+    | VirtualMachineScaleSetVMsStartdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetVMsRedeploy {
+  /** Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on. */
+  post(
+    options: VirtualMachineScaleSetVMsRedeployParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMsRedeploy200Response
+    | VirtualMachineScaleSetVMsRedeploy202Response
+    | VirtualMachineScaleSetVMsRedeploydefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData {
+  /** The operation to retrieve SAS URIs of boot diagnostic logs for a virtual machine in a VM scale set. */
+  post(
+    options: VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData200Response
+    | VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDatadefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetVMsPerformMaintenance {
+  /** Performs maintenance on a virtual machine in a VM scale set. */
+  post(
+    options: VirtualMachineScaleSetVMsPerformMaintenanceParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMsPerformMaintenance200Response
+    | VirtualMachineScaleSetVMsPerformMaintenance202Response
+    | VirtualMachineScaleSetVMsPerformMaintenancedefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetVMsSimulateEviction {
+  /** The operation to simulate the eviction of spot virtual machine in a VM scale set. */
+  post(
+    options: VirtualMachineScaleSetVMsSimulateEvictionParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMsSimulateEviction204Response
+    | VirtualMachineScaleSetVMsSimulateEvictiondefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetVMsRunCommand {
+  /** Run command on a virtual machine in a VM scale set. */
+  post(
+    options: VirtualMachineScaleSetVMsRunCommandParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMsRunCommand200Response
+    | VirtualMachineScaleSetVMsRunCommand202Response
+  >;
+}
+
+export interface VirtualMachineExtensionsCreateOrUpdate {
+  /** The operation to create or update the extension. */
+  put(
+    options: VirtualMachineExtensionsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VirtualMachineExtensionsCreateOrUpdate200Response
+    | VirtualMachineExtensionsCreateOrUpdate201Response
+    | VirtualMachineExtensionsCreateOrUpdatedefaultResponse
+  >;
+  /** The operation to update the extension. */
+  patch(
+    options: VirtualMachineExtensionsUpdateParameters
+  ): StreamableMethod<
+    | VirtualMachineExtensionsUpdate200Response
+    | VirtualMachineExtensionsUpdatedefaultResponse
+  >;
+  /** The operation to delete the extension. */
+  delete(
+    options: VirtualMachineExtensionsDeleteParameters
+  ): StreamableMethod<
+    | VirtualMachineExtensionsDelete200Response
+    | VirtualMachineExtensionsDelete202Response
+    | VirtualMachineExtensionsDelete204Response
+    | VirtualMachineExtensionsDeletedefaultResponse
+  >;
+  /** The operation to get the extension. */
+  get(
+    options: VirtualMachineExtensionsGetParameters
+  ): StreamableMethod<
+    | VirtualMachineExtensionsGet200Response
+    | VirtualMachineExtensionsGetdefaultResponse
+  >;
+}
+
+export interface VirtualMachineExtensionsList {
+  /** The operation to get all extensions of a Virtual Machine. */
+  get(
+    options: VirtualMachineExtensionsListParameters
+  ): StreamableMethod<
+    | VirtualMachineExtensionsList200Response
+    | VirtualMachineExtensionsListdefaultResponse
+  >;
+}
+
+export interface VirtualMachinesListByLocation {
+  /** Gets all the virtual machines under the specified subscription for the specified location. */
+  get(
+    options: VirtualMachinesListByLocationParameters
+  ): StreamableMethod<
+    | VirtualMachinesListByLocation200Response
+    | VirtualMachinesListByLocationdefaultResponse
+  >;
+}
+
+export interface VirtualMachinesCapture {
+  /** Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs. */
+  post(
+    options: VirtualMachinesCaptureParameters
+  ): StreamableMethod<
+    | VirtualMachinesCapture200Response
+    | VirtualMachinesCapture202Response
+    | VirtualMachinesCapturedefaultResponse
+  >;
+}
+
+export interface VirtualMachinesCreateOrUpdate {
+  /** The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation. */
+  put(
+    options: VirtualMachinesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VirtualMachinesCreateOrUpdate200Response
+    | VirtualMachinesCreateOrUpdate201Response
+    | VirtualMachinesCreateOrUpdatedefaultResponse
+  >;
+  /** The operation to update a virtual machine. */
+  patch(
+    options: VirtualMachinesUpdateParameters
+  ): StreamableMethod<
+    VirtualMachinesUpdate200Response | VirtualMachinesUpdatedefaultResponse
+  >;
+  /** The operation to delete a virtual machine. */
+  delete(
+    options: VirtualMachinesDeleteParameters
+  ): StreamableMethod<
+    | VirtualMachinesDelete200Response
+    | VirtualMachinesDelete202Response
+    | VirtualMachinesDelete204Response
+    | VirtualMachinesDeletedefaultResponse
+  >;
+  /** Retrieves information about the model view or the instance view of a virtual machine. */
+  get(
+    options: VirtualMachinesGetParameters
+  ): StreamableMethod<
+    VirtualMachinesGet200Response | VirtualMachinesGetdefaultResponse
+  >;
+}
+
+export interface VirtualMachinesInstanceView {
+  /** Retrieves information about the run-time state of a virtual machine. */
+  get(
+    options: VirtualMachinesInstanceViewParameters
+  ): StreamableMethod<
+    | VirtualMachinesInstanceView200Response
+    | VirtualMachinesInstanceViewdefaultResponse
+  >;
+}
+
+export interface VirtualMachinesConvertToManagedDisks {
+  /** Converts virtual machine disks from blob-based to managed disks. Virtual machine must be stop-deallocated before invoking this operation. */
+  post(
+    options: VirtualMachinesConvertToManagedDisksParameters
+  ): StreamableMethod<
+    | VirtualMachinesConvertToManagedDisks200Response
+    | VirtualMachinesConvertToManagedDisks202Response
+    | VirtualMachinesConvertToManagedDisksdefaultResponse
+  >;
+}
+
+export interface VirtualMachinesDeallocate {
+  /** Shuts down the virtual machine and releases the compute resources. You are not billed for the compute resources that this virtual machine uses. */
+  post(
+    options: VirtualMachinesDeallocateParameters
+  ): StreamableMethod<
+    | VirtualMachinesDeallocate200Response
+    | VirtualMachinesDeallocate202Response
+    | VirtualMachinesDeallocatedefaultResponse
+  >;
+}
+
+export interface VirtualMachinesGeneralize {
+  /** Sets the OS state of the virtual machine to generalized. It is recommended to sysprep the virtual machine before performing this operation. <br>For Windows, please refer to [Create a managed image of a generalized VM in Azure](https://docs.microsoft.com/azure/virtual-machines/windows/capture-image-resource).<br>For Linux, please refer to [How to create an image of a virtual machine or VHD](https://docs.microsoft.com/azure/virtual-machines/linux/capture-image). */
+  post(
+    options: VirtualMachinesGeneralizeParameters
+  ): StreamableMethod<
+    | VirtualMachinesGeneralize200Response
+    | VirtualMachinesGeneralizedefaultResponse
+  >;
+}
+
+export interface VirtualMachinesList {
+  /** Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines. */
+  get(
+    options: VirtualMachinesListParameters
+  ): StreamableMethod<
+    VirtualMachinesList200Response | VirtualMachinesListdefaultResponse
+  >;
+}
+
+export interface VirtualMachinesListAll {
+  /** Lists all of the virtual machines in the specified subscription. Use the nextLink property in the response to get the next page of virtual machines. */
+  get(
+    options: VirtualMachinesListAllParameters
+  ): StreamableMethod<
+    VirtualMachinesListAll200Response | VirtualMachinesListAlldefaultResponse
+  >;
+}
+
+export interface VirtualMachinesListAvailableSizes {
+  /** Lists all available virtual machine sizes to which the specified virtual machine can be resized. */
+  get(
+    options: VirtualMachinesListAvailableSizesParameters
+  ): StreamableMethod<
+    | VirtualMachinesListAvailableSizes200Response
+    | VirtualMachinesListAvailableSizesdefaultResponse
+  >;
+}
+
+export interface VirtualMachinesPowerOff {
+  /** The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the same provisioned resources. You are still charged for this virtual machine. */
+  post(
+    options: VirtualMachinesPowerOffParameters
+  ): StreamableMethod<
+    | VirtualMachinesPowerOff200Response
+    | VirtualMachinesPowerOff202Response
+    | VirtualMachinesPowerOffdefaultResponse
+  >;
+}
+
+export interface VirtualMachinesReapply {
+  /** The operation to reapply a virtual machine's state. */
+  post(
+    options: VirtualMachinesReapplyParameters
+  ): StreamableMethod<
+    | VirtualMachinesReapply200Response
+    | VirtualMachinesReapply202Response
+    | VirtualMachinesReapplydefaultResponse
+  >;
+}
+
+export interface VirtualMachinesRestart {
+  /** The operation to restart a virtual machine. */
+  post(
+    options: VirtualMachinesRestartParameters
+  ): StreamableMethod<
+    | VirtualMachinesRestart200Response
+    | VirtualMachinesRestart202Response
+    | VirtualMachinesRestartdefaultResponse
+  >;
+}
+
+export interface VirtualMachinesStart {
+  /** The operation to start a virtual machine. */
+  post(
+    options: VirtualMachinesStartParameters
+  ): StreamableMethod<
+    | VirtualMachinesStart200Response
+    | VirtualMachinesStart202Response
+    | VirtualMachinesStartdefaultResponse
+  >;
+}
+
+export interface VirtualMachinesRedeploy {
+  /** Shuts down the virtual machine, moves it to a new node, and powers it back on. */
+  post(
+    options: VirtualMachinesRedeployParameters
+  ): StreamableMethod<
+    | VirtualMachinesRedeploy200Response
+    | VirtualMachinesRedeploy202Response
+    | VirtualMachinesRedeploydefaultResponse
+  >;
+}
+
+export interface VirtualMachinesReimage {
+  /** Reimages the virtual machine which has an ephemeral OS disk back to its initial state. */
+  post(
+    options: VirtualMachinesReimageParameters
+  ): StreamableMethod<
+    | VirtualMachinesReimage200Response
+    | VirtualMachinesReimage202Response
+    | VirtualMachinesReimagedefaultResponse
+  >;
+}
+
+export interface VirtualMachinesRetrieveBootDiagnosticsData {
+  /** The operation to retrieve SAS URIs for a virtual machine's boot diagnostic logs. */
+  post(
+    options: VirtualMachinesRetrieveBootDiagnosticsDataParameters
+  ): StreamableMethod<
+    | VirtualMachinesRetrieveBootDiagnosticsData200Response
+    | VirtualMachinesRetrieveBootDiagnosticsDatadefaultResponse
+  >;
+}
+
+export interface VirtualMachinesPerformMaintenance {
+  /** The operation to perform maintenance on a virtual machine. */
+  post(
+    options: VirtualMachinesPerformMaintenanceParameters
+  ): StreamableMethod<
+    | VirtualMachinesPerformMaintenance200Response
+    | VirtualMachinesPerformMaintenance202Response
+    | VirtualMachinesPerformMaintenancedefaultResponse
+  >;
+}
+
+export interface VirtualMachinesSimulateEviction {
+  /** The operation to simulate the eviction of spot virtual machine. */
+  post(
+    options: VirtualMachinesSimulateEvictionParameters
+  ): StreamableMethod<
+    | VirtualMachinesSimulateEviction204Response
+    | VirtualMachinesSimulateEvictiondefaultResponse
+  >;
+}
+
+export interface VirtualMachinesAssessPatches {
+  /** Assess patches on the VM. */
+  post(
+    options: VirtualMachinesAssessPatchesParameters
+  ): StreamableMethod<
+    | VirtualMachinesAssessPatches200Response
+    | VirtualMachinesAssessPatches202Response
+    | VirtualMachinesAssessPatchesdefaultResponse
+  >;
+}
+
+export interface VirtualMachinesInstallPatches {
+  /** Installs patches on the VM. */
+  post(
+    options: VirtualMachinesInstallPatchesParameters
+  ): StreamableMethod<
+    | VirtualMachinesInstallPatches200Response
+    | VirtualMachinesInstallPatches202Response
+    | VirtualMachinesInstallPatchesdefaultResponse
+  >;
+}
+
+export interface VirtualMachinesRunCommand {
+  /** Run command on the VM. */
+  post(
+    options: VirtualMachinesRunCommandParameters
+  ): StreamableMethod<
+    VirtualMachinesRunCommand200Response | VirtualMachinesRunCommand202Response
+  >;
+}
+
+export interface VirtualMachineImagesGet {
+  /** Gets a virtual machine image. */
+  get(
+    options: VirtualMachineImagesGetParameters
+  ): StreamableMethod<
+    VirtualMachineImagesGet200Response | VirtualMachineImagesGetdefaultResponse
+  >;
+}
+
+export interface VirtualMachineImagesList {
+  /** Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU. */
+  get(
+    options: VirtualMachineImagesListParameters
+  ): StreamableMethod<
+    | VirtualMachineImagesList200Response
+    | VirtualMachineImagesListdefaultResponse
+  >;
+}
+
+export interface VirtualMachineImagesListOffers {
+  /** Gets a list of virtual machine image offers for the specified location and publisher. */
+  get(
+    options: VirtualMachineImagesListOffersParameters
+  ): StreamableMethod<
+    | VirtualMachineImagesListOffers200Response
+    | VirtualMachineImagesListOffersdefaultResponse
+  >;
+}
+
+export interface VirtualMachineImagesListPublishers {
+  /** Gets a list of virtual machine image publishers for the specified Azure location. */
+  get(
+    options: VirtualMachineImagesListPublishersParameters
+  ): StreamableMethod<
+    | VirtualMachineImagesListPublishers200Response
+    | VirtualMachineImagesListPublishersdefaultResponse
+  >;
+}
+
+export interface VirtualMachineImagesListSkus {
+  /** Gets a list of virtual machine image SKUs for the specified location, publisher, and offer. */
+  get(
+    options: VirtualMachineImagesListSkusParameters
+  ): StreamableMethod<
+    | VirtualMachineImagesListSkus200Response
+    | VirtualMachineImagesListSkusdefaultResponse
+  >;
+}
+
+export interface VirtualMachineImagesListByEdgeZone {
+  /** Gets a list of all virtual machine image versions for the specified edge zone */
+  get(
+    options: VirtualMachineImagesListByEdgeZoneParameters
+  ): StreamableMethod<
+    | VirtualMachineImagesListByEdgeZone200Response
+    | VirtualMachineImagesListByEdgeZonedefaultResponse
+  >;
+}
+
+export interface VirtualMachineImagesEdgeZoneGet {
+  /** Gets a virtual machine image in an edge zone. */
+  get(
+    options: VirtualMachineImagesEdgeZoneGetParameters
+  ): StreamableMethod<
+    | VirtualMachineImagesEdgeZoneGet200Response
+    | VirtualMachineImagesEdgeZoneGetdefaultResponse
+  >;
+}
+
+export interface VirtualMachineImagesEdgeZoneList {
+  /** Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU. */
+  get(
+    options: VirtualMachineImagesEdgeZoneListParameters
+  ): StreamableMethod<
+    | VirtualMachineImagesEdgeZoneList200Response
+    | VirtualMachineImagesEdgeZoneListdefaultResponse
+  >;
+}
+
+export interface VirtualMachineImagesEdgeZoneListOffers {
+  /** Gets a list of virtual machine image offers for the specified location, edge zone and publisher. */
+  get(
+    options: VirtualMachineImagesEdgeZoneListOffersParameters
+  ): StreamableMethod<
+    | VirtualMachineImagesEdgeZoneListOffers200Response
+    | VirtualMachineImagesEdgeZoneListOffersdefaultResponse
+  >;
+}
+
+export interface VirtualMachineImagesEdgeZoneListPublishers {
+  /** Gets a list of virtual machine image publishers for the specified Azure location and edge zone. */
+  get(
+    options: VirtualMachineImagesEdgeZoneListPublishersParameters
+  ): StreamableMethod<
+    | VirtualMachineImagesEdgeZoneListPublishers200Response
+    | VirtualMachineImagesEdgeZoneListPublishersdefaultResponse
+  >;
+}
+
+export interface VirtualMachineImagesEdgeZoneListSkus {
+  /** Gets a list of virtual machine image SKUs for the specified location, edge zone, publisher, and offer. */
+  get(
+    options: VirtualMachineImagesEdgeZoneListSkusParameters
+  ): StreamableMethod<
+    | VirtualMachineImagesEdgeZoneListSkus200Response
+    | VirtualMachineImagesEdgeZoneListSkusdefaultResponse
+  >;
+}
+
+export interface VirtualMachineExtensionImagesGet {
+  /** Gets a virtual machine extension image. */
+  get(
+    options: VirtualMachineExtensionImagesGetParameters
+  ): StreamableMethod<
+    | VirtualMachineExtensionImagesGet200Response
+    | VirtualMachineExtensionImagesGetdefaultResponse
+  >;
+}
+
+export interface VirtualMachineExtensionImagesListTypes {
+  /** Gets a list of virtual machine extension image types. */
+  get(
+    options: VirtualMachineExtensionImagesListTypesParameters
+  ): StreamableMethod<
+    | VirtualMachineExtensionImagesListTypes200Response
+    | VirtualMachineExtensionImagesListTypesdefaultResponse
+  >;
+}
+
+export interface VirtualMachineExtensionImagesListVersions {
+  /** Gets a list of virtual machine extension image versions. */
+  get(
+    options: VirtualMachineExtensionImagesListVersionsParameters
+  ): StreamableMethod<
+    | VirtualMachineExtensionImagesListVersions200Response
+    | VirtualMachineExtensionImagesListVersionsdefaultResponse
+  >;
+}
+
+export interface AvailabilitySetsCreateOrUpdate {
+  /** Create or update an availability set. */
+  put(
+    options: AvailabilitySetsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | AvailabilitySetsCreateOrUpdate200Response
+    | AvailabilitySetsCreateOrUpdatedefaultResponse
+  >;
+  /** Update an availability set. */
+  patch(
+    options: AvailabilitySetsUpdateParameters
+  ): StreamableMethod<
+    AvailabilitySetsUpdate200Response | AvailabilitySetsUpdatedefaultResponse
+  >;
+  /** Delete an availability set. */
+  delete(
+    options: AvailabilitySetsDeleteParameters
+  ): StreamableMethod<
+    | AvailabilitySetsDelete200Response
+    | AvailabilitySetsDelete204Response
+    | AvailabilitySetsDeletedefaultResponse
+  >;
+  /** Retrieves information about an availability set. */
+  get(
+    options: AvailabilitySetsGetParameters
+  ): StreamableMethod<
+    AvailabilitySetsGet200Response | AvailabilitySetsGetdefaultResponse
+  >;
+}
+
+export interface AvailabilitySetsListBySubscription {
+  /** Lists all availability sets in a subscription. */
+  get(
+    options: AvailabilitySetsListBySubscriptionParameters
+  ): StreamableMethod<
+    | AvailabilitySetsListBySubscription200Response
+    | AvailabilitySetsListBySubscriptiondefaultResponse
+  >;
+}
+
+export interface AvailabilitySetsList {
+  /** Lists all availability sets in a resource group. */
+  get(
+    options: AvailabilitySetsListParameters
+  ): StreamableMethod<
+    AvailabilitySetsList200Response | AvailabilitySetsListdefaultResponse
+  >;
+}
+
+export interface AvailabilitySetsListAvailableSizes {
+  /** Lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set. */
+  get(
+    options: AvailabilitySetsListAvailableSizesParameters
+  ): StreamableMethod<
+    | AvailabilitySetsListAvailableSizes200Response
+    | AvailabilitySetsListAvailableSizesdefaultResponse
+  >;
+}
+
+export interface ProximityPlacementGroupsCreateOrUpdate {
+  /** Create or update a proximity placement group. */
+  put(
+    options: ProximityPlacementGroupsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ProximityPlacementGroupsCreateOrUpdate200Response
+    | ProximityPlacementGroupsCreateOrUpdate201Response
+    | ProximityPlacementGroupsCreateOrUpdatedefaultResponse
+  >;
+  /** Update a proximity placement group. */
+  patch(
+    options: ProximityPlacementGroupsUpdateParameters
+  ): StreamableMethod<
+    | ProximityPlacementGroupsUpdate200Response
+    | ProximityPlacementGroupsUpdatedefaultResponse
+  >;
+  /** Delete a proximity placement group. */
+  delete(
+    options: ProximityPlacementGroupsDeleteParameters
+  ): StreamableMethod<
+    | ProximityPlacementGroupsDelete200Response
+    | ProximityPlacementGroupsDeletedefaultResponse
+  >;
+  /** Retrieves information about a proximity placement group . */
+  get(
+    options: ProximityPlacementGroupsGetParameters
+  ): StreamableMethod<
+    | ProximityPlacementGroupsGet200Response
+    | ProximityPlacementGroupsGetdefaultResponse
+  >;
+}
+
+export interface ProximityPlacementGroupsListBySubscription {
+  /** Lists all proximity placement groups in a subscription. */
+  get(
+    options: ProximityPlacementGroupsListBySubscriptionParameters
+  ): StreamableMethod<
+    | ProximityPlacementGroupsListBySubscription200Response
+    | ProximityPlacementGroupsListBySubscriptiondefaultResponse
+  >;
+}
+
+export interface ProximityPlacementGroupsListByResourceGroup {
+  /** Lists all proximity placement groups in a resource group. */
+  get(
+    options: ProximityPlacementGroupsListByResourceGroupParameters
+  ): StreamableMethod<
+    | ProximityPlacementGroupsListByResourceGroup200Response
+    | ProximityPlacementGroupsListByResourceGroupdefaultResponse
+  >;
+}
+
+export interface DedicatedHostGroupsCreateOrUpdate {
+  /** Create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups please see [Dedicated Host Documentation] (https://go.microsoft.com/fwlink/?linkid=2082596) */
+  put(
+    options: DedicatedHostGroupsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | DedicatedHostGroupsCreateOrUpdate200Response
+    | DedicatedHostGroupsCreateOrUpdate201Response
+    | DedicatedHostGroupsCreateOrUpdatedefaultResponse
+  >;
+  /** Update an dedicated host group. */
+  patch(
+    options: DedicatedHostGroupsUpdateParameters
+  ): StreamableMethod<
+    | DedicatedHostGroupsUpdate200Response
+    | DedicatedHostGroupsUpdatedefaultResponse
+  >;
+  /** Delete a dedicated host group. */
+  delete(
+    options: DedicatedHostGroupsDeleteParameters
+  ): StreamableMethod<
+    | DedicatedHostGroupsDelete200Response
+    | DedicatedHostGroupsDelete204Response
+    | DedicatedHostGroupsDeletedefaultResponse
+  >;
+  /** Retrieves information about a dedicated host group. */
+  get(
+    options: DedicatedHostGroupsGetParameters
+  ): StreamableMethod<
+    DedicatedHostGroupsGet200Response | DedicatedHostGroupsGetdefaultResponse
+  >;
+}
+
+export interface DedicatedHostGroupsListByResourceGroup {
+  /** Lists all of the dedicated host groups in the specified resource group. Use the nextLink property in the response to get the next page of dedicated host groups. */
+  get(
+    options: DedicatedHostGroupsListByResourceGroupParameters
+  ): StreamableMethod<
+    | DedicatedHostGroupsListByResourceGroup200Response
+    | DedicatedHostGroupsListByResourceGroupdefaultResponse
+  >;
+}
+
+export interface DedicatedHostGroupsListBySubscription {
+  /** Lists all of the dedicated host groups in the subscription. Use the nextLink property in the response to get the next page of dedicated host groups. */
+  get(
+    options: DedicatedHostGroupsListBySubscriptionParameters
+  ): StreamableMethod<
+    | DedicatedHostGroupsListBySubscription200Response
+    | DedicatedHostGroupsListBySubscriptiondefaultResponse
+  >;
+}
+
+export interface DedicatedHostsCreateOrUpdate {
+  /** Create or update a dedicated host . */
+  put(
+    options: DedicatedHostsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | DedicatedHostsCreateOrUpdate200Response
+    | DedicatedHostsCreateOrUpdate201Response
+    | DedicatedHostsCreateOrUpdatedefaultResponse
+  >;
+  /** Update an dedicated host . */
+  patch(
+    options: DedicatedHostsUpdateParameters
+  ): StreamableMethod<
+    DedicatedHostsUpdate200Response | DedicatedHostsUpdatedefaultResponse
+  >;
+  /** Delete a dedicated host. */
+  delete(
+    options: DedicatedHostsDeleteParameters
+  ): StreamableMethod<
+    | DedicatedHostsDelete200Response
+    | DedicatedHostsDelete202Response
+    | DedicatedHostsDelete204Response
+    | DedicatedHostsDeletedefaultResponse
+  >;
+  /** Retrieves information about a dedicated host. */
+  get(
+    options: DedicatedHostsGetParameters
+  ): StreamableMethod<
+    DedicatedHostsGet200Response | DedicatedHostsGetdefaultResponse
+  >;
+}
+
+export interface DedicatedHostsListByHostGroup {
+  /** Lists all of the dedicated hosts in the specified dedicated host group. Use the nextLink property in the response to get the next page of dedicated hosts. */
+  get(
+    options: DedicatedHostsListByHostGroupParameters
+  ): StreamableMethod<
+    | DedicatedHostsListByHostGroup200Response
+    | DedicatedHostsListByHostGroupdefaultResponse
+  >;
+}
+
+export interface DedicatedHostsRestart {
+  /** Restart the dedicated host. The operation will complete successfully once the dedicated host has restarted and is running. To determine the health of VMs deployed on the dedicated host after the restart check the Resource Health Center in the Azure Portal. Please refer to https://docs.microsoft.com/azure/service-health/resource-health-overview for more details. */
+  post(
+    options: DedicatedHostsRestartParameters
+  ): StreamableMethod<
+    DedicatedHostsRestart200Response | DedicatedHostsRestartdefaultResponse
+  >;
+}
+
+export interface SshPublicKeysListBySubscription {
+  /** Lists all of the SSH public keys in the subscription. Use the nextLink property in the response to get the next page of SSH public keys. */
+  get(
+    options: SshPublicKeysListBySubscriptionParameters
+  ): StreamableMethod<
+    | SshPublicKeysListBySubscription200Response
+    | SshPublicKeysListBySubscriptiondefaultResponse
+  >;
+}
+
+export interface SshPublicKeysListByResourceGroup {
+  /** Lists all of the SSH public keys in the specified resource group. Use the nextLink property in the response to get the next page of SSH public keys. */
+  get(
+    options: SshPublicKeysListByResourceGroupParameters
+  ): StreamableMethod<
+    | SshPublicKeysListByResourceGroup200Response
+    | SshPublicKeysListByResourceGroupdefaultResponse
+  >;
+}
+
+export interface SshPublicKeysCreate {
+  /** Creates a new SSH public key resource. */
+  put(
+    options: SshPublicKeysCreateParameters
+  ): StreamableMethod<
+    | SshPublicKeysCreate200Response
+    | SshPublicKeysCreate201Response
+    | SshPublicKeysCreatedefaultResponse
+  >;
+  /** Updates a new SSH public key resource. */
+  patch(
+    options: SshPublicKeysUpdateParameters
+  ): StreamableMethod<
+    SshPublicKeysUpdate200Response | SshPublicKeysUpdatedefaultResponse
+  >;
+  /** Delete an SSH public key. */
+  delete(
+    options: SshPublicKeysDeleteParameters
+  ): StreamableMethod<
+    | SshPublicKeysDelete200Response
+    | SshPublicKeysDelete204Response
+    | SshPublicKeysDeletedefaultResponse
+  >;
+  /** Retrieves information about an SSH public key. */
+  get(
+    options: SshPublicKeysGetParameters
+  ): StreamableMethod<
+    SshPublicKeysGet200Response | SshPublicKeysGetdefaultResponse
+  >;
+}
+
+export interface SshPublicKeysGenerateKeyPair {
+  /** Generates and returns a public/private key pair and populates the SSH public key resource with the public key. The length of the key will be 3072 bits. This operation can only be performed once per SSH public key resource. */
+  post(
+    options: SshPublicKeysGenerateKeyPairParameters
+  ): StreamableMethod<
+    | SshPublicKeysGenerateKeyPair200Response
+    | SshPublicKeysGenerateKeyPairdefaultResponse
+  >;
+}
+
+export interface ImagesCreateOrUpdate {
+  /** Create or update an image. */
+  put(
+    options: ImagesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ImagesCreateOrUpdate200Response
+    | ImagesCreateOrUpdate201Response
+    | ImagesCreateOrUpdatedefaultResponse
+  >;
+  /** Update an image. */
+  patch(
+    options: ImagesUpdateParameters
+  ): StreamableMethod<
+    | ImagesUpdate200Response
+    | ImagesUpdate201Response
+    | ImagesUpdatedefaultResponse
+  >;
+  /** Deletes an Image. */
+  delete(
+    options: ImagesDeleteParameters
+  ): StreamableMethod<
+    | ImagesDelete200Response
+    | ImagesDelete202Response
+    | ImagesDelete204Response
+    | ImagesDeletedefaultResponse
+  >;
+  /** Gets an image. */
+  get(
+    options: ImagesGetParameters
+  ): StreamableMethod<ImagesGet200Response | ImagesGetdefaultResponse>;
+}
+
+export interface ImagesListByResourceGroup {
+  /** Gets the list of images under a resource group. */
+  get(
+    options: ImagesListByResourceGroupParameters
+  ): StreamableMethod<
+    | ImagesListByResourceGroup200Response
+    | ImagesListByResourceGroupdefaultResponse
+  >;
+}
+
+export interface ImagesList {
+  /** Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is null to fetch all the Images. */
+  get(
+    options: ImagesListParameters
+  ): StreamableMethod<ImagesList200Response | ImagesListdefaultResponse>;
+}
+
+export interface RestorePointCollectionsCreateOrUpdate {
+  /** The operation to create or update the restore point collection. Please refer to https://aka.ms/RestorePoints for more details. When updating a restore point collection, only tags may be modified. */
+  put(
+    options: RestorePointCollectionsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | RestorePointCollectionsCreateOrUpdate200Response
+    | RestorePointCollectionsCreateOrUpdate201Response
+    | RestorePointCollectionsCreateOrUpdatedefaultResponse
+  >;
+  /** The operation to update the restore point collection. */
+  patch(
+    options: RestorePointCollectionsUpdateParameters
+  ): StreamableMethod<
+    | RestorePointCollectionsUpdate200Response
+    | RestorePointCollectionsUpdatedefaultResponse
+  >;
+  /** The operation to delete the restore point collection. This operation will also delete all the contained restore points. */
+  delete(
+    options: RestorePointCollectionsDeleteParameters
+  ): StreamableMethod<
+    | RestorePointCollectionsDelete200Response
+    | RestorePointCollectionsDelete202Response
+    | RestorePointCollectionsDelete204Response
+    | RestorePointCollectionsDeletedefaultResponse
+  >;
+  /** The operation to get the restore point collection. */
+  get(
+    options: RestorePointCollectionsGetParameters
+  ): StreamableMethod<
+    | RestorePointCollectionsGet200Response
+    | RestorePointCollectionsGetdefaultResponse
+  >;
+}
+
+export interface RestorePointCollectionsList {
+  /** Gets the list of restore point collections in a resource group. */
+  get(
+    options: RestorePointCollectionsListParameters
+  ): StreamableMethod<
+    | RestorePointCollectionsList200Response
+    | RestorePointCollectionsListdefaultResponse
+  >;
+}
+
+export interface RestorePointCollectionsListAll {
+  /** Gets the list of restore point collections in the subscription. Use nextLink property in the response to get the next page of restore point collections. Do this till nextLink is not null to fetch all the restore point collections. */
+  get(
+    options: RestorePointCollectionsListAllParameters
+  ): StreamableMethod<
+    | RestorePointCollectionsListAll200Response
+    | RestorePointCollectionsListAlldefaultResponse
+  >;
+}
+
+export interface RestorePointsCreate {
+  /** The operation to create the restore point. Updating properties of an existing restore point is not allowed */
+  put(
+    options: RestorePointsCreateParameters
+  ): StreamableMethod<
+    RestorePointsCreate201Response | RestorePointsCreatedefaultResponse
+  >;
+  /** The operation to delete the restore point. */
+  delete(
+    options: RestorePointsDeleteParameters
+  ): StreamableMethod<
+    | RestorePointsDelete200Response
+    | RestorePointsDelete202Response
+    | RestorePointsDelete204Response
+    | RestorePointsDeletedefaultResponse
+  >;
+  /** The operation to get the restore point. */
+  get(
+    options: RestorePointsGetParameters
+  ): StreamableMethod<
+    RestorePointsGet200Response | RestorePointsGetdefaultResponse
+  >;
+}
+
+export interface CapacityReservationGroupsCreateOrUpdate {
+  /** The operation to create or update a capacity reservation group. When updating a capacity reservation group, only tags may be modified. Please refer to https://aka.ms/CapacityReservation for more details. */
+  put(
+    options: CapacityReservationGroupsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | CapacityReservationGroupsCreateOrUpdate200Response
+    | CapacityReservationGroupsCreateOrUpdate201Response
+    | CapacityReservationGroupsCreateOrUpdatedefaultResponse
+  >;
+  /** The operation to update a capacity reservation group. When updating a capacity reservation group, only tags may be modified. */
+  patch(
+    options: CapacityReservationGroupsUpdateParameters
+  ): StreamableMethod<
+    | CapacityReservationGroupsUpdate200Response
+    | CapacityReservationGroupsUpdatedefaultResponse
+  >;
+  /** The operation to delete a capacity reservation group. This operation is allowed only if all the associated resources are disassociated from the reservation group and all capacity reservations under the reservation group have also been deleted. Please refer to https://aka.ms/CapacityReservation for more details. */
+  delete(
+    options: CapacityReservationGroupsDeleteParameters
+  ): StreamableMethod<
+    | CapacityReservationGroupsDelete200Response
+    | CapacityReservationGroupsDelete204Response
+    | CapacityReservationGroupsDeletedefaultResponse
+  >;
+  /** The operation that retrieves information about a capacity reservation group. */
+  get(
+    options: CapacityReservationGroupsGetParameters
+  ): StreamableMethod<
+    | CapacityReservationGroupsGet200Response
+    | CapacityReservationGroupsGetdefaultResponse
+  >;
+}
+
+export interface CapacityReservationGroupsListByResourceGroup {
+  /** Lists all of the capacity reservation groups in the specified resource group. Use the nextLink property in the response to get the next page of capacity reservation groups. */
+  get(
+    options: CapacityReservationGroupsListByResourceGroupParameters
+  ): StreamableMethod<
+    | CapacityReservationGroupsListByResourceGroup200Response
+    | CapacityReservationGroupsListByResourceGroupdefaultResponse
+  >;
+}
+
+export interface CapacityReservationGroupsListBySubscription {
+  /** Lists all of the capacity reservation groups in the subscription. Use the nextLink property in the response to get the next page of capacity reservation groups. */
+  get(
+    options: CapacityReservationGroupsListBySubscriptionParameters
+  ): StreamableMethod<
+    | CapacityReservationGroupsListBySubscription200Response
+    | CapacityReservationGroupsListBySubscriptiondefaultResponse
+  >;
+}
+
+export interface CapacityReservationsCreateOrUpdate {
+  /** The operation to create or update a capacity reservation. Please note some properties can be set only during capacity reservation creation. Please refer to https://aka.ms/CapacityReservation for more details. */
+  put(
+    options: CapacityReservationsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | CapacityReservationsCreateOrUpdate200Response
+    | CapacityReservationsCreateOrUpdate201Response
+    | CapacityReservationsCreateOrUpdatedefaultResponse
+  >;
+  /** The operation to update a capacity reservation. */
+  patch(
+    options: CapacityReservationsUpdateParameters
+  ): StreamableMethod<
+    | CapacityReservationsUpdate200Response
+    | CapacityReservationsUpdate202Response
+    | CapacityReservationsUpdatedefaultResponse
+  >;
+  /** The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. */
+  delete(
+    options: CapacityReservationsDeleteParameters
+  ): StreamableMethod<
+    | CapacityReservationsDelete200Response
+    | CapacityReservationsDelete202Response
+    | CapacityReservationsDelete204Response
+    | CapacityReservationsDeletedefaultResponse
+  >;
+  /** The operation that retrieves information about the capacity reservation. */
+  get(
+    options: CapacityReservationsGetParameters
+  ): StreamableMethod<
+    CapacityReservationsGet200Response | CapacityReservationsGetdefaultResponse
+  >;
+}
+
+export interface CapacityReservationsListByCapacityReservationGroup {
+  /** Lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations. */
+  get(
+    options: CapacityReservationsListByCapacityReservationGroupParameters
+  ): StreamableMethod<
+    | CapacityReservationsListByCapacityReservationGroup200Response
+    | CapacityReservationsListByCapacityReservationGroupdefaultResponse
+  >;
+}
+
+export interface LogAnalyticsExportRequestRateByInterval {
+  /** Export logs that show Api requests made by this subscription in the given time window to show throttling activities. */
+  post(
+    options: LogAnalyticsExportRequestRateByIntervalParameters
+  ): StreamableMethod<
+    | LogAnalyticsExportRequestRateByInterval200Response
+    | LogAnalyticsExportRequestRateByInterval202Response
+    | LogAnalyticsExportRequestRateByIntervaldefaultResponse
+  >;
+}
+
+export interface LogAnalyticsExportThrottledRequests {
+  /** Export logs that show total throttled Api requests for this subscription in the given time window. */
+  post(
+    options: LogAnalyticsExportThrottledRequestsParameters
+  ): StreamableMethod<
+    | LogAnalyticsExportThrottledRequests200Response
+    | LogAnalyticsExportThrottledRequests202Response
+    | LogAnalyticsExportThrottledRequestsdefaultResponse
+  >;
+}
+
+export interface VirtualMachineRunCommandsList {
+  /** Lists all available run commands for a subscription in a location. */
+  get(
+    options: VirtualMachineRunCommandsListParameters
+  ): StreamableMethod<VirtualMachineRunCommandsList200Response>;
+}
+
+export interface VirtualMachineRunCommandsGet {
+  /** Gets specific run command for a subscription in a location. */
+  get(
+    options: VirtualMachineRunCommandsGetParameters
+  ): StreamableMethod<VirtualMachineRunCommandsGet200Response>;
+}
+
+export interface VirtualMachineRunCommandsCreateOrUpdate {
+  /** The operation to create or update the run command. */
+  put(
+    options: VirtualMachineRunCommandsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VirtualMachineRunCommandsCreateOrUpdate200Response
+    | VirtualMachineRunCommandsCreateOrUpdate201Response
+    | VirtualMachineRunCommandsCreateOrUpdatedefaultResponse
+  >;
+  /** The operation to update the run command. */
+  patch(
+    options: VirtualMachineRunCommandsUpdateParameters
+  ): StreamableMethod<
+    | VirtualMachineRunCommandsUpdate200Response
+    | VirtualMachineRunCommandsUpdatedefaultResponse
+  >;
+  /** The operation to delete the run command. */
+  delete(
+    options: VirtualMachineRunCommandsDeleteParameters
+  ): StreamableMethod<
+    | VirtualMachineRunCommandsDelete200Response
+    | VirtualMachineRunCommandsDelete202Response
+    | VirtualMachineRunCommandsDelete204Response
+    | VirtualMachineRunCommandsDeletedefaultResponse
+  >;
+  /** The operation to get the run command. */
+  get(
+    options: VirtualMachineRunCommandsGetByVirtualMachineParameters
+  ): StreamableMethod<
+    | VirtualMachineRunCommandsGetByVirtualMachine200Response
+    | VirtualMachineRunCommandsGetByVirtualMachinedefaultResponse
+  >;
+}
+
+export interface VirtualMachineRunCommandsListByVirtualMachine {
+  /** The operation to get all run commands of a Virtual Machine. */
+  get(
+    options: VirtualMachineRunCommandsListByVirtualMachineParameters
+  ): StreamableMethod<
+    | VirtualMachineRunCommandsListByVirtualMachine200Response
+    | VirtualMachineRunCommandsListByVirtualMachinedefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdate {
+  /** The operation to create or update the VMSS VM run command. */
+  put(
+    options: VirtualMachineScaleSetVMRunCommandsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMRunCommandsCreateOrUpdate200Response
+    | VirtualMachineScaleSetVMRunCommandsCreateOrUpdate201Response
+    | VirtualMachineScaleSetVMRunCommandsCreateOrUpdatedefaultResponse
+  >;
+  /** The operation to update the VMSS VM run command. */
+  patch(
+    options: VirtualMachineScaleSetVMRunCommandsUpdateParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMRunCommandsUpdate200Response
+    | VirtualMachineScaleSetVMRunCommandsUpdatedefaultResponse
+  >;
+  /** The operation to delete the VMSS VM run command. */
+  delete(
+    options: VirtualMachineScaleSetVMRunCommandsDeleteParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMRunCommandsDelete200Response
+    | VirtualMachineScaleSetVMRunCommandsDelete202Response
+    | VirtualMachineScaleSetVMRunCommandsDelete204Response
+    | VirtualMachineScaleSetVMRunCommandsDeletedefaultResponse
+  >;
+  /** The operation to get the VMSS VM run command. */
+  get(
+    options: VirtualMachineScaleSetVMRunCommandsGetParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMRunCommandsGet200Response
+    | VirtualMachineScaleSetVMRunCommandsGetdefaultResponse
+  >;
+}
+
+export interface VirtualMachineScaleSetVMRunCommandsList {
+  /** The operation to get all run commands of an instance in Virtual Machine Scaleset. */
+  get(
+    options: VirtualMachineScaleSetVMRunCommandsListParameters
+  ): StreamableMethod<
+    | VirtualMachineScaleSetVMRunCommandsList200Response
+    | VirtualMachineScaleSetVMRunCommandsListdefaultResponse
+  >;
+}
+
+export interface DisksCreateOrUpdate {
+  /** Creates or updates a disk. */
+  put(
+    options: DisksCreateOrUpdateParameters
+  ): StreamableMethod<
+    DisksCreateOrUpdate200Response | DisksCreateOrUpdate202Response
+  >;
+  /** Updates (patches) a disk. */
+  patch(
+    options: DisksUpdateParameters
+  ): StreamableMethod<DisksUpdate200Response | DisksUpdate202Response>;
+  /** Gets information about a disk. */
+  get(options: DisksGetParameters): StreamableMethod<DisksGet200Response>;
+  /** Deletes a disk. */
+  delete(
+    options: DisksDeleteParameters
+  ): StreamableMethod<
+    DisksDelete200Response | DisksDelete202Response | DisksDelete204Response
+  >;
+}
+
+export interface DisksListByResourceGroup {
+  /** Lists all the disks under a resource group. */
+  get(
+    options: DisksListByResourceGroupParameters
+  ): StreamableMethod<DisksListByResourceGroup200Response>;
+}
+
+export interface DisksList {
+  /** Lists all the disks under a subscription. */
+  get(options: DisksListParameters): StreamableMethod<DisksList200Response>;
+}
+
+export interface DisksGrantAccess {
+  /** Grants access to a disk. */
+  post(
+    options: DisksGrantAccessParameters
+  ): StreamableMethod<
+    DisksGrantAccess200Response | DisksGrantAccess202Response
+  >;
+}
+
+export interface DisksRevokeAccess {
+  /** Revokes access to a disk. */
+  post(
+    options: DisksRevokeAccessParameters
+  ): StreamableMethod<
+    DisksRevokeAccess200Response | DisksRevokeAccess202Response
+  >;
+}
+
+export interface DiskAccessesCreateOrUpdate {
+  /** Creates or updates a disk access resource */
+  put(
+    options: DiskAccessesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | DiskAccessesCreateOrUpdate200Response
+    | DiskAccessesCreateOrUpdate202Response
+    | DiskAccessesCreateOrUpdatedefaultResponse
+  >;
+  /** Updates (patches) a disk access resource. */
+  patch(
+    options: DiskAccessesUpdateParameters
+  ): StreamableMethod<
+    | DiskAccessesUpdate200Response
+    | DiskAccessesUpdate202Response
+    | DiskAccessesUpdatedefaultResponse
+  >;
+  /** Gets information about a disk access resource. */
+  get(
+    options: DiskAccessesGetParameters
+  ): StreamableMethod<
+    DiskAccessesGet200Response | DiskAccessesGetdefaultResponse
+  >;
+  /** Deletes a disk access resource. */
+  delete(
+    options: DiskAccessesDeleteParameters
+  ): StreamableMethod<
+    | DiskAccessesDelete200Response
+    | DiskAccessesDelete202Response
+    | DiskAccessesDelete204Response
+    | DiskAccessesDeletedefaultResponse
+  >;
+}
+
+export interface DiskAccessesListByResourceGroup {
+  /** Lists all the disk access resources under a resource group. */
+  get(
+    options: DiskAccessesListByResourceGroupParameters
+  ): StreamableMethod<
+    | DiskAccessesListByResourceGroup200Response
+    | DiskAccessesListByResourceGroupdefaultResponse
+  >;
+}
+
+export interface DiskAccessesList {
+  /** Lists all the disk access resources under a subscription. */
+  get(
+    options: DiskAccessesListParameters
+  ): StreamableMethod<
+    DiskAccessesList200Response | DiskAccessesListdefaultResponse
+  >;
+}
+
+export interface DiskAccessesGetPrivateLinkResources {
+  /** Gets the private link resources possible under disk access resource */
+  get(
+    options: DiskAccessesGetPrivateLinkResourcesParameters
+  ): StreamableMethod<DiskAccessesGetPrivateLinkResources200Response>;
+}
+
+export interface DiskAccessesUpdateAPrivateEndpointConnection {
+  /** Approve or reject a private endpoint connection under disk access resource, this can't be used to create a new private endpoint connection. */
+  put(
+    options: DiskAccessesUpdateAPrivateEndpointConnectionParameters
+  ): StreamableMethod<
+    | DiskAccessesUpdateAPrivateEndpointConnection200Response
+    | DiskAccessesUpdateAPrivateEndpointConnection202Response
+    | DiskAccessesUpdateAPrivateEndpointConnectiondefaultResponse
+  >;
+  /** Gets information about a private endpoint connection under a disk access resource. */
+  get(
+    options: DiskAccessesGetAPrivateEndpointConnectionParameters
+  ): StreamableMethod<
+    | DiskAccessesGetAPrivateEndpointConnection200Response
+    | DiskAccessesGetAPrivateEndpointConnectiondefaultResponse
+  >;
+  /** Deletes a private endpoint connection under a disk access resource. */
+  delete(
+    options: DiskAccessesDeleteAPrivateEndpointConnectionParameters
+  ): StreamableMethod<
+    | DiskAccessesDeleteAPrivateEndpointConnection200Response
+    | DiskAccessesDeleteAPrivateEndpointConnection202Response
+    | DiskAccessesDeleteAPrivateEndpointConnection204Response
+    | DiskAccessesDeleteAPrivateEndpointConnectiondefaultResponse
+  >;
+}
+
+export interface DiskAccessesListPrivateEndpointConnections {
+  /** List information about private endpoint connections under a disk access resource */
+  get(
+    options: DiskAccessesListPrivateEndpointConnectionsParameters
+  ): StreamableMethod<
+    | DiskAccessesListPrivateEndpointConnections200Response
+    | DiskAccessesListPrivateEndpointConnectionsdefaultResponse
+  >;
+}
+
+export interface DiskEncryptionSetsCreateOrUpdate {
+  /** Creates or updates a disk encryption set */
+  put(
+    options: DiskEncryptionSetsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | DiskEncryptionSetsCreateOrUpdate200Response
+    | DiskEncryptionSetsCreateOrUpdate202Response
+    | DiskEncryptionSetsCreateOrUpdatedefaultResponse
+  >;
+  /** Updates (patches) a disk encryption set. */
+  patch(
+    options: DiskEncryptionSetsUpdateParameters
+  ): StreamableMethod<
+    | DiskEncryptionSetsUpdate200Response
+    | DiskEncryptionSetsUpdate202Response
+    | DiskEncryptionSetsUpdatedefaultResponse
+  >;
+  /** Gets information about a disk encryption set. */
+  get(
+    options: DiskEncryptionSetsGetParameters
+  ): StreamableMethod<
+    DiskEncryptionSetsGet200Response | DiskEncryptionSetsGetdefaultResponse
+  >;
+  /** Deletes a disk encryption set. */
+  delete(
+    options: DiskEncryptionSetsDeleteParameters
+  ): StreamableMethod<
+    | DiskEncryptionSetsDelete200Response
+    | DiskEncryptionSetsDelete202Response
+    | DiskEncryptionSetsDelete204Response
+    | DiskEncryptionSetsDeletedefaultResponse
+  >;
+}
+
+export interface DiskEncryptionSetsListByResourceGroup {
+  /** Lists all the disk encryption sets under a resource group. */
+  get(
+    options: DiskEncryptionSetsListByResourceGroupParameters
+  ): StreamableMethod<
+    | DiskEncryptionSetsListByResourceGroup200Response
+    | DiskEncryptionSetsListByResourceGroupdefaultResponse
+  >;
+}
+
+export interface DiskEncryptionSetsList {
+  /** Lists all the disk encryption sets under a subscription. */
+  get(
+    options: DiskEncryptionSetsListParameters
+  ): StreamableMethod<
+    DiskEncryptionSetsList200Response | DiskEncryptionSetsListdefaultResponse
+  >;
+}
+
+export interface DiskEncryptionSetsListAssociatedResources {
+  /** Lists all resources that are encrypted with this disk encryption set. */
+  get(
+    options: DiskEncryptionSetsListAssociatedResourcesParameters
+  ): StreamableMethod<
+    | DiskEncryptionSetsListAssociatedResources200Response
+    | DiskEncryptionSetsListAssociatedResourcesdefaultResponse
+  >;
+}
+
+export interface DiskRestorePointGet {
+  /** Get disk restorePoint resource */
+  get(
+    options: DiskRestorePointGetParameters
+  ): StreamableMethod<
+    DiskRestorePointGet200Response | DiskRestorePointGetdefaultResponse
+  >;
+}
+
+export interface DiskRestorePointListByRestorePoint {
+  /** Lists diskRestorePoints under a vmRestorePoint. */
+  get(
+    options: DiskRestorePointListByRestorePointParameters
+  ): StreamableMethod<
+    | DiskRestorePointListByRestorePoint200Response
+    | DiskRestorePointListByRestorePointdefaultResponse
+  >;
+}
+
+export interface DiskRestorePointGrantAccess {
+  /** Grants access to a diskRestorePoint. */
+  post(
+    options: DiskRestorePointGrantAccessParameters
+  ): StreamableMethod<
+    | DiskRestorePointGrantAccess200Response
+    | DiskRestorePointGrantAccess202Response
+    | DiskRestorePointGrantAccessdefaultResponse
+  >;
+}
+
+export interface DiskRestorePointRevokeAccess {
+  /** Revokes access to a diskRestorePoint. */
+  post(
+    options: DiskRestorePointRevokeAccessParameters
+  ): StreamableMethod<
+    | DiskRestorePointRevokeAccess200Response
+    | DiskRestorePointRevokeAccess202Response
+    | DiskRestorePointRevokeAccessdefaultResponse
+  >;
+}
+
+export interface SnapshotsCreateOrUpdate {
+  /** Creates or updates a snapshot. */
+  put(
+    options: SnapshotsCreateOrUpdateParameters
+  ): StreamableMethod<
+    SnapshotsCreateOrUpdate200Response | SnapshotsCreateOrUpdate202Response
+  >;
+  /** Updates (patches) a snapshot. */
+  patch(
+    options: SnapshotsUpdateParameters
+  ): StreamableMethod<SnapshotsUpdate200Response | SnapshotsUpdate202Response>;
+  /** Gets information about a snapshot. */
+  get(
+    options: SnapshotsGetParameters
+  ): StreamableMethod<SnapshotsGet200Response>;
+  /** Deletes a snapshot. */
+  delete(
+    options: SnapshotsDeleteParameters
+  ): StreamableMethod<
+    | SnapshotsDelete200Response
+    | SnapshotsDelete202Response
+    | SnapshotsDelete204Response
+  >;
+}
+
+export interface SnapshotsListByResourceGroup {
+  /** Lists snapshots under a resource group. */
+  get(
+    options: SnapshotsListByResourceGroupParameters
+  ): StreamableMethod<SnapshotsListByResourceGroup200Response>;
+}
+
+export interface SnapshotsList {
+  /** Lists snapshots under a subscription. */
+  get(
+    options: SnapshotsListParameters
+  ): StreamableMethod<SnapshotsList200Response>;
+}
+
+export interface SnapshotsGrantAccess {
+  /** Grants access to a snapshot. */
+  post(
+    options: SnapshotsGrantAccessParameters
+  ): StreamableMethod<
+    SnapshotsGrantAccess200Response | SnapshotsGrantAccess202Response
+  >;
+}
+
+export interface SnapshotsRevokeAccess {
+  /** Revokes access to a snapshot. */
+  post(
+    options: SnapshotsRevokeAccessParameters
+  ): StreamableMethod<
+    SnapshotsRevokeAccess200Response | SnapshotsRevokeAccess202Response
+  >;
+}
+
+export interface ResourceSkusList {
+  /** Gets the list of Microsoft.Compute SKUs available for your Subscription. */
+  get(
+    options: ResourceSkusListParameters
+  ): StreamableMethod<ResourceSkusList200Response>;
+}
+
+export interface GalleriesCreateOrUpdate {
+  /** Create or update a Shared Image Gallery. */
+  put(
+    options: GalleriesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | GalleriesCreateOrUpdate200Response
+    | GalleriesCreateOrUpdate201Response
+    | GalleriesCreateOrUpdate202Response
+    | GalleriesCreateOrUpdatedefaultResponse
+  >;
+  /** Update a Shared Image Gallery. */
+  patch(
+    options: GalleriesUpdateParameters
+  ): StreamableMethod<
+    GalleriesUpdate200Response | GalleriesUpdatedefaultResponse
+  >;
+  /** Retrieves information about a Shared Image Gallery. */
+  get(
+    options: GalleriesGetParameters
+  ): StreamableMethod<GalleriesGet200Response | GalleriesGetdefaultResponse>;
+  /** Delete a Shared Image Gallery. */
+  delete(
+    options: GalleriesDeleteParameters
+  ): StreamableMethod<
+    | GalleriesDelete200Response
+    | GalleriesDelete202Response
+    | GalleriesDelete204Response
+    | GalleriesDeletedefaultResponse
+  >;
+}
+
+export interface GalleriesListByResourceGroup {
+  /** List galleries under a resource group. */
+  get(
+    options: GalleriesListByResourceGroupParameters
+  ): StreamableMethod<
+    | GalleriesListByResourceGroup200Response
+    | GalleriesListByResourceGroupdefaultResponse
+  >;
+}
+
+export interface GalleriesList {
+  /** List galleries under a subscription. */
+  get(
+    options: GalleriesListParameters
+  ): StreamableMethod<GalleriesList200Response | GalleriesListdefaultResponse>;
+}
+
+export interface GalleryImagesCreateOrUpdate {
+  /** Create or update a gallery image definition. */
+  put(
+    options: GalleryImagesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | GalleryImagesCreateOrUpdate200Response
+    | GalleryImagesCreateOrUpdate201Response
+    | GalleryImagesCreateOrUpdate202Response
+    | GalleryImagesCreateOrUpdatedefaultResponse
+  >;
+  /** Update a gallery image definition. */
+  patch(
+    options: GalleryImagesUpdateParameters
+  ): StreamableMethod<
+    GalleryImagesUpdate200Response | GalleryImagesUpdatedefaultResponse
+  >;
+  /** Retrieves information about a gallery image definition. */
+  get(
+    options: GalleryImagesGetParameters
+  ): StreamableMethod<
+    GalleryImagesGet200Response | GalleryImagesGetdefaultResponse
+  >;
+  /** Delete a gallery image. */
+  delete(
+    options: GalleryImagesDeleteParameters
+  ): StreamableMethod<
+    | GalleryImagesDelete200Response
+    | GalleryImagesDelete202Response
+    | GalleryImagesDelete204Response
+    | GalleryImagesDeletedefaultResponse
+  >;
+}
+
+export interface GalleryImagesListByGallery {
+  /** List gallery image definitions in a gallery. */
+  get(
+    options: GalleryImagesListByGalleryParameters
+  ): StreamableMethod<
+    | GalleryImagesListByGallery200Response
+    | GalleryImagesListByGallerydefaultResponse
+  >;
+}
+
+export interface GalleryImageVersionsCreateOrUpdate {
+  /** Create or update a gallery image version. */
+  put(
+    options: GalleryImageVersionsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | GalleryImageVersionsCreateOrUpdate200Response
+    | GalleryImageVersionsCreateOrUpdate201Response
+    | GalleryImageVersionsCreateOrUpdate202Response
+    | GalleryImageVersionsCreateOrUpdatedefaultResponse
+  >;
+  /** Update a gallery image version. */
+  patch(
+    options: GalleryImageVersionsUpdateParameters
+  ): StreamableMethod<
+    | GalleryImageVersionsUpdate200Response
+    | GalleryImageVersionsUpdatedefaultResponse
+  >;
+  /** Retrieves information about a gallery image version. */
+  get(
+    options: GalleryImageVersionsGetParameters
+  ): StreamableMethod<
+    GalleryImageVersionsGet200Response | GalleryImageVersionsGetdefaultResponse
+  >;
+  /** Delete a gallery image version. */
+  delete(
+    options: GalleryImageVersionsDeleteParameters
+  ): StreamableMethod<
+    | GalleryImageVersionsDelete200Response
+    | GalleryImageVersionsDelete202Response
+    | GalleryImageVersionsDelete204Response
+    | GalleryImageVersionsDeletedefaultResponse
+  >;
+}
+
+export interface GalleryImageVersionsListByGalleryImage {
+  /** List gallery image versions in a gallery image definition. */
+  get(
+    options: GalleryImageVersionsListByGalleryImageParameters
+  ): StreamableMethod<
+    | GalleryImageVersionsListByGalleryImage200Response
+    | GalleryImageVersionsListByGalleryImagedefaultResponse
+  >;
+}
+
+export interface GalleryApplicationsCreateOrUpdate {
+  /** Create or update a gallery Application Definition. */
+  put(
+    options: GalleryApplicationsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | GalleryApplicationsCreateOrUpdate200Response
+    | GalleryApplicationsCreateOrUpdate201Response
+    | GalleryApplicationsCreateOrUpdate202Response
+    | GalleryApplicationsCreateOrUpdatedefaultResponse
+  >;
+  /** Update a gallery Application Definition. */
+  patch(
+    options: GalleryApplicationsUpdateParameters
+  ): StreamableMethod<
+    | GalleryApplicationsUpdate200Response
+    | GalleryApplicationsUpdatedefaultResponse
+  >;
+  /** Retrieves information about a gallery Application Definition. */
+  get(
+    options: GalleryApplicationsGetParameters
+  ): StreamableMethod<
+    GalleryApplicationsGet200Response | GalleryApplicationsGetdefaultResponse
+  >;
+  /** Delete a gallery Application. */
+  delete(
+    options: GalleryApplicationsDeleteParameters
+  ): StreamableMethod<
+    | GalleryApplicationsDelete200Response
+    | GalleryApplicationsDelete202Response
+    | GalleryApplicationsDelete204Response
+    | GalleryApplicationsDeletedefaultResponse
+  >;
+}
+
+export interface GalleryApplicationsListByGallery {
+  /** List gallery Application Definitions in a gallery. */
+  get(
+    options: GalleryApplicationsListByGalleryParameters
+  ): StreamableMethod<
+    | GalleryApplicationsListByGallery200Response
+    | GalleryApplicationsListByGallerydefaultResponse
+  >;
+}
+
+export interface GalleryApplicationVersionsCreateOrUpdate {
+  /** Create or update a gallery Application Version. */
+  put(
+    options: GalleryApplicationVersionsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | GalleryApplicationVersionsCreateOrUpdate200Response
+    | GalleryApplicationVersionsCreateOrUpdate201Response
+    | GalleryApplicationVersionsCreateOrUpdate202Response
+    | GalleryApplicationVersionsCreateOrUpdatedefaultResponse
+  >;
+  /** Update a gallery Application Version. */
+  patch(
+    options: GalleryApplicationVersionsUpdateParameters
+  ): StreamableMethod<
+    | GalleryApplicationVersionsUpdate200Response
+    | GalleryApplicationVersionsUpdatedefaultResponse
+  >;
+  /** Retrieves information about a gallery Application Version. */
+  get(
+    options: GalleryApplicationVersionsGetParameters
+  ): StreamableMethod<
+    | GalleryApplicationVersionsGet200Response
+    | GalleryApplicationVersionsGetdefaultResponse
+  >;
+  /** Delete a gallery Application Version. */
+  delete(
+    options: GalleryApplicationVersionsDeleteParameters
+  ): StreamableMethod<
+    | GalleryApplicationVersionsDelete200Response
+    | GalleryApplicationVersionsDelete202Response
+    | GalleryApplicationVersionsDelete204Response
+    | GalleryApplicationVersionsDeletedefaultResponse
+  >;
+}
+
+export interface GalleryApplicationVersionsListByGalleryApplication {
+  /** List gallery Application Versions in a gallery Application Definition. */
+  get(
+    options: GalleryApplicationVersionsListByGalleryApplicationParameters
+  ): StreamableMethod<
+    | GalleryApplicationVersionsListByGalleryApplication200Response
+    | GalleryApplicationVersionsListByGalleryApplicationdefaultResponse
+  >;
+}
+
+export interface GallerySharingProfileUpdate {
+  /** Update sharing profile of a gallery. */
+  post(
+    options: GallerySharingProfileUpdateParameters
+  ): StreamableMethod<
+    | GallerySharingProfileUpdate200Response
+    | GallerySharingProfileUpdate202Response
+    | GallerySharingProfileUpdatedefaultResponse
+  >;
+}
+
+export interface SharedGalleriesList {
+  /** List shared galleries by subscription id or tenant id. */
+  get(
+    options: SharedGalleriesListParameters
+  ): StreamableMethod<
+    SharedGalleriesList200Response | SharedGalleriesListdefaultResponse
+  >;
+}
+
+export interface SharedGalleriesGet {
+  /** Get a shared gallery by subscription id or tenant id. */
+  get(
+    options: SharedGalleriesGetParameters
+  ): StreamableMethod<
+    SharedGalleriesGet200Response | SharedGalleriesGetdefaultResponse
+  >;
+}
+
+export interface SharedGalleryImagesList {
+  /** List shared gallery images by subscription id or tenant id. */
+  get(
+    options: SharedGalleryImagesListParameters
+  ): StreamableMethod<
+    SharedGalleryImagesList200Response | SharedGalleryImagesListdefaultResponse
+  >;
+}
+
+export interface SharedGalleryImagesGet {
+  /** Get a shared gallery image by subscription id or tenant id. */
+  get(
+    options: SharedGalleryImagesGetParameters
+  ): StreamableMethod<
+    SharedGalleryImagesGet200Response | SharedGalleryImagesGetdefaultResponse
+  >;
+}
+
+export interface SharedGalleryImageVersionsList {
+  /** List shared gallery image versions by subscription id or tenant id. */
+  get(
+    options: SharedGalleryImageVersionsListParameters
+  ): StreamableMethod<
+    | SharedGalleryImageVersionsList200Response
+    | SharedGalleryImageVersionsListdefaultResponse
+  >;
+}
+
+export interface SharedGalleryImageVersionsGet {
+  /** Get a shared gallery image version by subscription id or tenant id. */
+  get(
+    options: SharedGalleryImageVersionsGetParameters
+  ): StreamableMethod<
+    | SharedGalleryImageVersionsGet200Response
+    | SharedGalleryImageVersionsGetdefaultResponse
+  >;
+}
+
+export interface CommunityGalleriesGet {
+  /** Get a community gallery by gallery public name. */
+  get(
+    options: CommunityGalleriesGetParameters
+  ): StreamableMethod<
+    CommunityGalleriesGet200Response | CommunityGalleriesGetdefaultResponse
+  >;
+}
+
+export interface CommunityGalleryImagesGet {
+  /** Get a community gallery image. */
+  get(
+    options: CommunityGalleryImagesGetParameters
+  ): StreamableMethod<
+    | CommunityGalleryImagesGet200Response
+    | CommunityGalleryImagesGetdefaultResponse
+  >;
+}
+
+export interface CommunityGalleryImagesList {
+  /** List community gallery images inside a gallery. */
+  get(
+    options: CommunityGalleryImagesListParameters
+  ): StreamableMethod<
+    | CommunityGalleryImagesList200Response
+    | CommunityGalleryImagesListdefaultResponse
+  >;
+}
+
+export interface CommunityGalleryImageVersionsGet {
+  /** Get a community gallery image version. */
+  get(
+    options: CommunityGalleryImageVersionsGetParameters
+  ): StreamableMethod<
+    | CommunityGalleryImageVersionsGet200Response
+    | CommunityGalleryImageVersionsGetdefaultResponse
+  >;
+}
+
+export interface CommunityGalleryImageVersionsList {
+  /** List community gallery image versions inside an image. */
+  get(
+    options: CommunityGalleryImageVersionsListParameters
+  ): StreamableMethod<
+    | CommunityGalleryImageVersionsList200Response
+    | CommunityGalleryImageVersionsListdefaultResponse
+  >;
+}
+
+export interface CloudServiceRoleInstancesDelete {
+  /** Deletes a role instance from a cloud service. */
+  delete(
+    options: CloudServiceRoleInstancesDeleteParameters
+  ): StreamableMethod<
+    | CloudServiceRoleInstancesDelete200Response
+    | CloudServiceRoleInstancesDelete202Response
+    | CloudServiceRoleInstancesDelete204Response
+    | CloudServiceRoleInstancesDeletedefaultResponse
+  >;
+  /** Gets a role instance from a cloud service. */
+  get(
+    options: CloudServiceRoleInstancesGetParameters
+  ): StreamableMethod<
+    | CloudServiceRoleInstancesGet200Response
+    | CloudServiceRoleInstancesGetdefaultResponse
+  >;
+}
+
+export interface CloudServiceRoleInstancesGetInstanceView {
+  /** Retrieves information about the run-time state of a role instance in a cloud service. */
+  get(
+    options: CloudServiceRoleInstancesGetInstanceViewParameters
+  ): StreamableMethod<
+    | CloudServiceRoleInstancesGetInstanceView200Response
+    | CloudServiceRoleInstancesGetInstanceViewdefaultResponse
+  >;
+}
+
+export interface CloudServiceRoleInstancesList {
+  /** Gets the list of all role instances in a cloud service. Use nextLink property in the response to get the next page of role instances. Do this till nextLink is null to fetch all the role instances. */
+  get(
+    options: CloudServiceRoleInstancesListParameters
+  ): StreamableMethod<
+    | CloudServiceRoleInstancesList200Response
+    | CloudServiceRoleInstancesListdefaultResponse
+  >;
+}
+
+export interface CloudServiceRoleInstancesRestart {
+  /** The Reboot Role Instance asynchronous operation requests a reboot of a role instance in the cloud service. */
+  post(
+    options: CloudServiceRoleInstancesRestartParameters
+  ): StreamableMethod<
+    | CloudServiceRoleInstancesRestart200Response
+    | CloudServiceRoleInstancesRestart202Response
+    | CloudServiceRoleInstancesRestartdefaultResponse
+  >;
+}
+
+export interface CloudServiceRoleInstancesReimage {
+  /** The Reimage Role Instance asynchronous operation reinstalls the operating system on instances of web roles or worker roles. */
+  post(
+    options: CloudServiceRoleInstancesReimageParameters
+  ): StreamableMethod<
+    | CloudServiceRoleInstancesReimage200Response
+    | CloudServiceRoleInstancesReimage202Response
+    | CloudServiceRoleInstancesReimagedefaultResponse
+  >;
+}
+
+export interface CloudServiceRoleInstancesRebuild {
+  /** The Rebuild Role Instance asynchronous operation reinstalls the operating system on instances of web roles or worker roles and initializes the storage resources that are used by them. If you do not want to initialize storage resources, you can use Reimage Role Instance. */
+  post(
+    options: CloudServiceRoleInstancesRebuildParameters
+  ): StreamableMethod<
+    | CloudServiceRoleInstancesRebuild200Response
+    | CloudServiceRoleInstancesRebuild202Response
+    | CloudServiceRoleInstancesRebuilddefaultResponse
+  >;
+}
+
+export interface CloudServiceRoleInstancesGetRemoteDesktopFile {
+  /** Gets a remote desktop file for a role instance in a cloud service. */
+  get(
+    options: CloudServiceRoleInstancesGetRemoteDesktopFileParameters
+  ): StreamableMethod<
+    | CloudServiceRoleInstancesGetRemoteDesktopFile200Response
+    | CloudServiceRoleInstancesGetRemoteDesktopFiledefaultResponse
+  >;
+}
+
+export interface CloudServiceRolesGet {
+  /** Gets a role from a cloud service. */
+  get(
+    options: CloudServiceRolesGetParameters
+  ): StreamableMethod<
+    CloudServiceRolesGet200Response | CloudServiceRolesGetdefaultResponse
+  >;
+}
+
+export interface CloudServiceRolesList {
+  /** Gets a list of all roles in a cloud service. Use nextLink property in the response to get the next page of roles. Do this till nextLink is null to fetch all the roles. */
+  get(
+    options: CloudServiceRolesListParameters
+  ): StreamableMethod<
+    CloudServiceRolesList200Response | CloudServiceRolesListdefaultResponse
+  >;
+}
+
+export interface CloudServicesCreateOrUpdate {
+  /** Create or update a cloud service. Please note some properties can be set only during cloud service creation. */
+  put(
+    options: CloudServicesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | CloudServicesCreateOrUpdate200Response
+    | CloudServicesCreateOrUpdate201Response
+    | CloudServicesCreateOrUpdatedefaultResponse
+  >;
+  /** Update a cloud service. */
+  patch(
+    options: CloudServicesUpdateParameters
+  ): StreamableMethod<
+    CloudServicesUpdate200Response | CloudServicesUpdatedefaultResponse
+  >;
+  /** Deletes a cloud service. */
+  delete(
+    options: CloudServicesDeleteParameters
+  ): StreamableMethod<
+    | CloudServicesDelete200Response
+    | CloudServicesDelete202Response
+    | CloudServicesDelete204Response
+    | CloudServicesDeletedefaultResponse
+  >;
+  /** Display information about a cloud service. */
+  get(
+    options: CloudServicesGetParameters
+  ): StreamableMethod<
+    CloudServicesGet200Response | CloudServicesGetdefaultResponse
+  >;
+}
+
+export interface CloudServicesGetInstanceView {
+  /** Gets the status of a cloud service. */
+  get(
+    options: CloudServicesGetInstanceViewParameters
+  ): StreamableMethod<
+    | CloudServicesGetInstanceView200Response
+    | CloudServicesGetInstanceViewdefaultResponse
+  >;
+}
+
+export interface CloudServicesListAll {
+  /** Gets a list of all cloud services in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of Cloud Services. Do this till nextLink is null to fetch all the Cloud Services. */
+  get(
+    options: CloudServicesListAllParameters
+  ): StreamableMethod<
+    CloudServicesListAll200Response | CloudServicesListAlldefaultResponse
+  >;
+}
+
+export interface CloudServicesList {
+  /** Gets a list of all cloud services under a resource group. Use nextLink property in the response to get the next page of Cloud Services. Do this till nextLink is null to fetch all the Cloud Services. */
+  get(
+    options: CloudServicesListParameters
+  ): StreamableMethod<
+    CloudServicesList200Response | CloudServicesListdefaultResponse
+  >;
+}
+
+export interface CloudServicesStart {
+  /** Starts the cloud service. */
+  post(
+    options: CloudServicesStartParameters
+  ): StreamableMethod<
+    | CloudServicesStart200Response
+    | CloudServicesStart202Response
+    | CloudServicesStartdefaultResponse
+  >;
+}
+
+export interface CloudServicesPowerOff {
+  /** Power off the cloud service. Note that resources are still attached and you are getting charged for the resources. */
+  post(
+    options: CloudServicesPowerOffParameters
+  ): StreamableMethod<
+    | CloudServicesPowerOff200Response
+    | CloudServicesPowerOff202Response
+    | CloudServicesPowerOffdefaultResponse
+  >;
+}
+
+export interface CloudServicesRestart {
+  /** Restarts one or more role instances in a cloud service. */
+  post(
+    options: CloudServicesRestartParameters
+  ): StreamableMethod<
+    | CloudServicesRestart200Response
+    | CloudServicesRestart202Response
+    | CloudServicesRestartdefaultResponse
+  >;
+}
+
+export interface CloudServicesReimage {
+  /** Reimage asynchronous operation reinstalls the operating system on instances of web roles or worker roles. */
+  post(
+    options: CloudServicesReimageParameters
+  ): StreamableMethod<
+    | CloudServicesReimage200Response
+    | CloudServicesReimage202Response
+    | CloudServicesReimagedefaultResponse
+  >;
+}
+
+export interface CloudServicesRebuild {
+  /** Rebuild Role Instances reinstalls the operating system on instances of web roles or worker roles and initializes the storage resources that are used by them. If you do not want to initialize storage resources, you can use Reimage Role Instances. */
+  post(
+    options: CloudServicesRebuildParameters
+  ): StreamableMethod<
+    | CloudServicesRebuild200Response
+    | CloudServicesRebuild202Response
+    | CloudServicesRebuilddefaultResponse
+  >;
+}
+
+export interface CloudServicesDeleteInstances {
+  /** Deletes role instances in a cloud service. */
+  post(
+    options: CloudServicesDeleteInstancesParameters
+  ): StreamableMethod<
+    | CloudServicesDeleteInstances200Response
+    | CloudServicesDeleteInstances202Response
+    | CloudServicesDeleteInstancesdefaultResponse
+  >;
+}
+
+export interface CloudServicesUpdateDomainWalkUpdateDomain {
+  /** Updates the role instances in the specified update domain. */
+  put(
+    options: CloudServicesUpdateDomainWalkUpdateDomainParameters
+  ): StreamableMethod<
+    | CloudServicesUpdateDomainWalkUpdateDomain200Response
+    | CloudServicesUpdateDomainWalkUpdateDomain202Response
+    | CloudServicesUpdateDomainWalkUpdateDomaindefaultResponse
+  >;
+  /** Gets the specified update domain of a cloud service. Use nextLink property in the response to get the next page of update domains. Do this till nextLink is null to fetch all the update domains. */
+  get(
+    options: CloudServicesUpdateDomainGetUpdateDomainParameters
+  ): StreamableMethod<
+    | CloudServicesUpdateDomainGetUpdateDomain200Response
+    | CloudServicesUpdateDomainGetUpdateDomaindefaultResponse
+  >;
+}
+
+export interface CloudServicesUpdateDomainListUpdateDomains {
+  /** Gets a list of all update domains in a cloud service. */
+  get(
+    options: CloudServicesUpdateDomainListUpdateDomainsParameters
+  ): StreamableMethod<
+    | CloudServicesUpdateDomainListUpdateDomains200Response
+    | CloudServicesUpdateDomainListUpdateDomainsdefaultResponse
+  >;
+}
+
+export interface CloudServiceOperatingSystemsGetOSVersion {
+  /** Gets properties of a guest operating system version that can be specified in the XML service configuration (.cscfg) for a cloud service. */
+  get(
+    options: CloudServiceOperatingSystemsGetOSVersionParameters
+  ): StreamableMethod<
+    | CloudServiceOperatingSystemsGetOSVersion200Response
+    | CloudServiceOperatingSystemsGetOSVersiondefaultResponse
+  >;
+}
+
+export interface CloudServiceOperatingSystemsListOSVersions {
+  /** Gets a list of all guest operating system versions available to be specified in the XML service configuration (.cscfg) for a cloud service. Use nextLink property in the response to get the next page of OS versions. Do this till nextLink is null to fetch all the OS versions. */
+  get(
+    options: CloudServiceOperatingSystemsListOSVersionsParameters
+  ): StreamableMethod<
+    | CloudServiceOperatingSystemsListOSVersions200Response
+    | CloudServiceOperatingSystemsListOSVersionsdefaultResponse
+  >;
+}
+
+export interface CloudServiceOperatingSystemsGetOSFamily {
+  /** Gets properties of a guest operating system family that can be specified in the XML service configuration (.cscfg) for a cloud service. */
+  get(
+    options: CloudServiceOperatingSystemsGetOSFamilyParameters
+  ): StreamableMethod<
+    | CloudServiceOperatingSystemsGetOSFamily200Response
+    | CloudServiceOperatingSystemsGetOSFamilydefaultResponse
+  >;
+}
+
+export interface CloudServiceOperatingSystemsListOSFamilies {
+  /** Gets a list of all guest operating system families available to be specified in the XML service configuration (.cscfg) for a cloud service. Use nextLink property in the response to get the next page of OS Families. Do this till nextLink is null to fetch all the OS Families. */
+  get(
+    options: CloudServiceOperatingSystemsListOSFamiliesParameters
+  ): StreamableMethod<
+    | CloudServiceOperatingSystemsListOSFamilies200Response
+    | CloudServiceOperatingSystemsListOSFamiliesdefaultResponse
+  >;
+}
+
+export interface Routes {
+  /** Resource for '/providers/Microsoft.Compute/operations' has methods for the following verbs: get */
+  (path: "/providers/Microsoft.Compute/operations"): OperationsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/usages' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/usages",
+    subscriptionId: string,
+    location: string
+  ): UsageList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/vmSizes' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/vmSizes",
+    subscriptionId: string,
+    location: string
+  ): VirtualMachineSizesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/virtualMachineScaleSets' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/virtualMachineScaleSets",
+    subscriptionId: string,
+    location: string
+  ): VirtualMachineScaleSetsListByLocation;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}' has methods for the following verbs: put, patch, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/deallocate' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/deallocate",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetsDeallocate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/delete' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/delete",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetsDeleteInstances;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/instanceView' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/instanceView",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetsGetInstanceView;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): VirtualMachineScaleSetsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/virtualMachineScaleSets' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/virtualMachineScaleSets",
+    subscriptionId: string
+  ): VirtualMachineScaleSetsListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/skus' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/skus",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetsListSkus;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/osUpgradeHistory' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osUpgradeHistory",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetsGetOSUpgradeHistory;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/poweroff' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/poweroff",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetsPowerOff;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/restart' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/restart",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetsRestart;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/start' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/start",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetsStart;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/redeploy' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/redeploy",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetsRedeploy;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/performMaintenance' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/performMaintenance",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetsPerformMaintenance;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/manualupgrade' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/manualupgrade",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetsUpdateInstances;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/reimage' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimage",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetsReimage;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/reimageall' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimageall",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetsReimageAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/forceRecoveryServiceFabricPlatformUpdateDomainWalk' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/forceRecoveryServiceFabricPlatformUpdateDomainWalk",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalk;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/convertToSinglePlacementGroup' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/convertToSinglePlacementGroup",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetsConvertToSinglePlacementGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/setOrchestrationServiceState' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/setOrchestrationServiceState",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetsSetOrchestrationServiceState;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/extensions/\{vmssExtensionName\}' has methods for the following verbs: put, patch, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    vmssExtensionName: string
+  ): VirtualMachineScaleSetExtensionsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/extensions' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetExtensionsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/rollingUpgrades/cancel' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/cancel",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetRollingUpgradesCancel;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/osRollingUpgrade' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osRollingUpgrade",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetRollingUpgradesStartOSUpgrade;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/extensionRollingUpgrade' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensionRollingUpgrade",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/rollingUpgrades/latest' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/latest",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string
+  ): VirtualMachineScaleSetRollingUpgradesGetLatest;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/virtualMachines/\{instanceId\}/extensions/\{vmExtensionName\}' has methods for the following verbs: put, patch, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    vmExtensionName: string
+  ): VirtualMachineScaleSetVMExtensionsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/virtualMachines/\{instanceId\}/extensions' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string
+  ): VirtualMachineScaleSetVMExtensionsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/virtualMachines/\{instanceId\}/reimage' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/reimage",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string
+  ): VirtualMachineScaleSetVMsReimage;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/virtualMachines/\{instanceId\}/reimageall' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/reimageall",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string
+  ): VirtualMachineScaleSetVMsReimageAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/virtualMachines/\{instanceId\}/deallocate' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/deallocate",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string
+  ): VirtualMachineScaleSetVMsDeallocate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/virtualMachines/\{instanceId\}' has methods for the following verbs: put, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string
+  ): VirtualMachineScaleSetVMsUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/virtualMachines/\{instanceId\}/instanceView' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/instanceView",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string
+  ): VirtualMachineScaleSetVMsGetInstanceView;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{virtualMachineScaleSetName\}/virtualMachines' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualMachineScaleSetName: string
+  ): VirtualMachineScaleSetVMsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/virtualmachines/\{instanceId\}/poweroff' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/poweroff",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string
+  ): VirtualMachineScaleSetVMsPowerOff;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/virtualmachines/\{instanceId\}/restart' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/restart",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string
+  ): VirtualMachineScaleSetVMsRestart;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/virtualmachines/\{instanceId\}/start' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/start",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string
+  ): VirtualMachineScaleSetVMsStart;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/virtualmachines/\{instanceId\}/redeploy' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/redeploy",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string
+  ): VirtualMachineScaleSetVMsRedeploy;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/virtualmachines/\{instanceId\}/retrieveBootDiagnosticsData' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/retrieveBootDiagnosticsData",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string
+  ): VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/virtualmachines/\{instanceId\}/performMaintenance' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/performMaintenance",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string
+  ): VirtualMachineScaleSetVMsPerformMaintenance;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/virtualMachines/\{instanceId\}/simulateEviction' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/simulateEviction",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string
+  ): VirtualMachineScaleSetVMsSimulateEviction;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/virtualmachines/\{instanceId\}/runCommand' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/runCommand",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string
+  ): VirtualMachineScaleSetVMsRunCommand;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/extensions/\{vmExtensionName\}' has methods for the following verbs: put, patch, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string,
+    vmExtensionName: string
+  ): VirtualMachineExtensionsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/extensions' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string
+  ): VirtualMachineExtensionsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/virtualMachines' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/virtualMachines",
+    subscriptionId: string,
+    location: string
+  ): VirtualMachinesListByLocation;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/capture' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/capture",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string
+  ): VirtualMachinesCapture;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}' has methods for the following verbs: put, patch, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string
+  ): VirtualMachinesCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/instanceView' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/instanceView",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string
+  ): VirtualMachinesInstanceView;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/convertToManagedDisks' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/convertToManagedDisks",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string
+  ): VirtualMachinesConvertToManagedDisks;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/deallocate' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/deallocate",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string
+  ): VirtualMachinesDeallocate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/generalize' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/generalize",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string
+  ): VirtualMachinesGeneralize;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): VirtualMachinesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/virtualMachines' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/virtualMachines",
+    subscriptionId: string
+  ): VirtualMachinesListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/vmSizes' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/vmSizes",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string
+  ): VirtualMachinesListAvailableSizes;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/powerOff' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/powerOff",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string
+  ): VirtualMachinesPowerOff;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/reapply' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/reapply",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string
+  ): VirtualMachinesReapply;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/restart' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/restart",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string
+  ): VirtualMachinesRestart;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/start' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/start",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string
+  ): VirtualMachinesStart;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/redeploy' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/redeploy",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string
+  ): VirtualMachinesRedeploy;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/reimage' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/reimage",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string
+  ): VirtualMachinesReimage;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/retrieveBootDiagnosticsData' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/retrieveBootDiagnosticsData",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string
+  ): VirtualMachinesRetrieveBootDiagnosticsData;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/performMaintenance' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/performMaintenance",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string
+  ): VirtualMachinesPerformMaintenance;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/simulateEviction' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/simulateEviction",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string
+  ): VirtualMachinesSimulateEviction;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/assessPatches' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/assessPatches",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string
+  ): VirtualMachinesAssessPatches;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/installPatches' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/installPatches",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string
+  ): VirtualMachinesInstallPatches;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/runCommand' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommand",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string
+  ): VirtualMachinesRunCommand;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/publishers/\{publisherName\}/artifacttypes/vmimage/offers/\{offer\}/skus/\{skus\}/versions/\{version\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions/{version}",
+    subscriptionId: string,
+    location: string,
+    publisherName: string,
+    offer: string,
+    skus: string,
+    version: string
+  ): VirtualMachineImagesGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/publishers/\{publisherName\}/artifacttypes/vmimage/offers/\{offer\}/skus/\{skus\}/versions' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions",
+    subscriptionId: string,
+    location: string,
+    publisherName: string,
+    offer: string,
+    skus: string
+  ): VirtualMachineImagesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/publishers/\{publisherName\}/artifacttypes/vmimage/offers' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers",
+    subscriptionId: string,
+    location: string,
+    publisherName: string
+  ): VirtualMachineImagesListOffers;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/publishers' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers",
+    subscriptionId: string,
+    location: string
+  ): VirtualMachineImagesListPublishers;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/publishers/\{publisherName\}/artifacttypes/vmimage/offers/\{offer\}/skus' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus",
+    subscriptionId: string,
+    location: string,
+    publisherName: string,
+    offer: string
+  ): VirtualMachineImagesListSkus;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/edgeZones/\{edgeZone\}/vmimages' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/vmimages",
+    subscriptionId: string,
+    location: string,
+    edgeZone: string
+  ): VirtualMachineImagesListByEdgeZone;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/edgeZones/\{edgeZone\}/publishers/\{publisherName\}/artifacttypes/vmimage/offers/\{offer\}/skus/\{skus\}/versions/\{version\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions/{version}",
+    subscriptionId: string,
+    location: string,
+    edgeZone: string,
+    publisherName: string,
+    offer: string,
+    skus: string,
+    version: string
+  ): VirtualMachineImagesEdgeZoneGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/edgeZones/\{edgeZone\}/publishers/\{publisherName\}/artifacttypes/vmimage/offers/\{offer\}/skus/\{skus\}/versions' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions",
+    subscriptionId: string,
+    location: string,
+    edgeZone: string,
+    publisherName: string,
+    offer: string,
+    skus: string
+  ): VirtualMachineImagesEdgeZoneList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/edgeZones/\{edgeZone\}/publishers/\{publisherName\}/artifacttypes/vmimage/offers' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/publishers/{publisherName}/artifacttypes/vmimage/offers",
+    subscriptionId: string,
+    location: string,
+    edgeZone: string,
+    publisherName: string
+  ): VirtualMachineImagesEdgeZoneListOffers;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/edgeZones/\{edgeZone\}/publishers' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/publishers",
+    subscriptionId: string,
+    location: string,
+    edgeZone: string
+  ): VirtualMachineImagesEdgeZoneListPublishers;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/edgeZones/\{edgeZone\}/publishers/\{publisherName\}/artifacttypes/vmimage/offers/\{offer\}/skus' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus",
+    subscriptionId: string,
+    location: string,
+    edgeZone: string,
+    publisherName: string,
+    offer: string
+  ): VirtualMachineImagesEdgeZoneListSkus;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/publishers/\{publisherName\}/artifacttypes/vmextension/types/\{type\}/versions/\{version\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmextension/types/{type}/versions/{version}",
+    subscriptionId: string,
+    location: string,
+    publisherName: string,
+    type: string,
+    version: string
+  ): VirtualMachineExtensionImagesGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/publishers/\{publisherName\}/artifacttypes/vmextension/types' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmextension/types",
+    subscriptionId: string,
+    location: string,
+    publisherName: string
+  ): VirtualMachineExtensionImagesListTypes;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/publishers/\{publisherName\}/artifacttypes/vmextension/types/\{type\}/versions' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmextension/types/{type}/versions",
+    subscriptionId: string,
+    location: string,
+    publisherName: string,
+    type: string
+  ): VirtualMachineExtensionImagesListVersions;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/availabilitySets/\{availabilitySetName\}' has methods for the following verbs: put, patch, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    availabilitySetName: string
+  ): AvailabilitySetsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/availabilitySets' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/availabilitySets",
+    subscriptionId: string
+  ): AvailabilitySetsListBySubscription;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/availabilitySets' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): AvailabilitySetsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/availabilitySets/\{availabilitySetName\}/vmSizes' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}/vmSizes",
+    subscriptionId: string,
+    resourceGroupName: string,
+    availabilitySetName: string
+  ): AvailabilitySetsListAvailableSizes;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/proximityPlacementGroups/\{proximityPlacementGroupName\}' has methods for the following verbs: put, patch, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    proximityPlacementGroupName: string
+  ): ProximityPlacementGroupsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/proximityPlacementGroups' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/proximityPlacementGroups",
+    subscriptionId: string
+  ): ProximityPlacementGroupsListBySubscription;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/proximityPlacementGroups' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): ProximityPlacementGroupsListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/hostGroups/\{hostGroupName\}' has methods for the following verbs: put, patch, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    hostGroupName: string
+  ): DedicatedHostGroupsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/hostGroups' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): DedicatedHostGroupsListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/hostGroups' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/hostGroups",
+    subscriptionId: string
+  ): DedicatedHostGroupsListBySubscription;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/hostGroups/\{hostGroupName\}/hosts/\{hostName\}' has methods for the following verbs: put, patch, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string
+  ): DedicatedHostsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/hostGroups/\{hostGroupName\}/hosts' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts",
+    subscriptionId: string,
+    resourceGroupName: string,
+    hostGroupName: string
+  ): DedicatedHostsListByHostGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/hostGroups/\{hostGroupName\}/hosts/\{hostName\}/restart' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}/restart",
+    subscriptionId: string,
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string
+  ): DedicatedHostsRestart;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/sshPublicKeys' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/sshPublicKeys",
+    subscriptionId: string
+  ): SshPublicKeysListBySubscription;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/sshPublicKeys' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): SshPublicKeysListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/sshPublicKeys/\{sshPublicKeyName\}' has methods for the following verbs: put, patch, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    sshPublicKeyName: string
+  ): SshPublicKeysCreate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/sshPublicKeys/\{sshPublicKeyName\}/generateKeyPair' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}/generateKeyPair",
+    subscriptionId: string,
+    resourceGroupName: string,
+    sshPublicKeyName: string
+  ): SshPublicKeysGenerateKeyPair;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/images/\{imageName\}' has methods for the following verbs: put, patch, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    imageName: string
+  ): ImagesCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/images' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): ImagesListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/images' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/images",
+    subscriptionId: string
+  ): ImagesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/restorePointCollections/\{restorePointCollectionName\}' has methods for the following verbs: put, patch, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    restorePointCollectionName: string
+  ): RestorePointCollectionsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/restorePointCollections' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): RestorePointCollectionsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/restorePointCollections' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/restorePointCollections",
+    subscriptionId: string
+  ): RestorePointCollectionsListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/restorePointCollections/\{restorePointCollectionName\}/restorePoints/\{restorePointName\}' has methods for the following verbs: put, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{restorePointName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    restorePointName: string
+  ): RestorePointsCreate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/capacityReservationGroups/\{capacityReservationGroupName\}' has methods for the following verbs: put, patch, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    capacityReservationGroupName: string
+  ): CapacityReservationGroupsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/capacityReservationGroups' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): CapacityReservationGroupsListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/capacityReservationGroups' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/capacityReservationGroups",
+    subscriptionId: string
+  ): CapacityReservationGroupsListBySubscription;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/capacityReservationGroups/\{capacityReservationGroupName\}/capacityReservations/\{capacityReservationName\}' has methods for the following verbs: put, patch, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    capacityReservationGroupName: string,
+    capacityReservationName: string
+  ): CapacityReservationsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/capacityReservationGroups/\{capacityReservationGroupName\}/capacityReservations' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations",
+    subscriptionId: string,
+    resourceGroupName: string,
+    capacityReservationGroupName: string
+  ): CapacityReservationsListByCapacityReservationGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/logAnalytics/apiAccess/getRequestRateByInterval' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getRequestRateByInterval",
+    subscriptionId: string,
+    location: string
+  ): LogAnalyticsExportRequestRateByInterval;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/logAnalytics/apiAccess/getThrottledRequests' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getThrottledRequests",
+    subscriptionId: string,
+    location: string
+  ): LogAnalyticsExportThrottledRequests;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/runCommands' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/runCommands",
+    subscriptionId: string,
+    location: string
+  ): VirtualMachineRunCommandsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/runCommands/\{commandId\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/runCommands/{commandId}",
+    subscriptionId: string,
+    location: string,
+    commandId: string
+  ): VirtualMachineRunCommandsGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/runCommands/\{runCommandName\}' has methods for the following verbs: put, patch, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommands/{runCommandName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string,
+    runCommandName: string
+  ): VirtualMachineRunCommandsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachines/\{vmName\}/runCommands' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommands",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmName: string
+  ): VirtualMachineRunCommandsListByVirtualMachine;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/virtualMachines/\{instanceId\}/runCommands/\{runCommandName\}' has methods for the following verbs: put, patch, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/runCommands/{runCommandName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    runCommandName: string
+  ): VirtualMachineScaleSetVMRunCommandsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{vmScaleSetName\}/virtualMachines/\{instanceId\}/runCommands' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/runCommands",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string
+  ): VirtualMachineScaleSetVMRunCommandsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/disks/\{diskName\}' has methods for the following verbs: put, patch, get, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    diskName: string
+  ): DisksCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/disks' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): DisksListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/disks' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/disks",
+    subscriptionId: string
+  ): DisksList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/disks/\{diskName\}/beginGetAccess' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}/beginGetAccess",
+    subscriptionId: string,
+    resourceGroupName: string,
+    diskName: string
+  ): DisksGrantAccess;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/disks/\{diskName\}/endGetAccess' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}/endGetAccess",
+    subscriptionId: string,
+    resourceGroupName: string,
+    diskName: string
+  ): DisksRevokeAccess;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/diskAccesses/\{diskAccessName\}' has methods for the following verbs: put, patch, get, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    diskAccessName: string
+  ): DiskAccessesCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/diskAccesses' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): DiskAccessesListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/diskAccesses' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/diskAccesses",
+    subscriptionId: string
+  ): DiskAccessesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/diskAccesses/\{diskAccessName\}/privateLinkResources' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateLinkResources",
+    subscriptionId: string,
+    resourceGroupName: string,
+    diskAccessName: string
+  ): DiskAccessesGetPrivateLinkResources;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/diskAccesses/\{diskAccessName\}/privateEndpointConnections/\{privateEndpointConnectionName\}' has methods for the following verbs: put, get, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    diskAccessName: string,
+    privateEndpointConnectionName: string
+  ): DiskAccessesUpdateAPrivateEndpointConnection;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/diskAccesses/\{diskAccessName\}/privateEndpointConnections' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections",
+    subscriptionId: string,
+    resourceGroupName: string,
+    diskAccessName: string
+  ): DiskAccessesListPrivateEndpointConnections;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/diskEncryptionSets/\{diskEncryptionSetName\}' has methods for the following verbs: put, patch, get, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    diskEncryptionSetName: string
+  ): DiskEncryptionSetsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/diskEncryptionSets' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): DiskEncryptionSetsListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/diskEncryptionSets' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/diskEncryptionSets",
+    subscriptionId: string
+  ): DiskEncryptionSetsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/diskEncryptionSets/\{diskEncryptionSetName\}/associatedResources' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}/associatedResources",
+    subscriptionId: string,
+    resourceGroupName: string,
+    diskEncryptionSetName: string
+  ): DiskEncryptionSetsListAssociatedResources;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/restorePointCollections/\{restorePointCollectionName\}/restorePoints/\{vmRestorePointName\}/diskRestorePoints/\{diskRestorePointName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    vmRestorePointName: string,
+    diskRestorePointName: string
+  ): DiskRestorePointGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/restorePointCollections/\{restorePointCollectionName\}/restorePoints/\{vmRestorePointName\}/diskRestorePoints' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints",
+    subscriptionId: string,
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    vmRestorePointName: string
+  ): DiskRestorePointListByRestorePoint;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/restorePointCollections/\{restorePointCollectionName\}/restorePoints/\{vmRestorePointName\}/diskRestorePoints/\{diskRestorePointName\}/beginGetAccess' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}/beginGetAccess",
+    subscriptionId: string,
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    vmRestorePointName: string,
+    diskRestorePointName: string
+  ): DiskRestorePointGrantAccess;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/restorePointCollections/\{restorePointCollectionName\}/restorePoints/\{vmRestorePointName\}/diskRestorePoints/\{diskRestorePointName\}/endGetAccess' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}/endGetAccess",
+    subscriptionId: string,
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    vmRestorePointName: string,
+    diskRestorePointName: string
+  ): DiskRestorePointRevokeAccess;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/snapshots/\{snapshotName\}' has methods for the following verbs: put, patch, get, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    snapshotName: string
+  ): SnapshotsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/snapshots' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): SnapshotsListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/snapshots' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/snapshots",
+    subscriptionId: string
+  ): SnapshotsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/snapshots/\{snapshotName\}/beginGetAccess' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/beginGetAccess",
+    subscriptionId: string,
+    resourceGroupName: string,
+    snapshotName: string
+  ): SnapshotsGrantAccess;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/snapshots/\{snapshotName\}/endGetAccess' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/endGetAccess",
+    subscriptionId: string,
+    resourceGroupName: string,
+    snapshotName: string
+  ): SnapshotsRevokeAccess;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/skus' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/skus",
+    subscriptionId: string
+  ): ResourceSkusList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/galleries/\{galleryName\}' has methods for the following verbs: put, patch, get, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    galleryName: string
+  ): GalleriesCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/galleries' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): GalleriesListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/galleries' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/galleries",
+    subscriptionId: string
+  ): GalleriesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/galleries/\{galleryName\}/images/\{galleryImageName\}' has methods for the following verbs: put, patch, get, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    galleryName: string,
+    galleryImageName: string
+  ): GalleryImagesCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/galleries/\{galleryName\}/images' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images",
+    subscriptionId: string,
+    resourceGroupName: string,
+    galleryName: string
+  ): GalleryImagesListByGallery;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/galleries/\{galleryName\}/images/\{galleryImageName\}/versions/\{galleryImageVersionName\}' has methods for the following verbs: put, patch, get, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    galleryName: string,
+    galleryImageName: string,
+    galleryImageVersionName: string
+  ): GalleryImageVersionsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/galleries/\{galleryName\}/images/\{galleryImageName\}/versions' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions",
+    subscriptionId: string,
+    resourceGroupName: string,
+    galleryName: string,
+    galleryImageName: string
+  ): GalleryImageVersionsListByGalleryImage;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/galleries/\{galleryName\}/applications/\{galleryApplicationName\}' has methods for the following verbs: put, patch, get, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    galleryName: string,
+    galleryApplicationName: string
+  ): GalleryApplicationsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/galleries/\{galleryName\}/applications' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications",
+    subscriptionId: string,
+    resourceGroupName: string,
+    galleryName: string
+  ): GalleryApplicationsListByGallery;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/galleries/\{galleryName\}/applications/\{galleryApplicationName\}/versions/\{galleryApplicationVersionName\}' has methods for the following verbs: put, patch, get, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    galleryName: string,
+    galleryApplicationName: string,
+    galleryApplicationVersionName: string
+  ): GalleryApplicationVersionsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/galleries/\{galleryName\}/applications/\{galleryApplicationName\}/versions' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions",
+    subscriptionId: string,
+    resourceGroupName: string,
+    galleryName: string,
+    galleryApplicationName: string
+  ): GalleryApplicationVersionsListByGalleryApplication;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/galleries/\{galleryName\}/share' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/share",
+    subscriptionId: string,
+    resourceGroupName: string,
+    galleryName: string
+  ): GallerySharingProfileUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/sharedGalleries' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries",
+    subscriptionId: string,
+    location: string
+  ): SharedGalleriesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/sharedGalleries/\{galleryUniqueName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}",
+    subscriptionId: string,
+    location: string,
+    galleryUniqueName: string
+  ): SharedGalleriesGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/sharedGalleries/\{galleryUniqueName\}/images' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images",
+    subscriptionId: string,
+    location: string,
+    galleryUniqueName: string
+  ): SharedGalleryImagesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/sharedGalleries/\{galleryUniqueName\}/images/\{galleryImageName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}",
+    subscriptionId: string,
+    location: string,
+    galleryUniqueName: string,
+    galleryImageName: string
+  ): SharedGalleryImagesGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/sharedGalleries/\{galleryUniqueName\}/images/\{galleryImageName\}/versions' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}/versions",
+    subscriptionId: string,
+    location: string,
+    galleryUniqueName: string,
+    galleryImageName: string
+  ): SharedGalleryImageVersionsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/sharedGalleries/\{galleryUniqueName\}/images/\{galleryImageName\}/versions/\{galleryImageVersionName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
+    subscriptionId: string,
+    location: string,
+    galleryUniqueName: string,
+    galleryImageName: string,
+    galleryImageVersionName: string
+  ): SharedGalleryImageVersionsGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/communityGalleries/\{publicGalleryName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}",
+    subscriptionId: string,
+    location: string,
+    publicGalleryName: string
+  ): CommunityGalleriesGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/communityGalleries/\{publicGalleryName\}/images/\{galleryImageName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}",
+    subscriptionId: string,
+    location: string,
+    publicGalleryName: string,
+    galleryImageName: string
+  ): CommunityGalleryImagesGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/communityGalleries/\{publicGalleryName\}/images' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images",
+    subscriptionId: string,
+    location: string,
+    publicGalleryName: string
+  ): CommunityGalleryImagesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/communityGalleries/\{publicGalleryName\}/images/\{galleryImageName\}/versions/\{galleryImageVersionName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
+    subscriptionId: string,
+    location: string,
+    publicGalleryName: string,
+    galleryImageName: string,
+    galleryImageVersionName: string
+  ): CommunityGalleryImageVersionsGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/communityGalleries/\{publicGalleryName\}/images/\{galleryImageName\}/versions' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}/versions",
+    subscriptionId: string,
+    location: string,
+    publicGalleryName: string,
+    galleryImageName: string
+  ): CommunityGalleryImageVersionsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/roleInstances/\{roleInstanceName\}' has methods for the following verbs: delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    roleInstanceName: string
+  ): CloudServiceRoleInstancesDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/roleInstances/\{roleInstanceName\}/instanceView' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/instanceView",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    roleInstanceName: string
+  ): CloudServiceRoleInstancesGetInstanceView;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/roleInstances' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string
+  ): CloudServiceRoleInstancesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/roleInstances/\{roleInstanceName\}/restart' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/restart",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    roleInstanceName: string
+  ): CloudServiceRoleInstancesRestart;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/roleInstances/\{roleInstanceName\}/reimage' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/reimage",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    roleInstanceName: string
+  ): CloudServiceRoleInstancesReimage;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/roleInstances/\{roleInstanceName\}/rebuild' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/rebuild",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    roleInstanceName: string
+  ): CloudServiceRoleInstancesRebuild;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/roleInstances/\{roleInstanceName\}/remoteDesktopFile' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/remoteDesktopFile",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    roleInstanceName: string
+  ): CloudServiceRoleInstancesGetRemoteDesktopFile;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/roles/\{roleName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roles/{roleName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    roleName: string
+  ): CloudServiceRolesGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/roles' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roles",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string
+  ): CloudServiceRolesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}' has methods for the following verbs: put, patch, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string
+  ): CloudServicesCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/instanceView' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/instanceView",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string
+  ): CloudServicesGetInstanceView;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/cloudServices' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/cloudServices",
+    subscriptionId: string
+  ): CloudServicesListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): CloudServicesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/start' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/start",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string
+  ): CloudServicesStart;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/poweroff' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/poweroff",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string
+  ): CloudServicesPowerOff;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/restart' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/restart",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string
+  ): CloudServicesRestart;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/reimage' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/reimage",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string
+  ): CloudServicesReimage;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/rebuild' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/rebuild",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string
+  ): CloudServicesRebuild;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/delete' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/delete",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string
+  ): CloudServicesDeleteInstances;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/updateDomains/\{updateDomain\}' has methods for the following verbs: put, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains/{updateDomain}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    updateDomain: number
+  ): CloudServicesUpdateDomainWalkUpdateDomain;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/updateDomains' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string
+  ): CloudServicesUpdateDomainListUpdateDomains;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/cloudServiceOsVersions/\{osVersionName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsVersions/{osVersionName}",
+    subscriptionId: string,
+    location: string,
+    osVersionName: string
+  ): CloudServiceOperatingSystemsGetOSVersion;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/cloudServiceOsVersions' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsVersions",
+    subscriptionId: string,
+    location: string
+  ): CloudServiceOperatingSystemsListOSVersions;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/cloudServiceOsFamilies/\{osFamilyName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsFamilies/{osFamilyName}",
+    subscriptionId: string,
+    location: string,
+    osFamilyName: string
+  ): CloudServiceOperatingSystemsGetOSFamily;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Compute/locations/\{location\}/cloudServiceOsFamilies' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsFamilies",
+    subscriptionId: string,
+    location: string
+  ): CloudServiceOperatingSystemsListOSFamilies;
+}
+
+export type ComputeManagementClient = Client & {
+  path: Routes;
+};
