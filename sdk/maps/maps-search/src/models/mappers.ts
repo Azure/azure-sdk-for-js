@@ -227,7 +227,15 @@ export function mapSearchAddressResult(
     ...summaryObject,
     ...(geoBias && { geoBias: mapLatLongPairAbbreviatedToLatLon(geoBias) }),
     results: internalResult.results.map((ir) => {
-      const { address, position, viewport, entryPoints, addressRanges, ...resultObject } = ir;
+      const {
+        address,
+        position,
+        viewport,
+        entryPoints,
+        addressRanges,
+        detourTime,
+        ...resultObject
+      } = ir;
       return {
         ...resultObject,
         ...(address && { address: mapAddress(address) }),
@@ -246,6 +254,8 @@ export function mapSearchAddressResult(
             to: mapLatLongPairAbbreviatedToLatLon(addressRanges.to),
           },
         }),
+        // Rename to detourTimeInSeconds to follow the convention
+        ...(detourTime && { detourTimeInSeconds: detourTime }),
       };
     }),
   };

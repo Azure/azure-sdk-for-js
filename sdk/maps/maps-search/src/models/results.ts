@@ -67,7 +67,7 @@ export interface SearchAddressResultItem {
   /** Information on the type of match. */
   readonly matchType?: MatchType;
   /** Detour time in seconds. Only returned for calls to the Search Along Route API. */
-  readonly detourTime?: number;
+  readonly detourTimeInSeconds?: number;
 }
 
 /** The entry point for the POI being returned. */

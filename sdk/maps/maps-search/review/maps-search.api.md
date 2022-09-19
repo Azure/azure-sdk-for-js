@@ -648,7 +648,7 @@ export interface SearchAddressResultItem {
     readonly address: Address;
     readonly addressRanges?: AddressRanges;
     readonly dataSources?: DataSource;
-    readonly detourTime?: number;
+    readonly detourTimeInSeconds?: number;
     readonly distanceInMeters?: number;
     readonly entityType?: GeographicEntityType;
     readonly entryPoints?: EntryPoint[];
