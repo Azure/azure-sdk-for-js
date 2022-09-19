@@ -10,6 +10,7 @@ import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { Context } from '@azure/core-tracing';
 import { Debugger } from '@azure/logger';
+import { delay } from '@azure/core-util';
 import { GetTokenOptions } from '@azure/core-auth';
 import { isTokenCredential } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
@@ -181,11 +182,7 @@ export class DefaultHttpClient implements HttpClient {
     sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse>;
 }
 
-// @public
-export function delay<T>(delayInMs: number, value?: T, options?: {
-    abortSignal?: AbortSignalLike;
-    abortErrorMsg?: string;
-}): Promise<T | void>;
+export { delay }
 
 // @public
 export interface DeserializationContentTypes {

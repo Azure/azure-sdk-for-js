@@ -5,14 +5,12 @@ export interface WebPushChannel {
   endpoint: string;
   auth: string;
   p256dh: string;
+  scope: string;
 }
 
 export interface WebPushInstallation {
   installationId: string;
-
   pushChannel: WebPushChannel;
-
   tags?: string[];
-
   platform: "browser";
 }

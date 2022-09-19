@@ -4,12 +4,12 @@
 
 ```ts
 
-import { AggregationTemporality } from '@opentelemetry/sdk-metrics-base';
+import { AggregationTemporality } from '@opentelemetry/sdk-metrics';
 import { ExportResult } from '@opentelemetry/core';
-import { InstrumentType } from '@opentelemetry/sdk-metrics-base';
-import { PushMetricExporter } from '@opentelemetry/sdk-metrics-base';
+import { InstrumentType } from '@opentelemetry/sdk-metrics';
+import { PushMetricExporter } from '@opentelemetry/sdk-metrics';
 import { ReadableSpan } from '@opentelemetry/sdk-trace-base';
-import { ResourceMetrics } from '@opentelemetry/sdk-metrics-base';
+import { ResourceMetrics } from '@opentelemetry/sdk-metrics';
 import { SpanExporter } from '@opentelemetry/sdk-trace-base';
 import { TokenCredential } from '@azure/core-auth';
 

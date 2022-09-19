@@ -286,11 +286,11 @@ export const JobState: coreClient.CompositeMapper = {
         serializedName: "jobId",
         required: true,
         type: {
-          name: "Uuid"
+          name: "String"
         }
       },
       modifiedOn: {
-        serializedName: "lastUpdateDateTime",
+        serializedName: "lastUpdatedDateTime",
         required: true,
         type: {
           name: "DateTime"
@@ -300,16 +300,7 @@ export const JobState: coreClient.CompositeMapper = {
         serializedName: "status",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: [
-            "notStarted",
-            "running",
-            "succeeded",
-            "partiallySucceeded",
-            "failed",
-            "cancelled",
-            "cancelling"
-          ]
+          name: "String"
         }
       },
       errors: {
@@ -415,16 +406,7 @@ export const TaskState: coreClient.CompositeMapper = {
         serializedName: "status",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: [
-            "notStarted",
-            "running",
-            "succeeded",
-            "partiallySucceeded",
-            "failed",
-            "cancelled",
-            "cancelling"
-          ]
+          name: "String"
         }
       }
     }
@@ -1348,43 +1330,6 @@ export const Match: coreClient.CompositeMapper = {
   }
 };
 
-export const SummarySentence: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SummarySentence",
-    modelProperties: {
-      text: {
-        serializedName: "text",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      rankScore: {
-        serializedName: "rankScore",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      offset: {
-        serializedName: "offset",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      length: {
-        serializedName: "length",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
 export const DetectedLanguage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1424,64 +1369,6 @@ export const Pagination: coreClient.CompositeMapper = {
         serializedName: "nextLink",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const JobMetadata: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "JobMetadata",
-    modelProperties: {
-      displayName: {
-        serializedName: "displayName",
-        type: {
-          name: "String"
-        }
-      },
-      createdDateTime: {
-        serializedName: "createdDateTime",
-        required: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      expirationDateTime: {
-        serializedName: "expirationDateTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      jobId: {
-        serializedName: "jobId",
-        required: true,
-        type: {
-          name: "Uuid"
-        }
-      },
-      lastUpdateDateTime: {
-        serializedName: "lastUpdateDateTime",
-        required: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      status: {
-        serializedName: "status",
-        required: true,
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "notStarted",
-            "running",
-            "succeeded",
-            "partiallySucceeded",
-            "failed",
-            "cancelled",
-            "cancelling"
-          ]
         }
       }
     }
@@ -2012,29 +1899,6 @@ export const PiiResult: coreClient.CompositeMapper = {
   }
 };
 
-export const ExtractiveSummarizationResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ExtractiveSummarizationResult",
-    modelProperties: {
-      ...PreBuiltResult.type.modelProperties,
-      documents: {
-        serializedName: "documents",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ExtractiveSummarizationResultDocumentsItem"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const KeyPhraseResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2104,10 +1968,10 @@ export const CustomEntitiesResult: coreClient.CompositeMapper = {
   }
 };
 
-export const CustomSingleLabelClassificationResult: coreClient.CompositeMapper = {
+export const CustomLabelClassificationResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CustomSingleLabelClassificationResult",
+    className: "CustomLabelClassificationResult",
     modelProperties: {
       ...CustomResult.type.modelProperties,
       documents: {
@@ -2118,30 +1982,7 @@ export const CustomSingleLabelClassificationResult: coreClient.CompositeMapper =
           element: {
             type: {
               name: "Composite",
-              className: "CustomSingleLabelClassificationResultDocumentsItem"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const CustomMultiLabelClassificationResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CustomMultiLabelClassificationResult",
-    modelProperties: {
-      ...CustomResult.type.modelProperties,
-      documents: {
-        serializedName: "documents",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CustomMultiLabelClassificationResultDocumentsItem"
+              className: "CustomLabelClassificationResultDocumentsItem"
             }
           }
         }
@@ -2173,30 +2014,13 @@ export const EntitiesDocumentResult: coreClient.CompositeMapper = {
   }
 };
 
-export const SingleClassificationDocumentResult: coreClient.CompositeMapper = {
+export const ClassificationDocumentResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SingleClassificationDocumentResult",
+    className: "ClassificationDocumentResult",
     modelProperties: {
       ...DocumentResult.type.modelProperties,
-      classification: {
-        serializedName: "class",
-        type: {
-          name: "Composite",
-          className: "ClassificationCategory"
-        }
-      }
-    }
-  }
-};
-
-export const MultiClassificationDocumentResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MultiClassificationDocumentResult",
-    modelProperties: {
-      ...DocumentResult.type.modelProperties,
-      classifications: {
+      class: {
         serializedName: "class",
         required: true,
         type: {
@@ -2243,13 +2067,6 @@ export const HealthcareEntitiesDocumentResult: coreClient.CompositeMapper = {
               className: "HealthcareRelation"
             }
           }
-        }
-      },
-      fhirBundle: {
-        serializedName: "fhirBundle",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
         }
       }
     }
@@ -2339,29 +2156,6 @@ export const PiiEntitiesDocumentResult: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "Entity"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ExtractedSummaryDocumentResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ExtractedSummaryDocumentResult",
-    modelProperties: {
-      ...DocumentResult.type.modelProperties,
-      sentences: {
-        serializedName: "sentences",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SummarySentence"
             }
           }
         }
@@ -2569,26 +2363,6 @@ export const PiiLROTask: coreClient.CompositeMapper = {
   }
 };
 
-export const ExtractiveSummarizationLROTask: coreClient.CompositeMapper = {
-  serializedName: "ExtractiveSummarization",
-  type: {
-    name: "Composite",
-    className: "ExtractiveSummarizationLROTask",
-    uberParent: "BatchActionState",
-    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...AnalyzeBatchAction.type.modelProperties,
-      parameters: {
-        serializedName: "parameters",
-        type: {
-          name: "Composite",
-          className: "ExtractiveSummarizationAction"
-        }
-      }
-    }
-  }
-};
-
 export const KeyPhraseLROTask: coreClient.CompositeMapper = {
   serializedName: "KeyPhraseExtraction",
   type: {
@@ -2662,7 +2436,7 @@ export const CustomSingleLabelClassificationLROResult: coreClient.CompositeMappe
         serializedName: "results",
         type: {
           name: "Composite",
-          className: "CustomSingleLabelClassificationResult"
+          className: "CustomLabelClassificationResult"
         }
       }
     }
@@ -2682,7 +2456,7 @@ export const CustomMultiLabelClassificationLROResult: coreClient.CompositeMapper
         serializedName: "results",
         type: {
           name: "Composite",
-          className: "CustomMultiLabelClassificationResult"
+          className: "CustomLabelClassificationResult"
         }
       }
     }
@@ -2723,26 +2497,6 @@ export const PiiEntityRecognitionLROResult: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PiiResult"
-        }
-      }
-    }
-  }
-};
-
-export const ExtractiveSummarizationLROResult: coreClient.CompositeMapper = {
-  serializedName: "ExtractiveSummarizationLROResults",
-  type: {
-    name: "Composite",
-    className: "ExtractiveSummarizationLROResult",
-    uberParent: "TaskState",
-    polymorphicDiscriminator: TaskState.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...AnalyzeTextLROResult.type.modelProperties,
-      results: {
-        serializedName: "results",
-        type: {
-          name: "Composite",
-          className: "ExtractiveSummarizationResult"
         }
       }
     }
@@ -2931,43 +2685,6 @@ export const HealthcareAction: coreClient.CompositeMapper = {
     className: "HealthcareAction",
     modelProperties: {
       ...ActionPrebuilt.type.modelProperties,
-      fhirVersion: {
-        serializedName: "fhirVersion",
-        type: {
-          name: "String"
-        }
-      },
-      stringIndexType: {
-        defaultValue: "Utf16CodeUnit",
-        serializedName: "stringIndexType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ExtractiveSummarizationAction: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ExtractiveSummarizationAction",
-    modelProperties: {
-      ...ActionPrebuilt.type.modelProperties,
-      maxSentenceCount: {
-        defaultValue: 3,
-        serializedName: "sentenceCount",
-        type: {
-          name: "Number"
-        }
-      },
-      orderBy: {
-        defaultValue: "Offset",
-        serializedName: "sortBy",
-        type: {
-          name: "String"
-        }
-      },
       stringIndexType: {
         defaultValue: "Utf16CodeUnit",
         serializedName: "stringIndexType",
@@ -3036,22 +2753,12 @@ export const EntitiesResultDocumentsItem: coreClient.CompositeMapper = {
   }
 };
 
-export const CustomSingleLabelClassificationResultDocumentsItem: coreClient.CompositeMapper = {
+export const CustomLabelClassificationResultDocumentsItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CustomSingleLabelClassificationResultDocumentsItem",
+    className: "CustomLabelClassificationResultDocumentsItem",
     modelProperties: {
-      ...SingleClassificationDocumentResult.type.modelProperties
-    }
-  }
-};
-
-export const CustomMultiLabelClassificationResultDocumentsItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CustomMultiLabelClassificationResultDocumentsItem",
-    modelProperties: {
-      ...MultiClassificationDocumentResult.type.modelProperties
+      ...ClassificationDocumentResult.type.modelProperties
     }
   }
 };
@@ -3096,16 +2803,6 @@ export const PiiResultDocumentsItem: coreClient.CompositeMapper = {
   }
 };
 
-export const ExtractiveSummarizationResultDocumentsItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ExtractiveSummarizationResultDocumentsItem",
-    modelProperties: {
-      ...ExtractedSummaryDocumentResult.type.modelProperties
-    }
-  }
-};
-
 export const KeyPhraseResultDocumentsItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3116,10 +2813,10 @@ export const KeyPhraseResultDocumentsItem: coreClient.CompositeMapper = {
   }
 };
 
-export const AnalyzeTextSubmitJobHeaders: coreClient.CompositeMapper = {
+export const GeneratedClientAnalyzeBatchHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AnalyzeTextSubmitJobHeaders",
+    className: "GeneratedClientAnalyzeBatchHeaders",
     modelProperties: {
       operationLocation: {
         serializedName: "operation-location",
@@ -3171,7 +2868,6 @@ export let discriminators = {
   "BatchActionState.EntityRecognition": EntitiesLROTask,
   "BatchActionState.EntityLinking": EntityLinkingLROTask,
   "BatchActionState.PiiEntityRecognition": PiiLROTask,
-  "BatchActionState.ExtractiveSummarization": ExtractiveSummarizationLROTask,
   "BatchActionState.KeyPhraseExtraction": KeyPhraseLROTask,
   "TaskState.EntityRecognitionLROResults": EntityRecognitionLROResult,
   "TaskState.CustomEntityRecognitionLROResults": CustomEntityRecognitionLROResult,
@@ -3179,7 +2875,6 @@ export let discriminators = {
   "TaskState.CustomMultiLabelClassificationLROResults": CustomMultiLabelClassificationLROResult,
   "TaskState.EntityLinkingLROResults": EntityLinkingLROResult,
   "TaskState.PiiEntityRecognitionLROResults": PiiEntityRecognitionLROResult,
-  "TaskState.ExtractiveSummarizationLROResults": ExtractiveSummarizationLROResult,
   "TaskState.HealthcareLROResults": HealthcareLROResult,
   "TaskState.SentimentAnalysisLROResults": SentimentLROResult,
   "TaskState.KeyPhraseExtractionLROResults": KeyPhraseExtractionLROResult

@@ -3,7 +3,7 @@
 
 import { RestError } from "@azure/core-http";
 
-export { PollerLike, PollOperationState } from "@azure/core-lro";
+export { PollOperationState, PollerLike } from "@azure/core-lro";
 export * from "./BlobServiceClient";
 export * from "./Clients";
 export * from "./ContainerClient";
@@ -37,6 +37,7 @@ export {
   BlobQueryArrowFieldType,
   HttpAuthorization,
   StorageBlobAudience,
+  PollerLikeWithCancellation,
 } from "./models";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";

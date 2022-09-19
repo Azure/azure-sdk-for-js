@@ -1,26 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { WebPushChannel, WebPushInstallation } from "../../models/installation.js";
 import { WebPushClientContext } from "../../client.js";
+import { WebPushChannel } from "../../models/installation.js";
+import { getDBRecord, putDBRecord } from "../../utils/dataStore.js";
+import { v4 as uuid } from "uuid";
 
 export async function getCurrentInstallation(clientContext: WebPushClientContext): Promise<string> {
+  if (!clientContext.serviceWorkerRegistration) {
+    throw new Error("The ServiceWorker requires registration");
+  }
+
+  if (!clientContext.vapidPublicKey) {
+    throw new Error("VAPID Public Key has not been set");
+  }
+
   const subscription = await getCurrentSubscription(
-    clientContext.serviceWorkerRegistration!,
-    clientContext.vapidPublicKey!
+    clientContext.serviceWorkerRegistration,
+    clientContext.vapidPublicKey
   );
 
-  const pushChannel: WebPushChannel = {
+  const subscriptionOptions: WebPushChannel = {
     p256dh: base64Encode(subscription.getKey("p256dh")!),
     auth: base64Encode(subscription.getKey("auth")!),
     endpoint: subscription.endpoint,
+    scope: clientContext.serviceWorkerRegistration.scope,
   };
 
-  const installation: WebPushInstallation = {
-    installationId: "",
-    pushChannel,
-    platform: "browser",
-  };
+  const applicationUrl = new URL(clientContext.baseUrl);
+  applicationUrl.pathname += clientContext.hubName;
+  const applicationId = applicationUrl.toString();
+
+  let installation = await getDBRecord(applicationId);
+  if (!installation) {
+    installation = {
+      installationId: uuid(),
+      platform: "browser",
+      pushChannel: subscriptionOptions
+    };
+
+    installation = await putDBRecord(applicationId, installation);
+    // TODO: Save to Notification Hubs
+  }
+
+  // TODO: Check if installation expired and create new installation and resave
 
   return installation.installationId;
 }

@@ -2,12 +2,16 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-
-import { MsalClientSecret } from "../msal/nodeFlows/msalClientSecret";
-import { credentialLogger } from "../util/logging";
-import { tracingClient } from "../util/tracing";
-import { MsalFlow } from "../msal/flows";
+import {
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+} from "../util/tenantIdUtils";
 import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
+import { MsalClientSecret } from "../msal/nodeFlows/msalClientSecret";
+import { MsalFlow } from "../msal/flows";
+import { credentialLogger } from "../util/logging";
+import { ensureScopes } from "../util/scopeUtils";
+import { tracingClient } from "../util/tracing";
 
 const logger = credentialLogger("ClientSecretCredential");
 
@@ -20,6 +24,8 @@ const logger = credentialLogger("ClientSecretCredential");
  *
  */
 export class ClientSecretCredential implements TokenCredential {
+  private tenantId: string;
+  private additionallyAllowedTenantIds: string[];
   private msalFlow: MsalFlow;
 
   /**
@@ -43,6 +49,12 @@ export class ClientSecretCredential implements TokenCredential {
         "ClientSecretCredential: tenantId, clientId, and clientSecret are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot."
       );
     }
+
+    this.tenantId = tenantId;
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants
+    );
+
     this.msalFlow = new MsalClientSecret({
       ...options,
       logger,
@@ -66,7 +78,13 @@ export class ClientSecretCredential implements TokenCredential {
       `${this.constructor.name}.getToken`,
       options,
       async (newOptions) => {
-        const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+        newOptions.tenantId = processMultiTenantRequest(
+          this.tenantId,
+          newOptions,
+          this.additionallyAllowedTenantIds
+        );
+
+        const arrayScopes = ensureScopes(scopes);
         return this.msalFlow.getToken(arrayScopes, newOptions);
       }
     );

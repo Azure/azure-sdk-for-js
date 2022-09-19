@@ -51,3 +51,5 @@ extends:
         safeName: azuretoolscommunicationalphaids
       - name: azure-communication-rooms
         safeName: azurecommunicationrooms
+      - name: azure-communication-job-router
+        safeName: azurecommunicationjobrouter

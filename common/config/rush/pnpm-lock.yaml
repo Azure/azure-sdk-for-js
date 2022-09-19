@@ -4082,7 +4082,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220824
+      typescript: 4.9.0-dev.20220919
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -5425,6 +5425,10 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       safer-buffer: 2.1.2
+    dev: false
+
+  /idb/7.0.2:
+    resolution: {integrity: sha512-jjKrT1EnyZewQ/gCBb/eyiYrhGzws2FeY92Yx8qT9S9GeQAmo4JFVIiWRIfKW/6Ob9A+UDAOW9j9jn58fy2HIg==}
     dev: false
 
   /ieee754/1.2.1:
@@ -8993,8 +8997,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220824:
-    resolution: {integrity: sha512-NsplEHXMgy5v81L3fXRgvitWTjUgIwxZylKWI5Nex06xASPKrhuJOnP0ucEpDpIvDofVoUV6W8N8DzPql58H2A==}
+  /typescript/4.9.0-dev.20220919:
+    resolution: {integrity: sha512-W+bcsHdefNwUVjTzmimk/I3GuYjC8ubm1RKBI097N6iEBwoc/vPMAoCArc24Zc2cbuFc01TKO75240wCXNYAkA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -17586,7 +17590,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs-web-push.tgz:
-    resolution: {integrity: sha512-WPn3trUVyePU8C0ihQb2FdHhmeyFQ94UaA4//Xf273L3x0aAQVlqVYjaySAZo6fhOcxvrc6ecLPKI7DAvcPbRQ==, tarball: file:projects/notification-hubs-web-push.tgz}
+    resolution: {integrity: sha512-T3HCJVmsUwXVQHP1c2QKZm8sEn2SGQAcFHiocOb+SMG9fxACBgm4rtMHgemO8xSNPKLY5F67fcq6CZYSTWn5Xw==, tarball: file:projects/notification-hubs-web-push.tgz}
     name: '@rush-temp/notification-hubs-web-push'
     version: 0.0.0
     dependencies:
@@ -17601,6 +17605,7 @@ packages:
       downlevel-dts: 0.10.0
       eslint: 8.20.0
       esm: 3.2.25
+      idb: 7.0.2
       karma: 6.4.0
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -17623,8 +17628,6 @@ packages:
       util: 0.12.4
       uuid: 8.3.2
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - bufferutil
       - debug
       - supports-color
