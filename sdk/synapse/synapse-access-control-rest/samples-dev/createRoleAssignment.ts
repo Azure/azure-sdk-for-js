@@ -8,7 +8,7 @@
  * @azsdk-weight 10
  */
 
-import AccessControl, { RoleAssignmentDetailsOutput } from "@azure-rest/synapse-access-control";
+import AccessControl, { isUnexpected, RoleAssignmentDetailsOutput } from "@azure-rest/synapse-access-control";
 import { DefaultAzureCredential } from "@azure/identity";
 import { v4 } from "uuid";
 import dotenv from "dotenv";
@@ -31,11 +31,11 @@ async function main() {
     .path("/roleAssignments/{roleAssignmentId}", roleAssignmentId)
     .put({ body: { principalId, roleId, scope } });
 
-  if (result.status !== "200") {
-    throw result.body;
+  if (isUnexpected(result)) {
+    throw result.body.error;
   }
 
-  console.log(`Created Role Assignment: ${(result.body as RoleAssignmentDetailsOutput).id}`);
+  console.log(`Created Role Assignment: ${result.body.id}`);
 }
 
 main().catch(console.error);

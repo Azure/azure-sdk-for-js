@@ -9,6 +9,7 @@
  */
 
 import AccessControl, {
+  isUnexpected,
   paginate,
   RoleAssignmentDetailsOutput,
 } from "@azure-rest/synapse-access-control";
@@ -23,14 +24,14 @@ async function main() {
   const client = AccessControl(endpoint, new DefaultAzureCredential());
   const initialResponse = await client.path("/roleAssignments").get();
 
-  if (initialResponse.status !== "200") {
-    throw initialResponse.body;
+  if (isUnexpected(initialResponse)) {
+    throw initialResponse.body.error;
   }
 
   const assignments = paginate(client, initialResponse);
 
   for await (const assignment of assignments) {
-    console.log((assignment as RoleAssignmentDetailsOutput).id);
+    console.log(assignment.id);
   }
 }
 
