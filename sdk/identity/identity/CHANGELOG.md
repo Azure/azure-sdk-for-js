@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added `additionallyAllowedTenants` to the following credential options to force explicit opt-in behavior for multi-tenant authentication via the `MultiTenantTokenCredentialOptions` to the following:
+- Added `additionallyAllowedTenants` to the following credential options to force explicit opt-in behavior for multi-tenant authentication via the options property bag to the following:
   - `AuthorizationCodeCredentialOptions`
   - `AzureApplicationCredentialOptions`
   - `AzureCliCredentialOptions`
