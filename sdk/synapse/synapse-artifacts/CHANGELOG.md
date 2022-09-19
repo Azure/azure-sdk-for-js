@@ -7,12 +7,6 @@
 - Updated to `@azure/core-tracing` 1.0.
 - add a set of new LinkedService types.
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.0.0-beta.10 (2022-04-18)
 
 ### Features Added
