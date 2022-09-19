@@ -25,4 +25,33 @@ class StatsbeatMetrics {
     this._cikey = instrumentationKey;
     this._endpoint = endpoint;
   }
+
+  // Create metrics related to the request calls to ingestion service
+  public initializeNetworkMetrics() {
+
+  }
+
+  private _getSuccessCount() {
+
+  }
+
+  private _getFailureCount() {
+
+  }
+
+  private _getAverageDuration() {
+
+  }
+
+  private _getRetryCount() {
+
+  }
+
+  private _getThrottleCount() {
+
+  }
+
+  private getExceptionCount() {
+
+  }
 }
