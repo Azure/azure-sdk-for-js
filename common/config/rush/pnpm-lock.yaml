@@ -3951,7 +3951,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220915
+      typescript: 4.9.0-dev.20220918
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8883,8 +8883,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220915:
-    resolution: {integrity: sha512-LF91yAKWayNiea7oza0gyHyPEVIkorxhbjWV6k/nDtseepQxGM8MZVjKGFleko0Ve4Fha8vQhnxRPkF8NftIHA==}
+  /typescript/4.9.0-dev.20220918:
+    resolution: {integrity: sha512-ZaAeBYbVpmM9j0d35AlKqqM4Z2aVSEdjEF9U3barRlWUZ0kJQHjTOaLRIckqwiks8rxa0viyXGt/A8bCgkk8yQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11888,7 +11888,7 @@ packages:
     dev: false
 
   file:projects/arm-dynatrace.tgz:
-    resolution: {integrity: sha512-lUec68o5ZdEEvDGcGwsVrYNKV+ZUj6NhhOMj3gU5zM1NVw8vhik/2qMeENQCzeMCMEDfKRSuTfQLl7IF4zA/cQ==, tarball: file:projects/arm-dynatrace.tgz}
+    resolution: {integrity: sha512-r5AMRIOj4H961deY/LAQmlo2upjxw9Txo01s7QqWu08ZG8XgPfTLPd5/IPzQ6qtmB5Ku6t7WWauVJjx2e22bfQ==, tarball: file:projects/arm-dynatrace.tgz}
     name: '@rush-temp/arm-dynatrace'
     version: 0.0.0
     dependencies:
@@ -11907,7 +11907,7 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'

@@ -1,0 +1,78 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitor?api-version=2021-09-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "550",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "02b5de5e-44c0-4247-aaa3-f588ccab636d"
+      },
+      "RequestBody": {
+        "tags": {
+          "environment": "Dev"
+        },
+        "location": "West US 2",
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "properties": {
+          "monitoringStatus": "Enabled",
+          "marketplaceSubscriptionStatus": "Active",
+          "dynatraceEnvironmentProperties": {
+            "accountInfo": {},
+            "environmentInfo": {},
+            "singleSignOnProperties": {}
+          },
+          "userInfo": {
+            "firstName": "Alice",
+            "lastName": "Bobab",
+            "emailAddress": "alice@microsoft.com",
+            "phoneNumber": "123456",
+            "country": "westus2"
+          },
+          "planData": {
+            "usageType": "Committed",
+            "billingCycle": "Monthly",
+            "planDetails": "dynatraceapitestplan",
+            "effectiveDate": "2019-08-30T13:14:33.000Z"
+          }
+        }
+      },
+      "StatusCode": 409,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "460",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 19 Sep 2022 06:55:12 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "f02e76a6-37bc-4d32-aec3-db644f29cc02",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "f02e76a6-37bc-4d32-aec3-db644f29cc02",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220919T065513Z:f02e76a6-37bc-4d32-aec3-db644f29cc02"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "MissingSubscriptionRegistration",
+          "message": "The subscription is not registered to use namespace \u0027Dynatrace.Observability\u0027. See https://aka.ms/rps-not-found for how to register subscriptions.",
+          "details": [
+            {
+              "code": "MissingSubscriptionRegistration",
+              "target": "Dynatrace.Observability",
+              "message": "The subscription is not registered to use namespace \u0027Dynatrace.Observability\u0027. See https://aka.ms/rps-not-found for how to register subscriptions."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
