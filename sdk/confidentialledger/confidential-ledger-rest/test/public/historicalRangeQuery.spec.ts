@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 import {
   ConfidentialLedgerClient,
-  LedgerEntry,
   CreateLedgerEntryParameters,
+  LedgerEntry,
   isUnexpected,
   paginate,
 } from "../../src";

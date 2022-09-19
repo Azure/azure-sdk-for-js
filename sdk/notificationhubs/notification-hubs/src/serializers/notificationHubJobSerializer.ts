@@ -58,7 +58,9 @@ export async function parseNotificationHubJobFeed(bodyText: string): Promise<Not
     return results;
   }
 
-  for (const item of xml.feed.entry) {
+  const entries = Array.isArray(xml.feed.entry) ? xml.feed.entry : [xml.feed.entry];
+
+  for (const item of entries) {
     results.push(createNotificationHubJob(item.content.NotificationHubJob));
   }
 

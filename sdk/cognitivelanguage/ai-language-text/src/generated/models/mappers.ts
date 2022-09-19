@@ -2813,10 +2813,10 @@ export const KeyPhraseResultDocumentsItem: coreClient.CompositeMapper = {
   }
 };
 
-export const AnalyzeTextSubmitJobHeaders: coreClient.CompositeMapper = {
+export const GeneratedClientAnalyzeBatchHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AnalyzeTextSubmitJobHeaders",
+    className: "GeneratedClientAnalyzeBatchHeaders",
     modelProperties: {
       operationLocation: {
         serializedName: "operation-location",
