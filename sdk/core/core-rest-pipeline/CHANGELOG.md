@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Allow `RetryStrategy`s to specify a delay and redirect URI at the same time. [#23269](https://github.com/Azure/azure-sdk-for-js/pull/23269)
+
 ### Other Changes
 
 ## 1.9.2 (2022-09-01)
