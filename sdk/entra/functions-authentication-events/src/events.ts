@@ -70,8 +70,12 @@ export interface ActionableResponse<TEventAction extends AuthenticationEventActi
   actions: TEventAction[];
 }
 
+/**
+ * An interface for any responses that implement an cloud event payload and has actions on it.
+ */
 export interface ActionableCloudEventResponse<TEventAction extends AuthenticationEventAction>
   extends ActionableResponse<TEventAction> {
+  /** Gets the Cloud Event @odata.type. */
   oDataType: string;
 }
 
@@ -91,7 +95,8 @@ export type RequestStatus = "Failed" | "TokenInvalid" | "Successful";
 /**
  * Return the correctly formatted error
  * */
-export interface FailedRequest {
+export interface FailedRequest extends AuthenticationEventResponse {
+  //** The error that caused the request to fail. */
   error: string;
 }
 
@@ -100,8 +105,9 @@ export interface FailedRequest {
  * @param error - string or exception
  * @returns a valid FailedRequest object
  */
-export function createFailedRequest(error: string | Error): FailedRequest {
+export function createFailedRequest(error: any): FailedRequest {
   return {
-    error: error instanceof Error ? error.message : error,
+    body: '',
+    error: error instanceof Error ? error.message : error
   };
 }

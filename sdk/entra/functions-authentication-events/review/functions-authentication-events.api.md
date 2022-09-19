@@ -17,7 +17,7 @@ export interface ActionableResponse<TEventAction extends AuthEventAction> extend
 
 // @public
 export interface AuthenticationEventContext {
-    authenticationProtocol: "OAUTH2.0" | "SAML" | "WS-FED" | "unknownFutureValue" | "";
+    authenticationProtocol: "OAUTH2.0" | "SAML" | "WS-FED" | "unknownFutureValue" | undefined;
     client: AuthenticationEventContextClient;
     clientServicePrincipal: AuthenticationEventContextServicePrincipal;
     correlationId: string;

@@ -40,7 +40,9 @@ export interface TokenIssuanceStartData extends AuthenticationEventData {
 export interface AuthenticationEventContextClient {
   /** The Ip Address */
   ip: string;
+  /** Gets or sets the locale. */
   locale: string;
+  /** Gets or sets the market. */
   market: string;
 }
 
@@ -101,7 +103,7 @@ export interface AuthenticationEventContext {
   /** The client. */
   client: AuthenticationEventContextClient;
   /** The authorization protocol. */
-  authenticationProtocol: "OAUTH2.0" | "SAML" | "WS-FED" | "unknownFutureValue" | "";
+  authenticationProtocol: "OAUTH2.0" | "SAML" | "WS-FED" | "unknownFutureValue" | undefined;
   /** The client service principal. */
   clientServicePrincipal: AuthenticationEventContextServicePrincipal;
   /** The resource service principal. */
