@@ -32,18 +32,24 @@ export interface CheckNameAvailabilityResult {
 }
 
 // @public
-export type CloudEndpoint = ProxyResource & {
-    storageAccountResourceId?: string;
+export interface CloudEndpoint extends ProxyResource {
     azureFileShareName?: string;
-    storageAccountTenantId?: string;
-    partnershipId?: string;
-    friendlyName?: string;
     readonly backupEnabled?: string;
-    provisioningState?: string;
-    lastWorkflowId?: string;
-    lastOperationName?: string;
     readonly changeEnumerationStatus?: CloudEndpointChangeEnumerationStatus;
-};
+    friendlyName?: string;
+    lastOperationName?: string;
+    lastWorkflowId?: string;
+    partnershipId?: string;
+    provisioningState?: string;
+    storageAccountResourceId?: string;
+    storageAccountTenantId?: string;
+}
+
+// @public
+export interface CloudEndpointAfsShareMetadataCertificatePublicKeys {
+    readonly firstKey?: string;
+    readonly secondKey?: string;
+}
 
 // @public
 export interface CloudEndpointArray {
@@ -81,12 +87,12 @@ export interface CloudEndpointChangeEnumerationStatus {
 export type CloudEndpointChangeEnumerationTotalCountsState = string;
 
 // @public
-export type CloudEndpointCreateParameters = ProxyResource & {
-    storageAccountResourceId?: string;
+export interface CloudEndpointCreateParameters extends ProxyResource {
     azureFileShareName?: string;
-    storageAccountTenantId?: string;
     friendlyName?: string;
-};
+    storageAccountResourceId?: string;
+    storageAccountTenantId?: string;
+}
 
 // @public
 export interface CloudEndpointLastChangeEnumerationStatus {
@@ -100,6 +106,7 @@ export interface CloudEndpointLastChangeEnumerationStatus {
 
 // @public
 export interface CloudEndpoints {
+    afsShareMetadataCertificatePublicKeys(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams): Promise<CloudEndpointsAfsShareMetadataCertificatePublicKeysResponse>;
     beginCreate(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: CloudEndpointCreateParameters, options?: CloudEndpointsCreateOptionalParams): Promise<PollerLike<PollOperationState<CloudEndpointsCreateResponse>, CloudEndpointsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: CloudEndpointCreateParameters, options?: CloudEndpointsCreateOptionalParams): Promise<CloudEndpointsCreateResponse>;
     beginDelete(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<CloudEndpointsDeleteResponse>, CloudEndpointsDeleteResponse>>;
@@ -118,6 +125,19 @@ export interface CloudEndpoints {
     listBySyncGroup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: CloudEndpointsListBySyncGroupOptionalParams): PagedAsyncIterableIterator<CloudEndpoint>;
     restoreheartbeat(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsRestoreheartbeatOptionalParams): Promise<CloudEndpointsRestoreheartbeatResponse>;
 }
+
+// @public
+export interface CloudEndpointsAfsShareMetadataCertificatePublicKeysHeaders {
+    xMsCorrelationRequestId?: string;
+    xMsRequestId?: string;
+}
+
+// @public
+export interface CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CloudEndpointsAfsShareMetadataCertificatePublicKeysResponse = CloudEndpointsAfsShareMetadataCertificatePublicKeysHeaders & CloudEndpointAfsShareMetadataCertificatePublicKeys;
 
 // @public
 export interface CloudEndpointsCreateHeaders {
@@ -281,6 +301,15 @@ export interface CloudTieringFilesNotTiering {
 }
 
 // @public
+export interface CloudTieringLowDiskMode {
+    readonly lastUpdatedTimestamp?: Date;
+    readonly state?: CloudTieringLowDiskModeState;
+}
+
+// @public
+export type CloudTieringLowDiskModeState = string;
+
+// @public
 export interface CloudTieringSpaceSavings {
     readonly cachedSizeBytes?: number;
     readonly lastUpdatedTimestamp?: Date;
@@ -296,6 +325,9 @@ export interface CloudTieringVolumeFreeSpacePolicyStatus {
     readonly effectiveVolumeFreeSpacePolicy?: number;
     readonly lastUpdatedTimestamp?: Date;
 }
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export type FeatureStatus = string;
@@ -317,199 +349,152 @@ export type InitialUploadPolicy = string;
 
 // @public
 export enum KnownChangeDetectionMode {
-    // (undocumented)
     Default = "Default",
-    // (undocumented)
     Recursive = "Recursive"
 }
 
 // @public
 export enum KnownCloudEndpointChangeEnumerationActivityState {
-    // (undocumented)
     EnumerationInProgress = "EnumerationInProgress",
-    // (undocumented)
     InitialEnumerationInProgress = "InitialEnumerationInProgress"
 }
 
 // @public
 export enum KnownCloudEndpointChangeEnumerationTotalCountsState {
-    // (undocumented)
     Calculating = "Calculating",
-    // (undocumented)
     Final = "Final"
 }
 
 // @public
+export enum KnownCloudTieringLowDiskModeState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
 export enum KnownFeatureStatus {
-    // (undocumented)
     Off = "off",
-    // (undocumented)
     On = "on"
 }
 
 // @public
 export enum KnownIncomingTrafficPolicy {
-    // (undocumented)
     AllowAllTraffic = "AllowAllTraffic",
-    // (undocumented)
     AllowVirtualNetworksOnly = "AllowVirtualNetworksOnly"
 }
 
 // @public
 export enum KnownInitialDownloadPolicy {
-    // (undocumented)
     AvoidTieredFiles = "AvoidTieredFiles",
-    // (undocumented)
     NamespaceOnly = "NamespaceOnly",
-    // (undocumented)
     NamespaceThenModifiedFiles = "NamespaceThenModifiedFiles"
 }
 
 // @public
 export enum KnownInitialUploadPolicy {
-    // (undocumented)
     Merge = "Merge",
-    // (undocumented)
     ServerAuthoritative = "ServerAuthoritative"
 }
 
 // @public
 export enum KnownLocalCacheMode {
-    // (undocumented)
     DownloadNewAndModifiedFiles = "DownloadNewAndModifiedFiles",
-    // (undocumented)
     UpdateLocallyCachedFiles = "UpdateLocallyCachedFiles"
 }
 
 // @public
 export enum KnownOperationDirection {
-    // (undocumented)
     Cancel = "cancel",
-    // (undocumented)
     Do = "do",
-    // (undocumented)
     Undo = "undo"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownProgressType {
-    // (undocumented)
     Download = "download",
-    // (undocumented)
     Initialize = "initialize",
-    // (undocumented)
     None = "none",
-    // (undocumented)
     Recall = "recall",
-    // (undocumented)
     Upload = "upload"
 }
 
 // @public
 export enum KnownReason {
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Registered = "Registered",
-    // (undocumented)
     Suspended = "Suspended",
-    // (undocumented)
     Unregistered = "Unregistered",
-    // (undocumented)
     Warned = "Warned"
 }
 
 // @public
 export enum KnownRegisteredServerAgentVersionStatus {
-    // (undocumented)
     Blocked = "Blocked",
-    // (undocumented)
     Expired = "Expired",
-    // (undocumented)
     NearExpiry = "NearExpiry",
-    // (undocumented)
     Ok = "Ok"
 }
 
 // @public
 export enum KnownServerEndpointHealthState {
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     Healthy = "Healthy",
-    // (undocumented)
     Unavailable = "Unavailable"
 }
 
 // @public
 export enum KnownServerEndpointOfflineDataTransferState {
-    // (undocumented)
     Complete = "Complete",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     NotRunning = "NotRunning",
-    // (undocumented)
     Stopping = "Stopping"
 }
 
 // @public
 export enum KnownServerEndpointSyncActivityState {
-    // (undocumented)
     Download = "Download",
-    // (undocumented)
     Upload = "Upload",
-    // (undocumented)
     UploadAndDownload = "UploadAndDownload"
 }
 
 // @public
 export enum KnownServerEndpointSyncMode {
-    // (undocumented)
     InitialFullDownload = "InitialFullDownload",
-    // (undocumented)
     InitialUpload = "InitialUpload",
-    // (undocumented)
     NamespaceDownload = "NamespaceDownload",
-    // (undocumented)
     Regular = "Regular",
-    // (undocumented)
     SnapshotUpload = "SnapshotUpload"
 }
 
 // @public
 export enum KnownWorkflowStatus {
-    // (undocumented)
     Aborted = "aborted",
-    // (undocumented)
     Active = "active",
-    // (undocumented)
     Expired = "expired",
-    // (undocumented)
     Failed = "failed",
-    // (undocumented)
     Succeeded = "succeeded"
 }
 
@@ -628,6 +613,7 @@ export interface OperationResourceMetricSpecification {
     displayName?: string;
     fillGapWithZero?: boolean;
     name?: string;
+    supportedAggregationTypes?: string[];
     unit?: string;
 }
 
@@ -737,11 +723,11 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -818,11 +804,11 @@ export type PrivateEndpointConnectionsListByStorageSyncServiceResponse = Private
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
-};
+}
 
 // @public
 export interface PrivateLinkResourceListResult {
@@ -852,7 +838,8 @@ export interface PrivateLinkServiceConnectionState {
 export type ProgressType = string;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type Reason = string;
@@ -864,31 +851,31 @@ export interface RecallActionParameters {
 }
 
 // @public
-export type RegisteredServer = ProxyResource & {
-    serverCertificate?: string;
+export interface RegisteredServer extends ProxyResource {
     agentVersion?: string;
-    readonly agentVersionStatus?: RegisteredServerAgentVersionStatus;
     readonly agentVersionExpirationDate?: Date;
-    serverOSVersion?: string;
-    serverManagementErrorCode?: number;
-    lastHeartBeat?: string;
-    provisioningState?: string;
-    serverRole?: string;
+    readonly agentVersionStatus?: RegisteredServerAgentVersionStatus;
     clusterId?: string;
     clusterName?: string;
-    serverId?: string;
-    storageSyncServiceUid?: string;
-    lastWorkflowId?: string;
-    lastOperationName?: string;
     discoveryEndpointUri?: string;
-    resourceLocation?: string;
-    serviceLocation?: string;
     friendlyName?: string;
+    lastHeartBeat?: string;
+    lastOperationName?: string;
+    lastWorkflowId?: string;
     managementEndpointUri?: string;
-    monitoringEndpointUri?: string;
     monitoringConfiguration?: string;
+    monitoringEndpointUri?: string;
+    provisioningState?: string;
+    resourceLocation?: string;
+    serverCertificate?: string;
+    serverId?: string;
+    serverManagementErrorCode?: number;
     readonly serverName?: string;
-};
+    serverOSVersion?: string;
+    serverRole?: string;
+    serviceLocation?: string;
+    storageSyncServiceUid?: string;
+}
 
 // @public
 export type RegisteredServerAgentVersionStatus = string;
@@ -899,17 +886,17 @@ export interface RegisteredServerArray {
 }
 
 // @public
-export type RegisteredServerCreateParameters = ProxyResource & {
-    serverCertificate?: string;
+export interface RegisteredServerCreateParameters extends ProxyResource {
     agentVersion?: string;
-    serverOSVersion?: string;
-    lastHeartBeat?: string;
-    serverRole?: string;
     clusterId?: string;
     clusterName?: string;
-    serverId?: string;
     friendlyName?: string;
-};
+    lastHeartBeat?: string;
+    serverCertificate?: string;
+    serverId?: string;
+    serverOSVersion?: string;
+    serverRole?: string;
+}
 
 // @public
 export interface RegisteredServers {
@@ -998,6 +985,7 @@ export type RegisteredServersTriggerRolloverResponse = RegisteredServersTriggerR
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -1014,28 +1002,28 @@ export interface RestoreFileSpec {
 }
 
 // @public
-export type ServerEndpoint = ProxyResource & {
-    serverLocalPath?: string;
+export interface ServerEndpoint extends ProxyResource {
     cloudTiering?: FeatureStatus;
-    volumeFreeSpacePercent?: number;
-    tierFilesOlderThanDays?: number;
+    readonly cloudTieringStatus?: ServerEndpointCloudTieringStatus;
     friendlyName?: string;
-    serverResourceId?: string;
-    readonly provisioningState?: string;
-    readonly lastWorkflowId?: string;
+    initialDownloadPolicy?: InitialDownloadPolicy;
+    initialUploadPolicy?: InitialUploadPolicy;
     readonly lastOperationName?: string;
-    readonly syncStatus?: ServerEndpointSyncStatus;
+    readonly lastWorkflowId?: string;
+    localCacheMode?: LocalCacheMode;
     offlineDataTransfer?: FeatureStatus;
+    offlineDataTransferShareName?: string;
     readonly offlineDataTransferStorageAccountResourceId?: string;
     readonly offlineDataTransferStorageAccountTenantId?: string;
-    offlineDataTransferShareName?: string;
-    readonly cloudTieringStatus?: ServerEndpointCloudTieringStatus;
+    readonly provisioningState?: string;
     readonly recallStatus?: ServerEndpointRecallStatus;
-    initialDownloadPolicy?: InitialDownloadPolicy;
-    localCacheMode?: LocalCacheMode;
-    initialUploadPolicy?: InitialUploadPolicy;
+    serverLocalPath?: string;
     readonly serverName?: string;
-};
+    serverResourceId?: string;
+    readonly syncStatus?: ServerEndpointSyncStatus;
+    tierFilesOlderThanDays?: number;
+    volumeFreeSpacePercent?: number;
+}
 
 // @public
 export interface ServerEndpointArray {
@@ -1060,24 +1048,25 @@ export interface ServerEndpointCloudTieringStatus {
     readonly lastCloudTieringResult?: number;
     readonly lastSuccessTimestamp?: Date;
     readonly lastUpdatedTimestamp?: Date;
+    readonly lowDiskMode?: CloudTieringLowDiskMode;
     readonly spaceSavings?: CloudTieringSpaceSavings;
     readonly volumeFreeSpacePolicyStatus?: CloudTieringVolumeFreeSpacePolicyStatus;
 }
 
 // @public
-export type ServerEndpointCreateParameters = ProxyResource & {
-    serverLocalPath?: string;
+export interface ServerEndpointCreateParameters extends ProxyResource {
     cloudTiering?: FeatureStatus;
-    volumeFreeSpacePercent?: number;
-    tierFilesOlderThanDays?: number;
     friendlyName?: string;
-    serverResourceId?: string;
+    initialDownloadPolicy?: InitialDownloadPolicy;
+    initialUploadPolicy?: InitialUploadPolicy;
+    localCacheMode?: LocalCacheMode;
     offlineDataTransfer?: FeatureStatus;
     offlineDataTransferShareName?: string;
-    initialDownloadPolicy?: InitialDownloadPolicy;
-    localCacheMode?: LocalCacheMode;
-    initialUploadPolicy?: InitialUploadPolicy;
-};
+    serverLocalPath?: string;
+    serverResourceId?: string;
+    tierFilesOlderThanDays?: number;
+    volumeFreeSpacePercent?: number;
+}
 
 // @public
 export interface ServerEndpointFilesNotSyncingError {
@@ -1267,7 +1256,7 @@ export interface ServerEndpointUpdateParameters {
 export interface StorageSyncApiError {
     code?: string;
     details?: StorageSyncErrorDetails;
-    innerError?: StorageSyncInnerErrorDetails;
+    innererror?: StorageSyncInnerErrorDetails;
     message?: string;
     target?: string;
 }
@@ -1299,15 +1288,15 @@ export interface StorageSyncInnerErrorDetails {
 }
 
 // @public
-export type StorageSyncService = TrackedResource & {
+export interface StorageSyncService extends TrackedResource {
     incomingTrafficPolicy?: IncomingTrafficPolicy;
+    readonly lastOperationName?: string;
+    readonly lastWorkflowId?: string;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: string;
     readonly storageSyncServiceStatus?: number;
     readonly storageSyncServiceUid?: string;
-    readonly provisioningState?: string;
-    readonly lastWorkflowId?: string;
-    readonly lastOperationName?: string;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+}
 
 // @public
 export interface StorageSyncServiceArray {
@@ -1448,10 +1437,10 @@ export interface SubscriptionState {
 }
 
 // @public
-export type SyncGroup = ProxyResource & {
-    readonly uniqueId?: string;
+export interface SyncGroup extends ProxyResource {
     readonly syncGroupStatus?: string;
-};
+    readonly uniqueId?: string;
+}
 
 // @public
 export interface SyncGroupArray {
@@ -1459,9 +1448,9 @@ export interface SyncGroupArray {
 }
 
 // @public
-export type SyncGroupCreateParameters = ProxyResource & {
+export interface SyncGroupCreateParameters extends ProxyResource {
     properties?: Record<string, unknown>;
-};
+}
 
 // @public
 export interface SyncGroups {
@@ -1524,12 +1513,22 @@ export interface SyncGroupsListByStorageSyncServiceOptionalParams extends coreCl
 export type SyncGroupsListByStorageSyncServiceResponse = SyncGroupsListByStorageSyncServiceHeaders & SyncGroupArray;
 
 // @public
-export type TrackedResource = Resource & {
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface TriggerChangeDetectionParameters {
@@ -1544,16 +1543,16 @@ export interface TriggerRolloverRequest {
 }
 
 // @public
-export type Workflow = ProxyResource & {
-    lastStepName?: string;
-    status?: WorkflowStatus;
-    operation?: OperationDirection;
-    steps?: string;
-    lastOperationId?: string;
+export interface Workflow extends ProxyResource {
     readonly commandName?: string;
     readonly createdTimestamp?: Date;
+    lastOperationId?: string;
     readonly lastStatusTimestamp?: Date;
-};
+    lastStepName?: string;
+    operation?: OperationDirection;
+    status?: WorkflowStatus;
+    steps?: string;
+}
 
 // @public
 export interface WorkflowArray {

@@ -64,6 +64,8 @@ export interface OperationResourceMetricSpecification {
   unit?: string;
   /** Aggregation type for the metric. */
   aggregationType?: string;
+  /** Supported aggregation types for the metric. */
+  supportedAggregationTypes?: string[];
   /** Fill gaps in the metric with zero. */
   fillGapWithZero?: boolean;
   /** Dimensions for the metric specification. */
@@ -99,7 +101,7 @@ export interface StorageSyncApiError {
   /** Error details of the given entry. */
   details?: StorageSyncErrorDetails;
   /** Inner error details of the given entry. */
-  innerError?: StorageSyncInnerErrorDetails;
+  innererror?: StorageSyncInnerErrorDetails;
 }
 
 /** Error Details object. */
@@ -207,6 +209,27 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** Parameters for updating an Storage sync service. */
@@ -442,6 +465,20 @@ export interface TriggerChangeDetectionParameters {
   changeDetectionMode?: ChangeDetectionMode;
   /** Array of relative paths on the Azure File share to be included in the change detection. Can be files and directories. */
   paths?: string[];
+}
+
+/** Cloud endpoint AFS file share metadata signing certificate public keys. */
+export interface CloudEndpointAfsShareMetadataCertificatePublicKeys {
+  /**
+   * The first public key.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly firstKey?: string;
+  /**
+   * The second public key.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secondKey?: string;
 }
 
 /** Server Endpoint sync status */
@@ -691,6 +728,11 @@ export interface ServerEndpointCloudTieringStatus {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly datePolicyStatus?: CloudTieringDatePolicyStatus;
+  /**
+   * Information regarding the low disk mode state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lowDiskMode?: CloudTieringLowDiskMode;
 }
 
 /** Server endpoint cloud tiering status object. */
@@ -815,6 +857,20 @@ export interface CloudTieringDatePolicyStatus {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tieredFilesMostRecentAccessTimestamp?: Date;
+}
+
+/** Information regarding the low disk mode state */
+export interface CloudTieringLowDiskMode {
+  /**
+   * Last updated timestamp
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedTimestamp?: Date;
+  /**
+   * Low disk mode state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: CloudTieringLowDiskModeState;
 }
 
 /** Server endpoint recall status object. */
@@ -1000,7 +1056,7 @@ export interface OperationDisplayResource {
 }
 
 /** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
   /** The resource of private end point. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
@@ -1010,18 +1066,18 @@ export type PrivateEndpointConnection = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** A private link resource */
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
   /**
    * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1034,13 +1090,13 @@ export type PrivateLinkResource = Resource & {
   readonly requiredMembers?: string[];
   /** The private link resource Private link DNS zone name. */
   requiredZoneNames?: string[];
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** Storage Sync Service object. */
-export type StorageSyncService = TrackedResource & {
+export interface StorageSyncService extends TrackedResource {
   /** Incoming Traffic Policy */
   incomingTrafficPolicy?: IncomingTrafficPolicy;
   /**
@@ -1073,10 +1129,10 @@ export type StorageSyncService = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+}
 
 /** Sync Group object. */
-export type SyncGroup = ProxyResource & {
+export interface SyncGroup extends ProxyResource {
   /**
    * Unique Id
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1087,16 +1143,16 @@ export type SyncGroup = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly syncGroupStatus?: string;
-};
+}
 
 /** The parameters used when creating a sync group. */
-export type SyncGroupCreateParameters = ProxyResource & {
+export interface SyncGroupCreateParameters extends ProxyResource {
   /** The parameters used to create the sync group */
   properties?: Record<string, unknown>;
-};
+}
 
 /** The parameters used when creating a cloud endpoint. */
-export type CloudEndpointCreateParameters = ProxyResource & {
+export interface CloudEndpointCreateParameters extends ProxyResource {
   /** Storage Account Resource Id */
   storageAccountResourceId?: string;
   /** Azure file share name */
@@ -1105,10 +1161,10 @@ export type CloudEndpointCreateParameters = ProxyResource & {
   storageAccountTenantId?: string;
   /** Friendly Name */
   friendlyName?: string;
-};
+}
 
 /** Cloud Endpoint object. */
-export type CloudEndpoint = ProxyResource & {
+export interface CloudEndpoint extends ProxyResource {
   /** Storage Account Resource Id */
   storageAccountResourceId?: string;
   /** Azure file share name */
@@ -1135,10 +1191,10 @@ export type CloudEndpoint = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly changeEnumerationStatus?: CloudEndpointChangeEnumerationStatus;
-};
+}
 
 /** The parameters used when creating a server endpoint. */
-export type ServerEndpointCreateParameters = ProxyResource & {
+export interface ServerEndpointCreateParameters extends ProxyResource {
   /** Server Local path. */
   serverLocalPath?: string;
   /** Cloud Tiering. */
@@ -1161,10 +1217,10 @@ export type ServerEndpointCreateParameters = ProxyResource & {
   localCacheMode?: LocalCacheMode;
   /** Policy for how the initial upload sync session is performed. */
   initialUploadPolicy?: InitialUploadPolicy;
-};
+}
 
 /** Server Endpoint object. */
-export type ServerEndpoint = ProxyResource & {
+export interface ServerEndpoint extends ProxyResource {
   /** Server Local path. */
   serverLocalPath?: string;
   /** Cloud Tiering. */
@@ -1232,10 +1288,10 @@ export type ServerEndpoint = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly serverName?: string;
-};
+}
 
 /** Registered Server resource. */
-export type RegisteredServer = ProxyResource & {
+export interface RegisteredServer extends ProxyResource {
   /** Registered Server Certificate */
   serverCertificate?: string;
   /** Registered Server Agent Version */
@@ -1291,10 +1347,10 @@ export type RegisteredServer = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly serverName?: string;
-};
+}
 
 /** The parameters used when creating a registered server. */
-export type RegisteredServerCreateParameters = ProxyResource & {
+export interface RegisteredServerCreateParameters extends ProxyResource {
   /** Registered Server Certificate */
   serverCertificate?: string;
   /** Registered Server Agent Version */
@@ -1313,10 +1369,10 @@ export type RegisteredServerCreateParameters = ProxyResource & {
   serverId?: string;
   /** Friendly Name */
   friendlyName?: string;
-};
+}
 
 /** Workflow resource. */
-export type Workflow = ProxyResource & {
+export interface Workflow extends ProxyResource {
   /** last step name */
   lastStepName?: string;
   /** workflow status. */
@@ -1342,7 +1398,7 @@ export type Workflow = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastStatusTimestamp?: Date;
-};
+}
 
 /** Defines headers for Operations_list operation. */
 export interface OperationsListHeaders {
@@ -1572,6 +1628,14 @@ export interface CloudEndpointsTriggerChangeDetectionHeaders {
   xMsCorrelationRequestId?: string;
 }
 
+/** Defines headers for CloudEndpoints_afsShareMetadataCertificatePublicKeys operation. */
+export interface CloudEndpointsAfsShareMetadataCertificatePublicKeysHeaders {
+  /** request id. */
+  xMsRequestId?: string;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+}
+
 /** Defines headers for ServerEndpoints_create operation. */
 export interface ServerEndpointsCreateHeaders {
   /** request id. */
@@ -1704,7 +1768,9 @@ export interface MicrosoftStorageSyncLocationOperationStatusHeaders {
 
 /** Known values of {@link IncomingTrafficPolicy} that the service accepts. */
 export enum KnownIncomingTrafficPolicy {
+  /** AllowAllTraffic */
   AllowAllTraffic = "AllowAllTraffic",
+  /** AllowVirtualNetworksOnly */
   AllowVirtualNetworksOnly = "AllowVirtualNetworksOnly"
 }
 
@@ -1720,8 +1786,11 @@ export type IncomingTrafficPolicy = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected"
 }
 
@@ -1738,9 +1807,13 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1756,9 +1829,35 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  */
 export type PrivateEndpointConnectionProvisioningState = string;
 
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
 /** Known values of {@link CloudEndpointChangeEnumerationActivityState} that the service accepts. */
 export enum KnownCloudEndpointChangeEnumerationActivityState {
+  /** InitialEnumerationInProgress */
   InitialEnumerationInProgress = "InitialEnumerationInProgress",
+  /** EnumerationInProgress */
   EnumerationInProgress = "EnumerationInProgress"
 }
 
@@ -1774,7 +1873,9 @@ export type CloudEndpointChangeEnumerationActivityState = string;
 
 /** Known values of {@link CloudEndpointChangeEnumerationTotalCountsState} that the service accepts. */
 export enum KnownCloudEndpointChangeEnumerationTotalCountsState {
+  /** Calculating */
   Calculating = "Calculating",
+  /** Final */
   Final = "Final"
 }
 
@@ -1790,7 +1891,9 @@ export type CloudEndpointChangeEnumerationTotalCountsState = string;
 
 /** Known values of {@link ChangeDetectionMode} that the service accepts. */
 export enum KnownChangeDetectionMode {
+  /** Default */
   Default = "Default",
+  /** Recursive */
   Recursive = "Recursive"
 }
 
@@ -1806,7 +1909,9 @@ export type ChangeDetectionMode = string;
 
 /** Known values of {@link FeatureStatus} that the service accepts. */
 export enum KnownFeatureStatus {
+  /** On */
   On = "on",
+  /** Off */
   Off = "off"
 }
 
@@ -1822,8 +1927,11 @@ export type FeatureStatus = string;
 
 /** Known values of {@link InitialDownloadPolicy} that the service accepts. */
 export enum KnownInitialDownloadPolicy {
+  /** NamespaceOnly */
   NamespaceOnly = "NamespaceOnly",
+  /** NamespaceThenModifiedFiles */
   NamespaceThenModifiedFiles = "NamespaceThenModifiedFiles",
+  /** AvoidTieredFiles */
   AvoidTieredFiles = "AvoidTieredFiles"
 }
 
@@ -1840,7 +1948,9 @@ export type InitialDownloadPolicy = string;
 
 /** Known values of {@link LocalCacheMode} that the service accepts. */
 export enum KnownLocalCacheMode {
+  /** DownloadNewAndModifiedFiles */
   DownloadNewAndModifiedFiles = "DownloadNewAndModifiedFiles",
+  /** UpdateLocallyCachedFiles */
   UpdateLocallyCachedFiles = "UpdateLocallyCachedFiles"
 }
 
@@ -1856,7 +1966,9 @@ export type LocalCacheMode = string;
 
 /** Known values of {@link InitialUploadPolicy} that the service accepts. */
 export enum KnownInitialUploadPolicy {
+  /** ServerAuthoritative */
   ServerAuthoritative = "ServerAuthoritative",
+  /** Merge */
   Merge = "Merge"
 }
 
@@ -1872,8 +1984,11 @@ export type InitialUploadPolicy = string;
 
 /** Known values of {@link ServerEndpointHealthState} that the service accepts. */
 export enum KnownServerEndpointHealthState {
+  /** Unavailable */
   Unavailable = "Unavailable",
+  /** Healthy */
   Healthy = "Healthy",
+  /** Error */
   Error = "Error"
 }
 
@@ -1890,8 +2005,11 @@ export type ServerEndpointHealthState = string;
 
 /** Known values of {@link ServerEndpointSyncActivityState} that the service accepts. */
 export enum KnownServerEndpointSyncActivityState {
+  /** Upload */
   Upload = "Upload",
+  /** Download */
   Download = "Download",
+  /** UploadAndDownload */
   UploadAndDownload = "UploadAndDownload"
 }
 
@@ -1908,10 +2026,15 @@ export type ServerEndpointSyncActivityState = string;
 
 /** Known values of {@link ServerEndpointSyncMode} that the service accepts. */
 export enum KnownServerEndpointSyncMode {
+  /** Regular */
   Regular = "Regular",
+  /** NamespaceDownload */
   NamespaceDownload = "NamespaceDownload",
+  /** InitialUpload */
   InitialUpload = "InitialUpload",
+  /** SnapshotUpload */
   SnapshotUpload = "SnapshotUpload",
+  /** InitialFullDownload */
   InitialFullDownload = "InitialFullDownload"
 }
 
@@ -1930,9 +2053,13 @@ export type ServerEndpointSyncMode = string;
 
 /** Known values of {@link ServerEndpointOfflineDataTransferState} that the service accepts. */
 export enum KnownServerEndpointOfflineDataTransferState {
+  /** InProgress */
   InProgress = "InProgress",
+  /** Stopping */
   Stopping = "Stopping",
+  /** NotRunning */
   NotRunning = "NotRunning",
+  /** Complete */
   Complete = "Complete"
 }
 
@@ -1948,11 +2075,33 @@ export enum KnownServerEndpointOfflineDataTransferState {
  */
 export type ServerEndpointOfflineDataTransferState = string;
 
+/** Known values of {@link CloudTieringLowDiskModeState} that the service accepts. */
+export enum KnownCloudTieringLowDiskModeState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for CloudTieringLowDiskModeState. \
+ * {@link KnownCloudTieringLowDiskModeState} can be used interchangeably with CloudTieringLowDiskModeState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type CloudTieringLowDiskModeState = string;
+
 /** Known values of {@link RegisteredServerAgentVersionStatus} that the service accepts. */
 export enum KnownRegisteredServerAgentVersionStatus {
+  /** Ok */
   Ok = "Ok",
+  /** NearExpiry */
   NearExpiry = "NearExpiry",
+  /** Expired */
   Expired = "Expired",
+  /** Blocked */
   Blocked = "Blocked"
 }
 
@@ -1970,10 +2119,15 @@ export type RegisteredServerAgentVersionStatus = string;
 
 /** Known values of {@link WorkflowStatus} that the service accepts. */
 export enum KnownWorkflowStatus {
+  /** Active */
   Active = "active",
+  /** Expired */
   Expired = "expired",
+  /** Succeeded */
   Succeeded = "succeeded",
+  /** Aborted */
   Aborted = "aborted",
+  /** Failed */
   Failed = "failed"
 }
 
@@ -1992,8 +2146,11 @@ export type WorkflowStatus = string;
 
 /** Known values of {@link OperationDirection} that the service accepts. */
 export enum KnownOperationDirection {
+  /** Do */
   Do = "do",
+  /** Undo */
   Undo = "undo",
+  /** Cancel */
   Cancel = "cancel"
 }
 
@@ -2010,10 +2167,15 @@ export type OperationDirection = string;
 
 /** Known values of {@link Reason} that the service accepts. */
 export enum KnownReason {
+  /** Registered */
   Registered = "Registered",
+  /** Unregistered */
   Unregistered = "Unregistered",
+  /** Warned */
   Warned = "Warned",
+  /** Suspended */
   Suspended = "Suspended",
+  /** Deleted */
   Deleted = "Deleted"
 }
 
@@ -2032,10 +2194,15 @@ export type Reason = string;
 
 /** Known values of {@link ProgressType} that the service accepts. */
 export enum KnownProgressType {
+  /** None */
   None = "none",
+  /** Initialize */
   Initialize = "initialize",
+  /** Download */
   Download = "download",
+  /** Upload */
   Upload = "upload",
+  /** Recall */
   Recall = "recall"
 }
 
@@ -2311,6 +2478,14 @@ export interface CloudEndpointsTriggerChangeDetectionOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the afsShareMetadataCertificatePublicKeys operation. */
+export type CloudEndpointsAfsShareMetadataCertificatePublicKeysResponse = CloudEndpointsAfsShareMetadataCertificatePublicKeysHeaders &
+  CloudEndpointAfsShareMetadataCertificatePublicKeys;
 
 /** Optional parameters. */
 export interface ServerEndpointsCreateOptionalParams

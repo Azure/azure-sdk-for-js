@@ -37,7 +37,9 @@ import {
   PostRestoreRequest,
   CloudEndpointsPostRestoreOptionalParams,
   TriggerChangeDetectionParameters,
-  CloudEndpointsTriggerChangeDetectionOptionalParams
+  CloudEndpointsTriggerChangeDetectionOptionalParams,
+  CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams,
+  CloudEndpointsAfsShareMetadataCertificatePublicKeysResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -937,6 +939,33 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     );
     return poller.pollUntilDone();
   }
+
+  /**
+   * Get the AFS file share metadata signing certificate public keys.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageSyncServiceName Name of Storage Sync Service resource.
+   * @param syncGroupName Name of Sync Group resource.
+   * @param cloudEndpointName Name of Cloud Endpoint object.
+   * @param options The options parameters.
+   */
+  afsShareMetadataCertificatePublicKeys(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    options?: CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams
+  ): Promise<CloudEndpointsAfsShareMetadataCertificatePublicKeysResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        storageSyncServiceName,
+        syncGroupName,
+        cloudEndpointName,
+        options
+      },
+      afsShareMetadataCertificatePublicKeysOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -1239,5 +1268,31 @@ const triggerChangeDetectionOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const afsShareMetadataCertificatePublicKeysOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/afsShareMetadataCertificatePublicKeys",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CloudEndpointAfsShareMetadataCertificatePublicKeys,
+      headersMapper:
+        Mappers.CloudEndpointsAfsShareMetadataCertificatePublicKeysHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageSyncError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.storageSyncServiceName,
+    Parameters.syncGroupName,
+    Parameters.cloudEndpointName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };

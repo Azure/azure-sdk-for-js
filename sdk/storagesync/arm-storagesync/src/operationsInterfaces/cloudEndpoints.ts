@@ -30,7 +30,9 @@ import {
   PostRestoreRequest,
   CloudEndpointsPostRestoreOptionalParams,
   TriggerChangeDetectionParameters,
-  CloudEndpointsTriggerChangeDetectionOptionalParams
+  CloudEndpointsTriggerChangeDetectionOptionalParams,
+  CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams,
+  CloudEndpointsAfsShareMetadataCertificatePublicKeysResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -335,4 +337,19 @@ export interface CloudEndpoints {
     parameters: TriggerChangeDetectionParameters,
     options?: CloudEndpointsTriggerChangeDetectionOptionalParams
   ): Promise<void>;
+  /**
+   * Get the AFS file share metadata signing certificate public keys.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageSyncServiceName Name of Storage Sync Service resource.
+   * @param syncGroupName Name of Sync Group resource.
+   * @param cloudEndpointName Name of Cloud Endpoint object.
+   * @param options The options parameters.
+   */
+  afsShareMetadataCertificatePublicKeys(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    options?: CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams
+  ): Promise<CloudEndpointsAfsShareMetadataCertificatePublicKeysResponse>;
 }
