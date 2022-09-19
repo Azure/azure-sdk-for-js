@@ -7,7 +7,7 @@
 ```yaml
 tag: package-access-control-2020-12-01
 package-name: "@azure-rest/synapse-access-control"
-package-version: "1.0.0-beta.2"
+package-version: "1.0.0-beta.1"
 title: AccessControlRestClient
 add-credentials: true
 license-header: MICROSOFT_MIT_NO_VERSION
