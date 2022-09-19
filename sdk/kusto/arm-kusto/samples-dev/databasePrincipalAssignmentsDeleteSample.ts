@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Deletes a Kusto principalAssignment.
  *
  * @summary Deletes a Kusto principalAssignment.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDatabasePrincipalAssignmentsDelete.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDatabasePrincipalAssignmentsDelete.json
  */
 async function kustoDatabasePrincipalAssignmentsDelete() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";

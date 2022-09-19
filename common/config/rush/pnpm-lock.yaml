@@ -12513,7 +12513,7 @@ packages:
     dev: false
 
   file:projects/arm-kusto.tgz:
-    resolution: {integrity: sha512-N12uCH9ucOOQsC50eVzUFuZi8wS249uYZhEyzPx1IxBTkPwv7YAK60FN1Pz3k3Gz+HJE7o3Ey4ADTF18Q16CYw==, tarball: file:projects/arm-kusto.tgz}
+    resolution: {integrity: sha512-a6zQOr6SltBopIRpKrmwhiKwJ/B7WkZ7v5Taj2DHgGaIdcVWJzyn0jlOX4IWFt/VVkgHgyoLf2GKFQmIV7A7Aw==, tarball: file:projects/arm-kusto.tgz}
     name: '@rush-temp/arm-kusto'
     version: 0.0.0
     dependencies:
@@ -12532,7 +12532,7 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
