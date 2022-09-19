@@ -48,8 +48,6 @@ export const request: TokenIssuanceStartRequest = {
     authenticationEventListenerId: "10000000-0000-0000-0000-000000000001",
     customAuthenticationExtensionId: "10000000-0000-0000-0000-000000000002",
   },
-  // TODO: I see this is defined as optional `?`. If null is trying to represent missing tokenClaims you can use `undefined` or not add the property at all.
-  // If null is an actual value the type need to be defined with `| null`
   tokenClaims: undefined,
   source: "/tenants/{tenantId}/applications/{resourceAppId}",
   oDataType: "microsoft.graph.onTokenIssuanceStartCalloutData",

@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 /**
- * Abstract base event class to house common event request attributes.
+ * Abstract base event interface to house common event request attributes.
  */
 export interface AuthenticationEventRequestCommon {
   /** Related Type */
@@ -16,7 +16,7 @@ export interface AuthenticationEventRequestCommon {
 }
 
 /**
- * Event request class extended the related response and event data (payload) objects.
+ * Event request interface extended the related response and event data (payload) objects.
  */
 export interface AuthenticationEventRequest<
   TResponse extends AuthenticationEventResponse,
@@ -29,7 +29,7 @@ export interface AuthenticationEventRequest<
 }
 
 /**
- * Event request class extended the related response and event data (payload) objects for cloud events.
+ * Event request interface extended the related response and event data (payload) objects for cloud events.
  */
 export interface CloudEventRequest<
   TResponse extends AuthenticationEventResponse,
@@ -42,7 +42,7 @@ export interface CloudEventRequest<
 }
 
 /**
- * Event response class that houses attributes returned from the authentication events trigger.
+ * Event response interface that houses attributes returned from the authentication events trigger.
  */
 export interface AuthenticationEventResponse {
   /** A template of the body of the expected response. */
@@ -50,7 +50,7 @@ export interface AuthenticationEventResponse {
 }
 
 /**
- * Event data class pertaining to the expected payload, this class houses the common attributes for data events.
+ * Event data interface pertaining to the expected payload, this interface houses the common attributes for data events.
  */
 export interface AuthenticationEventData {
   /** Tenant the request is related to. */
@@ -62,7 +62,7 @@ export interface AuthenticationEventData {
 }
 
 /**
- * Class that binds a response that has actions
+ * An interface that binds a response that has actions
  */
 export interface ActionableResponse<TEventAction extends AuthenticationEventAction>
   extends AuthenticationEventResponse {
@@ -76,7 +76,7 @@ export interface ActionableCloudEventResponse<TEventAction extends Authenticatio
 }
 
 /**
- * A class representing an action for an event.
+ * An interface representing an action for an event.
  */
 export interface AuthenticationEventAction {
   /** Must be overridden, this will be the 'Name' of the action in the JSON. */

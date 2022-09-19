@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 /**
- * Container file for all classes that pertain to the OnTokenIssuanceStart event API schema version 10-01-2021-preview.
+ * Container file for all interfaces that pertain to the OnTokenIssuanceStart event API schema version 10-01-2021-preview.
  */
 import {
   ActionableCloudEventResponse,
@@ -12,7 +12,7 @@ import {
 } from "../events";
 
 /**
- * The main request class, this will relate it's response and payload.
+ * The main request interface, this will relate it's response and payload.
  */
 export interface TokenIssuanceStartRequest
   extends CloudEventRequest<TokenIssuanceStartResponse, TokenIssuanceStartData> {
@@ -21,13 +21,13 @@ export interface TokenIssuanceStartRequest
 }
 
 /**
- * The main response class that is related to the request, this extends IActionable as the response
+ * The main response interface that is related to the request, this extends IActionable as the response
  * contains actions, we only allow actions that inherit the TokenIssuanceStartAction.
  */
 export type TokenIssuanceStartResponse = ActionableCloudEventResponse<TokenIssuanceStartAction>;
 
 /**
- * The main data class related to the request.
+ * The main data interface related to the request.
  */
 export interface TokenIssuanceStartData extends AuthenticationEventData {
   /** The main context of the data. */
@@ -35,7 +35,7 @@ export interface TokenIssuanceStartData extends AuthenticationEventData {
 }
 
 /**
- * Client class for data.
+ * Client interface for data.
  */
 export interface AuthenticationEventContextClient {
   /** The Ip Address */
@@ -45,7 +45,7 @@ export interface AuthenticationEventContextClient {
 }
 
 /**
- * ResourceServicePrincipal class for data.
+ * ResourceServicePrincipal interface for data.
  */
 export interface AuthenticationEventContextServicePrincipal {
   /** The identifier for the service principal. */
@@ -59,7 +59,7 @@ export interface AuthenticationEventContextServicePrincipal {
 }
 
 /**
- * User class for data.
+ * User interface for data.
  */
 export interface AuthenticationEventContextUser {
   /** The user's company name. */
@@ -93,7 +93,7 @@ export interface AuthenticationEventContextUser {
 }
 
 /**
- * Context class for data.
+ * Context interface for data.
  */
 export interface AuthenticationEventContext {
   /** Unique identifier for the request. */
@@ -111,7 +111,7 @@ export interface AuthenticationEventContext {
 }
 
 /**
- * All actions for the token issuance start event should extended this class, as it looks the correct action to the correct event.
+ * All actions for the token issuance start event should extended this interface, as it looks the correct action to the correct event.
  */
 export interface TokenIssuanceStartAction extends AuthenticationEventAction {
   /** This will be the 'Name' of the action in the JSON. */

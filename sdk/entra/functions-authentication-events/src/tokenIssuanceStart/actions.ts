@@ -1,7 +1,7 @@
 import { TokenIssuanceStartAction } from "./context";
 
 /**
- * Class for the Provide Claims for token action.
+ * An Interface for the Provide Claims for token action.
  */
 export interface ProvideClaimsForToken extends TokenIssuanceStartAction {
   /** The 'Name' of the action in the JSON. */
@@ -12,7 +12,7 @@ export interface ProvideClaimsForToken extends TokenIssuanceStartAction {
 }
 
 /**
- * A class representing a claim.
+ * An Interface representing a claim.
  */
 export interface TokenClaim {
   /** The id of the claim (i.e. Name). */
