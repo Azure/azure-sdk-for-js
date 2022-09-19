@@ -47,3 +47,8 @@ export enum AzureAuthorityHosts {
  * The default authority host.
  */
 export const DefaultAuthorityHost = AzureAuthorityHosts.AzurePublicCloud;
+
+/**
+ * Allow acquiring tokens for any tenant for multi-tentant auth.
+ */
+export const ALL_TENANTS: string[] = ["*"];

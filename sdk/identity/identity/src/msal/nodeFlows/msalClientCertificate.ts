@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { readFile } from "fs";
-import { createHash, createPrivateKey } from "crypto";
-import { promisify } from "util";
-import { AccessToken } from "@azure/core-auth";
-
-import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
-import { formatError } from "../../util/logging";
-import { CredentialFlowGetTokenOptions } from "../credentials";
 import {
   ClientCertificateCredentialPEMConfiguration,
   ClientCertificatePEMCertificate,
   ClientCertificatePEMCertificatePath,
 } from "../../credentials/clientCertificateCredential";
+import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
+import { createHash, createPrivateKey } from "crypto";
+import { AccessToken } from "@azure/core-auth";
 import { ClientCredentialRequest } from "@azure/msal-node";
+import { CredentialFlowGetTokenOptions } from "../credentials";
+import { formatError } from "../../util/logging";
+import { promisify } from "util";
+import { readFile } from "fs";
 
 const readFileAsync = promisify(readFile);
 
@@ -22,7 +21,7 @@ const readFileAsync = promisify(readFile);
  * Options that can be passed to configure MSAL to handle client certificates.
  * @internal
  */
-export interface MSALClientCertificateOptions extends MsalNodeOptions {
+export interface MsalClientCertificateOptions extends MsalNodeOptions {
   /**
    * Location of the PEM certificate.
    */
@@ -110,7 +109,7 @@ export class MsalClientCertificate extends MsalNode {
   private configuration: ClientCertificateCredentialPEMConfiguration;
   private sendCertificateChain?: boolean;
 
-  constructor(options: MSALClientCertificateOptions) {
+  constructor(options: MsalClientCertificateOptions) {
     super(options);
     this.requiresConfidential = true;
     this.configuration = options.configuration;
