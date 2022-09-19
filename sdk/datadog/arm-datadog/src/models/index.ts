@@ -319,16 +319,10 @@ export interface MonitorProperties {
 
 /** Datadog organization properties */
 export interface DatadogOrganizationProperties {
-  /**
-   * Name of the Datadog organization.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Id of the Datadog organization.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
+  /** Name of the Datadog organization. */
+  name?: string;
+  /** Id of the Datadog organization. */
+  id?: string;
   /** The auth code used to linking to an existing datadog organization. */
   linkingAuthCode?: string;
   /** The client_id from an existing in exchange for an auth token to link organization. */
@@ -507,9 +501,13 @@ export interface DatadogSingleSignOnProperties {
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -527,14 +525,23 @@ export type CreatedByType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Accepted */
   Accepted = "Accepted",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Deleted */
   Deleted = "Deleted",
+  /** NotSpecified */
   NotSpecified = "NotSpecified"
 }
 
@@ -557,7 +564,9 @@ export type ProvisioningState = string;
 
 /** Known values of {@link MonitoringStatus} that the service accepts. */
 export enum KnownMonitoringStatus {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -573,9 +582,13 @@ export type MonitoringStatus = string;
 
 /** Known values of {@link MarketplaceSubscriptionStatus} that the service accepts. */
 export enum KnownMarketplaceSubscriptionStatus {
+  /** Provisioning */
   Provisioning = "Provisioning",
+  /** Active */
   Active = "Active",
+  /** Suspended */
   Suspended = "Suspended",
+  /** Unsubscribed */
   Unsubscribed = "Unsubscribed"
 }
 
@@ -593,7 +606,9 @@ export type MarketplaceSubscriptionStatus = string;
 
 /** Known values of {@link LiftrResourceCategories} that the service accepts. */
 export enum KnownLiftrResourceCategories {
+  /** Unknown */
   Unknown = "Unknown",
+  /** MonitorLogs */
   MonitorLogs = "MonitorLogs"
 }
 
@@ -609,7 +624,9 @@ export type LiftrResourceCategories = string;
 
 /** Known values of {@link ManagedIdentityTypes} that the service accepts. */
 export enum KnownManagedIdentityTypes {
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned"
 }
 
@@ -625,7 +642,9 @@ export type ManagedIdentityTypes = string;
 
 /** Known values of {@link TagAction} that the service accepts. */
 export enum KnownTagAction {
+  /** Include */
   Include = "Include",
+  /** Exclude */
   Exclude = "Exclude"
 }
 
@@ -641,9 +660,13 @@ export type TagAction = string;
 
 /** Known values of {@link SingleSignOnStates} that the service accepts. */
 export enum KnownSingleSignOnStates {
+  /** Initial */
   Initial = "Initial",
+  /** Enable */
   Enable = "Enable",
+  /** Disable */
   Disable = "Disable",
+  /** Existing */
   Existing = "Existing"
 }
 

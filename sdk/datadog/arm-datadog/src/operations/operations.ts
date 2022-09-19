@@ -34,7 +34,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * List all operations provided by Microsoft.Datadog for the 2021-03-01 api version.
+   * List all operations provided by Microsoft.Datadog for the 2022-06-01 api version.
    * @param options The options parameters.
    */
   public list(
@@ -76,7 +76,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * List all operations provided by Microsoft.Datadog for the 2021-03-01 api version.
+   * List all operations provided by Microsoft.Datadog for the 2022-06-01 api version.
    * @param options The options parameters.
    */
   private _list(

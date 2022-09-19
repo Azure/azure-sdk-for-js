@@ -856,14 +856,12 @@ export const DatadogOrganizationProperties: coreClient.CompositeMapper = {
     modelProperties: {
       name: {
         serializedName: "name",
-        readOnly: true,
         type: {
           name: "String"
         }
       },
       id: {
         serializedName: "id",
-        readOnly: true,
         type: {
           name: "String"
         }

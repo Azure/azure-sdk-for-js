@@ -13,7 +13,7 @@ import { OperationResult, OperationsListOptionalParams } from "../models";
 /** Interface representing a Operations. */
 export interface Operations {
   /**
-   * List all operations provided by Microsoft.Datadog for the 2021-03-01 api version.
+   * List all operations provided by Microsoft.Datadog for the 2022-06-01 api version.
    * @param options The options parameters.
    */
   list(
