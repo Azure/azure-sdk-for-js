@@ -447,6 +447,25 @@ const EMPTY_REGISTRATION_FEED = `<?xml version="1.0" encoding="utf-8" ?>
   <link rel="self" href="https://testns.servicebus.windows.net/testhub/registrations/?api-version=2020-06" />
 </feed>`;
 
+const SINGLE_REGISTRATION_FEED = `<?xml version="1.0" encoding="utf-8" ?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title type="text">Registrations</title>
+  <id>https://testns.servicebus.windows.net/testhub/registrations/?api-version=2020-06</id>
+  <updated>2022-09-06T20:06:33Z</updated>
+  <link rel="self" href="https://testns.servicebus.windows.net/testhub/registrations/?api-version=2020-06" />
+  <entry xmlns="http://www.w3.org/2005/Atom">
+    <content type="application/xml">
+      <AppleTemplateRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+          <Tags>myTag,myOtherTag</Tags>
+          <RegistrationId>{Registration Id}</RegistrationId>
+          <DeviceToken>{DeviceToken}</DeviceToken>
+          <BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>
+          <Expiry>2011-10-05T14:48:00.000Z</Expiry>
+      </AppleTemplateRegistrationDescription>
+    </content>
+  </entry>
+</feed>`;
+
 describe("parseRegistrationFeed", () => {
   it("should parse a registration feed", async () => {
     const registrations = await registrationDescriptionParser.parseRegistrationFeed(
@@ -460,6 +479,20 @@ describe("parseRegistrationFeed", () => {
     assert.deepEqual(windowsRegistration.tags, ["myTag", "myOtherTag"]);
 
     const appleRegistration = registrations[1] as AppleTemplateRegistrationDescription;
+    assert.equal(appleRegistration.type, "AppleTemplate");
+    assert.equal(appleRegistration.registrationId, "{Registration Id}");
+    assert.equal(appleRegistration.deviceToken, "{DeviceToken}");
+    assert.deepEqual(appleRegistration.tags, ["myTag", "myOtherTag"]);
+  });
+
+  it("should parse a feed with one item", async () => {
+    const registrations = await registrationDescriptionParser.parseRegistrationFeed(
+      SINGLE_REGISTRATION_FEED
+    );
+
+    assert.equal(registrations.length, 1);
+
+    const appleRegistration = registrations[0] as AppleTemplateRegistrationDescription;
     assert.equal(appleRegistration.type, "AppleTemplate");
     assert.equal(appleRegistration.registrationId, "{Registration Id}");
     assert.equal(appleRegistration.deviceToken, "{DeviceToken}");

@@ -556,6 +556,7 @@ export class NotificationHubsServiceClient {
     createRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
     createRegistrationId(options?: OperationOptions): Promise<string>;
     deleteInstallation(installationId: string, options?: OperationOptions): Promise<NotificationHubsResponse>;
+    deleteRegistration(registrationId: string, options?: EntityOperationOptions): Promise<NotificationHubsResponse>;
     getFeedbackContainerUrl(options?: OperationOptions): Promise<string>;
     getInstallation(installationId: string, options?: OperationOptions): Promise<Installation>;
     getNotificationHubJob(jobId: string, options?: OperationOptions): Promise<NotificationHubJob>;
