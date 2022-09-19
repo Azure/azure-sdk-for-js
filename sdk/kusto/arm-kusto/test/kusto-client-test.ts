@@ -76,6 +76,21 @@ describe("KustoManagementClient", () => {
     assert.strictEqual(res.name, clusterName_2);
   });
 
+  //kusto_client.clusters.beginUpdateAndWait
+  // it("could update tags in cluster", async () => {
+  //   const updateParams: ClusterUpdate = {
+  //     tags: {
+  //       key1: "value1",
+  //       key2: "value2",
+  //     }
+  //   };
+  //   const res = await client.clusters.beginUpdateAndWait(resourceGroup, clusterName_2, updateParams, testPollingOptions);
+  //   if (!isPlaybackMode()) {
+  //     await delay(600000);
+  //   }
+  //   assert.equal(res.name, clusterName_2);
+  // });
+
   //kusto_client.clusters.get
   it("could get cluster", async () => {
     const res = await client.clusters.get(resourceGroup, clusterName_1);
@@ -89,18 +104,6 @@ describe("KustoManagementClient", () => {
       resArray.push(item);
     }
     assert.ok(resArray.length >= 2);
-  });
-
-  //kusto_client.clusters.beginUpdateAndWait
-  it("could update tags in cluster", async () => {
-    const updateParams: ClusterUpdate = {
-      tags: {
-        key1: "value1",
-        key2: "value2",
-      }
-    };
-    const res = await client.clusters.beginUpdateAndWait(resourceGroup, clusterName_2, updateParams, testPollingOptions);
-    assert.equal(res.name, clusterName_2);
   });
 
   //kusto_client.clusters.beginDeleteAndWait

@@ -9,26 +9,24 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-kusto/7.2.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "4456dad1-48fb-4ff9-ac61-5beb556b99d2"
+        "x-ms-client-request-id": "2bd428a5-664e-49b3-8339-68409d7fa5c3"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Encoding": "gzip",
+        "Content-Length": "2514",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 16 Sep 2022 07:05:50 GMT",
+        "Date": "Mon, 19 Sep 2022 02:50:33 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "5e455c75-4518-4384-8cb0-e5431f25cf4a",
-        "x-ms-ratelimit-remaining-subscription-resource-requests": "297",
-        "x-ms-request-id": "3bdfe55c-bb4d-4f00-b901-38eeaa490200",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220916T070551Z:5e455c75-4518-4384-8cb0-e5431f25cf4a"
+        "x-ms-correlation-request-id": "76cf237a-f15e-486f-862f-f897d21829a9",
+        "x-ms-ratelimit-remaining-subscription-resource-requests": "298",
+        "x-ms-request-id": "00b04e49-9e70-4977-a103-de417d986a0f",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220919T025034Z:76cf237a-f15e-486f-862f-f897d21829a9"
       },
       "ResponseBody": {
         "value": [
@@ -36,7 +34,7 @@
             "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Kusto/Clusters/mytestclustername5",
             "name": "mytestclustername5",
             "type": "Microsoft.Kusto/Clusters",
-            "etag": "\u00222022-09-16T06:57:42.1952588Z\u0022",
+            "etag": "\u00222022-09-19T02:32:15.8301049Z\u0022",
             "location": "West Europe",
             "sku": {
               "name": "Standard_L8s_v2",
@@ -73,7 +71,7 @@
               "provisioningState": "Succeeded"
             },
             "identity": {
-              "principalId": "d22bd585-3843-4350-b45f-19c0ada5a538",
+              "principalId": "34c0335d-54d3-49a7-95b5-5516b3e68119",
               "tenantId": "88888888-8888-8888-8888-888888888888",
               "type": "SystemAssigned"
             }
@@ -82,14 +80,17 @@
             "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Kusto/Clusters/mytestclustername6",
             "name": "mytestclustername6",
             "type": "Microsoft.Kusto/Clusters",
-            "etag": "\u00222022-09-16T07:05:46.2958705Z\u0022",
+            "etag": "\u00222022-09-19T02:40:25.8128680Z\u0022",
             "location": "West Europe",
             "sku": {
               "name": "Standard_L8s_v2",
               "tier": "Standard",
               "capacity": 2
             },
-            "tags": {},
+            "tags": {
+              "key1": "value1",
+              "key2": "value2"
+            },
             "properties": {
               "state": "Running",
               "stateReason": null,
@@ -119,7 +120,7 @@
               "provisioningState": "Succeeded"
             },
             "identity": {
-              "principalId": "ebcdcb80-5b96-45b5-a9d6-e17fc269ebe9",
+              "principalId": "24fb800d-3543-432d-a9cf-cf8010132da8",
               "tenantId": "88888888-8888-8888-8888-888888888888",
               "type": "SystemAssigned"
             }
