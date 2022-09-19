@@ -188,10 +188,6 @@ describe("SchemaRegistryClient", function () {
     // NOTE: IDs may differ here as we could get a different version with same definition.
   });
 
-  it("fails to get schema by ID when given invalid ID", async () => {
-    await isRejected(client.getSchema(null!), { messagePattern: /null/ });
-  });
-
   it("fails to get schema when no schema exists with given ID", async () => {
     await isRejected(client.getSchema("ffffffffffffffffffffffffffffffff", errorOptions), {
       statusCode: 404,
