@@ -9,6 +9,7 @@ import {
 } from "./models/notificationDetails.js";
 import { NotificationHubsClientContext, createClientContext } from "./client/index.js";
 import {
+  EntityOperationOptions,
   NotificationHubsClientOptions,
   RegistrationQueryLimitOptions,
   RegistrationQueryOptions,
@@ -25,6 +26,7 @@ import { createOrUpdateRegistration as createOrUpdateRegistrationMethod } from "
 import { createRegistrationId as createRegistrationIdMethod } from "./client/createRegistrationId.js";
 import { createRegistration as createRegistrationMethod } from "./client/createRegistration.js";
 import { deleteInstallation as deleteInstallationMethod } from "./client/deleteInstallation.js";
+import { deleteRegistration } from "./client/deleteRegistration.js";
 import { getFeedbackContainerUrl as getFeedbackContainerUrlMethod } from "./client/getFeedbackContainerUrl.js";
 import { getInstallation as getInstallationMethod } from "./client/getInstallation.js";
 import { getNotificationHubJob as getNotificationHubJobMethod } from "./client/getNotificationHubJob.js";
@@ -161,6 +163,20 @@ export class NotificationHubsServiceClient {
     options: OperationOptions = {}
   ): Promise<RegistrationDescription> {
     return updateRegistrationMethod(this._client, registration, options);
+  }
+
+  /**
+   * Deletes a registration with the given registration ID.
+   * @param context - The Notification Hubs client.
+   * @param registrationId - The registration ID of the registration to delete.
+   * @param options - The options for delete operations including the ETag
+   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
+   */
+  deleteRegistration(
+    registrationId: string,
+    options: EntityOperationOptions = {}
+  ): Promise<NotificationHubsResponse> {
+    return deleteRegistration(this._client, registrationId, options);
   }
 
   /**
