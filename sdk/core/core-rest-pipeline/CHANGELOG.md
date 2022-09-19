@@ -1,14 +1,14 @@
 # Release History
 
-## 1.9.3 (Unreleased)
+## 1.10.0 (Unreleased)
 
 ### Features Added
+
+- Allow `RetryStrategy`s to specify a delay and redirect URI at the same time. [#23269](https://github.com/Azure/azure-sdk-for-js/pull/23269)
 
 ### Breaking Changes
 
 ### Bugs Fixed
-
-- Allow `RetryStrategy`s to specify a delay and redirect URI at the same time. [#23269](https://github.com/Azure/azure-sdk-for-js/pull/23269)
 
 ### Other Changes
 
