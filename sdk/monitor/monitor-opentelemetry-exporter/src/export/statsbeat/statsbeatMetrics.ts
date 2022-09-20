@@ -1,6 +1,24 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import { Meter } from "@opentelemetry/api-metrics/build/src/types/Meter";
 import { MeterProvider } from "@opentelemetry/sdk-metrics-base";
+import { SDK_VERSION } from "../../../../../../sdk/template/template/src/constants";
+import { AzureExporterConfig } from "../../config";
+import { AzureMonitorBaseExporter } from "../base";
+import { StatsbeatResourceProvider, STATSBEAT_LANGUAGE } from "../constants";
 
 var os = require("os");
+const AIMS_URI = "http://169.254.169.254/metadata/instance/compute";
+const AIMS_API_VERSION = "api-version=2017-12-01";
+const AIMS_FORMAT = "format=json";
+const ConnectionErrorMessage = "UNREACH"; // EHOSTUNREACH, ENETUNREACH
+
+export interface IVirtualMachineInfo {
+    isVM?: boolean;
+    id?: string;
+    subscriptionId?: string;
+    osType?: string;
+}
 
 class StatsbeatMetrics {
 
@@ -8,22 +26,54 @@ class StatsbeatMetrics {
   public static EU_CONNECTION_STRING = "InstrumentationKey=7dc56bab-3c0c-4e9f-9ebb-d1acadee8d0f;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com";
   public static STATS_COLLECTION_SHORT_INTERVAL: number = 900000; // 15 minutes
 
-  // Common attributes
-  private _resourceProvider: string;
+  private _meter: Meter;
+
+  // Custom dimensions
+  private _resourceProvider: string = StatsbeatResourceProvider.unknown;
   private _os: string = os.type();
   private _cikey: string;
   private _runtimeVersion: string;
   private _language: string;
   private _version: string;
-  private _attach: string;
+  private _attach: string = "sdk"; // Python verison lists "attach" as TODO
 
   // Network attributes
   private _endpoint: string;
   private _host: string;
 
   constructor(meterProvider: MeterProvider, instrumentationKey: string, endpoint: string) {
+    // Need to determine what should populate the resourceProvider attribute.
+    this._runtimeVersion = process.version;
+    this._language = STATSBEAT_LANGUAGE;
+    this._version = SDK_VERSION;
+    this._host = this._getShortHost(endpoint);
     this._cikey = instrumentationKey;
     this._endpoint = endpoint;
+
+    // TODO: Determine what value should be passed as the name parameter.
+    this._meter = meterProvider.getMeter("new name");
+  }
+
+  private async _getResourceProvider(): Promise<void> {
+      // Check resource provider
+      this._resourceProvider = StatsbeatResourceProvider.unknown;
+      if (process.env.WEBSITE_SITE_NAME) {
+          // Web apps
+          this._resourceProvider = StatsbeatResourceProvider.appsvc;
+      } else if (process.env.FUNCTIONS_WORKER_RUNTIME) {
+          // Function apps
+          this._resourceProvider = StatsbeatResourceProvider.functions;
+      } else if (this._getAzureComputeMetadata()) {
+        this._resourceProvider = StatsbeatResourceProvider.vm;
+      } else {
+        this._resourceProvider = StatsbeatResourceProvider.unknown;
+      }
+  }
+
+  private _getAzureComputeMetadata(): boolean {
+    const requestUrl = `${AIMS_URI}?${AIMS_API_VERSION}&${AIMS_FORMAT}`;
+    // TODO: Add HTTP request that calls the Azure URL and determines if we're on a VM.
+    return false;
   }
 
   // Create metrics related to the request calls to ingestion service
@@ -53,5 +103,20 @@ class StatsbeatMetrics {
 
   private getExceptionCount() {
 
+  }
+
+  private _getShortHost(originalHost: string) {
+    let shortHost = originalHost;
+    try {
+        let hostRegex = new RegExp(/^https?:\/\/(?:www\.)?([^\/.-]+)/);
+        let res = hostRegex.exec(originalHost);
+        if (res != null && res.length > 1) {
+            shortHost = res[1];
+        }
+    }
+    catch (error) {
+        // Ignore error
+    }
+    return shortHost;
   }
 }

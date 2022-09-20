@@ -1,3 +1,7 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+export const STATSBEAT_LANGUAGE = "node";
+
 export const RedirectStatusCodes = [
   307, // Temporary redirect
   308 // Permanent redirect
@@ -19,3 +23,10 @@ export const throttleStatusCodes = [
   402, // Too many requests over extended time
   439 // Too many requests over extended time (legacy)
 ];
+
+export const StatsbeatResourceProvider = {
+  appsvc: "appsvc",
+  functions: "functions",
+  vm: "vm",
+  unknown: "unknown"
+}

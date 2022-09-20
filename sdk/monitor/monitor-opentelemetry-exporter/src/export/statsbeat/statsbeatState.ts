@@ -1,4 +1,5 @@
-// This holds per StatsBeat state information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 class statsBeat {
   _STATSBEAT_FAILURE_COUNT_THRESHOLD = 3;
 
