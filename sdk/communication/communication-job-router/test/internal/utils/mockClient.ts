@@ -7,11 +7,7 @@ import { RouterAdministrationClient, RouterClient } from "../../../src";
 import { Context } from "mocha";
 import { isNode } from "@azure/core-util";
 import { RouterAdministrationClientOptions, RouterClientOptions } from "../../../src";
-<<<<<<< HEAD
 import { createRecorder } from "./recordedClient";
-=======
-import { createRecorder } from "../../public/utils/recordedClient";
->>>>>>> 08657c4338598237103f968c03a0f4b2790dcb0b
 
 if (isNode) {
   dotenv.config();

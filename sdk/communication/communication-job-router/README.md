@@ -264,7 +264,7 @@ Once you setup to handle events by following steps in above link. Job events wil
 ```json
 {
   "id": "4fb49a93-8704-4916-bbfd-befb432c667e",
-  "topic": "/subscription/5e1eee10-a1c5-440a-9128-3e43048287b2/resourcegroup/acs-events-rg-1/providers/microsoft.communication/communicationservices/acs/events-reource-1",
+  "topic": "/subscription/5e1eee10-a1c5-440a-9128-3e43048287b2/resourcegroup/acs-events-rg-1/providers/microsoft.communication/communicationservices/acs/events-resource-1",
   "data": {
     "jobId": "ba5701f0-a1d1-4357-a89c-abfc018b75ad",
     "workerId": "5b3b2714-b1fc-4e09-a451-68210ea2832c",

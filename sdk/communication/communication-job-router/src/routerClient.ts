@@ -295,11 +295,7 @@ export class RouterClient {
     offerId: string,
     options: OperationOptions = {}
   ): Promise<AcceptJobOfferResult> {
-<<<<<<< HEAD
     return this.client.jobRouter.acceptJobAction(workerId, offerId, options);
-=======
-    return this.client.jobRouter.acceptJobAction(offerId, workerId, options);
->>>>>>> 08657c4338598237103f968c03a0f4b2790dcb0b
   }
 
   /**
@@ -313,11 +309,7 @@ export class RouterClient {
     offerId: string,
     options: OperationOptions = {}
   ): Promise<JobRouterDeclineJobActionResponse> {
-<<<<<<< HEAD
     return this.client.jobRouter.declineJobAction(workerId, offerId, options);
-=======
-    return this.client.jobRouter.declineJobAction(offerId, workerId, options);
->>>>>>> 08657c4338598237103f968c03a0f4b2790dcb0b
   }
 
   // Worker Actions
