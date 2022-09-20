@@ -424,7 +424,7 @@ describe("Dynatrace test", () => {
     for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 1);
+    assert.equal(resArray.length, 2);
   });
 
   it("monitor delete test", async function () {
@@ -433,6 +433,6 @@ describe("Dynatrace test", () => {
     for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 0);
+    assert.equal(resArray.length, 1);
   });
 });
