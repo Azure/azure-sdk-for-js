@@ -5,6 +5,8 @@
         "file": [
           "eng/common/testproxy/dotnet-devcert.pfx",
           "sdk/batch/arm-batch/test/fakeTestSecrets.ts",
+          "sdk/batch/batch/test/fakeTestSecrets.ts",
+          "sdk/core/core-http/test/fakeTestSecrets.ts",
           "sdk/cosmosdb/cosmos/test/public/common/_fakeTestSecrets.ts",
           "sdk/identity/identity/test/azure-identity-chain-test.crt",
           "sdk/identity/identity/test/azure-identity-test.crt",
