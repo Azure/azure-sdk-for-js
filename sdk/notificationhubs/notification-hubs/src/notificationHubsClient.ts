@@ -2,16 +2,20 @@
 // Licensed under the MIT license.
 
 import { Installation, JsonPatch, PushHandle } from "./models/installation.js";
+import {
+  NotificationDetails,
+  NotificationHubsMessageResponse,
+  NotificationHubsResponse,
+} from "./models/notificationDetails.js";
 import { NotificationHubsClientContext, createClientContext } from "./client/index.js";
 import {
+  EntityOperationOptions,
   NotificationHubsClientOptions,
   RegistrationQueryLimitOptions,
   RegistrationQueryOptions,
   SendOperationOptions,
 } from "./models/options.js";
-import { NotificationHubsMessageResponse, NotificationHubsResponse } from "./models/response.js";
 import { Notification } from "./models/notification.js";
-import { NotificationDetails } from "./models/notificationDetails.js";
 import { NotificationHubJob } from "./models/notificationHubJob.js";
 import { OperationOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -22,6 +26,7 @@ import { createOrUpdateRegistration as createOrUpdateRegistrationMethod } from "
 import { createRegistrationId as createRegistrationIdMethod } from "./client/createRegistrationId.js";
 import { createRegistration as createRegistrationMethod } from "./client/createRegistration.js";
 import { deleteInstallation as deleteInstallationMethod } from "./client/deleteInstallation.js";
+import { deleteRegistration } from "./client/deleteRegistration.js";
 import { getFeedbackContainerUrl as getFeedbackContainerUrlMethod } from "./client/getFeedbackContainerUrl.js";
 import { getInstallation as getInstallationMethod } from "./client/getInstallation.js";
 import { getNotificationHubJob as getNotificationHubJobMethod } from "./client/getNotificationHubJob.js";
@@ -161,6 +166,20 @@ export class NotificationHubsServiceClient {
   }
 
   /**
+   * Deletes a registration with the given registration ID.
+   * @param context - The Notification Hubs client.
+   * @param registrationId - The registration ID of the registration to delete.
+   * @param options - The options for delete operations including the ETag
+   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
+   */
+  deleteRegistration(
+    registrationId: string,
+    options: EntityOperationOptions = {}
+  ): Promise<NotificationHubsResponse> {
+    return deleteRegistration(this._client, registrationId, options);
+  }
+
+  /**
    * Gets a registration by the given registration ID.
    * @param registrationId - The ID of the registration to get.
    * @param options - The options for getting a registration by ID.
@@ -201,14 +220,13 @@ export class NotificationHubsServiceClient {
    * Sends a direct push notification to a device with the given push handle.
    * @param pushHandle - The push handle which is the unique identifier for the device.
    * @param notification - The notification to send to the device.
-   * @param options - Configuration options for the direct send operation which can contain custom headers
-   * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
+   * @param options - The options for sending a direct notification.
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
   sendDirectNotification(
     pushHandle: PushHandle,
     notification: Notification,
-    options: SendOperationOptions = {}
+    options: OperationOptions = {}
   ): Promise<NotificationHubsMessageResponse> {
     return sendDirectNotificationMethod(this._client, pushHandle, notification, options);
   }

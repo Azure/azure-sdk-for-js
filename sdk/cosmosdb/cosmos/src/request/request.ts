@@ -7,7 +7,7 @@ import { CosmosClientOptions } from "../CosmosClientOptions";
 import { PartitionKey } from "../documents";
 import { CosmosHeaders } from "../queryExecutionContext";
 import { FeedOptions, RequestOptions } from "./index";
-
+import { defaultLogger } from "../common/logger";
 // ----------------------------------------------------------------------------
 // Utility methods
 //

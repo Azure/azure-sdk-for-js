@@ -1336,6 +1336,48 @@ matrix([["createPoller", "LroEngine"]] as const, async function (implName: Imple
             assert.deepInclude(result, { id: "100", name: "foo" });
           });
 
+          it("should handle postAsyncResourceLocation", async () => {
+            const locationPath = "/postlocation/retry/succeeded/operationResults/foo/200/";
+            const pollingPath = "/postlocation/retry/succeeded/operationResults/200/";
+            const result = await runLro({
+              routes: [
+                {
+                  method: "POST",
+                  status: 202,
+                  headers: {
+                    [headerName]: pollingPath,
+                    "retry-after": "0",
+                  },
+                  body: `{"status":"Accepted"}`,
+                },
+                {
+                  method: "GET",
+                  path: pollingPath,
+                  status: 202,
+                  headers: {
+                    location: locationPath,
+                    [headerName]: pollingPath,
+                    "retry-after": "0",
+                  },
+                  body: `{"status":"Accepted"}`,
+                },
+                {
+                  method: "GET",
+                  path: pollingPath,
+                  status: 200,
+                  body: `{"status":"Succeeded", "resourceLocation": "${locationPath}"}`,
+                },
+                {
+                  method: "GET",
+                  path: locationPath,
+                  status: 200,
+                  body: `{"id":"100","name":"foo"}`,
+                },
+              ],
+            });
+            assert.deepInclude(result, { id: "100", name: "foo" });
+          });
+
           it("should handle postAsyncRetrycanceled", async () => {
             const pollingPath = "/postasync/retry/canceled/operationResults/200/";
             await assertError(

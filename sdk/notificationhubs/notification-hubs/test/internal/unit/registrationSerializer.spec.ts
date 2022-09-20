@@ -10,8 +10,6 @@ import {
   BaiduTemplateRegistrationDescription,
   BrowserRegistrationDescription,
   BrowserTemplateRegistrationDescription,
-  FcmRegistrationDescription,
-  FcmTemplateRegistrationDescription,
   GcmRegistrationDescription,
   GcmTemplateRegistrationDescription,
   MpnsRegistrationDescription,
@@ -26,12 +24,8 @@ import {
   createBaiduTemplateRegistrationDescription,
   createBrowserRegistrationDescription,
   createBrowserTemplateRegistrationDescription,
-  createFcmRegistrationDescription,
-  createFcmTemplateRegistrationDescription,
-  createGcmRegistrationDescription,
-  createGcmTemplateRegistrationDescription,
-  createMpnsRegistrationDescription,
-  createMpnsTemplateRegistrationDescription,
+  createFcmLegacyRegistrationDescription,
+  createFcmLegacyTemplateRegistrationDescription,
   createWindowsRegistrationDescription,
   createWindowsTemplateRegistrationDescription,
 } from "../../../src/models/registration.js";
@@ -169,29 +163,6 @@ const GCM_TEMPLATE_REGISTRATION = `<?xml version="1.0" encoding="utf-8"?>
             <GcmRegistrationId>{GCM Registration Id}</GcmRegistrationId> 
             <BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>
         </GcmTemplateRegistrationDescription>
-    </content>
-</entry>`;
-
-const FCM_REGISTRATION = `<?xml version="1.0" encoding="utf-8"?>
-<entry xmlns="http://www.w3.org/2005/Atom">
-    <content type="application/xml">
-        <FcmRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
-            <Tags>myTag,myOtherTag</Tags>
-            <RegistrationId>{Registration Id}</RegistrationId> 
-            <FcmRegistrationId>{FCM Registration Id}</FcmRegistrationId> 
-        </FcmRegistrationDescription>
-    </content>
-</entry>`;
-
-const FCM_TEMPLATE_REGISTRATION = `<?xml version="1.0" encoding="utf-8"?>
-<entry xmlns="http://www.w3.org/2005/Atom">
-    <content type="application/xml">
-        <FcmTemplateRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
-            <Tags>myTag,myOtherTag</Tags>
-            <RegistrationId>{Registration Id}</RegistrationId> 
-            <FcmRegistrationId>{FCM Registration Id}</FcmRegistrationId> 
-            <BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>
-        </FcmTemplateRegistrationDescription>
     </content>
 </entry>`;
 
@@ -385,29 +356,6 @@ describe("parseRegistrationEntry", () => {
     assert.equal(registration.bodyTemplate, "{Template for the body}");
   });
 
-  it("should parse an FCM registration description", async () => {
-    const registration = (await registrationDescriptionParser.parseRegistrationEntry(
-      FCM_REGISTRATION
-    )) as FcmRegistrationDescription;
-
-    assert.equal(registration.type, "Fcm");
-    assert.equal(registration.registrationId, "{Registration Id}");
-    assert.equal(registration.fcmRegistrationId, "{FCM Registration Id}");
-    assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
-  });
-
-  it("should parse an FCM template registration description", async () => {
-    const registration = (await registrationDescriptionParser.parseRegistrationEntry(
-      FCM_TEMPLATE_REGISTRATION
-    )) as FcmTemplateRegistrationDescription;
-
-    assert.equal(registration.type, "FcmTemplate");
-    assert.equal(registration.registrationId, "{Registration Id}");
-    assert.equal(registration.fcmRegistrationId, "{FCM Registration Id}");
-    assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
-    assert.equal(registration.bodyTemplate, "{Template for the body}");
-  });
-
   it("should parse an MPNS registration description", async () => {
     const registration = (await registrationDescriptionParser.parseRegistrationEntry(
       MPNS_REGISTRATION
@@ -499,6 +447,25 @@ const EMPTY_REGISTRATION_FEED = `<?xml version="1.0" encoding="utf-8" ?>
   <link rel="self" href="https://testns.servicebus.windows.net/testhub/registrations/?api-version=2020-06" />
 </feed>`;
 
+const SINGLE_REGISTRATION_FEED = `<?xml version="1.0" encoding="utf-8" ?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title type="text">Registrations</title>
+  <id>https://testns.servicebus.windows.net/testhub/registrations/?api-version=2020-06</id>
+  <updated>2022-09-06T20:06:33Z</updated>
+  <link rel="self" href="https://testns.servicebus.windows.net/testhub/registrations/?api-version=2020-06" />
+  <entry xmlns="http://www.w3.org/2005/Atom">
+    <content type="application/xml">
+      <AppleTemplateRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+          <Tags>myTag,myOtherTag</Tags>
+          <RegistrationId>{Registration Id}</RegistrationId>
+          <DeviceToken>{DeviceToken}</DeviceToken>
+          <BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>
+          <Expiry>2011-10-05T14:48:00.000Z</Expiry>
+      </AppleTemplateRegistrationDescription>
+    </content>
+  </entry>
+</feed>`;
+
 describe("parseRegistrationFeed", () => {
   it("should parse a registration feed", async () => {
     const registrations = await registrationDescriptionParser.parseRegistrationFeed(
@@ -512,6 +479,20 @@ describe("parseRegistrationFeed", () => {
     assert.deepEqual(windowsRegistration.tags, ["myTag", "myOtherTag"]);
 
     const appleRegistration = registrations[1] as AppleTemplateRegistrationDescription;
+    assert.equal(appleRegistration.type, "AppleTemplate");
+    assert.equal(appleRegistration.registrationId, "{Registration Id}");
+    assert.equal(appleRegistration.deviceToken, "{DeviceToken}");
+    assert.deepEqual(appleRegistration.tags, ["myTag", "myOtherTag"]);
+  });
+
+  it("should parse a feed with one item", async () => {
+    const registrations = await registrationDescriptionParser.parseRegistrationFeed(
+      SINGLE_REGISTRATION_FEED
+    );
+
+    assert.equal(registrations.length, 1);
+
+    const appleRegistration = registrations[0] as AppleTemplateRegistrationDescription;
     assert.equal(appleRegistration.type, "AppleTemplate");
     assert.equal(appleRegistration.registrationId, "{Registration Id}");
     assert.equal(appleRegistration.deviceToken, "{DeviceToken}");
@@ -683,7 +664,7 @@ describe("serializeRegistrationDescription", () => {
   });
 
   it("should serialize a GcmRegistrationDescription", () => {
-    const registration = createGcmRegistrationDescription({
+    const registration = createFcmLegacyRegistrationDescription({
       gcmRegistrationId: "{GCM Registration ID}",
       tags: ["myTag", "myOtherTag"],
     });
@@ -699,7 +680,7 @@ describe("serializeRegistrationDescription", () => {
   });
 
   it("should serialize a GcmTemplateRegistrationDescription", () => {
-    const registration = createGcmTemplateRegistrationDescription({
+    const registration = createFcmLegacyTemplateRegistrationDescription({
       gcmRegistrationId: "{GCM Registration ID}",
       tags: ["myTag", "myOtherTag"],
       bodyTemplate: "{Template for the body}",
@@ -718,47 +699,12 @@ describe("serializeRegistrationDescription", () => {
     assert.isTrue(xml.indexOf("</GcmTemplateRegistrationDescription>") !== -1);
   });
 
-  it("should serialize an FcmRegistrationDescription", () => {
-    const registration = createFcmRegistrationDescription({
-      fcmRegistrationId: "{FCM Registration ID}",
-      tags: ["myTag", "myOtherTag"],
-    });
-
-    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
-
-    assert.isTrue(xml.indexOf("<FcmRegistrationDescription") !== -1);
-    assert.isTrue(
-      xml.indexOf("<FcmRegistrationId>{FCM Registration ID}</FcmRegistrationId>") !== -1
-    );
-    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
-    assert.isTrue(xml.indexOf("</FcmRegistrationDescription>") !== -1);
-  });
-
-  it("should serialize an FcmTemplateRegistrationDescription", () => {
-    const registration = createFcmTemplateRegistrationDescription({
-      fcmRegistrationId: "{FCM Registration ID}",
-      tags: ["myTag", "myOtherTag"],
-      bodyTemplate: "{Template for the body}",
-    });
-
-    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
-
-    assert.isTrue(xml.indexOf("<FcmTemplateRegistrationDescription") !== -1);
-    assert.isTrue(
-      xml.indexOf("<FcmRegistrationId>{FCM Registration ID}</FcmRegistrationId>") !== -1
-    );
-    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
-    assert.isTrue(
-      xml.indexOf("<BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>") !== -1
-    );
-    assert.isTrue(xml.indexOf("</FcmTemplateRegistrationDescription>") !== -1);
-  });
-
   it("should serialize an MpnsRegistrationDescription", () => {
-    const registration = createMpnsRegistrationDescription({
+    const registration: MpnsRegistrationDescription = {
       channelUri: "https://www.microsoft.com/",
       tags: ["myTag", "myOtherTag"],
-    });
+      type: "Mpns",
+    };
 
     const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
 
@@ -769,14 +715,15 @@ describe("serializeRegistrationDescription", () => {
   });
 
   it("should serialize an MpnsTemplateRegistrationDescription", () => {
-    const registration = createMpnsTemplateRegistrationDescription({
+    const registration: MpnsTemplateRegistrationDescription = {
       channelUri: "https://www.microsoft.com/",
       tags: ["myTag", "myOtherTag"],
       bodyTemplate: "{Template for the body}",
       mpnsHeaders: {
         "X-MPNS-TYPE": "mpns/tile",
       },
-    });
+      type: "MpnsTemplate",
+    };
 
     const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
 

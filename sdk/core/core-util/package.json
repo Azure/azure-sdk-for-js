@@ -69,6 +69,7 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
+    "@azure/abort-controller": "^1.0.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {

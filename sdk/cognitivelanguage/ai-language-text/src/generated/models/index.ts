@@ -278,6 +278,7 @@ export interface ClassificationCategory {
   confidenceScore: number;
 }
 
+/** A type representing a reference for the healthcare entity into a specific entity catalog. */
 export interface HealthcareEntity {
   /** Entity text as appears in the request. */
   text: string;
@@ -559,11 +560,11 @@ export interface ActionPrebuilt extends ActionCommon {
   modelVersion?: string;
 }
 
-/** Parameters object for a text analysis task using custom models. */
+/** Configuration common to all actions that use custom models. */
 export interface ActionCustom extends ActionCommon {
-  /** This field indicates the project name for the model. */
+  /** The project name for the model to be used by the action. */
   projectName: string;
-  /** This field indicates the deployment name for the model. */
+  /** The deployment name for the model to be used by the action. */
   deploymentName: string;
 }
 
@@ -777,7 +778,7 @@ export interface KeyPhraseExtractionAction extends ActionPrebuilt {}
 /** Options for a Pii entity recognition action. */
 export interface PiiEntityRecognitionAction extends ActionPrebuilt {
   /**
-   * Filters entities to ones only included in the specified domain (e.g., if set to `Phi`, only entities in the Protected Healthcare Information domain will be returned). For a list of possible domains, see {@link PiiDomain}.
+   * Filters entities to ones only included in the specified domain (e.g., if set to `Phi`, only entities in the Protected Healthcare Information domain will be returned). For a list of possible domains, see {@link KnownPiiEntityDomain}.
    *
    * See {@link https://aka.ms/tanerpii the service documentation} for more information.
    */
@@ -855,8 +856,8 @@ export interface PiiResultDocumentsItem extends PiiEntitiesDocumentResult {}
 export interface KeyPhraseResultDocumentsItem
   extends KeyPhrasesDocumentResult {}
 
-/** Defines headers for AnalyzeText_submitJob operation. */
-export interface AnalyzeTextSubmitJobHeaders {
+/** Defines headers for GeneratedClient_analyzeBatch operation. */
+export interface GeneratedClientAnalyzeBatchHeaders {
   operationLocation?: string;
 }
 
@@ -1972,11 +1973,11 @@ export interface AnalyzeOptionalParams extends coreClient.OperationOptions {
 export type AnalyzeResponse = AnalyzeTextTaskResultUnion;
 
 /** Optional parameters. */
-export interface AnalyzeTextSubmitJobOptionalParams
+export interface AnalyzeBatchOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the submitJob operation. */
-export type AnalyzeTextSubmitJobResponse = AnalyzeTextSubmitJobHeaders;
+/** Contains response data for the analyzeBatch operation. */
+export type AnalyzeBatchResponse = GeneratedClientAnalyzeBatchHeaders;
 
 /** Optional parameters. */
 export interface AnalyzeTextJobStatusOptionalParams

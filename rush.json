@@ -372,6 +372,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/ai-language-conversations",
+      "projectFolder": "sdk/cognitivelanguage/ai-language-conversations",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-text-analytics",
       "projectFolder": "sdk/textanalytics/ai-text-analytics",
       "versionPolicyName": "client"
@@ -1844,6 +1849,11 @@
     {
       "packageName": "@azure/arm-agrifood",
       "projectFolder": "sdk/agrifood/arm-agrifood",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-chaos",
+      "projectFolder": "sdk/chaos/arm-chaos",
       "versionPolicyName": "management"
     }
   ]
