@@ -17,6 +17,7 @@ import {
 import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
 import { SqlManagementClient } from "../src/sqlManagementClient";
+import { fakeTestPassword } from "./fakeTestSecrets.ts";
 
 const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
@@ -72,7 +73,7 @@ describe("Sql test", () => {
     const res = await client.servers.beginCreateOrUpdateAndWait(resourceGroup,serverName,{
       location: "eastus",
       administratorLogin: "dummylogin",
-      administratorLoginPassword: "p@55wOrd",
+      administratorLoginPassword: fakeTestPassword,
       version: "12.0"
     },testPollingOptions)
     assert.equal(res.name,serverName);

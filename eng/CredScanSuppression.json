@@ -14,6 +14,7 @@
           "sdk/keyvault/keyvault-certificates/ca.key",
           "sdk/storage/storage-blob/test/utils/fakeTestSecrets.ts",
           "sdk/servicebus/service-bus/test/public/fakeTestSecrets.ts",
+          "sdk/sql/arm-sql/test/fakeTestSecrets.ts",
           "sdk/tables/data-tables/test/internal/fakeTestSecrets.ts"
         ],
         "_justification": "File contains private key used by test code."
