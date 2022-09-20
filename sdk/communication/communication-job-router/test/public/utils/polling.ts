@@ -3,7 +3,6 @@
 
 import { JobAssignment, JobOffer, RouterJob, RouterWorker } from "../../../src/generated/src";
 import { RouterClient } from "../../../src/routerClient";
-import { JOB_STATUS } from "./constants";
 
 export async function pollForJobOffer(workerId: string, client: RouterClient): Promise<JobOffer> {
   return new Promise<JobOffer>(async (resolve, _) => {
@@ -35,7 +34,7 @@ export async function pollForJobAssignment(
 export async function pollForJobQueued(jobId: string, client: RouterClient): Promise<RouterJob> {
   return new Promise<RouterJob>(async (resolve, _) => {
     let job: RouterJob = {};
-    while (job.jobStatus !== JOB_STATUS.QUEUED) {
+    while (job.jobStatus !== "queued") {
       job = await client.getJob(jobId);
     }
 
@@ -46,7 +45,7 @@ export async function pollForJobQueued(jobId: string, client: RouterClient): Pro
 export async function pollForJobCancelled(jobId: string, client: RouterClient): Promise<RouterJob> {
   return new Promise<RouterJob>(async (resolve, _) => {
     let job: RouterJob = {};
-    while (job.jobStatus !== JOB_STATUS.CANCELLED) {
+    while (job.jobStatus !== "cancelled") {
       job = await client.getJob(jobId);
     }
 

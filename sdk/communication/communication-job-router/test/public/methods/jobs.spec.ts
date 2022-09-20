@@ -88,7 +88,7 @@ describe("RouterClient", function() {
     }).timeout(timeoutMs);
 
     it("should update a job", async function() {
-      await sleep(400);
+      await sleep(1000); // This test is flaky
 
       const patch: RouterJob = { ...jobRequest, priority: 5 };
       const result = await client.updateJob(jobId, patch);

@@ -449,7 +449,7 @@ export interface QueueLengthExceptionTrigger extends JobExceptionTrigger {
 export interface QueueSelector {
     key: string;
     labelOperator: LabelOperator;
-    value?: Record<string, unknown>;
+    value?: any;
 }
 
 // @public

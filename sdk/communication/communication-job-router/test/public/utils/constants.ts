@@ -8,8 +8,3 @@ export function sleep(ms: number) {
 }
 
 export const timeoutMs: number = 15000;
-
-export const JOB_STATUS = {
-  QUEUED: "queued",
-  CANCELLED: "cancelled"
-};

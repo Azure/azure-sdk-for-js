@@ -36,9 +36,11 @@ describe("RouterClient", function() {
 
   describe("Cancellation Scenario", function() {
     this.beforeAll(async function(this: Context) {
-      ({ client, administrationClient } = await createRecordedRouterClientWithConnectionString(
-        this
-      ));
+      ({
+        client,
+        administrationClient,
+        recorder
+      } = await createRecordedRouterClientWithConnectionString(this));
 
       await administrationClient.createDistributionPolicy(
         distributionPolicyId,

@@ -6,12 +6,13 @@ import {
   ConditionalQueueSelectorAttachment,
   DistributionPolicy,
   ExceptionPolicy,
+  ExpressionRule,
   JobQueue,
   PassThroughQueueSelectorAttachment,
   QueueSelector,
   RouterJob,
-  RouterRuleUnion,
-  RouterWorker
+  RouterWorker,
+  StaticQueueSelectorAttachment
 } from "../../../src";
 
 const queueId = "test-queue";
@@ -26,62 +27,74 @@ const region = "NA";
 const english = "EN";
 const french = "FR";
 
-const queueIdSelector: QueueSelector = {
+const isO365: ExpressionRule = {
+  kind: "expression-rule",
+  language: "powerFx",
+  expression: `If(job.Product = "${product}", true, false)`
+};
+
+const isEnglish: ExpressionRule = {
+  kind: "expression-rule",
+  language: "powerFx",
+  expression: `If(job.Language = "${english}", true, false)`
+};
+
+const isFrench: ExpressionRule = {
+  kind: "expression-rule",
+  language: "powerFx",
+  expression: `If(job.Language = "${french}", true, false)`
+};
+
+function getQueueIdSelector(guid: string): QueueSelector {
+  return {
+    key: "Id",
+    labelOperator: "equal",
+    value: { [`${queueId}-${guid}`]: `${queueId}-${guid}` }
+  };
+}
+
+const queueDoesNotExistSelector: QueueSelector = {
   key: "Id",
   labelOperator: "equal",
-  value: { default: queueId }
+  value: { queueDoesNotExist: "queueDoesNotExist" }
 };
 
 const englishSelector: QueueSelector = {
   key: "Language",
   labelOperator: "equal",
-  value: { default: english }
+  value: english
 };
 
 const frenchSelector: QueueSelector = {
   key: "Language",
   labelOperator: "equal",
-  value: { default: french }
+  value: french
 };
 
-const isO365: RouterRuleUnion = {
-  kind: "expression-rule",
-  value: { default: `If(job.Product = "${product}", true, false)'` }
+const staticQueueDoesNotExistSelector: StaticQueueSelectorAttachment = {
+  kind: "static",
+  labelSelector: queueDoesNotExistSelector
 };
 
-const isEnglish: RouterRuleUnion = {
-  kind: "expression-rule",
-  value: { default: `If(job.Language = "${english}", true, false)'` }
-};
-
-const isFrench: RouterRuleUnion = {
-  kind: "expression-rule",
-  value: { default: `If(job.Language = "${french}", true, false)'` }
-};
-
-const passThroughSelectorRegion: PassThroughQueueSelectorAttachment = {
+const passThroughRegionSelector: PassThroughQueueSelectorAttachment = {
   kind: "pass-through",
   key: "Region",
   labelOperator: "equal"
 };
 
-const passThroughSelectorLanguage: PassThroughQueueSelectorAttachment = {
-  kind: "pass-through",
-  key: "Language",
-  labelOperator: "equal"
-};
-
-const passThroughSelectorProduct: PassThroughQueueSelectorAttachment = {
+const passThroughProductSelector: PassThroughQueueSelectorAttachment = {
   kind: "pass-through",
   key: "Product",
   labelOperator: "equal"
 };
 
-const conditionalProductSelector: ConditionalQueueSelectorAttachment = {
-  kind: "conditional",
-  condition: isO365,
-  labelSelectors: [queueIdSelector]
-};
+function getConditionalProductSelector(guid: string): ConditionalQueueSelectorAttachment {
+  return {
+    kind: "conditional",
+    condition: isO365,
+    labelSelectors: [getQueueIdSelector(guid)]
+  };
+}
 
 const conditionalEnglishSelector: ConditionalQueueSelectorAttachment = {
   kind: "conditional",
@@ -95,26 +108,39 @@ const conditionalFrenchSelector: ConditionalQueueSelectorAttachment = {
   labelSelectors: [frenchSelector]
 };
 
-export const englishQueue: JobQueue = {
-  id: `${queueId}-english`,
-  name: `${queueId}-english`,
-  distributionPolicyId: distributionPolicyId,
-  labels: { Region: region, Product: product, Language: english }
-};
+export function getQueueEnglish(guid: string): JobQueue {
+  return {
+    id: `${queueId}-english-${guid}`,
+    name: `${queueId}-english`,
+    distributionPolicyId: distributionPolicyId,
+    labels: { Region: region, Product: product, Language: english }
+  };
+}
 
-export const frenchQueue: JobQueue = {
-  id: `${queueId}-french`,
-  name: `${queueId}-french`,
-  distributionPolicyId: distributionPolicyId,
-  labels: { Region: region, Product: product, Language: french }
-};
+export function getQueueFrench(guid: string): JobQueue {
+  return {
+    id: `${queueId}-french-${guid}`,
+    name: `${queueId}-french`,
+    distributionPolicyId: distributionPolicyId,
+    labels: { Region: region, Product: product, Language: french }
+  };
+}
+
+export function getClassificationPolicyFallback(guid: string): ClassificationPolicy {
+  return {
+    id: `${classificationPolicyId}-fallback-${guid}`,
+    name: `${classificationPolicyId}-fallback`,
+    fallbackQueueId: `${queueId}-${guid}`,
+    queueSelectors: [staticQueueDoesNotExistSelector]
+  };
+}
 
 export function getClassificationPolicyConditional(guid: string): ClassificationPolicy {
   return {
     id: `${classificationPolicyId}-conditional-${guid}`,
     name: `${classificationPolicyId}-conditional`,
-    fallbackQueueId: queueId,
-    queueSelectors: [conditionalProductSelector]
+    fallbackQueueId: `${queueId}-${guid}`,
+    queueSelectors: [getConditionalProductSelector(guid)]
   };
 }
 
@@ -122,8 +148,8 @@ export function getClassificationPolicyPassthrough(guid: string): Classification
   return {
     id: `${classificationPolicyId}-passthrough-${guid}`,
     name: `${classificationPolicyId}-passthrough`,
-    fallbackQueueId: queueId,
-    queueSelectors: [passThroughSelectorRegion, passThroughSelectorProduct]
+    fallbackQueueId: `${queueId}-${guid}`,
+    queueSelectors: [passThroughRegionSelector, passThroughProductSelector]
   };
 }
 
@@ -131,13 +157,22 @@ export function getClassificationPolicyCombined(guid: string): ClassificationPol
   return {
     id: `${classificationPolicyId}-combined-${guid}`,
     name: `${classificationPolicyId}-combined`,
-    fallbackQueueId: queueId,
+    fallbackQueueId: `${queueId}-${guid}`,
     queueSelectors: [
-      passThroughSelectorLanguage,
-      passThroughSelectorProduct,
+      passThroughRegionSelector,
+      passThroughProductSelector,
       conditionalEnglishSelector,
       conditionalFrenchSelector
     ]
+  };
+}
+
+export function getJobFallback(guid: string): RouterJob {
+  return {
+    id: `${jobId}-fallback-${guid}`,
+    channelId: "test-channel",
+    priority: 1,
+    classificationPolicyId: `${classificationPolicyId}-fallback-${guid}`
   };
 }
 
@@ -147,7 +182,7 @@ export function getJobConditional(guid: string): RouterJob {
     channelId: "test-channel",
     priority: 1,
     classificationPolicyId: `${classificationPolicyId}-conditional-${guid}`,
-    labels: [{ Product: product }]
+    labels: { Product: product }
   };
 }
 
@@ -157,7 +192,7 @@ export function getJobPassthrough(guid: string): RouterJob {
     channelId: "test-channel",
     priority: 1,
     classificationPolicyId: `${classificationPolicyId}-passthrough-${guid}`,
-    labels: [{ Region: region }, { Language: english }]
+    labels: { Region: region, Language: english }
   };
 }
 
@@ -167,7 +202,7 @@ export function getJobEnglish(guid: string): RouterJob {
     channelId: "test-channel",
     priority: 1,
     classificationPolicyId: `${classificationPolicyId}-combined-${guid}`,
-    labels: [{ Product: product }, { Region: region }, { Language: english }]
+    labels: { Product: product, Region: region, Language: english }
   };
 }
 
@@ -177,7 +212,7 @@ export function getJobFrench(guid: string): RouterJob {
     channelId: "test-channel",
     priority: 1,
     classificationPolicyId: `${classificationPolicyId}-combined-${guid}`,
-    labels: [{ Product: product }, { Region: region }, { Language: "FR" }]
+    labels: { Product: product, Region: region, Language: "FR" }
   };
 }
 

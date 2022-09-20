@@ -32,9 +32,9 @@ describe("RouterClient", function() {
   describe("Worker Operations", function() {
     this.beforeAll(async function(this: Context) {
       ({
-        recorder,
         client,
-        administrationClient
+        administrationClient,
+        recorder
       } = await createRecordedRouterClientWithConnectionString(this));
 
       await administrationClient.createDistributionPolicy(

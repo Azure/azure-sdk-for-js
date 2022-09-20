@@ -1451,8 +1451,8 @@ export const QueueSelector: coreClient.CompositeMapper = {
       value: {
         serializedName: "value",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
+          // value: { type: { name: "any" } }
         }
       }
     }
@@ -1559,8 +1559,7 @@ export const ConditionalQueueSelectorAttachment: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ConditionalQueueSelectorAttachment",
     uberParent: "QueueSelectorAttachment",
-    polymorphicDiscriminator:
-      QueueSelectorAttachment.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: QueueSelectorAttachment.type.polymorphicDiscriminator,
     modelProperties: {
       ...QueueSelectorAttachment.type.modelProperties,
       condition: {
@@ -1593,8 +1592,7 @@ export const PassThroughQueueSelectorAttachment: coreClient.CompositeMapper = {
     name: "Composite",
     className: "PassThroughQueueSelectorAttachment",
     uberParent: "QueueSelectorAttachment",
-    polymorphicDiscriminator:
-      QueueSelectorAttachment.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: QueueSelectorAttachment.type.polymorphicDiscriminator,
     modelProperties: {
       ...QueueSelectorAttachment.type.modelProperties,
       key: {
@@ -1632,8 +1630,7 @@ export const RuleEngineQueueSelectorAttachment: coreClient.CompositeMapper = {
     name: "Composite",
     className: "RuleEngineQueueSelectorAttachment",
     uberParent: "QueueSelectorAttachment",
-    polymorphicDiscriminator:
-      QueueSelectorAttachment.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: QueueSelectorAttachment.type.polymorphicDiscriminator,
     modelProperties: {
       ...QueueSelectorAttachment.type.modelProperties,
       rule: {
@@ -1653,8 +1650,7 @@ export const StaticQueueSelectorAttachment: coreClient.CompositeMapper = {
     name: "Composite",
     className: "StaticQueueSelectorAttachment",
     uberParent: "QueueSelectorAttachment",
-    polymorphicDiscriminator:
-      QueueSelectorAttachment.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: QueueSelectorAttachment.type.polymorphicDiscriminator,
     modelProperties: {
       ...QueueSelectorAttachment.type.modelProperties,
       labelSelector: {
@@ -1674,8 +1670,7 @@ export const WeightedAllocationQueueSelectorAttachment: coreClient.CompositeMapp
     name: "Composite",
     className: "WeightedAllocationQueueSelectorAttachment",
     uberParent: "QueueSelectorAttachment",
-    polymorphicDiscriminator:
-      QueueSelectorAttachment.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: QueueSelectorAttachment.type.polymorphicDiscriminator,
     modelProperties: {
       ...QueueSelectorAttachment.type.modelProperties,
       allocations: {
@@ -1792,8 +1787,7 @@ export const ConditionalWorkerSelectorAttachment: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ConditionalWorkerSelectorAttachment",
     uberParent: "WorkerSelectorAttachment",
-    polymorphicDiscriminator:
-      WorkerSelectorAttachment.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: WorkerSelectorAttachment.type.polymorphicDiscriminator,
     modelProperties: {
       ...WorkerSelectorAttachment.type.modelProperties,
       condition: {
@@ -1826,8 +1820,7 @@ export const PassThroughWorkerSelectorAttachment: coreClient.CompositeMapper = {
     name: "Composite",
     className: "PassThroughWorkerSelectorAttachment",
     uberParent: "WorkerSelectorAttachment",
-    polymorphicDiscriminator:
-      WorkerSelectorAttachment.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: WorkerSelectorAttachment.type.polymorphicDiscriminator,
     modelProperties: {
       ...WorkerSelectorAttachment.type.modelProperties,
       key: {
@@ -1871,8 +1864,7 @@ export const RuleEngineWorkerSelectorAttachment: coreClient.CompositeMapper = {
     name: "Composite",
     className: "RuleEngineWorkerSelectorAttachment",
     uberParent: "WorkerSelectorAttachment",
-    polymorphicDiscriminator:
-      WorkerSelectorAttachment.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: WorkerSelectorAttachment.type.polymorphicDiscriminator,
     modelProperties: {
       ...WorkerSelectorAttachment.type.modelProperties,
       rule: {
@@ -1892,8 +1884,7 @@ export const StaticWorkerSelectorAttachment: coreClient.CompositeMapper = {
     name: "Composite",
     className: "StaticWorkerSelectorAttachment",
     uberParent: "WorkerSelectorAttachment",
-    polymorphicDiscriminator:
-      WorkerSelectorAttachment.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: WorkerSelectorAttachment.type.polymorphicDiscriminator,
     modelProperties: {
       ...WorkerSelectorAttachment.type.modelProperties,
       labelSelector: {
@@ -1913,8 +1904,7 @@ export const WeightedAllocationWorkerSelectorAttachment: coreClient.CompositeMap
     name: "Composite",
     className: "WeightedAllocationWorkerSelectorAttachment",
     uberParent: "WorkerSelectorAttachment",
-    polymorphicDiscriminator:
-      WorkerSelectorAttachment.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: WorkerSelectorAttachment.type.polymorphicDiscriminator,
     modelProperties: {
       ...WorkerSelectorAttachment.type.modelProperties,
       allocations: {
