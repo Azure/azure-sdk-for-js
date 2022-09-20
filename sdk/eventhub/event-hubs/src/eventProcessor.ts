@@ -461,7 +461,8 @@ export class EventProcessor {
 
     const { partitionOwnershipMap, partitionsToClaim } = computePartitionsToClaim({
       id: this._id,
-      isReceivingFromPartition: this._pumpManager.isReceivingFromPartition,
+      isReceivingFromPartition: (partitionId: string) =>
+        this._pumpManager.isReceivingFromPartition(partitionId),
       loadBalancingStrategy,
       partitionIds,
       partitionOwnership,
