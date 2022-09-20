@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { ServiceClient } from "@azure/core-client";
+import { createHttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
 import { Meter } from "@opentelemetry/api-metrics/build/src/types/Meter";
 import { MeterProvider } from "@opentelemetry/sdk-metrics-base";
 import { SDK_VERSION } from "../../../../../../sdk/template/template/src/constants";
-import { AzureExporterConfig } from "../../config";
-import { AzureMonitorBaseExporter } from "../base";
 import { StatsbeatResourceProvider, STATSBEAT_LANGUAGE } from "../constants";
 
 var os = require("os");
 const AIMS_URI = "http://169.254.169.254/metadata/instance/compute";
 const AIMS_API_VERSION = "api-version=2017-12-01";
 const AIMS_FORMAT = "format=json";
-const ConnectionErrorMessage = "UNREACH"; // EHOSTUNREACH, ENETUNREACH
 
 export interface IVirtualMachineInfo {
     isVM?: boolean;
@@ -27,6 +26,7 @@ class StatsbeatMetrics {
   public static STATS_COLLECTION_SHORT_INTERVAL: number = 900000; // 15 minutes
 
   private _meter: Meter;
+  private _isVm: boolean|undefined;
 
   // Custom dimensions
   private _resourceProvider: string = StatsbeatResourceProvider.unknown;
@@ -70,10 +70,36 @@ class StatsbeatMetrics {
       }
   }
 
+  // TOOD: Revisit this logic to ensure it's correct
   private _getAzureComputeMetadata(): boolean {
-    const requestUrl = `${AIMS_URI}?${AIMS_API_VERSION}&${AIMS_FORMAT}`;
-    // TODO: Add HTTP request that calls the Azure URL and determines if we're on a VM.
-    return false;
+      const serviceClient = new ServiceClient;
+      const headers = createHttpHeaders({"MetaData": "True"});
+
+      const request: PipelineRequest = {
+        url: `${AIMS_URI}?${AIMS_API_VERSION}&${AIMS_FORMAT}`,
+        headers: headers,
+        timeout: 5000, // 5 seconds
+        method: "GET",
+        withCredentials: false,
+        requestId: "azure-metadata-request"
+      };
+
+      serviceClient.sendRequest(request)
+        .then((res) => {
+          if (res.status === 200) {
+            this._isVm = true;
+            return true;
+          } else {
+            this._isVm = false;
+            return false;
+          }
+        }).catch(() => {
+          this._isVm = false;
+          return false;
+        });
+
+      this._isVm = false;
+      return false;
   }
 
   // Create metrics related to the request calls to ingestion service
