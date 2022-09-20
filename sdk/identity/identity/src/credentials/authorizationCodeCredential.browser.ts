@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 import { AccessToken, TokenCredential } from "@azure/core-auth";
-
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { credentialLogger, formatError } from "../util/logging";
+import { AuthorizationCodeCredentialOptions } from "./authorizationCodeCredentialOptions";
 
 const BrowserNotSupportedError = new Error(
   "AuthorizationCodeCredential is not supported in the browser. InteractiveBrowserCredential is more appropriate for this use case."
@@ -21,14 +20,14 @@ export class AuthorizationCodeCredential implements TokenCredential {
     clientSecret: string,
     authorizationCode: string,
     redirectUri: string,
-    options?: TokenCredentialOptions
+    options?: AuthorizationCodeCredentialOptions
   );
   constructor(
     tenantId: string | "common",
     clientId: string,
     authorizationCode: string,
     redirectUri: string,
-    options?: TokenCredentialOptions
+    options?: AuthorizationCodeCredentialOptions
   );
   constructor() {
     logger.info(formatError("", BrowserNotSupportedError));
