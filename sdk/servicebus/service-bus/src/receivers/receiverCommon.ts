@@ -17,7 +17,6 @@ import { ConnectionContext } from "../connectionContext";
 import {
   Constants,
   ErrorNameConditionMapper,
-  delay,
   retry,
   RetryConfig,
   RetryMode,
@@ -25,7 +24,7 @@ import {
   RetryOptions,
 } from "@azure/core-amqp";
 import { MessageAlreadySettled } from "../util/errors";
-import { isDefined } from "@azure/core-util";
+import { delay, isDefined } from "@azure/core-util";
 
 /**
  * @internal
@@ -381,11 +380,10 @@ export async function retryForever<T>(
         delayInMs,
         config.operationType
       );
-      await delay<void>(
-        delayInMs,
-        config.abortSignal,
-        "Retry cycle has been cancelled by the user."
-      );
+      await delay(delayInMs, {
+        abortSignal: config.abortSignal,
+        abortErrorMsg: "Retry cycle has been cancelled by the user.",
+      });
 
       continue;
     }

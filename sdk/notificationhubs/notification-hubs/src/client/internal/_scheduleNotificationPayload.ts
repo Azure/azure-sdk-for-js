@@ -4,14 +4,15 @@
 import { createRequest, parseNotificationSendResponse, sendRequest } from "./_client.js";
 import { Notification } from "../../models/notification.js";
 import { NotificationHubsClientContext } from "../index.js";
-import { NotificationHubsMessageResponse } from "../../models/response.js";
+import { NotificationHubsMessageResponse } from "../../models/notificationDetails.js";
 import { OperationOptions } from "@azure/core-client";
 import { tracingClient } from "../../utils/tracing.js";
+
+const OPERATION_NAME = "scheduleNotificationPayload";
 
 /**
  * @internal
  */
-
 export function scheduleNotificationPayload(
   context: NotificationHubsClientContext,
   scheduledTime: Date,
@@ -20,13 +21,13 @@ export function scheduleNotificationPayload(
   options: OperationOptions = {}
 ): Promise<NotificationHubsMessageResponse> {
   return tracingClient.withSpan(
-    "NotificationHubsClientContext-$scheduleNotification",
+    `NotificationHubsClientContext-${OPERATION_NAME}`,
     options,
     async (updatedOptions) => {
       const endpoint = context.requestUrl();
       endpoint.pathname += "/schedulednotifications/";
 
-      const headers = context.createHeaders();
+      const headers = await context.createHeaders(OPERATION_NAME);
       if (notification.headers) {
         for (const headerName of Object.keys(notification.headers)) {
           headers.set(headerName, notification.headers[headerName]);

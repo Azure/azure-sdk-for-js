@@ -6,7 +6,7 @@ import { MessagingError, translate } from "./errors";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Constants } from "./util/constants";
 import { checkNetworkConnection } from "./util/checkNetworkConnection";
-import { delay } from "./util/utils";
+import { delay } from "@azure/core-util";
 import { logger } from "./log";
 
 /**
@@ -263,11 +263,11 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
           targetDelayInMs,
           updatedConfig.operationType
         );
-        await delay(
-          targetDelayInMs,
-          updatedConfig.abortSignal,
-          `The retry operation has been cancelled by the user.`
-        );
+        await delay(targetDelayInMs, {
+          abortSignal: updatedConfig.abortSignal,
+          abortErrorMsg: `The retry operation has been cancelled by the user.`,
+        });
+
         continue;
       } else {
         break;

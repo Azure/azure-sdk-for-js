@@ -10,13 +10,12 @@ import {
 import { GetTokenOptions, MixedRealityStsClientOptions } from "./models/options";
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { MixedRealityAccountKeyCredential } from "./models/auth";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { constructAuthenticationEndpointFromDomain } from "./util/authenticationEndpoint";
-import { createSpan } from "./tracing";
 import { generateCvBase } from "./util/cv";
 import { logger } from "./logger";
 import { mapToAccessToken } from "./models/mappers";
+import { tracingClient } from "./generated/tracing";
 
 /**
  * Represents the Mixed Reality STS client for retrieving STS tokens used to access Mixed Reality services.
@@ -134,23 +133,14 @@ export class MixedRealityStsClient {
       },
     };
 
-    const { span, updatedOptions } = createSpan("MixedRealityStsClient-GetToken", internalOptions);
+    return tracingClient.withSpan(
+      "MixedRealityStsClient-GetToken",
+      internalOptions,
+      async (updatedOptions) => {
+        const tokenResponse = await this.restClient.getToken(this.accountId, updatedOptions);
 
-    try {
-      const tokenResponse = await this.restClient.getToken(this.accountId, updatedOptions);
-
-      return mapToAccessToken(tokenResponse);
-    } catch (e: any) {
-      // There are different standard codes available for different errors:
-      // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-
-      throw e;
-    } finally {
-      span.end();
-    }
+        return mapToAccessToken(tokenResponse);
+      }
+    );
   }
 }

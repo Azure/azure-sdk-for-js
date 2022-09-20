@@ -20,7 +20,7 @@ In these samples we use [JSDOM][jsdom] but you can use any library that provides
 
 ## Prerequisites
 
-The samples are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
+The samples are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 
 Before running the TypeScript samples, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript].
 

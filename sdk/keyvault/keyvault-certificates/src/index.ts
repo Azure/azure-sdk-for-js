@@ -76,6 +76,7 @@ import {
   KnownCertificateKeyCurveNames,
   KnownCertificateKeyTypes,
   KnownKeyUsageTypes,
+  PollerLikeWithCancellation,
 } from "./certificatesModels";
 
 import {
@@ -155,6 +156,7 @@ export {
   KeyVaultCertificateIdentifier,
   parseKeyVaultCertificateIdentifier,
   PollerLike,
+  PollerLikeWithCancellation,
   CreateCertificateState,
   DeleteCertificateState,
   RecoverDeletedCertificateState,
@@ -943,7 +945,7 @@ export class CertificateClient {
     certificateName: string,
     policy: CertificatePolicy,
     options: BeginCreateCertificateOptions = {}
-  ): Promise<PollerLike<CreateCertificateState, KeyVaultCertificateWithPolicy>> {
+  ): Promise<PollerLikeWithCancellation<CreateCertificateState, KeyVaultCertificateWithPolicy>> {
     const poller = new CreateCertificatePoller({
       vaultUrl: this.vaultUrl,
       client: this.client,
@@ -1226,7 +1228,7 @@ export class CertificateClient {
   public async getCertificateOperation(
     certificateName: string,
     options: GetCertificateOperationOptions = {}
-  ): Promise<PollerLike<CertificateOperationState, KeyVaultCertificateWithPolicy>> {
+  ): Promise<PollerLikeWithCancellation<CertificateOperationState, KeyVaultCertificateWithPolicy>> {
     const poller = new CertificateOperationPoller({
       certificateName,
       client: this.client,

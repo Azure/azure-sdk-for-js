@@ -4,9 +4,11 @@
 import { createRequest, parseNotificationResponse, sendRequest } from "./internal/_client.js";
 import { EntityOperationOptions } from "../models/options.js";
 import { NotificationHubsClientContext } from "./index.js";
-import { NotificationHubsResponse } from "../models/response.js";
+import { NotificationHubsResponse } from "../models/notificationDetails.js";
 import { isDefined } from "../utils/utils.js";
 import { tracingClient } from "../utils/tracing.js";
+
+const OPERATION_NAME = "deleteRegistration";
 
 /**
  * Deletes a registration with the given registration ID.
@@ -21,13 +23,13 @@ export function deleteRegistration(
   options: EntityOperationOptions = {}
 ): Promise<NotificationHubsResponse> {
   return tracingClient.withSpan(
-    "NotificationHubsClientContext-deleteRegistration",
+    `NotificationHubsClientContext-${OPERATION_NAME}`,
     options,
     async (updatedOptions) => {
       const endpoint = context.requestUrl();
       endpoint.pathname += `/registrations/${registrationId}`;
 
-      const headers = context.createHeaders();
+      const headers = await context.createHeaders(OPERATION_NAME);
       headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
       headers.set("If-Match", isDefined(options.etag) ? `"${options.etag}"` : "*");
 

@@ -13,7 +13,7 @@ import {
   MeterProvider,
   PeriodicExportingMetricReader,
   PeriodicExportingMetricReaderOptions,
-} from "@opentelemetry/sdk-metrics-base";
+} from "@opentelemetry/sdk-metrics";
 import { Resource } from "@opentelemetry/resources";
 import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";

@@ -34,7 +34,6 @@ export type AnalyzeBatchActionUnion =
   | EntitiesLROTask
   | EntityLinkingLROTask
   | PiiLROTask
-  | ExtractiveSummarizationLROTask
   | KeyPhraseLROTask;
 export type AnalyzeTextLROResultUnion =
   | AnalyzeTextLROResult
@@ -44,7 +43,6 @@ export type AnalyzeTextLROResultUnion =
   | CustomMultiLabelClassificationLROResult
   | EntityLinkingLROResult
   | PiiEntityRecognitionLROResult
-  | ExtractiveSummarizationLROResult
   | HealthcareLROResult
   | SentimentLROResult
   | KeyPhraseExtractionLROResult;
@@ -280,6 +278,7 @@ export interface ClassificationCategory {
   confidenceScore: number;
 }
 
+/** A type representing a reference for the healthcare entity into a specific entity catalog. */
 export interface HealthcareEntity {
   /** Entity text as appears in the request. */
   text: string;
@@ -336,8 +335,11 @@ export interface HealthcareRelationEntity {
 
 /** Represents the confidence scores between 0 and 1 across all sentiment classes: positive, neutral, negative. */
 export interface SentimentConfidenceScores {
+  /** Confidence score for positive sentiment */
   positive: number;
+  /** Confidence score for neutral sentiment */
   neutral: number;
+  /** Confidence score for negative sentiment */
   negative: number;
 }
 
@@ -374,9 +376,11 @@ export interface SentenceTarget {
   relations: TargetRelation[];
 }
 
-/** Represents the confidence scores across all sentiment classes: positive, neutral, negative. */
+/** Represents the confidence scores across all sentiment classes: positive and negative. */
 export interface TargetConfidenceScores {
+  /** Confidence score for positive sentiment */
   positive: number;
+  /** Confidence score for negative sentiment */
   negative: number;
 }
 
@@ -433,18 +437,6 @@ export interface Match {
   length: number;
 }
 
-/** A sentence that is part of the extracted summary. */
-export interface SummarySentence {
-  /** The extracted sentence text. */
-  text: string;
-  /** A double value representing the relevance of the sentence within the summary. Higher values indicate higher importance. */
-  rankScore: number;
-  /** The sentence offset from the start of the document, based on the value of the parameter StringIndexType. */
-  offset: number;
-  /** The length of the sentence. */
-  length: number;
-}
-
 /** Information about the language of a document as identified by the Language service. */
 export interface DetectedLanguage {
   /** Long name of a detected language (e.g. English, French). */
@@ -457,15 +449,6 @@ export interface DetectedLanguage {
 
 export interface Pagination {
   nextLink?: string;
-}
-
-export interface JobMetadata {
-  displayName?: string;
-  createdDateTime: Date;
-  expirationDateTime?: Date;
-  jobId: string;
-  lastUpdateDateTime: Date;
-  status: State;
 }
 
 export interface JobErrors {
@@ -577,9 +560,11 @@ export interface ActionPrebuilt extends ActionCommon {
   modelVersion?: string;
 }
 
-/** Parameters object for a text analysis task using custom models. */
+/** Configuration common to all actions that use custom models. */
 export interface ActionCustom extends ActionCommon {
+  /** The project name for the model to be used by the action. */
   projectName: string;
+  /** The deployment name for the model to be used by the action. */
   deploymentName: string;
 }
 
@@ -607,11 +592,6 @@ export interface PiiResult extends PreBuiltResult {
   documents: PiiResultDocumentsItem[];
 }
 
-export interface ExtractiveSummarizationResult extends PreBuiltResult {
-  /** Response by document */
-  documents: ExtractiveSummarizationResultDocumentsItem[];
-}
-
 export interface KeyPhraseResult extends PreBuiltResult {
   /** Response by document */
   documents: KeyPhraseResultDocumentsItem[];
@@ -627,14 +607,9 @@ export interface CustomEntitiesResult extends CustomResult {
   documents: CustomEntitiesResultDocumentsItem[];
 }
 
-export interface CustomSingleLabelClassificationResult extends CustomResult {
+export interface CustomLabelClassificationResult extends CustomResult {
   /** Response by document */
-  documents: CustomSingleLabelClassificationResultDocumentsItem[];
-}
-
-export interface CustomMultiLabelClassificationResult extends CustomResult {
-  /** Response by document */
-  documents: CustomMultiLabelClassificationResultDocumentsItem[];
+  documents: CustomLabelClassificationResultDocumentsItem[];
 }
 
 export interface EntitiesDocumentResult extends DocumentResult {
@@ -642,13 +617,8 @@ export interface EntitiesDocumentResult extends DocumentResult {
   entities: Entity[];
 }
 
-export interface SingleClassificationDocumentResult extends DocumentResult {
-  /** A classification result from a custom classify document single category action */
-  classification: ClassificationCategory;
-}
-
-export interface MultiClassificationDocumentResult extends DocumentResult {
-  classifications: ClassificationCategory[];
+export interface ClassificationDocumentResult extends DocumentResult {
+  class: ClassificationCategory[];
 }
 
 export interface HealthcareEntitiesDocumentResult extends DocumentResult {
@@ -656,8 +626,6 @@ export interface HealthcareEntitiesDocumentResult extends DocumentResult {
   entities: HealthcareEntity[];
   /** Healthcare entity relations. */
   relations: HealthcareRelation[];
-  /** JSON bundle containing a FHIR compatible object for consumption in other Healthcare tools. For additional information see https://www.hl7.org/fhir/overview.html. */
-  fhirBundle?: { [propertyName: string]: any };
 }
 
 export interface SentimentDocumentResult extends DocumentResult {
@@ -679,11 +647,6 @@ export interface PiiEntitiesDocumentResult extends DocumentResult {
   redactedText: string;
   /** Recognized entities in the document. */
   entities: Entity[];
-}
-
-export interface ExtractedSummaryDocumentResult extends DocumentResult {
-  /** A ranked list of sentences representing the extracted summary. */
-  sentences: SummarySentence[];
 }
 
 export interface KeyPhrasesDocumentResult extends DocumentResult {
@@ -745,12 +708,6 @@ export interface PiiLROTask extends AnalyzeBatchAction {
   parameters?: PiiEntityRecognitionAction;
 }
 
-/** An object representing the task definition for an Extractive Summarization task. */
-export interface ExtractiveSummarizationLROTask extends AnalyzeBatchAction {
-  /** Supported parameters for an Extractive Summarization task. */
-  parameters?: ExtractiveSummarizationAction;
-}
-
 /** An object representing the task definition for a Key Phrase Extraction task. */
 export interface KeyPhraseLROTask extends AnalyzeBatchAction {
   /** Options for a key phrase recognition action. */
@@ -767,12 +724,12 @@ export interface CustomEntityRecognitionLROResult extends AnalyzeTextLROResult {
 
 export interface CustomSingleLabelClassificationLROResult
   extends AnalyzeTextLROResult {
-  results: CustomSingleLabelClassificationResult;
+  results: CustomLabelClassificationResult;
 }
 
 export interface CustomMultiLabelClassificationLROResult
   extends AnalyzeTextLROResult {
-  results: CustomMultiLabelClassificationResult;
+  results: CustomLabelClassificationResult;
 }
 
 export interface EntityLinkingLROResult extends AnalyzeTextLROResult {
@@ -781,10 +738,6 @@ export interface EntityLinkingLROResult extends AnalyzeTextLROResult {
 
 export interface PiiEntityRecognitionLROResult extends AnalyzeTextLROResult {
   results: PiiResult;
-}
-
-export interface ExtractiveSummarizationLROResult extends AnalyzeTextLROResult {
-  results: ExtractiveSummarizationResult;
 }
 
 export interface HealthcareLROResult extends AnalyzeTextLROResult {
@@ -825,7 +778,7 @@ export interface KeyPhraseExtractionAction extends ActionPrebuilt {}
 /** Options for a Pii entity recognition action. */
 export interface PiiEntityRecognitionAction extends ActionPrebuilt {
   /**
-   * Filters entities to ones only included in the specified domain (e.g., if set to `Phi`, only entities in the Protected Healthcare Information domain will be returned). For a list of possible domains, see {@link PiiDomain}.
+   * Filters entities to ones only included in the specified domain (e.g., if set to `Phi`, only entities in the Protected Healthcare Information domain will be returned). For a list of possible domains, see {@link KnownPiiEntityDomain}.
    *
    * See {@link https://aka.ms/tanerpii the service documentation} for more information.
    */
@@ -857,22 +810,6 @@ export interface SentimentAnalysisAction extends ActionPrebuilt {
 
 /** Supported parameters for a Healthcare task. */
 export interface HealthcareAction extends ActionPrebuilt {
-  /** The FHIR Spec version that the result will use to format the fhirBundle. For additional information see https://www.hl7.org/fhir/overview.html. */
-  fhirVersion?: FhirVersion;
-  /**
-   * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
-   *
-   * The default is the JavaScript's default which is "Utf16CodeUnit".
-   */
-  stringIndexType?: StringIndexType;
-}
-
-/** Supported parameters for an Extractive Summarization task. */
-export interface ExtractiveSummarizationAction extends ActionPrebuilt {
-  /** The max number of sentences to be part of the summary. */
-  maxSentenceCount?: number;
-  /** The sorting criteria to use for the results of Extractive Summarization. */
-  orderBy?: ExtractiveSummarizationOrderingCriteria;
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
@@ -902,11 +839,8 @@ export interface CustomEntitiesResultDocumentsItem
 
 export interface EntitiesResultDocumentsItem extends EntitiesDocumentResult {}
 
-export interface CustomSingleLabelClassificationResultDocumentsItem
-  extends SingleClassificationDocumentResult {}
-
-export interface CustomMultiLabelClassificationResultDocumentsItem
-  extends MultiClassificationDocumentResult {}
+export interface CustomLabelClassificationResultDocumentsItem
+  extends ClassificationDocumentResult {}
 
 export interface HealthcareResultDocumentsItem
   extends HealthcareEntitiesDocumentResult {}
@@ -919,14 +853,11 @@ export interface EntityLinkingResultDocumentsItem
 
 export interface PiiResultDocumentsItem extends PiiEntitiesDocumentResult {}
 
-export interface ExtractiveSummarizationResultDocumentsItem
-  extends ExtractedSummaryDocumentResult {}
-
 export interface KeyPhraseResultDocumentsItem
   extends KeyPhrasesDocumentResult {}
 
-/** Defines headers for AnalyzeText_submitJob operation. */
-export interface AnalyzeTextSubmitJobHeaders {
+/** Defines headers for GeneratedClient_analyzeBatch operation. */
+export interface GeneratedClientAnalyzeBatchHeaders {
   operationLocation?: string;
 }
 
@@ -1024,7 +955,15 @@ export enum KnownErrorCode {
   /** InternalServerError */
   InternalServerError = "InternalServerError",
   /** ServiceUnavailable */
-  ServiceUnavailable = "ServiceUnavailable"
+  ServiceUnavailable = "ServiceUnavailable",
+  /** Timeout */
+  Timeout = "Timeout",
+  /** QuotaExceeded */
+  QuotaExceeded = "QuotaExceeded",
+  /** Conflict */
+  Conflict = "Conflict",
+  /** Warning */
+  Warning = "Warning"
 }
 
 /**
@@ -1045,7 +984,11 @@ export enum KnownErrorCode {
  * **AzureCognitiveSearchThrottling** \
  * **AzureCognitiveSearchIndexLimitReached** \
  * **InternalServerError** \
- * **ServiceUnavailable**
+ * **ServiceUnavailable** \
+ * **Timeout** \
+ * **QuotaExceeded** \
+ * **Conflict** \
+ * **Warning**
  */
 export type ErrorCode = string;
 
@@ -1117,8 +1060,6 @@ export enum KnownAnalyzeTextLROTaskKind {
   EntityLinking = "EntityLinking",
   /** Healthcare */
   Healthcare = "Healthcare",
-  /** ExtractiveSummarization */
-  ExtractiveSummarization = "ExtractiveSummarization",
   /** CustomEntityRecognition */
   CustomEntityRecognition = "CustomEntityRecognition",
   /** CustomSingleLabelClassification */
@@ -1138,12 +1079,44 @@ export enum KnownAnalyzeTextLROTaskKind {
  * **KeyPhraseExtraction** \
  * **EntityLinking** \
  * **Healthcare** \
- * **ExtractiveSummarization** \
  * **CustomEntityRecognition** \
  * **CustomSingleLabelClassification** \
  * **CustomMultiLabelClassification**
  */
 export type AnalyzeTextLROTaskKind = string;
+
+/** Known values of {@link OperationStatus} that the service accepts. */
+export enum KnownOperationStatus {
+  /** NotStarted */
+  NotStarted = "notStarted",
+  /** Running */
+  Running = "running",
+  /** Succeeded */
+  Succeeded = "succeeded",
+  /** PartiallyCompleted */
+  PartiallyCompleted = "partiallyCompleted",
+  /** Failed */
+  Failed = "failed",
+  /** Cancelled */
+  Cancelled = "cancelled",
+  /** Cancelling */
+  Cancelling = "cancelling"
+}
+
+/**
+ * Defines values for OperationStatus. \
+ * {@link KnownOperationStatus} can be used interchangeably with OperationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **notStarted** \
+ * **running** \
+ * **succeeded** \
+ * **partiallyCompleted** \
+ * **failed** \
+ * **cancelled** \
+ * **cancelling**
+ */
+export type OperationStatus = string;
 
 /** Known values of {@link AnalyzeTextLROResultsKind} that the service accepts. */
 export enum KnownAnalyzeTextLROResultsKind {
@@ -1159,8 +1132,6 @@ export enum KnownAnalyzeTextLROResultsKind {
   EntityLinkingLROResults = "EntityLinkingLROResults",
   /** HealthcareLROResults */
   HealthcareLROResults = "HealthcareLROResults",
-  /** ExtractiveSummarizationLROResults */
-  ExtractiveSummarizationLROResults = "ExtractiveSummarizationLROResults",
   /** CustomEntityRecognitionLROResults */
   CustomEntityRecognitionLROResults = "CustomEntityRecognitionLROResults",
   /** CustomSingleLabelClassificationLROResults */
@@ -1180,12 +1151,41 @@ export enum KnownAnalyzeTextLROResultsKind {
  * **KeyPhraseExtractionLROResults** \
  * **EntityLinkingLROResults** \
  * **HealthcareLROResults** \
- * **ExtractiveSummarizationLROResults** \
  * **CustomEntityRecognitionLROResults** \
  * **CustomSingleLabelClassificationLROResults** \
  * **CustomMultiLabelClassificationLROResults**
  */
 export type AnalyzeTextLROResultsKind = string;
+
+/** Known values of {@link State} that the service accepts. */
+export enum KnownState {
+  /** NotStarted */
+  NotStarted = "notStarted",
+  /** Running */
+  Running = "running",
+  /** Succeeded */
+  Succeeded = "succeeded",
+  /** Failed */
+  Failed = "failed",
+  /** Cancelled */
+  Cancelled = "cancelled",
+  /** Cancelling */
+  Cancelling = "cancelling"
+}
+
+/**
+ * Defines values for State. \
+ * {@link KnownState} can be used interchangeably with State,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **notStarted** \
+ * **running** \
+ * **succeeded** \
+ * **failed** \
+ * **cancelled** \
+ * **cancelling**
+ */
+export type State = string;
 
 /** Known values of {@link StringIndexType} that the service accepts. */
 export enum KnownStringIndexType {
@@ -1775,75 +1775,60 @@ export enum KnownWarningCode {
  */
 export type WarningCode = string;
 
-/** Known values of {@link FhirVersion} that the service accepts. */
-export enum KnownFhirVersion {
-  /** Four01 */
-  Four01 = "4.0.1"
-}
-
-/**
- * Defines values for FhirVersion. \
- * {@link KnownFhirVersion} can be used interchangeably with FhirVersion,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **4.0.1**
- */
-export type FhirVersion = string;
-
 /** Known values of {@link HealthcareEntityCategory} that the service accepts. */
 export enum KnownHealthcareEntityCategory {
   /** BodyStructure */
-  BodyStructure = "BODY_STRUCTURE",
-  /** AGE */
-  AGE = "AGE",
+  BodyStructure = "BodyStructure",
+  /** Age */
+  Age = "Age",
   /** Gender */
-  Gender = "GENDER",
+  Gender = "Gender",
   /** ExaminationName */
-  ExaminationName = "EXAMINATION_NAME",
+  ExaminationName = "ExaminationName",
   /** Date */
-  Date = "DATE",
+  Date = "Date",
   /** Direction */
-  Direction = "DIRECTION",
+  Direction = "Direction",
   /** Frequency */
-  Frequency = "FREQUENCY",
+  Frequency = "Frequency",
   /** MeasurementValue */
-  MeasurementValue = "MEASUREMENT_VALUE",
+  MeasurementValue = "MeasurementValue",
   /** MeasurementUnit */
-  MeasurementUnit = "MEASUREMENT_UNIT",
+  MeasurementUnit = "MeasurementUnit",
   /** RelationalOperator */
-  RelationalOperator = "RELATIONAL_OPERATOR",
+  RelationalOperator = "RelationalOperator",
   /** Time */
-  Time = "TIME",
-  /** GeneORProtein */
-  GeneORProtein = "GENE_OR_PROTEIN",
+  Time = "Time",
+  /** GeneOrProtein */
+  GeneOrProtein = "GeneOrProtein",
   /** Variant */
-  Variant = "VARIANT",
+  Variant = "Variant",
   /** AdministrativeEvent */
-  AdministrativeEvent = "ADMINISTRATIVE_EVENT",
+  AdministrativeEvent = "AdministrativeEvent",
   /** CareEnvironment */
-  CareEnvironment = "CARE_ENVIRONMENT",
+  CareEnvironment = "CareEnvironment",
   /** HealthcareProfession */
-  HealthcareProfession = "HEALTHCARE_PROFESSION",
+  HealthcareProfession = "HealthcareProfession",
   /** Diagnosis */
-  Diagnosis = "DIAGNOSIS",
-  /** SymptomORSign */
-  SymptomORSign = "SYMPTOM_OR_SIGN",
+  Diagnosis = "Diagnosis",
+  /** SymptomOrSign */
+  SymptomOrSign = "SymptomOrSign",
   /** ConditionQualifier */
-  ConditionQualifier = "CONDITION_QUALIFIER",
+  ConditionQualifier = "ConditionQualifier",
   /** MedicationClass */
-  MedicationClass = "MEDICATION_CLASS",
+  MedicationClass = "MedicationClass",
   /** MedicationName */
-  MedicationName = "MEDICATION_NAME",
+  MedicationName = "MedicationName",
   /** Dosage */
-  Dosage = "DOSAGE",
+  Dosage = "Dosage",
   /** MedicationForm */
-  MedicationForm = "MEDICATION_FORM",
+  MedicationForm = "MedicationForm",
   /** MedicationRoute */
-  MedicationRoute = "MEDICATION_ROUTE",
+  MedicationRoute = "MedicationRoute",
   /** FamilyRelation */
-  FamilyRelation = "FAMILY_RELATION",
+  FamilyRelation = "FamilyRelation",
   /** TreatmentName */
-  TreatmentName = "TREATMENT_NAME"
+  TreatmentName = "TreatmentName"
 }
 
 /**
@@ -1851,32 +1836,32 @@ export enum KnownHealthcareEntityCategory {
  * {@link KnownHealthcareEntityCategory} can be used interchangeably with HealthcareEntityCategory,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **BODY_STRUCTURE** \
- * **AGE** \
- * **GENDER** \
- * **EXAMINATION_NAME** \
- * **DATE** \
- * **DIRECTION** \
- * **FREQUENCY** \
- * **MEASUREMENT_VALUE** \
- * **MEASUREMENT_UNIT** \
- * **RELATIONAL_OPERATOR** \
- * **TIME** \
- * **GENE_OR_PROTEIN** \
- * **VARIANT** \
- * **ADMINISTRATIVE_EVENT** \
- * **CARE_ENVIRONMENT** \
- * **HEALTHCARE_PROFESSION** \
- * **DIAGNOSIS** \
- * **SYMPTOM_OR_SIGN** \
- * **CONDITION_QUALIFIER** \
- * **MEDICATION_CLASS** \
- * **MEDICATION_NAME** \
- * **DOSAGE** \
- * **MEDICATION_FORM** \
- * **MEDICATION_ROUTE** \
- * **FAMILY_RELATION** \
- * **TREATMENT_NAME**
+ * **BodyStructure** \
+ * **Age** \
+ * **Gender** \
+ * **ExaminationName** \
+ * **Date** \
+ * **Direction** \
+ * **Frequency** \
+ * **MeasurementValue** \
+ * **MeasurementUnit** \
+ * **RelationalOperator** \
+ * **Time** \
+ * **GeneOrProtein** \
+ * **Variant** \
+ * **AdministrativeEvent** \
+ * **CareEnvironment** \
+ * **HealthcareProfession** \
+ * **Diagnosis** \
+ * **SymptomOrSign** \
+ * **ConditionQualifier** \
+ * **MedicationClass** \
+ * **MedicationName** \
+ * **Dosage** \
+ * **MedicationForm** \
+ * **MedicationRoute** \
+ * **FamilyRelation** \
+ * **TreatmentName**
  */
 export type HealthcareEntityCategory = string;
 
@@ -1954,42 +1939,6 @@ export enum KnownRelationType {
  * **ValueOfExamination**
  */
 export type RelationType = string;
-
-/** Known values of {@link ExtractiveSummarizationOrderingCriteria} that the service accepts. */
-export enum KnownExtractiveSummarizationOrderingCriteria {
-  /** Indicates that results should be sorted in order of appearance in the text. */
-  Offset = "Offset",
-  /** Indicates that results should be sorted in order of importance (i.e. rank score) according to the model. */
-  Rank = "Rank"
-}
-
-/**
- * Defines values for ExtractiveSummarizationOrderingCriteria. \
- * {@link KnownExtractiveSummarizationOrderingCriteria} can be used interchangeably with ExtractiveSummarizationOrderingCriteria,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Offset**: Indicates that results should be sorted in order of appearance in the text. \
- * **Rank**: Indicates that results should be sorted in order of importance (i.e. rank score) according to the model.
- */
-export type ExtractiveSummarizationOrderingCriteria = string;
-/** Defines values for OperationStatus. */
-export type OperationStatus =
-  | "notStarted"
-  | "running"
-  | "succeeded"
-  | "partiallySucceeded"
-  | "failed"
-  | "cancelled"
-  | "cancelling";
-/** Defines values for State. */
-export type State =
-  | "notStarted"
-  | "running"
-  | "succeeded"
-  | "partiallySucceeded"
-  | "failed"
-  | "cancelled"
-  | "cancelling";
 /** Defines values for EntityConditionality. */
 export type EntityConditionality = "hypothetical" | "conditional";
 /** Defines values for EntityCertainty. */
@@ -2024,11 +1973,11 @@ export interface AnalyzeOptionalParams extends coreClient.OperationOptions {
 export type AnalyzeResponse = AnalyzeTextTaskResultUnion;
 
 /** Optional parameters. */
-export interface AnalyzeTextSubmitJobOptionalParams
+export interface AnalyzeBatchOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the submitJob operation. */
-export type AnalyzeTextSubmitJobResponse = AnalyzeTextSubmitJobHeaders;
+/** Contains response data for the analyzeBatch operation. */
+export type AnalyzeBatchResponse = GeneratedClientAnalyzeBatchHeaders;
 
 /** Optional parameters. */
 export interface AnalyzeTextJobStatusOptionalParams

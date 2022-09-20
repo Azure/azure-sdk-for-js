@@ -7,7 +7,7 @@ import {
   createAppleNotification,
   createBaiduNotification,
   createBrowserNotification,
-  createFirebaseLegacyNotification,
+  createFcmLegacyNotification,
   createTemplateNotification,
   createWindowsBadgeNotification,
   createWindowsRawNotification,
@@ -64,9 +64,9 @@ describe("createBrowserNotification", () => {
   });
 });
 
-describe("createFirebaseLegacyNotification", () => {
+describe("createFcmLegacyNotification", () => {
   it("should create a Firebase message with defaults", () => {
-    const notification = createFirebaseLegacyNotification({
+    const notification = createFcmLegacyNotification({
       body: `{"notification":{"title":"TITLE","body":"Hello}}`,
     });
 

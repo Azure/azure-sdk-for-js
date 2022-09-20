@@ -4,9 +4,11 @@
 import { createRequest, parseNotificationResponse, sendRequest } from "./internal/_client.js";
 import { Installation } from "../models/installation.js";
 import { NotificationHubsClientContext } from "./index.js";
-import { NotificationHubsResponse } from "../models/response.js";
+import { NotificationHubsResponse } from "../models/notificationDetails.js";
 import { OperationOptions } from "@azure/core-client";
 import { tracingClient } from "../utils/tracing.js";
+
+const OPERATION_NAME = "createOrUpdateInstallation";
 
 /**
  * Creates or overwrites an installation to a Notification Hub.
@@ -21,12 +23,13 @@ export function createOrUpdateInstallation(
   options: OperationOptions = {}
 ): Promise<NotificationHubsResponse> {
   return tracingClient.withSpan(
-    "NotificationHubsClientContext-createOrUpdateInstallation",
+    `NotificationHubsClientContext-${OPERATION_NAME}`,
     options,
     async (updatedOptions) => {
       const endpoint = context.requestUrl();
       endpoint.pathname += `/installations/${installation.installationId}`;
-      const headers = context.createHeaders();
+
+      const headers = await context.createHeaders(OPERATION_NAME);
       headers.set("Content-Type", "application/json");
 
       const request = createRequest(endpoint, "PUT", headers, updatedOptions);

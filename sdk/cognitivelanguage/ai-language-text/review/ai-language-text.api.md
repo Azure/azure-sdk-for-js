@@ -8,9 +8,9 @@ import { AzureKeyCredential } from '@azure/core-auth';
 import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -20,9 +20,7 @@ export interface ActionCommon {
 
 // @public
 export interface ActionCustom extends ActionCommon {
-    // (undocumented)
     deploymentName: string;
-    // (undocumented)
     projectName: string;
 }
 
@@ -60,7 +58,7 @@ export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
 }[ActionName];
 
 // @public
-export type AnalyzeBatchAction = EntityLinkingBatchAction | EntityRecognitionBatchAction | KeyPhraseExtractionBatchAction | PiiEntityRecognitionBatchAction | HealthcareBatchAction | ExtractiveSummarizationBatchAction | SentimentAnalysisBatchAction | CustomEntityRecognitionBatchAction | CustomSingleLabelClassificationBatchAction | CustomMultiLabelClassificationBatchAction;
+export type AnalyzeBatchAction = EntityLinkingBatchAction | EntityRecognitionBatchAction | KeyPhraseExtractionBatchAction | PiiEntityRecognitionBatchAction | HealthcareBatchAction | SentimentAnalysisBatchAction | CustomEntityRecognitionBatchAction | CustomSingleLabelClassificationBatchAction | CustomMultiLabelClassificationBatchAction;
 
 // @public
 export interface AnalyzeBatchActionCommon {
@@ -78,7 +76,6 @@ export const AnalyzeBatchActionNames: {
     readonly KeyPhraseExtraction: "KeyPhraseExtraction";
     readonly EntityLinking: "EntityLinking";
     readonly Healthcare: "Healthcare";
-    readonly ExtractiveSummarization: "ExtractiveSummarization";
     readonly CustomEntityRecognition: "CustomEntityRecognition";
     readonly CustomSingleLabelClassification: "CustomSingleLabelClassification";
     readonly CustomMultiLabelClassification: "CustomMultiLabelClassification";
@@ -94,18 +91,17 @@ export interface AnalyzeBatchOperationMetadata {
     readonly expiresOn?: Date;
     readonly id: string;
     readonly modifiedOn: Date;
-    readonly status: OperationStatus;
 }
 
 // @public
-export interface AnalyzeBatchOperationState extends PollOperationState<PagedAnalyzeBatchResult>, AnalyzeBatchOperationMetadata {
+export interface AnalyzeBatchOperationState extends OperationState<PagedAnalyzeBatchResult>, AnalyzeBatchOperationMetadata {
 }
 
 // @public
 export type AnalyzeBatchPoller = PollerLike<AnalyzeBatchOperationState, PagedAnalyzeBatchResult>;
 
 // @public
-export type AnalyzeBatchResult = EntityLinkingBatchResult | EntityRecognitionBatchResult | KeyPhraseExtractionBatchResult | PiiEntityRecognitionBatchResult | SentimentAnalysisBatchResult | HealthcareBatchResult | ExtractiveSummarizationBatchResult | CustomEntityRecognitionBatchResult | CustomSingleLabelClassificationBatchResult | CustomMultiLabelClassificationBatchResult;
+export type AnalyzeBatchResult = EntityLinkingBatchResult | EntityRecognitionBatchResult | KeyPhraseExtractionBatchResult | PiiEntityRecognitionBatchResult | SentimentAnalysisBatchResult | HealthcareBatchResult | CustomEntityRecognitionBatchResult | CustomSingleLabelClassificationBatchResult | CustomMultiLabelClassificationBatchResult;
 
 // @public
 export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
@@ -330,29 +326,7 @@ export interface EntityRecognitionSuccessResult extends TextAnalysisSuccessResul
 }
 
 // @public
-export interface ExtractiveSummarizationAction extends ActionPrebuilt {
-    maxSentenceCount?: number;
-    orderBy?: ExtractiveSummarizationOrderingCriteria;
-    stringIndexType?: StringIndexType;
-}
-
-// @public
-export interface ExtractiveSummarizationBatchAction extends AnalyzeBatchActionCommon, ExtractiveSummarizationAction {
-    kind: "ExtractiveSummarization";
-}
-
-// @public
-export type ExtractiveSummarizationBatchResult = ActionMetadata & BatchActionResult<SummarizationExtractionResult, "ExtractiveSummarization">;
-
-// @public
-export type ExtractiveSummarizationOrderingCriteria = string;
-
-// @public
-export type FhirVersion = string;
-
-// @public
 export interface HealthcareAction extends ActionPrebuilt {
-    fhirVersion?: FhirVersion;
     stringIndexType?: StringIndexType;
 }
 
@@ -407,7 +381,6 @@ export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
 export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
     readonly entities: HealthcareEntity[];
     readonly entityRelations: HealthcareEntityRelation[];
-    readonly fhirBundle?: Record<string, any>;
 }
 
 // @public
@@ -439,6 +412,7 @@ export enum KnownErrorCode {
     AzureCognitiveSearchIndexNotFound = "AzureCognitiveSearchIndexNotFound",
     AzureCognitiveSearchNotFound = "AzureCognitiveSearchNotFound",
     AzureCognitiveSearchThrottling = "AzureCognitiveSearchThrottling",
+    Conflict = "Conflict",
     Forbidden = "Forbidden",
     InternalServerError = "InternalServerError",
     InvalidArgument = "InvalidArgument",
@@ -446,20 +420,12 @@ export enum KnownErrorCode {
     NotFound = "NotFound",
     OperationNotFound = "OperationNotFound",
     ProjectNotFound = "ProjectNotFound",
+    QuotaExceeded = "QuotaExceeded",
     ServiceUnavailable = "ServiceUnavailable",
+    Timeout = "Timeout",
     TooManyRequests = "TooManyRequests",
-    Unauthorized = "Unauthorized"
-}
-
-// @public
-export enum KnownExtractiveSummarizationOrderingCriteria {
-    Offset = "Offset",
-    Rank = "Rank"
-}
-
-// @public
-export enum KnownFhirVersion {
-    "4.0.1" = "4.0.1"
+    Unauthorized = "Unauthorized",
+    Warning = "Warning"
 }
 
 // @public
@@ -697,6 +663,10 @@ export const KnownTextAnalysisErrorCode: {
     AzureCognitiveSearchIndexLimitReached: KnownErrorCode.AzureCognitiveSearchIndexLimitReached;
     InternalServerError: KnownErrorCode.InternalServerError;
     ServiceUnavailable: KnownErrorCode.ServiceUnavailable;
+    Timeout: KnownErrorCode.Timeout;
+    QuotaExceeded: KnownErrorCode.QuotaExceeded;
+    Conflict: KnownErrorCode.Conflict;
+    Warning: KnownErrorCode.Warning;
 };
 
 // @public
@@ -741,9 +711,6 @@ export interface Match {
 }
 
 // @public
-export type OperationStatus = "notStarted" | "running" | "succeeded" | "partiallySucceeded" | "failed" | "cancelled" | "cancelling";
-
-// @public
 export interface Opinion {
     readonly assessments: AssessmentSentiment[];
     readonly target: TargetSentiment;
@@ -783,6 +750,11 @@ export type PiiEntityRecognitionResult = PiiEntityRecognitionSuccessResult | Pii
 export interface PiiEntityRecognitionSuccessResult extends TextAnalysisSuccessResult {
     readonly entities: Entity[];
     readonly redactedText: string;
+}
+
+// @public
+export interface PollerLike<TState extends OperationState<TResult>, TResult> extends SimplePollerLike<TState, TResult> {
+    sendCancellationRequest: () => Promise<void>;
 }
 
 // @public
@@ -835,11 +807,8 @@ export interface SentimentAnalysisSuccessResult extends TextAnalysisSuccessResul
 
 // @public
 export interface SentimentConfidenceScores {
-    // (undocumented)
     negative: number;
-    // (undocumented)
     neutral: number;
-    // (undocumented)
     positive: number;
 }
 
@@ -847,29 +816,8 @@ export interface SentimentConfidenceScores {
 export type StringIndexType = string;
 
 // @public
-export type SummarizationExtractionErrorResult = TextAnalysisErrorResult;
-
-// @public
-export type SummarizationExtractionResult = SummarizationExtractionSuccessResult | SummarizationExtractionErrorResult;
-
-// @public
-export interface SummarizationExtractionSuccessResult extends TextAnalysisSuccessResult {
-    readonly sentences: SummarySentence[];
-}
-
-// @public
-export interface SummarySentence {
-    length: number;
-    offset: number;
-    rankScore: number;
-    text: string;
-}
-
-// @public
 export interface TargetConfidenceScores {
-    // (undocumented)
     negative: number;
-    // (undocumented)
     positive: number;
 }
 
@@ -897,9 +845,9 @@ export class TextAnalysisClient {
 
 // @public
 export interface TextAnalysisClientOptions extends CommonClientOptions {
-    apiVersion?: string;
     defaultCountryHint?: string;
     defaultLanguage?: string;
+    serviceVersion?: string;
 }
 
 // @public
@@ -917,7 +865,6 @@ export interface TextAnalysisErrorResult {
 
 // @public
 export interface TextAnalysisOperationOptions extends OperationOptions {
-    apiVersion?: string;
     includeStatistics?: boolean;
 }
 

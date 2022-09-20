@@ -15,6 +15,7 @@ export const SubResource: coreClient.CompositeMapper = {
     modelProperties: {
       id: {
         serializedName: "id",
+        required: true,
         type: {
           name: "String"
         }
@@ -319,6 +320,18 @@ export const DnsForwardingRulesetPatch: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DnsForwardingRulesetPatch",
     modelProperties: {
+      dnsResolverOutboundEndpoints: {
+        serializedName: "dnsResolverOutboundEndpoints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource"
+            }
+          }
+        }
+      },
       tags: {
         serializedName: "tags",
         type: {
@@ -365,6 +378,7 @@ export const TargetDnsServer: coreClient.CompositeMapper = {
     modelProperties: {
       ipAddress: {
         serializedName: "ipAddress",
+        required: true,
         type: {
           name: "String"
         }
@@ -672,6 +686,7 @@ export const InboundEndpoint: coreClient.CompositeMapper = {
       },
       ipConfigurations: {
         serializedName: "properties.ipConfigurations",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -767,6 +782,7 @@ export const DnsForwardingRuleset: coreClient.CompositeMapper = {
       },
       dnsResolverOutboundEndpoints: {
         serializedName: "properties.dnsResolverOutboundEndpoints",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -817,12 +833,14 @@ export const ForwardingRule: coreClient.CompositeMapper = {
       },
       domainName: {
         serializedName: "properties.domainName",
+        required: true,
         type: {
           name: "String"
         }
       },
       targetDnsServers: {
         serializedName: "properties.targetDnsServers",
+        required: true,
         type: {
           name: "Sequence",
           element: {
