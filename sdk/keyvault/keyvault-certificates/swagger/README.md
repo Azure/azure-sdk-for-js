@@ -20,6 +20,6 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e2ef44b
 output-folder: ../
 source-code-folder-path: ./src/generated
 hide-clients: true
-package-version: 4.5.1
+package-version: 4.6.1
 openapi-type: data-plane
 ```
