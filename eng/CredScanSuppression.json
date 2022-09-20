@@ -1,4 +1,19 @@
 {
   "tool": "Credential Scanner",
-  "suppressions": [ ]
+  "suppressions": [
+      {
+        "file": [
+          "eng/common/testproxy/dotnet-devcert.pfx",
+          "sdk/identity/identity/test/azure-identity-chain-test.crt",
+          "sdk/identity/identity/test/azure-identity-test.crt",
+          "sdk/keyvault/keyvault-certificates/ca.key",
+          "sdk/identity/identity/assets/fake-cert.pem",
+          "sdk/storage/storage-blob/test/utils/fakeTestSecrets.ts",
+          "sdk/servicebus/service-bus/test/public/fakeTestSecrets.ts",
+          "sdk/cosmosdb/cosmos/test/public/common/_fakeTestSecrets.ts",
+          "sdk/tables/data-tables/test/internal/fakeTestSecrets.ts",
+        ],
+        "_justification": "File contains private key used by test code."
+      }
+  ]
 }
