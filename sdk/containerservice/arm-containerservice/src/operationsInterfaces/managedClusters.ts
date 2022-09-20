@@ -38,7 +38,9 @@ import {
   ManagedClustersResetServicePrincipalProfileOptionalParams,
   ManagedClusterAADProfile,
   ManagedClustersResetAADProfileOptionalParams,
+  ManagedClustersAbortLatestOperationOptionalParams,
   ManagedClustersRotateClusterCertificatesOptionalParams,
+  ManagedClustersRotateServiceAccountSigningKeysOptionalParams,
   ManagedClustersStopOptionalParams,
   ManagedClustersStartOptionalParams,
   RunCommandRequest,
@@ -297,6 +299,21 @@ export interface ManagedClusters {
     options?: ManagedClustersResetAADProfileOptionalParams
   ): Promise<void>;
   /**
+   * Aborting last running operation on managed cluster.  We return a 204 no content code here to
+   * indicate that the operation has been accepted and an abort will be attempted but is not guaranteed
+   * to complete successfully. Please look up the provisioning state of the managed cluster to keep track
+   * of whether it changes to Canceled. A canceled provisioning state indicates that the abort was
+   * successful
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  abortLatestOperation(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams
+  ): Promise<void>;
+  /**
    * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more
    * details about rotating managed cluster certificates.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -319,6 +336,28 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersRotateClusterCertificatesOptionalParams
+  ): Promise<void>;
+  /**
+   * Rotates the service account signing keys of a managed cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  beginRotateServiceAccountSigningKeys(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Rotates the service account signing keys of a managed cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  beginRotateServiceAccountSigningKeysAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams
   ): Promise<void>;
   /**
    * This can only be performed on Azure Virtual Machine Scale set backed clusters. Stopping a cluster
