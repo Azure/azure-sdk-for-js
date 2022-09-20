@@ -1,7 +1,6 @@
 //import { AzureFunction, Context } from "@azure/functions"
-import { AuthenticationEventResponse, createFailedRequest } from "../src/events";
-import { ProvideClaimsForToken } from "../src/tokenIssuanceStart/actions";
-import { TokenIssuanceStartRequest } from "../src/tokenIssuanceStart/context";
+import { AuthenticationEventResponse, createFailedRequest } from "../src";
+import { TokenIssuanceStartRequest, ProvideClaimsForToken } from "../src/tokenIssuanceStart";
 
 //const eventTrigger: AzureFunction = async (context: Context, onTokenIssuanceStartRequest: TokenIssuanceStartRequest): Promise<AuthenticationEventResponse> => {
 const eventTrigger = async (onTokenIssuanceStartRequest: TokenIssuanceStartRequest): Promise<AuthenticationEventResponse> => {
@@ -30,7 +29,5 @@ const eventTrigger = async (onTokenIssuanceStartRequest: TokenIssuanceStartReque
     return createFailedRequest(e);
   }
 };
-
-
 
 export default eventTrigger;

@@ -1,15 +1,15 @@
 export {
   FailedRequest,
   ActionableResponse,
-  AuthenticationEventAction as AuthEventAction,
-  AuthenticationEventData as AuthEventData,
-  AuthenticationEventRequest as AuthEventRequest,
-  AuthenticationEventRequestCommon as AuthEventRequestBase,
-  AuthenticationEventResponse as AuthEventResponse,
+  AuthenticationEventAction,
+  AuthenticationEventData,
+  AuthenticationEventRequest,
+  AuthenticationEventRequestCommon,
+  AuthenticationEventResponse,
   RequestStatus,
   CloudEventRequest,
   createFailedRequest,
-  ActionableCloudEventResponse,
+  ActionableCloudEventResponse
 } from "./events";
 
 export {
