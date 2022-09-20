@@ -87,4 +87,8 @@ export {
   AuthorizeRequestOnChallengeOptions,
 } from "./policies/bearerTokenAuthenticationPolicy";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";
-export { throttlingRetryStrategy } from "./retryStrategies/throttlingRetryStrategy";
+export {
+  defaultFailoverHostGenerator,
+  FailoverHostGenerator,
+  FailoverHostState,
+} from "./retryStrategies/failoverRetryStrategy";

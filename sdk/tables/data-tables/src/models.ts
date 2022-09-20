@@ -3,7 +3,6 @@
 
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { TableGetAccessPolicyHeaders, TableInsertEntityHeaders } from "./generated/models";
-import { GeoredundantRetryOptions } from "./policies/georedundantRetryStrategy";
 
 /**
  * Represents the Create or Delete Entity operation to be included in a Transaction request
@@ -28,8 +27,8 @@ export type TransactionAction = CreateDeleteEntityAction | UpdateEntityAction;
  */
 export type TableServiceClientOptions = CommonClientOptions & {
   endpoint?: string;
+  secondaryEndpoint?: string;
   version?: string;
-  georedundantRetryOptions?: GeoredundantRetryOptions;
 };
 
 /**

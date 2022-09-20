@@ -89,6 +89,9 @@ export function decompressResponsePolicy(): PipelinePolicy;
 // @public
 export const decompressResponsePolicyName = "decompressResponsePolicy";
 
+// @public (undocumented)
+export function defaultFailoverHostGenerator(readHosts?: string[], writeHosts?: string[]): FailoverHostGenerator;
+
 // @public
 export function defaultRetryPolicy(options?: DefaultRetryPolicyOptions): PipelinePolicy;
 
@@ -108,6 +111,11 @@ export interface ExponentialRetryPolicyOptions {
     maxRetryDelayInMs?: number;
     retryDelayInMs?: number;
 }
+
+// Warning: (ae-forgotten-export) The symbol "FailoverHostState" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export type FailoverHostGenerator = (retryState: RetryInformation, options: DefaultRetryPolicyOptions) => Generator<FailoverHostState, void, RetryInformation>;
 
 // @public
 export type FormDataMap = {
@@ -265,6 +273,7 @@ export interface PipelineResponse {
 
 // @public
 export interface PipelineRetryOptions {
+    failoverHostGenerator?: FailoverHostGenerator;
     maxRetries?: number;
     maxRetryDelayInMs?: number;
     retryDelayInMs?: number;
@@ -397,9 +406,6 @@ export const throttlingRetryPolicyName = "throttlingRetryPolicy";
 export interface ThrottlingRetryPolicyOptions {
     maxRetries?: number;
 }
-
-// @public
-export function throttlingRetryStrategy(): RetryStrategy;
 
 // @public
 export function tlsPolicy(tlsSettings?: TlsSettings): PipelinePolicy;

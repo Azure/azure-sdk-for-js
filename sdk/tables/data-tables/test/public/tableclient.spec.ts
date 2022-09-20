@@ -2,13 +2,15 @@
 // Licensed under the MIT license.
 
 import { Edm, TableClient, TableEntity, TableEntityResult, odata } from "../../src";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { isNode, isNode8 } from "@azure/test-utils";
 
 import { Context } from "mocha";
 import { FullOperationResponse } from "@azure/core-client";
 import { assert } from "@azure/test-utils";
 import { createTableClient } from "./utils/recordedClient";
+import { SendRequest } from "@azure/core-rest-pipeline";
+import sinon from "sinon";
 
 describe("special characters", () => {
   const tableName = `SpecialChars`;
@@ -691,5 +693,79 @@ describe(`TableClient`, () => {
         ]
       );
     });
+  });
+});
+
+describe("regional failover", () => {
+  let client: TableClient;
+  let unRecordedClient: TableClient;
+  let recorder: Recorder;
+  const suffix = isNode ? "node" : "browser";
+  const tableName = `RegionalFailover${suffix}`;
+  const secondaryEndpoint = assertEnvironmentVariable("SECONDARY_URL");
+  function stubRetryPolicy(client: TableClient) {
+    const retryPolicy = client.pipeline
+      .getOrderedPolicies()
+      .find((policy) => policy.name.toLowerCase().includes("retrypolicy"));
+    if (!retryPolicy) {
+      throw Error("Retry policy is not defined or has unknown name.");
+    }
+
+    const stub = sinon.stub(retryPolicy, "sendRequest").callsFake(async (request, next) => {
+      const nextWithFailingPrimary: SendRequest = async (request) => {
+        const response = await next(request);
+        if (
+          new URL(request.url).origin === new URL(client.url).origin &&
+          ["GET", "HEAD", "OPTIONS"].includes(request.method)
+        ) {
+          response.status = 500;
+        }
+        return response;
+      };
+      return await stub.wrappedMethod(request, nextWithFailingPrimary);
+    });
+
+    return stub;
+  }
+
+  before(async () => {
+    if (!isPlaybackMode()) {
+      unRecordedClient = await createTableClient(tableName, "SASConnectionString");
+      await unRecordedClient.createTable();
+    }
+  });
+
+  after(async () => {
+    if (!isPlaybackMode()) {
+      unRecordedClient = await createTableClient(tableName, "SASConnectionString");
+      await unRecordedClient.deleteTable();
+    }
+  });
+
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    //todo: test with every auth mode
+    client = await createTableClient(tableName, "SASConnectionString", recorder, {
+      secondaryEndpoint,
+    });
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  it("should support regional failover", async () => {
+    const testEntity: TestEntityType = {
+      partitionKey: "p1",
+      rowKey: "r1",
+      data: "data",
+    };
+    await client.createEntity(testEntity);
+    const stub = stubRetryPolicy(client);
+    type TestEntityType = TableEntity<{ data: string }>;
+    const expectEntity: TestEntityType = await client.getEntity("p1", "r1");
+    await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey);
+    stub.restore();
+    assert.deepEqual(expectEntity, { ...expectEntity, ...testEntity });
   });
 });

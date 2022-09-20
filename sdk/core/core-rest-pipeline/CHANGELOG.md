@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Export `throttlingRetryStrategy`. [#23269](https://github.com/Azure/azure-sdk-for-js/pull/23269)
+- Add retry strategy for regional failover. [#23269](https://github.com/Azure/azure-sdk-for-js/pull/23269)
 
 ### Breaking Changes
 

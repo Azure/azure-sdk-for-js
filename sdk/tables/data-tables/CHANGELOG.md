@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Add georedundant retry option to `TableClient`. [#23269](https://github.com/Azure/azure-sdk-for-js/pull/23269)
+- Add `secondaryEndpoint` option to `TableClient`. [#23269](https://github.com/Azure/azure-sdk-for-js/pull/23269)
 
 ### Breaking Changes
 

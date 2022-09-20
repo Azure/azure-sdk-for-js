@@ -6,10 +6,7 @@ import { RestError } from "../restError";
 import { getRandomIntegerInclusive } from "@azure/core-util";
 import { RetryStrategy } from "./retryStrategy";
 import { isThrottlingRetryResponse } from "./throttlingRetryStrategy";
-
-// intervals are in milliseconds
-const DEFAULT_CLIENT_RETRY_INTERVAL = 1000;
-const DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 64;
+import { DEFAULT_CLIENT_MAX_RETRY_INTERVAL, DEFAULT_CLIENT_RETRY_INTERVAL } from "../constants";
 
 /**
  * A retry strategy that retries with an exponentially increasing delay in these two cases:

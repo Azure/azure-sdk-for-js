@@ -23,6 +23,7 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+  SECONDARY_URL: "https://fakeaccountname-secondary.table.core.windows.net/",
 };
 
 const sanitizerOptions: SanitizerOptions = {
@@ -50,10 +51,9 @@ export type CreateClientMode =
 export async function createTableClient(
   tableName: string,
   mode: CreateClientMode = "SASConnectionString",
-  recorder?: Recorder
+  recorder?: Recorder,
+  options: TableServiceClientOptions = {}
 ): Promise<TableClient> {
-  let options: TableServiceClientOptions = {};
-
   if (recorder) {
     await recorder.start(recorderOptions);
     await recorder.setMatcher("HeaderlessMatcher");

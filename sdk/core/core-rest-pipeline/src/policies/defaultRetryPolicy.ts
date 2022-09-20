@@ -7,6 +7,7 @@ import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStr
 import { throttlingRetryStrategy } from "../retryStrategies/throttlingRetryStrategy";
 import { retryPolicy } from "./retryPolicy";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../constants";
+import { failoverRetryStrategy } from "../retryStrategies/failoverRetryStrategy";
 
 /**
  * Name of the {@link defaultRetryPolicy}
@@ -27,8 +28,15 @@ export interface DefaultRetryPolicyOptions extends PipelineRetryOptions {}
 export function defaultRetryPolicy(options: DefaultRetryPolicyOptions = {}): PipelinePolicy {
   return {
     name: defaultRetryPolicyName,
-    sendRequest: retryPolicy([throttlingRetryStrategy(), exponentialRetryStrategy(options)], {
-      maxRetries: options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT,
-    }).sendRequest,
+    sendRequest: retryPolicy(
+      [
+        throttlingRetryStrategy(),
+        failoverRetryStrategy(options),
+        exponentialRetryStrategy(options),
+      ],
+      {
+        maxRetries: options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT,
+      }
+    ).sendRequest,
   };
 }

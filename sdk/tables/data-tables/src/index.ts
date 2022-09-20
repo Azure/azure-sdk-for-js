@@ -11,4 +11,3 @@ export { TableClient } from "./TableClient";
 export { odata } from "./odata";
 export { AzureNamedKeyCredential, AzureSASCredential, NamedKeyCredential } from "@azure/core-auth";
 export { RestError } from "@azure/core-rest-pipeline";
-export { GeoredundantRetryOptions } from "./policies/georedundantRetryStrategy";

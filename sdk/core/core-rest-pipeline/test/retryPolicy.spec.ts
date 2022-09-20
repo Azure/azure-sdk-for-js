@@ -572,4 +572,44 @@ describe("retryPolicy", function () {
       error: [],
     });
   });
+  it("should allow a delay while redirecting", async () => {
+    const clock = sinon.useFakeTimers();
+
+    let counter = 0;
+    const request = createPipelineRequest({ url: "azure.sdk" });
+    const policy = retryPolicy(
+      [
+        {
+          name: "testRetryStrategy",
+          retry() {
+            const redirectTo = `${++counter}.azure.sdk`;
+            return {
+              redirectTo,
+              retryAfterInMs: 1000,
+            };
+          },
+        },
+      ],
+      { maxRetries: 3 }
+    );
+
+    const retryData: { time: number; url: string }[] = [];
+    policy.sendRequest(request, async (req) => {
+      retryData.push({ time: Date.now(), url: req.url });
+      const response: PipelineResponse = {
+        request: req,
+        headers: createHttpHeaders(),
+        status: 500,
+      };
+      return response;
+    });
+    await clock.runAllAsync();
+
+    assert.deepEqual(retryData, [
+      { time: 0, url: "azure.sdk" },
+      { time: 1000, url: "1.azure.sdk" },
+      { time: 2000, url: "2.azure.sdk" },
+      { time: 3000, url: "3.azure.sdk" },
+    ]);
+  });
 });

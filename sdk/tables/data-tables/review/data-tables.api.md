@@ -12,7 +12,6 @@ import { NamedKeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/core-rest-pipeline';
-import { PipelineRetryOptions } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { SASCredential } from '@azure/core-auth';
 import { TokenCredential } from '@azure/core-auth';
@@ -95,12 +94,6 @@ export function generateAccountSas(credential: NamedKeyCredential, options?: Acc
 
 // @public
 export function generateTableSas(tableName: string, credential: NamedKeyCredential, options?: TableSasSignatureValues): string;
-
-// @public
-export interface GeoredundantRetryOptions extends PipelineRetryOptions {
-    readHosts?: string[];
-    writeHosts?: string[];
-}
 
 // @public
 export interface GeoReplication {
@@ -401,8 +394,8 @@ export class TableServiceClient {
 // @public
 export type TableServiceClientOptions = CommonClientOptions & {
     endpoint?: string;
+    secondaryEndpoint?: string;
     version?: string;
-    georedundantRetryOptions?: GeoredundantRetryOptions;
 };
 
 // @public
