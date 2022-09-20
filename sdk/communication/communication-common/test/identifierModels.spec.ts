@@ -239,10 +239,13 @@ describe("Identifier models", () => {
       phoneNumber: "207ffef6-9444-41fb-92ab-20eacaae2768",
       kind: "phoneNumber",
     });
-    assertIdentifier("4:207ffef6-9444-41fb-92ab-20eacaae2768_207ffef6-9444-41fb-92ab-20eacaae2768", {
-      phoneNumber: "207ffef6-9444-41fb-92ab-20eacaae2768_207ffef6-9444-41fb-92ab-20eacaae2768",
-      kind: "phoneNumber",
-    });
+    assertIdentifier(
+      "4:207ffef6-9444-41fb-92ab-20eacaae2768_207ffef6-9444-41fb-92ab-20eacaae2768",
+      {
+        phoneNumber: "207ffef6-9444-41fb-92ab-20eacaae2768_207ffef6-9444-41fb-92ab-20eacaae2768",
+        kind: "phoneNumber",
+      }
+    );
     assertIdentifier("4:+112345556789_207ffef6-9444-41fb-92ab-20eacaae2768", {
       phoneNumber: "+112345556789_207ffef6-9444-41fb-92ab-20eacaae2768",
       kind: "phoneNumber",
