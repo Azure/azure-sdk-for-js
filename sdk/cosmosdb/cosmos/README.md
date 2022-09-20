@@ -207,7 +207,7 @@ try {
 
 ### Transpiling
 
-The Azure SDKs are designed to support ES5 JavaScript syntax and [LTS versions of Node.js](https://nodejs.org/about/releases/). If you need support for earlier JavaScript runtimes such as Internet Explorer or Node 6, you will need to transpile the SDK code as part of your build process.
+The Azure SDKs are designed to support ES5 JavaScript syntax and [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule). If you need support for earlier JavaScript runtimes such as Internet Explorer or Node 6, you will need to transpile the SDK code as part of your build process.
 
 ### Handle transient errors with retries
 

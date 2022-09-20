@@ -2,10 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import {
-  multiTenantDisabledErrorMessage,
-  processMultiTenantRequest,
-} from "../../../src/util/validateMultiTenant";
+import { processMultiTenantRequest } from "../../../src/util/tenantIdUtils";
 
 describe("Identity utilities (Node.js only)", function () {
   describe("validateMultiTenantRequest (Node.js only)", function () {
@@ -18,23 +15,6 @@ describe("Identity utilities (Node.js only)", function () {
       const originalTenant = "credential-options-tenant-id";
       const resultingTenant = processMultiTenantRequest(originalTenant);
       assert.equal(resultingTenant, originalTenant);
-    });
-
-    it("throws if multi-tenant authentication is disabled via AZURE_IDENTITY_DISABLE_MULTITENANTAUTH", async function () {
-      let error: Error | undefined;
-      process.env.AZURE_IDENTITY_DISABLE_MULTITENANTAUTH = "true";
-      try {
-        processMultiTenantRequest("credential-options-tenant-id", {
-          tenantId: "get-token-options-tenant-id",
-        });
-      } catch (e: any) {
-        error = e;
-      }
-      assert.ok(
-        error,
-        "validateMultiTenantRequest should throw if multi-tenant authentication is disabled"
-      );
-      assert.equal(error!.message, multiTenantDisabledErrorMessage);
     });
   });
 });

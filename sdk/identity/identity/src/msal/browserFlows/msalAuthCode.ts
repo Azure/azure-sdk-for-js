@@ -2,13 +2,12 @@
 // Licensed under the MIT license.
 
 import * as msalBrowser from "@azure/msal-browser";
-import { AccessToken } from "@azure/core-auth";
-
-import { AuthenticationRequiredError } from "../../errors";
-import { defaultLoggerCallback, msalToPublic, publicToMsal } from "../utils";
-import { AuthenticationRecord } from "../types";
-import { CredentialFlowGetTokenOptions } from "../credentials";
 import { MsalBrowser, MsalBrowserFlowOptions } from "./msalBrowserCommon";
+import { defaultLoggerCallback, msalToPublic, publicToMsal } from "../utils";
+import { AccessToken } from "@azure/core-auth";
+import { AuthenticationRecord } from "../types";
+import { AuthenticationRequiredError } from "../../errors";
+import { CredentialFlowGetTokenOptions } from "../credentials";
 
 // We keep a copy of the redirect hash.
 const redirectHash = self.location.hash;
