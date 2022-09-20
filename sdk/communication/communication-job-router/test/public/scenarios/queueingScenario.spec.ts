@@ -31,7 +31,6 @@ describe("RouterClient", function() {
   let administrationClient: RouterAdministrationClient;
   let recorder: Recorder;
 
-  const scenarioDelayFactor = 1;
   const testRunId = uuid();
   const { queueId, queueRequest } = getQueueRequest(testRunId);
   const { exceptionPolicyId, exceptionPolicyRequest } = getExceptionPolicyRequest(testRunId);
@@ -80,7 +79,7 @@ describe("RouterClient", function() {
       await client.cancelJob(job.id!);
       await client.deleteJob(job.id!);
       await administrationClient.deleteClassificationPolicy(policy.id!);
-    }).timeout(timeoutMs * scenarioDelayFactor);
+    }).timeout(timeoutMs);
 
     it("should complete queueing scenario with conditional selector", async () => {
       const policy = getClassificationPolicyConditional(testRunId);
@@ -96,7 +95,7 @@ describe("RouterClient", function() {
       await client.cancelJob(job.id!);
       await client.deleteJob(job.id!);
       await administrationClient.deleteClassificationPolicy(policy.id!);
-    }).timeout(timeoutMs * scenarioDelayFactor);
+    }).timeout(timeoutMs);
 
     it("should complete queueing scenario with passthrough selectors", async () => {
       const policy = getClassificationPolicyPassthrough(testRunId);
@@ -112,7 +111,7 @@ describe("RouterClient", function() {
       await client.cancelJob(job.id!);
       await client.deleteJob(job.id!);
       await administrationClient.deleteClassificationPolicy(policy.id!);
-    }).timeout(timeoutMs * scenarioDelayFactor);
+    }).timeout(timeoutMs);
 
     it("should complete queueing scenario with combined selectors", async () => {
       const policy = getClassificationPolicyCombined(testRunId);
@@ -141,6 +140,6 @@ describe("RouterClient", function() {
       await administrationClient.deleteQueue(queueEnglish.id!);
       await administrationClient.deleteQueue(queueFrench.id!);
       await administrationClient.deleteClassificationPolicy(policy.id!);
-    }).timeout(timeoutMs * scenarioDelayFactor);
+    }).timeout(timeoutMs);
   });
 });
