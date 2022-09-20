@@ -12,7 +12,8 @@ import {
   getLogsIngestionEndpoint,
   loggerForTest,
 } from "./shared/testShared";
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { isNode } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 function createFailedPolicies(failedInterval: { isFailed: boolean }): AdditionalPolicyConfig[] {
@@ -38,6 +39,7 @@ describe("LogsIngestionClient live tests", function () {
   let recordedClient: RecorderAndLogsClient;
   let client: LogsIngestionClient;
   beforeEach(async function (this: Context) {
+    if (isPlaybackMode() && isNode) this.skip();
     loggerForTest.verbose(`Recorder: starting...`);
     recorder = new Recorder(this.currentTest);
     recordedClient = await createClientAndStartRecorder(recorder);
@@ -52,11 +54,10 @@ describe("LogsIngestionClient live tests", function () {
 
   it("sends empty data", async function () {
     const result = await client.upload(getDcrId(), "Custom-MyTableRawData", []);
-    assert.equal(result.uploadStatus, "Success");
+    assert.equal(result.status, "Success");
   });
 
   it("sends basic data", async function () {
-    if (isPlaybackMode()) this.skip();
     const result = await client.upload(getDcrId(), "Custom-MyTableRawData", [
       {
         Time: "2021-12-08T23:51:14.1104269Z",
@@ -75,21 +76,19 @@ describe("LogsIngestionClient live tests", function () {
         },
       },
     ]);
-    assert.equal(result.uploadStatus, "Success");
+    assert.equal(result.status, "Success");
   });
 
   it("Success Test - divides huge data into chunks", async function () {
-    if (isPlaybackMode()) this.skip();
     const result = await client.upload(getDcrId(), "Custom-MyTableRawData", getObjects(10000), {
       maxConcurrency: 3,
     });
 
-    assert.equal(result.uploadStatus, "Success");
+    assert.equal(result.status, "Success");
   });
 
   it("Partial Fail Test - when dcr id is incorrect for alternate requests", async function () {
-    if (isPlaybackMode()) this.skip();
-    const noOfElements = 150000;
+    const noOfElements = 25000;
     const logData = getObjects(noOfElements);
     const additionalPolicies = createFailedPolicies({ isFailed: false });
     client = new LogsIngestionClient(
@@ -103,16 +102,17 @@ describe("LogsIngestionClient live tests", function () {
     const result = await client.upload(getDcrId(), "Custom-MyTableRawData", logData, {
       maxConcurrency: 3,
     });
-    assert.equal(result.uploadStatus, "PartialFailure");
-    if (result.uploadStatus !== "Success") {
+    assert.equal(result.status, "PartialFailure");
+    if (result.status !== "Success") {
       result.errors.forEach((err) => {
         assert.equal(
-          err.responseError.message,
+          err.cause.message,
           `Data collection rule with immutable Id 'fake-id' not found.`
         );
       });
 
       const chunkArraySize = getChunkArraylength(noOfElements);
+      assert.isAbove(chunkArraySize, 1);
       if (chunkArraySize % 2 === 0) {
         assert.equal(result.errors.length, chunkArraySize / 2);
       }
@@ -123,21 +123,21 @@ describe("LogsIngestionClient live tests", function () {
   });
 
   it("Throws error when all logs fail", async function () {
-    if (isPlaybackMode()) this.skip();
-    const noOfElements = 100000;
+    const noOfElements = 25000;
     const logData = getObjects(noOfElements);
     const result = await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
       maxConcurrency: 3,
     });
-    assert.equal(result.uploadStatus, "Failure");
-    if (result.uploadStatus !== "Success") {
+    assert.equal(result.status, "Failure");
+    if (result.status !== "Success") {
       result.errors.forEach((err) => {
         assert.equal(
-          err.responseError.message,
+          err.cause.message,
           `Data collection rule with immutable Id 'immutable-id-123' not found.`
         );
       });
       const chunkArraySize = getChunkArraylength(noOfElements);
+      assert.isAbove(chunkArraySize, 1);
       assert.equal(chunkArraySize, result.errors.length);
     }
   });

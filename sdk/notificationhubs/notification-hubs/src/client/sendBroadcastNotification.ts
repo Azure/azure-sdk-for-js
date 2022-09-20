@@ -3,7 +3,7 @@
 
 import { Notification } from "../models/notification.js";
 import { NotificationHubsClientContext } from "./index.js";
-import { NotificationHubsMessageResponse } from "../models/response.js";
+import { NotificationHubsMessageResponse } from "../models/notificationDetails.js";
 import { SendOperationOptions } from "../models/options.js";
 import { sendNotificationPayload } from "./internal/_sendNotificationPayload.js";
 

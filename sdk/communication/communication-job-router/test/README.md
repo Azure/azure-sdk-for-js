@@ -11,7 +11,11 @@ The Azure resource that is used by the tests in this project is:
 To run the live tests, you will need to set the below environment variables:
 
 - `TEST_MODE`: Should have `live` assigned if you want to run live without recording. Assign `record` to run live with recording.
+<<<<<<< HEAD
 - `COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING`: The primary connection string of the Communication Services resource in your account.
+=======
+- `COMMUNICATION_CONNECTION_STRING`: The primary connection string of the Communication Services resource in your account.
+>>>>>>> 08657c4338598237103f968c03a0f4b2790dcb0b
 - `BASE_URL`: The endpoint of the Azure Communication resource.
 
 [azure_sub]: https://azure.microsoft.com/free/

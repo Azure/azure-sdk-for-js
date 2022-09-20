@@ -1,9 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics-base";
+import { MetricAttributes } from "@opentelemetry/api-metrics";
+import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
 import { TelemetryItem as Envelope, MetricsData, MetricDataPoint } from "../generated";
 import { createTagsFromResource } from "./resourceUtils";
+
+function createPropertiesFromMetricAttributes(attributes?: MetricAttributes): {
+  [propertyName: string]: string;
+} {
+  const properties: { [propertyName: string]: string } = {};
+  if (attributes) {
+    for (const key of Object.keys(attributes)) {
+      properties[key] = attributes[key] as string;
+    }
+  }
+  return properties;
+}
 
 /**
  * Metric to Azure envelope parsing.
@@ -16,12 +29,14 @@ export function resourceMetricsToEnvelope(metrics: ResourceMetrics, ikey: string
   const tags = createTagsFromResource(metrics.resource);
 
   metrics.scopeMetrics.forEach((scopeMetric) => {
-    let baseData: MetricsData = {
-      metrics: [],
-      version: 2,
-    };
     scopeMetric.metrics.forEach((metric) => {
       metric.dataPoints.forEach((dataPoint) => {
+        let baseData: MetricsData = {
+          metrics: [],
+          version: 2,
+          properties: {},
+        };
+        baseData.properties = createPropertiesFromMetricAttributes(dataPoint.attributes);
         var metricDataPoint: MetricDataPoint = {
           name: metric.descriptor.name,
           value: 0,
@@ -40,23 +55,23 @@ export function resourceMetricsToEnvelope(metrics: ResourceMetrics, ikey: string
           metricDataPoint.min = (dataPoint.value as Histogram).min;
         }
         baseData.metrics.push(metricDataPoint);
+        let envelope: Envelope = {
+          name: "Microsoft.ApplicationInsights.Metric",
+          time: time,
+          sampleRate: 100,
+          instrumentationKey: instrumentationKey,
+          tags: tags,
+          version: 1,
+          data: {
+            baseType: "MetricData",
+            baseData: {
+              ...baseData,
+            },
+          },
+        };
+        envelopes.push(envelope);
       });
     });
-    let envelope: Envelope = {
-      name: "Microsoft.ApplicationInsights.Metric",
-      time: time,
-      sampleRate: 100,
-      instrumentationKey: instrumentationKey,
-      tags: tags,
-      version: 1,
-      data: {
-        baseType: "MetricData",
-        baseData: {
-          ...baseData,
-        },
-      },
-    };
-    envelopes.push(envelope);
   });
 
   return envelopes;

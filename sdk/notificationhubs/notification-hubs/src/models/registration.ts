@@ -15,8 +15,6 @@ export type RegistrationType =
   | "BrowserTemplate"
   | "Gcm"
   | "GcmTemplate"
-  | "Fcm"
-  | "FcmTemplate"
   | "Mpns"
   | "MpnsTemplate"
   | "Windows"
@@ -329,7 +327,6 @@ export function createBrowserTemplateRegistrationDescription(
 
 /**
  * Represents Notification Hub registration description for Google Cloud Messaging.
- * @deprecated Use FcmRegistrationDescription instead.
  */
 export interface GcmRegistrationDescription extends RegistrationDescriptionCommon {
   /**
@@ -344,12 +341,11 @@ export interface GcmRegistrationDescription extends RegistrationDescriptionCommo
 }
 
 /**
- * @deprecated Use createFcmRegistrationDescription instead.
- * Creates a GCM registration description.
+ * Creates a Firebase Legacy registration description.
  * @param description - A partial GCM registration description.
  * @returns A created GCM registration description.
  */
-export function createGcmRegistrationDescription(
+export function createFcmLegacyRegistrationDescription(
   description: Omit<GcmRegistrationDescription, "type">
 ): GcmRegistrationDescription {
   return {
@@ -359,9 +355,7 @@ export function createGcmRegistrationDescription(
 }
 
 /**
- * @deprecated Use createFcmTemplateRegistrationDescription instead.
- * Represents Notification Hub template registration description for Google Cloud Messaging.
- * @deprecated Use FcmTemplateRegistrationDescription instead
+ * Represents Notification Hub template registration description for Firebase Legacy Cloud Messaging.
  */
 export interface GcmTemplateRegistrationDescription
   extends Omit<GcmRegistrationDescription, "type">,
@@ -373,72 +367,16 @@ export interface GcmTemplateRegistrationDescription
 }
 
 /**
- * @deprecated Use createFcmTemplateRegistrationDescription instead.
  * Creates a GCM template registration description.
  * @param description - A partial GCM template registration description.
  * @returns A created GCM template registration description.
  */
-export function createGcmTemplateRegistrationDescription(
+export function createFcmLegacyTemplateRegistrationDescription(
   description: Omit<GcmTemplateRegistrationDescription, "type">
 ): GcmTemplateRegistrationDescription {
   return {
     ...description,
     type: "GcmTemplate",
-  };
-}
-
-/**
- * Represents Notification Hub registration description for Firebase Legacy HTTP API.
- */
-export interface FcmRegistrationDescription extends RegistrationDescriptionCommon {
-  /**
-   * Registration id obtained from the Google Cloud Messaging service.
-   */
-  fcmRegistrationId: string;
-
-  /**
-   * The type of the registration.
-   */
-  type: "Fcm";
-}
-
-/**
- * Creates an FCM registration description.
- * @param description - A partial FCM registration description.
- * @returns A created FCM registration description.
- */
-export function createFcmRegistrationDescription(
-  description: Omit<FcmRegistrationDescription, "type">
-): FcmRegistrationDescription {
-  return {
-    ...description,
-    type: "Fcm",
-  };
-}
-
-/**
- * Represents Notification Hub template registration description for Firebase Legacy HTTP API.
- */
-export interface FcmTemplateRegistrationDescription
-  extends Omit<FcmRegistrationDescription, "type">,
-    TemplateRegistrationDescription {
-  /**
-   * The type of the registration.
-   */
-  type: "FcmTemplate";
-}
-
-/**
- * Creates an FCM template registration description.
- * @param description - A partial FCM template registration description.
- * @returns A created FCM template registration description.
- */
-export function createFcmTemplateRegistrationDescription(
-  description: Omit<FcmTemplateRegistrationDescription, "type">
-): FcmTemplateRegistrationDescription {
-  return {
-    ...description,
-    type: "FcmTemplate",
   };
 }
 
@@ -459,21 +397,6 @@ export interface MpnsRegistrationDescription extends RegistrationDescriptionComm
 }
 
 /**
- * @deprecated Windows Phone is no longer supported.
- * Creates an MPNS registration description.
- * @param description - A partial MPNS registration description.
- * @returns A created MPNS registration description.
- */
-export function createMpnsRegistrationDescription(
-  description: Omit<MpnsRegistrationDescription, "type">
-): MpnsRegistrationDescription {
-  return {
-    ...description,
-    type: "Mpns",
-  };
-}
-
-/**
  * Represents a Windows Phone Notification Services template registration.
  * @deprecated Windows Phone is no longer supported.
  */
@@ -489,21 +412,6 @@ export interface MpnsTemplateRegistrationDescription
    * The type of the registration.
    */
   type: "MpnsTemplate";
-}
-
-/**
- * @deprecated Windows Phone is no longer supported.
- * Creates an MPNS template registration description.
- * @param description - A partial MPNS template registration description.
- * @returns A created MPNS template registration description.
- */
-export function createMpnsTemplateRegistrationDescription(
-  description: Omit<MpnsTemplateRegistrationDescription, "type">
-): MpnsTemplateRegistrationDescription {
-  return {
-    ...description,
-    type: "MpnsTemplate",
-  };
 }
 
 /**
@@ -580,8 +488,6 @@ export type RegistrationDescription =
   | BrowserTemplateRegistrationDescription
   | GcmRegistrationDescription
   | GcmTemplateRegistrationDescription
-  | FcmRegistrationDescription
-  | FcmTemplateRegistrationDescription
   | MpnsRegistrationDescription
   | MpnsTemplateRegistrationDescription
   | WindowsRegistrationDescription

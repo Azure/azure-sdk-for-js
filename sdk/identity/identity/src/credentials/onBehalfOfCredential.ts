@@ -2,18 +2,22 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-
-import { MsalOnBehalfOf } from "../msal/nodeFlows/msalOnBehalfOf";
-import { credentialLogger } from "../util/logging";
-import { tracingClient } from "../util/tracing";
-import { MsalFlow } from "../msal/flows";
 import {
   OnBehalfOfCredentialCertificateOptions,
   OnBehalfOfCredentialOptions,
   OnBehalfOfCredentialSecretOptions,
 } from "./onBehalfOfCredentialOptions";
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
+import {
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+} from "../util/tenantIdUtils";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
+import { MsalFlow } from "../msal/flows";
+import { MsalOnBehalfOf } from "../msal/nodeFlows/msalOnBehalfOf";
+import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
+import { credentialLogger } from "../util/logging";
+import { ensureScopes } from "../util/scopeUtils";
+import { tracingClient } from "../util/tracing";
 
 const credentialName = "OnBehalfOfCredential";
 const logger = credentialLogger(credentialName);
@@ -22,6 +26,8 @@ const logger = credentialLogger(credentialName);
  * Enables authentication to Azure Active Directory using the [On Behalf Of flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
  */
 export class OnBehalfOfCredential implements TokenCredential {
+  private tenantId: string;
+  private additionallyAllowedTenantIds: string[];
   private msalFlow: MsalFlow;
   /**
    * Creates an instance of the {@link OnBehalfOfCredential} with the details
@@ -46,7 +52,7 @@ export class OnBehalfOfCredential implements TokenCredential {
    */
   constructor(
     options: OnBehalfOfCredentialCertificateOptions &
-      TokenCredentialOptions &
+      MultiTenantTokenCredentialOptions &
       CredentialPersistenceOptions
   );
   /**
@@ -72,19 +78,30 @@ export class OnBehalfOfCredential implements TokenCredential {
    */
   constructor(
     options: OnBehalfOfCredentialSecretOptions &
-      TokenCredentialOptions &
+      MultiTenantTokenCredentialOptions &
       CredentialPersistenceOptions
   );
 
   constructor(private options: OnBehalfOfCredentialOptions) {
     const { clientSecret } = options as OnBehalfOfCredentialSecretOptions;
     const { certificatePath } = options as OnBehalfOfCredentialCertificateOptions;
-    const { tenantId, clientId, userAssertionToken } = options;
+    const {
+      tenantId,
+      clientId,
+      userAssertionToken,
+      additionallyAllowedTenants: additionallyAllowedTenantIds,
+    } = options;
     if (!tenantId || !clientId || !(clientSecret || certificatePath) || !userAssertionToken) {
       throw new Error(
         `${credentialName}: tenantId, clientId, clientSecret (or certificatePath) and userAssertionToken are required parameters.`
       );
     }
+
+    this.tenantId = tenantId;
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      additionallyAllowedTenantIds
+    );
+
     this.msalFlow = new MsalOnBehalfOf({
       ...this.options,
       logger,
@@ -101,7 +118,13 @@ export class OnBehalfOfCredential implements TokenCredential {
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
     return tracingClient.withSpan(`${credentialName}.getToken`, options, async (newOptions) => {
-      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+      newOptions.tenantId = processMultiTenantRequest(
+        this.tenantId,
+        newOptions,
+        this.additionallyAllowedTenantIds
+      );
+
+      const arrayScopes = ensureScopes(scopes);
       return this.msalFlow!.getToken(arrayScopes, newOptions);
     });
   }
