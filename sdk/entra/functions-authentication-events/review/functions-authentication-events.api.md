@@ -4,15 +4,19 @@
 
 ```ts
 
-// @public (undocumented)
-export interface ActionableCloudEventResponse<TEventAction extends AuthEventAction> extends ActionableResponse<TEventAction> {
-    // (undocumented)
+// @public
+export interface ActionableCloudEventResponse<TEventAction extends AuthenticationEventAction> extends ActionableResponse<TEventAction> {
     oDataType: string;
 }
 
 // @public
-export interface ActionableResponse<TEventAction extends AuthEventAction> extends AuthEventResponse {
+export interface ActionableResponse<TEventAction extends AuthenticationEventAction> extends AuthenticationEventResponse {
     actions: TEventAction[];
+}
+
+// @public
+export interface AuthenticationEventAction {
+    actionType: string;
 }
 
 // @public
@@ -28,9 +32,7 @@ export interface AuthenticationEventContext {
 // @public
 export interface AuthenticationEventContextClient {
     ip: string;
-    // (undocumented)
     locale: string;
-    // (undocumented)
     market: string;
 }
 
@@ -61,25 +63,20 @@ export interface AuthenticationEventContextUser {
 }
 
 // @public
-export interface AuthEventAction {
-    actionType: string;
-}
-
-// @public
-export interface AuthEventData {
+export interface AuthenticationEventData {
     authenticationEventListenerId: string;
     customAuthenticationExtensionId: string;
     tenantId: string;
 }
 
 // @public
-export interface AuthEventRequest<TResponse extends AuthEventResponse, TData extends AuthEventData> extends AuthEventRequestBase {
+export interface AuthenticationEventRequest<TResponse extends AuthenticationEventResponse, TData extends AuthenticationEventData> extends AuthenticationEventRequestCommon {
     payload: TData;
     response: TResponse;
 }
 
 // @public
-export interface AuthEventRequestBase {
+export interface AuthenticationEventRequestCommon {
     queryParameters: Record<string, string>;
     requestStatus: RequestStatus;
     statusMessage: string;
@@ -87,21 +84,21 @@ export interface AuthEventRequestBase {
 }
 
 // @public
-export interface AuthEventResponse {
+export interface AuthenticationEventResponse {
     body: string;
 }
 
 // @public
-export interface CloudEventRequest<TResponse extends AuthEventResponse, TData extends AuthEventData> extends AuthEventRequest<TResponse, TData> {
+export interface CloudEventRequest<TResponse extends AuthenticationEventResponse, TData extends AuthenticationEventData> extends AuthenticationEventRequest<TResponse, TData> {
     oDataType: string;
     source: string;
 }
 
 // @public
-export function createFailedRequest(error: string | Error): FailedRequest;
+export function createFailedRequest(error: any): FailedRequest;
 
 // @public
-export interface FailedRequest {
+export interface FailedRequest extends AuthenticationEventResponse {
     // (undocumented)
     error: string;
 }
@@ -122,12 +119,12 @@ export interface TokenClaim {
 }
 
 // @public
-export interface TokenIssuanceStartAction extends AuthEventAction {
+export interface TokenIssuanceStartAction extends AuthenticationEventAction {
     actionType: string;
 }
 
 // @public
-export interface TokenIssuanceStartData extends AuthEventData {
+export interface TokenIssuanceStartData extends AuthenticationEventData {
     authenticationContext: AuthenticationEventContext;
 }
 

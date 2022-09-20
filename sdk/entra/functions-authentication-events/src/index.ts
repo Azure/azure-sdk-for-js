@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 export {
   FailedRequest,
   ActionableResponse,
@@ -9,7 +12,7 @@ export {
   RequestStatus,
   CloudEventRequest,
   createFailedRequest,
-  ActionableCloudEventResponse
+  ActionableCloudEventResponse,
 } from "./events";
 
 export {

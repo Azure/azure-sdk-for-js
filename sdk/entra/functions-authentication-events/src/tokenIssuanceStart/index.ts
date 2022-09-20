@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 export {
   AuthenticationEventContext,
   AuthenticationEventContextClient,
@@ -6,6 +9,6 @@ export {
   TokenIssuanceStartData,
   TokenIssuanceStartRequest,
   TokenIssuanceStartResponse,
-  TokenIssuanceStartAction
+  TokenIssuanceStartAction,
 } from "./context";
 export { ProvideClaimsForToken, TokenClaim } from "./actions";

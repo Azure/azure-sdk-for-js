@@ -1,5 +1,5 @@
-// Copyright (c) .NET Foundation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 /**
  * Abstract base event interface to house common event request attributes.
@@ -75,7 +75,7 @@ export interface ActionableResponse<TEventAction extends AuthenticationEventActi
  */
 export interface ActionableCloudEventResponse<TEventAction extends AuthenticationEventAction>
   extends ActionableResponse<TEventAction> {
-  /** Gets the Cloud Event @odata.type. */
+  /** Gets the Cloud Event \@odata.type. */
   oDataType: string;
 }
 
@@ -96,7 +96,7 @@ export type RequestStatus = "Failed" | "TokenInvalid" | "Successful";
  * Return the correctly formatted error
  * */
 export interface FailedRequest extends AuthenticationEventResponse {
-  //** The error that caused the request to fail. */
+  //* * The error that caused the request to fail. */
   error: string;
 }
 
@@ -105,9 +105,9 @@ export interface FailedRequest extends AuthenticationEventResponse {
  * @param error - string or exception
  * @returns a valid FailedRequest object
  */
-export function createFailedRequest(error: any): FailedRequest {
+export function createFailedRequest(error: unknown): FailedRequest {
   return {
-    body: '',
-    error: error instanceof Error ? error.message : error
+    body: "",
+    error: error instanceof Error ? error.message : String(error),
   };
 }

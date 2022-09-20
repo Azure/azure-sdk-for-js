@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 export const RequestConstants = {
   statusMessage: "Ready",
   qsKey1: "param1",
@@ -6,43 +9,43 @@ export const RequestConstants = {
   qsValue2: "value2",
   source: "/tenants/{tenantId}/applications/{resourceAppId}",
   oDataType: "microsoft.graph.onTokenIssuanceStartCalloutData",
-  type: "microsoft.graph.authenticationEvent.TokenIssuanceStart"
+  type: "microsoft.graph.authenticationEvent.TokenIssuanceStart",
 };
 
 export const ResponseConstants = {
   oDataType: "microsoft.graph.onTokenIssuanceStartResponseData",
-  body: '{\r\n  "data": {\r\n    "@odata.type": "",\r\n    "actions": []\r\n  }\r\n}'
+  body: '{\r\n  "data": {\r\n    "@odata.type": "",\r\n    "actions": []\r\n  }\r\n}',
 };
 
 export const PayloadConstants = {
   Base: {
     tenantId: "30000000-0000-0000-0000-000000000003",
     authenticationEventListenerId: "10000000-0000-0000-0000-000000000001",
-    customAuthenticationExtensionId: "10000000-0000-0000-0000-000000000002"
+    customAuthenticationExtensionId: "10000000-0000-0000-0000-000000000002",
   },
   Context: {
     correlationId: "20000000-0000-0000-0000-000000000002",
     Client: {
       ip: "127.0.0.1",
       locale: "en-us",
-      market: "en-au"
+      market: "en-au",
     },
     AuthProtocol: "OAUTH2.0",
     ClientServicePrincipal: {
       id: "40000000-0000-0000-0000-000000000001",
       appId: "40000000-0000-0000-0000-000000000002",
       appDisplayName: "Test client app",
-      displayName: "Test client application"
+      displayName: "Test client application",
     },
     ResourceServicePrincipal: {
       id: "40000000-0000-0000-0000-000000000003",
       appId: "40000000-0000-0000-0000-000000000004",
       appDisplayName: "Test resource app",
-      displayName: "Test resource application"
+      displayName: "Test resource application",
     },
     Roles: {
       id: "50000000-0000-0000-0000-000000000005",
-      value: "DummyRole"
+      value: "DummyRole",
     },
     User: {
       companyName: "My Test Company",
@@ -57,10 +60,10 @@ export const PayloadConstants = {
       preferredLanguage: "DummyLanguage",
       surname: "Test",
       userPrincipalName: "testadmin@example.com",
-      userType: "UserTypeCloudManaged"
-    }
-  }
-}
+      userType: "UserTypeCloudManaged",
+    },
+  },
+};
 
 export const ActionConstants = {
   Claims: [
@@ -71,5 +74,5 @@ export const ActionConstants = {
     { id: "claim5", value: "value5" },
   ],
   Claims_as_string:
-    '[{"actionType":"ProvideClaimsForToken","claims":[{"id":"claim1","value":"value1"},{"id":"claim2","value":"value2"},{"id":"claim3","value":"value3"},{"id":"claim4","value":"value4"},{"id":"claim5","value":"value5"}]}]'
-}
+    '[{"actionType":"ProvideClaimsForToken","claims":[{"id":"claim1","value":"value1"},{"id":"claim2","value":"value2"},{"id":"claim3","value":"value3"},{"id":"claim4","value":"value4"},{"id":"claim5","value":"value5"}]}]',
+};

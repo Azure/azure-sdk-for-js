@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
   ActionConstants,
   PayloadConstants,
@@ -23,14 +26,14 @@ describe("TokenIssuanceStart payload tests.", () => {
     expect(tokenIssuanceRequest.queryParameters[RequestConstants.qsKey2]).to.be.equal(
       RequestConstants.qsValue2
     );
-    expect(tokenIssuanceRequest.tokenClaims).to.be.undefined;
+    expect(tokenIssuanceRequest.tokenClaims).to.be.equal(undefined);
     expect(tokenIssuanceRequest.source).to.be.equal(RequestConstants.source);
     expect(tokenIssuanceRequest.oDataType).to.be.equal(RequestConstants.oDataType);
     expect(tokenIssuanceRequest.type).to.be.equal(RequestConstants.type);
   });
 
   it("Confirm response translation", () => {
-    expect(tokenIssuanceRequest.response.actions).to.be.empty;
+    expect(tokenIssuanceRequest.response.actions).to.be.deep.equal([]);
     expect(tokenIssuanceRequest.response.body).to.be.equal(ResponseConstants.body);
     expect(tokenIssuanceRequest.response.oDataType).to.be.equal(ResponseConstants.oDataType);
   });
