@@ -46,7 +46,7 @@ export async function putDBRecord(
   return installation;
 }
 
-export async function removeDBInstallation(
+export async function removeDBRecord(
   applicationUrl: string,
 ): Promise<void> {
   const db = await getDatabase();

@@ -6,7 +6,7 @@ import {
   createTokenProviderFromConnection,
   parseNotificationHubsConnectionString,
 } from "./auth/connectionStringUtils.js";
-import { SasTokenProvider } from "./auth/sasTokenProvider.js";
+import { WebPushNotificationHandler } from "./publicTypes.js";
 
 const API_VERSION = "2020-06";
 
@@ -25,11 +25,6 @@ export interface WebPushClientContext {
   readonly hubName: string;
 
   /**
-   * The SAS Token Provider for connecting to Notification Hubs.
-   */
-  readonly sasTokenProvider: SasTokenProvider;
-
-  /**
    * The ServiceWorkerRegistration for the Web Push.
    */
   serviceWorkerRegistration?: ServiceWorkerRegistration;
@@ -38,6 +33,16 @@ export interface WebPushClientContext {
    * The VAPID public key for the Web Push instance.
    */
   vapidPublicKey?: string;
+
+  /**
+   * @internal
+   */
+  onForegroundMessage?: WebPushNotificationHandler;
+
+  /**
+   * @internal
+   */
+  onBackgroundMessage?: WebPushNotificationHandler;  
 
   /**
    * @internal
@@ -90,7 +95,6 @@ export function createClientContext(
   return {
     hubName,
     baseUrl,
-    sasTokenProvider,
     createHeaders,
     requestUrl,
   };

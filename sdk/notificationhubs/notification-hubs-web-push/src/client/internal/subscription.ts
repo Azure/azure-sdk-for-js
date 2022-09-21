@@ -1,18 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { getDBRecord, putDBRecord } from "../../utils/dataStore.js";
 import { WebPushClientContext } from "../../client.js";
 import { WebPushChannel } from "../../models/installation.js";
-import { getDBRecord, putDBRecord } from "../../utils/dataStore.js";
+import { WebPushError } from "../../errors.js";
+import { createOrUpdateInstallation } from "./createOrUpdateInstallation.js";
 import { v4 as uuid } from "uuid";
 
 export async function getCurrentInstallation(clientContext: WebPushClientContext): Promise<string> {
   if (!clientContext.serviceWorkerRegistration) {
-    throw new Error("The ServiceWorker requires registration");
+    throw new WebPushError("The ServiceWorker requires registration");
   }
 
   if (!clientContext.vapidPublicKey) {
-    throw new Error("VAPID Public Key has not been set");
+    throw new WebPushError("VAPID Public Key has not been set");
   }
 
   const subscription = await getCurrentSubscription(
@@ -24,11 +26,10 @@ export async function getCurrentInstallation(clientContext: WebPushClientContext
     p256dh: base64Encode(subscription.getKey("p256dh")!),
     auth: base64Encode(subscription.getKey("auth")!),
     endpoint: subscription.endpoint,
-    scope: clientContext.serviceWorkerRegistration.scope,
   };
 
   const applicationUrl = new URL(clientContext.baseUrl);
-  applicationUrl.pathname += clientContext.hubName;
+  applicationUrl.pathname += `/${clientContext.hubName}`;
   const applicationId = applicationUrl.toString();
 
   let installation = await getDBRecord(applicationId);
@@ -40,7 +41,7 @@ export async function getCurrentInstallation(clientContext: WebPushClientContext
     };
 
     installation = await putDBRecord(applicationId, installation);
-    // TODO: Save to Notification Hubs
+    await createOrUpdateInstallation(clientContext, installation);
   }
 
   // TODO: Check if installation expired and create new installation and resave
