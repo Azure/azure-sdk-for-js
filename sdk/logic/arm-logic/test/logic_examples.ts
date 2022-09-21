@@ -67,11 +67,6 @@ describe("Logic test", () => {
         triggers: {},
         actions: {},
         outputs: {}
-      },
-      parameters: {
-        "dd": {
-          value: "dd"
-        }
       }
     });
     assert.equal(res.name, workflowName);

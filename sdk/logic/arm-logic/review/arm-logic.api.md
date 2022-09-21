@@ -82,7 +82,7 @@ export interface ApiReference extends ResourceReference {
     displayName?: string;
     iconUri?: string;
     integrationServiceEnvironment?: ResourceReference;
-    swagger?: Record<string, unknown>;
+    swagger?: any;
 }
 
 // @public
@@ -136,7 +136,7 @@ export interface ApiResourceProperties {
     readonly capabilities?: string[];
     readonly category?: ApiTier;
     readonly connectionParameters?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     readonly generalInformation?: ApiResourceGeneralInformation;
     integrationServiceEnvironment?: ResourceReference;
@@ -342,7 +342,7 @@ export interface ContentLink {
     readonly contentHash?: ContentHash;
     readonly contentSize?: number;
     readonly contentVersion?: string;
-    readonly metadata?: Record<string, unknown>;
+    readonly metadata?: any;
     uri?: string;
 }
 
@@ -604,7 +604,7 @@ export interface ExpressionTraces {
 export interface ExtendedErrorInfo {
     code: ErrorResponseCode;
     details?: ExtendedErrorInfo[];
-    innerError?: Record<string, unknown>;
+    innerError?: any;
     message: string;
 }
 
@@ -665,7 +665,7 @@ export interface IntegrationAccountAgreement extends Resource {
     guestPartner: string;
     hostIdentity: BusinessIdentity;
     hostPartner: string;
-    metadata?: Record<string, unknown>;
+    metadata?: any;
 }
 
 // @public
@@ -810,7 +810,7 @@ export interface IntegrationAccountCertificate extends Resource {
     readonly changedTime?: Date;
     readonly createdTime?: Date;
     key?: KeyVaultKeyReference;
-    metadata?: Record<string, unknown>;
+    metadata?: any;
     publicCertificate?: string;
 }
 
@@ -876,7 +876,7 @@ export interface IntegrationAccountMap extends Resource {
     contentType?: string;
     readonly createdTime?: Date;
     mapType: MapType;
-    metadata?: Record<string, unknown>;
+    metadata?: any;
     parametersSchema?: IntegrationAccountMapPropertiesParametersSchema;
 }
 
@@ -953,7 +953,7 @@ export interface IntegrationAccountPartner extends Resource {
     readonly changedTime?: Date;
     content: PartnerContent;
     readonly createdTime?: Date;
-    metadata?: Record<string, unknown>;
+    metadata?: any;
     partnerType: PartnerType;
 }
 
@@ -1043,7 +1043,7 @@ export interface IntegrationAccountSchema extends Resource {
     readonly createdTime?: Date;
     documentName?: string;
     fileName?: string;
-    metadata?: Record<string, unknown>;
+    metadata?: any;
     schemaType: SchemaType;
     targetNamespace?: string;
 }
@@ -1125,7 +1125,7 @@ export interface IntegrationAccountsDeleteOptionalParams extends coreClient.Oper
 // @public
 export interface IntegrationAccountSession extends Resource {
     readonly changedTime?: Date;
-    content?: Record<string, unknown>;
+    content?: any;
     readonly createdTime?: Date;
 }
 
@@ -1305,7 +1305,7 @@ export interface IntegrationServiceEnvironmentManagedApi extends Resource {
     readonly capabilities?: string[];
     readonly category?: ApiTier;
     readonly connectionParameters?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     deploymentParameters?: IntegrationServiceEnvironmentManagedApiDeploymentParameters;
     readonly generalInformation?: ApiResourceGeneralInformation;
@@ -2192,7 +2192,7 @@ export interface Operation {
     display?: OperationDisplay;
     name?: string;
     origin?: string;
-    properties?: Record<string, unknown>;
+    properties?: any;
 }
 
 // @public
@@ -2211,14 +2211,14 @@ export interface OperationListResult {
 
 // @public
 export interface OperationResult extends OperationResultProperties {
-    readonly inputs?: Record<string, unknown>;
+    readonly inputs?: any;
     readonly inputsLink?: ContentLink;
     // (undocumented)
     iterationCount?: number;
-    readonly outputs?: Record<string, unknown>;
+    readonly outputs?: any;
     readonly outputsLink?: ContentLink;
     retryHistory?: RetryHistory[];
-    readonly trackedProperties?: Record<string, unknown>;
+    readonly trackedProperties?: any;
     readonly trackingId?: string;
 }
 
@@ -2293,7 +2293,7 @@ export interface RepetitionIndex {
 
 // @public
 interface Request_2 {
-    headers?: Record<string, unknown>;
+    headers?: any;
     method?: string;
     uri?: string;
 }
@@ -2339,7 +2339,7 @@ export interface ResourceReference {
 // @public
 interface Response_2 {
     bodyLink?: ContentLink;
-    headers?: Record<string, unknown>;
+    headers?: any;
     statusCode?: number;
 }
 export { Response_2 as Response }
@@ -2421,7 +2421,7 @@ export interface SwaggerCustomDynamicProperties {
 export interface SwaggerCustomDynamicSchema {
     operationId?: string;
     parameters?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     valuePath?: string;
 }
@@ -2452,7 +2452,7 @@ export interface SwaggerCustomDynamicTreeParameter {
     parameterReference?: string;
     required?: boolean;
     selectedItemValuePath?: string;
-    value?: Record<string, unknown>;
+    value?: any;
 }
 
 // @public
@@ -2465,21 +2465,21 @@ export interface SwaggerCustomDynamicTreeSettings {
 export interface SwaggerExternalDocumentation {
     description?: string;
     extensions?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     uri?: string;
 }
 
 // @public
 export interface SwaggerSchema {
-    additionalProperties?: Record<string, unknown>;
+    additionalProperties?: any;
     allOf?: SwaggerSchema[];
     discriminator?: string;
     dynamicListNew?: SwaggerCustomDynamicList;
     dynamicSchemaNew?: SwaggerCustomDynamicProperties;
     dynamicSchemaOld?: SwaggerCustomDynamicSchema;
     dynamicTree?: SwaggerCustomDynamicTree;
-    example?: Record<string, unknown>;
+    example?: any;
     externalDocs?: SwaggerExternalDocumentation;
     items?: SwaggerSchema;
     maxProperties?: number;
@@ -2503,7 +2503,7 @@ export type SwaggerSchemaType = string;
 export interface SwaggerXml {
     attribute?: boolean;
     extensions?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     name?: string;
     namespace?: string;
@@ -2519,7 +2519,7 @@ export interface TrackingEvent {
     error?: TrackingEventErrorInfo;
     eventLevel: EventLevel;
     eventTime: Date;
-    record?: Record<string, unknown>;
+    record?: any;
     recordType: TrackingRecordType;
 }
 
@@ -2557,7 +2557,7 @@ export interface Workflow extends Resource {
     readonly accessEndpoint?: string;
     readonly changedTime?: Date;
     readonly createdTime?: Date;
-    definition?: Record<string, unknown>;
+    definition?: any;
     endpointsConfiguration?: FlowEndpointsConfiguration;
     identity?: ManagedServiceIdentity;
     integrationAccount?: ResourceReference;
@@ -2584,15 +2584,15 @@ export interface WorkflowListResult {
 
 // @public
 export interface WorkflowOutputParameter extends WorkflowParameter {
-    readonly error?: Record<string, unknown>;
+    readonly error?: any;
 }
 
 // @public
 export interface WorkflowParameter {
     description?: string;
-    metadata?: Record<string, unknown>;
+    metadata?: any;
     type?: ParameterType;
-    value?: Record<string, unknown>;
+    value?: any;
 }
 
 // @public
@@ -2608,7 +2608,7 @@ export interface WorkflowRun extends SubResource {
     correlation?: Correlation;
     readonly correlationId?: string;
     readonly endTime?: Date;
-    readonly error?: Record<string, unknown>;
+    readonly error?: any;
     readonly name?: string;
     readonly outputs?: {
         [propertyName: string]: WorkflowOutputParameter;
@@ -2627,14 +2627,14 @@ export interface WorkflowRunAction extends SubResource {
     readonly code?: string;
     correlation?: RunActionCorrelation;
     readonly endTime?: Date;
-    readonly error?: Record<string, unknown>;
+    readonly error?: any;
     readonly inputsLink?: ContentLink;
     readonly name?: string;
     readonly outputsLink?: ContentLink;
     retryHistory?: RetryHistory[];
     readonly startTime?: Date;
     readonly status?: WorkflowStatus;
-    readonly trackedProperties?: Record<string, unknown>;
+    readonly trackedProperties?: any;
     readonly trackingId?: string;
     readonly type?: string;
 }
@@ -2656,17 +2656,17 @@ export interface WorkflowRunActionRepetitionDefinition extends Resource {
     correlation?: RunActionCorrelation;
     endTime?: Date;
     error?: any;
-    readonly inputs?: Record<string, unknown>;
+    readonly inputs?: any;
     readonly inputsLink?: ContentLink;
     // (undocumented)
     iterationCount?: number;
-    readonly outputs?: Record<string, unknown>;
+    readonly outputs?: any;
     readonly outputsLink?: ContentLink;
     repetitionIndexes?: RepetitionIndex[];
     retryHistory?: RetryHistory[];
     startTime?: Date;
     status?: WorkflowStatus;
-    readonly trackedProperties?: Record<string, unknown>;
+    readonly trackedProperties?: any;
     readonly trackingId?: string;
 }
 
@@ -2887,16 +2887,16 @@ export interface WorkflowRunTrigger {
     readonly code?: string;
     correlation?: Correlation;
     readonly endTime?: Date;
-    readonly error?: Record<string, unknown>;
-    readonly inputs?: Record<string, unknown>;
+    readonly error?: any;
+    readonly inputs?: any;
     readonly inputsLink?: ContentLink;
     readonly name?: string;
-    readonly outputs?: Record<string, unknown>;
+    readonly outputs?: any;
     readonly outputsLink?: ContentLink;
     readonly scheduledTime?: Date;
     readonly startTime?: Date;
     readonly status?: WorkflowStatus;
-    readonly trackedProperties?: Record<string, unknown>;
+    readonly trackedProperties?: any;
     readonly trackingId?: string;
 }
 
@@ -2944,7 +2944,9 @@ export interface WorkflowsGenerateUpgradedDefinitionOptionalParams extends coreC
 }
 
 // @public
-export type WorkflowsGenerateUpgradedDefinitionResponse = Record<string, unknown>;
+export type WorkflowsGenerateUpgradedDefinitionResponse = {
+    body: any;
+};
 
 // @public
 export interface WorkflowsGetOptionalParams extends coreClient.OperationOptions {
@@ -3001,7 +3003,9 @@ export interface WorkflowsListSwaggerOptionalParams extends coreClient.Operation
 }
 
 // @public
-export type WorkflowsListSwaggerResponse = Record<string, unknown>;
+export type WorkflowsListSwaggerResponse = {
+    body: any;
+};
 
 // @public
 export interface WorkflowsMoveOptionalParams extends coreClient.OperationOptions {
@@ -3105,7 +3109,7 @@ export interface WorkflowTriggerHistory extends SubResource {
     readonly code?: string;
     correlation?: Correlation;
     readonly endTime?: Date;
-    readonly error?: Record<string, unknown>;
+    readonly error?: any;
     readonly fired?: boolean;
     readonly inputsLink?: ContentLink;
     readonly name?: string;
@@ -3231,7 +3235,7 @@ export interface WorkflowVersion extends Resource {
     readonly accessEndpoint?: string;
     readonly changedTime?: Date;
     readonly createdTime?: Date;
-    definition?: Record<string, unknown>;
+    definition?: any;
     endpointsConfiguration?: FlowEndpointsConfiguration;
     integrationAccount?: ResourceReference;
     parameters?: {
