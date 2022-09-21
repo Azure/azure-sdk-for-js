@@ -89,6 +89,7 @@ export interface AddressRanges {
   /** The end point of a street segment */
   to: LatLon;
 }
+/** Result type of the reverse search address API */
 
 export interface ReverseSearchAddressResult {
   /** Time spent resolving the query, in milliseconds. */
@@ -99,6 +100,7 @@ export interface ReverseSearchAddressResult {
   readonly results: ReverseSearchAddressResultItem[];
 }
 
+/** Result type of the reverse search cross street address API */
 export interface ReverseSearchCrossStreetAddressResult {
   /** Time spent resolving the query, in milliseconds. */
   readonly queryTime: number;

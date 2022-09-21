@@ -171,7 +171,7 @@ export interface FuzzySearchRequest {
 // @public
 export type GeographicEntityType = string;
 
-// @public (undocumented)
+// @public
 export interface GeoJsonCircleFeature extends GeoJsonFeature {
     // (undocumented)
     geometry: GeoJsonPoint;
@@ -561,7 +561,7 @@ export interface ReverseSearchAddressRequest {
     options?: ReverseSearchAddressOptions;
 }
 
-// @public (undocumented)
+// @public
 export interface ReverseSearchAddressResult {
     readonly numberResults: number;
     readonly queryTime: number;
@@ -589,7 +589,7 @@ export interface ReverseSearchCrossStreetAddressOptions extends ReverseSearchBas
     top?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ReverseSearchCrossStreetAddressResult {
     readonly numberResults: number;
     readonly queryTime: number;
@@ -687,7 +687,7 @@ export interface SearchExtraFilterOptions {
     electricVehicleConnectorFilter?: ElectricVehicleConnector[];
 }
 
-// @public (undocumented)
+// @public
 export type SearchGeometry = GeoJsonPolygon | GeoJsonPolygonCollection | GeoJsonCircleOrPolygonFeatureCollection;
 
 // @public
