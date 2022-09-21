@@ -4105,7 +4105,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220919
+      typescript: 4.9.0-dev.20220921
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -9145,8 +9145,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220919:
-    resolution: {integrity: sha512-W+bcsHdefNwUVjTzmimk/I3GuYjC8ubm1RKBI097N6iEBwoc/vPMAoCArc24Zc2cbuFc01TKO75240wCXNYAkA==}
+  /typescript/4.9.0-dev.20220921:
+    resolution: {integrity: sha512-0WdiNgM0YfgPURswuah1JJfnDwa6e7Ki0DJcfAEruw17mACMCJw2F7vK/4jLcd1uIl4La3ZIPnA7dOyM7y5Skg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12210,7 +12210,7 @@ packages:
     dev: false
 
   file:projects/arm-dynatrace.tgz:
-    resolution: {integrity: sha512-lUec68o5ZdEEvDGcGwsVrYNKV+ZUj6NhhOMj3gU5zM1NVw8vhik/2qMeENQCzeMCMEDfKRSuTfQLl7IF4zA/cQ==, tarball: file:projects/arm-dynatrace.tgz}
+    resolution: {integrity: sha512-r5AMRIOj4H961deY/LAQmlo2upjxw9Txo01s7QqWu08ZG8XgPfTLPd5/IPzQ6qtmB5Ku6t7WWauVJjx2e22bfQ==, tarball: file:projects/arm-dynatrace.tgz}
     name: '@rush-temp/arm-dynatrace'
     version: 0.0.0
     dependencies:
@@ -12230,7 +12230,7 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
@@ -14357,7 +14357,7 @@ packages:
     dev: false
 
   file:projects/arm-reservations.tgz:
-    resolution: {integrity: sha512-gO8IGPuDOcvlIn4pnKYfl0nbINAcCQCRNqP6OTF9JQzaAEX34mF6IJvYkRr5N4t0olQvoFyvG7ffCk4bHtLQ4A==, tarball: file:projects/arm-reservations.tgz}
+    resolution: {integrity: sha512-VG3hE4CJAB9muCL4syIrH4UX4enVoPu3RnjX5l3CsKGQmJQjJY0gB2AvVer0NqO+CoOyP36S7xxDlGb/mtJX+Q==, tarball: file:projects/arm-reservations.tgz}
     name: '@rush-temp/arm-reservations'
     version: 0.0.0
     dependencies:
@@ -14369,6 +14369,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14376,11 +14378,10 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
