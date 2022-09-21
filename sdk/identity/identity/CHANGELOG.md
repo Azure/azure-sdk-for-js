@@ -1,16 +1,47 @@
 # Release History
 
+## 3.0.0 (2022-09-19)
+
+### Features Added
+
+- Added `additionallyAllowedTenants` to the following credential options to force explicit opt-in behavior for multi-tenant authentication via the options property bag to the following:
+  - `AuthorizationCodeCredentialOptions`
+  - `AzureApplicationCredentialOptions`
+  - `AzureCliCredentialOptions`
+  - `AzurePowerShellCredentialOptions`
+  - `ClientAssertionCredentialOptions`
+  - `ClientCertificateCredentialOptions`
+  - `ClientSecretCredentialOptions`
+  - `DefaultAzureCredentialOptions`
+  - `DeviceCodeCredentialOptions`
+  - `EnvironmentCredentialOptions`
+  - `InteractiveCredentialOptions`
+  - `OnBehalfOfCredentialOptions`
+  - `UsernamePasswordCredentialOptions`
+  - `VisualStudioCodeCredentialOptions`
+
+### Breaking Changes
+
+- Credential types supporting multi-tenant authentication will now throw an error if the requested tenant ID doesn't match the credential's tenant ID, and is not included in the `additionallyAllowedTenants` option. Applications must now explicitly add additional tenants to the `additionallyAllowedTenants` list, or add `"*"` to list, to enable acquiring tokens from tenants other than the originally specified tenant ID.  See [BREAKING_CHANGES.md](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/BREAKING_CHANGES.md).
+
+### Bugs Fixed
+
+- Changed the way token expiration for managed identity tokens is calculated to handle different server formats. See [PR #23232](https://github.com/Azure/azure-sdk-for-js/pull/23232)
 ## 3.0.0-beta.1 (2022-08-24)
 
 ### Features Added
+
 - Added support in `EnvironmentCredential` to read a certificate password from an environment variable `AZURE_CLIENT_CERTIFICATE_PASSWORD`
 - Added samples for supporting AAD authentication in Azure Redis Cache
+
 ### Breaking Changes
+
 - Removed `VisualStudioCodeCredential` from `DefaultAzureCredential` token chain. [Issue 20500](https://github.com/Azure/azure-sdk-for-js/issues/20500) tracks this.
 
 ## 2.1.0 (2022-07-08)
 
 ### Features Added
+
 - Added support for new credential `ClientAssertionCredential`, which accepts a callback function for the signed JWT assertion for a client certificate. See [MSAL Client Assertion for more information](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-node/docs/initialize-confidential-client-application.md).
 
 ### Bugs Fixed

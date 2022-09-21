@@ -25,6 +25,7 @@ This troubleshooting guide covers the following areas of the Azure Identity clie
 - [Troubleshoot Visual Studio Code authentication issues](#troubleshoot-visual-studio-code-authentication-issues)
 - [Troubleshoot Azure CLI authentication issues](#troubleshoot-azure-cli-authentication-issues)
 - [Troubleshoot Azure PowerShell authentication issues](#troubleshoot-azure-powershell-authentication-issues)
+- [Troubleshoot Multi Tenant Authentication Issues](#troubleshoot-multi-tenant-authentication-issues)
 
 ## Handle Azure Identity errors
 
@@ -376,6 +377,12 @@ Get-AzAccessToken -ResourceUrl "https://management.core.windows.net"
 If the preceding command isn't working properly, follow the instructions to resolve the Azure PowerShell issue. Then try running the credential again.
 
 >Note that output of this command will contain a valid access token, and SHOULD NOT BE SHARED to avoid compromising account security.
+
+## Troubleshoot Multi Tenant Authentication Issues
+
+| Error Message |Description| Mitigation |
+|---|---|---|
+|The current credential is not configured to acquire tokens for tenant `<tenant ID>`|The application must configure the credential to allow acquiring tokens from the requested tenant.|Add the requested tenant ID it to the `additionallyAllowedTenants` on the credential options, or add `"*"` to `additionallyAllowedTenants` to allow acquiring tokens for any tenant.<br />This error was added as part of functional a breaking change to multi tenant authentication in version `3.0.0`.  Users experiencing this error after upgrading can find details on the change and migration in [BREAKING_CHANGES.md](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/BREAKING_CHANGES.md).  |
 
 ------------------------------------------------------------------------------------------------------------------------------------
 If this guide doesn't help you diagnose the errors you're experiencing, [open an issue](https://github.com/Azure/azure-sdk-for-js/issues). To contribute to the SDK, read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md).

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Returns operation results.
  *
  * @summary Returns operation results.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoOperationResultsOperationResultResponseTypeGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoOperationResultsOperationResultResponseTypeGet.json
  */
 async function kustoOperationsResultsLocationGet() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
