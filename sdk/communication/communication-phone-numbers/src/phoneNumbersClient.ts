@@ -14,7 +14,6 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
 import {
   AreaCodeItem,
-  PhoneNumberAssignmentType,
   PhoneNumberCapabilitiesRequest,
   PhoneNumberCountry,
   PhoneNumberLocality,
@@ -437,7 +436,6 @@ export class PhoneNumbersClient {
    */
   public listAvailableGeographicAreaCodes(
     countryCode: string,
-    assignmentType: PhoneNumberAssignmentType,
     options: ListGeographicAreaCodesOptions = {}
   ): PagedAsyncIterableIterator<AreaCodeItem> {
     const { span, updatedOptions } = tracingClient.startSpan(
@@ -448,7 +446,6 @@ export class PhoneNumbersClient {
     try {
       return this.client.phoneNumbers.listAreaCodes(countryCode, {
         ...updatedOptions,
-        assignmentType: assignmentType,
         phoneNumberType: "geographic",
       });
     } catch (e: any) {

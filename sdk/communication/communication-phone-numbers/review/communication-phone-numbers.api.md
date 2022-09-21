@@ -15,7 +15,7 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AreaCodeResult {
+export interface AreaCodeItem {
     areaCode?: string;
 }
 
@@ -48,10 +48,16 @@ export interface ListGeographicAreaCodesOptions extends OperationOptions {
 
 // @public
 export interface ListLocalitiesOptions extends OperationOptions {
+    // (undocumented)
+    administrativeDivision?: string;
 }
 
 // @public
 export interface ListOfferingsOptions extends OperationOptions {
+    // (undocumented)
+    assignmentType?: PhoneNumberAssignmentType;
+    // (undocumented)
+    phoneNumberType?: PhoneNumberType;
 }
 
 // @public
@@ -124,10 +130,10 @@ export class PhoneNumbersClient {
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>>;
     getPurchasedPhoneNumber(phoneNumber: string, options?: GetPurchasedPhoneNumberOptions): Promise<PurchasedPhoneNumber>;
     listAvailableCountries(options?: ListAvailableCountriesOptions): PagedAsyncIterableIterator<PhoneNumberCountry>;
-    listAvailableGeographicAreaCodes(countryCode: string, assignmentType: PhoneNumberAssignmentType, options?: ListGeographicAreaCodesOptions): PagedAsyncIterableIterator<AreaCodeResult>;
-    listAvailableLocalities(countryCode: string, administrativeDivision?: string, options?: ListLocalitiesOptions): PagedAsyncIterableIterator<PhoneNumberLocality>;
-    listAvailableOfferings(countryCode: string, phoneNumberType?: PhoneNumberType, assignmentType?: PhoneNumberAssignmentType, options?: ListOfferingsOptions): PagedAsyncIterableIterator<PhoneNumberOffering>;
-    listAvailableTollFreeAreaCodes(countryCode: string, options?: ListTollFreeAreaCodesOptions): PagedAsyncIterableIterator<AreaCodeResult>;
+    listAvailableGeographicAreaCodes(countryCode: string, options?: ListGeographicAreaCodesOptions): PagedAsyncIterableIterator<AreaCodeItem>;
+    listAvailableLocalities(countryCode: string, options?: ListLocalitiesOptions): PagedAsyncIterableIterator<PhoneNumberLocality>;
+    listAvailableOfferings(countryCode: string, options?: ListOfferingsOptions): PagedAsyncIterableIterator<PhoneNumberOffering>;
+    listAvailableTollFreeAreaCodes(countryCode: string, options?: ListTollFreeAreaCodesOptions): PagedAsyncIterableIterator<AreaCodeItem>;
     listPurchasedPhoneNumbers(options?: ListPurchasedPhoneNumbersOptions): PagedAsyncIterableIterator<PurchasedPhoneNumber>;
 }
 

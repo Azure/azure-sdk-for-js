@@ -1023,7 +1023,8 @@ const listAvailableLocalitiesOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.skip,
     Parameters.maxPageSize,
-    Parameters.administrativeDivision
+    Parameters.administrativeDivision,
+    Parameters.apiVersion
   ],
   urlParameters: [Parameters.endpoint, Parameters.countryCode],
   headerParameters: [Parameters.accept, Parameters.acceptLanguage],
