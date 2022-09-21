@@ -3967,7 +3967,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220920
+      typescript: 4.9.0-dev.20220921
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8899,8 +8899,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220920:
-    resolution: {integrity: sha512-vpkbCShHXW+Y0eWB8gHb9vmjDI+3ELVYY7aLZIFdO/IP1+Oa0TrZ39UXX7V8/ShrnoleQOc+ZaTNOs+JR54+qQ==}
+  /typescript/4.9.0-dev.20220921:
+    resolution: {integrity: sha512-0WdiNgM0YfgPURswuah1JJfnDwa6e7Ki0DJcfAEruw17mACMCJw2F7vK/4jLcd1uIl4La3ZIPnA7dOyM7y5Skg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11023,7 +11023,7 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-rt4kZjxM5cpRJKB3Sg6cXKauZNw4cXuTRsE53fo0I+ZCfkvywbpEwExV0Ab+kBz7xIJvmui/Lsizg+L72FwrGQ==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-fJrZqhGLSiNnaKuMygn/GrRqm7zOm8bZxtEqPbLZhoXvwgYGicfhiOx47B3ZvsNHnu0jpf3dJaDTjSaFsy3vxA==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
@@ -11041,7 +11041,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.23.1
       karma: 6.4.0
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -11064,7 +11064,7 @@ packages:
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       source-map-support: 0.5.21
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - bufferutil
