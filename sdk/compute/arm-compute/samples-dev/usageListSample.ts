@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
  *
  * @summary Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/computeRPCommonExamples/Usage_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/computeRPCommonExamples/Usage_List_MaximumSet_Gen.json
  */
 async function usageListMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -35,7 +35,7 @@ usageListMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
  *
  * @summary Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/computeRPCommonExamples/Usage_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/computeRPCommonExamples/Usage_List_MinimumSet_Gen.json
  */
 async function usageListMinimumSetGen() {
   const subscriptionId = "{subscription-id}";
