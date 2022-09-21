@@ -236,7 +236,7 @@ export class CertificateClient {
 
   /**
    * Creates an instance of CertificateClient.
-   * @param vaultUrl - the base URL to the vault.
+   * @param vaultUrl - the base URL to the vault. You should validate that this URL references a valid Key Vault resource. See https://aka.ms/azsdk/blog/vault-uri for details.
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
    * @param clientOptions - Pipeline options used to configure Key Vault API requests.
    *                          Omit this parameter to use the default pipeline configuration.
@@ -251,7 +251,7 @@ export class CertificateClient {
     const authPolicy = bearerTokenAuthenticationPolicy({
       credential,
       scopes: [],
-      challengeCallbacks: createChallengeCallbacks(),
+      challengeCallbacks: createChallengeCallbacks(clientOptions),
     });
 
     const internalClientPipelineOptions: InternalClientPipelineOptions = {

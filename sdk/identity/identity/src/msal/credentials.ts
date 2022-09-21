@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-
 import { AuthenticationRecord } from "./types";
 
 /**
