@@ -1,17 +1,5 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-- Updated to `@azure/core-tracing` 1.0.
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.0.0-beta.1 (Unreleased)
 
 ### Features Added
