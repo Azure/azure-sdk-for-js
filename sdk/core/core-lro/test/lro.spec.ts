@@ -3,9 +3,9 @@
 
 import {
   ImplementationName,
+  assertDivergentBehavior,
   assertError,
   createDoubleHeaders,
-  assertDivergentBehavior,
 } from "./utils/utils";
 import { assert, matrix } from "@azure/test-utils";
 import { createRunLroWith, createTestPoller } from "./utils/router";

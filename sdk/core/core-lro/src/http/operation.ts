@@ -110,10 +110,11 @@ export function inferLroMode(inputs: {
 
 function transformStatus(inputs: { status: unknown; statusCode: number }): OperationStatus {
   const { status, statusCode } = inputs;
-  if (typeof status !== "string" && status !== undefined)
+  if (typeof status !== "string" && status !== undefined) {
     throw new Error(
       `Polling was unsuccessful. Expected status to have a string value or no value but it has instead: ${status}. This doesn't necessarily indicate the operation has failed. Check your Azure subscription or resource status for more information.`
     );
+  }
   switch (status?.toLocaleLowerCase()) {
     case undefined:
       return toOperationStatus(statusCode);
