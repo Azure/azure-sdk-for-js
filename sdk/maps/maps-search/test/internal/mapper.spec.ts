@@ -368,7 +368,7 @@ describe("Result mappers", () => {
         query: "15127 98052 ne redmond wa",
         queryType: "NON_NEAR",
         queryTime: 100,
-        numResults: 1,
+        numberResults: 1,
         geoBias: [47.301293179130347, -120.88247999999997],
         results: [
           {
@@ -422,7 +422,7 @@ describe("Result mappers", () => {
 
       const expectedResult: ReverseSearchAddressResult = {
         queryTime: 100,
-        numResults: 10,
+        numberResults: 10,
         results: [
           {
             roadUse: [],
@@ -468,7 +468,7 @@ describe("Result mappers", () => {
 
       const expectedResult: ReverseSearchCrossStreetAddressResult = {
         queryTime: 100,
-        numResults: 1,
+        numberResults: 1,
         results: [
           {
             address: {
@@ -550,7 +550,7 @@ describe("Result mappers", () => {
           {
             statusCode: 200,
             response: {
-              numResults: 1,
+              numberResults: 1,
               query: "one microsoft way redmond wa 98052",
               queryTime: 100,
               results: [
@@ -640,7 +640,7 @@ describe("Result mappers", () => {
             statusCode: 200,
             response: {
               queryTime: 7,
-              numResults: 1,
+              numberResults: 1,
               results: [
                 {
                   address: {

@@ -563,7 +563,7 @@ export interface ReverseSearchAddressRequest {
 
 // @public (undocumented)
 export interface ReverseSearchAddressResult {
-    readonly numResults: number;
+    readonly numberResults: number;
     readonly queryTime: number;
     readonly results: ReverseSearchAddressResultItem[];
 }
@@ -591,7 +591,7 @@ export interface ReverseSearchCrossStreetAddressOptions extends ReverseSearchBas
 
 // @public (undocumented)
 export interface ReverseSearchCrossStreetAddressResult {
-    readonly numResults: number;
+    readonly numberResults: number;
     readonly queryTime: number;
     readonly results: ReverseSearchCrossStreetAddressResultItem[];
 }
@@ -634,7 +634,7 @@ export interface SearchAddressRequest {
 export interface SearchAddressResult {
     readonly fuzzyLevel?: number;
     readonly geoBias?: LatLon;
-    readonly numResults: number;
+    readonly numberResults: number;
     readonly query?: string;
     readonly queryTime: number;
     readonly queryType?: QueryType;

@@ -23,7 +23,7 @@ export interface SearchAddressResult {
   /** Time spent resolving the query, in milliseconds. */
   readonly queryTime: number;
   /** Number of results in the response. */
-  readonly numResults: number;
+  readonly numberResults: number;
   /** The starting offset of the returned Results within the full Result set. */
   readonly skip?: number;
   /** The total number of Results found. */
@@ -94,7 +94,7 @@ export interface ReverseSearchAddressResult {
   /** Time spent resolving the query, in milliseconds. */
   readonly queryTime: number;
   /** Number of results in the response. */
-  readonly numResults: number;
+  readonly numberResults: number;
   /** The Result list, sorted in descending order by score. */
   readonly results: ReverseSearchAddressResultItem[];
 }
@@ -103,7 +103,7 @@ export interface ReverseSearchCrossStreetAddressResult {
   /** Time spent resolving the query, in milliseconds. */
   readonly queryTime: number;
   /** Number of results in the response. */
-  readonly numResults: number;
+  readonly numberResults: number;
   /** The Result list, sorted in descending order by score. */
   readonly results: ReverseSearchCrossStreetAddressResultItem[];
 }
