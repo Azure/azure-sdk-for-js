@@ -210,7 +210,7 @@ These sample programs show how to use the TypeScript client libraries for in som
 ## Prerequisites
 
 <<<<<<< HEAD:sdk/security/arm-security/samples/v6-beta/typescript/README.md
-The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
+The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 =======
 The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 >>>>>>> main:sdk/security/arm-security/samples/v5/typescript/README.md
