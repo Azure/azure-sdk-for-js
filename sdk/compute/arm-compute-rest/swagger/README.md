@@ -20,8 +20,7 @@ rest-level-client: true
 add-credentials: true
 security: AADToken
 security-scopes: "https://management.azure.com/.default"
-use-extension:
-  "@autorest/typescript": "latest"
 modelerfour:
   lenient-model-deduplication: true
+  treat-type-object-as-anything: true
 ```

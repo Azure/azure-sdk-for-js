@@ -284,432 +284,432 @@ import {
 } from "./parameters";
 import {
   OperationsList200Response,
-  OperationsListdefaultResponse,
+  OperationsListDefaultResponse,
   UsageList200Response,
-  UsageListdefaultResponse,
+  UsageListDefaultResponse,
   VirtualMachineSizesList200Response,
-  VirtualMachineSizesListdefaultResponse,
+  VirtualMachineSizesListDefaultResponse,
   VirtualMachineScaleSetsListByLocation200Response,
-  VirtualMachineScaleSetsListByLocationdefaultResponse,
+  VirtualMachineScaleSetsListByLocationDefaultResponse,
   VirtualMachineScaleSetsCreateOrUpdate200Response,
   VirtualMachineScaleSetsCreateOrUpdate201Response,
-  VirtualMachineScaleSetsCreateOrUpdatedefaultResponse,
+  VirtualMachineScaleSetsCreateOrUpdateDefaultResponse,
   VirtualMachineScaleSetsUpdate200Response,
-  VirtualMachineScaleSetsUpdatedefaultResponse,
+  VirtualMachineScaleSetsUpdateDefaultResponse,
   VirtualMachineScaleSetsDelete200Response,
   VirtualMachineScaleSetsDelete202Response,
   VirtualMachineScaleSetsDelete204Response,
-  VirtualMachineScaleSetsDeletedefaultResponse,
+  VirtualMachineScaleSetsDeleteDefaultResponse,
   VirtualMachineScaleSetsGet200Response,
-  VirtualMachineScaleSetsGetdefaultResponse,
+  VirtualMachineScaleSetsGetDefaultResponse,
   VirtualMachineScaleSetsDeallocate200Response,
   VirtualMachineScaleSetsDeallocate202Response,
-  VirtualMachineScaleSetsDeallocatedefaultResponse,
+  VirtualMachineScaleSetsDeallocateDefaultResponse,
   VirtualMachineScaleSetsDeleteInstances200Response,
   VirtualMachineScaleSetsDeleteInstances202Response,
-  VirtualMachineScaleSetsDeleteInstancesdefaultResponse,
+  VirtualMachineScaleSetsDeleteInstancesDefaultResponse,
   VirtualMachineScaleSetsGetInstanceView200Response,
-  VirtualMachineScaleSetsGetInstanceViewdefaultResponse,
+  VirtualMachineScaleSetsGetInstanceViewDefaultResponse,
   VirtualMachineScaleSetsList200Response,
-  VirtualMachineScaleSetsListdefaultResponse,
+  VirtualMachineScaleSetsListDefaultResponse,
   VirtualMachineScaleSetsListAll200Response,
-  VirtualMachineScaleSetsListAlldefaultResponse,
+  VirtualMachineScaleSetsListAllDefaultResponse,
   VirtualMachineScaleSetsListSkus200Response,
-  VirtualMachineScaleSetsListSkusdefaultResponse,
+  VirtualMachineScaleSetsListSkusDefaultResponse,
   VirtualMachineScaleSetsGetOSUpgradeHistory200Response,
-  VirtualMachineScaleSetsGetOSUpgradeHistorydefaultResponse,
+  VirtualMachineScaleSetsGetOSUpgradeHistoryDefaultResponse,
   VirtualMachineScaleSetsPowerOff200Response,
   VirtualMachineScaleSetsPowerOff202Response,
-  VirtualMachineScaleSetsPowerOffdefaultResponse,
+  VirtualMachineScaleSetsPowerOffDefaultResponse,
   VirtualMachineScaleSetsRestart200Response,
   VirtualMachineScaleSetsRestart202Response,
-  VirtualMachineScaleSetsRestartdefaultResponse,
+  VirtualMachineScaleSetsRestartDefaultResponse,
   VirtualMachineScaleSetsStart200Response,
   VirtualMachineScaleSetsStart202Response,
-  VirtualMachineScaleSetsStartdefaultResponse,
+  VirtualMachineScaleSetsStartDefaultResponse,
   VirtualMachineScaleSetsRedeploy200Response,
   VirtualMachineScaleSetsRedeploy202Response,
-  VirtualMachineScaleSetsRedeploydefaultResponse,
+  VirtualMachineScaleSetsRedeployDefaultResponse,
   VirtualMachineScaleSetsPerformMaintenance200Response,
   VirtualMachineScaleSetsPerformMaintenance202Response,
-  VirtualMachineScaleSetsPerformMaintenancedefaultResponse,
+  VirtualMachineScaleSetsPerformMaintenanceDefaultResponse,
   VirtualMachineScaleSetsUpdateInstances200Response,
   VirtualMachineScaleSetsUpdateInstances202Response,
-  VirtualMachineScaleSetsUpdateInstancesdefaultResponse,
+  VirtualMachineScaleSetsUpdateInstancesDefaultResponse,
   VirtualMachineScaleSetsReimage200Response,
   VirtualMachineScaleSetsReimage202Response,
-  VirtualMachineScaleSetsReimagedefaultResponse,
+  VirtualMachineScaleSetsReimageDefaultResponse,
   VirtualMachineScaleSetsReimageAll200Response,
   VirtualMachineScaleSetsReimageAll202Response,
-  VirtualMachineScaleSetsReimageAlldefaultResponse,
+  VirtualMachineScaleSetsReimageAllDefaultResponse,
   VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalk200Response,
-  VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkdefaultResponse,
+  VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkDefaultResponse,
   VirtualMachineScaleSetsConvertToSinglePlacementGroup200Response,
-  VirtualMachineScaleSetsConvertToSinglePlacementGroupdefaultResponse,
+  VirtualMachineScaleSetsConvertToSinglePlacementGroupDefaultResponse,
   VirtualMachineScaleSetsSetOrchestrationServiceState200Response,
   VirtualMachineScaleSetsSetOrchestrationServiceState202Response,
-  VirtualMachineScaleSetsSetOrchestrationServiceStatedefaultResponse,
+  VirtualMachineScaleSetsSetOrchestrationServiceStateDefaultResponse,
   VirtualMachineScaleSetExtensionsCreateOrUpdate200Response,
   VirtualMachineScaleSetExtensionsCreateOrUpdate201Response,
-  VirtualMachineScaleSetExtensionsCreateOrUpdatedefaultResponse,
+  VirtualMachineScaleSetExtensionsCreateOrUpdateDefaultResponse,
   VirtualMachineScaleSetExtensionsUpdate200Response,
   VirtualMachineScaleSetExtensionsUpdate201Response,
-  VirtualMachineScaleSetExtensionsUpdatedefaultResponse,
+  VirtualMachineScaleSetExtensionsUpdateDefaultResponse,
   VirtualMachineScaleSetExtensionsDelete200Response,
   VirtualMachineScaleSetExtensionsDelete202Response,
   VirtualMachineScaleSetExtensionsDelete204Response,
-  VirtualMachineScaleSetExtensionsDeletedefaultResponse,
+  VirtualMachineScaleSetExtensionsDeleteDefaultResponse,
   VirtualMachineScaleSetExtensionsGet200Response,
-  VirtualMachineScaleSetExtensionsGetdefaultResponse,
+  VirtualMachineScaleSetExtensionsGetDefaultResponse,
   VirtualMachineScaleSetExtensionsList200Response,
-  VirtualMachineScaleSetExtensionsListdefaultResponse,
+  VirtualMachineScaleSetExtensionsListDefaultResponse,
   VirtualMachineScaleSetRollingUpgradesCancel200Response,
   VirtualMachineScaleSetRollingUpgradesCancel202Response,
-  VirtualMachineScaleSetRollingUpgradesCanceldefaultResponse,
+  VirtualMachineScaleSetRollingUpgradesCancelDefaultResponse,
   VirtualMachineScaleSetRollingUpgradesStartOSUpgrade200Response,
   VirtualMachineScaleSetRollingUpgradesStartOSUpgrade202Response,
-  VirtualMachineScaleSetRollingUpgradesStartOSUpgradedefaultResponse,
+  VirtualMachineScaleSetRollingUpgradesStartOSUpgradeDefaultResponse,
   VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade200Response,
   VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade202Response,
-  VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradedefaultResponse,
+  VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeDefaultResponse,
   VirtualMachineScaleSetRollingUpgradesGetLatest200Response,
-  VirtualMachineScaleSetRollingUpgradesGetLatestdefaultResponse,
+  VirtualMachineScaleSetRollingUpgradesGetLatestDefaultResponse,
   VirtualMachineScaleSetVMExtensionsCreateOrUpdate200Response,
   VirtualMachineScaleSetVMExtensionsCreateOrUpdate201Response,
-  VirtualMachineScaleSetVMExtensionsCreateOrUpdatedefaultResponse,
+  VirtualMachineScaleSetVMExtensionsCreateOrUpdateDefaultResponse,
   VirtualMachineScaleSetVMExtensionsUpdate200Response,
-  VirtualMachineScaleSetVMExtensionsUpdatedefaultResponse,
+  VirtualMachineScaleSetVMExtensionsUpdateDefaultResponse,
   VirtualMachineScaleSetVMExtensionsDelete200Response,
   VirtualMachineScaleSetVMExtensionsDelete202Response,
   VirtualMachineScaleSetVMExtensionsDelete204Response,
-  VirtualMachineScaleSetVMExtensionsDeletedefaultResponse,
+  VirtualMachineScaleSetVMExtensionsDeleteDefaultResponse,
   VirtualMachineScaleSetVMExtensionsGet200Response,
-  VirtualMachineScaleSetVMExtensionsGetdefaultResponse,
+  VirtualMachineScaleSetVMExtensionsGetDefaultResponse,
   VirtualMachineScaleSetVMExtensionsList200Response,
-  VirtualMachineScaleSetVMExtensionsListdefaultResponse,
+  VirtualMachineScaleSetVMExtensionsListDefaultResponse,
   VirtualMachineScaleSetVMsReimage200Response,
   VirtualMachineScaleSetVMsReimage202Response,
-  VirtualMachineScaleSetVMsReimagedefaultResponse,
+  VirtualMachineScaleSetVMsReimageDefaultResponse,
   VirtualMachineScaleSetVMsReimageAll200Response,
   VirtualMachineScaleSetVMsReimageAll202Response,
-  VirtualMachineScaleSetVMsReimageAlldefaultResponse,
+  VirtualMachineScaleSetVMsReimageAllDefaultResponse,
   VirtualMachineScaleSetVMsDeallocate200Response,
   VirtualMachineScaleSetVMsDeallocate202Response,
-  VirtualMachineScaleSetVMsDeallocatedefaultResponse,
+  VirtualMachineScaleSetVMsDeallocateDefaultResponse,
   VirtualMachineScaleSetVMsUpdate200Response,
   VirtualMachineScaleSetVMsUpdate202Response,
-  VirtualMachineScaleSetVMsUpdatedefaultResponse,
+  VirtualMachineScaleSetVMsUpdateDefaultResponse,
   VirtualMachineScaleSetVMsDelete200Response,
   VirtualMachineScaleSetVMsDelete202Response,
   VirtualMachineScaleSetVMsDelete204Response,
-  VirtualMachineScaleSetVMsDeletedefaultResponse,
+  VirtualMachineScaleSetVMsDeleteDefaultResponse,
   VirtualMachineScaleSetVMsGet200Response,
-  VirtualMachineScaleSetVMsGetdefaultResponse,
+  VirtualMachineScaleSetVMsGetDefaultResponse,
   VirtualMachineScaleSetVMsGetInstanceView200Response,
-  VirtualMachineScaleSetVMsGetInstanceViewdefaultResponse,
+  VirtualMachineScaleSetVMsGetInstanceViewDefaultResponse,
   VirtualMachineScaleSetVMsList200Response,
-  VirtualMachineScaleSetVMsListdefaultResponse,
+  VirtualMachineScaleSetVMsListDefaultResponse,
   VirtualMachineScaleSetVMsPowerOff200Response,
   VirtualMachineScaleSetVMsPowerOff202Response,
-  VirtualMachineScaleSetVMsPowerOffdefaultResponse,
+  VirtualMachineScaleSetVMsPowerOffDefaultResponse,
   VirtualMachineScaleSetVMsRestart200Response,
   VirtualMachineScaleSetVMsRestart202Response,
-  VirtualMachineScaleSetVMsRestartdefaultResponse,
+  VirtualMachineScaleSetVMsRestartDefaultResponse,
   VirtualMachineScaleSetVMsStart200Response,
   VirtualMachineScaleSetVMsStart202Response,
-  VirtualMachineScaleSetVMsStartdefaultResponse,
+  VirtualMachineScaleSetVMsStartDefaultResponse,
   VirtualMachineScaleSetVMsRedeploy200Response,
   VirtualMachineScaleSetVMsRedeploy202Response,
-  VirtualMachineScaleSetVMsRedeploydefaultResponse,
+  VirtualMachineScaleSetVMsRedeployDefaultResponse,
   VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData200Response,
-  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDatadefaultResponse,
+  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataDefaultResponse,
   VirtualMachineScaleSetVMsPerformMaintenance200Response,
   VirtualMachineScaleSetVMsPerformMaintenance202Response,
-  VirtualMachineScaleSetVMsPerformMaintenancedefaultResponse,
+  VirtualMachineScaleSetVMsPerformMaintenanceDefaultResponse,
   VirtualMachineScaleSetVMsSimulateEviction204Response,
-  VirtualMachineScaleSetVMsSimulateEvictiondefaultResponse,
+  VirtualMachineScaleSetVMsSimulateEvictionDefaultResponse,
   VirtualMachineScaleSetVMsRunCommand200Response,
   VirtualMachineScaleSetVMsRunCommand202Response,
   VirtualMachineExtensionsCreateOrUpdate200Response,
   VirtualMachineExtensionsCreateOrUpdate201Response,
-  VirtualMachineExtensionsCreateOrUpdatedefaultResponse,
+  VirtualMachineExtensionsCreateOrUpdateDefaultResponse,
   VirtualMachineExtensionsUpdate200Response,
-  VirtualMachineExtensionsUpdatedefaultResponse,
+  VirtualMachineExtensionsUpdateDefaultResponse,
   VirtualMachineExtensionsDelete200Response,
   VirtualMachineExtensionsDelete202Response,
   VirtualMachineExtensionsDelete204Response,
-  VirtualMachineExtensionsDeletedefaultResponse,
+  VirtualMachineExtensionsDeleteDefaultResponse,
   VirtualMachineExtensionsGet200Response,
-  VirtualMachineExtensionsGetdefaultResponse,
+  VirtualMachineExtensionsGetDefaultResponse,
   VirtualMachineExtensionsList200Response,
-  VirtualMachineExtensionsListdefaultResponse,
+  VirtualMachineExtensionsListDefaultResponse,
   VirtualMachinesListByLocation200Response,
-  VirtualMachinesListByLocationdefaultResponse,
+  VirtualMachinesListByLocationDefaultResponse,
   VirtualMachinesCapture200Response,
   VirtualMachinesCapture202Response,
-  VirtualMachinesCapturedefaultResponse,
+  VirtualMachinesCaptureDefaultResponse,
   VirtualMachinesCreateOrUpdate200Response,
   VirtualMachinesCreateOrUpdate201Response,
-  VirtualMachinesCreateOrUpdatedefaultResponse,
+  VirtualMachinesCreateOrUpdateDefaultResponse,
   VirtualMachinesUpdate200Response,
-  VirtualMachinesUpdatedefaultResponse,
+  VirtualMachinesUpdateDefaultResponse,
   VirtualMachinesDelete200Response,
   VirtualMachinesDelete202Response,
   VirtualMachinesDelete204Response,
-  VirtualMachinesDeletedefaultResponse,
+  VirtualMachinesDeleteDefaultResponse,
   VirtualMachinesGet200Response,
-  VirtualMachinesGetdefaultResponse,
+  VirtualMachinesGetDefaultResponse,
   VirtualMachinesInstanceView200Response,
-  VirtualMachinesInstanceViewdefaultResponse,
+  VirtualMachinesInstanceViewDefaultResponse,
   VirtualMachinesConvertToManagedDisks200Response,
   VirtualMachinesConvertToManagedDisks202Response,
-  VirtualMachinesConvertToManagedDisksdefaultResponse,
+  VirtualMachinesConvertToManagedDisksDefaultResponse,
   VirtualMachinesDeallocate200Response,
   VirtualMachinesDeallocate202Response,
-  VirtualMachinesDeallocatedefaultResponse,
+  VirtualMachinesDeallocateDefaultResponse,
   VirtualMachinesGeneralize200Response,
-  VirtualMachinesGeneralizedefaultResponse,
+  VirtualMachinesGeneralizeDefaultResponse,
   VirtualMachinesList200Response,
-  VirtualMachinesListdefaultResponse,
+  VirtualMachinesListDefaultResponse,
   VirtualMachinesListAll200Response,
-  VirtualMachinesListAlldefaultResponse,
+  VirtualMachinesListAllDefaultResponse,
   VirtualMachinesListAvailableSizes200Response,
-  VirtualMachinesListAvailableSizesdefaultResponse,
+  VirtualMachinesListAvailableSizesDefaultResponse,
   VirtualMachinesPowerOff200Response,
   VirtualMachinesPowerOff202Response,
-  VirtualMachinesPowerOffdefaultResponse,
+  VirtualMachinesPowerOffDefaultResponse,
   VirtualMachinesReapply200Response,
   VirtualMachinesReapply202Response,
-  VirtualMachinesReapplydefaultResponse,
+  VirtualMachinesReapplyDefaultResponse,
   VirtualMachinesRestart200Response,
   VirtualMachinesRestart202Response,
-  VirtualMachinesRestartdefaultResponse,
+  VirtualMachinesRestartDefaultResponse,
   VirtualMachinesStart200Response,
   VirtualMachinesStart202Response,
-  VirtualMachinesStartdefaultResponse,
+  VirtualMachinesStartDefaultResponse,
   VirtualMachinesRedeploy200Response,
   VirtualMachinesRedeploy202Response,
-  VirtualMachinesRedeploydefaultResponse,
+  VirtualMachinesRedeployDefaultResponse,
   VirtualMachinesReimage200Response,
   VirtualMachinesReimage202Response,
-  VirtualMachinesReimagedefaultResponse,
+  VirtualMachinesReimageDefaultResponse,
   VirtualMachinesRetrieveBootDiagnosticsData200Response,
-  VirtualMachinesRetrieveBootDiagnosticsDatadefaultResponse,
+  VirtualMachinesRetrieveBootDiagnosticsDataDefaultResponse,
   VirtualMachinesPerformMaintenance200Response,
   VirtualMachinesPerformMaintenance202Response,
-  VirtualMachinesPerformMaintenancedefaultResponse,
+  VirtualMachinesPerformMaintenanceDefaultResponse,
   VirtualMachinesSimulateEviction204Response,
-  VirtualMachinesSimulateEvictiondefaultResponse,
+  VirtualMachinesSimulateEvictionDefaultResponse,
   VirtualMachinesAssessPatches200Response,
   VirtualMachinesAssessPatches202Response,
-  VirtualMachinesAssessPatchesdefaultResponse,
+  VirtualMachinesAssessPatchesDefaultResponse,
   VirtualMachinesInstallPatches200Response,
   VirtualMachinesInstallPatches202Response,
-  VirtualMachinesInstallPatchesdefaultResponse,
+  VirtualMachinesInstallPatchesDefaultResponse,
   VirtualMachinesRunCommand200Response,
   VirtualMachinesRunCommand202Response,
   VirtualMachineImagesGet200Response,
-  VirtualMachineImagesGetdefaultResponse,
+  VirtualMachineImagesGetDefaultResponse,
   VirtualMachineImagesList200Response,
-  VirtualMachineImagesListdefaultResponse,
+  VirtualMachineImagesListDefaultResponse,
   VirtualMachineImagesListOffers200Response,
-  VirtualMachineImagesListOffersdefaultResponse,
+  VirtualMachineImagesListOffersDefaultResponse,
   VirtualMachineImagesListPublishers200Response,
-  VirtualMachineImagesListPublishersdefaultResponse,
+  VirtualMachineImagesListPublishersDefaultResponse,
   VirtualMachineImagesListSkus200Response,
-  VirtualMachineImagesListSkusdefaultResponse,
+  VirtualMachineImagesListSkusDefaultResponse,
   VirtualMachineImagesListByEdgeZone200Response,
-  VirtualMachineImagesListByEdgeZonedefaultResponse,
+  VirtualMachineImagesListByEdgeZoneDefaultResponse,
   VirtualMachineImagesEdgeZoneGet200Response,
-  VirtualMachineImagesEdgeZoneGetdefaultResponse,
+  VirtualMachineImagesEdgeZoneGetDefaultResponse,
   VirtualMachineImagesEdgeZoneList200Response,
-  VirtualMachineImagesEdgeZoneListdefaultResponse,
+  VirtualMachineImagesEdgeZoneListDefaultResponse,
   VirtualMachineImagesEdgeZoneListOffers200Response,
-  VirtualMachineImagesEdgeZoneListOffersdefaultResponse,
+  VirtualMachineImagesEdgeZoneListOffersDefaultResponse,
   VirtualMachineImagesEdgeZoneListPublishers200Response,
-  VirtualMachineImagesEdgeZoneListPublishersdefaultResponse,
+  VirtualMachineImagesEdgeZoneListPublishersDefaultResponse,
   VirtualMachineImagesEdgeZoneListSkus200Response,
-  VirtualMachineImagesEdgeZoneListSkusdefaultResponse,
+  VirtualMachineImagesEdgeZoneListSkusDefaultResponse,
   VirtualMachineExtensionImagesGet200Response,
-  VirtualMachineExtensionImagesGetdefaultResponse,
+  VirtualMachineExtensionImagesGetDefaultResponse,
   VirtualMachineExtensionImagesListTypes200Response,
-  VirtualMachineExtensionImagesListTypesdefaultResponse,
+  VirtualMachineExtensionImagesListTypesDefaultResponse,
   VirtualMachineExtensionImagesListVersions200Response,
-  VirtualMachineExtensionImagesListVersionsdefaultResponse,
+  VirtualMachineExtensionImagesListVersionsDefaultResponse,
   AvailabilitySetsCreateOrUpdate200Response,
-  AvailabilitySetsCreateOrUpdatedefaultResponse,
+  AvailabilitySetsCreateOrUpdateDefaultResponse,
   AvailabilitySetsUpdate200Response,
-  AvailabilitySetsUpdatedefaultResponse,
+  AvailabilitySetsUpdateDefaultResponse,
   AvailabilitySetsDelete200Response,
   AvailabilitySetsDelete204Response,
-  AvailabilitySetsDeletedefaultResponse,
+  AvailabilitySetsDeleteDefaultResponse,
   AvailabilitySetsGet200Response,
-  AvailabilitySetsGetdefaultResponse,
+  AvailabilitySetsGetDefaultResponse,
   AvailabilitySetsListBySubscription200Response,
-  AvailabilitySetsListBySubscriptiondefaultResponse,
+  AvailabilitySetsListBySubscriptionDefaultResponse,
   AvailabilitySetsList200Response,
-  AvailabilitySetsListdefaultResponse,
+  AvailabilitySetsListDefaultResponse,
   AvailabilitySetsListAvailableSizes200Response,
-  AvailabilitySetsListAvailableSizesdefaultResponse,
+  AvailabilitySetsListAvailableSizesDefaultResponse,
   ProximityPlacementGroupsCreateOrUpdate200Response,
   ProximityPlacementGroupsCreateOrUpdate201Response,
-  ProximityPlacementGroupsCreateOrUpdatedefaultResponse,
+  ProximityPlacementGroupsCreateOrUpdateDefaultResponse,
   ProximityPlacementGroupsUpdate200Response,
-  ProximityPlacementGroupsUpdatedefaultResponse,
+  ProximityPlacementGroupsUpdateDefaultResponse,
   ProximityPlacementGroupsDelete200Response,
-  ProximityPlacementGroupsDeletedefaultResponse,
+  ProximityPlacementGroupsDeleteDefaultResponse,
   ProximityPlacementGroupsGet200Response,
-  ProximityPlacementGroupsGetdefaultResponse,
+  ProximityPlacementGroupsGetDefaultResponse,
   ProximityPlacementGroupsListBySubscription200Response,
-  ProximityPlacementGroupsListBySubscriptiondefaultResponse,
+  ProximityPlacementGroupsListBySubscriptionDefaultResponse,
   ProximityPlacementGroupsListByResourceGroup200Response,
-  ProximityPlacementGroupsListByResourceGroupdefaultResponse,
+  ProximityPlacementGroupsListByResourceGroupDefaultResponse,
   DedicatedHostGroupsCreateOrUpdate200Response,
   DedicatedHostGroupsCreateOrUpdate201Response,
-  DedicatedHostGroupsCreateOrUpdatedefaultResponse,
+  DedicatedHostGroupsCreateOrUpdateDefaultResponse,
   DedicatedHostGroupsUpdate200Response,
-  DedicatedHostGroupsUpdatedefaultResponse,
+  DedicatedHostGroupsUpdateDefaultResponse,
   DedicatedHostGroupsDelete200Response,
   DedicatedHostGroupsDelete204Response,
-  DedicatedHostGroupsDeletedefaultResponse,
+  DedicatedHostGroupsDeleteDefaultResponse,
   DedicatedHostGroupsGet200Response,
-  DedicatedHostGroupsGetdefaultResponse,
+  DedicatedHostGroupsGetDefaultResponse,
   DedicatedHostGroupsListByResourceGroup200Response,
-  DedicatedHostGroupsListByResourceGroupdefaultResponse,
+  DedicatedHostGroupsListByResourceGroupDefaultResponse,
   DedicatedHostGroupsListBySubscription200Response,
-  DedicatedHostGroupsListBySubscriptiondefaultResponse,
+  DedicatedHostGroupsListBySubscriptionDefaultResponse,
   DedicatedHostsCreateOrUpdate200Response,
   DedicatedHostsCreateOrUpdate201Response,
-  DedicatedHostsCreateOrUpdatedefaultResponse,
+  DedicatedHostsCreateOrUpdateDefaultResponse,
   DedicatedHostsUpdate200Response,
-  DedicatedHostsUpdatedefaultResponse,
+  DedicatedHostsUpdateDefaultResponse,
   DedicatedHostsDelete200Response,
   DedicatedHostsDelete202Response,
   DedicatedHostsDelete204Response,
-  DedicatedHostsDeletedefaultResponse,
+  DedicatedHostsDeleteDefaultResponse,
   DedicatedHostsGet200Response,
-  DedicatedHostsGetdefaultResponse,
+  DedicatedHostsGetDefaultResponse,
   DedicatedHostsListByHostGroup200Response,
-  DedicatedHostsListByHostGroupdefaultResponse,
+  DedicatedHostsListByHostGroupDefaultResponse,
   DedicatedHostsRestart200Response,
-  DedicatedHostsRestartdefaultResponse,
+  DedicatedHostsRestartDefaultResponse,
   SshPublicKeysListBySubscription200Response,
-  SshPublicKeysListBySubscriptiondefaultResponse,
+  SshPublicKeysListBySubscriptionDefaultResponse,
   SshPublicKeysListByResourceGroup200Response,
-  SshPublicKeysListByResourceGroupdefaultResponse,
+  SshPublicKeysListByResourceGroupDefaultResponse,
   SshPublicKeysCreate200Response,
   SshPublicKeysCreate201Response,
-  SshPublicKeysCreatedefaultResponse,
+  SshPublicKeysCreateDefaultResponse,
   SshPublicKeysUpdate200Response,
-  SshPublicKeysUpdatedefaultResponse,
+  SshPublicKeysUpdateDefaultResponse,
   SshPublicKeysDelete200Response,
   SshPublicKeysDelete204Response,
-  SshPublicKeysDeletedefaultResponse,
+  SshPublicKeysDeleteDefaultResponse,
   SshPublicKeysGet200Response,
-  SshPublicKeysGetdefaultResponse,
+  SshPublicKeysGetDefaultResponse,
   SshPublicKeysGenerateKeyPair200Response,
-  SshPublicKeysGenerateKeyPairdefaultResponse,
+  SshPublicKeysGenerateKeyPairDefaultResponse,
   ImagesCreateOrUpdate200Response,
   ImagesCreateOrUpdate201Response,
-  ImagesCreateOrUpdatedefaultResponse,
+  ImagesCreateOrUpdateDefaultResponse,
   ImagesUpdate200Response,
   ImagesUpdate201Response,
-  ImagesUpdatedefaultResponse,
+  ImagesUpdateDefaultResponse,
   ImagesDelete200Response,
   ImagesDelete202Response,
   ImagesDelete204Response,
-  ImagesDeletedefaultResponse,
+  ImagesDeleteDefaultResponse,
   ImagesGet200Response,
-  ImagesGetdefaultResponse,
+  ImagesGetDefaultResponse,
   ImagesListByResourceGroup200Response,
-  ImagesListByResourceGroupdefaultResponse,
+  ImagesListByResourceGroupDefaultResponse,
   ImagesList200Response,
-  ImagesListdefaultResponse,
+  ImagesListDefaultResponse,
   RestorePointCollectionsCreateOrUpdate200Response,
   RestorePointCollectionsCreateOrUpdate201Response,
-  RestorePointCollectionsCreateOrUpdatedefaultResponse,
+  RestorePointCollectionsCreateOrUpdateDefaultResponse,
   RestorePointCollectionsUpdate200Response,
-  RestorePointCollectionsUpdatedefaultResponse,
+  RestorePointCollectionsUpdateDefaultResponse,
   RestorePointCollectionsDelete200Response,
   RestorePointCollectionsDelete202Response,
   RestorePointCollectionsDelete204Response,
-  RestorePointCollectionsDeletedefaultResponse,
+  RestorePointCollectionsDeleteDefaultResponse,
   RestorePointCollectionsGet200Response,
-  RestorePointCollectionsGetdefaultResponse,
+  RestorePointCollectionsGetDefaultResponse,
   RestorePointCollectionsList200Response,
-  RestorePointCollectionsListdefaultResponse,
+  RestorePointCollectionsListDefaultResponse,
   RestorePointCollectionsListAll200Response,
-  RestorePointCollectionsListAlldefaultResponse,
+  RestorePointCollectionsListAllDefaultResponse,
   RestorePointsCreate201Response,
-  RestorePointsCreatedefaultResponse,
+  RestorePointsCreateDefaultResponse,
   RestorePointsDelete200Response,
   RestorePointsDelete202Response,
   RestorePointsDelete204Response,
-  RestorePointsDeletedefaultResponse,
+  RestorePointsDeleteDefaultResponse,
   RestorePointsGet200Response,
-  RestorePointsGetdefaultResponse,
+  RestorePointsGetDefaultResponse,
   CapacityReservationGroupsCreateOrUpdate200Response,
   CapacityReservationGroupsCreateOrUpdate201Response,
-  CapacityReservationGroupsCreateOrUpdatedefaultResponse,
+  CapacityReservationGroupsCreateOrUpdateDefaultResponse,
   CapacityReservationGroupsUpdate200Response,
-  CapacityReservationGroupsUpdatedefaultResponse,
+  CapacityReservationGroupsUpdateDefaultResponse,
   CapacityReservationGroupsDelete200Response,
   CapacityReservationGroupsDelete204Response,
-  CapacityReservationGroupsDeletedefaultResponse,
+  CapacityReservationGroupsDeleteDefaultResponse,
   CapacityReservationGroupsGet200Response,
-  CapacityReservationGroupsGetdefaultResponse,
+  CapacityReservationGroupsGetDefaultResponse,
   CapacityReservationGroupsListByResourceGroup200Response,
-  CapacityReservationGroupsListByResourceGroupdefaultResponse,
+  CapacityReservationGroupsListByResourceGroupDefaultResponse,
   CapacityReservationGroupsListBySubscription200Response,
-  CapacityReservationGroupsListBySubscriptiondefaultResponse,
+  CapacityReservationGroupsListBySubscriptionDefaultResponse,
   CapacityReservationsCreateOrUpdate200Response,
   CapacityReservationsCreateOrUpdate201Response,
-  CapacityReservationsCreateOrUpdatedefaultResponse,
+  CapacityReservationsCreateOrUpdateDefaultResponse,
   CapacityReservationsUpdate200Response,
   CapacityReservationsUpdate202Response,
-  CapacityReservationsUpdatedefaultResponse,
+  CapacityReservationsUpdateDefaultResponse,
   CapacityReservationsDelete200Response,
   CapacityReservationsDelete202Response,
   CapacityReservationsDelete204Response,
-  CapacityReservationsDeletedefaultResponse,
+  CapacityReservationsDeleteDefaultResponse,
   CapacityReservationsGet200Response,
-  CapacityReservationsGetdefaultResponse,
+  CapacityReservationsGetDefaultResponse,
   CapacityReservationsListByCapacityReservationGroup200Response,
-  CapacityReservationsListByCapacityReservationGroupdefaultResponse,
+  CapacityReservationsListByCapacityReservationGroupDefaultResponse,
   LogAnalyticsExportRequestRateByInterval200Response,
   LogAnalyticsExportRequestRateByInterval202Response,
-  LogAnalyticsExportRequestRateByIntervaldefaultResponse,
+  LogAnalyticsExportRequestRateByIntervalDefaultResponse,
   LogAnalyticsExportThrottledRequests200Response,
   LogAnalyticsExportThrottledRequests202Response,
-  LogAnalyticsExportThrottledRequestsdefaultResponse,
+  LogAnalyticsExportThrottledRequestsDefaultResponse,
   VirtualMachineRunCommandsList200Response,
   VirtualMachineRunCommandsGet200Response,
   VirtualMachineRunCommandsCreateOrUpdate200Response,
   VirtualMachineRunCommandsCreateOrUpdate201Response,
-  VirtualMachineRunCommandsCreateOrUpdatedefaultResponse,
+  VirtualMachineRunCommandsCreateOrUpdateDefaultResponse,
   VirtualMachineRunCommandsUpdate200Response,
-  VirtualMachineRunCommandsUpdatedefaultResponse,
+  VirtualMachineRunCommandsUpdateDefaultResponse,
   VirtualMachineRunCommandsDelete200Response,
   VirtualMachineRunCommandsDelete202Response,
   VirtualMachineRunCommandsDelete204Response,
-  VirtualMachineRunCommandsDeletedefaultResponse,
+  VirtualMachineRunCommandsDeleteDefaultResponse,
   VirtualMachineRunCommandsGetByVirtualMachine200Response,
-  VirtualMachineRunCommandsGetByVirtualMachinedefaultResponse,
+  VirtualMachineRunCommandsGetByVirtualMachineDefaultResponse,
   VirtualMachineRunCommandsListByVirtualMachine200Response,
-  VirtualMachineRunCommandsListByVirtualMachinedefaultResponse,
+  VirtualMachineRunCommandsListByVirtualMachineDefaultResponse,
   VirtualMachineScaleSetVMRunCommandsCreateOrUpdate200Response,
   VirtualMachineScaleSetVMRunCommandsCreateOrUpdate201Response,
-  VirtualMachineScaleSetVMRunCommandsCreateOrUpdatedefaultResponse,
+  VirtualMachineScaleSetVMRunCommandsCreateOrUpdateDefaultResponse,
   VirtualMachineScaleSetVMRunCommandsUpdate200Response,
-  VirtualMachineScaleSetVMRunCommandsUpdatedefaultResponse,
+  VirtualMachineScaleSetVMRunCommandsUpdateDefaultResponse,
   VirtualMachineScaleSetVMRunCommandsDelete200Response,
   VirtualMachineScaleSetVMRunCommandsDelete202Response,
   VirtualMachineScaleSetVMRunCommandsDelete204Response,
-  VirtualMachineScaleSetVMRunCommandsDeletedefaultResponse,
+  VirtualMachineScaleSetVMRunCommandsDeleteDefaultResponse,
   VirtualMachineScaleSetVMRunCommandsGet200Response,
-  VirtualMachineScaleSetVMRunCommandsGetdefaultResponse,
+  VirtualMachineScaleSetVMRunCommandsGetDefaultResponse,
   VirtualMachineScaleSetVMRunCommandsList200Response,
-  VirtualMachineScaleSetVMRunCommandsListdefaultResponse,
+  VirtualMachineScaleSetVMRunCommandsListDefaultResponse,
   DisksCreateOrUpdate200Response,
   DisksCreateOrUpdate202Response,
   DisksUpdate200Response,
@@ -726,60 +726,60 @@ import {
   DisksRevokeAccess202Response,
   DiskAccessesCreateOrUpdate200Response,
   DiskAccessesCreateOrUpdate202Response,
-  DiskAccessesCreateOrUpdatedefaultResponse,
+  DiskAccessesCreateOrUpdateDefaultResponse,
   DiskAccessesUpdate200Response,
   DiskAccessesUpdate202Response,
-  DiskAccessesUpdatedefaultResponse,
+  DiskAccessesUpdateDefaultResponse,
   DiskAccessesGet200Response,
-  DiskAccessesGetdefaultResponse,
+  DiskAccessesGetDefaultResponse,
   DiskAccessesDelete200Response,
   DiskAccessesDelete202Response,
   DiskAccessesDelete204Response,
-  DiskAccessesDeletedefaultResponse,
+  DiskAccessesDeleteDefaultResponse,
   DiskAccessesListByResourceGroup200Response,
-  DiskAccessesListByResourceGroupdefaultResponse,
+  DiskAccessesListByResourceGroupDefaultResponse,
   DiskAccessesList200Response,
-  DiskAccessesListdefaultResponse,
+  DiskAccessesListDefaultResponse,
   DiskAccessesGetPrivateLinkResources200Response,
   DiskAccessesUpdateAPrivateEndpointConnection200Response,
   DiskAccessesUpdateAPrivateEndpointConnection202Response,
-  DiskAccessesUpdateAPrivateEndpointConnectiondefaultResponse,
+  DiskAccessesUpdateAPrivateEndpointConnectionDefaultResponse,
   DiskAccessesGetAPrivateEndpointConnection200Response,
-  DiskAccessesGetAPrivateEndpointConnectiondefaultResponse,
+  DiskAccessesGetAPrivateEndpointConnectionDefaultResponse,
   DiskAccessesDeleteAPrivateEndpointConnection200Response,
   DiskAccessesDeleteAPrivateEndpointConnection202Response,
   DiskAccessesDeleteAPrivateEndpointConnection204Response,
-  DiskAccessesDeleteAPrivateEndpointConnectiondefaultResponse,
+  DiskAccessesDeleteAPrivateEndpointConnectionDefaultResponse,
   DiskAccessesListPrivateEndpointConnections200Response,
-  DiskAccessesListPrivateEndpointConnectionsdefaultResponse,
+  DiskAccessesListPrivateEndpointConnectionsDefaultResponse,
   DiskEncryptionSetsCreateOrUpdate200Response,
   DiskEncryptionSetsCreateOrUpdate202Response,
-  DiskEncryptionSetsCreateOrUpdatedefaultResponse,
+  DiskEncryptionSetsCreateOrUpdateDefaultResponse,
   DiskEncryptionSetsUpdate200Response,
   DiskEncryptionSetsUpdate202Response,
-  DiskEncryptionSetsUpdatedefaultResponse,
+  DiskEncryptionSetsUpdateDefaultResponse,
   DiskEncryptionSetsGet200Response,
-  DiskEncryptionSetsGetdefaultResponse,
+  DiskEncryptionSetsGetDefaultResponse,
   DiskEncryptionSetsDelete200Response,
   DiskEncryptionSetsDelete202Response,
   DiskEncryptionSetsDelete204Response,
-  DiskEncryptionSetsDeletedefaultResponse,
+  DiskEncryptionSetsDeleteDefaultResponse,
   DiskEncryptionSetsListByResourceGroup200Response,
-  DiskEncryptionSetsListByResourceGroupdefaultResponse,
+  DiskEncryptionSetsListByResourceGroupDefaultResponse,
   DiskEncryptionSetsList200Response,
-  DiskEncryptionSetsListdefaultResponse,
+  DiskEncryptionSetsListDefaultResponse,
   DiskEncryptionSetsListAssociatedResources200Response,
-  DiskEncryptionSetsListAssociatedResourcesdefaultResponse,
+  DiskEncryptionSetsListAssociatedResourcesDefaultResponse,
   DiskRestorePointGet200Response,
-  DiskRestorePointGetdefaultResponse,
+  DiskRestorePointGetDefaultResponse,
   DiskRestorePointListByRestorePoint200Response,
-  DiskRestorePointListByRestorePointdefaultResponse,
+  DiskRestorePointListByRestorePointDefaultResponse,
   DiskRestorePointGrantAccess200Response,
   DiskRestorePointGrantAccess202Response,
-  DiskRestorePointGrantAccessdefaultResponse,
+  DiskRestorePointGrantAccessDefaultResponse,
   DiskRestorePointRevokeAccess200Response,
   DiskRestorePointRevokeAccess202Response,
-  DiskRestorePointRevokeAccessdefaultResponse,
+  DiskRestorePointRevokeAccessDefaultResponse,
   SnapshotsCreateOrUpdate200Response,
   SnapshotsCreateOrUpdate202Response,
   SnapshotsUpdate200Response,
@@ -798,175 +798,175 @@ import {
   GalleriesCreateOrUpdate200Response,
   GalleriesCreateOrUpdate201Response,
   GalleriesCreateOrUpdate202Response,
-  GalleriesCreateOrUpdatedefaultResponse,
+  GalleriesCreateOrUpdateDefaultResponse,
   GalleriesUpdate200Response,
-  GalleriesUpdatedefaultResponse,
+  GalleriesUpdateDefaultResponse,
   GalleriesGet200Response,
-  GalleriesGetdefaultResponse,
+  GalleriesGetDefaultResponse,
   GalleriesDelete200Response,
   GalleriesDelete202Response,
   GalleriesDelete204Response,
-  GalleriesDeletedefaultResponse,
+  GalleriesDeleteDefaultResponse,
   GalleriesListByResourceGroup200Response,
-  GalleriesListByResourceGroupdefaultResponse,
+  GalleriesListByResourceGroupDefaultResponse,
   GalleriesList200Response,
-  GalleriesListdefaultResponse,
+  GalleriesListDefaultResponse,
   GalleryImagesCreateOrUpdate200Response,
   GalleryImagesCreateOrUpdate201Response,
   GalleryImagesCreateOrUpdate202Response,
-  GalleryImagesCreateOrUpdatedefaultResponse,
+  GalleryImagesCreateOrUpdateDefaultResponse,
   GalleryImagesUpdate200Response,
-  GalleryImagesUpdatedefaultResponse,
+  GalleryImagesUpdateDefaultResponse,
   GalleryImagesGet200Response,
-  GalleryImagesGetdefaultResponse,
+  GalleryImagesGetDefaultResponse,
   GalleryImagesDelete200Response,
   GalleryImagesDelete202Response,
   GalleryImagesDelete204Response,
-  GalleryImagesDeletedefaultResponse,
+  GalleryImagesDeleteDefaultResponse,
   GalleryImagesListByGallery200Response,
-  GalleryImagesListByGallerydefaultResponse,
+  GalleryImagesListByGalleryDefaultResponse,
   GalleryImageVersionsCreateOrUpdate200Response,
   GalleryImageVersionsCreateOrUpdate201Response,
   GalleryImageVersionsCreateOrUpdate202Response,
-  GalleryImageVersionsCreateOrUpdatedefaultResponse,
+  GalleryImageVersionsCreateOrUpdateDefaultResponse,
   GalleryImageVersionsUpdate200Response,
-  GalleryImageVersionsUpdatedefaultResponse,
+  GalleryImageVersionsUpdateDefaultResponse,
   GalleryImageVersionsGet200Response,
-  GalleryImageVersionsGetdefaultResponse,
+  GalleryImageVersionsGetDefaultResponse,
   GalleryImageVersionsDelete200Response,
   GalleryImageVersionsDelete202Response,
   GalleryImageVersionsDelete204Response,
-  GalleryImageVersionsDeletedefaultResponse,
+  GalleryImageVersionsDeleteDefaultResponse,
   GalleryImageVersionsListByGalleryImage200Response,
-  GalleryImageVersionsListByGalleryImagedefaultResponse,
+  GalleryImageVersionsListByGalleryImageDefaultResponse,
   GalleryApplicationsCreateOrUpdate200Response,
   GalleryApplicationsCreateOrUpdate201Response,
   GalleryApplicationsCreateOrUpdate202Response,
-  GalleryApplicationsCreateOrUpdatedefaultResponse,
+  GalleryApplicationsCreateOrUpdateDefaultResponse,
   GalleryApplicationsUpdate200Response,
-  GalleryApplicationsUpdatedefaultResponse,
+  GalleryApplicationsUpdateDefaultResponse,
   GalleryApplicationsGet200Response,
-  GalleryApplicationsGetdefaultResponse,
+  GalleryApplicationsGetDefaultResponse,
   GalleryApplicationsDelete200Response,
   GalleryApplicationsDelete202Response,
   GalleryApplicationsDelete204Response,
-  GalleryApplicationsDeletedefaultResponse,
+  GalleryApplicationsDeleteDefaultResponse,
   GalleryApplicationsListByGallery200Response,
-  GalleryApplicationsListByGallerydefaultResponse,
+  GalleryApplicationsListByGalleryDefaultResponse,
   GalleryApplicationVersionsCreateOrUpdate200Response,
   GalleryApplicationVersionsCreateOrUpdate201Response,
   GalleryApplicationVersionsCreateOrUpdate202Response,
-  GalleryApplicationVersionsCreateOrUpdatedefaultResponse,
+  GalleryApplicationVersionsCreateOrUpdateDefaultResponse,
   GalleryApplicationVersionsUpdate200Response,
-  GalleryApplicationVersionsUpdatedefaultResponse,
+  GalleryApplicationVersionsUpdateDefaultResponse,
   GalleryApplicationVersionsGet200Response,
-  GalleryApplicationVersionsGetdefaultResponse,
+  GalleryApplicationVersionsGetDefaultResponse,
   GalleryApplicationVersionsDelete200Response,
   GalleryApplicationVersionsDelete202Response,
   GalleryApplicationVersionsDelete204Response,
-  GalleryApplicationVersionsDeletedefaultResponse,
+  GalleryApplicationVersionsDeleteDefaultResponse,
   GalleryApplicationVersionsListByGalleryApplication200Response,
-  GalleryApplicationVersionsListByGalleryApplicationdefaultResponse,
+  GalleryApplicationVersionsListByGalleryApplicationDefaultResponse,
   GallerySharingProfileUpdate200Response,
   GallerySharingProfileUpdate202Response,
-  GallerySharingProfileUpdatedefaultResponse,
+  GallerySharingProfileUpdateDefaultResponse,
   SharedGalleriesList200Response,
-  SharedGalleriesListdefaultResponse,
+  SharedGalleriesListDefaultResponse,
   SharedGalleriesGet200Response,
-  SharedGalleriesGetdefaultResponse,
+  SharedGalleriesGetDefaultResponse,
   SharedGalleryImagesList200Response,
-  SharedGalleryImagesListdefaultResponse,
+  SharedGalleryImagesListDefaultResponse,
   SharedGalleryImagesGet200Response,
-  SharedGalleryImagesGetdefaultResponse,
+  SharedGalleryImagesGetDefaultResponse,
   SharedGalleryImageVersionsList200Response,
-  SharedGalleryImageVersionsListdefaultResponse,
+  SharedGalleryImageVersionsListDefaultResponse,
   SharedGalleryImageVersionsGet200Response,
-  SharedGalleryImageVersionsGetdefaultResponse,
+  SharedGalleryImageVersionsGetDefaultResponse,
   CommunityGalleriesGet200Response,
-  CommunityGalleriesGetdefaultResponse,
+  CommunityGalleriesGetDefaultResponse,
   CommunityGalleryImagesGet200Response,
-  CommunityGalleryImagesGetdefaultResponse,
+  CommunityGalleryImagesGetDefaultResponse,
   CommunityGalleryImagesList200Response,
-  CommunityGalleryImagesListdefaultResponse,
+  CommunityGalleryImagesListDefaultResponse,
   CommunityGalleryImageVersionsGet200Response,
-  CommunityGalleryImageVersionsGetdefaultResponse,
+  CommunityGalleryImageVersionsGetDefaultResponse,
   CommunityGalleryImageVersionsList200Response,
-  CommunityGalleryImageVersionsListdefaultResponse,
+  CommunityGalleryImageVersionsListDefaultResponse,
   CloudServiceRoleInstancesDelete200Response,
   CloudServiceRoleInstancesDelete202Response,
   CloudServiceRoleInstancesDelete204Response,
-  CloudServiceRoleInstancesDeletedefaultResponse,
+  CloudServiceRoleInstancesDeleteDefaultResponse,
   CloudServiceRoleInstancesGet200Response,
-  CloudServiceRoleInstancesGetdefaultResponse,
+  CloudServiceRoleInstancesGetDefaultResponse,
   CloudServiceRoleInstancesGetInstanceView200Response,
-  CloudServiceRoleInstancesGetInstanceViewdefaultResponse,
+  CloudServiceRoleInstancesGetInstanceViewDefaultResponse,
   CloudServiceRoleInstancesList200Response,
-  CloudServiceRoleInstancesListdefaultResponse,
+  CloudServiceRoleInstancesListDefaultResponse,
   CloudServiceRoleInstancesRestart200Response,
   CloudServiceRoleInstancesRestart202Response,
-  CloudServiceRoleInstancesRestartdefaultResponse,
+  CloudServiceRoleInstancesRestartDefaultResponse,
   CloudServiceRoleInstancesReimage200Response,
   CloudServiceRoleInstancesReimage202Response,
-  CloudServiceRoleInstancesReimagedefaultResponse,
+  CloudServiceRoleInstancesReimageDefaultResponse,
   CloudServiceRoleInstancesRebuild200Response,
   CloudServiceRoleInstancesRebuild202Response,
-  CloudServiceRoleInstancesRebuilddefaultResponse,
+  CloudServiceRoleInstancesRebuildDefaultResponse,
   CloudServiceRoleInstancesGetRemoteDesktopFile200Response,
-  CloudServiceRoleInstancesGetRemoteDesktopFiledefaultResponse,
+  CloudServiceRoleInstancesGetRemoteDesktopFileDefaultResponse,
   CloudServiceRolesGet200Response,
-  CloudServiceRolesGetdefaultResponse,
+  CloudServiceRolesGetDefaultResponse,
   CloudServiceRolesList200Response,
-  CloudServiceRolesListdefaultResponse,
+  CloudServiceRolesListDefaultResponse,
   CloudServicesCreateOrUpdate200Response,
   CloudServicesCreateOrUpdate201Response,
-  CloudServicesCreateOrUpdatedefaultResponse,
+  CloudServicesCreateOrUpdateDefaultResponse,
   CloudServicesUpdate200Response,
-  CloudServicesUpdatedefaultResponse,
+  CloudServicesUpdateDefaultResponse,
   CloudServicesDelete200Response,
   CloudServicesDelete202Response,
   CloudServicesDelete204Response,
-  CloudServicesDeletedefaultResponse,
+  CloudServicesDeleteDefaultResponse,
   CloudServicesGet200Response,
-  CloudServicesGetdefaultResponse,
+  CloudServicesGetDefaultResponse,
   CloudServicesGetInstanceView200Response,
-  CloudServicesGetInstanceViewdefaultResponse,
+  CloudServicesGetInstanceViewDefaultResponse,
   CloudServicesListAll200Response,
-  CloudServicesListAlldefaultResponse,
+  CloudServicesListAllDefaultResponse,
   CloudServicesList200Response,
-  CloudServicesListdefaultResponse,
+  CloudServicesListDefaultResponse,
   CloudServicesStart200Response,
   CloudServicesStart202Response,
-  CloudServicesStartdefaultResponse,
+  CloudServicesStartDefaultResponse,
   CloudServicesPowerOff200Response,
   CloudServicesPowerOff202Response,
-  CloudServicesPowerOffdefaultResponse,
+  CloudServicesPowerOffDefaultResponse,
   CloudServicesRestart200Response,
   CloudServicesRestart202Response,
-  CloudServicesRestartdefaultResponse,
+  CloudServicesRestartDefaultResponse,
   CloudServicesReimage200Response,
   CloudServicesReimage202Response,
-  CloudServicesReimagedefaultResponse,
+  CloudServicesReimageDefaultResponse,
   CloudServicesRebuild200Response,
   CloudServicesRebuild202Response,
-  CloudServicesRebuilddefaultResponse,
+  CloudServicesRebuildDefaultResponse,
   CloudServicesDeleteInstances200Response,
   CloudServicesDeleteInstances202Response,
-  CloudServicesDeleteInstancesdefaultResponse,
+  CloudServicesDeleteInstancesDefaultResponse,
   CloudServicesUpdateDomainWalkUpdateDomain200Response,
   CloudServicesUpdateDomainWalkUpdateDomain202Response,
-  CloudServicesUpdateDomainWalkUpdateDomaindefaultResponse,
+  CloudServicesUpdateDomainWalkUpdateDomainDefaultResponse,
   CloudServicesUpdateDomainGetUpdateDomain200Response,
-  CloudServicesUpdateDomainGetUpdateDomaindefaultResponse,
+  CloudServicesUpdateDomainGetUpdateDomainDefaultResponse,
   CloudServicesUpdateDomainListUpdateDomains200Response,
-  CloudServicesUpdateDomainListUpdateDomainsdefaultResponse,
+  CloudServicesUpdateDomainListUpdateDomainsDefaultResponse,
   CloudServiceOperatingSystemsGetOSVersion200Response,
-  CloudServiceOperatingSystemsGetOSVersiondefaultResponse,
+  CloudServiceOperatingSystemsGetOSVersionDefaultResponse,
   CloudServiceOperatingSystemsListOSVersions200Response,
-  CloudServiceOperatingSystemsListOSVersionsdefaultResponse,
+  CloudServiceOperatingSystemsListOSVersionsDefaultResponse,
   CloudServiceOperatingSystemsGetOSFamily200Response,
-  CloudServiceOperatingSystemsGetOSFamilydefaultResponse,
+  CloudServiceOperatingSystemsGetOSFamilyDefaultResponse,
   CloudServiceOperatingSystemsListOSFamilies200Response,
-  CloudServiceOperatingSystemsListOSFamiliesdefaultResponse
+  CloudServiceOperatingSystemsListOSFamiliesDefaultResponse
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -975,7 +975,7 @@ export interface OperationsList {
   get(
     options: OperationsListParameters
   ): StreamableMethod<
-    OperationsList200Response | OperationsListdefaultResponse
+    OperationsList200Response | OperationsListDefaultResponse
   >;
 }
 
@@ -983,7 +983,7 @@ export interface UsageList {
   /** Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription. */
   get(
     options: UsageListParameters
-  ): StreamableMethod<UsageList200Response | UsageListdefaultResponse>;
+  ): StreamableMethod<UsageList200Response | UsageListDefaultResponse>;
 }
 
 export interface VirtualMachineSizesList {
@@ -991,7 +991,7 @@ export interface VirtualMachineSizesList {
   get(
     options: VirtualMachineSizesListParameters
   ): StreamableMethod<
-    VirtualMachineSizesList200Response | VirtualMachineSizesListdefaultResponse
+    VirtualMachineSizesList200Response | VirtualMachineSizesListDefaultResponse
   >;
 }
 
@@ -1001,7 +1001,7 @@ export interface VirtualMachineScaleSetsListByLocation {
     options: VirtualMachineScaleSetsListByLocationParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetsListByLocation200Response
-    | VirtualMachineScaleSetsListByLocationdefaultResponse
+    | VirtualMachineScaleSetsListByLocationDefaultResponse
   >;
 }
 
@@ -1012,14 +1012,14 @@ export interface VirtualMachineScaleSetsCreateOrUpdate {
   ): StreamableMethod<
     | VirtualMachineScaleSetsCreateOrUpdate200Response
     | VirtualMachineScaleSetsCreateOrUpdate201Response
-    | VirtualMachineScaleSetsCreateOrUpdatedefaultResponse
+    | VirtualMachineScaleSetsCreateOrUpdateDefaultResponse
   >;
   /** Update a VM scale set. */
   patch(
     options: VirtualMachineScaleSetsUpdateParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetsUpdate200Response
-    | VirtualMachineScaleSetsUpdatedefaultResponse
+    | VirtualMachineScaleSetsUpdateDefaultResponse
   >;
   /** Deletes a VM scale set. */
   delete(
@@ -1028,14 +1028,14 @@ export interface VirtualMachineScaleSetsCreateOrUpdate {
     | VirtualMachineScaleSetsDelete200Response
     | VirtualMachineScaleSetsDelete202Response
     | VirtualMachineScaleSetsDelete204Response
-    | VirtualMachineScaleSetsDeletedefaultResponse
+    | VirtualMachineScaleSetsDeleteDefaultResponse
   >;
   /** Display information about a virtual machine scale set. */
   get(
     options: VirtualMachineScaleSetsGetParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetsGet200Response
-    | VirtualMachineScaleSetsGetdefaultResponse
+    | VirtualMachineScaleSetsGetDefaultResponse
   >;
 }
 
@@ -1046,7 +1046,7 @@ export interface VirtualMachineScaleSetsDeallocate {
   ): StreamableMethod<
     | VirtualMachineScaleSetsDeallocate200Response
     | VirtualMachineScaleSetsDeallocate202Response
-    | VirtualMachineScaleSetsDeallocatedefaultResponse
+    | VirtualMachineScaleSetsDeallocateDefaultResponse
   >;
 }
 
@@ -1057,7 +1057,7 @@ export interface VirtualMachineScaleSetsDeleteInstances {
   ): StreamableMethod<
     | VirtualMachineScaleSetsDeleteInstances200Response
     | VirtualMachineScaleSetsDeleteInstances202Response
-    | VirtualMachineScaleSetsDeleteInstancesdefaultResponse
+    | VirtualMachineScaleSetsDeleteInstancesDefaultResponse
   >;
 }
 
@@ -1067,7 +1067,7 @@ export interface VirtualMachineScaleSetsGetInstanceView {
     options: VirtualMachineScaleSetsGetInstanceViewParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetsGetInstanceView200Response
-    | VirtualMachineScaleSetsGetInstanceViewdefaultResponse
+    | VirtualMachineScaleSetsGetInstanceViewDefaultResponse
   >;
 }
 
@@ -1077,7 +1077,7 @@ export interface VirtualMachineScaleSetsList {
     options: VirtualMachineScaleSetsListParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetsList200Response
-    | VirtualMachineScaleSetsListdefaultResponse
+    | VirtualMachineScaleSetsListDefaultResponse
   >;
 }
 
@@ -1087,7 +1087,7 @@ export interface VirtualMachineScaleSetsListAll {
     options: VirtualMachineScaleSetsListAllParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetsListAll200Response
-    | VirtualMachineScaleSetsListAlldefaultResponse
+    | VirtualMachineScaleSetsListAllDefaultResponse
   >;
 }
 
@@ -1097,7 +1097,7 @@ export interface VirtualMachineScaleSetsListSkus {
     options: VirtualMachineScaleSetsListSkusParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetsListSkus200Response
-    | VirtualMachineScaleSetsListSkusdefaultResponse
+    | VirtualMachineScaleSetsListSkusDefaultResponse
   >;
 }
 
@@ -1107,7 +1107,7 @@ export interface VirtualMachineScaleSetsGetOSUpgradeHistory {
     options: VirtualMachineScaleSetsGetOSUpgradeHistoryParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetsGetOSUpgradeHistory200Response
-    | VirtualMachineScaleSetsGetOSUpgradeHistorydefaultResponse
+    | VirtualMachineScaleSetsGetOSUpgradeHistoryDefaultResponse
   >;
 }
 
@@ -1118,7 +1118,7 @@ export interface VirtualMachineScaleSetsPowerOff {
   ): StreamableMethod<
     | VirtualMachineScaleSetsPowerOff200Response
     | VirtualMachineScaleSetsPowerOff202Response
-    | VirtualMachineScaleSetsPowerOffdefaultResponse
+    | VirtualMachineScaleSetsPowerOffDefaultResponse
   >;
 }
 
@@ -1129,7 +1129,7 @@ export interface VirtualMachineScaleSetsRestart {
   ): StreamableMethod<
     | VirtualMachineScaleSetsRestart200Response
     | VirtualMachineScaleSetsRestart202Response
-    | VirtualMachineScaleSetsRestartdefaultResponse
+    | VirtualMachineScaleSetsRestartDefaultResponse
   >;
 }
 
@@ -1140,7 +1140,7 @@ export interface VirtualMachineScaleSetsStart {
   ): StreamableMethod<
     | VirtualMachineScaleSetsStart200Response
     | VirtualMachineScaleSetsStart202Response
-    | VirtualMachineScaleSetsStartdefaultResponse
+    | VirtualMachineScaleSetsStartDefaultResponse
   >;
 }
 
@@ -1151,7 +1151,7 @@ export interface VirtualMachineScaleSetsRedeploy {
   ): StreamableMethod<
     | VirtualMachineScaleSetsRedeploy200Response
     | VirtualMachineScaleSetsRedeploy202Response
-    | VirtualMachineScaleSetsRedeploydefaultResponse
+    | VirtualMachineScaleSetsRedeployDefaultResponse
   >;
 }
 
@@ -1162,7 +1162,7 @@ export interface VirtualMachineScaleSetsPerformMaintenance {
   ): StreamableMethod<
     | VirtualMachineScaleSetsPerformMaintenance200Response
     | VirtualMachineScaleSetsPerformMaintenance202Response
-    | VirtualMachineScaleSetsPerformMaintenancedefaultResponse
+    | VirtualMachineScaleSetsPerformMaintenanceDefaultResponse
   >;
 }
 
@@ -1173,7 +1173,7 @@ export interface VirtualMachineScaleSetsUpdateInstances {
   ): StreamableMethod<
     | VirtualMachineScaleSetsUpdateInstances200Response
     | VirtualMachineScaleSetsUpdateInstances202Response
-    | VirtualMachineScaleSetsUpdateInstancesdefaultResponse
+    | VirtualMachineScaleSetsUpdateInstancesDefaultResponse
   >;
 }
 
@@ -1184,7 +1184,7 @@ export interface VirtualMachineScaleSetsReimage {
   ): StreamableMethod<
     | VirtualMachineScaleSetsReimage200Response
     | VirtualMachineScaleSetsReimage202Response
-    | VirtualMachineScaleSetsReimagedefaultResponse
+    | VirtualMachineScaleSetsReimageDefaultResponse
   >;
 }
 
@@ -1195,7 +1195,7 @@ export interface VirtualMachineScaleSetsReimageAll {
   ): StreamableMethod<
     | VirtualMachineScaleSetsReimageAll200Response
     | VirtualMachineScaleSetsReimageAll202Response
-    | VirtualMachineScaleSetsReimageAlldefaultResponse
+    | VirtualMachineScaleSetsReimageAllDefaultResponse
   >;
 }
 
@@ -1205,7 +1205,7 @@ export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdate
     options: VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalk200Response
-    | VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkdefaultResponse
+    | VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkDefaultResponse
   >;
 }
 
@@ -1215,7 +1215,7 @@ export interface VirtualMachineScaleSetsConvertToSinglePlacementGroup {
     options: VirtualMachineScaleSetsConvertToSinglePlacementGroupParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetsConvertToSinglePlacementGroup200Response
-    | VirtualMachineScaleSetsConvertToSinglePlacementGroupdefaultResponse
+    | VirtualMachineScaleSetsConvertToSinglePlacementGroupDefaultResponse
   >;
 }
 
@@ -1226,7 +1226,7 @@ export interface VirtualMachineScaleSetsSetOrchestrationServiceState {
   ): StreamableMethod<
     | VirtualMachineScaleSetsSetOrchestrationServiceState200Response
     | VirtualMachineScaleSetsSetOrchestrationServiceState202Response
-    | VirtualMachineScaleSetsSetOrchestrationServiceStatedefaultResponse
+    | VirtualMachineScaleSetsSetOrchestrationServiceStateDefaultResponse
   >;
 }
 
@@ -1237,7 +1237,7 @@ export interface VirtualMachineScaleSetExtensionsCreateOrUpdate {
   ): StreamableMethod<
     | VirtualMachineScaleSetExtensionsCreateOrUpdate200Response
     | VirtualMachineScaleSetExtensionsCreateOrUpdate201Response
-    | VirtualMachineScaleSetExtensionsCreateOrUpdatedefaultResponse
+    | VirtualMachineScaleSetExtensionsCreateOrUpdateDefaultResponse
   >;
   /** The operation to update an extension. */
   patch(
@@ -1245,7 +1245,7 @@ export interface VirtualMachineScaleSetExtensionsCreateOrUpdate {
   ): StreamableMethod<
     | VirtualMachineScaleSetExtensionsUpdate200Response
     | VirtualMachineScaleSetExtensionsUpdate201Response
-    | VirtualMachineScaleSetExtensionsUpdatedefaultResponse
+    | VirtualMachineScaleSetExtensionsUpdateDefaultResponse
   >;
   /** The operation to delete the extension. */
   delete(
@@ -1254,14 +1254,14 @@ export interface VirtualMachineScaleSetExtensionsCreateOrUpdate {
     | VirtualMachineScaleSetExtensionsDelete200Response
     | VirtualMachineScaleSetExtensionsDelete202Response
     | VirtualMachineScaleSetExtensionsDelete204Response
-    | VirtualMachineScaleSetExtensionsDeletedefaultResponse
+    | VirtualMachineScaleSetExtensionsDeleteDefaultResponse
   >;
   /** The operation to get the extension. */
   get(
     options: VirtualMachineScaleSetExtensionsGetParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetExtensionsGet200Response
-    | VirtualMachineScaleSetExtensionsGetdefaultResponse
+    | VirtualMachineScaleSetExtensionsGetDefaultResponse
   >;
 }
 
@@ -1271,7 +1271,7 @@ export interface VirtualMachineScaleSetExtensionsList {
     options: VirtualMachineScaleSetExtensionsListParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetExtensionsList200Response
-    | VirtualMachineScaleSetExtensionsListdefaultResponse
+    | VirtualMachineScaleSetExtensionsListDefaultResponse
   >;
 }
 
@@ -1282,7 +1282,7 @@ export interface VirtualMachineScaleSetRollingUpgradesCancel {
   ): StreamableMethod<
     | VirtualMachineScaleSetRollingUpgradesCancel200Response
     | VirtualMachineScaleSetRollingUpgradesCancel202Response
-    | VirtualMachineScaleSetRollingUpgradesCanceldefaultResponse
+    | VirtualMachineScaleSetRollingUpgradesCancelDefaultResponse
   >;
 }
 
@@ -1293,7 +1293,7 @@ export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgrade {
   ): StreamableMethod<
     | VirtualMachineScaleSetRollingUpgradesStartOSUpgrade200Response
     | VirtualMachineScaleSetRollingUpgradesStartOSUpgrade202Response
-    | VirtualMachineScaleSetRollingUpgradesStartOSUpgradedefaultResponse
+    | VirtualMachineScaleSetRollingUpgradesStartOSUpgradeDefaultResponse
   >;
 }
 
@@ -1304,7 +1304,7 @@ export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade {
   ): StreamableMethod<
     | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade200Response
     | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade202Response
-    | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradedefaultResponse
+    | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeDefaultResponse
   >;
 }
 
@@ -1314,7 +1314,7 @@ export interface VirtualMachineScaleSetRollingUpgradesGetLatest {
     options: VirtualMachineScaleSetRollingUpgradesGetLatestParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetRollingUpgradesGetLatest200Response
-    | VirtualMachineScaleSetRollingUpgradesGetLatestdefaultResponse
+    | VirtualMachineScaleSetRollingUpgradesGetLatestDefaultResponse
   >;
 }
 
@@ -1325,14 +1325,14 @@ export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdate {
   ): StreamableMethod<
     | VirtualMachineScaleSetVMExtensionsCreateOrUpdate200Response
     | VirtualMachineScaleSetVMExtensionsCreateOrUpdate201Response
-    | VirtualMachineScaleSetVMExtensionsCreateOrUpdatedefaultResponse
+    | VirtualMachineScaleSetVMExtensionsCreateOrUpdateDefaultResponse
   >;
   /** The operation to update the VMSS VM extension. */
   patch(
     options: VirtualMachineScaleSetVMExtensionsUpdateParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetVMExtensionsUpdate200Response
-    | VirtualMachineScaleSetVMExtensionsUpdatedefaultResponse
+    | VirtualMachineScaleSetVMExtensionsUpdateDefaultResponse
   >;
   /** The operation to delete the VMSS VM extension. */
   delete(
@@ -1341,14 +1341,14 @@ export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdate {
     | VirtualMachineScaleSetVMExtensionsDelete200Response
     | VirtualMachineScaleSetVMExtensionsDelete202Response
     | VirtualMachineScaleSetVMExtensionsDelete204Response
-    | VirtualMachineScaleSetVMExtensionsDeletedefaultResponse
+    | VirtualMachineScaleSetVMExtensionsDeleteDefaultResponse
   >;
   /** The operation to get the VMSS VM extension. */
   get(
     options: VirtualMachineScaleSetVMExtensionsGetParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetVMExtensionsGet200Response
-    | VirtualMachineScaleSetVMExtensionsGetdefaultResponse
+    | VirtualMachineScaleSetVMExtensionsGetDefaultResponse
   >;
 }
 
@@ -1358,7 +1358,7 @@ export interface VirtualMachineScaleSetVMExtensionsList {
     options: VirtualMachineScaleSetVMExtensionsListParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetVMExtensionsList200Response
-    | VirtualMachineScaleSetVMExtensionsListdefaultResponse
+    | VirtualMachineScaleSetVMExtensionsListDefaultResponse
   >;
 }
 
@@ -1369,7 +1369,7 @@ export interface VirtualMachineScaleSetVMsReimage {
   ): StreamableMethod<
     | VirtualMachineScaleSetVMsReimage200Response
     | VirtualMachineScaleSetVMsReimage202Response
-    | VirtualMachineScaleSetVMsReimagedefaultResponse
+    | VirtualMachineScaleSetVMsReimageDefaultResponse
   >;
 }
 
@@ -1380,7 +1380,7 @@ export interface VirtualMachineScaleSetVMsReimageAll {
   ): StreamableMethod<
     | VirtualMachineScaleSetVMsReimageAll200Response
     | VirtualMachineScaleSetVMsReimageAll202Response
-    | VirtualMachineScaleSetVMsReimageAlldefaultResponse
+    | VirtualMachineScaleSetVMsReimageAllDefaultResponse
   >;
 }
 
@@ -1391,7 +1391,7 @@ export interface VirtualMachineScaleSetVMsDeallocate {
   ): StreamableMethod<
     | VirtualMachineScaleSetVMsDeallocate200Response
     | VirtualMachineScaleSetVMsDeallocate202Response
-    | VirtualMachineScaleSetVMsDeallocatedefaultResponse
+    | VirtualMachineScaleSetVMsDeallocateDefaultResponse
   >;
 }
 
@@ -1402,7 +1402,7 @@ export interface VirtualMachineScaleSetVMsUpdate {
   ): StreamableMethod<
     | VirtualMachineScaleSetVMsUpdate200Response
     | VirtualMachineScaleSetVMsUpdate202Response
-    | VirtualMachineScaleSetVMsUpdatedefaultResponse
+    | VirtualMachineScaleSetVMsUpdateDefaultResponse
   >;
   /** Deletes a virtual machine from a VM scale set. */
   delete(
@@ -1411,14 +1411,14 @@ export interface VirtualMachineScaleSetVMsUpdate {
     | VirtualMachineScaleSetVMsDelete200Response
     | VirtualMachineScaleSetVMsDelete202Response
     | VirtualMachineScaleSetVMsDelete204Response
-    | VirtualMachineScaleSetVMsDeletedefaultResponse
+    | VirtualMachineScaleSetVMsDeleteDefaultResponse
   >;
   /** Gets a virtual machine from a VM scale set. */
   get(
     options: VirtualMachineScaleSetVMsGetParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetVMsGet200Response
-    | VirtualMachineScaleSetVMsGetdefaultResponse
+    | VirtualMachineScaleSetVMsGetDefaultResponse
   >;
 }
 
@@ -1428,7 +1428,7 @@ export interface VirtualMachineScaleSetVMsGetInstanceView {
     options: VirtualMachineScaleSetVMsGetInstanceViewParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetVMsGetInstanceView200Response
-    | VirtualMachineScaleSetVMsGetInstanceViewdefaultResponse
+    | VirtualMachineScaleSetVMsGetInstanceViewDefaultResponse
   >;
 }
 
@@ -1438,7 +1438,7 @@ export interface VirtualMachineScaleSetVMsList {
     options: VirtualMachineScaleSetVMsListParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetVMsList200Response
-    | VirtualMachineScaleSetVMsListdefaultResponse
+    | VirtualMachineScaleSetVMsListDefaultResponse
   >;
 }
 
@@ -1449,7 +1449,7 @@ export interface VirtualMachineScaleSetVMsPowerOff {
   ): StreamableMethod<
     | VirtualMachineScaleSetVMsPowerOff200Response
     | VirtualMachineScaleSetVMsPowerOff202Response
-    | VirtualMachineScaleSetVMsPowerOffdefaultResponse
+    | VirtualMachineScaleSetVMsPowerOffDefaultResponse
   >;
 }
 
@@ -1460,7 +1460,7 @@ export interface VirtualMachineScaleSetVMsRestart {
   ): StreamableMethod<
     | VirtualMachineScaleSetVMsRestart200Response
     | VirtualMachineScaleSetVMsRestart202Response
-    | VirtualMachineScaleSetVMsRestartdefaultResponse
+    | VirtualMachineScaleSetVMsRestartDefaultResponse
   >;
 }
 
@@ -1471,7 +1471,7 @@ export interface VirtualMachineScaleSetVMsStart {
   ): StreamableMethod<
     | VirtualMachineScaleSetVMsStart200Response
     | VirtualMachineScaleSetVMsStart202Response
-    | VirtualMachineScaleSetVMsStartdefaultResponse
+    | VirtualMachineScaleSetVMsStartDefaultResponse
   >;
 }
 
@@ -1482,7 +1482,7 @@ export interface VirtualMachineScaleSetVMsRedeploy {
   ): StreamableMethod<
     | VirtualMachineScaleSetVMsRedeploy200Response
     | VirtualMachineScaleSetVMsRedeploy202Response
-    | VirtualMachineScaleSetVMsRedeploydefaultResponse
+    | VirtualMachineScaleSetVMsRedeployDefaultResponse
   >;
 }
 
@@ -1492,7 +1492,7 @@ export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData {
     options: VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData200Response
-    | VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDatadefaultResponse
+    | VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataDefaultResponse
   >;
 }
 
@@ -1503,7 +1503,7 @@ export interface VirtualMachineScaleSetVMsPerformMaintenance {
   ): StreamableMethod<
     | VirtualMachineScaleSetVMsPerformMaintenance200Response
     | VirtualMachineScaleSetVMsPerformMaintenance202Response
-    | VirtualMachineScaleSetVMsPerformMaintenancedefaultResponse
+    | VirtualMachineScaleSetVMsPerformMaintenanceDefaultResponse
   >;
 }
 
@@ -1513,7 +1513,7 @@ export interface VirtualMachineScaleSetVMsSimulateEviction {
     options: VirtualMachineScaleSetVMsSimulateEvictionParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetVMsSimulateEviction204Response
-    | VirtualMachineScaleSetVMsSimulateEvictiondefaultResponse
+    | VirtualMachineScaleSetVMsSimulateEvictionDefaultResponse
   >;
 }
 
@@ -1534,14 +1534,14 @@ export interface VirtualMachineExtensionsCreateOrUpdate {
   ): StreamableMethod<
     | VirtualMachineExtensionsCreateOrUpdate200Response
     | VirtualMachineExtensionsCreateOrUpdate201Response
-    | VirtualMachineExtensionsCreateOrUpdatedefaultResponse
+    | VirtualMachineExtensionsCreateOrUpdateDefaultResponse
   >;
   /** The operation to update the extension. */
   patch(
     options: VirtualMachineExtensionsUpdateParameters
   ): StreamableMethod<
     | VirtualMachineExtensionsUpdate200Response
-    | VirtualMachineExtensionsUpdatedefaultResponse
+    | VirtualMachineExtensionsUpdateDefaultResponse
   >;
   /** The operation to delete the extension. */
   delete(
@@ -1550,14 +1550,14 @@ export interface VirtualMachineExtensionsCreateOrUpdate {
     | VirtualMachineExtensionsDelete200Response
     | VirtualMachineExtensionsDelete202Response
     | VirtualMachineExtensionsDelete204Response
-    | VirtualMachineExtensionsDeletedefaultResponse
+    | VirtualMachineExtensionsDeleteDefaultResponse
   >;
   /** The operation to get the extension. */
   get(
     options: VirtualMachineExtensionsGetParameters
   ): StreamableMethod<
     | VirtualMachineExtensionsGet200Response
-    | VirtualMachineExtensionsGetdefaultResponse
+    | VirtualMachineExtensionsGetDefaultResponse
   >;
 }
 
@@ -1567,7 +1567,7 @@ export interface VirtualMachineExtensionsList {
     options: VirtualMachineExtensionsListParameters
   ): StreamableMethod<
     | VirtualMachineExtensionsList200Response
-    | VirtualMachineExtensionsListdefaultResponse
+    | VirtualMachineExtensionsListDefaultResponse
   >;
 }
 
@@ -1577,7 +1577,7 @@ export interface VirtualMachinesListByLocation {
     options: VirtualMachinesListByLocationParameters
   ): StreamableMethod<
     | VirtualMachinesListByLocation200Response
-    | VirtualMachinesListByLocationdefaultResponse
+    | VirtualMachinesListByLocationDefaultResponse
   >;
 }
 
@@ -1588,7 +1588,7 @@ export interface VirtualMachinesCapture {
   ): StreamableMethod<
     | VirtualMachinesCapture200Response
     | VirtualMachinesCapture202Response
-    | VirtualMachinesCapturedefaultResponse
+    | VirtualMachinesCaptureDefaultResponse
   >;
 }
 
@@ -1599,13 +1599,13 @@ export interface VirtualMachinesCreateOrUpdate {
   ): StreamableMethod<
     | VirtualMachinesCreateOrUpdate200Response
     | VirtualMachinesCreateOrUpdate201Response
-    | VirtualMachinesCreateOrUpdatedefaultResponse
+    | VirtualMachinesCreateOrUpdateDefaultResponse
   >;
   /** The operation to update a virtual machine. */
   patch(
     options: VirtualMachinesUpdateParameters
   ): StreamableMethod<
-    VirtualMachinesUpdate200Response | VirtualMachinesUpdatedefaultResponse
+    VirtualMachinesUpdate200Response | VirtualMachinesUpdateDefaultResponse
   >;
   /** The operation to delete a virtual machine. */
   delete(
@@ -1614,13 +1614,13 @@ export interface VirtualMachinesCreateOrUpdate {
     | VirtualMachinesDelete200Response
     | VirtualMachinesDelete202Response
     | VirtualMachinesDelete204Response
-    | VirtualMachinesDeletedefaultResponse
+    | VirtualMachinesDeleteDefaultResponse
   >;
   /** Retrieves information about the model view or the instance view of a virtual machine. */
   get(
     options: VirtualMachinesGetParameters
   ): StreamableMethod<
-    VirtualMachinesGet200Response | VirtualMachinesGetdefaultResponse
+    VirtualMachinesGet200Response | VirtualMachinesGetDefaultResponse
   >;
 }
 
@@ -1630,7 +1630,7 @@ export interface VirtualMachinesInstanceView {
     options: VirtualMachinesInstanceViewParameters
   ): StreamableMethod<
     | VirtualMachinesInstanceView200Response
-    | VirtualMachinesInstanceViewdefaultResponse
+    | VirtualMachinesInstanceViewDefaultResponse
   >;
 }
 
@@ -1641,7 +1641,7 @@ export interface VirtualMachinesConvertToManagedDisks {
   ): StreamableMethod<
     | VirtualMachinesConvertToManagedDisks200Response
     | VirtualMachinesConvertToManagedDisks202Response
-    | VirtualMachinesConvertToManagedDisksdefaultResponse
+    | VirtualMachinesConvertToManagedDisksDefaultResponse
   >;
 }
 
@@ -1652,7 +1652,7 @@ export interface VirtualMachinesDeallocate {
   ): StreamableMethod<
     | VirtualMachinesDeallocate200Response
     | VirtualMachinesDeallocate202Response
-    | VirtualMachinesDeallocatedefaultResponse
+    | VirtualMachinesDeallocateDefaultResponse
   >;
 }
 
@@ -1662,7 +1662,7 @@ export interface VirtualMachinesGeneralize {
     options: VirtualMachinesGeneralizeParameters
   ): StreamableMethod<
     | VirtualMachinesGeneralize200Response
-    | VirtualMachinesGeneralizedefaultResponse
+    | VirtualMachinesGeneralizeDefaultResponse
   >;
 }
 
@@ -1671,7 +1671,7 @@ export interface VirtualMachinesList {
   get(
     options: VirtualMachinesListParameters
   ): StreamableMethod<
-    VirtualMachinesList200Response | VirtualMachinesListdefaultResponse
+    VirtualMachinesList200Response | VirtualMachinesListDefaultResponse
   >;
 }
 
@@ -1680,7 +1680,7 @@ export interface VirtualMachinesListAll {
   get(
     options: VirtualMachinesListAllParameters
   ): StreamableMethod<
-    VirtualMachinesListAll200Response | VirtualMachinesListAlldefaultResponse
+    VirtualMachinesListAll200Response | VirtualMachinesListAllDefaultResponse
   >;
 }
 
@@ -1690,7 +1690,7 @@ export interface VirtualMachinesListAvailableSizes {
     options: VirtualMachinesListAvailableSizesParameters
   ): StreamableMethod<
     | VirtualMachinesListAvailableSizes200Response
-    | VirtualMachinesListAvailableSizesdefaultResponse
+    | VirtualMachinesListAvailableSizesDefaultResponse
   >;
 }
 
@@ -1701,7 +1701,7 @@ export interface VirtualMachinesPowerOff {
   ): StreamableMethod<
     | VirtualMachinesPowerOff200Response
     | VirtualMachinesPowerOff202Response
-    | VirtualMachinesPowerOffdefaultResponse
+    | VirtualMachinesPowerOffDefaultResponse
   >;
 }
 
@@ -1712,7 +1712,7 @@ export interface VirtualMachinesReapply {
   ): StreamableMethod<
     | VirtualMachinesReapply200Response
     | VirtualMachinesReapply202Response
-    | VirtualMachinesReapplydefaultResponse
+    | VirtualMachinesReapplyDefaultResponse
   >;
 }
 
@@ -1723,7 +1723,7 @@ export interface VirtualMachinesRestart {
   ): StreamableMethod<
     | VirtualMachinesRestart200Response
     | VirtualMachinesRestart202Response
-    | VirtualMachinesRestartdefaultResponse
+    | VirtualMachinesRestartDefaultResponse
   >;
 }
 
@@ -1734,7 +1734,7 @@ export interface VirtualMachinesStart {
   ): StreamableMethod<
     | VirtualMachinesStart200Response
     | VirtualMachinesStart202Response
-    | VirtualMachinesStartdefaultResponse
+    | VirtualMachinesStartDefaultResponse
   >;
 }
 
@@ -1745,7 +1745,7 @@ export interface VirtualMachinesRedeploy {
   ): StreamableMethod<
     | VirtualMachinesRedeploy200Response
     | VirtualMachinesRedeploy202Response
-    | VirtualMachinesRedeploydefaultResponse
+    | VirtualMachinesRedeployDefaultResponse
   >;
 }
 
@@ -1756,7 +1756,7 @@ export interface VirtualMachinesReimage {
   ): StreamableMethod<
     | VirtualMachinesReimage200Response
     | VirtualMachinesReimage202Response
-    | VirtualMachinesReimagedefaultResponse
+    | VirtualMachinesReimageDefaultResponse
   >;
 }
 
@@ -1766,7 +1766,7 @@ export interface VirtualMachinesRetrieveBootDiagnosticsData {
     options: VirtualMachinesRetrieveBootDiagnosticsDataParameters
   ): StreamableMethod<
     | VirtualMachinesRetrieveBootDiagnosticsData200Response
-    | VirtualMachinesRetrieveBootDiagnosticsDatadefaultResponse
+    | VirtualMachinesRetrieveBootDiagnosticsDataDefaultResponse
   >;
 }
 
@@ -1777,7 +1777,7 @@ export interface VirtualMachinesPerformMaintenance {
   ): StreamableMethod<
     | VirtualMachinesPerformMaintenance200Response
     | VirtualMachinesPerformMaintenance202Response
-    | VirtualMachinesPerformMaintenancedefaultResponse
+    | VirtualMachinesPerformMaintenanceDefaultResponse
   >;
 }
 
@@ -1787,7 +1787,7 @@ export interface VirtualMachinesSimulateEviction {
     options: VirtualMachinesSimulateEvictionParameters
   ): StreamableMethod<
     | VirtualMachinesSimulateEviction204Response
-    | VirtualMachinesSimulateEvictiondefaultResponse
+    | VirtualMachinesSimulateEvictionDefaultResponse
   >;
 }
 
@@ -1798,7 +1798,7 @@ export interface VirtualMachinesAssessPatches {
   ): StreamableMethod<
     | VirtualMachinesAssessPatches200Response
     | VirtualMachinesAssessPatches202Response
-    | VirtualMachinesAssessPatchesdefaultResponse
+    | VirtualMachinesAssessPatchesDefaultResponse
   >;
 }
 
@@ -1809,7 +1809,7 @@ export interface VirtualMachinesInstallPatches {
   ): StreamableMethod<
     | VirtualMachinesInstallPatches200Response
     | VirtualMachinesInstallPatches202Response
-    | VirtualMachinesInstallPatchesdefaultResponse
+    | VirtualMachinesInstallPatchesDefaultResponse
   >;
 }
 
@@ -1827,7 +1827,7 @@ export interface VirtualMachineImagesGet {
   get(
     options: VirtualMachineImagesGetParameters
   ): StreamableMethod<
-    VirtualMachineImagesGet200Response | VirtualMachineImagesGetdefaultResponse
+    VirtualMachineImagesGet200Response | VirtualMachineImagesGetDefaultResponse
   >;
 }
 
@@ -1837,7 +1837,7 @@ export interface VirtualMachineImagesList {
     options: VirtualMachineImagesListParameters
   ): StreamableMethod<
     | VirtualMachineImagesList200Response
-    | VirtualMachineImagesListdefaultResponse
+    | VirtualMachineImagesListDefaultResponse
   >;
 }
 
@@ -1847,7 +1847,7 @@ export interface VirtualMachineImagesListOffers {
     options: VirtualMachineImagesListOffersParameters
   ): StreamableMethod<
     | VirtualMachineImagesListOffers200Response
-    | VirtualMachineImagesListOffersdefaultResponse
+    | VirtualMachineImagesListOffersDefaultResponse
   >;
 }
 
@@ -1857,7 +1857,7 @@ export interface VirtualMachineImagesListPublishers {
     options: VirtualMachineImagesListPublishersParameters
   ): StreamableMethod<
     | VirtualMachineImagesListPublishers200Response
-    | VirtualMachineImagesListPublishersdefaultResponse
+    | VirtualMachineImagesListPublishersDefaultResponse
   >;
 }
 
@@ -1867,7 +1867,7 @@ export interface VirtualMachineImagesListSkus {
     options: VirtualMachineImagesListSkusParameters
   ): StreamableMethod<
     | VirtualMachineImagesListSkus200Response
-    | VirtualMachineImagesListSkusdefaultResponse
+    | VirtualMachineImagesListSkusDefaultResponse
   >;
 }
 
@@ -1877,7 +1877,7 @@ export interface VirtualMachineImagesListByEdgeZone {
     options: VirtualMachineImagesListByEdgeZoneParameters
   ): StreamableMethod<
     | VirtualMachineImagesListByEdgeZone200Response
-    | VirtualMachineImagesListByEdgeZonedefaultResponse
+    | VirtualMachineImagesListByEdgeZoneDefaultResponse
   >;
 }
 
@@ -1887,7 +1887,7 @@ export interface VirtualMachineImagesEdgeZoneGet {
     options: VirtualMachineImagesEdgeZoneGetParameters
   ): StreamableMethod<
     | VirtualMachineImagesEdgeZoneGet200Response
-    | VirtualMachineImagesEdgeZoneGetdefaultResponse
+    | VirtualMachineImagesEdgeZoneGetDefaultResponse
   >;
 }
 
@@ -1897,7 +1897,7 @@ export interface VirtualMachineImagesEdgeZoneList {
     options: VirtualMachineImagesEdgeZoneListParameters
   ): StreamableMethod<
     | VirtualMachineImagesEdgeZoneList200Response
-    | VirtualMachineImagesEdgeZoneListdefaultResponse
+    | VirtualMachineImagesEdgeZoneListDefaultResponse
   >;
 }
 
@@ -1907,7 +1907,7 @@ export interface VirtualMachineImagesEdgeZoneListOffers {
     options: VirtualMachineImagesEdgeZoneListOffersParameters
   ): StreamableMethod<
     | VirtualMachineImagesEdgeZoneListOffers200Response
-    | VirtualMachineImagesEdgeZoneListOffersdefaultResponse
+    | VirtualMachineImagesEdgeZoneListOffersDefaultResponse
   >;
 }
 
@@ -1917,7 +1917,7 @@ export interface VirtualMachineImagesEdgeZoneListPublishers {
     options: VirtualMachineImagesEdgeZoneListPublishersParameters
   ): StreamableMethod<
     | VirtualMachineImagesEdgeZoneListPublishers200Response
-    | VirtualMachineImagesEdgeZoneListPublishersdefaultResponse
+    | VirtualMachineImagesEdgeZoneListPublishersDefaultResponse
   >;
 }
 
@@ -1927,7 +1927,7 @@ export interface VirtualMachineImagesEdgeZoneListSkus {
     options: VirtualMachineImagesEdgeZoneListSkusParameters
   ): StreamableMethod<
     | VirtualMachineImagesEdgeZoneListSkus200Response
-    | VirtualMachineImagesEdgeZoneListSkusdefaultResponse
+    | VirtualMachineImagesEdgeZoneListSkusDefaultResponse
   >;
 }
 
@@ -1937,7 +1937,7 @@ export interface VirtualMachineExtensionImagesGet {
     options: VirtualMachineExtensionImagesGetParameters
   ): StreamableMethod<
     | VirtualMachineExtensionImagesGet200Response
-    | VirtualMachineExtensionImagesGetdefaultResponse
+    | VirtualMachineExtensionImagesGetDefaultResponse
   >;
 }
 
@@ -1947,7 +1947,7 @@ export interface VirtualMachineExtensionImagesListTypes {
     options: VirtualMachineExtensionImagesListTypesParameters
   ): StreamableMethod<
     | VirtualMachineExtensionImagesListTypes200Response
-    | VirtualMachineExtensionImagesListTypesdefaultResponse
+    | VirtualMachineExtensionImagesListTypesDefaultResponse
   >;
 }
 
@@ -1957,7 +1957,7 @@ export interface VirtualMachineExtensionImagesListVersions {
     options: VirtualMachineExtensionImagesListVersionsParameters
   ): StreamableMethod<
     | VirtualMachineExtensionImagesListVersions200Response
-    | VirtualMachineExtensionImagesListVersionsdefaultResponse
+    | VirtualMachineExtensionImagesListVersionsDefaultResponse
   >;
 }
 
@@ -1967,13 +1967,13 @@ export interface AvailabilitySetsCreateOrUpdate {
     options: AvailabilitySetsCreateOrUpdateParameters
   ): StreamableMethod<
     | AvailabilitySetsCreateOrUpdate200Response
-    | AvailabilitySetsCreateOrUpdatedefaultResponse
+    | AvailabilitySetsCreateOrUpdateDefaultResponse
   >;
   /** Update an availability set. */
   patch(
     options: AvailabilitySetsUpdateParameters
   ): StreamableMethod<
-    AvailabilitySetsUpdate200Response | AvailabilitySetsUpdatedefaultResponse
+    AvailabilitySetsUpdate200Response | AvailabilitySetsUpdateDefaultResponse
   >;
   /** Delete an availability set. */
   delete(
@@ -1981,13 +1981,13 @@ export interface AvailabilitySetsCreateOrUpdate {
   ): StreamableMethod<
     | AvailabilitySetsDelete200Response
     | AvailabilitySetsDelete204Response
-    | AvailabilitySetsDeletedefaultResponse
+    | AvailabilitySetsDeleteDefaultResponse
   >;
   /** Retrieves information about an availability set. */
   get(
     options: AvailabilitySetsGetParameters
   ): StreamableMethod<
-    AvailabilitySetsGet200Response | AvailabilitySetsGetdefaultResponse
+    AvailabilitySetsGet200Response | AvailabilitySetsGetDefaultResponse
   >;
 }
 
@@ -1997,7 +1997,7 @@ export interface AvailabilitySetsListBySubscription {
     options: AvailabilitySetsListBySubscriptionParameters
   ): StreamableMethod<
     | AvailabilitySetsListBySubscription200Response
-    | AvailabilitySetsListBySubscriptiondefaultResponse
+    | AvailabilitySetsListBySubscriptionDefaultResponse
   >;
 }
 
@@ -2006,7 +2006,7 @@ export interface AvailabilitySetsList {
   get(
     options: AvailabilitySetsListParameters
   ): StreamableMethod<
-    AvailabilitySetsList200Response | AvailabilitySetsListdefaultResponse
+    AvailabilitySetsList200Response | AvailabilitySetsListDefaultResponse
   >;
 }
 
@@ -2016,7 +2016,7 @@ export interface AvailabilitySetsListAvailableSizes {
     options: AvailabilitySetsListAvailableSizesParameters
   ): StreamableMethod<
     | AvailabilitySetsListAvailableSizes200Response
-    | AvailabilitySetsListAvailableSizesdefaultResponse
+    | AvailabilitySetsListAvailableSizesDefaultResponse
   >;
 }
 
@@ -2027,28 +2027,28 @@ export interface ProximityPlacementGroupsCreateOrUpdate {
   ): StreamableMethod<
     | ProximityPlacementGroupsCreateOrUpdate200Response
     | ProximityPlacementGroupsCreateOrUpdate201Response
-    | ProximityPlacementGroupsCreateOrUpdatedefaultResponse
+    | ProximityPlacementGroupsCreateOrUpdateDefaultResponse
   >;
   /** Update a proximity placement group. */
   patch(
     options: ProximityPlacementGroupsUpdateParameters
   ): StreamableMethod<
     | ProximityPlacementGroupsUpdate200Response
-    | ProximityPlacementGroupsUpdatedefaultResponse
+    | ProximityPlacementGroupsUpdateDefaultResponse
   >;
   /** Delete a proximity placement group. */
   delete(
     options: ProximityPlacementGroupsDeleteParameters
   ): StreamableMethod<
     | ProximityPlacementGroupsDelete200Response
-    | ProximityPlacementGroupsDeletedefaultResponse
+    | ProximityPlacementGroupsDeleteDefaultResponse
   >;
   /** Retrieves information about a proximity placement group . */
   get(
     options: ProximityPlacementGroupsGetParameters
   ): StreamableMethod<
     | ProximityPlacementGroupsGet200Response
-    | ProximityPlacementGroupsGetdefaultResponse
+    | ProximityPlacementGroupsGetDefaultResponse
   >;
 }
 
@@ -2058,7 +2058,7 @@ export interface ProximityPlacementGroupsListBySubscription {
     options: ProximityPlacementGroupsListBySubscriptionParameters
   ): StreamableMethod<
     | ProximityPlacementGroupsListBySubscription200Response
-    | ProximityPlacementGroupsListBySubscriptiondefaultResponse
+    | ProximityPlacementGroupsListBySubscriptionDefaultResponse
   >;
 }
 
@@ -2068,7 +2068,7 @@ export interface ProximityPlacementGroupsListByResourceGroup {
     options: ProximityPlacementGroupsListByResourceGroupParameters
   ): StreamableMethod<
     | ProximityPlacementGroupsListByResourceGroup200Response
-    | ProximityPlacementGroupsListByResourceGroupdefaultResponse
+    | ProximityPlacementGroupsListByResourceGroupDefaultResponse
   >;
 }
 
@@ -2079,14 +2079,14 @@ export interface DedicatedHostGroupsCreateOrUpdate {
   ): StreamableMethod<
     | DedicatedHostGroupsCreateOrUpdate200Response
     | DedicatedHostGroupsCreateOrUpdate201Response
-    | DedicatedHostGroupsCreateOrUpdatedefaultResponse
+    | DedicatedHostGroupsCreateOrUpdateDefaultResponse
   >;
   /** Update an dedicated host group. */
   patch(
     options: DedicatedHostGroupsUpdateParameters
   ): StreamableMethod<
     | DedicatedHostGroupsUpdate200Response
-    | DedicatedHostGroupsUpdatedefaultResponse
+    | DedicatedHostGroupsUpdateDefaultResponse
   >;
   /** Delete a dedicated host group. */
   delete(
@@ -2094,13 +2094,13 @@ export interface DedicatedHostGroupsCreateOrUpdate {
   ): StreamableMethod<
     | DedicatedHostGroupsDelete200Response
     | DedicatedHostGroupsDelete204Response
-    | DedicatedHostGroupsDeletedefaultResponse
+    | DedicatedHostGroupsDeleteDefaultResponse
   >;
   /** Retrieves information about a dedicated host group. */
   get(
     options: DedicatedHostGroupsGetParameters
   ): StreamableMethod<
-    DedicatedHostGroupsGet200Response | DedicatedHostGroupsGetdefaultResponse
+    DedicatedHostGroupsGet200Response | DedicatedHostGroupsGetDefaultResponse
   >;
 }
 
@@ -2110,7 +2110,7 @@ export interface DedicatedHostGroupsListByResourceGroup {
     options: DedicatedHostGroupsListByResourceGroupParameters
   ): StreamableMethod<
     | DedicatedHostGroupsListByResourceGroup200Response
-    | DedicatedHostGroupsListByResourceGroupdefaultResponse
+    | DedicatedHostGroupsListByResourceGroupDefaultResponse
   >;
 }
 
@@ -2120,7 +2120,7 @@ export interface DedicatedHostGroupsListBySubscription {
     options: DedicatedHostGroupsListBySubscriptionParameters
   ): StreamableMethod<
     | DedicatedHostGroupsListBySubscription200Response
-    | DedicatedHostGroupsListBySubscriptiondefaultResponse
+    | DedicatedHostGroupsListBySubscriptionDefaultResponse
   >;
 }
 
@@ -2131,13 +2131,13 @@ export interface DedicatedHostsCreateOrUpdate {
   ): StreamableMethod<
     | DedicatedHostsCreateOrUpdate200Response
     | DedicatedHostsCreateOrUpdate201Response
-    | DedicatedHostsCreateOrUpdatedefaultResponse
+    | DedicatedHostsCreateOrUpdateDefaultResponse
   >;
   /** Update an dedicated host . */
   patch(
     options: DedicatedHostsUpdateParameters
   ): StreamableMethod<
-    DedicatedHostsUpdate200Response | DedicatedHostsUpdatedefaultResponse
+    DedicatedHostsUpdate200Response | DedicatedHostsUpdateDefaultResponse
   >;
   /** Delete a dedicated host. */
   delete(
@@ -2146,13 +2146,13 @@ export interface DedicatedHostsCreateOrUpdate {
     | DedicatedHostsDelete200Response
     | DedicatedHostsDelete202Response
     | DedicatedHostsDelete204Response
-    | DedicatedHostsDeletedefaultResponse
+    | DedicatedHostsDeleteDefaultResponse
   >;
   /** Retrieves information about a dedicated host. */
   get(
     options: DedicatedHostsGetParameters
   ): StreamableMethod<
-    DedicatedHostsGet200Response | DedicatedHostsGetdefaultResponse
+    DedicatedHostsGet200Response | DedicatedHostsGetDefaultResponse
   >;
 }
 
@@ -2162,7 +2162,7 @@ export interface DedicatedHostsListByHostGroup {
     options: DedicatedHostsListByHostGroupParameters
   ): StreamableMethod<
     | DedicatedHostsListByHostGroup200Response
-    | DedicatedHostsListByHostGroupdefaultResponse
+    | DedicatedHostsListByHostGroupDefaultResponse
   >;
 }
 
@@ -2171,7 +2171,7 @@ export interface DedicatedHostsRestart {
   post(
     options: DedicatedHostsRestartParameters
   ): StreamableMethod<
-    DedicatedHostsRestart200Response | DedicatedHostsRestartdefaultResponse
+    DedicatedHostsRestart200Response | DedicatedHostsRestartDefaultResponse
   >;
 }
 
@@ -2181,7 +2181,7 @@ export interface SshPublicKeysListBySubscription {
     options: SshPublicKeysListBySubscriptionParameters
   ): StreamableMethod<
     | SshPublicKeysListBySubscription200Response
-    | SshPublicKeysListBySubscriptiondefaultResponse
+    | SshPublicKeysListBySubscriptionDefaultResponse
   >;
 }
 
@@ -2191,7 +2191,7 @@ export interface SshPublicKeysListByResourceGroup {
     options: SshPublicKeysListByResourceGroupParameters
   ): StreamableMethod<
     | SshPublicKeysListByResourceGroup200Response
-    | SshPublicKeysListByResourceGroupdefaultResponse
+    | SshPublicKeysListByResourceGroupDefaultResponse
   >;
 }
 
@@ -2202,13 +2202,13 @@ export interface SshPublicKeysCreate {
   ): StreamableMethod<
     | SshPublicKeysCreate200Response
     | SshPublicKeysCreate201Response
-    | SshPublicKeysCreatedefaultResponse
+    | SshPublicKeysCreateDefaultResponse
   >;
   /** Updates a new SSH public key resource. */
   patch(
     options: SshPublicKeysUpdateParameters
   ): StreamableMethod<
-    SshPublicKeysUpdate200Response | SshPublicKeysUpdatedefaultResponse
+    SshPublicKeysUpdate200Response | SshPublicKeysUpdateDefaultResponse
   >;
   /** Delete an SSH public key. */
   delete(
@@ -2216,13 +2216,13 @@ export interface SshPublicKeysCreate {
   ): StreamableMethod<
     | SshPublicKeysDelete200Response
     | SshPublicKeysDelete204Response
-    | SshPublicKeysDeletedefaultResponse
+    | SshPublicKeysDeleteDefaultResponse
   >;
   /** Retrieves information about an SSH public key. */
   get(
     options: SshPublicKeysGetParameters
   ): StreamableMethod<
-    SshPublicKeysGet200Response | SshPublicKeysGetdefaultResponse
+    SshPublicKeysGet200Response | SshPublicKeysGetDefaultResponse
   >;
 }
 
@@ -2232,7 +2232,7 @@ export interface SshPublicKeysGenerateKeyPair {
     options: SshPublicKeysGenerateKeyPairParameters
   ): StreamableMethod<
     | SshPublicKeysGenerateKeyPair200Response
-    | SshPublicKeysGenerateKeyPairdefaultResponse
+    | SshPublicKeysGenerateKeyPairDefaultResponse
   >;
 }
 
@@ -2243,7 +2243,7 @@ export interface ImagesCreateOrUpdate {
   ): StreamableMethod<
     | ImagesCreateOrUpdate200Response
     | ImagesCreateOrUpdate201Response
-    | ImagesCreateOrUpdatedefaultResponse
+    | ImagesCreateOrUpdateDefaultResponse
   >;
   /** Update an image. */
   patch(
@@ -2251,7 +2251,7 @@ export interface ImagesCreateOrUpdate {
   ): StreamableMethod<
     | ImagesUpdate200Response
     | ImagesUpdate201Response
-    | ImagesUpdatedefaultResponse
+    | ImagesUpdateDefaultResponse
   >;
   /** Deletes an Image. */
   delete(
@@ -2260,12 +2260,12 @@ export interface ImagesCreateOrUpdate {
     | ImagesDelete200Response
     | ImagesDelete202Response
     | ImagesDelete204Response
-    | ImagesDeletedefaultResponse
+    | ImagesDeleteDefaultResponse
   >;
   /** Gets an image. */
   get(
     options: ImagesGetParameters
-  ): StreamableMethod<ImagesGet200Response | ImagesGetdefaultResponse>;
+  ): StreamableMethod<ImagesGet200Response | ImagesGetDefaultResponse>;
 }
 
 export interface ImagesListByResourceGroup {
@@ -2274,7 +2274,7 @@ export interface ImagesListByResourceGroup {
     options: ImagesListByResourceGroupParameters
   ): StreamableMethod<
     | ImagesListByResourceGroup200Response
-    | ImagesListByResourceGroupdefaultResponse
+    | ImagesListByResourceGroupDefaultResponse
   >;
 }
 
@@ -2282,7 +2282,7 @@ export interface ImagesList {
   /** Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is null to fetch all the Images. */
   get(
     options: ImagesListParameters
-  ): StreamableMethod<ImagesList200Response | ImagesListdefaultResponse>;
+  ): StreamableMethod<ImagesList200Response | ImagesListDefaultResponse>;
 }
 
 export interface RestorePointCollectionsCreateOrUpdate {
@@ -2292,14 +2292,14 @@ export interface RestorePointCollectionsCreateOrUpdate {
   ): StreamableMethod<
     | RestorePointCollectionsCreateOrUpdate200Response
     | RestorePointCollectionsCreateOrUpdate201Response
-    | RestorePointCollectionsCreateOrUpdatedefaultResponse
+    | RestorePointCollectionsCreateOrUpdateDefaultResponse
   >;
   /** The operation to update the restore point collection. */
   patch(
     options: RestorePointCollectionsUpdateParameters
   ): StreamableMethod<
     | RestorePointCollectionsUpdate200Response
-    | RestorePointCollectionsUpdatedefaultResponse
+    | RestorePointCollectionsUpdateDefaultResponse
   >;
   /** The operation to delete the restore point collection. This operation will also delete all the contained restore points. */
   delete(
@@ -2308,14 +2308,14 @@ export interface RestorePointCollectionsCreateOrUpdate {
     | RestorePointCollectionsDelete200Response
     | RestorePointCollectionsDelete202Response
     | RestorePointCollectionsDelete204Response
-    | RestorePointCollectionsDeletedefaultResponse
+    | RestorePointCollectionsDeleteDefaultResponse
   >;
   /** The operation to get the restore point collection. */
   get(
     options: RestorePointCollectionsGetParameters
   ): StreamableMethod<
     | RestorePointCollectionsGet200Response
-    | RestorePointCollectionsGetdefaultResponse
+    | RestorePointCollectionsGetDefaultResponse
   >;
 }
 
@@ -2325,7 +2325,7 @@ export interface RestorePointCollectionsList {
     options: RestorePointCollectionsListParameters
   ): StreamableMethod<
     | RestorePointCollectionsList200Response
-    | RestorePointCollectionsListdefaultResponse
+    | RestorePointCollectionsListDefaultResponse
   >;
 }
 
@@ -2335,7 +2335,7 @@ export interface RestorePointCollectionsListAll {
     options: RestorePointCollectionsListAllParameters
   ): StreamableMethod<
     | RestorePointCollectionsListAll200Response
-    | RestorePointCollectionsListAlldefaultResponse
+    | RestorePointCollectionsListAllDefaultResponse
   >;
 }
 
@@ -2344,7 +2344,7 @@ export interface RestorePointsCreate {
   put(
     options: RestorePointsCreateParameters
   ): StreamableMethod<
-    RestorePointsCreate201Response | RestorePointsCreatedefaultResponse
+    RestorePointsCreate201Response | RestorePointsCreateDefaultResponse
   >;
   /** The operation to delete the restore point. */
   delete(
@@ -2353,13 +2353,13 @@ export interface RestorePointsCreate {
     | RestorePointsDelete200Response
     | RestorePointsDelete202Response
     | RestorePointsDelete204Response
-    | RestorePointsDeletedefaultResponse
+    | RestorePointsDeleteDefaultResponse
   >;
   /** The operation to get the restore point. */
   get(
     options: RestorePointsGetParameters
   ): StreamableMethod<
-    RestorePointsGet200Response | RestorePointsGetdefaultResponse
+    RestorePointsGet200Response | RestorePointsGetDefaultResponse
   >;
 }
 
@@ -2370,14 +2370,14 @@ export interface CapacityReservationGroupsCreateOrUpdate {
   ): StreamableMethod<
     | CapacityReservationGroupsCreateOrUpdate200Response
     | CapacityReservationGroupsCreateOrUpdate201Response
-    | CapacityReservationGroupsCreateOrUpdatedefaultResponse
+    | CapacityReservationGroupsCreateOrUpdateDefaultResponse
   >;
   /** The operation to update a capacity reservation group. When updating a capacity reservation group, only tags may be modified. */
   patch(
     options: CapacityReservationGroupsUpdateParameters
   ): StreamableMethod<
     | CapacityReservationGroupsUpdate200Response
-    | CapacityReservationGroupsUpdatedefaultResponse
+    | CapacityReservationGroupsUpdateDefaultResponse
   >;
   /** The operation to delete a capacity reservation group. This operation is allowed only if all the associated resources are disassociated from the reservation group and all capacity reservations under the reservation group have also been deleted. Please refer to https://aka.ms/CapacityReservation for more details. */
   delete(
@@ -2385,14 +2385,14 @@ export interface CapacityReservationGroupsCreateOrUpdate {
   ): StreamableMethod<
     | CapacityReservationGroupsDelete200Response
     | CapacityReservationGroupsDelete204Response
-    | CapacityReservationGroupsDeletedefaultResponse
+    | CapacityReservationGroupsDeleteDefaultResponse
   >;
   /** The operation that retrieves information about a capacity reservation group. */
   get(
     options: CapacityReservationGroupsGetParameters
   ): StreamableMethod<
     | CapacityReservationGroupsGet200Response
-    | CapacityReservationGroupsGetdefaultResponse
+    | CapacityReservationGroupsGetDefaultResponse
   >;
 }
 
@@ -2402,7 +2402,7 @@ export interface CapacityReservationGroupsListByResourceGroup {
     options: CapacityReservationGroupsListByResourceGroupParameters
   ): StreamableMethod<
     | CapacityReservationGroupsListByResourceGroup200Response
-    | CapacityReservationGroupsListByResourceGroupdefaultResponse
+    | CapacityReservationGroupsListByResourceGroupDefaultResponse
   >;
 }
 
@@ -2412,7 +2412,7 @@ export interface CapacityReservationGroupsListBySubscription {
     options: CapacityReservationGroupsListBySubscriptionParameters
   ): StreamableMethod<
     | CapacityReservationGroupsListBySubscription200Response
-    | CapacityReservationGroupsListBySubscriptiondefaultResponse
+    | CapacityReservationGroupsListBySubscriptionDefaultResponse
   >;
 }
 
@@ -2423,7 +2423,7 @@ export interface CapacityReservationsCreateOrUpdate {
   ): StreamableMethod<
     | CapacityReservationsCreateOrUpdate200Response
     | CapacityReservationsCreateOrUpdate201Response
-    | CapacityReservationsCreateOrUpdatedefaultResponse
+    | CapacityReservationsCreateOrUpdateDefaultResponse
   >;
   /** The operation to update a capacity reservation. */
   patch(
@@ -2431,7 +2431,7 @@ export interface CapacityReservationsCreateOrUpdate {
   ): StreamableMethod<
     | CapacityReservationsUpdate200Response
     | CapacityReservationsUpdate202Response
-    | CapacityReservationsUpdatedefaultResponse
+    | CapacityReservationsUpdateDefaultResponse
   >;
   /** The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. */
   delete(
@@ -2440,13 +2440,13 @@ export interface CapacityReservationsCreateOrUpdate {
     | CapacityReservationsDelete200Response
     | CapacityReservationsDelete202Response
     | CapacityReservationsDelete204Response
-    | CapacityReservationsDeletedefaultResponse
+    | CapacityReservationsDeleteDefaultResponse
   >;
   /** The operation that retrieves information about the capacity reservation. */
   get(
     options: CapacityReservationsGetParameters
   ): StreamableMethod<
-    CapacityReservationsGet200Response | CapacityReservationsGetdefaultResponse
+    CapacityReservationsGet200Response | CapacityReservationsGetDefaultResponse
   >;
 }
 
@@ -2456,7 +2456,7 @@ export interface CapacityReservationsListByCapacityReservationGroup {
     options: CapacityReservationsListByCapacityReservationGroupParameters
   ): StreamableMethod<
     | CapacityReservationsListByCapacityReservationGroup200Response
-    | CapacityReservationsListByCapacityReservationGroupdefaultResponse
+    | CapacityReservationsListByCapacityReservationGroupDefaultResponse
   >;
 }
 
@@ -2467,7 +2467,7 @@ export interface LogAnalyticsExportRequestRateByInterval {
   ): StreamableMethod<
     | LogAnalyticsExportRequestRateByInterval200Response
     | LogAnalyticsExportRequestRateByInterval202Response
-    | LogAnalyticsExportRequestRateByIntervaldefaultResponse
+    | LogAnalyticsExportRequestRateByIntervalDefaultResponse
   >;
 }
 
@@ -2478,7 +2478,7 @@ export interface LogAnalyticsExportThrottledRequests {
   ): StreamableMethod<
     | LogAnalyticsExportThrottledRequests200Response
     | LogAnalyticsExportThrottledRequests202Response
-    | LogAnalyticsExportThrottledRequestsdefaultResponse
+    | LogAnalyticsExportThrottledRequestsDefaultResponse
   >;
 }
 
@@ -2503,14 +2503,14 @@ export interface VirtualMachineRunCommandsCreateOrUpdate {
   ): StreamableMethod<
     | VirtualMachineRunCommandsCreateOrUpdate200Response
     | VirtualMachineRunCommandsCreateOrUpdate201Response
-    | VirtualMachineRunCommandsCreateOrUpdatedefaultResponse
+    | VirtualMachineRunCommandsCreateOrUpdateDefaultResponse
   >;
   /** The operation to update the run command. */
   patch(
     options: VirtualMachineRunCommandsUpdateParameters
   ): StreamableMethod<
     | VirtualMachineRunCommandsUpdate200Response
-    | VirtualMachineRunCommandsUpdatedefaultResponse
+    | VirtualMachineRunCommandsUpdateDefaultResponse
   >;
   /** The operation to delete the run command. */
   delete(
@@ -2519,14 +2519,14 @@ export interface VirtualMachineRunCommandsCreateOrUpdate {
     | VirtualMachineRunCommandsDelete200Response
     | VirtualMachineRunCommandsDelete202Response
     | VirtualMachineRunCommandsDelete204Response
-    | VirtualMachineRunCommandsDeletedefaultResponse
+    | VirtualMachineRunCommandsDeleteDefaultResponse
   >;
   /** The operation to get the run command. */
   get(
     options: VirtualMachineRunCommandsGetByVirtualMachineParameters
   ): StreamableMethod<
     | VirtualMachineRunCommandsGetByVirtualMachine200Response
-    | VirtualMachineRunCommandsGetByVirtualMachinedefaultResponse
+    | VirtualMachineRunCommandsGetByVirtualMachineDefaultResponse
   >;
 }
 
@@ -2536,7 +2536,7 @@ export interface VirtualMachineRunCommandsListByVirtualMachine {
     options: VirtualMachineRunCommandsListByVirtualMachineParameters
   ): StreamableMethod<
     | VirtualMachineRunCommandsListByVirtualMachine200Response
-    | VirtualMachineRunCommandsListByVirtualMachinedefaultResponse
+    | VirtualMachineRunCommandsListByVirtualMachineDefaultResponse
   >;
 }
 
@@ -2547,14 +2547,14 @@ export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdate {
   ): StreamableMethod<
     | VirtualMachineScaleSetVMRunCommandsCreateOrUpdate200Response
     | VirtualMachineScaleSetVMRunCommandsCreateOrUpdate201Response
-    | VirtualMachineScaleSetVMRunCommandsCreateOrUpdatedefaultResponse
+    | VirtualMachineScaleSetVMRunCommandsCreateOrUpdateDefaultResponse
   >;
   /** The operation to update the VMSS VM run command. */
   patch(
     options: VirtualMachineScaleSetVMRunCommandsUpdateParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetVMRunCommandsUpdate200Response
-    | VirtualMachineScaleSetVMRunCommandsUpdatedefaultResponse
+    | VirtualMachineScaleSetVMRunCommandsUpdateDefaultResponse
   >;
   /** The operation to delete the VMSS VM run command. */
   delete(
@@ -2563,14 +2563,14 @@ export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdate {
     | VirtualMachineScaleSetVMRunCommandsDelete200Response
     | VirtualMachineScaleSetVMRunCommandsDelete202Response
     | VirtualMachineScaleSetVMRunCommandsDelete204Response
-    | VirtualMachineScaleSetVMRunCommandsDeletedefaultResponse
+    | VirtualMachineScaleSetVMRunCommandsDeleteDefaultResponse
   >;
   /** The operation to get the VMSS VM run command. */
   get(
     options: VirtualMachineScaleSetVMRunCommandsGetParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetVMRunCommandsGet200Response
-    | VirtualMachineScaleSetVMRunCommandsGetdefaultResponse
+    | VirtualMachineScaleSetVMRunCommandsGetDefaultResponse
   >;
 }
 
@@ -2580,7 +2580,7 @@ export interface VirtualMachineScaleSetVMRunCommandsList {
     options: VirtualMachineScaleSetVMRunCommandsListParameters
   ): StreamableMethod<
     | VirtualMachineScaleSetVMRunCommandsList200Response
-    | VirtualMachineScaleSetVMRunCommandsListdefaultResponse
+    | VirtualMachineScaleSetVMRunCommandsListDefaultResponse
   >;
 }
 
@@ -2642,7 +2642,7 @@ export interface DiskAccessesCreateOrUpdate {
   ): StreamableMethod<
     | DiskAccessesCreateOrUpdate200Response
     | DiskAccessesCreateOrUpdate202Response
-    | DiskAccessesCreateOrUpdatedefaultResponse
+    | DiskAccessesCreateOrUpdateDefaultResponse
   >;
   /** Updates (patches) a disk access resource. */
   patch(
@@ -2650,13 +2650,13 @@ export interface DiskAccessesCreateOrUpdate {
   ): StreamableMethod<
     | DiskAccessesUpdate200Response
     | DiskAccessesUpdate202Response
-    | DiskAccessesUpdatedefaultResponse
+    | DiskAccessesUpdateDefaultResponse
   >;
   /** Gets information about a disk access resource. */
   get(
     options: DiskAccessesGetParameters
   ): StreamableMethod<
-    DiskAccessesGet200Response | DiskAccessesGetdefaultResponse
+    DiskAccessesGet200Response | DiskAccessesGetDefaultResponse
   >;
   /** Deletes a disk access resource. */
   delete(
@@ -2665,7 +2665,7 @@ export interface DiskAccessesCreateOrUpdate {
     | DiskAccessesDelete200Response
     | DiskAccessesDelete202Response
     | DiskAccessesDelete204Response
-    | DiskAccessesDeletedefaultResponse
+    | DiskAccessesDeleteDefaultResponse
   >;
 }
 
@@ -2675,7 +2675,7 @@ export interface DiskAccessesListByResourceGroup {
     options: DiskAccessesListByResourceGroupParameters
   ): StreamableMethod<
     | DiskAccessesListByResourceGroup200Response
-    | DiskAccessesListByResourceGroupdefaultResponse
+    | DiskAccessesListByResourceGroupDefaultResponse
   >;
 }
 
@@ -2684,7 +2684,7 @@ export interface DiskAccessesList {
   get(
     options: DiskAccessesListParameters
   ): StreamableMethod<
-    DiskAccessesList200Response | DiskAccessesListdefaultResponse
+    DiskAccessesList200Response | DiskAccessesListDefaultResponse
   >;
 }
 
@@ -2702,14 +2702,14 @@ export interface DiskAccessesUpdateAPrivateEndpointConnection {
   ): StreamableMethod<
     | DiskAccessesUpdateAPrivateEndpointConnection200Response
     | DiskAccessesUpdateAPrivateEndpointConnection202Response
-    | DiskAccessesUpdateAPrivateEndpointConnectiondefaultResponse
+    | DiskAccessesUpdateAPrivateEndpointConnectionDefaultResponse
   >;
   /** Gets information about a private endpoint connection under a disk access resource. */
   get(
     options: DiskAccessesGetAPrivateEndpointConnectionParameters
   ): StreamableMethod<
     | DiskAccessesGetAPrivateEndpointConnection200Response
-    | DiskAccessesGetAPrivateEndpointConnectiondefaultResponse
+    | DiskAccessesGetAPrivateEndpointConnectionDefaultResponse
   >;
   /** Deletes a private endpoint connection under a disk access resource. */
   delete(
@@ -2718,7 +2718,7 @@ export interface DiskAccessesUpdateAPrivateEndpointConnection {
     | DiskAccessesDeleteAPrivateEndpointConnection200Response
     | DiskAccessesDeleteAPrivateEndpointConnection202Response
     | DiskAccessesDeleteAPrivateEndpointConnection204Response
-    | DiskAccessesDeleteAPrivateEndpointConnectiondefaultResponse
+    | DiskAccessesDeleteAPrivateEndpointConnectionDefaultResponse
   >;
 }
 
@@ -2728,7 +2728,7 @@ export interface DiskAccessesListPrivateEndpointConnections {
     options: DiskAccessesListPrivateEndpointConnectionsParameters
   ): StreamableMethod<
     | DiskAccessesListPrivateEndpointConnections200Response
-    | DiskAccessesListPrivateEndpointConnectionsdefaultResponse
+    | DiskAccessesListPrivateEndpointConnectionsDefaultResponse
   >;
 }
 
@@ -2739,7 +2739,7 @@ export interface DiskEncryptionSetsCreateOrUpdate {
   ): StreamableMethod<
     | DiskEncryptionSetsCreateOrUpdate200Response
     | DiskEncryptionSetsCreateOrUpdate202Response
-    | DiskEncryptionSetsCreateOrUpdatedefaultResponse
+    | DiskEncryptionSetsCreateOrUpdateDefaultResponse
   >;
   /** Updates (patches) a disk encryption set. */
   patch(
@@ -2747,13 +2747,13 @@ export interface DiskEncryptionSetsCreateOrUpdate {
   ): StreamableMethod<
     | DiskEncryptionSetsUpdate200Response
     | DiskEncryptionSetsUpdate202Response
-    | DiskEncryptionSetsUpdatedefaultResponse
+    | DiskEncryptionSetsUpdateDefaultResponse
   >;
   /** Gets information about a disk encryption set. */
   get(
     options: DiskEncryptionSetsGetParameters
   ): StreamableMethod<
-    DiskEncryptionSetsGet200Response | DiskEncryptionSetsGetdefaultResponse
+    DiskEncryptionSetsGet200Response | DiskEncryptionSetsGetDefaultResponse
   >;
   /** Deletes a disk encryption set. */
   delete(
@@ -2762,7 +2762,7 @@ export interface DiskEncryptionSetsCreateOrUpdate {
     | DiskEncryptionSetsDelete200Response
     | DiskEncryptionSetsDelete202Response
     | DiskEncryptionSetsDelete204Response
-    | DiskEncryptionSetsDeletedefaultResponse
+    | DiskEncryptionSetsDeleteDefaultResponse
   >;
 }
 
@@ -2772,7 +2772,7 @@ export interface DiskEncryptionSetsListByResourceGroup {
     options: DiskEncryptionSetsListByResourceGroupParameters
   ): StreamableMethod<
     | DiskEncryptionSetsListByResourceGroup200Response
-    | DiskEncryptionSetsListByResourceGroupdefaultResponse
+    | DiskEncryptionSetsListByResourceGroupDefaultResponse
   >;
 }
 
@@ -2781,7 +2781,7 @@ export interface DiskEncryptionSetsList {
   get(
     options: DiskEncryptionSetsListParameters
   ): StreamableMethod<
-    DiskEncryptionSetsList200Response | DiskEncryptionSetsListdefaultResponse
+    DiskEncryptionSetsList200Response | DiskEncryptionSetsListDefaultResponse
   >;
 }
 
@@ -2791,7 +2791,7 @@ export interface DiskEncryptionSetsListAssociatedResources {
     options: DiskEncryptionSetsListAssociatedResourcesParameters
   ): StreamableMethod<
     | DiskEncryptionSetsListAssociatedResources200Response
-    | DiskEncryptionSetsListAssociatedResourcesdefaultResponse
+    | DiskEncryptionSetsListAssociatedResourcesDefaultResponse
   >;
 }
 
@@ -2800,7 +2800,7 @@ export interface DiskRestorePointGet {
   get(
     options: DiskRestorePointGetParameters
   ): StreamableMethod<
-    DiskRestorePointGet200Response | DiskRestorePointGetdefaultResponse
+    DiskRestorePointGet200Response | DiskRestorePointGetDefaultResponse
   >;
 }
 
@@ -2810,7 +2810,7 @@ export interface DiskRestorePointListByRestorePoint {
     options: DiskRestorePointListByRestorePointParameters
   ): StreamableMethod<
     | DiskRestorePointListByRestorePoint200Response
-    | DiskRestorePointListByRestorePointdefaultResponse
+    | DiskRestorePointListByRestorePointDefaultResponse
   >;
 }
 
@@ -2821,7 +2821,7 @@ export interface DiskRestorePointGrantAccess {
   ): StreamableMethod<
     | DiskRestorePointGrantAccess200Response
     | DiskRestorePointGrantAccess202Response
-    | DiskRestorePointGrantAccessdefaultResponse
+    | DiskRestorePointGrantAccessDefaultResponse
   >;
 }
 
@@ -2832,7 +2832,7 @@ export interface DiskRestorePointRevokeAccess {
   ): StreamableMethod<
     | DiskRestorePointRevokeAccess200Response
     | DiskRestorePointRevokeAccess202Response
-    | DiskRestorePointRevokeAccessdefaultResponse
+    | DiskRestorePointRevokeAccessDefaultResponse
   >;
 }
 
@@ -2908,18 +2908,18 @@ export interface GalleriesCreateOrUpdate {
     | GalleriesCreateOrUpdate200Response
     | GalleriesCreateOrUpdate201Response
     | GalleriesCreateOrUpdate202Response
-    | GalleriesCreateOrUpdatedefaultResponse
+    | GalleriesCreateOrUpdateDefaultResponse
   >;
   /** Update a Shared Image Gallery. */
   patch(
     options: GalleriesUpdateParameters
   ): StreamableMethod<
-    GalleriesUpdate200Response | GalleriesUpdatedefaultResponse
+    GalleriesUpdate200Response | GalleriesUpdateDefaultResponse
   >;
   /** Retrieves information about a Shared Image Gallery. */
   get(
     options: GalleriesGetParameters
-  ): StreamableMethod<GalleriesGet200Response | GalleriesGetdefaultResponse>;
+  ): StreamableMethod<GalleriesGet200Response | GalleriesGetDefaultResponse>;
   /** Delete a Shared Image Gallery. */
   delete(
     options: GalleriesDeleteParameters
@@ -2927,7 +2927,7 @@ export interface GalleriesCreateOrUpdate {
     | GalleriesDelete200Response
     | GalleriesDelete202Response
     | GalleriesDelete204Response
-    | GalleriesDeletedefaultResponse
+    | GalleriesDeleteDefaultResponse
   >;
 }
 
@@ -2937,7 +2937,7 @@ export interface GalleriesListByResourceGroup {
     options: GalleriesListByResourceGroupParameters
   ): StreamableMethod<
     | GalleriesListByResourceGroup200Response
-    | GalleriesListByResourceGroupdefaultResponse
+    | GalleriesListByResourceGroupDefaultResponse
   >;
 }
 
@@ -2945,7 +2945,7 @@ export interface GalleriesList {
   /** List galleries under a subscription. */
   get(
     options: GalleriesListParameters
-  ): StreamableMethod<GalleriesList200Response | GalleriesListdefaultResponse>;
+  ): StreamableMethod<GalleriesList200Response | GalleriesListDefaultResponse>;
 }
 
 export interface GalleryImagesCreateOrUpdate {
@@ -2956,19 +2956,19 @@ export interface GalleryImagesCreateOrUpdate {
     | GalleryImagesCreateOrUpdate200Response
     | GalleryImagesCreateOrUpdate201Response
     | GalleryImagesCreateOrUpdate202Response
-    | GalleryImagesCreateOrUpdatedefaultResponse
+    | GalleryImagesCreateOrUpdateDefaultResponse
   >;
   /** Update a gallery image definition. */
   patch(
     options: GalleryImagesUpdateParameters
   ): StreamableMethod<
-    GalleryImagesUpdate200Response | GalleryImagesUpdatedefaultResponse
+    GalleryImagesUpdate200Response | GalleryImagesUpdateDefaultResponse
   >;
   /** Retrieves information about a gallery image definition. */
   get(
     options: GalleryImagesGetParameters
   ): StreamableMethod<
-    GalleryImagesGet200Response | GalleryImagesGetdefaultResponse
+    GalleryImagesGet200Response | GalleryImagesGetDefaultResponse
   >;
   /** Delete a gallery image. */
   delete(
@@ -2977,7 +2977,7 @@ export interface GalleryImagesCreateOrUpdate {
     | GalleryImagesDelete200Response
     | GalleryImagesDelete202Response
     | GalleryImagesDelete204Response
-    | GalleryImagesDeletedefaultResponse
+    | GalleryImagesDeleteDefaultResponse
   >;
 }
 
@@ -2987,7 +2987,7 @@ export interface GalleryImagesListByGallery {
     options: GalleryImagesListByGalleryParameters
   ): StreamableMethod<
     | GalleryImagesListByGallery200Response
-    | GalleryImagesListByGallerydefaultResponse
+    | GalleryImagesListByGalleryDefaultResponse
   >;
 }
 
@@ -2999,20 +2999,20 @@ export interface GalleryImageVersionsCreateOrUpdate {
     | GalleryImageVersionsCreateOrUpdate200Response
     | GalleryImageVersionsCreateOrUpdate201Response
     | GalleryImageVersionsCreateOrUpdate202Response
-    | GalleryImageVersionsCreateOrUpdatedefaultResponse
+    | GalleryImageVersionsCreateOrUpdateDefaultResponse
   >;
   /** Update a gallery image version. */
   patch(
     options: GalleryImageVersionsUpdateParameters
   ): StreamableMethod<
     | GalleryImageVersionsUpdate200Response
-    | GalleryImageVersionsUpdatedefaultResponse
+    | GalleryImageVersionsUpdateDefaultResponse
   >;
   /** Retrieves information about a gallery image version. */
   get(
     options: GalleryImageVersionsGetParameters
   ): StreamableMethod<
-    GalleryImageVersionsGet200Response | GalleryImageVersionsGetdefaultResponse
+    GalleryImageVersionsGet200Response | GalleryImageVersionsGetDefaultResponse
   >;
   /** Delete a gallery image version. */
   delete(
@@ -3021,7 +3021,7 @@ export interface GalleryImageVersionsCreateOrUpdate {
     | GalleryImageVersionsDelete200Response
     | GalleryImageVersionsDelete202Response
     | GalleryImageVersionsDelete204Response
-    | GalleryImageVersionsDeletedefaultResponse
+    | GalleryImageVersionsDeleteDefaultResponse
   >;
 }
 
@@ -3031,7 +3031,7 @@ export interface GalleryImageVersionsListByGalleryImage {
     options: GalleryImageVersionsListByGalleryImageParameters
   ): StreamableMethod<
     | GalleryImageVersionsListByGalleryImage200Response
-    | GalleryImageVersionsListByGalleryImagedefaultResponse
+    | GalleryImageVersionsListByGalleryImageDefaultResponse
   >;
 }
 
@@ -3043,20 +3043,20 @@ export interface GalleryApplicationsCreateOrUpdate {
     | GalleryApplicationsCreateOrUpdate200Response
     | GalleryApplicationsCreateOrUpdate201Response
     | GalleryApplicationsCreateOrUpdate202Response
-    | GalleryApplicationsCreateOrUpdatedefaultResponse
+    | GalleryApplicationsCreateOrUpdateDefaultResponse
   >;
   /** Update a gallery Application Definition. */
   patch(
     options: GalleryApplicationsUpdateParameters
   ): StreamableMethod<
     | GalleryApplicationsUpdate200Response
-    | GalleryApplicationsUpdatedefaultResponse
+    | GalleryApplicationsUpdateDefaultResponse
   >;
   /** Retrieves information about a gallery Application Definition. */
   get(
     options: GalleryApplicationsGetParameters
   ): StreamableMethod<
-    GalleryApplicationsGet200Response | GalleryApplicationsGetdefaultResponse
+    GalleryApplicationsGet200Response | GalleryApplicationsGetDefaultResponse
   >;
   /** Delete a gallery Application. */
   delete(
@@ -3065,7 +3065,7 @@ export interface GalleryApplicationsCreateOrUpdate {
     | GalleryApplicationsDelete200Response
     | GalleryApplicationsDelete202Response
     | GalleryApplicationsDelete204Response
-    | GalleryApplicationsDeletedefaultResponse
+    | GalleryApplicationsDeleteDefaultResponse
   >;
 }
 
@@ -3075,7 +3075,7 @@ export interface GalleryApplicationsListByGallery {
     options: GalleryApplicationsListByGalleryParameters
   ): StreamableMethod<
     | GalleryApplicationsListByGallery200Response
-    | GalleryApplicationsListByGallerydefaultResponse
+    | GalleryApplicationsListByGalleryDefaultResponse
   >;
 }
 
@@ -3087,21 +3087,21 @@ export interface GalleryApplicationVersionsCreateOrUpdate {
     | GalleryApplicationVersionsCreateOrUpdate200Response
     | GalleryApplicationVersionsCreateOrUpdate201Response
     | GalleryApplicationVersionsCreateOrUpdate202Response
-    | GalleryApplicationVersionsCreateOrUpdatedefaultResponse
+    | GalleryApplicationVersionsCreateOrUpdateDefaultResponse
   >;
   /** Update a gallery Application Version. */
   patch(
     options: GalleryApplicationVersionsUpdateParameters
   ): StreamableMethod<
     | GalleryApplicationVersionsUpdate200Response
-    | GalleryApplicationVersionsUpdatedefaultResponse
+    | GalleryApplicationVersionsUpdateDefaultResponse
   >;
   /** Retrieves information about a gallery Application Version. */
   get(
     options: GalleryApplicationVersionsGetParameters
   ): StreamableMethod<
     | GalleryApplicationVersionsGet200Response
-    | GalleryApplicationVersionsGetdefaultResponse
+    | GalleryApplicationVersionsGetDefaultResponse
   >;
   /** Delete a gallery Application Version. */
   delete(
@@ -3110,7 +3110,7 @@ export interface GalleryApplicationVersionsCreateOrUpdate {
     | GalleryApplicationVersionsDelete200Response
     | GalleryApplicationVersionsDelete202Response
     | GalleryApplicationVersionsDelete204Response
-    | GalleryApplicationVersionsDeletedefaultResponse
+    | GalleryApplicationVersionsDeleteDefaultResponse
   >;
 }
 
@@ -3120,7 +3120,7 @@ export interface GalleryApplicationVersionsListByGalleryApplication {
     options: GalleryApplicationVersionsListByGalleryApplicationParameters
   ): StreamableMethod<
     | GalleryApplicationVersionsListByGalleryApplication200Response
-    | GalleryApplicationVersionsListByGalleryApplicationdefaultResponse
+    | GalleryApplicationVersionsListByGalleryApplicationDefaultResponse
   >;
 }
 
@@ -3131,7 +3131,7 @@ export interface GallerySharingProfileUpdate {
   ): StreamableMethod<
     | GallerySharingProfileUpdate200Response
     | GallerySharingProfileUpdate202Response
-    | GallerySharingProfileUpdatedefaultResponse
+    | GallerySharingProfileUpdateDefaultResponse
   >;
 }
 
@@ -3140,7 +3140,7 @@ export interface SharedGalleriesList {
   get(
     options: SharedGalleriesListParameters
   ): StreamableMethod<
-    SharedGalleriesList200Response | SharedGalleriesListdefaultResponse
+    SharedGalleriesList200Response | SharedGalleriesListDefaultResponse
   >;
 }
 
@@ -3149,7 +3149,7 @@ export interface SharedGalleriesGet {
   get(
     options: SharedGalleriesGetParameters
   ): StreamableMethod<
-    SharedGalleriesGet200Response | SharedGalleriesGetdefaultResponse
+    SharedGalleriesGet200Response | SharedGalleriesGetDefaultResponse
   >;
 }
 
@@ -3158,7 +3158,7 @@ export interface SharedGalleryImagesList {
   get(
     options: SharedGalleryImagesListParameters
   ): StreamableMethod<
-    SharedGalleryImagesList200Response | SharedGalleryImagesListdefaultResponse
+    SharedGalleryImagesList200Response | SharedGalleryImagesListDefaultResponse
   >;
 }
 
@@ -3167,7 +3167,7 @@ export interface SharedGalleryImagesGet {
   get(
     options: SharedGalleryImagesGetParameters
   ): StreamableMethod<
-    SharedGalleryImagesGet200Response | SharedGalleryImagesGetdefaultResponse
+    SharedGalleryImagesGet200Response | SharedGalleryImagesGetDefaultResponse
   >;
 }
 
@@ -3177,7 +3177,7 @@ export interface SharedGalleryImageVersionsList {
     options: SharedGalleryImageVersionsListParameters
   ): StreamableMethod<
     | SharedGalleryImageVersionsList200Response
-    | SharedGalleryImageVersionsListdefaultResponse
+    | SharedGalleryImageVersionsListDefaultResponse
   >;
 }
 
@@ -3187,7 +3187,7 @@ export interface SharedGalleryImageVersionsGet {
     options: SharedGalleryImageVersionsGetParameters
   ): StreamableMethod<
     | SharedGalleryImageVersionsGet200Response
-    | SharedGalleryImageVersionsGetdefaultResponse
+    | SharedGalleryImageVersionsGetDefaultResponse
   >;
 }
 
@@ -3196,7 +3196,7 @@ export interface CommunityGalleriesGet {
   get(
     options: CommunityGalleriesGetParameters
   ): StreamableMethod<
-    CommunityGalleriesGet200Response | CommunityGalleriesGetdefaultResponse
+    CommunityGalleriesGet200Response | CommunityGalleriesGetDefaultResponse
   >;
 }
 
@@ -3206,7 +3206,7 @@ export interface CommunityGalleryImagesGet {
     options: CommunityGalleryImagesGetParameters
   ): StreamableMethod<
     | CommunityGalleryImagesGet200Response
-    | CommunityGalleryImagesGetdefaultResponse
+    | CommunityGalleryImagesGetDefaultResponse
   >;
 }
 
@@ -3216,7 +3216,7 @@ export interface CommunityGalleryImagesList {
     options: CommunityGalleryImagesListParameters
   ): StreamableMethod<
     | CommunityGalleryImagesList200Response
-    | CommunityGalleryImagesListdefaultResponse
+    | CommunityGalleryImagesListDefaultResponse
   >;
 }
 
@@ -3226,7 +3226,7 @@ export interface CommunityGalleryImageVersionsGet {
     options: CommunityGalleryImageVersionsGetParameters
   ): StreamableMethod<
     | CommunityGalleryImageVersionsGet200Response
-    | CommunityGalleryImageVersionsGetdefaultResponse
+    | CommunityGalleryImageVersionsGetDefaultResponse
   >;
 }
 
@@ -3236,7 +3236,7 @@ export interface CommunityGalleryImageVersionsList {
     options: CommunityGalleryImageVersionsListParameters
   ): StreamableMethod<
     | CommunityGalleryImageVersionsList200Response
-    | CommunityGalleryImageVersionsListdefaultResponse
+    | CommunityGalleryImageVersionsListDefaultResponse
   >;
 }
 
@@ -3248,14 +3248,14 @@ export interface CloudServiceRoleInstancesDelete {
     | CloudServiceRoleInstancesDelete200Response
     | CloudServiceRoleInstancesDelete202Response
     | CloudServiceRoleInstancesDelete204Response
-    | CloudServiceRoleInstancesDeletedefaultResponse
+    | CloudServiceRoleInstancesDeleteDefaultResponse
   >;
   /** Gets a role instance from a cloud service. */
   get(
     options: CloudServiceRoleInstancesGetParameters
   ): StreamableMethod<
     | CloudServiceRoleInstancesGet200Response
-    | CloudServiceRoleInstancesGetdefaultResponse
+    | CloudServiceRoleInstancesGetDefaultResponse
   >;
 }
 
@@ -3265,7 +3265,7 @@ export interface CloudServiceRoleInstancesGetInstanceView {
     options: CloudServiceRoleInstancesGetInstanceViewParameters
   ): StreamableMethod<
     | CloudServiceRoleInstancesGetInstanceView200Response
-    | CloudServiceRoleInstancesGetInstanceViewdefaultResponse
+    | CloudServiceRoleInstancesGetInstanceViewDefaultResponse
   >;
 }
 
@@ -3275,7 +3275,7 @@ export interface CloudServiceRoleInstancesList {
     options: CloudServiceRoleInstancesListParameters
   ): StreamableMethod<
     | CloudServiceRoleInstancesList200Response
-    | CloudServiceRoleInstancesListdefaultResponse
+    | CloudServiceRoleInstancesListDefaultResponse
   >;
 }
 
@@ -3286,7 +3286,7 @@ export interface CloudServiceRoleInstancesRestart {
   ): StreamableMethod<
     | CloudServiceRoleInstancesRestart200Response
     | CloudServiceRoleInstancesRestart202Response
-    | CloudServiceRoleInstancesRestartdefaultResponse
+    | CloudServiceRoleInstancesRestartDefaultResponse
   >;
 }
 
@@ -3297,7 +3297,7 @@ export interface CloudServiceRoleInstancesReimage {
   ): StreamableMethod<
     | CloudServiceRoleInstancesReimage200Response
     | CloudServiceRoleInstancesReimage202Response
-    | CloudServiceRoleInstancesReimagedefaultResponse
+    | CloudServiceRoleInstancesReimageDefaultResponse
   >;
 }
 
@@ -3308,7 +3308,7 @@ export interface CloudServiceRoleInstancesRebuild {
   ): StreamableMethod<
     | CloudServiceRoleInstancesRebuild200Response
     | CloudServiceRoleInstancesRebuild202Response
-    | CloudServiceRoleInstancesRebuilddefaultResponse
+    | CloudServiceRoleInstancesRebuildDefaultResponse
   >;
 }
 
@@ -3318,7 +3318,7 @@ export interface CloudServiceRoleInstancesGetRemoteDesktopFile {
     options: CloudServiceRoleInstancesGetRemoteDesktopFileParameters
   ): StreamableMethod<
     | CloudServiceRoleInstancesGetRemoteDesktopFile200Response
-    | CloudServiceRoleInstancesGetRemoteDesktopFiledefaultResponse
+    | CloudServiceRoleInstancesGetRemoteDesktopFileDefaultResponse
   >;
 }
 
@@ -3327,7 +3327,7 @@ export interface CloudServiceRolesGet {
   get(
     options: CloudServiceRolesGetParameters
   ): StreamableMethod<
-    CloudServiceRolesGet200Response | CloudServiceRolesGetdefaultResponse
+    CloudServiceRolesGet200Response | CloudServiceRolesGetDefaultResponse
   >;
 }
 
@@ -3336,7 +3336,7 @@ export interface CloudServiceRolesList {
   get(
     options: CloudServiceRolesListParameters
   ): StreamableMethod<
-    CloudServiceRolesList200Response | CloudServiceRolesListdefaultResponse
+    CloudServiceRolesList200Response | CloudServiceRolesListDefaultResponse
   >;
 }
 
@@ -3347,13 +3347,13 @@ export interface CloudServicesCreateOrUpdate {
   ): StreamableMethod<
     | CloudServicesCreateOrUpdate200Response
     | CloudServicesCreateOrUpdate201Response
-    | CloudServicesCreateOrUpdatedefaultResponse
+    | CloudServicesCreateOrUpdateDefaultResponse
   >;
   /** Update a cloud service. */
   patch(
     options: CloudServicesUpdateParameters
   ): StreamableMethod<
-    CloudServicesUpdate200Response | CloudServicesUpdatedefaultResponse
+    CloudServicesUpdate200Response | CloudServicesUpdateDefaultResponse
   >;
   /** Deletes a cloud service. */
   delete(
@@ -3362,13 +3362,13 @@ export interface CloudServicesCreateOrUpdate {
     | CloudServicesDelete200Response
     | CloudServicesDelete202Response
     | CloudServicesDelete204Response
-    | CloudServicesDeletedefaultResponse
+    | CloudServicesDeleteDefaultResponse
   >;
   /** Display information about a cloud service. */
   get(
     options: CloudServicesGetParameters
   ): StreamableMethod<
-    CloudServicesGet200Response | CloudServicesGetdefaultResponse
+    CloudServicesGet200Response | CloudServicesGetDefaultResponse
   >;
 }
 
@@ -3378,7 +3378,7 @@ export interface CloudServicesGetInstanceView {
     options: CloudServicesGetInstanceViewParameters
   ): StreamableMethod<
     | CloudServicesGetInstanceView200Response
-    | CloudServicesGetInstanceViewdefaultResponse
+    | CloudServicesGetInstanceViewDefaultResponse
   >;
 }
 
@@ -3387,7 +3387,7 @@ export interface CloudServicesListAll {
   get(
     options: CloudServicesListAllParameters
   ): StreamableMethod<
-    CloudServicesListAll200Response | CloudServicesListAlldefaultResponse
+    CloudServicesListAll200Response | CloudServicesListAllDefaultResponse
   >;
 }
 
@@ -3396,7 +3396,7 @@ export interface CloudServicesList {
   get(
     options: CloudServicesListParameters
   ): StreamableMethod<
-    CloudServicesList200Response | CloudServicesListdefaultResponse
+    CloudServicesList200Response | CloudServicesListDefaultResponse
   >;
 }
 
@@ -3407,7 +3407,7 @@ export interface CloudServicesStart {
   ): StreamableMethod<
     | CloudServicesStart200Response
     | CloudServicesStart202Response
-    | CloudServicesStartdefaultResponse
+    | CloudServicesStartDefaultResponse
   >;
 }
 
@@ -3418,7 +3418,7 @@ export interface CloudServicesPowerOff {
   ): StreamableMethod<
     | CloudServicesPowerOff200Response
     | CloudServicesPowerOff202Response
-    | CloudServicesPowerOffdefaultResponse
+    | CloudServicesPowerOffDefaultResponse
   >;
 }
 
@@ -3429,7 +3429,7 @@ export interface CloudServicesRestart {
   ): StreamableMethod<
     | CloudServicesRestart200Response
     | CloudServicesRestart202Response
-    | CloudServicesRestartdefaultResponse
+    | CloudServicesRestartDefaultResponse
   >;
 }
 
@@ -3440,7 +3440,7 @@ export interface CloudServicesReimage {
   ): StreamableMethod<
     | CloudServicesReimage200Response
     | CloudServicesReimage202Response
-    | CloudServicesReimagedefaultResponse
+    | CloudServicesReimageDefaultResponse
   >;
 }
 
@@ -3451,7 +3451,7 @@ export interface CloudServicesRebuild {
   ): StreamableMethod<
     | CloudServicesRebuild200Response
     | CloudServicesRebuild202Response
-    | CloudServicesRebuilddefaultResponse
+    | CloudServicesRebuildDefaultResponse
   >;
 }
 
@@ -3462,7 +3462,7 @@ export interface CloudServicesDeleteInstances {
   ): StreamableMethod<
     | CloudServicesDeleteInstances200Response
     | CloudServicesDeleteInstances202Response
-    | CloudServicesDeleteInstancesdefaultResponse
+    | CloudServicesDeleteInstancesDefaultResponse
   >;
 }
 
@@ -3473,14 +3473,14 @@ export interface CloudServicesUpdateDomainWalkUpdateDomain {
   ): StreamableMethod<
     | CloudServicesUpdateDomainWalkUpdateDomain200Response
     | CloudServicesUpdateDomainWalkUpdateDomain202Response
-    | CloudServicesUpdateDomainWalkUpdateDomaindefaultResponse
+    | CloudServicesUpdateDomainWalkUpdateDomainDefaultResponse
   >;
   /** Gets the specified update domain of a cloud service. Use nextLink property in the response to get the next page of update domains. Do this till nextLink is null to fetch all the update domains. */
   get(
     options: CloudServicesUpdateDomainGetUpdateDomainParameters
   ): StreamableMethod<
     | CloudServicesUpdateDomainGetUpdateDomain200Response
-    | CloudServicesUpdateDomainGetUpdateDomaindefaultResponse
+    | CloudServicesUpdateDomainGetUpdateDomainDefaultResponse
   >;
 }
 
@@ -3490,7 +3490,7 @@ export interface CloudServicesUpdateDomainListUpdateDomains {
     options: CloudServicesUpdateDomainListUpdateDomainsParameters
   ): StreamableMethod<
     | CloudServicesUpdateDomainListUpdateDomains200Response
-    | CloudServicesUpdateDomainListUpdateDomainsdefaultResponse
+    | CloudServicesUpdateDomainListUpdateDomainsDefaultResponse
   >;
 }
 
@@ -3500,7 +3500,7 @@ export interface CloudServiceOperatingSystemsGetOSVersion {
     options: CloudServiceOperatingSystemsGetOSVersionParameters
   ): StreamableMethod<
     | CloudServiceOperatingSystemsGetOSVersion200Response
-    | CloudServiceOperatingSystemsGetOSVersiondefaultResponse
+    | CloudServiceOperatingSystemsGetOSVersionDefaultResponse
   >;
 }
 
@@ -3510,7 +3510,7 @@ export interface CloudServiceOperatingSystemsListOSVersions {
     options: CloudServiceOperatingSystemsListOSVersionsParameters
   ): StreamableMethod<
     | CloudServiceOperatingSystemsListOSVersions200Response
-    | CloudServiceOperatingSystemsListOSVersionsdefaultResponse
+    | CloudServiceOperatingSystemsListOSVersionsDefaultResponse
   >;
 }
 
@@ -3520,7 +3520,7 @@ export interface CloudServiceOperatingSystemsGetOSFamily {
     options: CloudServiceOperatingSystemsGetOSFamilyParameters
   ): StreamableMethod<
     | CloudServiceOperatingSystemsGetOSFamily200Response
-    | CloudServiceOperatingSystemsGetOSFamilydefaultResponse
+    | CloudServiceOperatingSystemsGetOSFamilyDefaultResponse
   >;
 }
 
@@ -3530,7 +3530,7 @@ export interface CloudServiceOperatingSystemsListOSFamilies {
     options: CloudServiceOperatingSystemsListOSFamiliesParameters
   ): StreamableMethod<
     | CloudServiceOperatingSystemsListOSFamilies200Response
-    | CloudServiceOperatingSystemsListOSFamiliesdefaultResponse
+    | CloudServiceOperatingSystemsListOSFamiliesDefaultResponse
   >;
 }
 

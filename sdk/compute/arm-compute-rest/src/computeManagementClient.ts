@@ -5,12 +5,15 @@ import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 import { ComputeManagementClient } from "./clientDefinitions";
 
+/**
+ * Initialize a new instance of the class ComputeManagementClient class.
+ * @param credentials type: TokenCredential
+ */
 export default function createClient(
   credentials: TokenCredential,
   options: ClientOptions = {}
 ): ComputeManagementClient {
-  const baseUrl = options.baseUrl ?? "https://management.azure.com";
-
+  const baseUrl = options.baseUrl ?? `https://management.azure.com`;
   options = {
     ...options,
     credentials: {

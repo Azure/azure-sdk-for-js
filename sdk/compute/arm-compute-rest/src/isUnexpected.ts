@@ -3,653 +3,653 @@
 
 import {
   OperationsList200Response,
-  OperationsListdefaultResponse,
+  OperationsListDefaultResponse,
   UsageList200Response,
-  UsageListdefaultResponse,
+  UsageListDefaultResponse,
   VirtualMachineSizesList200Response,
-  VirtualMachineSizesListdefaultResponse,
+  VirtualMachineSizesListDefaultResponse,
   VirtualMachineScaleSetsListByLocation200Response,
-  VirtualMachineScaleSetsListByLocationdefaultResponse,
+  VirtualMachineScaleSetsListByLocationDefaultResponse,
   VirtualMachineScaleSetsCreateOrUpdate200Response,
   VirtualMachineScaleSetsCreateOrUpdate201Response,
-  VirtualMachineScaleSetsCreateOrUpdatedefaultResponse,
+  VirtualMachineScaleSetsCreateOrUpdateDefaultResponse,
   VirtualMachineScaleSetsUpdate200Response,
-  VirtualMachineScaleSetsUpdatedefaultResponse,
+  VirtualMachineScaleSetsUpdateDefaultResponse,
   VirtualMachineScaleSetsDelete200Response,
   VirtualMachineScaleSetsDelete202Response,
   VirtualMachineScaleSetsDelete204Response,
-  VirtualMachineScaleSetsDeletedefaultResponse,
+  VirtualMachineScaleSetsDeleteDefaultResponse,
   VirtualMachineScaleSetsGet200Response,
-  VirtualMachineScaleSetsGetdefaultResponse,
+  VirtualMachineScaleSetsGetDefaultResponse,
   VirtualMachineScaleSetsDeallocate200Response,
   VirtualMachineScaleSetsDeallocate202Response,
-  VirtualMachineScaleSetsDeallocatedefaultResponse,
+  VirtualMachineScaleSetsDeallocateDefaultResponse,
   VirtualMachineScaleSetsDeleteInstances200Response,
   VirtualMachineScaleSetsDeleteInstances202Response,
-  VirtualMachineScaleSetsDeleteInstancesdefaultResponse,
+  VirtualMachineScaleSetsDeleteInstancesDefaultResponse,
   VirtualMachineScaleSetsGetInstanceView200Response,
-  VirtualMachineScaleSetsGetInstanceViewdefaultResponse,
+  VirtualMachineScaleSetsGetInstanceViewDefaultResponse,
   VirtualMachineScaleSetsList200Response,
-  VirtualMachineScaleSetsListdefaultResponse,
+  VirtualMachineScaleSetsListDefaultResponse,
   VirtualMachineScaleSetsListAll200Response,
-  VirtualMachineScaleSetsListAlldefaultResponse,
+  VirtualMachineScaleSetsListAllDefaultResponse,
   VirtualMachineScaleSetsListSkus200Response,
-  VirtualMachineScaleSetsListSkusdefaultResponse,
+  VirtualMachineScaleSetsListSkusDefaultResponse,
   VirtualMachineScaleSetsGetOSUpgradeHistory200Response,
-  VirtualMachineScaleSetsGetOSUpgradeHistorydefaultResponse,
+  VirtualMachineScaleSetsGetOSUpgradeHistoryDefaultResponse,
   VirtualMachineScaleSetsPowerOff200Response,
   VirtualMachineScaleSetsPowerOff202Response,
-  VirtualMachineScaleSetsPowerOffdefaultResponse,
+  VirtualMachineScaleSetsPowerOffDefaultResponse,
   VirtualMachineScaleSetsRestart200Response,
   VirtualMachineScaleSetsRestart202Response,
-  VirtualMachineScaleSetsRestartdefaultResponse,
+  VirtualMachineScaleSetsRestartDefaultResponse,
   VirtualMachineScaleSetsStart200Response,
   VirtualMachineScaleSetsStart202Response,
-  VirtualMachineScaleSetsStartdefaultResponse,
+  VirtualMachineScaleSetsStartDefaultResponse,
   VirtualMachineScaleSetsRedeploy200Response,
   VirtualMachineScaleSetsRedeploy202Response,
-  VirtualMachineScaleSetsRedeploydefaultResponse,
+  VirtualMachineScaleSetsRedeployDefaultResponse,
   VirtualMachineScaleSetsPerformMaintenance200Response,
   VirtualMachineScaleSetsPerformMaintenance202Response,
-  VirtualMachineScaleSetsPerformMaintenancedefaultResponse,
+  VirtualMachineScaleSetsPerformMaintenanceDefaultResponse,
   VirtualMachineScaleSetsUpdateInstances200Response,
   VirtualMachineScaleSetsUpdateInstances202Response,
-  VirtualMachineScaleSetsUpdateInstancesdefaultResponse,
+  VirtualMachineScaleSetsUpdateInstancesDefaultResponse,
   VirtualMachineScaleSetsReimage200Response,
   VirtualMachineScaleSetsReimage202Response,
-  VirtualMachineScaleSetsReimagedefaultResponse,
+  VirtualMachineScaleSetsReimageDefaultResponse,
   VirtualMachineScaleSetsReimageAll200Response,
   VirtualMachineScaleSetsReimageAll202Response,
-  VirtualMachineScaleSetsReimageAlldefaultResponse,
+  VirtualMachineScaleSetsReimageAllDefaultResponse,
   VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalk200Response,
-  VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkdefaultResponse,
+  VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkDefaultResponse,
   VirtualMachineScaleSetsConvertToSinglePlacementGroup200Response,
-  VirtualMachineScaleSetsConvertToSinglePlacementGroupdefaultResponse,
+  VirtualMachineScaleSetsConvertToSinglePlacementGroupDefaultResponse,
   VirtualMachineScaleSetsSetOrchestrationServiceState200Response,
   VirtualMachineScaleSetsSetOrchestrationServiceState202Response,
-  VirtualMachineScaleSetsSetOrchestrationServiceStatedefaultResponse,
+  VirtualMachineScaleSetsSetOrchestrationServiceStateDefaultResponse,
   VirtualMachineScaleSetExtensionsCreateOrUpdate200Response,
   VirtualMachineScaleSetExtensionsCreateOrUpdate201Response,
-  VirtualMachineScaleSetExtensionsCreateOrUpdatedefaultResponse,
+  VirtualMachineScaleSetExtensionsCreateOrUpdateDefaultResponse,
   VirtualMachineScaleSetExtensionsUpdate200Response,
   VirtualMachineScaleSetExtensionsUpdate201Response,
-  VirtualMachineScaleSetExtensionsUpdatedefaultResponse,
+  VirtualMachineScaleSetExtensionsUpdateDefaultResponse,
   VirtualMachineScaleSetExtensionsDelete200Response,
   VirtualMachineScaleSetExtensionsDelete202Response,
   VirtualMachineScaleSetExtensionsDelete204Response,
-  VirtualMachineScaleSetExtensionsDeletedefaultResponse,
+  VirtualMachineScaleSetExtensionsDeleteDefaultResponse,
   VirtualMachineScaleSetExtensionsGet200Response,
-  VirtualMachineScaleSetExtensionsGetdefaultResponse,
+  VirtualMachineScaleSetExtensionsGetDefaultResponse,
   VirtualMachineScaleSetExtensionsList200Response,
-  VirtualMachineScaleSetExtensionsListdefaultResponse,
+  VirtualMachineScaleSetExtensionsListDefaultResponse,
   VirtualMachineScaleSetRollingUpgradesCancel200Response,
   VirtualMachineScaleSetRollingUpgradesCancel202Response,
-  VirtualMachineScaleSetRollingUpgradesCanceldefaultResponse,
+  VirtualMachineScaleSetRollingUpgradesCancelDefaultResponse,
   VirtualMachineScaleSetRollingUpgradesStartOSUpgrade200Response,
   VirtualMachineScaleSetRollingUpgradesStartOSUpgrade202Response,
-  VirtualMachineScaleSetRollingUpgradesStartOSUpgradedefaultResponse,
+  VirtualMachineScaleSetRollingUpgradesStartOSUpgradeDefaultResponse,
   VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade200Response,
   VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade202Response,
-  VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradedefaultResponse,
+  VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeDefaultResponse,
   VirtualMachineScaleSetRollingUpgradesGetLatest200Response,
-  VirtualMachineScaleSetRollingUpgradesGetLatestdefaultResponse,
+  VirtualMachineScaleSetRollingUpgradesGetLatestDefaultResponse,
   VirtualMachineScaleSetVMExtensionsCreateOrUpdate200Response,
   VirtualMachineScaleSetVMExtensionsCreateOrUpdate201Response,
-  VirtualMachineScaleSetVMExtensionsCreateOrUpdatedefaultResponse,
+  VirtualMachineScaleSetVMExtensionsCreateOrUpdateDefaultResponse,
   VirtualMachineScaleSetVMExtensionsUpdate200Response,
-  VirtualMachineScaleSetVMExtensionsUpdatedefaultResponse,
+  VirtualMachineScaleSetVMExtensionsUpdateDefaultResponse,
   VirtualMachineScaleSetVMExtensionsDelete200Response,
   VirtualMachineScaleSetVMExtensionsDelete202Response,
   VirtualMachineScaleSetVMExtensionsDelete204Response,
-  VirtualMachineScaleSetVMExtensionsDeletedefaultResponse,
+  VirtualMachineScaleSetVMExtensionsDeleteDefaultResponse,
   VirtualMachineScaleSetVMExtensionsGet200Response,
-  VirtualMachineScaleSetVMExtensionsGetdefaultResponse,
+  VirtualMachineScaleSetVMExtensionsGetDefaultResponse,
   VirtualMachineScaleSetVMExtensionsList200Response,
-  VirtualMachineScaleSetVMExtensionsListdefaultResponse,
+  VirtualMachineScaleSetVMExtensionsListDefaultResponse,
   VirtualMachineScaleSetVMsReimage200Response,
   VirtualMachineScaleSetVMsReimage202Response,
-  VirtualMachineScaleSetVMsReimagedefaultResponse,
+  VirtualMachineScaleSetVMsReimageDefaultResponse,
   VirtualMachineScaleSetVMsReimageAll200Response,
   VirtualMachineScaleSetVMsReimageAll202Response,
-  VirtualMachineScaleSetVMsReimageAlldefaultResponse,
+  VirtualMachineScaleSetVMsReimageAllDefaultResponse,
   VirtualMachineScaleSetVMsDeallocate200Response,
   VirtualMachineScaleSetVMsDeallocate202Response,
-  VirtualMachineScaleSetVMsDeallocatedefaultResponse,
+  VirtualMachineScaleSetVMsDeallocateDefaultResponse,
   VirtualMachineScaleSetVMsUpdate200Response,
   VirtualMachineScaleSetVMsUpdate202Response,
-  VirtualMachineScaleSetVMsUpdatedefaultResponse,
+  VirtualMachineScaleSetVMsUpdateDefaultResponse,
   VirtualMachineScaleSetVMsDelete200Response,
   VirtualMachineScaleSetVMsDelete202Response,
   VirtualMachineScaleSetVMsDelete204Response,
-  VirtualMachineScaleSetVMsDeletedefaultResponse,
+  VirtualMachineScaleSetVMsDeleteDefaultResponse,
   VirtualMachineScaleSetVMsGet200Response,
-  VirtualMachineScaleSetVMsGetdefaultResponse,
+  VirtualMachineScaleSetVMsGetDefaultResponse,
   VirtualMachineScaleSetVMsGetInstanceView200Response,
-  VirtualMachineScaleSetVMsGetInstanceViewdefaultResponse,
+  VirtualMachineScaleSetVMsGetInstanceViewDefaultResponse,
   VirtualMachineScaleSetVMsList200Response,
-  VirtualMachineScaleSetVMsListdefaultResponse,
+  VirtualMachineScaleSetVMsListDefaultResponse,
   VirtualMachineScaleSetVMsPowerOff200Response,
   VirtualMachineScaleSetVMsPowerOff202Response,
-  VirtualMachineScaleSetVMsPowerOffdefaultResponse,
+  VirtualMachineScaleSetVMsPowerOffDefaultResponse,
   VirtualMachineScaleSetVMsRestart200Response,
   VirtualMachineScaleSetVMsRestart202Response,
-  VirtualMachineScaleSetVMsRestartdefaultResponse,
+  VirtualMachineScaleSetVMsRestartDefaultResponse,
   VirtualMachineScaleSetVMsStart200Response,
   VirtualMachineScaleSetVMsStart202Response,
-  VirtualMachineScaleSetVMsStartdefaultResponse,
+  VirtualMachineScaleSetVMsStartDefaultResponse,
   VirtualMachineScaleSetVMsRedeploy200Response,
   VirtualMachineScaleSetVMsRedeploy202Response,
-  VirtualMachineScaleSetVMsRedeploydefaultResponse,
+  VirtualMachineScaleSetVMsRedeployDefaultResponse,
   VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData200Response,
-  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDatadefaultResponse,
+  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataDefaultResponse,
   VirtualMachineScaleSetVMsPerformMaintenance200Response,
   VirtualMachineScaleSetVMsPerformMaintenance202Response,
-  VirtualMachineScaleSetVMsPerformMaintenancedefaultResponse,
+  VirtualMachineScaleSetVMsPerformMaintenanceDefaultResponse,
   VirtualMachineScaleSetVMsSimulateEviction204Response,
-  VirtualMachineScaleSetVMsSimulateEvictiondefaultResponse,
+  VirtualMachineScaleSetVMsSimulateEvictionDefaultResponse,
   VirtualMachineExtensionsCreateOrUpdate200Response,
   VirtualMachineExtensionsCreateOrUpdate201Response,
-  VirtualMachineExtensionsCreateOrUpdatedefaultResponse,
+  VirtualMachineExtensionsCreateOrUpdateDefaultResponse,
   VirtualMachineExtensionsUpdate200Response,
-  VirtualMachineExtensionsUpdatedefaultResponse,
+  VirtualMachineExtensionsUpdateDefaultResponse,
   VirtualMachineExtensionsDelete200Response,
   VirtualMachineExtensionsDelete202Response,
   VirtualMachineExtensionsDelete204Response,
-  VirtualMachineExtensionsDeletedefaultResponse,
+  VirtualMachineExtensionsDeleteDefaultResponse,
   VirtualMachineExtensionsGet200Response,
-  VirtualMachineExtensionsGetdefaultResponse,
+  VirtualMachineExtensionsGetDefaultResponse,
   VirtualMachineExtensionsList200Response,
-  VirtualMachineExtensionsListdefaultResponse,
+  VirtualMachineExtensionsListDefaultResponse,
   VirtualMachinesListByLocation200Response,
-  VirtualMachinesListByLocationdefaultResponse,
+  VirtualMachinesListByLocationDefaultResponse,
   VirtualMachinesCapture200Response,
   VirtualMachinesCapture202Response,
-  VirtualMachinesCapturedefaultResponse,
+  VirtualMachinesCaptureDefaultResponse,
   VirtualMachinesCreateOrUpdate200Response,
   VirtualMachinesCreateOrUpdate201Response,
-  VirtualMachinesCreateOrUpdatedefaultResponse,
+  VirtualMachinesCreateOrUpdateDefaultResponse,
   VirtualMachinesUpdate200Response,
-  VirtualMachinesUpdatedefaultResponse,
+  VirtualMachinesUpdateDefaultResponse,
   VirtualMachinesDelete200Response,
   VirtualMachinesDelete202Response,
   VirtualMachinesDelete204Response,
-  VirtualMachinesDeletedefaultResponse,
+  VirtualMachinesDeleteDefaultResponse,
   VirtualMachinesGet200Response,
-  VirtualMachinesGetdefaultResponse,
+  VirtualMachinesGetDefaultResponse,
   VirtualMachinesInstanceView200Response,
-  VirtualMachinesInstanceViewdefaultResponse,
+  VirtualMachinesInstanceViewDefaultResponse,
   VirtualMachinesConvertToManagedDisks200Response,
   VirtualMachinesConvertToManagedDisks202Response,
-  VirtualMachinesConvertToManagedDisksdefaultResponse,
+  VirtualMachinesConvertToManagedDisksDefaultResponse,
   VirtualMachinesDeallocate200Response,
   VirtualMachinesDeallocate202Response,
-  VirtualMachinesDeallocatedefaultResponse,
+  VirtualMachinesDeallocateDefaultResponse,
   VirtualMachinesGeneralize200Response,
-  VirtualMachinesGeneralizedefaultResponse,
+  VirtualMachinesGeneralizeDefaultResponse,
   VirtualMachinesList200Response,
-  VirtualMachinesListdefaultResponse,
+  VirtualMachinesListDefaultResponse,
   VirtualMachinesListAll200Response,
-  VirtualMachinesListAlldefaultResponse,
+  VirtualMachinesListAllDefaultResponse,
   VirtualMachinesListAvailableSizes200Response,
-  VirtualMachinesListAvailableSizesdefaultResponse,
+  VirtualMachinesListAvailableSizesDefaultResponse,
   VirtualMachinesPowerOff200Response,
   VirtualMachinesPowerOff202Response,
-  VirtualMachinesPowerOffdefaultResponse,
+  VirtualMachinesPowerOffDefaultResponse,
   VirtualMachinesReapply200Response,
   VirtualMachinesReapply202Response,
-  VirtualMachinesReapplydefaultResponse,
+  VirtualMachinesReapplyDefaultResponse,
   VirtualMachinesRestart200Response,
   VirtualMachinesRestart202Response,
-  VirtualMachinesRestartdefaultResponse,
+  VirtualMachinesRestartDefaultResponse,
   VirtualMachinesStart200Response,
   VirtualMachinesStart202Response,
-  VirtualMachinesStartdefaultResponse,
+  VirtualMachinesStartDefaultResponse,
   VirtualMachinesRedeploy200Response,
   VirtualMachinesRedeploy202Response,
-  VirtualMachinesRedeploydefaultResponse,
+  VirtualMachinesRedeployDefaultResponse,
   VirtualMachinesReimage200Response,
   VirtualMachinesReimage202Response,
-  VirtualMachinesReimagedefaultResponse,
+  VirtualMachinesReimageDefaultResponse,
   VirtualMachinesRetrieveBootDiagnosticsData200Response,
-  VirtualMachinesRetrieveBootDiagnosticsDatadefaultResponse,
+  VirtualMachinesRetrieveBootDiagnosticsDataDefaultResponse,
   VirtualMachinesPerformMaintenance200Response,
   VirtualMachinesPerformMaintenance202Response,
-  VirtualMachinesPerformMaintenancedefaultResponse,
+  VirtualMachinesPerformMaintenanceDefaultResponse,
   VirtualMachinesSimulateEviction204Response,
-  VirtualMachinesSimulateEvictiondefaultResponse,
+  VirtualMachinesSimulateEvictionDefaultResponse,
   VirtualMachinesAssessPatches200Response,
   VirtualMachinesAssessPatches202Response,
-  VirtualMachinesAssessPatchesdefaultResponse,
+  VirtualMachinesAssessPatchesDefaultResponse,
   VirtualMachinesInstallPatches200Response,
   VirtualMachinesInstallPatches202Response,
-  VirtualMachinesInstallPatchesdefaultResponse,
+  VirtualMachinesInstallPatchesDefaultResponse,
   VirtualMachineImagesGet200Response,
-  VirtualMachineImagesGetdefaultResponse,
+  VirtualMachineImagesGetDefaultResponse,
   VirtualMachineImagesList200Response,
-  VirtualMachineImagesListdefaultResponse,
+  VirtualMachineImagesListDefaultResponse,
   VirtualMachineImagesListOffers200Response,
-  VirtualMachineImagesListOffersdefaultResponse,
+  VirtualMachineImagesListOffersDefaultResponse,
   VirtualMachineImagesListPublishers200Response,
-  VirtualMachineImagesListPublishersdefaultResponse,
+  VirtualMachineImagesListPublishersDefaultResponse,
   VirtualMachineImagesListSkus200Response,
-  VirtualMachineImagesListSkusdefaultResponse,
+  VirtualMachineImagesListSkusDefaultResponse,
   VirtualMachineImagesListByEdgeZone200Response,
-  VirtualMachineImagesListByEdgeZonedefaultResponse,
+  VirtualMachineImagesListByEdgeZoneDefaultResponse,
   VirtualMachineImagesEdgeZoneGet200Response,
-  VirtualMachineImagesEdgeZoneGetdefaultResponse,
+  VirtualMachineImagesEdgeZoneGetDefaultResponse,
   VirtualMachineImagesEdgeZoneList200Response,
-  VirtualMachineImagesEdgeZoneListdefaultResponse,
+  VirtualMachineImagesEdgeZoneListDefaultResponse,
   VirtualMachineImagesEdgeZoneListOffers200Response,
-  VirtualMachineImagesEdgeZoneListOffersdefaultResponse,
+  VirtualMachineImagesEdgeZoneListOffersDefaultResponse,
   VirtualMachineImagesEdgeZoneListPublishers200Response,
-  VirtualMachineImagesEdgeZoneListPublishersdefaultResponse,
+  VirtualMachineImagesEdgeZoneListPublishersDefaultResponse,
   VirtualMachineImagesEdgeZoneListSkus200Response,
-  VirtualMachineImagesEdgeZoneListSkusdefaultResponse,
+  VirtualMachineImagesEdgeZoneListSkusDefaultResponse,
   VirtualMachineExtensionImagesGet200Response,
-  VirtualMachineExtensionImagesGetdefaultResponse,
+  VirtualMachineExtensionImagesGetDefaultResponse,
   VirtualMachineExtensionImagesListTypes200Response,
-  VirtualMachineExtensionImagesListTypesdefaultResponse,
+  VirtualMachineExtensionImagesListTypesDefaultResponse,
   VirtualMachineExtensionImagesListVersions200Response,
-  VirtualMachineExtensionImagesListVersionsdefaultResponse,
+  VirtualMachineExtensionImagesListVersionsDefaultResponse,
   AvailabilitySetsCreateOrUpdate200Response,
-  AvailabilitySetsCreateOrUpdatedefaultResponse,
+  AvailabilitySetsCreateOrUpdateDefaultResponse,
   AvailabilitySetsUpdate200Response,
-  AvailabilitySetsUpdatedefaultResponse,
+  AvailabilitySetsUpdateDefaultResponse,
   AvailabilitySetsDelete200Response,
   AvailabilitySetsDelete204Response,
-  AvailabilitySetsDeletedefaultResponse,
+  AvailabilitySetsDeleteDefaultResponse,
   AvailabilitySetsGet200Response,
-  AvailabilitySetsGetdefaultResponse,
+  AvailabilitySetsGetDefaultResponse,
   AvailabilitySetsListBySubscription200Response,
-  AvailabilitySetsListBySubscriptiondefaultResponse,
+  AvailabilitySetsListBySubscriptionDefaultResponse,
   AvailabilitySetsList200Response,
-  AvailabilitySetsListdefaultResponse,
+  AvailabilitySetsListDefaultResponse,
   AvailabilitySetsListAvailableSizes200Response,
-  AvailabilitySetsListAvailableSizesdefaultResponse,
+  AvailabilitySetsListAvailableSizesDefaultResponse,
   ProximityPlacementGroupsCreateOrUpdate200Response,
   ProximityPlacementGroupsCreateOrUpdate201Response,
-  ProximityPlacementGroupsCreateOrUpdatedefaultResponse,
+  ProximityPlacementGroupsCreateOrUpdateDefaultResponse,
   ProximityPlacementGroupsUpdate200Response,
-  ProximityPlacementGroupsUpdatedefaultResponse,
+  ProximityPlacementGroupsUpdateDefaultResponse,
   ProximityPlacementGroupsDelete200Response,
-  ProximityPlacementGroupsDeletedefaultResponse,
+  ProximityPlacementGroupsDeleteDefaultResponse,
   ProximityPlacementGroupsGet200Response,
-  ProximityPlacementGroupsGetdefaultResponse,
+  ProximityPlacementGroupsGetDefaultResponse,
   ProximityPlacementGroupsListBySubscription200Response,
-  ProximityPlacementGroupsListBySubscriptiondefaultResponse,
+  ProximityPlacementGroupsListBySubscriptionDefaultResponse,
   ProximityPlacementGroupsListByResourceGroup200Response,
-  ProximityPlacementGroupsListByResourceGroupdefaultResponse,
+  ProximityPlacementGroupsListByResourceGroupDefaultResponse,
   DedicatedHostGroupsCreateOrUpdate200Response,
   DedicatedHostGroupsCreateOrUpdate201Response,
-  DedicatedHostGroupsCreateOrUpdatedefaultResponse,
+  DedicatedHostGroupsCreateOrUpdateDefaultResponse,
   DedicatedHostGroupsUpdate200Response,
-  DedicatedHostGroupsUpdatedefaultResponse,
+  DedicatedHostGroupsUpdateDefaultResponse,
   DedicatedHostGroupsDelete200Response,
   DedicatedHostGroupsDelete204Response,
-  DedicatedHostGroupsDeletedefaultResponse,
+  DedicatedHostGroupsDeleteDefaultResponse,
   DedicatedHostGroupsGet200Response,
-  DedicatedHostGroupsGetdefaultResponse,
+  DedicatedHostGroupsGetDefaultResponse,
   DedicatedHostGroupsListByResourceGroup200Response,
-  DedicatedHostGroupsListByResourceGroupdefaultResponse,
+  DedicatedHostGroupsListByResourceGroupDefaultResponse,
   DedicatedHostGroupsListBySubscription200Response,
-  DedicatedHostGroupsListBySubscriptiondefaultResponse,
+  DedicatedHostGroupsListBySubscriptionDefaultResponse,
   DedicatedHostsCreateOrUpdate200Response,
   DedicatedHostsCreateOrUpdate201Response,
-  DedicatedHostsCreateOrUpdatedefaultResponse,
+  DedicatedHostsCreateOrUpdateDefaultResponse,
   DedicatedHostsUpdate200Response,
-  DedicatedHostsUpdatedefaultResponse,
+  DedicatedHostsUpdateDefaultResponse,
   DedicatedHostsDelete200Response,
   DedicatedHostsDelete202Response,
   DedicatedHostsDelete204Response,
-  DedicatedHostsDeletedefaultResponse,
+  DedicatedHostsDeleteDefaultResponse,
   DedicatedHostsGet200Response,
-  DedicatedHostsGetdefaultResponse,
+  DedicatedHostsGetDefaultResponse,
   DedicatedHostsListByHostGroup200Response,
-  DedicatedHostsListByHostGroupdefaultResponse,
+  DedicatedHostsListByHostGroupDefaultResponse,
   DedicatedHostsRestart200Response,
-  DedicatedHostsRestartdefaultResponse,
+  DedicatedHostsRestartDefaultResponse,
   SshPublicKeysListBySubscription200Response,
-  SshPublicKeysListBySubscriptiondefaultResponse,
+  SshPublicKeysListBySubscriptionDefaultResponse,
   SshPublicKeysListByResourceGroup200Response,
-  SshPublicKeysListByResourceGroupdefaultResponse,
+  SshPublicKeysListByResourceGroupDefaultResponse,
   SshPublicKeysCreate200Response,
   SshPublicKeysCreate201Response,
-  SshPublicKeysCreatedefaultResponse,
+  SshPublicKeysCreateDefaultResponse,
   SshPublicKeysUpdate200Response,
-  SshPublicKeysUpdatedefaultResponse,
+  SshPublicKeysUpdateDefaultResponse,
   SshPublicKeysDelete200Response,
   SshPublicKeysDelete204Response,
-  SshPublicKeysDeletedefaultResponse,
+  SshPublicKeysDeleteDefaultResponse,
   SshPublicKeysGet200Response,
-  SshPublicKeysGetdefaultResponse,
+  SshPublicKeysGetDefaultResponse,
   SshPublicKeysGenerateKeyPair200Response,
-  SshPublicKeysGenerateKeyPairdefaultResponse,
+  SshPublicKeysGenerateKeyPairDefaultResponse,
   ImagesCreateOrUpdate200Response,
   ImagesCreateOrUpdate201Response,
-  ImagesCreateOrUpdatedefaultResponse,
+  ImagesCreateOrUpdateDefaultResponse,
   ImagesUpdate200Response,
   ImagesUpdate201Response,
-  ImagesUpdatedefaultResponse,
+  ImagesUpdateDefaultResponse,
   ImagesDelete200Response,
   ImagesDelete202Response,
   ImagesDelete204Response,
-  ImagesDeletedefaultResponse,
+  ImagesDeleteDefaultResponse,
   ImagesGet200Response,
-  ImagesGetdefaultResponse,
+  ImagesGetDefaultResponse,
   ImagesListByResourceGroup200Response,
-  ImagesListByResourceGroupdefaultResponse,
+  ImagesListByResourceGroupDefaultResponse,
   ImagesList200Response,
-  ImagesListdefaultResponse,
+  ImagesListDefaultResponse,
   RestorePointCollectionsCreateOrUpdate200Response,
   RestorePointCollectionsCreateOrUpdate201Response,
-  RestorePointCollectionsCreateOrUpdatedefaultResponse,
+  RestorePointCollectionsCreateOrUpdateDefaultResponse,
   RestorePointCollectionsUpdate200Response,
-  RestorePointCollectionsUpdatedefaultResponse,
+  RestorePointCollectionsUpdateDefaultResponse,
   RestorePointCollectionsDelete200Response,
   RestorePointCollectionsDelete202Response,
   RestorePointCollectionsDelete204Response,
-  RestorePointCollectionsDeletedefaultResponse,
+  RestorePointCollectionsDeleteDefaultResponse,
   RestorePointCollectionsGet200Response,
-  RestorePointCollectionsGetdefaultResponse,
+  RestorePointCollectionsGetDefaultResponse,
   RestorePointCollectionsList200Response,
-  RestorePointCollectionsListdefaultResponse,
+  RestorePointCollectionsListDefaultResponse,
   RestorePointCollectionsListAll200Response,
-  RestorePointCollectionsListAlldefaultResponse,
+  RestorePointCollectionsListAllDefaultResponse,
   RestorePointsCreate201Response,
-  RestorePointsCreatedefaultResponse,
+  RestorePointsCreateDefaultResponse,
   RestorePointsDelete200Response,
   RestorePointsDelete202Response,
   RestorePointsDelete204Response,
-  RestorePointsDeletedefaultResponse,
+  RestorePointsDeleteDefaultResponse,
   RestorePointsGet200Response,
-  RestorePointsGetdefaultResponse,
+  RestorePointsGetDefaultResponse,
   CapacityReservationGroupsCreateOrUpdate200Response,
   CapacityReservationGroupsCreateOrUpdate201Response,
-  CapacityReservationGroupsCreateOrUpdatedefaultResponse,
+  CapacityReservationGroupsCreateOrUpdateDefaultResponse,
   CapacityReservationGroupsUpdate200Response,
-  CapacityReservationGroupsUpdatedefaultResponse,
+  CapacityReservationGroupsUpdateDefaultResponse,
   CapacityReservationGroupsDelete200Response,
   CapacityReservationGroupsDelete204Response,
-  CapacityReservationGroupsDeletedefaultResponse,
+  CapacityReservationGroupsDeleteDefaultResponse,
   CapacityReservationGroupsGet200Response,
-  CapacityReservationGroupsGetdefaultResponse,
+  CapacityReservationGroupsGetDefaultResponse,
   CapacityReservationGroupsListByResourceGroup200Response,
-  CapacityReservationGroupsListByResourceGroupdefaultResponse,
+  CapacityReservationGroupsListByResourceGroupDefaultResponse,
   CapacityReservationGroupsListBySubscription200Response,
-  CapacityReservationGroupsListBySubscriptiondefaultResponse,
+  CapacityReservationGroupsListBySubscriptionDefaultResponse,
   CapacityReservationsCreateOrUpdate200Response,
   CapacityReservationsCreateOrUpdate201Response,
-  CapacityReservationsCreateOrUpdatedefaultResponse,
+  CapacityReservationsCreateOrUpdateDefaultResponse,
   CapacityReservationsUpdate200Response,
   CapacityReservationsUpdate202Response,
-  CapacityReservationsUpdatedefaultResponse,
+  CapacityReservationsUpdateDefaultResponse,
   CapacityReservationsDelete200Response,
   CapacityReservationsDelete202Response,
   CapacityReservationsDelete204Response,
-  CapacityReservationsDeletedefaultResponse,
+  CapacityReservationsDeleteDefaultResponse,
   CapacityReservationsGet200Response,
-  CapacityReservationsGetdefaultResponse,
+  CapacityReservationsGetDefaultResponse,
   CapacityReservationsListByCapacityReservationGroup200Response,
-  CapacityReservationsListByCapacityReservationGroupdefaultResponse,
+  CapacityReservationsListByCapacityReservationGroupDefaultResponse,
   LogAnalyticsExportRequestRateByInterval200Response,
   LogAnalyticsExportRequestRateByInterval202Response,
-  LogAnalyticsExportRequestRateByIntervaldefaultResponse,
+  LogAnalyticsExportRequestRateByIntervalDefaultResponse,
   LogAnalyticsExportThrottledRequests200Response,
   LogAnalyticsExportThrottledRequests202Response,
-  LogAnalyticsExportThrottledRequestsdefaultResponse,
+  LogAnalyticsExportThrottledRequestsDefaultResponse,
   VirtualMachineRunCommandsCreateOrUpdate200Response,
   VirtualMachineRunCommandsCreateOrUpdate201Response,
-  VirtualMachineRunCommandsCreateOrUpdatedefaultResponse,
+  VirtualMachineRunCommandsCreateOrUpdateDefaultResponse,
   VirtualMachineRunCommandsUpdate200Response,
-  VirtualMachineRunCommandsUpdatedefaultResponse,
+  VirtualMachineRunCommandsUpdateDefaultResponse,
   VirtualMachineRunCommandsDelete200Response,
   VirtualMachineRunCommandsDelete202Response,
   VirtualMachineRunCommandsDelete204Response,
-  VirtualMachineRunCommandsDeletedefaultResponse,
+  VirtualMachineRunCommandsDeleteDefaultResponse,
   VirtualMachineRunCommandsGetByVirtualMachine200Response,
-  VirtualMachineRunCommandsGetByVirtualMachinedefaultResponse,
+  VirtualMachineRunCommandsGetByVirtualMachineDefaultResponse,
   VirtualMachineRunCommandsListByVirtualMachine200Response,
-  VirtualMachineRunCommandsListByVirtualMachinedefaultResponse,
+  VirtualMachineRunCommandsListByVirtualMachineDefaultResponse,
   VirtualMachineScaleSetVMRunCommandsCreateOrUpdate200Response,
   VirtualMachineScaleSetVMRunCommandsCreateOrUpdate201Response,
-  VirtualMachineScaleSetVMRunCommandsCreateOrUpdatedefaultResponse,
+  VirtualMachineScaleSetVMRunCommandsCreateOrUpdateDefaultResponse,
   VirtualMachineScaleSetVMRunCommandsUpdate200Response,
-  VirtualMachineScaleSetVMRunCommandsUpdatedefaultResponse,
+  VirtualMachineScaleSetVMRunCommandsUpdateDefaultResponse,
   VirtualMachineScaleSetVMRunCommandsDelete200Response,
   VirtualMachineScaleSetVMRunCommandsDelete202Response,
   VirtualMachineScaleSetVMRunCommandsDelete204Response,
-  VirtualMachineScaleSetVMRunCommandsDeletedefaultResponse,
+  VirtualMachineScaleSetVMRunCommandsDeleteDefaultResponse,
   VirtualMachineScaleSetVMRunCommandsGet200Response,
-  VirtualMachineScaleSetVMRunCommandsGetdefaultResponse,
+  VirtualMachineScaleSetVMRunCommandsGetDefaultResponse,
   VirtualMachineScaleSetVMRunCommandsList200Response,
-  VirtualMachineScaleSetVMRunCommandsListdefaultResponse,
+  VirtualMachineScaleSetVMRunCommandsListDefaultResponse,
   DiskAccessesCreateOrUpdate200Response,
   DiskAccessesCreateOrUpdate202Response,
-  DiskAccessesCreateOrUpdatedefaultResponse,
+  DiskAccessesCreateOrUpdateDefaultResponse,
   DiskAccessesUpdate200Response,
   DiskAccessesUpdate202Response,
-  DiskAccessesUpdatedefaultResponse,
+  DiskAccessesUpdateDefaultResponse,
   DiskAccessesGet200Response,
-  DiskAccessesGetdefaultResponse,
+  DiskAccessesGetDefaultResponse,
   DiskAccessesDelete200Response,
   DiskAccessesDelete202Response,
   DiskAccessesDelete204Response,
-  DiskAccessesDeletedefaultResponse,
+  DiskAccessesDeleteDefaultResponse,
   DiskAccessesListByResourceGroup200Response,
-  DiskAccessesListByResourceGroupdefaultResponse,
+  DiskAccessesListByResourceGroupDefaultResponse,
   DiskAccessesList200Response,
-  DiskAccessesListdefaultResponse,
+  DiskAccessesListDefaultResponse,
   DiskAccessesUpdateAPrivateEndpointConnection200Response,
   DiskAccessesUpdateAPrivateEndpointConnection202Response,
-  DiskAccessesUpdateAPrivateEndpointConnectiondefaultResponse,
+  DiskAccessesUpdateAPrivateEndpointConnectionDefaultResponse,
   DiskAccessesGetAPrivateEndpointConnection200Response,
-  DiskAccessesGetAPrivateEndpointConnectiondefaultResponse,
+  DiskAccessesGetAPrivateEndpointConnectionDefaultResponse,
   DiskAccessesDeleteAPrivateEndpointConnection200Response,
   DiskAccessesDeleteAPrivateEndpointConnection202Response,
   DiskAccessesDeleteAPrivateEndpointConnection204Response,
-  DiskAccessesDeleteAPrivateEndpointConnectiondefaultResponse,
+  DiskAccessesDeleteAPrivateEndpointConnectionDefaultResponse,
   DiskAccessesListPrivateEndpointConnections200Response,
-  DiskAccessesListPrivateEndpointConnectionsdefaultResponse,
+  DiskAccessesListPrivateEndpointConnectionsDefaultResponse,
   DiskEncryptionSetsCreateOrUpdate200Response,
   DiskEncryptionSetsCreateOrUpdate202Response,
-  DiskEncryptionSetsCreateOrUpdatedefaultResponse,
+  DiskEncryptionSetsCreateOrUpdateDefaultResponse,
   DiskEncryptionSetsUpdate200Response,
   DiskEncryptionSetsUpdate202Response,
-  DiskEncryptionSetsUpdatedefaultResponse,
+  DiskEncryptionSetsUpdateDefaultResponse,
   DiskEncryptionSetsGet200Response,
-  DiskEncryptionSetsGetdefaultResponse,
+  DiskEncryptionSetsGetDefaultResponse,
   DiskEncryptionSetsDelete200Response,
   DiskEncryptionSetsDelete202Response,
   DiskEncryptionSetsDelete204Response,
-  DiskEncryptionSetsDeletedefaultResponse,
+  DiskEncryptionSetsDeleteDefaultResponse,
   DiskEncryptionSetsListByResourceGroup200Response,
-  DiskEncryptionSetsListByResourceGroupdefaultResponse,
+  DiskEncryptionSetsListByResourceGroupDefaultResponse,
   DiskEncryptionSetsList200Response,
-  DiskEncryptionSetsListdefaultResponse,
+  DiskEncryptionSetsListDefaultResponse,
   DiskEncryptionSetsListAssociatedResources200Response,
-  DiskEncryptionSetsListAssociatedResourcesdefaultResponse,
+  DiskEncryptionSetsListAssociatedResourcesDefaultResponse,
   DiskRestorePointGet200Response,
-  DiskRestorePointGetdefaultResponse,
+  DiskRestorePointGetDefaultResponse,
   DiskRestorePointListByRestorePoint200Response,
-  DiskRestorePointListByRestorePointdefaultResponse,
+  DiskRestorePointListByRestorePointDefaultResponse,
   DiskRestorePointGrantAccess200Response,
   DiskRestorePointGrantAccess202Response,
-  DiskRestorePointGrantAccessdefaultResponse,
+  DiskRestorePointGrantAccessDefaultResponse,
   DiskRestorePointRevokeAccess200Response,
   DiskRestorePointRevokeAccess202Response,
-  DiskRestorePointRevokeAccessdefaultResponse,
+  DiskRestorePointRevokeAccessDefaultResponse,
   GalleriesCreateOrUpdate200Response,
   GalleriesCreateOrUpdate201Response,
   GalleriesCreateOrUpdate202Response,
-  GalleriesCreateOrUpdatedefaultResponse,
+  GalleriesCreateOrUpdateDefaultResponse,
   GalleriesUpdate200Response,
-  GalleriesUpdatedefaultResponse,
+  GalleriesUpdateDefaultResponse,
   GalleriesGet200Response,
-  GalleriesGetdefaultResponse,
+  GalleriesGetDefaultResponse,
   GalleriesDelete200Response,
   GalleriesDelete202Response,
   GalleriesDelete204Response,
-  GalleriesDeletedefaultResponse,
+  GalleriesDeleteDefaultResponse,
   GalleriesListByResourceGroup200Response,
-  GalleriesListByResourceGroupdefaultResponse,
+  GalleriesListByResourceGroupDefaultResponse,
   GalleriesList200Response,
-  GalleriesListdefaultResponse,
+  GalleriesListDefaultResponse,
   GalleryImagesCreateOrUpdate200Response,
   GalleryImagesCreateOrUpdate201Response,
   GalleryImagesCreateOrUpdate202Response,
-  GalleryImagesCreateOrUpdatedefaultResponse,
+  GalleryImagesCreateOrUpdateDefaultResponse,
   GalleryImagesUpdate200Response,
-  GalleryImagesUpdatedefaultResponse,
+  GalleryImagesUpdateDefaultResponse,
   GalleryImagesGet200Response,
-  GalleryImagesGetdefaultResponse,
+  GalleryImagesGetDefaultResponse,
   GalleryImagesDelete200Response,
   GalleryImagesDelete202Response,
   GalleryImagesDelete204Response,
-  GalleryImagesDeletedefaultResponse,
+  GalleryImagesDeleteDefaultResponse,
   GalleryImagesListByGallery200Response,
-  GalleryImagesListByGallerydefaultResponse,
+  GalleryImagesListByGalleryDefaultResponse,
   GalleryImageVersionsCreateOrUpdate200Response,
   GalleryImageVersionsCreateOrUpdate201Response,
   GalleryImageVersionsCreateOrUpdate202Response,
-  GalleryImageVersionsCreateOrUpdatedefaultResponse,
+  GalleryImageVersionsCreateOrUpdateDefaultResponse,
   GalleryImageVersionsUpdate200Response,
-  GalleryImageVersionsUpdatedefaultResponse,
+  GalleryImageVersionsUpdateDefaultResponse,
   GalleryImageVersionsGet200Response,
-  GalleryImageVersionsGetdefaultResponse,
+  GalleryImageVersionsGetDefaultResponse,
   GalleryImageVersionsDelete200Response,
   GalleryImageVersionsDelete202Response,
   GalleryImageVersionsDelete204Response,
-  GalleryImageVersionsDeletedefaultResponse,
+  GalleryImageVersionsDeleteDefaultResponse,
   GalleryImageVersionsListByGalleryImage200Response,
-  GalleryImageVersionsListByGalleryImagedefaultResponse,
+  GalleryImageVersionsListByGalleryImageDefaultResponse,
   GalleryApplicationsCreateOrUpdate200Response,
   GalleryApplicationsCreateOrUpdate201Response,
   GalleryApplicationsCreateOrUpdate202Response,
-  GalleryApplicationsCreateOrUpdatedefaultResponse,
+  GalleryApplicationsCreateOrUpdateDefaultResponse,
   GalleryApplicationsUpdate200Response,
-  GalleryApplicationsUpdatedefaultResponse,
+  GalleryApplicationsUpdateDefaultResponse,
   GalleryApplicationsGet200Response,
-  GalleryApplicationsGetdefaultResponse,
+  GalleryApplicationsGetDefaultResponse,
   GalleryApplicationsDelete200Response,
   GalleryApplicationsDelete202Response,
   GalleryApplicationsDelete204Response,
-  GalleryApplicationsDeletedefaultResponse,
+  GalleryApplicationsDeleteDefaultResponse,
   GalleryApplicationsListByGallery200Response,
-  GalleryApplicationsListByGallerydefaultResponse,
+  GalleryApplicationsListByGalleryDefaultResponse,
   GalleryApplicationVersionsCreateOrUpdate200Response,
   GalleryApplicationVersionsCreateOrUpdate201Response,
   GalleryApplicationVersionsCreateOrUpdate202Response,
-  GalleryApplicationVersionsCreateOrUpdatedefaultResponse,
+  GalleryApplicationVersionsCreateOrUpdateDefaultResponse,
   GalleryApplicationVersionsUpdate200Response,
-  GalleryApplicationVersionsUpdatedefaultResponse,
+  GalleryApplicationVersionsUpdateDefaultResponse,
   GalleryApplicationVersionsGet200Response,
-  GalleryApplicationVersionsGetdefaultResponse,
+  GalleryApplicationVersionsGetDefaultResponse,
   GalleryApplicationVersionsDelete200Response,
   GalleryApplicationVersionsDelete202Response,
   GalleryApplicationVersionsDelete204Response,
-  GalleryApplicationVersionsDeletedefaultResponse,
+  GalleryApplicationVersionsDeleteDefaultResponse,
   GalleryApplicationVersionsListByGalleryApplication200Response,
-  GalleryApplicationVersionsListByGalleryApplicationdefaultResponse,
+  GalleryApplicationVersionsListByGalleryApplicationDefaultResponse,
   GallerySharingProfileUpdate200Response,
   GallerySharingProfileUpdate202Response,
-  GallerySharingProfileUpdatedefaultResponse,
+  GallerySharingProfileUpdateDefaultResponse,
   SharedGalleriesList200Response,
-  SharedGalleriesListdefaultResponse,
+  SharedGalleriesListDefaultResponse,
   SharedGalleriesGet200Response,
-  SharedGalleriesGetdefaultResponse,
+  SharedGalleriesGetDefaultResponse,
   SharedGalleryImagesList200Response,
-  SharedGalleryImagesListdefaultResponse,
+  SharedGalleryImagesListDefaultResponse,
   SharedGalleryImagesGet200Response,
-  SharedGalleryImagesGetdefaultResponse,
+  SharedGalleryImagesGetDefaultResponse,
   SharedGalleryImageVersionsList200Response,
-  SharedGalleryImageVersionsListdefaultResponse,
+  SharedGalleryImageVersionsListDefaultResponse,
   SharedGalleryImageVersionsGet200Response,
-  SharedGalleryImageVersionsGetdefaultResponse,
+  SharedGalleryImageVersionsGetDefaultResponse,
   CommunityGalleriesGet200Response,
-  CommunityGalleriesGetdefaultResponse,
+  CommunityGalleriesGetDefaultResponse,
   CommunityGalleryImagesGet200Response,
-  CommunityGalleryImagesGetdefaultResponse,
+  CommunityGalleryImagesGetDefaultResponse,
   CommunityGalleryImagesList200Response,
-  CommunityGalleryImagesListdefaultResponse,
+  CommunityGalleryImagesListDefaultResponse,
   CommunityGalleryImageVersionsGet200Response,
-  CommunityGalleryImageVersionsGetdefaultResponse,
+  CommunityGalleryImageVersionsGetDefaultResponse,
   CommunityGalleryImageVersionsList200Response,
-  CommunityGalleryImageVersionsListdefaultResponse,
+  CommunityGalleryImageVersionsListDefaultResponse,
   CloudServiceRoleInstancesDelete200Response,
   CloudServiceRoleInstancesDelete202Response,
   CloudServiceRoleInstancesDelete204Response,
-  CloudServiceRoleInstancesDeletedefaultResponse,
+  CloudServiceRoleInstancesDeleteDefaultResponse,
   CloudServiceRoleInstancesGet200Response,
-  CloudServiceRoleInstancesGetdefaultResponse,
+  CloudServiceRoleInstancesGetDefaultResponse,
   CloudServiceRoleInstancesGetInstanceView200Response,
-  CloudServiceRoleInstancesGetInstanceViewdefaultResponse,
+  CloudServiceRoleInstancesGetInstanceViewDefaultResponse,
   CloudServiceRoleInstancesList200Response,
-  CloudServiceRoleInstancesListdefaultResponse,
+  CloudServiceRoleInstancesListDefaultResponse,
   CloudServiceRoleInstancesRestart200Response,
   CloudServiceRoleInstancesRestart202Response,
-  CloudServiceRoleInstancesRestartdefaultResponse,
+  CloudServiceRoleInstancesRestartDefaultResponse,
   CloudServiceRoleInstancesReimage200Response,
   CloudServiceRoleInstancesReimage202Response,
-  CloudServiceRoleInstancesReimagedefaultResponse,
+  CloudServiceRoleInstancesReimageDefaultResponse,
   CloudServiceRoleInstancesRebuild200Response,
   CloudServiceRoleInstancesRebuild202Response,
-  CloudServiceRoleInstancesRebuilddefaultResponse,
+  CloudServiceRoleInstancesRebuildDefaultResponse,
   CloudServiceRoleInstancesGetRemoteDesktopFile200Response,
-  CloudServiceRoleInstancesGetRemoteDesktopFiledefaultResponse,
+  CloudServiceRoleInstancesGetRemoteDesktopFileDefaultResponse,
   CloudServiceRolesGet200Response,
-  CloudServiceRolesGetdefaultResponse,
+  CloudServiceRolesGetDefaultResponse,
   CloudServiceRolesList200Response,
-  CloudServiceRolesListdefaultResponse,
+  CloudServiceRolesListDefaultResponse,
   CloudServicesCreateOrUpdate200Response,
   CloudServicesCreateOrUpdate201Response,
-  CloudServicesCreateOrUpdatedefaultResponse,
+  CloudServicesCreateOrUpdateDefaultResponse,
   CloudServicesUpdate200Response,
-  CloudServicesUpdatedefaultResponse,
+  CloudServicesUpdateDefaultResponse,
   CloudServicesDelete200Response,
   CloudServicesDelete202Response,
   CloudServicesDelete204Response,
-  CloudServicesDeletedefaultResponse,
+  CloudServicesDeleteDefaultResponse,
   CloudServicesGet200Response,
-  CloudServicesGetdefaultResponse,
+  CloudServicesGetDefaultResponse,
   CloudServicesGetInstanceView200Response,
-  CloudServicesGetInstanceViewdefaultResponse,
+  CloudServicesGetInstanceViewDefaultResponse,
   CloudServicesListAll200Response,
-  CloudServicesListAlldefaultResponse,
+  CloudServicesListAllDefaultResponse,
   CloudServicesList200Response,
-  CloudServicesListdefaultResponse,
+  CloudServicesListDefaultResponse,
   CloudServicesStart200Response,
   CloudServicesStart202Response,
-  CloudServicesStartdefaultResponse,
+  CloudServicesStartDefaultResponse,
   CloudServicesPowerOff200Response,
   CloudServicesPowerOff202Response,
-  CloudServicesPowerOffdefaultResponse,
+  CloudServicesPowerOffDefaultResponse,
   CloudServicesRestart200Response,
   CloudServicesRestart202Response,
-  CloudServicesRestartdefaultResponse,
+  CloudServicesRestartDefaultResponse,
   CloudServicesReimage200Response,
   CloudServicesReimage202Response,
-  CloudServicesReimagedefaultResponse,
+  CloudServicesReimageDefaultResponse,
   CloudServicesRebuild200Response,
   CloudServicesRebuild202Response,
-  CloudServicesRebuilddefaultResponse,
+  CloudServicesRebuildDefaultResponse,
   CloudServicesDeleteInstances200Response,
   CloudServicesDeleteInstances202Response,
-  CloudServicesDeleteInstancesdefaultResponse,
+  CloudServicesDeleteInstancesDefaultResponse,
   CloudServicesUpdateDomainWalkUpdateDomain200Response,
   CloudServicesUpdateDomainWalkUpdateDomain202Response,
-  CloudServicesUpdateDomainWalkUpdateDomaindefaultResponse,
+  CloudServicesUpdateDomainWalkUpdateDomainDefaultResponse,
   CloudServicesUpdateDomainGetUpdateDomain200Response,
-  CloudServicesUpdateDomainGetUpdateDomaindefaultResponse,
+  CloudServicesUpdateDomainGetUpdateDomainDefaultResponse,
   CloudServicesUpdateDomainListUpdateDomains200Response,
-  CloudServicesUpdateDomainListUpdateDomainsdefaultResponse,
+  CloudServicesUpdateDomainListUpdateDomainsDefaultResponse,
   CloudServiceOperatingSystemsGetOSVersion200Response,
-  CloudServiceOperatingSystemsGetOSVersiondefaultResponse,
+  CloudServiceOperatingSystemsGetOSVersionDefaultResponse,
   CloudServiceOperatingSystemsListOSVersions200Response,
-  CloudServiceOperatingSystemsListOSVersionsdefaultResponse,
+  CloudServiceOperatingSystemsListOSVersionsDefaultResponse,
   CloudServiceOperatingSystemsGetOSFamily200Response,
-  CloudServiceOperatingSystemsGetOSFamilydefaultResponse,
+  CloudServiceOperatingSystemsGetOSFamilyDefaultResponse,
   CloudServiceOperatingSystemsListOSFamilies200Response,
-  CloudServiceOperatingSystemsListOSFamiliesdefaultResponse
+  CloudServiceOperatingSystemsListOSFamiliesDefaultResponse
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
@@ -1414,9 +1414,7 @@ const responseMap: Record<string, string[]> = {
     "202"
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}": [
-    "200",
-    "202",
-    "204"
+    "200"
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}": [
     "200",
@@ -1454,9 +1452,7 @@ const responseMap: Record<string, string[]> = {
     "202"
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}": [
-    "200",
-    "202",
-    "204"
+    "200"
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}": [
     "200",
@@ -1481,9 +1477,7 @@ const responseMap: Record<string, string[]> = {
     "202"
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}": [
-    "200",
-    "202",
-    "204"
+    "200"
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}": [
     "200",
@@ -1498,9 +1492,7 @@ const responseMap: Record<string, string[]> = {
     "202"
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}": [
-    "200",
-    "202",
-    "204"
+    "200"
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}": [
     "200",
@@ -1547,9 +1539,7 @@ const responseMap: Record<string, string[]> = {
     "202"
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}": [
-    "200",
-    "202",
-    "204"
+    "200"
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}": [
     "200",
@@ -1591,9 +1581,7 @@ const responseMap: Record<string, string[]> = {
     "202"
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}": [
-    "200",
-    "202",
-    "204"
+    "200"
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}": [
     "200"
@@ -1615,9 +1603,7 @@ const responseMap: Record<string, string[]> = {
     "202"
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}": [
-    "200",
-    "202",
-    "204"
+    "200"
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}": [
     "200"
@@ -1636,9 +1622,7 @@ const responseMap: Record<string, string[]> = {
     "202"
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}": [
-    "200",
-    "202",
-    "204"
+    "200"
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}": [
     "200"
@@ -1657,9 +1641,7 @@ const responseMap: Record<string, string[]> = {
     "202"
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}": [
-    "200",
-    "202",
-    "204"
+    "200"
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}": [
     "200"
@@ -1678,9 +1660,7 @@ const responseMap: Record<string, string[]> = {
     "202"
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}": [
-    "200",
-    "202",
-    "204"
+    "200"
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}": [
     "200"
@@ -1878,2282 +1858,2282 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response: OperationsList200Response | OperationsListdefaultResponse
-): response is OperationsListdefaultResponse;
+  response: OperationsList200Response | OperationsListDefaultResponse
+): response is OperationsListDefaultResponse;
 export function isUnexpected(
-  response: UsageList200Response | UsageListdefaultResponse
-): response is UsageListdefaultResponse;
+  response: UsageList200Response | UsageListDefaultResponse
+): response is UsageListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineSizesList200Response
-    | VirtualMachineSizesListdefaultResponse
-): response is VirtualMachineSizesListdefaultResponse;
+    | VirtualMachineSizesListDefaultResponse
+): response is VirtualMachineSizesListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsListByLocation200Response
-    | VirtualMachineScaleSetsListByLocationdefaultResponse
-): response is VirtualMachineScaleSetsListByLocationdefaultResponse;
+    | VirtualMachineScaleSetsListByLocationDefaultResponse
+): response is VirtualMachineScaleSetsListByLocationDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsCreateOrUpdate200Response
     | VirtualMachineScaleSetsCreateOrUpdate201Response
-    | VirtualMachineScaleSetsCreateOrUpdatedefaultResponse
-): response is VirtualMachineScaleSetsCreateOrUpdatedefaultResponse;
+    | VirtualMachineScaleSetsCreateOrUpdateDefaultResponse
+): response is VirtualMachineScaleSetsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsUpdate200Response
-    | VirtualMachineScaleSetsUpdatedefaultResponse
-): response is VirtualMachineScaleSetsUpdatedefaultResponse;
+    | VirtualMachineScaleSetsUpdateDefaultResponse
+): response is VirtualMachineScaleSetsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsDelete200Response
     | VirtualMachineScaleSetsDelete202Response
     | VirtualMachineScaleSetsDelete204Response
-    | VirtualMachineScaleSetsDeletedefaultResponse
-): response is VirtualMachineScaleSetsDeletedefaultResponse;
+    | VirtualMachineScaleSetsDeleteDefaultResponse
+): response is VirtualMachineScaleSetsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsGet200Response
-    | VirtualMachineScaleSetsGetdefaultResponse
-): response is VirtualMachineScaleSetsGetdefaultResponse;
+    | VirtualMachineScaleSetsGetDefaultResponse
+): response is VirtualMachineScaleSetsGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsDeallocate200Response
     | VirtualMachineScaleSetsDeallocate202Response
-    | VirtualMachineScaleSetsDeallocatedefaultResponse
-): response is VirtualMachineScaleSetsDeallocatedefaultResponse;
+    | VirtualMachineScaleSetsDeallocateDefaultResponse
+): response is VirtualMachineScaleSetsDeallocateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsDeleteInstances200Response
     | VirtualMachineScaleSetsDeleteInstances202Response
-    | VirtualMachineScaleSetsDeleteInstancesdefaultResponse
-): response is VirtualMachineScaleSetsDeleteInstancesdefaultResponse;
+    | VirtualMachineScaleSetsDeleteInstancesDefaultResponse
+): response is VirtualMachineScaleSetsDeleteInstancesDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsGetInstanceView200Response
-    | VirtualMachineScaleSetsGetInstanceViewdefaultResponse
-): response is VirtualMachineScaleSetsGetInstanceViewdefaultResponse;
+    | VirtualMachineScaleSetsGetInstanceViewDefaultResponse
+): response is VirtualMachineScaleSetsGetInstanceViewDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsList200Response
-    | VirtualMachineScaleSetsListdefaultResponse
-): response is VirtualMachineScaleSetsListdefaultResponse;
+    | VirtualMachineScaleSetsListDefaultResponse
+): response is VirtualMachineScaleSetsListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsListAll200Response
-    | VirtualMachineScaleSetsListAlldefaultResponse
-): response is VirtualMachineScaleSetsListAlldefaultResponse;
+    | VirtualMachineScaleSetsListAllDefaultResponse
+): response is VirtualMachineScaleSetsListAllDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsListSkus200Response
-    | VirtualMachineScaleSetsListSkusdefaultResponse
-): response is VirtualMachineScaleSetsListSkusdefaultResponse;
+    | VirtualMachineScaleSetsListSkusDefaultResponse
+): response is VirtualMachineScaleSetsListSkusDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsGetOSUpgradeHistory200Response
-    | VirtualMachineScaleSetsGetOSUpgradeHistorydefaultResponse
-): response is VirtualMachineScaleSetsGetOSUpgradeHistorydefaultResponse;
+    | VirtualMachineScaleSetsGetOSUpgradeHistoryDefaultResponse
+): response is VirtualMachineScaleSetsGetOSUpgradeHistoryDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsPowerOff200Response
     | VirtualMachineScaleSetsPowerOff202Response
-    | VirtualMachineScaleSetsPowerOffdefaultResponse
-): response is VirtualMachineScaleSetsPowerOffdefaultResponse;
+    | VirtualMachineScaleSetsPowerOffDefaultResponse
+): response is VirtualMachineScaleSetsPowerOffDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsRestart200Response
     | VirtualMachineScaleSetsRestart202Response
-    | VirtualMachineScaleSetsRestartdefaultResponse
-): response is VirtualMachineScaleSetsRestartdefaultResponse;
+    | VirtualMachineScaleSetsRestartDefaultResponse
+): response is VirtualMachineScaleSetsRestartDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsStart200Response
     | VirtualMachineScaleSetsStart202Response
-    | VirtualMachineScaleSetsStartdefaultResponse
-): response is VirtualMachineScaleSetsStartdefaultResponse;
+    | VirtualMachineScaleSetsStartDefaultResponse
+): response is VirtualMachineScaleSetsStartDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsRedeploy200Response
     | VirtualMachineScaleSetsRedeploy202Response
-    | VirtualMachineScaleSetsRedeploydefaultResponse
-): response is VirtualMachineScaleSetsRedeploydefaultResponse;
+    | VirtualMachineScaleSetsRedeployDefaultResponse
+): response is VirtualMachineScaleSetsRedeployDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsPerformMaintenance200Response
     | VirtualMachineScaleSetsPerformMaintenance202Response
-    | VirtualMachineScaleSetsPerformMaintenancedefaultResponse
-): response is VirtualMachineScaleSetsPerformMaintenancedefaultResponse;
+    | VirtualMachineScaleSetsPerformMaintenanceDefaultResponse
+): response is VirtualMachineScaleSetsPerformMaintenanceDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsUpdateInstances200Response
     | VirtualMachineScaleSetsUpdateInstances202Response
-    | VirtualMachineScaleSetsUpdateInstancesdefaultResponse
-): response is VirtualMachineScaleSetsUpdateInstancesdefaultResponse;
+    | VirtualMachineScaleSetsUpdateInstancesDefaultResponse
+): response is VirtualMachineScaleSetsUpdateInstancesDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsReimage200Response
     | VirtualMachineScaleSetsReimage202Response
-    | VirtualMachineScaleSetsReimagedefaultResponse
-): response is VirtualMachineScaleSetsReimagedefaultResponse;
+    | VirtualMachineScaleSetsReimageDefaultResponse
+): response is VirtualMachineScaleSetsReimageDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsReimageAll200Response
     | VirtualMachineScaleSetsReimageAll202Response
-    | VirtualMachineScaleSetsReimageAlldefaultResponse
-): response is VirtualMachineScaleSetsReimageAlldefaultResponse;
+    | VirtualMachineScaleSetsReimageAllDefaultResponse
+): response is VirtualMachineScaleSetsReimageAllDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalk200Response
-    | VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkdefaultResponse
-): response is VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkdefaultResponse;
+    | VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkDefaultResponse
+): response is VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsConvertToSinglePlacementGroup200Response
-    | VirtualMachineScaleSetsConvertToSinglePlacementGroupdefaultResponse
-): response is VirtualMachineScaleSetsConvertToSinglePlacementGroupdefaultResponse;
+    | VirtualMachineScaleSetsConvertToSinglePlacementGroupDefaultResponse
+): response is VirtualMachineScaleSetsConvertToSinglePlacementGroupDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsSetOrchestrationServiceState200Response
     | VirtualMachineScaleSetsSetOrchestrationServiceState202Response
-    | VirtualMachineScaleSetsSetOrchestrationServiceStatedefaultResponse
-): response is VirtualMachineScaleSetsSetOrchestrationServiceStatedefaultResponse;
+    | VirtualMachineScaleSetsSetOrchestrationServiceStateDefaultResponse
+): response is VirtualMachineScaleSetsSetOrchestrationServiceStateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetExtensionsCreateOrUpdate200Response
     | VirtualMachineScaleSetExtensionsCreateOrUpdate201Response
-    | VirtualMachineScaleSetExtensionsCreateOrUpdatedefaultResponse
-): response is VirtualMachineScaleSetExtensionsCreateOrUpdatedefaultResponse;
+    | VirtualMachineScaleSetExtensionsCreateOrUpdateDefaultResponse
+): response is VirtualMachineScaleSetExtensionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetExtensionsUpdate200Response
     | VirtualMachineScaleSetExtensionsUpdate201Response
-    | VirtualMachineScaleSetExtensionsUpdatedefaultResponse
-): response is VirtualMachineScaleSetExtensionsUpdatedefaultResponse;
+    | VirtualMachineScaleSetExtensionsUpdateDefaultResponse
+): response is VirtualMachineScaleSetExtensionsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetExtensionsDelete200Response
     | VirtualMachineScaleSetExtensionsDelete202Response
     | VirtualMachineScaleSetExtensionsDelete204Response
-    | VirtualMachineScaleSetExtensionsDeletedefaultResponse
-): response is VirtualMachineScaleSetExtensionsDeletedefaultResponse;
+    | VirtualMachineScaleSetExtensionsDeleteDefaultResponse
+): response is VirtualMachineScaleSetExtensionsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetExtensionsGet200Response
-    | VirtualMachineScaleSetExtensionsGetdefaultResponse
-): response is VirtualMachineScaleSetExtensionsGetdefaultResponse;
+    | VirtualMachineScaleSetExtensionsGetDefaultResponse
+): response is VirtualMachineScaleSetExtensionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetExtensionsList200Response
-    | VirtualMachineScaleSetExtensionsListdefaultResponse
-): response is VirtualMachineScaleSetExtensionsListdefaultResponse;
+    | VirtualMachineScaleSetExtensionsListDefaultResponse
+): response is VirtualMachineScaleSetExtensionsListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetRollingUpgradesCancel200Response
     | VirtualMachineScaleSetRollingUpgradesCancel202Response
-    | VirtualMachineScaleSetRollingUpgradesCanceldefaultResponse
-): response is VirtualMachineScaleSetRollingUpgradesCanceldefaultResponse;
+    | VirtualMachineScaleSetRollingUpgradesCancelDefaultResponse
+): response is VirtualMachineScaleSetRollingUpgradesCancelDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetRollingUpgradesStartOSUpgrade200Response
     | VirtualMachineScaleSetRollingUpgradesStartOSUpgrade202Response
-    | VirtualMachineScaleSetRollingUpgradesStartOSUpgradedefaultResponse
-): response is VirtualMachineScaleSetRollingUpgradesStartOSUpgradedefaultResponse;
+    | VirtualMachineScaleSetRollingUpgradesStartOSUpgradeDefaultResponse
+): response is VirtualMachineScaleSetRollingUpgradesStartOSUpgradeDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade200Response
     | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade202Response
-    | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradedefaultResponse
-): response is VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradedefaultResponse;
+    | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeDefaultResponse
+): response is VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetRollingUpgradesGetLatest200Response
-    | VirtualMachineScaleSetRollingUpgradesGetLatestdefaultResponse
-): response is VirtualMachineScaleSetRollingUpgradesGetLatestdefaultResponse;
+    | VirtualMachineScaleSetRollingUpgradesGetLatestDefaultResponse
+): response is VirtualMachineScaleSetRollingUpgradesGetLatestDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMExtensionsCreateOrUpdate200Response
     | VirtualMachineScaleSetVMExtensionsCreateOrUpdate201Response
-    | VirtualMachineScaleSetVMExtensionsCreateOrUpdatedefaultResponse
-): response is VirtualMachineScaleSetVMExtensionsCreateOrUpdatedefaultResponse;
+    | VirtualMachineScaleSetVMExtensionsCreateOrUpdateDefaultResponse
+): response is VirtualMachineScaleSetVMExtensionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMExtensionsUpdate200Response
-    | VirtualMachineScaleSetVMExtensionsUpdatedefaultResponse
-): response is VirtualMachineScaleSetVMExtensionsUpdatedefaultResponse;
+    | VirtualMachineScaleSetVMExtensionsUpdateDefaultResponse
+): response is VirtualMachineScaleSetVMExtensionsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMExtensionsDelete200Response
     | VirtualMachineScaleSetVMExtensionsDelete202Response
     | VirtualMachineScaleSetVMExtensionsDelete204Response
-    | VirtualMachineScaleSetVMExtensionsDeletedefaultResponse
-): response is VirtualMachineScaleSetVMExtensionsDeletedefaultResponse;
+    | VirtualMachineScaleSetVMExtensionsDeleteDefaultResponse
+): response is VirtualMachineScaleSetVMExtensionsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMExtensionsGet200Response
-    | VirtualMachineScaleSetVMExtensionsGetdefaultResponse
-): response is VirtualMachineScaleSetVMExtensionsGetdefaultResponse;
+    | VirtualMachineScaleSetVMExtensionsGetDefaultResponse
+): response is VirtualMachineScaleSetVMExtensionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMExtensionsList200Response
-    | VirtualMachineScaleSetVMExtensionsListdefaultResponse
-): response is VirtualMachineScaleSetVMExtensionsListdefaultResponse;
+    | VirtualMachineScaleSetVMExtensionsListDefaultResponse
+): response is VirtualMachineScaleSetVMExtensionsListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsReimage200Response
     | VirtualMachineScaleSetVMsReimage202Response
-    | VirtualMachineScaleSetVMsReimagedefaultResponse
-): response is VirtualMachineScaleSetVMsReimagedefaultResponse;
+    | VirtualMachineScaleSetVMsReimageDefaultResponse
+): response is VirtualMachineScaleSetVMsReimageDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsReimageAll200Response
     | VirtualMachineScaleSetVMsReimageAll202Response
-    | VirtualMachineScaleSetVMsReimageAlldefaultResponse
-): response is VirtualMachineScaleSetVMsReimageAlldefaultResponse;
+    | VirtualMachineScaleSetVMsReimageAllDefaultResponse
+): response is VirtualMachineScaleSetVMsReimageAllDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsDeallocate200Response
     | VirtualMachineScaleSetVMsDeallocate202Response
-    | VirtualMachineScaleSetVMsDeallocatedefaultResponse
-): response is VirtualMachineScaleSetVMsDeallocatedefaultResponse;
+    | VirtualMachineScaleSetVMsDeallocateDefaultResponse
+): response is VirtualMachineScaleSetVMsDeallocateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsUpdate200Response
     | VirtualMachineScaleSetVMsUpdate202Response
-    | VirtualMachineScaleSetVMsUpdatedefaultResponse
-): response is VirtualMachineScaleSetVMsUpdatedefaultResponse;
+    | VirtualMachineScaleSetVMsUpdateDefaultResponse
+): response is VirtualMachineScaleSetVMsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsDelete200Response
     | VirtualMachineScaleSetVMsDelete202Response
     | VirtualMachineScaleSetVMsDelete204Response
-    | VirtualMachineScaleSetVMsDeletedefaultResponse
-): response is VirtualMachineScaleSetVMsDeletedefaultResponse;
+    | VirtualMachineScaleSetVMsDeleteDefaultResponse
+): response is VirtualMachineScaleSetVMsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsGet200Response
-    | VirtualMachineScaleSetVMsGetdefaultResponse
-): response is VirtualMachineScaleSetVMsGetdefaultResponse;
+    | VirtualMachineScaleSetVMsGetDefaultResponse
+): response is VirtualMachineScaleSetVMsGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsGetInstanceView200Response
-    | VirtualMachineScaleSetVMsGetInstanceViewdefaultResponse
-): response is VirtualMachineScaleSetVMsGetInstanceViewdefaultResponse;
+    | VirtualMachineScaleSetVMsGetInstanceViewDefaultResponse
+): response is VirtualMachineScaleSetVMsGetInstanceViewDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsList200Response
-    | VirtualMachineScaleSetVMsListdefaultResponse
-): response is VirtualMachineScaleSetVMsListdefaultResponse;
+    | VirtualMachineScaleSetVMsListDefaultResponse
+): response is VirtualMachineScaleSetVMsListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsPowerOff200Response
     | VirtualMachineScaleSetVMsPowerOff202Response
-    | VirtualMachineScaleSetVMsPowerOffdefaultResponse
-): response is VirtualMachineScaleSetVMsPowerOffdefaultResponse;
+    | VirtualMachineScaleSetVMsPowerOffDefaultResponse
+): response is VirtualMachineScaleSetVMsPowerOffDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsRestart200Response
     | VirtualMachineScaleSetVMsRestart202Response
-    | VirtualMachineScaleSetVMsRestartdefaultResponse
-): response is VirtualMachineScaleSetVMsRestartdefaultResponse;
+    | VirtualMachineScaleSetVMsRestartDefaultResponse
+): response is VirtualMachineScaleSetVMsRestartDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsStart200Response
     | VirtualMachineScaleSetVMsStart202Response
-    | VirtualMachineScaleSetVMsStartdefaultResponse
-): response is VirtualMachineScaleSetVMsStartdefaultResponse;
+    | VirtualMachineScaleSetVMsStartDefaultResponse
+): response is VirtualMachineScaleSetVMsStartDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsRedeploy200Response
     | VirtualMachineScaleSetVMsRedeploy202Response
-    | VirtualMachineScaleSetVMsRedeploydefaultResponse
-): response is VirtualMachineScaleSetVMsRedeploydefaultResponse;
+    | VirtualMachineScaleSetVMsRedeployDefaultResponse
+): response is VirtualMachineScaleSetVMsRedeployDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData200Response
-    | VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDatadefaultResponse
-): response is VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDatadefaultResponse;
+    | VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataDefaultResponse
+): response is VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsPerformMaintenance200Response
     | VirtualMachineScaleSetVMsPerformMaintenance202Response
-    | VirtualMachineScaleSetVMsPerformMaintenancedefaultResponse
-): response is VirtualMachineScaleSetVMsPerformMaintenancedefaultResponse;
+    | VirtualMachineScaleSetVMsPerformMaintenanceDefaultResponse
+): response is VirtualMachineScaleSetVMsPerformMaintenanceDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsSimulateEviction204Response
-    | VirtualMachineScaleSetVMsSimulateEvictiondefaultResponse
-): response is VirtualMachineScaleSetVMsSimulateEvictiondefaultResponse;
+    | VirtualMachineScaleSetVMsSimulateEvictionDefaultResponse
+): response is VirtualMachineScaleSetVMsSimulateEvictionDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineExtensionsCreateOrUpdate200Response
     | VirtualMachineExtensionsCreateOrUpdate201Response
-    | VirtualMachineExtensionsCreateOrUpdatedefaultResponse
-): response is VirtualMachineExtensionsCreateOrUpdatedefaultResponse;
+    | VirtualMachineExtensionsCreateOrUpdateDefaultResponse
+): response is VirtualMachineExtensionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineExtensionsUpdate200Response
-    | VirtualMachineExtensionsUpdatedefaultResponse
-): response is VirtualMachineExtensionsUpdatedefaultResponse;
+    | VirtualMachineExtensionsUpdateDefaultResponse
+): response is VirtualMachineExtensionsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineExtensionsDelete200Response
     | VirtualMachineExtensionsDelete202Response
     | VirtualMachineExtensionsDelete204Response
-    | VirtualMachineExtensionsDeletedefaultResponse
-): response is VirtualMachineExtensionsDeletedefaultResponse;
+    | VirtualMachineExtensionsDeleteDefaultResponse
+): response is VirtualMachineExtensionsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineExtensionsGet200Response
-    | VirtualMachineExtensionsGetdefaultResponse
-): response is VirtualMachineExtensionsGetdefaultResponse;
+    | VirtualMachineExtensionsGetDefaultResponse
+): response is VirtualMachineExtensionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineExtensionsList200Response
-    | VirtualMachineExtensionsListdefaultResponse
-): response is VirtualMachineExtensionsListdefaultResponse;
+    | VirtualMachineExtensionsListDefaultResponse
+): response is VirtualMachineExtensionsListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesListByLocation200Response
-    | VirtualMachinesListByLocationdefaultResponse
-): response is VirtualMachinesListByLocationdefaultResponse;
+    | VirtualMachinesListByLocationDefaultResponse
+): response is VirtualMachinesListByLocationDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesCapture200Response
     | VirtualMachinesCapture202Response
-    | VirtualMachinesCapturedefaultResponse
-): response is VirtualMachinesCapturedefaultResponse;
+    | VirtualMachinesCaptureDefaultResponse
+): response is VirtualMachinesCaptureDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesCreateOrUpdate200Response
     | VirtualMachinesCreateOrUpdate201Response
-    | VirtualMachinesCreateOrUpdatedefaultResponse
-): response is VirtualMachinesCreateOrUpdatedefaultResponse;
+    | VirtualMachinesCreateOrUpdateDefaultResponse
+): response is VirtualMachinesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesUpdate200Response
-    | VirtualMachinesUpdatedefaultResponse
-): response is VirtualMachinesUpdatedefaultResponse;
+    | VirtualMachinesUpdateDefaultResponse
+): response is VirtualMachinesUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesDelete200Response
     | VirtualMachinesDelete202Response
     | VirtualMachinesDelete204Response
-    | VirtualMachinesDeletedefaultResponse
-): response is VirtualMachinesDeletedefaultResponse;
+    | VirtualMachinesDeleteDefaultResponse
+): response is VirtualMachinesDeleteDefaultResponse;
 export function isUnexpected(
-  response: VirtualMachinesGet200Response | VirtualMachinesGetdefaultResponse
-): response is VirtualMachinesGetdefaultResponse;
+  response: VirtualMachinesGet200Response | VirtualMachinesGetDefaultResponse
+): response is VirtualMachinesGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesInstanceView200Response
-    | VirtualMachinesInstanceViewdefaultResponse
-): response is VirtualMachinesInstanceViewdefaultResponse;
+    | VirtualMachinesInstanceViewDefaultResponse
+): response is VirtualMachinesInstanceViewDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesConvertToManagedDisks200Response
     | VirtualMachinesConvertToManagedDisks202Response
-    | VirtualMachinesConvertToManagedDisksdefaultResponse
-): response is VirtualMachinesConvertToManagedDisksdefaultResponse;
+    | VirtualMachinesConvertToManagedDisksDefaultResponse
+): response is VirtualMachinesConvertToManagedDisksDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesDeallocate200Response
     | VirtualMachinesDeallocate202Response
-    | VirtualMachinesDeallocatedefaultResponse
-): response is VirtualMachinesDeallocatedefaultResponse;
+    | VirtualMachinesDeallocateDefaultResponse
+): response is VirtualMachinesDeallocateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesGeneralize200Response
-    | VirtualMachinesGeneralizedefaultResponse
-): response is VirtualMachinesGeneralizedefaultResponse;
+    | VirtualMachinesGeneralizeDefaultResponse
+): response is VirtualMachinesGeneralizeDefaultResponse;
 export function isUnexpected(
-  response: VirtualMachinesList200Response | VirtualMachinesListdefaultResponse
-): response is VirtualMachinesListdefaultResponse;
+  response: VirtualMachinesList200Response | VirtualMachinesListDefaultResponse
+): response is VirtualMachinesListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesListAll200Response
-    | VirtualMachinesListAlldefaultResponse
-): response is VirtualMachinesListAlldefaultResponse;
+    | VirtualMachinesListAllDefaultResponse
+): response is VirtualMachinesListAllDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesListAvailableSizes200Response
-    | VirtualMachinesListAvailableSizesdefaultResponse
-): response is VirtualMachinesListAvailableSizesdefaultResponse;
+    | VirtualMachinesListAvailableSizesDefaultResponse
+): response is VirtualMachinesListAvailableSizesDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesPowerOff200Response
     | VirtualMachinesPowerOff202Response
-    | VirtualMachinesPowerOffdefaultResponse
-): response is VirtualMachinesPowerOffdefaultResponse;
+    | VirtualMachinesPowerOffDefaultResponse
+): response is VirtualMachinesPowerOffDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesReapply200Response
     | VirtualMachinesReapply202Response
-    | VirtualMachinesReapplydefaultResponse
-): response is VirtualMachinesReapplydefaultResponse;
+    | VirtualMachinesReapplyDefaultResponse
+): response is VirtualMachinesReapplyDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesRestart200Response
     | VirtualMachinesRestart202Response
-    | VirtualMachinesRestartdefaultResponse
-): response is VirtualMachinesRestartdefaultResponse;
+    | VirtualMachinesRestartDefaultResponse
+): response is VirtualMachinesRestartDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesStart200Response
     | VirtualMachinesStart202Response
-    | VirtualMachinesStartdefaultResponse
-): response is VirtualMachinesStartdefaultResponse;
+    | VirtualMachinesStartDefaultResponse
+): response is VirtualMachinesStartDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesRedeploy200Response
     | VirtualMachinesRedeploy202Response
-    | VirtualMachinesRedeploydefaultResponse
-): response is VirtualMachinesRedeploydefaultResponse;
+    | VirtualMachinesRedeployDefaultResponse
+): response is VirtualMachinesRedeployDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesReimage200Response
     | VirtualMachinesReimage202Response
-    | VirtualMachinesReimagedefaultResponse
-): response is VirtualMachinesReimagedefaultResponse;
+    | VirtualMachinesReimageDefaultResponse
+): response is VirtualMachinesReimageDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesRetrieveBootDiagnosticsData200Response
-    | VirtualMachinesRetrieveBootDiagnosticsDatadefaultResponse
-): response is VirtualMachinesRetrieveBootDiagnosticsDatadefaultResponse;
+    | VirtualMachinesRetrieveBootDiagnosticsDataDefaultResponse
+): response is VirtualMachinesRetrieveBootDiagnosticsDataDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesPerformMaintenance200Response
     | VirtualMachinesPerformMaintenance202Response
-    | VirtualMachinesPerformMaintenancedefaultResponse
-): response is VirtualMachinesPerformMaintenancedefaultResponse;
+    | VirtualMachinesPerformMaintenanceDefaultResponse
+): response is VirtualMachinesPerformMaintenanceDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesSimulateEviction204Response
-    | VirtualMachinesSimulateEvictiondefaultResponse
-): response is VirtualMachinesSimulateEvictiondefaultResponse;
+    | VirtualMachinesSimulateEvictionDefaultResponse
+): response is VirtualMachinesSimulateEvictionDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesAssessPatches200Response
     | VirtualMachinesAssessPatches202Response
-    | VirtualMachinesAssessPatchesdefaultResponse
-): response is VirtualMachinesAssessPatchesdefaultResponse;
+    | VirtualMachinesAssessPatchesDefaultResponse
+): response is VirtualMachinesAssessPatchesDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesInstallPatches200Response
     | VirtualMachinesInstallPatches202Response
-    | VirtualMachinesInstallPatchesdefaultResponse
-): response is VirtualMachinesInstallPatchesdefaultResponse;
+    | VirtualMachinesInstallPatchesDefaultResponse
+): response is VirtualMachinesInstallPatchesDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineImagesGet200Response
-    | VirtualMachineImagesGetdefaultResponse
-): response is VirtualMachineImagesGetdefaultResponse;
+    | VirtualMachineImagesGetDefaultResponse
+): response is VirtualMachineImagesGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineImagesList200Response
-    | VirtualMachineImagesListdefaultResponse
-): response is VirtualMachineImagesListdefaultResponse;
+    | VirtualMachineImagesListDefaultResponse
+): response is VirtualMachineImagesListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineImagesListOffers200Response
-    | VirtualMachineImagesListOffersdefaultResponse
-): response is VirtualMachineImagesListOffersdefaultResponse;
+    | VirtualMachineImagesListOffersDefaultResponse
+): response is VirtualMachineImagesListOffersDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineImagesListPublishers200Response
-    | VirtualMachineImagesListPublishersdefaultResponse
-): response is VirtualMachineImagesListPublishersdefaultResponse;
+    | VirtualMachineImagesListPublishersDefaultResponse
+): response is VirtualMachineImagesListPublishersDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineImagesListSkus200Response
-    | VirtualMachineImagesListSkusdefaultResponse
-): response is VirtualMachineImagesListSkusdefaultResponse;
+    | VirtualMachineImagesListSkusDefaultResponse
+): response is VirtualMachineImagesListSkusDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineImagesListByEdgeZone200Response
-    | VirtualMachineImagesListByEdgeZonedefaultResponse
-): response is VirtualMachineImagesListByEdgeZonedefaultResponse;
+    | VirtualMachineImagesListByEdgeZoneDefaultResponse
+): response is VirtualMachineImagesListByEdgeZoneDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineImagesEdgeZoneGet200Response
-    | VirtualMachineImagesEdgeZoneGetdefaultResponse
-): response is VirtualMachineImagesEdgeZoneGetdefaultResponse;
+    | VirtualMachineImagesEdgeZoneGetDefaultResponse
+): response is VirtualMachineImagesEdgeZoneGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineImagesEdgeZoneList200Response
-    | VirtualMachineImagesEdgeZoneListdefaultResponse
-): response is VirtualMachineImagesEdgeZoneListdefaultResponse;
+    | VirtualMachineImagesEdgeZoneListDefaultResponse
+): response is VirtualMachineImagesEdgeZoneListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineImagesEdgeZoneListOffers200Response
-    | VirtualMachineImagesEdgeZoneListOffersdefaultResponse
-): response is VirtualMachineImagesEdgeZoneListOffersdefaultResponse;
+    | VirtualMachineImagesEdgeZoneListOffersDefaultResponse
+): response is VirtualMachineImagesEdgeZoneListOffersDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineImagesEdgeZoneListPublishers200Response
-    | VirtualMachineImagesEdgeZoneListPublishersdefaultResponse
-): response is VirtualMachineImagesEdgeZoneListPublishersdefaultResponse;
+    | VirtualMachineImagesEdgeZoneListPublishersDefaultResponse
+): response is VirtualMachineImagesEdgeZoneListPublishersDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineImagesEdgeZoneListSkus200Response
-    | VirtualMachineImagesEdgeZoneListSkusdefaultResponse
-): response is VirtualMachineImagesEdgeZoneListSkusdefaultResponse;
+    | VirtualMachineImagesEdgeZoneListSkusDefaultResponse
+): response is VirtualMachineImagesEdgeZoneListSkusDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineExtensionImagesGet200Response
-    | VirtualMachineExtensionImagesGetdefaultResponse
-): response is VirtualMachineExtensionImagesGetdefaultResponse;
+    | VirtualMachineExtensionImagesGetDefaultResponse
+): response is VirtualMachineExtensionImagesGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineExtensionImagesListTypes200Response
-    | VirtualMachineExtensionImagesListTypesdefaultResponse
-): response is VirtualMachineExtensionImagesListTypesdefaultResponse;
+    | VirtualMachineExtensionImagesListTypesDefaultResponse
+): response is VirtualMachineExtensionImagesListTypesDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineExtensionImagesListVersions200Response
-    | VirtualMachineExtensionImagesListVersionsdefaultResponse
-): response is VirtualMachineExtensionImagesListVersionsdefaultResponse;
+    | VirtualMachineExtensionImagesListVersionsDefaultResponse
+): response is VirtualMachineExtensionImagesListVersionsDefaultResponse;
 export function isUnexpected(
   response:
     | AvailabilitySetsCreateOrUpdate200Response
-    | AvailabilitySetsCreateOrUpdatedefaultResponse
-): response is AvailabilitySetsCreateOrUpdatedefaultResponse;
+    | AvailabilitySetsCreateOrUpdateDefaultResponse
+): response is AvailabilitySetsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | AvailabilitySetsUpdate200Response
-    | AvailabilitySetsUpdatedefaultResponse
-): response is AvailabilitySetsUpdatedefaultResponse;
+    | AvailabilitySetsUpdateDefaultResponse
+): response is AvailabilitySetsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | AvailabilitySetsDelete200Response
     | AvailabilitySetsDelete204Response
-    | AvailabilitySetsDeletedefaultResponse
-): response is AvailabilitySetsDeletedefaultResponse;
+    | AvailabilitySetsDeleteDefaultResponse
+): response is AvailabilitySetsDeleteDefaultResponse;
 export function isUnexpected(
-  response: AvailabilitySetsGet200Response | AvailabilitySetsGetdefaultResponse
-): response is AvailabilitySetsGetdefaultResponse;
+  response: AvailabilitySetsGet200Response | AvailabilitySetsGetDefaultResponse
+): response is AvailabilitySetsGetDefaultResponse;
 export function isUnexpected(
   response:
     | AvailabilitySetsListBySubscription200Response
-    | AvailabilitySetsListBySubscriptiondefaultResponse
-): response is AvailabilitySetsListBySubscriptiondefaultResponse;
+    | AvailabilitySetsListBySubscriptionDefaultResponse
+): response is AvailabilitySetsListBySubscriptionDefaultResponse;
 export function isUnexpected(
   response:
     | AvailabilitySetsList200Response
-    | AvailabilitySetsListdefaultResponse
-): response is AvailabilitySetsListdefaultResponse;
+    | AvailabilitySetsListDefaultResponse
+): response is AvailabilitySetsListDefaultResponse;
 export function isUnexpected(
   response:
     | AvailabilitySetsListAvailableSizes200Response
-    | AvailabilitySetsListAvailableSizesdefaultResponse
-): response is AvailabilitySetsListAvailableSizesdefaultResponse;
+    | AvailabilitySetsListAvailableSizesDefaultResponse
+): response is AvailabilitySetsListAvailableSizesDefaultResponse;
 export function isUnexpected(
   response:
     | ProximityPlacementGroupsCreateOrUpdate200Response
     | ProximityPlacementGroupsCreateOrUpdate201Response
-    | ProximityPlacementGroupsCreateOrUpdatedefaultResponse
-): response is ProximityPlacementGroupsCreateOrUpdatedefaultResponse;
+    | ProximityPlacementGroupsCreateOrUpdateDefaultResponse
+): response is ProximityPlacementGroupsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ProximityPlacementGroupsUpdate200Response
-    | ProximityPlacementGroupsUpdatedefaultResponse
-): response is ProximityPlacementGroupsUpdatedefaultResponse;
+    | ProximityPlacementGroupsUpdateDefaultResponse
+): response is ProximityPlacementGroupsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ProximityPlacementGroupsDelete200Response
-    | ProximityPlacementGroupsDeletedefaultResponse
-): response is ProximityPlacementGroupsDeletedefaultResponse;
+    | ProximityPlacementGroupsDeleteDefaultResponse
+): response is ProximityPlacementGroupsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | ProximityPlacementGroupsGet200Response
-    | ProximityPlacementGroupsGetdefaultResponse
-): response is ProximityPlacementGroupsGetdefaultResponse;
+    | ProximityPlacementGroupsGetDefaultResponse
+): response is ProximityPlacementGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ProximityPlacementGroupsListBySubscription200Response
-    | ProximityPlacementGroupsListBySubscriptiondefaultResponse
-): response is ProximityPlacementGroupsListBySubscriptiondefaultResponse;
+    | ProximityPlacementGroupsListBySubscriptionDefaultResponse
+): response is ProximityPlacementGroupsListBySubscriptionDefaultResponse;
 export function isUnexpected(
   response:
     | ProximityPlacementGroupsListByResourceGroup200Response
-    | ProximityPlacementGroupsListByResourceGroupdefaultResponse
-): response is ProximityPlacementGroupsListByResourceGroupdefaultResponse;
+    | ProximityPlacementGroupsListByResourceGroupDefaultResponse
+): response is ProximityPlacementGroupsListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
     | DedicatedHostGroupsCreateOrUpdate200Response
     | DedicatedHostGroupsCreateOrUpdate201Response
-    | DedicatedHostGroupsCreateOrUpdatedefaultResponse
-): response is DedicatedHostGroupsCreateOrUpdatedefaultResponse;
+    | DedicatedHostGroupsCreateOrUpdateDefaultResponse
+): response is DedicatedHostGroupsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | DedicatedHostGroupsUpdate200Response
-    | DedicatedHostGroupsUpdatedefaultResponse
-): response is DedicatedHostGroupsUpdatedefaultResponse;
+    | DedicatedHostGroupsUpdateDefaultResponse
+): response is DedicatedHostGroupsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | DedicatedHostGroupsDelete200Response
     | DedicatedHostGroupsDelete204Response
-    | DedicatedHostGroupsDeletedefaultResponse
-): response is DedicatedHostGroupsDeletedefaultResponse;
+    | DedicatedHostGroupsDeleteDefaultResponse
+): response is DedicatedHostGroupsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | DedicatedHostGroupsGet200Response
-    | DedicatedHostGroupsGetdefaultResponse
-): response is DedicatedHostGroupsGetdefaultResponse;
+    | DedicatedHostGroupsGetDefaultResponse
+): response is DedicatedHostGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
     | DedicatedHostGroupsListByResourceGroup200Response
-    | DedicatedHostGroupsListByResourceGroupdefaultResponse
-): response is DedicatedHostGroupsListByResourceGroupdefaultResponse;
+    | DedicatedHostGroupsListByResourceGroupDefaultResponse
+): response is DedicatedHostGroupsListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
     | DedicatedHostGroupsListBySubscription200Response
-    | DedicatedHostGroupsListBySubscriptiondefaultResponse
-): response is DedicatedHostGroupsListBySubscriptiondefaultResponse;
+    | DedicatedHostGroupsListBySubscriptionDefaultResponse
+): response is DedicatedHostGroupsListBySubscriptionDefaultResponse;
 export function isUnexpected(
   response:
     | DedicatedHostsCreateOrUpdate200Response
     | DedicatedHostsCreateOrUpdate201Response
-    | DedicatedHostsCreateOrUpdatedefaultResponse
-): response is DedicatedHostsCreateOrUpdatedefaultResponse;
+    | DedicatedHostsCreateOrUpdateDefaultResponse
+): response is DedicatedHostsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | DedicatedHostsUpdate200Response
-    | DedicatedHostsUpdatedefaultResponse
-): response is DedicatedHostsUpdatedefaultResponse;
+    | DedicatedHostsUpdateDefaultResponse
+): response is DedicatedHostsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | DedicatedHostsDelete200Response
     | DedicatedHostsDelete202Response
     | DedicatedHostsDelete204Response
-    | DedicatedHostsDeletedefaultResponse
-): response is DedicatedHostsDeletedefaultResponse;
+    | DedicatedHostsDeleteDefaultResponse
+): response is DedicatedHostsDeleteDefaultResponse;
 export function isUnexpected(
-  response: DedicatedHostsGet200Response | DedicatedHostsGetdefaultResponse
-): response is DedicatedHostsGetdefaultResponse;
+  response: DedicatedHostsGet200Response | DedicatedHostsGetDefaultResponse
+): response is DedicatedHostsGetDefaultResponse;
 export function isUnexpected(
   response:
     | DedicatedHostsListByHostGroup200Response
-    | DedicatedHostsListByHostGroupdefaultResponse
-): response is DedicatedHostsListByHostGroupdefaultResponse;
+    | DedicatedHostsListByHostGroupDefaultResponse
+): response is DedicatedHostsListByHostGroupDefaultResponse;
 export function isUnexpected(
   response:
     | DedicatedHostsRestart200Response
-    | DedicatedHostsRestartdefaultResponse
-): response is DedicatedHostsRestartdefaultResponse;
+    | DedicatedHostsRestartDefaultResponse
+): response is DedicatedHostsRestartDefaultResponse;
 export function isUnexpected(
   response:
     | SshPublicKeysListBySubscription200Response
-    | SshPublicKeysListBySubscriptiondefaultResponse
-): response is SshPublicKeysListBySubscriptiondefaultResponse;
+    | SshPublicKeysListBySubscriptionDefaultResponse
+): response is SshPublicKeysListBySubscriptionDefaultResponse;
 export function isUnexpected(
   response:
     | SshPublicKeysListByResourceGroup200Response
-    | SshPublicKeysListByResourceGroupdefaultResponse
-): response is SshPublicKeysListByResourceGroupdefaultResponse;
+    | SshPublicKeysListByResourceGroupDefaultResponse
+): response is SshPublicKeysListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
     | SshPublicKeysCreate200Response
     | SshPublicKeysCreate201Response
-    | SshPublicKeysCreatedefaultResponse
-): response is SshPublicKeysCreatedefaultResponse;
+    | SshPublicKeysCreateDefaultResponse
+): response is SshPublicKeysCreateDefaultResponse;
 export function isUnexpected(
-  response: SshPublicKeysUpdate200Response | SshPublicKeysUpdatedefaultResponse
-): response is SshPublicKeysUpdatedefaultResponse;
+  response: SshPublicKeysUpdate200Response | SshPublicKeysUpdateDefaultResponse
+): response is SshPublicKeysUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | SshPublicKeysDelete200Response
     | SshPublicKeysDelete204Response
-    | SshPublicKeysDeletedefaultResponse
-): response is SshPublicKeysDeletedefaultResponse;
+    | SshPublicKeysDeleteDefaultResponse
+): response is SshPublicKeysDeleteDefaultResponse;
 export function isUnexpected(
-  response: SshPublicKeysGet200Response | SshPublicKeysGetdefaultResponse
-): response is SshPublicKeysGetdefaultResponse;
+  response: SshPublicKeysGet200Response | SshPublicKeysGetDefaultResponse
+): response is SshPublicKeysGetDefaultResponse;
 export function isUnexpected(
   response:
     | SshPublicKeysGenerateKeyPair200Response
-    | SshPublicKeysGenerateKeyPairdefaultResponse
-): response is SshPublicKeysGenerateKeyPairdefaultResponse;
+    | SshPublicKeysGenerateKeyPairDefaultResponse
+): response is SshPublicKeysGenerateKeyPairDefaultResponse;
 export function isUnexpected(
   response:
     | ImagesCreateOrUpdate200Response
     | ImagesCreateOrUpdate201Response
-    | ImagesCreateOrUpdatedefaultResponse
-): response is ImagesCreateOrUpdatedefaultResponse;
+    | ImagesCreateOrUpdateDefaultResponse
+): response is ImagesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ImagesUpdate200Response
     | ImagesUpdate201Response
-    | ImagesUpdatedefaultResponse
-): response is ImagesUpdatedefaultResponse;
+    | ImagesUpdateDefaultResponse
+): response is ImagesUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ImagesDelete200Response
     | ImagesDelete202Response
     | ImagesDelete204Response
-    | ImagesDeletedefaultResponse
-): response is ImagesDeletedefaultResponse;
+    | ImagesDeleteDefaultResponse
+): response is ImagesDeleteDefaultResponse;
 export function isUnexpected(
-  response: ImagesGet200Response | ImagesGetdefaultResponse
-): response is ImagesGetdefaultResponse;
+  response: ImagesGet200Response | ImagesGetDefaultResponse
+): response is ImagesGetDefaultResponse;
 export function isUnexpected(
   response:
     | ImagesListByResourceGroup200Response
-    | ImagesListByResourceGroupdefaultResponse
-): response is ImagesListByResourceGroupdefaultResponse;
+    | ImagesListByResourceGroupDefaultResponse
+): response is ImagesListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: ImagesList200Response | ImagesListdefaultResponse
-): response is ImagesListdefaultResponse;
+  response: ImagesList200Response | ImagesListDefaultResponse
+): response is ImagesListDefaultResponse;
 export function isUnexpected(
   response:
     | RestorePointCollectionsCreateOrUpdate200Response
     | RestorePointCollectionsCreateOrUpdate201Response
-    | RestorePointCollectionsCreateOrUpdatedefaultResponse
-): response is RestorePointCollectionsCreateOrUpdatedefaultResponse;
+    | RestorePointCollectionsCreateOrUpdateDefaultResponse
+): response is RestorePointCollectionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | RestorePointCollectionsUpdate200Response
-    | RestorePointCollectionsUpdatedefaultResponse
-): response is RestorePointCollectionsUpdatedefaultResponse;
+    | RestorePointCollectionsUpdateDefaultResponse
+): response is RestorePointCollectionsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | RestorePointCollectionsDelete200Response
     | RestorePointCollectionsDelete202Response
     | RestorePointCollectionsDelete204Response
-    | RestorePointCollectionsDeletedefaultResponse
-): response is RestorePointCollectionsDeletedefaultResponse;
+    | RestorePointCollectionsDeleteDefaultResponse
+): response is RestorePointCollectionsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | RestorePointCollectionsGet200Response
-    | RestorePointCollectionsGetdefaultResponse
-): response is RestorePointCollectionsGetdefaultResponse;
+    | RestorePointCollectionsGetDefaultResponse
+): response is RestorePointCollectionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | RestorePointCollectionsList200Response
-    | RestorePointCollectionsListdefaultResponse
-): response is RestorePointCollectionsListdefaultResponse;
+    | RestorePointCollectionsListDefaultResponse
+): response is RestorePointCollectionsListDefaultResponse;
 export function isUnexpected(
   response:
     | RestorePointCollectionsListAll200Response
-    | RestorePointCollectionsListAlldefaultResponse
-): response is RestorePointCollectionsListAlldefaultResponse;
+    | RestorePointCollectionsListAllDefaultResponse
+): response is RestorePointCollectionsListAllDefaultResponse;
 export function isUnexpected(
-  response: RestorePointsCreate201Response | RestorePointsCreatedefaultResponse
-): response is RestorePointsCreatedefaultResponse;
+  response: RestorePointsCreate201Response | RestorePointsCreateDefaultResponse
+): response is RestorePointsCreateDefaultResponse;
 export function isUnexpected(
   response:
     | RestorePointsDelete200Response
     | RestorePointsDelete202Response
     | RestorePointsDelete204Response
-    | RestorePointsDeletedefaultResponse
-): response is RestorePointsDeletedefaultResponse;
+    | RestorePointsDeleteDefaultResponse
+): response is RestorePointsDeleteDefaultResponse;
 export function isUnexpected(
-  response: RestorePointsGet200Response | RestorePointsGetdefaultResponse
-): response is RestorePointsGetdefaultResponse;
+  response: RestorePointsGet200Response | RestorePointsGetDefaultResponse
+): response is RestorePointsGetDefaultResponse;
 export function isUnexpected(
   response:
     | CapacityReservationGroupsCreateOrUpdate200Response
     | CapacityReservationGroupsCreateOrUpdate201Response
-    | CapacityReservationGroupsCreateOrUpdatedefaultResponse
-): response is CapacityReservationGroupsCreateOrUpdatedefaultResponse;
+    | CapacityReservationGroupsCreateOrUpdateDefaultResponse
+): response is CapacityReservationGroupsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | CapacityReservationGroupsUpdate200Response
-    | CapacityReservationGroupsUpdatedefaultResponse
-): response is CapacityReservationGroupsUpdatedefaultResponse;
+    | CapacityReservationGroupsUpdateDefaultResponse
+): response is CapacityReservationGroupsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | CapacityReservationGroupsDelete200Response
     | CapacityReservationGroupsDelete204Response
-    | CapacityReservationGroupsDeletedefaultResponse
-): response is CapacityReservationGroupsDeletedefaultResponse;
+    | CapacityReservationGroupsDeleteDefaultResponse
+): response is CapacityReservationGroupsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | CapacityReservationGroupsGet200Response
-    | CapacityReservationGroupsGetdefaultResponse
-): response is CapacityReservationGroupsGetdefaultResponse;
+    | CapacityReservationGroupsGetDefaultResponse
+): response is CapacityReservationGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
     | CapacityReservationGroupsListByResourceGroup200Response
-    | CapacityReservationGroupsListByResourceGroupdefaultResponse
-): response is CapacityReservationGroupsListByResourceGroupdefaultResponse;
+    | CapacityReservationGroupsListByResourceGroupDefaultResponse
+): response is CapacityReservationGroupsListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
     | CapacityReservationGroupsListBySubscription200Response
-    | CapacityReservationGroupsListBySubscriptiondefaultResponse
-): response is CapacityReservationGroupsListBySubscriptiondefaultResponse;
+    | CapacityReservationGroupsListBySubscriptionDefaultResponse
+): response is CapacityReservationGroupsListBySubscriptionDefaultResponse;
 export function isUnexpected(
   response:
     | CapacityReservationsCreateOrUpdate200Response
     | CapacityReservationsCreateOrUpdate201Response
-    | CapacityReservationsCreateOrUpdatedefaultResponse
-): response is CapacityReservationsCreateOrUpdatedefaultResponse;
+    | CapacityReservationsCreateOrUpdateDefaultResponse
+): response is CapacityReservationsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | CapacityReservationsUpdate200Response
     | CapacityReservationsUpdate202Response
-    | CapacityReservationsUpdatedefaultResponse
-): response is CapacityReservationsUpdatedefaultResponse;
+    | CapacityReservationsUpdateDefaultResponse
+): response is CapacityReservationsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | CapacityReservationsDelete200Response
     | CapacityReservationsDelete202Response
     | CapacityReservationsDelete204Response
-    | CapacityReservationsDeletedefaultResponse
-): response is CapacityReservationsDeletedefaultResponse;
+    | CapacityReservationsDeleteDefaultResponse
+): response is CapacityReservationsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | CapacityReservationsGet200Response
-    | CapacityReservationsGetdefaultResponse
-): response is CapacityReservationsGetdefaultResponse;
+    | CapacityReservationsGetDefaultResponse
+): response is CapacityReservationsGetDefaultResponse;
 export function isUnexpected(
   response:
     | CapacityReservationsListByCapacityReservationGroup200Response
-    | CapacityReservationsListByCapacityReservationGroupdefaultResponse
-): response is CapacityReservationsListByCapacityReservationGroupdefaultResponse;
+    | CapacityReservationsListByCapacityReservationGroupDefaultResponse
+): response is CapacityReservationsListByCapacityReservationGroupDefaultResponse;
 export function isUnexpected(
   response:
     | LogAnalyticsExportRequestRateByInterval200Response
     | LogAnalyticsExportRequestRateByInterval202Response
-    | LogAnalyticsExportRequestRateByIntervaldefaultResponse
-): response is LogAnalyticsExportRequestRateByIntervaldefaultResponse;
+    | LogAnalyticsExportRequestRateByIntervalDefaultResponse
+): response is LogAnalyticsExportRequestRateByIntervalDefaultResponse;
 export function isUnexpected(
   response:
     | LogAnalyticsExportThrottledRequests200Response
     | LogAnalyticsExportThrottledRequests202Response
-    | LogAnalyticsExportThrottledRequestsdefaultResponse
-): response is LogAnalyticsExportThrottledRequestsdefaultResponse;
+    | LogAnalyticsExportThrottledRequestsDefaultResponse
+): response is LogAnalyticsExportThrottledRequestsDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineRunCommandsCreateOrUpdate200Response
     | VirtualMachineRunCommandsCreateOrUpdate201Response
-    | VirtualMachineRunCommandsCreateOrUpdatedefaultResponse
-): response is VirtualMachineRunCommandsCreateOrUpdatedefaultResponse;
+    | VirtualMachineRunCommandsCreateOrUpdateDefaultResponse
+): response is VirtualMachineRunCommandsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineRunCommandsUpdate200Response
-    | VirtualMachineRunCommandsUpdatedefaultResponse
-): response is VirtualMachineRunCommandsUpdatedefaultResponse;
+    | VirtualMachineRunCommandsUpdateDefaultResponse
+): response is VirtualMachineRunCommandsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineRunCommandsDelete200Response
     | VirtualMachineRunCommandsDelete202Response
     | VirtualMachineRunCommandsDelete204Response
-    | VirtualMachineRunCommandsDeletedefaultResponse
-): response is VirtualMachineRunCommandsDeletedefaultResponse;
+    | VirtualMachineRunCommandsDeleteDefaultResponse
+): response is VirtualMachineRunCommandsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineRunCommandsGetByVirtualMachine200Response
-    | VirtualMachineRunCommandsGetByVirtualMachinedefaultResponse
-): response is VirtualMachineRunCommandsGetByVirtualMachinedefaultResponse;
+    | VirtualMachineRunCommandsGetByVirtualMachineDefaultResponse
+): response is VirtualMachineRunCommandsGetByVirtualMachineDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineRunCommandsListByVirtualMachine200Response
-    | VirtualMachineRunCommandsListByVirtualMachinedefaultResponse
-): response is VirtualMachineRunCommandsListByVirtualMachinedefaultResponse;
+    | VirtualMachineRunCommandsListByVirtualMachineDefaultResponse
+): response is VirtualMachineRunCommandsListByVirtualMachineDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMRunCommandsCreateOrUpdate200Response
     | VirtualMachineScaleSetVMRunCommandsCreateOrUpdate201Response
-    | VirtualMachineScaleSetVMRunCommandsCreateOrUpdatedefaultResponse
-): response is VirtualMachineScaleSetVMRunCommandsCreateOrUpdatedefaultResponse;
+    | VirtualMachineScaleSetVMRunCommandsCreateOrUpdateDefaultResponse
+): response is VirtualMachineScaleSetVMRunCommandsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMRunCommandsUpdate200Response
-    | VirtualMachineScaleSetVMRunCommandsUpdatedefaultResponse
-): response is VirtualMachineScaleSetVMRunCommandsUpdatedefaultResponse;
+    | VirtualMachineScaleSetVMRunCommandsUpdateDefaultResponse
+): response is VirtualMachineScaleSetVMRunCommandsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMRunCommandsDelete200Response
     | VirtualMachineScaleSetVMRunCommandsDelete202Response
     | VirtualMachineScaleSetVMRunCommandsDelete204Response
-    | VirtualMachineScaleSetVMRunCommandsDeletedefaultResponse
-): response is VirtualMachineScaleSetVMRunCommandsDeletedefaultResponse;
+    | VirtualMachineScaleSetVMRunCommandsDeleteDefaultResponse
+): response is VirtualMachineScaleSetVMRunCommandsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMRunCommandsGet200Response
-    | VirtualMachineScaleSetVMRunCommandsGetdefaultResponse
-): response is VirtualMachineScaleSetVMRunCommandsGetdefaultResponse;
+    | VirtualMachineScaleSetVMRunCommandsGetDefaultResponse
+): response is VirtualMachineScaleSetVMRunCommandsGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMRunCommandsList200Response
-    | VirtualMachineScaleSetVMRunCommandsListdefaultResponse
-): response is VirtualMachineScaleSetVMRunCommandsListdefaultResponse;
+    | VirtualMachineScaleSetVMRunCommandsListDefaultResponse
+): response is VirtualMachineScaleSetVMRunCommandsListDefaultResponse;
 export function isUnexpected(
   response:
     | DiskAccessesCreateOrUpdate200Response
     | DiskAccessesCreateOrUpdate202Response
-    | DiskAccessesCreateOrUpdatedefaultResponse
-): response is DiskAccessesCreateOrUpdatedefaultResponse;
+    | DiskAccessesCreateOrUpdateDefaultResponse
+): response is DiskAccessesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | DiskAccessesUpdate200Response
     | DiskAccessesUpdate202Response
-    | DiskAccessesUpdatedefaultResponse
-): response is DiskAccessesUpdatedefaultResponse;
+    | DiskAccessesUpdateDefaultResponse
+): response is DiskAccessesUpdateDefaultResponse;
 export function isUnexpected(
-  response: DiskAccessesGet200Response | DiskAccessesGetdefaultResponse
-): response is DiskAccessesGetdefaultResponse;
+  response: DiskAccessesGet200Response | DiskAccessesGetDefaultResponse
+): response is DiskAccessesGetDefaultResponse;
 export function isUnexpected(
   response:
     | DiskAccessesDelete200Response
     | DiskAccessesDelete202Response
     | DiskAccessesDelete204Response
-    | DiskAccessesDeletedefaultResponse
-): response is DiskAccessesDeletedefaultResponse;
+    | DiskAccessesDeleteDefaultResponse
+): response is DiskAccessesDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | DiskAccessesListByResourceGroup200Response
-    | DiskAccessesListByResourceGroupdefaultResponse
-): response is DiskAccessesListByResourceGroupdefaultResponse;
+    | DiskAccessesListByResourceGroupDefaultResponse
+): response is DiskAccessesListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: DiskAccessesList200Response | DiskAccessesListdefaultResponse
-): response is DiskAccessesListdefaultResponse;
+  response: DiskAccessesList200Response | DiskAccessesListDefaultResponse
+): response is DiskAccessesListDefaultResponse;
 export function isUnexpected(
   response:
     | DiskAccessesUpdateAPrivateEndpointConnection200Response
     | DiskAccessesUpdateAPrivateEndpointConnection202Response
-    | DiskAccessesUpdateAPrivateEndpointConnectiondefaultResponse
-): response is DiskAccessesUpdateAPrivateEndpointConnectiondefaultResponse;
+    | DiskAccessesUpdateAPrivateEndpointConnectionDefaultResponse
+): response is DiskAccessesUpdateAPrivateEndpointConnectionDefaultResponse;
 export function isUnexpected(
   response:
     | DiskAccessesGetAPrivateEndpointConnection200Response
-    | DiskAccessesGetAPrivateEndpointConnectiondefaultResponse
-): response is DiskAccessesGetAPrivateEndpointConnectiondefaultResponse;
+    | DiskAccessesGetAPrivateEndpointConnectionDefaultResponse
+): response is DiskAccessesGetAPrivateEndpointConnectionDefaultResponse;
 export function isUnexpected(
   response:
     | DiskAccessesDeleteAPrivateEndpointConnection200Response
     | DiskAccessesDeleteAPrivateEndpointConnection202Response
     | DiskAccessesDeleteAPrivateEndpointConnection204Response
-    | DiskAccessesDeleteAPrivateEndpointConnectiondefaultResponse
-): response is DiskAccessesDeleteAPrivateEndpointConnectiondefaultResponse;
+    | DiskAccessesDeleteAPrivateEndpointConnectionDefaultResponse
+): response is DiskAccessesDeleteAPrivateEndpointConnectionDefaultResponse;
 export function isUnexpected(
   response:
     | DiskAccessesListPrivateEndpointConnections200Response
-    | DiskAccessesListPrivateEndpointConnectionsdefaultResponse
-): response is DiskAccessesListPrivateEndpointConnectionsdefaultResponse;
+    | DiskAccessesListPrivateEndpointConnectionsDefaultResponse
+): response is DiskAccessesListPrivateEndpointConnectionsDefaultResponse;
 export function isUnexpected(
   response:
     | DiskEncryptionSetsCreateOrUpdate200Response
     | DiskEncryptionSetsCreateOrUpdate202Response
-    | DiskEncryptionSetsCreateOrUpdatedefaultResponse
-): response is DiskEncryptionSetsCreateOrUpdatedefaultResponse;
+    | DiskEncryptionSetsCreateOrUpdateDefaultResponse
+): response is DiskEncryptionSetsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | DiskEncryptionSetsUpdate200Response
     | DiskEncryptionSetsUpdate202Response
-    | DiskEncryptionSetsUpdatedefaultResponse
-): response is DiskEncryptionSetsUpdatedefaultResponse;
+    | DiskEncryptionSetsUpdateDefaultResponse
+): response is DiskEncryptionSetsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | DiskEncryptionSetsGet200Response
-    | DiskEncryptionSetsGetdefaultResponse
-): response is DiskEncryptionSetsGetdefaultResponse;
+    | DiskEncryptionSetsGetDefaultResponse
+): response is DiskEncryptionSetsGetDefaultResponse;
 export function isUnexpected(
   response:
     | DiskEncryptionSetsDelete200Response
     | DiskEncryptionSetsDelete202Response
     | DiskEncryptionSetsDelete204Response
-    | DiskEncryptionSetsDeletedefaultResponse
-): response is DiskEncryptionSetsDeletedefaultResponse;
+    | DiskEncryptionSetsDeleteDefaultResponse
+): response is DiskEncryptionSetsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | DiskEncryptionSetsListByResourceGroup200Response
-    | DiskEncryptionSetsListByResourceGroupdefaultResponse
-): response is DiskEncryptionSetsListByResourceGroupdefaultResponse;
+    | DiskEncryptionSetsListByResourceGroupDefaultResponse
+): response is DiskEncryptionSetsListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
     | DiskEncryptionSetsList200Response
-    | DiskEncryptionSetsListdefaultResponse
-): response is DiskEncryptionSetsListdefaultResponse;
+    | DiskEncryptionSetsListDefaultResponse
+): response is DiskEncryptionSetsListDefaultResponse;
 export function isUnexpected(
   response:
     | DiskEncryptionSetsListAssociatedResources200Response
-    | DiskEncryptionSetsListAssociatedResourcesdefaultResponse
-): response is DiskEncryptionSetsListAssociatedResourcesdefaultResponse;
+    | DiskEncryptionSetsListAssociatedResourcesDefaultResponse
+): response is DiskEncryptionSetsListAssociatedResourcesDefaultResponse;
 export function isUnexpected(
-  response: DiskRestorePointGet200Response | DiskRestorePointGetdefaultResponse
-): response is DiskRestorePointGetdefaultResponse;
+  response: DiskRestorePointGet200Response | DiskRestorePointGetDefaultResponse
+): response is DiskRestorePointGetDefaultResponse;
 export function isUnexpected(
   response:
     | DiskRestorePointListByRestorePoint200Response
-    | DiskRestorePointListByRestorePointdefaultResponse
-): response is DiskRestorePointListByRestorePointdefaultResponse;
+    | DiskRestorePointListByRestorePointDefaultResponse
+): response is DiskRestorePointListByRestorePointDefaultResponse;
 export function isUnexpected(
   response:
     | DiskRestorePointGrantAccess200Response
     | DiskRestorePointGrantAccess202Response
-    | DiskRestorePointGrantAccessdefaultResponse
-): response is DiskRestorePointGrantAccessdefaultResponse;
+    | DiskRestorePointGrantAccessDefaultResponse
+): response is DiskRestorePointGrantAccessDefaultResponse;
 export function isUnexpected(
   response:
     | DiskRestorePointRevokeAccess200Response
     | DiskRestorePointRevokeAccess202Response
-    | DiskRestorePointRevokeAccessdefaultResponse
-): response is DiskRestorePointRevokeAccessdefaultResponse;
+    | DiskRestorePointRevokeAccessDefaultResponse
+): response is DiskRestorePointRevokeAccessDefaultResponse;
 export function isUnexpected(
   response:
     | GalleriesCreateOrUpdate200Response
     | GalleriesCreateOrUpdate201Response
     | GalleriesCreateOrUpdate202Response
-    | GalleriesCreateOrUpdatedefaultResponse
-): response is GalleriesCreateOrUpdatedefaultResponse;
+    | GalleriesCreateOrUpdateDefaultResponse
+): response is GalleriesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: GalleriesUpdate200Response | GalleriesUpdatedefaultResponse
-): response is GalleriesUpdatedefaultResponse;
+  response: GalleriesUpdate200Response | GalleriesUpdateDefaultResponse
+): response is GalleriesUpdateDefaultResponse;
 export function isUnexpected(
-  response: GalleriesGet200Response | GalleriesGetdefaultResponse
-): response is GalleriesGetdefaultResponse;
+  response: GalleriesGet200Response | GalleriesGetDefaultResponse
+): response is GalleriesGetDefaultResponse;
 export function isUnexpected(
   response:
     | GalleriesDelete200Response
     | GalleriesDelete202Response
     | GalleriesDelete204Response
-    | GalleriesDeletedefaultResponse
-): response is GalleriesDeletedefaultResponse;
+    | GalleriesDeleteDefaultResponse
+): response is GalleriesDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | GalleriesListByResourceGroup200Response
-    | GalleriesListByResourceGroupdefaultResponse
-): response is GalleriesListByResourceGroupdefaultResponse;
+    | GalleriesListByResourceGroupDefaultResponse
+): response is GalleriesListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: GalleriesList200Response | GalleriesListdefaultResponse
-): response is GalleriesListdefaultResponse;
+  response: GalleriesList200Response | GalleriesListDefaultResponse
+): response is GalleriesListDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryImagesCreateOrUpdate200Response
     | GalleryImagesCreateOrUpdate201Response
     | GalleryImagesCreateOrUpdate202Response
-    | GalleryImagesCreateOrUpdatedefaultResponse
-): response is GalleryImagesCreateOrUpdatedefaultResponse;
+    | GalleryImagesCreateOrUpdateDefaultResponse
+): response is GalleryImagesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: GalleryImagesUpdate200Response | GalleryImagesUpdatedefaultResponse
-): response is GalleryImagesUpdatedefaultResponse;
+  response: GalleryImagesUpdate200Response | GalleryImagesUpdateDefaultResponse
+): response is GalleryImagesUpdateDefaultResponse;
 export function isUnexpected(
-  response: GalleryImagesGet200Response | GalleryImagesGetdefaultResponse
-): response is GalleryImagesGetdefaultResponse;
+  response: GalleryImagesGet200Response | GalleryImagesGetDefaultResponse
+): response is GalleryImagesGetDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryImagesDelete200Response
     | GalleryImagesDelete202Response
     | GalleryImagesDelete204Response
-    | GalleryImagesDeletedefaultResponse
-): response is GalleryImagesDeletedefaultResponse;
+    | GalleryImagesDeleteDefaultResponse
+): response is GalleryImagesDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryImagesListByGallery200Response
-    | GalleryImagesListByGallerydefaultResponse
-): response is GalleryImagesListByGallerydefaultResponse;
+    | GalleryImagesListByGalleryDefaultResponse
+): response is GalleryImagesListByGalleryDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryImageVersionsCreateOrUpdate200Response
     | GalleryImageVersionsCreateOrUpdate201Response
     | GalleryImageVersionsCreateOrUpdate202Response
-    | GalleryImageVersionsCreateOrUpdatedefaultResponse
-): response is GalleryImageVersionsCreateOrUpdatedefaultResponse;
+    | GalleryImageVersionsCreateOrUpdateDefaultResponse
+): response is GalleryImageVersionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryImageVersionsUpdate200Response
-    | GalleryImageVersionsUpdatedefaultResponse
-): response is GalleryImageVersionsUpdatedefaultResponse;
+    | GalleryImageVersionsUpdateDefaultResponse
+): response is GalleryImageVersionsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryImageVersionsGet200Response
-    | GalleryImageVersionsGetdefaultResponse
-): response is GalleryImageVersionsGetdefaultResponse;
+    | GalleryImageVersionsGetDefaultResponse
+): response is GalleryImageVersionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryImageVersionsDelete200Response
     | GalleryImageVersionsDelete202Response
     | GalleryImageVersionsDelete204Response
-    | GalleryImageVersionsDeletedefaultResponse
-): response is GalleryImageVersionsDeletedefaultResponse;
+    | GalleryImageVersionsDeleteDefaultResponse
+): response is GalleryImageVersionsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryImageVersionsListByGalleryImage200Response
-    | GalleryImageVersionsListByGalleryImagedefaultResponse
-): response is GalleryImageVersionsListByGalleryImagedefaultResponse;
+    | GalleryImageVersionsListByGalleryImageDefaultResponse
+): response is GalleryImageVersionsListByGalleryImageDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryApplicationsCreateOrUpdate200Response
     | GalleryApplicationsCreateOrUpdate201Response
     | GalleryApplicationsCreateOrUpdate202Response
-    | GalleryApplicationsCreateOrUpdatedefaultResponse
-): response is GalleryApplicationsCreateOrUpdatedefaultResponse;
+    | GalleryApplicationsCreateOrUpdateDefaultResponse
+): response is GalleryApplicationsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryApplicationsUpdate200Response
-    | GalleryApplicationsUpdatedefaultResponse
-): response is GalleryApplicationsUpdatedefaultResponse;
+    | GalleryApplicationsUpdateDefaultResponse
+): response is GalleryApplicationsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryApplicationsGet200Response
-    | GalleryApplicationsGetdefaultResponse
-): response is GalleryApplicationsGetdefaultResponse;
+    | GalleryApplicationsGetDefaultResponse
+): response is GalleryApplicationsGetDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryApplicationsDelete200Response
     | GalleryApplicationsDelete202Response
     | GalleryApplicationsDelete204Response
-    | GalleryApplicationsDeletedefaultResponse
-): response is GalleryApplicationsDeletedefaultResponse;
+    | GalleryApplicationsDeleteDefaultResponse
+): response is GalleryApplicationsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryApplicationsListByGallery200Response
-    | GalleryApplicationsListByGallerydefaultResponse
-): response is GalleryApplicationsListByGallerydefaultResponse;
+    | GalleryApplicationsListByGalleryDefaultResponse
+): response is GalleryApplicationsListByGalleryDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryApplicationVersionsCreateOrUpdate200Response
     | GalleryApplicationVersionsCreateOrUpdate201Response
     | GalleryApplicationVersionsCreateOrUpdate202Response
-    | GalleryApplicationVersionsCreateOrUpdatedefaultResponse
-): response is GalleryApplicationVersionsCreateOrUpdatedefaultResponse;
+    | GalleryApplicationVersionsCreateOrUpdateDefaultResponse
+): response is GalleryApplicationVersionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryApplicationVersionsUpdate200Response
-    | GalleryApplicationVersionsUpdatedefaultResponse
-): response is GalleryApplicationVersionsUpdatedefaultResponse;
+    | GalleryApplicationVersionsUpdateDefaultResponse
+): response is GalleryApplicationVersionsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryApplicationVersionsGet200Response
-    | GalleryApplicationVersionsGetdefaultResponse
-): response is GalleryApplicationVersionsGetdefaultResponse;
+    | GalleryApplicationVersionsGetDefaultResponse
+): response is GalleryApplicationVersionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryApplicationVersionsDelete200Response
     | GalleryApplicationVersionsDelete202Response
     | GalleryApplicationVersionsDelete204Response
-    | GalleryApplicationVersionsDeletedefaultResponse
-): response is GalleryApplicationVersionsDeletedefaultResponse;
+    | GalleryApplicationVersionsDeleteDefaultResponse
+): response is GalleryApplicationVersionsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryApplicationVersionsListByGalleryApplication200Response
-    | GalleryApplicationVersionsListByGalleryApplicationdefaultResponse
-): response is GalleryApplicationVersionsListByGalleryApplicationdefaultResponse;
+    | GalleryApplicationVersionsListByGalleryApplicationDefaultResponse
+): response is GalleryApplicationVersionsListByGalleryApplicationDefaultResponse;
 export function isUnexpected(
   response:
     | GallerySharingProfileUpdate200Response
     | GallerySharingProfileUpdate202Response
-    | GallerySharingProfileUpdatedefaultResponse
-): response is GallerySharingProfileUpdatedefaultResponse;
+    | GallerySharingProfileUpdateDefaultResponse
+): response is GallerySharingProfileUpdateDefaultResponse;
 export function isUnexpected(
-  response: SharedGalleriesList200Response | SharedGalleriesListdefaultResponse
-): response is SharedGalleriesListdefaultResponse;
+  response: SharedGalleriesList200Response | SharedGalleriesListDefaultResponse
+): response is SharedGalleriesListDefaultResponse;
 export function isUnexpected(
-  response: SharedGalleriesGet200Response | SharedGalleriesGetdefaultResponse
-): response is SharedGalleriesGetdefaultResponse;
+  response: SharedGalleriesGet200Response | SharedGalleriesGetDefaultResponse
+): response is SharedGalleriesGetDefaultResponse;
 export function isUnexpected(
   response:
     | SharedGalleryImagesList200Response
-    | SharedGalleryImagesListdefaultResponse
-): response is SharedGalleryImagesListdefaultResponse;
+    | SharedGalleryImagesListDefaultResponse
+): response is SharedGalleryImagesListDefaultResponse;
 export function isUnexpected(
   response:
     | SharedGalleryImagesGet200Response
-    | SharedGalleryImagesGetdefaultResponse
-): response is SharedGalleryImagesGetdefaultResponse;
+    | SharedGalleryImagesGetDefaultResponse
+): response is SharedGalleryImagesGetDefaultResponse;
 export function isUnexpected(
   response:
     | SharedGalleryImageVersionsList200Response
-    | SharedGalleryImageVersionsListdefaultResponse
-): response is SharedGalleryImageVersionsListdefaultResponse;
+    | SharedGalleryImageVersionsListDefaultResponse
+): response is SharedGalleryImageVersionsListDefaultResponse;
 export function isUnexpected(
   response:
     | SharedGalleryImageVersionsGet200Response
-    | SharedGalleryImageVersionsGetdefaultResponse
-): response is SharedGalleryImageVersionsGetdefaultResponse;
+    | SharedGalleryImageVersionsGetDefaultResponse
+): response is SharedGalleryImageVersionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | CommunityGalleriesGet200Response
-    | CommunityGalleriesGetdefaultResponse
-): response is CommunityGalleriesGetdefaultResponse;
+    | CommunityGalleriesGetDefaultResponse
+): response is CommunityGalleriesGetDefaultResponse;
 export function isUnexpected(
   response:
     | CommunityGalleryImagesGet200Response
-    | CommunityGalleryImagesGetdefaultResponse
-): response is CommunityGalleryImagesGetdefaultResponse;
+    | CommunityGalleryImagesGetDefaultResponse
+): response is CommunityGalleryImagesGetDefaultResponse;
 export function isUnexpected(
   response:
     | CommunityGalleryImagesList200Response
-    | CommunityGalleryImagesListdefaultResponse
-): response is CommunityGalleryImagesListdefaultResponse;
+    | CommunityGalleryImagesListDefaultResponse
+): response is CommunityGalleryImagesListDefaultResponse;
 export function isUnexpected(
   response:
     | CommunityGalleryImageVersionsGet200Response
-    | CommunityGalleryImageVersionsGetdefaultResponse
-): response is CommunityGalleryImageVersionsGetdefaultResponse;
+    | CommunityGalleryImageVersionsGetDefaultResponse
+): response is CommunityGalleryImageVersionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | CommunityGalleryImageVersionsList200Response
-    | CommunityGalleryImageVersionsListdefaultResponse
-): response is CommunityGalleryImageVersionsListdefaultResponse;
+    | CommunityGalleryImageVersionsListDefaultResponse
+): response is CommunityGalleryImageVersionsListDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceRoleInstancesDelete200Response
     | CloudServiceRoleInstancesDelete202Response
     | CloudServiceRoleInstancesDelete204Response
-    | CloudServiceRoleInstancesDeletedefaultResponse
-): response is CloudServiceRoleInstancesDeletedefaultResponse;
+    | CloudServiceRoleInstancesDeleteDefaultResponse
+): response is CloudServiceRoleInstancesDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceRoleInstancesGet200Response
-    | CloudServiceRoleInstancesGetdefaultResponse
-): response is CloudServiceRoleInstancesGetdefaultResponse;
+    | CloudServiceRoleInstancesGetDefaultResponse
+): response is CloudServiceRoleInstancesGetDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceRoleInstancesGetInstanceView200Response
-    | CloudServiceRoleInstancesGetInstanceViewdefaultResponse
-): response is CloudServiceRoleInstancesGetInstanceViewdefaultResponse;
+    | CloudServiceRoleInstancesGetInstanceViewDefaultResponse
+): response is CloudServiceRoleInstancesGetInstanceViewDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceRoleInstancesList200Response
-    | CloudServiceRoleInstancesListdefaultResponse
-): response is CloudServiceRoleInstancesListdefaultResponse;
+    | CloudServiceRoleInstancesListDefaultResponse
+): response is CloudServiceRoleInstancesListDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceRoleInstancesRestart200Response
     | CloudServiceRoleInstancesRestart202Response
-    | CloudServiceRoleInstancesRestartdefaultResponse
-): response is CloudServiceRoleInstancesRestartdefaultResponse;
+    | CloudServiceRoleInstancesRestartDefaultResponse
+): response is CloudServiceRoleInstancesRestartDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceRoleInstancesReimage200Response
     | CloudServiceRoleInstancesReimage202Response
-    | CloudServiceRoleInstancesReimagedefaultResponse
-): response is CloudServiceRoleInstancesReimagedefaultResponse;
+    | CloudServiceRoleInstancesReimageDefaultResponse
+): response is CloudServiceRoleInstancesReimageDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceRoleInstancesRebuild200Response
     | CloudServiceRoleInstancesRebuild202Response
-    | CloudServiceRoleInstancesRebuilddefaultResponse
-): response is CloudServiceRoleInstancesRebuilddefaultResponse;
+    | CloudServiceRoleInstancesRebuildDefaultResponse
+): response is CloudServiceRoleInstancesRebuildDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceRoleInstancesGetRemoteDesktopFile200Response
-    | CloudServiceRoleInstancesGetRemoteDesktopFiledefaultResponse
-): response is CloudServiceRoleInstancesGetRemoteDesktopFiledefaultResponse;
+    | CloudServiceRoleInstancesGetRemoteDesktopFileDefaultResponse
+): response is CloudServiceRoleInstancesGetRemoteDesktopFileDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceRolesGet200Response
-    | CloudServiceRolesGetdefaultResponse
-): response is CloudServiceRolesGetdefaultResponse;
+    | CloudServiceRolesGetDefaultResponse
+): response is CloudServiceRolesGetDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceRolesList200Response
-    | CloudServiceRolesListdefaultResponse
-): response is CloudServiceRolesListdefaultResponse;
+    | CloudServiceRolesListDefaultResponse
+): response is CloudServiceRolesListDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesCreateOrUpdate200Response
     | CloudServicesCreateOrUpdate201Response
-    | CloudServicesCreateOrUpdatedefaultResponse
-): response is CloudServicesCreateOrUpdatedefaultResponse;
+    | CloudServicesCreateOrUpdateDefaultResponse
+): response is CloudServicesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: CloudServicesUpdate200Response | CloudServicesUpdatedefaultResponse
-): response is CloudServicesUpdatedefaultResponse;
+  response: CloudServicesUpdate200Response | CloudServicesUpdateDefaultResponse
+): response is CloudServicesUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesDelete200Response
     | CloudServicesDelete202Response
     | CloudServicesDelete204Response
-    | CloudServicesDeletedefaultResponse
-): response is CloudServicesDeletedefaultResponse;
+    | CloudServicesDeleteDefaultResponse
+): response is CloudServicesDeleteDefaultResponse;
 export function isUnexpected(
-  response: CloudServicesGet200Response | CloudServicesGetdefaultResponse
-): response is CloudServicesGetdefaultResponse;
+  response: CloudServicesGet200Response | CloudServicesGetDefaultResponse
+): response is CloudServicesGetDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesGetInstanceView200Response
-    | CloudServicesGetInstanceViewdefaultResponse
-): response is CloudServicesGetInstanceViewdefaultResponse;
+    | CloudServicesGetInstanceViewDefaultResponse
+): response is CloudServicesGetInstanceViewDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesListAll200Response
-    | CloudServicesListAlldefaultResponse
-): response is CloudServicesListAlldefaultResponse;
+    | CloudServicesListAllDefaultResponse
+): response is CloudServicesListAllDefaultResponse;
 export function isUnexpected(
-  response: CloudServicesList200Response | CloudServicesListdefaultResponse
-): response is CloudServicesListdefaultResponse;
+  response: CloudServicesList200Response | CloudServicesListDefaultResponse
+): response is CloudServicesListDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesStart200Response
     | CloudServicesStart202Response
-    | CloudServicesStartdefaultResponse
-): response is CloudServicesStartdefaultResponse;
+    | CloudServicesStartDefaultResponse
+): response is CloudServicesStartDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesPowerOff200Response
     | CloudServicesPowerOff202Response
-    | CloudServicesPowerOffdefaultResponse
-): response is CloudServicesPowerOffdefaultResponse;
+    | CloudServicesPowerOffDefaultResponse
+): response is CloudServicesPowerOffDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesRestart200Response
     | CloudServicesRestart202Response
-    | CloudServicesRestartdefaultResponse
-): response is CloudServicesRestartdefaultResponse;
+    | CloudServicesRestartDefaultResponse
+): response is CloudServicesRestartDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesReimage200Response
     | CloudServicesReimage202Response
-    | CloudServicesReimagedefaultResponse
-): response is CloudServicesReimagedefaultResponse;
+    | CloudServicesReimageDefaultResponse
+): response is CloudServicesReimageDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesRebuild200Response
     | CloudServicesRebuild202Response
-    | CloudServicesRebuilddefaultResponse
-): response is CloudServicesRebuilddefaultResponse;
+    | CloudServicesRebuildDefaultResponse
+): response is CloudServicesRebuildDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesDeleteInstances200Response
     | CloudServicesDeleteInstances202Response
-    | CloudServicesDeleteInstancesdefaultResponse
-): response is CloudServicesDeleteInstancesdefaultResponse;
+    | CloudServicesDeleteInstancesDefaultResponse
+): response is CloudServicesDeleteInstancesDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesUpdateDomainWalkUpdateDomain200Response
     | CloudServicesUpdateDomainWalkUpdateDomain202Response
-    | CloudServicesUpdateDomainWalkUpdateDomaindefaultResponse
-): response is CloudServicesUpdateDomainWalkUpdateDomaindefaultResponse;
+    | CloudServicesUpdateDomainWalkUpdateDomainDefaultResponse
+): response is CloudServicesUpdateDomainWalkUpdateDomainDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesUpdateDomainGetUpdateDomain200Response
-    | CloudServicesUpdateDomainGetUpdateDomaindefaultResponse
-): response is CloudServicesUpdateDomainGetUpdateDomaindefaultResponse;
+    | CloudServicesUpdateDomainGetUpdateDomainDefaultResponse
+): response is CloudServicesUpdateDomainGetUpdateDomainDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesUpdateDomainListUpdateDomains200Response
-    | CloudServicesUpdateDomainListUpdateDomainsdefaultResponse
-): response is CloudServicesUpdateDomainListUpdateDomainsdefaultResponse;
+    | CloudServicesUpdateDomainListUpdateDomainsDefaultResponse
+): response is CloudServicesUpdateDomainListUpdateDomainsDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceOperatingSystemsGetOSVersion200Response
-    | CloudServiceOperatingSystemsGetOSVersiondefaultResponse
-): response is CloudServiceOperatingSystemsGetOSVersiondefaultResponse;
+    | CloudServiceOperatingSystemsGetOSVersionDefaultResponse
+): response is CloudServiceOperatingSystemsGetOSVersionDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceOperatingSystemsListOSVersions200Response
-    | CloudServiceOperatingSystemsListOSVersionsdefaultResponse
-): response is CloudServiceOperatingSystemsListOSVersionsdefaultResponse;
+    | CloudServiceOperatingSystemsListOSVersionsDefaultResponse
+): response is CloudServiceOperatingSystemsListOSVersionsDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceOperatingSystemsGetOSFamily200Response
-    | CloudServiceOperatingSystemsGetOSFamilydefaultResponse
-): response is CloudServiceOperatingSystemsGetOSFamilydefaultResponse;
+    | CloudServiceOperatingSystemsGetOSFamilyDefaultResponse
+): response is CloudServiceOperatingSystemsGetOSFamilyDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceOperatingSystemsListOSFamilies200Response
-    | CloudServiceOperatingSystemsListOSFamiliesdefaultResponse
-): response is CloudServiceOperatingSystemsListOSFamiliesdefaultResponse;
+    | CloudServiceOperatingSystemsListOSFamiliesDefaultResponse
+): response is CloudServiceOperatingSystemsListOSFamiliesDefaultResponse;
 export function isUnexpected(
   response:
     | OperationsList200Response
-    | OperationsListdefaultResponse
+    | OperationsListDefaultResponse
     | UsageList200Response
-    | UsageListdefaultResponse
+    | UsageListDefaultResponse
     | VirtualMachineSizesList200Response
-    | VirtualMachineSizesListdefaultResponse
+    | VirtualMachineSizesListDefaultResponse
     | VirtualMachineScaleSetsListByLocation200Response
-    | VirtualMachineScaleSetsListByLocationdefaultResponse
+    | VirtualMachineScaleSetsListByLocationDefaultResponse
     | VirtualMachineScaleSetsCreateOrUpdate200Response
     | VirtualMachineScaleSetsCreateOrUpdate201Response
-    | VirtualMachineScaleSetsCreateOrUpdatedefaultResponse
+    | VirtualMachineScaleSetsCreateOrUpdateDefaultResponse
     | VirtualMachineScaleSetsUpdate200Response
-    | VirtualMachineScaleSetsUpdatedefaultResponse
+    | VirtualMachineScaleSetsUpdateDefaultResponse
     | VirtualMachineScaleSetsDelete200Response
     | VirtualMachineScaleSetsDelete202Response
     | VirtualMachineScaleSetsDelete204Response
-    | VirtualMachineScaleSetsDeletedefaultResponse
+    | VirtualMachineScaleSetsDeleteDefaultResponse
     | VirtualMachineScaleSetsGet200Response
-    | VirtualMachineScaleSetsGetdefaultResponse
+    | VirtualMachineScaleSetsGetDefaultResponse
     | VirtualMachineScaleSetsDeallocate200Response
     | VirtualMachineScaleSetsDeallocate202Response
-    | VirtualMachineScaleSetsDeallocatedefaultResponse
+    | VirtualMachineScaleSetsDeallocateDefaultResponse
     | VirtualMachineScaleSetsDeleteInstances200Response
     | VirtualMachineScaleSetsDeleteInstances202Response
-    | VirtualMachineScaleSetsDeleteInstancesdefaultResponse
+    | VirtualMachineScaleSetsDeleteInstancesDefaultResponse
     | VirtualMachineScaleSetsGetInstanceView200Response
-    | VirtualMachineScaleSetsGetInstanceViewdefaultResponse
+    | VirtualMachineScaleSetsGetInstanceViewDefaultResponse
     | VirtualMachineScaleSetsList200Response
-    | VirtualMachineScaleSetsListdefaultResponse
+    | VirtualMachineScaleSetsListDefaultResponse
     | VirtualMachineScaleSetsListAll200Response
-    | VirtualMachineScaleSetsListAlldefaultResponse
+    | VirtualMachineScaleSetsListAllDefaultResponse
     | VirtualMachineScaleSetsListSkus200Response
-    | VirtualMachineScaleSetsListSkusdefaultResponse
+    | VirtualMachineScaleSetsListSkusDefaultResponse
     | VirtualMachineScaleSetsGetOSUpgradeHistory200Response
-    | VirtualMachineScaleSetsGetOSUpgradeHistorydefaultResponse
+    | VirtualMachineScaleSetsGetOSUpgradeHistoryDefaultResponse
     | VirtualMachineScaleSetsPowerOff200Response
     | VirtualMachineScaleSetsPowerOff202Response
-    | VirtualMachineScaleSetsPowerOffdefaultResponse
+    | VirtualMachineScaleSetsPowerOffDefaultResponse
     | VirtualMachineScaleSetsRestart200Response
     | VirtualMachineScaleSetsRestart202Response
-    | VirtualMachineScaleSetsRestartdefaultResponse
+    | VirtualMachineScaleSetsRestartDefaultResponse
     | VirtualMachineScaleSetsStart200Response
     | VirtualMachineScaleSetsStart202Response
-    | VirtualMachineScaleSetsStartdefaultResponse
+    | VirtualMachineScaleSetsStartDefaultResponse
     | VirtualMachineScaleSetsRedeploy200Response
     | VirtualMachineScaleSetsRedeploy202Response
-    | VirtualMachineScaleSetsRedeploydefaultResponse
+    | VirtualMachineScaleSetsRedeployDefaultResponse
     | VirtualMachineScaleSetsPerformMaintenance200Response
     | VirtualMachineScaleSetsPerformMaintenance202Response
-    | VirtualMachineScaleSetsPerformMaintenancedefaultResponse
+    | VirtualMachineScaleSetsPerformMaintenanceDefaultResponse
     | VirtualMachineScaleSetsUpdateInstances200Response
     | VirtualMachineScaleSetsUpdateInstances202Response
-    | VirtualMachineScaleSetsUpdateInstancesdefaultResponse
+    | VirtualMachineScaleSetsUpdateInstancesDefaultResponse
     | VirtualMachineScaleSetsReimage200Response
     | VirtualMachineScaleSetsReimage202Response
-    | VirtualMachineScaleSetsReimagedefaultResponse
+    | VirtualMachineScaleSetsReimageDefaultResponse
     | VirtualMachineScaleSetsReimageAll200Response
     | VirtualMachineScaleSetsReimageAll202Response
-    | VirtualMachineScaleSetsReimageAlldefaultResponse
+    | VirtualMachineScaleSetsReimageAllDefaultResponse
     | VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalk200Response
-    | VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkdefaultResponse
+    | VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkDefaultResponse
     | VirtualMachineScaleSetsConvertToSinglePlacementGroup200Response
-    | VirtualMachineScaleSetsConvertToSinglePlacementGroupdefaultResponse
+    | VirtualMachineScaleSetsConvertToSinglePlacementGroupDefaultResponse
     | VirtualMachineScaleSetsSetOrchestrationServiceState200Response
     | VirtualMachineScaleSetsSetOrchestrationServiceState202Response
-    | VirtualMachineScaleSetsSetOrchestrationServiceStatedefaultResponse
+    | VirtualMachineScaleSetsSetOrchestrationServiceStateDefaultResponse
     | VirtualMachineScaleSetExtensionsCreateOrUpdate200Response
     | VirtualMachineScaleSetExtensionsCreateOrUpdate201Response
-    | VirtualMachineScaleSetExtensionsCreateOrUpdatedefaultResponse
+    | VirtualMachineScaleSetExtensionsCreateOrUpdateDefaultResponse
     | VirtualMachineScaleSetExtensionsUpdate200Response
     | VirtualMachineScaleSetExtensionsUpdate201Response
-    | VirtualMachineScaleSetExtensionsUpdatedefaultResponse
+    | VirtualMachineScaleSetExtensionsUpdateDefaultResponse
     | VirtualMachineScaleSetExtensionsDelete200Response
     | VirtualMachineScaleSetExtensionsDelete202Response
     | VirtualMachineScaleSetExtensionsDelete204Response
-    | VirtualMachineScaleSetExtensionsDeletedefaultResponse
+    | VirtualMachineScaleSetExtensionsDeleteDefaultResponse
     | VirtualMachineScaleSetExtensionsGet200Response
-    | VirtualMachineScaleSetExtensionsGetdefaultResponse
+    | VirtualMachineScaleSetExtensionsGetDefaultResponse
     | VirtualMachineScaleSetExtensionsList200Response
-    | VirtualMachineScaleSetExtensionsListdefaultResponse
+    | VirtualMachineScaleSetExtensionsListDefaultResponse
     | VirtualMachineScaleSetRollingUpgradesCancel200Response
     | VirtualMachineScaleSetRollingUpgradesCancel202Response
-    | VirtualMachineScaleSetRollingUpgradesCanceldefaultResponse
+    | VirtualMachineScaleSetRollingUpgradesCancelDefaultResponse
     | VirtualMachineScaleSetRollingUpgradesStartOSUpgrade200Response
     | VirtualMachineScaleSetRollingUpgradesStartOSUpgrade202Response
-    | VirtualMachineScaleSetRollingUpgradesStartOSUpgradedefaultResponse
+    | VirtualMachineScaleSetRollingUpgradesStartOSUpgradeDefaultResponse
     | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade200Response
     | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade202Response
-    | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradedefaultResponse
+    | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeDefaultResponse
     | VirtualMachineScaleSetRollingUpgradesGetLatest200Response
-    | VirtualMachineScaleSetRollingUpgradesGetLatestdefaultResponse
+    | VirtualMachineScaleSetRollingUpgradesGetLatestDefaultResponse
     | VirtualMachineScaleSetVMExtensionsCreateOrUpdate200Response
     | VirtualMachineScaleSetVMExtensionsCreateOrUpdate201Response
-    | VirtualMachineScaleSetVMExtensionsCreateOrUpdatedefaultResponse
+    | VirtualMachineScaleSetVMExtensionsCreateOrUpdateDefaultResponse
     | VirtualMachineScaleSetVMExtensionsUpdate200Response
-    | VirtualMachineScaleSetVMExtensionsUpdatedefaultResponse
+    | VirtualMachineScaleSetVMExtensionsUpdateDefaultResponse
     | VirtualMachineScaleSetVMExtensionsDelete200Response
     | VirtualMachineScaleSetVMExtensionsDelete202Response
     | VirtualMachineScaleSetVMExtensionsDelete204Response
-    | VirtualMachineScaleSetVMExtensionsDeletedefaultResponse
+    | VirtualMachineScaleSetVMExtensionsDeleteDefaultResponse
     | VirtualMachineScaleSetVMExtensionsGet200Response
-    | VirtualMachineScaleSetVMExtensionsGetdefaultResponse
+    | VirtualMachineScaleSetVMExtensionsGetDefaultResponse
     | VirtualMachineScaleSetVMExtensionsList200Response
-    | VirtualMachineScaleSetVMExtensionsListdefaultResponse
+    | VirtualMachineScaleSetVMExtensionsListDefaultResponse
     | VirtualMachineScaleSetVMsReimage200Response
     | VirtualMachineScaleSetVMsReimage202Response
-    | VirtualMachineScaleSetVMsReimagedefaultResponse
+    | VirtualMachineScaleSetVMsReimageDefaultResponse
     | VirtualMachineScaleSetVMsReimageAll200Response
     | VirtualMachineScaleSetVMsReimageAll202Response
-    | VirtualMachineScaleSetVMsReimageAlldefaultResponse
+    | VirtualMachineScaleSetVMsReimageAllDefaultResponse
     | VirtualMachineScaleSetVMsDeallocate200Response
     | VirtualMachineScaleSetVMsDeallocate202Response
-    | VirtualMachineScaleSetVMsDeallocatedefaultResponse
+    | VirtualMachineScaleSetVMsDeallocateDefaultResponse
     | VirtualMachineScaleSetVMsUpdate200Response
     | VirtualMachineScaleSetVMsUpdate202Response
-    | VirtualMachineScaleSetVMsUpdatedefaultResponse
+    | VirtualMachineScaleSetVMsUpdateDefaultResponse
     | VirtualMachineScaleSetVMsDelete200Response
     | VirtualMachineScaleSetVMsDelete202Response
     | VirtualMachineScaleSetVMsDelete204Response
-    | VirtualMachineScaleSetVMsDeletedefaultResponse
+    | VirtualMachineScaleSetVMsDeleteDefaultResponse
     | VirtualMachineScaleSetVMsGet200Response
-    | VirtualMachineScaleSetVMsGetdefaultResponse
+    | VirtualMachineScaleSetVMsGetDefaultResponse
     | VirtualMachineScaleSetVMsGetInstanceView200Response
-    | VirtualMachineScaleSetVMsGetInstanceViewdefaultResponse
+    | VirtualMachineScaleSetVMsGetInstanceViewDefaultResponse
     | VirtualMachineScaleSetVMsList200Response
-    | VirtualMachineScaleSetVMsListdefaultResponse
+    | VirtualMachineScaleSetVMsListDefaultResponse
     | VirtualMachineScaleSetVMsPowerOff200Response
     | VirtualMachineScaleSetVMsPowerOff202Response
-    | VirtualMachineScaleSetVMsPowerOffdefaultResponse
+    | VirtualMachineScaleSetVMsPowerOffDefaultResponse
     | VirtualMachineScaleSetVMsRestart200Response
     | VirtualMachineScaleSetVMsRestart202Response
-    | VirtualMachineScaleSetVMsRestartdefaultResponse
+    | VirtualMachineScaleSetVMsRestartDefaultResponse
     | VirtualMachineScaleSetVMsStart200Response
     | VirtualMachineScaleSetVMsStart202Response
-    | VirtualMachineScaleSetVMsStartdefaultResponse
+    | VirtualMachineScaleSetVMsStartDefaultResponse
     | VirtualMachineScaleSetVMsRedeploy200Response
     | VirtualMachineScaleSetVMsRedeploy202Response
-    | VirtualMachineScaleSetVMsRedeploydefaultResponse
+    | VirtualMachineScaleSetVMsRedeployDefaultResponse
     | VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData200Response
-    | VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDatadefaultResponse
+    | VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataDefaultResponse
     | VirtualMachineScaleSetVMsPerformMaintenance200Response
     | VirtualMachineScaleSetVMsPerformMaintenance202Response
-    | VirtualMachineScaleSetVMsPerformMaintenancedefaultResponse
+    | VirtualMachineScaleSetVMsPerformMaintenanceDefaultResponse
     | VirtualMachineScaleSetVMsSimulateEviction204Response
-    | VirtualMachineScaleSetVMsSimulateEvictiondefaultResponse
+    | VirtualMachineScaleSetVMsSimulateEvictionDefaultResponse
     | VirtualMachineExtensionsCreateOrUpdate200Response
     | VirtualMachineExtensionsCreateOrUpdate201Response
-    | VirtualMachineExtensionsCreateOrUpdatedefaultResponse
+    | VirtualMachineExtensionsCreateOrUpdateDefaultResponse
     | VirtualMachineExtensionsUpdate200Response
-    | VirtualMachineExtensionsUpdatedefaultResponse
+    | VirtualMachineExtensionsUpdateDefaultResponse
     | VirtualMachineExtensionsDelete200Response
     | VirtualMachineExtensionsDelete202Response
     | VirtualMachineExtensionsDelete204Response
-    | VirtualMachineExtensionsDeletedefaultResponse
+    | VirtualMachineExtensionsDeleteDefaultResponse
     | VirtualMachineExtensionsGet200Response
-    | VirtualMachineExtensionsGetdefaultResponse
+    | VirtualMachineExtensionsGetDefaultResponse
     | VirtualMachineExtensionsList200Response
-    | VirtualMachineExtensionsListdefaultResponse
+    | VirtualMachineExtensionsListDefaultResponse
     | VirtualMachinesListByLocation200Response
-    | VirtualMachinesListByLocationdefaultResponse
+    | VirtualMachinesListByLocationDefaultResponse
     | VirtualMachinesCapture200Response
     | VirtualMachinesCapture202Response
-    | VirtualMachinesCapturedefaultResponse
+    | VirtualMachinesCaptureDefaultResponse
     | VirtualMachinesCreateOrUpdate200Response
     | VirtualMachinesCreateOrUpdate201Response
-    | VirtualMachinesCreateOrUpdatedefaultResponse
+    | VirtualMachinesCreateOrUpdateDefaultResponse
     | VirtualMachinesUpdate200Response
-    | VirtualMachinesUpdatedefaultResponse
+    | VirtualMachinesUpdateDefaultResponse
     | VirtualMachinesDelete200Response
     | VirtualMachinesDelete202Response
     | VirtualMachinesDelete204Response
-    | VirtualMachinesDeletedefaultResponse
+    | VirtualMachinesDeleteDefaultResponse
     | VirtualMachinesGet200Response
-    | VirtualMachinesGetdefaultResponse
+    | VirtualMachinesGetDefaultResponse
     | VirtualMachinesInstanceView200Response
-    | VirtualMachinesInstanceViewdefaultResponse
+    | VirtualMachinesInstanceViewDefaultResponse
     | VirtualMachinesConvertToManagedDisks200Response
     | VirtualMachinesConvertToManagedDisks202Response
-    | VirtualMachinesConvertToManagedDisksdefaultResponse
+    | VirtualMachinesConvertToManagedDisksDefaultResponse
     | VirtualMachinesDeallocate200Response
     | VirtualMachinesDeallocate202Response
-    | VirtualMachinesDeallocatedefaultResponse
+    | VirtualMachinesDeallocateDefaultResponse
     | VirtualMachinesGeneralize200Response
-    | VirtualMachinesGeneralizedefaultResponse
+    | VirtualMachinesGeneralizeDefaultResponse
     | VirtualMachinesList200Response
-    | VirtualMachinesListdefaultResponse
+    | VirtualMachinesListDefaultResponse
     | VirtualMachinesListAll200Response
-    | VirtualMachinesListAlldefaultResponse
+    | VirtualMachinesListAllDefaultResponse
     | VirtualMachinesListAvailableSizes200Response
-    | VirtualMachinesListAvailableSizesdefaultResponse
+    | VirtualMachinesListAvailableSizesDefaultResponse
     | VirtualMachinesPowerOff200Response
     | VirtualMachinesPowerOff202Response
-    | VirtualMachinesPowerOffdefaultResponse
+    | VirtualMachinesPowerOffDefaultResponse
     | VirtualMachinesReapply200Response
     | VirtualMachinesReapply202Response
-    | VirtualMachinesReapplydefaultResponse
+    | VirtualMachinesReapplyDefaultResponse
     | VirtualMachinesRestart200Response
     | VirtualMachinesRestart202Response
-    | VirtualMachinesRestartdefaultResponse
+    | VirtualMachinesRestartDefaultResponse
     | VirtualMachinesStart200Response
     | VirtualMachinesStart202Response
-    | VirtualMachinesStartdefaultResponse
+    | VirtualMachinesStartDefaultResponse
     | VirtualMachinesRedeploy200Response
     | VirtualMachinesRedeploy202Response
-    | VirtualMachinesRedeploydefaultResponse
+    | VirtualMachinesRedeployDefaultResponse
     | VirtualMachinesReimage200Response
     | VirtualMachinesReimage202Response
-    | VirtualMachinesReimagedefaultResponse
+    | VirtualMachinesReimageDefaultResponse
     | VirtualMachinesRetrieveBootDiagnosticsData200Response
-    | VirtualMachinesRetrieveBootDiagnosticsDatadefaultResponse
+    | VirtualMachinesRetrieveBootDiagnosticsDataDefaultResponse
     | VirtualMachinesPerformMaintenance200Response
     | VirtualMachinesPerformMaintenance202Response
-    | VirtualMachinesPerformMaintenancedefaultResponse
+    | VirtualMachinesPerformMaintenanceDefaultResponse
     | VirtualMachinesSimulateEviction204Response
-    | VirtualMachinesSimulateEvictiondefaultResponse
+    | VirtualMachinesSimulateEvictionDefaultResponse
     | VirtualMachinesAssessPatches200Response
     | VirtualMachinesAssessPatches202Response
-    | VirtualMachinesAssessPatchesdefaultResponse
+    | VirtualMachinesAssessPatchesDefaultResponse
     | VirtualMachinesInstallPatches200Response
     | VirtualMachinesInstallPatches202Response
-    | VirtualMachinesInstallPatchesdefaultResponse
+    | VirtualMachinesInstallPatchesDefaultResponse
     | VirtualMachineImagesGet200Response
-    | VirtualMachineImagesGetdefaultResponse
+    | VirtualMachineImagesGetDefaultResponse
     | VirtualMachineImagesList200Response
-    | VirtualMachineImagesListdefaultResponse
+    | VirtualMachineImagesListDefaultResponse
     | VirtualMachineImagesListOffers200Response
-    | VirtualMachineImagesListOffersdefaultResponse
+    | VirtualMachineImagesListOffersDefaultResponse
     | VirtualMachineImagesListPublishers200Response
-    | VirtualMachineImagesListPublishersdefaultResponse
+    | VirtualMachineImagesListPublishersDefaultResponse
     | VirtualMachineImagesListSkus200Response
-    | VirtualMachineImagesListSkusdefaultResponse
+    | VirtualMachineImagesListSkusDefaultResponse
     | VirtualMachineImagesListByEdgeZone200Response
-    | VirtualMachineImagesListByEdgeZonedefaultResponse
+    | VirtualMachineImagesListByEdgeZoneDefaultResponse
     | VirtualMachineImagesEdgeZoneGet200Response
-    | VirtualMachineImagesEdgeZoneGetdefaultResponse
+    | VirtualMachineImagesEdgeZoneGetDefaultResponse
     | VirtualMachineImagesEdgeZoneList200Response
-    | VirtualMachineImagesEdgeZoneListdefaultResponse
+    | VirtualMachineImagesEdgeZoneListDefaultResponse
     | VirtualMachineImagesEdgeZoneListOffers200Response
-    | VirtualMachineImagesEdgeZoneListOffersdefaultResponse
+    | VirtualMachineImagesEdgeZoneListOffersDefaultResponse
     | VirtualMachineImagesEdgeZoneListPublishers200Response
-    | VirtualMachineImagesEdgeZoneListPublishersdefaultResponse
+    | VirtualMachineImagesEdgeZoneListPublishersDefaultResponse
     | VirtualMachineImagesEdgeZoneListSkus200Response
-    | VirtualMachineImagesEdgeZoneListSkusdefaultResponse
+    | VirtualMachineImagesEdgeZoneListSkusDefaultResponse
     | VirtualMachineExtensionImagesGet200Response
-    | VirtualMachineExtensionImagesGetdefaultResponse
+    | VirtualMachineExtensionImagesGetDefaultResponse
     | VirtualMachineExtensionImagesListTypes200Response
-    | VirtualMachineExtensionImagesListTypesdefaultResponse
+    | VirtualMachineExtensionImagesListTypesDefaultResponse
     | VirtualMachineExtensionImagesListVersions200Response
-    | VirtualMachineExtensionImagesListVersionsdefaultResponse
+    | VirtualMachineExtensionImagesListVersionsDefaultResponse
     | AvailabilitySetsCreateOrUpdate200Response
-    | AvailabilitySetsCreateOrUpdatedefaultResponse
+    | AvailabilitySetsCreateOrUpdateDefaultResponse
     | AvailabilitySetsUpdate200Response
-    | AvailabilitySetsUpdatedefaultResponse
+    | AvailabilitySetsUpdateDefaultResponse
     | AvailabilitySetsDelete200Response
     | AvailabilitySetsDelete204Response
-    | AvailabilitySetsDeletedefaultResponse
+    | AvailabilitySetsDeleteDefaultResponse
     | AvailabilitySetsGet200Response
-    | AvailabilitySetsGetdefaultResponse
+    | AvailabilitySetsGetDefaultResponse
     | AvailabilitySetsListBySubscription200Response
-    | AvailabilitySetsListBySubscriptiondefaultResponse
+    | AvailabilitySetsListBySubscriptionDefaultResponse
     | AvailabilitySetsList200Response
-    | AvailabilitySetsListdefaultResponse
+    | AvailabilitySetsListDefaultResponse
     | AvailabilitySetsListAvailableSizes200Response
-    | AvailabilitySetsListAvailableSizesdefaultResponse
+    | AvailabilitySetsListAvailableSizesDefaultResponse
     | ProximityPlacementGroupsCreateOrUpdate200Response
     | ProximityPlacementGroupsCreateOrUpdate201Response
-    | ProximityPlacementGroupsCreateOrUpdatedefaultResponse
+    | ProximityPlacementGroupsCreateOrUpdateDefaultResponse
     | ProximityPlacementGroupsUpdate200Response
-    | ProximityPlacementGroupsUpdatedefaultResponse
+    | ProximityPlacementGroupsUpdateDefaultResponse
     | ProximityPlacementGroupsDelete200Response
-    | ProximityPlacementGroupsDeletedefaultResponse
+    | ProximityPlacementGroupsDeleteDefaultResponse
     | ProximityPlacementGroupsGet200Response
-    | ProximityPlacementGroupsGetdefaultResponse
+    | ProximityPlacementGroupsGetDefaultResponse
     | ProximityPlacementGroupsListBySubscription200Response
-    | ProximityPlacementGroupsListBySubscriptiondefaultResponse
+    | ProximityPlacementGroupsListBySubscriptionDefaultResponse
     | ProximityPlacementGroupsListByResourceGroup200Response
-    | ProximityPlacementGroupsListByResourceGroupdefaultResponse
+    | ProximityPlacementGroupsListByResourceGroupDefaultResponse
     | DedicatedHostGroupsCreateOrUpdate200Response
     | DedicatedHostGroupsCreateOrUpdate201Response
-    | DedicatedHostGroupsCreateOrUpdatedefaultResponse
+    | DedicatedHostGroupsCreateOrUpdateDefaultResponse
     | DedicatedHostGroupsUpdate200Response
-    | DedicatedHostGroupsUpdatedefaultResponse
+    | DedicatedHostGroupsUpdateDefaultResponse
     | DedicatedHostGroupsDelete200Response
     | DedicatedHostGroupsDelete204Response
-    | DedicatedHostGroupsDeletedefaultResponse
+    | DedicatedHostGroupsDeleteDefaultResponse
     | DedicatedHostGroupsGet200Response
-    | DedicatedHostGroupsGetdefaultResponse
+    | DedicatedHostGroupsGetDefaultResponse
     | DedicatedHostGroupsListByResourceGroup200Response
-    | DedicatedHostGroupsListByResourceGroupdefaultResponse
+    | DedicatedHostGroupsListByResourceGroupDefaultResponse
     | DedicatedHostGroupsListBySubscription200Response
-    | DedicatedHostGroupsListBySubscriptiondefaultResponse
+    | DedicatedHostGroupsListBySubscriptionDefaultResponse
     | DedicatedHostsCreateOrUpdate200Response
     | DedicatedHostsCreateOrUpdate201Response
-    | DedicatedHostsCreateOrUpdatedefaultResponse
+    | DedicatedHostsCreateOrUpdateDefaultResponse
     | DedicatedHostsUpdate200Response
-    | DedicatedHostsUpdatedefaultResponse
+    | DedicatedHostsUpdateDefaultResponse
     | DedicatedHostsDelete200Response
     | DedicatedHostsDelete202Response
     | DedicatedHostsDelete204Response
-    | DedicatedHostsDeletedefaultResponse
+    | DedicatedHostsDeleteDefaultResponse
     | DedicatedHostsGet200Response
-    | DedicatedHostsGetdefaultResponse
+    | DedicatedHostsGetDefaultResponse
     | DedicatedHostsListByHostGroup200Response
-    | DedicatedHostsListByHostGroupdefaultResponse
+    | DedicatedHostsListByHostGroupDefaultResponse
     | DedicatedHostsRestart200Response
-    | DedicatedHostsRestartdefaultResponse
+    | DedicatedHostsRestartDefaultResponse
     | SshPublicKeysListBySubscription200Response
-    | SshPublicKeysListBySubscriptiondefaultResponse
+    | SshPublicKeysListBySubscriptionDefaultResponse
     | SshPublicKeysListByResourceGroup200Response
-    | SshPublicKeysListByResourceGroupdefaultResponse
+    | SshPublicKeysListByResourceGroupDefaultResponse
     | SshPublicKeysCreate200Response
     | SshPublicKeysCreate201Response
-    | SshPublicKeysCreatedefaultResponse
+    | SshPublicKeysCreateDefaultResponse
     | SshPublicKeysUpdate200Response
-    | SshPublicKeysUpdatedefaultResponse
+    | SshPublicKeysUpdateDefaultResponse
     | SshPublicKeysDelete200Response
     | SshPublicKeysDelete204Response
-    | SshPublicKeysDeletedefaultResponse
+    | SshPublicKeysDeleteDefaultResponse
     | SshPublicKeysGet200Response
-    | SshPublicKeysGetdefaultResponse
+    | SshPublicKeysGetDefaultResponse
     | SshPublicKeysGenerateKeyPair200Response
-    | SshPublicKeysGenerateKeyPairdefaultResponse
+    | SshPublicKeysGenerateKeyPairDefaultResponse
     | ImagesCreateOrUpdate200Response
     | ImagesCreateOrUpdate201Response
-    | ImagesCreateOrUpdatedefaultResponse
+    | ImagesCreateOrUpdateDefaultResponse
     | ImagesUpdate200Response
     | ImagesUpdate201Response
-    | ImagesUpdatedefaultResponse
+    | ImagesUpdateDefaultResponse
     | ImagesDelete200Response
     | ImagesDelete202Response
     | ImagesDelete204Response
-    | ImagesDeletedefaultResponse
+    | ImagesDeleteDefaultResponse
     | ImagesGet200Response
-    | ImagesGetdefaultResponse
+    | ImagesGetDefaultResponse
     | ImagesListByResourceGroup200Response
-    | ImagesListByResourceGroupdefaultResponse
+    | ImagesListByResourceGroupDefaultResponse
     | ImagesList200Response
-    | ImagesListdefaultResponse
+    | ImagesListDefaultResponse
     | RestorePointCollectionsCreateOrUpdate200Response
     | RestorePointCollectionsCreateOrUpdate201Response
-    | RestorePointCollectionsCreateOrUpdatedefaultResponse
+    | RestorePointCollectionsCreateOrUpdateDefaultResponse
     | RestorePointCollectionsUpdate200Response
-    | RestorePointCollectionsUpdatedefaultResponse
+    | RestorePointCollectionsUpdateDefaultResponse
     | RestorePointCollectionsDelete200Response
     | RestorePointCollectionsDelete202Response
     | RestorePointCollectionsDelete204Response
-    | RestorePointCollectionsDeletedefaultResponse
+    | RestorePointCollectionsDeleteDefaultResponse
     | RestorePointCollectionsGet200Response
-    | RestorePointCollectionsGetdefaultResponse
+    | RestorePointCollectionsGetDefaultResponse
     | RestorePointCollectionsList200Response
-    | RestorePointCollectionsListdefaultResponse
+    | RestorePointCollectionsListDefaultResponse
     | RestorePointCollectionsListAll200Response
-    | RestorePointCollectionsListAlldefaultResponse
+    | RestorePointCollectionsListAllDefaultResponse
     | RestorePointsCreate201Response
-    | RestorePointsCreatedefaultResponse
+    | RestorePointsCreateDefaultResponse
     | RestorePointsDelete200Response
     | RestorePointsDelete202Response
     | RestorePointsDelete204Response
-    | RestorePointsDeletedefaultResponse
+    | RestorePointsDeleteDefaultResponse
     | RestorePointsGet200Response
-    | RestorePointsGetdefaultResponse
+    | RestorePointsGetDefaultResponse
     | CapacityReservationGroupsCreateOrUpdate200Response
     | CapacityReservationGroupsCreateOrUpdate201Response
-    | CapacityReservationGroupsCreateOrUpdatedefaultResponse
+    | CapacityReservationGroupsCreateOrUpdateDefaultResponse
     | CapacityReservationGroupsUpdate200Response
-    | CapacityReservationGroupsUpdatedefaultResponse
+    | CapacityReservationGroupsUpdateDefaultResponse
     | CapacityReservationGroupsDelete200Response
     | CapacityReservationGroupsDelete204Response
-    | CapacityReservationGroupsDeletedefaultResponse
+    | CapacityReservationGroupsDeleteDefaultResponse
     | CapacityReservationGroupsGet200Response
-    | CapacityReservationGroupsGetdefaultResponse
+    | CapacityReservationGroupsGetDefaultResponse
     | CapacityReservationGroupsListByResourceGroup200Response
-    | CapacityReservationGroupsListByResourceGroupdefaultResponse
+    | CapacityReservationGroupsListByResourceGroupDefaultResponse
     | CapacityReservationGroupsListBySubscription200Response
-    | CapacityReservationGroupsListBySubscriptiondefaultResponse
+    | CapacityReservationGroupsListBySubscriptionDefaultResponse
     | CapacityReservationsCreateOrUpdate200Response
     | CapacityReservationsCreateOrUpdate201Response
-    | CapacityReservationsCreateOrUpdatedefaultResponse
+    | CapacityReservationsCreateOrUpdateDefaultResponse
     | CapacityReservationsUpdate200Response
     | CapacityReservationsUpdate202Response
-    | CapacityReservationsUpdatedefaultResponse
+    | CapacityReservationsUpdateDefaultResponse
     | CapacityReservationsDelete200Response
     | CapacityReservationsDelete202Response
     | CapacityReservationsDelete204Response
-    | CapacityReservationsDeletedefaultResponse
+    | CapacityReservationsDeleteDefaultResponse
     | CapacityReservationsGet200Response
-    | CapacityReservationsGetdefaultResponse
+    | CapacityReservationsGetDefaultResponse
     | CapacityReservationsListByCapacityReservationGroup200Response
-    | CapacityReservationsListByCapacityReservationGroupdefaultResponse
+    | CapacityReservationsListByCapacityReservationGroupDefaultResponse
     | LogAnalyticsExportRequestRateByInterval200Response
     | LogAnalyticsExportRequestRateByInterval202Response
-    | LogAnalyticsExportRequestRateByIntervaldefaultResponse
+    | LogAnalyticsExportRequestRateByIntervalDefaultResponse
     | LogAnalyticsExportThrottledRequests200Response
     | LogAnalyticsExportThrottledRequests202Response
-    | LogAnalyticsExportThrottledRequestsdefaultResponse
+    | LogAnalyticsExportThrottledRequestsDefaultResponse
     | VirtualMachineRunCommandsCreateOrUpdate200Response
     | VirtualMachineRunCommandsCreateOrUpdate201Response
-    | VirtualMachineRunCommandsCreateOrUpdatedefaultResponse
+    | VirtualMachineRunCommandsCreateOrUpdateDefaultResponse
     | VirtualMachineRunCommandsUpdate200Response
-    | VirtualMachineRunCommandsUpdatedefaultResponse
+    | VirtualMachineRunCommandsUpdateDefaultResponse
     | VirtualMachineRunCommandsDelete200Response
     | VirtualMachineRunCommandsDelete202Response
     | VirtualMachineRunCommandsDelete204Response
-    | VirtualMachineRunCommandsDeletedefaultResponse
+    | VirtualMachineRunCommandsDeleteDefaultResponse
     | VirtualMachineRunCommandsGetByVirtualMachine200Response
-    | VirtualMachineRunCommandsGetByVirtualMachinedefaultResponse
+    | VirtualMachineRunCommandsGetByVirtualMachineDefaultResponse
     | VirtualMachineRunCommandsListByVirtualMachine200Response
-    | VirtualMachineRunCommandsListByVirtualMachinedefaultResponse
+    | VirtualMachineRunCommandsListByVirtualMachineDefaultResponse
     | VirtualMachineScaleSetVMRunCommandsCreateOrUpdate200Response
     | VirtualMachineScaleSetVMRunCommandsCreateOrUpdate201Response
-    | VirtualMachineScaleSetVMRunCommandsCreateOrUpdatedefaultResponse
+    | VirtualMachineScaleSetVMRunCommandsCreateOrUpdateDefaultResponse
     | VirtualMachineScaleSetVMRunCommandsUpdate200Response
-    | VirtualMachineScaleSetVMRunCommandsUpdatedefaultResponse
+    | VirtualMachineScaleSetVMRunCommandsUpdateDefaultResponse
     | VirtualMachineScaleSetVMRunCommandsDelete200Response
     | VirtualMachineScaleSetVMRunCommandsDelete202Response
     | VirtualMachineScaleSetVMRunCommandsDelete204Response
-    | VirtualMachineScaleSetVMRunCommandsDeletedefaultResponse
+    | VirtualMachineScaleSetVMRunCommandsDeleteDefaultResponse
     | VirtualMachineScaleSetVMRunCommandsGet200Response
-    | VirtualMachineScaleSetVMRunCommandsGetdefaultResponse
+    | VirtualMachineScaleSetVMRunCommandsGetDefaultResponse
     | VirtualMachineScaleSetVMRunCommandsList200Response
-    | VirtualMachineScaleSetVMRunCommandsListdefaultResponse
+    | VirtualMachineScaleSetVMRunCommandsListDefaultResponse
     | DiskAccessesCreateOrUpdate200Response
     | DiskAccessesCreateOrUpdate202Response
-    | DiskAccessesCreateOrUpdatedefaultResponse
+    | DiskAccessesCreateOrUpdateDefaultResponse
     | DiskAccessesUpdate200Response
     | DiskAccessesUpdate202Response
-    | DiskAccessesUpdatedefaultResponse
+    | DiskAccessesUpdateDefaultResponse
     | DiskAccessesGet200Response
-    | DiskAccessesGetdefaultResponse
+    | DiskAccessesGetDefaultResponse
     | DiskAccessesDelete200Response
     | DiskAccessesDelete202Response
     | DiskAccessesDelete204Response
-    | DiskAccessesDeletedefaultResponse
+    | DiskAccessesDeleteDefaultResponse
     | DiskAccessesListByResourceGroup200Response
-    | DiskAccessesListByResourceGroupdefaultResponse
+    | DiskAccessesListByResourceGroupDefaultResponse
     | DiskAccessesList200Response
-    | DiskAccessesListdefaultResponse
+    | DiskAccessesListDefaultResponse
     | DiskAccessesUpdateAPrivateEndpointConnection200Response
     | DiskAccessesUpdateAPrivateEndpointConnection202Response
-    | DiskAccessesUpdateAPrivateEndpointConnectiondefaultResponse
+    | DiskAccessesUpdateAPrivateEndpointConnectionDefaultResponse
     | DiskAccessesGetAPrivateEndpointConnection200Response
-    | DiskAccessesGetAPrivateEndpointConnectiondefaultResponse
+    | DiskAccessesGetAPrivateEndpointConnectionDefaultResponse
     | DiskAccessesDeleteAPrivateEndpointConnection200Response
     | DiskAccessesDeleteAPrivateEndpointConnection202Response
     | DiskAccessesDeleteAPrivateEndpointConnection204Response
-    | DiskAccessesDeleteAPrivateEndpointConnectiondefaultResponse
+    | DiskAccessesDeleteAPrivateEndpointConnectionDefaultResponse
     | DiskAccessesListPrivateEndpointConnections200Response
-    | DiskAccessesListPrivateEndpointConnectionsdefaultResponse
+    | DiskAccessesListPrivateEndpointConnectionsDefaultResponse
     | DiskEncryptionSetsCreateOrUpdate200Response
     | DiskEncryptionSetsCreateOrUpdate202Response
-    | DiskEncryptionSetsCreateOrUpdatedefaultResponse
+    | DiskEncryptionSetsCreateOrUpdateDefaultResponse
     | DiskEncryptionSetsUpdate200Response
     | DiskEncryptionSetsUpdate202Response
-    | DiskEncryptionSetsUpdatedefaultResponse
+    | DiskEncryptionSetsUpdateDefaultResponse
     | DiskEncryptionSetsGet200Response
-    | DiskEncryptionSetsGetdefaultResponse
+    | DiskEncryptionSetsGetDefaultResponse
     | DiskEncryptionSetsDelete200Response
     | DiskEncryptionSetsDelete202Response
     | DiskEncryptionSetsDelete204Response
-    | DiskEncryptionSetsDeletedefaultResponse
+    | DiskEncryptionSetsDeleteDefaultResponse
     | DiskEncryptionSetsListByResourceGroup200Response
-    | DiskEncryptionSetsListByResourceGroupdefaultResponse
+    | DiskEncryptionSetsListByResourceGroupDefaultResponse
     | DiskEncryptionSetsList200Response
-    | DiskEncryptionSetsListdefaultResponse
+    | DiskEncryptionSetsListDefaultResponse
     | DiskEncryptionSetsListAssociatedResources200Response
-    | DiskEncryptionSetsListAssociatedResourcesdefaultResponse
+    | DiskEncryptionSetsListAssociatedResourcesDefaultResponse
     | DiskRestorePointGet200Response
-    | DiskRestorePointGetdefaultResponse
+    | DiskRestorePointGetDefaultResponse
     | DiskRestorePointListByRestorePoint200Response
-    | DiskRestorePointListByRestorePointdefaultResponse
+    | DiskRestorePointListByRestorePointDefaultResponse
     | DiskRestorePointGrantAccess200Response
     | DiskRestorePointGrantAccess202Response
-    | DiskRestorePointGrantAccessdefaultResponse
+    | DiskRestorePointGrantAccessDefaultResponse
     | DiskRestorePointRevokeAccess200Response
     | DiskRestorePointRevokeAccess202Response
-    | DiskRestorePointRevokeAccessdefaultResponse
+    | DiskRestorePointRevokeAccessDefaultResponse
     | GalleriesCreateOrUpdate200Response
     | GalleriesCreateOrUpdate201Response
     | GalleriesCreateOrUpdate202Response
-    | GalleriesCreateOrUpdatedefaultResponse
+    | GalleriesCreateOrUpdateDefaultResponse
     | GalleriesUpdate200Response
-    | GalleriesUpdatedefaultResponse
+    | GalleriesUpdateDefaultResponse
     | GalleriesGet200Response
-    | GalleriesGetdefaultResponse
+    | GalleriesGetDefaultResponse
     | GalleriesDelete200Response
     | GalleriesDelete202Response
     | GalleriesDelete204Response
-    | GalleriesDeletedefaultResponse
+    | GalleriesDeleteDefaultResponse
     | GalleriesListByResourceGroup200Response
-    | GalleriesListByResourceGroupdefaultResponse
+    | GalleriesListByResourceGroupDefaultResponse
     | GalleriesList200Response
-    | GalleriesListdefaultResponse
+    | GalleriesListDefaultResponse
     | GalleryImagesCreateOrUpdate200Response
     | GalleryImagesCreateOrUpdate201Response
     | GalleryImagesCreateOrUpdate202Response
-    | GalleryImagesCreateOrUpdatedefaultResponse
+    | GalleryImagesCreateOrUpdateDefaultResponse
     | GalleryImagesUpdate200Response
-    | GalleryImagesUpdatedefaultResponse
+    | GalleryImagesUpdateDefaultResponse
     | GalleryImagesGet200Response
-    | GalleryImagesGetdefaultResponse
+    | GalleryImagesGetDefaultResponse
     | GalleryImagesDelete200Response
     | GalleryImagesDelete202Response
     | GalleryImagesDelete204Response
-    | GalleryImagesDeletedefaultResponse
+    | GalleryImagesDeleteDefaultResponse
     | GalleryImagesListByGallery200Response
-    | GalleryImagesListByGallerydefaultResponse
+    | GalleryImagesListByGalleryDefaultResponse
     | GalleryImageVersionsCreateOrUpdate200Response
     | GalleryImageVersionsCreateOrUpdate201Response
     | GalleryImageVersionsCreateOrUpdate202Response
-    | GalleryImageVersionsCreateOrUpdatedefaultResponse
+    | GalleryImageVersionsCreateOrUpdateDefaultResponse
     | GalleryImageVersionsUpdate200Response
-    | GalleryImageVersionsUpdatedefaultResponse
+    | GalleryImageVersionsUpdateDefaultResponse
     | GalleryImageVersionsGet200Response
-    | GalleryImageVersionsGetdefaultResponse
+    | GalleryImageVersionsGetDefaultResponse
     | GalleryImageVersionsDelete200Response
     | GalleryImageVersionsDelete202Response
     | GalleryImageVersionsDelete204Response
-    | GalleryImageVersionsDeletedefaultResponse
+    | GalleryImageVersionsDeleteDefaultResponse
     | GalleryImageVersionsListByGalleryImage200Response
-    | GalleryImageVersionsListByGalleryImagedefaultResponse
+    | GalleryImageVersionsListByGalleryImageDefaultResponse
     | GalleryApplicationsCreateOrUpdate200Response
     | GalleryApplicationsCreateOrUpdate201Response
     | GalleryApplicationsCreateOrUpdate202Response
-    | GalleryApplicationsCreateOrUpdatedefaultResponse
+    | GalleryApplicationsCreateOrUpdateDefaultResponse
     | GalleryApplicationsUpdate200Response
-    | GalleryApplicationsUpdatedefaultResponse
+    | GalleryApplicationsUpdateDefaultResponse
     | GalleryApplicationsGet200Response
-    | GalleryApplicationsGetdefaultResponse
+    | GalleryApplicationsGetDefaultResponse
     | GalleryApplicationsDelete200Response
     | GalleryApplicationsDelete202Response
     | GalleryApplicationsDelete204Response
-    | GalleryApplicationsDeletedefaultResponse
+    | GalleryApplicationsDeleteDefaultResponse
     | GalleryApplicationsListByGallery200Response
-    | GalleryApplicationsListByGallerydefaultResponse
+    | GalleryApplicationsListByGalleryDefaultResponse
     | GalleryApplicationVersionsCreateOrUpdate200Response
     | GalleryApplicationVersionsCreateOrUpdate201Response
     | GalleryApplicationVersionsCreateOrUpdate202Response
-    | GalleryApplicationVersionsCreateOrUpdatedefaultResponse
+    | GalleryApplicationVersionsCreateOrUpdateDefaultResponse
     | GalleryApplicationVersionsUpdate200Response
-    | GalleryApplicationVersionsUpdatedefaultResponse
+    | GalleryApplicationVersionsUpdateDefaultResponse
     | GalleryApplicationVersionsGet200Response
-    | GalleryApplicationVersionsGetdefaultResponse
+    | GalleryApplicationVersionsGetDefaultResponse
     | GalleryApplicationVersionsDelete200Response
     | GalleryApplicationVersionsDelete202Response
     | GalleryApplicationVersionsDelete204Response
-    | GalleryApplicationVersionsDeletedefaultResponse
+    | GalleryApplicationVersionsDeleteDefaultResponse
     | GalleryApplicationVersionsListByGalleryApplication200Response
-    | GalleryApplicationVersionsListByGalleryApplicationdefaultResponse
+    | GalleryApplicationVersionsListByGalleryApplicationDefaultResponse
     | GallerySharingProfileUpdate200Response
     | GallerySharingProfileUpdate202Response
-    | GallerySharingProfileUpdatedefaultResponse
+    | GallerySharingProfileUpdateDefaultResponse
     | SharedGalleriesList200Response
-    | SharedGalleriesListdefaultResponse
+    | SharedGalleriesListDefaultResponse
     | SharedGalleriesGet200Response
-    | SharedGalleriesGetdefaultResponse
+    | SharedGalleriesGetDefaultResponse
     | SharedGalleryImagesList200Response
-    | SharedGalleryImagesListdefaultResponse
+    | SharedGalleryImagesListDefaultResponse
     | SharedGalleryImagesGet200Response
-    | SharedGalleryImagesGetdefaultResponse
+    | SharedGalleryImagesGetDefaultResponse
     | SharedGalleryImageVersionsList200Response
-    | SharedGalleryImageVersionsListdefaultResponse
+    | SharedGalleryImageVersionsListDefaultResponse
     | SharedGalleryImageVersionsGet200Response
-    | SharedGalleryImageVersionsGetdefaultResponse
+    | SharedGalleryImageVersionsGetDefaultResponse
     | CommunityGalleriesGet200Response
-    | CommunityGalleriesGetdefaultResponse
+    | CommunityGalleriesGetDefaultResponse
     | CommunityGalleryImagesGet200Response
-    | CommunityGalleryImagesGetdefaultResponse
+    | CommunityGalleryImagesGetDefaultResponse
     | CommunityGalleryImagesList200Response
-    | CommunityGalleryImagesListdefaultResponse
+    | CommunityGalleryImagesListDefaultResponse
     | CommunityGalleryImageVersionsGet200Response
-    | CommunityGalleryImageVersionsGetdefaultResponse
+    | CommunityGalleryImageVersionsGetDefaultResponse
     | CommunityGalleryImageVersionsList200Response
-    | CommunityGalleryImageVersionsListdefaultResponse
+    | CommunityGalleryImageVersionsListDefaultResponse
     | CloudServiceRoleInstancesDelete200Response
     | CloudServiceRoleInstancesDelete202Response
     | CloudServiceRoleInstancesDelete204Response
-    | CloudServiceRoleInstancesDeletedefaultResponse
+    | CloudServiceRoleInstancesDeleteDefaultResponse
     | CloudServiceRoleInstancesGet200Response
-    | CloudServiceRoleInstancesGetdefaultResponse
+    | CloudServiceRoleInstancesGetDefaultResponse
     | CloudServiceRoleInstancesGetInstanceView200Response
-    | CloudServiceRoleInstancesGetInstanceViewdefaultResponse
+    | CloudServiceRoleInstancesGetInstanceViewDefaultResponse
     | CloudServiceRoleInstancesList200Response
-    | CloudServiceRoleInstancesListdefaultResponse
+    | CloudServiceRoleInstancesListDefaultResponse
     | CloudServiceRoleInstancesRestart200Response
     | CloudServiceRoleInstancesRestart202Response
-    | CloudServiceRoleInstancesRestartdefaultResponse
+    | CloudServiceRoleInstancesRestartDefaultResponse
     | CloudServiceRoleInstancesReimage200Response
     | CloudServiceRoleInstancesReimage202Response
-    | CloudServiceRoleInstancesReimagedefaultResponse
+    | CloudServiceRoleInstancesReimageDefaultResponse
     | CloudServiceRoleInstancesRebuild200Response
     | CloudServiceRoleInstancesRebuild202Response
-    | CloudServiceRoleInstancesRebuilddefaultResponse
+    | CloudServiceRoleInstancesRebuildDefaultResponse
     | CloudServiceRoleInstancesGetRemoteDesktopFile200Response
-    | CloudServiceRoleInstancesGetRemoteDesktopFiledefaultResponse
+    | CloudServiceRoleInstancesGetRemoteDesktopFileDefaultResponse
     | CloudServiceRolesGet200Response
-    | CloudServiceRolesGetdefaultResponse
+    | CloudServiceRolesGetDefaultResponse
     | CloudServiceRolesList200Response
-    | CloudServiceRolesListdefaultResponse
+    | CloudServiceRolesListDefaultResponse
     | CloudServicesCreateOrUpdate200Response
     | CloudServicesCreateOrUpdate201Response
-    | CloudServicesCreateOrUpdatedefaultResponse
+    | CloudServicesCreateOrUpdateDefaultResponse
     | CloudServicesUpdate200Response
-    | CloudServicesUpdatedefaultResponse
+    | CloudServicesUpdateDefaultResponse
     | CloudServicesDelete200Response
     | CloudServicesDelete202Response
     | CloudServicesDelete204Response
-    | CloudServicesDeletedefaultResponse
+    | CloudServicesDeleteDefaultResponse
     | CloudServicesGet200Response
-    | CloudServicesGetdefaultResponse
+    | CloudServicesGetDefaultResponse
     | CloudServicesGetInstanceView200Response
-    | CloudServicesGetInstanceViewdefaultResponse
+    | CloudServicesGetInstanceViewDefaultResponse
     | CloudServicesListAll200Response
-    | CloudServicesListAlldefaultResponse
+    | CloudServicesListAllDefaultResponse
     | CloudServicesList200Response
-    | CloudServicesListdefaultResponse
+    | CloudServicesListDefaultResponse
     | CloudServicesStart200Response
     | CloudServicesStart202Response
-    | CloudServicesStartdefaultResponse
+    | CloudServicesStartDefaultResponse
     | CloudServicesPowerOff200Response
     | CloudServicesPowerOff202Response
-    | CloudServicesPowerOffdefaultResponse
+    | CloudServicesPowerOffDefaultResponse
     | CloudServicesRestart200Response
     | CloudServicesRestart202Response
-    | CloudServicesRestartdefaultResponse
+    | CloudServicesRestartDefaultResponse
     | CloudServicesReimage200Response
     | CloudServicesReimage202Response
-    | CloudServicesReimagedefaultResponse
+    | CloudServicesReimageDefaultResponse
     | CloudServicesRebuild200Response
     | CloudServicesRebuild202Response
-    | CloudServicesRebuilddefaultResponse
+    | CloudServicesRebuildDefaultResponse
     | CloudServicesDeleteInstances200Response
     | CloudServicesDeleteInstances202Response
-    | CloudServicesDeleteInstancesdefaultResponse
+    | CloudServicesDeleteInstancesDefaultResponse
     | CloudServicesUpdateDomainWalkUpdateDomain200Response
     | CloudServicesUpdateDomainWalkUpdateDomain202Response
-    | CloudServicesUpdateDomainWalkUpdateDomaindefaultResponse
+    | CloudServicesUpdateDomainWalkUpdateDomainDefaultResponse
     | CloudServicesUpdateDomainGetUpdateDomain200Response
-    | CloudServicesUpdateDomainGetUpdateDomaindefaultResponse
+    | CloudServicesUpdateDomainGetUpdateDomainDefaultResponse
     | CloudServicesUpdateDomainListUpdateDomains200Response
-    | CloudServicesUpdateDomainListUpdateDomainsdefaultResponse
+    | CloudServicesUpdateDomainListUpdateDomainsDefaultResponse
     | CloudServiceOperatingSystemsGetOSVersion200Response
-    | CloudServiceOperatingSystemsGetOSVersiondefaultResponse
+    | CloudServiceOperatingSystemsGetOSVersionDefaultResponse
     | CloudServiceOperatingSystemsListOSVersions200Response
-    | CloudServiceOperatingSystemsListOSVersionsdefaultResponse
+    | CloudServiceOperatingSystemsListOSVersionsDefaultResponse
     | CloudServiceOperatingSystemsGetOSFamily200Response
-    | CloudServiceOperatingSystemsGetOSFamilydefaultResponse
+    | CloudServiceOperatingSystemsGetOSFamilyDefaultResponse
     | CloudServiceOperatingSystemsListOSFamilies200Response
-    | CloudServiceOperatingSystemsListOSFamiliesdefaultResponse
+    | CloudServiceOperatingSystemsListOSFamiliesDefaultResponse
 ): response is
-  | OperationsListdefaultResponse
-  | UsageListdefaultResponse
-  | VirtualMachineSizesListdefaultResponse
-  | VirtualMachineScaleSetsListByLocationdefaultResponse
-  | VirtualMachineScaleSetsCreateOrUpdatedefaultResponse
-  | VirtualMachineScaleSetsUpdatedefaultResponse
-  | VirtualMachineScaleSetsDeletedefaultResponse
-  | VirtualMachineScaleSetsGetdefaultResponse
-  | VirtualMachineScaleSetsDeallocatedefaultResponse
-  | VirtualMachineScaleSetsDeleteInstancesdefaultResponse
-  | VirtualMachineScaleSetsGetInstanceViewdefaultResponse
-  | VirtualMachineScaleSetsListdefaultResponse
-  | VirtualMachineScaleSetsListAlldefaultResponse
-  | VirtualMachineScaleSetsListSkusdefaultResponse
-  | VirtualMachineScaleSetsGetOSUpgradeHistorydefaultResponse
-  | VirtualMachineScaleSetsPowerOffdefaultResponse
-  | VirtualMachineScaleSetsRestartdefaultResponse
-  | VirtualMachineScaleSetsStartdefaultResponse
-  | VirtualMachineScaleSetsRedeploydefaultResponse
-  | VirtualMachineScaleSetsPerformMaintenancedefaultResponse
-  | VirtualMachineScaleSetsUpdateInstancesdefaultResponse
-  | VirtualMachineScaleSetsReimagedefaultResponse
-  | VirtualMachineScaleSetsReimageAlldefaultResponse
-  | VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkdefaultResponse
-  | VirtualMachineScaleSetsConvertToSinglePlacementGroupdefaultResponse
-  | VirtualMachineScaleSetsSetOrchestrationServiceStatedefaultResponse
-  | VirtualMachineScaleSetExtensionsCreateOrUpdatedefaultResponse
-  | VirtualMachineScaleSetExtensionsUpdatedefaultResponse
-  | VirtualMachineScaleSetExtensionsDeletedefaultResponse
-  | VirtualMachineScaleSetExtensionsGetdefaultResponse
-  | VirtualMachineScaleSetExtensionsListdefaultResponse
-  | VirtualMachineScaleSetRollingUpgradesCanceldefaultResponse
-  | VirtualMachineScaleSetRollingUpgradesStartOSUpgradedefaultResponse
-  | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradedefaultResponse
-  | VirtualMachineScaleSetRollingUpgradesGetLatestdefaultResponse
-  | VirtualMachineScaleSetVMExtensionsCreateOrUpdatedefaultResponse
-  | VirtualMachineScaleSetVMExtensionsUpdatedefaultResponse
-  | VirtualMachineScaleSetVMExtensionsDeletedefaultResponse
-  | VirtualMachineScaleSetVMExtensionsGetdefaultResponse
-  | VirtualMachineScaleSetVMExtensionsListdefaultResponse
-  | VirtualMachineScaleSetVMsReimagedefaultResponse
-  | VirtualMachineScaleSetVMsReimageAlldefaultResponse
-  | VirtualMachineScaleSetVMsDeallocatedefaultResponse
-  | VirtualMachineScaleSetVMsUpdatedefaultResponse
-  | VirtualMachineScaleSetVMsDeletedefaultResponse
-  | VirtualMachineScaleSetVMsGetdefaultResponse
-  | VirtualMachineScaleSetVMsGetInstanceViewdefaultResponse
-  | VirtualMachineScaleSetVMsListdefaultResponse
-  | VirtualMachineScaleSetVMsPowerOffdefaultResponse
-  | VirtualMachineScaleSetVMsRestartdefaultResponse
-  | VirtualMachineScaleSetVMsStartdefaultResponse
-  | VirtualMachineScaleSetVMsRedeploydefaultResponse
-  | VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDatadefaultResponse
-  | VirtualMachineScaleSetVMsPerformMaintenancedefaultResponse
-  | VirtualMachineScaleSetVMsSimulateEvictiondefaultResponse
-  | VirtualMachineExtensionsCreateOrUpdatedefaultResponse
-  | VirtualMachineExtensionsUpdatedefaultResponse
-  | VirtualMachineExtensionsDeletedefaultResponse
-  | VirtualMachineExtensionsGetdefaultResponse
-  | VirtualMachineExtensionsListdefaultResponse
-  | VirtualMachinesListByLocationdefaultResponse
-  | VirtualMachinesCapturedefaultResponse
-  | VirtualMachinesCreateOrUpdatedefaultResponse
-  | VirtualMachinesUpdatedefaultResponse
-  | VirtualMachinesDeletedefaultResponse
-  | VirtualMachinesGetdefaultResponse
-  | VirtualMachinesInstanceViewdefaultResponse
-  | VirtualMachinesConvertToManagedDisksdefaultResponse
-  | VirtualMachinesDeallocatedefaultResponse
-  | VirtualMachinesGeneralizedefaultResponse
-  | VirtualMachinesListdefaultResponse
-  | VirtualMachinesListAlldefaultResponse
-  | VirtualMachinesListAvailableSizesdefaultResponse
-  | VirtualMachinesPowerOffdefaultResponse
-  | VirtualMachinesReapplydefaultResponse
-  | VirtualMachinesRestartdefaultResponse
-  | VirtualMachinesStartdefaultResponse
-  | VirtualMachinesRedeploydefaultResponse
-  | VirtualMachinesReimagedefaultResponse
-  | VirtualMachinesRetrieveBootDiagnosticsDatadefaultResponse
-  | VirtualMachinesPerformMaintenancedefaultResponse
-  | VirtualMachinesSimulateEvictiondefaultResponse
-  | VirtualMachinesAssessPatchesdefaultResponse
-  | VirtualMachinesInstallPatchesdefaultResponse
-  | VirtualMachineImagesGetdefaultResponse
-  | VirtualMachineImagesListdefaultResponse
-  | VirtualMachineImagesListOffersdefaultResponse
-  | VirtualMachineImagesListPublishersdefaultResponse
-  | VirtualMachineImagesListSkusdefaultResponse
-  | VirtualMachineImagesListByEdgeZonedefaultResponse
-  | VirtualMachineImagesEdgeZoneGetdefaultResponse
-  | VirtualMachineImagesEdgeZoneListdefaultResponse
-  | VirtualMachineImagesEdgeZoneListOffersdefaultResponse
-  | VirtualMachineImagesEdgeZoneListPublishersdefaultResponse
-  | VirtualMachineImagesEdgeZoneListSkusdefaultResponse
-  | VirtualMachineExtensionImagesGetdefaultResponse
-  | VirtualMachineExtensionImagesListTypesdefaultResponse
-  | VirtualMachineExtensionImagesListVersionsdefaultResponse
-  | AvailabilitySetsCreateOrUpdatedefaultResponse
-  | AvailabilitySetsUpdatedefaultResponse
-  | AvailabilitySetsDeletedefaultResponse
-  | AvailabilitySetsGetdefaultResponse
-  | AvailabilitySetsListBySubscriptiondefaultResponse
-  | AvailabilitySetsListdefaultResponse
-  | AvailabilitySetsListAvailableSizesdefaultResponse
-  | ProximityPlacementGroupsCreateOrUpdatedefaultResponse
-  | ProximityPlacementGroupsUpdatedefaultResponse
-  | ProximityPlacementGroupsDeletedefaultResponse
-  | ProximityPlacementGroupsGetdefaultResponse
-  | ProximityPlacementGroupsListBySubscriptiondefaultResponse
-  | ProximityPlacementGroupsListByResourceGroupdefaultResponse
-  | DedicatedHostGroupsCreateOrUpdatedefaultResponse
-  | DedicatedHostGroupsUpdatedefaultResponse
-  | DedicatedHostGroupsDeletedefaultResponse
-  | DedicatedHostGroupsGetdefaultResponse
-  | DedicatedHostGroupsListByResourceGroupdefaultResponse
-  | DedicatedHostGroupsListBySubscriptiondefaultResponse
-  | DedicatedHostsCreateOrUpdatedefaultResponse
-  | DedicatedHostsUpdatedefaultResponse
-  | DedicatedHostsDeletedefaultResponse
-  | DedicatedHostsGetdefaultResponse
-  | DedicatedHostsListByHostGroupdefaultResponse
-  | DedicatedHostsRestartdefaultResponse
-  | SshPublicKeysListBySubscriptiondefaultResponse
-  | SshPublicKeysListByResourceGroupdefaultResponse
-  | SshPublicKeysCreatedefaultResponse
-  | SshPublicKeysUpdatedefaultResponse
-  | SshPublicKeysDeletedefaultResponse
-  | SshPublicKeysGetdefaultResponse
-  | SshPublicKeysGenerateKeyPairdefaultResponse
-  | ImagesCreateOrUpdatedefaultResponse
-  | ImagesUpdatedefaultResponse
-  | ImagesDeletedefaultResponse
-  | ImagesGetdefaultResponse
-  | ImagesListByResourceGroupdefaultResponse
-  | ImagesListdefaultResponse
-  | RestorePointCollectionsCreateOrUpdatedefaultResponse
-  | RestorePointCollectionsUpdatedefaultResponse
-  | RestorePointCollectionsDeletedefaultResponse
-  | RestorePointCollectionsGetdefaultResponse
-  | RestorePointCollectionsListdefaultResponse
-  | RestorePointCollectionsListAlldefaultResponse
-  | RestorePointsCreatedefaultResponse
-  | RestorePointsDeletedefaultResponse
-  | RestorePointsGetdefaultResponse
-  | CapacityReservationGroupsCreateOrUpdatedefaultResponse
-  | CapacityReservationGroupsUpdatedefaultResponse
-  | CapacityReservationGroupsDeletedefaultResponse
-  | CapacityReservationGroupsGetdefaultResponse
-  | CapacityReservationGroupsListByResourceGroupdefaultResponse
-  | CapacityReservationGroupsListBySubscriptiondefaultResponse
-  | CapacityReservationsCreateOrUpdatedefaultResponse
-  | CapacityReservationsUpdatedefaultResponse
-  | CapacityReservationsDeletedefaultResponse
-  | CapacityReservationsGetdefaultResponse
-  | CapacityReservationsListByCapacityReservationGroupdefaultResponse
-  | LogAnalyticsExportRequestRateByIntervaldefaultResponse
-  | LogAnalyticsExportThrottledRequestsdefaultResponse
-  | VirtualMachineRunCommandsCreateOrUpdatedefaultResponse
-  | VirtualMachineRunCommandsUpdatedefaultResponse
-  | VirtualMachineRunCommandsDeletedefaultResponse
-  | VirtualMachineRunCommandsGetByVirtualMachinedefaultResponse
-  | VirtualMachineRunCommandsListByVirtualMachinedefaultResponse
-  | VirtualMachineScaleSetVMRunCommandsCreateOrUpdatedefaultResponse
-  | VirtualMachineScaleSetVMRunCommandsUpdatedefaultResponse
-  | VirtualMachineScaleSetVMRunCommandsDeletedefaultResponse
-  | VirtualMachineScaleSetVMRunCommandsGetdefaultResponse
-  | VirtualMachineScaleSetVMRunCommandsListdefaultResponse
-  | DiskAccessesCreateOrUpdatedefaultResponse
-  | DiskAccessesUpdatedefaultResponse
-  | DiskAccessesGetdefaultResponse
-  | DiskAccessesDeletedefaultResponse
-  | DiskAccessesListByResourceGroupdefaultResponse
-  | DiskAccessesListdefaultResponse
-  | DiskAccessesUpdateAPrivateEndpointConnectiondefaultResponse
-  | DiskAccessesGetAPrivateEndpointConnectiondefaultResponse
-  | DiskAccessesDeleteAPrivateEndpointConnectiondefaultResponse
-  | DiskAccessesListPrivateEndpointConnectionsdefaultResponse
-  | DiskEncryptionSetsCreateOrUpdatedefaultResponse
-  | DiskEncryptionSetsUpdatedefaultResponse
-  | DiskEncryptionSetsGetdefaultResponse
-  | DiskEncryptionSetsDeletedefaultResponse
-  | DiskEncryptionSetsListByResourceGroupdefaultResponse
-  | DiskEncryptionSetsListdefaultResponse
-  | DiskEncryptionSetsListAssociatedResourcesdefaultResponse
-  | DiskRestorePointGetdefaultResponse
-  | DiskRestorePointListByRestorePointdefaultResponse
-  | DiskRestorePointGrantAccessdefaultResponse
-  | DiskRestorePointRevokeAccessdefaultResponse
-  | GalleriesCreateOrUpdatedefaultResponse
-  | GalleriesUpdatedefaultResponse
-  | GalleriesGetdefaultResponse
-  | GalleriesDeletedefaultResponse
-  | GalleriesListByResourceGroupdefaultResponse
-  | GalleriesListdefaultResponse
-  | GalleryImagesCreateOrUpdatedefaultResponse
-  | GalleryImagesUpdatedefaultResponse
-  | GalleryImagesGetdefaultResponse
-  | GalleryImagesDeletedefaultResponse
-  | GalleryImagesListByGallerydefaultResponse
-  | GalleryImageVersionsCreateOrUpdatedefaultResponse
-  | GalleryImageVersionsUpdatedefaultResponse
-  | GalleryImageVersionsGetdefaultResponse
-  | GalleryImageVersionsDeletedefaultResponse
-  | GalleryImageVersionsListByGalleryImagedefaultResponse
-  | GalleryApplicationsCreateOrUpdatedefaultResponse
-  | GalleryApplicationsUpdatedefaultResponse
-  | GalleryApplicationsGetdefaultResponse
-  | GalleryApplicationsDeletedefaultResponse
-  | GalleryApplicationsListByGallerydefaultResponse
-  | GalleryApplicationVersionsCreateOrUpdatedefaultResponse
-  | GalleryApplicationVersionsUpdatedefaultResponse
-  | GalleryApplicationVersionsGetdefaultResponse
-  | GalleryApplicationVersionsDeletedefaultResponse
-  | GalleryApplicationVersionsListByGalleryApplicationdefaultResponse
-  | GallerySharingProfileUpdatedefaultResponse
-  | SharedGalleriesListdefaultResponse
-  | SharedGalleriesGetdefaultResponse
-  | SharedGalleryImagesListdefaultResponse
-  | SharedGalleryImagesGetdefaultResponse
-  | SharedGalleryImageVersionsListdefaultResponse
-  | SharedGalleryImageVersionsGetdefaultResponse
-  | CommunityGalleriesGetdefaultResponse
-  | CommunityGalleryImagesGetdefaultResponse
-  | CommunityGalleryImagesListdefaultResponse
-  | CommunityGalleryImageVersionsGetdefaultResponse
-  | CommunityGalleryImageVersionsListdefaultResponse
-  | CloudServiceRoleInstancesDeletedefaultResponse
-  | CloudServiceRoleInstancesGetdefaultResponse
-  | CloudServiceRoleInstancesGetInstanceViewdefaultResponse
-  | CloudServiceRoleInstancesListdefaultResponse
-  | CloudServiceRoleInstancesRestartdefaultResponse
-  | CloudServiceRoleInstancesReimagedefaultResponse
-  | CloudServiceRoleInstancesRebuilddefaultResponse
-  | CloudServiceRoleInstancesGetRemoteDesktopFiledefaultResponse
-  | CloudServiceRolesGetdefaultResponse
-  | CloudServiceRolesListdefaultResponse
-  | CloudServicesCreateOrUpdatedefaultResponse
-  | CloudServicesUpdatedefaultResponse
-  | CloudServicesDeletedefaultResponse
-  | CloudServicesGetdefaultResponse
-  | CloudServicesGetInstanceViewdefaultResponse
-  | CloudServicesListAlldefaultResponse
-  | CloudServicesListdefaultResponse
-  | CloudServicesStartdefaultResponse
-  | CloudServicesPowerOffdefaultResponse
-  | CloudServicesRestartdefaultResponse
-  | CloudServicesReimagedefaultResponse
-  | CloudServicesRebuilddefaultResponse
-  | CloudServicesDeleteInstancesdefaultResponse
-  | CloudServicesUpdateDomainWalkUpdateDomaindefaultResponse
-  | CloudServicesUpdateDomainGetUpdateDomaindefaultResponse
-  | CloudServicesUpdateDomainListUpdateDomainsdefaultResponse
-  | CloudServiceOperatingSystemsGetOSVersiondefaultResponse
-  | CloudServiceOperatingSystemsListOSVersionsdefaultResponse
-  | CloudServiceOperatingSystemsGetOSFamilydefaultResponse
-  | CloudServiceOperatingSystemsListOSFamiliesdefaultResponse {
+  | OperationsListDefaultResponse
+  | UsageListDefaultResponse
+  | VirtualMachineSizesListDefaultResponse
+  | VirtualMachineScaleSetsListByLocationDefaultResponse
+  | VirtualMachineScaleSetsCreateOrUpdateDefaultResponse
+  | VirtualMachineScaleSetsUpdateDefaultResponse
+  | VirtualMachineScaleSetsDeleteDefaultResponse
+  | VirtualMachineScaleSetsGetDefaultResponse
+  | VirtualMachineScaleSetsDeallocateDefaultResponse
+  | VirtualMachineScaleSetsDeleteInstancesDefaultResponse
+  | VirtualMachineScaleSetsGetInstanceViewDefaultResponse
+  | VirtualMachineScaleSetsListDefaultResponse
+  | VirtualMachineScaleSetsListAllDefaultResponse
+  | VirtualMachineScaleSetsListSkusDefaultResponse
+  | VirtualMachineScaleSetsGetOSUpgradeHistoryDefaultResponse
+  | VirtualMachineScaleSetsPowerOffDefaultResponse
+  | VirtualMachineScaleSetsRestartDefaultResponse
+  | VirtualMachineScaleSetsStartDefaultResponse
+  | VirtualMachineScaleSetsRedeployDefaultResponse
+  | VirtualMachineScaleSetsPerformMaintenanceDefaultResponse
+  | VirtualMachineScaleSetsUpdateInstancesDefaultResponse
+  | VirtualMachineScaleSetsReimageDefaultResponse
+  | VirtualMachineScaleSetsReimageAllDefaultResponse
+  | VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkDefaultResponse
+  | VirtualMachineScaleSetsConvertToSinglePlacementGroupDefaultResponse
+  | VirtualMachineScaleSetsSetOrchestrationServiceStateDefaultResponse
+  | VirtualMachineScaleSetExtensionsCreateOrUpdateDefaultResponse
+  | VirtualMachineScaleSetExtensionsUpdateDefaultResponse
+  | VirtualMachineScaleSetExtensionsDeleteDefaultResponse
+  | VirtualMachineScaleSetExtensionsGetDefaultResponse
+  | VirtualMachineScaleSetExtensionsListDefaultResponse
+  | VirtualMachineScaleSetRollingUpgradesCancelDefaultResponse
+  | VirtualMachineScaleSetRollingUpgradesStartOSUpgradeDefaultResponse
+  | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeDefaultResponse
+  | VirtualMachineScaleSetRollingUpgradesGetLatestDefaultResponse
+  | VirtualMachineScaleSetVMExtensionsCreateOrUpdateDefaultResponse
+  | VirtualMachineScaleSetVMExtensionsUpdateDefaultResponse
+  | VirtualMachineScaleSetVMExtensionsDeleteDefaultResponse
+  | VirtualMachineScaleSetVMExtensionsGetDefaultResponse
+  | VirtualMachineScaleSetVMExtensionsListDefaultResponse
+  | VirtualMachineScaleSetVMsReimageDefaultResponse
+  | VirtualMachineScaleSetVMsReimageAllDefaultResponse
+  | VirtualMachineScaleSetVMsDeallocateDefaultResponse
+  | VirtualMachineScaleSetVMsUpdateDefaultResponse
+  | VirtualMachineScaleSetVMsDeleteDefaultResponse
+  | VirtualMachineScaleSetVMsGetDefaultResponse
+  | VirtualMachineScaleSetVMsGetInstanceViewDefaultResponse
+  | VirtualMachineScaleSetVMsListDefaultResponse
+  | VirtualMachineScaleSetVMsPowerOffDefaultResponse
+  | VirtualMachineScaleSetVMsRestartDefaultResponse
+  | VirtualMachineScaleSetVMsStartDefaultResponse
+  | VirtualMachineScaleSetVMsRedeployDefaultResponse
+  | VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataDefaultResponse
+  | VirtualMachineScaleSetVMsPerformMaintenanceDefaultResponse
+  | VirtualMachineScaleSetVMsSimulateEvictionDefaultResponse
+  | VirtualMachineExtensionsCreateOrUpdateDefaultResponse
+  | VirtualMachineExtensionsUpdateDefaultResponse
+  | VirtualMachineExtensionsDeleteDefaultResponse
+  | VirtualMachineExtensionsGetDefaultResponse
+  | VirtualMachineExtensionsListDefaultResponse
+  | VirtualMachinesListByLocationDefaultResponse
+  | VirtualMachinesCaptureDefaultResponse
+  | VirtualMachinesCreateOrUpdateDefaultResponse
+  | VirtualMachinesUpdateDefaultResponse
+  | VirtualMachinesDeleteDefaultResponse
+  | VirtualMachinesGetDefaultResponse
+  | VirtualMachinesInstanceViewDefaultResponse
+  | VirtualMachinesConvertToManagedDisksDefaultResponse
+  | VirtualMachinesDeallocateDefaultResponse
+  | VirtualMachinesGeneralizeDefaultResponse
+  | VirtualMachinesListDefaultResponse
+  | VirtualMachinesListAllDefaultResponse
+  | VirtualMachinesListAvailableSizesDefaultResponse
+  | VirtualMachinesPowerOffDefaultResponse
+  | VirtualMachinesReapplyDefaultResponse
+  | VirtualMachinesRestartDefaultResponse
+  | VirtualMachinesStartDefaultResponse
+  | VirtualMachinesRedeployDefaultResponse
+  | VirtualMachinesReimageDefaultResponse
+  | VirtualMachinesRetrieveBootDiagnosticsDataDefaultResponse
+  | VirtualMachinesPerformMaintenanceDefaultResponse
+  | VirtualMachinesSimulateEvictionDefaultResponse
+  | VirtualMachinesAssessPatchesDefaultResponse
+  | VirtualMachinesInstallPatchesDefaultResponse
+  | VirtualMachineImagesGetDefaultResponse
+  | VirtualMachineImagesListDefaultResponse
+  | VirtualMachineImagesListOffersDefaultResponse
+  | VirtualMachineImagesListPublishersDefaultResponse
+  | VirtualMachineImagesListSkusDefaultResponse
+  | VirtualMachineImagesListByEdgeZoneDefaultResponse
+  | VirtualMachineImagesEdgeZoneGetDefaultResponse
+  | VirtualMachineImagesEdgeZoneListDefaultResponse
+  | VirtualMachineImagesEdgeZoneListOffersDefaultResponse
+  | VirtualMachineImagesEdgeZoneListPublishersDefaultResponse
+  | VirtualMachineImagesEdgeZoneListSkusDefaultResponse
+  | VirtualMachineExtensionImagesGetDefaultResponse
+  | VirtualMachineExtensionImagesListTypesDefaultResponse
+  | VirtualMachineExtensionImagesListVersionsDefaultResponse
+  | AvailabilitySetsCreateOrUpdateDefaultResponse
+  | AvailabilitySetsUpdateDefaultResponse
+  | AvailabilitySetsDeleteDefaultResponse
+  | AvailabilitySetsGetDefaultResponse
+  | AvailabilitySetsListBySubscriptionDefaultResponse
+  | AvailabilitySetsListDefaultResponse
+  | AvailabilitySetsListAvailableSizesDefaultResponse
+  | ProximityPlacementGroupsCreateOrUpdateDefaultResponse
+  | ProximityPlacementGroupsUpdateDefaultResponse
+  | ProximityPlacementGroupsDeleteDefaultResponse
+  | ProximityPlacementGroupsGetDefaultResponse
+  | ProximityPlacementGroupsListBySubscriptionDefaultResponse
+  | ProximityPlacementGroupsListByResourceGroupDefaultResponse
+  | DedicatedHostGroupsCreateOrUpdateDefaultResponse
+  | DedicatedHostGroupsUpdateDefaultResponse
+  | DedicatedHostGroupsDeleteDefaultResponse
+  | DedicatedHostGroupsGetDefaultResponse
+  | DedicatedHostGroupsListByResourceGroupDefaultResponse
+  | DedicatedHostGroupsListBySubscriptionDefaultResponse
+  | DedicatedHostsCreateOrUpdateDefaultResponse
+  | DedicatedHostsUpdateDefaultResponse
+  | DedicatedHostsDeleteDefaultResponse
+  | DedicatedHostsGetDefaultResponse
+  | DedicatedHostsListByHostGroupDefaultResponse
+  | DedicatedHostsRestartDefaultResponse
+  | SshPublicKeysListBySubscriptionDefaultResponse
+  | SshPublicKeysListByResourceGroupDefaultResponse
+  | SshPublicKeysCreateDefaultResponse
+  | SshPublicKeysUpdateDefaultResponse
+  | SshPublicKeysDeleteDefaultResponse
+  | SshPublicKeysGetDefaultResponse
+  | SshPublicKeysGenerateKeyPairDefaultResponse
+  | ImagesCreateOrUpdateDefaultResponse
+  | ImagesUpdateDefaultResponse
+  | ImagesDeleteDefaultResponse
+  | ImagesGetDefaultResponse
+  | ImagesListByResourceGroupDefaultResponse
+  | ImagesListDefaultResponse
+  | RestorePointCollectionsCreateOrUpdateDefaultResponse
+  | RestorePointCollectionsUpdateDefaultResponse
+  | RestorePointCollectionsDeleteDefaultResponse
+  | RestorePointCollectionsGetDefaultResponse
+  | RestorePointCollectionsListDefaultResponse
+  | RestorePointCollectionsListAllDefaultResponse
+  | RestorePointsCreateDefaultResponse
+  | RestorePointsDeleteDefaultResponse
+  | RestorePointsGetDefaultResponse
+  | CapacityReservationGroupsCreateOrUpdateDefaultResponse
+  | CapacityReservationGroupsUpdateDefaultResponse
+  | CapacityReservationGroupsDeleteDefaultResponse
+  | CapacityReservationGroupsGetDefaultResponse
+  | CapacityReservationGroupsListByResourceGroupDefaultResponse
+  | CapacityReservationGroupsListBySubscriptionDefaultResponse
+  | CapacityReservationsCreateOrUpdateDefaultResponse
+  | CapacityReservationsUpdateDefaultResponse
+  | CapacityReservationsDeleteDefaultResponse
+  | CapacityReservationsGetDefaultResponse
+  | CapacityReservationsListByCapacityReservationGroupDefaultResponse
+  | LogAnalyticsExportRequestRateByIntervalDefaultResponse
+  | LogAnalyticsExportThrottledRequestsDefaultResponse
+  | VirtualMachineRunCommandsCreateOrUpdateDefaultResponse
+  | VirtualMachineRunCommandsUpdateDefaultResponse
+  | VirtualMachineRunCommandsDeleteDefaultResponse
+  | VirtualMachineRunCommandsGetByVirtualMachineDefaultResponse
+  | VirtualMachineRunCommandsListByVirtualMachineDefaultResponse
+  | VirtualMachineScaleSetVMRunCommandsCreateOrUpdateDefaultResponse
+  | VirtualMachineScaleSetVMRunCommandsUpdateDefaultResponse
+  | VirtualMachineScaleSetVMRunCommandsDeleteDefaultResponse
+  | VirtualMachineScaleSetVMRunCommandsGetDefaultResponse
+  | VirtualMachineScaleSetVMRunCommandsListDefaultResponse
+  | DiskAccessesCreateOrUpdateDefaultResponse
+  | DiskAccessesUpdateDefaultResponse
+  | DiskAccessesGetDefaultResponse
+  | DiskAccessesDeleteDefaultResponse
+  | DiskAccessesListByResourceGroupDefaultResponse
+  | DiskAccessesListDefaultResponse
+  | DiskAccessesUpdateAPrivateEndpointConnectionDefaultResponse
+  | DiskAccessesGetAPrivateEndpointConnectionDefaultResponse
+  | DiskAccessesDeleteAPrivateEndpointConnectionDefaultResponse
+  | DiskAccessesListPrivateEndpointConnectionsDefaultResponse
+  | DiskEncryptionSetsCreateOrUpdateDefaultResponse
+  | DiskEncryptionSetsUpdateDefaultResponse
+  | DiskEncryptionSetsGetDefaultResponse
+  | DiskEncryptionSetsDeleteDefaultResponse
+  | DiskEncryptionSetsListByResourceGroupDefaultResponse
+  | DiskEncryptionSetsListDefaultResponse
+  | DiskEncryptionSetsListAssociatedResourcesDefaultResponse
+  | DiskRestorePointGetDefaultResponse
+  | DiskRestorePointListByRestorePointDefaultResponse
+  | DiskRestorePointGrantAccessDefaultResponse
+  | DiskRestorePointRevokeAccessDefaultResponse
+  | GalleriesCreateOrUpdateDefaultResponse
+  | GalleriesUpdateDefaultResponse
+  | GalleriesGetDefaultResponse
+  | GalleriesDeleteDefaultResponse
+  | GalleriesListByResourceGroupDefaultResponse
+  | GalleriesListDefaultResponse
+  | GalleryImagesCreateOrUpdateDefaultResponse
+  | GalleryImagesUpdateDefaultResponse
+  | GalleryImagesGetDefaultResponse
+  | GalleryImagesDeleteDefaultResponse
+  | GalleryImagesListByGalleryDefaultResponse
+  | GalleryImageVersionsCreateOrUpdateDefaultResponse
+  | GalleryImageVersionsUpdateDefaultResponse
+  | GalleryImageVersionsGetDefaultResponse
+  | GalleryImageVersionsDeleteDefaultResponse
+  | GalleryImageVersionsListByGalleryImageDefaultResponse
+  | GalleryApplicationsCreateOrUpdateDefaultResponse
+  | GalleryApplicationsUpdateDefaultResponse
+  | GalleryApplicationsGetDefaultResponse
+  | GalleryApplicationsDeleteDefaultResponse
+  | GalleryApplicationsListByGalleryDefaultResponse
+  | GalleryApplicationVersionsCreateOrUpdateDefaultResponse
+  | GalleryApplicationVersionsUpdateDefaultResponse
+  | GalleryApplicationVersionsGetDefaultResponse
+  | GalleryApplicationVersionsDeleteDefaultResponse
+  | GalleryApplicationVersionsListByGalleryApplicationDefaultResponse
+  | GallerySharingProfileUpdateDefaultResponse
+  | SharedGalleriesListDefaultResponse
+  | SharedGalleriesGetDefaultResponse
+  | SharedGalleryImagesListDefaultResponse
+  | SharedGalleryImagesGetDefaultResponse
+  | SharedGalleryImageVersionsListDefaultResponse
+  | SharedGalleryImageVersionsGetDefaultResponse
+  | CommunityGalleriesGetDefaultResponse
+  | CommunityGalleryImagesGetDefaultResponse
+  | CommunityGalleryImagesListDefaultResponse
+  | CommunityGalleryImageVersionsGetDefaultResponse
+  | CommunityGalleryImageVersionsListDefaultResponse
+  | CloudServiceRoleInstancesDeleteDefaultResponse
+  | CloudServiceRoleInstancesGetDefaultResponse
+  | CloudServiceRoleInstancesGetInstanceViewDefaultResponse
+  | CloudServiceRoleInstancesListDefaultResponse
+  | CloudServiceRoleInstancesRestartDefaultResponse
+  | CloudServiceRoleInstancesReimageDefaultResponse
+  | CloudServiceRoleInstancesRebuildDefaultResponse
+  | CloudServiceRoleInstancesGetRemoteDesktopFileDefaultResponse
+  | CloudServiceRolesGetDefaultResponse
+  | CloudServiceRolesListDefaultResponse
+  | CloudServicesCreateOrUpdateDefaultResponse
+  | CloudServicesUpdateDefaultResponse
+  | CloudServicesDeleteDefaultResponse
+  | CloudServicesGetDefaultResponse
+  | CloudServicesGetInstanceViewDefaultResponse
+  | CloudServicesListAllDefaultResponse
+  | CloudServicesListDefaultResponse
+  | CloudServicesStartDefaultResponse
+  | CloudServicesPowerOffDefaultResponse
+  | CloudServicesRestartDefaultResponse
+  | CloudServicesReimageDefaultResponse
+  | CloudServicesRebuildDefaultResponse
+  | CloudServicesDeleteInstancesDefaultResponse
+  | CloudServicesUpdateDomainWalkUpdateDomainDefaultResponse
+  | CloudServicesUpdateDomainGetUpdateDomainDefaultResponse
+  | CloudServicesUpdateDomainListUpdateDomainsDefaultResponse
+  | CloudServiceOperatingSystemsGetOSVersionDefaultResponse
+  | CloudServiceOperatingSystemsListOSVersionsDefaultResponse
+  | CloudServiceOperatingSystemsGetOSFamilyDefaultResponse
+  | CloudServiceOperatingSystemsListOSFamiliesDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
@@ -4185,8 +4165,8 @@ function geParametrizedPathSuccess(path: string): string[] {
       let found = true;
       for (let i = 0; i < candidateParts.length; i++) {
         if (
-          candidateParts[i].startsWith("{") &&
-          candidateParts[i].endsWith("}")
+          candidateParts[i]?.startsWith("{") &&
+          candidateParts[i]?.endsWith("}")
         ) {
           // If the current part of the candidate is a "template" part
           // it is a match with the actual path part on hand

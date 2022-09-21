@@ -16,25 +16,25 @@ import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
+// @public
 export interface AccessUriOutput {
     accessSAS?: string;
     securityDataAccessSAS?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AdditionalCapabilities {
     hibernationEnabled?: boolean;
     ultraSSDEnabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface AdditionalCapabilitiesOutput {
     hibernationEnabled?: boolean;
     ultraSSDEnabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface AdditionalUnattendContent {
     componentName?: "Microsoft-Windows-Shell-Setup";
     content?: string;
@@ -42,7 +42,7 @@ export interface AdditionalUnattendContent {
     settingName?: "AutoLogon" | "FirstLogonCommands";
 }
 
-// @public (undocumented)
+// @public
 export interface AdditionalUnattendContentOutput {
     componentName?: "Microsoft-Windows-Shell-Setup";
     content?: string;
@@ -50,17 +50,17 @@ export interface AdditionalUnattendContentOutput {
     settingName?: "AutoLogon" | "FirstLogonCommands";
 }
 
-// @public (undocumented)
+// @public
 export interface ApiEntityReference {
     id?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ApiEntityReferenceOutput {
     id?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ApiError {
     code?: string;
     details?: Array<ApiErrorBase>;
@@ -69,21 +69,21 @@ export interface ApiError {
     target?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ApiErrorBase {
     code?: string;
     message?: string;
     target?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ApiErrorBaseOutput {
     code?: string;
     message?: string;
     target?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ApiErrorOutput {
     code?: string;
     details?: Array<ApiErrorBaseOutput>;
@@ -92,73 +92,73 @@ export interface ApiErrorOutput {
     target?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationProfile {
     galleryApplications?: Array<VMGalleryApplication>;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationProfileOutput {
     galleryApplications?: Array<VMGalleryApplicationOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface AutomaticOSUpgradePolicy {
     disableAutomaticRollback?: boolean;
     enableAutomaticOSUpgrade?: boolean;
     useRollingUpgradePolicy?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface AutomaticOSUpgradePolicyOutput {
     disableAutomaticRollback?: boolean;
     enableAutomaticOSUpgrade?: boolean;
     useRollingUpgradePolicy?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface AutomaticOSUpgradeProperties {
     automaticOSUpgradeSupported: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface AutomaticOSUpgradePropertiesOutput {
     automaticOSUpgradeSupported: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface AutomaticRepairsPolicy {
     enabled?: boolean;
     gracePeriod?: string;
     repairAction?: "Replace" | "Restart" | "Reimage";
 }
 
-// @public (undocumented)
+// @public
 export interface AutomaticRepairsPolicyOutput {
     enabled?: boolean;
     gracePeriod?: string;
     repairAction?: "Replace" | "Restart" | "Reimage";
 }
 
-// @public (undocumented)
+// @public
 export interface AvailabilitySet extends Resource {
     properties?: AvailabilitySetProperties;
     sku?: Sku;
 }
 
-// @public (undocumented)
+// @public
 export interface AvailabilitySetListResultOutput {
     nextLink?: string;
     value: Array<AvailabilitySetOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface AvailabilitySetOutput extends ResourceOutput {
     properties?: AvailabilitySetPropertiesOutput;
     sku?: SkuOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface AvailabilitySetProperties {
     platformFaultDomainCount?: number;
     platformUpdateDomainCount?: number;
@@ -167,7 +167,7 @@ export interface AvailabilitySetProperties {
     virtualMachines?: Array<SubResource>;
 }
 
-// @public (undocumented)
+// @public
 export interface AvailabilitySetPropertiesOutput {
     platformFaultDomainCount?: number;
     platformUpdateDomainCount?: number;
@@ -178,10 +178,10 @@ export interface AvailabilitySetPropertiesOutput {
 
 // @public (undocumented)
 export interface AvailabilitySetsCreateOrUpdate {
-    delete(options: AvailabilitySetsDeleteParameters): StreamableMethod<AvailabilitySetsDelete200Response | AvailabilitySetsDelete204Response | AvailabilitySetsDeletedefaultResponse>;
-    get(options: AvailabilitySetsGetParameters): StreamableMethod<AvailabilitySetsGet200Response | AvailabilitySetsGetdefaultResponse>;
-    patch(options: AvailabilitySetsUpdateParameters): StreamableMethod<AvailabilitySetsUpdate200Response | AvailabilitySetsUpdatedefaultResponse>;
-    put(options: AvailabilitySetsCreateOrUpdateParameters): StreamableMethod<AvailabilitySetsCreateOrUpdate200Response | AvailabilitySetsCreateOrUpdatedefaultResponse>;
+    delete(options: AvailabilitySetsDeleteParameters): StreamableMethod<AvailabilitySetsDelete200Response | AvailabilitySetsDelete204Response | AvailabilitySetsDeleteDefaultResponse>;
+    get(options: AvailabilitySetsGetParameters): StreamableMethod<AvailabilitySetsGet200Response | AvailabilitySetsGetDefaultResponse>;
+    patch(options: AvailabilitySetsUpdateParameters): StreamableMethod<AvailabilitySetsUpdate200Response | AvailabilitySetsUpdateDefaultResponse>;
+    put(options: AvailabilitySetsCreateOrUpdateParameters): StreamableMethod<AvailabilitySetsCreateOrUpdate200Response | AvailabilitySetsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -198,7 +198,7 @@ export interface AvailabilitySetsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface AvailabilitySetsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface AvailabilitySetsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -241,7 +241,7 @@ export interface AvailabilitySetsDelete204Response extends HttpResponse {
 }
 
 // @public
-export interface AvailabilitySetsDeletedefaultResponse extends HttpResponse {
+export interface AvailabilitySetsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -271,7 +271,7 @@ export interface AvailabilitySetsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface AvailabilitySetsGetdefaultResponse extends HttpResponse {
+export interface AvailabilitySetsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -294,7 +294,7 @@ export interface AvailabilitySetsGetQueryParamProperties {
 
 // @public (undocumented)
 export interface AvailabilitySetsList {
-    get(options: AvailabilitySetsListParameters): StreamableMethod<AvailabilitySetsList200Response | AvailabilitySetsListdefaultResponse>;
+    get(options: AvailabilitySetsListParameters): StreamableMethod<AvailabilitySetsList200Response | AvailabilitySetsListDefaultResponse>;
 }
 
 // @public
@@ -307,7 +307,7 @@ export interface AvailabilitySetsList200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface AvailabilitySetsListAvailableSizes {
-    get(options: AvailabilitySetsListAvailableSizesParameters): StreamableMethod<AvailabilitySetsListAvailableSizes200Response | AvailabilitySetsListAvailableSizesdefaultResponse>;
+    get(options: AvailabilitySetsListAvailableSizesParameters): StreamableMethod<AvailabilitySetsListAvailableSizes200Response | AvailabilitySetsListAvailableSizesDefaultResponse>;
 }
 
 // @public
@@ -319,7 +319,7 @@ export interface AvailabilitySetsListAvailableSizes200Response extends HttpRespo
 }
 
 // @public
-export interface AvailabilitySetsListAvailableSizesdefaultResponse extends HttpResponse {
+export interface AvailabilitySetsListAvailableSizesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -342,7 +342,7 @@ export interface AvailabilitySetsListAvailableSizesQueryParamProperties {
 
 // @public (undocumented)
 export interface AvailabilitySetsListBySubscription {
-    get(options: AvailabilitySetsListBySubscriptionParameters): StreamableMethod<AvailabilitySetsListBySubscription200Response | AvailabilitySetsListBySubscriptiondefaultResponse>;
+    get(options: AvailabilitySetsListBySubscriptionParameters): StreamableMethod<AvailabilitySetsListBySubscription200Response | AvailabilitySetsListBySubscriptionDefaultResponse>;
 }
 
 // @public
@@ -354,7 +354,7 @@ export interface AvailabilitySetsListBySubscription200Response extends HttpRespo
 }
 
 // @public
-export interface AvailabilitySetsListBySubscriptiondefaultResponse extends HttpResponse {
+export interface AvailabilitySetsListBySubscriptionDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -377,7 +377,7 @@ export interface AvailabilitySetsListBySubscriptionQueryParamProperties {
 }
 
 // @public
-export interface AvailabilitySetsListdefaultResponse extends HttpResponse {
+export interface AvailabilitySetsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -412,7 +412,7 @@ export interface AvailabilitySetsUpdateBodyParam {
 }
 
 // @public
-export interface AvailabilitySetsUpdatedefaultResponse extends HttpResponse {
+export interface AvailabilitySetsUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -438,13 +438,13 @@ export interface AvailabilitySetsUpdateQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface AvailabilitySetUpdate extends UpdateResource {
     properties?: AvailabilitySetProperties;
     sku?: Sku;
 }
 
-// @public (undocumented)
+// @public
 export interface AvailablePatchSummary {
     assessmentActivityId?: string;
     criticalAndSecurityPatchCount?: number;
@@ -456,7 +456,7 @@ export interface AvailablePatchSummary {
     status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
 }
 
-// @public (undocumented)
+// @public
 export interface AvailablePatchSummaryOutput {
     assessmentActivityId?: string;
     criticalAndSecurityPatchCount?: number;
@@ -468,50 +468,50 @@ export interface AvailablePatchSummaryOutput {
     status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
 }
 
-// @public (undocumented)
+// @public
 export interface BillingProfile {
     maxPrice?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface BillingProfileOutput {
     maxPrice?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface BootDiagnostics {
     enabled?: boolean;
     storageUri?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface BootDiagnosticsInstanceView {
     consoleScreenshotBlobUri?: string;
     serialConsoleLogBlobUri?: string;
     status?: InstanceViewStatus;
 }
 
-// @public (undocumented)
+// @public
 export interface BootDiagnosticsInstanceViewOutput {
     consoleScreenshotBlobUri?: string;
     serialConsoleLogBlobUri?: string;
     status?: InstanceViewStatusOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface BootDiagnosticsOutput {
     enabled?: boolean;
     storageUri?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CapacityReservation extends Resource {
     properties?: CapacityReservationProperties;
     sku: Sku;
     zones?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface CapacityReservationGroup extends Resource {
     properties?: CapacityReservationGroupProperties;
     zones?: Array<string>;
@@ -527,26 +527,26 @@ export interface CapacityReservationGroupInstanceViewOutput {
     capacityReservations?: Array<CapacityReservationInstanceViewWithNameOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface CapacityReservationGroupListResultOutput {
     nextLink?: string;
     value: Array<CapacityReservationGroupOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface CapacityReservationGroupOutput extends ResourceOutput {
     properties?: CapacityReservationGroupPropertiesOutput;
     zones?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface CapacityReservationGroupProperties {
     capacityReservations?: Array<SubResourceReadOnly>;
     instanceView?: CapacityReservationGroupInstanceView;
     virtualMachinesAssociated?: Array<SubResourceReadOnly>;
 }
 
-// @public (undocumented)
+// @public
 export interface CapacityReservationGroupPropertiesOutput {
     capacityReservations?: Array<SubResourceReadOnlyOutput>;
     instanceView?: CapacityReservationGroupInstanceViewOutput;
@@ -555,10 +555,10 @@ export interface CapacityReservationGroupPropertiesOutput {
 
 // @public (undocumented)
 export interface CapacityReservationGroupsCreateOrUpdate {
-    delete(options: CapacityReservationGroupsDeleteParameters): StreamableMethod<CapacityReservationGroupsDelete200Response | CapacityReservationGroupsDelete204Response | CapacityReservationGroupsDeletedefaultResponse>;
-    get(options: CapacityReservationGroupsGetParameters): StreamableMethod<CapacityReservationGroupsGet200Response | CapacityReservationGroupsGetdefaultResponse>;
-    patch(options: CapacityReservationGroupsUpdateParameters): StreamableMethod<CapacityReservationGroupsUpdate200Response | CapacityReservationGroupsUpdatedefaultResponse>;
-    put(options: CapacityReservationGroupsCreateOrUpdateParameters): StreamableMethod<CapacityReservationGroupsCreateOrUpdate200Response | CapacityReservationGroupsCreateOrUpdate201Response | CapacityReservationGroupsCreateOrUpdatedefaultResponse>;
+    delete(options: CapacityReservationGroupsDeleteParameters): StreamableMethod<CapacityReservationGroupsDelete200Response | CapacityReservationGroupsDelete204Response | CapacityReservationGroupsDeleteDefaultResponse>;
+    get(options: CapacityReservationGroupsGetParameters): StreamableMethod<CapacityReservationGroupsGet200Response | CapacityReservationGroupsGetDefaultResponse>;
+    patch(options: CapacityReservationGroupsUpdateParameters): StreamableMethod<CapacityReservationGroupsUpdate200Response | CapacityReservationGroupsUpdateDefaultResponse>;
+    put(options: CapacityReservationGroupsCreateOrUpdateParameters): StreamableMethod<CapacityReservationGroupsCreateOrUpdate200Response | CapacityReservationGroupsCreateOrUpdate201Response | CapacityReservationGroupsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -583,7 +583,7 @@ export interface CapacityReservationGroupsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface CapacityReservationGroupsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface CapacityReservationGroupsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -626,7 +626,7 @@ export interface CapacityReservationGroupsDelete204Response extends HttpResponse
 }
 
 // @public
-export interface CapacityReservationGroupsDeletedefaultResponse extends HttpResponse {
+export interface CapacityReservationGroupsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -656,7 +656,7 @@ export interface CapacityReservationGroupsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface CapacityReservationGroupsGetdefaultResponse extends HttpResponse {
+export interface CapacityReservationGroupsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -680,7 +680,7 @@ export interface CapacityReservationGroupsGetQueryParamProperties {
 
 // @public (undocumented)
 export interface CapacityReservationGroupsListByResourceGroup {
-    get(options: CapacityReservationGroupsListByResourceGroupParameters): StreamableMethod<CapacityReservationGroupsListByResourceGroup200Response | CapacityReservationGroupsListByResourceGroupdefaultResponse>;
+    get(options: CapacityReservationGroupsListByResourceGroupParameters): StreamableMethod<CapacityReservationGroupsListByResourceGroup200Response | CapacityReservationGroupsListByResourceGroupDefaultResponse>;
 }
 
 // @public
@@ -692,7 +692,7 @@ export interface CapacityReservationGroupsListByResourceGroup200Response extends
 }
 
 // @public
-export interface CapacityReservationGroupsListByResourceGroupdefaultResponse extends HttpResponse {
+export interface CapacityReservationGroupsListByResourceGroupDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -716,7 +716,7 @@ export interface CapacityReservationGroupsListByResourceGroupQueryParamPropertie
 
 // @public (undocumented)
 export interface CapacityReservationGroupsListBySubscription {
-    get(options: CapacityReservationGroupsListBySubscriptionParameters): StreamableMethod<CapacityReservationGroupsListBySubscription200Response | CapacityReservationGroupsListBySubscriptiondefaultResponse>;
+    get(options: CapacityReservationGroupsListBySubscriptionParameters): StreamableMethod<CapacityReservationGroupsListBySubscription200Response | CapacityReservationGroupsListBySubscriptionDefaultResponse>;
 }
 
 // @public
@@ -728,7 +728,7 @@ export interface CapacityReservationGroupsListBySubscription200Response extends 
 }
 
 // @public
-export interface CapacityReservationGroupsListBySubscriptiondefaultResponse extends HttpResponse {
+export interface CapacityReservationGroupsListBySubscriptionDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -764,7 +764,7 @@ export interface CapacityReservationGroupsUpdateBodyParam {
 }
 
 // @public
-export interface CapacityReservationGroupsUpdatedefaultResponse extends HttpResponse {
+export interface CapacityReservationGroupsUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -790,57 +790,57 @@ export interface CapacityReservationGroupsUpdateQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface CapacityReservationGroupUpdate extends UpdateResource {
     properties?: CapacityReservationGroupProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface CapacityReservationInstanceView {
     statuses?: Array<InstanceViewStatus>;
     utilizationInfo?: CapacityReservationUtilization;
 }
 
-// @public (undocumented)
+// @public
 export interface CapacityReservationInstanceViewOutput {
     statuses?: Array<InstanceViewStatusOutput>;
     utilizationInfo?: CapacityReservationUtilizationOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface CapacityReservationInstanceViewWithName extends CapacityReservationInstanceView {
     name?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CapacityReservationInstanceViewWithNameOutput extends CapacityReservationInstanceViewOutput {
     name?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CapacityReservationListResultOutput {
     nextLink?: string;
     value: Array<CapacityReservationOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface CapacityReservationOutput extends ResourceOutput {
     properties?: CapacityReservationPropertiesOutput;
     sku: SkuOutput;
     zones?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface CapacityReservationProfile {
     capacityReservationGroup?: SubResource;
 }
 
-// @public (undocumented)
+// @public
 export interface CapacityReservationProfileOutput {
     capacityReservationGroup?: SubResourceOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface CapacityReservationProperties {
     instanceView?: CapacityReservationInstanceView;
     provisioningState?: string;
@@ -850,7 +850,7 @@ export interface CapacityReservationProperties {
     virtualMachinesAssociated?: Array<SubResourceReadOnly>;
 }
 
-// @public (undocumented)
+// @public
 export interface CapacityReservationPropertiesOutput {
     instanceView?: CapacityReservationInstanceViewOutput;
     provisioningState?: string;
@@ -862,10 +862,10 @@ export interface CapacityReservationPropertiesOutput {
 
 // @public (undocumented)
 export interface CapacityReservationsCreateOrUpdate {
-    delete(options: CapacityReservationsDeleteParameters): StreamableMethod<CapacityReservationsDelete200Response | CapacityReservationsDelete202Response | CapacityReservationsDelete204Response | CapacityReservationsDeletedefaultResponse>;
-    get(options: CapacityReservationsGetParameters): StreamableMethod<CapacityReservationsGet200Response | CapacityReservationsGetdefaultResponse>;
-    patch(options: CapacityReservationsUpdateParameters): StreamableMethod<CapacityReservationsUpdate200Response | CapacityReservationsUpdate202Response | CapacityReservationsUpdatedefaultResponse>;
-    put(options: CapacityReservationsCreateOrUpdateParameters): StreamableMethod<CapacityReservationsCreateOrUpdate200Response | CapacityReservationsCreateOrUpdate201Response | CapacityReservationsCreateOrUpdatedefaultResponse>;
+    delete(options: CapacityReservationsDeleteParameters): StreamableMethod<CapacityReservationsDelete200Response | CapacityReservationsDelete202Response | CapacityReservationsDelete204Response | CapacityReservationsDeleteDefaultResponse>;
+    get(options: CapacityReservationsGetParameters): StreamableMethod<CapacityReservationsGet200Response | CapacityReservationsGetDefaultResponse>;
+    patch(options: CapacityReservationsUpdateParameters): StreamableMethod<CapacityReservationsUpdate200Response | CapacityReservationsUpdate202Response | CapacityReservationsUpdateDefaultResponse>;
+    put(options: CapacityReservationsCreateOrUpdateParameters): StreamableMethod<CapacityReservationsCreateOrUpdate200Response | CapacityReservationsCreateOrUpdate201Response | CapacityReservationsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -890,7 +890,7 @@ export interface CapacityReservationsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface CapacityReservationsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface CapacityReservationsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -941,7 +941,7 @@ export interface CapacityReservationsDelete204Response extends HttpResponse {
 }
 
 // @public
-export interface CapacityReservationsDeletedefaultResponse extends HttpResponse {
+export interface CapacityReservationsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -971,7 +971,7 @@ export interface CapacityReservationsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface CapacityReservationsGetdefaultResponse extends HttpResponse {
+export interface CapacityReservationsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -995,7 +995,7 @@ export interface CapacityReservationsGetQueryParamProperties {
 
 // @public (undocumented)
 export interface CapacityReservationsListByCapacityReservationGroup {
-    get(options: CapacityReservationsListByCapacityReservationGroupParameters): StreamableMethod<CapacityReservationsListByCapacityReservationGroup200Response | CapacityReservationsListByCapacityReservationGroupdefaultResponse>;
+    get(options: CapacityReservationsListByCapacityReservationGroupParameters): StreamableMethod<CapacityReservationsListByCapacityReservationGroup200Response | CapacityReservationsListByCapacityReservationGroupDefaultResponse>;
 }
 
 // @public
@@ -1007,7 +1007,7 @@ export interface CapacityReservationsListByCapacityReservationGroup200Response e
 }
 
 // @public
-export interface CapacityReservationsListByCapacityReservationGroupdefaultResponse extends HttpResponse {
+export interface CapacityReservationsListByCapacityReservationGroupDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1050,7 +1050,7 @@ export interface CapacityReservationsUpdateBodyParam {
 }
 
 // @public
-export interface CapacityReservationsUpdatedefaultResponse extends HttpResponse {
+export interface CapacityReservationsUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1076,28 +1076,28 @@ export interface CapacityReservationsUpdateQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface CapacityReservationUpdate extends UpdateResource {
     properties?: CapacityReservationProperties;
     sku?: Sku;
 }
 
-// @public (undocumented)
+// @public
 export interface CapacityReservationUtilization {
     virtualMachinesAllocated?: Array<SubResourceReadOnly>;
 }
 
-// @public (undocumented)
+// @public
 export interface CapacityReservationUtilizationOutput {
     virtualMachinesAllocated?: Array<SubResourceReadOnlyOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudErrorOutput {
     error?: ApiErrorOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudService {
     id?: string;
     location: string;
@@ -1108,45 +1108,45 @@ export interface CloudService {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceExtensionProfile {
     extensions?: Array<Extension>;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceExtensionProfileOutput {
     extensions?: Array<ExtensionOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceExtensionProperties {
     autoUpgradeMinorVersion?: boolean;
     forceUpdateTag?: string;
-    protectedSettings?: Record<string, unknown>;
+    protectedSettings?: any;
     protectedSettingsFromKeyVault?: CloudServiceVaultAndSecretReference;
     provisioningState?: string;
     publisher?: string;
     rolesAppliedTo?: Array<string>;
-    settings?: Record<string, unknown>;
+    settings?: any;
     type?: string;
     typeHandlerVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceExtensionPropertiesOutput {
     autoUpgradeMinorVersion?: boolean;
     forceUpdateTag?: string;
-    protectedSettings?: Record<string, unknown>;
+    protectedSettings?: any;
     protectedSettingsFromKeyVault?: CloudServiceVaultAndSecretReferenceOutput;
     provisioningState?: string;
     publisher?: string;
     rolesAppliedTo?: Array<string>;
-    settings?: Record<string, unknown>;
+    settings?: any;
     type?: string;
     typeHandlerVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceInstanceViewOutput {
     privateIds?: Array<string>;
     roleInstance?: InstanceViewStatusesSummaryOutput;
@@ -1155,20 +1155,20 @@ export interface CloudServiceInstanceViewOutput {
     statuses?: Array<ResourceInstanceViewStatusOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceListResultOutput {
     nextLink?: string;
     value: Array<CloudServiceOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceNetworkProfile {
     loadBalancerConfigurations?: Array<LoadBalancerConfiguration>;
     slotType?: "Production" | "Staging";
     swappableCloudService?: SubResource;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceNetworkProfileOutput {
     loadBalancerConfigurations?: Array<LoadBalancerConfigurationOutput>;
     slotType?: "Production" | "Staging";
@@ -1177,7 +1177,7 @@ export interface CloudServiceNetworkProfileOutput {
 
 // @public (undocumented)
 export interface CloudServiceOperatingSystemsGetOSFamily {
-    get(options: CloudServiceOperatingSystemsGetOSFamilyParameters): StreamableMethod<CloudServiceOperatingSystemsGetOSFamily200Response | CloudServiceOperatingSystemsGetOSFamilydefaultResponse>;
+    get(options: CloudServiceOperatingSystemsGetOSFamilyParameters): StreamableMethod<CloudServiceOperatingSystemsGetOSFamily200Response | CloudServiceOperatingSystemsGetOSFamilyDefaultResponse>;
 }
 
 // @public
@@ -1189,7 +1189,7 @@ export interface CloudServiceOperatingSystemsGetOSFamily200Response extends Http
 }
 
 // @public
-export interface CloudServiceOperatingSystemsGetOSFamilydefaultResponse extends HttpResponse {
+export interface CloudServiceOperatingSystemsGetOSFamilyDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1212,7 +1212,7 @@ export interface CloudServiceOperatingSystemsGetOSFamilyQueryParamProperties {
 
 // @public (undocumented)
 export interface CloudServiceOperatingSystemsGetOSVersion {
-    get(options: CloudServiceOperatingSystemsGetOSVersionParameters): StreamableMethod<CloudServiceOperatingSystemsGetOSVersion200Response | CloudServiceOperatingSystemsGetOSVersiondefaultResponse>;
+    get(options: CloudServiceOperatingSystemsGetOSVersionParameters): StreamableMethod<CloudServiceOperatingSystemsGetOSVersion200Response | CloudServiceOperatingSystemsGetOSVersionDefaultResponse>;
 }
 
 // @public
@@ -1224,7 +1224,7 @@ export interface CloudServiceOperatingSystemsGetOSVersion200Response extends Htt
 }
 
 // @public
-export interface CloudServiceOperatingSystemsGetOSVersiondefaultResponse extends HttpResponse {
+export interface CloudServiceOperatingSystemsGetOSVersionDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1247,7 +1247,7 @@ export interface CloudServiceOperatingSystemsGetOSVersionQueryParamProperties {
 
 // @public (undocumented)
 export interface CloudServiceOperatingSystemsListOSFamilies {
-    get(options: CloudServiceOperatingSystemsListOSFamiliesParameters): StreamableMethod<CloudServiceOperatingSystemsListOSFamilies200Response | CloudServiceOperatingSystemsListOSFamiliesdefaultResponse>;
+    get(options: CloudServiceOperatingSystemsListOSFamiliesParameters): StreamableMethod<CloudServiceOperatingSystemsListOSFamilies200Response | CloudServiceOperatingSystemsListOSFamiliesDefaultResponse>;
 }
 
 // @public
@@ -1259,7 +1259,7 @@ export interface CloudServiceOperatingSystemsListOSFamilies200Response extends H
 }
 
 // @public
-export interface CloudServiceOperatingSystemsListOSFamiliesdefaultResponse extends HttpResponse {
+export interface CloudServiceOperatingSystemsListOSFamiliesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1282,7 +1282,7 @@ export interface CloudServiceOperatingSystemsListOSFamiliesQueryParamProperties 
 
 // @public (undocumented)
 export interface CloudServiceOperatingSystemsListOSVersions {
-    get(options: CloudServiceOperatingSystemsListOSVersionsParameters): StreamableMethod<CloudServiceOperatingSystemsListOSVersions200Response | CloudServiceOperatingSystemsListOSVersionsdefaultResponse>;
+    get(options: CloudServiceOperatingSystemsListOSVersionsParameters): StreamableMethod<CloudServiceOperatingSystemsListOSVersions200Response | CloudServiceOperatingSystemsListOSVersionsDefaultResponse>;
 }
 
 // @public
@@ -1294,7 +1294,7 @@ export interface CloudServiceOperatingSystemsListOSVersions200Response extends H
 }
 
 // @public
-export interface CloudServiceOperatingSystemsListOSVersionsdefaultResponse extends HttpResponse {
+export interface CloudServiceOperatingSystemsListOSVersionsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1315,17 +1315,17 @@ export interface CloudServiceOperatingSystemsListOSVersionsQueryParamProperties 
     "api-version": "2022-04-04";
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceOsProfile {
     secrets?: Array<CloudServiceVaultSecretGroup>;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceOsProfileOutput {
     secrets?: Array<CloudServiceVaultSecretGroupOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceOutput {
     id?: string;
     location: string;
@@ -1336,7 +1336,7 @@ export interface CloudServiceOutput {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceProperties {
     allowModelOverride?: boolean;
     configuration?: string;
@@ -1352,7 +1352,7 @@ export interface CloudServiceProperties {
     upgradeMode?: "Auto" | "Manual" | "Simultaneous";
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServicePropertiesOutput {
     allowModelOverride?: boolean;
     configuration?: string;
@@ -1370,8 +1370,8 @@ export interface CloudServicePropertiesOutput {
 
 // @public (undocumented)
 export interface CloudServiceRoleInstancesDelete {
-    delete(options: CloudServiceRoleInstancesDeleteParameters): StreamableMethod<CloudServiceRoleInstancesDelete200Response | CloudServiceRoleInstancesDelete202Response | CloudServiceRoleInstancesDelete204Response | CloudServiceRoleInstancesDeletedefaultResponse>;
-    get(options: CloudServiceRoleInstancesGetParameters): StreamableMethod<CloudServiceRoleInstancesGet200Response | CloudServiceRoleInstancesGetdefaultResponse>;
+    delete(options: CloudServiceRoleInstancesDeleteParameters): StreamableMethod<CloudServiceRoleInstancesDelete200Response | CloudServiceRoleInstancesDelete202Response | CloudServiceRoleInstancesDelete204Response | CloudServiceRoleInstancesDeleteDefaultResponse>;
+    get(options: CloudServiceRoleInstancesGetParameters): StreamableMethod<CloudServiceRoleInstancesGet200Response | CloudServiceRoleInstancesGetDefaultResponse>;
 }
 
 // @public
@@ -1399,7 +1399,7 @@ export interface CloudServiceRoleInstancesDelete204Response extends HttpResponse
 }
 
 // @public
-export interface CloudServiceRoleInstancesDeletedefaultResponse extends HttpResponse {
+export interface CloudServiceRoleInstancesDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1429,7 +1429,7 @@ export interface CloudServiceRoleInstancesGet200Response extends HttpResponse {
 }
 
 // @public
-export interface CloudServiceRoleInstancesGetdefaultResponse extends HttpResponse {
+export interface CloudServiceRoleInstancesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1438,7 +1438,7 @@ export interface CloudServiceRoleInstancesGetdefaultResponse extends HttpRespons
 
 // @public (undocumented)
 export interface CloudServiceRoleInstancesGetInstanceView {
-    get(options: CloudServiceRoleInstancesGetInstanceViewParameters): StreamableMethod<CloudServiceRoleInstancesGetInstanceView200Response | CloudServiceRoleInstancesGetInstanceViewdefaultResponse>;
+    get(options: CloudServiceRoleInstancesGetInstanceViewParameters): StreamableMethod<CloudServiceRoleInstancesGetInstanceView200Response | CloudServiceRoleInstancesGetInstanceViewDefaultResponse>;
 }
 
 // @public
@@ -1450,7 +1450,7 @@ export interface CloudServiceRoleInstancesGetInstanceView200Response extends Htt
 }
 
 // @public
-export interface CloudServiceRoleInstancesGetInstanceViewdefaultResponse extends HttpResponse {
+export interface CloudServiceRoleInstancesGetInstanceViewDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1488,7 +1488,7 @@ export interface CloudServiceRoleInstancesGetQueryParamProperties {
 
 // @public (undocumented)
 export interface CloudServiceRoleInstancesGetRemoteDesktopFile {
-    get(options: CloudServiceRoleInstancesGetRemoteDesktopFileParameters): StreamableMethod<CloudServiceRoleInstancesGetRemoteDesktopFile200Response | CloudServiceRoleInstancesGetRemoteDesktopFiledefaultResponse>;
+    get(options: CloudServiceRoleInstancesGetRemoteDesktopFileParameters): StreamableMethod<CloudServiceRoleInstancesGetRemoteDesktopFile200Response | CloudServiceRoleInstancesGetRemoteDesktopFileDefaultResponse>;
 }
 
 // @public
@@ -1499,7 +1499,7 @@ export interface CloudServiceRoleInstancesGetRemoteDesktopFile200Response extend
 }
 
 // @public
-export interface CloudServiceRoleInstancesGetRemoteDesktopFiledefaultResponse extends HttpResponse {
+export interface CloudServiceRoleInstancesGetRemoteDesktopFileDefaultResponse extends HttpResponse {
     // (undocumented)
     body: Record<string, unknown>;
     // (undocumented)
@@ -1522,7 +1522,7 @@ export interface CloudServiceRoleInstancesGetRemoteDesktopFileQueryParamProperti
 
 // @public (undocumented)
 export interface CloudServiceRoleInstancesList {
-    get(options: CloudServiceRoleInstancesListParameters): StreamableMethod<CloudServiceRoleInstancesList200Response | CloudServiceRoleInstancesListdefaultResponse>;
+    get(options: CloudServiceRoleInstancesListParameters): StreamableMethod<CloudServiceRoleInstancesList200Response | CloudServiceRoleInstancesListDefaultResponse>;
 }
 
 // @public
@@ -1534,7 +1534,7 @@ export interface CloudServiceRoleInstancesList200Response extends HttpResponse {
 }
 
 // @public
-export interface CloudServiceRoleInstancesListdefaultResponse extends HttpResponse {
+export interface CloudServiceRoleInstancesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1558,7 +1558,7 @@ export interface CloudServiceRoleInstancesListQueryParamProperties {
 
 // @public (undocumented)
 export interface CloudServiceRoleInstancesRebuild {
-    post(options: CloudServiceRoleInstancesRebuildParameters): StreamableMethod<CloudServiceRoleInstancesRebuild200Response | CloudServiceRoleInstancesRebuild202Response | CloudServiceRoleInstancesRebuilddefaultResponse>;
+    post(options: CloudServiceRoleInstancesRebuildParameters): StreamableMethod<CloudServiceRoleInstancesRebuild200Response | CloudServiceRoleInstancesRebuild202Response | CloudServiceRoleInstancesRebuildDefaultResponse>;
 }
 
 // @public
@@ -1578,7 +1578,7 @@ export interface CloudServiceRoleInstancesRebuild202Response extends HttpRespons
 }
 
 // @public
-export interface CloudServiceRoleInstancesRebuilddefaultResponse extends HttpResponse {
+export interface CloudServiceRoleInstancesRebuildDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1601,7 +1601,7 @@ export interface CloudServiceRoleInstancesRebuildQueryParamProperties {
 
 // @public (undocumented)
 export interface CloudServiceRoleInstancesReimage {
-    post(options: CloudServiceRoleInstancesReimageParameters): StreamableMethod<CloudServiceRoleInstancesReimage200Response | CloudServiceRoleInstancesReimage202Response | CloudServiceRoleInstancesReimagedefaultResponse>;
+    post(options: CloudServiceRoleInstancesReimageParameters): StreamableMethod<CloudServiceRoleInstancesReimage200Response | CloudServiceRoleInstancesReimage202Response | CloudServiceRoleInstancesReimageDefaultResponse>;
 }
 
 // @public
@@ -1621,7 +1621,7 @@ export interface CloudServiceRoleInstancesReimage202Response extends HttpRespons
 }
 
 // @public
-export interface CloudServiceRoleInstancesReimagedefaultResponse extends HttpResponse {
+export interface CloudServiceRoleInstancesReimageDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1644,7 +1644,7 @@ export interface CloudServiceRoleInstancesReimageQueryParamProperties {
 
 // @public (undocumented)
 export interface CloudServiceRoleInstancesRestart {
-    post(options: CloudServiceRoleInstancesRestartParameters): StreamableMethod<CloudServiceRoleInstancesRestart200Response | CloudServiceRoleInstancesRestart202Response | CloudServiceRoleInstancesRestartdefaultResponse>;
+    post(options: CloudServiceRoleInstancesRestartParameters): StreamableMethod<CloudServiceRoleInstancesRestart200Response | CloudServiceRoleInstancesRestart202Response | CloudServiceRoleInstancesRestartDefaultResponse>;
 }
 
 // @public
@@ -1664,7 +1664,7 @@ export interface CloudServiceRoleInstancesRestart202Response extends HttpRespons
 }
 
 // @public
-export interface CloudServiceRoleInstancesRestartdefaultResponse extends HttpResponse {
+export interface CloudServiceRoleInstancesRestartDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1685,13 +1685,13 @@ export interface CloudServiceRoleInstancesRestartQueryParamProperties {
     "api-version": "2022-04-04";
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceRoleListResultOutput {
     nextLink?: string;
     value: Array<CloudServiceRoleOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceRoleOutput {
     id?: string;
     location?: string;
@@ -1701,36 +1701,36 @@ export interface CloudServiceRoleOutput {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceRoleProfile {
     roles?: Array<CloudServiceRoleProfileProperties>;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceRoleProfileOutput {
     roles?: Array<CloudServiceRoleProfilePropertiesOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceRoleProfileProperties {
     name?: string;
     sku?: CloudServiceRoleSku;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceRoleProfilePropertiesOutput {
     name?: string;
     sku?: CloudServiceRoleSkuOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceRolePropertiesOutput {
     uniqueId?: string;
 }
 
 // @public (undocumented)
 export interface CloudServiceRolesGet {
-    get(options: CloudServiceRolesGetParameters): StreamableMethod<CloudServiceRolesGet200Response | CloudServiceRolesGetdefaultResponse>;
+    get(options: CloudServiceRolesGetParameters): StreamableMethod<CloudServiceRolesGet200Response | CloudServiceRolesGetDefaultResponse>;
 }
 
 // @public
@@ -1742,7 +1742,7 @@ export interface CloudServiceRolesGet200Response extends HttpResponse {
 }
 
 // @public
-export interface CloudServiceRolesGetdefaultResponse extends HttpResponse {
+export interface CloudServiceRolesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1763,14 +1763,14 @@ export interface CloudServiceRolesGetQueryParamProperties {
     "api-version": "2022-04-04";
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceRoleSku {
     capacity?: number;
     name?: string;
     tier?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceRoleSkuOutput {
     capacity?: number;
     name?: string;
@@ -1779,7 +1779,7 @@ export interface CloudServiceRoleSkuOutput {
 
 // @public (undocumented)
 export interface CloudServiceRolesList {
-    get(options: CloudServiceRolesListParameters): StreamableMethod<CloudServiceRolesList200Response | CloudServiceRolesListdefaultResponse>;
+    get(options: CloudServiceRolesListParameters): StreamableMethod<CloudServiceRolesList200Response | CloudServiceRolesListDefaultResponse>;
 }
 
 // @public
@@ -1791,7 +1791,7 @@ export interface CloudServiceRolesList200Response extends HttpResponse {
 }
 
 // @public
-export interface CloudServiceRolesListdefaultResponse extends HttpResponse {
+export interface CloudServiceRolesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1814,10 +1814,10 @@ export interface CloudServiceRolesListQueryParamProperties {
 
 // @public (undocumented)
 export interface CloudServicesCreateOrUpdate {
-    delete(options: CloudServicesDeleteParameters): StreamableMethod<CloudServicesDelete200Response | CloudServicesDelete202Response | CloudServicesDelete204Response | CloudServicesDeletedefaultResponse>;
-    get(options: CloudServicesGetParameters): StreamableMethod<CloudServicesGet200Response | CloudServicesGetdefaultResponse>;
-    patch(options: CloudServicesUpdateParameters): StreamableMethod<CloudServicesUpdate200Response | CloudServicesUpdatedefaultResponse>;
-    put(options: CloudServicesCreateOrUpdateParameters): StreamableMethod<CloudServicesCreateOrUpdate200Response | CloudServicesCreateOrUpdate201Response | CloudServicesCreateOrUpdatedefaultResponse>;
+    delete(options: CloudServicesDeleteParameters): StreamableMethod<CloudServicesDelete200Response | CloudServicesDelete202Response | CloudServicesDelete204Response | CloudServicesDeleteDefaultResponse>;
+    get(options: CloudServicesGetParameters): StreamableMethod<CloudServicesGet200Response | CloudServicesGetDefaultResponse>;
+    patch(options: CloudServicesUpdateParameters): StreamableMethod<CloudServicesUpdate200Response | CloudServicesUpdateDefaultResponse>;
+    put(options: CloudServicesCreateOrUpdateParameters): StreamableMethod<CloudServicesCreateOrUpdate200Response | CloudServicesCreateOrUpdate201Response | CloudServicesCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -1842,7 +1842,7 @@ export interface CloudServicesCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface CloudServicesCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface CloudServicesCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1893,7 +1893,7 @@ export interface CloudServicesDelete204Response extends HttpResponse {
 }
 
 // @public
-export interface CloudServicesDeletedefaultResponse extends HttpResponse {
+export interface CloudServicesDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1902,7 +1902,7 @@ export interface CloudServicesDeletedefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export interface CloudServicesDeleteInstances {
-    post(options: CloudServicesDeleteInstancesParameters): StreamableMethod<CloudServicesDeleteInstances200Response | CloudServicesDeleteInstances202Response | CloudServicesDeleteInstancesdefaultResponse>;
+    post(options: CloudServicesDeleteInstancesParameters): StreamableMethod<CloudServicesDeleteInstances200Response | CloudServicesDeleteInstances202Response | CloudServicesDeleteInstancesDefaultResponse>;
 }
 
 // @public
@@ -1927,7 +1927,7 @@ export interface CloudServicesDeleteInstancesBodyParam {
 }
 
 // @public
-export interface CloudServicesDeleteInstancesdefaultResponse extends HttpResponse {
+export interface CloudServicesDeleteInstancesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1976,7 +1976,7 @@ export interface CloudServicesGet200Response extends HttpResponse {
 }
 
 // @public
-export interface CloudServicesGetdefaultResponse extends HttpResponse {
+export interface CloudServicesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1985,7 +1985,7 @@ export interface CloudServicesGetdefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export interface CloudServicesGetInstanceView {
-    get(options: CloudServicesGetInstanceViewParameters): StreamableMethod<CloudServicesGetInstanceView200Response | CloudServicesGetInstanceViewdefaultResponse>;
+    get(options: CloudServicesGetInstanceViewParameters): StreamableMethod<CloudServicesGetInstanceView200Response | CloudServicesGetInstanceViewDefaultResponse>;
 }
 
 // @public
@@ -1997,7 +1997,7 @@ export interface CloudServicesGetInstanceView200Response extends HttpResponse {
 }
 
 // @public
-export interface CloudServicesGetInstanceViewdefaultResponse extends HttpResponse {
+export interface CloudServicesGetInstanceViewDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2034,7 +2034,7 @@ export interface CloudServicesGetQueryParamProperties {
 
 // @public (undocumented)
 export interface CloudServicesList {
-    get(options: CloudServicesListParameters): StreamableMethod<CloudServicesList200Response | CloudServicesListdefaultResponse>;
+    get(options: CloudServicesListParameters): StreamableMethod<CloudServicesList200Response | CloudServicesListDefaultResponse>;
 }
 
 // @public
@@ -2047,7 +2047,7 @@ export interface CloudServicesList200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface CloudServicesListAll {
-    get(options: CloudServicesListAllParameters): StreamableMethod<CloudServicesListAll200Response | CloudServicesListAlldefaultResponse>;
+    get(options: CloudServicesListAllParameters): StreamableMethod<CloudServicesListAll200Response | CloudServicesListAllDefaultResponse>;
 }
 
 // @public
@@ -2059,7 +2059,7 @@ export interface CloudServicesListAll200Response extends HttpResponse {
 }
 
 // @public
-export interface CloudServicesListAlldefaultResponse extends HttpResponse {
+export interface CloudServicesListAllDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2081,7 +2081,7 @@ export interface CloudServicesListAllQueryParamProperties {
 }
 
 // @public
-export interface CloudServicesListdefaultResponse extends HttpResponse {
+export interface CloudServicesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2104,7 +2104,7 @@ export interface CloudServicesListQueryParamProperties {
 
 // @public (undocumented)
 export interface CloudServicesPowerOff {
-    post(options: CloudServicesPowerOffParameters): StreamableMethod<CloudServicesPowerOff200Response | CloudServicesPowerOff202Response | CloudServicesPowerOffdefaultResponse>;
+    post(options: CloudServicesPowerOffParameters): StreamableMethod<CloudServicesPowerOff200Response | CloudServicesPowerOff202Response | CloudServicesPowerOffDefaultResponse>;
 }
 
 // @public
@@ -2124,7 +2124,7 @@ export interface CloudServicesPowerOff202Response extends HttpResponse {
 }
 
 // @public
-export interface CloudServicesPowerOffdefaultResponse extends HttpResponse {
+export interface CloudServicesPowerOffDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2147,7 +2147,7 @@ export interface CloudServicesPowerOffQueryParamProperties {
 
 // @public (undocumented)
 export interface CloudServicesRebuild {
-    post(options: CloudServicesRebuildParameters): StreamableMethod<CloudServicesRebuild200Response | CloudServicesRebuild202Response | CloudServicesRebuilddefaultResponse>;
+    post(options: CloudServicesRebuildParameters): StreamableMethod<CloudServicesRebuild200Response | CloudServicesRebuild202Response | CloudServicesRebuildDefaultResponse>;
 }
 
 // @public
@@ -2172,7 +2172,7 @@ export interface CloudServicesRebuildBodyParam {
 }
 
 // @public
-export interface CloudServicesRebuilddefaultResponse extends HttpResponse {
+export interface CloudServicesRebuildDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2200,7 +2200,7 @@ export interface CloudServicesRebuildQueryParamProperties {
 
 // @public (undocumented)
 export interface CloudServicesReimage {
-    post(options: CloudServicesReimageParameters): StreamableMethod<CloudServicesReimage200Response | CloudServicesReimage202Response | CloudServicesReimagedefaultResponse>;
+    post(options: CloudServicesReimageParameters): StreamableMethod<CloudServicesReimage200Response | CloudServicesReimage202Response | CloudServicesReimageDefaultResponse>;
 }
 
 // @public
@@ -2225,7 +2225,7 @@ export interface CloudServicesReimageBodyParam {
 }
 
 // @public
-export interface CloudServicesReimagedefaultResponse extends HttpResponse {
+export interface CloudServicesReimageDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2253,7 +2253,7 @@ export interface CloudServicesReimageQueryParamProperties {
 
 // @public (undocumented)
 export interface CloudServicesRestart {
-    post(options: CloudServicesRestartParameters): StreamableMethod<CloudServicesRestart200Response | CloudServicesRestart202Response | CloudServicesRestartdefaultResponse>;
+    post(options: CloudServicesRestartParameters): StreamableMethod<CloudServicesRestart200Response | CloudServicesRestart202Response | CloudServicesRestartDefaultResponse>;
 }
 
 // @public
@@ -2278,7 +2278,7 @@ export interface CloudServicesRestartBodyParam {
 }
 
 // @public
-export interface CloudServicesRestartdefaultResponse extends HttpResponse {
+export interface CloudServicesRestartDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2306,7 +2306,7 @@ export interface CloudServicesRestartQueryParamProperties {
 
 // @public (undocumented)
 export interface CloudServicesStart {
-    post(options: CloudServicesStartParameters): StreamableMethod<CloudServicesStart200Response | CloudServicesStart202Response | CloudServicesStartdefaultResponse>;
+    post(options: CloudServicesStartParameters): StreamableMethod<CloudServicesStart200Response | CloudServicesStart202Response | CloudServicesStartDefaultResponse>;
 }
 
 // @public
@@ -2326,7 +2326,7 @@ export interface CloudServicesStart202Response extends HttpResponse {
 }
 
 // @public
-export interface CloudServicesStartdefaultResponse extends HttpResponse {
+export interface CloudServicesStartDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2361,7 +2361,7 @@ export interface CloudServicesUpdateBodyParam {
 }
 
 // @public
-export interface CloudServicesUpdatedefaultResponse extends HttpResponse {
+export interface CloudServicesUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2377,7 +2377,7 @@ export interface CloudServicesUpdateDomainGetUpdateDomain200Response extends Htt
 }
 
 // @public
-export interface CloudServicesUpdateDomainGetUpdateDomaindefaultResponse extends HttpResponse {
+export interface CloudServicesUpdateDomainGetUpdateDomainDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2400,7 +2400,7 @@ export interface CloudServicesUpdateDomainGetUpdateDomainQueryParamProperties {
 
 // @public (undocumented)
 export interface CloudServicesUpdateDomainListUpdateDomains {
-    get(options: CloudServicesUpdateDomainListUpdateDomainsParameters): StreamableMethod<CloudServicesUpdateDomainListUpdateDomains200Response | CloudServicesUpdateDomainListUpdateDomainsdefaultResponse>;
+    get(options: CloudServicesUpdateDomainListUpdateDomainsParameters): StreamableMethod<CloudServicesUpdateDomainListUpdateDomains200Response | CloudServicesUpdateDomainListUpdateDomainsDefaultResponse>;
 }
 
 // @public
@@ -2412,7 +2412,7 @@ export interface CloudServicesUpdateDomainListUpdateDomains200Response extends H
 }
 
 // @public
-export interface CloudServicesUpdateDomainListUpdateDomainsdefaultResponse extends HttpResponse {
+export interface CloudServicesUpdateDomainListUpdateDomainsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2435,8 +2435,8 @@ export interface CloudServicesUpdateDomainListUpdateDomainsQueryParamProperties 
 
 // @public (undocumented)
 export interface CloudServicesUpdateDomainWalkUpdateDomain {
-    get(options: CloudServicesUpdateDomainGetUpdateDomainParameters): StreamableMethod<CloudServicesUpdateDomainGetUpdateDomain200Response | CloudServicesUpdateDomainGetUpdateDomaindefaultResponse>;
-    put(options: CloudServicesUpdateDomainWalkUpdateDomainParameters): StreamableMethod<CloudServicesUpdateDomainWalkUpdateDomain200Response | CloudServicesUpdateDomainWalkUpdateDomain202Response | CloudServicesUpdateDomainWalkUpdateDomaindefaultResponse>;
+    get(options: CloudServicesUpdateDomainGetUpdateDomainParameters): StreamableMethod<CloudServicesUpdateDomainGetUpdateDomain200Response | CloudServicesUpdateDomainGetUpdateDomainDefaultResponse>;
+    put(options: CloudServicesUpdateDomainWalkUpdateDomainParameters): StreamableMethod<CloudServicesUpdateDomainWalkUpdateDomain200Response | CloudServicesUpdateDomainWalkUpdateDomain202Response | CloudServicesUpdateDomainWalkUpdateDomainDefaultResponse>;
 }
 
 // @public
@@ -2461,7 +2461,7 @@ export interface CloudServicesUpdateDomainWalkUpdateDomainBodyParam {
 }
 
 // @public
-export interface CloudServicesUpdateDomainWalkUpdateDomaindefaultResponse extends HttpResponse {
+export interface CloudServicesUpdateDomainWalkUpdateDomainDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2511,35 +2511,35 @@ export interface CloudServiceUpdate {
     tags?: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceVaultAndSecretReference {
     secretUrl?: string;
     sourceVault?: SubResource;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceVaultAndSecretReferenceOutput {
     secretUrl?: string;
     sourceVault?: SubResourceOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceVaultCertificate {
     certificateUrl?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceVaultCertificateOutput {
     certificateUrl?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceVaultSecretGroup {
     sourceVault?: SubResource;
     vaultCertificates?: Array<CloudServiceVaultCertificate>;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceVaultSecretGroupOutput {
     sourceVault?: SubResourceOutput;
     vaultCertificates?: Array<CloudServiceVaultCertificateOutput>;
@@ -2547,7 +2547,7 @@ export interface CloudServiceVaultSecretGroupOutput {
 
 // @public (undocumented)
 export interface CommunityGalleriesGet {
-    get(options: CommunityGalleriesGetParameters): StreamableMethod<CommunityGalleriesGet200Response | CommunityGalleriesGetdefaultResponse>;
+    get(options: CommunityGalleriesGetParameters): StreamableMethod<CommunityGalleriesGet200Response | CommunityGalleriesGetDefaultResponse>;
 }
 
 // @public
@@ -2559,7 +2559,7 @@ export interface CommunityGalleriesGet200Response extends HttpResponse {
 }
 
 // @public
-export interface CommunityGalleriesGetdefaultResponse extends HttpResponse {
+export interface CommunityGalleriesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2580,23 +2580,23 @@ export interface CommunityGalleriesGetQueryParamProperties {
     "api-version": "2022-01-03";
 }
 
-// @public (undocumented)
+// @public
 export interface CommunityGalleryIdentifierOutput {
     uniqueId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CommunityGalleryImageListOutput {
     nextLink?: string;
     value: Array<CommunityGalleryImageOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface CommunityGalleryImageOutput extends PirCommunityGalleryResourceOutput {
     properties?: CommunityGalleryImagePropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface CommunityGalleryImagePropertiesOutput {
     architecture?: "x64" | "Arm64";
     disallowed?: DisallowedOutput;
@@ -2614,7 +2614,7 @@ export interface CommunityGalleryImagePropertiesOutput {
 
 // @public (undocumented)
 export interface CommunityGalleryImagesGet {
-    get(options: CommunityGalleryImagesGetParameters): StreamableMethod<CommunityGalleryImagesGet200Response | CommunityGalleryImagesGetdefaultResponse>;
+    get(options: CommunityGalleryImagesGetParameters): StreamableMethod<CommunityGalleryImagesGet200Response | CommunityGalleryImagesGetDefaultResponse>;
 }
 
 // @public
@@ -2626,7 +2626,7 @@ export interface CommunityGalleryImagesGet200Response extends HttpResponse {
 }
 
 // @public
-export interface CommunityGalleryImagesGetdefaultResponse extends HttpResponse {
+export interface CommunityGalleryImagesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2649,7 +2649,7 @@ export interface CommunityGalleryImagesGetQueryParamProperties {
 
 // @public (undocumented)
 export interface CommunityGalleryImagesList {
-    get(options: CommunityGalleryImagesListParameters): StreamableMethod<CommunityGalleryImagesList200Response | CommunityGalleryImagesListdefaultResponse>;
+    get(options: CommunityGalleryImagesListParameters): StreamableMethod<CommunityGalleryImagesList200Response | CommunityGalleryImagesListDefaultResponse>;
 }
 
 // @public
@@ -2661,7 +2661,7 @@ export interface CommunityGalleryImagesList200Response extends HttpResponse {
 }
 
 // @public
-export interface CommunityGalleryImagesListdefaultResponse extends HttpResponse {
+export interface CommunityGalleryImagesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2682,18 +2682,18 @@ export interface CommunityGalleryImagesListQueryParamProperties {
     "api-version": "2022-01-03";
 }
 
-// @public (undocumented)
+// @public
 export interface CommunityGalleryImageVersionListOutput {
     nextLink?: string;
     value: Array<CommunityGalleryImageVersionOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface CommunityGalleryImageVersionOutput extends PirCommunityGalleryResourceOutput {
     properties?: CommunityGalleryImageVersionPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface CommunityGalleryImageVersionPropertiesOutput {
     endOfLifeDate?: string;
     excludeFromLatest?: boolean;
@@ -2703,7 +2703,7 @@ export interface CommunityGalleryImageVersionPropertiesOutput {
 
 // @public (undocumented)
 export interface CommunityGalleryImageVersionsGet {
-    get(options: CommunityGalleryImageVersionsGetParameters): StreamableMethod<CommunityGalleryImageVersionsGet200Response | CommunityGalleryImageVersionsGetdefaultResponse>;
+    get(options: CommunityGalleryImageVersionsGetParameters): StreamableMethod<CommunityGalleryImageVersionsGet200Response | CommunityGalleryImageVersionsGetDefaultResponse>;
 }
 
 // @public
@@ -2715,7 +2715,7 @@ export interface CommunityGalleryImageVersionsGet200Response extends HttpRespons
 }
 
 // @public
-export interface CommunityGalleryImageVersionsGetdefaultResponse extends HttpResponse {
+export interface CommunityGalleryImageVersionsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2738,7 +2738,7 @@ export interface CommunityGalleryImageVersionsGetQueryParamProperties {
 
 // @public (undocumented)
 export interface CommunityGalleryImageVersionsList {
-    get(options: CommunityGalleryImageVersionsListParameters): StreamableMethod<CommunityGalleryImageVersionsList200Response | CommunityGalleryImageVersionsListdefaultResponse>;
+    get(options: CommunityGalleryImageVersionsListParameters): StreamableMethod<CommunityGalleryImageVersionsList200Response | CommunityGalleryImageVersionsListDefaultResponse>;
 }
 
 // @public
@@ -2750,7 +2750,7 @@ export interface CommunityGalleryImageVersionsList200Response extends HttpRespon
 }
 
 // @public
-export interface CommunityGalleryImageVersionsListdefaultResponse extends HttpResponse {
+export interface CommunityGalleryImageVersionsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2771,7 +2771,7 @@ export interface CommunityGalleryImageVersionsListQueryParamProperties {
     "api-version": "2022-01-03";
 }
 
-// @public (undocumented)
+// @public
 export interface CommunityGalleryInfo {
     communityGalleryEnabled?: boolean;
     eula?: string;
@@ -2781,7 +2781,7 @@ export interface CommunityGalleryInfo {
     publisherUri?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CommunityGalleryInfoOutput {
     communityGalleryEnabled?: boolean;
     eula?: string;
@@ -2791,7 +2791,7 @@ export interface CommunityGalleryInfoOutput {
     publisherUri?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CommunityGalleryOutput extends PirCommunityGalleryResourceOutput {
 }
 
@@ -2800,12 +2800,12 @@ export type ComputeManagementClient = Client & {
     path: Routes;
 };
 
-// @public (undocumented)
+// @public
 export interface ComputeOperationListResultOutput {
     value?: Array<ComputeOperationValueOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ComputeOperationValueDisplayOutput {
     description?: string;
     operation?: string;
@@ -2813,30 +2813,30 @@ export interface ComputeOperationValueDisplayOutput {
     resource?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ComputeOperationValueOutput {
     display?: ComputeOperationValueDisplayOutput;
     name?: string;
     origin?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CopyCompletionError {
     errorCode: "CopySourceNotFound";
     errorMessage: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CopyCompletionErrorOutput {
     errorCode: "CopySourceNotFound";
     errorMessage: string;
 }
 
-// @public (undocumented)
+// @public
 function createClient(credentials: TokenCredential, options?: ClientOptions): ComputeManagementClient;
 export default createClient;
 
-// @public (undocumented)
+// @public
 export interface CreationData {
     createOption: "Empty" | "Attach" | "FromImage" | "Import" | "Copy" | "Restore" | "Upload" | "CopyStart" | "ImportSecure" | "UploadPreparedSecure";
     galleryImageReference?: ImageDiskReference;
@@ -2851,7 +2851,7 @@ export interface CreationData {
     uploadSizeBytes?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface CreationDataOutput {
     createOption: "Empty" | "Attach" | "FromImage" | "Import" | "Copy" | "Restore" | "Upload" | "CopyStart" | "ImportSecure" | "UploadPreparedSecure";
     galleryImageReference?: ImageDiskReferenceOutput;
@@ -2866,7 +2866,7 @@ export interface CreationDataOutput {
     uploadSizeBytes?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface DataDisk {
     caching?: "None" | "ReadOnly" | "ReadWrite";
     createOption: "FromImage" | "Empty" | "Attach";
@@ -2884,27 +2884,27 @@ export interface DataDisk {
     writeAcceleratorEnabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface DataDiskImage {
     lun?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface DataDiskImageEncryption extends DiskImageEncryption {
     lun: number;
 }
 
-// @public (undocumented)
+// @public
 export interface DataDiskImageEncryptionOutput extends DiskImageEncryptionOutput {
     lun: number;
 }
 
-// @public (undocumented)
+// @public
 export interface DataDiskImageOutput {
     lun?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface DataDiskOutput {
     caching?: "None" | "ReadOnly" | "ReadWrite";
     createOption: "FromImage" | "Empty" | "Attach";
@@ -2922,35 +2922,35 @@ export interface DataDiskOutput {
     writeAcceleratorEnabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHost extends Resource {
     properties?: DedicatedHostProperties;
     sku: Sku;
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostAllocatableVM {
     count?: number;
     vmSize?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostAllocatableVMOutput {
     count?: number;
     vmSize?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostAvailableCapacity {
     allocatableVMs?: Array<DedicatedHostAllocatableVM>;
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostAvailableCapacityOutput {
     allocatableVMs?: Array<DedicatedHostAllocatableVMOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostGroup extends Resource {
     properties?: DedicatedHostGroupProperties;
     zones?: Array<string>;
@@ -2966,19 +2966,19 @@ export interface DedicatedHostGroupInstanceViewOutput {
     hosts?: Array<DedicatedHostInstanceViewWithNameOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostGroupListResultOutput {
     nextLink?: string;
     value: Array<DedicatedHostGroupOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostGroupOutput extends ResourceOutput {
     properties?: DedicatedHostGroupPropertiesOutput;
     zones?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostGroupProperties {
     additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilities;
     hosts?: Array<SubResourceReadOnly>;
@@ -2987,17 +2987,17 @@ export interface DedicatedHostGroupProperties {
     supportAutomaticPlacement?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostGroupPropertiesAdditionalCapabilities {
     ultraSSDEnabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostGroupPropertiesAdditionalCapabilitiesOutput {
     ultraSSDEnabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostGroupPropertiesOutput {
     additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilitiesOutput;
     hosts?: Array<SubResourceReadOnlyOutput>;
@@ -3008,10 +3008,10 @@ export interface DedicatedHostGroupPropertiesOutput {
 
 // @public (undocumented)
 export interface DedicatedHostGroupsCreateOrUpdate {
-    delete(options: DedicatedHostGroupsDeleteParameters): StreamableMethod<DedicatedHostGroupsDelete200Response | DedicatedHostGroupsDelete204Response | DedicatedHostGroupsDeletedefaultResponse>;
-    get(options: DedicatedHostGroupsGetParameters): StreamableMethod<DedicatedHostGroupsGet200Response | DedicatedHostGroupsGetdefaultResponse>;
-    patch(options: DedicatedHostGroupsUpdateParameters): StreamableMethod<DedicatedHostGroupsUpdate200Response | DedicatedHostGroupsUpdatedefaultResponse>;
-    put(options: DedicatedHostGroupsCreateOrUpdateParameters): StreamableMethod<DedicatedHostGroupsCreateOrUpdate200Response | DedicatedHostGroupsCreateOrUpdate201Response | DedicatedHostGroupsCreateOrUpdatedefaultResponse>;
+    delete(options: DedicatedHostGroupsDeleteParameters): StreamableMethod<DedicatedHostGroupsDelete200Response | DedicatedHostGroupsDelete204Response | DedicatedHostGroupsDeleteDefaultResponse>;
+    get(options: DedicatedHostGroupsGetParameters): StreamableMethod<DedicatedHostGroupsGet200Response | DedicatedHostGroupsGetDefaultResponse>;
+    patch(options: DedicatedHostGroupsUpdateParameters): StreamableMethod<DedicatedHostGroupsUpdate200Response | DedicatedHostGroupsUpdateDefaultResponse>;
+    put(options: DedicatedHostGroupsCreateOrUpdateParameters): StreamableMethod<DedicatedHostGroupsCreateOrUpdate200Response | DedicatedHostGroupsCreateOrUpdate201Response | DedicatedHostGroupsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -3036,7 +3036,7 @@ export interface DedicatedHostGroupsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface DedicatedHostGroupsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface DedicatedHostGroupsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3079,7 +3079,7 @@ export interface DedicatedHostGroupsDelete204Response extends HttpResponse {
 }
 
 // @public
-export interface DedicatedHostGroupsDeletedefaultResponse extends HttpResponse {
+export interface DedicatedHostGroupsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3109,7 +3109,7 @@ export interface DedicatedHostGroupsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface DedicatedHostGroupsGetdefaultResponse extends HttpResponse {
+export interface DedicatedHostGroupsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3133,7 +3133,7 @@ export interface DedicatedHostGroupsGetQueryParamProperties {
 
 // @public (undocumented)
 export interface DedicatedHostGroupsListByResourceGroup {
-    get(options: DedicatedHostGroupsListByResourceGroupParameters): StreamableMethod<DedicatedHostGroupsListByResourceGroup200Response | DedicatedHostGroupsListByResourceGroupdefaultResponse>;
+    get(options: DedicatedHostGroupsListByResourceGroupParameters): StreamableMethod<DedicatedHostGroupsListByResourceGroup200Response | DedicatedHostGroupsListByResourceGroupDefaultResponse>;
 }
 
 // @public
@@ -3145,7 +3145,7 @@ export interface DedicatedHostGroupsListByResourceGroup200Response extends HttpR
 }
 
 // @public
-export interface DedicatedHostGroupsListByResourceGroupdefaultResponse extends HttpResponse {
+export interface DedicatedHostGroupsListByResourceGroupDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3168,7 +3168,7 @@ export interface DedicatedHostGroupsListByResourceGroupQueryParamProperties {
 
 // @public (undocumented)
 export interface DedicatedHostGroupsListBySubscription {
-    get(options: DedicatedHostGroupsListBySubscriptionParameters): StreamableMethod<DedicatedHostGroupsListBySubscription200Response | DedicatedHostGroupsListBySubscriptiondefaultResponse>;
+    get(options: DedicatedHostGroupsListBySubscriptionParameters): StreamableMethod<DedicatedHostGroupsListBySubscription200Response | DedicatedHostGroupsListBySubscriptionDefaultResponse>;
 }
 
 // @public
@@ -3180,7 +3180,7 @@ export interface DedicatedHostGroupsListBySubscription200Response extends HttpRe
 }
 
 // @public
-export interface DedicatedHostGroupsListBySubscriptiondefaultResponse extends HttpResponse {
+export interface DedicatedHostGroupsListBySubscriptionDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3215,7 +3215,7 @@ export interface DedicatedHostGroupsUpdateBodyParam {
 }
 
 // @public
-export interface DedicatedHostGroupsUpdatedefaultResponse extends HttpResponse {
+export interface DedicatedHostGroupsUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3241,49 +3241,49 @@ export interface DedicatedHostGroupsUpdateQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostGroupUpdate extends UpdateResource {
     properties?: DedicatedHostGroupProperties;
     zones?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostInstanceView {
     assetId?: string;
     availableCapacity?: DedicatedHostAvailableCapacity;
     statuses?: Array<InstanceViewStatus>;
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostInstanceViewOutput {
     assetId?: string;
     availableCapacity?: DedicatedHostAvailableCapacityOutput;
     statuses?: Array<InstanceViewStatusOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostInstanceViewWithName extends DedicatedHostInstanceView {
     name?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostInstanceViewWithNameOutput extends DedicatedHostInstanceViewOutput {
     name?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostListResultOutput {
     nextLink?: string;
     value: Array<DedicatedHostOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostOutput extends ResourceOutput {
     properties?: DedicatedHostPropertiesOutput;
     sku: SkuOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostProperties {
     autoReplaceOnFailure?: boolean;
     hostId?: string;
@@ -3296,7 +3296,7 @@ export interface DedicatedHostProperties {
     virtualMachines?: Array<SubResourceReadOnly>;
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostPropertiesOutput {
     autoReplaceOnFailure?: boolean;
     hostId?: string;
@@ -3311,10 +3311,10 @@ export interface DedicatedHostPropertiesOutput {
 
 // @public (undocumented)
 export interface DedicatedHostsCreateOrUpdate {
-    delete(options: DedicatedHostsDeleteParameters): StreamableMethod<DedicatedHostsDelete200Response | DedicatedHostsDelete202Response | DedicatedHostsDelete204Response | DedicatedHostsDeletedefaultResponse>;
-    get(options: DedicatedHostsGetParameters): StreamableMethod<DedicatedHostsGet200Response | DedicatedHostsGetdefaultResponse>;
-    patch(options: DedicatedHostsUpdateParameters): StreamableMethod<DedicatedHostsUpdate200Response | DedicatedHostsUpdatedefaultResponse>;
-    put(options: DedicatedHostsCreateOrUpdateParameters): StreamableMethod<DedicatedHostsCreateOrUpdate200Response | DedicatedHostsCreateOrUpdate201Response | DedicatedHostsCreateOrUpdatedefaultResponse>;
+    delete(options: DedicatedHostsDeleteParameters): StreamableMethod<DedicatedHostsDelete200Response | DedicatedHostsDelete202Response | DedicatedHostsDelete204Response | DedicatedHostsDeleteDefaultResponse>;
+    get(options: DedicatedHostsGetParameters): StreamableMethod<DedicatedHostsGet200Response | DedicatedHostsGetDefaultResponse>;
+    patch(options: DedicatedHostsUpdateParameters): StreamableMethod<DedicatedHostsUpdate200Response | DedicatedHostsUpdateDefaultResponse>;
+    put(options: DedicatedHostsCreateOrUpdateParameters): StreamableMethod<DedicatedHostsCreateOrUpdate200Response | DedicatedHostsCreateOrUpdate201Response | DedicatedHostsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -3339,7 +3339,7 @@ export interface DedicatedHostsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface DedicatedHostsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface DedicatedHostsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3390,7 +3390,7 @@ export interface DedicatedHostsDelete204Response extends HttpResponse {
 }
 
 // @public
-export interface DedicatedHostsDeletedefaultResponse extends HttpResponse {
+export interface DedicatedHostsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3420,7 +3420,7 @@ export interface DedicatedHostsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface DedicatedHostsGetdefaultResponse extends HttpResponse {
+export interface DedicatedHostsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3444,7 +3444,7 @@ export interface DedicatedHostsGetQueryParamProperties {
 
 // @public (undocumented)
 export interface DedicatedHostsListByHostGroup {
-    get(options: DedicatedHostsListByHostGroupParameters): StreamableMethod<DedicatedHostsListByHostGroup200Response | DedicatedHostsListByHostGroupdefaultResponse>;
+    get(options: DedicatedHostsListByHostGroupParameters): StreamableMethod<DedicatedHostsListByHostGroup200Response | DedicatedHostsListByHostGroupDefaultResponse>;
 }
 
 // @public
@@ -3456,7 +3456,7 @@ export interface DedicatedHostsListByHostGroup200Response extends HttpResponse {
 }
 
 // @public
-export interface DedicatedHostsListByHostGroupdefaultResponse extends HttpResponse {
+export interface DedicatedHostsListByHostGroupDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3479,7 +3479,7 @@ export interface DedicatedHostsListByHostGroupQueryParamProperties {
 
 // @public (undocumented)
 export interface DedicatedHostsRestart {
-    post(options: DedicatedHostsRestartParameters): StreamableMethod<DedicatedHostsRestart200Response | DedicatedHostsRestartdefaultResponse>;
+    post(options: DedicatedHostsRestartParameters): StreamableMethod<DedicatedHostsRestart200Response | DedicatedHostsRestartDefaultResponse>;
 }
 
 // @public
@@ -3491,7 +3491,7 @@ export interface DedicatedHostsRestart200Response extends HttpResponse {
 }
 
 // @public
-export interface DedicatedHostsRestartdefaultResponse extends HttpResponse {
+export interface DedicatedHostsRestartDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3526,7 +3526,7 @@ export interface DedicatedHostsUpdateBodyParam {
 }
 
 // @public
-export interface DedicatedHostsUpdatedefaultResponse extends HttpResponse {
+export interface DedicatedHostsUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3552,54 +3552,54 @@ export interface DedicatedHostsUpdateQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface DedicatedHostUpdate extends UpdateResource {
     properties?: DedicatedHostProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface DiagnosticsProfile {
     bootDiagnostics?: BootDiagnostics;
 }
 
-// @public (undocumented)
+// @public
 export interface DiagnosticsProfileOutput {
     bootDiagnostics?: BootDiagnosticsOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface DiffDiskSettings {
     option?: "Local";
     placement?: "CacheDisk" | "ResourceDisk";
 }
 
-// @public (undocumented)
+// @public
 export interface DiffDiskSettingsOutput {
     option?: "Local";
     placement?: "CacheDisk" | "ResourceDisk";
 }
 
-// @public (undocumented)
+// @public
 export interface Disallowed {
     diskTypes?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface DisallowedConfiguration {
     vmDiskType?: "None" | "Unmanaged";
 }
 
-// @public (undocumented)
+// @public
 export interface DisallowedConfigurationOutput {
     vmDiskType?: "None" | "Unmanaged";
 }
 
-// @public (undocumented)
+// @public
 export interface DisallowedOutput {
     diskTypes?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface Disk extends Resource {
     extendedLocation?: ExtendedLocation;
     managedBy?: string;
@@ -3609,7 +3609,7 @@ export interface Disk extends Resource {
     zones?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskAccess extends Resource {
     extendedLocation?: ExtendedLocation;
     // (undocumented)
@@ -3618,10 +3618,10 @@ export interface DiskAccess extends Resource {
 
 // @public (undocumented)
 export interface DiskAccessesCreateOrUpdate {
-    delete(options: DiskAccessesDeleteParameters): StreamableMethod<DiskAccessesDelete200Response | DiskAccessesDelete202Response | DiskAccessesDelete204Response | DiskAccessesDeletedefaultResponse>;
-    get(options: DiskAccessesGetParameters): StreamableMethod<DiskAccessesGet200Response | DiskAccessesGetdefaultResponse>;
-    patch(options: DiskAccessesUpdateParameters): StreamableMethod<DiskAccessesUpdate200Response | DiskAccessesUpdate202Response | DiskAccessesUpdatedefaultResponse>;
-    put(options: DiskAccessesCreateOrUpdateParameters): StreamableMethod<DiskAccessesCreateOrUpdate200Response | DiskAccessesCreateOrUpdate202Response | DiskAccessesCreateOrUpdatedefaultResponse>;
+    delete(options: DiskAccessesDeleteParameters): StreamableMethod<DiskAccessesDelete200Response | DiskAccessesDelete202Response | DiskAccessesDelete204Response | DiskAccessesDeleteDefaultResponse>;
+    get(options: DiskAccessesGetParameters): StreamableMethod<DiskAccessesGet200Response | DiskAccessesGetDefaultResponse>;
+    patch(options: DiskAccessesUpdateParameters): StreamableMethod<DiskAccessesUpdate200Response | DiskAccessesUpdate202Response | DiskAccessesUpdateDefaultResponse>;
+    put(options: DiskAccessesCreateOrUpdateParameters): StreamableMethod<DiskAccessesCreateOrUpdate200Response | DiskAccessesCreateOrUpdate202Response | DiskAccessesCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -3646,7 +3646,7 @@ export interface DiskAccessesCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface DiskAccessesCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface DiskAccessesCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3721,7 +3721,7 @@ export interface DiskAccessesDeleteAPrivateEndpointConnection204Response extends
 }
 
 // @public
-export interface DiskAccessesDeleteAPrivateEndpointConnectiondefaultResponse extends HttpResponse {
+export interface DiskAccessesDeleteAPrivateEndpointConnectionDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3743,7 +3743,7 @@ export interface DiskAccessesDeleteAPrivateEndpointConnectionQueryParamPropertie
 }
 
 // @public
-export interface DiskAccessesDeletedefaultResponse extends HttpResponse {
+export interface DiskAccessesDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3781,7 +3781,7 @@ export interface DiskAccessesGetAPrivateEndpointConnection200Response extends Ht
 }
 
 // @public
-export interface DiskAccessesGetAPrivateEndpointConnectiondefaultResponse extends HttpResponse {
+export interface DiskAccessesGetAPrivateEndpointConnectionDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3803,7 +3803,7 @@ export interface DiskAccessesGetAPrivateEndpointConnectionQueryParamProperties {
 }
 
 // @public
-export interface DiskAccessesGetdefaultResponse extends HttpResponse {
+export interface DiskAccessesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3853,7 +3853,7 @@ export interface DiskAccessesGetQueryParamProperties {
 
 // @public (undocumented)
 export interface DiskAccessesList {
-    get(options: DiskAccessesListParameters): StreamableMethod<DiskAccessesList200Response | DiskAccessesListdefaultResponse>;
+    get(options: DiskAccessesListParameters): StreamableMethod<DiskAccessesList200Response | DiskAccessesListDefaultResponse>;
 }
 
 // @public
@@ -3866,7 +3866,7 @@ export interface DiskAccessesList200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface DiskAccessesListByResourceGroup {
-    get(options: DiskAccessesListByResourceGroupParameters): StreamableMethod<DiskAccessesListByResourceGroup200Response | DiskAccessesListByResourceGroupdefaultResponse>;
+    get(options: DiskAccessesListByResourceGroupParameters): StreamableMethod<DiskAccessesListByResourceGroup200Response | DiskAccessesListByResourceGroupDefaultResponse>;
 }
 
 // @public
@@ -3878,7 +3878,7 @@ export interface DiskAccessesListByResourceGroup200Response extends HttpResponse
 }
 
 // @public
-export interface DiskAccessesListByResourceGroupdefaultResponse extends HttpResponse {
+export interface DiskAccessesListByResourceGroupDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3900,7 +3900,7 @@ export interface DiskAccessesListByResourceGroupQueryParamProperties {
 }
 
 // @public
-export interface DiskAccessesListdefaultResponse extends HttpResponse {
+export interface DiskAccessesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3912,7 +3912,7 @@ export type DiskAccessesListParameters = DiskAccessesListQueryParam & RequestPar
 
 // @public (undocumented)
 export interface DiskAccessesListPrivateEndpointConnections {
-    get(options: DiskAccessesListPrivateEndpointConnectionsParameters): StreamableMethod<DiskAccessesListPrivateEndpointConnections200Response | DiskAccessesListPrivateEndpointConnectionsdefaultResponse>;
+    get(options: DiskAccessesListPrivateEndpointConnectionsParameters): StreamableMethod<DiskAccessesListPrivateEndpointConnections200Response | DiskAccessesListPrivateEndpointConnectionsDefaultResponse>;
 }
 
 // @public
@@ -3924,7 +3924,7 @@ export interface DiskAccessesListPrivateEndpointConnections200Response extends H
 }
 
 // @public
-export interface DiskAccessesListPrivateEndpointConnectionsdefaultResponse extends HttpResponse {
+export interface DiskAccessesListPrivateEndpointConnectionsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3974,9 +3974,9 @@ export interface DiskAccessesUpdate202Response extends HttpResponse {
 
 // @public (undocumented)
 export interface DiskAccessesUpdateAPrivateEndpointConnection {
-    delete(options: DiskAccessesDeleteAPrivateEndpointConnectionParameters): StreamableMethod<DiskAccessesDeleteAPrivateEndpointConnection200Response | DiskAccessesDeleteAPrivateEndpointConnection202Response | DiskAccessesDeleteAPrivateEndpointConnection204Response | DiskAccessesDeleteAPrivateEndpointConnectiondefaultResponse>;
-    get(options: DiskAccessesGetAPrivateEndpointConnectionParameters): StreamableMethod<DiskAccessesGetAPrivateEndpointConnection200Response | DiskAccessesGetAPrivateEndpointConnectiondefaultResponse>;
-    put(options: DiskAccessesUpdateAPrivateEndpointConnectionParameters): StreamableMethod<DiskAccessesUpdateAPrivateEndpointConnection200Response | DiskAccessesUpdateAPrivateEndpointConnection202Response | DiskAccessesUpdateAPrivateEndpointConnectiondefaultResponse>;
+    delete(options: DiskAccessesDeleteAPrivateEndpointConnectionParameters): StreamableMethod<DiskAccessesDeleteAPrivateEndpointConnection200Response | DiskAccessesDeleteAPrivateEndpointConnection202Response | DiskAccessesDeleteAPrivateEndpointConnection204Response | DiskAccessesDeleteAPrivateEndpointConnectionDefaultResponse>;
+    get(options: DiskAccessesGetAPrivateEndpointConnectionParameters): StreamableMethod<DiskAccessesGetAPrivateEndpointConnection200Response | DiskAccessesGetAPrivateEndpointConnectionDefaultResponse>;
+    put(options: DiskAccessesUpdateAPrivateEndpointConnectionParameters): StreamableMethod<DiskAccessesUpdateAPrivateEndpointConnection200Response | DiskAccessesUpdateAPrivateEndpointConnection202Response | DiskAccessesUpdateAPrivateEndpointConnectionDefaultResponse>;
 }
 
 // @public
@@ -4001,7 +4001,7 @@ export interface DiskAccessesUpdateAPrivateEndpointConnectionBodyParam {
 }
 
 // @public
-export interface DiskAccessesUpdateAPrivateEndpointConnectiondefaultResponse extends HttpResponse {
+export interface DiskAccessesUpdateAPrivateEndpointConnectionDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -4033,7 +4033,7 @@ export interface DiskAccessesUpdateBodyParam {
 }
 
 // @public
-export interface DiskAccessesUpdatedefaultResponse extends HttpResponse {
+export interface DiskAccessesUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -4059,13 +4059,13 @@ export interface DiskAccessesUpdateQueryParamProperties {
     "api-version": "2022-07-02";
 }
 
-// @public (undocumented)
+// @public
 export interface DiskAccessListOutput {
     nextLink?: string;
     value: Array<DiskAccessOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskAccessOutput extends ResourceOutput {
     extendedLocation?: ExtendedLocationOutput;
     // (undocumented)
@@ -4086,45 +4086,45 @@ export interface DiskAccessPropertiesOutput {
     timeCreated?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskAccessUpdate {
     tags?: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskEncryptionSet extends Resource {
     identity?: EncryptionSetIdentity;
     // (undocumented)
     properties?: EncryptionSetProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskEncryptionSetListOutput {
     nextLink?: string;
     value: Array<DiskEncryptionSetOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskEncryptionSetOutput extends ResourceOutput {
     identity?: EncryptionSetIdentityOutput;
     // (undocumented)
     properties?: EncryptionSetPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskEncryptionSetParameters extends SubResource {
 }
 
-// @public (undocumented)
+// @public
 export interface DiskEncryptionSetParametersOutput extends SubResourceOutput {
 }
 
 // @public (undocumented)
 export interface DiskEncryptionSetsCreateOrUpdate {
-    delete(options: DiskEncryptionSetsDeleteParameters): StreamableMethod<DiskEncryptionSetsDelete200Response | DiskEncryptionSetsDelete202Response | DiskEncryptionSetsDelete204Response | DiskEncryptionSetsDeletedefaultResponse>;
-    get(options: DiskEncryptionSetsGetParameters): StreamableMethod<DiskEncryptionSetsGet200Response | DiskEncryptionSetsGetdefaultResponse>;
-    patch(options: DiskEncryptionSetsUpdateParameters): StreamableMethod<DiskEncryptionSetsUpdate200Response | DiskEncryptionSetsUpdate202Response | DiskEncryptionSetsUpdatedefaultResponse>;
-    put(options: DiskEncryptionSetsCreateOrUpdateParameters): StreamableMethod<DiskEncryptionSetsCreateOrUpdate200Response | DiskEncryptionSetsCreateOrUpdate202Response | DiskEncryptionSetsCreateOrUpdatedefaultResponse>;
+    delete(options: DiskEncryptionSetsDeleteParameters): StreamableMethod<DiskEncryptionSetsDelete200Response | DiskEncryptionSetsDelete202Response | DiskEncryptionSetsDelete204Response | DiskEncryptionSetsDeleteDefaultResponse>;
+    get(options: DiskEncryptionSetsGetParameters): StreamableMethod<DiskEncryptionSetsGet200Response | DiskEncryptionSetsGetDefaultResponse>;
+    patch(options: DiskEncryptionSetsUpdateParameters): StreamableMethod<DiskEncryptionSetsUpdate200Response | DiskEncryptionSetsUpdate202Response | DiskEncryptionSetsUpdateDefaultResponse>;
+    put(options: DiskEncryptionSetsCreateOrUpdateParameters): StreamableMethod<DiskEncryptionSetsCreateOrUpdate200Response | DiskEncryptionSetsCreateOrUpdate202Response | DiskEncryptionSetsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -4149,7 +4149,7 @@ export interface DiskEncryptionSetsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface DiskEncryptionSetsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface DiskEncryptionSetsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -4200,7 +4200,7 @@ export interface DiskEncryptionSetsDelete204Response extends HttpResponse {
 }
 
 // @public
-export interface DiskEncryptionSetsDeletedefaultResponse extends HttpResponse {
+export interface DiskEncryptionSetsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -4230,7 +4230,7 @@ export interface DiskEncryptionSetsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface DiskEncryptionSetsGetdefaultResponse extends HttpResponse {
+export interface DiskEncryptionSetsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -4253,7 +4253,7 @@ export interface DiskEncryptionSetsGetQueryParamProperties {
 
 // @public (undocumented)
 export interface DiskEncryptionSetsList {
-    get(options: DiskEncryptionSetsListParameters): StreamableMethod<DiskEncryptionSetsList200Response | DiskEncryptionSetsListdefaultResponse>;
+    get(options: DiskEncryptionSetsListParameters): StreamableMethod<DiskEncryptionSetsList200Response | DiskEncryptionSetsListDefaultResponse>;
 }
 
 // @public
@@ -4266,7 +4266,7 @@ export interface DiskEncryptionSetsList200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface DiskEncryptionSetsListAssociatedResources {
-    get(options: DiskEncryptionSetsListAssociatedResourcesParameters): StreamableMethod<DiskEncryptionSetsListAssociatedResources200Response | DiskEncryptionSetsListAssociatedResourcesdefaultResponse>;
+    get(options: DiskEncryptionSetsListAssociatedResourcesParameters): StreamableMethod<DiskEncryptionSetsListAssociatedResources200Response | DiskEncryptionSetsListAssociatedResourcesDefaultResponse>;
 }
 
 // @public
@@ -4278,7 +4278,7 @@ export interface DiskEncryptionSetsListAssociatedResources200Response extends Ht
 }
 
 // @public
-export interface DiskEncryptionSetsListAssociatedResourcesdefaultResponse extends HttpResponse {
+export interface DiskEncryptionSetsListAssociatedResourcesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -4301,7 +4301,7 @@ export interface DiskEncryptionSetsListAssociatedResourcesQueryParamProperties {
 
 // @public (undocumented)
 export interface DiskEncryptionSetsListByResourceGroup {
-    get(options: DiskEncryptionSetsListByResourceGroupParameters): StreamableMethod<DiskEncryptionSetsListByResourceGroup200Response | DiskEncryptionSetsListByResourceGroupdefaultResponse>;
+    get(options: DiskEncryptionSetsListByResourceGroupParameters): StreamableMethod<DiskEncryptionSetsListByResourceGroup200Response | DiskEncryptionSetsListByResourceGroupDefaultResponse>;
 }
 
 // @public
@@ -4313,7 +4313,7 @@ export interface DiskEncryptionSetsListByResourceGroup200Response extends HttpRe
 }
 
 // @public
-export interface DiskEncryptionSetsListByResourceGroupdefaultResponse extends HttpResponse {
+export interface DiskEncryptionSetsListByResourceGroupDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -4335,7 +4335,7 @@ export interface DiskEncryptionSetsListByResourceGroupQueryParamProperties {
 }
 
 // @public
-export interface DiskEncryptionSetsListdefaultResponse extends HttpResponse {
+export interface DiskEncryptionSetsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -4378,7 +4378,7 @@ export interface DiskEncryptionSetsUpdateBodyParam {
 }
 
 // @public
-export interface DiskEncryptionSetsUpdatedefaultResponse extends HttpResponse {
+export interface DiskEncryptionSetsUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -4404,28 +4404,28 @@ export interface DiskEncryptionSetsUpdateQueryParamProperties {
     "api-version": "2022-07-02";
 }
 
-// @public (undocumented)
+// @public
 export interface DiskEncryptionSettings {
     diskEncryptionKey?: KeyVaultSecretReference;
     enabled?: boolean;
     keyEncryptionKey?: KeyVaultKeyReference;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskEncryptionSettingsOutput {
     diskEncryptionKey?: KeyVaultSecretReferenceOutput;
     enabled?: boolean;
     keyEncryptionKey?: KeyVaultKeyReferenceOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskEncryptionSetUpdate {
     identity?: EncryptionSetIdentity;
     properties?: DiskEncryptionSetUpdateProperties;
     tags?: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskEncryptionSetUpdateProperties {
     activeKey?: KeyForDiskEncryptionSet;
     encryptionType?: "EncryptionAtRestWithCustomerKey" | "EncryptionAtRestWithPlatformAndCustomerKeys" | "ConfidentialVmEncryptedWithCustomerKey";
@@ -4433,37 +4433,37 @@ export interface DiskEncryptionSetUpdateProperties {
     rotationToLatestKeyVersionEnabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskImageEncryption {
     diskEncryptionSetId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskImageEncryptionOutput {
     diskEncryptionSetId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskInstanceView {
     encryptionSettings?: Array<DiskEncryptionSettings>;
     name?: string;
     statuses?: Array<InstanceViewStatus>;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskInstanceViewOutput {
     encryptionSettings?: Array<DiskEncryptionSettingsOutput>;
     name?: string;
     statuses?: Array<InstanceViewStatusOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskListOutput {
     nextLink?: string;
     value: Array<DiskOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskOutput extends ResourceOutput {
     extendedLocation?: ExtendedLocationOutput;
     managedBy?: string;
@@ -4473,7 +4473,7 @@ export interface DiskOutput extends ResourceOutput {
     zones?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskProperties {
     burstingEnabled?: boolean;
     burstingEnabledTime?: Date | string;
@@ -4508,7 +4508,7 @@ export interface DiskProperties {
     uniqueId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskPropertiesOutput {
     burstingEnabled?: boolean;
     burstingEnabledTime?: string;
@@ -4545,7 +4545,7 @@ export interface DiskPropertiesOutput {
 
 // @public (undocumented)
 export interface DiskRestorePointGet {
-    get(options: DiskRestorePointGetParameters): StreamableMethod<DiskRestorePointGet200Response | DiskRestorePointGetdefaultResponse>;
+    get(options: DiskRestorePointGetParameters): StreamableMethod<DiskRestorePointGet200Response | DiskRestorePointGetDefaultResponse>;
 }
 
 // @public
@@ -4557,7 +4557,7 @@ export interface DiskRestorePointGet200Response extends HttpResponse {
 }
 
 // @public
-export interface DiskRestorePointGetdefaultResponse extends HttpResponse {
+export interface DiskRestorePointGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -4580,7 +4580,7 @@ export interface DiskRestorePointGetQueryParamProperties {
 
 // @public (undocumented)
 export interface DiskRestorePointGrantAccess {
-    post(options: DiskRestorePointGrantAccessParameters): StreamableMethod<DiskRestorePointGrantAccess200Response | DiskRestorePointGrantAccess202Response | DiskRestorePointGrantAccessdefaultResponse>;
+    post(options: DiskRestorePointGrantAccessParameters): StreamableMethod<DiskRestorePointGrantAccess200Response | DiskRestorePointGrantAccess202Response | DiskRestorePointGrantAccessDefaultResponse>;
 }
 
 // @public
@@ -4605,7 +4605,7 @@ export interface DiskRestorePointGrantAccessBodyParam {
 }
 
 // @public
-export interface DiskRestorePointGrantAccessdefaultResponse extends HttpResponse {
+export interface DiskRestorePointGrantAccessDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -4631,13 +4631,13 @@ export interface DiskRestorePointGrantAccessQueryParamProperties {
     "api-version": "2022-07-02";
 }
 
-// @public (undocumented)
+// @public
 export interface DiskRestorePointInstanceView {
     id?: string;
     replicationStatus?: DiskRestorePointReplicationStatus;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskRestorePointInstanceViewOutput {
     id?: string;
     replicationStatus?: DiskRestorePointReplicationStatusOutput;
@@ -4645,7 +4645,7 @@ export interface DiskRestorePointInstanceViewOutput {
 
 // @public (undocumented)
 export interface DiskRestorePointListByRestorePoint {
-    get(options: DiskRestorePointListByRestorePointParameters): StreamableMethod<DiskRestorePointListByRestorePoint200Response | DiskRestorePointListByRestorePointdefaultResponse>;
+    get(options: DiskRestorePointListByRestorePointParameters): StreamableMethod<DiskRestorePointListByRestorePoint200Response | DiskRestorePointListByRestorePointDefaultResponse>;
 }
 
 // @public
@@ -4657,7 +4657,7 @@ export interface DiskRestorePointListByRestorePoint200Response extends HttpRespo
 }
 
 // @public
-export interface DiskRestorePointListByRestorePointdefaultResponse extends HttpResponse {
+export interface DiskRestorePointListByRestorePointDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -4678,18 +4678,18 @@ export interface DiskRestorePointListByRestorePointQueryParamProperties {
     "api-version": "2022-07-02";
 }
 
-// @public (undocumented)
+// @public
 export interface DiskRestorePointListOutput {
     nextLink?: string;
     value: Array<DiskRestorePointOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskRestorePointOutput extends ProxyOnlyResourceOutput {
     properties?: DiskRestorePointPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskRestorePointPropertiesOutput {
     completionPercent?: number;
     diskAccessId?: string;
@@ -4710,13 +4710,13 @@ export interface DiskRestorePointPropertiesOutput {
     timeCreated?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskRestorePointReplicationStatus {
     completionPercent?: number;
     status?: InstanceViewStatus;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskRestorePointReplicationStatusOutput {
     completionPercent?: number;
     status?: InstanceViewStatusOutput;
@@ -4724,7 +4724,7 @@ export interface DiskRestorePointReplicationStatusOutput {
 
 // @public (undocumented)
 export interface DiskRestorePointRevokeAccess {
-    post(options: DiskRestorePointRevokeAccessParameters): StreamableMethod<DiskRestorePointRevokeAccess200Response | DiskRestorePointRevokeAccess202Response | DiskRestorePointRevokeAccessdefaultResponse>;
+    post(options: DiskRestorePointRevokeAccessParameters): StreamableMethod<DiskRestorePointRevokeAccess200Response | DiskRestorePointRevokeAccess202Response | DiskRestorePointRevokeAccessDefaultResponse>;
 }
 
 // @public
@@ -4744,7 +4744,7 @@ export interface DiskRestorePointRevokeAccess202Response extends HttpResponse {
 }
 
 // @public
-export interface DiskRestorePointRevokeAccessdefaultResponse extends HttpResponse {
+export interface DiskRestorePointRevokeAccessDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -4851,13 +4851,13 @@ export interface DisksDeleteQueryParamProperties {
     "api-version": "2022-07-02";
 }
 
-// @public (undocumented)
+// @public
 export interface DiskSecurityProfile {
     secureVMDiskEncryptionSetId?: string;
     securityType?: "TrustedLaunch" | "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey" | "ConfidentialVM_DiskEncryptedWithPlatformKey" | "ConfidentialVM_DiskEncryptedWithCustomerKey";
 }
 
-// @public (undocumented)
+// @public
 export interface DiskSecurityProfileOutput {
     secureVMDiskEncryptionSetId?: string;
     securityType?: "TrustedLaunch" | "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey" | "ConfidentialVM_DiskEncryptedWithPlatformKey" | "ConfidentialVM_DiskEncryptedWithCustomerKey";
@@ -4930,13 +4930,13 @@ export interface DisksGrantAccessQueryParamProperties {
     "api-version": "2022-07-02";
 }
 
-// @public (undocumented)
+// @public
 export interface DiskSku {
     name?: "Standard_LRS" | "Premium_LRS" | "StandardSSD_LRS" | "UltraSSD_LRS" | "Premium_ZRS" | "StandardSSD_ZRS" | "PremiumV2_LRS";
     tier?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskSkuOutput {
     name?: "Standard_LRS" | "Premium_LRS" | "StandardSSD_LRS" | "UltraSSD_LRS" | "Premium_ZRS" | "StandardSSD_ZRS" | "PremiumV2_LRS";
     tier?: string;
@@ -5071,14 +5071,14 @@ export interface DisksUpdateQueryParamProperties {
     "api-version": "2022-07-02";
 }
 
-// @public (undocumented)
+// @public
 export interface DiskUpdate {
     properties?: DiskUpdateProperties;
     sku?: DiskSku;
     tags?: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export interface DiskUpdateProperties {
     burstingEnabled?: boolean;
     dataAccessAuthMode?: "AzureActiveDirectory" | "None";
@@ -5102,31 +5102,31 @@ export interface DiskUpdateProperties {
     tier?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface Encryption {
     diskEncryptionSetId?: string;
     type?: "EncryptionAtRestWithPlatformKey" | "EncryptionAtRestWithCustomerKey" | "EncryptionAtRestWithPlatformAndCustomerKeys";
 }
 
-// @public (undocumented)
+// @public
 export interface EncryptionImages {
     dataDiskImages?: Array<DataDiskImageEncryption>;
     osDiskImage?: OSDiskImageEncryption;
 }
 
-// @public (undocumented)
+// @public
 export interface EncryptionImagesOutput {
     dataDiskImages?: Array<DataDiskImageEncryptionOutput>;
     osDiskImage?: OSDiskImageEncryptionOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface EncryptionOutput {
     diskEncryptionSetId?: string;
     type?: "EncryptionAtRestWithPlatformKey" | "EncryptionAtRestWithCustomerKey" | "EncryptionAtRestWithPlatformAndCustomerKeys";
 }
 
-// @public (undocumented)
+// @public
 export interface EncryptionSetIdentity {
     principalId?: string;
     tenantId?: string;
@@ -5134,7 +5134,7 @@ export interface EncryptionSetIdentity {
     userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
 }
 
-// @public (undocumented)
+// @public
 export interface EncryptionSetIdentityOutput {
     principalId?: string;
     tenantId?: string;
@@ -5166,51 +5166,51 @@ export interface EncryptionSetPropertiesOutput {
     rotationToLatestKeyVersionEnabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface EncryptionSettingsCollection {
     enabled: boolean;
     encryptionSettings?: Array<EncryptionSettingsElement>;
     encryptionSettingsVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface EncryptionSettingsCollectionOutput {
     enabled: boolean;
     encryptionSettings?: Array<EncryptionSettingsElementOutput>;
     encryptionSettingsVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface EncryptionSettingsElement {
     diskEncryptionKey?: KeyVaultAndSecretReference;
     keyEncryptionKey?: KeyVaultAndKeyReference;
 }
 
-// @public (undocumented)
+// @public
 export interface EncryptionSettingsElementOutput {
     diskEncryptionKey?: KeyVaultAndSecretReferenceOutput;
     keyEncryptionKey?: KeyVaultAndKeyReferenceOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ExtendedLocation {
     name?: string;
     type?: "EdgeZone";
 }
 
-// @public (undocumented)
+// @public
 export interface ExtendedLocationOutput {
     name?: string;
     type?: "EdgeZone";
 }
 
-// @public (undocumented)
+// @public
 export interface Extension {
     name?: string;
     properties?: CloudServiceExtensionProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface ExtensionOutput {
     name?: string;
     properties?: CloudServiceExtensionPropertiesOutput;
@@ -5218,10 +5218,10 @@ export interface ExtensionOutput {
 
 // @public (undocumented)
 export interface GalleriesCreateOrUpdate {
-    delete(options: GalleriesDeleteParameters): StreamableMethod<GalleriesDelete200Response | GalleriesDelete202Response | GalleriesDelete204Response | GalleriesDeletedefaultResponse>;
-    get(options: GalleriesGetParameters): StreamableMethod<GalleriesGet200Response | GalleriesGetdefaultResponse>;
-    patch(options: GalleriesUpdateParameters): StreamableMethod<GalleriesUpdate200Response | GalleriesUpdatedefaultResponse>;
-    put(options: GalleriesCreateOrUpdateParameters): StreamableMethod<GalleriesCreateOrUpdate200Response | GalleriesCreateOrUpdate201Response | GalleriesCreateOrUpdate202Response | GalleriesCreateOrUpdatedefaultResponse>;
+    delete(options: GalleriesDeleteParameters): StreamableMethod<GalleriesDelete200Response | GalleriesDelete202Response | GalleriesDelete204Response | GalleriesDeleteDefaultResponse>;
+    get(options: GalleriesGetParameters): StreamableMethod<GalleriesGet200Response | GalleriesGetDefaultResponse>;
+    patch(options: GalleriesUpdateParameters): StreamableMethod<GalleriesUpdate200Response | GalleriesUpdateDefaultResponse>;
+    put(options: GalleriesCreateOrUpdateParameters): StreamableMethod<GalleriesCreateOrUpdate200Response | GalleriesCreateOrUpdate201Response | GalleriesCreateOrUpdate202Response | GalleriesCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -5254,7 +5254,7 @@ export interface GalleriesCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface GalleriesCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface GalleriesCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -5305,7 +5305,7 @@ export interface GalleriesDelete204Response extends HttpResponse {
 }
 
 // @public
-export interface GalleriesDeletedefaultResponse extends HttpResponse {
+export interface GalleriesDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -5335,7 +5335,7 @@ export interface GalleriesGet200Response extends HttpResponse {
 }
 
 // @public
-export interface GalleriesGetdefaultResponse extends HttpResponse {
+export interface GalleriesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -5360,7 +5360,7 @@ export interface GalleriesGetQueryParamProperties {
 
 // @public (undocumented)
 export interface GalleriesList {
-    get(options: GalleriesListParameters): StreamableMethod<GalleriesList200Response | GalleriesListdefaultResponse>;
+    get(options: GalleriesListParameters): StreamableMethod<GalleriesList200Response | GalleriesListDefaultResponse>;
 }
 
 // @public
@@ -5373,7 +5373,7 @@ export interface GalleriesList200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface GalleriesListByResourceGroup {
-    get(options: GalleriesListByResourceGroupParameters): StreamableMethod<GalleriesListByResourceGroup200Response | GalleriesListByResourceGroupdefaultResponse>;
+    get(options: GalleriesListByResourceGroupParameters): StreamableMethod<GalleriesListByResourceGroup200Response | GalleriesListByResourceGroupDefaultResponse>;
 }
 
 // @public
@@ -5385,7 +5385,7 @@ export interface GalleriesListByResourceGroup200Response extends HttpResponse {
 }
 
 // @public
-export interface GalleriesListByResourceGroupdefaultResponse extends HttpResponse {
+export interface GalleriesListByResourceGroupDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -5407,7 +5407,7 @@ export interface GalleriesListByResourceGroupQueryParamProperties {
 }
 
 // @public
-export interface GalleriesListdefaultResponse extends HttpResponse {
+export interface GalleriesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -5442,7 +5442,7 @@ export interface GalleriesUpdateBodyParam {
 }
 
 // @public
-export interface GalleriesUpdatedefaultResponse extends HttpResponse {
+export interface GalleriesUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -5468,28 +5468,28 @@ export interface GalleriesUpdateQueryParamProperties {
     "api-version": "2022-01-03";
 }
 
-// @public (undocumented)
+// @public
 export interface Gallery extends Resource {
     properties?: GalleryProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryApplication extends Resource {
     properties?: GalleryApplicationProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryApplicationListOutput {
     nextLink?: string;
     value: Array<GalleryApplicationOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryApplicationOutput extends ResourceOutput {
     properties?: GalleryApplicationPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryApplicationProperties {
     description?: string;
     endOfLifeDate?: Date | string;
@@ -5499,7 +5499,7 @@ export interface GalleryApplicationProperties {
     supportedOSType: "Windows" | "Linux";
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryApplicationPropertiesOutput {
     description?: string;
     endOfLifeDate?: string;
@@ -5511,10 +5511,10 @@ export interface GalleryApplicationPropertiesOutput {
 
 // @public (undocumented)
 export interface GalleryApplicationsCreateOrUpdate {
-    delete(options: GalleryApplicationsDeleteParameters): StreamableMethod<GalleryApplicationsDelete200Response | GalleryApplicationsDelete202Response | GalleryApplicationsDelete204Response | GalleryApplicationsDeletedefaultResponse>;
-    get(options: GalleryApplicationsGetParameters): StreamableMethod<GalleryApplicationsGet200Response | GalleryApplicationsGetdefaultResponse>;
-    patch(options: GalleryApplicationsUpdateParameters): StreamableMethod<GalleryApplicationsUpdate200Response | GalleryApplicationsUpdatedefaultResponse>;
-    put(options: GalleryApplicationsCreateOrUpdateParameters): StreamableMethod<GalleryApplicationsCreateOrUpdate200Response | GalleryApplicationsCreateOrUpdate201Response | GalleryApplicationsCreateOrUpdate202Response | GalleryApplicationsCreateOrUpdatedefaultResponse>;
+    delete(options: GalleryApplicationsDeleteParameters): StreamableMethod<GalleryApplicationsDelete200Response | GalleryApplicationsDelete202Response | GalleryApplicationsDelete204Response | GalleryApplicationsDeleteDefaultResponse>;
+    get(options: GalleryApplicationsGetParameters): StreamableMethod<GalleryApplicationsGet200Response | GalleryApplicationsGetDefaultResponse>;
+    patch(options: GalleryApplicationsUpdateParameters): StreamableMethod<GalleryApplicationsUpdate200Response | GalleryApplicationsUpdateDefaultResponse>;
+    put(options: GalleryApplicationsCreateOrUpdateParameters): StreamableMethod<GalleryApplicationsCreateOrUpdate200Response | GalleryApplicationsCreateOrUpdate201Response | GalleryApplicationsCreateOrUpdate202Response | GalleryApplicationsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -5547,7 +5547,7 @@ export interface GalleryApplicationsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface GalleryApplicationsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface GalleryApplicationsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -5598,7 +5598,7 @@ export interface GalleryApplicationsDelete204Response extends HttpResponse {
 }
 
 // @public
-export interface GalleryApplicationsDeletedefaultResponse extends HttpResponse {
+export interface GalleryApplicationsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -5628,7 +5628,7 @@ export interface GalleryApplicationsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface GalleryApplicationsGetdefaultResponse extends HttpResponse {
+export interface GalleryApplicationsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -5651,7 +5651,7 @@ export interface GalleryApplicationsGetQueryParamProperties {
 
 // @public (undocumented)
 export interface GalleryApplicationsListByGallery {
-    get(options: GalleryApplicationsListByGalleryParameters): StreamableMethod<GalleryApplicationsListByGallery200Response | GalleryApplicationsListByGallerydefaultResponse>;
+    get(options: GalleryApplicationsListByGalleryParameters): StreamableMethod<GalleryApplicationsListByGallery200Response | GalleryApplicationsListByGalleryDefaultResponse>;
 }
 
 // @public
@@ -5663,7 +5663,7 @@ export interface GalleryApplicationsListByGallery200Response extends HttpRespons
 }
 
 // @public
-export interface GalleryApplicationsListByGallerydefaultResponse extends HttpResponse {
+export interface GalleryApplicationsListByGalleryDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -5698,7 +5698,7 @@ export interface GalleryApplicationsUpdateBodyParam {
 }
 
 // @public
-export interface GalleryApplicationsUpdatedefaultResponse extends HttpResponse {
+export interface GalleryApplicationsUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -5724,42 +5724,42 @@ export interface GalleryApplicationsUpdateQueryParamProperties {
     "api-version": "2022-01-03";
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryApplicationUpdate extends UpdateResourceDefinition {
     properties?: GalleryApplicationProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryApplicationVersion extends Resource {
     properties?: GalleryApplicationVersionProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryApplicationVersionListOutput {
     nextLink?: string;
     value: Array<GalleryApplicationVersionOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryApplicationVersionOutput extends ResourceOutput {
     properties?: GalleryApplicationVersionPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryApplicationVersionProperties {
     provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
     publishingProfile: GalleryApplicationVersionPublishingProfile;
     replicationStatus?: ReplicationStatus;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryApplicationVersionPropertiesOutput {
     provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
     publishingProfile: GalleryApplicationVersionPublishingProfileOutput;
     replicationStatus?: ReplicationStatusOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryApplicationVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
     advancedSettings?: Record<string, string>;
     enableHealthCheck?: boolean;
@@ -5769,7 +5769,7 @@ export interface GalleryApplicationVersionPublishingProfile extends GalleryArtif
     source: UserArtifactSource;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryApplicationVersionPublishingProfileOutput extends GalleryArtifactPublishingProfileBaseOutput {
     advancedSettings?: Record<string, string>;
     enableHealthCheck?: boolean;
@@ -5781,10 +5781,10 @@ export interface GalleryApplicationVersionPublishingProfileOutput extends Galler
 
 // @public (undocumented)
 export interface GalleryApplicationVersionsCreateOrUpdate {
-    delete(options: GalleryApplicationVersionsDeleteParameters): StreamableMethod<GalleryApplicationVersionsDelete200Response | GalleryApplicationVersionsDelete202Response | GalleryApplicationVersionsDelete204Response | GalleryApplicationVersionsDeletedefaultResponse>;
-    get(options: GalleryApplicationVersionsGetParameters): StreamableMethod<GalleryApplicationVersionsGet200Response | GalleryApplicationVersionsGetdefaultResponse>;
-    patch(options: GalleryApplicationVersionsUpdateParameters): StreamableMethod<GalleryApplicationVersionsUpdate200Response | GalleryApplicationVersionsUpdatedefaultResponse>;
-    put(options: GalleryApplicationVersionsCreateOrUpdateParameters): StreamableMethod<GalleryApplicationVersionsCreateOrUpdate200Response | GalleryApplicationVersionsCreateOrUpdate201Response | GalleryApplicationVersionsCreateOrUpdate202Response | GalleryApplicationVersionsCreateOrUpdatedefaultResponse>;
+    delete(options: GalleryApplicationVersionsDeleteParameters): StreamableMethod<GalleryApplicationVersionsDelete200Response | GalleryApplicationVersionsDelete202Response | GalleryApplicationVersionsDelete204Response | GalleryApplicationVersionsDeleteDefaultResponse>;
+    get(options: GalleryApplicationVersionsGetParameters): StreamableMethod<GalleryApplicationVersionsGet200Response | GalleryApplicationVersionsGetDefaultResponse>;
+    patch(options: GalleryApplicationVersionsUpdateParameters): StreamableMethod<GalleryApplicationVersionsUpdate200Response | GalleryApplicationVersionsUpdateDefaultResponse>;
+    put(options: GalleryApplicationVersionsCreateOrUpdateParameters): StreamableMethod<GalleryApplicationVersionsCreateOrUpdate200Response | GalleryApplicationVersionsCreateOrUpdate201Response | GalleryApplicationVersionsCreateOrUpdate202Response | GalleryApplicationVersionsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -5817,7 +5817,7 @@ export interface GalleryApplicationVersionsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface GalleryApplicationVersionsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface GalleryApplicationVersionsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -5868,7 +5868,7 @@ export interface GalleryApplicationVersionsDelete204Response extends HttpRespons
 }
 
 // @public
-export interface GalleryApplicationVersionsDeletedefaultResponse extends HttpResponse {
+export interface GalleryApplicationVersionsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -5898,7 +5898,7 @@ export interface GalleryApplicationVersionsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface GalleryApplicationVersionsGetdefaultResponse extends HttpResponse {
+export interface GalleryApplicationVersionsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -5922,7 +5922,7 @@ export interface GalleryApplicationVersionsGetQueryParamProperties {
 
 // @public (undocumented)
 export interface GalleryApplicationVersionsListByGalleryApplication {
-    get(options: GalleryApplicationVersionsListByGalleryApplicationParameters): StreamableMethod<GalleryApplicationVersionsListByGalleryApplication200Response | GalleryApplicationVersionsListByGalleryApplicationdefaultResponse>;
+    get(options: GalleryApplicationVersionsListByGalleryApplicationParameters): StreamableMethod<GalleryApplicationVersionsListByGalleryApplication200Response | GalleryApplicationVersionsListByGalleryApplicationDefaultResponse>;
 }
 
 // @public
@@ -5934,7 +5934,7 @@ export interface GalleryApplicationVersionsListByGalleryApplication200Response e
 }
 
 // @public
-export interface GalleryApplicationVersionsListByGalleryApplicationdefaultResponse extends HttpResponse {
+export interface GalleryApplicationVersionsListByGalleryApplicationDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -5969,7 +5969,7 @@ export interface GalleryApplicationVersionsUpdateBodyParam {
 }
 
 // @public
-export interface GalleryApplicationVersionsUpdatedefaultResponse extends HttpResponse {
+export interface GalleryApplicationVersionsUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -5995,12 +5995,12 @@ export interface GalleryApplicationVersionsUpdateQueryParamProperties {
     "api-version": "2022-01-03";
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryApplicationVersionUpdate extends UpdateResourceDefinition {
     properties?: GalleryApplicationVersionProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryArtifactPublishingProfileBase {
     endOfLifeDate?: Date | string;
     excludeFromLatest?: boolean;
@@ -6012,7 +6012,7 @@ export interface GalleryArtifactPublishingProfileBase {
     targetRegions?: Array<TargetRegion>;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryArtifactPublishingProfileBaseOutput {
     endOfLifeDate?: string;
     excludeFromLatest?: boolean;
@@ -6024,109 +6024,109 @@ export interface GalleryArtifactPublishingProfileBaseOutput {
     targetRegions?: Array<TargetRegionOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryArtifactVersionSource {
     id?: string;
     uri?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryArtifactVersionSourceOutput {
     id?: string;
     uri?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryDataDiskImage extends GalleryDiskImage {
     lun: number;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryDataDiskImageOutput extends GalleryDiskImageOutput {
     lun: number;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryDiskImage {
     hostCaching?: "None" | "ReadOnly" | "ReadWrite";
     sizeInGB?: number;
     source?: GalleryArtifactVersionSource;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryDiskImageOutput {
     hostCaching?: "None" | "ReadOnly" | "ReadWrite";
     sizeInGB?: number;
     source?: GalleryArtifactVersionSourceOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryExtendedLocation {
     // (undocumented)
     name?: string;
     type?: "EdgeZone" | "Unknown";
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryExtendedLocationOutput {
     // (undocumented)
     name?: string;
     type?: "EdgeZone" | "Unknown";
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryIdentifier {
     uniqueName?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryIdentifierOutput {
     uniqueName?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryImage extends Resource {
     properties?: GalleryImageProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryImageFeature {
     name?: string;
     value?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryImageFeatureOutput {
     name?: string;
     value?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryImageIdentifier {
     offer: string;
     publisher: string;
     sku: string;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryImageIdentifierOutput {
     offer: string;
     publisher: string;
     sku: string;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryImageListOutput {
     nextLink?: string;
     value: Array<GalleryImageOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryImageOutput extends ResourceOutput {
     properties?: GalleryImagePropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryImageProperties {
     architecture?: "x64" | "Arm64";
     description?: string;
@@ -6145,7 +6145,7 @@ export interface GalleryImageProperties {
     releaseNoteUri?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryImagePropertiesOutput {
     architecture?: "x64" | "Arm64";
     description?: string;
@@ -6166,10 +6166,10 @@ export interface GalleryImagePropertiesOutput {
 
 // @public (undocumented)
 export interface GalleryImagesCreateOrUpdate {
-    delete(options: GalleryImagesDeleteParameters): StreamableMethod<GalleryImagesDelete200Response | GalleryImagesDelete202Response | GalleryImagesDelete204Response | GalleryImagesDeletedefaultResponse>;
-    get(options: GalleryImagesGetParameters): StreamableMethod<GalleryImagesGet200Response | GalleryImagesGetdefaultResponse>;
-    patch(options: GalleryImagesUpdateParameters): StreamableMethod<GalleryImagesUpdate200Response | GalleryImagesUpdatedefaultResponse>;
-    put(options: GalleryImagesCreateOrUpdateParameters): StreamableMethod<GalleryImagesCreateOrUpdate200Response | GalleryImagesCreateOrUpdate201Response | GalleryImagesCreateOrUpdate202Response | GalleryImagesCreateOrUpdatedefaultResponse>;
+    delete(options: GalleryImagesDeleteParameters): StreamableMethod<GalleryImagesDelete200Response | GalleryImagesDelete202Response | GalleryImagesDelete204Response | GalleryImagesDeleteDefaultResponse>;
+    get(options: GalleryImagesGetParameters): StreamableMethod<GalleryImagesGet200Response | GalleryImagesGetDefaultResponse>;
+    patch(options: GalleryImagesUpdateParameters): StreamableMethod<GalleryImagesUpdate200Response | GalleryImagesUpdateDefaultResponse>;
+    put(options: GalleryImagesCreateOrUpdateParameters): StreamableMethod<GalleryImagesCreateOrUpdate200Response | GalleryImagesCreateOrUpdate201Response | GalleryImagesCreateOrUpdate202Response | GalleryImagesCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -6202,7 +6202,7 @@ export interface GalleryImagesCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface GalleryImagesCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface GalleryImagesCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -6253,7 +6253,7 @@ export interface GalleryImagesDelete204Response extends HttpResponse {
 }
 
 // @public
-export interface GalleryImagesDeletedefaultResponse extends HttpResponse {
+export interface GalleryImagesDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -6283,7 +6283,7 @@ export interface GalleryImagesGet200Response extends HttpResponse {
 }
 
 // @public
-export interface GalleryImagesGetdefaultResponse extends HttpResponse {
+export interface GalleryImagesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -6306,7 +6306,7 @@ export interface GalleryImagesGetQueryParamProperties {
 
 // @public (undocumented)
 export interface GalleryImagesListByGallery {
-    get(options: GalleryImagesListByGalleryParameters): StreamableMethod<GalleryImagesListByGallery200Response | GalleryImagesListByGallerydefaultResponse>;
+    get(options: GalleryImagesListByGalleryParameters): StreamableMethod<GalleryImagesListByGallery200Response | GalleryImagesListByGalleryDefaultResponse>;
 }
 
 // @public
@@ -6318,7 +6318,7 @@ export interface GalleryImagesListByGallery200Response extends HttpResponse {
 }
 
 // @public
-export interface GalleryImagesListByGallerydefaultResponse extends HttpResponse {
+export interface GalleryImagesListByGalleryDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -6353,7 +6353,7 @@ export interface GalleryImagesUpdateBodyParam {
 }
 
 // @public
-export interface GalleryImagesUpdatedefaultResponse extends HttpResponse {
+export interface GalleryImagesUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -6379,28 +6379,28 @@ export interface GalleryImagesUpdateQueryParamProperties {
     "api-version": "2022-01-03";
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryImageUpdate extends UpdateResourceDefinition {
     properties?: GalleryImageProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryImageVersion extends Resource {
     properties?: GalleryImageVersionProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryImageVersionListOutput {
     nextLink?: string;
     value: Array<GalleryImageVersionOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryImageVersionOutput extends ResourceOutput {
     properties?: GalleryImageVersionPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryImageVersionProperties {
     provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
     publishingProfile?: GalleryImageVersionPublishingProfile;
@@ -6408,7 +6408,7 @@ export interface GalleryImageVersionProperties {
     storageProfile: GalleryImageVersionStorageProfile;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryImageVersionPropertiesOutput {
     provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
     publishingProfile?: GalleryImageVersionPublishingProfileOutput;
@@ -6416,20 +6416,20 @@ export interface GalleryImageVersionPropertiesOutput {
     storageProfile: GalleryImageVersionStorageProfileOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryImageVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryImageVersionPublishingProfileOutput extends GalleryArtifactPublishingProfileBaseOutput {
 }
 
 // @public (undocumented)
 export interface GalleryImageVersionsCreateOrUpdate {
-    delete(options: GalleryImageVersionsDeleteParameters): StreamableMethod<GalleryImageVersionsDelete200Response | GalleryImageVersionsDelete202Response | GalleryImageVersionsDelete204Response | GalleryImageVersionsDeletedefaultResponse>;
-    get(options: GalleryImageVersionsGetParameters): StreamableMethod<GalleryImageVersionsGet200Response | GalleryImageVersionsGetdefaultResponse>;
-    patch(options: GalleryImageVersionsUpdateParameters): StreamableMethod<GalleryImageVersionsUpdate200Response | GalleryImageVersionsUpdatedefaultResponse>;
-    put(options: GalleryImageVersionsCreateOrUpdateParameters): StreamableMethod<GalleryImageVersionsCreateOrUpdate200Response | GalleryImageVersionsCreateOrUpdate201Response | GalleryImageVersionsCreateOrUpdate202Response | GalleryImageVersionsCreateOrUpdatedefaultResponse>;
+    delete(options: GalleryImageVersionsDeleteParameters): StreamableMethod<GalleryImageVersionsDelete200Response | GalleryImageVersionsDelete202Response | GalleryImageVersionsDelete204Response | GalleryImageVersionsDeleteDefaultResponse>;
+    get(options: GalleryImageVersionsGetParameters): StreamableMethod<GalleryImageVersionsGet200Response | GalleryImageVersionsGetDefaultResponse>;
+    patch(options: GalleryImageVersionsUpdateParameters): StreamableMethod<GalleryImageVersionsUpdate200Response | GalleryImageVersionsUpdateDefaultResponse>;
+    put(options: GalleryImageVersionsCreateOrUpdateParameters): StreamableMethod<GalleryImageVersionsCreateOrUpdate200Response | GalleryImageVersionsCreateOrUpdate201Response | GalleryImageVersionsCreateOrUpdate202Response | GalleryImageVersionsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -6462,7 +6462,7 @@ export interface GalleryImageVersionsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface GalleryImageVersionsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface GalleryImageVersionsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -6513,7 +6513,7 @@ export interface GalleryImageVersionsDelete204Response extends HttpResponse {
 }
 
 // @public
-export interface GalleryImageVersionsDeletedefaultResponse extends HttpResponse {
+export interface GalleryImageVersionsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -6543,7 +6543,7 @@ export interface GalleryImageVersionsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface GalleryImageVersionsGetdefaultResponse extends HttpResponse {
+export interface GalleryImageVersionsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -6567,7 +6567,7 @@ export interface GalleryImageVersionsGetQueryParamProperties {
 
 // @public (undocumented)
 export interface GalleryImageVersionsListByGalleryImage {
-    get(options: GalleryImageVersionsListByGalleryImageParameters): StreamableMethod<GalleryImageVersionsListByGalleryImage200Response | GalleryImageVersionsListByGalleryImagedefaultResponse>;
+    get(options: GalleryImageVersionsListByGalleryImageParameters): StreamableMethod<GalleryImageVersionsListByGalleryImage200Response | GalleryImageVersionsListByGalleryImageDefaultResponse>;
 }
 
 // @public
@@ -6579,7 +6579,7 @@ export interface GalleryImageVersionsListByGalleryImage200Response extends HttpR
 }
 
 // @public
-export interface GalleryImageVersionsListByGalleryImagedefaultResponse extends HttpResponse {
+export interface GalleryImageVersionsListByGalleryImageDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -6600,14 +6600,14 @@ export interface GalleryImageVersionsListByGalleryImageQueryParamProperties {
     "api-version": "2022-01-03";
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryImageVersionStorageProfile {
     dataDiskImages?: Array<GalleryDataDiskImage>;
     osDiskImage?: GalleryOSDiskImage;
     source?: GalleryArtifactVersionSource;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryImageVersionStorageProfileOutput {
     dataDiskImages?: Array<GalleryDataDiskImageOutput>;
     osDiskImage?: GalleryOSDiskImageOutput;
@@ -6628,7 +6628,7 @@ export interface GalleryImageVersionsUpdateBodyParam {
 }
 
 // @public
-export interface GalleryImageVersionsUpdatedefaultResponse extends HttpResponse {
+export interface GalleryImageVersionsUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -6654,31 +6654,31 @@ export interface GalleryImageVersionsUpdateQueryParamProperties {
     "api-version": "2022-01-03";
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
     properties?: GalleryImageVersionProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryListOutput {
     nextLink?: string;
     value: Array<GalleryOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryOSDiskImage extends GalleryDiskImage {
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryOSDiskImageOutput extends GalleryDiskImageOutput {
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryOutput extends ResourceOutput {
     properties?: GalleryPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryProperties {
     description?: string;
     identifier?: GalleryIdentifier;
@@ -6688,7 +6688,7 @@ export interface GalleryProperties {
     softDeletePolicy?: SoftDeletePolicy;
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryPropertiesOutput {
     description?: string;
     identifier?: GalleryIdentifierOutput;
@@ -6700,7 +6700,7 @@ export interface GalleryPropertiesOutput {
 
 // @public (undocumented)
 export interface GallerySharingProfileUpdate {
-    post(options: GallerySharingProfileUpdateParameters): StreamableMethod<GallerySharingProfileUpdate200Response | GallerySharingProfileUpdate202Response | GallerySharingProfileUpdatedefaultResponse>;
+    post(options: GallerySharingProfileUpdateParameters): StreamableMethod<GallerySharingProfileUpdate200Response | GallerySharingProfileUpdate202Response | GallerySharingProfileUpdateDefaultResponse>;
 }
 
 // @public
@@ -6725,7 +6725,7 @@ export interface GallerySharingProfileUpdateBodyParam {
 }
 
 // @public
-export interface GallerySharingProfileUpdatedefaultResponse extends HttpResponse {
+export interface GallerySharingProfileUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -6769,7 +6769,7 @@ export interface GalleryTargetExtendedLocationOutput {
     storageAccountType?: "Standard_LRS" | "Standard_ZRS" | "Premium_LRS";
 }
 
-// @public (undocumented)
+// @public
 export interface GalleryUpdate extends UpdateResourceDefinition {
     properties?: GalleryProperties;
 }
@@ -6786,7 +6786,7 @@ export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise
     nextPageLink?: string;
 }>;
 
-// @public (undocumented)
+// @public
 export interface GrantAccessData {
     // (undocumented)
     access: "None" | "Read" | "Write";
@@ -6794,35 +6794,35 @@ export interface GrantAccessData {
     getSecureVMGuestStateSAS?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface HardwareProfile {
     vmSize?: "Basic_A0" | "Basic_A1" | "Basic_A2" | "Basic_A3" | "Basic_A4" | "Standard_A0" | "Standard_A1" | "Standard_A2" | "Standard_A3" | "Standard_A4" | "Standard_A5" | "Standard_A6" | "Standard_A7" | "Standard_A8" | "Standard_A9" | "Standard_A10" | "Standard_A11" | "Standard_A1_v2" | "Standard_A2_v2" | "Standard_A4_v2" | "Standard_A8_v2" | "Standard_A2m_v2" | "Standard_A4m_v2" | "Standard_A8m_v2" | "Standard_B1s" | "Standard_B1ms" | "Standard_B2s" | "Standard_B2ms" | "Standard_B4ms" | "Standard_B8ms" | "Standard_D1" | "Standard_D2" | "Standard_D3" | "Standard_D4" | "Standard_D11" | "Standard_D12" | "Standard_D13" | "Standard_D14" | "Standard_D1_v2" | "Standard_D2_v2" | "Standard_D3_v2" | "Standard_D4_v2" | "Standard_D5_v2" | "Standard_D2_v3" | "Standard_D4_v3" | "Standard_D8_v3" | "Standard_D16_v3" | "Standard_D32_v3" | "Standard_D64_v3" | "Standard_D2s_v3" | "Standard_D4s_v3" | "Standard_D8s_v3" | "Standard_D16s_v3" | "Standard_D32s_v3" | "Standard_D64s_v3" | "Standard_D11_v2" | "Standard_D12_v2" | "Standard_D13_v2" | "Standard_D14_v2" | "Standard_D15_v2" | "Standard_DS1" | "Standard_DS2" | "Standard_DS3" | "Standard_DS4" | "Standard_DS11" | "Standard_DS12" | "Standard_DS13" | "Standard_DS14" | "Standard_DS1_v2" | "Standard_DS2_v2" | "Standard_DS3_v2" | "Standard_DS4_v2" | "Standard_DS5_v2" | "Standard_DS11_v2" | "Standard_DS12_v2" | "Standard_DS13_v2" | "Standard_DS14_v2" | "Standard_DS15_v2" | "Standard_DS13-4_v2" | "Standard_DS13-2_v2" | "Standard_DS14-8_v2" | "Standard_DS14-4_v2" | "Standard_E2_v3" | "Standard_E4_v3" | "Standard_E8_v3" | "Standard_E16_v3" | "Standard_E32_v3" | "Standard_E64_v3" | "Standard_E2s_v3" | "Standard_E4s_v3" | "Standard_E8s_v3" | "Standard_E16s_v3" | "Standard_E32s_v3" | "Standard_E64s_v3" | "Standard_E32-16_v3" | "Standard_E32-8s_v3" | "Standard_E64-32s_v3" | "Standard_E64-16s_v3" | "Standard_F1" | "Standard_F2" | "Standard_F4" | "Standard_F8" | "Standard_F16" | "Standard_F1s" | "Standard_F2s" | "Standard_F4s" | "Standard_F8s" | "Standard_F16s" | "Standard_F2s_v2" | "Standard_F4s_v2" | "Standard_F8s_v2" | "Standard_F16s_v2" | "Standard_F32s_v2" | "Standard_F64s_v2" | "Standard_F72s_v2" | "Standard_G1" | "Standard_G2" | "Standard_G3" | "Standard_G4" | "Standard_G5" | "Standard_GS1" | "Standard_GS2" | "Standard_GS3" | "Standard_GS4" | "Standard_GS5" | "Standard_GS4-8" | "Standard_GS4-4" | "Standard_GS5-16" | "Standard_GS5-8" | "Standard_H8" | "Standard_H16" | "Standard_H8m" | "Standard_H16m" | "Standard_H16r" | "Standard_H16mr" | "Standard_L4s" | "Standard_L8s" | "Standard_L16s" | "Standard_L32s" | "Standard_M64s" | "Standard_M64ms" | "Standard_M128s" | "Standard_M128ms" | "Standard_M64-32ms" | "Standard_M64-16ms" | "Standard_M128-64ms" | "Standard_M128-32ms" | "Standard_NC6" | "Standard_NC12" | "Standard_NC24" | "Standard_NC24r" | "Standard_NC6s_v2" | "Standard_NC12s_v2" | "Standard_NC24s_v2" | "Standard_NC24rs_v2" | "Standard_NC6s_v3" | "Standard_NC12s_v3" | "Standard_NC24s_v3" | "Standard_NC24rs_v3" | "Standard_ND6s" | "Standard_ND12s" | "Standard_ND24s" | "Standard_ND24rs" | "Standard_NV6" | "Standard_NV12" | "Standard_NV24";
     vmSizeProperties?: VMSizeProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface HardwareProfileOutput {
     vmSize?: "Basic_A0" | "Basic_A1" | "Basic_A2" | "Basic_A3" | "Basic_A4" | "Standard_A0" | "Standard_A1" | "Standard_A2" | "Standard_A3" | "Standard_A4" | "Standard_A5" | "Standard_A6" | "Standard_A7" | "Standard_A8" | "Standard_A9" | "Standard_A10" | "Standard_A11" | "Standard_A1_v2" | "Standard_A2_v2" | "Standard_A4_v2" | "Standard_A8_v2" | "Standard_A2m_v2" | "Standard_A4m_v2" | "Standard_A8m_v2" | "Standard_B1s" | "Standard_B1ms" | "Standard_B2s" | "Standard_B2ms" | "Standard_B4ms" | "Standard_B8ms" | "Standard_D1" | "Standard_D2" | "Standard_D3" | "Standard_D4" | "Standard_D11" | "Standard_D12" | "Standard_D13" | "Standard_D14" | "Standard_D1_v2" | "Standard_D2_v2" | "Standard_D3_v2" | "Standard_D4_v2" | "Standard_D5_v2" | "Standard_D2_v3" | "Standard_D4_v3" | "Standard_D8_v3" | "Standard_D16_v3" | "Standard_D32_v3" | "Standard_D64_v3" | "Standard_D2s_v3" | "Standard_D4s_v3" | "Standard_D8s_v3" | "Standard_D16s_v3" | "Standard_D32s_v3" | "Standard_D64s_v3" | "Standard_D11_v2" | "Standard_D12_v2" | "Standard_D13_v2" | "Standard_D14_v2" | "Standard_D15_v2" | "Standard_DS1" | "Standard_DS2" | "Standard_DS3" | "Standard_DS4" | "Standard_DS11" | "Standard_DS12" | "Standard_DS13" | "Standard_DS14" | "Standard_DS1_v2" | "Standard_DS2_v2" | "Standard_DS3_v2" | "Standard_DS4_v2" | "Standard_DS5_v2" | "Standard_DS11_v2" | "Standard_DS12_v2" | "Standard_DS13_v2" | "Standard_DS14_v2" | "Standard_DS15_v2" | "Standard_DS13-4_v2" | "Standard_DS13-2_v2" | "Standard_DS14-8_v2" | "Standard_DS14-4_v2" | "Standard_E2_v3" | "Standard_E4_v3" | "Standard_E8_v3" | "Standard_E16_v3" | "Standard_E32_v3" | "Standard_E64_v3" | "Standard_E2s_v3" | "Standard_E4s_v3" | "Standard_E8s_v3" | "Standard_E16s_v3" | "Standard_E32s_v3" | "Standard_E64s_v3" | "Standard_E32-16_v3" | "Standard_E32-8s_v3" | "Standard_E64-32s_v3" | "Standard_E64-16s_v3" | "Standard_F1" | "Standard_F2" | "Standard_F4" | "Standard_F8" | "Standard_F16" | "Standard_F1s" | "Standard_F2s" | "Standard_F4s" | "Standard_F8s" | "Standard_F16s" | "Standard_F2s_v2" | "Standard_F4s_v2" | "Standard_F8s_v2" | "Standard_F16s_v2" | "Standard_F32s_v2" | "Standard_F64s_v2" | "Standard_F72s_v2" | "Standard_G1" | "Standard_G2" | "Standard_G3" | "Standard_G4" | "Standard_G5" | "Standard_GS1" | "Standard_GS2" | "Standard_GS3" | "Standard_GS4" | "Standard_GS5" | "Standard_GS4-8" | "Standard_GS4-4" | "Standard_GS5-16" | "Standard_GS5-8" | "Standard_H8" | "Standard_H16" | "Standard_H8m" | "Standard_H16m" | "Standard_H16r" | "Standard_H16mr" | "Standard_L4s" | "Standard_L8s" | "Standard_L16s" | "Standard_L32s" | "Standard_M64s" | "Standard_M64ms" | "Standard_M128s" | "Standard_M128ms" | "Standard_M64-32ms" | "Standard_M64-16ms" | "Standard_M128-64ms" | "Standard_M128-32ms" | "Standard_NC6" | "Standard_NC12" | "Standard_NC24" | "Standard_NC24r" | "Standard_NC6s_v2" | "Standard_NC12s_v2" | "Standard_NC24s_v2" | "Standard_NC24rs_v2" | "Standard_NC6s_v3" | "Standard_NC12s_v3" | "Standard_NC24s_v3" | "Standard_NC24rs_v3" | "Standard_ND6s" | "Standard_ND12s" | "Standard_ND24s" | "Standard_ND24rs" | "Standard_NV6" | "Standard_NV12" | "Standard_NV24";
     vmSizeProperties?: VMSizePropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface Image extends Resource {
     extendedLocation?: ExtendedLocation;
     properties?: ImageProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface ImageDataDisk extends ImageDisk {
     lun: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ImageDataDiskOutput extends ImageDiskOutput {
     lun: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ImageDisk {
     blobUri?: string;
     caching?: "None" | "ReadOnly" | "ReadWrite";
@@ -6833,7 +6833,7 @@ export interface ImageDisk {
     storageAccountType?: "Standard_LRS" | "Premium_LRS" | "StandardSSD_LRS" | "UltraSSD_LRS" | "Premium_ZRS" | "StandardSSD_ZRS" | "PremiumV2_LRS";
 }
 
-// @public (undocumented)
+// @public
 export interface ImageDiskOutput {
     blobUri?: string;
     caching?: "None" | "ReadOnly" | "ReadWrite";
@@ -6844,7 +6844,7 @@ export interface ImageDiskOutput {
     storageAccountType?: "Standard_LRS" | "Premium_LRS" | "StandardSSD_LRS" | "UltraSSD_LRS" | "Premium_ZRS" | "StandardSSD_ZRS" | "PremiumV2_LRS";
 }
 
-// @public (undocumented)
+// @public
 export interface ImageDiskReference {
     communityGalleryImageId?: string;
     id?: string;
@@ -6852,7 +6852,7 @@ export interface ImageDiskReference {
     sharedGalleryImageId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ImageDiskReferenceOutput {
     communityGalleryImageId?: string;
     id?: string;
@@ -6860,31 +6860,31 @@ export interface ImageDiskReferenceOutput {
     sharedGalleryImageId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ImageListResultOutput {
     nextLink?: string;
     value: Array<ImageOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ImageOSDisk extends ImageDisk {
     osState: "Generalized" | "Specialized";
     osType: "Windows" | "Linux";
 }
 
-// @public (undocumented)
+// @public
 export interface ImageOSDiskOutput extends ImageDiskOutput {
     osState: "Generalized" | "Specialized";
     osType: "Windows" | "Linux";
 }
 
-// @public (undocumented)
+// @public
 export interface ImageOutput extends ResourceOutput {
     extendedLocation?: ExtendedLocationOutput;
     properties?: ImagePropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ImageProperties {
     hyperVGeneration?: "V1" | "V2";
     provisioningState?: string;
@@ -6892,7 +6892,7 @@ export interface ImageProperties {
     storageProfile?: ImageStorageProfile;
 }
 
-// @public (undocumented)
+// @public
 export interface ImagePropertiesOutput {
     hyperVGeneration?: "V1" | "V2";
     provisioningState?: string;
@@ -6900,21 +6900,21 @@ export interface ImagePropertiesOutput {
     storageProfile?: ImageStorageProfileOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ImagePurchasePlan {
     name?: string;
     product?: string;
     publisher?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ImagePurchasePlanOutput {
     name?: string;
     product?: string;
     publisher?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ImageReference extends SubResource {
     communityGalleryImageId?: string;
     exactVersion?: string;
@@ -6925,7 +6925,7 @@ export interface ImageReference extends SubResource {
     version?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ImageReferenceOutput extends SubResourceOutput {
     communityGalleryImageId?: string;
     exactVersion?: string;
@@ -6938,10 +6938,10 @@ export interface ImageReferenceOutput extends SubResourceOutput {
 
 // @public (undocumented)
 export interface ImagesCreateOrUpdate {
-    delete(options: ImagesDeleteParameters): StreamableMethod<ImagesDelete200Response | ImagesDelete202Response | ImagesDelete204Response | ImagesDeletedefaultResponse>;
-    get(options: ImagesGetParameters): StreamableMethod<ImagesGet200Response | ImagesGetdefaultResponse>;
-    patch(options: ImagesUpdateParameters): StreamableMethod<ImagesUpdate200Response | ImagesUpdate201Response | ImagesUpdatedefaultResponse>;
-    put(options: ImagesCreateOrUpdateParameters): StreamableMethod<ImagesCreateOrUpdate200Response | ImagesCreateOrUpdate201Response | ImagesCreateOrUpdatedefaultResponse>;
+    delete(options: ImagesDeleteParameters): StreamableMethod<ImagesDelete200Response | ImagesDelete202Response | ImagesDelete204Response | ImagesDeleteDefaultResponse>;
+    get(options: ImagesGetParameters): StreamableMethod<ImagesGet200Response | ImagesGetDefaultResponse>;
+    patch(options: ImagesUpdateParameters): StreamableMethod<ImagesUpdate200Response | ImagesUpdate201Response | ImagesUpdateDefaultResponse>;
+    put(options: ImagesCreateOrUpdateParameters): StreamableMethod<ImagesCreateOrUpdate200Response | ImagesCreateOrUpdate201Response | ImagesCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -6966,7 +6966,7 @@ export interface ImagesCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface ImagesCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface ImagesCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -7017,7 +7017,7 @@ export interface ImagesDelete204Response extends HttpResponse {
 }
 
 // @public
-export interface ImagesDeletedefaultResponse extends HttpResponse {
+export interface ImagesDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -7047,7 +7047,7 @@ export interface ImagesGet200Response extends HttpResponse {
 }
 
 // @public
-export interface ImagesGetdefaultResponse extends HttpResponse {
+export interface ImagesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -7071,7 +7071,7 @@ export interface ImagesGetQueryParamProperties {
 
 // @public (undocumented)
 export interface ImagesList {
-    get(options: ImagesListParameters): StreamableMethod<ImagesList200Response | ImagesListdefaultResponse>;
+    get(options: ImagesListParameters): StreamableMethod<ImagesList200Response | ImagesListDefaultResponse>;
 }
 
 // @public
@@ -7084,7 +7084,7 @@ export interface ImagesList200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface ImagesListByResourceGroup {
-    get(options: ImagesListByResourceGroupParameters): StreamableMethod<ImagesListByResourceGroup200Response | ImagesListByResourceGroupdefaultResponse>;
+    get(options: ImagesListByResourceGroupParameters): StreamableMethod<ImagesListByResourceGroup200Response | ImagesListByResourceGroupDefaultResponse>;
 }
 
 // @public
@@ -7096,7 +7096,7 @@ export interface ImagesListByResourceGroup200Response extends HttpResponse {
 }
 
 // @public
-export interface ImagesListByResourceGroupdefaultResponse extends HttpResponse {
+export interface ImagesListByResourceGroupDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -7118,7 +7118,7 @@ export interface ImagesListByResourceGroupQueryParamProperties {
 }
 
 // @public
-export interface ImagesListdefaultResponse extends HttpResponse {
+export interface ImagesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -7139,14 +7139,14 @@ export interface ImagesListQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface ImageStorageProfile {
     dataDisks?: Array<ImageDataDisk>;
     osDisk?: ImageOSDisk;
     zoneResilient?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ImageStorageProfileOutput {
     dataDisks?: Array<ImageDataDiskOutput>;
     osDisk?: ImageOSDiskOutput;
@@ -7175,7 +7175,7 @@ export interface ImagesUpdateBodyParam {
 }
 
 // @public
-export interface ImagesUpdatedefaultResponse extends HttpResponse {
+export interface ImagesUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -7201,30 +7201,30 @@ export interface ImagesUpdateQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface ImageUpdate extends UpdateResource {
     properties?: ImageProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface InnerError {
     errordetail?: string;
     exceptiontype?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface InnerErrorOutput {
     errordetail?: string;
     exceptiontype?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface InstanceSkuOutput {
     name?: string;
     tier?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface InstanceViewStatus {
     code?: string;
     displayStatus?: string;
@@ -7233,12 +7233,12 @@ export interface InstanceViewStatus {
     time?: Date | string;
 }
 
-// @public (undocumented)
+// @public
 export interface InstanceViewStatusesSummaryOutput {
     statusesSummary?: Array<StatusCodeCountOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface InstanceViewStatusOutput {
     code?: string;
     displayStatus?: string;
@@ -7248,837 +7248,837 @@ export interface InstanceViewStatusOutput {
 }
 
 // @public (undocumented)
-export function isUnexpected(response: OperationsList200Response | OperationsListdefaultResponse): response is OperationsListdefaultResponse;
+export function isUnexpected(response: OperationsList200Response | OperationsListDefaultResponse): response is OperationsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: UsageList200Response | UsageListdefaultResponse): response is UsageListdefaultResponse;
+export function isUnexpected(response: UsageList200Response | UsageListDefaultResponse): response is UsageListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineSizesList200Response | VirtualMachineSizesListdefaultResponse): response is VirtualMachineSizesListdefaultResponse;
+export function isUnexpected(response: VirtualMachineSizesList200Response | VirtualMachineSizesListDefaultResponse): response is VirtualMachineSizesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsListByLocation200Response | VirtualMachineScaleSetsListByLocationdefaultResponse): response is VirtualMachineScaleSetsListByLocationdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsListByLocation200Response | VirtualMachineScaleSetsListByLocationDefaultResponse): response is VirtualMachineScaleSetsListByLocationDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsCreateOrUpdate200Response | VirtualMachineScaleSetsCreateOrUpdate201Response | VirtualMachineScaleSetsCreateOrUpdatedefaultResponse): response is VirtualMachineScaleSetsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsCreateOrUpdate200Response | VirtualMachineScaleSetsCreateOrUpdate201Response | VirtualMachineScaleSetsCreateOrUpdateDefaultResponse): response is VirtualMachineScaleSetsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsUpdate200Response | VirtualMachineScaleSetsUpdatedefaultResponse): response is VirtualMachineScaleSetsUpdatedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsUpdate200Response | VirtualMachineScaleSetsUpdateDefaultResponse): response is VirtualMachineScaleSetsUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsDelete200Response | VirtualMachineScaleSetsDelete202Response | VirtualMachineScaleSetsDelete204Response | VirtualMachineScaleSetsDeletedefaultResponse): response is VirtualMachineScaleSetsDeletedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsDelete200Response | VirtualMachineScaleSetsDelete202Response | VirtualMachineScaleSetsDelete204Response | VirtualMachineScaleSetsDeleteDefaultResponse): response is VirtualMachineScaleSetsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsGet200Response | VirtualMachineScaleSetsGetdefaultResponse): response is VirtualMachineScaleSetsGetdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsGet200Response | VirtualMachineScaleSetsGetDefaultResponse): response is VirtualMachineScaleSetsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsDeallocate200Response | VirtualMachineScaleSetsDeallocate202Response | VirtualMachineScaleSetsDeallocatedefaultResponse): response is VirtualMachineScaleSetsDeallocatedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsDeallocate200Response | VirtualMachineScaleSetsDeallocate202Response | VirtualMachineScaleSetsDeallocateDefaultResponse): response is VirtualMachineScaleSetsDeallocateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsDeleteInstances200Response | VirtualMachineScaleSetsDeleteInstances202Response | VirtualMachineScaleSetsDeleteInstancesdefaultResponse): response is VirtualMachineScaleSetsDeleteInstancesdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsDeleteInstances200Response | VirtualMachineScaleSetsDeleteInstances202Response | VirtualMachineScaleSetsDeleteInstancesDefaultResponse): response is VirtualMachineScaleSetsDeleteInstancesDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsGetInstanceView200Response | VirtualMachineScaleSetsGetInstanceViewdefaultResponse): response is VirtualMachineScaleSetsGetInstanceViewdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsGetInstanceView200Response | VirtualMachineScaleSetsGetInstanceViewDefaultResponse): response is VirtualMachineScaleSetsGetInstanceViewDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsList200Response | VirtualMachineScaleSetsListdefaultResponse): response is VirtualMachineScaleSetsListdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsList200Response | VirtualMachineScaleSetsListDefaultResponse): response is VirtualMachineScaleSetsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsListAll200Response | VirtualMachineScaleSetsListAlldefaultResponse): response is VirtualMachineScaleSetsListAlldefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsListAll200Response | VirtualMachineScaleSetsListAllDefaultResponse): response is VirtualMachineScaleSetsListAllDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsListSkus200Response | VirtualMachineScaleSetsListSkusdefaultResponse): response is VirtualMachineScaleSetsListSkusdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsListSkus200Response | VirtualMachineScaleSetsListSkusDefaultResponse): response is VirtualMachineScaleSetsListSkusDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsGetOSUpgradeHistory200Response | VirtualMachineScaleSetsGetOSUpgradeHistorydefaultResponse): response is VirtualMachineScaleSetsGetOSUpgradeHistorydefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsGetOSUpgradeHistory200Response | VirtualMachineScaleSetsGetOSUpgradeHistoryDefaultResponse): response is VirtualMachineScaleSetsGetOSUpgradeHistoryDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsPowerOff200Response | VirtualMachineScaleSetsPowerOff202Response | VirtualMachineScaleSetsPowerOffdefaultResponse): response is VirtualMachineScaleSetsPowerOffdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsPowerOff200Response | VirtualMachineScaleSetsPowerOff202Response | VirtualMachineScaleSetsPowerOffDefaultResponse): response is VirtualMachineScaleSetsPowerOffDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsRestart200Response | VirtualMachineScaleSetsRestart202Response | VirtualMachineScaleSetsRestartdefaultResponse): response is VirtualMachineScaleSetsRestartdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsRestart200Response | VirtualMachineScaleSetsRestart202Response | VirtualMachineScaleSetsRestartDefaultResponse): response is VirtualMachineScaleSetsRestartDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsStart200Response | VirtualMachineScaleSetsStart202Response | VirtualMachineScaleSetsStartdefaultResponse): response is VirtualMachineScaleSetsStartdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsStart200Response | VirtualMachineScaleSetsStart202Response | VirtualMachineScaleSetsStartDefaultResponse): response is VirtualMachineScaleSetsStartDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsRedeploy200Response | VirtualMachineScaleSetsRedeploy202Response | VirtualMachineScaleSetsRedeploydefaultResponse): response is VirtualMachineScaleSetsRedeploydefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsRedeploy200Response | VirtualMachineScaleSetsRedeploy202Response | VirtualMachineScaleSetsRedeployDefaultResponse): response is VirtualMachineScaleSetsRedeployDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsPerformMaintenance200Response | VirtualMachineScaleSetsPerformMaintenance202Response | VirtualMachineScaleSetsPerformMaintenancedefaultResponse): response is VirtualMachineScaleSetsPerformMaintenancedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsPerformMaintenance200Response | VirtualMachineScaleSetsPerformMaintenance202Response | VirtualMachineScaleSetsPerformMaintenanceDefaultResponse): response is VirtualMachineScaleSetsPerformMaintenanceDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsUpdateInstances200Response | VirtualMachineScaleSetsUpdateInstances202Response | VirtualMachineScaleSetsUpdateInstancesdefaultResponse): response is VirtualMachineScaleSetsUpdateInstancesdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsUpdateInstances200Response | VirtualMachineScaleSetsUpdateInstances202Response | VirtualMachineScaleSetsUpdateInstancesDefaultResponse): response is VirtualMachineScaleSetsUpdateInstancesDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsReimage200Response | VirtualMachineScaleSetsReimage202Response | VirtualMachineScaleSetsReimagedefaultResponse): response is VirtualMachineScaleSetsReimagedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsReimage200Response | VirtualMachineScaleSetsReimage202Response | VirtualMachineScaleSetsReimageDefaultResponse): response is VirtualMachineScaleSetsReimageDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsReimageAll200Response | VirtualMachineScaleSetsReimageAll202Response | VirtualMachineScaleSetsReimageAlldefaultResponse): response is VirtualMachineScaleSetsReimageAlldefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsReimageAll200Response | VirtualMachineScaleSetsReimageAll202Response | VirtualMachineScaleSetsReimageAllDefaultResponse): response is VirtualMachineScaleSetsReimageAllDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalk200Response | VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkdefaultResponse): response is VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalk200Response | VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkDefaultResponse): response is VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsConvertToSinglePlacementGroup200Response | VirtualMachineScaleSetsConvertToSinglePlacementGroupdefaultResponse): response is VirtualMachineScaleSetsConvertToSinglePlacementGroupdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsConvertToSinglePlacementGroup200Response | VirtualMachineScaleSetsConvertToSinglePlacementGroupDefaultResponse): response is VirtualMachineScaleSetsConvertToSinglePlacementGroupDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetsSetOrchestrationServiceState200Response | VirtualMachineScaleSetsSetOrchestrationServiceState202Response | VirtualMachineScaleSetsSetOrchestrationServiceStatedefaultResponse): response is VirtualMachineScaleSetsSetOrchestrationServiceStatedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetsSetOrchestrationServiceState200Response | VirtualMachineScaleSetsSetOrchestrationServiceState202Response | VirtualMachineScaleSetsSetOrchestrationServiceStateDefaultResponse): response is VirtualMachineScaleSetsSetOrchestrationServiceStateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetExtensionsCreateOrUpdate200Response | VirtualMachineScaleSetExtensionsCreateOrUpdate201Response | VirtualMachineScaleSetExtensionsCreateOrUpdatedefaultResponse): response is VirtualMachineScaleSetExtensionsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetExtensionsCreateOrUpdate200Response | VirtualMachineScaleSetExtensionsCreateOrUpdate201Response | VirtualMachineScaleSetExtensionsCreateOrUpdateDefaultResponse): response is VirtualMachineScaleSetExtensionsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetExtensionsUpdate200Response | VirtualMachineScaleSetExtensionsUpdate201Response | VirtualMachineScaleSetExtensionsUpdatedefaultResponse): response is VirtualMachineScaleSetExtensionsUpdatedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetExtensionsUpdate200Response | VirtualMachineScaleSetExtensionsUpdate201Response | VirtualMachineScaleSetExtensionsUpdateDefaultResponse): response is VirtualMachineScaleSetExtensionsUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetExtensionsDelete200Response | VirtualMachineScaleSetExtensionsDelete202Response | VirtualMachineScaleSetExtensionsDelete204Response | VirtualMachineScaleSetExtensionsDeletedefaultResponse): response is VirtualMachineScaleSetExtensionsDeletedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetExtensionsDelete200Response | VirtualMachineScaleSetExtensionsDelete202Response | VirtualMachineScaleSetExtensionsDelete204Response | VirtualMachineScaleSetExtensionsDeleteDefaultResponse): response is VirtualMachineScaleSetExtensionsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetExtensionsGet200Response | VirtualMachineScaleSetExtensionsGetdefaultResponse): response is VirtualMachineScaleSetExtensionsGetdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetExtensionsGet200Response | VirtualMachineScaleSetExtensionsGetDefaultResponse): response is VirtualMachineScaleSetExtensionsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetExtensionsList200Response | VirtualMachineScaleSetExtensionsListdefaultResponse): response is VirtualMachineScaleSetExtensionsListdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetExtensionsList200Response | VirtualMachineScaleSetExtensionsListDefaultResponse): response is VirtualMachineScaleSetExtensionsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetRollingUpgradesCancel200Response | VirtualMachineScaleSetRollingUpgradesCancel202Response | VirtualMachineScaleSetRollingUpgradesCanceldefaultResponse): response is VirtualMachineScaleSetRollingUpgradesCanceldefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetRollingUpgradesCancel200Response | VirtualMachineScaleSetRollingUpgradesCancel202Response | VirtualMachineScaleSetRollingUpgradesCancelDefaultResponse): response is VirtualMachineScaleSetRollingUpgradesCancelDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetRollingUpgradesStartOSUpgrade200Response | VirtualMachineScaleSetRollingUpgradesStartOSUpgrade202Response | VirtualMachineScaleSetRollingUpgradesStartOSUpgradedefaultResponse): response is VirtualMachineScaleSetRollingUpgradesStartOSUpgradedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetRollingUpgradesStartOSUpgrade200Response | VirtualMachineScaleSetRollingUpgradesStartOSUpgrade202Response | VirtualMachineScaleSetRollingUpgradesStartOSUpgradeDefaultResponse): response is VirtualMachineScaleSetRollingUpgradesStartOSUpgradeDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade200Response | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade202Response | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradedefaultResponse): response is VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade200Response | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade202Response | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeDefaultResponse): response is VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetRollingUpgradesGetLatest200Response | VirtualMachineScaleSetRollingUpgradesGetLatestdefaultResponse): response is VirtualMachineScaleSetRollingUpgradesGetLatestdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetRollingUpgradesGetLatest200Response | VirtualMachineScaleSetRollingUpgradesGetLatestDefaultResponse): response is VirtualMachineScaleSetRollingUpgradesGetLatestDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMExtensionsCreateOrUpdate200Response | VirtualMachineScaleSetVMExtensionsCreateOrUpdate201Response | VirtualMachineScaleSetVMExtensionsCreateOrUpdatedefaultResponse): response is VirtualMachineScaleSetVMExtensionsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMExtensionsCreateOrUpdate200Response | VirtualMachineScaleSetVMExtensionsCreateOrUpdate201Response | VirtualMachineScaleSetVMExtensionsCreateOrUpdateDefaultResponse): response is VirtualMachineScaleSetVMExtensionsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMExtensionsUpdate200Response | VirtualMachineScaleSetVMExtensionsUpdatedefaultResponse): response is VirtualMachineScaleSetVMExtensionsUpdatedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMExtensionsUpdate200Response | VirtualMachineScaleSetVMExtensionsUpdateDefaultResponse): response is VirtualMachineScaleSetVMExtensionsUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMExtensionsDelete200Response | VirtualMachineScaleSetVMExtensionsDelete202Response | VirtualMachineScaleSetVMExtensionsDelete204Response | VirtualMachineScaleSetVMExtensionsDeletedefaultResponse): response is VirtualMachineScaleSetVMExtensionsDeletedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMExtensionsDelete200Response | VirtualMachineScaleSetVMExtensionsDelete202Response | VirtualMachineScaleSetVMExtensionsDelete204Response | VirtualMachineScaleSetVMExtensionsDeleteDefaultResponse): response is VirtualMachineScaleSetVMExtensionsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMExtensionsGet200Response | VirtualMachineScaleSetVMExtensionsGetdefaultResponse): response is VirtualMachineScaleSetVMExtensionsGetdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMExtensionsGet200Response | VirtualMachineScaleSetVMExtensionsGetDefaultResponse): response is VirtualMachineScaleSetVMExtensionsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMExtensionsList200Response | VirtualMachineScaleSetVMExtensionsListdefaultResponse): response is VirtualMachineScaleSetVMExtensionsListdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMExtensionsList200Response | VirtualMachineScaleSetVMExtensionsListDefaultResponse): response is VirtualMachineScaleSetVMExtensionsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMsReimage200Response | VirtualMachineScaleSetVMsReimage202Response | VirtualMachineScaleSetVMsReimagedefaultResponse): response is VirtualMachineScaleSetVMsReimagedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMsReimage200Response | VirtualMachineScaleSetVMsReimage202Response | VirtualMachineScaleSetVMsReimageDefaultResponse): response is VirtualMachineScaleSetVMsReimageDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMsReimageAll200Response | VirtualMachineScaleSetVMsReimageAll202Response | VirtualMachineScaleSetVMsReimageAlldefaultResponse): response is VirtualMachineScaleSetVMsReimageAlldefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMsReimageAll200Response | VirtualMachineScaleSetVMsReimageAll202Response | VirtualMachineScaleSetVMsReimageAllDefaultResponse): response is VirtualMachineScaleSetVMsReimageAllDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMsDeallocate200Response | VirtualMachineScaleSetVMsDeallocate202Response | VirtualMachineScaleSetVMsDeallocatedefaultResponse): response is VirtualMachineScaleSetVMsDeallocatedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMsDeallocate200Response | VirtualMachineScaleSetVMsDeallocate202Response | VirtualMachineScaleSetVMsDeallocateDefaultResponse): response is VirtualMachineScaleSetVMsDeallocateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMsUpdate200Response | VirtualMachineScaleSetVMsUpdate202Response | VirtualMachineScaleSetVMsUpdatedefaultResponse): response is VirtualMachineScaleSetVMsUpdatedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMsUpdate200Response | VirtualMachineScaleSetVMsUpdate202Response | VirtualMachineScaleSetVMsUpdateDefaultResponse): response is VirtualMachineScaleSetVMsUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMsDelete200Response | VirtualMachineScaleSetVMsDelete202Response | VirtualMachineScaleSetVMsDelete204Response | VirtualMachineScaleSetVMsDeletedefaultResponse): response is VirtualMachineScaleSetVMsDeletedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMsDelete200Response | VirtualMachineScaleSetVMsDelete202Response | VirtualMachineScaleSetVMsDelete204Response | VirtualMachineScaleSetVMsDeleteDefaultResponse): response is VirtualMachineScaleSetVMsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMsGet200Response | VirtualMachineScaleSetVMsGetdefaultResponse): response is VirtualMachineScaleSetVMsGetdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMsGet200Response | VirtualMachineScaleSetVMsGetDefaultResponse): response is VirtualMachineScaleSetVMsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMsGetInstanceView200Response | VirtualMachineScaleSetVMsGetInstanceViewdefaultResponse): response is VirtualMachineScaleSetVMsGetInstanceViewdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMsGetInstanceView200Response | VirtualMachineScaleSetVMsGetInstanceViewDefaultResponse): response is VirtualMachineScaleSetVMsGetInstanceViewDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMsList200Response | VirtualMachineScaleSetVMsListdefaultResponse): response is VirtualMachineScaleSetVMsListdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMsList200Response | VirtualMachineScaleSetVMsListDefaultResponse): response is VirtualMachineScaleSetVMsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMsPowerOff200Response | VirtualMachineScaleSetVMsPowerOff202Response | VirtualMachineScaleSetVMsPowerOffdefaultResponse): response is VirtualMachineScaleSetVMsPowerOffdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMsPowerOff200Response | VirtualMachineScaleSetVMsPowerOff202Response | VirtualMachineScaleSetVMsPowerOffDefaultResponse): response is VirtualMachineScaleSetVMsPowerOffDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMsRestart200Response | VirtualMachineScaleSetVMsRestart202Response | VirtualMachineScaleSetVMsRestartdefaultResponse): response is VirtualMachineScaleSetVMsRestartdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMsRestart200Response | VirtualMachineScaleSetVMsRestart202Response | VirtualMachineScaleSetVMsRestartDefaultResponse): response is VirtualMachineScaleSetVMsRestartDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMsStart200Response | VirtualMachineScaleSetVMsStart202Response | VirtualMachineScaleSetVMsStartdefaultResponse): response is VirtualMachineScaleSetVMsStartdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMsStart200Response | VirtualMachineScaleSetVMsStart202Response | VirtualMachineScaleSetVMsStartDefaultResponse): response is VirtualMachineScaleSetVMsStartDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMsRedeploy200Response | VirtualMachineScaleSetVMsRedeploy202Response | VirtualMachineScaleSetVMsRedeploydefaultResponse): response is VirtualMachineScaleSetVMsRedeploydefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMsRedeploy200Response | VirtualMachineScaleSetVMsRedeploy202Response | VirtualMachineScaleSetVMsRedeployDefaultResponse): response is VirtualMachineScaleSetVMsRedeployDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData200Response | VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDatadefaultResponse): response is VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDatadefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData200Response | VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataDefaultResponse): response is VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMsPerformMaintenance200Response | VirtualMachineScaleSetVMsPerformMaintenance202Response | VirtualMachineScaleSetVMsPerformMaintenancedefaultResponse): response is VirtualMachineScaleSetVMsPerformMaintenancedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMsPerformMaintenance200Response | VirtualMachineScaleSetVMsPerformMaintenance202Response | VirtualMachineScaleSetVMsPerformMaintenanceDefaultResponse): response is VirtualMachineScaleSetVMsPerformMaintenanceDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMsSimulateEviction204Response | VirtualMachineScaleSetVMsSimulateEvictiondefaultResponse): response is VirtualMachineScaleSetVMsSimulateEvictiondefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMsSimulateEviction204Response | VirtualMachineScaleSetVMsSimulateEvictionDefaultResponse): response is VirtualMachineScaleSetVMsSimulateEvictionDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineExtensionsCreateOrUpdate200Response | VirtualMachineExtensionsCreateOrUpdate201Response | VirtualMachineExtensionsCreateOrUpdatedefaultResponse): response is VirtualMachineExtensionsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: VirtualMachineExtensionsCreateOrUpdate200Response | VirtualMachineExtensionsCreateOrUpdate201Response | VirtualMachineExtensionsCreateOrUpdateDefaultResponse): response is VirtualMachineExtensionsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineExtensionsUpdate200Response | VirtualMachineExtensionsUpdatedefaultResponse): response is VirtualMachineExtensionsUpdatedefaultResponse;
+export function isUnexpected(response: VirtualMachineExtensionsUpdate200Response | VirtualMachineExtensionsUpdateDefaultResponse): response is VirtualMachineExtensionsUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineExtensionsDelete200Response | VirtualMachineExtensionsDelete202Response | VirtualMachineExtensionsDelete204Response | VirtualMachineExtensionsDeletedefaultResponse): response is VirtualMachineExtensionsDeletedefaultResponse;
+export function isUnexpected(response: VirtualMachineExtensionsDelete200Response | VirtualMachineExtensionsDelete202Response | VirtualMachineExtensionsDelete204Response | VirtualMachineExtensionsDeleteDefaultResponse): response is VirtualMachineExtensionsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineExtensionsGet200Response | VirtualMachineExtensionsGetdefaultResponse): response is VirtualMachineExtensionsGetdefaultResponse;
+export function isUnexpected(response: VirtualMachineExtensionsGet200Response | VirtualMachineExtensionsGetDefaultResponse): response is VirtualMachineExtensionsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineExtensionsList200Response | VirtualMachineExtensionsListdefaultResponse): response is VirtualMachineExtensionsListdefaultResponse;
+export function isUnexpected(response: VirtualMachineExtensionsList200Response | VirtualMachineExtensionsListDefaultResponse): response is VirtualMachineExtensionsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesListByLocation200Response | VirtualMachinesListByLocationdefaultResponse): response is VirtualMachinesListByLocationdefaultResponse;
+export function isUnexpected(response: VirtualMachinesListByLocation200Response | VirtualMachinesListByLocationDefaultResponse): response is VirtualMachinesListByLocationDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesCapture200Response | VirtualMachinesCapture202Response | VirtualMachinesCapturedefaultResponse): response is VirtualMachinesCapturedefaultResponse;
+export function isUnexpected(response: VirtualMachinesCapture200Response | VirtualMachinesCapture202Response | VirtualMachinesCaptureDefaultResponse): response is VirtualMachinesCaptureDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesCreateOrUpdate200Response | VirtualMachinesCreateOrUpdate201Response | VirtualMachinesCreateOrUpdatedefaultResponse): response is VirtualMachinesCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: VirtualMachinesCreateOrUpdate200Response | VirtualMachinesCreateOrUpdate201Response | VirtualMachinesCreateOrUpdateDefaultResponse): response is VirtualMachinesCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesUpdate200Response | VirtualMachinesUpdatedefaultResponse): response is VirtualMachinesUpdatedefaultResponse;
+export function isUnexpected(response: VirtualMachinesUpdate200Response | VirtualMachinesUpdateDefaultResponse): response is VirtualMachinesUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesDelete200Response | VirtualMachinesDelete202Response | VirtualMachinesDelete204Response | VirtualMachinesDeletedefaultResponse): response is VirtualMachinesDeletedefaultResponse;
+export function isUnexpected(response: VirtualMachinesDelete200Response | VirtualMachinesDelete202Response | VirtualMachinesDelete204Response | VirtualMachinesDeleteDefaultResponse): response is VirtualMachinesDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesGet200Response | VirtualMachinesGetdefaultResponse): response is VirtualMachinesGetdefaultResponse;
+export function isUnexpected(response: VirtualMachinesGet200Response | VirtualMachinesGetDefaultResponse): response is VirtualMachinesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesInstanceView200Response | VirtualMachinesInstanceViewdefaultResponse): response is VirtualMachinesInstanceViewdefaultResponse;
+export function isUnexpected(response: VirtualMachinesInstanceView200Response | VirtualMachinesInstanceViewDefaultResponse): response is VirtualMachinesInstanceViewDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesConvertToManagedDisks200Response | VirtualMachinesConvertToManagedDisks202Response | VirtualMachinesConvertToManagedDisksdefaultResponse): response is VirtualMachinesConvertToManagedDisksdefaultResponse;
+export function isUnexpected(response: VirtualMachinesConvertToManagedDisks200Response | VirtualMachinesConvertToManagedDisks202Response | VirtualMachinesConvertToManagedDisksDefaultResponse): response is VirtualMachinesConvertToManagedDisksDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesDeallocate200Response | VirtualMachinesDeallocate202Response | VirtualMachinesDeallocatedefaultResponse): response is VirtualMachinesDeallocatedefaultResponse;
+export function isUnexpected(response: VirtualMachinesDeallocate200Response | VirtualMachinesDeallocate202Response | VirtualMachinesDeallocateDefaultResponse): response is VirtualMachinesDeallocateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesGeneralize200Response | VirtualMachinesGeneralizedefaultResponse): response is VirtualMachinesGeneralizedefaultResponse;
+export function isUnexpected(response: VirtualMachinesGeneralize200Response | VirtualMachinesGeneralizeDefaultResponse): response is VirtualMachinesGeneralizeDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesList200Response | VirtualMachinesListdefaultResponse): response is VirtualMachinesListdefaultResponse;
+export function isUnexpected(response: VirtualMachinesList200Response | VirtualMachinesListDefaultResponse): response is VirtualMachinesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesListAll200Response | VirtualMachinesListAlldefaultResponse): response is VirtualMachinesListAlldefaultResponse;
+export function isUnexpected(response: VirtualMachinesListAll200Response | VirtualMachinesListAllDefaultResponse): response is VirtualMachinesListAllDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesListAvailableSizes200Response | VirtualMachinesListAvailableSizesdefaultResponse): response is VirtualMachinesListAvailableSizesdefaultResponse;
+export function isUnexpected(response: VirtualMachinesListAvailableSizes200Response | VirtualMachinesListAvailableSizesDefaultResponse): response is VirtualMachinesListAvailableSizesDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesPowerOff200Response | VirtualMachinesPowerOff202Response | VirtualMachinesPowerOffdefaultResponse): response is VirtualMachinesPowerOffdefaultResponse;
+export function isUnexpected(response: VirtualMachinesPowerOff200Response | VirtualMachinesPowerOff202Response | VirtualMachinesPowerOffDefaultResponse): response is VirtualMachinesPowerOffDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesReapply200Response | VirtualMachinesReapply202Response | VirtualMachinesReapplydefaultResponse): response is VirtualMachinesReapplydefaultResponse;
+export function isUnexpected(response: VirtualMachinesReapply200Response | VirtualMachinesReapply202Response | VirtualMachinesReapplyDefaultResponse): response is VirtualMachinesReapplyDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesRestart200Response | VirtualMachinesRestart202Response | VirtualMachinesRestartdefaultResponse): response is VirtualMachinesRestartdefaultResponse;
+export function isUnexpected(response: VirtualMachinesRestart200Response | VirtualMachinesRestart202Response | VirtualMachinesRestartDefaultResponse): response is VirtualMachinesRestartDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesStart200Response | VirtualMachinesStart202Response | VirtualMachinesStartdefaultResponse): response is VirtualMachinesStartdefaultResponse;
+export function isUnexpected(response: VirtualMachinesStart200Response | VirtualMachinesStart202Response | VirtualMachinesStartDefaultResponse): response is VirtualMachinesStartDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesRedeploy200Response | VirtualMachinesRedeploy202Response | VirtualMachinesRedeploydefaultResponse): response is VirtualMachinesRedeploydefaultResponse;
+export function isUnexpected(response: VirtualMachinesRedeploy200Response | VirtualMachinesRedeploy202Response | VirtualMachinesRedeployDefaultResponse): response is VirtualMachinesRedeployDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesReimage200Response | VirtualMachinesReimage202Response | VirtualMachinesReimagedefaultResponse): response is VirtualMachinesReimagedefaultResponse;
+export function isUnexpected(response: VirtualMachinesReimage200Response | VirtualMachinesReimage202Response | VirtualMachinesReimageDefaultResponse): response is VirtualMachinesReimageDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesRetrieveBootDiagnosticsData200Response | VirtualMachinesRetrieveBootDiagnosticsDatadefaultResponse): response is VirtualMachinesRetrieveBootDiagnosticsDatadefaultResponse;
+export function isUnexpected(response: VirtualMachinesRetrieveBootDiagnosticsData200Response | VirtualMachinesRetrieveBootDiagnosticsDataDefaultResponse): response is VirtualMachinesRetrieveBootDiagnosticsDataDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesPerformMaintenance200Response | VirtualMachinesPerformMaintenance202Response | VirtualMachinesPerformMaintenancedefaultResponse): response is VirtualMachinesPerformMaintenancedefaultResponse;
+export function isUnexpected(response: VirtualMachinesPerformMaintenance200Response | VirtualMachinesPerformMaintenance202Response | VirtualMachinesPerformMaintenanceDefaultResponse): response is VirtualMachinesPerformMaintenanceDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesSimulateEviction204Response | VirtualMachinesSimulateEvictiondefaultResponse): response is VirtualMachinesSimulateEvictiondefaultResponse;
+export function isUnexpected(response: VirtualMachinesSimulateEviction204Response | VirtualMachinesSimulateEvictionDefaultResponse): response is VirtualMachinesSimulateEvictionDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesAssessPatches200Response | VirtualMachinesAssessPatches202Response | VirtualMachinesAssessPatchesdefaultResponse): response is VirtualMachinesAssessPatchesdefaultResponse;
+export function isUnexpected(response: VirtualMachinesAssessPatches200Response | VirtualMachinesAssessPatches202Response | VirtualMachinesAssessPatchesDefaultResponse): response is VirtualMachinesAssessPatchesDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachinesInstallPatches200Response | VirtualMachinesInstallPatches202Response | VirtualMachinesInstallPatchesdefaultResponse): response is VirtualMachinesInstallPatchesdefaultResponse;
+export function isUnexpected(response: VirtualMachinesInstallPatches200Response | VirtualMachinesInstallPatches202Response | VirtualMachinesInstallPatchesDefaultResponse): response is VirtualMachinesInstallPatchesDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineImagesGet200Response | VirtualMachineImagesGetdefaultResponse): response is VirtualMachineImagesGetdefaultResponse;
+export function isUnexpected(response: VirtualMachineImagesGet200Response | VirtualMachineImagesGetDefaultResponse): response is VirtualMachineImagesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineImagesList200Response | VirtualMachineImagesListdefaultResponse): response is VirtualMachineImagesListdefaultResponse;
+export function isUnexpected(response: VirtualMachineImagesList200Response | VirtualMachineImagesListDefaultResponse): response is VirtualMachineImagesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineImagesListOffers200Response | VirtualMachineImagesListOffersdefaultResponse): response is VirtualMachineImagesListOffersdefaultResponse;
+export function isUnexpected(response: VirtualMachineImagesListOffers200Response | VirtualMachineImagesListOffersDefaultResponse): response is VirtualMachineImagesListOffersDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineImagesListPublishers200Response | VirtualMachineImagesListPublishersdefaultResponse): response is VirtualMachineImagesListPublishersdefaultResponse;
+export function isUnexpected(response: VirtualMachineImagesListPublishers200Response | VirtualMachineImagesListPublishersDefaultResponse): response is VirtualMachineImagesListPublishersDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineImagesListSkus200Response | VirtualMachineImagesListSkusdefaultResponse): response is VirtualMachineImagesListSkusdefaultResponse;
+export function isUnexpected(response: VirtualMachineImagesListSkus200Response | VirtualMachineImagesListSkusDefaultResponse): response is VirtualMachineImagesListSkusDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineImagesListByEdgeZone200Response | VirtualMachineImagesListByEdgeZonedefaultResponse): response is VirtualMachineImagesListByEdgeZonedefaultResponse;
+export function isUnexpected(response: VirtualMachineImagesListByEdgeZone200Response | VirtualMachineImagesListByEdgeZoneDefaultResponse): response is VirtualMachineImagesListByEdgeZoneDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineImagesEdgeZoneGet200Response | VirtualMachineImagesEdgeZoneGetdefaultResponse): response is VirtualMachineImagesEdgeZoneGetdefaultResponse;
+export function isUnexpected(response: VirtualMachineImagesEdgeZoneGet200Response | VirtualMachineImagesEdgeZoneGetDefaultResponse): response is VirtualMachineImagesEdgeZoneGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineImagesEdgeZoneList200Response | VirtualMachineImagesEdgeZoneListdefaultResponse): response is VirtualMachineImagesEdgeZoneListdefaultResponse;
+export function isUnexpected(response: VirtualMachineImagesEdgeZoneList200Response | VirtualMachineImagesEdgeZoneListDefaultResponse): response is VirtualMachineImagesEdgeZoneListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineImagesEdgeZoneListOffers200Response | VirtualMachineImagesEdgeZoneListOffersdefaultResponse): response is VirtualMachineImagesEdgeZoneListOffersdefaultResponse;
+export function isUnexpected(response: VirtualMachineImagesEdgeZoneListOffers200Response | VirtualMachineImagesEdgeZoneListOffersDefaultResponse): response is VirtualMachineImagesEdgeZoneListOffersDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineImagesEdgeZoneListPublishers200Response | VirtualMachineImagesEdgeZoneListPublishersdefaultResponse): response is VirtualMachineImagesEdgeZoneListPublishersdefaultResponse;
+export function isUnexpected(response: VirtualMachineImagesEdgeZoneListPublishers200Response | VirtualMachineImagesEdgeZoneListPublishersDefaultResponse): response is VirtualMachineImagesEdgeZoneListPublishersDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineImagesEdgeZoneListSkus200Response | VirtualMachineImagesEdgeZoneListSkusdefaultResponse): response is VirtualMachineImagesEdgeZoneListSkusdefaultResponse;
+export function isUnexpected(response: VirtualMachineImagesEdgeZoneListSkus200Response | VirtualMachineImagesEdgeZoneListSkusDefaultResponse): response is VirtualMachineImagesEdgeZoneListSkusDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineExtensionImagesGet200Response | VirtualMachineExtensionImagesGetdefaultResponse): response is VirtualMachineExtensionImagesGetdefaultResponse;
+export function isUnexpected(response: VirtualMachineExtensionImagesGet200Response | VirtualMachineExtensionImagesGetDefaultResponse): response is VirtualMachineExtensionImagesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineExtensionImagesListTypes200Response | VirtualMachineExtensionImagesListTypesdefaultResponse): response is VirtualMachineExtensionImagesListTypesdefaultResponse;
+export function isUnexpected(response: VirtualMachineExtensionImagesListTypes200Response | VirtualMachineExtensionImagesListTypesDefaultResponse): response is VirtualMachineExtensionImagesListTypesDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineExtensionImagesListVersions200Response | VirtualMachineExtensionImagesListVersionsdefaultResponse): response is VirtualMachineExtensionImagesListVersionsdefaultResponse;
+export function isUnexpected(response: VirtualMachineExtensionImagesListVersions200Response | VirtualMachineExtensionImagesListVersionsDefaultResponse): response is VirtualMachineExtensionImagesListVersionsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AvailabilitySetsCreateOrUpdate200Response | AvailabilitySetsCreateOrUpdatedefaultResponse): response is AvailabilitySetsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: AvailabilitySetsCreateOrUpdate200Response | AvailabilitySetsCreateOrUpdateDefaultResponse): response is AvailabilitySetsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AvailabilitySetsUpdate200Response | AvailabilitySetsUpdatedefaultResponse): response is AvailabilitySetsUpdatedefaultResponse;
+export function isUnexpected(response: AvailabilitySetsUpdate200Response | AvailabilitySetsUpdateDefaultResponse): response is AvailabilitySetsUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AvailabilitySetsDelete200Response | AvailabilitySetsDelete204Response | AvailabilitySetsDeletedefaultResponse): response is AvailabilitySetsDeletedefaultResponse;
+export function isUnexpected(response: AvailabilitySetsDelete200Response | AvailabilitySetsDelete204Response | AvailabilitySetsDeleteDefaultResponse): response is AvailabilitySetsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AvailabilitySetsGet200Response | AvailabilitySetsGetdefaultResponse): response is AvailabilitySetsGetdefaultResponse;
+export function isUnexpected(response: AvailabilitySetsGet200Response | AvailabilitySetsGetDefaultResponse): response is AvailabilitySetsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AvailabilitySetsListBySubscription200Response | AvailabilitySetsListBySubscriptiondefaultResponse): response is AvailabilitySetsListBySubscriptiondefaultResponse;
+export function isUnexpected(response: AvailabilitySetsListBySubscription200Response | AvailabilitySetsListBySubscriptionDefaultResponse): response is AvailabilitySetsListBySubscriptionDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AvailabilitySetsList200Response | AvailabilitySetsListdefaultResponse): response is AvailabilitySetsListdefaultResponse;
+export function isUnexpected(response: AvailabilitySetsList200Response | AvailabilitySetsListDefaultResponse): response is AvailabilitySetsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AvailabilitySetsListAvailableSizes200Response | AvailabilitySetsListAvailableSizesdefaultResponse): response is AvailabilitySetsListAvailableSizesdefaultResponse;
+export function isUnexpected(response: AvailabilitySetsListAvailableSizes200Response | AvailabilitySetsListAvailableSizesDefaultResponse): response is AvailabilitySetsListAvailableSizesDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ProximityPlacementGroupsCreateOrUpdate200Response | ProximityPlacementGroupsCreateOrUpdate201Response | ProximityPlacementGroupsCreateOrUpdatedefaultResponse): response is ProximityPlacementGroupsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: ProximityPlacementGroupsCreateOrUpdate200Response | ProximityPlacementGroupsCreateOrUpdate201Response | ProximityPlacementGroupsCreateOrUpdateDefaultResponse): response is ProximityPlacementGroupsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ProximityPlacementGroupsUpdate200Response | ProximityPlacementGroupsUpdatedefaultResponse): response is ProximityPlacementGroupsUpdatedefaultResponse;
+export function isUnexpected(response: ProximityPlacementGroupsUpdate200Response | ProximityPlacementGroupsUpdateDefaultResponse): response is ProximityPlacementGroupsUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ProximityPlacementGroupsDelete200Response | ProximityPlacementGroupsDeletedefaultResponse): response is ProximityPlacementGroupsDeletedefaultResponse;
+export function isUnexpected(response: ProximityPlacementGroupsDelete200Response | ProximityPlacementGroupsDeleteDefaultResponse): response is ProximityPlacementGroupsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ProximityPlacementGroupsGet200Response | ProximityPlacementGroupsGetdefaultResponse): response is ProximityPlacementGroupsGetdefaultResponse;
+export function isUnexpected(response: ProximityPlacementGroupsGet200Response | ProximityPlacementGroupsGetDefaultResponse): response is ProximityPlacementGroupsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ProximityPlacementGroupsListBySubscription200Response | ProximityPlacementGroupsListBySubscriptiondefaultResponse): response is ProximityPlacementGroupsListBySubscriptiondefaultResponse;
+export function isUnexpected(response: ProximityPlacementGroupsListBySubscription200Response | ProximityPlacementGroupsListBySubscriptionDefaultResponse): response is ProximityPlacementGroupsListBySubscriptionDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ProximityPlacementGroupsListByResourceGroup200Response | ProximityPlacementGroupsListByResourceGroupdefaultResponse): response is ProximityPlacementGroupsListByResourceGroupdefaultResponse;
+export function isUnexpected(response: ProximityPlacementGroupsListByResourceGroup200Response | ProximityPlacementGroupsListByResourceGroupDefaultResponse): response is ProximityPlacementGroupsListByResourceGroupDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DedicatedHostGroupsCreateOrUpdate200Response | DedicatedHostGroupsCreateOrUpdate201Response | DedicatedHostGroupsCreateOrUpdatedefaultResponse): response is DedicatedHostGroupsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: DedicatedHostGroupsCreateOrUpdate200Response | DedicatedHostGroupsCreateOrUpdate201Response | DedicatedHostGroupsCreateOrUpdateDefaultResponse): response is DedicatedHostGroupsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DedicatedHostGroupsUpdate200Response | DedicatedHostGroupsUpdatedefaultResponse): response is DedicatedHostGroupsUpdatedefaultResponse;
+export function isUnexpected(response: DedicatedHostGroupsUpdate200Response | DedicatedHostGroupsUpdateDefaultResponse): response is DedicatedHostGroupsUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DedicatedHostGroupsDelete200Response | DedicatedHostGroupsDelete204Response | DedicatedHostGroupsDeletedefaultResponse): response is DedicatedHostGroupsDeletedefaultResponse;
+export function isUnexpected(response: DedicatedHostGroupsDelete200Response | DedicatedHostGroupsDelete204Response | DedicatedHostGroupsDeleteDefaultResponse): response is DedicatedHostGroupsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DedicatedHostGroupsGet200Response | DedicatedHostGroupsGetdefaultResponse): response is DedicatedHostGroupsGetdefaultResponse;
+export function isUnexpected(response: DedicatedHostGroupsGet200Response | DedicatedHostGroupsGetDefaultResponse): response is DedicatedHostGroupsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DedicatedHostGroupsListByResourceGroup200Response | DedicatedHostGroupsListByResourceGroupdefaultResponse): response is DedicatedHostGroupsListByResourceGroupdefaultResponse;
+export function isUnexpected(response: DedicatedHostGroupsListByResourceGroup200Response | DedicatedHostGroupsListByResourceGroupDefaultResponse): response is DedicatedHostGroupsListByResourceGroupDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DedicatedHostGroupsListBySubscription200Response | DedicatedHostGroupsListBySubscriptiondefaultResponse): response is DedicatedHostGroupsListBySubscriptiondefaultResponse;
+export function isUnexpected(response: DedicatedHostGroupsListBySubscription200Response | DedicatedHostGroupsListBySubscriptionDefaultResponse): response is DedicatedHostGroupsListBySubscriptionDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DedicatedHostsCreateOrUpdate200Response | DedicatedHostsCreateOrUpdate201Response | DedicatedHostsCreateOrUpdatedefaultResponse): response is DedicatedHostsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: DedicatedHostsCreateOrUpdate200Response | DedicatedHostsCreateOrUpdate201Response | DedicatedHostsCreateOrUpdateDefaultResponse): response is DedicatedHostsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DedicatedHostsUpdate200Response | DedicatedHostsUpdatedefaultResponse): response is DedicatedHostsUpdatedefaultResponse;
+export function isUnexpected(response: DedicatedHostsUpdate200Response | DedicatedHostsUpdateDefaultResponse): response is DedicatedHostsUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DedicatedHostsDelete200Response | DedicatedHostsDelete202Response | DedicatedHostsDelete204Response | DedicatedHostsDeletedefaultResponse): response is DedicatedHostsDeletedefaultResponse;
+export function isUnexpected(response: DedicatedHostsDelete200Response | DedicatedHostsDelete202Response | DedicatedHostsDelete204Response | DedicatedHostsDeleteDefaultResponse): response is DedicatedHostsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DedicatedHostsGet200Response | DedicatedHostsGetdefaultResponse): response is DedicatedHostsGetdefaultResponse;
+export function isUnexpected(response: DedicatedHostsGet200Response | DedicatedHostsGetDefaultResponse): response is DedicatedHostsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DedicatedHostsListByHostGroup200Response | DedicatedHostsListByHostGroupdefaultResponse): response is DedicatedHostsListByHostGroupdefaultResponse;
+export function isUnexpected(response: DedicatedHostsListByHostGroup200Response | DedicatedHostsListByHostGroupDefaultResponse): response is DedicatedHostsListByHostGroupDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DedicatedHostsRestart200Response | DedicatedHostsRestartdefaultResponse): response is DedicatedHostsRestartdefaultResponse;
+export function isUnexpected(response: DedicatedHostsRestart200Response | DedicatedHostsRestartDefaultResponse): response is DedicatedHostsRestartDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SshPublicKeysListBySubscription200Response | SshPublicKeysListBySubscriptiondefaultResponse): response is SshPublicKeysListBySubscriptiondefaultResponse;
+export function isUnexpected(response: SshPublicKeysListBySubscription200Response | SshPublicKeysListBySubscriptionDefaultResponse): response is SshPublicKeysListBySubscriptionDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SshPublicKeysListByResourceGroup200Response | SshPublicKeysListByResourceGroupdefaultResponse): response is SshPublicKeysListByResourceGroupdefaultResponse;
+export function isUnexpected(response: SshPublicKeysListByResourceGroup200Response | SshPublicKeysListByResourceGroupDefaultResponse): response is SshPublicKeysListByResourceGroupDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SshPublicKeysCreate200Response | SshPublicKeysCreate201Response | SshPublicKeysCreatedefaultResponse): response is SshPublicKeysCreatedefaultResponse;
+export function isUnexpected(response: SshPublicKeysCreate200Response | SshPublicKeysCreate201Response | SshPublicKeysCreateDefaultResponse): response is SshPublicKeysCreateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SshPublicKeysUpdate200Response | SshPublicKeysUpdatedefaultResponse): response is SshPublicKeysUpdatedefaultResponse;
+export function isUnexpected(response: SshPublicKeysUpdate200Response | SshPublicKeysUpdateDefaultResponse): response is SshPublicKeysUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SshPublicKeysDelete200Response | SshPublicKeysDelete204Response | SshPublicKeysDeletedefaultResponse): response is SshPublicKeysDeletedefaultResponse;
+export function isUnexpected(response: SshPublicKeysDelete200Response | SshPublicKeysDelete204Response | SshPublicKeysDeleteDefaultResponse): response is SshPublicKeysDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SshPublicKeysGet200Response | SshPublicKeysGetdefaultResponse): response is SshPublicKeysGetdefaultResponse;
+export function isUnexpected(response: SshPublicKeysGet200Response | SshPublicKeysGetDefaultResponse): response is SshPublicKeysGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SshPublicKeysGenerateKeyPair200Response | SshPublicKeysGenerateKeyPairdefaultResponse): response is SshPublicKeysGenerateKeyPairdefaultResponse;
+export function isUnexpected(response: SshPublicKeysGenerateKeyPair200Response | SshPublicKeysGenerateKeyPairDefaultResponse): response is SshPublicKeysGenerateKeyPairDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ImagesCreateOrUpdate200Response | ImagesCreateOrUpdate201Response | ImagesCreateOrUpdatedefaultResponse): response is ImagesCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: ImagesCreateOrUpdate200Response | ImagesCreateOrUpdate201Response | ImagesCreateOrUpdateDefaultResponse): response is ImagesCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ImagesUpdate200Response | ImagesUpdate201Response | ImagesUpdatedefaultResponse): response is ImagesUpdatedefaultResponse;
+export function isUnexpected(response: ImagesUpdate200Response | ImagesUpdate201Response | ImagesUpdateDefaultResponse): response is ImagesUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ImagesDelete200Response | ImagesDelete202Response | ImagesDelete204Response | ImagesDeletedefaultResponse): response is ImagesDeletedefaultResponse;
+export function isUnexpected(response: ImagesDelete200Response | ImagesDelete202Response | ImagesDelete204Response | ImagesDeleteDefaultResponse): response is ImagesDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ImagesGet200Response | ImagesGetdefaultResponse): response is ImagesGetdefaultResponse;
+export function isUnexpected(response: ImagesGet200Response | ImagesGetDefaultResponse): response is ImagesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ImagesListByResourceGroup200Response | ImagesListByResourceGroupdefaultResponse): response is ImagesListByResourceGroupdefaultResponse;
+export function isUnexpected(response: ImagesListByResourceGroup200Response | ImagesListByResourceGroupDefaultResponse): response is ImagesListByResourceGroupDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ImagesList200Response | ImagesListdefaultResponse): response is ImagesListdefaultResponse;
+export function isUnexpected(response: ImagesList200Response | ImagesListDefaultResponse): response is ImagesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: RestorePointCollectionsCreateOrUpdate200Response | RestorePointCollectionsCreateOrUpdate201Response | RestorePointCollectionsCreateOrUpdatedefaultResponse): response is RestorePointCollectionsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: RestorePointCollectionsCreateOrUpdate200Response | RestorePointCollectionsCreateOrUpdate201Response | RestorePointCollectionsCreateOrUpdateDefaultResponse): response is RestorePointCollectionsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: RestorePointCollectionsUpdate200Response | RestorePointCollectionsUpdatedefaultResponse): response is RestorePointCollectionsUpdatedefaultResponse;
+export function isUnexpected(response: RestorePointCollectionsUpdate200Response | RestorePointCollectionsUpdateDefaultResponse): response is RestorePointCollectionsUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: RestorePointCollectionsDelete200Response | RestorePointCollectionsDelete202Response | RestorePointCollectionsDelete204Response | RestorePointCollectionsDeletedefaultResponse): response is RestorePointCollectionsDeletedefaultResponse;
+export function isUnexpected(response: RestorePointCollectionsDelete200Response | RestorePointCollectionsDelete202Response | RestorePointCollectionsDelete204Response | RestorePointCollectionsDeleteDefaultResponse): response is RestorePointCollectionsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: RestorePointCollectionsGet200Response | RestorePointCollectionsGetdefaultResponse): response is RestorePointCollectionsGetdefaultResponse;
+export function isUnexpected(response: RestorePointCollectionsGet200Response | RestorePointCollectionsGetDefaultResponse): response is RestorePointCollectionsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: RestorePointCollectionsList200Response | RestorePointCollectionsListdefaultResponse): response is RestorePointCollectionsListdefaultResponse;
+export function isUnexpected(response: RestorePointCollectionsList200Response | RestorePointCollectionsListDefaultResponse): response is RestorePointCollectionsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: RestorePointCollectionsListAll200Response | RestorePointCollectionsListAlldefaultResponse): response is RestorePointCollectionsListAlldefaultResponse;
+export function isUnexpected(response: RestorePointCollectionsListAll200Response | RestorePointCollectionsListAllDefaultResponse): response is RestorePointCollectionsListAllDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: RestorePointsCreate201Response | RestorePointsCreatedefaultResponse): response is RestorePointsCreatedefaultResponse;
+export function isUnexpected(response: RestorePointsCreate201Response | RestorePointsCreateDefaultResponse): response is RestorePointsCreateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: RestorePointsDelete200Response | RestorePointsDelete202Response | RestorePointsDelete204Response | RestorePointsDeletedefaultResponse): response is RestorePointsDeletedefaultResponse;
+export function isUnexpected(response: RestorePointsDelete200Response | RestorePointsDelete202Response | RestorePointsDelete204Response | RestorePointsDeleteDefaultResponse): response is RestorePointsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: RestorePointsGet200Response | RestorePointsGetdefaultResponse): response is RestorePointsGetdefaultResponse;
+export function isUnexpected(response: RestorePointsGet200Response | RestorePointsGetDefaultResponse): response is RestorePointsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CapacityReservationGroupsCreateOrUpdate200Response | CapacityReservationGroupsCreateOrUpdate201Response | CapacityReservationGroupsCreateOrUpdatedefaultResponse): response is CapacityReservationGroupsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: CapacityReservationGroupsCreateOrUpdate200Response | CapacityReservationGroupsCreateOrUpdate201Response | CapacityReservationGroupsCreateOrUpdateDefaultResponse): response is CapacityReservationGroupsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CapacityReservationGroupsUpdate200Response | CapacityReservationGroupsUpdatedefaultResponse): response is CapacityReservationGroupsUpdatedefaultResponse;
+export function isUnexpected(response: CapacityReservationGroupsUpdate200Response | CapacityReservationGroupsUpdateDefaultResponse): response is CapacityReservationGroupsUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CapacityReservationGroupsDelete200Response | CapacityReservationGroupsDelete204Response | CapacityReservationGroupsDeletedefaultResponse): response is CapacityReservationGroupsDeletedefaultResponse;
+export function isUnexpected(response: CapacityReservationGroupsDelete200Response | CapacityReservationGroupsDelete204Response | CapacityReservationGroupsDeleteDefaultResponse): response is CapacityReservationGroupsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CapacityReservationGroupsGet200Response | CapacityReservationGroupsGetdefaultResponse): response is CapacityReservationGroupsGetdefaultResponse;
+export function isUnexpected(response: CapacityReservationGroupsGet200Response | CapacityReservationGroupsGetDefaultResponse): response is CapacityReservationGroupsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CapacityReservationGroupsListByResourceGroup200Response | CapacityReservationGroupsListByResourceGroupdefaultResponse): response is CapacityReservationGroupsListByResourceGroupdefaultResponse;
+export function isUnexpected(response: CapacityReservationGroupsListByResourceGroup200Response | CapacityReservationGroupsListByResourceGroupDefaultResponse): response is CapacityReservationGroupsListByResourceGroupDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CapacityReservationGroupsListBySubscription200Response | CapacityReservationGroupsListBySubscriptiondefaultResponse): response is CapacityReservationGroupsListBySubscriptiondefaultResponse;
+export function isUnexpected(response: CapacityReservationGroupsListBySubscription200Response | CapacityReservationGroupsListBySubscriptionDefaultResponse): response is CapacityReservationGroupsListBySubscriptionDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CapacityReservationsCreateOrUpdate200Response | CapacityReservationsCreateOrUpdate201Response | CapacityReservationsCreateOrUpdatedefaultResponse): response is CapacityReservationsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: CapacityReservationsCreateOrUpdate200Response | CapacityReservationsCreateOrUpdate201Response | CapacityReservationsCreateOrUpdateDefaultResponse): response is CapacityReservationsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CapacityReservationsUpdate200Response | CapacityReservationsUpdate202Response | CapacityReservationsUpdatedefaultResponse): response is CapacityReservationsUpdatedefaultResponse;
+export function isUnexpected(response: CapacityReservationsUpdate200Response | CapacityReservationsUpdate202Response | CapacityReservationsUpdateDefaultResponse): response is CapacityReservationsUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CapacityReservationsDelete200Response | CapacityReservationsDelete202Response | CapacityReservationsDelete204Response | CapacityReservationsDeletedefaultResponse): response is CapacityReservationsDeletedefaultResponse;
+export function isUnexpected(response: CapacityReservationsDelete200Response | CapacityReservationsDelete202Response | CapacityReservationsDelete204Response | CapacityReservationsDeleteDefaultResponse): response is CapacityReservationsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CapacityReservationsGet200Response | CapacityReservationsGetdefaultResponse): response is CapacityReservationsGetdefaultResponse;
+export function isUnexpected(response: CapacityReservationsGet200Response | CapacityReservationsGetDefaultResponse): response is CapacityReservationsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CapacityReservationsListByCapacityReservationGroup200Response | CapacityReservationsListByCapacityReservationGroupdefaultResponse): response is CapacityReservationsListByCapacityReservationGroupdefaultResponse;
+export function isUnexpected(response: CapacityReservationsListByCapacityReservationGroup200Response | CapacityReservationsListByCapacityReservationGroupDefaultResponse): response is CapacityReservationsListByCapacityReservationGroupDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: LogAnalyticsExportRequestRateByInterval200Response | LogAnalyticsExportRequestRateByInterval202Response | LogAnalyticsExportRequestRateByIntervaldefaultResponse): response is LogAnalyticsExportRequestRateByIntervaldefaultResponse;
+export function isUnexpected(response: LogAnalyticsExportRequestRateByInterval200Response | LogAnalyticsExportRequestRateByInterval202Response | LogAnalyticsExportRequestRateByIntervalDefaultResponse): response is LogAnalyticsExportRequestRateByIntervalDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: LogAnalyticsExportThrottledRequests200Response | LogAnalyticsExportThrottledRequests202Response | LogAnalyticsExportThrottledRequestsdefaultResponse): response is LogAnalyticsExportThrottledRequestsdefaultResponse;
+export function isUnexpected(response: LogAnalyticsExportThrottledRequests200Response | LogAnalyticsExportThrottledRequests202Response | LogAnalyticsExportThrottledRequestsDefaultResponse): response is LogAnalyticsExportThrottledRequestsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineRunCommandsCreateOrUpdate200Response | VirtualMachineRunCommandsCreateOrUpdate201Response | VirtualMachineRunCommandsCreateOrUpdatedefaultResponse): response is VirtualMachineRunCommandsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: VirtualMachineRunCommandsCreateOrUpdate200Response | VirtualMachineRunCommandsCreateOrUpdate201Response | VirtualMachineRunCommandsCreateOrUpdateDefaultResponse): response is VirtualMachineRunCommandsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineRunCommandsUpdate200Response | VirtualMachineRunCommandsUpdatedefaultResponse): response is VirtualMachineRunCommandsUpdatedefaultResponse;
+export function isUnexpected(response: VirtualMachineRunCommandsUpdate200Response | VirtualMachineRunCommandsUpdateDefaultResponse): response is VirtualMachineRunCommandsUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineRunCommandsDelete200Response | VirtualMachineRunCommandsDelete202Response | VirtualMachineRunCommandsDelete204Response | VirtualMachineRunCommandsDeletedefaultResponse): response is VirtualMachineRunCommandsDeletedefaultResponse;
+export function isUnexpected(response: VirtualMachineRunCommandsDelete200Response | VirtualMachineRunCommandsDelete202Response | VirtualMachineRunCommandsDelete204Response | VirtualMachineRunCommandsDeleteDefaultResponse): response is VirtualMachineRunCommandsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineRunCommandsGetByVirtualMachine200Response | VirtualMachineRunCommandsGetByVirtualMachinedefaultResponse): response is VirtualMachineRunCommandsGetByVirtualMachinedefaultResponse;
+export function isUnexpected(response: VirtualMachineRunCommandsGetByVirtualMachine200Response | VirtualMachineRunCommandsGetByVirtualMachineDefaultResponse): response is VirtualMachineRunCommandsGetByVirtualMachineDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineRunCommandsListByVirtualMachine200Response | VirtualMachineRunCommandsListByVirtualMachinedefaultResponse): response is VirtualMachineRunCommandsListByVirtualMachinedefaultResponse;
+export function isUnexpected(response: VirtualMachineRunCommandsListByVirtualMachine200Response | VirtualMachineRunCommandsListByVirtualMachineDefaultResponse): response is VirtualMachineRunCommandsListByVirtualMachineDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMRunCommandsCreateOrUpdate200Response | VirtualMachineScaleSetVMRunCommandsCreateOrUpdate201Response | VirtualMachineScaleSetVMRunCommandsCreateOrUpdatedefaultResponse): response is VirtualMachineScaleSetVMRunCommandsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMRunCommandsCreateOrUpdate200Response | VirtualMachineScaleSetVMRunCommandsCreateOrUpdate201Response | VirtualMachineScaleSetVMRunCommandsCreateOrUpdateDefaultResponse): response is VirtualMachineScaleSetVMRunCommandsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMRunCommandsUpdate200Response | VirtualMachineScaleSetVMRunCommandsUpdatedefaultResponse): response is VirtualMachineScaleSetVMRunCommandsUpdatedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMRunCommandsUpdate200Response | VirtualMachineScaleSetVMRunCommandsUpdateDefaultResponse): response is VirtualMachineScaleSetVMRunCommandsUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMRunCommandsDelete200Response | VirtualMachineScaleSetVMRunCommandsDelete202Response | VirtualMachineScaleSetVMRunCommandsDelete204Response | VirtualMachineScaleSetVMRunCommandsDeletedefaultResponse): response is VirtualMachineScaleSetVMRunCommandsDeletedefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMRunCommandsDelete200Response | VirtualMachineScaleSetVMRunCommandsDelete202Response | VirtualMachineScaleSetVMRunCommandsDelete204Response | VirtualMachineScaleSetVMRunCommandsDeleteDefaultResponse): response is VirtualMachineScaleSetVMRunCommandsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMRunCommandsGet200Response | VirtualMachineScaleSetVMRunCommandsGetdefaultResponse): response is VirtualMachineScaleSetVMRunCommandsGetdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMRunCommandsGet200Response | VirtualMachineScaleSetVMRunCommandsGetDefaultResponse): response is VirtualMachineScaleSetVMRunCommandsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: VirtualMachineScaleSetVMRunCommandsList200Response | VirtualMachineScaleSetVMRunCommandsListdefaultResponse): response is VirtualMachineScaleSetVMRunCommandsListdefaultResponse;
+export function isUnexpected(response: VirtualMachineScaleSetVMRunCommandsList200Response | VirtualMachineScaleSetVMRunCommandsListDefaultResponse): response is VirtualMachineScaleSetVMRunCommandsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DiskAccessesCreateOrUpdate200Response | DiskAccessesCreateOrUpdate202Response | DiskAccessesCreateOrUpdatedefaultResponse): response is DiskAccessesCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: DiskAccessesCreateOrUpdate200Response | DiskAccessesCreateOrUpdate202Response | DiskAccessesCreateOrUpdateDefaultResponse): response is DiskAccessesCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DiskAccessesUpdate200Response | DiskAccessesUpdate202Response | DiskAccessesUpdatedefaultResponse): response is DiskAccessesUpdatedefaultResponse;
+export function isUnexpected(response: DiskAccessesUpdate200Response | DiskAccessesUpdate202Response | DiskAccessesUpdateDefaultResponse): response is DiskAccessesUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DiskAccessesGet200Response | DiskAccessesGetdefaultResponse): response is DiskAccessesGetdefaultResponse;
+export function isUnexpected(response: DiskAccessesGet200Response | DiskAccessesGetDefaultResponse): response is DiskAccessesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DiskAccessesDelete200Response | DiskAccessesDelete202Response | DiskAccessesDelete204Response | DiskAccessesDeletedefaultResponse): response is DiskAccessesDeletedefaultResponse;
+export function isUnexpected(response: DiskAccessesDelete200Response | DiskAccessesDelete202Response | DiskAccessesDelete204Response | DiskAccessesDeleteDefaultResponse): response is DiskAccessesDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DiskAccessesListByResourceGroup200Response | DiskAccessesListByResourceGroupdefaultResponse): response is DiskAccessesListByResourceGroupdefaultResponse;
+export function isUnexpected(response: DiskAccessesListByResourceGroup200Response | DiskAccessesListByResourceGroupDefaultResponse): response is DiskAccessesListByResourceGroupDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DiskAccessesList200Response | DiskAccessesListdefaultResponse): response is DiskAccessesListdefaultResponse;
+export function isUnexpected(response: DiskAccessesList200Response | DiskAccessesListDefaultResponse): response is DiskAccessesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DiskAccessesUpdateAPrivateEndpointConnection200Response | DiskAccessesUpdateAPrivateEndpointConnection202Response | DiskAccessesUpdateAPrivateEndpointConnectiondefaultResponse): response is DiskAccessesUpdateAPrivateEndpointConnectiondefaultResponse;
+export function isUnexpected(response: DiskAccessesUpdateAPrivateEndpointConnection200Response | DiskAccessesUpdateAPrivateEndpointConnection202Response | DiskAccessesUpdateAPrivateEndpointConnectionDefaultResponse): response is DiskAccessesUpdateAPrivateEndpointConnectionDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DiskAccessesGetAPrivateEndpointConnection200Response | DiskAccessesGetAPrivateEndpointConnectiondefaultResponse): response is DiskAccessesGetAPrivateEndpointConnectiondefaultResponse;
+export function isUnexpected(response: DiskAccessesGetAPrivateEndpointConnection200Response | DiskAccessesGetAPrivateEndpointConnectionDefaultResponse): response is DiskAccessesGetAPrivateEndpointConnectionDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DiskAccessesDeleteAPrivateEndpointConnection200Response | DiskAccessesDeleteAPrivateEndpointConnection202Response | DiskAccessesDeleteAPrivateEndpointConnection204Response | DiskAccessesDeleteAPrivateEndpointConnectiondefaultResponse): response is DiskAccessesDeleteAPrivateEndpointConnectiondefaultResponse;
+export function isUnexpected(response: DiskAccessesDeleteAPrivateEndpointConnection200Response | DiskAccessesDeleteAPrivateEndpointConnection202Response | DiskAccessesDeleteAPrivateEndpointConnection204Response | DiskAccessesDeleteAPrivateEndpointConnectionDefaultResponse): response is DiskAccessesDeleteAPrivateEndpointConnectionDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DiskAccessesListPrivateEndpointConnections200Response | DiskAccessesListPrivateEndpointConnectionsdefaultResponse): response is DiskAccessesListPrivateEndpointConnectionsdefaultResponse;
+export function isUnexpected(response: DiskAccessesListPrivateEndpointConnections200Response | DiskAccessesListPrivateEndpointConnectionsDefaultResponse): response is DiskAccessesListPrivateEndpointConnectionsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DiskEncryptionSetsCreateOrUpdate200Response | DiskEncryptionSetsCreateOrUpdate202Response | DiskEncryptionSetsCreateOrUpdatedefaultResponse): response is DiskEncryptionSetsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: DiskEncryptionSetsCreateOrUpdate200Response | DiskEncryptionSetsCreateOrUpdate202Response | DiskEncryptionSetsCreateOrUpdateDefaultResponse): response is DiskEncryptionSetsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DiskEncryptionSetsUpdate200Response | DiskEncryptionSetsUpdate202Response | DiskEncryptionSetsUpdatedefaultResponse): response is DiskEncryptionSetsUpdatedefaultResponse;
+export function isUnexpected(response: DiskEncryptionSetsUpdate200Response | DiskEncryptionSetsUpdate202Response | DiskEncryptionSetsUpdateDefaultResponse): response is DiskEncryptionSetsUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DiskEncryptionSetsGet200Response | DiskEncryptionSetsGetdefaultResponse): response is DiskEncryptionSetsGetdefaultResponse;
+export function isUnexpected(response: DiskEncryptionSetsGet200Response | DiskEncryptionSetsGetDefaultResponse): response is DiskEncryptionSetsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DiskEncryptionSetsDelete200Response | DiskEncryptionSetsDelete202Response | DiskEncryptionSetsDelete204Response | DiskEncryptionSetsDeletedefaultResponse): response is DiskEncryptionSetsDeletedefaultResponse;
+export function isUnexpected(response: DiskEncryptionSetsDelete200Response | DiskEncryptionSetsDelete202Response | DiskEncryptionSetsDelete204Response | DiskEncryptionSetsDeleteDefaultResponse): response is DiskEncryptionSetsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DiskEncryptionSetsListByResourceGroup200Response | DiskEncryptionSetsListByResourceGroupdefaultResponse): response is DiskEncryptionSetsListByResourceGroupdefaultResponse;
+export function isUnexpected(response: DiskEncryptionSetsListByResourceGroup200Response | DiskEncryptionSetsListByResourceGroupDefaultResponse): response is DiskEncryptionSetsListByResourceGroupDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DiskEncryptionSetsList200Response | DiskEncryptionSetsListdefaultResponse): response is DiskEncryptionSetsListdefaultResponse;
+export function isUnexpected(response: DiskEncryptionSetsList200Response | DiskEncryptionSetsListDefaultResponse): response is DiskEncryptionSetsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DiskEncryptionSetsListAssociatedResources200Response | DiskEncryptionSetsListAssociatedResourcesdefaultResponse): response is DiskEncryptionSetsListAssociatedResourcesdefaultResponse;
+export function isUnexpected(response: DiskEncryptionSetsListAssociatedResources200Response | DiskEncryptionSetsListAssociatedResourcesDefaultResponse): response is DiskEncryptionSetsListAssociatedResourcesDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DiskRestorePointGet200Response | DiskRestorePointGetdefaultResponse): response is DiskRestorePointGetdefaultResponse;
+export function isUnexpected(response: DiskRestorePointGet200Response | DiskRestorePointGetDefaultResponse): response is DiskRestorePointGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DiskRestorePointListByRestorePoint200Response | DiskRestorePointListByRestorePointdefaultResponse): response is DiskRestorePointListByRestorePointdefaultResponse;
+export function isUnexpected(response: DiskRestorePointListByRestorePoint200Response | DiskRestorePointListByRestorePointDefaultResponse): response is DiskRestorePointListByRestorePointDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DiskRestorePointGrantAccess200Response | DiskRestorePointGrantAccess202Response | DiskRestorePointGrantAccessdefaultResponse): response is DiskRestorePointGrantAccessdefaultResponse;
+export function isUnexpected(response: DiskRestorePointGrantAccess200Response | DiskRestorePointGrantAccess202Response | DiskRestorePointGrantAccessDefaultResponse): response is DiskRestorePointGrantAccessDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DiskRestorePointRevokeAccess200Response | DiskRestorePointRevokeAccess202Response | DiskRestorePointRevokeAccessdefaultResponse): response is DiskRestorePointRevokeAccessdefaultResponse;
+export function isUnexpected(response: DiskRestorePointRevokeAccess200Response | DiskRestorePointRevokeAccess202Response | DiskRestorePointRevokeAccessDefaultResponse): response is DiskRestorePointRevokeAccessDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleriesCreateOrUpdate200Response | GalleriesCreateOrUpdate201Response | GalleriesCreateOrUpdate202Response | GalleriesCreateOrUpdatedefaultResponse): response is GalleriesCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: GalleriesCreateOrUpdate200Response | GalleriesCreateOrUpdate201Response | GalleriesCreateOrUpdate202Response | GalleriesCreateOrUpdateDefaultResponse): response is GalleriesCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleriesUpdate200Response | GalleriesUpdatedefaultResponse): response is GalleriesUpdatedefaultResponse;
+export function isUnexpected(response: GalleriesUpdate200Response | GalleriesUpdateDefaultResponse): response is GalleriesUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleriesGet200Response | GalleriesGetdefaultResponse): response is GalleriesGetdefaultResponse;
+export function isUnexpected(response: GalleriesGet200Response | GalleriesGetDefaultResponse): response is GalleriesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleriesDelete200Response | GalleriesDelete202Response | GalleriesDelete204Response | GalleriesDeletedefaultResponse): response is GalleriesDeletedefaultResponse;
+export function isUnexpected(response: GalleriesDelete200Response | GalleriesDelete202Response | GalleriesDelete204Response | GalleriesDeleteDefaultResponse): response is GalleriesDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleriesListByResourceGroup200Response | GalleriesListByResourceGroupdefaultResponse): response is GalleriesListByResourceGroupdefaultResponse;
+export function isUnexpected(response: GalleriesListByResourceGroup200Response | GalleriesListByResourceGroupDefaultResponse): response is GalleriesListByResourceGroupDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleriesList200Response | GalleriesListdefaultResponse): response is GalleriesListdefaultResponse;
+export function isUnexpected(response: GalleriesList200Response | GalleriesListDefaultResponse): response is GalleriesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleryImagesCreateOrUpdate200Response | GalleryImagesCreateOrUpdate201Response | GalleryImagesCreateOrUpdate202Response | GalleryImagesCreateOrUpdatedefaultResponse): response is GalleryImagesCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: GalleryImagesCreateOrUpdate200Response | GalleryImagesCreateOrUpdate201Response | GalleryImagesCreateOrUpdate202Response | GalleryImagesCreateOrUpdateDefaultResponse): response is GalleryImagesCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleryImagesUpdate200Response | GalleryImagesUpdatedefaultResponse): response is GalleryImagesUpdatedefaultResponse;
+export function isUnexpected(response: GalleryImagesUpdate200Response | GalleryImagesUpdateDefaultResponse): response is GalleryImagesUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleryImagesGet200Response | GalleryImagesGetdefaultResponse): response is GalleryImagesGetdefaultResponse;
+export function isUnexpected(response: GalleryImagesGet200Response | GalleryImagesGetDefaultResponse): response is GalleryImagesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleryImagesDelete200Response | GalleryImagesDelete202Response | GalleryImagesDelete204Response | GalleryImagesDeletedefaultResponse): response is GalleryImagesDeletedefaultResponse;
+export function isUnexpected(response: GalleryImagesDelete200Response | GalleryImagesDelete202Response | GalleryImagesDelete204Response | GalleryImagesDeleteDefaultResponse): response is GalleryImagesDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleryImagesListByGallery200Response | GalleryImagesListByGallerydefaultResponse): response is GalleryImagesListByGallerydefaultResponse;
+export function isUnexpected(response: GalleryImagesListByGallery200Response | GalleryImagesListByGalleryDefaultResponse): response is GalleryImagesListByGalleryDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleryImageVersionsCreateOrUpdate200Response | GalleryImageVersionsCreateOrUpdate201Response | GalleryImageVersionsCreateOrUpdate202Response | GalleryImageVersionsCreateOrUpdatedefaultResponse): response is GalleryImageVersionsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: GalleryImageVersionsCreateOrUpdate200Response | GalleryImageVersionsCreateOrUpdate201Response | GalleryImageVersionsCreateOrUpdate202Response | GalleryImageVersionsCreateOrUpdateDefaultResponse): response is GalleryImageVersionsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleryImageVersionsUpdate200Response | GalleryImageVersionsUpdatedefaultResponse): response is GalleryImageVersionsUpdatedefaultResponse;
+export function isUnexpected(response: GalleryImageVersionsUpdate200Response | GalleryImageVersionsUpdateDefaultResponse): response is GalleryImageVersionsUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleryImageVersionsGet200Response | GalleryImageVersionsGetdefaultResponse): response is GalleryImageVersionsGetdefaultResponse;
+export function isUnexpected(response: GalleryImageVersionsGet200Response | GalleryImageVersionsGetDefaultResponse): response is GalleryImageVersionsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleryImageVersionsDelete200Response | GalleryImageVersionsDelete202Response | GalleryImageVersionsDelete204Response | GalleryImageVersionsDeletedefaultResponse): response is GalleryImageVersionsDeletedefaultResponse;
+export function isUnexpected(response: GalleryImageVersionsDelete200Response | GalleryImageVersionsDelete202Response | GalleryImageVersionsDelete204Response | GalleryImageVersionsDeleteDefaultResponse): response is GalleryImageVersionsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleryImageVersionsListByGalleryImage200Response | GalleryImageVersionsListByGalleryImagedefaultResponse): response is GalleryImageVersionsListByGalleryImagedefaultResponse;
+export function isUnexpected(response: GalleryImageVersionsListByGalleryImage200Response | GalleryImageVersionsListByGalleryImageDefaultResponse): response is GalleryImageVersionsListByGalleryImageDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleryApplicationsCreateOrUpdate200Response | GalleryApplicationsCreateOrUpdate201Response | GalleryApplicationsCreateOrUpdate202Response | GalleryApplicationsCreateOrUpdatedefaultResponse): response is GalleryApplicationsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: GalleryApplicationsCreateOrUpdate200Response | GalleryApplicationsCreateOrUpdate201Response | GalleryApplicationsCreateOrUpdate202Response | GalleryApplicationsCreateOrUpdateDefaultResponse): response is GalleryApplicationsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleryApplicationsUpdate200Response | GalleryApplicationsUpdatedefaultResponse): response is GalleryApplicationsUpdatedefaultResponse;
+export function isUnexpected(response: GalleryApplicationsUpdate200Response | GalleryApplicationsUpdateDefaultResponse): response is GalleryApplicationsUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleryApplicationsGet200Response | GalleryApplicationsGetdefaultResponse): response is GalleryApplicationsGetdefaultResponse;
+export function isUnexpected(response: GalleryApplicationsGet200Response | GalleryApplicationsGetDefaultResponse): response is GalleryApplicationsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleryApplicationsDelete200Response | GalleryApplicationsDelete202Response | GalleryApplicationsDelete204Response | GalleryApplicationsDeletedefaultResponse): response is GalleryApplicationsDeletedefaultResponse;
+export function isUnexpected(response: GalleryApplicationsDelete200Response | GalleryApplicationsDelete202Response | GalleryApplicationsDelete204Response | GalleryApplicationsDeleteDefaultResponse): response is GalleryApplicationsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleryApplicationsListByGallery200Response | GalleryApplicationsListByGallerydefaultResponse): response is GalleryApplicationsListByGallerydefaultResponse;
+export function isUnexpected(response: GalleryApplicationsListByGallery200Response | GalleryApplicationsListByGalleryDefaultResponse): response is GalleryApplicationsListByGalleryDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleryApplicationVersionsCreateOrUpdate200Response | GalleryApplicationVersionsCreateOrUpdate201Response | GalleryApplicationVersionsCreateOrUpdate202Response | GalleryApplicationVersionsCreateOrUpdatedefaultResponse): response is GalleryApplicationVersionsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: GalleryApplicationVersionsCreateOrUpdate200Response | GalleryApplicationVersionsCreateOrUpdate201Response | GalleryApplicationVersionsCreateOrUpdate202Response | GalleryApplicationVersionsCreateOrUpdateDefaultResponse): response is GalleryApplicationVersionsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleryApplicationVersionsUpdate200Response | GalleryApplicationVersionsUpdatedefaultResponse): response is GalleryApplicationVersionsUpdatedefaultResponse;
+export function isUnexpected(response: GalleryApplicationVersionsUpdate200Response | GalleryApplicationVersionsUpdateDefaultResponse): response is GalleryApplicationVersionsUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleryApplicationVersionsGet200Response | GalleryApplicationVersionsGetdefaultResponse): response is GalleryApplicationVersionsGetdefaultResponse;
+export function isUnexpected(response: GalleryApplicationVersionsGet200Response | GalleryApplicationVersionsGetDefaultResponse): response is GalleryApplicationVersionsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleryApplicationVersionsDelete200Response | GalleryApplicationVersionsDelete202Response | GalleryApplicationVersionsDelete204Response | GalleryApplicationVersionsDeletedefaultResponse): response is GalleryApplicationVersionsDeletedefaultResponse;
+export function isUnexpected(response: GalleryApplicationVersionsDelete200Response | GalleryApplicationVersionsDelete202Response | GalleryApplicationVersionsDelete204Response | GalleryApplicationVersionsDeleteDefaultResponse): response is GalleryApplicationVersionsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GalleryApplicationVersionsListByGalleryApplication200Response | GalleryApplicationVersionsListByGalleryApplicationdefaultResponse): response is GalleryApplicationVersionsListByGalleryApplicationdefaultResponse;
+export function isUnexpected(response: GalleryApplicationVersionsListByGalleryApplication200Response | GalleryApplicationVersionsListByGalleryApplicationDefaultResponse): response is GalleryApplicationVersionsListByGalleryApplicationDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GallerySharingProfileUpdate200Response | GallerySharingProfileUpdate202Response | GallerySharingProfileUpdatedefaultResponse): response is GallerySharingProfileUpdatedefaultResponse;
+export function isUnexpected(response: GallerySharingProfileUpdate200Response | GallerySharingProfileUpdate202Response | GallerySharingProfileUpdateDefaultResponse): response is GallerySharingProfileUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SharedGalleriesList200Response | SharedGalleriesListdefaultResponse): response is SharedGalleriesListdefaultResponse;
+export function isUnexpected(response: SharedGalleriesList200Response | SharedGalleriesListDefaultResponse): response is SharedGalleriesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SharedGalleriesGet200Response | SharedGalleriesGetdefaultResponse): response is SharedGalleriesGetdefaultResponse;
+export function isUnexpected(response: SharedGalleriesGet200Response | SharedGalleriesGetDefaultResponse): response is SharedGalleriesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SharedGalleryImagesList200Response | SharedGalleryImagesListdefaultResponse): response is SharedGalleryImagesListdefaultResponse;
+export function isUnexpected(response: SharedGalleryImagesList200Response | SharedGalleryImagesListDefaultResponse): response is SharedGalleryImagesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SharedGalleryImagesGet200Response | SharedGalleryImagesGetdefaultResponse): response is SharedGalleryImagesGetdefaultResponse;
+export function isUnexpected(response: SharedGalleryImagesGet200Response | SharedGalleryImagesGetDefaultResponse): response is SharedGalleryImagesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SharedGalleryImageVersionsList200Response | SharedGalleryImageVersionsListdefaultResponse): response is SharedGalleryImageVersionsListdefaultResponse;
+export function isUnexpected(response: SharedGalleryImageVersionsList200Response | SharedGalleryImageVersionsListDefaultResponse): response is SharedGalleryImageVersionsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SharedGalleryImageVersionsGet200Response | SharedGalleryImageVersionsGetdefaultResponse): response is SharedGalleryImageVersionsGetdefaultResponse;
+export function isUnexpected(response: SharedGalleryImageVersionsGet200Response | SharedGalleryImageVersionsGetDefaultResponse): response is SharedGalleryImageVersionsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CommunityGalleriesGet200Response | CommunityGalleriesGetdefaultResponse): response is CommunityGalleriesGetdefaultResponse;
+export function isUnexpected(response: CommunityGalleriesGet200Response | CommunityGalleriesGetDefaultResponse): response is CommunityGalleriesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CommunityGalleryImagesGet200Response | CommunityGalleryImagesGetdefaultResponse): response is CommunityGalleryImagesGetdefaultResponse;
+export function isUnexpected(response: CommunityGalleryImagesGet200Response | CommunityGalleryImagesGetDefaultResponse): response is CommunityGalleryImagesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CommunityGalleryImagesList200Response | CommunityGalleryImagesListdefaultResponse): response is CommunityGalleryImagesListdefaultResponse;
+export function isUnexpected(response: CommunityGalleryImagesList200Response | CommunityGalleryImagesListDefaultResponse): response is CommunityGalleryImagesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CommunityGalleryImageVersionsGet200Response | CommunityGalleryImageVersionsGetdefaultResponse): response is CommunityGalleryImageVersionsGetdefaultResponse;
+export function isUnexpected(response: CommunityGalleryImageVersionsGet200Response | CommunityGalleryImageVersionsGetDefaultResponse): response is CommunityGalleryImageVersionsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CommunityGalleryImageVersionsList200Response | CommunityGalleryImageVersionsListdefaultResponse): response is CommunityGalleryImageVersionsListdefaultResponse;
+export function isUnexpected(response: CommunityGalleryImageVersionsList200Response | CommunityGalleryImageVersionsListDefaultResponse): response is CommunityGalleryImageVersionsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServiceRoleInstancesDelete200Response | CloudServiceRoleInstancesDelete202Response | CloudServiceRoleInstancesDelete204Response | CloudServiceRoleInstancesDeletedefaultResponse): response is CloudServiceRoleInstancesDeletedefaultResponse;
+export function isUnexpected(response: CloudServiceRoleInstancesDelete200Response | CloudServiceRoleInstancesDelete202Response | CloudServiceRoleInstancesDelete204Response | CloudServiceRoleInstancesDeleteDefaultResponse): response is CloudServiceRoleInstancesDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServiceRoleInstancesGet200Response | CloudServiceRoleInstancesGetdefaultResponse): response is CloudServiceRoleInstancesGetdefaultResponse;
+export function isUnexpected(response: CloudServiceRoleInstancesGet200Response | CloudServiceRoleInstancesGetDefaultResponse): response is CloudServiceRoleInstancesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServiceRoleInstancesGetInstanceView200Response | CloudServiceRoleInstancesGetInstanceViewdefaultResponse): response is CloudServiceRoleInstancesGetInstanceViewdefaultResponse;
+export function isUnexpected(response: CloudServiceRoleInstancesGetInstanceView200Response | CloudServiceRoleInstancesGetInstanceViewDefaultResponse): response is CloudServiceRoleInstancesGetInstanceViewDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServiceRoleInstancesList200Response | CloudServiceRoleInstancesListdefaultResponse): response is CloudServiceRoleInstancesListdefaultResponse;
+export function isUnexpected(response: CloudServiceRoleInstancesList200Response | CloudServiceRoleInstancesListDefaultResponse): response is CloudServiceRoleInstancesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServiceRoleInstancesRestart200Response | CloudServiceRoleInstancesRestart202Response | CloudServiceRoleInstancesRestartdefaultResponse): response is CloudServiceRoleInstancesRestartdefaultResponse;
+export function isUnexpected(response: CloudServiceRoleInstancesRestart200Response | CloudServiceRoleInstancesRestart202Response | CloudServiceRoleInstancesRestartDefaultResponse): response is CloudServiceRoleInstancesRestartDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServiceRoleInstancesReimage200Response | CloudServiceRoleInstancesReimage202Response | CloudServiceRoleInstancesReimagedefaultResponse): response is CloudServiceRoleInstancesReimagedefaultResponse;
+export function isUnexpected(response: CloudServiceRoleInstancesReimage200Response | CloudServiceRoleInstancesReimage202Response | CloudServiceRoleInstancesReimageDefaultResponse): response is CloudServiceRoleInstancesReimageDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServiceRoleInstancesRebuild200Response | CloudServiceRoleInstancesRebuild202Response | CloudServiceRoleInstancesRebuilddefaultResponse): response is CloudServiceRoleInstancesRebuilddefaultResponse;
+export function isUnexpected(response: CloudServiceRoleInstancesRebuild200Response | CloudServiceRoleInstancesRebuild202Response | CloudServiceRoleInstancesRebuildDefaultResponse): response is CloudServiceRoleInstancesRebuildDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServiceRoleInstancesGetRemoteDesktopFile200Response | CloudServiceRoleInstancesGetRemoteDesktopFiledefaultResponse): response is CloudServiceRoleInstancesGetRemoteDesktopFiledefaultResponse;
+export function isUnexpected(response: CloudServiceRoleInstancesGetRemoteDesktopFile200Response | CloudServiceRoleInstancesGetRemoteDesktopFileDefaultResponse): response is CloudServiceRoleInstancesGetRemoteDesktopFileDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServiceRolesGet200Response | CloudServiceRolesGetdefaultResponse): response is CloudServiceRolesGetdefaultResponse;
+export function isUnexpected(response: CloudServiceRolesGet200Response | CloudServiceRolesGetDefaultResponse): response is CloudServiceRolesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServiceRolesList200Response | CloudServiceRolesListdefaultResponse): response is CloudServiceRolesListdefaultResponse;
+export function isUnexpected(response: CloudServiceRolesList200Response | CloudServiceRolesListDefaultResponse): response is CloudServiceRolesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServicesCreateOrUpdate200Response | CloudServicesCreateOrUpdate201Response | CloudServicesCreateOrUpdatedefaultResponse): response is CloudServicesCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: CloudServicesCreateOrUpdate200Response | CloudServicesCreateOrUpdate201Response | CloudServicesCreateOrUpdateDefaultResponse): response is CloudServicesCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServicesUpdate200Response | CloudServicesUpdatedefaultResponse): response is CloudServicesUpdatedefaultResponse;
+export function isUnexpected(response: CloudServicesUpdate200Response | CloudServicesUpdateDefaultResponse): response is CloudServicesUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServicesDelete200Response | CloudServicesDelete202Response | CloudServicesDelete204Response | CloudServicesDeletedefaultResponse): response is CloudServicesDeletedefaultResponse;
+export function isUnexpected(response: CloudServicesDelete200Response | CloudServicesDelete202Response | CloudServicesDelete204Response | CloudServicesDeleteDefaultResponse): response is CloudServicesDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServicesGet200Response | CloudServicesGetdefaultResponse): response is CloudServicesGetdefaultResponse;
+export function isUnexpected(response: CloudServicesGet200Response | CloudServicesGetDefaultResponse): response is CloudServicesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServicesGetInstanceView200Response | CloudServicesGetInstanceViewdefaultResponse): response is CloudServicesGetInstanceViewdefaultResponse;
+export function isUnexpected(response: CloudServicesGetInstanceView200Response | CloudServicesGetInstanceViewDefaultResponse): response is CloudServicesGetInstanceViewDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServicesListAll200Response | CloudServicesListAlldefaultResponse): response is CloudServicesListAlldefaultResponse;
+export function isUnexpected(response: CloudServicesListAll200Response | CloudServicesListAllDefaultResponse): response is CloudServicesListAllDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServicesList200Response | CloudServicesListdefaultResponse): response is CloudServicesListdefaultResponse;
+export function isUnexpected(response: CloudServicesList200Response | CloudServicesListDefaultResponse): response is CloudServicesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServicesStart200Response | CloudServicesStart202Response | CloudServicesStartdefaultResponse): response is CloudServicesStartdefaultResponse;
+export function isUnexpected(response: CloudServicesStart200Response | CloudServicesStart202Response | CloudServicesStartDefaultResponse): response is CloudServicesStartDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServicesPowerOff200Response | CloudServicesPowerOff202Response | CloudServicesPowerOffdefaultResponse): response is CloudServicesPowerOffdefaultResponse;
+export function isUnexpected(response: CloudServicesPowerOff200Response | CloudServicesPowerOff202Response | CloudServicesPowerOffDefaultResponse): response is CloudServicesPowerOffDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServicesRestart200Response | CloudServicesRestart202Response | CloudServicesRestartdefaultResponse): response is CloudServicesRestartdefaultResponse;
+export function isUnexpected(response: CloudServicesRestart200Response | CloudServicesRestart202Response | CloudServicesRestartDefaultResponse): response is CloudServicesRestartDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServicesReimage200Response | CloudServicesReimage202Response | CloudServicesReimagedefaultResponse): response is CloudServicesReimagedefaultResponse;
+export function isUnexpected(response: CloudServicesReimage200Response | CloudServicesReimage202Response | CloudServicesReimageDefaultResponse): response is CloudServicesReimageDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServicesRebuild200Response | CloudServicesRebuild202Response | CloudServicesRebuilddefaultResponse): response is CloudServicesRebuilddefaultResponse;
+export function isUnexpected(response: CloudServicesRebuild200Response | CloudServicesRebuild202Response | CloudServicesRebuildDefaultResponse): response is CloudServicesRebuildDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServicesDeleteInstances200Response | CloudServicesDeleteInstances202Response | CloudServicesDeleteInstancesdefaultResponse): response is CloudServicesDeleteInstancesdefaultResponse;
+export function isUnexpected(response: CloudServicesDeleteInstances200Response | CloudServicesDeleteInstances202Response | CloudServicesDeleteInstancesDefaultResponse): response is CloudServicesDeleteInstancesDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServicesUpdateDomainWalkUpdateDomain200Response | CloudServicesUpdateDomainWalkUpdateDomain202Response | CloudServicesUpdateDomainWalkUpdateDomaindefaultResponse): response is CloudServicesUpdateDomainWalkUpdateDomaindefaultResponse;
+export function isUnexpected(response: CloudServicesUpdateDomainWalkUpdateDomain200Response | CloudServicesUpdateDomainWalkUpdateDomain202Response | CloudServicesUpdateDomainWalkUpdateDomainDefaultResponse): response is CloudServicesUpdateDomainWalkUpdateDomainDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServicesUpdateDomainGetUpdateDomain200Response | CloudServicesUpdateDomainGetUpdateDomaindefaultResponse): response is CloudServicesUpdateDomainGetUpdateDomaindefaultResponse;
+export function isUnexpected(response: CloudServicesUpdateDomainGetUpdateDomain200Response | CloudServicesUpdateDomainGetUpdateDomainDefaultResponse): response is CloudServicesUpdateDomainGetUpdateDomainDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServicesUpdateDomainListUpdateDomains200Response | CloudServicesUpdateDomainListUpdateDomainsdefaultResponse): response is CloudServicesUpdateDomainListUpdateDomainsdefaultResponse;
+export function isUnexpected(response: CloudServicesUpdateDomainListUpdateDomains200Response | CloudServicesUpdateDomainListUpdateDomainsDefaultResponse): response is CloudServicesUpdateDomainListUpdateDomainsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServiceOperatingSystemsGetOSVersion200Response | CloudServiceOperatingSystemsGetOSVersiondefaultResponse): response is CloudServiceOperatingSystemsGetOSVersiondefaultResponse;
+export function isUnexpected(response: CloudServiceOperatingSystemsGetOSVersion200Response | CloudServiceOperatingSystemsGetOSVersionDefaultResponse): response is CloudServiceOperatingSystemsGetOSVersionDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServiceOperatingSystemsListOSVersions200Response | CloudServiceOperatingSystemsListOSVersionsdefaultResponse): response is CloudServiceOperatingSystemsListOSVersionsdefaultResponse;
+export function isUnexpected(response: CloudServiceOperatingSystemsListOSVersions200Response | CloudServiceOperatingSystemsListOSVersionsDefaultResponse): response is CloudServiceOperatingSystemsListOSVersionsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServiceOperatingSystemsGetOSFamily200Response | CloudServiceOperatingSystemsGetOSFamilydefaultResponse): response is CloudServiceOperatingSystemsGetOSFamilydefaultResponse;
+export function isUnexpected(response: CloudServiceOperatingSystemsGetOSFamily200Response | CloudServiceOperatingSystemsGetOSFamilyDefaultResponse): response is CloudServiceOperatingSystemsGetOSFamilyDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloudServiceOperatingSystemsListOSFamilies200Response | CloudServiceOperatingSystemsListOSFamiliesdefaultResponse): response is CloudServiceOperatingSystemsListOSFamiliesdefaultResponse;
+export function isUnexpected(response: CloudServiceOperatingSystemsListOSFamilies200Response | CloudServiceOperatingSystemsListOSFamiliesDefaultResponse): response is CloudServiceOperatingSystemsListOSFamiliesDefaultResponse;
 
-// @public (undocumented)
+// @public
 export interface KeyForDiskEncryptionSet {
     keyUrl: string;
     sourceVault?: SourceVault;
 }
 
-// @public (undocumented)
+// @public
 export interface KeyForDiskEncryptionSetOutput {
     keyUrl: string;
     sourceVault?: SourceVaultOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface KeyVaultAndKeyReference {
     keyUrl: string;
     sourceVault: SourceVault;
 }
 
-// @public (undocumented)
+// @public
 export interface KeyVaultAndKeyReferenceOutput {
     keyUrl: string;
     sourceVault: SourceVaultOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface KeyVaultAndSecretReference {
     secretUrl: string;
     sourceVault: SourceVault;
 }
 
-// @public (undocumented)
+// @public
 export interface KeyVaultAndSecretReferenceOutput {
     secretUrl: string;
     sourceVault: SourceVaultOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface KeyVaultKeyReference {
     keyUrl: string;
     sourceVault: SubResource;
 }
 
-// @public (undocumented)
+// @public
 export interface KeyVaultKeyReferenceOutput {
     keyUrl: string;
     sourceVault: SubResourceOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface KeyVaultSecretReference {
     secretUrl: string;
     sourceVault: SubResource;
 }
 
-// @public (undocumented)
+// @public
 export interface KeyVaultSecretReferenceOutput {
     secretUrl: string;
     sourceVault: SubResourceOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface LastPatchInstallationSummary {
     error?: ApiError;
     excludedPatchCount?: number;
@@ -8093,7 +8093,7 @@ export interface LastPatchInstallationSummary {
     status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
 }
 
-// @public (undocumented)
+// @public
 export interface LastPatchInstallationSummaryOutput {
     error?: ApiErrorOutput;
     excludedPatchCount?: number;
@@ -8108,7 +8108,7 @@ export interface LastPatchInstallationSummaryOutput {
     status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
 }
 
-// @public (undocumented)
+// @public
 export interface LinuxConfiguration {
     disablePasswordAuthentication?: boolean;
     patchSettings?: LinuxPatchSettings;
@@ -8116,7 +8116,7 @@ export interface LinuxConfiguration {
     ssh?: SshConfiguration;
 }
 
-// @public (undocumented)
+// @public
 export interface LinuxConfigurationOutput {
     disablePasswordAuthentication?: boolean;
     patchSettings?: LinuxPatchSettingsOutput;
@@ -8124,7 +8124,7 @@ export interface LinuxConfigurationOutput {
     ssh?: SshConfigurationOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface LinuxParameters {
     classificationsToInclude?: Array<"Critical" | "Security" | "Other">;
     maintenanceRunId?: string;
@@ -8132,80 +8132,80 @@ export interface LinuxParameters {
     packageNameMasksToInclude?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface LinuxPatchSettings {
     assessmentMode?: "ImageDefault" | "AutomaticByPlatform";
     automaticByPlatformSettings?: LinuxVMGuestPatchAutomaticByPlatformSettings;
     patchMode?: "ImageDefault" | "AutomaticByPlatform";
 }
 
-// @public (undocumented)
+// @public
 export interface LinuxPatchSettingsOutput {
     assessmentMode?: "ImageDefault" | "AutomaticByPlatform";
     automaticByPlatformSettings?: LinuxVMGuestPatchAutomaticByPlatformSettingsOutput;
     patchMode?: "ImageDefault" | "AutomaticByPlatform";
 }
 
-// @public (undocumented)
+// @public
 export interface LinuxVMGuestPatchAutomaticByPlatformSettings {
     rebootSetting?: "Unknown" | "IfRequired" | "Never" | "Always";
 }
 
-// @public (undocumented)
+// @public
 export interface LinuxVMGuestPatchAutomaticByPlatformSettingsOutput {
     rebootSetting?: "Unknown" | "IfRequired" | "Never" | "Always";
 }
 
-// @public (undocumented)
+// @public
 export interface ListUsagesResultOutput {
     nextLink?: string;
     value: Array<UsageOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface LoadBalancerConfiguration {
     id?: string;
     name: string;
     properties: LoadBalancerConfigurationProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface LoadBalancerConfigurationOutput {
     id?: string;
     name: string;
     properties: LoadBalancerConfigurationPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface LoadBalancerConfigurationProperties {
     frontendIPConfigurations: Array<LoadBalancerFrontendIPConfiguration>;
 }
 
-// @public (undocumented)
+// @public
 export interface LoadBalancerConfigurationPropertiesOutput {
     frontendIPConfigurations: Array<LoadBalancerFrontendIPConfigurationOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface LoadBalancerFrontendIPConfiguration {
     name: string;
     properties: LoadBalancerFrontendIPConfigurationProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface LoadBalancerFrontendIPConfigurationOutput {
     name: string;
     properties: LoadBalancerFrontendIPConfigurationPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface LoadBalancerFrontendIPConfigurationProperties {
     privateIPAddress?: string;
     publicIPAddress?: SubResource;
     subnet?: SubResource;
 }
 
-// @public (undocumented)
+// @public
 export interface LoadBalancerFrontendIPConfigurationPropertiesOutput {
     privateIPAddress?: string;
     publicIPAddress?: SubResourceOutput;
@@ -8214,7 +8214,7 @@ export interface LoadBalancerFrontendIPConfigurationPropertiesOutput {
 
 // @public (undocumented)
 export interface LogAnalyticsExportRequestRateByInterval {
-    post(options: LogAnalyticsExportRequestRateByIntervalParameters): StreamableMethod<LogAnalyticsExportRequestRateByInterval200Response | LogAnalyticsExportRequestRateByInterval202Response | LogAnalyticsExportRequestRateByIntervaldefaultResponse>;
+    post(options: LogAnalyticsExportRequestRateByIntervalParameters): StreamableMethod<LogAnalyticsExportRequestRateByInterval200Response | LogAnalyticsExportRequestRateByInterval202Response | LogAnalyticsExportRequestRateByIntervalDefaultResponse>;
 }
 
 // @public
@@ -8239,7 +8239,7 @@ export interface LogAnalyticsExportRequestRateByIntervalBodyParam {
 }
 
 // @public
-export interface LogAnalyticsExportRequestRateByIntervaldefaultResponse extends HttpResponse {
+export interface LogAnalyticsExportRequestRateByIntervalDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -8267,7 +8267,7 @@ export interface LogAnalyticsExportRequestRateByIntervalQueryParamProperties {
 
 // @public (undocumented)
 export interface LogAnalyticsExportThrottledRequests {
-    post(options: LogAnalyticsExportThrottledRequestsParameters): StreamableMethod<LogAnalyticsExportThrottledRequests200Response | LogAnalyticsExportThrottledRequests202Response | LogAnalyticsExportThrottledRequestsdefaultResponse>;
+    post(options: LogAnalyticsExportThrottledRequestsParameters): StreamableMethod<LogAnalyticsExportThrottledRequests200Response | LogAnalyticsExportThrottledRequests202Response | LogAnalyticsExportThrottledRequestsDefaultResponse>;
 }
 
 // @public
@@ -8292,7 +8292,7 @@ export interface LogAnalyticsExportThrottledRequestsBodyParam {
 }
 
 // @public
-export interface LogAnalyticsExportThrottledRequestsdefaultResponse extends HttpResponse {
+export interface LogAnalyticsExportThrottledRequestsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -8318,7 +8318,7 @@ export interface LogAnalyticsExportThrottledRequestsQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface LogAnalyticsInputBase {
     blobContainerSasUri: string;
     fromTime: Date | string;
@@ -8330,17 +8330,17 @@ export interface LogAnalyticsInputBase {
     toTime: Date | string;
 }
 
-// @public (undocumented)
+// @public
 export interface LogAnalyticsOperationResultOutput {
     properties?: LogAnalyticsOutputOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface LogAnalyticsOutputOutput {
     output?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MaintenanceRedeployStatus {
     isCustomerInitiatedMaintenanceAllowed?: boolean;
     lastOperationMessage?: string;
@@ -8351,7 +8351,7 @@ export interface MaintenanceRedeployStatus {
     preMaintenanceWindowStartTime?: Date | string;
 }
 
-// @public (undocumented)
+// @public
 export interface MaintenanceRedeployStatusOutput {
     isCustomerInitiatedMaintenanceAllowed?: boolean;
     lastOperationMessage?: string;
@@ -8362,50 +8362,50 @@ export interface MaintenanceRedeployStatusOutput {
     preMaintenanceWindowStartTime?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedDiskParameters extends SubResource {
     diskEncryptionSet?: DiskEncryptionSetParameters;
     securityProfile?: VMDiskSecurityProfile;
     storageAccountType?: "Standard_LRS" | "Premium_LRS" | "StandardSSD_LRS" | "UltraSSD_LRS" | "Premium_ZRS" | "StandardSSD_ZRS" | "PremiumV2_LRS";
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedDiskParametersOutput extends SubResourceOutput {
     diskEncryptionSet?: DiskEncryptionSetParametersOutput;
     securityProfile?: VMDiskSecurityProfileOutput;
     storageAccountType?: "Standard_LRS" | "Premium_LRS" | "StandardSSD_LRS" | "UltraSSD_LRS" | "Premium_ZRS" | "StandardSSD_ZRS" | "PremiumV2_LRS";
 }
 
-// @public (undocumented)
+// @public
 export interface NetworkInterfaceReference extends SubResource {
     properties?: NetworkInterfaceReferenceProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface NetworkInterfaceReferenceOutput extends SubResourceOutput {
     properties?: NetworkInterfaceReferencePropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface NetworkInterfaceReferenceProperties {
     deleteOption?: "Delete" | "Detach";
     primary?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface NetworkInterfaceReferencePropertiesOutput {
     deleteOption?: "Delete" | "Detach";
     primary?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface NetworkProfile {
     networkApiVersion?: "2020-11-01";
     networkInterfaceConfigurations?: Array<VirtualMachineNetworkInterfaceConfiguration>;
     networkInterfaces?: Array<NetworkInterfaceReference>;
 }
 
-// @public (undocumented)
+// @public
 export interface NetworkProfileOutput {
     networkApiVersion?: "2020-11-01";
     networkInterfaceConfigurations?: Array<VirtualMachineNetworkInterfaceConfigurationOutput>;
@@ -8414,7 +8414,7 @@ export interface NetworkProfileOutput {
 
 // @public (undocumented)
 export interface OperationsList {
-    get(options: OperationsListParameters): StreamableMethod<OperationsList200Response | OperationsListdefaultResponse>;
+    get(options: OperationsListParameters): StreamableMethod<OperationsList200Response | OperationsListDefaultResponse>;
 }
 
 // @public
@@ -8426,7 +8426,7 @@ export interface OperationsList200Response extends HttpResponse {
 }
 
 // @public
-export interface OperationsListdefaultResponse extends HttpResponse {
+export interface OperationsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -8447,19 +8447,19 @@ export interface OperationsListQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface OrchestrationServiceStateInput {
     action: "Resume" | "Suspend";
     serviceName: "AutomaticRepairs";
 }
 
-// @public (undocumented)
+// @public
 export interface OrchestrationServiceSummaryOutput {
     serviceName?: "AutomaticRepairs";
     serviceState?: "NotRunning" | "Running" | "Suspended";
 }
 
-// @public (undocumented)
+// @public
 export interface OSDisk {
     caching?: "None" | "ReadOnly" | "ReadWrite";
     createOption: "FromImage" | "Empty" | "Attach";
@@ -8475,39 +8475,39 @@ export interface OSDisk {
     writeAcceleratorEnabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface OSDiskImage {
     operatingSystem: "Windows" | "Linux";
 }
 
-// @public (undocumented)
+// @public
 export interface OSDiskImageEncryption extends DiskImageEncryption {
     securityProfile?: OSDiskImageSecurityProfile;
 }
 
-// @public (undocumented)
+// @public
 export interface OSDiskImageEncryptionOutput extends DiskImageEncryptionOutput {
     securityProfile?: OSDiskImageSecurityProfileOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface OSDiskImageOutput {
     operatingSystem: "Windows" | "Linux";
 }
 
-// @public (undocumented)
+// @public
 export interface OSDiskImageSecurityProfile {
     confidentialVMEncryptionType?: "EncryptedVMGuestStateOnlyWithPmk" | "EncryptedWithPmk" | "EncryptedWithCmk";
     secureVMDiskEncryptionSetId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface OSDiskImageSecurityProfileOutput {
     confidentialVMEncryptionType?: "EncryptedVMGuestStateOnlyWithPmk" | "EncryptedWithPmk" | "EncryptedWithCmk";
     secureVMDiskEncryptionSetId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface OSDiskOutput {
     caching?: "None" | "ReadOnly" | "ReadWrite";
     createOption: "FromImage" | "Empty" | "Attach";
@@ -8523,13 +8523,13 @@ export interface OSDiskOutput {
     writeAcceleratorEnabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface OSFamilyListResultOutput {
     nextLink?: string;
     value: Array<OSFamilyOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface OSFamilyOutput {
     id?: string;
     location?: string;
@@ -8538,14 +8538,14 @@ export interface OSFamilyOutput {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface OSFamilyPropertiesOutput {
     label?: string;
     name?: string;
     versions?: Array<OSVersionPropertiesBaseOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface OSProfile {
     adminPassword?: string;
     adminUsername?: string;
@@ -8558,7 +8558,7 @@ export interface OSProfile {
     windowsConfiguration?: WindowsConfiguration;
 }
 
-// @public (undocumented)
+// @public
 export interface OSProfileOutput {
     adminPassword?: string;
     adminUsername?: string;
@@ -8571,13 +8571,13 @@ export interface OSProfileOutput {
     windowsConfiguration?: WindowsConfigurationOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface OSVersionListResultOutput {
     nextLink?: string;
     value: Array<OSVersionOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface OSVersionOutput {
     id?: string;
     location?: string;
@@ -8586,7 +8586,7 @@ export interface OSVersionOutput {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface OSVersionPropertiesBaseOutput {
     isActive?: boolean;
     isDefault?: boolean;
@@ -8594,7 +8594,7 @@ export interface OSVersionPropertiesBaseOutput {
     version?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface OSVersionPropertiesOutput {
     family?: string;
     familyLabel?: string;
@@ -8619,7 +8619,7 @@ export interface PagingOptions<TResponse> {
     customGetPage?: GetPage<PaginateReturn<TResponse>[]>;
 }
 
-// @public (undocumented)
+// @public
 export interface PatchInstallationDetailOutput {
     classifications?: Array<string>;
     installationState?: "Unknown" | "Installed" | "Failed" | "Excluded" | "NotSelected" | "Pending";
@@ -8629,7 +8629,7 @@ export interface PatchInstallationDetailOutput {
     version?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PatchSettings {
     assessmentMode?: "ImageDefault" | "AutomaticByPlatform";
     automaticByPlatformSettings?: WindowsVMGuestPatchAutomaticByPlatformSettings;
@@ -8637,7 +8637,7 @@ export interface PatchSettings {
     patchMode?: "Manual" | "AutomaticByOS" | "AutomaticByPlatform";
 }
 
-// @public (undocumented)
+// @public
 export interface PatchSettingsOutput {
     assessmentMode?: "ImageDefault" | "AutomaticByPlatform";
     automaticByPlatformSettings?: WindowsVMGuestPatchAutomaticByPlatformSettingsOutput;
@@ -8645,7 +8645,7 @@ export interface PatchSettingsOutput {
     patchMode?: "Manual" | "AutomaticByOS" | "AutomaticByPlatform";
 }
 
-// @public (undocumented)
+// @public
 export interface PirCommunityGalleryResourceOutput {
     identifier?: CommunityGalleryIdentifierOutput;
     location?: string;
@@ -8653,18 +8653,18 @@ export interface PirCommunityGalleryResourceOutput {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PirResourceOutput {
     location?: string;
     name?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PirSharedGalleryResourceOutput extends PirResourceOutput {
     identifier?: SharedGalleryIdentifierOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface Plan {
     name?: string;
     product?: string;
@@ -8672,7 +8672,7 @@ export interface Plan {
     publisher?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PlanOutput {
     name?: string;
     product?: string;
@@ -8680,12 +8680,12 @@ export interface PlanOutput {
     publisher?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateEndpoint {
     id?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateEndpointConnection {
     id?: string;
     name?: string;
@@ -8693,13 +8693,13 @@ export interface PrivateEndpointConnection {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateEndpointConnectionListResultOutput {
     nextLink?: string;
     value?: Array<PrivateEndpointConnectionOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateEndpointConnectionOutput {
     id?: string;
     name?: string;
@@ -8707,31 +8707,31 @@ export interface PrivateEndpointConnectionOutput {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateEndpointConnectionProperties {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
     provisioningState?: "Succeeded" | "Creating" | "Deleting" | "Failed";
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateEndpointConnectionPropertiesOutput {
     privateEndpoint?: PrivateEndpointOutput;
     privateLinkServiceConnectionState: PrivateLinkServiceConnectionStateOutput;
     provisioningState?: "Succeeded" | "Creating" | "Deleting" | "Failed";
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateEndpointOutput {
     id?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateLinkResourceListResultOutput {
     value?: Array<PrivateLinkResourceOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateLinkResourceOutput {
     id?: string;
     name?: string;
@@ -8739,56 +8739,56 @@ export interface PrivateLinkResourceOutput {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateLinkResourcePropertiesOutput {
     groupId?: string;
     requiredMembers?: Array<string>;
     requiredZoneNames?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateLinkServiceConnectionState {
     actionsRequired?: string;
     description?: string;
     status?: "Pending" | "Approved" | "Rejected";
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateLinkServiceConnectionStateOutput {
     actionsRequired?: string;
     description?: string;
     status?: "Pending" | "Approved" | "Rejected";
 }
 
-// @public (undocumented)
+// @public
 export interface PropertyUpdatesInProgress {
     targetTier?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PropertyUpdatesInProgressOutput {
     targetTier?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ProximityPlacementGroup extends Resource {
     properties?: ProximityPlacementGroupProperties;
     zones?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface ProximityPlacementGroupListResultOutput {
     nextLink?: string;
     value: Array<ProximityPlacementGroupOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ProximityPlacementGroupOutput extends ResourceOutput {
     properties?: ProximityPlacementGroupPropertiesOutput;
     zones?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface ProximityPlacementGroupProperties {
     availabilitySets?: Array<SubResourceWithColocationStatus>;
     colocationStatus?: InstanceViewStatus;
@@ -8798,17 +8798,17 @@ export interface ProximityPlacementGroupProperties {
     virtualMachineScaleSets?: Array<SubResourceWithColocationStatus>;
 }
 
-// @public (undocumented)
+// @public
 export interface ProximityPlacementGroupPropertiesIntent {
     vmSizes?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface ProximityPlacementGroupPropertiesIntentOutput {
     vmSizes?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface ProximityPlacementGroupPropertiesOutput {
     availabilitySets?: Array<SubResourceWithColocationStatusOutput>;
     colocationStatus?: InstanceViewStatusOutput;
@@ -8820,10 +8820,10 @@ export interface ProximityPlacementGroupPropertiesOutput {
 
 // @public (undocumented)
 export interface ProximityPlacementGroupsCreateOrUpdate {
-    delete(options: ProximityPlacementGroupsDeleteParameters): StreamableMethod<ProximityPlacementGroupsDelete200Response | ProximityPlacementGroupsDeletedefaultResponse>;
-    get(options: ProximityPlacementGroupsGetParameters): StreamableMethod<ProximityPlacementGroupsGet200Response | ProximityPlacementGroupsGetdefaultResponse>;
-    patch(options: ProximityPlacementGroupsUpdateParameters): StreamableMethod<ProximityPlacementGroupsUpdate200Response | ProximityPlacementGroupsUpdatedefaultResponse>;
-    put(options: ProximityPlacementGroupsCreateOrUpdateParameters): StreamableMethod<ProximityPlacementGroupsCreateOrUpdate200Response | ProximityPlacementGroupsCreateOrUpdate201Response | ProximityPlacementGroupsCreateOrUpdatedefaultResponse>;
+    delete(options: ProximityPlacementGroupsDeleteParameters): StreamableMethod<ProximityPlacementGroupsDelete200Response | ProximityPlacementGroupsDeleteDefaultResponse>;
+    get(options: ProximityPlacementGroupsGetParameters): StreamableMethod<ProximityPlacementGroupsGet200Response | ProximityPlacementGroupsGetDefaultResponse>;
+    patch(options: ProximityPlacementGroupsUpdateParameters): StreamableMethod<ProximityPlacementGroupsUpdate200Response | ProximityPlacementGroupsUpdateDefaultResponse>;
+    put(options: ProximityPlacementGroupsCreateOrUpdateParameters): StreamableMethod<ProximityPlacementGroupsCreateOrUpdate200Response | ProximityPlacementGroupsCreateOrUpdate201Response | ProximityPlacementGroupsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -8848,7 +8848,7 @@ export interface ProximityPlacementGroupsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface ProximityPlacementGroupsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface ProximityPlacementGroupsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -8883,7 +8883,7 @@ export interface ProximityPlacementGroupsDelete200Response extends HttpResponse 
 }
 
 // @public
-export interface ProximityPlacementGroupsDeletedefaultResponse extends HttpResponse {
+export interface ProximityPlacementGroupsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -8913,7 +8913,7 @@ export interface ProximityPlacementGroupsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface ProximityPlacementGroupsGetdefaultResponse extends HttpResponse {
+export interface ProximityPlacementGroupsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -8937,7 +8937,7 @@ export interface ProximityPlacementGroupsGetQueryParamProperties {
 
 // @public (undocumented)
 export interface ProximityPlacementGroupsListByResourceGroup {
-    get(options: ProximityPlacementGroupsListByResourceGroupParameters): StreamableMethod<ProximityPlacementGroupsListByResourceGroup200Response | ProximityPlacementGroupsListByResourceGroupdefaultResponse>;
+    get(options: ProximityPlacementGroupsListByResourceGroupParameters): StreamableMethod<ProximityPlacementGroupsListByResourceGroup200Response | ProximityPlacementGroupsListByResourceGroupDefaultResponse>;
 }
 
 // @public
@@ -8949,7 +8949,7 @@ export interface ProximityPlacementGroupsListByResourceGroup200Response extends 
 }
 
 // @public
-export interface ProximityPlacementGroupsListByResourceGroupdefaultResponse extends HttpResponse {
+export interface ProximityPlacementGroupsListByResourceGroupDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -8972,7 +8972,7 @@ export interface ProximityPlacementGroupsListByResourceGroupQueryParamProperties
 
 // @public (undocumented)
 export interface ProximityPlacementGroupsListBySubscription {
-    get(options: ProximityPlacementGroupsListBySubscriptionParameters): StreamableMethod<ProximityPlacementGroupsListBySubscription200Response | ProximityPlacementGroupsListBySubscriptiondefaultResponse>;
+    get(options: ProximityPlacementGroupsListBySubscriptionParameters): StreamableMethod<ProximityPlacementGroupsListBySubscription200Response | ProximityPlacementGroupsListBySubscriptionDefaultResponse>;
 }
 
 // @public
@@ -8984,7 +8984,7 @@ export interface ProximityPlacementGroupsListBySubscription200Response extends H
 }
 
 // @public
-export interface ProximityPlacementGroupsListBySubscriptiondefaultResponse extends HttpResponse {
+export interface ProximityPlacementGroupsListBySubscriptionDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -9019,7 +9019,7 @@ export interface ProximityPlacementGroupsUpdateBodyParam {
 }
 
 // @public
-export interface ProximityPlacementGroupsUpdatedefaultResponse extends HttpResponse {
+export interface ProximityPlacementGroupsUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -9045,51 +9045,51 @@ export interface ProximityPlacementGroupsUpdateQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface ProximityPlacementGroupUpdate extends UpdateResource {
 }
 
-// @public (undocumented)
+// @public
 export interface ProxyOnlyResourceOutput {
     id?: string;
     name?: string;
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ProxyResource {
     id?: string;
     name?: string;
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ProxyResourceOutput {
     id?: string;
     name?: string;
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PublicIPAddressSku {
     name?: "Basic" | "Standard";
     tier?: "Regional" | "Global";
 }
 
-// @public (undocumented)
+// @public
 export interface PublicIPAddressSkuOutput {
     name?: "Basic" | "Standard";
     tier?: "Regional" | "Global";
 }
 
-// @public (undocumented)
+// @public
 export interface PurchasePlan {
     name: string;
     product: string;
     publisher: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PurchasePlanAutoGenerated {
     name: string;
     product: string;
@@ -9097,7 +9097,7 @@ export interface PurchasePlanAutoGenerated {
     publisher: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PurchasePlanAutoGeneratedOutput {
     name: string;
     product: string;
@@ -9105,32 +9105,32 @@ export interface PurchasePlanAutoGeneratedOutput {
     publisher: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PurchasePlanOutput {
     name: string;
     product: string;
     publisher: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RecommendedMachineConfiguration {
     memory?: ResourceRange;
     vCPUs?: ResourceRange;
 }
 
-// @public (undocumented)
+// @public
 export interface RecommendedMachineConfigurationOutput {
     memory?: ResourceRangeOutput;
     vCPUs?: ResourceRangeOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface RecoveryWalkResponseOutput {
     nextPlatformUpdateDomain?: number;
     walkPerformed?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface RegionalReplicationStatus {
     details?: string;
     progress?: number;
@@ -9138,7 +9138,7 @@ export interface RegionalReplicationStatus {
     state?: "Unknown" | "Replicating" | "Completed" | "Failed";
 }
 
-// @public (undocumented)
+// @public
 export interface RegionalReplicationStatusOutput {
     details?: string;
     progress?: number;
@@ -9146,38 +9146,38 @@ export interface RegionalReplicationStatusOutput {
     state?: "Unknown" | "Replicating" | "Completed" | "Failed";
 }
 
-// @public (undocumented)
+// @public
 export interface RegionalSharingStatus {
     details?: string;
     region?: string;
     state?: "Succeeded" | "InProgress" | "Failed" | "Unknown";
 }
 
-// @public (undocumented)
+// @public
 export interface RegionalSharingStatusOutput {
     details?: string;
     region?: string;
     state?: "Succeeded" | "InProgress" | "Failed" | "Unknown";
 }
 
-// @public (undocumented)
+// @public
 export interface ReplicationStatus {
     aggregatedState?: "Unknown" | "InProgress" | "Completed" | "Failed";
     summary?: Array<RegionalReplicationStatus>;
 }
 
-// @public (undocumented)
+// @public
 export interface ReplicationStatusOutput {
     aggregatedState?: "Unknown" | "InProgress" | "Completed" | "Failed";
     summary?: Array<RegionalReplicationStatusOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface RequestRateByIntervalInput extends LogAnalyticsInputBase {
     intervalLength: "ThreeMins" | "FiveMins" | "ThirtyMins" | "SixtyMins";
 }
 
-// @public (undocumented)
+// @public
 export interface Resource {
     id?: string;
     location: string;
@@ -9186,7 +9186,7 @@ export interface Resource {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceInstanceViewStatusOutput {
     code?: string;
     displayStatus?: string;
@@ -9195,7 +9195,7 @@ export interface ResourceInstanceViewStatusOutput {
     time?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceOutput {
     id?: string;
     location: string;
@@ -9204,25 +9204,25 @@ export interface ResourceOutput {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceRange {
     max?: number;
     min?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceRangeOutput {
     max?: number;
     min?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceSkuCapabilitiesOutput {
     name?: string;
     value?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceSkuCapacityOutput {
     default?: number;
     maximum?: number;
@@ -9230,14 +9230,14 @@ export interface ResourceSkuCapacityOutput {
     scaleType?: "Automatic" | "Manual" | "None";
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceSkuCostsOutput {
     extendedUnit?: string;
     meterID?: string;
     quantity?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceSkuLocationInfoOutput {
     extendedLocations?: Array<string>;
     location?: string;
@@ -9246,7 +9246,7 @@ export interface ResourceSkuLocationInfoOutput {
     zones?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceSkuOutput {
     apiVersions?: Array<string>;
     capabilities?: Array<ResourceSkuCapabilitiesOutput>;
@@ -9263,13 +9263,13 @@ export interface ResourceSkuOutput {
     tier?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceSkuRestrictionInfoOutput {
     locations?: Array<string>;
     zones?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceSkuRestrictionsOutput {
     reasonCode?: "QuotaId" | "NotAvailableForSubscription";
     restrictionInfo?: ResourceSkuRestrictionInfoOutput;
@@ -9306,25 +9306,25 @@ export interface ResourceSkusListQueryParamProperties {
     includeExtendedLocations?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceSkusResultOutput {
     nextLink?: string;
     value: Array<ResourceSkuOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceSkuZoneDetailsOutput {
     capabilities?: Array<ResourceSkuCapabilitiesOutput>;
     name?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceUriListOutput {
     nextLink?: string;
     value: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceWithOptionalLocation {
     id?: string;
     location?: string;
@@ -9333,7 +9333,7 @@ export interface ResourceWithOptionalLocation {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceWithOptionalLocationOutput {
     id?: string;
     location?: string;
@@ -9342,28 +9342,28 @@ export interface ResourceWithOptionalLocationOutput {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePoint extends ProxyResource {
     properties?: RestorePointProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePointCollection extends Resource {
     properties?: RestorePointCollectionProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePointCollectionListResultOutput {
     nextLink?: string;
     value?: Array<RestorePointCollectionOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePointCollectionOutput extends ResourceOutput {
     properties?: RestorePointCollectionPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePointCollectionProperties {
     provisioningState?: string;
     restorePointCollectionId?: string;
@@ -9371,7 +9371,7 @@ export interface RestorePointCollectionProperties {
     source?: RestorePointCollectionSourceProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePointCollectionPropertiesOutput {
     provisioningState?: string;
     restorePointCollectionId?: string;
@@ -9381,10 +9381,10 @@ export interface RestorePointCollectionPropertiesOutput {
 
 // @public (undocumented)
 export interface RestorePointCollectionsCreateOrUpdate {
-    delete(options: RestorePointCollectionsDeleteParameters): StreamableMethod<RestorePointCollectionsDelete200Response | RestorePointCollectionsDelete202Response | RestorePointCollectionsDelete204Response | RestorePointCollectionsDeletedefaultResponse>;
-    get(options: RestorePointCollectionsGetParameters): StreamableMethod<RestorePointCollectionsGet200Response | RestorePointCollectionsGetdefaultResponse>;
-    patch(options: RestorePointCollectionsUpdateParameters): StreamableMethod<RestorePointCollectionsUpdate200Response | RestorePointCollectionsUpdatedefaultResponse>;
-    put(options: RestorePointCollectionsCreateOrUpdateParameters): StreamableMethod<RestorePointCollectionsCreateOrUpdate200Response | RestorePointCollectionsCreateOrUpdate201Response | RestorePointCollectionsCreateOrUpdatedefaultResponse>;
+    delete(options: RestorePointCollectionsDeleteParameters): StreamableMethod<RestorePointCollectionsDelete200Response | RestorePointCollectionsDelete202Response | RestorePointCollectionsDelete204Response | RestorePointCollectionsDeleteDefaultResponse>;
+    get(options: RestorePointCollectionsGetParameters): StreamableMethod<RestorePointCollectionsGet200Response | RestorePointCollectionsGetDefaultResponse>;
+    patch(options: RestorePointCollectionsUpdateParameters): StreamableMethod<RestorePointCollectionsUpdate200Response | RestorePointCollectionsUpdateDefaultResponse>;
+    put(options: RestorePointCollectionsCreateOrUpdateParameters): StreamableMethod<RestorePointCollectionsCreateOrUpdate200Response | RestorePointCollectionsCreateOrUpdate201Response | RestorePointCollectionsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -9409,7 +9409,7 @@ export interface RestorePointCollectionsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface RestorePointCollectionsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface RestorePointCollectionsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -9460,7 +9460,7 @@ export interface RestorePointCollectionsDelete204Response extends HttpResponse {
 }
 
 // @public
-export interface RestorePointCollectionsDeletedefaultResponse extends HttpResponse {
+export interface RestorePointCollectionsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -9490,7 +9490,7 @@ export interface RestorePointCollectionsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface RestorePointCollectionsGetdefaultResponse extends HttpResponse {
+export interface RestorePointCollectionsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -9514,7 +9514,7 @@ export interface RestorePointCollectionsGetQueryParamProperties {
 
 // @public (undocumented)
 export interface RestorePointCollectionsList {
-    get(options: RestorePointCollectionsListParameters): StreamableMethod<RestorePointCollectionsList200Response | RestorePointCollectionsListdefaultResponse>;
+    get(options: RestorePointCollectionsListParameters): StreamableMethod<RestorePointCollectionsList200Response | RestorePointCollectionsListDefaultResponse>;
 }
 
 // @public
@@ -9527,7 +9527,7 @@ export interface RestorePointCollectionsList200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface RestorePointCollectionsListAll {
-    get(options: RestorePointCollectionsListAllParameters): StreamableMethod<RestorePointCollectionsListAll200Response | RestorePointCollectionsListAlldefaultResponse>;
+    get(options: RestorePointCollectionsListAllParameters): StreamableMethod<RestorePointCollectionsListAll200Response | RestorePointCollectionsListAllDefaultResponse>;
 }
 
 // @public
@@ -9539,7 +9539,7 @@ export interface RestorePointCollectionsListAll200Response extends HttpResponse 
 }
 
 // @public
-export interface RestorePointCollectionsListAlldefaultResponse extends HttpResponse {
+export interface RestorePointCollectionsListAllDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -9561,7 +9561,7 @@ export interface RestorePointCollectionsListAllQueryParamProperties {
 }
 
 // @public
-export interface RestorePointCollectionsListdefaultResponse extends HttpResponse {
+export interface RestorePointCollectionsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -9582,13 +9582,13 @@ export interface RestorePointCollectionsListQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePointCollectionSourceProperties {
     id?: string;
     location?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePointCollectionSourcePropertiesOutput {
     id?: string;
     location?: string;
@@ -9608,7 +9608,7 @@ export interface RestorePointCollectionsUpdateBodyParam {
 }
 
 // @public
-export interface RestorePointCollectionsUpdatedefaultResponse extends HttpResponse {
+export interface RestorePointCollectionsUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -9634,29 +9634,29 @@ export interface RestorePointCollectionsUpdateQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePointCollectionUpdate extends UpdateResource {
     properties?: RestorePointCollectionProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePointInstanceView {
     diskRestorePoints?: Array<DiskRestorePointInstanceView>;
     statuses?: Array<InstanceViewStatus>;
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePointInstanceViewOutput {
     diskRestorePoints?: Array<DiskRestorePointInstanceViewOutput>;
     statuses?: Array<InstanceViewStatusOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePointOutput extends ProxyResourceOutput {
     properties?: RestorePointPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePointProperties {
     consistencyMode?: "CrashConsistent" | "FileSystemConsistent" | "ApplicationConsistent";
     excludeDisks?: Array<ApiEntityReference>;
@@ -9667,7 +9667,7 @@ export interface RestorePointProperties {
     timeCreated?: Date | string;
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePointPropertiesOutput {
     consistencyMode?: "CrashConsistent" | "FileSystemConsistent" | "ApplicationConsistent";
     excludeDisks?: Array<ApiEntityReferenceOutput>;
@@ -9680,9 +9680,9 @@ export interface RestorePointPropertiesOutput {
 
 // @public (undocumented)
 export interface RestorePointsCreate {
-    delete(options: RestorePointsDeleteParameters): StreamableMethod<RestorePointsDelete200Response | RestorePointsDelete202Response | RestorePointsDelete204Response | RestorePointsDeletedefaultResponse>;
-    get(options: RestorePointsGetParameters): StreamableMethod<RestorePointsGet200Response | RestorePointsGetdefaultResponse>;
-    put(options: RestorePointsCreateParameters): StreamableMethod<RestorePointsCreate201Response | RestorePointsCreatedefaultResponse>;
+    delete(options: RestorePointsDeleteParameters): StreamableMethod<RestorePointsDelete200Response | RestorePointsDelete202Response | RestorePointsDelete204Response | RestorePointsDeleteDefaultResponse>;
+    get(options: RestorePointsGetParameters): StreamableMethod<RestorePointsGet200Response | RestorePointsGetDefaultResponse>;
+    put(options: RestorePointsCreateParameters): StreamableMethod<RestorePointsCreate201Response | RestorePointsCreateDefaultResponse>;
 }
 
 // @public
@@ -9699,7 +9699,7 @@ export interface RestorePointsCreateBodyParam {
 }
 
 // @public
-export interface RestorePointsCreatedefaultResponse extends HttpResponse {
+export interface RestorePointsCreateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -9750,7 +9750,7 @@ export interface RestorePointsDelete204Response extends HttpResponse {
 }
 
 // @public
-export interface RestorePointsDeletedefaultResponse extends HttpResponse {
+export interface RestorePointsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -9780,7 +9780,7 @@ export interface RestorePointsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface RestorePointsGetdefaultResponse extends HttpResponse {
+export interface RestorePointsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -9802,7 +9802,7 @@ export interface RestorePointsGetQueryParamProperties {
     $expand?: "instanceView";
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePointSourceMetadata {
     diagnosticsProfile?: DiagnosticsProfile;
     hardwareProfile?: HardwareProfile;
@@ -9814,7 +9814,7 @@ export interface RestorePointSourceMetadata {
     vmId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePointSourceMetadataOutput {
     diagnosticsProfile?: DiagnosticsProfileOutput;
     hardwareProfile?: HardwareProfileOutput;
@@ -9826,7 +9826,7 @@ export interface RestorePointSourceMetadataOutput {
     vmId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePointSourceVMDataDisk {
     caching?: "None" | "ReadOnly" | "ReadWrite";
     diskRestorePoint?: ApiEntityReference;
@@ -9836,7 +9836,7 @@ export interface RestorePointSourceVMDataDisk {
     name?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePointSourceVMDataDiskOutput {
     caching?: "None" | "ReadOnly" | "ReadWrite";
     diskRestorePoint?: ApiEntityReferenceOutput;
@@ -9846,7 +9846,7 @@ export interface RestorePointSourceVMDataDiskOutput {
     name?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePointSourceVmosDisk {
     caching?: "None" | "ReadOnly" | "ReadWrite";
     diskRestorePoint?: ApiEntityReference;
@@ -9857,7 +9857,7 @@ export interface RestorePointSourceVmosDisk {
     osType?: "Windows" | "Linux";
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePointSourceVmosDiskOutput {
     caching?: "None" | "ReadOnly" | "ReadWrite";
     diskRestorePoint?: ApiEntityReferenceOutput;
@@ -9868,36 +9868,36 @@ export interface RestorePointSourceVmosDiskOutput {
     osType?: "Windows" | "Linux";
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePointSourceVMStorageProfile {
     dataDisks?: Array<RestorePointSourceVMDataDisk>;
     osDisk?: RestorePointSourceVmosDisk;
 }
 
-// @public (undocumented)
+// @public
 export interface RestorePointSourceVMStorageProfileOutput {
     dataDisks?: Array<RestorePointSourceVMDataDiskOutput>;
     osDisk?: RestorePointSourceVmosDiskOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface RetrieveBootDiagnosticsDataResultOutput {
     consoleScreenshotBlobUri?: string;
     serialConsoleLogBlobUri?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RoleInstanceListResultOutput {
     nextLink?: string;
     value: Array<RoleInstanceOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface RoleInstanceNetworkProfileOutput {
     networkInterfaces?: Array<SubResourceOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface RoleInstanceOutput {
     id?: string;
     location?: string;
@@ -9908,18 +9908,18 @@ export interface RoleInstanceOutput {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RoleInstancePropertiesOutput {
     instanceView?: RoleInstanceViewOutput;
     networkProfile?: RoleInstanceNetworkProfileOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface RoleInstances {
     roleInstances: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface RoleInstanceViewOutput {
     platformFaultDomain?: number;
     platformUpdateDomain?: number;
@@ -9928,14 +9928,14 @@ export interface RoleInstanceViewOutput {
     statuses?: Array<ResourceInstanceViewStatusOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface RollbackStatusInfoOutput {
     failedRolledbackInstanceCount?: number;
     rollbackError?: ApiErrorOutput;
     successfullyRolledbackInstanceCount?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface RollingUpgradePolicy {
     enableCrossZoneUpgrade?: boolean;
     maxBatchInstancePercent?: number;
@@ -9945,7 +9945,7 @@ export interface RollingUpgradePolicy {
     prioritizeUnhealthyInstances?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface RollingUpgradePolicyOutput {
     enableCrossZoneUpgrade?: boolean;
     maxBatchInstancePercent?: number;
@@ -9955,7 +9955,7 @@ export interface RollingUpgradePolicyOutput {
     prioritizeUnhealthyInstances?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface RollingUpgradeProgressInfo {
     failedInstanceCount?: number;
     inProgressInstanceCount?: number;
@@ -9963,7 +9963,7 @@ export interface RollingUpgradeProgressInfo {
     successfulInstanceCount?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface RollingUpgradeProgressInfoOutput {
     failedInstanceCount?: number;
     inProgressInstanceCount?: number;
@@ -9971,7 +9971,7 @@ export interface RollingUpgradeProgressInfoOutput {
     successfulInstanceCount?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface RollingUpgradeRunningStatus {
     code?: "RollingForward" | "Cancelled" | "Completed" | "Faulted";
     lastAction?: "Start" | "Cancel";
@@ -9979,7 +9979,7 @@ export interface RollingUpgradeRunningStatus {
     startTime?: Date | string;
 }
 
-// @public (undocumented)
+// @public
 export interface RollingUpgradeRunningStatusOutput {
     code?: "RollingForward" | "Cancelled" | "Completed" | "Faulted";
     lastAction?: "Start" | "Cancel";
@@ -9987,17 +9987,17 @@ export interface RollingUpgradeRunningStatusOutput {
     startTime?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RollingUpgradeStatusInfo extends Resource {
     properties?: RollingUpgradeStatusInfoProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface RollingUpgradeStatusInfoOutput extends ResourceOutput {
     properties?: RollingUpgradeStatusInfoPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface RollingUpgradeStatusInfoProperties {
     error?: ApiError;
     policy?: RollingUpgradePolicy;
@@ -10005,7 +10005,7 @@ export interface RollingUpgradeStatusInfoProperties {
     runningStatus?: RollingUpgradeRunningStatus;
 }
 
-// @public (undocumented)
+// @public
 export interface RollingUpgradeStatusInfoPropertiesOutput {
     error?: ApiErrorOutput;
     policy?: RollingUpgradePolicyOutput;
@@ -10210,7 +10210,7 @@ export interface Routes {
     (path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsFamilies", subscriptionId: string, location: string): CloudServiceOperatingSystemsListOSFamilies;
 }
 
-// @public (undocumented)
+// @public
 export interface RunCommandDocumentBaseOutput {
     $schema: string;
     description: string;
@@ -10219,38 +10219,38 @@ export interface RunCommandDocumentBaseOutput {
     osType: "Windows" | "Linux";
 }
 
-// @public (undocumented)
+// @public
 export interface RunCommandDocumentOutput extends RunCommandDocumentBaseOutput {
     parameters?: Array<RunCommandParameterDefinitionOutput>;
     script: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface RunCommandInput {
     commandId: string;
     parameters?: Array<RunCommandInputParameter>;
     script?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface RunCommandInputParameter {
     name: string;
     value: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RunCommandInputParameterOutput {
     name: string;
     value: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RunCommandListResultOutput {
     nextLink?: string;
     value: Array<RunCommandDocumentBaseOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface RunCommandParameterDefinitionOutput {
     defaultValue?: string;
     name: string;
@@ -10263,13 +10263,13 @@ export interface RunCommandResultOutput {
     value?: Array<InstanceViewStatusOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ScaleInPolicy {
     forceDeletion?: boolean;
     rules?: Array<"Default" | "OldestVM" | "NewestVM">;
 }
 
-// @public (undocumented)
+// @public
 export interface ScaleInPolicyOutput {
     forceDeletion?: boolean;
     rules?: Array<"Default" | "OldestVM" | "NewestVM">;
@@ -10285,14 +10285,14 @@ export interface ScheduledEventsProfileOutput {
     terminateNotificationProfile?: TerminateNotificationProfileOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface SecurityProfile {
     encryptionAtHost?: boolean;
     securityType?: "TrustedLaunch" | "ConfidentialVM";
     uefiSettings?: UefiSettings;
 }
 
-// @public (undocumented)
+// @public
 export interface SecurityProfileOutput {
     encryptionAtHost?: boolean;
     securityType?: "TrustedLaunch" | "ConfidentialVM";
@@ -10301,7 +10301,7 @@ export interface SecurityProfileOutput {
 
 // @public (undocumented)
 export interface SharedGalleriesGet {
-    get(options: SharedGalleriesGetParameters): StreamableMethod<SharedGalleriesGet200Response | SharedGalleriesGetdefaultResponse>;
+    get(options: SharedGalleriesGetParameters): StreamableMethod<SharedGalleriesGet200Response | SharedGalleriesGetDefaultResponse>;
 }
 
 // @public
@@ -10313,7 +10313,7 @@ export interface SharedGalleriesGet200Response extends HttpResponse {
 }
 
 // @public
-export interface SharedGalleriesGetdefaultResponse extends HttpResponse {
+export interface SharedGalleriesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -10336,7 +10336,7 @@ export interface SharedGalleriesGetQueryParamProperties {
 
 // @public (undocumented)
 export interface SharedGalleriesList {
-    get(options: SharedGalleriesListParameters): StreamableMethod<SharedGalleriesList200Response | SharedGalleriesListdefaultResponse>;
+    get(options: SharedGalleriesListParameters): StreamableMethod<SharedGalleriesList200Response | SharedGalleriesListDefaultResponse>;
 }
 
 // @public
@@ -10348,7 +10348,7 @@ export interface SharedGalleriesList200Response extends HttpResponse {
 }
 
 // @public
-export interface SharedGalleriesListdefaultResponse extends HttpResponse {
+export interface SharedGalleriesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -10370,34 +10370,34 @@ export interface SharedGalleriesListQueryParamProperties {
     sharedTo?: "tenant";
 }
 
-// @public (undocumented)
+// @public
 export interface SharedGalleryDataDiskImageOutput extends SharedGalleryDiskImageOutput {
     lun: number;
 }
 
-// @public (undocumented)
+// @public
 export interface SharedGalleryDiskImageOutput {
     diskSizeGB?: number;
     hostCaching?: "None" | "ReadOnly" | "ReadWrite";
 }
 
-// @public (undocumented)
+// @public
 export interface SharedGalleryIdentifierOutput {
     uniqueId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SharedGalleryImageListOutput {
     nextLink?: string;
     value: Array<SharedGalleryImageOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface SharedGalleryImageOutput extends PirSharedGalleryResourceOutput {
     properties?: SharedGalleryImagePropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface SharedGalleryImagePropertiesOutput {
     architecture?: "x64" | "Arm64";
     disallowed?: DisallowedOutput;
@@ -10413,7 +10413,7 @@ export interface SharedGalleryImagePropertiesOutput {
 
 // @public (undocumented)
 export interface SharedGalleryImagesGet {
-    get(options: SharedGalleryImagesGetParameters): StreamableMethod<SharedGalleryImagesGet200Response | SharedGalleryImagesGetdefaultResponse>;
+    get(options: SharedGalleryImagesGetParameters): StreamableMethod<SharedGalleryImagesGet200Response | SharedGalleryImagesGetDefaultResponse>;
 }
 
 // @public
@@ -10425,7 +10425,7 @@ export interface SharedGalleryImagesGet200Response extends HttpResponse {
 }
 
 // @public
-export interface SharedGalleryImagesGetdefaultResponse extends HttpResponse {
+export interface SharedGalleryImagesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -10448,7 +10448,7 @@ export interface SharedGalleryImagesGetQueryParamProperties {
 
 // @public (undocumented)
 export interface SharedGalleryImagesList {
-    get(options: SharedGalleryImagesListParameters): StreamableMethod<SharedGalleryImagesList200Response | SharedGalleryImagesListdefaultResponse>;
+    get(options: SharedGalleryImagesListParameters): StreamableMethod<SharedGalleryImagesList200Response | SharedGalleryImagesListDefaultResponse>;
 }
 
 // @public
@@ -10460,7 +10460,7 @@ export interface SharedGalleryImagesList200Response extends HttpResponse {
 }
 
 // @public
-export interface SharedGalleryImagesListdefaultResponse extends HttpResponse {
+export interface SharedGalleryImagesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -10482,18 +10482,18 @@ export interface SharedGalleryImagesListQueryParamProperties {
     sharedTo?: "tenant";
 }
 
-// @public (undocumented)
+// @public
 export interface SharedGalleryImageVersionListOutput {
     nextLink?: string;
     value: Array<SharedGalleryImageVersionOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface SharedGalleryImageVersionOutput extends PirSharedGalleryResourceOutput {
     properties?: SharedGalleryImageVersionPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface SharedGalleryImageVersionPropertiesOutput {
     endOfLifeDate?: string;
     excludeFromLatest?: boolean;
@@ -10503,7 +10503,7 @@ export interface SharedGalleryImageVersionPropertiesOutput {
 
 // @public (undocumented)
 export interface SharedGalleryImageVersionsGet {
-    get(options: SharedGalleryImageVersionsGetParameters): StreamableMethod<SharedGalleryImageVersionsGet200Response | SharedGalleryImageVersionsGetdefaultResponse>;
+    get(options: SharedGalleryImageVersionsGetParameters): StreamableMethod<SharedGalleryImageVersionsGet200Response | SharedGalleryImageVersionsGetDefaultResponse>;
 }
 
 // @public
@@ -10515,7 +10515,7 @@ export interface SharedGalleryImageVersionsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface SharedGalleryImageVersionsGetdefaultResponse extends HttpResponse {
+export interface SharedGalleryImageVersionsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -10538,7 +10538,7 @@ export interface SharedGalleryImageVersionsGetQueryParamProperties {
 
 // @public (undocumented)
 export interface SharedGalleryImageVersionsList {
-    get(options: SharedGalleryImageVersionsListParameters): StreamableMethod<SharedGalleryImageVersionsList200Response | SharedGalleryImageVersionsListdefaultResponse>;
+    get(options: SharedGalleryImageVersionsListParameters): StreamableMethod<SharedGalleryImageVersionsList200Response | SharedGalleryImageVersionsListDefaultResponse>;
 }
 
 // @public
@@ -10550,7 +10550,7 @@ export interface SharedGalleryImageVersionsList200Response extends HttpResponse 
 }
 
 // @public
-export interface SharedGalleryImageVersionsListdefaultResponse extends HttpResponse {
+export interface SharedGalleryImageVersionsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -10572,23 +10572,23 @@ export interface SharedGalleryImageVersionsListQueryParamProperties {
     sharedTo?: "tenant";
 }
 
-// @public (undocumented)
+// @public
 export interface SharedGalleryImageVersionStorageProfileOutput {
     dataDiskImages?: Array<SharedGalleryDataDiskImageOutput>;
     osDiskImage?: SharedGalleryOSDiskImageOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface SharedGalleryListOutput {
     nextLink?: string;
     value: Array<SharedGalleryOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface SharedGalleryOSDiskImageOutput extends SharedGalleryDiskImageOutput {
 }
 
-// @public (undocumented)
+// @public
 export interface SharedGalleryOutput extends PirSharedGalleryResourceOutput {
 }
 
@@ -10602,71 +10602,71 @@ export interface ShareInfoElementOutput {
     vmUri?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SharingProfile {
     communityGalleryInfo?: CommunityGalleryInfo;
     groups?: Array<SharingProfileGroup>;
     permissions?: "Private" | "Groups" | "Community";
 }
 
-// @public (undocumented)
+// @public
 export interface SharingProfileGroup {
     ids?: Array<string>;
     type?: "Subscriptions" | "AADTenants";
 }
 
-// @public (undocumented)
+// @public
 export interface SharingProfileGroupOutput {
     ids?: Array<string>;
     type?: "Subscriptions" | "AADTenants";
 }
 
-// @public (undocumented)
+// @public
 export interface SharingProfileOutput {
     communityGalleryInfo?: CommunityGalleryInfoOutput;
     groups?: Array<SharingProfileGroupOutput>;
     permissions?: "Private" | "Groups" | "Community";
 }
 
-// @public (undocumented)
+// @public
 export interface SharingStatus {
     aggregatedState?: "Succeeded" | "InProgress" | "Failed" | "Unknown";
     summary?: Array<RegionalSharingStatus>;
 }
 
-// @public (undocumented)
+// @public
 export interface SharingStatusOutput {
     aggregatedState?: "Succeeded" | "InProgress" | "Failed" | "Unknown";
     summary?: Array<RegionalSharingStatusOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface SharingUpdate {
     groups?: Array<SharingProfileGroup>;
     operationType: "Add" | "Remove" | "Reset" | "EnableCommunity";
 }
 
-// @public (undocumented)
+// @public
 export interface SharingUpdateOutput {
     groups?: Array<SharingProfileGroupOutput>;
     operationType: "Add" | "Remove" | "Reset" | "EnableCommunity";
 }
 
-// @public (undocumented)
+// @public
 export interface Sku {
     capacity?: number;
     name?: string;
     tier?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SkuOutput {
     capacity?: number;
     name?: string;
     tier?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface Snapshot extends Resource {
     extendedLocation?: ExtendedLocation;
     managedBy?: string;
@@ -10674,13 +10674,13 @@ export interface Snapshot extends Resource {
     sku?: SnapshotSku;
 }
 
-// @public (undocumented)
+// @public
 export interface SnapshotListOutput {
     nextLink?: string;
     value: Array<SnapshotOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface SnapshotOutput extends ResourceOutput {
     extendedLocation?: ExtendedLocationOutput;
     managedBy?: string;
@@ -10688,7 +10688,7 @@ export interface SnapshotOutput extends ResourceOutput {
     sku?: SnapshotSkuOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface SnapshotProperties {
     completionPercent?: number;
     copyCompletionError?: CopyCompletionError;
@@ -10715,7 +10715,7 @@ export interface SnapshotProperties {
     uniqueId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SnapshotPropertiesOutput {
     completionPercent?: number;
     copyCompletionError?: CopyCompletionErrorOutput;
@@ -10895,13 +10895,13 @@ export interface SnapshotsGrantAccessQueryParamProperties {
     "api-version": "2022-07-02";
 }
 
-// @public (undocumented)
+// @public
 export interface SnapshotSku {
     name?: "Standard_LRS" | "Premium_LRS" | "Standard_ZRS";
     tier?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SnapshotSkuOutput {
     name?: "Standard_LRS" | "Premium_LRS" | "Standard_ZRS";
     tier?: string;
@@ -11036,14 +11036,14 @@ export interface SnapshotsUpdateQueryParamProperties {
     "api-version": "2022-07-02";
 }
 
-// @public (undocumented)
+// @public
 export interface SnapshotUpdate {
     properties?: SnapshotUpdateProperties;
     sku?: SnapshotSku;
     tags?: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export interface SnapshotUpdateProperties {
     dataAccessAuthMode?: "AzureActiveDirectory" | "None";
     diskAccessId?: string;
@@ -11057,93 +11057,93 @@ export interface SnapshotUpdateProperties {
     supportsHibernation?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface SoftDeletePolicy {
     isSoftDeleteEnabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface SoftDeletePolicyOutput {
     isSoftDeleteEnabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface SourceVault {
     id?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SourceVaultOutput {
     id?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SpotRestorePolicy {
     enabled?: boolean;
     restoreTimeout?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SpotRestorePolicyOutput {
     enabled?: boolean;
     restoreTimeout?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SshConfiguration {
     publicKeys?: Array<SshPublicKey>;
 }
 
-// @public (undocumented)
+// @public
 export interface SshConfigurationOutput {
     publicKeys?: Array<SshPublicKeyOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface SshPublicKey {
     keyData?: string;
     path?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SshPublicKeyGenerateKeyPairResultOutput {
     id: string;
     privateKey: string;
     publicKey: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SshPublicKeyOutput {
     keyData?: string;
     path?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SshPublicKeyResource extends Resource {
     properties?: SshPublicKeyResourceProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface SshPublicKeyResourceOutput extends ResourceOutput {
     properties?: SshPublicKeyResourcePropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface SshPublicKeyResourceProperties {
     publicKey?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SshPublicKeyResourcePropertiesOutput {
     publicKey?: string;
 }
 
 // @public (undocumented)
 export interface SshPublicKeysCreate {
-    delete(options: SshPublicKeysDeleteParameters): StreamableMethod<SshPublicKeysDelete200Response | SshPublicKeysDelete204Response | SshPublicKeysDeletedefaultResponse>;
-    get(options: SshPublicKeysGetParameters): StreamableMethod<SshPublicKeysGet200Response | SshPublicKeysGetdefaultResponse>;
-    patch(options: SshPublicKeysUpdateParameters): StreamableMethod<SshPublicKeysUpdate200Response | SshPublicKeysUpdatedefaultResponse>;
-    put(options: SshPublicKeysCreateParameters): StreamableMethod<SshPublicKeysCreate200Response | SshPublicKeysCreate201Response | SshPublicKeysCreatedefaultResponse>;
+    delete(options: SshPublicKeysDeleteParameters): StreamableMethod<SshPublicKeysDelete200Response | SshPublicKeysDelete204Response | SshPublicKeysDeleteDefaultResponse>;
+    get(options: SshPublicKeysGetParameters): StreamableMethod<SshPublicKeysGet200Response | SshPublicKeysGetDefaultResponse>;
+    patch(options: SshPublicKeysUpdateParameters): StreamableMethod<SshPublicKeysUpdate200Response | SshPublicKeysUpdateDefaultResponse>;
+    put(options: SshPublicKeysCreateParameters): StreamableMethod<SshPublicKeysCreate200Response | SshPublicKeysCreate201Response | SshPublicKeysCreateDefaultResponse>;
 }
 
 // @public
@@ -11168,7 +11168,7 @@ export interface SshPublicKeysCreateBodyParam {
 }
 
 // @public
-export interface SshPublicKeysCreatedefaultResponse extends HttpResponse {
+export interface SshPublicKeysCreateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -11211,7 +11211,7 @@ export interface SshPublicKeysDelete204Response extends HttpResponse {
 }
 
 // @public
-export interface SshPublicKeysDeletedefaultResponse extends HttpResponse {
+export interface SshPublicKeysDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -11234,7 +11234,7 @@ export interface SshPublicKeysDeleteQueryParamProperties {
 
 // @public (undocumented)
 export interface SshPublicKeysGenerateKeyPair {
-    post(options: SshPublicKeysGenerateKeyPairParameters): StreamableMethod<SshPublicKeysGenerateKeyPair200Response | SshPublicKeysGenerateKeyPairdefaultResponse>;
+    post(options: SshPublicKeysGenerateKeyPairParameters): StreamableMethod<SshPublicKeysGenerateKeyPair200Response | SshPublicKeysGenerateKeyPairDefaultResponse>;
 }
 
 // @public
@@ -11246,7 +11246,7 @@ export interface SshPublicKeysGenerateKeyPair200Response extends HttpResponse {
 }
 
 // @public
-export interface SshPublicKeysGenerateKeyPairdefaultResponse extends HttpResponse {
+export interface SshPublicKeysGenerateKeyPairDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -11276,7 +11276,7 @@ export interface SshPublicKeysGet200Response extends HttpResponse {
 }
 
 // @public
-export interface SshPublicKeysGetdefaultResponse extends HttpResponse {
+export interface SshPublicKeysGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -11297,7 +11297,7 @@ export interface SshPublicKeysGetQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface SshPublicKeysGroupListResultOutput {
     nextLink?: string;
     value: Array<SshPublicKeyResourceOutput>;
@@ -11305,7 +11305,7 @@ export interface SshPublicKeysGroupListResultOutput {
 
 // @public (undocumented)
 export interface SshPublicKeysListByResourceGroup {
-    get(options: SshPublicKeysListByResourceGroupParameters): StreamableMethod<SshPublicKeysListByResourceGroup200Response | SshPublicKeysListByResourceGroupdefaultResponse>;
+    get(options: SshPublicKeysListByResourceGroupParameters): StreamableMethod<SshPublicKeysListByResourceGroup200Response | SshPublicKeysListByResourceGroupDefaultResponse>;
 }
 
 // @public
@@ -11317,7 +11317,7 @@ export interface SshPublicKeysListByResourceGroup200Response extends HttpRespons
 }
 
 // @public
-export interface SshPublicKeysListByResourceGroupdefaultResponse extends HttpResponse {
+export interface SshPublicKeysListByResourceGroupDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -11340,7 +11340,7 @@ export interface SshPublicKeysListByResourceGroupQueryParamProperties {
 
 // @public (undocumented)
 export interface SshPublicKeysListBySubscription {
-    get(options: SshPublicKeysListBySubscriptionParameters): StreamableMethod<SshPublicKeysListBySubscription200Response | SshPublicKeysListBySubscriptiondefaultResponse>;
+    get(options: SshPublicKeysListBySubscriptionParameters): StreamableMethod<SshPublicKeysListBySubscription200Response | SshPublicKeysListBySubscriptionDefaultResponse>;
 }
 
 // @public
@@ -11352,7 +11352,7 @@ export interface SshPublicKeysListBySubscription200Response extends HttpResponse
 }
 
 // @public
-export interface SshPublicKeysListBySubscriptiondefaultResponse extends HttpResponse {
+export interface SshPublicKeysListBySubscriptionDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -11387,7 +11387,7 @@ export interface SshPublicKeysUpdateBodyParam {
 }
 
 // @public
-export interface SshPublicKeysUpdatedefaultResponse extends HttpResponse {
+export interface SshPublicKeysUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -11413,25 +11413,25 @@ export interface SshPublicKeysUpdateQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface SshPublicKeyUpdateResource extends UpdateResource {
     properties?: SshPublicKeyResourceProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface StatusCodeCountOutput {
     code?: string;
     count?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface StorageProfile {
     dataDisks?: Array<DataDisk>;
     imageReference?: ImageReference;
     osDisk?: OSDisk;
 }
 
-// @public (undocumented)
+// @public
 export interface StorageProfileOutput {
     dataDisks?: Array<DataDiskOutput>;
     imageReference?: ImageReferenceOutput;
@@ -11468,33 +11468,33 @@ export interface SubResourceWithColocationStatusOutput extends SubResourceOutput
     colocationStatus?: InstanceViewStatusOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface SupportedCapabilities {
     acceleratedNetwork?: boolean;
     architecture?: "x64" | "Arm64";
     diskControllerTypes?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SupportedCapabilitiesOutput {
     acceleratedNetwork?: boolean;
     architecture?: "x64" | "Arm64";
     diskControllerTypes?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SystemData {
     createdAt?: Date | string;
     lastModifiedAt?: Date | string;
 }
 
-// @public (undocumented)
+// @public
 export interface SystemDataOutput {
     createdAt?: string;
     lastModifiedAt?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface TargetRegion {
     encryption?: EncryptionImages;
     name: string;
@@ -11502,7 +11502,7 @@ export interface TargetRegion {
     storageAccountType?: "Standard_LRS" | "Standard_ZRS" | "Premium_LRS";
 }
 
-// @public (undocumented)
+// @public
 export interface TargetRegionOutput {
     encryption?: EncryptionImagesOutput;
     name: string;
@@ -11522,46 +11522,46 @@ export interface TerminateNotificationProfileOutput {
     notBeforeTimeout?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ThrottledRequestsInput extends LogAnalyticsInputBase {
 }
 
-// @public (undocumented)
+// @public
 export interface UefiSettings {
     secureBootEnabled?: boolean;
     vTpmEnabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface UefiSettingsOutput {
     secureBootEnabled?: boolean;
     vTpmEnabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface UpdateDomain {
     id?: string;
     name?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UpdateDomainListResultOutput {
     nextLink?: string;
     value: Array<UpdateDomainOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface UpdateDomainOutput {
     id?: string;
     name?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UpdateResource {
     tags?: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export interface UpdateResourceDefinition {
     id?: string;
     name?: string;
@@ -11569,14 +11569,14 @@ export interface UpdateResourceDefinition {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UpgradeOperationHistoricalStatusInfoOutput {
     location?: string;
     properties?: UpgradeOperationHistoricalStatusInfoPropertiesOutput;
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UpgradeOperationHistoricalStatusInfoPropertiesOutput {
     error?: ApiErrorOutput;
     progress?: RollingUpgradeProgressInfoOutput;
@@ -11586,21 +11586,21 @@ export interface UpgradeOperationHistoricalStatusInfoPropertiesOutput {
     targetImageReference?: ImageReferenceOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface UpgradeOperationHistoryStatusOutput {
     code?: "RollingForward" | "Cancelled" | "Completed" | "Faulted";
     endTime?: string;
     startTime?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UpgradePolicy {
     automaticOSUpgradePolicy?: AutomaticOSUpgradePolicy;
     mode?: "Automatic" | "Manual" | "Rolling";
     rollingUpgradePolicy?: RollingUpgradePolicy;
 }
 
-// @public (undocumented)
+// @public
 export interface UpgradePolicyOutput {
     automaticOSUpgradePolicy?: AutomaticOSUpgradePolicyOutput;
     mode?: "Automatic" | "Manual" | "Rolling";
@@ -11609,7 +11609,7 @@ export interface UpgradePolicyOutput {
 
 // @public (undocumented)
 export interface UsageList {
-    get(options: UsageListParameters): StreamableMethod<UsageList200Response | UsageListdefaultResponse>;
+    get(options: UsageListParameters): StreamableMethod<UsageList200Response | UsageListDefaultResponse>;
 }
 
 // @public
@@ -11621,7 +11621,7 @@ export interface UsageList200Response extends HttpResponse {
 }
 
 // @public
-export interface UsageListdefaultResponse extends HttpResponse {
+export interface UsageListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -11642,13 +11642,13 @@ export interface UsageListQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface UsageNameOutput {
     localizedValue?: string;
     value?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UsageOutput {
     currentValue: number;
     limit: number;
@@ -11670,25 +11670,25 @@ export interface UserArtifactManageOutput {
     update?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UserArtifactSettings {
     configFileName?: string;
     packageFileName?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UserArtifactSettingsOutput {
     configFileName?: string;
     packageFileName?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UserArtifactSource {
     defaultConfigurationLink?: string;
     mediaLink: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UserArtifactSourceOutput {
     defaultConfigurationLink?: string;
     mediaLink: string;
@@ -11706,41 +11706,41 @@ export interface UserAssignedIdentitiesValueOutput {
     principalId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VaultCertificate {
     certificateStore?: string;
     certificateUrl?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VaultCertificateOutput {
     certificateStore?: string;
     certificateUrl?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VaultSecretGroup {
     sourceVault?: SubResource;
     vaultCertificates?: Array<VaultCertificate>;
 }
 
-// @public (undocumented)
+// @public
 export interface VaultSecretGroupOutput {
     sourceVault?: SubResourceOutput;
     vaultCertificates?: Array<VaultCertificateOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualHardDisk {
     uri?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualHardDiskOutput {
     uri?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachine extends Resource {
     extendedLocation?: ExtendedLocation;
     identity?: VirtualMachineIdentity;
@@ -11750,21 +11750,21 @@ export interface VirtualMachine extends Resource {
     zones?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineAgentInstanceView {
     extensionHandlers?: Array<VirtualMachineExtensionHandlerInstanceView>;
     statuses?: Array<InstanceViewStatus>;
     vmAgentVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineAgentInstanceViewOutput {
     extensionHandlers?: Array<VirtualMachineExtensionHandlerInstanceViewOutput>;
     statuses?: Array<InstanceViewStatusOutput>;
     vmAgentVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineAssessPatchesResultOutput {
     assessmentActivityId?: string;
     availablePatches?: Array<VirtualMachineSoftwarePatchPropertiesOutput>;
@@ -11776,59 +11776,59 @@ export interface VirtualMachineAssessPatchesResultOutput {
     status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineCaptureParameters {
     destinationContainerName: string;
     overwriteVhds: boolean;
     vhdPrefix: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineCaptureResult extends SubResource {
     $schema?: string;
     contentVersion?: string;
-    parameters?: Record<string, unknown>;
-    resources?: Array<Record<string, unknown>>;
+    parameters?: any;
+    resources?: Array<any>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineCaptureResultOutput extends SubResourceOutput {
     $schema?: string;
     contentVersion?: string;
-    parameters?: Record<string, unknown>;
-    resources?: Array<Record<string, unknown>>;
+    parameters?: any;
+    resources?: Array<any>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineExtension extends ResourceWithOptionalLocation {
     properties?: VirtualMachineExtensionProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineExtensionHandlerInstanceView {
     status?: InstanceViewStatus;
     type?: string;
     typeHandlerVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineExtensionHandlerInstanceViewOutput {
     status?: InstanceViewStatusOutput;
     type?: string;
     typeHandlerVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineExtensionImage extends Resource {
     properties?: VirtualMachineExtensionImageProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineExtensionImageOutput extends ResourceOutput {
     properties?: VirtualMachineExtensionImagePropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineExtensionImageProperties {
     computeRole: string;
     handlerSchema: string;
@@ -11837,7 +11837,7 @@ export interface VirtualMachineExtensionImageProperties {
     vmScaleSetEnabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineExtensionImagePropertiesOutput {
     computeRole: string;
     handlerSchema: string;
@@ -11848,7 +11848,7 @@ export interface VirtualMachineExtensionImagePropertiesOutput {
 
 // @public (undocumented)
 export interface VirtualMachineExtensionImagesGet {
-    get(options: VirtualMachineExtensionImagesGetParameters): StreamableMethod<VirtualMachineExtensionImagesGet200Response | VirtualMachineExtensionImagesGetdefaultResponse>;
+    get(options: VirtualMachineExtensionImagesGetParameters): StreamableMethod<VirtualMachineExtensionImagesGet200Response | VirtualMachineExtensionImagesGetDefaultResponse>;
 }
 
 // @public
@@ -11860,7 +11860,7 @@ export interface VirtualMachineExtensionImagesGet200Response extends HttpRespons
 }
 
 // @public
-export interface VirtualMachineExtensionImagesGetdefaultResponse extends HttpResponse {
+export interface VirtualMachineExtensionImagesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -11883,7 +11883,7 @@ export interface VirtualMachineExtensionImagesGetQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineExtensionImagesListTypes {
-    get(options: VirtualMachineExtensionImagesListTypesParameters): StreamableMethod<VirtualMachineExtensionImagesListTypes200Response | VirtualMachineExtensionImagesListTypesdefaultResponse>;
+    get(options: VirtualMachineExtensionImagesListTypesParameters): StreamableMethod<VirtualMachineExtensionImagesListTypes200Response | VirtualMachineExtensionImagesListTypesDefaultResponse>;
 }
 
 // @public
@@ -11895,7 +11895,7 @@ export interface VirtualMachineExtensionImagesListTypes200Response extends HttpR
 }
 
 // @public
-export interface VirtualMachineExtensionImagesListTypesdefaultResponse extends HttpResponse {
+export interface VirtualMachineExtensionImagesListTypesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -11918,7 +11918,7 @@ export interface VirtualMachineExtensionImagesListTypesQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineExtensionImagesListVersions {
-    get(options: VirtualMachineExtensionImagesListVersionsParameters): StreamableMethod<VirtualMachineExtensionImagesListVersions200Response | VirtualMachineExtensionImagesListVersionsdefaultResponse>;
+    get(options: VirtualMachineExtensionImagesListVersionsParameters): StreamableMethod<VirtualMachineExtensionImagesListVersions200Response | VirtualMachineExtensionImagesListVersionsDefaultResponse>;
 }
 
 // @public
@@ -11930,7 +11930,7 @@ export interface VirtualMachineExtensionImagesListVersions200Response extends Ht
 }
 
 // @public
-export interface VirtualMachineExtensionImagesListVersionsdefaultResponse extends HttpResponse {
+export interface VirtualMachineExtensionImagesListVersionsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -11956,7 +11956,7 @@ export interface VirtualMachineExtensionImagesListVersionsQueryParamProperties {
     $top?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineExtensionInstanceView {
     name?: string;
     statuses?: Array<InstanceViewStatus>;
@@ -11965,7 +11965,7 @@ export interface VirtualMachineExtensionInstanceView {
     typeHandlerVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineExtensionInstanceViewOutput {
     name?: string;
     statuses?: Array<InstanceViewStatusOutput>;
@@ -11974,38 +11974,38 @@ export interface VirtualMachineExtensionInstanceViewOutput {
     typeHandlerVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineExtensionOutput extends ResourceWithOptionalLocationOutput {
     properties?: VirtualMachineExtensionPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineExtensionProperties {
     autoUpgradeMinorVersion?: boolean;
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
     instanceView?: VirtualMachineExtensionInstanceView;
-    protectedSettings?: Record<string, unknown>;
-    protectedSettingsFromKeyVault?: Record<string, unknown>;
+    protectedSettings?: any;
+    protectedSettingsFromKeyVault?: any;
     provisioningState?: string;
     publisher?: string;
-    settings?: Record<string, unknown>;
+    settings?: any;
     suppressFailures?: boolean;
     type?: string;
     typeHandlerVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineExtensionPropertiesOutput {
     autoUpgradeMinorVersion?: boolean;
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
     instanceView?: VirtualMachineExtensionInstanceViewOutput;
-    protectedSettings?: Record<string, unknown>;
-    protectedSettingsFromKeyVault?: Record<string, unknown>;
+    protectedSettings?: any;
+    protectedSettingsFromKeyVault?: any;
     provisioningState?: string;
     publisher?: string;
-    settings?: Record<string, unknown>;
+    settings?: any;
     suppressFailures?: boolean;
     type?: string;
     typeHandlerVersion?: string;
@@ -12013,10 +12013,10 @@ export interface VirtualMachineExtensionPropertiesOutput {
 
 // @public (undocumented)
 export interface VirtualMachineExtensionsCreateOrUpdate {
-    delete(options: VirtualMachineExtensionsDeleteParameters): StreamableMethod<VirtualMachineExtensionsDelete200Response | VirtualMachineExtensionsDelete202Response | VirtualMachineExtensionsDelete204Response | VirtualMachineExtensionsDeletedefaultResponse>;
-    get(options: VirtualMachineExtensionsGetParameters): StreamableMethod<VirtualMachineExtensionsGet200Response | VirtualMachineExtensionsGetdefaultResponse>;
-    patch(options: VirtualMachineExtensionsUpdateParameters): StreamableMethod<VirtualMachineExtensionsUpdate200Response | VirtualMachineExtensionsUpdatedefaultResponse>;
-    put(options: VirtualMachineExtensionsCreateOrUpdateParameters): StreamableMethod<VirtualMachineExtensionsCreateOrUpdate200Response | VirtualMachineExtensionsCreateOrUpdate201Response | VirtualMachineExtensionsCreateOrUpdatedefaultResponse>;
+    delete(options: VirtualMachineExtensionsDeleteParameters): StreamableMethod<VirtualMachineExtensionsDelete200Response | VirtualMachineExtensionsDelete202Response | VirtualMachineExtensionsDelete204Response | VirtualMachineExtensionsDeleteDefaultResponse>;
+    get(options: VirtualMachineExtensionsGetParameters): StreamableMethod<VirtualMachineExtensionsGet200Response | VirtualMachineExtensionsGetDefaultResponse>;
+    patch(options: VirtualMachineExtensionsUpdateParameters): StreamableMethod<VirtualMachineExtensionsUpdate200Response | VirtualMachineExtensionsUpdateDefaultResponse>;
+    put(options: VirtualMachineExtensionsCreateOrUpdateParameters): StreamableMethod<VirtualMachineExtensionsCreateOrUpdate200Response | VirtualMachineExtensionsCreateOrUpdate201Response | VirtualMachineExtensionsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -12041,7 +12041,7 @@ export interface VirtualMachineExtensionsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface VirtualMachineExtensionsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface VirtualMachineExtensionsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -12092,7 +12092,7 @@ export interface VirtualMachineExtensionsDelete204Response extends HttpResponse 
 }
 
 // @public
-export interface VirtualMachineExtensionsDeletedefaultResponse extends HttpResponse {
+export interface VirtualMachineExtensionsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -12122,7 +12122,7 @@ export interface VirtualMachineExtensionsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachineExtensionsGetdefaultResponse extends HttpResponse {
+export interface VirtualMachineExtensionsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -12146,7 +12146,7 @@ export interface VirtualMachineExtensionsGetQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineExtensionsList {
-    get(options: VirtualMachineExtensionsListParameters): StreamableMethod<VirtualMachineExtensionsList200Response | VirtualMachineExtensionsListdefaultResponse>;
+    get(options: VirtualMachineExtensionsListParameters): StreamableMethod<VirtualMachineExtensionsList200Response | VirtualMachineExtensionsListDefaultResponse>;
 }
 
 // @public
@@ -12158,7 +12158,7 @@ export interface VirtualMachineExtensionsList200Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachineExtensionsListdefaultResponse extends HttpResponse {
+export interface VirtualMachineExtensionsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -12180,7 +12180,7 @@ export interface VirtualMachineExtensionsListQueryParamProperties {
     $expand?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineExtensionsListResultOutput {
     value?: Array<VirtualMachineExtensionOutput>;
 }
@@ -12199,7 +12199,7 @@ export interface VirtualMachineExtensionsUpdateBodyParam {
 }
 
 // @public
-export interface VirtualMachineExtensionsUpdatedefaultResponse extends HttpResponse {
+export interface VirtualMachineExtensionsUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -12225,50 +12225,50 @@ export interface VirtualMachineExtensionsUpdateQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineExtensionUpdate extends UpdateResource {
     properties?: VirtualMachineExtensionUpdateProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineExtensionUpdateProperties {
     autoUpgradeMinorVersion?: boolean;
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
-    protectedSettings?: Record<string, unknown>;
-    protectedSettingsFromKeyVault?: Record<string, unknown>;
+    protectedSettings?: any;
+    protectedSettingsFromKeyVault?: any;
     publisher?: string;
-    settings?: Record<string, unknown>;
+    settings?: any;
     suppressFailures?: boolean;
     type?: string;
     typeHandlerVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineExtensionUpdatePropertiesOutput {
     autoUpgradeMinorVersion?: boolean;
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
-    protectedSettings?: Record<string, unknown>;
-    protectedSettingsFromKeyVault?: Record<string, unknown>;
+    protectedSettings?: any;
+    protectedSettingsFromKeyVault?: any;
     publisher?: string;
-    settings?: Record<string, unknown>;
+    settings?: any;
     suppressFailures?: boolean;
     type?: string;
     typeHandlerVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineHealthStatus {
     status?: InstanceViewStatus;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineHealthStatusOutput {
     status?: InstanceViewStatusOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineIdentity {
     principalId?: string;
     tenantId?: string;
@@ -12276,7 +12276,7 @@ export interface VirtualMachineIdentity {
     userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineIdentityOutput {
     principalId?: string;
     tenantId?: string;
@@ -12284,29 +12284,29 @@ export interface VirtualMachineIdentityOutput {
     userAssignedIdentities?: Record<string, UserAssignedIdentitiesValueOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineImage extends VirtualMachineImageResource {
     properties?: VirtualMachineImageProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineImageFeature {
     name?: string;
     value?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineImageFeatureOutput {
     name?: string;
     value?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineImageOutput extends VirtualMachineImageResourceOutput {
     properties?: VirtualMachineImagePropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineImageProperties {
     architecture?: "x64" | "Arm64";
     automaticOSUpgradeProperties?: AutomaticOSUpgradeProperties;
@@ -12320,7 +12320,7 @@ export interface VirtualMachineImageProperties {
     plan?: PurchasePlan;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineImagePropertiesOutput {
     architecture?: "x64" | "Arm64";
     automaticOSUpgradeProperties?: AutomaticOSUpgradePropertiesOutput;
@@ -12334,7 +12334,7 @@ export interface VirtualMachineImagePropertiesOutput {
     plan?: PurchasePlanOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineImageResource extends SubResource {
     extendedLocation?: ExtendedLocation;
     location: string;
@@ -12342,7 +12342,7 @@ export interface VirtualMachineImageResource extends SubResource {
     tags?: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineImageResourceOutput extends SubResourceOutput {
     extendedLocation?: ExtendedLocationOutput;
     location: string;
@@ -12352,7 +12352,7 @@ export interface VirtualMachineImageResourceOutput extends SubResourceOutput {
 
 // @public (undocumented)
 export interface VirtualMachineImagesEdgeZoneGet {
-    get(options: VirtualMachineImagesEdgeZoneGetParameters): StreamableMethod<VirtualMachineImagesEdgeZoneGet200Response | VirtualMachineImagesEdgeZoneGetdefaultResponse>;
+    get(options: VirtualMachineImagesEdgeZoneGetParameters): StreamableMethod<VirtualMachineImagesEdgeZoneGet200Response | VirtualMachineImagesEdgeZoneGetDefaultResponse>;
 }
 
 // @public
@@ -12364,7 +12364,7 @@ export interface VirtualMachineImagesEdgeZoneGet200Response extends HttpResponse
 }
 
 // @public
-export interface VirtualMachineImagesEdgeZoneGetdefaultResponse extends HttpResponse {
+export interface VirtualMachineImagesEdgeZoneGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -12387,7 +12387,7 @@ export interface VirtualMachineImagesEdgeZoneGetQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineImagesEdgeZoneList {
-    get(options: VirtualMachineImagesEdgeZoneListParameters): StreamableMethod<VirtualMachineImagesEdgeZoneList200Response | VirtualMachineImagesEdgeZoneListdefaultResponse>;
+    get(options: VirtualMachineImagesEdgeZoneListParameters): StreamableMethod<VirtualMachineImagesEdgeZoneList200Response | VirtualMachineImagesEdgeZoneListDefaultResponse>;
 }
 
 // @public
@@ -12399,7 +12399,7 @@ export interface VirtualMachineImagesEdgeZoneList200Response extends HttpRespons
 }
 
 // @public
-export interface VirtualMachineImagesEdgeZoneListdefaultResponse extends HttpResponse {
+export interface VirtualMachineImagesEdgeZoneListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -12408,7 +12408,7 @@ export interface VirtualMachineImagesEdgeZoneListdefaultResponse extends HttpRes
 
 // @public (undocumented)
 export interface VirtualMachineImagesEdgeZoneListOffers {
-    get(options: VirtualMachineImagesEdgeZoneListOffersParameters): StreamableMethod<VirtualMachineImagesEdgeZoneListOffers200Response | VirtualMachineImagesEdgeZoneListOffersdefaultResponse>;
+    get(options: VirtualMachineImagesEdgeZoneListOffersParameters): StreamableMethod<VirtualMachineImagesEdgeZoneListOffers200Response | VirtualMachineImagesEdgeZoneListOffersDefaultResponse>;
 }
 
 // @public
@@ -12420,7 +12420,7 @@ export interface VirtualMachineImagesEdgeZoneListOffers200Response extends HttpR
 }
 
 // @public
-export interface VirtualMachineImagesEdgeZoneListOffersdefaultResponse extends HttpResponse {
+export interface VirtualMachineImagesEdgeZoneListOffersDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -12446,7 +12446,7 @@ export type VirtualMachineImagesEdgeZoneListParameters = VirtualMachineImagesEdg
 
 // @public (undocumented)
 export interface VirtualMachineImagesEdgeZoneListPublishers {
-    get(options: VirtualMachineImagesEdgeZoneListPublishersParameters): StreamableMethod<VirtualMachineImagesEdgeZoneListPublishers200Response | VirtualMachineImagesEdgeZoneListPublishersdefaultResponse>;
+    get(options: VirtualMachineImagesEdgeZoneListPublishersParameters): StreamableMethod<VirtualMachineImagesEdgeZoneListPublishers200Response | VirtualMachineImagesEdgeZoneListPublishersDefaultResponse>;
 }
 
 // @public
@@ -12458,7 +12458,7 @@ export interface VirtualMachineImagesEdgeZoneListPublishers200Response extends H
 }
 
 // @public
-export interface VirtualMachineImagesEdgeZoneListPublishersdefaultResponse extends HttpResponse {
+export interface VirtualMachineImagesEdgeZoneListPublishersDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -12495,7 +12495,7 @@ export interface VirtualMachineImagesEdgeZoneListQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineImagesEdgeZoneListSkus {
-    get(options: VirtualMachineImagesEdgeZoneListSkusParameters): StreamableMethod<VirtualMachineImagesEdgeZoneListSkus200Response | VirtualMachineImagesEdgeZoneListSkusdefaultResponse>;
+    get(options: VirtualMachineImagesEdgeZoneListSkusParameters): StreamableMethod<VirtualMachineImagesEdgeZoneListSkus200Response | VirtualMachineImagesEdgeZoneListSkusDefaultResponse>;
 }
 
 // @public
@@ -12507,7 +12507,7 @@ export interface VirtualMachineImagesEdgeZoneListSkus200Response extends HttpRes
 }
 
 // @public
-export interface VirtualMachineImagesEdgeZoneListSkusdefaultResponse extends HttpResponse {
+export interface VirtualMachineImagesEdgeZoneListSkusDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -12530,7 +12530,7 @@ export interface VirtualMachineImagesEdgeZoneListSkusQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineImagesGet {
-    get(options: VirtualMachineImagesGetParameters): StreamableMethod<VirtualMachineImagesGet200Response | VirtualMachineImagesGetdefaultResponse>;
+    get(options: VirtualMachineImagesGetParameters): StreamableMethod<VirtualMachineImagesGet200Response | VirtualMachineImagesGetDefaultResponse>;
 }
 
 // @public
@@ -12542,7 +12542,7 @@ export interface VirtualMachineImagesGet200Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachineImagesGetdefaultResponse extends HttpResponse {
+export interface VirtualMachineImagesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -12565,7 +12565,7 @@ export interface VirtualMachineImagesGetQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineImagesList {
-    get(options: VirtualMachineImagesListParameters): StreamableMethod<VirtualMachineImagesList200Response | VirtualMachineImagesListdefaultResponse>;
+    get(options: VirtualMachineImagesListParameters): StreamableMethod<VirtualMachineImagesList200Response | VirtualMachineImagesListDefaultResponse>;
 }
 
 // @public
@@ -12578,7 +12578,7 @@ export interface VirtualMachineImagesList200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface VirtualMachineImagesListByEdgeZone {
-    get(options: VirtualMachineImagesListByEdgeZoneParameters): StreamableMethod<VirtualMachineImagesListByEdgeZone200Response | VirtualMachineImagesListByEdgeZonedefaultResponse>;
+    get(options: VirtualMachineImagesListByEdgeZoneParameters): StreamableMethod<VirtualMachineImagesListByEdgeZone200Response | VirtualMachineImagesListByEdgeZoneDefaultResponse>;
 }
 
 // @public
@@ -12590,7 +12590,7 @@ export interface VirtualMachineImagesListByEdgeZone200Response extends HttpRespo
 }
 
 // @public
-export interface VirtualMachineImagesListByEdgeZonedefaultResponse extends HttpResponse {
+export interface VirtualMachineImagesListByEdgeZoneDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -12612,7 +12612,7 @@ export interface VirtualMachineImagesListByEdgeZoneQueryParamProperties {
 }
 
 // @public
-export interface VirtualMachineImagesListdefaultResponse extends HttpResponse {
+export interface VirtualMachineImagesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -12621,7 +12621,7 @@ export interface VirtualMachineImagesListdefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export interface VirtualMachineImagesListOffers {
-    get(options: VirtualMachineImagesListOffersParameters): StreamableMethod<VirtualMachineImagesListOffers200Response | VirtualMachineImagesListOffersdefaultResponse>;
+    get(options: VirtualMachineImagesListOffersParameters): StreamableMethod<VirtualMachineImagesListOffers200Response | VirtualMachineImagesListOffersDefaultResponse>;
 }
 
 // @public
@@ -12633,7 +12633,7 @@ export interface VirtualMachineImagesListOffers200Response extends HttpResponse 
 }
 
 // @public
-export interface VirtualMachineImagesListOffersdefaultResponse extends HttpResponse {
+export interface VirtualMachineImagesListOffersDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -12659,7 +12659,7 @@ export type VirtualMachineImagesListParameters = VirtualMachineImagesListQueryPa
 
 // @public (undocumented)
 export interface VirtualMachineImagesListPublishers {
-    get(options: VirtualMachineImagesListPublishersParameters): StreamableMethod<VirtualMachineImagesListPublishers200Response | VirtualMachineImagesListPublishersdefaultResponse>;
+    get(options: VirtualMachineImagesListPublishersParameters): StreamableMethod<VirtualMachineImagesListPublishers200Response | VirtualMachineImagesListPublishersDefaultResponse>;
 }
 
 // @public
@@ -12671,7 +12671,7 @@ export interface VirtualMachineImagesListPublishers200Response extends HttpRespo
 }
 
 // @public
-export interface VirtualMachineImagesListPublishersdefaultResponse extends HttpResponse {
+export interface VirtualMachineImagesListPublishersDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -12710,7 +12710,7 @@ export interface VirtualMachineImagesListQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineImagesListSkus {
-    get(options: VirtualMachineImagesListSkusParameters): StreamableMethod<VirtualMachineImagesListSkus200Response | VirtualMachineImagesListSkusdefaultResponse>;
+    get(options: VirtualMachineImagesListSkusParameters): StreamableMethod<VirtualMachineImagesListSkus200Response | VirtualMachineImagesListSkusDefaultResponse>;
 }
 
 // @public
@@ -12722,7 +12722,7 @@ export interface VirtualMachineImagesListSkus200Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachineImagesListSkusdefaultResponse extends HttpResponse {
+export interface VirtualMachineImagesListSkusDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -12743,7 +12743,7 @@ export interface VirtualMachineImagesListSkusQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineInstallPatchesParameters {
     linuxParameters?: LinuxParameters;
     maximumDuration?: string;
@@ -12751,7 +12751,7 @@ export interface VirtualMachineInstallPatchesParameters {
     windowsParameters?: WindowsParameters;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineInstallPatchesResultOutput {
     error?: ApiErrorOutput;
     excludedPatchCount?: number;
@@ -12767,7 +12767,7 @@ export interface VirtualMachineInstallPatchesResultOutput {
     status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineInstanceView {
     assignedHost?: string;
     bootDiagnostics?: BootDiagnosticsInstanceView;
@@ -12787,7 +12787,7 @@ export interface VirtualMachineInstanceView {
     vmHealth?: VirtualMachineHealthStatus;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineInstanceViewOutput {
     assignedHost?: string;
     bootDiagnostics?: BootDiagnosticsInstanceViewOutput;
@@ -12807,37 +12807,37 @@ export interface VirtualMachineInstanceViewOutput {
     vmHealth?: VirtualMachineHealthStatusOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineIpTag {
     ipTagType?: string;
     tag?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineIpTagOutput {
     ipTagType?: string;
     tag?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineListResultOutput {
     nextLink?: string;
     value: Array<VirtualMachineOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineNetworkInterfaceConfiguration {
     name: string;
     properties?: VirtualMachineNetworkInterfaceConfigurationProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineNetworkInterfaceConfigurationOutput {
     name: string;
     properties?: VirtualMachineNetworkInterfaceConfigurationPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineNetworkInterfaceConfigurationProperties {
     deleteOption?: "Delete" | "Detach";
     dnsSettings?: VirtualMachineNetworkInterfaceDnsSettingsConfiguration;
@@ -12851,7 +12851,7 @@ export interface VirtualMachineNetworkInterfaceConfigurationProperties {
     primary?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineNetworkInterfaceConfigurationPropertiesOutput {
     deleteOption?: "Delete" | "Detach";
     dnsSettings?: VirtualMachineNetworkInterfaceDnsSettingsConfigurationOutput;
@@ -12865,29 +12865,29 @@ export interface VirtualMachineNetworkInterfaceConfigurationPropertiesOutput {
     primary?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineNetworkInterfaceDnsSettingsConfiguration {
     dnsServers?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineNetworkInterfaceDnsSettingsConfigurationOutput {
     dnsServers?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineNetworkInterfaceIPConfiguration {
     name: string;
     properties?: VirtualMachineNetworkInterfaceIPConfigurationProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineNetworkInterfaceIPConfigurationOutput {
     name: string;
     properties?: VirtualMachineNetworkInterfaceIPConfigurationPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineNetworkInterfaceIPConfigurationProperties {
     applicationGatewayBackendAddressPools?: Array<SubResource>;
     applicationSecurityGroups?: Array<SubResource>;
@@ -12898,7 +12898,7 @@ export interface VirtualMachineNetworkInterfaceIPConfigurationProperties {
     subnet?: SubResource;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineNetworkInterfaceIPConfigurationPropertiesOutput {
     applicationGatewayBackendAddressPools?: Array<SubResourceOutput>;
     applicationSecurityGroups?: Array<SubResourceOutput>;
@@ -12909,7 +12909,7 @@ export interface VirtualMachineNetworkInterfaceIPConfigurationPropertiesOutput {
     subnet?: SubResourceOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineOutput extends ResourceOutput {
     extendedLocation?: ExtendedLocationOutput;
     identity?: VirtualMachineIdentityOutput;
@@ -12919,21 +12919,21 @@ export interface VirtualMachineOutput extends ResourceOutput {
     zones?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachinePatchStatus {
     availablePatchSummary?: AvailablePatchSummary;
     configurationStatuses?: Array<InstanceViewStatus>;
     lastPatchInstallationSummary?: LastPatchInstallationSummary;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachinePatchStatusOutput {
     availablePatchSummary?: AvailablePatchSummaryOutput;
     configurationStatuses?: Array<InstanceViewStatusOutput>;
     lastPatchInstallationSummary?: LastPatchInstallationSummaryOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineProperties {
     additionalCapabilities?: AdditionalCapabilities;
     applicationProfile?: ApplicationProfile;
@@ -12963,7 +12963,7 @@ export interface VirtualMachineProperties {
     vmId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachinePropertiesOutput {
     additionalCapabilities?: AdditionalCapabilitiesOutput;
     applicationProfile?: ApplicationProfileOutput;
@@ -12993,21 +12993,21 @@ export interface VirtualMachinePropertiesOutput {
     vmId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachinePublicIPAddressConfiguration {
     name: string;
     properties?: VirtualMachinePublicIPAddressConfigurationProperties;
     sku?: PublicIPAddressSku;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachinePublicIPAddressConfigurationOutput {
     name: string;
     properties?: VirtualMachinePublicIPAddressConfigurationPropertiesOutput;
     sku?: PublicIPAddressSkuOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachinePublicIPAddressConfigurationProperties {
     deleteOption?: "Delete" | "Detach";
     dnsSettings?: VirtualMachinePublicIPAddressDnsSettingsConfiguration;
@@ -13018,7 +13018,7 @@ export interface VirtualMachinePublicIPAddressConfigurationProperties {
     publicIPPrefix?: SubResource;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachinePublicIPAddressConfigurationPropertiesOutput {
     deleteOption?: "Delete" | "Detach";
     dnsSettings?: VirtualMachinePublicIPAddressDnsSettingsConfigurationOutput;
@@ -13029,27 +13029,27 @@ export interface VirtualMachinePublicIPAddressConfigurationPropertiesOutput {
     publicIPPrefix?: SubResourceOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachinePublicIPAddressDnsSettingsConfiguration {
     domainNameLabel: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachinePublicIPAddressDnsSettingsConfigurationOutput {
     domainNameLabel: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineReimageParameters {
     tempDisk?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineRunCommand extends Resource {
     properties?: VirtualMachineRunCommandProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineRunCommandInstanceView {
     endTime?: Date | string;
     error?: string;
@@ -13061,7 +13061,7 @@ export interface VirtualMachineRunCommandInstanceView {
     statuses?: Array<InstanceViewStatus>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineRunCommandInstanceViewOutput {
     endTime?: string;
     error?: string;
@@ -13073,12 +13073,12 @@ export interface VirtualMachineRunCommandInstanceViewOutput {
     statuses?: Array<InstanceViewStatusOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineRunCommandOutput extends ResourceOutput {
     properties?: VirtualMachineRunCommandPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineRunCommandProperties {
     asyncExecution?: boolean;
     errorBlobUri?: string;
@@ -13093,7 +13093,7 @@ export interface VirtualMachineRunCommandProperties {
     timeoutInSeconds?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineRunCommandPropertiesOutput {
     asyncExecution?: boolean;
     errorBlobUri?: string;
@@ -13110,10 +13110,10 @@ export interface VirtualMachineRunCommandPropertiesOutput {
 
 // @public (undocumented)
 export interface VirtualMachineRunCommandsCreateOrUpdate {
-    delete(options: VirtualMachineRunCommandsDeleteParameters): StreamableMethod<VirtualMachineRunCommandsDelete200Response | VirtualMachineRunCommandsDelete202Response | VirtualMachineRunCommandsDelete204Response | VirtualMachineRunCommandsDeletedefaultResponse>;
-    get(options: VirtualMachineRunCommandsGetByVirtualMachineParameters): StreamableMethod<VirtualMachineRunCommandsGetByVirtualMachine200Response | VirtualMachineRunCommandsGetByVirtualMachinedefaultResponse>;
-    patch(options: VirtualMachineRunCommandsUpdateParameters): StreamableMethod<VirtualMachineRunCommandsUpdate200Response | VirtualMachineRunCommandsUpdatedefaultResponse>;
-    put(options: VirtualMachineRunCommandsCreateOrUpdateParameters): StreamableMethod<VirtualMachineRunCommandsCreateOrUpdate200Response | VirtualMachineRunCommandsCreateOrUpdate201Response | VirtualMachineRunCommandsCreateOrUpdatedefaultResponse>;
+    delete(options: VirtualMachineRunCommandsDeleteParameters): StreamableMethod<VirtualMachineRunCommandsDelete200Response | VirtualMachineRunCommandsDelete202Response | VirtualMachineRunCommandsDelete204Response | VirtualMachineRunCommandsDeleteDefaultResponse>;
+    get(options: VirtualMachineRunCommandsGetByVirtualMachineParameters): StreamableMethod<VirtualMachineRunCommandsGetByVirtualMachine200Response | VirtualMachineRunCommandsGetByVirtualMachineDefaultResponse>;
+    patch(options: VirtualMachineRunCommandsUpdateParameters): StreamableMethod<VirtualMachineRunCommandsUpdate200Response | VirtualMachineRunCommandsUpdateDefaultResponse>;
+    put(options: VirtualMachineRunCommandsCreateOrUpdateParameters): StreamableMethod<VirtualMachineRunCommandsCreateOrUpdate200Response | VirtualMachineRunCommandsCreateOrUpdate201Response | VirtualMachineRunCommandsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -13138,7 +13138,7 @@ export interface VirtualMachineRunCommandsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface VirtualMachineRunCommandsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface VirtualMachineRunCommandsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -13164,14 +13164,14 @@ export interface VirtualMachineRunCommandsCreateOrUpdateQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineRunCommandScriptSource {
     commandId?: string;
     script?: string;
     scriptUri?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineRunCommandScriptSourceOutput {
     commandId?: string;
     script?: string;
@@ -13203,7 +13203,7 @@ export interface VirtualMachineRunCommandsDelete204Response extends HttpResponse
 }
 
 // @public
-export interface VirtualMachineRunCommandsDeletedefaultResponse extends HttpResponse {
+export interface VirtualMachineRunCommandsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -13246,7 +13246,7 @@ export interface VirtualMachineRunCommandsGetByVirtualMachine200Response extends
 }
 
 // @public
-export interface VirtualMachineRunCommandsGetByVirtualMachinedefaultResponse extends HttpResponse {
+export interface VirtualMachineRunCommandsGetByVirtualMachineDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -13297,7 +13297,7 @@ export interface VirtualMachineRunCommandsList200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface VirtualMachineRunCommandsListByVirtualMachine {
-    get(options: VirtualMachineRunCommandsListByVirtualMachineParameters): StreamableMethod<VirtualMachineRunCommandsListByVirtualMachine200Response | VirtualMachineRunCommandsListByVirtualMachinedefaultResponse>;
+    get(options: VirtualMachineRunCommandsListByVirtualMachineParameters): StreamableMethod<VirtualMachineRunCommandsListByVirtualMachine200Response | VirtualMachineRunCommandsListByVirtualMachineDefaultResponse>;
 }
 
 // @public
@@ -13309,7 +13309,7 @@ export interface VirtualMachineRunCommandsListByVirtualMachine200Response extend
 }
 
 // @public
-export interface VirtualMachineRunCommandsListByVirtualMachinedefaultResponse extends HttpResponse {
+export interface VirtualMachineRunCommandsListByVirtualMachineDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -13345,7 +13345,7 @@ export interface VirtualMachineRunCommandsListQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineRunCommandsListResultOutput {
     nextLink?: string;
     value: Array<VirtualMachineRunCommandOutput>;
@@ -13365,7 +13365,7 @@ export interface VirtualMachineRunCommandsUpdateBodyParam {
 }
 
 // @public
-export interface VirtualMachineRunCommandsUpdatedefaultResponse extends HttpResponse {
+export interface VirtualMachineRunCommandsUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -13391,14 +13391,14 @@ export interface VirtualMachineRunCommandsUpdateQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineRunCommandUpdate extends UpdateResource {
     properties?: VirtualMachineRunCommandProperties;
 }
 
 // @public (undocumented)
 export interface VirtualMachinesAssessPatches {
-    post(options: VirtualMachinesAssessPatchesParameters): StreamableMethod<VirtualMachinesAssessPatches200Response | VirtualMachinesAssessPatches202Response | VirtualMachinesAssessPatchesdefaultResponse>;
+    post(options: VirtualMachinesAssessPatchesParameters): StreamableMethod<VirtualMachinesAssessPatches200Response | VirtualMachinesAssessPatches202Response | VirtualMachinesAssessPatchesDefaultResponse>;
 }
 
 // @public
@@ -13418,7 +13418,7 @@ export interface VirtualMachinesAssessPatches202Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachinesAssessPatchesdefaultResponse extends HttpResponse {
+export interface VirtualMachinesAssessPatchesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -13439,7 +13439,7 @@ export interface VirtualMachinesAssessPatchesQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSet extends Resource {
     extendedLocation?: ExtendedLocation;
     identity?: VirtualMachineScaleSetIdentity;
@@ -13449,7 +13449,7 @@ export interface VirtualMachineScaleSet extends Resource {
     zones?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetDataDisk {
     caching?: "None" | "ReadOnly" | "ReadWrite";
     createOption: "FromImage" | "Empty" | "Attach";
@@ -13463,7 +13463,7 @@ export interface VirtualMachineScaleSetDataDisk {
     writeAcceleratorEnabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetDataDiskOutput {
     caching?: "None" | "ReadOnly" | "ReadWrite";
     createOption: "FromImage" | "Empty" | "Attach";
@@ -13477,65 +13477,65 @@ export interface VirtualMachineScaleSetDataDiskOutput {
     writeAcceleratorEnabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
     name?: string;
     properties?: VirtualMachineScaleSetExtensionProperties;
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetExtensionListResultOutput {
     nextLink?: string;
     value: Array<VirtualMachineScaleSetExtensionOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetExtensionOutput extends SubResourceReadOnlyOutput {
     name?: string;
     properties?: VirtualMachineScaleSetExtensionPropertiesOutput;
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetExtensionProfile {
     extensions?: Array<VirtualMachineScaleSetExtension>;
     extensionsTimeBudget?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetExtensionProfileOutput {
     extensions?: Array<VirtualMachineScaleSetExtensionOutput>;
     extensionsTimeBudget?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetExtensionProperties {
     autoUpgradeMinorVersion?: boolean;
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
-    protectedSettings?: Record<string, unknown>;
-    protectedSettingsFromKeyVault?: Record<string, unknown>;
+    protectedSettings?: any;
+    protectedSettingsFromKeyVault?: any;
     provisionAfterExtensions?: Array<string>;
     provisioningState?: string;
     publisher?: string;
-    settings?: Record<string, unknown>;
+    settings?: any;
     suppressFailures?: boolean;
     type?: string;
     typeHandlerVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetExtensionPropertiesOutput {
     autoUpgradeMinorVersion?: boolean;
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
-    protectedSettings?: Record<string, unknown>;
-    protectedSettingsFromKeyVault?: Record<string, unknown>;
+    protectedSettings?: any;
+    protectedSettingsFromKeyVault?: any;
     provisionAfterExtensions?: Array<string>;
     provisioningState?: string;
     publisher?: string;
-    settings?: Record<string, unknown>;
+    settings?: any;
     suppressFailures?: boolean;
     type?: string;
     typeHandlerVersion?: string;
@@ -13543,10 +13543,10 @@ export interface VirtualMachineScaleSetExtensionPropertiesOutput {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetExtensionsCreateOrUpdate {
-    delete(options: VirtualMachineScaleSetExtensionsDeleteParameters): StreamableMethod<VirtualMachineScaleSetExtensionsDelete200Response | VirtualMachineScaleSetExtensionsDelete202Response | VirtualMachineScaleSetExtensionsDelete204Response | VirtualMachineScaleSetExtensionsDeletedefaultResponse>;
-    get(options: VirtualMachineScaleSetExtensionsGetParameters): StreamableMethod<VirtualMachineScaleSetExtensionsGet200Response | VirtualMachineScaleSetExtensionsGetdefaultResponse>;
-    patch(options: VirtualMachineScaleSetExtensionsUpdateParameters): StreamableMethod<VirtualMachineScaleSetExtensionsUpdate200Response | VirtualMachineScaleSetExtensionsUpdate201Response | VirtualMachineScaleSetExtensionsUpdatedefaultResponse>;
-    put(options: VirtualMachineScaleSetExtensionsCreateOrUpdateParameters): StreamableMethod<VirtualMachineScaleSetExtensionsCreateOrUpdate200Response | VirtualMachineScaleSetExtensionsCreateOrUpdate201Response | VirtualMachineScaleSetExtensionsCreateOrUpdatedefaultResponse>;
+    delete(options: VirtualMachineScaleSetExtensionsDeleteParameters): StreamableMethod<VirtualMachineScaleSetExtensionsDelete200Response | VirtualMachineScaleSetExtensionsDelete202Response | VirtualMachineScaleSetExtensionsDelete204Response | VirtualMachineScaleSetExtensionsDeleteDefaultResponse>;
+    get(options: VirtualMachineScaleSetExtensionsGetParameters): StreamableMethod<VirtualMachineScaleSetExtensionsGet200Response | VirtualMachineScaleSetExtensionsGetDefaultResponse>;
+    patch(options: VirtualMachineScaleSetExtensionsUpdateParameters): StreamableMethod<VirtualMachineScaleSetExtensionsUpdate200Response | VirtualMachineScaleSetExtensionsUpdate201Response | VirtualMachineScaleSetExtensionsUpdateDefaultResponse>;
+    put(options: VirtualMachineScaleSetExtensionsCreateOrUpdateParameters): StreamableMethod<VirtualMachineScaleSetExtensionsCreateOrUpdate200Response | VirtualMachineScaleSetExtensionsCreateOrUpdate201Response | VirtualMachineScaleSetExtensionsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -13571,7 +13571,7 @@ export interface VirtualMachineScaleSetExtensionsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetExtensionsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetExtensionsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -13622,7 +13622,7 @@ export interface VirtualMachineScaleSetExtensionsDelete204Response extends HttpR
 }
 
 // @public
-export interface VirtualMachineScaleSetExtensionsDeletedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetExtensionsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -13652,7 +13652,7 @@ export interface VirtualMachineScaleSetExtensionsGet200Response extends HttpResp
 }
 
 // @public
-export interface VirtualMachineScaleSetExtensionsGetdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetExtensionsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -13676,7 +13676,7 @@ export interface VirtualMachineScaleSetExtensionsGetQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetExtensionsList {
-    get(options: VirtualMachineScaleSetExtensionsListParameters): StreamableMethod<VirtualMachineScaleSetExtensionsList200Response | VirtualMachineScaleSetExtensionsListdefaultResponse>;
+    get(options: VirtualMachineScaleSetExtensionsListParameters): StreamableMethod<VirtualMachineScaleSetExtensionsList200Response | VirtualMachineScaleSetExtensionsListDefaultResponse>;
 }
 
 // @public
@@ -13688,7 +13688,7 @@ export interface VirtualMachineScaleSetExtensionsList200Response extends HttpRes
 }
 
 // @public
-export interface VirtualMachineScaleSetExtensionsListdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetExtensionsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -13731,7 +13731,7 @@ export interface VirtualMachineScaleSetExtensionsUpdateBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetExtensionsUpdatedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetExtensionsUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -13757,31 +13757,31 @@ export interface VirtualMachineScaleSetExtensionsUpdateQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetExtensionUpdate extends SubResourceReadOnly {
     name?: string;
     properties?: VirtualMachineScaleSetExtensionProperties;
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetExtensionUpdateOutput extends SubResourceReadOnlyOutput {
     name?: string;
     properties?: VirtualMachineScaleSetExtensionPropertiesOutput;
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetHardwareProfile {
     vmSizeProperties?: VMSizeProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetHardwareProfileOutput {
     vmSizeProperties?: VMSizePropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetIdentity {
     principalId?: string;
     tenantId?: string;
@@ -13789,7 +13789,7 @@ export interface VirtualMachineScaleSetIdentity {
     userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetIdentityOutput {
     principalId?: string;
     tenantId?: string;
@@ -13797,7 +13797,7 @@ export interface VirtualMachineScaleSetIdentityOutput {
     userAssignedIdentities?: Record<string, UserAssignedIdentitiesValueOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetInstanceViewOutput {
     extensions?: Array<VirtualMachineScaleSetVMExtensionsSummaryOutput>;
     orchestrationServices?: Array<OrchestrationServiceSummaryOutput>;
@@ -13805,24 +13805,24 @@ export interface VirtualMachineScaleSetInstanceViewOutput {
     virtualMachine?: VirtualMachineScaleSetInstanceViewStatusesSummaryOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetInstanceViewStatusesSummaryOutput {
     statusesSummary?: Array<VirtualMachineStatusCodeCountOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetIPConfiguration extends SubResource {
     name: string;
     properties?: VirtualMachineScaleSetIPConfigurationProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetIPConfigurationOutput extends SubResourceOutput {
     name: string;
     properties?: VirtualMachineScaleSetIPConfigurationPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetIPConfigurationProperties {
     applicationGatewayBackendAddressPools?: Array<SubResource>;
     applicationSecurityGroups?: Array<SubResource>;
@@ -13834,7 +13834,7 @@ export interface VirtualMachineScaleSetIPConfigurationProperties {
     subnet?: ApiEntityReference;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetIPConfigurationPropertiesOutput {
     applicationGatewayBackendAddressPools?: Array<SubResourceOutput>;
     applicationSecurityGroups?: Array<SubResourceOutput>;
@@ -13846,79 +13846,79 @@ export interface VirtualMachineScaleSetIPConfigurationPropertiesOutput {
     subnet?: ApiEntityReferenceOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetIpTag {
     ipTagType?: string;
     tag?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetIpTagOutput {
     ipTagType?: string;
     tag?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetListOSUpgradeHistoryOutput {
     nextLink?: string;
     value: Array<UpgradeOperationHistoricalStatusInfoOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetListResultOutput {
     nextLink?: string;
     value: Array<VirtualMachineScaleSetOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetListSkusResultOutput {
     nextLink?: string;
     value: Array<VirtualMachineScaleSetSkuOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetListWithLinkResultOutput {
     nextLink?: string;
     value: Array<VirtualMachineScaleSetOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetManagedDiskParameters {
     diskEncryptionSet?: DiskEncryptionSetParameters;
     securityProfile?: VMDiskSecurityProfile;
     storageAccountType?: "Standard_LRS" | "Premium_LRS" | "StandardSSD_LRS" | "UltraSSD_LRS" | "Premium_ZRS" | "StandardSSD_ZRS" | "PremiumV2_LRS";
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetManagedDiskParametersOutput {
     diskEncryptionSet?: DiskEncryptionSetParametersOutput;
     securityProfile?: VMDiskSecurityProfileOutput;
     storageAccountType?: "Standard_LRS" | "Premium_LRS" | "StandardSSD_LRS" | "UltraSSD_LRS" | "Premium_ZRS" | "StandardSSD_ZRS" | "PremiumV2_LRS";
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetNetworkConfiguration extends SubResource {
     name: string;
     properties?: VirtualMachineScaleSetNetworkConfigurationProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetNetworkConfigurationDnsSettings {
     dnsServers?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetNetworkConfigurationDnsSettingsOutput {
     dnsServers?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetNetworkConfigurationOutput extends SubResourceOutput {
     name: string;
     properties?: VirtualMachineScaleSetNetworkConfigurationPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetNetworkConfigurationProperties {
     deleteOption?: "Delete" | "Detach";
     dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
@@ -13930,7 +13930,7 @@ export interface VirtualMachineScaleSetNetworkConfigurationProperties {
     primary?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetNetworkConfigurationPropertiesOutput {
     deleteOption?: "Delete" | "Detach";
     dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettingsOutput;
@@ -13942,21 +13942,21 @@ export interface VirtualMachineScaleSetNetworkConfigurationPropertiesOutput {
     primary?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetNetworkProfile {
     healthProbe?: ApiEntityReference;
     networkApiVersion?: "2020-11-01";
     networkInterfaceConfigurations?: Array<VirtualMachineScaleSetNetworkConfiguration>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetNetworkProfileOutput {
     healthProbe?: ApiEntityReferenceOutput;
     networkApiVersion?: "2020-11-01";
     networkInterfaceConfigurations?: Array<VirtualMachineScaleSetNetworkConfigurationOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetOSDisk {
     caching?: "None" | "ReadOnly" | "ReadWrite";
     createOption: "FromImage" | "Empty" | "Attach";
@@ -13971,7 +13971,7 @@ export interface VirtualMachineScaleSetOSDisk {
     writeAcceleratorEnabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetOSDiskOutput {
     caching?: "None" | "ReadOnly" | "ReadWrite";
     createOption: "FromImage" | "Empty" | "Attach";
@@ -13986,7 +13986,7 @@ export interface VirtualMachineScaleSetOSDiskOutput {
     writeAcceleratorEnabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetOSProfile {
     adminPassword?: string;
     adminUsername?: string;
@@ -13998,7 +13998,7 @@ export interface VirtualMachineScaleSetOSProfile {
     windowsConfiguration?: WindowsConfiguration;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetOSProfileOutput {
     adminPassword?: string;
     adminUsername?: string;
@@ -14010,7 +14010,7 @@ export interface VirtualMachineScaleSetOSProfileOutput {
     windowsConfiguration?: WindowsConfigurationOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetOutput extends ResourceOutput {
     extendedLocation?: ExtendedLocationOutput;
     identity?: VirtualMachineScaleSetIdentityOutput;
@@ -14020,7 +14020,7 @@ export interface VirtualMachineScaleSetOutput extends ResourceOutput {
     zones?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetProperties {
     additionalCapabilities?: AdditionalCapabilities;
     automaticRepairsPolicy?: AutomaticRepairsPolicy;
@@ -14041,7 +14041,7 @@ export interface VirtualMachineScaleSetProperties {
     zoneBalance?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetPropertiesOutput {
     additionalCapabilities?: AdditionalCapabilitiesOutput;
     automaticRepairsPolicy?: AutomaticRepairsPolicyOutput;
@@ -14062,31 +14062,31 @@ export interface VirtualMachineScaleSetPropertiesOutput {
     zoneBalance?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetPublicIPAddressConfiguration {
     name: string;
     properties?: VirtualMachineScaleSetPublicIPAddressConfigurationProperties;
     sku?: PublicIPAddressSku;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings {
     domainNameLabel: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsOutput {
     domainNameLabel: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetPublicIPAddressConfigurationOutput {
     name: string;
     properties?: VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesOutput;
     sku?: PublicIPAddressSkuOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetPublicIPAddressConfigurationProperties {
     deleteOption?: "Delete" | "Detach";
     dnsSettings?: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings;
@@ -14096,7 +14096,7 @@ export interface VirtualMachineScaleSetPublicIPAddressConfigurationProperties {
     publicIPPrefix?: SubResource;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesOutput {
     deleteOption?: "Delete" | "Detach";
     dnsSettings?: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsOutput;
@@ -14106,14 +14106,14 @@ export interface VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesOut
     publicIPPrefix?: SubResourceOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetReimageParameters extends VirtualMachineScaleSetVMReimageParameters {
     instanceIds?: Array<string>;
 }
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetRollingUpgradesCancel {
-    post(options: VirtualMachineScaleSetRollingUpgradesCancelParameters): StreamableMethod<VirtualMachineScaleSetRollingUpgradesCancel200Response | VirtualMachineScaleSetRollingUpgradesCancel202Response | VirtualMachineScaleSetRollingUpgradesCanceldefaultResponse>;
+    post(options: VirtualMachineScaleSetRollingUpgradesCancelParameters): StreamableMethod<VirtualMachineScaleSetRollingUpgradesCancel200Response | VirtualMachineScaleSetRollingUpgradesCancel202Response | VirtualMachineScaleSetRollingUpgradesCancelDefaultResponse>;
 }
 
 // @public
@@ -14133,7 +14133,7 @@ export interface VirtualMachineScaleSetRollingUpgradesCancel202Response extends 
 }
 
 // @public
-export interface VirtualMachineScaleSetRollingUpgradesCanceldefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetRollingUpgradesCancelDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -14156,7 +14156,7 @@ export interface VirtualMachineScaleSetRollingUpgradesCancelQueryParamProperties
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetRollingUpgradesGetLatest {
-    get(options: VirtualMachineScaleSetRollingUpgradesGetLatestParameters): StreamableMethod<VirtualMachineScaleSetRollingUpgradesGetLatest200Response | VirtualMachineScaleSetRollingUpgradesGetLatestdefaultResponse>;
+    get(options: VirtualMachineScaleSetRollingUpgradesGetLatestParameters): StreamableMethod<VirtualMachineScaleSetRollingUpgradesGetLatest200Response | VirtualMachineScaleSetRollingUpgradesGetLatestDefaultResponse>;
 }
 
 // @public
@@ -14168,7 +14168,7 @@ export interface VirtualMachineScaleSetRollingUpgradesGetLatest200Response exten
 }
 
 // @public
-export interface VirtualMachineScaleSetRollingUpgradesGetLatestdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetRollingUpgradesGetLatestDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -14191,7 +14191,7 @@ export interface VirtualMachineScaleSetRollingUpgradesGetLatestQueryParamPropert
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade {
-    post(options: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeParameters): StreamableMethod<VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade200Response | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade202Response | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradedefaultResponse>;
+    post(options: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeParameters): StreamableMethod<VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade200Response | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade202Response | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeDefaultResponse>;
 }
 
 // @public
@@ -14211,7 +14211,7 @@ export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade202Re
 }
 
 // @public
-export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -14234,7 +14234,7 @@ export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeQuery
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgrade {
-    post(options: VirtualMachineScaleSetRollingUpgradesStartOSUpgradeParameters): StreamableMethod<VirtualMachineScaleSetRollingUpgradesStartOSUpgrade200Response | VirtualMachineScaleSetRollingUpgradesStartOSUpgrade202Response | VirtualMachineScaleSetRollingUpgradesStartOSUpgradedefaultResponse>;
+    post(options: VirtualMachineScaleSetRollingUpgradesStartOSUpgradeParameters): StreamableMethod<VirtualMachineScaleSetRollingUpgradesStartOSUpgrade200Response | VirtualMachineScaleSetRollingUpgradesStartOSUpgrade202Response | VirtualMachineScaleSetRollingUpgradesStartOSUpgradeDefaultResponse>;
 }
 
 // @public
@@ -14254,7 +14254,7 @@ export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgrade202Response 
 }
 
 // @public
-export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -14277,7 +14277,7 @@ export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeQueryParamPr
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsConvertToSinglePlacementGroup {
-    post(options: VirtualMachineScaleSetsConvertToSinglePlacementGroupParameters): StreamableMethod<VirtualMachineScaleSetsConvertToSinglePlacementGroup200Response | VirtualMachineScaleSetsConvertToSinglePlacementGroupdefaultResponse>;
+    post(options: VirtualMachineScaleSetsConvertToSinglePlacementGroupParameters): StreamableMethod<VirtualMachineScaleSetsConvertToSinglePlacementGroup200Response | VirtualMachineScaleSetsConvertToSinglePlacementGroupDefaultResponse>;
 }
 
 // @public
@@ -14294,7 +14294,7 @@ export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -14322,10 +14322,10 @@ export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupQueryParamP
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsCreateOrUpdate {
-    delete(options: VirtualMachineScaleSetsDeleteParameters): StreamableMethod<VirtualMachineScaleSetsDelete200Response | VirtualMachineScaleSetsDelete202Response | VirtualMachineScaleSetsDelete204Response | VirtualMachineScaleSetsDeletedefaultResponse>;
-    get(options: VirtualMachineScaleSetsGetParameters): StreamableMethod<VirtualMachineScaleSetsGet200Response | VirtualMachineScaleSetsGetdefaultResponse>;
-    patch(options: VirtualMachineScaleSetsUpdateParameters): StreamableMethod<VirtualMachineScaleSetsUpdate200Response | VirtualMachineScaleSetsUpdatedefaultResponse>;
-    put(options: VirtualMachineScaleSetsCreateOrUpdateParameters): StreamableMethod<VirtualMachineScaleSetsCreateOrUpdate200Response | VirtualMachineScaleSetsCreateOrUpdate201Response | VirtualMachineScaleSetsCreateOrUpdatedefaultResponse>;
+    delete(options: VirtualMachineScaleSetsDeleteParameters): StreamableMethod<VirtualMachineScaleSetsDelete200Response | VirtualMachineScaleSetsDelete202Response | VirtualMachineScaleSetsDelete204Response | VirtualMachineScaleSetsDeleteDefaultResponse>;
+    get(options: VirtualMachineScaleSetsGetParameters): StreamableMethod<VirtualMachineScaleSetsGet200Response | VirtualMachineScaleSetsGetDefaultResponse>;
+    patch(options: VirtualMachineScaleSetsUpdateParameters): StreamableMethod<VirtualMachineScaleSetsUpdate200Response | VirtualMachineScaleSetsUpdateDefaultResponse>;
+    put(options: VirtualMachineScaleSetsCreateOrUpdateParameters): StreamableMethod<VirtualMachineScaleSetsCreateOrUpdate200Response | VirtualMachineScaleSetsCreateOrUpdate201Response | VirtualMachineScaleSetsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -14350,7 +14350,7 @@ export interface VirtualMachineScaleSetsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -14378,7 +14378,7 @@ export interface VirtualMachineScaleSetsCreateOrUpdateQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsDeallocate {
-    post(options: VirtualMachineScaleSetsDeallocateParameters): StreamableMethod<VirtualMachineScaleSetsDeallocate200Response | VirtualMachineScaleSetsDeallocate202Response | VirtualMachineScaleSetsDeallocatedefaultResponse>;
+    post(options: VirtualMachineScaleSetsDeallocateParameters): StreamableMethod<VirtualMachineScaleSetsDeallocate200Response | VirtualMachineScaleSetsDeallocate202Response | VirtualMachineScaleSetsDeallocateDefaultResponse>;
 }
 
 // @public
@@ -14403,7 +14403,7 @@ export interface VirtualMachineScaleSetsDeallocateBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetsDeallocatedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsDeallocateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -14454,7 +14454,7 @@ export interface VirtualMachineScaleSetsDelete204Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachineScaleSetsDeletedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -14463,7 +14463,7 @@ export interface VirtualMachineScaleSetsDeletedefaultResponse extends HttpRespon
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsDeleteInstances {
-    post(options: VirtualMachineScaleSetsDeleteInstancesParameters): StreamableMethod<VirtualMachineScaleSetsDeleteInstances200Response | VirtualMachineScaleSetsDeleteInstances202Response | VirtualMachineScaleSetsDeleteInstancesdefaultResponse>;
+    post(options: VirtualMachineScaleSetsDeleteInstancesParameters): StreamableMethod<VirtualMachineScaleSetsDeleteInstances200Response | VirtualMachineScaleSetsDeleteInstances202Response | VirtualMachineScaleSetsDeleteInstancesDefaultResponse>;
 }
 
 // @public
@@ -14488,7 +14488,7 @@ export interface VirtualMachineScaleSetsDeleteInstancesBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetsDeleteInstancesdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsDeleteInstancesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -14532,7 +14532,7 @@ export interface VirtualMachineScaleSetsDeleteQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalk {
-    post(options: VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkParameters): StreamableMethod<VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalk200Response | VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkdefaultResponse>;
+    post(options: VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkParameters): StreamableMethod<VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalk200Response | VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkDefaultResponse>;
 }
 
 // @public
@@ -14544,7 +14544,7 @@ export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdate
 }
 
 // @public
-export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -14577,7 +14577,7 @@ export interface VirtualMachineScaleSetsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachineScaleSetsGetdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -14586,7 +14586,7 @@ export interface VirtualMachineScaleSetsGetdefaultResponse extends HttpResponse 
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsGetInstanceView {
-    get(options: VirtualMachineScaleSetsGetInstanceViewParameters): StreamableMethod<VirtualMachineScaleSetsGetInstanceView200Response | VirtualMachineScaleSetsGetInstanceViewdefaultResponse>;
+    get(options: VirtualMachineScaleSetsGetInstanceViewParameters): StreamableMethod<VirtualMachineScaleSetsGetInstanceView200Response | VirtualMachineScaleSetsGetInstanceViewDefaultResponse>;
 }
 
 // @public
@@ -14598,7 +14598,7 @@ export interface VirtualMachineScaleSetsGetInstanceView200Response extends HttpR
 }
 
 // @public
-export interface VirtualMachineScaleSetsGetInstanceViewdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsGetInstanceViewDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -14621,7 +14621,7 @@ export interface VirtualMachineScaleSetsGetInstanceViewQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsGetOSUpgradeHistory {
-    get(options: VirtualMachineScaleSetsGetOSUpgradeHistoryParameters): StreamableMethod<VirtualMachineScaleSetsGetOSUpgradeHistory200Response | VirtualMachineScaleSetsGetOSUpgradeHistorydefaultResponse>;
+    get(options: VirtualMachineScaleSetsGetOSUpgradeHistoryParameters): StreamableMethod<VirtualMachineScaleSetsGetOSUpgradeHistory200Response | VirtualMachineScaleSetsGetOSUpgradeHistoryDefaultResponse>;
 }
 
 // @public
@@ -14633,7 +14633,7 @@ export interface VirtualMachineScaleSetsGetOSUpgradeHistory200Response extends H
 }
 
 // @public
-export interface VirtualMachineScaleSetsGetOSUpgradeHistorydefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsGetOSUpgradeHistoryDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -14669,7 +14669,7 @@ export interface VirtualMachineScaleSetsGetQueryParamProperties {
     $expand?: "userData";
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetSkuCapacityOutput {
     defaultCapacity?: number;
     maximum?: number;
@@ -14677,7 +14677,7 @@ export interface VirtualMachineScaleSetSkuCapacityOutput {
     scaleType?: "Automatic" | "None";
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetSkuOutput {
     capacity?: VirtualMachineScaleSetSkuCapacityOutput;
     resourceType?: string;
@@ -14686,7 +14686,7 @@ export interface VirtualMachineScaleSetSkuOutput {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsList {
-    get(options: VirtualMachineScaleSetsListParameters): StreamableMethod<VirtualMachineScaleSetsList200Response | VirtualMachineScaleSetsListdefaultResponse>;
+    get(options: VirtualMachineScaleSetsListParameters): StreamableMethod<VirtualMachineScaleSetsList200Response | VirtualMachineScaleSetsListDefaultResponse>;
 }
 
 // @public
@@ -14699,7 +14699,7 @@ export interface VirtualMachineScaleSetsList200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsListAll {
-    get(options: VirtualMachineScaleSetsListAllParameters): StreamableMethod<VirtualMachineScaleSetsListAll200Response | VirtualMachineScaleSetsListAlldefaultResponse>;
+    get(options: VirtualMachineScaleSetsListAllParameters): StreamableMethod<VirtualMachineScaleSetsListAll200Response | VirtualMachineScaleSetsListAllDefaultResponse>;
 }
 
 // @public
@@ -14711,7 +14711,7 @@ export interface VirtualMachineScaleSetsListAll200Response extends HttpResponse 
 }
 
 // @public
-export interface VirtualMachineScaleSetsListAlldefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsListAllDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -14734,7 +14734,7 @@ export interface VirtualMachineScaleSetsListAllQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsListByLocation {
-    get(options: VirtualMachineScaleSetsListByLocationParameters): StreamableMethod<VirtualMachineScaleSetsListByLocation200Response | VirtualMachineScaleSetsListByLocationdefaultResponse>;
+    get(options: VirtualMachineScaleSetsListByLocationParameters): StreamableMethod<VirtualMachineScaleSetsListByLocation200Response | VirtualMachineScaleSetsListByLocationDefaultResponse>;
 }
 
 // @public
@@ -14746,7 +14746,7 @@ export interface VirtualMachineScaleSetsListByLocation200Response extends HttpRe
 }
 
 // @public
-export interface VirtualMachineScaleSetsListByLocationdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsListByLocationDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -14768,7 +14768,7 @@ export interface VirtualMachineScaleSetsListByLocationQueryParamProperties {
 }
 
 // @public
-export interface VirtualMachineScaleSetsListdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -14791,7 +14791,7 @@ export interface VirtualMachineScaleSetsListQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsListSkus {
-    get(options: VirtualMachineScaleSetsListSkusParameters): StreamableMethod<VirtualMachineScaleSetsListSkus200Response | VirtualMachineScaleSetsListSkusdefaultResponse>;
+    get(options: VirtualMachineScaleSetsListSkusParameters): StreamableMethod<VirtualMachineScaleSetsListSkus200Response | VirtualMachineScaleSetsListSkusDefaultResponse>;
 }
 
 // @public
@@ -14803,7 +14803,7 @@ export interface VirtualMachineScaleSetsListSkus200Response extends HttpResponse
 }
 
 // @public
-export interface VirtualMachineScaleSetsListSkusdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsListSkusDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -14826,7 +14826,7 @@ export interface VirtualMachineScaleSetsListSkusQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsPerformMaintenance {
-    post(options: VirtualMachineScaleSetsPerformMaintenanceParameters): StreamableMethod<VirtualMachineScaleSetsPerformMaintenance200Response | VirtualMachineScaleSetsPerformMaintenance202Response | VirtualMachineScaleSetsPerformMaintenancedefaultResponse>;
+    post(options: VirtualMachineScaleSetsPerformMaintenanceParameters): StreamableMethod<VirtualMachineScaleSetsPerformMaintenance200Response | VirtualMachineScaleSetsPerformMaintenance202Response | VirtualMachineScaleSetsPerformMaintenanceDefaultResponse>;
 }
 
 // @public
@@ -14851,7 +14851,7 @@ export interface VirtualMachineScaleSetsPerformMaintenanceBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetsPerformMaintenancedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsPerformMaintenanceDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -14879,7 +14879,7 @@ export interface VirtualMachineScaleSetsPerformMaintenanceQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsPowerOff {
-    post(options: VirtualMachineScaleSetsPowerOffParameters): StreamableMethod<VirtualMachineScaleSetsPowerOff200Response | VirtualMachineScaleSetsPowerOff202Response | VirtualMachineScaleSetsPowerOffdefaultResponse>;
+    post(options: VirtualMachineScaleSetsPowerOffParameters): StreamableMethod<VirtualMachineScaleSetsPowerOff200Response | VirtualMachineScaleSetsPowerOff202Response | VirtualMachineScaleSetsPowerOffDefaultResponse>;
 }
 
 // @public
@@ -14904,7 +14904,7 @@ export interface VirtualMachineScaleSetsPowerOffBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetsPowerOffdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsPowerOffDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -14933,7 +14933,7 @@ export interface VirtualMachineScaleSetsPowerOffQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsRedeploy {
-    post(options: VirtualMachineScaleSetsRedeployParameters): StreamableMethod<VirtualMachineScaleSetsRedeploy200Response | VirtualMachineScaleSetsRedeploy202Response | VirtualMachineScaleSetsRedeploydefaultResponse>;
+    post(options: VirtualMachineScaleSetsRedeployParameters): StreamableMethod<VirtualMachineScaleSetsRedeploy200Response | VirtualMachineScaleSetsRedeploy202Response | VirtualMachineScaleSetsRedeployDefaultResponse>;
 }
 
 // @public
@@ -14958,7 +14958,7 @@ export interface VirtualMachineScaleSetsRedeployBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetsRedeploydefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsRedeployDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -14986,7 +14986,7 @@ export interface VirtualMachineScaleSetsRedeployQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsReimage {
-    post(options: VirtualMachineScaleSetsReimageParameters): StreamableMethod<VirtualMachineScaleSetsReimage200Response | VirtualMachineScaleSetsReimage202Response | VirtualMachineScaleSetsReimagedefaultResponse>;
+    post(options: VirtualMachineScaleSetsReimageParameters): StreamableMethod<VirtualMachineScaleSetsReimage200Response | VirtualMachineScaleSetsReimage202Response | VirtualMachineScaleSetsReimageDefaultResponse>;
 }
 
 // @public
@@ -15007,7 +15007,7 @@ export interface VirtualMachineScaleSetsReimage202Response extends HttpResponse 
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsReimageAll {
-    post(options: VirtualMachineScaleSetsReimageAllParameters): StreamableMethod<VirtualMachineScaleSetsReimageAll200Response | VirtualMachineScaleSetsReimageAll202Response | VirtualMachineScaleSetsReimageAlldefaultResponse>;
+    post(options: VirtualMachineScaleSetsReimageAllParameters): StreamableMethod<VirtualMachineScaleSetsReimageAll200Response | VirtualMachineScaleSetsReimageAll202Response | VirtualMachineScaleSetsReimageAllDefaultResponse>;
 }
 
 // @public
@@ -15032,7 +15032,7 @@ export interface VirtualMachineScaleSetsReimageAllBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetsReimageAlldefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsReimageAllDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -15064,7 +15064,7 @@ export interface VirtualMachineScaleSetsReimageBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetsReimagedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsReimageDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -15092,7 +15092,7 @@ export interface VirtualMachineScaleSetsReimageQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsRestart {
-    post(options: VirtualMachineScaleSetsRestartParameters): StreamableMethod<VirtualMachineScaleSetsRestart200Response | VirtualMachineScaleSetsRestart202Response | VirtualMachineScaleSetsRestartdefaultResponse>;
+    post(options: VirtualMachineScaleSetsRestartParameters): StreamableMethod<VirtualMachineScaleSetsRestart200Response | VirtualMachineScaleSetsRestart202Response | VirtualMachineScaleSetsRestartDefaultResponse>;
 }
 
 // @public
@@ -15117,7 +15117,7 @@ export interface VirtualMachineScaleSetsRestartBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetsRestartdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsRestartDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -15145,7 +15145,7 @@ export interface VirtualMachineScaleSetsRestartQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsSetOrchestrationServiceState {
-    post(options: VirtualMachineScaleSetsSetOrchestrationServiceStateParameters): StreamableMethod<VirtualMachineScaleSetsSetOrchestrationServiceState200Response | VirtualMachineScaleSetsSetOrchestrationServiceState202Response | VirtualMachineScaleSetsSetOrchestrationServiceStatedefaultResponse>;
+    post(options: VirtualMachineScaleSetsSetOrchestrationServiceStateParameters): StreamableMethod<VirtualMachineScaleSetsSetOrchestrationServiceState200Response | VirtualMachineScaleSetsSetOrchestrationServiceState202Response | VirtualMachineScaleSetsSetOrchestrationServiceStateDefaultResponse>;
 }
 
 // @public
@@ -15170,7 +15170,7 @@ export interface VirtualMachineScaleSetsSetOrchestrationServiceStateBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetsSetOrchestrationServiceStatedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsSetOrchestrationServiceStateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -15198,7 +15198,7 @@ export interface VirtualMachineScaleSetsSetOrchestrationServiceStateQueryParamPr
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsStart {
-    post(options: VirtualMachineScaleSetsStartParameters): StreamableMethod<VirtualMachineScaleSetsStart200Response | VirtualMachineScaleSetsStart202Response | VirtualMachineScaleSetsStartdefaultResponse>;
+    post(options: VirtualMachineScaleSetsStartParameters): StreamableMethod<VirtualMachineScaleSetsStart200Response | VirtualMachineScaleSetsStart202Response | VirtualMachineScaleSetsStartDefaultResponse>;
 }
 
 // @public
@@ -15223,7 +15223,7 @@ export interface VirtualMachineScaleSetsStartBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetsStartdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsStartDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -15249,14 +15249,14 @@ export interface VirtualMachineScaleSetsStartQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetStorageProfile {
     dataDisks?: Array<VirtualMachineScaleSetDataDisk>;
     imageReference?: ImageReference;
     osDisk?: VirtualMachineScaleSetOSDisk;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetStorageProfileOutput {
     dataDisks?: Array<VirtualMachineScaleSetDataDiskOutput>;
     imageReference?: ImageReferenceOutput;
@@ -15277,7 +15277,7 @@ export interface VirtualMachineScaleSetsUpdateBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetsUpdatedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -15286,7 +15286,7 @@ export interface VirtualMachineScaleSetsUpdatedefaultResponse extends HttpRespon
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsUpdateInstances {
-    post(options: VirtualMachineScaleSetsUpdateInstancesParameters): StreamableMethod<VirtualMachineScaleSetsUpdateInstances200Response | VirtualMachineScaleSetsUpdateInstances202Response | VirtualMachineScaleSetsUpdateInstancesdefaultResponse>;
+    post(options: VirtualMachineScaleSetsUpdateInstancesParameters): StreamableMethod<VirtualMachineScaleSetsUpdateInstances200Response | VirtualMachineScaleSetsUpdateInstances202Response | VirtualMachineScaleSetsUpdateInstancesDefaultResponse>;
 }
 
 // @public
@@ -15311,7 +15311,7 @@ export interface VirtualMachineScaleSetsUpdateInstancesBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetsUpdateInstancesdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetsUpdateInstancesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -15356,7 +15356,7 @@ export interface VirtualMachineScaleSetsUpdateQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetUpdate extends UpdateResource {
     identity?: VirtualMachineScaleSetIdentity;
     plan?: Plan;
@@ -15364,19 +15364,19 @@ export interface VirtualMachineScaleSetUpdate extends UpdateResource {
     sku?: Sku;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetUpdateIPConfiguration extends SubResource {
     name?: string;
     properties?: VirtualMachineScaleSetUpdateIPConfigurationProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetUpdateIPConfigurationOutput extends SubResourceOutput {
     name?: string;
     properties?: VirtualMachineScaleSetUpdateIPConfigurationPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetUpdateIPConfigurationProperties {
     applicationGatewayBackendAddressPools?: Array<SubResource>;
     applicationSecurityGroups?: Array<SubResource>;
@@ -15388,7 +15388,7 @@ export interface VirtualMachineScaleSetUpdateIPConfigurationProperties {
     subnet?: ApiEntityReference;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetUpdateIPConfigurationPropertiesOutput {
     applicationGatewayBackendAddressPools?: Array<SubResourceOutput>;
     applicationSecurityGroups?: Array<SubResourceOutput>;
@@ -15400,19 +15400,19 @@ export interface VirtualMachineScaleSetUpdateIPConfigurationPropertiesOutput {
     subnet?: ApiEntityReferenceOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetUpdateNetworkConfiguration extends SubResource {
     name?: string;
     properties?: VirtualMachineScaleSetUpdateNetworkConfigurationProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetUpdateNetworkConfigurationOutput extends SubResourceOutput {
     name?: string;
     properties?: VirtualMachineScaleSetUpdateNetworkConfigurationPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetUpdateNetworkConfigurationProperties {
     deleteOption?: "Delete" | "Detach";
     dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
@@ -15424,7 +15424,7 @@ export interface VirtualMachineScaleSetUpdateNetworkConfigurationProperties {
     primary?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetUpdateNetworkConfigurationPropertiesOutput {
     deleteOption?: "Delete" | "Detach";
     dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettingsOutput;
@@ -15436,14 +15436,14 @@ export interface VirtualMachineScaleSetUpdateNetworkConfigurationPropertiesOutpu
     primary?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetUpdateNetworkProfile {
     healthProbe?: ApiEntityReference;
     networkApiVersion?: "2020-11-01";
     networkInterfaceConfigurations?: Array<VirtualMachineScaleSetUpdateNetworkConfiguration>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetUpdateOSDisk {
     caching?: "None" | "ReadOnly" | "ReadWrite";
     deleteOption?: "Delete" | "Detach";
@@ -15454,7 +15454,7 @@ export interface VirtualMachineScaleSetUpdateOSDisk {
     writeAcceleratorEnabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetUpdateOSProfile {
     customData?: string;
     linuxConfiguration?: LinuxConfiguration;
@@ -15462,7 +15462,7 @@ export interface VirtualMachineScaleSetUpdateOSProfile {
     windowsConfiguration?: WindowsConfiguration;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetUpdateProperties {
     additionalCapabilities?: AdditionalCapabilities;
     automaticRepairsPolicy?: AutomaticRepairsPolicy;
@@ -15475,19 +15475,19 @@ export interface VirtualMachineScaleSetUpdateProperties {
     virtualMachineProfile?: VirtualMachineScaleSetUpdateVMProfile;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration {
     name?: string;
     properties?: VirtualMachineScaleSetUpdatePublicIPAddressConfigurationProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetUpdatePublicIPAddressConfigurationOutput {
     name?: string;
     properties?: VirtualMachineScaleSetUpdatePublicIPAddressConfigurationPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetUpdatePublicIPAddressConfigurationProperties {
     deleteOption?: "Delete" | "Detach";
     dnsSettings?: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings;
@@ -15495,7 +15495,7 @@ export interface VirtualMachineScaleSetUpdatePublicIPAddressConfigurationPropert
     publicIPPrefix?: SubResource;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetUpdatePublicIPAddressConfigurationPropertiesOutput {
     deleteOption?: "Delete" | "Detach";
     dnsSettings?: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsOutput;
@@ -15503,14 +15503,14 @@ export interface VirtualMachineScaleSetUpdatePublicIPAddressConfigurationPropert
     publicIPPrefix?: SubResourceOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetUpdateStorageProfile {
     dataDisks?: Array<VirtualMachineScaleSetDataDisk>;
     imageReference?: ImageReference;
     osDisk?: VirtualMachineScaleSetUpdateOSDisk;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetUpdateVMProfile {
     billingProfile?: BillingProfile;
     diagnosticsProfile?: DiagnosticsProfile;
@@ -15524,7 +15524,7 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
     userData?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVM extends Resource {
     identity?: VirtualMachineIdentity;
     instanceId?: string;
@@ -15535,14 +15535,14 @@ export interface VirtualMachineScaleSetVM extends Resource {
     zones?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVMExtension extends SubResourceReadOnly {
     name?: string;
     properties?: VirtualMachineExtensionProperties;
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVMExtensionOutput extends SubResourceReadOnlyOutput {
     name?: string;
     properties?: VirtualMachineExtensionPropertiesOutput;
@@ -15551,10 +15551,10 @@ export interface VirtualMachineScaleSetVMExtensionOutput extends SubResourceRead
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdate {
-    delete(options: VirtualMachineScaleSetVMExtensionsDeleteParameters): StreamableMethod<VirtualMachineScaleSetVMExtensionsDelete200Response | VirtualMachineScaleSetVMExtensionsDelete202Response | VirtualMachineScaleSetVMExtensionsDelete204Response | VirtualMachineScaleSetVMExtensionsDeletedefaultResponse>;
-    get(options: VirtualMachineScaleSetVMExtensionsGetParameters): StreamableMethod<VirtualMachineScaleSetVMExtensionsGet200Response | VirtualMachineScaleSetVMExtensionsGetdefaultResponse>;
-    patch(options: VirtualMachineScaleSetVMExtensionsUpdateParameters): StreamableMethod<VirtualMachineScaleSetVMExtensionsUpdate200Response | VirtualMachineScaleSetVMExtensionsUpdatedefaultResponse>;
-    put(options: VirtualMachineScaleSetVMExtensionsCreateOrUpdateParameters): StreamableMethod<VirtualMachineScaleSetVMExtensionsCreateOrUpdate200Response | VirtualMachineScaleSetVMExtensionsCreateOrUpdate201Response | VirtualMachineScaleSetVMExtensionsCreateOrUpdatedefaultResponse>;
+    delete(options: VirtualMachineScaleSetVMExtensionsDeleteParameters): StreamableMethod<VirtualMachineScaleSetVMExtensionsDelete200Response | VirtualMachineScaleSetVMExtensionsDelete202Response | VirtualMachineScaleSetVMExtensionsDelete204Response | VirtualMachineScaleSetVMExtensionsDeleteDefaultResponse>;
+    get(options: VirtualMachineScaleSetVMExtensionsGetParameters): StreamableMethod<VirtualMachineScaleSetVMExtensionsGet200Response | VirtualMachineScaleSetVMExtensionsGetDefaultResponse>;
+    patch(options: VirtualMachineScaleSetVMExtensionsUpdateParameters): StreamableMethod<VirtualMachineScaleSetVMExtensionsUpdate200Response | VirtualMachineScaleSetVMExtensionsUpdateDefaultResponse>;
+    put(options: VirtualMachineScaleSetVMExtensionsCreateOrUpdateParameters): StreamableMethod<VirtualMachineScaleSetVMExtensionsCreateOrUpdate200Response | VirtualMachineScaleSetVMExtensionsCreateOrUpdate201Response | VirtualMachineScaleSetVMExtensionsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -15579,7 +15579,7 @@ export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -15630,7 +15630,7 @@ export interface VirtualMachineScaleSetVMExtensionsDelete204Response extends Htt
 }
 
 // @public
-export interface VirtualMachineScaleSetVMExtensionsDeletedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMExtensionsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -15660,7 +15660,7 @@ export interface VirtualMachineScaleSetVMExtensionsGet200Response extends HttpRe
 }
 
 // @public
-export interface VirtualMachineScaleSetVMExtensionsGetdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMExtensionsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -15684,7 +15684,7 @@ export interface VirtualMachineScaleSetVMExtensionsGetQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMExtensionsList {
-    get(options: VirtualMachineScaleSetVMExtensionsListParameters): StreamableMethod<VirtualMachineScaleSetVMExtensionsList200Response | VirtualMachineScaleSetVMExtensionsListdefaultResponse>;
+    get(options: VirtualMachineScaleSetVMExtensionsListParameters): StreamableMethod<VirtualMachineScaleSetVMExtensionsList200Response | VirtualMachineScaleSetVMExtensionsListDefaultResponse>;
 }
 
 // @public
@@ -15696,7 +15696,7 @@ export interface VirtualMachineScaleSetVMExtensionsList200Response extends HttpR
 }
 
 // @public
-export interface VirtualMachineScaleSetVMExtensionsListdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMExtensionsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -15718,12 +15718,12 @@ export interface VirtualMachineScaleSetVMExtensionsListQueryParamProperties {
     $expand?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVMExtensionsListResultOutput {
     value?: Array<VirtualMachineScaleSetVMExtensionOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVMExtensionsSummaryOutput {
     name?: string;
     statusesSummary?: Array<VirtualMachineStatusCodeCountOutput>;
@@ -15743,7 +15743,7 @@ export interface VirtualMachineScaleSetVMExtensionsUpdateBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetVMExtensionsUpdatedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMExtensionsUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -15769,31 +15769,31 @@ export interface VirtualMachineScaleSetVMExtensionsUpdateQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVMExtensionUpdate extends SubResourceReadOnly {
     name?: string;
     properties?: VirtualMachineExtensionUpdateProperties;
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVMExtensionUpdateOutput extends SubResourceReadOnlyOutput {
     name?: string;
     properties?: VirtualMachineExtensionUpdatePropertiesOutput;
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVMInstanceIDs {
     instanceIds?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVMInstanceRequiredIDs {
     instanceIds: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVMInstanceView {
     assignedHost?: string;
     bootDiagnostics?: BootDiagnosticsInstanceView;
@@ -15809,7 +15809,7 @@ export interface VirtualMachineScaleSetVMInstanceView {
     vmHealth?: VirtualMachineHealthStatus;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVMInstanceViewOutput {
     assignedHost?: string;
     bootDiagnostics?: BootDiagnosticsInstanceViewOutput;
@@ -15825,23 +15825,23 @@ export interface VirtualMachineScaleSetVMInstanceViewOutput {
     vmHealth?: VirtualMachineHealthStatusOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVMListResultOutput {
     nextLink?: string;
     value: Array<VirtualMachineScaleSetVMOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVMNetworkProfileConfiguration {
     networkInterfaceConfigurations?: Array<VirtualMachineScaleSetNetworkConfiguration>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVMNetworkProfileConfigurationOutput {
     networkInterfaceConfigurations?: Array<VirtualMachineScaleSetNetworkConfigurationOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVMOutput extends ResourceOutput {
     identity?: VirtualMachineIdentityOutput;
     instanceId?: string;
@@ -15852,7 +15852,7 @@ export interface VirtualMachineScaleSetVMOutput extends ResourceOutput {
     zones?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVMProfile {
     applicationProfile?: ApplicationProfile;
     billingProfile?: BillingProfile;
@@ -15871,7 +15871,7 @@ export interface VirtualMachineScaleSetVMProfile {
     userData?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVMProfileOutput {
     applicationProfile?: ApplicationProfileOutput;
     billingProfile?: BillingProfileOutput;
@@ -15890,7 +15890,7 @@ export interface VirtualMachineScaleSetVMProfileOutput {
     userData?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVMProperties {
     additionalCapabilities?: AdditionalCapabilities;
     availabilitySet?: SubResource;
@@ -15911,7 +15911,7 @@ export interface VirtualMachineScaleSetVMProperties {
     vmId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVMPropertiesOutput {
     additionalCapabilities?: AdditionalCapabilitiesOutput;
     availabilitySet?: SubResourceOutput;
@@ -15932,28 +15932,28 @@ export interface VirtualMachineScaleSetVMPropertiesOutput {
     vmId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVMProtectionPolicy {
     protectFromScaleIn?: boolean;
     protectFromScaleSetActions?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVMProtectionPolicyOutput {
     protectFromScaleIn?: boolean;
     protectFromScaleSetActions?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineScaleSetVMReimageParameters extends VirtualMachineReimageParameters {
 }
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdate {
-    delete(options: VirtualMachineScaleSetVMRunCommandsDeleteParameters): StreamableMethod<VirtualMachineScaleSetVMRunCommandsDelete200Response | VirtualMachineScaleSetVMRunCommandsDelete202Response | VirtualMachineScaleSetVMRunCommandsDelete204Response | VirtualMachineScaleSetVMRunCommandsDeletedefaultResponse>;
-    get(options: VirtualMachineScaleSetVMRunCommandsGetParameters): StreamableMethod<VirtualMachineScaleSetVMRunCommandsGet200Response | VirtualMachineScaleSetVMRunCommandsGetdefaultResponse>;
-    patch(options: VirtualMachineScaleSetVMRunCommandsUpdateParameters): StreamableMethod<VirtualMachineScaleSetVMRunCommandsUpdate200Response | VirtualMachineScaleSetVMRunCommandsUpdatedefaultResponse>;
-    put(options: VirtualMachineScaleSetVMRunCommandsCreateOrUpdateParameters): StreamableMethod<VirtualMachineScaleSetVMRunCommandsCreateOrUpdate200Response | VirtualMachineScaleSetVMRunCommandsCreateOrUpdate201Response | VirtualMachineScaleSetVMRunCommandsCreateOrUpdatedefaultResponse>;
+    delete(options: VirtualMachineScaleSetVMRunCommandsDeleteParameters): StreamableMethod<VirtualMachineScaleSetVMRunCommandsDelete200Response | VirtualMachineScaleSetVMRunCommandsDelete202Response | VirtualMachineScaleSetVMRunCommandsDelete204Response | VirtualMachineScaleSetVMRunCommandsDeleteDefaultResponse>;
+    get(options: VirtualMachineScaleSetVMRunCommandsGetParameters): StreamableMethod<VirtualMachineScaleSetVMRunCommandsGet200Response | VirtualMachineScaleSetVMRunCommandsGetDefaultResponse>;
+    patch(options: VirtualMachineScaleSetVMRunCommandsUpdateParameters): StreamableMethod<VirtualMachineScaleSetVMRunCommandsUpdate200Response | VirtualMachineScaleSetVMRunCommandsUpdateDefaultResponse>;
+    put(options: VirtualMachineScaleSetVMRunCommandsCreateOrUpdateParameters): StreamableMethod<VirtualMachineScaleSetVMRunCommandsCreateOrUpdate200Response | VirtualMachineScaleSetVMRunCommandsCreateOrUpdate201Response | VirtualMachineScaleSetVMRunCommandsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -15978,7 +15978,7 @@ export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16029,7 +16029,7 @@ export interface VirtualMachineScaleSetVMRunCommandsDelete204Response extends Ht
 }
 
 // @public
-export interface VirtualMachineScaleSetVMRunCommandsDeletedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMRunCommandsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16059,7 +16059,7 @@ export interface VirtualMachineScaleSetVMRunCommandsGet200Response extends HttpR
 }
 
 // @public
-export interface VirtualMachineScaleSetVMRunCommandsGetdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMRunCommandsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16083,7 +16083,7 @@ export interface VirtualMachineScaleSetVMRunCommandsGetQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMRunCommandsList {
-    get(options: VirtualMachineScaleSetVMRunCommandsListParameters): StreamableMethod<VirtualMachineScaleSetVMRunCommandsList200Response | VirtualMachineScaleSetVMRunCommandsListdefaultResponse>;
+    get(options: VirtualMachineScaleSetVMRunCommandsListParameters): StreamableMethod<VirtualMachineScaleSetVMRunCommandsList200Response | VirtualMachineScaleSetVMRunCommandsListDefaultResponse>;
 }
 
 // @public
@@ -16095,7 +16095,7 @@ export interface VirtualMachineScaleSetVMRunCommandsList200Response extends Http
 }
 
 // @public
-export interface VirtualMachineScaleSetVMRunCommandsListdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMRunCommandsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16131,7 +16131,7 @@ export interface VirtualMachineScaleSetVMRunCommandsUpdateBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetVMRunCommandsUpdatedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMRunCommandsUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16159,7 +16159,7 @@ export interface VirtualMachineScaleSetVMRunCommandsUpdateQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsDeallocate {
-    post(options: VirtualMachineScaleSetVMsDeallocateParameters): StreamableMethod<VirtualMachineScaleSetVMsDeallocate200Response | VirtualMachineScaleSetVMsDeallocate202Response | VirtualMachineScaleSetVMsDeallocatedefaultResponse>;
+    post(options: VirtualMachineScaleSetVMsDeallocateParameters): StreamableMethod<VirtualMachineScaleSetVMsDeallocate200Response | VirtualMachineScaleSetVMsDeallocate202Response | VirtualMachineScaleSetVMsDeallocateDefaultResponse>;
 }
 
 // @public
@@ -16179,7 +16179,7 @@ export interface VirtualMachineScaleSetVMsDeallocate202Response extends HttpResp
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsDeallocatedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMsDeallocateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16225,7 +16225,7 @@ export interface VirtualMachineScaleSetVMsDelete204Response extends HttpResponse
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsDeletedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16256,7 +16256,7 @@ export interface VirtualMachineScaleSetVMsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsGetdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16265,7 +16265,7 @@ export interface VirtualMachineScaleSetVMsGetdefaultResponse extends HttpRespons
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsGetInstanceView {
-    get(options: VirtualMachineScaleSetVMsGetInstanceViewParameters): StreamableMethod<VirtualMachineScaleSetVMsGetInstanceView200Response | VirtualMachineScaleSetVMsGetInstanceViewdefaultResponse>;
+    get(options: VirtualMachineScaleSetVMsGetInstanceViewParameters): StreamableMethod<VirtualMachineScaleSetVMsGetInstanceView200Response | VirtualMachineScaleSetVMsGetInstanceViewDefaultResponse>;
 }
 
 // @public
@@ -16277,7 +16277,7 @@ export interface VirtualMachineScaleSetVMsGetInstanceView200Response extends Htt
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsGetInstanceViewdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMsGetInstanceViewDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16315,7 +16315,7 @@ export interface VirtualMachineScaleSetVMsGetQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsList {
-    get(options: VirtualMachineScaleSetVMsListParameters): StreamableMethod<VirtualMachineScaleSetVMsList200Response | VirtualMachineScaleSetVMsListdefaultResponse>;
+    get(options: VirtualMachineScaleSetVMsListParameters): StreamableMethod<VirtualMachineScaleSetVMsList200Response | VirtualMachineScaleSetVMsListDefaultResponse>;
 }
 
 // @public
@@ -16327,7 +16327,7 @@ export interface VirtualMachineScaleSetVMsList200Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsListdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16353,7 +16353,7 @@ export interface VirtualMachineScaleSetVMsListQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsPerformMaintenance {
-    post(options: VirtualMachineScaleSetVMsPerformMaintenanceParameters): StreamableMethod<VirtualMachineScaleSetVMsPerformMaintenance200Response | VirtualMachineScaleSetVMsPerformMaintenance202Response | VirtualMachineScaleSetVMsPerformMaintenancedefaultResponse>;
+    post(options: VirtualMachineScaleSetVMsPerformMaintenanceParameters): StreamableMethod<VirtualMachineScaleSetVMsPerformMaintenance200Response | VirtualMachineScaleSetVMsPerformMaintenance202Response | VirtualMachineScaleSetVMsPerformMaintenanceDefaultResponse>;
 }
 
 // @public
@@ -16373,7 +16373,7 @@ export interface VirtualMachineScaleSetVMsPerformMaintenance202Response extends 
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsPerformMaintenancedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMsPerformMaintenanceDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16396,7 +16396,7 @@ export interface VirtualMachineScaleSetVMsPerformMaintenanceQueryParamProperties
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsPowerOff {
-    post(options: VirtualMachineScaleSetVMsPowerOffParameters): StreamableMethod<VirtualMachineScaleSetVMsPowerOff200Response | VirtualMachineScaleSetVMsPowerOff202Response | VirtualMachineScaleSetVMsPowerOffdefaultResponse>;
+    post(options: VirtualMachineScaleSetVMsPowerOffParameters): StreamableMethod<VirtualMachineScaleSetVMsPowerOff200Response | VirtualMachineScaleSetVMsPowerOff202Response | VirtualMachineScaleSetVMsPowerOffDefaultResponse>;
 }
 
 // @public
@@ -16416,7 +16416,7 @@ export interface VirtualMachineScaleSetVMsPowerOff202Response extends HttpRespon
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsPowerOffdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMsPowerOffDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16440,7 +16440,7 @@ export interface VirtualMachineScaleSetVMsPowerOffQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsRedeploy {
-    post(options: VirtualMachineScaleSetVMsRedeployParameters): StreamableMethod<VirtualMachineScaleSetVMsRedeploy200Response | VirtualMachineScaleSetVMsRedeploy202Response | VirtualMachineScaleSetVMsRedeploydefaultResponse>;
+    post(options: VirtualMachineScaleSetVMsRedeployParameters): StreamableMethod<VirtualMachineScaleSetVMsRedeploy200Response | VirtualMachineScaleSetVMsRedeploy202Response | VirtualMachineScaleSetVMsRedeployDefaultResponse>;
 }
 
 // @public
@@ -16460,7 +16460,7 @@ export interface VirtualMachineScaleSetVMsRedeploy202Response extends HttpRespon
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsRedeploydefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMsRedeployDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16483,7 +16483,7 @@ export interface VirtualMachineScaleSetVMsRedeployQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsReimage {
-    post(options: VirtualMachineScaleSetVMsReimageParameters): StreamableMethod<VirtualMachineScaleSetVMsReimage200Response | VirtualMachineScaleSetVMsReimage202Response | VirtualMachineScaleSetVMsReimagedefaultResponse>;
+    post(options: VirtualMachineScaleSetVMsReimageParameters): StreamableMethod<VirtualMachineScaleSetVMsReimage200Response | VirtualMachineScaleSetVMsReimage202Response | VirtualMachineScaleSetVMsReimageDefaultResponse>;
 }
 
 // @public
@@ -16504,7 +16504,7 @@ export interface VirtualMachineScaleSetVMsReimage202Response extends HttpRespons
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsReimageAll {
-    post(options: VirtualMachineScaleSetVMsReimageAllParameters): StreamableMethod<VirtualMachineScaleSetVMsReimageAll200Response | VirtualMachineScaleSetVMsReimageAll202Response | VirtualMachineScaleSetVMsReimageAlldefaultResponse>;
+    post(options: VirtualMachineScaleSetVMsReimageAllParameters): StreamableMethod<VirtualMachineScaleSetVMsReimageAll200Response | VirtualMachineScaleSetVMsReimageAll202Response | VirtualMachineScaleSetVMsReimageAllDefaultResponse>;
 }
 
 // @public
@@ -16524,7 +16524,7 @@ export interface VirtualMachineScaleSetVMsReimageAll202Response extends HttpResp
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsReimageAlldefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMsReimageAllDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16551,7 +16551,7 @@ export interface VirtualMachineScaleSetVMsReimageBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsReimagedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMsReimageDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16579,7 +16579,7 @@ export interface VirtualMachineScaleSetVMsReimageQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsRestart {
-    post(options: VirtualMachineScaleSetVMsRestartParameters): StreamableMethod<VirtualMachineScaleSetVMsRestart200Response | VirtualMachineScaleSetVMsRestart202Response | VirtualMachineScaleSetVMsRestartdefaultResponse>;
+    post(options: VirtualMachineScaleSetVMsRestartParameters): StreamableMethod<VirtualMachineScaleSetVMsRestart200Response | VirtualMachineScaleSetVMsRestart202Response | VirtualMachineScaleSetVMsRestartDefaultResponse>;
 }
 
 // @public
@@ -16599,7 +16599,7 @@ export interface VirtualMachineScaleSetVMsRestart202Response extends HttpRespons
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsRestartdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMsRestartDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16622,7 +16622,7 @@ export interface VirtualMachineScaleSetVMsRestartQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData {
-    post(options: VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataParameters): StreamableMethod<VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData200Response | VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDatadefaultResponse>;
+    post(options: VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataParameters): StreamableMethod<VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData200Response | VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataDefaultResponse>;
 }
 
 // @public
@@ -16634,7 +16634,7 @@ export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData200Response
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDatadefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16703,7 +16703,7 @@ export interface VirtualMachineScaleSetVMsRunCommandQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsSimulateEviction {
-    post(options: VirtualMachineScaleSetVMsSimulateEvictionParameters): StreamableMethod<VirtualMachineScaleSetVMsSimulateEviction204Response | VirtualMachineScaleSetVMsSimulateEvictiondefaultResponse>;
+    post(options: VirtualMachineScaleSetVMsSimulateEvictionParameters): StreamableMethod<VirtualMachineScaleSetVMsSimulateEviction204Response | VirtualMachineScaleSetVMsSimulateEvictionDefaultResponse>;
 }
 
 // @public
@@ -16715,7 +16715,7 @@ export interface VirtualMachineScaleSetVMsSimulateEviction204Response extends Ht
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsSimulateEvictiondefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMsSimulateEvictionDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16738,7 +16738,7 @@ export interface VirtualMachineScaleSetVMsSimulateEvictionQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsStart {
-    post(options: VirtualMachineScaleSetVMsStartParameters): StreamableMethod<VirtualMachineScaleSetVMsStart200Response | VirtualMachineScaleSetVMsStart202Response | VirtualMachineScaleSetVMsStartdefaultResponse>;
+    post(options: VirtualMachineScaleSetVMsStartParameters): StreamableMethod<VirtualMachineScaleSetVMsStart200Response | VirtualMachineScaleSetVMsStart202Response | VirtualMachineScaleSetVMsStartDefaultResponse>;
 }
 
 // @public
@@ -16758,7 +16758,7 @@ export interface VirtualMachineScaleSetVMsStart202Response extends HttpResponse 
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsStartdefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMsStartDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16781,9 +16781,9 @@ export interface VirtualMachineScaleSetVMsStartQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsUpdate {
-    delete(options: VirtualMachineScaleSetVMsDeleteParameters): StreamableMethod<VirtualMachineScaleSetVMsDelete200Response | VirtualMachineScaleSetVMsDelete202Response | VirtualMachineScaleSetVMsDelete204Response | VirtualMachineScaleSetVMsDeletedefaultResponse>;
-    get(options: VirtualMachineScaleSetVMsGetParameters): StreamableMethod<VirtualMachineScaleSetVMsGet200Response | VirtualMachineScaleSetVMsGetdefaultResponse>;
-    put(options: VirtualMachineScaleSetVMsUpdateParameters): StreamableMethod<VirtualMachineScaleSetVMsUpdate200Response | VirtualMachineScaleSetVMsUpdate202Response | VirtualMachineScaleSetVMsUpdatedefaultResponse>;
+    delete(options: VirtualMachineScaleSetVMsDeleteParameters): StreamableMethod<VirtualMachineScaleSetVMsDelete200Response | VirtualMachineScaleSetVMsDelete202Response | VirtualMachineScaleSetVMsDelete204Response | VirtualMachineScaleSetVMsDeleteDefaultResponse>;
+    get(options: VirtualMachineScaleSetVMsGetParameters): StreamableMethod<VirtualMachineScaleSetVMsGet200Response | VirtualMachineScaleSetVMsGetDefaultResponse>;
+    put(options: VirtualMachineScaleSetVMsUpdateParameters): StreamableMethod<VirtualMachineScaleSetVMsUpdate200Response | VirtualMachineScaleSetVMsUpdate202Response | VirtualMachineScaleSetVMsUpdateDefaultResponse>;
 }
 
 // @public
@@ -16808,7 +16808,7 @@ export interface VirtualMachineScaleSetVMsUpdateBodyParam {
 }
 
 // @public
-export interface VirtualMachineScaleSetVMsUpdatedefaultResponse extends HttpResponse {
+export interface VirtualMachineScaleSetVMsUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16836,7 +16836,7 @@ export interface VirtualMachineScaleSetVMsUpdateQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachinesCapture {
-    post(options: VirtualMachinesCaptureParameters): StreamableMethod<VirtualMachinesCapture200Response | VirtualMachinesCapture202Response | VirtualMachinesCapturedefaultResponse>;
+    post(options: VirtualMachinesCaptureParameters): StreamableMethod<VirtualMachinesCapture200Response | VirtualMachinesCapture202Response | VirtualMachinesCaptureDefaultResponse>;
 }
 
 // @public
@@ -16861,7 +16861,7 @@ export interface VirtualMachinesCaptureBodyParam {
 }
 
 // @public
-export interface VirtualMachinesCapturedefaultResponse extends HttpResponse {
+export interface VirtualMachinesCaptureDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16889,7 +16889,7 @@ export interface VirtualMachinesCaptureQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachinesConvertToManagedDisks {
-    post(options: VirtualMachinesConvertToManagedDisksParameters): StreamableMethod<VirtualMachinesConvertToManagedDisks200Response | VirtualMachinesConvertToManagedDisks202Response | VirtualMachinesConvertToManagedDisksdefaultResponse>;
+    post(options: VirtualMachinesConvertToManagedDisksParameters): StreamableMethod<VirtualMachinesConvertToManagedDisks200Response | VirtualMachinesConvertToManagedDisks202Response | VirtualMachinesConvertToManagedDisksDefaultResponse>;
 }
 
 // @public
@@ -16909,7 +16909,7 @@ export interface VirtualMachinesConvertToManagedDisks202Response extends HttpRes
 }
 
 // @public
-export interface VirtualMachinesConvertToManagedDisksdefaultResponse extends HttpResponse {
+export interface VirtualMachinesConvertToManagedDisksDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16932,10 +16932,10 @@ export interface VirtualMachinesConvertToManagedDisksQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachinesCreateOrUpdate {
-    delete(options: VirtualMachinesDeleteParameters): StreamableMethod<VirtualMachinesDelete200Response | VirtualMachinesDelete202Response | VirtualMachinesDelete204Response | VirtualMachinesDeletedefaultResponse>;
-    get(options: VirtualMachinesGetParameters): StreamableMethod<VirtualMachinesGet200Response | VirtualMachinesGetdefaultResponse>;
-    patch(options: VirtualMachinesUpdateParameters): StreamableMethod<VirtualMachinesUpdate200Response | VirtualMachinesUpdatedefaultResponse>;
-    put(options: VirtualMachinesCreateOrUpdateParameters): StreamableMethod<VirtualMachinesCreateOrUpdate200Response | VirtualMachinesCreateOrUpdate201Response | VirtualMachinesCreateOrUpdatedefaultResponse>;
+    delete(options: VirtualMachinesDeleteParameters): StreamableMethod<VirtualMachinesDelete200Response | VirtualMachinesDelete202Response | VirtualMachinesDelete204Response | VirtualMachinesDeleteDefaultResponse>;
+    get(options: VirtualMachinesGetParameters): StreamableMethod<VirtualMachinesGet200Response | VirtualMachinesGetDefaultResponse>;
+    patch(options: VirtualMachinesUpdateParameters): StreamableMethod<VirtualMachinesUpdate200Response | VirtualMachinesUpdateDefaultResponse>;
+    put(options: VirtualMachinesCreateOrUpdateParameters): StreamableMethod<VirtualMachinesCreateOrUpdate200Response | VirtualMachinesCreateOrUpdate201Response | VirtualMachinesCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -16960,7 +16960,7 @@ export interface VirtualMachinesCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface VirtualMachinesCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface VirtualMachinesCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -16988,7 +16988,7 @@ export interface VirtualMachinesCreateOrUpdateQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachinesDeallocate {
-    post(options: VirtualMachinesDeallocateParameters): StreamableMethod<VirtualMachinesDeallocate200Response | VirtualMachinesDeallocate202Response | VirtualMachinesDeallocatedefaultResponse>;
+    post(options: VirtualMachinesDeallocateParameters): StreamableMethod<VirtualMachinesDeallocate200Response | VirtualMachinesDeallocate202Response | VirtualMachinesDeallocateDefaultResponse>;
 }
 
 // @public
@@ -17008,7 +17008,7 @@ export interface VirtualMachinesDeallocate202Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachinesDeallocatedefaultResponse extends HttpResponse {
+export interface VirtualMachinesDeallocateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -17055,7 +17055,7 @@ export interface VirtualMachinesDelete204Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachinesDeletedefaultResponse extends HttpResponse {
+export interface VirtualMachinesDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -17079,7 +17079,7 @@ export interface VirtualMachinesDeleteQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachinesGeneralize {
-    post(options: VirtualMachinesGeneralizeParameters): StreamableMethod<VirtualMachinesGeneralize200Response | VirtualMachinesGeneralizedefaultResponse>;
+    post(options: VirtualMachinesGeneralizeParameters): StreamableMethod<VirtualMachinesGeneralize200Response | VirtualMachinesGeneralizeDefaultResponse>;
 }
 
 // @public
@@ -17091,7 +17091,7 @@ export interface VirtualMachinesGeneralize200Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachinesGeneralizedefaultResponse extends HttpResponse {
+export interface VirtualMachinesGeneralizeDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -17121,7 +17121,7 @@ export interface VirtualMachinesGet200Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachinesGetdefaultResponse extends HttpResponse {
+export interface VirtualMachinesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -17145,7 +17145,7 @@ export interface VirtualMachinesGetQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachinesInstallPatches {
-    post(options: VirtualMachinesInstallPatchesParameters): StreamableMethod<VirtualMachinesInstallPatches200Response | VirtualMachinesInstallPatches202Response | VirtualMachinesInstallPatchesdefaultResponse>;
+    post(options: VirtualMachinesInstallPatchesParameters): StreamableMethod<VirtualMachinesInstallPatches200Response | VirtualMachinesInstallPatches202Response | VirtualMachinesInstallPatchesDefaultResponse>;
 }
 
 // @public
@@ -17170,7 +17170,7 @@ export interface VirtualMachinesInstallPatchesBodyParam {
 }
 
 // @public
-export interface VirtualMachinesInstallPatchesdefaultResponse extends HttpResponse {
+export interface VirtualMachinesInstallPatchesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -17198,7 +17198,7 @@ export interface VirtualMachinesInstallPatchesQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachinesInstanceView {
-    get(options: VirtualMachinesInstanceViewParameters): StreamableMethod<VirtualMachinesInstanceView200Response | VirtualMachinesInstanceViewdefaultResponse>;
+    get(options: VirtualMachinesInstanceViewParameters): StreamableMethod<VirtualMachinesInstanceView200Response | VirtualMachinesInstanceViewDefaultResponse>;
 }
 
 // @public
@@ -17210,7 +17210,7 @@ export interface VirtualMachinesInstanceView200Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachinesInstanceViewdefaultResponse extends HttpResponse {
+export interface VirtualMachinesInstanceViewDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -17231,12 +17231,12 @@ export interface VirtualMachinesInstanceViewQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineSizeListResultOutput {
     value?: Array<VirtualMachineSizeOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineSizeOutput {
     maxDataDiskCount?: number;
     memoryInMB?: number;
@@ -17248,7 +17248,7 @@ export interface VirtualMachineSizeOutput {
 
 // @public (undocumented)
 export interface VirtualMachineSizesList {
-    get(options: VirtualMachineSizesListParameters): StreamableMethod<VirtualMachineSizesList200Response | VirtualMachineSizesListdefaultResponse>;
+    get(options: VirtualMachineSizesListParameters): StreamableMethod<VirtualMachineSizesList200Response | VirtualMachineSizesListDefaultResponse>;
 }
 
 // @public
@@ -17260,7 +17260,7 @@ export interface VirtualMachineSizesList200Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachineSizesListdefaultResponse extends HttpResponse {
+export interface VirtualMachineSizesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -17283,7 +17283,7 @@ export interface VirtualMachineSizesListQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachinesList {
-    get(options: VirtualMachinesListParameters): StreamableMethod<VirtualMachinesList200Response | VirtualMachinesListdefaultResponse>;
+    get(options: VirtualMachinesListParameters): StreamableMethod<VirtualMachinesList200Response | VirtualMachinesListDefaultResponse>;
 }
 
 // @public
@@ -17296,7 +17296,7 @@ export interface VirtualMachinesList200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface VirtualMachinesListAll {
-    get(options: VirtualMachinesListAllParameters): StreamableMethod<VirtualMachinesListAll200Response | VirtualMachinesListAlldefaultResponse>;
+    get(options: VirtualMachinesListAllParameters): StreamableMethod<VirtualMachinesListAll200Response | VirtualMachinesListAllDefaultResponse>;
 }
 
 // @public
@@ -17308,7 +17308,7 @@ export interface VirtualMachinesListAll200Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachinesListAlldefaultResponse extends HttpResponse {
+export interface VirtualMachinesListAllDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -17333,7 +17333,7 @@ export interface VirtualMachinesListAllQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachinesListAvailableSizes {
-    get(options: VirtualMachinesListAvailableSizesParameters): StreamableMethod<VirtualMachinesListAvailableSizes200Response | VirtualMachinesListAvailableSizesdefaultResponse>;
+    get(options: VirtualMachinesListAvailableSizesParameters): StreamableMethod<VirtualMachinesListAvailableSizes200Response | VirtualMachinesListAvailableSizesDefaultResponse>;
 }
 
 // @public
@@ -17345,7 +17345,7 @@ export interface VirtualMachinesListAvailableSizes200Response extends HttpRespon
 }
 
 // @public
-export interface VirtualMachinesListAvailableSizesdefaultResponse extends HttpResponse {
+export interface VirtualMachinesListAvailableSizesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -17368,7 +17368,7 @@ export interface VirtualMachinesListAvailableSizesQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachinesListByLocation {
-    get(options: VirtualMachinesListByLocationParameters): StreamableMethod<VirtualMachinesListByLocation200Response | VirtualMachinesListByLocationdefaultResponse>;
+    get(options: VirtualMachinesListByLocationParameters): StreamableMethod<VirtualMachinesListByLocation200Response | VirtualMachinesListByLocationDefaultResponse>;
 }
 
 // @public
@@ -17380,7 +17380,7 @@ export interface VirtualMachinesListByLocation200Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachinesListByLocationdefaultResponse extends HttpResponse {
+export interface VirtualMachinesListByLocationDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -17402,7 +17402,7 @@ export interface VirtualMachinesListByLocationQueryParamProperties {
 }
 
 // @public
-export interface VirtualMachinesListdefaultResponse extends HttpResponse {
+export interface VirtualMachinesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -17424,7 +17424,7 @@ export interface VirtualMachinesListQueryParamProperties {
     $filter?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineSoftwarePatchPropertiesOutput {
     activityId?: string;
     assessmentState?: "Unknown" | "Available";
@@ -17440,7 +17440,7 @@ export interface VirtualMachineSoftwarePatchPropertiesOutput {
 
 // @public (undocumented)
 export interface VirtualMachinesPerformMaintenance {
-    post(options: VirtualMachinesPerformMaintenanceParameters): StreamableMethod<VirtualMachinesPerformMaintenance200Response | VirtualMachinesPerformMaintenance202Response | VirtualMachinesPerformMaintenancedefaultResponse>;
+    post(options: VirtualMachinesPerformMaintenanceParameters): StreamableMethod<VirtualMachinesPerformMaintenance200Response | VirtualMachinesPerformMaintenance202Response | VirtualMachinesPerformMaintenanceDefaultResponse>;
 }
 
 // @public
@@ -17460,7 +17460,7 @@ export interface VirtualMachinesPerformMaintenance202Response extends HttpRespon
 }
 
 // @public
-export interface VirtualMachinesPerformMaintenancedefaultResponse extends HttpResponse {
+export interface VirtualMachinesPerformMaintenanceDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -17483,7 +17483,7 @@ export interface VirtualMachinesPerformMaintenanceQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachinesPowerOff {
-    post(options: VirtualMachinesPowerOffParameters): StreamableMethod<VirtualMachinesPowerOff200Response | VirtualMachinesPowerOff202Response | VirtualMachinesPowerOffdefaultResponse>;
+    post(options: VirtualMachinesPowerOffParameters): StreamableMethod<VirtualMachinesPowerOff200Response | VirtualMachinesPowerOff202Response | VirtualMachinesPowerOffDefaultResponse>;
 }
 
 // @public
@@ -17503,7 +17503,7 @@ export interface VirtualMachinesPowerOff202Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachinesPowerOffdefaultResponse extends HttpResponse {
+export interface VirtualMachinesPowerOffDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -17527,7 +17527,7 @@ export interface VirtualMachinesPowerOffQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachinesReapply {
-    post(options: VirtualMachinesReapplyParameters): StreamableMethod<VirtualMachinesReapply200Response | VirtualMachinesReapply202Response | VirtualMachinesReapplydefaultResponse>;
+    post(options: VirtualMachinesReapplyParameters): StreamableMethod<VirtualMachinesReapply200Response | VirtualMachinesReapply202Response | VirtualMachinesReapplyDefaultResponse>;
 }
 
 // @public
@@ -17547,7 +17547,7 @@ export interface VirtualMachinesReapply202Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachinesReapplydefaultResponse extends HttpResponse {
+export interface VirtualMachinesReapplyDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -17570,7 +17570,7 @@ export interface VirtualMachinesReapplyQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachinesRedeploy {
-    post(options: VirtualMachinesRedeployParameters): StreamableMethod<VirtualMachinesRedeploy200Response | VirtualMachinesRedeploy202Response | VirtualMachinesRedeploydefaultResponse>;
+    post(options: VirtualMachinesRedeployParameters): StreamableMethod<VirtualMachinesRedeploy200Response | VirtualMachinesRedeploy202Response | VirtualMachinesRedeployDefaultResponse>;
 }
 
 // @public
@@ -17590,7 +17590,7 @@ export interface VirtualMachinesRedeploy202Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachinesRedeploydefaultResponse extends HttpResponse {
+export interface VirtualMachinesRedeployDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -17613,7 +17613,7 @@ export interface VirtualMachinesRedeployQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachinesReimage {
-    post(options: VirtualMachinesReimageParameters): StreamableMethod<VirtualMachinesReimage200Response | VirtualMachinesReimage202Response | VirtualMachinesReimagedefaultResponse>;
+    post(options: VirtualMachinesReimageParameters): StreamableMethod<VirtualMachinesReimage200Response | VirtualMachinesReimage202Response | VirtualMachinesReimageDefaultResponse>;
 }
 
 // @public
@@ -17638,7 +17638,7 @@ export interface VirtualMachinesReimageBodyParam {
 }
 
 // @public
-export interface VirtualMachinesReimagedefaultResponse extends HttpResponse {
+export interface VirtualMachinesReimageDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -17666,7 +17666,7 @@ export interface VirtualMachinesReimageQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachinesRestart {
-    post(options: VirtualMachinesRestartParameters): StreamableMethod<VirtualMachinesRestart200Response | VirtualMachinesRestart202Response | VirtualMachinesRestartdefaultResponse>;
+    post(options: VirtualMachinesRestartParameters): StreamableMethod<VirtualMachinesRestart200Response | VirtualMachinesRestart202Response | VirtualMachinesRestartDefaultResponse>;
 }
 
 // @public
@@ -17686,7 +17686,7 @@ export interface VirtualMachinesRestart202Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachinesRestartdefaultResponse extends HttpResponse {
+export interface VirtualMachinesRestartDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -17709,7 +17709,7 @@ export interface VirtualMachinesRestartQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachinesRetrieveBootDiagnosticsData {
-    post(options: VirtualMachinesRetrieveBootDiagnosticsDataParameters): StreamableMethod<VirtualMachinesRetrieveBootDiagnosticsData200Response | VirtualMachinesRetrieveBootDiagnosticsDatadefaultResponse>;
+    post(options: VirtualMachinesRetrieveBootDiagnosticsDataParameters): StreamableMethod<VirtualMachinesRetrieveBootDiagnosticsData200Response | VirtualMachinesRetrieveBootDiagnosticsDataDefaultResponse>;
 }
 
 // @public
@@ -17721,7 +17721,7 @@ export interface VirtualMachinesRetrieveBootDiagnosticsData200Response extends H
 }
 
 // @public
-export interface VirtualMachinesRetrieveBootDiagnosticsDatadefaultResponse extends HttpResponse {
+export interface VirtualMachinesRetrieveBootDiagnosticsDataDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -17790,7 +17790,7 @@ export interface VirtualMachinesRunCommandQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachinesSimulateEviction {
-    post(options: VirtualMachinesSimulateEvictionParameters): StreamableMethod<VirtualMachinesSimulateEviction204Response | VirtualMachinesSimulateEvictiondefaultResponse>;
+    post(options: VirtualMachinesSimulateEvictionParameters): StreamableMethod<VirtualMachinesSimulateEviction204Response | VirtualMachinesSimulateEvictionDefaultResponse>;
 }
 
 // @public
@@ -17802,7 +17802,7 @@ export interface VirtualMachinesSimulateEviction204Response extends HttpResponse
 }
 
 // @public
-export interface VirtualMachinesSimulateEvictiondefaultResponse extends HttpResponse {
+export interface VirtualMachinesSimulateEvictionDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -17825,7 +17825,7 @@ export interface VirtualMachinesSimulateEvictionQueryParamProperties {
 
 // @public (undocumented)
 export interface VirtualMachinesStart {
-    post(options: VirtualMachinesStartParameters): StreamableMethod<VirtualMachinesStart200Response | VirtualMachinesStart202Response | VirtualMachinesStartdefaultResponse>;
+    post(options: VirtualMachinesStartParameters): StreamableMethod<VirtualMachinesStart200Response | VirtualMachinesStart202Response | VirtualMachinesStartDefaultResponse>;
 }
 
 // @public
@@ -17845,7 +17845,7 @@ export interface VirtualMachinesStart202Response extends HttpResponse {
 }
 
 // @public
-export interface VirtualMachinesStartdefaultResponse extends HttpResponse {
+export interface VirtualMachinesStartDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -17866,7 +17866,7 @@ export interface VirtualMachinesStartQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineStatusCodeCountOutput {
     code?: string;
     count?: number;
@@ -17886,7 +17886,7 @@ export interface VirtualMachinesUpdateBodyParam {
 }
 
 // @public
-export interface VirtualMachinesUpdatedefaultResponse extends HttpResponse {
+export interface VirtualMachinesUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -17912,7 +17912,7 @@ export interface VirtualMachinesUpdateQueryParamProperties {
     "api-version": "2022-03-01";
 }
 
-// @public (undocumented)
+// @public
 export interface VirtualMachineUpdate extends UpdateResource {
     identity?: VirtualMachineIdentity;
     plan?: Plan;
@@ -17920,19 +17920,19 @@ export interface VirtualMachineUpdate extends UpdateResource {
     zones?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface VMDiskSecurityProfile {
     diskEncryptionSet?: DiskEncryptionSetParameters;
     securityEncryptionType?: "VMGuestStateOnly" | "DiskWithVMGuestState";
 }
 
-// @public (undocumented)
+// @public
 export interface VMDiskSecurityProfileOutput {
     diskEncryptionSet?: DiskEncryptionSetParametersOutput;
     securityEncryptionType?: "VMGuestStateOnly" | "DiskWithVMGuestState";
 }
 
-// @public (undocumented)
+// @public
 export interface VMGalleryApplication {
     configurationReference?: string;
     enableAutomaticUpgrade?: boolean;
@@ -17942,7 +17942,7 @@ export interface VMGalleryApplication {
     treatFailureAsDeploymentFailure?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface VMGalleryApplicationOutput {
     configurationReference?: string;
     enableAutomaticUpgrade?: boolean;
@@ -17952,7 +17952,7 @@ export interface VMGalleryApplicationOutput {
     treatFailureAsDeploymentFailure?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface VmImagesInEdgeZoneListResultOutput {
     nextLink?: string;
     value?: Array<VirtualMachineImageResourceOutput>;
@@ -17963,19 +17963,19 @@ export interface VMScaleSetConvertToSinglePlacementGroupInput {
     activePlacementGroupId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VMSizeProperties {
     vCPUsAvailable?: number;
     vCPUsPerCore?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface VMSizePropertiesOutput {
     vCPUsAvailable?: number;
     vCPUsPerCore?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface WindowsConfiguration {
     additionalUnattendContent?: Array<AdditionalUnattendContent>;
     enableAutomaticUpdates?: boolean;
@@ -17985,7 +17985,7 @@ export interface WindowsConfiguration {
     winRM?: WinRMConfiguration;
 }
 
-// @public (undocumented)
+// @public
 export interface WindowsConfigurationOutput {
     additionalUnattendContent?: Array<AdditionalUnattendContentOutput>;
     enableAutomaticUpdates?: boolean;
@@ -17995,7 +17995,7 @@ export interface WindowsConfigurationOutput {
     winRM?: WinRMConfigurationOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface WindowsParameters {
     classificationsToInclude?: Array<"Critical" | "Security" | "UpdateRollUp" | "FeaturePack" | "ServicePack" | "Definition" | "Tools" | "Updates">;
     excludeKbsRequiringReboot?: boolean;
@@ -18004,33 +18004,33 @@ export interface WindowsParameters {
     maxPatchPublishDate?: Date | string;
 }
 
-// @public (undocumented)
+// @public
 export interface WindowsVMGuestPatchAutomaticByPlatformSettings {
     rebootSetting?: "Unknown" | "IfRequired" | "Never" | "Always";
 }
 
-// @public (undocumented)
+// @public
 export interface WindowsVMGuestPatchAutomaticByPlatformSettingsOutput {
     rebootSetting?: "Unknown" | "IfRequired" | "Never" | "Always";
 }
 
-// @public (undocumented)
+// @public
 export interface WinRMConfiguration {
     listeners?: Array<WinRMListener>;
 }
 
-// @public (undocumented)
+// @public
 export interface WinRMConfigurationOutput {
     listeners?: Array<WinRMListenerOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface WinRMListener {
     certificateUrl?: string;
     protocol?: "Http" | "Https";
 }
 
-// @public (undocumented)
+// @public
 export interface WinRMListenerOutput {
     certificateUrl?: string;
     protocol?: "Http" | "Https";

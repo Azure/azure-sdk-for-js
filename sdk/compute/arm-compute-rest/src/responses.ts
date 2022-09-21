@@ -122,7 +122,7 @@ export interface OperationsList200Response extends HttpResponse {
 }
 
 /** Gets a list of compute operations. */
-export interface OperationsListdefaultResponse extends HttpResponse {
+export interface OperationsListDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -134,7 +134,7 @@ export interface UsageList200Response extends HttpResponse {
 }
 
 /** Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription. */
-export interface UsageListdefaultResponse extends HttpResponse {
+export interface UsageListDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -146,7 +146,7 @@ export interface VirtualMachineSizesList200Response extends HttpResponse {
 }
 
 /** This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list) */
-export interface VirtualMachineSizesListdefaultResponse extends HttpResponse {
+export interface VirtualMachineSizesListDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -159,7 +159,7 @@ export interface VirtualMachineScaleSetsListByLocation200Response
 }
 
 /** Gets all the VM scale sets under the specified subscription for the specified location. */
-export interface VirtualMachineScaleSetsListByLocationdefaultResponse
+export interface VirtualMachineScaleSetsListByLocationDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -180,7 +180,7 @@ export interface VirtualMachineScaleSetsCreateOrUpdate201Response
 }
 
 /** Create or update a VM scale set. */
-export interface VirtualMachineScaleSetsCreateOrUpdatedefaultResponse
+export interface VirtualMachineScaleSetsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -193,7 +193,7 @@ export interface VirtualMachineScaleSetsUpdate200Response extends HttpResponse {
 }
 
 /** Update a VM scale set. */
-export interface VirtualMachineScaleSetsUpdatedefaultResponse
+export interface VirtualMachineScaleSetsUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -218,7 +218,7 @@ export interface VirtualMachineScaleSetsDelete204Response extends HttpResponse {
 }
 
 /** Deletes a VM scale set. */
-export interface VirtualMachineScaleSetsDeletedefaultResponse
+export interface VirtualMachineScaleSetsDeleteDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -231,7 +231,7 @@ export interface VirtualMachineScaleSetsGet200Response extends HttpResponse {
 }
 
 /** Display information about a virtual machine scale set. */
-export interface VirtualMachineScaleSetsGetdefaultResponse
+export interface VirtualMachineScaleSetsGetDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -252,7 +252,7 @@ export interface VirtualMachineScaleSetsDeallocate202Response
 }
 
 /** Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates. */
-export interface VirtualMachineScaleSetsDeallocatedefaultResponse
+export interface VirtualMachineScaleSetsDeallocateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -273,7 +273,7 @@ export interface VirtualMachineScaleSetsDeleteInstances202Response
 }
 
 /** Deletes virtual machines in a VM scale set. */
-export interface VirtualMachineScaleSetsDeleteInstancesdefaultResponse
+export interface VirtualMachineScaleSetsDeleteInstancesDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -287,7 +287,7 @@ export interface VirtualMachineScaleSetsGetInstanceView200Response
 }
 
 /** Gets the status of a VM scale set instance. */
-export interface VirtualMachineScaleSetsGetInstanceViewdefaultResponse
+export interface VirtualMachineScaleSetsGetInstanceViewDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -300,7 +300,7 @@ export interface VirtualMachineScaleSetsList200Response extends HttpResponse {
 }
 
 /** Gets a list of all VM scale sets under a resource group. */
-export interface VirtualMachineScaleSetsListdefaultResponse
+export interface VirtualMachineScaleSetsListDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -314,7 +314,7 @@ export interface VirtualMachineScaleSetsListAll200Response
 }
 
 /** Gets a list of all VM Scale Sets in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of VM Scale Sets. Do this till nextLink is null to fetch all the VM Scale Sets. */
-export interface VirtualMachineScaleSetsListAlldefaultResponse
+export interface VirtualMachineScaleSetsListAllDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -328,7 +328,7 @@ export interface VirtualMachineScaleSetsListSkus200Response
 }
 
 /** Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU. */
-export interface VirtualMachineScaleSetsListSkusdefaultResponse
+export interface VirtualMachineScaleSetsListSkusDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -342,7 +342,7 @@ export interface VirtualMachineScaleSetsGetOSUpgradeHistory200Response
 }
 
 /** Gets list of OS upgrades on a VM scale set instance. */
-export interface VirtualMachineScaleSetsGetOSUpgradeHistorydefaultResponse
+export interface VirtualMachineScaleSetsGetOSUpgradeHistoryDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -363,7 +363,7 @@ export interface VirtualMachineScaleSetsPowerOff202Response
 }
 
 /** Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges. */
-export interface VirtualMachineScaleSetsPowerOffdefaultResponse
+export interface VirtualMachineScaleSetsPowerOffDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -384,7 +384,7 @@ export interface VirtualMachineScaleSetsRestart202Response
 }
 
 /** Restarts one or more virtual machines in a VM scale set. */
-export interface VirtualMachineScaleSetsRestartdefaultResponse
+export interface VirtualMachineScaleSetsRestartDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -403,7 +403,7 @@ export interface VirtualMachineScaleSetsStart202Response extends HttpResponse {
 }
 
 /** Starts one or more virtual machines in a VM scale set. */
-export interface VirtualMachineScaleSetsStartdefaultResponse
+export interface VirtualMachineScaleSetsStartDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -424,7 +424,7 @@ export interface VirtualMachineScaleSetsRedeploy202Response
 }
 
 /** Shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and powers them back on. */
-export interface VirtualMachineScaleSetsRedeploydefaultResponse
+export interface VirtualMachineScaleSetsRedeployDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -445,7 +445,7 @@ export interface VirtualMachineScaleSetsPerformMaintenance202Response
 }
 
 /** Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications */
-export interface VirtualMachineScaleSetsPerformMaintenancedefaultResponse
+export interface VirtualMachineScaleSetsPerformMaintenanceDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -466,7 +466,7 @@ export interface VirtualMachineScaleSetsUpdateInstances202Response
 }
 
 /** Upgrades one or more virtual machines to the latest SKU set in the VM scale set model. */
-export interface VirtualMachineScaleSetsUpdateInstancesdefaultResponse
+export interface VirtualMachineScaleSetsUpdateInstancesDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -487,7 +487,7 @@ export interface VirtualMachineScaleSetsReimage202Response
 }
 
 /** Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state. */
-export interface VirtualMachineScaleSetsReimagedefaultResponse
+export interface VirtualMachineScaleSetsReimageDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -508,7 +508,7 @@ export interface VirtualMachineScaleSetsReimageAll202Response
 }
 
 /** Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks. */
-export interface VirtualMachineScaleSetsReimageAlldefaultResponse
+export interface VirtualMachineScaleSetsReimageAllDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -522,7 +522,7 @@ export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdate
 }
 
 /** Manual platform update domain walk to update virtual machines in a service fabric virtual machine scale set. */
-export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkdefaultResponse
+export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -536,7 +536,7 @@ export interface VirtualMachineScaleSetsConvertToSinglePlacementGroup200Response
 }
 
 /** Converts SinglePlacementGroup property to false for a existing virtual machine scale set. */
-export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupdefaultResponse
+export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -557,7 +557,7 @@ export interface VirtualMachineScaleSetsSetOrchestrationServiceState202Response
 }
 
 /** Changes ServiceState property for a given service */
-export interface VirtualMachineScaleSetsSetOrchestrationServiceStatedefaultResponse
+export interface VirtualMachineScaleSetsSetOrchestrationServiceStateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -578,7 +578,7 @@ export interface VirtualMachineScaleSetExtensionsCreateOrUpdate201Response
 }
 
 /** The operation to create or update an extension. */
-export interface VirtualMachineScaleSetExtensionsCreateOrUpdatedefaultResponse
+export interface VirtualMachineScaleSetExtensionsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -599,7 +599,7 @@ export interface VirtualMachineScaleSetExtensionsUpdate201Response
 }
 
 /** The operation to update an extension. */
-export interface VirtualMachineScaleSetExtensionsUpdatedefaultResponse
+export interface VirtualMachineScaleSetExtensionsUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -627,7 +627,7 @@ export interface VirtualMachineScaleSetExtensionsDelete204Response
 }
 
 /** The operation to delete the extension. */
-export interface VirtualMachineScaleSetExtensionsDeletedefaultResponse
+export interface VirtualMachineScaleSetExtensionsDeleteDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -641,7 +641,7 @@ export interface VirtualMachineScaleSetExtensionsGet200Response
 }
 
 /** The operation to get the extension. */
-export interface VirtualMachineScaleSetExtensionsGetdefaultResponse
+export interface VirtualMachineScaleSetExtensionsGetDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -655,7 +655,7 @@ export interface VirtualMachineScaleSetExtensionsList200Response
 }
 
 /** Gets a list of all extensions in a VM scale set. */
-export interface VirtualMachineScaleSetExtensionsListdefaultResponse
+export interface VirtualMachineScaleSetExtensionsListDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -676,7 +676,7 @@ export interface VirtualMachineScaleSetRollingUpgradesCancel202Response
 }
 
 /** Cancels the current virtual machine scale set rolling upgrade. */
-export interface VirtualMachineScaleSetRollingUpgradesCanceldefaultResponse
+export interface VirtualMachineScaleSetRollingUpgradesCancelDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -697,7 +697,7 @@ export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgrade202Response
 }
 
 /** Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected. */
-export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradedefaultResponse
+export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -718,7 +718,7 @@ export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade202Re
 }
 
 /** Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the latest available extension version. Instances which are already running the latest extension versions are not affected. */
-export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradedefaultResponse
+export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -732,7 +732,7 @@ export interface VirtualMachineScaleSetRollingUpgradesGetLatest200Response
 }
 
 /** Gets the status of the latest virtual machine scale set rolling upgrade. */
-export interface VirtualMachineScaleSetRollingUpgradesGetLatestdefaultResponse
+export interface VirtualMachineScaleSetRollingUpgradesGetLatestDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -753,7 +753,7 @@ export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdate201Response
 }
 
 /** The operation to create or update the VMSS VM extension. */
-export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdatedefaultResponse
+export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -767,7 +767,7 @@ export interface VirtualMachineScaleSetVMExtensionsUpdate200Response
 }
 
 /** The operation to update the VMSS VM extension. */
-export interface VirtualMachineScaleSetVMExtensionsUpdatedefaultResponse
+export interface VirtualMachineScaleSetVMExtensionsUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -795,7 +795,7 @@ export interface VirtualMachineScaleSetVMExtensionsDelete204Response
 }
 
 /** The operation to delete the VMSS VM extension. */
-export interface VirtualMachineScaleSetVMExtensionsDeletedefaultResponse
+export interface VirtualMachineScaleSetVMExtensionsDeleteDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -809,7 +809,7 @@ export interface VirtualMachineScaleSetVMExtensionsGet200Response
 }
 
 /** The operation to get the VMSS VM extension. */
-export interface VirtualMachineScaleSetVMExtensionsGetdefaultResponse
+export interface VirtualMachineScaleSetVMExtensionsGetDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -823,7 +823,7 @@ export interface VirtualMachineScaleSetVMExtensionsList200Response
 }
 
 /** The operation to get all extensions of an instance in Virtual Machine Scaleset. */
-export interface VirtualMachineScaleSetVMExtensionsListdefaultResponse
+export interface VirtualMachineScaleSetVMExtensionsListDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -844,7 +844,7 @@ export interface VirtualMachineScaleSetVMsReimage202Response
 }
 
 /** Reimages (upgrade the operating system) a specific virtual machine in a VM scale set. */
-export interface VirtualMachineScaleSetVMsReimagedefaultResponse
+export interface VirtualMachineScaleSetVMsReimageDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -865,7 +865,7 @@ export interface VirtualMachineScaleSetVMsReimageAll202Response
 }
 
 /** Allows you to re-image all the disks ( including data disks ) in the a VM scale set instance. This operation is only supported for managed disks. */
-export interface VirtualMachineScaleSetVMsReimageAlldefaultResponse
+export interface VirtualMachineScaleSetVMsReimageAllDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -886,7 +886,7 @@ export interface VirtualMachineScaleSetVMsDeallocate202Response
 }
 
 /** Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and releases the compute resources it uses. You are not billed for the compute resources of this virtual machine once it is deallocated. */
-export interface VirtualMachineScaleSetVMsDeallocatedefaultResponse
+export interface VirtualMachineScaleSetVMsDeallocateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -907,7 +907,7 @@ export interface VirtualMachineScaleSetVMsUpdate202Response
 }
 
 /** Updates a virtual machine of a VM scale set. */
-export interface VirtualMachineScaleSetVMsUpdatedefaultResponse
+export interface VirtualMachineScaleSetVMsUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -935,7 +935,7 @@ export interface VirtualMachineScaleSetVMsDelete204Response
 }
 
 /** Deletes a virtual machine from a VM scale set. */
-export interface VirtualMachineScaleSetVMsDeletedefaultResponse
+export interface VirtualMachineScaleSetVMsDeleteDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -948,7 +948,7 @@ export interface VirtualMachineScaleSetVMsGet200Response extends HttpResponse {
 }
 
 /** Gets a virtual machine from a VM scale set. */
-export interface VirtualMachineScaleSetVMsGetdefaultResponse
+export interface VirtualMachineScaleSetVMsGetDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -962,7 +962,7 @@ export interface VirtualMachineScaleSetVMsGetInstanceView200Response
 }
 
 /** Gets the status of a virtual machine from a VM scale set. */
-export interface VirtualMachineScaleSetVMsGetInstanceViewdefaultResponse
+export interface VirtualMachineScaleSetVMsGetInstanceViewDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -975,7 +975,7 @@ export interface VirtualMachineScaleSetVMsList200Response extends HttpResponse {
 }
 
 /** Gets a list of all virtual machines in a VM scale sets. */
-export interface VirtualMachineScaleSetVMsListdefaultResponse
+export interface VirtualMachineScaleSetVMsListDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -996,7 +996,7 @@ export interface VirtualMachineScaleSetVMsPowerOff202Response
 }
 
 /** Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges. */
-export interface VirtualMachineScaleSetVMsPowerOffdefaultResponse
+export interface VirtualMachineScaleSetVMsPowerOffDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1017,7 +1017,7 @@ export interface VirtualMachineScaleSetVMsRestart202Response
 }
 
 /** Restarts a virtual machine in a VM scale set. */
-export interface VirtualMachineScaleSetVMsRestartdefaultResponse
+export interface VirtualMachineScaleSetVMsRestartDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1038,7 +1038,7 @@ export interface VirtualMachineScaleSetVMsStart202Response
 }
 
 /** Starts a virtual machine in a VM scale set. */
-export interface VirtualMachineScaleSetVMsStartdefaultResponse
+export interface VirtualMachineScaleSetVMsStartDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1059,7 +1059,7 @@ export interface VirtualMachineScaleSetVMsRedeploy202Response
 }
 
 /** Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on. */
-export interface VirtualMachineScaleSetVMsRedeploydefaultResponse
+export interface VirtualMachineScaleSetVMsRedeployDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1073,7 +1073,7 @@ export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData200Response
 }
 
 /** The operation to retrieve SAS URIs of boot diagnostic logs for a virtual machine in a VM scale set. */
-export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDatadefaultResponse
+export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1094,7 +1094,7 @@ export interface VirtualMachineScaleSetVMsPerformMaintenance202Response
 }
 
 /** Performs maintenance on a virtual machine in a VM scale set. */
-export interface VirtualMachineScaleSetVMsPerformMaintenancedefaultResponse
+export interface VirtualMachineScaleSetVMsPerformMaintenanceDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1108,7 +1108,7 @@ export interface VirtualMachineScaleSetVMsSimulateEviction204Response
 }
 
 /** The operation to simulate the eviction of spot virtual machine in a VM scale set. */
-export interface VirtualMachineScaleSetVMsSimulateEvictiondefaultResponse
+export interface VirtualMachineScaleSetVMsSimulateEvictionDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1143,7 +1143,7 @@ export interface VirtualMachineExtensionsCreateOrUpdate201Response
 }
 
 /** The operation to create or update the extension. */
-export interface VirtualMachineExtensionsCreateOrUpdatedefaultResponse
+export interface VirtualMachineExtensionsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1157,7 +1157,7 @@ export interface VirtualMachineExtensionsUpdate200Response
 }
 
 /** The operation to update the extension. */
-export interface VirtualMachineExtensionsUpdatedefaultResponse
+export interface VirtualMachineExtensionsUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1185,7 +1185,7 @@ export interface VirtualMachineExtensionsDelete204Response
 }
 
 /** The operation to delete the extension. */
-export interface VirtualMachineExtensionsDeletedefaultResponse
+export interface VirtualMachineExtensionsDeleteDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1198,7 +1198,7 @@ export interface VirtualMachineExtensionsGet200Response extends HttpResponse {
 }
 
 /** The operation to get the extension. */
-export interface VirtualMachineExtensionsGetdefaultResponse
+export interface VirtualMachineExtensionsGetDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1211,7 +1211,7 @@ export interface VirtualMachineExtensionsList200Response extends HttpResponse {
 }
 
 /** The operation to get all extensions of a Virtual Machine. */
-export interface VirtualMachineExtensionsListdefaultResponse
+export interface VirtualMachineExtensionsListDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1224,7 +1224,7 @@ export interface VirtualMachinesListByLocation200Response extends HttpResponse {
 }
 
 /** Gets all the virtual machines under the specified subscription for the specified location. */
-export interface VirtualMachinesListByLocationdefaultResponse
+export interface VirtualMachinesListByLocationDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1243,7 +1243,7 @@ export interface VirtualMachinesCapture202Response extends HttpResponse {
 }
 
 /** Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs. */
-export interface VirtualMachinesCapturedefaultResponse extends HttpResponse {
+export interface VirtualMachinesCaptureDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1261,7 +1261,7 @@ export interface VirtualMachinesCreateOrUpdate201Response extends HttpResponse {
 }
 
 /** The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation. */
-export interface VirtualMachinesCreateOrUpdatedefaultResponse
+export interface VirtualMachinesCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1274,7 +1274,7 @@ export interface VirtualMachinesUpdate200Response extends HttpResponse {
 }
 
 /** The operation to update a virtual machine. */
-export interface VirtualMachinesUpdatedefaultResponse extends HttpResponse {
+export interface VirtualMachinesUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1298,7 +1298,7 @@ export interface VirtualMachinesDelete204Response extends HttpResponse {
 }
 
 /** The operation to delete a virtual machine. */
-export interface VirtualMachinesDeletedefaultResponse extends HttpResponse {
+export interface VirtualMachinesDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1310,7 +1310,7 @@ export interface VirtualMachinesGet200Response extends HttpResponse {
 }
 
 /** Retrieves information about the model view or the instance view of a virtual machine. */
-export interface VirtualMachinesGetdefaultResponse extends HttpResponse {
+export interface VirtualMachinesGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1322,7 +1322,7 @@ export interface VirtualMachinesInstanceView200Response extends HttpResponse {
 }
 
 /** Retrieves information about the run-time state of a virtual machine. */
-export interface VirtualMachinesInstanceViewdefaultResponse
+export interface VirtualMachinesInstanceViewDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1343,7 +1343,7 @@ export interface VirtualMachinesConvertToManagedDisks202Response
 }
 
 /** Converts virtual machine disks from blob-based to managed disks. Virtual machine must be stop-deallocated before invoking this operation. */
-export interface VirtualMachinesConvertToManagedDisksdefaultResponse
+export interface VirtualMachinesConvertToManagedDisksDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1362,7 +1362,7 @@ export interface VirtualMachinesDeallocate202Response extends HttpResponse {
 }
 
 /** Shuts down the virtual machine and releases the compute resources. You are not billed for the compute resources that this virtual machine uses. */
-export interface VirtualMachinesDeallocatedefaultResponse extends HttpResponse {
+export interface VirtualMachinesDeallocateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1374,7 +1374,7 @@ export interface VirtualMachinesGeneralize200Response extends HttpResponse {
 }
 
 /** Sets the OS state of the virtual machine to generalized. It is recommended to sysprep the virtual machine before performing this operation. <br>For Windows, please refer to [Create a managed image of a generalized VM in Azure](https://docs.microsoft.com/azure/virtual-machines/windows/capture-image-resource).<br>For Linux, please refer to [How to create an image of a virtual machine or VHD](https://docs.microsoft.com/azure/virtual-machines/linux/capture-image). */
-export interface VirtualMachinesGeneralizedefaultResponse extends HttpResponse {
+export interface VirtualMachinesGeneralizeDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1386,7 +1386,7 @@ export interface VirtualMachinesList200Response extends HttpResponse {
 }
 
 /** Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines. */
-export interface VirtualMachinesListdefaultResponse extends HttpResponse {
+export interface VirtualMachinesListDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1398,7 +1398,7 @@ export interface VirtualMachinesListAll200Response extends HttpResponse {
 }
 
 /** Lists all of the virtual machines in the specified subscription. Use the nextLink property in the response to get the next page of virtual machines. */
-export interface VirtualMachinesListAlldefaultResponse extends HttpResponse {
+export interface VirtualMachinesListAllDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1411,7 +1411,7 @@ export interface VirtualMachinesListAvailableSizes200Response
 }
 
 /** Lists all available virtual machine sizes to which the specified virtual machine can be resized. */
-export interface VirtualMachinesListAvailableSizesdefaultResponse
+export interface VirtualMachinesListAvailableSizesDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1430,7 +1430,7 @@ export interface VirtualMachinesPowerOff202Response extends HttpResponse {
 }
 
 /** The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the same provisioned resources. You are still charged for this virtual machine. */
-export interface VirtualMachinesPowerOffdefaultResponse extends HttpResponse {
+export interface VirtualMachinesPowerOffDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1448,7 +1448,7 @@ export interface VirtualMachinesReapply202Response extends HttpResponse {
 }
 
 /** The operation to reapply a virtual machine's state. */
-export interface VirtualMachinesReapplydefaultResponse extends HttpResponse {
+export interface VirtualMachinesReapplyDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1466,7 +1466,7 @@ export interface VirtualMachinesRestart202Response extends HttpResponse {
 }
 
 /** The operation to restart a virtual machine. */
-export interface VirtualMachinesRestartdefaultResponse extends HttpResponse {
+export interface VirtualMachinesRestartDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1484,7 +1484,7 @@ export interface VirtualMachinesStart202Response extends HttpResponse {
 }
 
 /** The operation to start a virtual machine. */
-export interface VirtualMachinesStartdefaultResponse extends HttpResponse {
+export interface VirtualMachinesStartDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1502,7 +1502,7 @@ export interface VirtualMachinesRedeploy202Response extends HttpResponse {
 }
 
 /** Shuts down the virtual machine, moves it to a new node, and powers it back on. */
-export interface VirtualMachinesRedeploydefaultResponse extends HttpResponse {
+export interface VirtualMachinesRedeployDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1520,7 +1520,7 @@ export interface VirtualMachinesReimage202Response extends HttpResponse {
 }
 
 /** Reimages the virtual machine which has an ephemeral OS disk back to its initial state. */
-export interface VirtualMachinesReimagedefaultResponse extends HttpResponse {
+export interface VirtualMachinesReimageDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1533,7 +1533,7 @@ export interface VirtualMachinesRetrieveBootDiagnosticsData200Response
 }
 
 /** The operation to retrieve SAS URIs for a virtual machine's boot diagnostic logs. */
-export interface VirtualMachinesRetrieveBootDiagnosticsDatadefaultResponse
+export interface VirtualMachinesRetrieveBootDiagnosticsDataDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1554,7 +1554,7 @@ export interface VirtualMachinesPerformMaintenance202Response
 }
 
 /** The operation to perform maintenance on a virtual machine. */
-export interface VirtualMachinesPerformMaintenancedefaultResponse
+export interface VirtualMachinesPerformMaintenanceDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1568,7 +1568,7 @@ export interface VirtualMachinesSimulateEviction204Response
 }
 
 /** The operation to simulate the eviction of spot virtual machine. */
-export interface VirtualMachinesSimulateEvictiondefaultResponse
+export interface VirtualMachinesSimulateEvictionDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1587,7 +1587,7 @@ export interface VirtualMachinesAssessPatches202Response extends HttpResponse {
 }
 
 /** Assess patches on the VM. */
-export interface VirtualMachinesAssessPatchesdefaultResponse
+export interface VirtualMachinesAssessPatchesDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1606,7 +1606,7 @@ export interface VirtualMachinesInstallPatches202Response extends HttpResponse {
 }
 
 /** Installs patches on the VM. */
-export interface VirtualMachinesInstallPatchesdefaultResponse
+export interface VirtualMachinesInstallPatchesDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1631,7 +1631,7 @@ export interface VirtualMachineImagesGet200Response extends HttpResponse {
 }
 
 /** Gets a virtual machine image. */
-export interface VirtualMachineImagesGetdefaultResponse extends HttpResponse {
+export interface VirtualMachineImagesGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1643,7 +1643,7 @@ export interface VirtualMachineImagesList200Response extends HttpResponse {
 }
 
 /** Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU. */
-export interface VirtualMachineImagesListdefaultResponse extends HttpResponse {
+export interface VirtualMachineImagesListDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1656,7 +1656,7 @@ export interface VirtualMachineImagesListOffers200Response
 }
 
 /** Gets a list of virtual machine image offers for the specified location and publisher. */
-export interface VirtualMachineImagesListOffersdefaultResponse
+export interface VirtualMachineImagesListOffersDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1670,7 +1670,7 @@ export interface VirtualMachineImagesListPublishers200Response
 }
 
 /** Gets a list of virtual machine image publishers for the specified Azure location. */
-export interface VirtualMachineImagesListPublishersdefaultResponse
+export interface VirtualMachineImagesListPublishersDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1683,7 +1683,7 @@ export interface VirtualMachineImagesListSkus200Response extends HttpResponse {
 }
 
 /** Gets a list of virtual machine image SKUs for the specified location, publisher, and offer. */
-export interface VirtualMachineImagesListSkusdefaultResponse
+export interface VirtualMachineImagesListSkusDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1697,7 +1697,7 @@ export interface VirtualMachineImagesListByEdgeZone200Response
 }
 
 /** Gets a list of all virtual machine image versions for the specified edge zone */
-export interface VirtualMachineImagesListByEdgeZonedefaultResponse
+export interface VirtualMachineImagesListByEdgeZoneDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1711,7 +1711,7 @@ export interface VirtualMachineImagesEdgeZoneGet200Response
 }
 
 /** Gets a virtual machine image in an edge zone. */
-export interface VirtualMachineImagesEdgeZoneGetdefaultResponse
+export interface VirtualMachineImagesEdgeZoneGetDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1725,7 +1725,7 @@ export interface VirtualMachineImagesEdgeZoneList200Response
 }
 
 /** Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU. */
-export interface VirtualMachineImagesEdgeZoneListdefaultResponse
+export interface VirtualMachineImagesEdgeZoneListDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1739,7 +1739,7 @@ export interface VirtualMachineImagesEdgeZoneListOffers200Response
 }
 
 /** Gets a list of virtual machine image offers for the specified location, edge zone and publisher. */
-export interface VirtualMachineImagesEdgeZoneListOffersdefaultResponse
+export interface VirtualMachineImagesEdgeZoneListOffersDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1753,7 +1753,7 @@ export interface VirtualMachineImagesEdgeZoneListPublishers200Response
 }
 
 /** Gets a list of virtual machine image publishers for the specified Azure location and edge zone. */
-export interface VirtualMachineImagesEdgeZoneListPublishersdefaultResponse
+export interface VirtualMachineImagesEdgeZoneListPublishersDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1767,7 +1767,7 @@ export interface VirtualMachineImagesEdgeZoneListSkus200Response
 }
 
 /** Gets a list of virtual machine image SKUs for the specified location, edge zone, publisher, and offer. */
-export interface VirtualMachineImagesEdgeZoneListSkusdefaultResponse
+export interface VirtualMachineImagesEdgeZoneListSkusDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1781,7 +1781,7 @@ export interface VirtualMachineExtensionImagesGet200Response
 }
 
 /** Gets a virtual machine extension image. */
-export interface VirtualMachineExtensionImagesGetdefaultResponse
+export interface VirtualMachineExtensionImagesGetDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1795,7 +1795,7 @@ export interface VirtualMachineExtensionImagesListTypes200Response
 }
 
 /** Gets a list of virtual machine extension image types. */
-export interface VirtualMachineExtensionImagesListTypesdefaultResponse
+export interface VirtualMachineExtensionImagesListTypesDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1809,7 +1809,7 @@ export interface VirtualMachineExtensionImagesListVersions200Response
 }
 
 /** Gets a list of virtual machine extension image versions. */
-export interface VirtualMachineExtensionImagesListVersionsdefaultResponse
+export interface VirtualMachineExtensionImagesListVersionsDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1823,7 +1823,7 @@ export interface AvailabilitySetsCreateOrUpdate200Response
 }
 
 /** Create or update an availability set. */
-export interface AvailabilitySetsCreateOrUpdatedefaultResponse
+export interface AvailabilitySetsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1836,7 +1836,7 @@ export interface AvailabilitySetsUpdate200Response extends HttpResponse {
 }
 
 /** Update an availability set. */
-export interface AvailabilitySetsUpdatedefaultResponse extends HttpResponse {
+export interface AvailabilitySetsUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1854,7 +1854,7 @@ export interface AvailabilitySetsDelete204Response extends HttpResponse {
 }
 
 /** Delete an availability set. */
-export interface AvailabilitySetsDeletedefaultResponse extends HttpResponse {
+export interface AvailabilitySetsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1866,7 +1866,7 @@ export interface AvailabilitySetsGet200Response extends HttpResponse {
 }
 
 /** Retrieves information about an availability set. */
-export interface AvailabilitySetsGetdefaultResponse extends HttpResponse {
+export interface AvailabilitySetsGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1879,7 +1879,7 @@ export interface AvailabilitySetsListBySubscription200Response
 }
 
 /** Lists all availability sets in a subscription. */
-export interface AvailabilitySetsListBySubscriptiondefaultResponse
+export interface AvailabilitySetsListBySubscriptionDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1892,7 +1892,7 @@ export interface AvailabilitySetsList200Response extends HttpResponse {
 }
 
 /** Lists all availability sets in a resource group. */
-export interface AvailabilitySetsListdefaultResponse extends HttpResponse {
+export interface AvailabilitySetsListDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1905,7 +1905,7 @@ export interface AvailabilitySetsListAvailableSizes200Response
 }
 
 /** Lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set. */
-export interface AvailabilitySetsListAvailableSizesdefaultResponse
+export interface AvailabilitySetsListAvailableSizesDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1926,7 +1926,7 @@ export interface ProximityPlacementGroupsCreateOrUpdate201Response
 }
 
 /** Create or update a proximity placement group. */
-export interface ProximityPlacementGroupsCreateOrUpdatedefaultResponse
+export interface ProximityPlacementGroupsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1940,7 +1940,7 @@ export interface ProximityPlacementGroupsUpdate200Response
 }
 
 /** Update a proximity placement group. */
-export interface ProximityPlacementGroupsUpdatedefaultResponse
+export interface ProximityPlacementGroupsUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1954,7 +1954,7 @@ export interface ProximityPlacementGroupsDelete200Response
 }
 
 /** Delete a proximity placement group. */
-export interface ProximityPlacementGroupsDeletedefaultResponse
+export interface ProximityPlacementGroupsDeleteDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1967,7 +1967,7 @@ export interface ProximityPlacementGroupsGet200Response extends HttpResponse {
 }
 
 /** Retrieves information about a proximity placement group . */
-export interface ProximityPlacementGroupsGetdefaultResponse
+export interface ProximityPlacementGroupsGetDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1981,7 +1981,7 @@ export interface ProximityPlacementGroupsListBySubscription200Response
 }
 
 /** Lists all proximity placement groups in a subscription. */
-export interface ProximityPlacementGroupsListBySubscriptiondefaultResponse
+export interface ProximityPlacementGroupsListBySubscriptionDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -1995,7 +1995,7 @@ export interface ProximityPlacementGroupsListByResourceGroup200Response
 }
 
 /** Lists all proximity placement groups in a resource group. */
-export interface ProximityPlacementGroupsListByResourceGroupdefaultResponse
+export interface ProximityPlacementGroupsListByResourceGroupDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2016,7 +2016,7 @@ export interface DedicatedHostGroupsCreateOrUpdate201Response
 }
 
 /** Create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups please see [Dedicated Host Documentation] (https://go.microsoft.com/fwlink/?linkid=2082596) */
-export interface DedicatedHostGroupsCreateOrUpdatedefaultResponse
+export interface DedicatedHostGroupsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2029,7 +2029,7 @@ export interface DedicatedHostGroupsUpdate200Response extends HttpResponse {
 }
 
 /** Update an dedicated host group. */
-export interface DedicatedHostGroupsUpdatedefaultResponse extends HttpResponse {
+export interface DedicatedHostGroupsUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2047,7 +2047,7 @@ export interface DedicatedHostGroupsDelete204Response extends HttpResponse {
 }
 
 /** Delete a dedicated host group. */
-export interface DedicatedHostGroupsDeletedefaultResponse extends HttpResponse {
+export interface DedicatedHostGroupsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2059,7 +2059,7 @@ export interface DedicatedHostGroupsGet200Response extends HttpResponse {
 }
 
 /** Retrieves information about a dedicated host group. */
-export interface DedicatedHostGroupsGetdefaultResponse extends HttpResponse {
+export interface DedicatedHostGroupsGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2072,7 +2072,7 @@ export interface DedicatedHostGroupsListByResourceGroup200Response
 }
 
 /** Lists all of the dedicated host groups in the specified resource group. Use the nextLink property in the response to get the next page of dedicated host groups. */
-export interface DedicatedHostGroupsListByResourceGroupdefaultResponse
+export interface DedicatedHostGroupsListByResourceGroupDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2086,7 +2086,7 @@ export interface DedicatedHostGroupsListBySubscription200Response
 }
 
 /** Lists all of the dedicated host groups in the subscription. Use the nextLink property in the response to get the next page of dedicated host groups. */
-export interface DedicatedHostGroupsListBySubscriptiondefaultResponse
+export interface DedicatedHostGroupsListBySubscriptionDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2105,7 +2105,7 @@ export interface DedicatedHostsCreateOrUpdate201Response extends HttpResponse {
 }
 
 /** Create or update a dedicated host . */
-export interface DedicatedHostsCreateOrUpdatedefaultResponse
+export interface DedicatedHostsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2118,7 +2118,7 @@ export interface DedicatedHostsUpdate200Response extends HttpResponse {
 }
 
 /** Update an dedicated host . */
-export interface DedicatedHostsUpdatedefaultResponse extends HttpResponse {
+export interface DedicatedHostsUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2142,7 +2142,7 @@ export interface DedicatedHostsDelete204Response extends HttpResponse {
 }
 
 /** Delete a dedicated host. */
-export interface DedicatedHostsDeletedefaultResponse extends HttpResponse {
+export interface DedicatedHostsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2154,7 +2154,7 @@ export interface DedicatedHostsGet200Response extends HttpResponse {
 }
 
 /** Retrieves information about a dedicated host. */
-export interface DedicatedHostsGetdefaultResponse extends HttpResponse {
+export interface DedicatedHostsGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2166,7 +2166,7 @@ export interface DedicatedHostsListByHostGroup200Response extends HttpResponse {
 }
 
 /** Lists all of the dedicated hosts in the specified dedicated host group. Use the nextLink property in the response to get the next page of dedicated hosts. */
-export interface DedicatedHostsListByHostGroupdefaultResponse
+export interface DedicatedHostsListByHostGroupDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2179,7 +2179,7 @@ export interface DedicatedHostsRestart200Response extends HttpResponse {
 }
 
 /** Restart the dedicated host. The operation will complete successfully once the dedicated host has restarted and is running. To determine the health of VMs deployed on the dedicated host after the restart check the Resource Health Center in the Azure Portal. Please refer to https://docs.microsoft.com/azure/service-health/resource-health-overview for more details. */
-export interface DedicatedHostsRestartdefaultResponse extends HttpResponse {
+export interface DedicatedHostsRestartDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2192,7 +2192,7 @@ export interface SshPublicKeysListBySubscription200Response
 }
 
 /** Lists all of the SSH public keys in the subscription. Use the nextLink property in the response to get the next page of SSH public keys. */
-export interface SshPublicKeysListBySubscriptiondefaultResponse
+export interface SshPublicKeysListBySubscriptionDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2206,7 +2206,7 @@ export interface SshPublicKeysListByResourceGroup200Response
 }
 
 /** Lists all of the SSH public keys in the specified resource group. Use the nextLink property in the response to get the next page of SSH public keys. */
-export interface SshPublicKeysListByResourceGroupdefaultResponse
+export interface SshPublicKeysListByResourceGroupDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2225,7 +2225,7 @@ export interface SshPublicKeysCreate201Response extends HttpResponse {
 }
 
 /** Creates a new SSH public key resource. */
-export interface SshPublicKeysCreatedefaultResponse extends HttpResponse {
+export interface SshPublicKeysCreateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2237,7 +2237,7 @@ export interface SshPublicKeysUpdate200Response extends HttpResponse {
 }
 
 /** Updates a new SSH public key resource. */
-export interface SshPublicKeysUpdatedefaultResponse extends HttpResponse {
+export interface SshPublicKeysUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2255,7 +2255,7 @@ export interface SshPublicKeysDelete204Response extends HttpResponse {
 }
 
 /** Delete an SSH public key. */
-export interface SshPublicKeysDeletedefaultResponse extends HttpResponse {
+export interface SshPublicKeysDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2267,7 +2267,7 @@ export interface SshPublicKeysGet200Response extends HttpResponse {
 }
 
 /** Retrieves information about an SSH public key. */
-export interface SshPublicKeysGetdefaultResponse extends HttpResponse {
+export interface SshPublicKeysGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2279,7 +2279,7 @@ export interface SshPublicKeysGenerateKeyPair200Response extends HttpResponse {
 }
 
 /** Generates and returns a public/private key pair and populates the SSH public key resource with the public key. The length of the key will be 3072 bits. This operation can only be performed once per SSH public key resource. */
-export interface SshPublicKeysGenerateKeyPairdefaultResponse
+export interface SshPublicKeysGenerateKeyPairDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2298,7 +2298,7 @@ export interface ImagesCreateOrUpdate201Response extends HttpResponse {
 }
 
 /** Create or update an image. */
-export interface ImagesCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface ImagesCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2316,7 +2316,7 @@ export interface ImagesUpdate201Response extends HttpResponse {
 }
 
 /** Update an image. */
-export interface ImagesUpdatedefaultResponse extends HttpResponse {
+export interface ImagesUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2340,7 +2340,7 @@ export interface ImagesDelete204Response extends HttpResponse {
 }
 
 /** Deletes an Image. */
-export interface ImagesDeletedefaultResponse extends HttpResponse {
+export interface ImagesDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2352,7 +2352,7 @@ export interface ImagesGet200Response extends HttpResponse {
 }
 
 /** Gets an image. */
-export interface ImagesGetdefaultResponse extends HttpResponse {
+export interface ImagesGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2364,7 +2364,7 @@ export interface ImagesListByResourceGroup200Response extends HttpResponse {
 }
 
 /** Gets the list of images under a resource group. */
-export interface ImagesListByResourceGroupdefaultResponse extends HttpResponse {
+export interface ImagesListByResourceGroupDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2376,7 +2376,7 @@ export interface ImagesList200Response extends HttpResponse {
 }
 
 /** Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is null to fetch all the Images. */
-export interface ImagesListdefaultResponse extends HttpResponse {
+export interface ImagesListDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2396,7 +2396,7 @@ export interface RestorePointCollectionsCreateOrUpdate201Response
 }
 
 /** The operation to create or update the restore point collection. Please refer to https://aka.ms/RestorePoints for more details. When updating a restore point collection, only tags may be modified. */
-export interface RestorePointCollectionsCreateOrUpdatedefaultResponse
+export interface RestorePointCollectionsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2409,7 +2409,7 @@ export interface RestorePointCollectionsUpdate200Response extends HttpResponse {
 }
 
 /** The operation to update the restore point collection. */
-export interface RestorePointCollectionsUpdatedefaultResponse
+export interface RestorePointCollectionsUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2434,7 +2434,7 @@ export interface RestorePointCollectionsDelete204Response extends HttpResponse {
 }
 
 /** The operation to delete the restore point collection. This operation will also delete all the contained restore points. */
-export interface RestorePointCollectionsDeletedefaultResponse
+export interface RestorePointCollectionsDeleteDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2447,7 +2447,7 @@ export interface RestorePointCollectionsGet200Response extends HttpResponse {
 }
 
 /** The operation to get the restore point collection. */
-export interface RestorePointCollectionsGetdefaultResponse
+export interface RestorePointCollectionsGetDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2460,7 +2460,7 @@ export interface RestorePointCollectionsList200Response extends HttpResponse {
 }
 
 /** Gets the list of restore point collections in a resource group. */
-export interface RestorePointCollectionsListdefaultResponse
+export interface RestorePointCollectionsListDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2474,7 +2474,7 @@ export interface RestorePointCollectionsListAll200Response
 }
 
 /** Gets the list of restore point collections in the subscription. Use nextLink property in the response to get the next page of restore point collections. Do this till nextLink is not null to fetch all the restore point collections. */
-export interface RestorePointCollectionsListAlldefaultResponse
+export interface RestorePointCollectionsListAllDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2487,7 +2487,7 @@ export interface RestorePointsCreate201Response extends HttpResponse {
 }
 
 /** The operation to create the restore point. Updating properties of an existing restore point is not allowed */
-export interface RestorePointsCreatedefaultResponse extends HttpResponse {
+export interface RestorePointsCreateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2511,7 +2511,7 @@ export interface RestorePointsDelete204Response extends HttpResponse {
 }
 
 /** The operation to delete the restore point. */
-export interface RestorePointsDeletedefaultResponse extends HttpResponse {
+export interface RestorePointsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2523,7 +2523,7 @@ export interface RestorePointsGet200Response extends HttpResponse {
 }
 
 /** The operation to get the restore point. */
-export interface RestorePointsGetdefaultResponse extends HttpResponse {
+export interface RestorePointsGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2543,7 +2543,7 @@ export interface CapacityReservationGroupsCreateOrUpdate201Response
 }
 
 /** The operation to create or update a capacity reservation group. When updating a capacity reservation group, only tags may be modified. Please refer to https://aka.ms/CapacityReservation for more details. */
-export interface CapacityReservationGroupsCreateOrUpdatedefaultResponse
+export interface CapacityReservationGroupsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2557,7 +2557,7 @@ export interface CapacityReservationGroupsUpdate200Response
 }
 
 /** The operation to update a capacity reservation group. When updating a capacity reservation group, only tags may be modified. */
-export interface CapacityReservationGroupsUpdatedefaultResponse
+export interface CapacityReservationGroupsUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2578,7 +2578,7 @@ export interface CapacityReservationGroupsDelete204Response
 }
 
 /** The operation to delete a capacity reservation group. This operation is allowed only if all the associated resources are disassociated from the reservation group and all capacity reservations under the reservation group have also been deleted. Please refer to https://aka.ms/CapacityReservation for more details. */
-export interface CapacityReservationGroupsDeletedefaultResponse
+export interface CapacityReservationGroupsDeleteDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2591,7 +2591,7 @@ export interface CapacityReservationGroupsGet200Response extends HttpResponse {
 }
 
 /** The operation that retrieves information about a capacity reservation group. */
-export interface CapacityReservationGroupsGetdefaultResponse
+export interface CapacityReservationGroupsGetDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2605,7 +2605,7 @@ export interface CapacityReservationGroupsListByResourceGroup200Response
 }
 
 /** Lists all of the capacity reservation groups in the specified resource group. Use the nextLink property in the response to get the next page of capacity reservation groups. */
-export interface CapacityReservationGroupsListByResourceGroupdefaultResponse
+export interface CapacityReservationGroupsListByResourceGroupDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2619,7 +2619,7 @@ export interface CapacityReservationGroupsListBySubscription200Response
 }
 
 /** Lists all of the capacity reservation groups in the subscription. Use the nextLink property in the response to get the next page of capacity reservation groups. */
-export interface CapacityReservationGroupsListBySubscriptiondefaultResponse
+export interface CapacityReservationGroupsListBySubscriptionDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2640,7 +2640,7 @@ export interface CapacityReservationsCreateOrUpdate201Response
 }
 
 /** The operation to create or update a capacity reservation. Please note some properties can be set only during capacity reservation creation. Please refer to https://aka.ms/CapacityReservation for more details. */
-export interface CapacityReservationsCreateOrUpdatedefaultResponse
+export interface CapacityReservationsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2659,7 +2659,7 @@ export interface CapacityReservationsUpdate202Response extends HttpResponse {
 }
 
 /** The operation to update a capacity reservation. */
-export interface CapacityReservationsUpdatedefaultResponse
+export interface CapacityReservationsUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2684,7 +2684,7 @@ export interface CapacityReservationsDelete204Response extends HttpResponse {
 }
 
 /** The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. */
-export interface CapacityReservationsDeletedefaultResponse
+export interface CapacityReservationsDeleteDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2697,7 +2697,7 @@ export interface CapacityReservationsGet200Response extends HttpResponse {
 }
 
 /** The operation that retrieves information about the capacity reservation. */
-export interface CapacityReservationsGetdefaultResponse extends HttpResponse {
+export interface CapacityReservationsGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2710,7 +2710,7 @@ export interface CapacityReservationsListByCapacityReservationGroup200Response
 }
 
 /** Lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations. */
-export interface CapacityReservationsListByCapacityReservationGroupdefaultResponse
+export interface CapacityReservationsListByCapacityReservationGroupDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2731,7 +2731,7 @@ export interface LogAnalyticsExportRequestRateByInterval202Response
 }
 
 /** Export logs that show Api requests made by this subscription in the given time window to show throttling activities. */
-export interface LogAnalyticsExportRequestRateByIntervaldefaultResponse
+export interface LogAnalyticsExportRequestRateByIntervalDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2752,7 +2752,7 @@ export interface LogAnalyticsExportThrottledRequests202Response
 }
 
 /** Export logs that show total throttled Api requests for this subscription in the given time window. */
-export interface LogAnalyticsExportThrottledRequestsdefaultResponse
+export interface LogAnalyticsExportThrottledRequestsDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2785,7 +2785,7 @@ export interface VirtualMachineRunCommandsCreateOrUpdate201Response
 }
 
 /** The operation to create or update the run command. */
-export interface VirtualMachineRunCommandsCreateOrUpdatedefaultResponse
+export interface VirtualMachineRunCommandsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2799,7 +2799,7 @@ export interface VirtualMachineRunCommandsUpdate200Response
 }
 
 /** The operation to update the run command. */
-export interface VirtualMachineRunCommandsUpdatedefaultResponse
+export interface VirtualMachineRunCommandsUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2827,7 +2827,7 @@ export interface VirtualMachineRunCommandsDelete204Response
 }
 
 /** The operation to delete the run command. */
-export interface VirtualMachineRunCommandsDeletedefaultResponse
+export interface VirtualMachineRunCommandsDeleteDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2841,7 +2841,7 @@ export interface VirtualMachineRunCommandsGetByVirtualMachine200Response
 }
 
 /** The operation to get the run command. */
-export interface VirtualMachineRunCommandsGetByVirtualMachinedefaultResponse
+export interface VirtualMachineRunCommandsGetByVirtualMachineDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2855,7 +2855,7 @@ export interface VirtualMachineRunCommandsListByVirtualMachine200Response
 }
 
 /** The operation to get all run commands of a Virtual Machine. */
-export interface VirtualMachineRunCommandsListByVirtualMachinedefaultResponse
+export interface VirtualMachineRunCommandsListByVirtualMachineDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2876,7 +2876,7 @@ export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdate201Response
 }
 
 /** The operation to create or update the VMSS VM run command. */
-export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdatedefaultResponse
+export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2890,7 +2890,7 @@ export interface VirtualMachineScaleSetVMRunCommandsUpdate200Response
 }
 
 /** The operation to update the VMSS VM run command. */
-export interface VirtualMachineScaleSetVMRunCommandsUpdatedefaultResponse
+export interface VirtualMachineScaleSetVMRunCommandsUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2918,7 +2918,7 @@ export interface VirtualMachineScaleSetVMRunCommandsDelete204Response
 }
 
 /** The operation to delete the VMSS VM run command. */
-export interface VirtualMachineScaleSetVMRunCommandsDeletedefaultResponse
+export interface VirtualMachineScaleSetVMRunCommandsDeleteDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2932,7 +2932,7 @@ export interface VirtualMachineScaleSetVMRunCommandsGet200Response
 }
 
 /** The operation to get the VMSS VM run command. */
-export interface VirtualMachineScaleSetVMRunCommandsGetdefaultResponse
+export interface VirtualMachineScaleSetVMRunCommandsGetDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -2946,7 +2946,7 @@ export interface VirtualMachineScaleSetVMRunCommandsList200Response
 }
 
 /** The operation to get all run commands of an instance in Virtual Machine Scaleset. */
-export interface VirtualMachineScaleSetVMRunCommandsListdefaultResponse
+export interface VirtualMachineScaleSetVMRunCommandsListDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3049,7 +3049,7 @@ export interface DiskAccessesCreateOrUpdate202Response extends HttpResponse {
 }
 
 /** Creates or updates a disk access resource */
-export interface DiskAccessesCreateOrUpdatedefaultResponse
+export interface DiskAccessesCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3068,7 +3068,7 @@ export interface DiskAccessesUpdate202Response extends HttpResponse {
 }
 
 /** Updates (patches) a disk access resource. */
-export interface DiskAccessesUpdatedefaultResponse extends HttpResponse {
+export interface DiskAccessesUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3080,7 +3080,7 @@ export interface DiskAccessesGet200Response extends HttpResponse {
 }
 
 /** Gets information about a disk access resource. */
-export interface DiskAccessesGetdefaultResponse extends HttpResponse {
+export interface DiskAccessesGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3104,7 +3104,7 @@ export interface DiskAccessesDelete204Response extends HttpResponse {
 }
 
 /** Deletes a disk access resource. */
-export interface DiskAccessesDeletedefaultResponse extends HttpResponse {
+export interface DiskAccessesDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3117,7 +3117,7 @@ export interface DiskAccessesListByResourceGroup200Response
 }
 
 /** Lists all the disk access resources under a resource group. */
-export interface DiskAccessesListByResourceGroupdefaultResponse
+export interface DiskAccessesListByResourceGroupDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3130,7 +3130,7 @@ export interface DiskAccessesList200Response extends HttpResponse {
 }
 
 /** Lists all the disk access resources under a subscription. */
-export interface DiskAccessesListdefaultResponse extends HttpResponse {
+export interface DiskAccessesListDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3157,7 +3157,7 @@ export interface DiskAccessesUpdateAPrivateEndpointConnection202Response
 }
 
 /** Approve or reject a private endpoint connection under disk access resource, this can't be used to create a new private endpoint connection. */
-export interface DiskAccessesUpdateAPrivateEndpointConnectiondefaultResponse
+export interface DiskAccessesUpdateAPrivateEndpointConnectionDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3171,7 +3171,7 @@ export interface DiskAccessesGetAPrivateEndpointConnection200Response
 }
 
 /** Gets information about a private endpoint connection under a disk access resource. */
-export interface DiskAccessesGetAPrivateEndpointConnectiondefaultResponse
+export interface DiskAccessesGetAPrivateEndpointConnectionDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3199,7 +3199,7 @@ export interface DiskAccessesDeleteAPrivateEndpointConnection204Response
 }
 
 /** Deletes a private endpoint connection under a disk access resource. */
-export interface DiskAccessesDeleteAPrivateEndpointConnectiondefaultResponse
+export interface DiskAccessesDeleteAPrivateEndpointConnectionDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3213,7 +3213,7 @@ export interface DiskAccessesListPrivateEndpointConnections200Response
 }
 
 /** List information about private endpoint connections under a disk access resource */
-export interface DiskAccessesListPrivateEndpointConnectionsdefaultResponse
+export interface DiskAccessesListPrivateEndpointConnectionsDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3234,7 +3234,7 @@ export interface DiskEncryptionSetsCreateOrUpdate202Response
 }
 
 /** Creates or updates a disk encryption set */
-export interface DiskEncryptionSetsCreateOrUpdatedefaultResponse
+export interface DiskEncryptionSetsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3253,7 +3253,7 @@ export interface DiskEncryptionSetsUpdate202Response extends HttpResponse {
 }
 
 /** Updates (patches) a disk encryption set. */
-export interface DiskEncryptionSetsUpdatedefaultResponse extends HttpResponse {
+export interface DiskEncryptionSetsUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3265,7 +3265,7 @@ export interface DiskEncryptionSetsGet200Response extends HttpResponse {
 }
 
 /** Gets information about a disk encryption set. */
-export interface DiskEncryptionSetsGetdefaultResponse extends HttpResponse {
+export interface DiskEncryptionSetsGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3289,7 +3289,7 @@ export interface DiskEncryptionSetsDelete204Response extends HttpResponse {
 }
 
 /** Deletes a disk encryption set. */
-export interface DiskEncryptionSetsDeletedefaultResponse extends HttpResponse {
+export interface DiskEncryptionSetsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3302,7 +3302,7 @@ export interface DiskEncryptionSetsListByResourceGroup200Response
 }
 
 /** Lists all the disk encryption sets under a resource group. */
-export interface DiskEncryptionSetsListByResourceGroupdefaultResponse
+export interface DiskEncryptionSetsListByResourceGroupDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3315,7 +3315,7 @@ export interface DiskEncryptionSetsList200Response extends HttpResponse {
 }
 
 /** Lists all the disk encryption sets under a subscription. */
-export interface DiskEncryptionSetsListdefaultResponse extends HttpResponse {
+export interface DiskEncryptionSetsListDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3328,7 +3328,7 @@ export interface DiskEncryptionSetsListAssociatedResources200Response
 }
 
 /** Lists all resources that are encrypted with this disk encryption set. */
-export interface DiskEncryptionSetsListAssociatedResourcesdefaultResponse
+export interface DiskEncryptionSetsListAssociatedResourcesDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3341,7 +3341,7 @@ export interface DiskRestorePointGet200Response extends HttpResponse {
 }
 
 /** Get disk restorePoint resource */
-export interface DiskRestorePointGetdefaultResponse extends HttpResponse {
+export interface DiskRestorePointGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3354,7 +3354,7 @@ export interface DiskRestorePointListByRestorePoint200Response
 }
 
 /** Lists diskRestorePoints under a vmRestorePoint. */
-export interface DiskRestorePointListByRestorePointdefaultResponse
+export interface DiskRestorePointListByRestorePointDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3373,7 +3373,7 @@ export interface DiskRestorePointGrantAccess202Response extends HttpResponse {
 }
 
 /** Grants access to a diskRestorePoint. */
-export interface DiskRestorePointGrantAccessdefaultResponse
+export interface DiskRestorePointGrantAccessDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3392,7 +3392,7 @@ export interface DiskRestorePointRevokeAccess202Response extends HttpResponse {
 }
 
 /** Revokes access to a diskRestorePoint. */
-export interface DiskRestorePointRevokeAccessdefaultResponse
+export interface DiskRestorePointRevokeAccessDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3507,7 +3507,7 @@ export interface GalleriesCreateOrUpdate202Response extends HttpResponse {
 }
 
 /** Create or update a Shared Image Gallery. */
-export interface GalleriesCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface GalleriesCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3519,7 +3519,7 @@ export interface GalleriesUpdate200Response extends HttpResponse {
 }
 
 /** Update a Shared Image Gallery. */
-export interface GalleriesUpdatedefaultResponse extends HttpResponse {
+export interface GalleriesUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3531,7 +3531,7 @@ export interface GalleriesGet200Response extends HttpResponse {
 }
 
 /** Retrieves information about a Shared Image Gallery. */
-export interface GalleriesGetdefaultResponse extends HttpResponse {
+export interface GalleriesGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3555,7 +3555,7 @@ export interface GalleriesDelete204Response extends HttpResponse {
 }
 
 /** Delete a Shared Image Gallery. */
-export interface GalleriesDeletedefaultResponse extends HttpResponse {
+export interface GalleriesDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3567,7 +3567,7 @@ export interface GalleriesListByResourceGroup200Response extends HttpResponse {
 }
 
 /** List galleries under a resource group. */
-export interface GalleriesListByResourceGroupdefaultResponse
+export interface GalleriesListByResourceGroupDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3580,7 +3580,7 @@ export interface GalleriesList200Response extends HttpResponse {
 }
 
 /** List galleries under a subscription. */
-export interface GalleriesListdefaultResponse extends HttpResponse {
+export interface GalleriesListDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3604,7 +3604,7 @@ export interface GalleryImagesCreateOrUpdate202Response extends HttpResponse {
 }
 
 /** Create or update a gallery image definition. */
-export interface GalleryImagesCreateOrUpdatedefaultResponse
+export interface GalleryImagesCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3617,7 +3617,7 @@ export interface GalleryImagesUpdate200Response extends HttpResponse {
 }
 
 /** Update a gallery image definition. */
-export interface GalleryImagesUpdatedefaultResponse extends HttpResponse {
+export interface GalleryImagesUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3629,7 +3629,7 @@ export interface GalleryImagesGet200Response extends HttpResponse {
 }
 
 /** Retrieves information about a gallery image definition. */
-export interface GalleryImagesGetdefaultResponse extends HttpResponse {
+export interface GalleryImagesGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3653,7 +3653,7 @@ export interface GalleryImagesDelete204Response extends HttpResponse {
 }
 
 /** Delete a gallery image. */
-export interface GalleryImagesDeletedefaultResponse extends HttpResponse {
+export interface GalleryImagesDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3665,7 +3665,7 @@ export interface GalleryImagesListByGallery200Response extends HttpResponse {
 }
 
 /** List gallery image definitions in a gallery. */
-export interface GalleryImagesListByGallerydefaultResponse
+export interface GalleryImagesListByGalleryDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3693,7 +3693,7 @@ export interface GalleryImageVersionsCreateOrUpdate202Response
 }
 
 /** Create or update a gallery image version. */
-export interface GalleryImageVersionsCreateOrUpdatedefaultResponse
+export interface GalleryImageVersionsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3706,7 +3706,7 @@ export interface GalleryImageVersionsUpdate200Response extends HttpResponse {
 }
 
 /** Update a gallery image version. */
-export interface GalleryImageVersionsUpdatedefaultResponse
+export interface GalleryImageVersionsUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3719,7 +3719,7 @@ export interface GalleryImageVersionsGet200Response extends HttpResponse {
 }
 
 /** Retrieves information about a gallery image version. */
-export interface GalleryImageVersionsGetdefaultResponse extends HttpResponse {
+export interface GalleryImageVersionsGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3743,7 +3743,7 @@ export interface GalleryImageVersionsDelete204Response extends HttpResponse {
 }
 
 /** Delete a gallery image version. */
-export interface GalleryImageVersionsDeletedefaultResponse
+export interface GalleryImageVersionsDeleteDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3757,7 +3757,7 @@ export interface GalleryImageVersionsListByGalleryImage200Response
 }
 
 /** List gallery image versions in a gallery image definition. */
-export interface GalleryImageVersionsListByGalleryImagedefaultResponse
+export interface GalleryImageVersionsListByGalleryImageDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3785,7 +3785,7 @@ export interface GalleryApplicationsCreateOrUpdate202Response
 }
 
 /** Create or update a gallery Application Definition. */
-export interface GalleryApplicationsCreateOrUpdatedefaultResponse
+export interface GalleryApplicationsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3798,7 +3798,7 @@ export interface GalleryApplicationsUpdate200Response extends HttpResponse {
 }
 
 /** Update a gallery Application Definition. */
-export interface GalleryApplicationsUpdatedefaultResponse extends HttpResponse {
+export interface GalleryApplicationsUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3810,7 +3810,7 @@ export interface GalleryApplicationsGet200Response extends HttpResponse {
 }
 
 /** Retrieves information about a gallery Application Definition. */
-export interface GalleryApplicationsGetdefaultResponse extends HttpResponse {
+export interface GalleryApplicationsGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3834,7 +3834,7 @@ export interface GalleryApplicationsDelete204Response extends HttpResponse {
 }
 
 /** Delete a gallery Application. */
-export interface GalleryApplicationsDeletedefaultResponse extends HttpResponse {
+export interface GalleryApplicationsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3847,7 +3847,7 @@ export interface GalleryApplicationsListByGallery200Response
 }
 
 /** List gallery Application Definitions in a gallery. */
-export interface GalleryApplicationsListByGallerydefaultResponse
+export interface GalleryApplicationsListByGalleryDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3875,7 +3875,7 @@ export interface GalleryApplicationVersionsCreateOrUpdate202Response
 }
 
 /** Create or update a gallery Application Version. */
-export interface GalleryApplicationVersionsCreateOrUpdatedefaultResponse
+export interface GalleryApplicationVersionsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3889,7 +3889,7 @@ export interface GalleryApplicationVersionsUpdate200Response
 }
 
 /** Update a gallery Application Version. */
-export interface GalleryApplicationVersionsUpdatedefaultResponse
+export interface GalleryApplicationVersionsUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3902,7 +3902,7 @@ export interface GalleryApplicationVersionsGet200Response extends HttpResponse {
 }
 
 /** Retrieves information about a gallery Application Version. */
-export interface GalleryApplicationVersionsGetdefaultResponse
+export interface GalleryApplicationVersionsGetDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3930,7 +3930,7 @@ export interface GalleryApplicationVersionsDelete204Response
 }
 
 /** Delete a gallery Application Version. */
-export interface GalleryApplicationVersionsDeletedefaultResponse
+export interface GalleryApplicationVersionsDeleteDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3944,7 +3944,7 @@ export interface GalleryApplicationVersionsListByGalleryApplication200Response
 }
 
 /** List gallery Application Versions in a gallery Application Definition. */
-export interface GalleryApplicationVersionsListByGalleryApplicationdefaultResponse
+export interface GalleryApplicationVersionsListByGalleryApplicationDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3963,7 +3963,7 @@ export interface GallerySharingProfileUpdate202Response extends HttpResponse {
 }
 
 /** Update sharing profile of a gallery. */
-export interface GallerySharingProfileUpdatedefaultResponse
+export interface GallerySharingProfileUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -3976,7 +3976,7 @@ export interface SharedGalleriesList200Response extends HttpResponse {
 }
 
 /** List shared galleries by subscription id or tenant id. */
-export interface SharedGalleriesListdefaultResponse extends HttpResponse {
+export interface SharedGalleriesListDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3988,7 +3988,7 @@ export interface SharedGalleriesGet200Response extends HttpResponse {
 }
 
 /** Get a shared gallery by subscription id or tenant id. */
-export interface SharedGalleriesGetdefaultResponse extends HttpResponse {
+export interface SharedGalleriesGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -4000,7 +4000,7 @@ export interface SharedGalleryImagesList200Response extends HttpResponse {
 }
 
 /** List shared gallery images by subscription id or tenant id. */
-export interface SharedGalleryImagesListdefaultResponse extends HttpResponse {
+export interface SharedGalleryImagesListDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -4012,7 +4012,7 @@ export interface SharedGalleryImagesGet200Response extends HttpResponse {
 }
 
 /** Get a shared gallery image by subscription id or tenant id. */
-export interface SharedGalleryImagesGetdefaultResponse extends HttpResponse {
+export interface SharedGalleryImagesGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -4025,7 +4025,7 @@ export interface SharedGalleryImageVersionsList200Response
 }
 
 /** List shared gallery image versions by subscription id or tenant id. */
-export interface SharedGalleryImageVersionsListdefaultResponse
+export interface SharedGalleryImageVersionsListDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -4038,7 +4038,7 @@ export interface SharedGalleryImageVersionsGet200Response extends HttpResponse {
 }
 
 /** Get a shared gallery image version by subscription id or tenant id. */
-export interface SharedGalleryImageVersionsGetdefaultResponse
+export interface SharedGalleryImageVersionsGetDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -4051,7 +4051,7 @@ export interface CommunityGalleriesGet200Response extends HttpResponse {
 }
 
 /** Get a community gallery by gallery public name. */
-export interface CommunityGalleriesGetdefaultResponse extends HttpResponse {
+export interface CommunityGalleriesGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -4063,7 +4063,7 @@ export interface CommunityGalleryImagesGet200Response extends HttpResponse {
 }
 
 /** Get a community gallery image. */
-export interface CommunityGalleryImagesGetdefaultResponse extends HttpResponse {
+export interface CommunityGalleryImagesGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -4075,7 +4075,7 @@ export interface CommunityGalleryImagesList200Response extends HttpResponse {
 }
 
 /** List community gallery images inside a gallery. */
-export interface CommunityGalleryImagesListdefaultResponse
+export interface CommunityGalleryImagesListDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -4089,7 +4089,7 @@ export interface CommunityGalleryImageVersionsGet200Response
 }
 
 /** Get a community gallery image version. */
-export interface CommunityGalleryImageVersionsGetdefaultResponse
+export interface CommunityGalleryImageVersionsGetDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -4103,7 +4103,7 @@ export interface CommunityGalleryImageVersionsList200Response
 }
 
 /** List community gallery image versions inside an image. */
-export interface CommunityGalleryImageVersionsListdefaultResponse
+export interface CommunityGalleryImageVersionsListDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -4131,7 +4131,7 @@ export interface CloudServiceRoleInstancesDelete204Response
 }
 
 /** Deletes a role instance from a cloud service. */
-export interface CloudServiceRoleInstancesDeletedefaultResponse
+export interface CloudServiceRoleInstancesDeleteDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -4144,7 +4144,7 @@ export interface CloudServiceRoleInstancesGet200Response extends HttpResponse {
 }
 
 /** Gets a role instance from a cloud service. */
-export interface CloudServiceRoleInstancesGetdefaultResponse
+export interface CloudServiceRoleInstancesGetDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -4158,7 +4158,7 @@ export interface CloudServiceRoleInstancesGetInstanceView200Response
 }
 
 /** Retrieves information about the run-time state of a role instance in a cloud service. */
-export interface CloudServiceRoleInstancesGetInstanceViewdefaultResponse
+export interface CloudServiceRoleInstancesGetInstanceViewDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -4171,7 +4171,7 @@ export interface CloudServiceRoleInstancesList200Response extends HttpResponse {
 }
 
 /** Gets the list of all role instances in a cloud service. Use nextLink property in the response to get the next page of role instances. Do this till nextLink is null to fetch all the role instances. */
-export interface CloudServiceRoleInstancesListdefaultResponse
+export interface CloudServiceRoleInstancesListDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -4192,7 +4192,7 @@ export interface CloudServiceRoleInstancesRestart202Response
 }
 
 /** The Reboot Role Instance asynchronous operation requests a reboot of a role instance in the cloud service. */
-export interface CloudServiceRoleInstancesRestartdefaultResponse
+export interface CloudServiceRoleInstancesRestartDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -4213,7 +4213,7 @@ export interface CloudServiceRoleInstancesReimage202Response
 }
 
 /** The Reimage Role Instance asynchronous operation reinstalls the operating system on instances of web roles or worker roles. */
-export interface CloudServiceRoleInstancesReimagedefaultResponse
+export interface CloudServiceRoleInstancesReimageDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -4234,7 +4234,7 @@ export interface CloudServiceRoleInstancesRebuild202Response
 }
 
 /** The Rebuild Role Instance asynchronous operation reinstalls the operating system on instances of web roles or worker roles and initializes the storage resources that are used by them. If you do not want to initialize storage resources, you can use Reimage Role Instance. */
-export interface CloudServiceRoleInstancesRebuilddefaultResponse
+export interface CloudServiceRoleInstancesRebuildDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -4249,7 +4249,7 @@ export interface CloudServiceRoleInstancesGetRemoteDesktopFile200Response
 }
 
 /** Gets a remote desktop file for a role instance in a cloud service. */
-export interface CloudServiceRoleInstancesGetRemoteDesktopFiledefaultResponse
+export interface CloudServiceRoleInstancesGetRemoteDesktopFileDefaultResponse
   extends HttpResponse {
   status: string;
   body: Record<string, unknown>;
@@ -4262,7 +4262,7 @@ export interface CloudServiceRolesGet200Response extends HttpResponse {
 }
 
 /** Gets a role from a cloud service. */
-export interface CloudServiceRolesGetdefaultResponse extends HttpResponse {
+export interface CloudServiceRolesGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -4274,7 +4274,7 @@ export interface CloudServiceRolesList200Response extends HttpResponse {
 }
 
 /** Gets a list of all roles in a cloud service. Use nextLink property in the response to get the next page of roles. Do this till nextLink is null to fetch all the roles. */
-export interface CloudServiceRolesListdefaultResponse extends HttpResponse {
+export interface CloudServiceRolesListDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -4292,7 +4292,7 @@ export interface CloudServicesCreateOrUpdate201Response extends HttpResponse {
 }
 
 /** Create or update a cloud service. Please note some properties can be set only during cloud service creation. */
-export interface CloudServicesCreateOrUpdatedefaultResponse
+export interface CloudServicesCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -4305,7 +4305,7 @@ export interface CloudServicesUpdate200Response extends HttpResponse {
 }
 
 /** Update a cloud service. */
-export interface CloudServicesUpdatedefaultResponse extends HttpResponse {
+export interface CloudServicesUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -4329,7 +4329,7 @@ export interface CloudServicesDelete204Response extends HttpResponse {
 }
 
 /** Deletes a cloud service. */
-export interface CloudServicesDeletedefaultResponse extends HttpResponse {
+export interface CloudServicesDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -4341,7 +4341,7 @@ export interface CloudServicesGet200Response extends HttpResponse {
 }
 
 /** Display information about a cloud service. */
-export interface CloudServicesGetdefaultResponse extends HttpResponse {
+export interface CloudServicesGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -4353,7 +4353,7 @@ export interface CloudServicesGetInstanceView200Response extends HttpResponse {
 }
 
 /** Gets the status of a cloud service. */
-export interface CloudServicesGetInstanceViewdefaultResponse
+export interface CloudServicesGetInstanceViewDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -4366,7 +4366,7 @@ export interface CloudServicesListAll200Response extends HttpResponse {
 }
 
 /** Gets a list of all cloud services in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of Cloud Services. Do this till nextLink is null to fetch all the Cloud Services. */
-export interface CloudServicesListAlldefaultResponse extends HttpResponse {
+export interface CloudServicesListAllDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -4378,7 +4378,7 @@ export interface CloudServicesList200Response extends HttpResponse {
 }
 
 /** Gets a list of all cloud services under a resource group. Use nextLink property in the response to get the next page of Cloud Services. Do this till nextLink is null to fetch all the Cloud Services. */
-export interface CloudServicesListdefaultResponse extends HttpResponse {
+export interface CloudServicesListDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -4396,7 +4396,7 @@ export interface CloudServicesStart202Response extends HttpResponse {
 }
 
 /** Starts the cloud service. */
-export interface CloudServicesStartdefaultResponse extends HttpResponse {
+export interface CloudServicesStartDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -4414,7 +4414,7 @@ export interface CloudServicesPowerOff202Response extends HttpResponse {
 }
 
 /** Power off the cloud service. Note that resources are still attached and you are getting charged for the resources. */
-export interface CloudServicesPowerOffdefaultResponse extends HttpResponse {
+export interface CloudServicesPowerOffDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -4432,7 +4432,7 @@ export interface CloudServicesRestart202Response extends HttpResponse {
 }
 
 /** Restarts one or more role instances in a cloud service. */
-export interface CloudServicesRestartdefaultResponse extends HttpResponse {
+export interface CloudServicesRestartDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -4450,7 +4450,7 @@ export interface CloudServicesReimage202Response extends HttpResponse {
 }
 
 /** Reimage asynchronous operation reinstalls the operating system on instances of web roles or worker roles. */
-export interface CloudServicesReimagedefaultResponse extends HttpResponse {
+export interface CloudServicesReimageDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -4468,7 +4468,7 @@ export interface CloudServicesRebuild202Response extends HttpResponse {
 }
 
 /** Rebuild Role Instances reinstalls the operating system on instances of web roles or worker roles and initializes the storage resources that are used by them. If you do not want to initialize storage resources, you can use Reimage Role Instances. */
-export interface CloudServicesRebuilddefaultResponse extends HttpResponse {
+export interface CloudServicesRebuildDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -4486,7 +4486,7 @@ export interface CloudServicesDeleteInstances202Response extends HttpResponse {
 }
 
 /** Deletes role instances in a cloud service. */
-export interface CloudServicesDeleteInstancesdefaultResponse
+export interface CloudServicesDeleteInstancesDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -4507,7 +4507,7 @@ export interface CloudServicesUpdateDomainWalkUpdateDomain202Response
 }
 
 /** Updates the role instances in the specified update domain. */
-export interface CloudServicesUpdateDomainWalkUpdateDomaindefaultResponse
+export interface CloudServicesUpdateDomainWalkUpdateDomainDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -4521,7 +4521,7 @@ export interface CloudServicesUpdateDomainGetUpdateDomain200Response
 }
 
 /** Gets the specified update domain of a cloud service. Use nextLink property in the response to get the next page of update domains. Do this till nextLink is null to fetch all the update domains. */
-export interface CloudServicesUpdateDomainGetUpdateDomaindefaultResponse
+export interface CloudServicesUpdateDomainGetUpdateDomainDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -4535,7 +4535,7 @@ export interface CloudServicesUpdateDomainListUpdateDomains200Response
 }
 
 /** Gets a list of all update domains in a cloud service. */
-export interface CloudServicesUpdateDomainListUpdateDomainsdefaultResponse
+export interface CloudServicesUpdateDomainListUpdateDomainsDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -4549,7 +4549,7 @@ export interface CloudServiceOperatingSystemsGetOSVersion200Response
 }
 
 /** Gets properties of a guest operating system version that can be specified in the XML service configuration (.cscfg) for a cloud service. */
-export interface CloudServiceOperatingSystemsGetOSVersiondefaultResponse
+export interface CloudServiceOperatingSystemsGetOSVersionDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -4563,7 +4563,7 @@ export interface CloudServiceOperatingSystemsListOSVersions200Response
 }
 
 /** Gets a list of all guest operating system versions available to be specified in the XML service configuration (.cscfg) for a cloud service. Use nextLink property in the response to get the next page of OS versions. Do this till nextLink is null to fetch all the OS versions. */
-export interface CloudServiceOperatingSystemsListOSVersionsdefaultResponse
+export interface CloudServiceOperatingSystemsListOSVersionsDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -4577,7 +4577,7 @@ export interface CloudServiceOperatingSystemsGetOSFamily200Response
 }
 
 /** Gets properties of a guest operating system family that can be specified in the XML service configuration (.cscfg) for a cloud service. */
-export interface CloudServiceOperatingSystemsGetOSFamilydefaultResponse
+export interface CloudServiceOperatingSystemsGetOSFamilyDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
@@ -4591,7 +4591,7 @@ export interface CloudServiceOperatingSystemsListOSFamilies200Response
 }
 
 /** Gets a list of all guest operating system families available to be specified in the XML service configuration (.cscfg) for a cloud service. Use nextLink property in the response to get the next page of OS Families. Do this till nextLink is null to fetch all the OS Families. */
-export interface CloudServiceOperatingSystemsListOSFamiliesdefaultResponse
+export interface CloudServiceOperatingSystemsListOSFamiliesDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
