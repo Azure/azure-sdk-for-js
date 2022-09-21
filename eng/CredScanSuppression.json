@@ -11,10 +11,7 @@
         "apiKey: \"123456789\"",
         "password: SecretBaseUnion;",
         "password: SecureString;",
-        "secret: SecretFragment,",
-        "client_secret=azure_client_secret",
-        "client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-        "client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default"
+        "secret: SecretFragment,"
       ],
       "_justification": "Secret used by test code, it is fake and for testing purpose."
     },
