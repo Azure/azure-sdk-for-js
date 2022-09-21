@@ -12,23 +12,27 @@
       ],
       "_justification": "Secret used by test code, it is fake."
     },
-      {
-        "file": [
-          "eng/common/testproxy/dotnet-devcert.pfx",
-          "sdk/batch/arm-batch/test/fakeTestSecrets.ts",
-          "sdk/batch/batch/test/fakeTestSecrets.ts",
-          "sdk/core/core-http/test/fakeTestSecrets.ts",
-          "sdk/cosmosdb/cosmos/test/public/common/_fakeTestSecrets.ts",
-          "sdk/identity/identity/test/azure-identity-chain-test.crt",
-          "sdk/identity/identity/test/azure-identity-test.crt",
-          "sdk/identity/identity/assets/fake-cert.pem",
-          "sdk/keyvault/keyvault-certificates/ca.key",
-          "sdk/storage/storage-blob/test/utils/fakeTestSecrets.ts",
-          "sdk/servicebus/service-bus/test/public/fakeTestSecrets.ts",
-          "sdk/sql/arm-sql/test/fakeTestSecrets.ts",
-          "sdk/tables/data-tables/test/internal/fakeTestSecrets.ts"
-        ],
-        "_justification": "File contains private key used by test code."
-      }
+    {
+      "file": [
+        "eng/common/testproxy/dotnet-devcert.pfx",
+        "sdk/identity/identity/test/azure-identity-chain-test.crt",
+        "sdk/identity/identity/test/azure-identity-test.crt",
+        "sdk/identity/identity/assets/fake-cert.pem",
+        "sdk/keyvault/keyvault-certificates/ca.key"
+      ],
+      "_justification": "File contains private key used by test code."
+    },
+    {
+      "file": [
+        "sdk/batch/arm-batch/test/fakeTestSecrets.ts",
+        "sdk/batch/batch/test/fakeTestSecrets.ts",
+        "sdk/cosmosdb/cosmos/test/public/common/_fakeTestSecrets.ts",
+        "sdk/storage/storage-blob/test/utils/fakeTestSecrets.ts",
+        "sdk/servicebus/service-bus/test/public/fakeTestSecrets.ts",
+        "sdk/sql/arm-sql/test/fakeTestSecrets.ts",
+        "sdk/tables/data-tables/test/internal/fakeTestSecrets.ts"
+      ],
+      "_justification": "File contains fake credentials used by test code."
+    }
   ]
 }

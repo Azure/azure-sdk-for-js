@@ -7,8 +7,8 @@ import { LogPolicy, LogPolicyOptions } from "../src/policies/logPolicy";
 import { RequestPolicy, RequestPolicyOptions } from "../src/policies/requestPolicy";
 import { HttpOperationResponse } from "../src/httpOperationResponse";
 import { WebResource } from "../src/webResource";
-import { fakeTestPassword2 } from "./fakeTestSecrets";
 import { assert } from "chai";
+import { fakeTestSecretPlaceholder } from "@azure/test-utils";
 
 function getNextPolicy(responseHeaders?: RawHttpHeaders): RequestPolicy {
   return {
@@ -184,7 +184,7 @@ Headers: {
       { a: 1 },
       {
         "api-version": "1.0",
-        secret: fakeTestPassword2,
+        secret: fakeTestSecretPlaceholder,
       }
     );
     delete (request as any).requestId;

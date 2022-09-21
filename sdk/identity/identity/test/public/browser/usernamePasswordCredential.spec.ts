@@ -6,6 +6,7 @@ import { IdentityTestContext } from "../../httpRequests";
 import { UsernamePasswordCredential } from "../../../src";
 import { assert } from "chai";
 import { assertClientCredentials } from "../../authTestUtils";
+import { fakeTestPassword } from "@azure/test-utils";
 
 describe("UsernamePasswordCredential", function () {
   let testContext: IdentityTestContextInterface;
@@ -18,7 +19,7 @@ describe("UsernamePasswordCredential", function () {
   });
 
   it("sends an authorization request with the given username and password", async () => {
-    const password = "p@55wOrd";
+    const password = fakeTestPassword;
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["scope"],

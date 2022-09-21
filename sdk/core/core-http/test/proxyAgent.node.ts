@@ -5,7 +5,7 @@ import "chai/register-should";
 import { HttpHeaders, ProxySettings } from "../src/coreHttp";
 import { createProxyAgent, createTunnel } from "../src/proxyAgent";
 import Tunnel from "tunnel";
-import { fakeTestPassword2 } from "./fakeTestSecrets";
+import { fakeTestSecretPlaceholder } from "@azure/test-utils";
 import https from "https";
 import { should } from "chai";
 
@@ -69,7 +69,7 @@ describe("proxyAgent", () => {
         host: "http://proxy.microsoft.com",
         port: 8080,
         username: "username",
-        password: fakeTestPassword2,
+        password: fakeTestSecretPlaceholder,
       };
 
       const proxyAgent = createProxyAgent("http://example.com", proxySettings);

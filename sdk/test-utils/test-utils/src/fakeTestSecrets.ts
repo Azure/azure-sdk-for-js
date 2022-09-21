@@ -3,5 +3,7 @@
 
 // Centralized location for test/fake secrets so that suppressions
 // are easier to maintain properly
-export const fakeTestPassword1 = "p@55w0rd";
-export const fakeTestPassword2 = "SecretPlaceholder";
+
+export const fakeTestPassword = "p@55w0rd";
+
+export const fakeTestSecretPlaceholder = "SecretPlaceholder";
