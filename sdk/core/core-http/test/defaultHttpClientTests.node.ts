@@ -360,7 +360,7 @@ describe("defaultHttpClient (node)", function () {
       host: "host1",
       port: 8001,
       username: "user1",
-      password: "SecretPlaceholder",
+      password: fakeTestPassword2,
     };
     const request1 = new WebResource("/url");
     request1.proxySettings = proxySettings;
@@ -383,7 +383,7 @@ describe("defaultHttpClient (node)", function () {
       host: "host1",
       port: 8001,
       username: "user1",
-      password: "SecretPlaceholder",
+      password: fakeTestPassword2,
     };
     const request2 = new WebResource("/url");
     request2.proxySettings = {

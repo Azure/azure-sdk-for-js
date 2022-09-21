@@ -7,6 +7,7 @@ import { LogPolicy, LogPolicyOptions } from "../src/policies/logPolicy";
 import { RequestPolicy, RequestPolicyOptions } from "../src/policies/requestPolicy";
 import { HttpOperationResponse } from "../src/httpOperationResponse";
 import { WebResource } from "../src/webResource";
+import { fakeTestPassword2 } from "./fakeTestSecrets";
 import { assert } from "chai";
 
 function getNextPolicy(responseHeaders?: RawHttpHeaders): RequestPolicy {
@@ -183,7 +184,7 @@ Headers: {
       { a: 1 },
       {
         "api-version": "1.0",
-        secret: "SecretPlaceholder",
+        secret: fakeTestPassword2,
       }
     );
     delete (request as any).requestId;
