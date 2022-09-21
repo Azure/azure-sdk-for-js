@@ -95,7 +95,7 @@ export interface CloudEventRequest<TResponse extends AuthenticationEventResponse
 }
 
 // @public
-export function createFailedRequest(error: any): FailedRequest;
+export function createFailedRequest(error: unknown): FailedRequest;
 
 // @public
 export interface FailedRequest extends AuthenticationEventResponse {
