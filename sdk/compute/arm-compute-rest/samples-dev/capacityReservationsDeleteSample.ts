@@ -16,7 +16,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details.
  *
  * @summary The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/capacityReservationExamples/CapacityReservation_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/capacityReservationExamples/CapacityReservation_Delete_MaximumSet_Gen.json
  */
 async function capacityReservationsDeleteMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function capacityReservationsDeleteMaximumSetGen() {
   const capacityReservationGroupName = "aaaaaaaaaaa";
   const capacityReservationName = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: CapacityReservationsDeleteParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(
@@ -47,7 +47,7 @@ capacityReservationsDeleteMaximumSetGen().catch(console.error);
  * This sample demonstrates how to The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details.
  *
  * @summary The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/capacityReservationExamples/CapacityReservation_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/capacityReservationExamples/CapacityReservation_Delete_MinimumSet_Gen.json
  */
 async function capacityReservationsDeleteMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -57,7 +57,7 @@ async function capacityReservationsDeleteMinimumSetGen() {
   const capacityReservationGroupName = "aaa";
   const capacityReservationName = "aaaaaa";
   const options: CapacityReservationsDeleteParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(

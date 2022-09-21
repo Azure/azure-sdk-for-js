@@ -16,7 +16,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to start a virtual machine.
  *
  * @summary The operation to start a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachines_Start_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_Start_MaximumSet_Gen.json
  */
 async function virtualMachinesStartMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function virtualMachinesStartMaximumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmName = "aaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachinesStartParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(
@@ -45,7 +45,7 @@ virtualMachinesStartMaximumSetGen().catch(console.error);
  * This sample demonstrates how to The operation to start a virtual machine.
  *
  * @summary The operation to start a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachines_Start_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_Start_MinimumSet_Gen.json
  */
 async function virtualMachinesStartMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function virtualMachinesStartMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmName = "aaaaa";
   const options: VirtualMachinesStartParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(

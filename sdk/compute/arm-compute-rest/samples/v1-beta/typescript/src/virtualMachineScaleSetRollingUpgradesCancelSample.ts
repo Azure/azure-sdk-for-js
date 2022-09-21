@@ -16,7 +16,7 @@ dotenv.config();
  * This sample demonstrates how to Cancels the current virtual machine scale set rolling upgrade.
  *
  * @summary Cancels the current virtual machine scale set rolling upgrade.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrades_Cancel_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrades_Cancel_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetRollingUpgradesCancelMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function virtualMachineScaleSetRollingUpgradesCancelMaximumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaa";
   const options: VirtualMachineScaleSetRollingUpgradesCancelParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(
@@ -45,7 +45,7 @@ virtualMachineScaleSetRollingUpgradesCancelMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Cancels the current virtual machine scale set rolling upgrade.
  *
  * @summary Cancels the current virtual machine scale set rolling upgrade.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrades_Cancel_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrades_Cancel_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetRollingUpgradesCancelMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function virtualMachineScaleSetRollingUpgradesCancelMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaa";
   const options: VirtualMachineScaleSetRollingUpgradesCancelParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(

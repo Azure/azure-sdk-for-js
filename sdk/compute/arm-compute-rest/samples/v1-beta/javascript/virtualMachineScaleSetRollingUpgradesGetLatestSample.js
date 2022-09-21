@@ -11,7 +11,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the status of the latest virtual machine scale set rolling upgrade.
  *
  * @summary Gets the status of the latest virtual machine scale set rolling upgrade.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrades_GetLatest_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrades_GetLatest_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetRollingUpgradesGetLatestMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -20,7 +20,7 @@ async function virtualMachineScaleSetRollingUpgradesGetLatestMaximumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaa";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -38,7 +38,7 @@ virtualMachineScaleSetRollingUpgradesGetLatestMaximumSetGen().catch(console.erro
  * This sample demonstrates how to Gets the status of the latest virtual machine scale set rolling upgrade.
  *
  * @summary Gets the status of the latest virtual machine scale set rolling upgrade.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrades_GetLatest_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrades_GetLatest_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetRollingUpgradesGetLatestMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ async function virtualMachineScaleSetRollingUpgradesGetLatestMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaa";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(

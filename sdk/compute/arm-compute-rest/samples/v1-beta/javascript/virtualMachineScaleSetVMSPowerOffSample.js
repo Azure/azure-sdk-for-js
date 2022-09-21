@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
  *
  * @summary Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_PowerOff_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_PowerOff_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSPowerOffMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function virtualMachineScaleSetVMSPowerOffMaximumSetGen() {
   const vmScaleSetName = "aaaaaa";
   const instanceId = "aaaaaaaaa";
   const options = {
-    queryParameters: { skipShutdown: true, "api-version": "2022-03-01" },
+    queryParameters: { skipShutdown: true, "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -43,7 +43,7 @@ virtualMachineScaleSetVMSPowerOffMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
  *
  * @summary Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_PowerOff_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_PowerOff_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSPowerOffMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -53,7 +53,7 @@ async function virtualMachineScaleSetVMSPowerOffMinimumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const instanceId = "aaaaaaaaaaaaaaaaaaaaaa";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

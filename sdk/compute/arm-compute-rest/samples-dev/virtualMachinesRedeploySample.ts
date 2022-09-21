@@ -16,7 +16,7 @@ dotenv.config();
  * This sample demonstrates how to Shuts down the virtual machine, moves it to a new node, and powers it back on.
  *
  * @summary Shuts down the virtual machine, moves it to a new node, and powers it back on.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachines_Redeploy_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_Redeploy_MaximumSet_Gen.json
  */
 async function virtualMachinesRedeployMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function virtualMachinesRedeployMaximumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmName = "a";
   const options: VirtualMachinesRedeployParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(
@@ -45,7 +45,7 @@ virtualMachinesRedeployMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Shuts down the virtual machine, moves it to a new node, and powers it back on.
  *
  * @summary Shuts down the virtual machine, moves it to a new node, and powers it back on.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachines_Redeploy_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_Redeploy_MinimumSet_Gen.json
  */
 async function virtualMachinesRedeployMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function virtualMachinesRedeployMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmName = "aaaaaaaaaaaaaaa";
   const options: VirtualMachinesRedeployParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(

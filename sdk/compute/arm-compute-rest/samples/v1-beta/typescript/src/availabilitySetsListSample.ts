@@ -16,7 +16,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all availability sets in a resource group.
  *
  * @summary Lists all availability sets in a resource group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/availabilitySetExamples/AvailabilitySets_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySets_List_MaximumSet_Gen.json
  */
 async function availabilitySetsListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function availabilitySetsListMaximumSetGen() {
   const subscriptionId = "";
   const resourceGroupName = "rgcompute";
   const options: AvailabilitySetsListParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(
@@ -46,7 +46,7 @@ availabilitySetsListMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Lists all availability sets in a resource group.
  *
  * @summary Lists all availability sets in a resource group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/availabilitySetExamples/AvailabilitySets_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySets_List_MinimumSet_Gen.json
  */
 async function availabilitySetsListMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function availabilitySetsListMinimumSetGen() {
   const subscriptionId = "";
   const resourceGroupName = "rgcompute";
   const options: AvailabilitySetsListParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(

@@ -692,11 +692,11 @@ async function createAManagedDiskWithPremiumV2AccountType() {
         creationData: { createOption: "Empty" },
         diskIOPSReadWrite: 125,
         diskMBpsReadWrite: 3000,
-        diskSizeGB: 200,
+        diskSizeGB: 200
       },
-      sku: { name: "PremiumV2_LRS" },
+      sku: { name: "PremiumV2_LRS" }
     },
-    queryParameters: { "api-version": "2022-07-02" },
+    queryParameters: { "api-version": "2022-07-02" }
   };
   const initialResponse = await client
     .path(
@@ -809,11 +809,11 @@ async function createAManagedDiskWithUltraAccountTypeWithReadOnlyPropertySet() {
         diskIOPSReadWrite: 125,
         diskMBpsReadWrite: 3000,
         diskSizeGB: 200,
-        encryption: { type: "EncryptionAtRestWithPlatformKey" },
+        encryption: { type: "EncryptionAtRestWithPlatformKey" }
       },
-      sku: { name: "UltraSSD_LRS" },
+      sku: { name: "UltraSSD_LRS" }
     },
-    queryParameters: { "api-version": "2022-07-02" },
+    queryParameters: { "api-version": "2022-07-02" }
   };
   const initialResponse = await client
     .path(

@@ -16,7 +16,7 @@ dotenv.config();
  * This sample demonstrates how to Shuts down the virtual machine and releases the compute resources. You are not billed for the compute resources that this virtual machine uses.
  *
  * @summary Shuts down the virtual machine and releases the compute resources. You are not billed for the compute resources that this virtual machine uses.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachines_Deallocate_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_Deallocate_MaximumSet_Gen.json
  */
 async function virtualMachinesDeallocateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function virtualMachinesDeallocateMaximumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmName = "aaaaaaaaaa";
   const options: VirtualMachinesDeallocateParameters = {
-    queryParameters: { hibernate: true, "api-version": "2022-03-01" }
+    queryParameters: { hibernate: true, "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(
@@ -45,7 +45,7 @@ virtualMachinesDeallocateMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Shuts down the virtual machine and releases the compute resources. You are not billed for the compute resources that this virtual machine uses.
  *
  * @summary Shuts down the virtual machine and releases the compute resources. You are not billed for the compute resources that this virtual machine uses.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachines_Deallocate_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_Deallocate_MinimumSet_Gen.json
  */
 async function virtualMachinesDeallocateMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function virtualMachinesDeallocateMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmName = "aaaaaaaaaaaaaaaa";
   const options: VirtualMachinesDeallocateParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(

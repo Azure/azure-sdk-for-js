@@ -16,7 +16,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a dedicated host .
  *
  * @summary Create or update a dedicated host .
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/dedicatedHostExamples/DedicatedHost_CreateOrUpdate.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHost_CreateOrUpdate.json
  */
 async function createOrUpdateADedicatedHost() {
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function createOrUpdateADedicatedHost() {
       sku: { name: "DSv3-Type1" },
       tags: { department: "HR" }
     },
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(

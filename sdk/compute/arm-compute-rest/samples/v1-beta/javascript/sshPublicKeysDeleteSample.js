@@ -11,7 +11,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete an SSH public key.
  *
  * @summary Delete an SSH public key.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/sshPublicKeyExamples/SshPublicKeys_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/sshPublicKeyExamples/SshPublicKeys_Delete_MaximumSet_Gen.json
  */
 async function sshPublicKeysDeleteMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -20,7 +20,7 @@ async function sshPublicKeysDeleteMaximumSetGen() {
   const resourceGroupName = "rgcompute";
   const sshPublicKeyName = "aaaaaaaaaa";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -38,7 +38,7 @@ sshPublicKeysDeleteMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Delete an SSH public key.
  *
  * @summary Delete an SSH public key.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/sshPublicKeyExamples/SshPublicKeys_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/sshPublicKeyExamples/SshPublicKeys_Delete_MinimumSet_Gen.json
  */
 async function sshPublicKeysDeleteMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ async function sshPublicKeysDeleteMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const sshPublicKeyName = "aaaaaaaaaaaaaaaaaaa";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(

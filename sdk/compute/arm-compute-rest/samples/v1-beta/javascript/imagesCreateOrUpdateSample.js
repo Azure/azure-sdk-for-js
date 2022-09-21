@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update an image.
  *
  * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/imageExamples/Image_CreateFromABlobWithDiskEncryptionSet.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_CreateFromABlobWithDiskEncryptionSet.json
  */
 async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource(
         },
       },
     },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -56,7 +56,7 @@ createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource().catch(console
  * This sample demonstrates how to Create or update an image.
  *
  * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/imageExamples/Image_CreateFromABlob.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_CreateFromABlob.json
  */
 async function createAVirtualMachineImageFromABlob() {
   const credential = new DefaultAzureCredential();
@@ -78,7 +78,7 @@ async function createAVirtualMachineImageFromABlob() {
         },
       },
     },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -98,7 +98,7 @@ createAVirtualMachineImageFromABlob().catch(console.error);
  * This sample demonstrates how to Create or update an image.
  *
  * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/imageExamples/Image_CreateFromAManagedDiskWithDiskEncryptionSet.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_CreateFromAManagedDiskWithDiskEncryptionSet.json
  */
 async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource() {
   const credential = new DefaultAzureCredential();
@@ -124,7 +124,7 @@ async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetRe
         },
       },
     },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -144,7 +144,7 @@ createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource().catch(
  * This sample demonstrates how to Create or update an image.
  *
  * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/imageExamples/Image_CreateFromAManagedDisk.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_CreateFromAManagedDisk.json
  */
 async function createAVirtualMachineImageFromAManagedDisk() {
   const credential = new DefaultAzureCredential();
@@ -168,7 +168,7 @@ async function createAVirtualMachineImageFromAManagedDisk() {
         },
       },
     },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -188,7 +188,7 @@ createAVirtualMachineImageFromAManagedDisk().catch(console.error);
  * This sample demonstrates how to Create or update an image.
  *
  * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/imageExamples/Image_CreateFromASnapshotWithDiskEncryptionSet.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_CreateFromASnapshotWithDiskEncryptionSet.json
  */
 async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource() {
   const credential = new DefaultAzureCredential();
@@ -214,7 +214,7 @@ async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResou
         },
       },
     },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -234,7 +234,7 @@ createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource().catch(con
  * This sample demonstrates how to Create or update an image.
  *
  * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/imageExamples/Image_CreateFromASnapshot.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_CreateFromASnapshot.json
  */
 async function createAVirtualMachineImageFromASnapshot() {
   const credential = new DefaultAzureCredential();
@@ -258,7 +258,7 @@ async function createAVirtualMachineImageFromASnapshot() {
         },
       },
     },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -278,7 +278,7 @@ createAVirtualMachineImageFromASnapshot().catch(console.error);
  * This sample demonstrates how to Create or update an image.
  *
  * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/imageExamples/Image_CreateFromAVM.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_CreateFromAVM.json
  */
 async function createAVirtualMachineImageFromAnExistingVirtualMachine() {
   const credential = new DefaultAzureCredential();
@@ -295,7 +295,7 @@ async function createAVirtualMachineImageFromAnExistingVirtualMachine() {
         },
       },
     },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -315,7 +315,7 @@ createAVirtualMachineImageFromAnExistingVirtualMachine().catch(console.error);
  * This sample demonstrates how to Create or update an image.
  *
  * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/imageExamples/Image_Create_DataDiskFromABlobIncluded.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_Create_DataDiskFromABlobIncluded.json
  */
 async function createAVirtualMachineImageThatIncludesADataDiskFromABlob() {
   const credential = new DefaultAzureCredential();
@@ -343,7 +343,7 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromABlob() {
         },
       },
     },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -363,7 +363,7 @@ createAVirtualMachineImageThatIncludesADataDiskFromABlob().catch(console.error);
  * This sample demonstrates how to Create or update an image.
  *
  * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/imageExamples/Image_Create_DataDiskFromAManagedDiskIncluded.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_Create_DataDiskFromAManagedDiskIncluded.json
  */
 async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk() {
   const credential = new DefaultAzureCredential();
@@ -395,7 +395,7 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk()
         },
       },
     },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -415,7 +415,7 @@ createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk().catch(console.
  * This sample demonstrates how to Create or update an image.
  *
  * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/imageExamples/Image_Create_DataDiskFromASnapshotIncluded.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_Create_DataDiskFromASnapshotIncluded.json
  */
 async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot() {
   const credential = new DefaultAzureCredential();
@@ -447,7 +447,7 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot() {
         },
       },
     },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

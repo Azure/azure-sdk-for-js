@@ -16,7 +16,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a virtual machine of a VM scale set.
  *
  * @summary Updates a virtual machine of a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Update_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -476,7 +476,7 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
       sku: { name: "Classic", capacity: 29, tier: "aaaaaaaaaaaaaa" },
       tags: {}
     },
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(
@@ -497,7 +497,7 @@ virtualMachineScaleSetVMSUpdateMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Updates a virtual machine of a VM scale set.
  *
  * @summary Updates a virtual machine of a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Update_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSUpdateMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -508,7 +508,7 @@ async function virtualMachineScaleSetVMSUpdateMinimumSetGen() {
   const instanceId = "aaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetVMsUpdateParameters = {
     body: { location: "westus" },
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(

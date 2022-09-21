@@ -12,13 +12,13 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a list of compute operations.
  *
  * @summary Gets a list of compute operations.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/computeRPCommonExamples/Operations_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/computeRPCommonExamples/Operations_List_MaximumSet_Gen.json
  */
 async function operationsListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client.path("/providers/Microsoft.Compute/operations").get(options);
   const pageData = paginate(client, initialResponse);
@@ -34,13 +34,13 @@ operationsListMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Gets a list of compute operations.
  *
  * @summary Gets a list of compute operations.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/computeRPCommonExamples/Operations_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/computeRPCommonExamples/Operations_List_MinimumSet_Gen.json
  */
 async function operationsListMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client.path("/providers/Microsoft.Compute/operations").get(options);
   const pageData = paginate(client, initialResponse);

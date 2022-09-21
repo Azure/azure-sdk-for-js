@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves information about an availability set.
  *
  * @summary Retrieves information about an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/availabilitySetExamples/AvailabilitySets_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySets_Get_MaximumSet_Gen.json
  */
 async function availabilitySetsGetMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function availabilitySetsGetMaximumSetGen() {
   const resourceGroupName = "rgcompute";
   const availabilitySetName = "aaaaaaaaaaaa";
   const options: AvailabilitySetsGetParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(
@@ -42,7 +42,7 @@ availabilitySetsGetMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Retrieves information about an availability set.
  *
  * @summary Retrieves information about an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/availabilitySetExamples/AvailabilitySets_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySets_Get_MinimumSet_Gen.json
  */
 async function availabilitySetsGetMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -51,7 +51,7 @@ async function availabilitySetsGetMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const availabilitySetName = "aaaaaaaaaaaaaaaaaaaa";
   const options: AvailabilitySetsGetParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(

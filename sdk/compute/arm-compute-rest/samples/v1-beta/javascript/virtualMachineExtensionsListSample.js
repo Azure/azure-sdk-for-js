@@ -11,7 +11,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to get all extensions of a Virtual Machine.
  *
  * @summary The operation to get all extensions of a Virtual Machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachineExtensions_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachineExtensions_List_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionsListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function virtualMachineExtensionsListMaximumSetGen() {
   const options = {
     queryParameters: {
       $expand: "aaaaaaaaaaaaaaaaa",
-      "api-version": "2022-03-01",
+      "api-version": "2022-08-01",
     },
   };
   const result = await client
@@ -41,7 +41,7 @@ virtualMachineExtensionsListMaximumSetGen().catch(console.error);
  * This sample demonstrates how to The operation to get all extensions of a Virtual Machine.
  *
  * @summary The operation to get all extensions of a Virtual Machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachineExtensions_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachineExtensions_List_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionsListMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function virtualMachineExtensionsListMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmName = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(

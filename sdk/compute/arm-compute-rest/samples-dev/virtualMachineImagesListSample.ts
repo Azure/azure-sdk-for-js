@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU.
  *
  * @summary Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineImageExamples/VirtualMachineImages_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImages_List_MaximumSet_Gen.json
  */
 async function virtualMachineImagesListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function virtualMachineImagesListMaximumSetGen() {
       $expand: "aaaaaaaaaaaaaaaaaaaaaaaa",
       $top: 18,
       $orderby: "aa",
-      "api-version": "2022-03-01"
+      "api-version": "2022-08-01"
     }
   };
   const result = await client
@@ -51,7 +51,7 @@ virtualMachineImagesListMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU.
  *
  * @summary Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineImageExamples/VirtualMachineImages_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImages_List_MinimumSet_Gen.json
  */
 async function virtualMachineImagesListMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -62,7 +62,7 @@ async function virtualMachineImagesListMinimumSetGen() {
   const offer = "aaaaaaaaaa";
   const skus = "aaaaaa";
   const options: VirtualMachineImagesListParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(

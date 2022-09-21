@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to delete the restore point.
  *
  * @summary The operation to delete the restore point.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/restorePointExamples/RestorePoints_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePoints_Delete_MaximumSet_Gen.json
  */
 async function restorePointsDeleteMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function restorePointsDeleteMaximumSetGen() {
   const restorePointCollectionName = "aaaaaaaaaaaaaaaaaaaaaa";
   const restorePointName = "a";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -43,7 +43,7 @@ restorePointsDeleteMaximumSetGen().catch(console.error);
  * This sample demonstrates how to The operation to delete the restore point.
  *
  * @summary The operation to delete the restore point.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/restorePointExamples/RestorePoints_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePoints_Delete_MinimumSet_Gen.json
  */
 async function restorePointsDeleteMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -53,7 +53,7 @@ async function restorePointsDeleteMinimumSetGen() {
   const restorePointCollectionName = "aaaaaaaaaaaaaaaaa";
   const restorePointName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

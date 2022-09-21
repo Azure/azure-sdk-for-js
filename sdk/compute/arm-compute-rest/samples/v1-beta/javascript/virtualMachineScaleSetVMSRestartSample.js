@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to Restarts a virtual machine in a VM scale set.
  *
  * @summary Restarts a virtual machine in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Restart_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Restart_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSRestartMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function virtualMachineScaleSetVMSRestartMaximumSetGen() {
   const vmScaleSetName = "aa";
   const instanceId = "aaaaaaaaaaaaaaaaa";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -43,7 +43,7 @@ virtualMachineScaleSetVMSRestartMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Restarts a virtual machine in a VM scale set.
  *
  * @summary Restarts a virtual machine in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Restart_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Restart_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSRestartMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -53,7 +53,7 @@ async function virtualMachineScaleSetVMSRestartMinimumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaa";
   const instanceId = "aaaaaa";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
  *
  * @summary Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_UpdateInstances_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_UpdateInstances_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsUpdateInstancesMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function virtualMachineScaleSetsUpdateInstancesMaximumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const options = {
     body: { instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"] },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -42,7 +42,7 @@ virtualMachineScaleSetsUpdateInstancesMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
  *
  * @summary Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_UpdateInstances_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_UpdateInstances_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsUpdateInstancesMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -52,7 +52,7 @@ async function virtualMachineScaleSetsUpdateInstancesMinimumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options = {
     body: { instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"] },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

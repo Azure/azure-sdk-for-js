@@ -11,7 +11,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a virtual machine from a VM scale set.
  *
  * @summary Gets a virtual machine from a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithUserData.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithUserData.json
  */
 async function getVMScaleSetVMWithUserData() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function getVMScaleSetVMWithUserData() {
   const vmScaleSetName = "{vmss-name}";
   const instanceId = "0";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -40,7 +40,7 @@ getVMScaleSetVMWithUserData().catch(console.error);
  * This sample demonstrates how to Gets a virtual machine from a VM scale set.
  *
  * @summary Gets a virtual machine from a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithVMSizeProperties.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithVMSizeProperties.json
  */
 async function getVMScaleSetVMWithVMSizeProperties() {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function getVMScaleSetVMWithVMSizeProperties() {
   const vmScaleSetName = "{vmss-name}";
   const instanceId = "0";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(

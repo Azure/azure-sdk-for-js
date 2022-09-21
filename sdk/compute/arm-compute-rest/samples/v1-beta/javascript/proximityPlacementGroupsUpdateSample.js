@@ -11,7 +11,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update a proximity placement group.
  *
  * @summary Update a proximity placement group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/proximityPlacementGroupExamples/ProximityPlacementGroup_Patch.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/proximityPlacementGroupExamples/ProximityPlacementGroup_Patch.json
  */
 async function createAProximityPlacementGroup() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function createAProximityPlacementGroup() {
   const proximityPlacementGroupName = "myProximityPlacementGroup";
   const options = {
     body: { tags: { additionalProp1: "string" } },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(

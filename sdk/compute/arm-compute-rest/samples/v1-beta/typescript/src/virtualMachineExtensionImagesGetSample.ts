@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a virtual machine extension image.
  *
  * @summary Gets a virtual machine extension image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_Get_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionImagesGetMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function virtualMachineExtensionImagesGetMaximumSetGen() {
   const type = "aaaaaaaaaaaaaaaaaa";
   const version = "aaaaaaaaaaaaaa";
   const options: VirtualMachineExtensionImagesGetParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(
@@ -46,7 +46,7 @@ virtualMachineExtensionImagesGetMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Gets a virtual machine extension image.
  *
  * @summary Gets a virtual machine extension image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_Get_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionImagesGetMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -57,7 +57,7 @@ async function virtualMachineExtensionImagesGetMinimumSetGen() {
   const type = "aa";
   const version = "aaa";
   const options: VirtualMachineExtensionImagesGetParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(

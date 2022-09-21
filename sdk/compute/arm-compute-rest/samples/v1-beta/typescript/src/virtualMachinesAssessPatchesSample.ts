@@ -16,7 +16,7 @@ dotenv.config();
  * This sample demonstrates how to Assess patches on the VM.
  *
  * @summary Assess patches on the VM.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_AssessPatches.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_AssessPatches.json
  */
 async function assessPatchStateOfAVirtualMachine() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function assessPatchStateOfAVirtualMachine() {
   const resourceGroupName = "myResourceGroupName";
   const vmName = "myVMName";
   const options: VirtualMachinesAssessPatchesParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(

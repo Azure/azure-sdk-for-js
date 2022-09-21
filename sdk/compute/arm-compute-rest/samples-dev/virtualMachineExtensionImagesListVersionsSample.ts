@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of virtual machine extension image versions.
  *
  * @summary Gets a list of virtual machine extension image versions.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_ListVersions_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_ListVersions_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionImagesListVersionsMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function virtualMachineExtensionImagesListVersionsMaximumSetGen() {
       $filter: "aaaaaaaaaaaaaaaaaaaaaaaaa",
       $top: 22,
       $orderby: "a",
-      "api-version": "2022-03-01"
+      "api-version": "2022-08-01"
     }
   };
   const result = await client
@@ -49,7 +49,7 @@ virtualMachineExtensionImagesListVersionsMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Gets a list of virtual machine extension image versions.
  *
  * @summary Gets a list of virtual machine extension image versions.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_ListVersions_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_ListVersions_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionImagesListVersionsMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -59,7 +59,7 @@ async function virtualMachineExtensionImagesListVersionsMinimumSetGen() {
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const type = "aaaa";
   const options: VirtualMachineExtensionImagesListVersionsParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(

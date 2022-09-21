@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to update the restore point collection.
  *
  * @summary The operation to update the restore point collection.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/restorePointExamples/RestorePointCollections_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePointCollections_Update_MaximumSet_Gen.json
  */
 async function restorePointCollectionsUpdateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function restorePointCollectionsUpdateMaximumSetGen() {
       },
       tags: { key8536: "aaaaaaaaaaaaaaaaaaa" }
     },
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(
@@ -51,7 +51,7 @@ restorePointCollectionsUpdateMaximumSetGen().catch(console.error);
  * This sample demonstrates how to The operation to update the restore point collection.
  *
  * @summary The operation to update the restore point collection.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/restorePointExamples/RestorePointCollections_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePointCollections_Update_MinimumSet_Gen.json
  */
 async function restorePointCollectionsUpdateMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -61,7 +61,7 @@ async function restorePointCollectionsUpdateMinimumSetGen() {
   const restorePointCollectionName = "aaaaaaaaaaaaaaaaaa";
   const options: RestorePointCollectionsUpdateParameters = {
     body: {},
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(

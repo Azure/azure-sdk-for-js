@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all available run commands for a subscription in a location.
  *
  * @summary Lists all available run commands for a subscription in a location.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/runCommandExamples/RunCommand_List.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/runCommandExamples/RunCommand_List.json
  */
 async function virtualMachineRunCommandList() {
   const credential = new DefaultAzureCredential();
@@ -20,7 +20,7 @@ async function virtualMachineRunCommandList() {
   const subscriptionId = "";
   const location = "SoutheastAsia";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

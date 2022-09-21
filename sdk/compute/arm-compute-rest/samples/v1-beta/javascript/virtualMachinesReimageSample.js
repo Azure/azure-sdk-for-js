@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to Reimages the virtual machine which has an ephemeral OS disk back to its initial state.
  *
  * @summary Reimages the virtual machine which has an ephemeral OS disk back to its initial state.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Reimage.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Reimage.json
  */
 async function reimageAVirtualMachine() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function reimageAVirtualMachine() {
   const vmName = "myVMName";
   const options = {
     body: { tempDisk: true },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

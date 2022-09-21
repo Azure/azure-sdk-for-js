@@ -11,7 +11,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a list of virtual machine image publishers for the specified Azure location.
  *
  * @summary Gets a list of virtual machine image publishers for the specified Azure location.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineImageExamples/VirtualMachineImages_ListPublishers_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImages_ListPublishers_MaximumSet_Gen.json
  */
 async function virtualMachineImagesListPublishersMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -19,7 +19,7 @@ async function virtualMachineImagesListPublishersMaximumSetGen() {
   const subscriptionId = "";
   const location = "aaaaa";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -36,7 +36,7 @@ virtualMachineImagesListPublishersMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Gets a list of virtual machine image publishers for the specified Azure location.
  *
  * @summary Gets a list of virtual machine image publishers for the specified Azure location.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineImageExamples/VirtualMachineImages_ListPublishers_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImages_ListPublishers_MinimumSet_Gen.json
  */
 async function virtualMachineImagesListPublishersMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function virtualMachineImagesListPublishersMinimumSetGen() {
   const subscriptionId = "";
   const location = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(

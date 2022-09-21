@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the status of a VM scale set instance.
  *
  * @summary Gets the status of a VM scale set instance.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_GetInstanceView_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_GetInstanceView_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsGetInstanceViewMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function virtualMachineScaleSetsGetInstanceViewMaximumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsGetInstanceViewParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(
@@ -42,7 +42,7 @@ virtualMachineScaleSetsGetInstanceViewMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Gets the status of a VM scale set instance.
  *
  * @summary Gets the status of a VM scale set instance.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_GetInstanceView_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_GetInstanceView_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsGetInstanceViewMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -51,7 +51,7 @@ async function virtualMachineScaleSetsGetInstanceViewMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsGetInstanceViewParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(

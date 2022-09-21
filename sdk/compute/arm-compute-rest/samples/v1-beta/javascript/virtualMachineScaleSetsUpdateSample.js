@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update a VM scale set.
  *
  * @summary Update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Update_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsUpdateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -266,7 +266,7 @@ async function virtualMachineScaleSetsUpdateMaximumSetGen() {
       sku: { name: "DSv3-Type1", capacity: 7, tier: "aaa" },
       tags: { key246: "aaaaaaaaaaaaaaaaaaaaaaaa" },
     },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -286,7 +286,7 @@ virtualMachineScaleSetsUpdateMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Update a VM scale set.
  *
  * @summary Update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Update_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsUpdateMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -296,7 +296,7 @@ async function virtualMachineScaleSetsUpdateMinimumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaa";
   const options = {
     body: {},
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

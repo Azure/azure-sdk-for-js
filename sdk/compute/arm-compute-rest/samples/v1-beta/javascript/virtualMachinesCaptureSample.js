@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
  *
  * @summary Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachines_Capture_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_Capture_MaximumSet_Gen.json
  */
 async function virtualMachinesCaptureMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function virtualMachinesCaptureMaximumSetGen() {
       overwriteVhds: true,
       vhdPrefix: "aaaaaaaaa",
     },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -46,7 +46,7 @@ virtualMachinesCaptureMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
  *
  * @summary Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachines_Capture_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_Capture_MinimumSet_Gen.json
  */
 async function virtualMachinesCaptureMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -60,7 +60,7 @@ async function virtualMachinesCaptureMinimumSetGen() {
       overwriteVhds: true,
       vhdPrefix: "aaaaaaaaa",
     },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

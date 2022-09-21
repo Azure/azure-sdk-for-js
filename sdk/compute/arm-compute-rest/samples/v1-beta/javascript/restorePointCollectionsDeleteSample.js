@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to delete the restore point collection. This operation will also delete all the contained restore points.
  *
  * @summary The operation to delete the restore point collection. This operation will also delete all the contained restore points.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/restorePointExamples/RestorePointCollections_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePointCollections_Delete_MaximumSet_Gen.json
  */
 async function restorePointCollectionsDeleteMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function restorePointCollectionsDeleteMaximumSetGen() {
   const resourceGroupName = "rgcompute";
   const restorePointCollectionName = "aaaaaaaaaaaaaaaaa";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -41,7 +41,7 @@ restorePointCollectionsDeleteMaximumSetGen().catch(console.error);
  * This sample demonstrates how to The operation to delete the restore point collection. This operation will also delete all the contained restore points.
  *
  * @summary The operation to delete the restore point collection. This operation will also delete all the contained restore points.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/restorePointExamples/RestorePointCollections_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePointCollections_Delete_MinimumSet_Gen.json
  */
 async function restorePointCollectionsDeleteMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function restorePointCollectionsDeleteMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const restorePointCollectionName = "aaaaaaaaaaaaaaaaaaaa";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

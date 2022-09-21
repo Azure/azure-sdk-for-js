@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all the virtual machines under the specified subscription for the specified location.
  *
  * @summary Gets all the virtual machines under the specified subscription for the specified location.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachines_ListBySubscription_ByLocation.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_ListBySubscription_ByLocation.json
  */
 async function listsAllTheVirtualMachinesUnderTheSpecifiedSubscriptionForTheSpecifiedLocation() {
   const credential = new DefaultAzureCredential();
@@ -20,7 +20,7 @@ async function listsAllTheVirtualMachinesUnderTheSpecifiedSubscriptionForTheSpec
   const subscriptionId = "";
   const location = "eastus";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

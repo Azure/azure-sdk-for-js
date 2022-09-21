@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a virtual machine image.
  *
  * @summary Gets a virtual machine image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineImageExamples/VirtualMachineImages_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImages_Get_MaximumSet_Gen.json
  */
 async function virtualMachineImagesGetMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function virtualMachineImagesGetMaximumSetGen() {
   const skus = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const version = "aaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineImagesGetParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(
@@ -48,7 +48,7 @@ virtualMachineImagesGetMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Gets a virtual machine image.
  *
  * @summary Gets a virtual machine image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineImageExamples/VirtualMachineImages_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImages_Get_MinimumSet_Gen.json
  */
 async function virtualMachineImagesGetMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -60,7 +60,7 @@ async function virtualMachineImagesGetMinimumSetGen() {
   const skus = "aaaaaaaaa";
   const version = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineImagesGetParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(

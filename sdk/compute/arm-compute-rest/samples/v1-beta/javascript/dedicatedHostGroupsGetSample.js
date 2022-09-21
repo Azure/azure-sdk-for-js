@@ -11,7 +11,7 @@ require("dotenv").config();
  * This sample demonstrates how to Retrieves information about a dedicated host group.
  *
  * @summary Retrieves information about a dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/dedicatedHostExamples/DedicatedHostGroup_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHostGroup_Get.json
  */
 async function createADedicatedHostGroup() {
   const credential = new DefaultAzureCredential();
@@ -20,7 +20,7 @@ async function createADedicatedHostGroup() {
   const resourceGroupName = "myResourceGroup";
   const hostGroupName = "myDedicatedHostGroup";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -38,7 +38,7 @@ createADedicatedHostGroup().catch(console.error);
  * This sample demonstrates how to Retrieves information about a dedicated host group.
  *
  * @summary Retrieves information about a dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/dedicatedHostExamples/DedicatedHostGroup_Get_UltraSSDEnabledDedicatedHostGroup.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHostGroup_Get_UltraSSDEnabledDedicatedHostGroup.json
  */
 async function createAnUltraSsdEnabledDedicatedHostGroup() {
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ async function createAnUltraSsdEnabledDedicatedHostGroup() {
   const resourceGroupName = "myResourceGroup";
   const hostGroupName = "myDedicatedHostGroup";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(

@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to Gets specific run command for a subscription in a location.
  *
  * @summary Gets specific run command for a subscription in a location.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/runCommandExamples/RunCommand_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/runCommandExamples/RunCommand_Get.json
  */
 async function virtualMachineRunCommandGet() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function virtualMachineRunCommandGet() {
   const location = "SoutheastAsia";
   const commandId = "RunPowerShellScript";
   const options: VirtualMachineRunCommandsGetParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(

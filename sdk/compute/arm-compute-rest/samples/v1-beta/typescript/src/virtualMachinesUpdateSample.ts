@@ -16,7 +16,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to update a virtual machine.
  *
  * @summary The operation to update a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Update_DetachDataDiskUsingToBeDetachedProperty.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Update_DetachDataDiskUsingToBeDetachedProperty.json
  */
 async function updateAVMByDetachingDataDisk() {
   const credential = new DefaultAzureCredential();
@@ -72,7 +72,7 @@ async function updateAVMByDetachingDataDisk() {
         }
       }
     },
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(
@@ -92,7 +92,7 @@ updateAVMByDetachingDataDisk().catch(console.error);
  * This sample demonstrates how to The operation to update a virtual machine.
  *
  * @summary The operation to update a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Update_ForceDetachDataDisk.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Update_ForceDetachDataDisk.json
  */
 async function updateAVMByForceDetachingDataDisk() {
   const credential = new DefaultAzureCredential();
@@ -149,7 +149,7 @@ async function updateAVMByForceDetachingDataDisk() {
         }
       }
     },
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(

@@ -76,7 +76,7 @@ import {
 
 export interface OperationsListQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface OperationsListQueryParam {
@@ -88,7 +88,7 @@ export type OperationsListParameters = OperationsListQueryParam &
 
 export interface UsageListQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface UsageListQueryParam {
@@ -99,7 +99,7 @@ export type UsageListParameters = UsageListQueryParam & RequestParameters;
 
 export interface VirtualMachineSizesListQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineSizesListQueryParam {
@@ -111,7 +111,7 @@ export type VirtualMachineSizesListParameters = VirtualMachineSizesListQueryPara
 
 export interface VirtualMachineScaleSetsListByLocationQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetsListByLocationQueryParam {
@@ -128,7 +128,7 @@ export interface VirtualMachineScaleSetsCreateOrUpdateBodyParam {
 
 export interface VirtualMachineScaleSetsCreateOrUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetsCreateOrUpdateQueryParam {
@@ -152,7 +152,7 @@ export interface VirtualMachineScaleSetsUpdateBodyParam {
 
 export interface VirtualMachineScaleSetsUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetsUpdateQueryParam {
@@ -173,7 +173,7 @@ export interface VirtualMachineScaleSetsDeleteQueryParamProperties {
   /** Optional parameter to force delete a VM scale set. (Feature in Preview) */
   forceDeletion?: boolean;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetsDeleteQueryParam {
@@ -185,7 +185,7 @@ export type VirtualMachineScaleSetsDeleteParameters = VirtualMachineScaleSetsDel
 
 export interface VirtualMachineScaleSetsGetQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
   /** The expand expression to apply on the operation. 'UserData' retrieves the UserData property of the VM scale set that was provided by the user during the VM scale set Create/Update operation */
   $expand?: "userData";
 }
@@ -204,7 +204,7 @@ export interface VirtualMachineScaleSetsDeallocateBodyParam {
 
 export interface VirtualMachineScaleSetsDeallocateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetsDeallocateQueryParam {
@@ -230,7 +230,7 @@ export interface VirtualMachineScaleSetsDeleteInstancesQueryParamProperties {
   /** Optional parameter to force delete virtual machines from the VM scale set. (Feature in Preview) */
   forceDeletion?: boolean;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetsDeleteInstancesQueryParam {
@@ -249,7 +249,7 @@ export type VirtualMachineScaleSetsDeleteInstancesParameters = VirtualMachineSca
 
 export interface VirtualMachineScaleSetsGetInstanceViewQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetsGetInstanceViewQueryParam {
@@ -261,7 +261,7 @@ export type VirtualMachineScaleSetsGetInstanceViewParameters = VirtualMachineSca
 
 export interface VirtualMachineScaleSetsListQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetsListQueryParam {
@@ -273,7 +273,7 @@ export type VirtualMachineScaleSetsListParameters = VirtualMachineScaleSetsListQ
 
 export interface VirtualMachineScaleSetsListAllQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetsListAllQueryParam {
@@ -285,7 +285,7 @@ export type VirtualMachineScaleSetsListAllParameters = VirtualMachineScaleSetsLi
 
 export interface VirtualMachineScaleSetsListSkusQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetsListSkusQueryParam {
@@ -297,7 +297,7 @@ export type VirtualMachineScaleSetsListSkusParameters = VirtualMachineScaleSetsL
 
 export interface VirtualMachineScaleSetsGetOSUpgradeHistoryQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetsGetOSUpgradeHistoryQueryParam {
@@ -316,7 +316,7 @@ export interface VirtualMachineScaleSetsPowerOffQueryParamProperties {
   /** The parameter to request non-graceful VM shutdown. True value for this flag indicates non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false if not specified */
   skipShutdown?: boolean;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetsPowerOffQueryParam {
@@ -340,7 +340,7 @@ export interface VirtualMachineScaleSetsRestartBodyParam {
 
 export interface VirtualMachineScaleSetsRestartQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetsRestartQueryParam {
@@ -364,7 +364,7 @@ export interface VirtualMachineScaleSetsStartBodyParam {
 
 export interface VirtualMachineScaleSetsStartQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetsStartQueryParam {
@@ -388,7 +388,7 @@ export interface VirtualMachineScaleSetsRedeployBodyParam {
 
 export interface VirtualMachineScaleSetsRedeployQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetsRedeployQueryParam {
@@ -412,7 +412,7 @@ export interface VirtualMachineScaleSetsPerformMaintenanceBodyParam {
 
 export interface VirtualMachineScaleSetsPerformMaintenanceQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetsPerformMaintenanceQueryParam {
@@ -436,7 +436,7 @@ export interface VirtualMachineScaleSetsUpdateInstancesBodyParam {
 
 export interface VirtualMachineScaleSetsUpdateInstancesQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetsUpdateInstancesQueryParam {
@@ -460,7 +460,7 @@ export interface VirtualMachineScaleSetsReimageBodyParam {
 
 export interface VirtualMachineScaleSetsReimageQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetsReimageQueryParam {
@@ -484,7 +484,7 @@ export interface VirtualMachineScaleSetsReimageAllBodyParam {
 
 export interface VirtualMachineScaleSetsReimageAllQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetsReimageAllQueryParam {
@@ -503,7 +503,7 @@ export type VirtualMachineScaleSetsReimageAllParameters = VirtualMachineScaleSet
 
 export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
   /** The platform update domain for which a manual recovery walk is requested */
   platformUpdateDomain: number;
   /** The zone in which the manual recovery walk is requested for cross zone virtual machine scale set */
@@ -526,7 +526,7 @@ export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupBodyParam {
 
 export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupQueryParam {
@@ -550,7 +550,7 @@ export interface VirtualMachineScaleSetsSetOrchestrationServiceStateBodyParam {
 
 export interface VirtualMachineScaleSetsSetOrchestrationServiceStateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetsSetOrchestrationServiceStateQueryParam {
@@ -574,7 +574,7 @@ export interface VirtualMachineScaleSetExtensionsCreateOrUpdateBodyParam {
 
 export interface VirtualMachineScaleSetExtensionsCreateOrUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetExtensionsCreateOrUpdateQueryParam {
@@ -598,7 +598,7 @@ export interface VirtualMachineScaleSetExtensionsUpdateBodyParam {
 
 export interface VirtualMachineScaleSetExtensionsUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetExtensionsUpdateQueryParam {
@@ -617,7 +617,7 @@ export type VirtualMachineScaleSetExtensionsUpdateParameters = VirtualMachineSca
 
 export interface VirtualMachineScaleSetExtensionsDeleteQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetExtensionsDeleteQueryParam {
@@ -631,7 +631,7 @@ export interface VirtualMachineScaleSetExtensionsGetQueryParamProperties {
   /** The expand expression to apply on the operation. */
   $expand?: string;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetExtensionsGetQueryParam {
@@ -643,7 +643,7 @@ export type VirtualMachineScaleSetExtensionsGetParameters = VirtualMachineScaleS
 
 export interface VirtualMachineScaleSetExtensionsListQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetExtensionsListQueryParam {
@@ -655,7 +655,7 @@ export type VirtualMachineScaleSetExtensionsListParameters = VirtualMachineScale
 
 export interface VirtualMachineScaleSetRollingUpgradesCancelQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetRollingUpgradesCancelQueryParam {
@@ -667,7 +667,7 @@ export type VirtualMachineScaleSetRollingUpgradesCancelParameters = VirtualMachi
 
 export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeQueryParam {
@@ -679,7 +679,7 @@ export type VirtualMachineScaleSetRollingUpgradesStartOSUpgradeParameters = Virt
 
 export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeQueryParam {
@@ -691,7 +691,7 @@ export type VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeParameters
 
 export interface VirtualMachineScaleSetRollingUpgradesGetLatestQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetRollingUpgradesGetLatestQueryParam {
@@ -708,7 +708,7 @@ export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateBodyParam {
 
 export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateQueryParam {
@@ -732,7 +732,7 @@ export interface VirtualMachineScaleSetVMExtensionsUpdateBodyParam {
 
 export interface VirtualMachineScaleSetVMExtensionsUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMExtensionsUpdateQueryParam {
@@ -751,7 +751,7 @@ export type VirtualMachineScaleSetVMExtensionsUpdateParameters = VirtualMachineS
 
 export interface VirtualMachineScaleSetVMExtensionsDeleteQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMExtensionsDeleteQueryParam {
@@ -765,7 +765,7 @@ export interface VirtualMachineScaleSetVMExtensionsGetQueryParamProperties {
   /** The expand expression to apply on the operation. */
   $expand?: string;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMExtensionsGetQueryParam {
@@ -779,7 +779,7 @@ export interface VirtualMachineScaleSetVMExtensionsListQueryParamProperties {
   /** The expand expression to apply on the operation. */
   $expand?: string;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMExtensionsListQueryParam {
@@ -796,7 +796,7 @@ export interface VirtualMachineScaleSetVMsReimageBodyParam {
 
 export interface VirtualMachineScaleSetVMsReimageQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMsReimageQueryParam {
@@ -815,7 +815,7 @@ export type VirtualMachineScaleSetVMsReimageParameters = VirtualMachineScaleSetV
 
 export interface VirtualMachineScaleSetVMsReimageAllQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMsReimageAllQueryParam {
@@ -827,7 +827,7 @@ export type VirtualMachineScaleSetVMsReimageAllParameters = VirtualMachineScaleS
 
 export interface VirtualMachineScaleSetVMsDeallocateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMsDeallocateQueryParam {
@@ -844,7 +844,7 @@ export interface VirtualMachineScaleSetVMsUpdateBodyParam {
 
 export interface VirtualMachineScaleSetVMsUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMsUpdateQueryParam {
@@ -865,7 +865,7 @@ export interface VirtualMachineScaleSetVMsDeleteQueryParamProperties {
   /** Optional parameter to force delete a virtual machine from a VM scale set. (Feature in Preview) */
   forceDeletion?: boolean;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMsDeleteQueryParam {
@@ -879,7 +879,7 @@ export interface VirtualMachineScaleSetVMsGetQueryParamProperties {
   /** The expand expression to apply on the operation. 'InstanceView' will retrieve the instance view of the virtual machine. 'UserData' will retrieve the UserData of the virtual machine. */
   $expand?: "instanceView" | "userData";
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMsGetQueryParam {
@@ -891,7 +891,7 @@ export type VirtualMachineScaleSetVMsGetParameters = VirtualMachineScaleSetVMsGe
 
 export interface VirtualMachineScaleSetVMsGetInstanceViewQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMsGetInstanceViewQueryParam {
@@ -909,7 +909,7 @@ export interface VirtualMachineScaleSetVMsListQueryParamProperties {
   /** The expand expression to apply to the operation. Allowed values are 'instanceView'. */
   $expand?: string;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMsListQueryParam {
@@ -923,7 +923,7 @@ export interface VirtualMachineScaleSetVMsPowerOffQueryParamProperties {
   /** The parameter to request non-graceful VM shutdown. True value for this flag indicates non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false if not specified */
   skipShutdown?: boolean;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMsPowerOffQueryParam {
@@ -935,7 +935,7 @@ export type VirtualMachineScaleSetVMsPowerOffParameters = VirtualMachineScaleSet
 
 export interface VirtualMachineScaleSetVMsRestartQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMsRestartQueryParam {
@@ -947,7 +947,7 @@ export type VirtualMachineScaleSetVMsRestartParameters = VirtualMachineScaleSetV
 
 export interface VirtualMachineScaleSetVMsStartQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMsStartQueryParam {
@@ -959,7 +959,7 @@ export type VirtualMachineScaleSetVMsStartParameters = VirtualMachineScaleSetVMs
 
 export interface VirtualMachineScaleSetVMsRedeployQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMsRedeployQueryParam {
@@ -973,7 +973,7 @@ export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataQueryParamP
   /** Expiration duration in minutes for the SAS URIs with a value between 1 to 1440 minutes. <br><br>NOTE: If not specified, SAS URIs will be generated with a default expiration duration of 120 minutes. */
   sasUriExpirationTimeInMinutes?: number;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataQueryParam {
@@ -985,7 +985,7 @@ export type VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataParameters = Vir
 
 export interface VirtualMachineScaleSetVMsPerformMaintenanceQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMsPerformMaintenanceQueryParam {
@@ -997,7 +997,7 @@ export type VirtualMachineScaleSetVMsPerformMaintenanceParameters = VirtualMachi
 
 export interface VirtualMachineScaleSetVMsSimulateEvictionQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMsSimulateEvictionQueryParam {
@@ -1014,7 +1014,7 @@ export interface VirtualMachineScaleSetVMsRunCommandBodyParam {
 
 export interface VirtualMachineScaleSetVMsRunCommandQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMsRunCommandQueryParam {
@@ -1038,7 +1038,7 @@ export interface VirtualMachineExtensionsCreateOrUpdateBodyParam {
 
 export interface VirtualMachineExtensionsCreateOrUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineExtensionsCreateOrUpdateQueryParam {
@@ -1062,7 +1062,7 @@ export interface VirtualMachineExtensionsUpdateBodyParam {
 
 export interface VirtualMachineExtensionsUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineExtensionsUpdateQueryParam {
@@ -1081,7 +1081,7 @@ export type VirtualMachineExtensionsUpdateParameters = VirtualMachineExtensionsU
 
 export interface VirtualMachineExtensionsDeleteQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineExtensionsDeleteQueryParam {
@@ -1095,7 +1095,7 @@ export interface VirtualMachineExtensionsGetQueryParamProperties {
   /** The expand expression to apply on the operation. */
   $expand?: string;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineExtensionsGetQueryParam {
@@ -1109,7 +1109,7 @@ export interface VirtualMachineExtensionsListQueryParamProperties {
   /** The expand expression to apply on the operation. */
   $expand?: string;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineExtensionsListQueryParam {
@@ -1121,7 +1121,7 @@ export type VirtualMachineExtensionsListParameters = VirtualMachineExtensionsLis
 
 export interface VirtualMachinesListByLocationQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesListByLocationQueryParam {
@@ -1138,7 +1138,7 @@ export interface VirtualMachinesCaptureBodyParam {
 
 export interface VirtualMachinesCaptureQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesCaptureQueryParam {
@@ -1162,7 +1162,7 @@ export interface VirtualMachinesCreateOrUpdateBodyParam {
 
 export interface VirtualMachinesCreateOrUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesCreateOrUpdateQueryParam {
@@ -1186,7 +1186,7 @@ export interface VirtualMachinesUpdateBodyParam {
 
 export interface VirtualMachinesUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesUpdateQueryParam {
@@ -1207,7 +1207,7 @@ export interface VirtualMachinesDeleteQueryParamProperties {
   /** Optional parameter to force delete virtual machines. */
   forceDeletion?: boolean;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesDeleteQueryParam {
@@ -1221,7 +1221,7 @@ export interface VirtualMachinesGetQueryParamProperties {
   /** The expand expression to apply on the operation. 'InstanceView' retrieves a snapshot of the runtime properties of the virtual machine that is managed by the platform and can change outside of control plane operations. 'UserData' retrieves the UserData property as part of the VM model view that was provided by the user during the VM Create/Update operation. */
   $expand?: "instanceView" | "userData";
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesGetQueryParam {
@@ -1233,7 +1233,7 @@ export type VirtualMachinesGetParameters = VirtualMachinesGetQueryParam &
 
 export interface VirtualMachinesInstanceViewQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesInstanceViewQueryParam {
@@ -1245,7 +1245,7 @@ export type VirtualMachinesInstanceViewParameters = VirtualMachinesInstanceViewQ
 
 export interface VirtualMachinesConvertToManagedDisksQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesConvertToManagedDisksQueryParam {
@@ -1259,7 +1259,7 @@ export interface VirtualMachinesDeallocateQueryParamProperties {
   /** Optional parameter to hibernate a virtual machine. (Feature in Preview) */
   hibernate?: boolean;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesDeallocateQueryParam {
@@ -1271,7 +1271,7 @@ export type VirtualMachinesDeallocateParameters = VirtualMachinesDeallocateQuery
 
 export interface VirtualMachinesGeneralizeQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesGeneralizeQueryParam {
@@ -1285,7 +1285,7 @@ export interface VirtualMachinesListQueryParamProperties {
   /** The system query option to filter VMs returned in the response. Allowed value is 'virtualMachineScaleSet/id' eq /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}' */
   $filter?: string;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesListQueryParam {
@@ -1297,7 +1297,7 @@ export type VirtualMachinesListParameters = VirtualMachinesListQueryParam &
 
 export interface VirtualMachinesListAllQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
   /** statusOnly=true enables fetching run time status of all Virtual Machines in the subscription. */
   statusOnly?: string;
   /** The system query option to filter VMs returned in the response. Allowed value is 'virtualMachineScaleSet/id' eq /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}' */
@@ -1313,7 +1313,7 @@ export type VirtualMachinesListAllParameters = VirtualMachinesListAllQueryParam 
 
 export interface VirtualMachinesListAvailableSizesQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesListAvailableSizesQueryParam {
@@ -1327,7 +1327,7 @@ export interface VirtualMachinesPowerOffQueryParamProperties {
   /** The parameter to request non-graceful VM shutdown. True value for this flag indicates non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false if not specified */
   skipShutdown?: boolean;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesPowerOffQueryParam {
@@ -1339,7 +1339,7 @@ export type VirtualMachinesPowerOffParameters = VirtualMachinesPowerOffQueryPara
 
 export interface VirtualMachinesReapplyQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesReapplyQueryParam {
@@ -1351,7 +1351,7 @@ export type VirtualMachinesReapplyParameters = VirtualMachinesReapplyQueryParam 
 
 export interface VirtualMachinesRestartQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesRestartQueryParam {
@@ -1363,7 +1363,7 @@ export type VirtualMachinesRestartParameters = VirtualMachinesRestartQueryParam 
 
 export interface VirtualMachinesStartQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesStartQueryParam {
@@ -1375,7 +1375,7 @@ export type VirtualMachinesStartParameters = VirtualMachinesStartQueryParam &
 
 export interface VirtualMachinesRedeployQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesRedeployQueryParam {
@@ -1392,7 +1392,7 @@ export interface VirtualMachinesReimageBodyParam {
 
 export interface VirtualMachinesReimageQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesReimageQueryParam {
@@ -1413,7 +1413,7 @@ export interface VirtualMachinesRetrieveBootDiagnosticsDataQueryParamProperties 
   /** Expiration duration in minutes for the SAS URIs with a value between 1 to 1440 minutes. <br><br>NOTE: If not specified, SAS URIs will be generated with a default expiration duration of 120 minutes. */
   sasUriExpirationTimeInMinutes?: number;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesRetrieveBootDiagnosticsDataQueryParam {
@@ -1425,7 +1425,7 @@ export type VirtualMachinesRetrieveBootDiagnosticsDataParameters = VirtualMachin
 
 export interface VirtualMachinesPerformMaintenanceQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesPerformMaintenanceQueryParam {
@@ -1437,7 +1437,7 @@ export type VirtualMachinesPerformMaintenanceParameters = VirtualMachinesPerform
 
 export interface VirtualMachinesSimulateEvictionQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesSimulateEvictionQueryParam {
@@ -1449,7 +1449,7 @@ export type VirtualMachinesSimulateEvictionParameters = VirtualMachinesSimulateE
 
 export interface VirtualMachinesAssessPatchesQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesAssessPatchesQueryParam {
@@ -1466,7 +1466,7 @@ export interface VirtualMachinesInstallPatchesBodyParam {
 
 export interface VirtualMachinesInstallPatchesQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesInstallPatchesQueryParam {
@@ -1490,7 +1490,7 @@ export interface VirtualMachinesRunCommandBodyParam {
 
 export interface VirtualMachinesRunCommandQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachinesRunCommandQueryParam {
@@ -1509,7 +1509,7 @@ export type VirtualMachinesRunCommandParameters = VirtualMachinesRunCommandQuery
 
 export interface VirtualMachineImagesGetQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineImagesGetQueryParam {
@@ -1525,7 +1525,7 @@ export interface VirtualMachineImagesListQueryParamProperties {
   $top?: number;
   $orderby?: string;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineImagesListQueryParam {
@@ -1537,7 +1537,7 @@ export type VirtualMachineImagesListParameters = VirtualMachineImagesListQueryPa
 
 export interface VirtualMachineImagesListOffersQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineImagesListOffersQueryParam {
@@ -1549,7 +1549,7 @@ export type VirtualMachineImagesListOffersParameters = VirtualMachineImagesListO
 
 export interface VirtualMachineImagesListPublishersQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineImagesListPublishersQueryParam {
@@ -1561,7 +1561,7 @@ export type VirtualMachineImagesListPublishersParameters = VirtualMachineImagesL
 
 export interface VirtualMachineImagesListSkusQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineImagesListSkusQueryParam {
@@ -1573,7 +1573,7 @@ export type VirtualMachineImagesListSkusParameters = VirtualMachineImagesListSku
 
 export interface VirtualMachineImagesListByEdgeZoneQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineImagesListByEdgeZoneQueryParam {
@@ -1585,7 +1585,7 @@ export type VirtualMachineImagesListByEdgeZoneParameters = VirtualMachineImagesL
 
 export interface VirtualMachineImagesEdgeZoneGetQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineImagesEdgeZoneGetQueryParam {
@@ -1603,7 +1603,7 @@ export interface VirtualMachineImagesEdgeZoneListQueryParamProperties {
   /** Specifies the order of the results returned. Formatted as an OData query. */
   $orderby?: string;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineImagesEdgeZoneListQueryParam {
@@ -1615,7 +1615,7 @@ export type VirtualMachineImagesEdgeZoneListParameters = VirtualMachineImagesEdg
 
 export interface VirtualMachineImagesEdgeZoneListOffersQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineImagesEdgeZoneListOffersQueryParam {
@@ -1627,7 +1627,7 @@ export type VirtualMachineImagesEdgeZoneListOffersParameters = VirtualMachineIma
 
 export interface VirtualMachineImagesEdgeZoneListPublishersQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineImagesEdgeZoneListPublishersQueryParam {
@@ -1639,7 +1639,7 @@ export type VirtualMachineImagesEdgeZoneListPublishersParameters = VirtualMachin
 
 export interface VirtualMachineImagesEdgeZoneListSkusQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineImagesEdgeZoneListSkusQueryParam {
@@ -1651,7 +1651,7 @@ export type VirtualMachineImagesEdgeZoneListSkusParameters = VirtualMachineImage
 
 export interface VirtualMachineExtensionImagesGetQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineExtensionImagesGetQueryParam {
@@ -1663,7 +1663,7 @@ export type VirtualMachineExtensionImagesGetParameters = VirtualMachineExtension
 
 export interface VirtualMachineExtensionImagesListTypesQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineExtensionImagesListTypesQueryParam {
@@ -1679,7 +1679,7 @@ export interface VirtualMachineExtensionImagesListVersionsQueryParamProperties {
   $top?: number;
   $orderby?: string;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineExtensionImagesListVersionsQueryParam {
@@ -1696,7 +1696,7 @@ export interface AvailabilitySetsCreateOrUpdateBodyParam {
 
 export interface AvailabilitySetsCreateOrUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface AvailabilitySetsCreateOrUpdateQueryParam {
@@ -1720,7 +1720,7 @@ export interface AvailabilitySetsUpdateBodyParam {
 
 export interface AvailabilitySetsUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface AvailabilitySetsUpdateQueryParam {
@@ -1739,7 +1739,7 @@ export type AvailabilitySetsUpdateParameters = AvailabilitySetsUpdateQueryParam 
 
 export interface AvailabilitySetsDeleteQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface AvailabilitySetsDeleteQueryParam {
@@ -1751,7 +1751,7 @@ export type AvailabilitySetsDeleteParameters = AvailabilitySetsDeleteQueryParam 
 
 export interface AvailabilitySetsGetQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface AvailabilitySetsGetQueryParam {
@@ -1763,7 +1763,7 @@ export type AvailabilitySetsGetParameters = AvailabilitySetsGetQueryParam &
 
 export interface AvailabilitySetsListBySubscriptionQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
   /** The expand expression to apply to the operation. Allowed values are 'instanceView'. */
   $expand?: string;
 }
@@ -1777,7 +1777,7 @@ export type AvailabilitySetsListBySubscriptionParameters = AvailabilitySetsListB
 
 export interface AvailabilitySetsListQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface AvailabilitySetsListQueryParam {
@@ -1789,7 +1789,7 @@ export type AvailabilitySetsListParameters = AvailabilitySetsListQueryParam &
 
 export interface AvailabilitySetsListAvailableSizesQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface AvailabilitySetsListAvailableSizesQueryParam {
@@ -1806,7 +1806,7 @@ export interface ProximityPlacementGroupsCreateOrUpdateBodyParam {
 
 export interface ProximityPlacementGroupsCreateOrUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface ProximityPlacementGroupsCreateOrUpdateQueryParam {
@@ -1830,7 +1830,7 @@ export interface ProximityPlacementGroupsUpdateBodyParam {
 
 export interface ProximityPlacementGroupsUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface ProximityPlacementGroupsUpdateQueryParam {
@@ -1849,7 +1849,7 @@ export type ProximityPlacementGroupsUpdateParameters = ProximityPlacementGroupsU
 
 export interface ProximityPlacementGroupsDeleteQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface ProximityPlacementGroupsDeleteQueryParam {
@@ -1863,7 +1863,7 @@ export interface ProximityPlacementGroupsGetQueryParamProperties {
   /** includeColocationStatus=true enables fetching the colocation status of all the resources in the proximity placement group. */
   includeColocationStatus?: string;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface ProximityPlacementGroupsGetQueryParam {
@@ -1875,7 +1875,7 @@ export type ProximityPlacementGroupsGetParameters = ProximityPlacementGroupsGetQ
 
 export interface ProximityPlacementGroupsListBySubscriptionQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface ProximityPlacementGroupsListBySubscriptionQueryParam {
@@ -1887,7 +1887,7 @@ export type ProximityPlacementGroupsListBySubscriptionParameters = ProximityPlac
 
 export interface ProximityPlacementGroupsListByResourceGroupQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface ProximityPlacementGroupsListByResourceGroupQueryParam {
@@ -1904,7 +1904,7 @@ export interface DedicatedHostGroupsCreateOrUpdateBodyParam {
 
 export interface DedicatedHostGroupsCreateOrUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface DedicatedHostGroupsCreateOrUpdateQueryParam {
@@ -1928,7 +1928,7 @@ export interface DedicatedHostGroupsUpdateBodyParam {
 
 export interface DedicatedHostGroupsUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface DedicatedHostGroupsUpdateQueryParam {
@@ -1947,7 +1947,7 @@ export type DedicatedHostGroupsUpdateParameters = DedicatedHostGroupsUpdateQuery
 
 export interface DedicatedHostGroupsDeleteQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface DedicatedHostGroupsDeleteQueryParam {
@@ -1961,7 +1961,7 @@ export interface DedicatedHostGroupsGetQueryParamProperties {
   /** The expand expression to apply on the operation. 'InstanceView' will retrieve the list of instance views of the dedicated hosts under the dedicated host group. 'UserData' is not supported for dedicated host group. */
   $expand?: "instanceView" | "userData";
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface DedicatedHostGroupsGetQueryParam {
@@ -1973,7 +1973,7 @@ export type DedicatedHostGroupsGetParameters = DedicatedHostGroupsGetQueryParam 
 
 export interface DedicatedHostGroupsListByResourceGroupQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface DedicatedHostGroupsListByResourceGroupQueryParam {
@@ -1985,7 +1985,7 @@ export type DedicatedHostGroupsListByResourceGroupParameters = DedicatedHostGrou
 
 export interface DedicatedHostGroupsListBySubscriptionQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface DedicatedHostGroupsListBySubscriptionQueryParam {
@@ -2002,7 +2002,7 @@ export interface DedicatedHostsCreateOrUpdateBodyParam {
 
 export interface DedicatedHostsCreateOrUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface DedicatedHostsCreateOrUpdateQueryParam {
@@ -2026,7 +2026,7 @@ export interface DedicatedHostsUpdateBodyParam {
 
 export interface DedicatedHostsUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface DedicatedHostsUpdateQueryParam {
@@ -2045,7 +2045,7 @@ export type DedicatedHostsUpdateParameters = DedicatedHostsUpdateQueryParam &
 
 export interface DedicatedHostsDeleteQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface DedicatedHostsDeleteQueryParam {
@@ -2059,7 +2059,7 @@ export interface DedicatedHostsGetQueryParamProperties {
   /** The expand expression to apply on the operation. 'InstanceView' will retrieve the list of instance views of the dedicated host. 'UserData' is not supported for dedicated host. */
   $expand?: "instanceView" | "userData";
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface DedicatedHostsGetQueryParam {
@@ -2071,7 +2071,7 @@ export type DedicatedHostsGetParameters = DedicatedHostsGetQueryParam &
 
 export interface DedicatedHostsListByHostGroupQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface DedicatedHostsListByHostGroupQueryParam {
@@ -2083,7 +2083,7 @@ export type DedicatedHostsListByHostGroupParameters = DedicatedHostsListByHostGr
 
 export interface DedicatedHostsRestartQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface DedicatedHostsRestartQueryParam {
@@ -2095,7 +2095,7 @@ export type DedicatedHostsRestartParameters = DedicatedHostsRestartQueryParam &
 
 export interface SshPublicKeysListBySubscriptionQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface SshPublicKeysListBySubscriptionQueryParam {
@@ -2107,7 +2107,7 @@ export type SshPublicKeysListBySubscriptionParameters = SshPublicKeysListBySubsc
 
 export interface SshPublicKeysListByResourceGroupQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface SshPublicKeysListByResourceGroupQueryParam {
@@ -2124,7 +2124,7 @@ export interface SshPublicKeysCreateBodyParam {
 
 export interface SshPublicKeysCreateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface SshPublicKeysCreateQueryParam {
@@ -2148,7 +2148,7 @@ export interface SshPublicKeysUpdateBodyParam {
 
 export interface SshPublicKeysUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface SshPublicKeysUpdateQueryParam {
@@ -2167,7 +2167,7 @@ export type SshPublicKeysUpdateParameters = SshPublicKeysUpdateQueryParam &
 
 export interface SshPublicKeysDeleteQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface SshPublicKeysDeleteQueryParam {
@@ -2179,7 +2179,7 @@ export type SshPublicKeysDeleteParameters = SshPublicKeysDeleteQueryParam &
 
 export interface SshPublicKeysGetQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface SshPublicKeysGetQueryParam {
@@ -2191,7 +2191,7 @@ export type SshPublicKeysGetParameters = SshPublicKeysGetQueryParam &
 
 export interface SshPublicKeysGenerateKeyPairQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface SshPublicKeysGenerateKeyPairQueryParam {
@@ -2208,7 +2208,7 @@ export interface ImagesCreateOrUpdateBodyParam {
 
 export interface ImagesCreateOrUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface ImagesCreateOrUpdateQueryParam {
@@ -2232,7 +2232,7 @@ export interface ImagesUpdateBodyParam {
 
 export interface ImagesUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface ImagesUpdateQueryParam {
@@ -2251,7 +2251,7 @@ export type ImagesUpdateParameters = ImagesUpdateQueryParam &
 
 export interface ImagesDeleteQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface ImagesDeleteQueryParam {
@@ -2264,7 +2264,7 @@ export interface ImagesGetQueryParamProperties {
   /** The expand expression to apply on the operation. */
   $expand?: string;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface ImagesGetQueryParam {
@@ -2275,7 +2275,7 @@ export type ImagesGetParameters = ImagesGetQueryParam & RequestParameters;
 
 export interface ImagesListByResourceGroupQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface ImagesListByResourceGroupQueryParam {
@@ -2287,7 +2287,7 @@ export type ImagesListByResourceGroupParameters = ImagesListByResourceGroupQuery
 
 export interface ImagesListQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface ImagesListQueryParam {
@@ -2303,7 +2303,7 @@ export interface RestorePointCollectionsCreateOrUpdateBodyParam {
 
 export interface RestorePointCollectionsCreateOrUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface RestorePointCollectionsCreateOrUpdateQueryParam {
@@ -2327,7 +2327,7 @@ export interface RestorePointCollectionsUpdateBodyParam {
 
 export interface RestorePointCollectionsUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface RestorePointCollectionsUpdateQueryParam {
@@ -2346,7 +2346,7 @@ export type RestorePointCollectionsUpdateParameters = RestorePointCollectionsUpd
 
 export interface RestorePointCollectionsDeleteQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface RestorePointCollectionsDeleteQueryParam {
@@ -2360,7 +2360,7 @@ export interface RestorePointCollectionsGetQueryParamProperties {
   /** The expand expression to apply on the operation. If expand=restorePoints, server will return all contained restore points in the restorePointCollection. */
   $expand?: "restorePoints";
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface RestorePointCollectionsGetQueryParam {
@@ -2372,7 +2372,7 @@ export type RestorePointCollectionsGetParameters = RestorePointCollectionsGetQue
 
 export interface RestorePointCollectionsListQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface RestorePointCollectionsListQueryParam {
@@ -2384,7 +2384,7 @@ export type RestorePointCollectionsListParameters = RestorePointCollectionsListQ
 
 export interface RestorePointCollectionsListAllQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface RestorePointCollectionsListAllQueryParam {
@@ -2401,7 +2401,7 @@ export interface RestorePointsCreateBodyParam {
 
 export interface RestorePointsCreateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface RestorePointsCreateQueryParam {
@@ -2420,7 +2420,7 @@ export type RestorePointsCreateParameters = RestorePointsCreateQueryParam &
 
 export interface RestorePointsDeleteQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface RestorePointsDeleteQueryParam {
@@ -2434,7 +2434,7 @@ export interface RestorePointsGetQueryParamProperties {
   /** The expand expression to apply on the operation. 'InstanceView' retrieves information about the run-time state of a restore point. */
   $expand?: "instanceView";
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface RestorePointsGetQueryParam {
@@ -2451,7 +2451,7 @@ export interface CapacityReservationGroupsCreateOrUpdateBodyParam {
 
 export interface CapacityReservationGroupsCreateOrUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface CapacityReservationGroupsCreateOrUpdateQueryParam {
@@ -2475,7 +2475,7 @@ export interface CapacityReservationGroupsUpdateBodyParam {
 
 export interface CapacityReservationGroupsUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface CapacityReservationGroupsUpdateQueryParam {
@@ -2494,7 +2494,7 @@ export type CapacityReservationGroupsUpdateParameters = CapacityReservationGroup
 
 export interface CapacityReservationGroupsDeleteQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface CapacityReservationGroupsDeleteQueryParam {
@@ -2508,7 +2508,7 @@ export interface CapacityReservationGroupsGetQueryParamProperties {
   /** The expand expression to apply on the operation. 'InstanceView' will retrieve the list of instance views of the capacity reservations under the capacity reservation group which is a snapshot of the runtime properties of a capacity reservation that is managed by the platform and can change outside of control plane operations. */
   $expand?: "instanceView";
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface CapacityReservationGroupsGetQueryParam {
@@ -2520,7 +2520,7 @@ export type CapacityReservationGroupsGetParameters = CapacityReservationGroupsGe
 
 export interface CapacityReservationGroupsListByResourceGroupQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
   /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
   $expand?: "virtualMachineScaleSetVMs/$ref" | "virtualMachines/$ref";
 }
@@ -2534,7 +2534,7 @@ export type CapacityReservationGroupsListByResourceGroupParameters = CapacityRes
 
 export interface CapacityReservationGroupsListBySubscriptionQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
   /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
   $expand?: "virtualMachineScaleSetVMs/$ref" | "virtualMachines/$ref";
 }
@@ -2553,7 +2553,7 @@ export interface CapacityReservationsCreateOrUpdateBodyParam {
 
 export interface CapacityReservationsCreateOrUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface CapacityReservationsCreateOrUpdateQueryParam {
@@ -2577,7 +2577,7 @@ export interface CapacityReservationsUpdateBodyParam {
 
 export interface CapacityReservationsUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface CapacityReservationsUpdateQueryParam {
@@ -2596,7 +2596,7 @@ export type CapacityReservationsUpdateParameters = CapacityReservationsUpdateQue
 
 export interface CapacityReservationsDeleteQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface CapacityReservationsDeleteQueryParam {
@@ -2610,7 +2610,7 @@ export interface CapacityReservationsGetQueryParamProperties {
   /** The expand expression to apply on the operation. 'InstanceView' retrieves a snapshot of the runtime properties of the capacity reservation that is managed by the platform and can change outside of control plane operations. */
   $expand?: "instanceView";
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface CapacityReservationsGetQueryParam {
@@ -2622,7 +2622,7 @@ export type CapacityReservationsGetParameters = CapacityReservationsGetQueryPara
 
 export interface CapacityReservationsListByCapacityReservationGroupQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface CapacityReservationsListByCapacityReservationGroupQueryParam {
@@ -2639,7 +2639,7 @@ export interface LogAnalyticsExportRequestRateByIntervalBodyParam {
 
 export interface LogAnalyticsExportRequestRateByIntervalQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface LogAnalyticsExportRequestRateByIntervalQueryParam {
@@ -2663,7 +2663,7 @@ export interface LogAnalyticsExportThrottledRequestsBodyParam {
 
 export interface LogAnalyticsExportThrottledRequestsQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface LogAnalyticsExportThrottledRequestsQueryParam {
@@ -2682,7 +2682,7 @@ export type LogAnalyticsExportThrottledRequestsParameters = LogAnalyticsExportTh
 
 export interface VirtualMachineRunCommandsListQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineRunCommandsListQueryParam {
@@ -2694,7 +2694,7 @@ export type VirtualMachineRunCommandsListParameters = VirtualMachineRunCommandsL
 
 export interface VirtualMachineRunCommandsGetQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineRunCommandsGetQueryParam {
@@ -2711,7 +2711,7 @@ export interface VirtualMachineRunCommandsCreateOrUpdateBodyParam {
 
 export interface VirtualMachineRunCommandsCreateOrUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineRunCommandsCreateOrUpdateQueryParam {
@@ -2735,7 +2735,7 @@ export interface VirtualMachineRunCommandsUpdateBodyParam {
 
 export interface VirtualMachineRunCommandsUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineRunCommandsUpdateQueryParam {
@@ -2754,7 +2754,7 @@ export type VirtualMachineRunCommandsUpdateParameters = VirtualMachineRunCommand
 
 export interface VirtualMachineRunCommandsDeleteQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineRunCommandsDeleteQueryParam {
@@ -2768,7 +2768,7 @@ export interface VirtualMachineRunCommandsGetByVirtualMachineQueryParamPropertie
   /** The expand expression to apply on the operation. */
   $expand?: string;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineRunCommandsGetByVirtualMachineQueryParam {
@@ -2782,7 +2782,7 @@ export interface VirtualMachineRunCommandsListByVirtualMachineQueryParamProperti
   /** The expand expression to apply on the operation. */
   $expand?: string;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineRunCommandsListByVirtualMachineQueryParam {
@@ -2799,7 +2799,7 @@ export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateBodyParam {
 
 export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateQueryParam {
@@ -2823,7 +2823,7 @@ export interface VirtualMachineScaleSetVMRunCommandsUpdateBodyParam {
 
 export interface VirtualMachineScaleSetVMRunCommandsUpdateQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMRunCommandsUpdateQueryParam {
@@ -2842,7 +2842,7 @@ export type VirtualMachineScaleSetVMRunCommandsUpdateParameters = VirtualMachine
 
 export interface VirtualMachineScaleSetVMRunCommandsDeleteQueryParamProperties {
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMRunCommandsDeleteQueryParam {
@@ -2856,7 +2856,7 @@ export interface VirtualMachineScaleSetVMRunCommandsGetQueryParamProperties {
   /** The expand expression to apply on the operation. */
   $expand?: string;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMRunCommandsGetQueryParam {
@@ -2870,7 +2870,7 @@ export interface VirtualMachineScaleSetVMRunCommandsListQueryParamProperties {
   /** The expand expression to apply on the operation. */
   $expand?: string;
   /** Api Version */
-  "api-version": "2022-03-01";
+  "api-version": "2022-08-01";
 }
 
 export interface VirtualMachineScaleSetVMRunCommandsListQueryParam {

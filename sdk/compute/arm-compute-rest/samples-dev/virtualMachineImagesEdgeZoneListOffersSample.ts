@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of virtual machine image offers for the specified location, edge zone and publisher.
  *
  * @summary Gets a list of virtual machine image offers for the specified location, edge zone and publisher.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListOffers_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListOffers_MaximumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListOffersMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function virtualMachineImagesEdgeZoneListOffersMaximumSetGen() {
   const edgeZone = "aaaaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaa";
   const options: VirtualMachineImagesEdgeZoneListOffersParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(
@@ -44,7 +44,7 @@ virtualMachineImagesEdgeZoneListOffersMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Gets a list of virtual machine image offers for the specified location, edge zone and publisher.
  *
  * @summary Gets a list of virtual machine image offers for the specified location, edge zone and publisher.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListOffers_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListOffers_MinimumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListOffersMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function virtualMachineImagesEdgeZoneListOffersMinimumSetGen() {
   const edgeZone = "aaaaaaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineImagesEdgeZoneListOffersParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(

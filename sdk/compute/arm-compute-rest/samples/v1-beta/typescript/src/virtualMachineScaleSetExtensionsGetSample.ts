@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to get the extension.
  *
  * @summary The operation to get the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Get_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionsGetMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function virtualMachineScaleSetExtensionsGetMaximumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const vmssExtensionName = "aaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetExtensionsGetParameters = {
-    queryParameters: { $expand: "aaaaaaa", "api-version": "2022-03-01" }
+    queryParameters: { $expand: "aaaaaaa", "api-version": "2022-08-01" }
   };
   const result = await client
     .path(
@@ -44,7 +44,7 @@ virtualMachineScaleSetExtensionsGetMaximumSetGen().catch(console.error);
  * This sample demonstrates how to The operation to get the extension.
  *
  * @summary The operation to get the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Get_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionsGetMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function virtualMachineScaleSetExtensionsGetMinimumSetGen() {
   const vmScaleSetName = "a";
   const vmssExtensionName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetExtensionsGetParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(

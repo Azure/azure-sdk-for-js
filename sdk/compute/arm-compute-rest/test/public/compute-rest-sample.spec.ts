@@ -158,7 +158,7 @@ describe("Compute test", () => {
         location: "westus",
         properties: { platformFaultDomainCount: 2, platformUpdateDomainCount: 20 },
       },
-      queryParameters: { "api-version": "2022-03-01" },
+      queryParameters: { "api-version": "2022-08-01" },
     };
     const result = await client
       .path(
@@ -179,7 +179,7 @@ describe("Compute test", () => {
       body: {
         properties: { platformFaultDomainCount: 2, platformUpdateDomainCount: 20 },
       },
-      queryParameters: { "api-version": "2022-03-01" },
+      queryParameters: { "api-version": "2022-08-01" },
     };
     const result = await client
       .path(
@@ -197,7 +197,7 @@ describe("Compute test", () => {
 
   it("availabilitySets get test", async function () {
     const options: AvailabilitySetsGetParameters = {
-      queryParameters: { "api-version": "2022-03-01" },
+      queryParameters: { "api-version": "2022-08-01" },
     };
     const result = await client
       .path(
@@ -215,7 +215,7 @@ describe("Compute test", () => {
 
   it("availabilitySets list test", async function () {
     const options: AvailabilitySetsListParameters = {
-      queryParameters: { "api-version": "2022-03-01" },
+      queryParameters: { "api-version": "2022-08-01" },
     };
     const initialResponse = await client
       .path(
@@ -234,7 +234,7 @@ describe("Compute test", () => {
 
   it("availabilitySets delete test", async function () {
     const deleteOptions: AvailabilitySetsDeleteParameters = {
-      queryParameters: { "api-version": "2022-03-01" },
+      queryParameters: { "api-version": "2022-08-01" },
     };
     const deleteResponse = await client
       .path(
@@ -248,7 +248,7 @@ describe("Compute test", () => {
       throw "delete availability set error. result" + deleteResponse;
     }
     const options: AvailabilitySetsListParameters = {
-      queryParameters: { "api-version": "2022-03-01" },
+      queryParameters: { "api-version": "2022-08-01" },
     };
     const initialResponse = await client
       .path(
@@ -329,7 +329,7 @@ describe("Compute test", () => {
       },
 
       queryParameters: {
-        "api-version": "2022-03-01",
+        "api-version": "2022-08-01",
       },
     };
     const initialResponse = await client
@@ -350,7 +350,7 @@ describe("Compute test", () => {
 
   it("virtualMachines get test", async function () {
     const options: VirtualMachinesGetParameters = {
-      queryParameters: { "api-version": "2022-03-01" },
+      queryParameters: { "api-version": "2022-08-01" },
     };
     const result = await client
       .path(
@@ -369,7 +369,7 @@ describe("Compute test", () => {
   it("virtualMachines list test", async function () {
     const options: VirtualMachinesListParameters = {
       queryParameters: {
-        "api-version": "2022-03-01",
+        "api-version": "2022-08-01",
       },
     };
     const initialResponse = await client
@@ -408,7 +408,7 @@ describe("Compute test", () => {
         },
       },
       queryParameters: {
-        "api-version": "2022-03-01",
+        "api-version": "2022-08-01",
       },
     };
     const initialResponse = await client
@@ -429,7 +429,7 @@ describe("Compute test", () => {
 
   it("virtualMachines delete test", async function () {
     const deleteOptions: VirtualMachinesDeleteParameters = {
-      queryParameters: { forceDeletion: true, "api-version": "2022-03-01" },
+      queryParameters: { forceDeletion: true, "api-version": "2022-08-01" },
     };
     const deleteInitialResponse = await client
       .path(
@@ -446,7 +446,7 @@ describe("Compute test", () => {
     }
     const options: VirtualMachinesListParameters = {
       queryParameters: {
-        "api-version": "2022-03-01",
+        "api-version": "2022-08-01",
       },
     };
     const initialResponse = await client

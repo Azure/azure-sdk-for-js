@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
  *
  * @summary Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ConvertToSinglePlacementGroup_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ConvertToSinglePlacementGroup_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsConvertToSinglePlacementGroupMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function virtualMachineScaleSetsConvertToSinglePlacementGroupMaximumSetGen
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsConvertToSinglePlacementGroupParameters = {
     body: { activePlacementGroupId: "aaaaaaaaaaaaaaaaaaaaaaaaaaa" },
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(
@@ -45,7 +45,7 @@ virtualMachineScaleSetsConvertToSinglePlacementGroupMaximumSetGen().catch(
  * This sample demonstrates how to Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
  *
  * @summary Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ConvertToSinglePlacementGroup_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ConvertToSinglePlacementGroup_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsConvertToSinglePlacementGroupMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -55,7 +55,7 @@ async function virtualMachineScaleSetsConvertToSinglePlacementGroupMinimumSetGen
   const vmScaleSetName = "aaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsConvertToSinglePlacementGroupParameters = {
     body: {},
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(

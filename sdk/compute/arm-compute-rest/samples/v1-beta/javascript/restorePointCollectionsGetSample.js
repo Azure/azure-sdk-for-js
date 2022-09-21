@@ -11,7 +11,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to get the restore point collection.
  *
  * @summary The operation to get the restore point collection.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/restorePointExamples/RestorePointCollection_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePointCollection_Get.json
  */
 async function getARestorePointCollectionButNotTheRestorePointsContainedInTheRestorePointCollection() {
   const credential = new DefaultAzureCredential();
@@ -20,7 +20,7 @@ async function getARestorePointCollectionButNotTheRestorePointsContainedInTheRes
   const resourceGroupName = "myResourceGroup";
   const restorePointCollectionName = "myRpc";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -40,7 +40,7 @@ getARestorePointCollectionButNotTheRestorePointsContainedInTheRestorePointCollec
  * This sample demonstrates how to The operation to get the restore point collection.
  *
  * @summary The operation to get the restore point collection.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/restorePointExamples/RestorePointCollection_Get_WithContainedRestorePoints.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePointCollection_Get_WithContainedRestorePoints.json
  */
 async function getARestorePointCollectionIncludingTheRestorePointsContainedInTheRestorePointCollection() {
   const credential = new DefaultAzureCredential();
@@ -49,7 +49,7 @@ async function getARestorePointCollectionIncludingTheRestorePointsContainedInThe
   const resourceGroupName = "myResourceGroup";
   const restorePointCollectionName = "rpcName";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(

@@ -16,7 +16,7 @@ dotenv.config();
  * This sample demonstrates how to Update an dedicated host .
  *
  * @summary Update an dedicated host .
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/dedicatedHostExamples/DedicatedHosts_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHosts_Update_MaximumSet_Gen.json
  */
 async function dedicatedHostsUpdateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -48,7 +48,7 @@ async function dedicatedHostsUpdateMaximumSetGen() {
       },
       tags: { key8813: "aaaaaaaaaaaaaaaaaaaaaaaaaaa" }
     },
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(
@@ -69,7 +69,7 @@ dedicatedHostsUpdateMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Update an dedicated host .
  *
  * @summary Update an dedicated host .
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/dedicatedHostExamples/DedicatedHosts_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHosts_Update_MinimumSet_Gen.json
  */
 async function dedicatedHostsUpdateMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -80,7 +80,7 @@ async function dedicatedHostsUpdateMinimumSetGen() {
   const hostName = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: DedicatedHostsUpdateParameters = {
     body: {},
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(

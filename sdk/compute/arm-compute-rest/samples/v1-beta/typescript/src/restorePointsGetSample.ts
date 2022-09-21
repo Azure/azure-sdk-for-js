@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to get the restore point.
  *
  * @summary The operation to get the restore point.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/restorePointExamples/RestorePoint_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePoint_Get.json
  */
 async function getARestorePoint() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function getARestorePoint() {
   const restorePointCollectionName = "rpcName";
   const restorePointName = "rpName";
   const options: RestorePointsGetParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(
@@ -44,7 +44,7 @@ getARestorePoint().catch(console.error);
  * This sample demonstrates how to The operation to get the restore point.
  *
  * @summary The operation to get the restore point.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/restorePointExamples/RestorePoint_Get_WithInstanceView.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePoint_Get_WithInstanceView.json
  */
 async function getRestorePointWithInstanceView() {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function getRestorePointWithInstanceView() {
   const restorePointCollectionName = "rpcName";
   const restorePointName = "rpName";
   const options: RestorePointsGetParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(

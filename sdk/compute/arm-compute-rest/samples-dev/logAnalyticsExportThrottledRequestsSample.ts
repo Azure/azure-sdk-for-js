@@ -16,7 +16,7 @@ dotenv.config();
  * This sample demonstrates how to Export logs that show total throttled Api requests for this subscription in the given time window.
  *
  * @summary Export logs that show total throttled Api requests for this subscription in the given time window.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/logAnalyticExamples/LogAnalytics_ThrottledRequests.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/logAnalyticExamples/LogAnalytics_ThrottledRequests.json
  */
 async function exportLogsWhichContainAllThrottledApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriod() {
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function exportLogsWhichContainAllThrottledApiRequestsMadeToComputeResourc
       groupByUserAgent: false,
       toTime: new Date("2018-01-23T01:54:06.862601Z")
     },
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(

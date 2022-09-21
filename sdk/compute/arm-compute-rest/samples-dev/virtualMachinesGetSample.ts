@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
  *
  * @summary Retrieves information about the model view or the instance view of a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Get.json
  */
 async function getAVirtualMachine() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function getAVirtualMachine() {
   const resourceGroupName = "myResourceGroup";
   const vmName = "myVM";
   const options: VirtualMachinesGetParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { $expand: "userData", "api-version": "2022-08-01" }
   };
   const result = await client
     .path(
@@ -42,7 +42,7 @@ getAVirtualMachine().catch(console.error);
  * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
  *
  * @summary Retrieves information about the model view or the instance view of a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Get_AutoPlacedOnDedicatedHostGroup.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Get_AutoPlacedOnDedicatedHostGroup.json
  */
 async function getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement() {
   const credential = new DefaultAzureCredential();
@@ -51,7 +51,7 @@ async function getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlac
   const resourceGroupName = "myResourceGroup";
   const vmName = "myVM";
   const options: VirtualMachinesGetParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(
@@ -71,7 +71,34 @@ getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement().catch(
  * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
  *
  * @summary Retrieves information about the model view or the instance view of a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Get_WithVMSizeProperties.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Get_WithDiskControllerType.json
+ */
+async function getAVirtualMachineWithDiskControllerTypeProperties() {
+  const credential = new DefaultAzureCredential();
+  const client = createComputeManagementClient(credential);
+  const subscriptionId = "";
+  const resourceGroupName = "myResourceGroup";
+  const vmName = "myVM";
+  const options: VirtualMachinesGetParameters = {
+    queryParameters: { $expand: "userData", "api-version": "2022-08-01" }
+  };
+  const result = await client
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
+      subscriptionId,
+      resourceGroupName,
+      vmName
+    )
+    .get(options);
+  console.log(result);
+}
+
+getAVirtualMachineWithDiskControllerTypeProperties().catch(console.error);
+/**
+ * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
+ *
+ * @summary Retrieves information about the model view or the instance view of a virtual machine.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Get_WithVMSizeProperties.json
  */
 async function getAVirtualMachineWithVMSizeProperties() {
   const credential = new DefaultAzureCredential();
@@ -80,7 +107,7 @@ async function getAVirtualMachineWithVMSizeProperties() {
   const resourceGroupName = "myResourceGroup";
   const vmName = "myVM";
   const options: VirtualMachinesGetParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(

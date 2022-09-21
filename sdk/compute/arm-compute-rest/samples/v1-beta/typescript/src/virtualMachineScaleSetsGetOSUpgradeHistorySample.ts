@@ -16,7 +16,7 @@ dotenv.config();
  * This sample demonstrates how to Gets list of OS upgrades on a VM scale set instance.
  *
  * @summary Gets list of OS upgrades on a VM scale set instance.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_GetOSUpgradeHistory_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_GetOSUpgradeHistory_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsGetOSUpgradeHistoryMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function virtualMachineScaleSetsGetOSUpgradeHistoryMaximumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaa";
   const options: VirtualMachineScaleSetsGetOSUpgradeHistoryParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(
@@ -48,7 +48,7 @@ virtualMachineScaleSetsGetOSUpgradeHistoryMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Gets list of OS upgrades on a VM scale set instance.
  *
  * @summary Gets list of OS upgrades on a VM scale set instance.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_GetOSUpgradeHistory_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_GetOSUpgradeHistory_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsGetOSUpgradeHistoryMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -57,7 +57,7 @@ async function virtualMachineScaleSetsGetOSUpgradeHistoryMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsGetOSUpgradeHistoryParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(

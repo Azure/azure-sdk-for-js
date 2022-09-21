@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves information about an SSH public key.
  *
  * @summary Retrieves information about an SSH public key.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/sshPublicKeyExamples/SshPublicKey_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/sshPublicKeyExamples/SshPublicKey_Get.json
  */
 async function getAnSshPublicKey() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function getAnSshPublicKey() {
   const resourceGroupName = "myResourceGroup";
   const sshPublicKeyName = "mySshPublicKeyName";
   const options: SshPublicKeysGetParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(

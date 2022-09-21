@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all proximity placement groups in a resource group.
  *
  * @summary Lists all proximity placement groups in a resource group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/proximityPlacementGroupExamples/ProximityPlacementGroup_ListByResourceGroup.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/proximityPlacementGroupExamples/ProximityPlacementGroup_ListByResourceGroup.json
  */
 async function createAProximityPlacementGroup() {
   const credential = new DefaultAzureCredential();
@@ -20,7 +20,7 @@ async function createAProximityPlacementGroup() {
   const subscriptionId = "";
   const resourceGroupName = "myResourceGroup";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

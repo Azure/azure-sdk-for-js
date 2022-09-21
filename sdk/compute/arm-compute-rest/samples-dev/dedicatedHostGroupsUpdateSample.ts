@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to Update an dedicated host group.
  *
  * @summary Update an dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/dedicatedHostExamples/DedicatedHostGroups_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHostGroups_Update_MaximumSet_Gen.json
  */
 async function dedicatedHostGroupsUpdateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function dedicatedHostGroupsUpdateMaximumSetGen() {
       tags: { key9921: "aaaaaaaaaa" },
       zones: ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
     },
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(
@@ -68,7 +68,7 @@ dedicatedHostGroupsUpdateMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Update an dedicated host group.
  *
  * @summary Update an dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/dedicatedHostExamples/DedicatedHostGroups_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHostGroups_Update_MinimumSet_Gen.json
  */
 async function dedicatedHostGroupsUpdateMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -78,7 +78,7 @@ async function dedicatedHostGroupsUpdateMinimumSetGen() {
   const hostGroupName = "aaaaaaaaaaa";
   const options: DedicatedHostGroupsUpdateParameters = {
     body: {},
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(

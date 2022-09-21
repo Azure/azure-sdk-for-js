@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves information about the run-time state of a virtual machine.
  *
  * @summary Retrieves information about the run-time state of a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Get_InstanceView.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Get_InstanceView.json
  */
 async function getVirtualMachineInstanceView() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function getVirtualMachineInstanceView() {
   const resourceGroupName = "myResourceGroup";
   const vmName = "myVM";
   const options: VirtualMachinesInstanceViewParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(
@@ -42,7 +42,7 @@ getVirtualMachineInstanceView().catch(console.error);
  * This sample demonstrates how to Retrieves information about the run-time state of a virtual machine.
  *
  * @summary Retrieves information about the run-time state of a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Get_InstanceViewAutoPlacedOnDedicatedHostGroup.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Get_InstanceViewAutoPlacedOnDedicatedHostGroup.json
  */
 async function getInstanceViewOfAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement() {
   const credential = new DefaultAzureCredential();
@@ -51,7 +51,7 @@ async function getInstanceViewOfAVirtualMachinePlacedOnADedicatedHostGroupThroug
   const resourceGroupName = "myResourceGroup";
   const vmName = "myVM";
   const options: VirtualMachinesInstanceViewParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(

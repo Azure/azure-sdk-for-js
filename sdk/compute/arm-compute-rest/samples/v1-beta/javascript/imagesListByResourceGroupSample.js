@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the list of images under a resource group.
  *
  * @summary Gets the list of images under a resource group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/imageExamples/Image_ListByResourceGroup.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_ListByResourceGroup.json
  */
 async function listAllVirtualMachineImagesInAResourceGroup() {
   const credential = new DefaultAzureCredential();
@@ -20,7 +20,7 @@ async function listAllVirtualMachineImagesInAResourceGroup() {
   const subscriptionId = "";
   const resourceGroupName = "myResourceGroup";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

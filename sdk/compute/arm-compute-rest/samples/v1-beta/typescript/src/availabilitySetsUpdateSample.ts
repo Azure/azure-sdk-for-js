@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to Update an availability set.
  *
  * @summary Update an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/availabilitySetExamples/AvailabilitySets_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySets_Update_MaximumSet_Gen.json
  */
 async function availabilitySetsUpdateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -42,7 +42,7 @@ async function availabilitySetsUpdateMaximumSetGen() {
       sku: { name: "DSv3-Type1", capacity: 7, tier: "aaa" },
       tags: { key2574: "aaaaaaaa" }
     },
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(
@@ -60,7 +60,7 @@ availabilitySetsUpdateMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Update an availability set.
  *
  * @summary Update an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/availabilitySetExamples/AvailabilitySets_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySets_Update_MinimumSet_Gen.json
  */
 async function availabilitySetsUpdateMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -70,7 +70,7 @@ async function availabilitySetsUpdateMinimumSetGen() {
   const availabilitySetName = "aaaaaaaaaaaaaaaaaaaa";
   const options: AvailabilitySetsUpdateParameters = {
     body: {},
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(

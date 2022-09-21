@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to get all run commands of an instance in Virtual Machine Scaleset.
  *
  * @summary The operation to get all run commands of an instance in Virtual Machine Scaleset.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_List.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_List.json
  */
 async function listRunCommandsInVmssInstance() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function listRunCommandsInVmssInstance() {
   const vmScaleSetName = "myvmScaleSet";
   const instanceId = "0";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

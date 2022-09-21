@@ -16,7 +16,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to update the VMSS VM run command.
  *
  * @summary The operation to update the VMSS VM run command.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_Update.json
  */
 async function updateVirtualMachineScaleSetVMRunCommand() {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function updateVirtualMachineScaleSetVMRunCommand() {
     body: {
       properties: { source: { script: "Write-Host Script Source Updated!" } }
     },
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(

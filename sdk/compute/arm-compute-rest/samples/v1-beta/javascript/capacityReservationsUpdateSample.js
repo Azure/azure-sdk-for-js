@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to update a capacity reservation.
  *
  * @summary The operation to update a capacity reservation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/capacityReservationExamples/CapacityReservation_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/capacityReservationExamples/CapacityReservation_Update_MaximumSet_Gen.json
  */
 async function capacityReservationsUpdateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -37,10 +37,10 @@ async function capacityReservationsUpdateMaximumSetGen() {
           utilizationInfo: {},
         },
       },
-      sku: { name: "DSv3-Type1", capacity: 7, tier: "aaa" },
+      sku: { name: "Standard_DS1_v2", capacity: 7, tier: "aaa" },
       tags: { key4974: "aaaaaaaaaaaaaaaa" },
     },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -61,7 +61,7 @@ capacityReservationsUpdateMaximumSetGen().catch(console.error);
  * This sample demonstrates how to The operation to update a capacity reservation.
  *
  * @summary The operation to update a capacity reservation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/capacityReservationExamples/CapacityReservation_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/capacityReservationExamples/CapacityReservation_Update_MinimumSet_Gen.json
  */
 async function capacityReservationsUpdateMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -72,7 +72,7 @@ async function capacityReservationsUpdateMinimumSetGen() {
   const capacityReservationName = "aaa";
   const options = {
     body: {},
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

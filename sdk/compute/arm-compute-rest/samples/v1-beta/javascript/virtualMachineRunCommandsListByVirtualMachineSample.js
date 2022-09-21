@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to get all run commands of a Virtual Machine.
  *
  * @summary The operation to get all run commands of a Virtual Machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/runCommandExamples/VirtualMachineRunCommand_List.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/runCommandExamples/VirtualMachineRunCommand_List.json
  */
 async function listRunCommandsInAVirtualMachine() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function listRunCommandsInAVirtualMachine() {
   const resourceGroupName = "myResourceGroup";
   const vmName = "myVM";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

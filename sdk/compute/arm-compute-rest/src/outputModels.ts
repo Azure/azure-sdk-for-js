@@ -197,7 +197,9 @@ export interface VirtualMachineScaleSetPropertiesOutput {
   orchestrationMode?: "Uniform" | "Flexible";
   /** Specifies the Spot Restore properties for the virtual machine scale set. */
   spotRestorePolicy?: SpotRestorePolicyOutput;
-  /** Specifies the time at which the Virtual Machine Scale Set resource was created.<br><br>Minimum api-version: 2022-03-01. */
+  /** Specifies the desired targets for mixing Spot and Regular priority VMs within the same VMSS Flex instance. */
+  priorityMixPolicy?: PriorityMixPolicyOutput;
+  /** Specifies the time at which the Virtual Machine Scale Set resource was created.<br><br>Minimum api-version: 2021-11-01. */
   timeCreated?: string;
 }
 
@@ -277,7 +279,7 @@ export interface VirtualMachineScaleSetVMProfileOutput {
   capacityReservation?: CapacityReservationProfileOutput;
   /** Specifies the gallery applications that should be made available to the VM/VMSS */
   applicationProfile?: ApplicationProfileOutput;
-  /** Specifies the hardware profile related details of a scale set. <br><br>Minimum api-version: 2022-03-01. */
+  /** Specifies the hardware profile related details of a scale set. <br><br>Minimum api-version: 2021-11-01. */
   hardwareProfile?: VirtualMachineScaleSetHardwareProfileOutput;
 }
 
@@ -315,6 +317,8 @@ export interface WindowsConfigurationOutput {
   patchSettings?: PatchSettingsOutput;
   /** Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell. */
   winRM?: WinRMConfigurationOutput;
+  /** Indicates whether VMAgent Platform Updates is enabled for the Windows virtual machine. Default value is false. */
+  enableVMAgentPlatformUpdates?: boolean;
 }
 
 /** Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. Contents are defined by setting name, component name, and the pass in which the content is applied. */
@@ -371,6 +375,8 @@ export interface LinuxConfigurationOutput {
   provisionVMAgent?: boolean;
   /** [Preview Feature] Specifies settings related to VM Guest Patching on Linux. */
   patchSettings?: LinuxPatchSettingsOutput;
+  /** Indicates whether VMAgent Platform Updates is enabled for the Linux virtual machine. Default value is false. */
+  enableVMAgentPlatformUpdates?: boolean;
 }
 
 /** SSH configuration for Linux based VMs running on Azure */
@@ -432,6 +438,7 @@ export interface VirtualMachineScaleSetStorageProfileOutput {
   osDisk?: VirtualMachineScaleSetOSDiskOutput;
   /** Specifies the parameters that are used to add data disks to the virtual machines in the scale set. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
   dataDisks?: Array<VirtualMachineScaleSetDataDiskOutput>;
+  diskControllerType?: string;
 }
 
 /** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set when you create the scale set. */
@@ -464,7 +471,7 @@ export interface VirtualMachineScaleSetOSDiskOutput {
   createOption: "FromImage" | "Empty" | "Attach";
   /** Specifies the ephemeral disk Settings for the operating system disk used by the virtual machine scale set. */
   diffDiskSettings?: DiffDiskSettingsOutput;
-  /** Specifies the size of the operating system disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB */
+  /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023 */
   diskSizeGB?: number;
   /** This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
   osType?: "Windows" | "Linux";
@@ -532,7 +539,7 @@ export interface VirtualMachineScaleSetDataDiskOutput {
   writeAcceleratorEnabled?: boolean;
   /** The create option. */
   createOption: "FromImage" | "Empty" | "Attach";
-  /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB */
+  /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023 */
   diskSizeGB?: number;
   /** The managed disk parameters. */
   managedDisk?: VirtualMachineScaleSetManagedDiskParametersOutput;
@@ -577,6 +584,8 @@ export interface VirtualMachineScaleSetNetworkConfigurationPropertiesOutput {
   primary?: boolean;
   /** Specifies whether the network interface is accelerated networking-enabled. */
   enableAcceleratedNetworking?: boolean;
+  /** Specifies whether the network interface is disabled for tcp state tracking. */
+  disableTcpStateTracking?: boolean;
   /** Specifies whether the network interface is FPGA networking-enabled. */
   enableFpga?: boolean;
   /** The network security group. */
@@ -750,7 +759,15 @@ export interface VirtualMachineScaleSetExtensionPropertiesOutput {
   /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
   suppressFailures?: boolean;
   /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: any;
+  protectedSettingsFromKeyVault?: KeyVaultSecretReferenceOutput;
+}
+
+/** Describes a reference to Key Vault Secret */
+export interface KeyVaultSecretReferenceOutput {
+  /** The URL referencing a secret in a Key Vault. */
+  secretUrl: string;
+  /** The relative URL of the Key Vault containing the secret. */
+  sourceVault: SubResourceOutput;
 }
 
 export interface SubResourceReadOnlyOutput {
@@ -806,7 +823,7 @@ export interface VMGalleryApplicationOutput {
 
 /** Specifies the hardware settings for the virtual machine scale set. */
 export interface VirtualMachineScaleSetHardwareProfileOutput {
-  /** Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2022-03-01. <br><br> Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details. */
+  /** Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2021-11-01. <br><br> Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details. */
   vmSizeProperties?: VMSizePropertiesOutput;
 }
 
@@ -840,6 +857,14 @@ export interface SpotRestorePolicyOutput {
   enabled?: boolean;
   /** Timeout value expressed as an ISO 8601 time duration after which the platform will not try to restore the VMSS SPOT instances */
   restoreTimeout?: string;
+}
+
+/** Specifies the target splits for Spot and Regular priority VMs within a scale set with flexible orchestration mode. <br><br>With this property the customer is able to specify the base number of regular priority VMs created as the VMSS flex instance scales out and the split between Spot and Regular priority VMs after this base target has been reached. */
+export interface PriorityMixPolicyOutput {
+  /** The base number of regular priority VMs that will be created in this scale set as it scales out. */
+  baseRegularPriorityCount?: number;
+  /** The percentage of VM instances, after the base regular priority count has been reached, that are expected to use regular priority. */
+  regularPriorityPercentageAboveBase?: number;
 }
 
 /** Identity for the virtual machine scale set. */
@@ -902,6 +927,8 @@ export interface VirtualMachineScaleSetUpdateNetworkConfigurationPropertiesOutpu
   primary?: boolean;
   /** Specifies whether the network interface is accelerated networking-enabled. */
   enableAcceleratedNetworking?: boolean;
+  /** Specifies whether the network interface is disabled for tcp state tracking. */
+  disableTcpStateTracking?: boolean;
   /** Specifies whether the network interface is FPGA networking-enabled. */
   enableFpga?: boolean;
   /** The network security group. */
@@ -1218,7 +1245,7 @@ export interface VirtualMachineExtensionPropertiesOutput {
   /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
   suppressFailures?: boolean;
   /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: any;
+  protectedSettingsFromKeyVault?: KeyVaultSecretReferenceOutput;
 }
 
 /** The instance view of a virtual machine extension. */
@@ -1267,7 +1294,7 @@ export interface VirtualMachineExtensionUpdatePropertiesOutput {
   /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
   suppressFailures?: boolean;
   /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: any;
+  protectedSettingsFromKeyVault?: KeyVaultSecretReferenceOutput;
 }
 
 /** The List VMSS VM Extension operation response */
@@ -1420,14 +1447,6 @@ export interface DiskEncryptionSettingsOutput {
   keyEncryptionKey?: KeyVaultKeyReferenceOutput;
   /** Specifies whether disk encryption should be enabled on the virtual machine. */
   enabled?: boolean;
-}
-
-/** Describes a reference to Key Vault Secret */
-export interface KeyVaultSecretReferenceOutput {
-  /** The URL referencing a secret in a Key Vault. */
-  secretUrl: string;
-  /** The relative URL of the Key Vault containing the secret. */
-  sourceVault: SubResourceOutput;
 }
 
 /** Describes a reference to Key Vault Key */
@@ -1636,6 +1655,8 @@ export interface StorageProfileOutput {
   osDisk?: OSDiskOutput;
   /** Specifies the parameters that are used to add a data disk to a virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
   dataDisks?: Array<DataDiskOutput>;
+  /** Specifies the disk controller type configured for the VM. <br><br>NOTE: This property will be set to the default disk controller type if not specified provided virtual machine is being created as a hyperVGeneration: V2 based on the capabilities of the operating system disk and VM size from the the specified minimum api version. <br>You need to deallocate the VM before updating its disk controller type unless you are updating the VM size in the VM configuration which implicitly deallocates and reallocates the VM. <br><br> Minimum api-version: 2022-08-01 */
+  diskControllerType?: "SCSI" | "NVMe";
 }
 
 /** Specifies information about the operating system disk used by the virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
@@ -1658,7 +1679,7 @@ export interface OSDiskOutput {
   diffDiskSettings?: DiffDiskSettingsOutput;
   /** Specifies how the virtual machine should be created.<br><br> Possible values are:<br><br> **Attach** \u2013 This value is used when you are using a specialized disk to create the virtual machine.<br><br> **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described. */
   createOption: "FromImage" | "Empty" | "Attach";
-  /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB */
+  /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023 */
   diskSizeGB?: number;
   /** The managed disk parameters. */
   managedDisk?: ManagedDiskParametersOutput;
@@ -1699,7 +1720,7 @@ export interface DataDiskOutput {
   writeAcceleratorEnabled?: boolean;
   /** Specifies how the virtual machine should be created.<br><br> Possible values are:<br><br> **Attach** \u2013 This value is used when you are using a specialized disk to create the virtual machine.<br><br> **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described. */
   createOption: "FromImage" | "Empty" | "Attach";
-  /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB */
+  /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023 */
   diskSizeGB?: number;
   /** The managed disk parameters. */
   managedDisk?: ManagedDiskParametersOutput;
@@ -1779,6 +1800,8 @@ export interface VirtualMachineNetworkInterfaceConfigurationPropertiesOutput {
   deleteOption?: "Delete" | "Detach";
   /** Specifies whether the network interface is accelerated networking-enabled. */
   enableAcceleratedNetworking?: boolean;
+  /** Specifies whether the network interface is disabled for tcp state tracking. */
+  disableTcpStateTracking?: boolean;
   /** Specifies whether the network interface is FPGA networking-enabled. */
   enableFpga?: boolean;
   /** Whether IP forwarding enabled on this NIC. */
@@ -2017,7 +2040,7 @@ export interface VirtualMachinePropertiesOutput {
   capacityReservation?: CapacityReservationProfileOutput;
   /** Specifies the gallery applications that should be made available to the VM/VMSS */
   applicationProfile?: ApplicationProfileOutput;
-  /** Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2022-03-01. */
+  /** Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2021-11-01. */
   timeCreated?: string;
 }
 
@@ -2528,7 +2551,7 @@ export interface DedicatedHostPropertiesOutput {
   provisioningState?: string;
   /** The dedicated host instance view. */
   instanceView?: DedicatedHostInstanceViewOutput;
-  /** Specifies the time at which the Dedicated Host resource was created.<br><br>Minimum api-version: 2022-03-01. */
+  /** Specifies the time at which the Dedicated Host resource was created.<br><br>Minimum api-version: 2021-11-01. */
   timeCreated?: string;
 }
 
@@ -2844,6 +2867,8 @@ export interface CapacityReservationInstanceViewOutput {
 
 /** Represents the capacity reservation utilization in terms of resources allocated. */
 export interface CapacityReservationUtilizationOutput {
+  /** The value provides the current capacity of the VM size which was reserved successfully and for which the customer is getting billed.<br><br>Minimum api-version: 2022-08-01. */
+  currentCapacity?: number;
   /** A list of all virtual machines resource ids allocated against the capacity reservation. */
   virtualMachinesAllocated?: Array<SubResourceReadOnlyOutput>;
 }
@@ -2870,6 +2895,8 @@ export interface CapacityReservationOutput extends ResourceOutput {
 export interface CapacityReservationPropertiesOutput {
   /** A unique id generated and assigned to the capacity reservation by the platform which does not change throughout the lifetime of the resource. */
   reservationId?: string;
+  /** Specifies the value of fault domain count that Capacity Reservation supports for requested VM size.<br>NOTE: The fault domain count specified for a resource (like virtual machines scale set) must be less than or equal to this value if it deploys using capacity reservation.<br><br>Minimum api-version: 2022-08-01. */
+  platformFaultDomainCount?: number;
   /** A list of all virtual machine resource ids that are associated with the capacity reservation. */
   virtualMachinesAssociated?: Array<SubResourceReadOnlyOutput>;
   /** The date time when the capacity reservation was last updated. */
@@ -2878,7 +2905,7 @@ export interface CapacityReservationPropertiesOutput {
   provisioningState?: string;
   /** The Capacity reservation instance view. */
   instanceView?: CapacityReservationInstanceViewOutput;
-  /** Specifies the time at which the Capacity Reservation resource was created.<br><br>Minimum api-version: 2022-03-01. */
+  /** Specifies the time at which the Capacity Reservation resource was created.<br><br>Minimum api-version: 2021-11-01. */
   timeCreated?: string;
 }
 

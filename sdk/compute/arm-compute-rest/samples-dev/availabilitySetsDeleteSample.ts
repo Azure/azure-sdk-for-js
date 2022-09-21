@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to Delete an availability set.
  *
  * @summary Delete an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/availabilitySetExamples/AvailabilitySets_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySets_Delete_MaximumSet_Gen.json
  */
 async function availabilitySetsDeleteMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function availabilitySetsDeleteMaximumSetGen() {
   const resourceGroupName = "rgcompute";
   const availabilitySetName = "aaaaaaaaaaaaaaaaaaaa";
   const options: AvailabilitySetsDeleteParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(
@@ -42,7 +42,7 @@ availabilitySetsDeleteMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Delete an availability set.
  *
  * @summary Delete an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/availabilitySetExamples/AvailabilitySets_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySets_Delete_MinimumSet_Gen.json
  */
 async function availabilitySetsDeleteMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -51,7 +51,7 @@ async function availabilitySetsDeleteMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const availabilitySetName = "aaaaaaaaaaa";
   const options: AvailabilitySetsDeleteParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(

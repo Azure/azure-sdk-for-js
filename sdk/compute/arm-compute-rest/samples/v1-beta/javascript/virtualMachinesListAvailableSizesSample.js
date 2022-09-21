@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all available virtual machine sizes to which the specified virtual machine can be resized.
  *
  * @summary Lists all available virtual machine sizes to which the specified virtual machine can be resized.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachines_ListAvailableVmSizes.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_ListAvailableVmSizes.json
  */
 async function listsAllAvailableVirtualMachineSizesToWhichTheSpecifiedVirtualMachineCanBeResized() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function listsAllAvailableVirtualMachineSizesToWhichTheSpecifiedVirtualMac
   const resourceGroupName = "myResourceGroup";
   const vmName = "myVmName";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

@@ -8,13 +8,13 @@
 package-name: "@azure-rest/arm-compute"
 title: ComputeManagementClient
 description: Compute Management Rest Client
-generate-metadata: true
+generate-metadata: false
 generate-test: true
 generate-sample: true
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/2e48c102980cfe2a330e634fd018dc6646c02183/specification/compute/resource-manager/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/a5df773378a8b52f84bee08b3edaaa6ef520f058/specification/compute/resource-manager/readme.md
 package-version: 1.0.0-beta.1
 rest-level-client: true
 add-credentials: true

@@ -221,7 +221,7 @@ export interface AvailabilitySetsCreateOrUpdateQueryParam {
 
 // @public (undocumented)
 export interface AvailabilitySetsCreateOrUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -259,7 +259,7 @@ export interface AvailabilitySetsDeleteQueryParam {
 
 // @public (undocumented)
 export interface AvailabilitySetsDeleteQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -289,7 +289,7 @@ export interface AvailabilitySetsGetQueryParam {
 
 // @public (undocumented)
 export interface AvailabilitySetsGetQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -337,7 +337,7 @@ export interface AvailabilitySetsListAvailableSizesQueryParam {
 
 // @public (undocumented)
 export interface AvailabilitySetsListAvailableSizesQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -372,7 +372,7 @@ export interface AvailabilitySetsListBySubscriptionQueryParam {
 
 // @public (undocumented)
 export interface AvailabilitySetsListBySubscriptionQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: string;
 }
 
@@ -395,7 +395,7 @@ export interface AvailabilitySetsListQueryParam {
 
 // @public (undocumented)
 export interface AvailabilitySetsListQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -435,7 +435,7 @@ export interface AvailabilitySetsUpdateQueryParam {
 
 // @public (undocumented)
 export interface AvailabilitySetsUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -606,7 +606,7 @@ export interface CapacityReservationGroupsCreateOrUpdateQueryParam {
 
 // @public (undocumented)
 export interface CapacityReservationGroupsCreateOrUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -644,7 +644,7 @@ export interface CapacityReservationGroupsDeleteQueryParam {
 
 // @public (undocumented)
 export interface CapacityReservationGroupsDeleteQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -674,7 +674,7 @@ export interface CapacityReservationGroupsGetQueryParam {
 
 // @public (undocumented)
 export interface CapacityReservationGroupsGetQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: "instanceView";
 }
 
@@ -710,7 +710,7 @@ export interface CapacityReservationGroupsListByResourceGroupQueryParam {
 
 // @public (undocumented)
 export interface CapacityReservationGroupsListByResourceGroupQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: "virtualMachineScaleSetVMs/$ref" | "virtualMachines/$ref";
 }
 
@@ -746,7 +746,7 @@ export interface CapacityReservationGroupsListBySubscriptionQueryParam {
 
 // @public (undocumented)
 export interface CapacityReservationGroupsListBySubscriptionQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: "virtualMachineScaleSetVMs/$ref" | "virtualMachines/$ref";
 }
 
@@ -787,7 +787,7 @@ export interface CapacityReservationGroupsUpdateQueryParam {
 
 // @public (undocumented)
 export interface CapacityReservationGroupsUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -843,6 +843,7 @@ export interface CapacityReservationProfileOutput {
 // @public
 export interface CapacityReservationProperties {
     instanceView?: CapacityReservationInstanceView;
+    platformFaultDomainCount?: number;
     provisioningState?: string;
     provisioningTime?: Date | string;
     reservationId?: string;
@@ -853,6 +854,7 @@ export interface CapacityReservationProperties {
 // @public
 export interface CapacityReservationPropertiesOutput {
     instanceView?: CapacityReservationInstanceViewOutput;
+    platformFaultDomainCount?: number;
     provisioningState?: string;
     provisioningTime?: string;
     reservationId?: string;
@@ -913,7 +915,7 @@ export interface CapacityReservationsCreateOrUpdateQueryParam {
 
 // @public (undocumented)
 export interface CapacityReservationsCreateOrUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -959,7 +961,7 @@ export interface CapacityReservationsDeleteQueryParam {
 
 // @public (undocumented)
 export interface CapacityReservationsDeleteQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -989,7 +991,7 @@ export interface CapacityReservationsGetQueryParam {
 
 // @public (undocumented)
 export interface CapacityReservationsGetQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: "instanceView";
 }
 
@@ -1025,7 +1027,7 @@ export interface CapacityReservationsListByCapacityReservationGroupQueryParam {
 
 // @public (undocumented)
 export interface CapacityReservationsListByCapacityReservationGroupQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -1073,7 +1075,7 @@ export interface CapacityReservationsUpdateQueryParam {
 
 // @public (undocumented)
 export interface CapacityReservationsUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -1084,11 +1086,13 @@ export interface CapacityReservationUpdate extends UpdateResource {
 
 // @public
 export interface CapacityReservationUtilization {
+    currentCapacity?: number;
     virtualMachinesAllocated?: Array<SubResourceReadOnly>;
 }
 
 // @public
 export interface CapacityReservationUtilizationOutput {
+    currentCapacity?: number;
     virtualMachinesAllocated?: Array<SubResourceReadOnlyOutput>;
 }
 
@@ -3059,7 +3063,7 @@ export interface DedicatedHostGroupsCreateOrUpdateQueryParam {
 
 // @public (undocumented)
 export interface DedicatedHostGroupsCreateOrUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -3097,7 +3101,7 @@ export interface DedicatedHostGroupsDeleteQueryParam {
 
 // @public (undocumented)
 export interface DedicatedHostGroupsDeleteQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -3127,7 +3131,7 @@ export interface DedicatedHostGroupsGetQueryParam {
 
 // @public (undocumented)
 export interface DedicatedHostGroupsGetQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: "instanceView" | "userData";
 }
 
@@ -3163,7 +3167,7 @@ export interface DedicatedHostGroupsListByResourceGroupQueryParam {
 
 // @public (undocumented)
 export interface DedicatedHostGroupsListByResourceGroupQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -3198,7 +3202,7 @@ export interface DedicatedHostGroupsListBySubscriptionQueryParam {
 
 // @public (undocumented)
 export interface DedicatedHostGroupsListBySubscriptionQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -3238,7 +3242,7 @@ export interface DedicatedHostGroupsUpdateQueryParam {
 
 // @public (undocumented)
 export interface DedicatedHostGroupsUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -3362,7 +3366,7 @@ export interface DedicatedHostsCreateOrUpdateQueryParam {
 
 // @public (undocumented)
 export interface DedicatedHostsCreateOrUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -3408,7 +3412,7 @@ export interface DedicatedHostsDeleteQueryParam {
 
 // @public (undocumented)
 export interface DedicatedHostsDeleteQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -3438,7 +3442,7 @@ export interface DedicatedHostsGetQueryParam {
 
 // @public (undocumented)
 export interface DedicatedHostsGetQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: "instanceView" | "userData";
 }
 
@@ -3474,7 +3478,7 @@ export interface DedicatedHostsListByHostGroupQueryParam {
 
 // @public (undocumented)
 export interface DedicatedHostsListByHostGroupQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -3509,7 +3513,7 @@ export interface DedicatedHostsRestartQueryParam {
 
 // @public (undocumented)
 export interface DedicatedHostsRestartQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -3549,7 +3553,7 @@ export interface DedicatedHostsUpdateQueryParam {
 
 // @public (undocumented)
 export interface DedicatedHostsUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -6989,7 +6993,7 @@ export interface ImagesCreateOrUpdateQueryParam {
 
 // @public (undocumented)
 export interface ImagesCreateOrUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -7035,7 +7039,7 @@ export interface ImagesDeleteQueryParam {
 
 // @public (undocumented)
 export interface ImagesDeleteQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -7065,7 +7069,7 @@ export interface ImagesGetQueryParam {
 
 // @public (undocumented)
 export interface ImagesGetQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: string;
 }
 
@@ -7114,7 +7118,7 @@ export interface ImagesListByResourceGroupQueryParam {
 
 // @public (undocumented)
 export interface ImagesListByResourceGroupQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -7136,7 +7140,7 @@ export interface ImagesListQueryParam {
 
 // @public (undocumented)
 export interface ImagesListQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -7198,7 +7202,7 @@ export interface ImagesUpdateQueryParam {
 
 // @public (undocumented)
 export interface ImagesUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -8111,6 +8115,7 @@ export interface LastPatchInstallationSummaryOutput {
 // @public
 export interface LinuxConfiguration {
     disablePasswordAuthentication?: boolean;
+    enableVMAgentPlatformUpdates?: boolean;
     patchSettings?: LinuxPatchSettings;
     provisionVMAgent?: boolean;
     ssh?: SshConfiguration;
@@ -8119,6 +8124,7 @@ export interface LinuxConfiguration {
 // @public
 export interface LinuxConfigurationOutput {
     disablePasswordAuthentication?: boolean;
+    enableVMAgentPlatformUpdates?: boolean;
     patchSettings?: LinuxPatchSettingsOutput;
     provisionVMAgent?: boolean;
     ssh?: SshConfigurationOutput;
@@ -8262,7 +8268,7 @@ export interface LogAnalyticsExportRequestRateByIntervalQueryParam {
 
 // @public (undocumented)
 export interface LogAnalyticsExportRequestRateByIntervalQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -8315,7 +8321,7 @@ export interface LogAnalyticsExportThrottledRequestsQueryParam {
 
 // @public (undocumented)
 export interface LogAnalyticsExportThrottledRequestsQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -8444,7 +8450,7 @@ export interface OperationsListQueryParam {
 
 // @public (undocumented)
 export interface OperationsListQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -8681,6 +8687,18 @@ export interface PlanOutput {
 }
 
 // @public
+export interface PriorityMixPolicy {
+    baseRegularPriorityCount?: number;
+    regularPriorityPercentageAboveBase?: number;
+}
+
+// @public
+export interface PriorityMixPolicyOutput {
+    baseRegularPriorityCount?: number;
+    regularPriorityPercentageAboveBase?: number;
+}
+
+// @public
 export interface PrivateEndpoint {
     id?: string;
 }
@@ -8871,7 +8889,7 @@ export interface ProximityPlacementGroupsCreateOrUpdateQueryParam {
 
 // @public (undocumented)
 export interface ProximityPlacementGroupsCreateOrUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -8901,7 +8919,7 @@ export interface ProximityPlacementGroupsDeleteQueryParam {
 
 // @public (undocumented)
 export interface ProximityPlacementGroupsDeleteQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -8931,7 +8949,7 @@ export interface ProximityPlacementGroupsGetQueryParam {
 
 // @public (undocumented)
 export interface ProximityPlacementGroupsGetQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     includeColocationStatus?: string;
 }
 
@@ -8967,7 +8985,7 @@ export interface ProximityPlacementGroupsListByResourceGroupQueryParam {
 
 // @public (undocumented)
 export interface ProximityPlacementGroupsListByResourceGroupQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -9002,7 +9020,7 @@ export interface ProximityPlacementGroupsListBySubscriptionQueryParam {
 
 // @public (undocumented)
 export interface ProximityPlacementGroupsListBySubscriptionQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -9042,7 +9060,7 @@ export interface ProximityPlacementGroupsUpdateQueryParam {
 
 // @public (undocumented)
 export interface ProximityPlacementGroupsUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -9432,7 +9450,7 @@ export interface RestorePointCollectionsCreateOrUpdateQueryParam {
 
 // @public (undocumented)
 export interface RestorePointCollectionsCreateOrUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -9478,7 +9496,7 @@ export interface RestorePointCollectionsDeleteQueryParam {
 
 // @public (undocumented)
 export interface RestorePointCollectionsDeleteQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -9508,7 +9526,7 @@ export interface RestorePointCollectionsGetQueryParam {
 
 // @public (undocumented)
 export interface RestorePointCollectionsGetQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: "restorePoints";
 }
 
@@ -9557,7 +9575,7 @@ export interface RestorePointCollectionsListAllQueryParam {
 
 // @public (undocumented)
 export interface RestorePointCollectionsListAllQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -9579,7 +9597,7 @@ export interface RestorePointCollectionsListQueryParam {
 
 // @public (undocumented)
 export interface RestorePointCollectionsListQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -9631,7 +9649,7 @@ export interface RestorePointCollectionsUpdateQueryParam {
 
 // @public (undocumented)
 export interface RestorePointCollectionsUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -9722,7 +9740,7 @@ export interface RestorePointsCreateQueryParam {
 
 // @public (undocumented)
 export interface RestorePointsCreateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -9768,7 +9786,7 @@ export interface RestorePointsDeleteQueryParam {
 
 // @public (undocumented)
 export interface RestorePointsDeleteQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -9798,7 +9816,7 @@ export interface RestorePointsGetQueryParam {
 
 // @public (undocumented)
 export interface RestorePointsGetQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: "instanceView";
 }
 
@@ -11191,7 +11209,7 @@ export interface SshPublicKeysCreateQueryParam {
 
 // @public (undocumented)
 export interface SshPublicKeysCreateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -11229,7 +11247,7 @@ export interface SshPublicKeysDeleteQueryParam {
 
 // @public (undocumented)
 export interface SshPublicKeysDeleteQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -11264,7 +11282,7 @@ export interface SshPublicKeysGenerateKeyPairQueryParam {
 
 // @public (undocumented)
 export interface SshPublicKeysGenerateKeyPairQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -11294,7 +11312,7 @@ export interface SshPublicKeysGetQueryParam {
 
 // @public (undocumented)
 export interface SshPublicKeysGetQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -11335,7 +11353,7 @@ export interface SshPublicKeysListByResourceGroupQueryParam {
 
 // @public (undocumented)
 export interface SshPublicKeysListByResourceGroupQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -11370,7 +11388,7 @@ export interface SshPublicKeysListBySubscriptionQueryParam {
 
 // @public (undocumented)
 export interface SshPublicKeysListBySubscriptionQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -11410,7 +11428,7 @@ export interface SshPublicKeysUpdateQueryParam {
 
 // @public (undocumented)
 export interface SshPublicKeysUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -11427,6 +11445,7 @@ export interface StatusCodeCountOutput {
 // @public
 export interface StorageProfile {
     dataDisks?: Array<DataDisk>;
+    diskControllerType?: "SCSI" | "NVMe";
     imageReference?: ImageReference;
     osDisk?: OSDisk;
 }
@@ -11434,6 +11453,7 @@ export interface StorageProfile {
 // @public
 export interface StorageProfileOutput {
     dataDisks?: Array<DataDiskOutput>;
+    diskControllerType?: "SCSI" | "NVMe";
     imageReference?: ImageReferenceOutput;
     osDisk?: OSDiskOutput;
 }
@@ -11639,7 +11659,7 @@ export interface UsageListQueryParam {
 
 // @public (undocumented)
 export interface UsageListQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -11878,7 +11898,7 @@ export interface VirtualMachineExtensionImagesGetQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineExtensionImagesGetQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -11913,7 +11933,7 @@ export interface VirtualMachineExtensionImagesListTypesQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineExtensionImagesListTypesQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -11948,7 +11968,7 @@ export interface VirtualMachineExtensionImagesListVersionsQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineExtensionImagesListVersionsQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $filter?: string;
     // (undocumented)
     $orderby?: string;
@@ -11986,7 +12006,7 @@ export interface VirtualMachineExtensionProperties {
     forceUpdateTag?: string;
     instanceView?: VirtualMachineExtensionInstanceView;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     provisioningState?: string;
     publisher?: string;
     settings?: any;
@@ -12002,7 +12022,7 @@ export interface VirtualMachineExtensionPropertiesOutput {
     forceUpdateTag?: string;
     instanceView?: VirtualMachineExtensionInstanceViewOutput;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReferenceOutput;
     provisioningState?: string;
     publisher?: string;
     settings?: any;
@@ -12064,7 +12084,7 @@ export interface VirtualMachineExtensionsCreateOrUpdateQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineExtensionsCreateOrUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -12110,7 +12130,7 @@ export interface VirtualMachineExtensionsDeleteQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineExtensionsDeleteQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -12140,7 +12160,7 @@ export interface VirtualMachineExtensionsGetQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineExtensionsGetQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: string;
 }
 
@@ -12176,7 +12196,7 @@ export interface VirtualMachineExtensionsListQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineExtensionsListQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: string;
 }
 
@@ -12222,7 +12242,7 @@ export interface VirtualMachineExtensionsUpdateQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineExtensionsUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -12236,7 +12256,7 @@ export interface VirtualMachineExtensionUpdateProperties {
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     publisher?: string;
     settings?: any;
     suppressFailures?: boolean;
@@ -12250,7 +12270,7 @@ export interface VirtualMachineExtensionUpdatePropertiesOutput {
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReferenceOutput;
     publisher?: string;
     settings?: any;
     suppressFailures?: boolean;
@@ -12382,7 +12402,7 @@ export interface VirtualMachineImagesEdgeZoneGetQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineImagesEdgeZoneGetQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -12438,7 +12458,7 @@ export interface VirtualMachineImagesEdgeZoneListOffersQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineImagesEdgeZoneListOffersQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -12476,7 +12496,7 @@ export interface VirtualMachineImagesEdgeZoneListPublishersQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineImagesEdgeZoneListPublishersQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -12487,7 +12507,7 @@ export interface VirtualMachineImagesEdgeZoneListQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineImagesEdgeZoneListQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: string;
     $orderby?: string;
     $top?: number;
@@ -12525,7 +12545,7 @@ export interface VirtualMachineImagesEdgeZoneListSkusQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineImagesEdgeZoneListSkusQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -12560,7 +12580,7 @@ export interface VirtualMachineImagesGetQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineImagesGetQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -12608,7 +12628,7 @@ export interface VirtualMachineImagesListByEdgeZoneQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineImagesListByEdgeZoneQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -12651,7 +12671,7 @@ export interface VirtualMachineImagesListOffersQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineImagesListOffersQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -12689,7 +12709,7 @@ export interface VirtualMachineImagesListPublishersQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineImagesListPublishersQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -12700,7 +12720,7 @@ export interface VirtualMachineImagesListQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineImagesListQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: string;
     // (undocumented)
     $orderby?: string;
@@ -12740,7 +12760,7 @@ export interface VirtualMachineImagesListSkusQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineImagesListSkusQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -12840,6 +12860,7 @@ export interface VirtualMachineNetworkInterfaceConfigurationOutput {
 // @public
 export interface VirtualMachineNetworkInterfaceConfigurationProperties {
     deleteOption?: "Delete" | "Detach";
+    disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineNetworkInterfaceDnsSettingsConfiguration;
     // (undocumented)
     dscpConfiguration?: SubResource;
@@ -12854,6 +12875,7 @@ export interface VirtualMachineNetworkInterfaceConfigurationProperties {
 // @public
 export interface VirtualMachineNetworkInterfaceConfigurationPropertiesOutput {
     deleteOption?: "Delete" | "Detach";
+    disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineNetworkInterfaceDnsSettingsConfigurationOutput;
     // (undocumented)
     dscpConfiguration?: SubResourceOutput;
@@ -13161,7 +13183,7 @@ export interface VirtualMachineRunCommandsCreateOrUpdateQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineRunCommandsCreateOrUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -13221,7 +13243,7 @@ export interface VirtualMachineRunCommandsDeleteQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineRunCommandsDeleteQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -13264,7 +13286,7 @@ export interface VirtualMachineRunCommandsGetByVirtualMachineQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineRunCommandsGetByVirtualMachineQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: string;
 }
 
@@ -13279,7 +13301,7 @@ export interface VirtualMachineRunCommandsGetQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineRunCommandsGetQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -13327,7 +13349,7 @@ export interface VirtualMachineRunCommandsListByVirtualMachineQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineRunCommandsListByVirtualMachineQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: string;
 }
 
@@ -13342,7 +13364,7 @@ export interface VirtualMachineRunCommandsListQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineRunCommandsListQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -13388,7 +13410,7 @@ export interface VirtualMachineRunCommandsUpdateQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineRunCommandsUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -13436,7 +13458,7 @@ export interface VirtualMachinesAssessPatchesQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesAssessPatchesQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -13515,7 +13537,7 @@ export interface VirtualMachineScaleSetExtensionProperties {
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     provisionAfterExtensions?: Array<string>;
     provisioningState?: string;
     publisher?: string;
@@ -13531,7 +13553,7 @@ export interface VirtualMachineScaleSetExtensionPropertiesOutput {
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReferenceOutput;
     provisionAfterExtensions?: Array<string>;
     provisioningState?: string;
     publisher?: string;
@@ -13594,7 +13616,7 @@ export interface VirtualMachineScaleSetExtensionsCreateOrUpdateQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetExtensionsCreateOrUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -13640,7 +13662,7 @@ export interface VirtualMachineScaleSetExtensionsDeleteQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetExtensionsDeleteQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -13670,7 +13692,7 @@ export interface VirtualMachineScaleSetExtensionsGetQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetExtensionsGetQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: string;
 }
 
@@ -13706,7 +13728,7 @@ export interface VirtualMachineScaleSetExtensionsListQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetExtensionsListQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -13754,7 +13776,7 @@ export interface VirtualMachineScaleSetExtensionsUpdateQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetExtensionsUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -13921,6 +13943,7 @@ export interface VirtualMachineScaleSetNetworkConfigurationOutput extends SubRes
 // @public
 export interface VirtualMachineScaleSetNetworkConfigurationProperties {
     deleteOption?: "Delete" | "Detach";
+    disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
     enableAcceleratedNetworking?: boolean;
     enableFpga?: boolean;
@@ -13933,6 +13956,7 @@ export interface VirtualMachineScaleSetNetworkConfigurationProperties {
 // @public
 export interface VirtualMachineScaleSetNetworkConfigurationPropertiesOutput {
     deleteOption?: "Delete" | "Detach";
+    disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettingsOutput;
     enableAcceleratedNetworking?: boolean;
     enableFpga?: boolean;
@@ -14029,6 +14053,7 @@ export interface VirtualMachineScaleSetProperties {
     orchestrationMode?: "Uniform" | "Flexible";
     overprovision?: boolean;
     platformFaultDomainCount?: number;
+    priorityMixPolicy?: PriorityMixPolicy;
     provisioningState?: string;
     proximityPlacementGroup?: SubResource;
     scaleInPolicy?: ScaleInPolicy;
@@ -14050,6 +14075,7 @@ export interface VirtualMachineScaleSetPropertiesOutput {
     orchestrationMode?: "Uniform" | "Flexible";
     overprovision?: boolean;
     platformFaultDomainCount?: number;
+    priorityMixPolicy?: PriorityMixPolicyOutput;
     provisioningState?: string;
     proximityPlacementGroup?: SubResourceOutput;
     scaleInPolicy?: ScaleInPolicyOutput;
@@ -14151,7 +14177,7 @@ export interface VirtualMachineScaleSetRollingUpgradesCancelQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetRollingUpgradesCancelQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -14186,7 +14212,7 @@ export interface VirtualMachineScaleSetRollingUpgradesGetLatestQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetRollingUpgradesGetLatestQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -14229,7 +14255,7 @@ export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeQuery
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -14272,7 +14298,7 @@ export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -14317,7 +14343,7 @@ export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupQueryParam 
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -14373,7 +14399,7 @@ export interface VirtualMachineScaleSetsCreateOrUpdateQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsCreateOrUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -14426,7 +14452,7 @@ export interface VirtualMachineScaleSetsDeallocateQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsDeallocateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -14511,7 +14537,7 @@ export interface VirtualMachineScaleSetsDeleteInstancesQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsDeleteInstancesQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     forceDeletion?: boolean;
 }
 
@@ -14526,7 +14552,7 @@ export interface VirtualMachineScaleSetsDeleteQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsDeleteQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     forceDeletion?: boolean;
 }
 
@@ -14562,7 +14588,7 @@ export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdate
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     placementGroupId?: string;
     platformUpdateDomain: number;
     zone?: string;
@@ -14616,7 +14642,7 @@ export interface VirtualMachineScaleSetsGetInstanceViewQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsGetInstanceViewQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -14651,7 +14677,7 @@ export interface VirtualMachineScaleSetsGetOSUpgradeHistoryQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsGetOSUpgradeHistoryQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -14665,7 +14691,7 @@ export interface VirtualMachineScaleSetsGetQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsGetQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: "userData";
 }
 
@@ -14729,7 +14755,7 @@ export interface VirtualMachineScaleSetsListAllQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsListAllQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -14764,7 +14790,7 @@ export interface VirtualMachineScaleSetsListByLocationQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsListByLocationQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -14786,7 +14812,7 @@ export interface VirtualMachineScaleSetsListQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsListQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -14821,7 +14847,7 @@ export interface VirtualMachineScaleSetsListSkusQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsListSkusQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -14874,7 +14900,7 @@ export interface VirtualMachineScaleSetsPerformMaintenanceQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsPerformMaintenanceQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -14927,7 +14953,7 @@ export interface VirtualMachineScaleSetsPowerOffQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsPowerOffQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     skipShutdown?: boolean;
 }
 
@@ -14981,7 +15007,7 @@ export interface VirtualMachineScaleSetsRedeployQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsRedeployQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -15055,7 +15081,7 @@ export interface VirtualMachineScaleSetsReimageAllQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsReimageAllQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -15087,7 +15113,7 @@ export interface VirtualMachineScaleSetsReimageQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsReimageQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -15140,7 +15166,7 @@ export interface VirtualMachineScaleSetsRestartQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsRestartQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -15193,7 +15219,7 @@ export interface VirtualMachineScaleSetsSetOrchestrationServiceStateQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsSetOrchestrationServiceStateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -15246,12 +15272,14 @@ export interface VirtualMachineScaleSetsStartQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsStartQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
 export interface VirtualMachineScaleSetStorageProfile {
     dataDisks?: Array<VirtualMachineScaleSetDataDisk>;
+    // (undocumented)
+    diskControllerType?: string;
     imageReference?: ImageReference;
     osDisk?: VirtualMachineScaleSetOSDisk;
 }
@@ -15259,6 +15287,8 @@ export interface VirtualMachineScaleSetStorageProfile {
 // @public
 export interface VirtualMachineScaleSetStorageProfileOutput {
     dataDisks?: Array<VirtualMachineScaleSetDataDiskOutput>;
+    // (undocumented)
+    diskControllerType?: string;
     imageReference?: ImageReferenceOutput;
     osDisk?: VirtualMachineScaleSetOSDiskOutput;
 }
@@ -15334,7 +15364,7 @@ export interface VirtualMachineScaleSetsUpdateInstancesQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsUpdateInstancesQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -15353,7 +15383,7 @@ export interface VirtualMachineScaleSetsUpdateQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetsUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -15415,6 +15445,7 @@ export interface VirtualMachineScaleSetUpdateNetworkConfigurationOutput extends 
 // @public
 export interface VirtualMachineScaleSetUpdateNetworkConfigurationProperties {
     deleteOption?: "Delete" | "Detach";
+    disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
     enableAcceleratedNetworking?: boolean;
     enableFpga?: boolean;
@@ -15427,6 +15458,7 @@ export interface VirtualMachineScaleSetUpdateNetworkConfigurationProperties {
 // @public
 export interface VirtualMachineScaleSetUpdateNetworkConfigurationPropertiesOutput {
     deleteOption?: "Delete" | "Detach";
+    disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettingsOutput;
     enableAcceleratedNetworking?: boolean;
     enableFpga?: boolean;
@@ -15506,6 +15538,8 @@ export interface VirtualMachineScaleSetUpdatePublicIPAddressConfigurationPropert
 // @public
 export interface VirtualMachineScaleSetUpdateStorageProfile {
     dataDisks?: Array<VirtualMachineScaleSetDataDisk>;
+    // (undocumented)
+    diskControllerType?: string;
     imageReference?: ImageReference;
     osDisk?: VirtualMachineScaleSetUpdateOSDisk;
 }
@@ -15515,6 +15549,7 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
     billingProfile?: BillingProfile;
     diagnosticsProfile?: DiagnosticsProfile;
     extensionProfile?: VirtualMachineScaleSetExtensionProfile;
+    hardwareProfile?: VirtualMachineScaleSetHardwareProfile;
     licenseType?: string;
     networkProfile?: VirtualMachineScaleSetUpdateNetworkProfile;
     osProfile?: VirtualMachineScaleSetUpdateOSProfile;
@@ -15602,7 +15637,7 @@ export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -15648,7 +15683,7 @@ export interface VirtualMachineScaleSetVMExtensionsDeleteQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMExtensionsDeleteQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -15678,7 +15713,7 @@ export interface VirtualMachineScaleSetVMExtensionsGetQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMExtensionsGetQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: string;
 }
 
@@ -15714,7 +15749,7 @@ export interface VirtualMachineScaleSetVMExtensionsListQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMExtensionsListQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: string;
 }
 
@@ -15766,7 +15801,7 @@ export interface VirtualMachineScaleSetVMExtensionsUpdateQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMExtensionsUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -16001,7 +16036,7 @@ export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -16047,7 +16082,7 @@ export interface VirtualMachineScaleSetVMRunCommandsDeleteQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMRunCommandsDeleteQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -16077,7 +16112,7 @@ export interface VirtualMachineScaleSetVMRunCommandsGetQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMRunCommandsGetQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: string;
 }
 
@@ -16113,7 +16148,7 @@ export interface VirtualMachineScaleSetVMRunCommandsListQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMRunCommandsListQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: string;
 }
 
@@ -16154,7 +16189,7 @@ export interface VirtualMachineScaleSetVMRunCommandsUpdateQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMRunCommandsUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -16197,7 +16232,7 @@ export interface VirtualMachineScaleSetVMsDeallocateQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsDeallocateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -16243,7 +16278,7 @@ export interface VirtualMachineScaleSetVMsDeleteQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsDeleteQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     forceDeletion?: boolean;
 }
 
@@ -16295,7 +16330,7 @@ export interface VirtualMachineScaleSetVMsGetInstanceViewQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsGetInstanceViewQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -16309,7 +16344,7 @@ export interface VirtualMachineScaleSetVMsGetQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsGetQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: "instanceView" | "userData";
 }
 
@@ -16345,7 +16380,7 @@ export interface VirtualMachineScaleSetVMsListQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsListQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: string;
     $filter?: string;
     $select?: string;
@@ -16391,7 +16426,7 @@ export interface VirtualMachineScaleSetVMsPerformMaintenanceQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsPerformMaintenanceQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -16434,7 +16469,7 @@ export interface VirtualMachineScaleSetVMsPowerOffQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsPowerOffQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     skipShutdown?: boolean;
 }
 
@@ -16478,7 +16513,7 @@ export interface VirtualMachineScaleSetVMsRedeployQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsRedeployQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -16542,7 +16577,7 @@ export interface VirtualMachineScaleSetVMsReimageAllQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsReimageAllQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -16574,7 +16609,7 @@ export interface VirtualMachineScaleSetVMsReimageQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsReimageQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -16617,7 +16652,7 @@ export interface VirtualMachineScaleSetVMsRestartQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsRestartQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -16652,7 +16687,7 @@ export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataQueryParam 
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     sasUriExpirationTimeInMinutes?: number;
 }
 
@@ -16698,7 +16733,7 @@ export interface VirtualMachineScaleSetVMsRunCommandQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsRunCommandQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -16733,7 +16768,7 @@ export interface VirtualMachineScaleSetVMsSimulateEvictionQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsSimulateEvictionQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -16776,7 +16811,7 @@ export interface VirtualMachineScaleSetVMsStartQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsStartQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -16831,7 +16866,7 @@ export interface VirtualMachineScaleSetVMsUpdateQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineScaleSetVMsUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -16884,7 +16919,7 @@ export interface VirtualMachinesCaptureQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesCaptureQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -16927,7 +16962,7 @@ export interface VirtualMachinesConvertToManagedDisksQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesConvertToManagedDisksQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -16983,7 +17018,7 @@ export interface VirtualMachinesCreateOrUpdateQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesCreateOrUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -17026,7 +17061,7 @@ export interface VirtualMachinesDeallocateQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesDeallocateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     hibernate?: boolean;
 }
 
@@ -17073,7 +17108,7 @@ export interface VirtualMachinesDeleteQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesDeleteQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     forceDeletion?: boolean;
 }
 
@@ -17109,7 +17144,7 @@ export interface VirtualMachinesGeneralizeQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesGeneralizeQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -17139,7 +17174,7 @@ export interface VirtualMachinesGetQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesGetQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $expand?: "instanceView" | "userData";
 }
 
@@ -17193,7 +17228,7 @@ export interface VirtualMachinesInstallPatchesQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesInstallPatchesQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -17228,7 +17263,7 @@ export interface VirtualMachinesInstanceViewQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesInstanceViewQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -17278,7 +17313,7 @@ export interface VirtualMachineSizesListQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachineSizesListQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -17326,7 +17361,7 @@ export interface VirtualMachinesListAllQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesListAllQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $filter?: string;
     statusOnly?: string;
 }
@@ -17363,7 +17398,7 @@ export interface VirtualMachinesListAvailableSizesQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesListAvailableSizesQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -17398,7 +17433,7 @@ export interface VirtualMachinesListByLocationQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesListByLocationQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -17420,7 +17455,7 @@ export interface VirtualMachinesListQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesListQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     $filter?: string;
 }
 
@@ -17478,7 +17513,7 @@ export interface VirtualMachinesPerformMaintenanceQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesPerformMaintenanceQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -17521,7 +17556,7 @@ export interface VirtualMachinesPowerOffQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesPowerOffQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     skipShutdown?: boolean;
 }
 
@@ -17565,7 +17600,7 @@ export interface VirtualMachinesReapplyQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesReapplyQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -17608,7 +17643,7 @@ export interface VirtualMachinesRedeployQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesRedeployQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -17661,7 +17696,7 @@ export interface VirtualMachinesReimageQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesReimageQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -17704,7 +17739,7 @@ export interface VirtualMachinesRestartQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesRestartQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -17739,7 +17774,7 @@ export interface VirtualMachinesRetrieveBootDiagnosticsDataQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesRetrieveBootDiagnosticsDataQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
     sasUriExpirationTimeInMinutes?: number;
 }
 
@@ -17785,7 +17820,7 @@ export interface VirtualMachinesRunCommandQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesRunCommandQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -17820,7 +17855,7 @@ export interface VirtualMachinesSimulateEvictionQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesSimulateEvictionQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public (undocumented)
@@ -17863,7 +17898,7 @@ export interface VirtualMachinesStartQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesStartQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -17909,7 +17944,7 @@ export interface VirtualMachinesUpdateQueryParam {
 
 // @public (undocumented)
 export interface VirtualMachinesUpdateQueryParamProperties {
-    "api-version": "2022-03-01";
+    "api-version": "2022-08-01";
 }
 
 // @public
@@ -17979,6 +18014,7 @@ export interface VMSizePropertiesOutput {
 export interface WindowsConfiguration {
     additionalUnattendContent?: Array<AdditionalUnattendContent>;
     enableAutomaticUpdates?: boolean;
+    enableVMAgentPlatformUpdates?: boolean;
     patchSettings?: PatchSettings;
     provisionVMAgent?: boolean;
     timeZone?: string;
@@ -17989,6 +18025,7 @@ export interface WindowsConfiguration {
 export interface WindowsConfigurationOutput {
     additionalUnattendContent?: Array<AdditionalUnattendContentOutput>;
     enableAutomaticUpdates?: boolean;
+    enableVMAgentPlatformUpdates?: boolean;
     patchSettings?: PatchSettingsOutput;
     provisionVMAgent?: boolean;
     timeZone?: string;

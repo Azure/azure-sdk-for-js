@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a new SSH public key resource.
  *
  * @summary Updates a new SSH public key resource.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/sshPublicKeyExamples/SshPublicKeys_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/sshPublicKeyExamples/SshPublicKeys_Update_MaximumSet_Gen.json
  */
 async function sshPublicKeysUpdateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function sshPublicKeysUpdateMaximumSetGen() {
       properties: { publicKey: "{ssh-rsa public key}" },
       tags: { key2854: "a" }
     },
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(
@@ -46,7 +46,7 @@ sshPublicKeysUpdateMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Updates a new SSH public key resource.
  *
  * @summary Updates a new SSH public key resource.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/sshPublicKeyExamples/SshPublicKeys_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/sshPublicKeyExamples/SshPublicKeys_Update_MinimumSet_Gen.json
  */
 async function sshPublicKeysUpdateMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -56,7 +56,7 @@ async function sshPublicKeysUpdateMinimumSetGen() {
   const sshPublicKeyName = "aaaaaaaaaaa";
   const options: SshPublicKeysUpdateParameters = {
     body: {},
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(

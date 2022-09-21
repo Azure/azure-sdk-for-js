@@ -11,7 +11,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a dedicated host group.
  *
  * @summary Delete a dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/dedicatedHostExamples/DedicatedHostGroups_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHostGroups_Delete_MaximumSet_Gen.json
  */
 async function dedicatedHostGroupsDeleteMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -20,7 +20,7 @@ async function dedicatedHostGroupsDeleteMaximumSetGen() {
   const resourceGroupName = "rgcompute";
   const hostGroupName = "a";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -38,7 +38,7 @@ dedicatedHostGroupsDeleteMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Delete a dedicated host group.
  *
  * @summary Delete a dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/dedicatedHostExamples/DedicatedHostGroups_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHostGroups_Delete_MinimumSet_Gen.json
  */
 async function dedicatedHostGroupsDeleteMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ async function dedicatedHostGroupsDeleteMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const hostGroupName = "aaaa";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(

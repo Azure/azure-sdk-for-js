@@ -16,7 +16,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to perform maintenance on a virtual machine.
  *
  * @summary The operation to perform maintenance on a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachines_PerformMaintenance_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_PerformMaintenance_MaximumSet_Gen.json
  */
 async function virtualMachinesPerformMaintenanceMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function virtualMachinesPerformMaintenanceMaximumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmName = "aaaaaaa";
   const options: VirtualMachinesPerformMaintenanceParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(
@@ -45,7 +45,7 @@ virtualMachinesPerformMaintenanceMaximumSetGen().catch(console.error);
  * This sample demonstrates how to The operation to perform maintenance on a virtual machine.
  *
  * @summary The operation to perform maintenance on a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachines_PerformMaintenance_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_PerformMaintenance_MinimumSet_Gen.json
  */
 async function virtualMachinesPerformMaintenanceMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function virtualMachinesPerformMaintenanceMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmName = "aaaaaaaaaa";
   const options: VirtualMachinesPerformMaintenanceParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(

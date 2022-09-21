@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new SSH public key resource.
  *
  * @summary Creates a new SSH public key resource.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/sshPublicKeyExamples/SshPublicKey_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/sshPublicKeyExamples/SshPublicKey_Create.json
  */
 async function createANewSshPublicKeyResource() {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function createANewSshPublicKeyResource() {
       location: "westus",
       properties: { publicKey: "{ssh-rsa public key}" }
     },
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(

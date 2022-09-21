@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to get the VMSS VM run command.
  *
  * @summary The operation to get the VMSS VM run command.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_Get.json
  */
 async function getVirtualMachineScaleSetVMRunCommands() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getVirtualMachineScaleSetVMRunCommands() {
   const instanceId = "0";
   const runCommandName = "myRunCommand";
   const options: VirtualMachineScaleSetVMRunCommandsGetParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const result = await client
     .path(

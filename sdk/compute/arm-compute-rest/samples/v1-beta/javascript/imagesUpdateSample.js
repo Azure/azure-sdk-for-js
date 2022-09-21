@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update an image.
  *
  * @summary Update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/imageExamples/Image_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_Update.json
  */
 async function updatesTagsOfAnImage() {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function updatesTagsOfAnImage() {
       },
       tags: { department: "HR" },
     },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

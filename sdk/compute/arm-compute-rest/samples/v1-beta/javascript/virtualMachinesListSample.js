@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
  *
  * @summary Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachines_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_List_MaximumSet_Gen.json
  */
 async function virtualMachinesListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function virtualMachinesListMaximumSetGen() {
   const options = {
     queryParameters: {
       $filter: "aaaaaaaaaaaaaaaaaaaaaaa",
-      "api-version": "2022-03-01",
+      "api-version": "2022-08-01",
     },
   };
   const initialResponse = await client
@@ -45,7 +45,7 @@ virtualMachinesListMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
  *
  * @summary Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachines_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_List_MinimumSet_Gen.json
  */
 async function virtualMachinesListMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -53,7 +53,7 @@ async function virtualMachinesListMinimumSetGen() {
   const subscriptionId = "";
   const resourceGroupName = "rgcompute";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

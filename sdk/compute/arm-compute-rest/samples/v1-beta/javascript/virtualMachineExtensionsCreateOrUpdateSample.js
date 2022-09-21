@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to create or update the extension.
  *
  * @summary The operation to create or update the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachineExtensions_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachineExtensions_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionsCreateOrUpdateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -60,7 +60,7 @@ async function virtualMachineExtensionsCreateOrUpdateMaximumSetGen() {
       },
       tags: { key9183: "aa" },
     },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -81,7 +81,7 @@ virtualMachineExtensionsCreateOrUpdateMaximumSetGen().catch(console.error);
  * This sample demonstrates how to The operation to create or update the extension.
  *
  * @summary The operation to create or update the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachineExtensions_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachineExtensions_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionsCreateOrUpdateMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -92,7 +92,7 @@ async function virtualMachineExtensionsCreateOrUpdateMinimumSetGen() {
   const vmExtensionName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const options = {
     body: { location: "westus" },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

@@ -11,7 +11,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a list of virtual machine extension image types.
  *
  * @summary Gets a list of virtual machine extension image types.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_ListTypes_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_ListTypes_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionImagesListTypesMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -20,7 +20,7 @@ async function virtualMachineExtensionImagesListTypesMaximumSetGen() {
   const location = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -38,7 +38,7 @@ virtualMachineExtensionImagesListTypesMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Gets a list of virtual machine extension image types.
  *
  * @summary Gets a list of virtual machine extension image types.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_ListTypes_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_ListTypes_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionImagesListTypesMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ async function virtualMachineExtensionImagesListTypesMinimumSetGen() {
   const location = "aaaa";
   const publisherName = "aa";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(

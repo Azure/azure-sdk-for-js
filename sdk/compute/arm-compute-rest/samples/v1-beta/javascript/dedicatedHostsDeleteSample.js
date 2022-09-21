@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a dedicated host.
  *
  * @summary Delete a dedicated host.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/dedicatedHostExamples/DedicatedHosts_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHosts_Delete_MaximumSet_Gen.json
  */
 async function dedicatedHostsDeleteMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function dedicatedHostsDeleteMaximumSetGen() {
   const hostGroupName = "aaaaaa";
   const hostName = "aaaaaaaaaaaaaaa";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -43,7 +43,7 @@ dedicatedHostsDeleteMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Delete a dedicated host.
  *
  * @summary Delete a dedicated host.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/dedicatedHostExamples/DedicatedHosts_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHosts_Delete_MinimumSet_Gen.json
  */
 async function dedicatedHostsDeleteMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -53,7 +53,7 @@ async function dedicatedHostsDeleteMinimumSetGen() {
   const hostGroupName = "aaaaaaaaaaaaaaa";
   const hostName = "aaaaa";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

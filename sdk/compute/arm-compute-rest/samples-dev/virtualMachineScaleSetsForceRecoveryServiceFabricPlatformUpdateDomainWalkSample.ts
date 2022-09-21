@@ -15,7 +15,7 @@ dotenv.config();
  * This sample demonstrates how to Manual platform update domain walk to update virtual machines in a service fabric virtual machine scale set.
  *
  * @summary Manual platform update domain walk to update virtual machines in a service fabric virtual machine scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ForceRecoveryServiceFabricPlatformUpdateDomainWalk_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ForceRecoveryServiceFabricPlatformUpdateDomainWalk_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function virtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDo
   const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkParameters = {
-    queryParameters: { "api-version": "2022-03-01", platformUpdateDomain: 30 }
+    queryParameters: { "api-version": "2022-08-01", platformUpdateDomain: 30 }
   };
   const result = await client
     .path(
@@ -44,7 +44,7 @@ virtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkMaximum
  * This sample demonstrates how to Manual platform update domain walk to update virtual machines in a service fabric virtual machine scale set.
  *
  * @summary Manual platform update domain walk to update virtual machines in a service fabric virtual machine scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ForceRecoveryServiceFabricPlatformUpdateDomainWalk_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ForceRecoveryServiceFabricPlatformUpdateDomainWalk_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -53,7 +53,7 @@ async function virtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDo
   const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkParameters = {
-    queryParameters: { "api-version": "2022-03-01", platformUpdateDomain: 9 }
+    queryParameters: { "api-version": "2022-08-01", platformUpdateDomain: 9 }
   };
   const result = await client
     .path(

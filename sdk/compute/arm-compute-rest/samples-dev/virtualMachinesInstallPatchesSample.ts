@@ -16,7 +16,7 @@ dotenv.config();
  * This sample demonstrates how to Installs patches on the VM.
  *
  * @summary Installs patches on the VM.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_InstallPatches.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_InstallPatches.json
  */
 async function installPatchStateOfAVirtualMachine() {
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function installPatchStateOfAVirtualMachine() {
         maxPatchPublishDate: new Date("2020-11-19T02:36:43.0539904+00:00")
       }
     },
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(

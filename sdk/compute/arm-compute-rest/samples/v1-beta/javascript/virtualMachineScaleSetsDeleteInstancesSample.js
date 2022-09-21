@@ -12,7 +12,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes virtual machines in a VM scale set.
  *
  * @summary Deletes virtual machines in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_DeleteInstances_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_DeleteInstances_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsDeleteInstancesMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function virtualMachineScaleSetsDeleteInstancesMaximumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaa";
   const options = {
     body: { instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"] },
-    queryParameters: { forceDeletion: true, "api-version": "2022-03-01" },
+    queryParameters: { forceDeletion: true, "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -42,7 +42,7 @@ virtualMachineScaleSetsDeleteInstancesMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Deletes virtual machines in a VM scale set.
  *
  * @summary Deletes virtual machines in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_DeleteInstances_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_DeleteInstances_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsDeleteInstancesMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -52,7 +52,7 @@ async function virtualMachineScaleSetsDeleteInstancesMinimumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaaa";
   const options = {
     body: { instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"] },
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

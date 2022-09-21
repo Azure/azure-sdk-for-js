@@ -16,7 +16,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to reapply a virtual machine's state.
  *
  * @summary The operation to reapply a virtual machine's state.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Reapply.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Reapply.json
  */
 async function reapplyTheStateOfAVirtualMachine() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function reapplyTheStateOfAVirtualMachine() {
   const resourceGroupName = "ResourceGroup";
   const vmName = "VMName";
   const options: VirtualMachinesReapplyParameters = {
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(

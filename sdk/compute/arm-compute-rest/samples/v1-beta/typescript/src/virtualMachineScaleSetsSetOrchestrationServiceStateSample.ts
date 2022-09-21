@@ -16,7 +16,7 @@ dotenv.config();
  * This sample demonstrates how to Changes ServiceState property for a given service
  *
  * @summary Changes ServiceState property for a given service
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_SetOrchestrationServiceState_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_SetOrchestrationServiceState_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsSetOrchestrationServiceStateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function virtualMachineScaleSetsSetOrchestrationServiceStateMaximumSetGen(
   const vmScaleSetName = "aaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsSetOrchestrationServiceStateParameters = {
     body: { action: "Resume", serviceName: "AutomaticRepairs" },
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(
@@ -48,7 +48,7 @@ virtualMachineScaleSetsSetOrchestrationServiceStateMaximumSetGen().catch(
  * This sample demonstrates how to Changes ServiceState property for a given service
  *
  * @summary Changes ServiceState property for a given service
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_SetOrchestrationServiceState_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_SetOrchestrationServiceState_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsSetOrchestrationServiceStateMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -58,7 +58,7 @@ async function virtualMachineScaleSetsSetOrchestrationServiceStateMinimumSetGen(
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsSetOrchestrationServiceStateParameters = {
     body: { action: "Resume", serviceName: "AutomaticRepairs" },
-    queryParameters: { "api-version": "2022-03-01" }
+    queryParameters: { "api-version": "2022-08-01" }
   };
   const initialResponse = await client
     .path(

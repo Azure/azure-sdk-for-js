@@ -11,7 +11,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a list of virtual machine image offers for the specified location and publisher.
  *
  * @summary Gets a list of virtual machine image offers for the specified location and publisher.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineImageExamples/VirtualMachineImages_ListOffers_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImages_ListOffers_MaximumSet_Gen.json
  */
 async function virtualMachineImagesListOffersMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -20,7 +20,7 @@ async function virtualMachineImagesListOffersMaximumSetGen() {
   const location = "aaaaaaa";
   const publisherName = "aaaaaaaa";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -38,7 +38,7 @@ virtualMachineImagesListOffersMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Gets a list of virtual machine image offers for the specified location and publisher.
  *
  * @summary Gets a list of virtual machine image offers for the specified location and publisher.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineImageExamples/VirtualMachineImages_ListOffers_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImages_ListOffers_MinimumSet_Gen.json
  */
 async function virtualMachineImagesListOffersMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ async function virtualMachineImagesListOffersMinimumSetGen() {
   const location = "aaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options = {
-    queryParameters: { "api-version": "2022-03-01" },
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
