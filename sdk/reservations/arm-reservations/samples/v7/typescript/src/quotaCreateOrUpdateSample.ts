@@ -17,21 +17,15 @@ import { DefaultAzureCredential } from "@azure/identity";
 /**
  * This sample demonstrates how to Create or update the quota (service limits) of a resource to the requested value.
  Steps:
-
   1. Make the Get request to get the quota information for specific resource.
-
   2. To increase the quota, update the limit field in the response from Get request to new value.
-
   3. Submit the JSON to the quota request API to update the quota.
   The Create quota request may be constructed as follows. The PUT operation can be used to update the quota.
  *
  * @summary Create or update the quota (service limits) of a resource to the requested value.
  Steps:
-
   1. Make the Get request to get the quota information for specific resource.
-
   2. To increase the quota, update the limit field in the response from Get request to new value.
-
   3. Submit the JSON to the quota request API to update the quota.
   The Create quota request may be constructed as follows. The PUT operation can be used to update the quota.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/putComputeOneSkuQuotaRequest.json
@@ -65,21 +59,15 @@ quotasRequestPutForCompute().catch(console.error);
 /**
  * This sample demonstrates how to Create or update the quota (service limits) of a resource to the requested value.
  Steps:
-
   1. Make the Get request to get the quota information for specific resource.
-
   2. To increase the quota, update the limit field in the response from Get request to new value.
-
   3. Submit the JSON to the quota request API to update the quota.
   The Create quota request may be constructed as follows. The PUT operation can be used to update the quota.
  *
  * @summary Create or update the quota (service limits) of a resource to the requested value.
  Steps:
-
   1. Make the Get request to get the quota information for specific resource.
-
   2. To increase the quota, update the limit field in the response from Get request to new value.
-
   3. Submit the JSON to the quota request API to update the quota.
   The Create quota request may be constructed as follows. The PUT operation can be used to update the quota.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/putMachineLearningServicesQuotaRequestDedicated.json
@@ -116,21 +104,15 @@ quotasRequestPutForMachineLearningServicesDedicatedResource().catch(
 /**
  * This sample demonstrates how to Create or update the quota (service limits) of a resource to the requested value.
  Steps:
-
   1. Make the Get request to get the quota information for specific resource.
-
   2. To increase the quota, update the limit field in the response from Get request to new value.
-
   3. Submit the JSON to the quota request API to update the quota.
   The Create quota request may be constructed as follows. The PUT operation can be used to update the quota.
  *
  * @summary Create or update the quota (service limits) of a resource to the requested value.
  Steps:
-
   1. Make the Get request to get the quota information for specific resource.
-
   2. To increase the quota, update the limit field in the response from Get request to new value.
-
   3. Submit the JSON to the quota request API to update the quota.
   The Create quota request may be constructed as follows. The PUT operation can be used to update the quota.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/putMachineLearningServicesQuotaRequestLowPriority.json

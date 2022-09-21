@@ -832,7 +832,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await poller.pollUntilDone();
         });
 
-        it("cancel after progress", async function () {
+        it.skip("cancel after progress", async function () {
           const docs = [
             "Patient does not suffer from high blood pressure.",
             "Prescribed 100mg ibuprofen, taken twice daily.",

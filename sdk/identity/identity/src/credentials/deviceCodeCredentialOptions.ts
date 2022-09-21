@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { InteractiveCredentialOptions } from "./interactiveCredentialOptions";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
+import { InteractiveCredentialOptions } from "./interactiveCredentialOptions";
 
 /**
  * Provides the user code and verification URI where the code must be
