@@ -3965,7 +3965,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220920
+      typescript: 4.9.0-dev.20220921
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8897,8 +8897,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220920:
-    resolution: {integrity: sha512-vpkbCShHXW+Y0eWB8gHb9vmjDI+3ELVYY7aLZIFdO/IP1+Oa0TrZ39UXX7V8/ShrnoleQOc+ZaTNOs+JR54+qQ==}
+  /typescript/4.9.0-dev.20220921:
+    resolution: {integrity: sha512-0WdiNgM0YfgPURswuah1JJfnDwa6e7Ki0DJcfAEruw17mACMCJw2F7vK/4jLcd1uIl4La3ZIPnA7dOyM7y5Skg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14568,7 +14568,7 @@ packages:
     dev: false
 
   file:projects/arm-sqlvirtualmachine.tgz:
-    resolution: {integrity: sha512-YJeBChIVh9jlUQ/LJua9WBnpb63MP9+lxaA8IyuO7dA1Jf8j1W4SkNxAJEqPGGiRF8WgeYXzFfdOaxQGXN7ePw==, tarball: file:projects/arm-sqlvirtualmachine.tgz}
+    resolution: {integrity: sha512-jVob73NLvrTFNCy9ffkMCAGxfsuAurybp9WuyMbPGfFN5Re1O0bqy6R96lVuwcHbMcLiEeKY4TOW/5sASGnHAQ==, tarball: file:projects/arm-sqlvirtualmachine.tgz}
     name: '@rush-temp/arm-sqlvirtualmachine'
     version: 0.0.0
     dependencies:
@@ -14587,7 +14587,7 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
