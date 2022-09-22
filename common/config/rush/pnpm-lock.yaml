@@ -11177,7 +11177,7 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-rmiOPcFNFnOPedDowkL7i3Zsa+cus7gy6i9c5TNQnLkprKgeFAU1f36qL7XYYpM8f1Vmudiymtt6Gx8GXjcXyA==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-pv4C0cOoIg7yvQeFBTv7H8jyxFnQxIeMUivY27MJCt6Ngq829tT52o3AbTzu/EDm+MX92XQBatHndHK+TRW+Sw==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
@@ -11198,7 +11198,7 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
