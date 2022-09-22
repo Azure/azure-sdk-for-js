@@ -38,7 +38,7 @@ export function getLongRunningPoller<TResult extends HttpResponse>(
       // which is an opaque URL provided by caller, the service sends this in one of the following headers: operation-location, azure-asyncoperation or location
       // depending on the lro pattern that the service implements. If non is provided we default to the initial path.
       const pollPath = (path ?? initialResponse.request.url).replace(
-        "http://localhost:3000",
+        "http://localhost:5000",
         "https://management.azure.com"
       );
       const response = await client.pathUnchecked(pollPath).get();
