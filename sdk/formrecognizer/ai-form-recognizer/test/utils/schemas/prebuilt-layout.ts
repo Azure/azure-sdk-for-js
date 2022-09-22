@@ -41,7 +41,7 @@ function modelInfo() {
   return {
     modelId: "prebuilt-layout",
     description: "Extract text and layout information from documents.",
-    createdDateTime: "2022-08-31T00:00:00.000Z",
+    createdOn: "2022-08-31T00:00:00.000Z",
     apiVersion: "2022-08-31",
   } as const;
 }

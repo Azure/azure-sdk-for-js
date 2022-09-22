@@ -127,7 +127,9 @@ export interface GeoJsonPolygonCollection extends GeoJsonGeometryCollection {
 export interface GeoJsonPolygonFeature extends GeoJsonFeature {
   geometry: GeoJsonPolygon;
 }
-
+/**
+ * The exact type of "Circle" feature in the GeoJson format
+ */
 export interface GeoJsonCircleFeature extends GeoJsonFeature {
   geometry: GeoJsonPoint;
   properties: {
@@ -143,7 +145,9 @@ export type GeoJsonCircleOrPolygonFeature = GeoJsonPolygonFeature | GeoJsonCircl
 export interface GeoJsonCircleOrPolygonFeatureCollection extends GeoJsonFeatureCollection {
   features: GeoJsonCircleOrPolygonFeature[];
 }
-
+/**
+ * The union type of several GeoJSON geometry object which is available for search.
+ */
 export type SearchGeometry =
   | GeoJsonPolygon
   | GeoJsonPolygonCollection

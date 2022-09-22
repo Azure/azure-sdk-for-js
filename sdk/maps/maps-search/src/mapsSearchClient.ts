@@ -3,8 +3,11 @@
 
 import { AzureKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
+  GeoJsonCircleOrPolygonFeature,
+  GeoJsonCircleOrPolygonFeatureCollection,
   GeoJsonFeatureCollection,
   GeoJsonLineString,
+  GeoJsonPolygonFeature,
   LatLon,
   SearchGeometry,
   StructuredAddress,
@@ -53,12 +56,12 @@ import {
   SearchReverseSearchCrossStreetAddressOptionalParams as ReverseSearchCrossStreetAddressOptionalParams,
   SearchAddressBatchResult,
   SearchSearchAlongRouteOptionalParams as SearchAlongRouteOptionalParams,
+  SearchFuzzySearchBatchOptionalParams,
   SearchSearchInsideGeometryOptionalParams as SearchInsideGeometryOptionalParams,
   SearchSearchNearbyPointOfInterestOptionalParams as SearchNearbyPointOfInterestOptionalParams,
-  SearchSearchStructuredAddressOptionalParams as SearchStructuredAddressOptionalParams,
-  SearchFuzzySearchBatchOptionalParams,
-  SearchSearchAddressBatchOptionalParams,
   SearchReverseSearchAddressBatchOptionalParams,
+  SearchSearchAddressBatchOptionalParams,
+  SearchSearchStructuredAddressOptionalParams as SearchStructuredAddressOptionalParams,
 } from "./generated/models";
 import {
   InternalPipelineOptions,
@@ -89,6 +92,18 @@ const isMapsSearchClientOptions = (
   clientIdOrOptions: any
 ): clientIdOrOptions is MapsSearchClientOptions =>
   clientIdOrOptions && typeof clientIdOrOptions !== "string";
+
+const isGeoJsonCircleOrPolygonFeatureCollection = (
+  geometry: SearchGeometry
+): geometry is GeoJsonCircleOrPolygonFeatureCollection => {
+  return "features" in geometry;
+};
+
+const isGeoJsonPolygonFeature = (
+  feature: GeoJsonCircleOrPolygonFeature
+): feature is GeoJsonPolygonFeature => {
+  return !("properties" in feature);
+};
 
 /**
  * Client class for interacting with Azure Maps Search Service.
@@ -553,6 +568,20 @@ export class MapsSearchClient {
   ): Promise<SearchAddressResult> {
     const { span, updatedOptions } = createSpan("MapsSearchClient-searchInsideGeometry", options);
     const internalOptions = updatedOptions as SearchInsideGeometryOptionalParams;
+    /** Patch an empty object to properties since it's required */
+    if (isGeoJsonCircleOrPolygonFeatureCollection(geometry)) {
+      console.log("is feature collection");
+      geometry.features = geometry.features.map((feature) => {
+        if (isGeoJsonPolygonFeature(feature)) {
+          console.log("is polygon");
+          return {
+            ...feature,
+            properties: {},
+          };
+        }
+        return feature;
+      });
+    }
     try {
       const result = await this.client.search.searchInsideGeometry(
         this.defaultFormat,
@@ -578,13 +607,13 @@ export class MapsSearchClient {
    * Performs a fuzzy search for POIs along a specified route.
    *
    * @param query - The POI name to search for (e.g., "statue of liberty", "starbucks", "pizza").
-   * @param maxDetourTime - Maximum detour time of the point of interest in seconds. Max value is 3600 seconds
+   * @param maxDetourTimeInSeconds - Maximum detour time of the point of interest in seconds. Max value is 3600 seconds
    * @param route - This represents the route to search along and should be a valid `GeoJSON LineString` type.
    * @param options - Optional parameters for the operation
    */
   public async searchAlongRoute(
     query: string,
-    maxDetourTime: number,
+    maxDetourTimeInSeconds: number,
     route: GeoJsonLineString,
     options: SearchAlongRouteOptions = {}
   ): Promise<SearchAddressResult> {
@@ -594,7 +623,7 @@ export class MapsSearchClient {
       const result = await this.client.search.searchAlongRoute(
         this.defaultFormat,
         query,
-        maxDetourTime,
+        maxDetourTimeInSeconds,
         { route: route },
         internalOptions
       );
@@ -695,7 +724,7 @@ export class MapsSearchClient {
    * @example
    * ```js
    * const serializedState = poller.toString()
-   * const rehydratedPoller = resumeFuzzySearchBatch(serializedState)
+   * const rehydratedPoller = resumeSearchAddressBatch(serializedState)
    * rehydratedPoller.poll()
    * ```
    *
@@ -705,7 +734,7 @@ export class MapsSearchClient {
    */
   public async resumeSearchAddressBatch(
     resumeFrom: string,
-    options: SearchAddressBatchOptions
+    options: SearchAddressBatchOptions = {}
   ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
     return this.createSearchAddressBatchPoller(undefined, { ...options, resumeFrom });
   }
@@ -781,7 +810,7 @@ export class MapsSearchClient {
   private async createReverseSearchAddressBatchPoller(
     requests: ReverseSearchAddressRequest[] = [],
     options: SearchReverseSearchAddressBatchOptionalParams = {}
-  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
+  ): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>> {
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginReverseSearchAddressBatch",
       options

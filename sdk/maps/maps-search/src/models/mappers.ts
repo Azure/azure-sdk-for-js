@@ -222,12 +222,21 @@ export function mapAddress(address: AddressInternal): Address {
 export function mapSearchAddressResult(
   internalResult: SearchAddressResultInternal
 ): SearchAddressResult {
-  const { geoBias, ...summaryObject } = internalResult.summary;
+  const { geoBias, numResults, ...summaryObject } = internalResult.summary;
   const searchResult: SearchAddressResult = {
     ...summaryObject,
     ...(geoBias && { geoBias: mapLatLongPairAbbreviatedToLatLon(geoBias) }),
+    numberResults: numResults,
     results: internalResult.results.map((ir) => {
-      const { address, position, viewport, entryPoints, addressRanges, ...resultObject } = ir;
+      const {
+        address,
+        position,
+        viewport,
+        entryPoints,
+        addressRanges,
+        detourTime,
+        ...resultObject
+      } = ir;
       return {
         ...resultObject,
         ...(address && { address: mapAddress(address) }),
@@ -246,6 +255,8 @@ export function mapSearchAddressResult(
             to: mapLatLongPairAbbreviatedToLatLon(addressRanges.to),
           },
         }),
+        // Rename to detourTimeInSeconds to follow the convention
+        ...(detourTime && { detourTimeInSeconds: detourTime }),
       };
     }),
   };
@@ -261,7 +272,7 @@ export function mapReverseSearchAddressResult(
 ): ReverseSearchAddressResult {
   const searchResult: ReverseSearchAddressResult = {
     queryTime: internalResult.summary.queryTime,
-    numResults: internalResult.summary.numResults,
+    numberResults: internalResult.summary.numResults,
     results: internalResult.addresses.map((ad) => {
       const { address, position, ...resultObject } = ad;
       return {
@@ -282,7 +293,7 @@ export function mapReverseSearchCrossStreetAddressResult(
 ): ReverseSearchCrossStreetAddressResult {
   const searchResult: ReverseSearchCrossStreetAddressResult = {
     queryTime: internalResult.summary.queryTime,
-    numResults: internalResult.summary.numResults,
+    numberResults: internalResult.summary.numResults,
     results: internalResult.addresses.map((ad) => {
       const { address, position } = ad;
       return {

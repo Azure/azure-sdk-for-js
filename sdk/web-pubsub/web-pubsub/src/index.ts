@@ -13,6 +13,7 @@ export {
   HubHasGroupOptions,
   HubHasUserOptions,
   WebPubSubServiceClientOptions,
+  WebPubSubServiceClientLogOptions,
   HubRemoveUserFromAllGroupsOptions,
   HubSendToConnectionOptions,
   HubSendToUserOptions,

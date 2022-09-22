@@ -28,9 +28,9 @@ async function main() {
   // const client = new MapsSearchClient(credential, mapsClientId);
 
   /** Get the search results and the size of current page */
-  const { results, numResults } = await client.fuzzySearch({ query: "Starbucks" });
+  const { results, numberResults } = await client.fuzzySearch({ query: "Starbucks" });
 
-  for (let i = 0; i < numResults; i++) {
+  for (let i = 0; i < numberResults; i++) {
     console.log(`${i}th result:`);
     /**
      * Different result types may have different properties.
@@ -38,11 +38,29 @@ async function main() {
      */
     switch (results[i].type) {
       case KnownSearchAddressResultType.POI:
+        /** Handle the result for the type of POI */
+        console.log(results[i]);
+        break;
       case KnownSearchAddressResultType.Street:
+        /** Handle the result for the type of Street */
+        console.log(results[i]);
+        break;
       case KnownSearchAddressResultType.Geography:
+        /** Handle the result for the type of Geography */
+        console.log(results[i]);
+        break;
       case KnownSearchAddressResultType.PointAddress:
+        /** Handle the result for the type of PointAddress */
+        console.log(results[i]);
+        break;
       case KnownSearchAddressResultType.AddressRange:
+        /** Handle the result for the type of AddressRange */
+        console.log(results[i]);
+        break;
       case KnownSearchAddressResultType.CrossStreet:
+        /** Handle the result for the type of CrossStreet */
+        console.log(results[i]);
+        break;
       default:
         console.log(results[i]);
     }

@@ -8,30 +8,30 @@
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1089-azure)",
-        "x-ms-client-request-id": "6ac4785b-c9ff-4a8b-b39c-724bf4c4fa41"
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
+        "x-ms-client-request-id": "6a1e4e15-748e-4e64-a454-267ca74c032e"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "10933",
+        "Content-Length": "10937",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 05 Sep 2022 08:45:30 GMT",
+        "Date": "Fri, 16 Sep 2022 10:55:46 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: D2AECBF3A2A1434BA3B0C6CD4BC5C370 Ref B: SG1EDGE0311 Ref C: 2022-09-05T08:45:30Z"
+        "X-MSEdge-Ref": "Ref A: 7C04028AC9F64728A8CB2341E3708B7B Ref B: SG2EDGE2315 Ref C: 2022-09-16T10:55:46Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "restaurant",
           "queryType": "NON_NEAR",
-          "queryTime": 440,
+          "queryTime": 627,
           "numResults": 10,
           "offset": 0,
-          "totalResults": 6444355,
+          "totalResults": 6444142,
           "fuzzyLevel": 1,
           "geoBias": {
             "lat": 47.606038,
@@ -64,11 +64,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "pizza"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "pizza"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -138,11 +138,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "sushi"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "sushi"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -213,11 +213,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "french"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "french"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -357,11 +357,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "sushi"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "sushi"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -403,6 +403,81 @@
                 "position": {
                   "lat": 47.60549,
                   "lon": -122.33436
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "840539003183394",
+            "score": 2.574524641,
+            "dist": 100.25757297388647,
+            "info": "search:ta:840539003183394-US",
+            "poi": {
+              "name": "Vovito Espresso Gelato Bar",
+              "phone": "\u002B1 206-403-1115",
+              "categorySet": [
+                {
+                  "id": 7315078
+                }
+              ],
+              "url": "vovito.com",
+              "categories": [
+                "ice cream parlor",
+                "restaurant"
+              ],
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "ice cream parlor"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "1100",
+              "streetName": "4th Avenue",
+              "municipalitySubdivision": "Central Business District",
+              "municipality": "Seattle",
+              "countrySecondarySubdivision": "King",
+              "countrySubdivision": "WA",
+              "countrySubdivisionName": "Washington",
+              "postalCode": "98101",
+              "extendedPostalCode": "98101-3004",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "1100 4th Avenue, Seattle, WA 98101",
+              "localName": "Seattle"
+            },
+            "position": {
+              "lat": 47.60693,
+              "lon": -122.33354
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.60783,
+                "lon": -122.33487
+              },
+              "btmRightPoint": {
+                "lat": 47.60603,
+                "lon": -122.33221
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.6072,
+                  "lon": -122.33394
                 }
               }
             ]
@@ -477,81 +552,6 @@
                 "position": {
                   "lat": 47.60619,
                   "lon": -122.33147
-                }
-              }
-            ]
-          },
-          {
-            "type": "POI",
-            "id": "840539003183394",
-            "score": 2.574524641,
-            "dist": 100.25757297388647,
-            "info": "search:ta:840539003183394-US",
-            "poi": {
-              "name": "Vovito Espresso Gelato Bar",
-              "phone": "\u002B1 206-403-1115",
-              "categorySet": [
-                {
-                  "id": 7315078
-                }
-              ],
-              "url": "vovito.com",
-              "categories": [
-                "ice cream parlor",
-                "restaurant"
-              ],
-              "classifications": [
-                {
-                  "code": "RESTAURANT",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "restaurant"
-                    },
-                    {
-                      "nameLocale": "en-US",
-                      "name": "ice cream parlor"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "1100",
-              "streetName": "4th Avenue",
-              "municipalitySubdivision": "Central Business District",
-              "municipality": "Seattle",
-              "countrySecondarySubdivision": "King",
-              "countrySubdivision": "WA",
-              "countrySubdivisionName": "Washington",
-              "postalCode": "98101",
-              "extendedPostalCode": "98101-3004",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "1100 4th Avenue, Seattle, WA 98101",
-              "localName": "Seattle"
-            },
-            "position": {
-              "lat": 47.60693,
-              "lon": -122.33354
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.60783,
-                "lon": -122.33487
-              },
-              "btmRightPoint": {
-                "lat": 47.60603,
-                "lon": -122.33221
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.6072,
-                  "lon": -122.33394
                 }
               }
             ]
@@ -707,21 +707,21 @@
           },
           {
             "type": "POI",
-            "id": "840531000475812",
+            "id": "840531000385225",
             "score": 2.5745222569,
             "dist": 129.68130419307732,
-            "info": "search:ta:840531000475812-US",
+            "info": "search:ta:840531000385225-US",
             "poi": {
-              "name": "Atlantic Street Pizza",
-              "phone": "\u002B1 206-624-7200",
+              "name": "Pabla Punjabi Cuisine",
+              "phone": "\u002B1 206-623-5587",
               "categorySet": [
                 {
-                  "id": 7315036
+                  "id": 7315023
                 }
               ],
-              "url": "atlanticstreetpizza.com/",
+              "url": "www.pablaindiancuisine.com",
               "categories": [
-                "pizza",
+                "indian",
                 "restaurant"
               ],
               "classifications": [
@@ -730,11 +730,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "indian"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "pizza"
+                      "name": "restaurant"
                     }
                   ]
                 }

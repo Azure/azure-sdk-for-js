@@ -6,7 +6,7 @@ import {
   InstrumentType,
   PushMetricExporter,
   ResourceMetrics,
-} from "@opentelemetry/sdk-metrics-base";
+} from "@opentelemetry/sdk-metrics";
 import { ExportResult, ExportResultCode } from "@opentelemetry/core";
 import { AzureMonitorBaseExporter } from "./base";
 import { AzureExporterConfig } from "../config";

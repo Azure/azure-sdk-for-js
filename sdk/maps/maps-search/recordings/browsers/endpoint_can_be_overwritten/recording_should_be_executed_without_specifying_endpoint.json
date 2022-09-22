@@ -17,7 +17,7 @@
         "Sec-Fetch-Site": "same-site",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "8949a10d-07c6-49ba-85a5-e5bd58f4e9e1",
+        "x-ms-client-request-id": "a445d846-a119-4643-9507-1ff075f89d36",
         "x-ms-useragent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
       },
       "RequestBody": null,
@@ -25,8 +25,8 @@
       "ResponseHeaders": {
         "Content-Length": "5885",
         "Content-Type": "application/json",
-        "Date": "Mon, 05 Sep 2022 08:45:43 GMT",
-        "ETag": "808D48EB0FD27C5ECAFDA8E6A8B15E4D",
+        "Date": "Fri, 16 Sep 2022 10:56:01 GMT",
+        "ETag": "D6CA7395E873D9700B038EE623185472",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": [
           "accept-encoding",
@@ -38,7 +38,7 @@
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: 34F39F3D233840DCB5C0C25B4ECBACF6 Ref B: SIN30EDGE0114 Ref C: 2022-09-05T08:45:44Z"
+        "X-MSEdge-Ref": "Ref A: 5E1F97D96A234A95AE7C25BD5935942F Ref B: SG1EDGE0112 Ref C: 2022-09-16T10:56:01Z"
       },
       "ResponseBody": {
         "additionalData": [

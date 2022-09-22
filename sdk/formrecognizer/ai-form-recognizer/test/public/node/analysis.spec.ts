@@ -41,7 +41,7 @@ function assertDefined(value: unknown, message?: string): asserts value {
   return assert.ok(value, message);
 }
 
-matrix([[/* true, */ false]] as const, async (useAad) => {
+matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}] analysis (Node)`, () => {
     const ASSET_PATH = path.resolve(path.join(process.cwd(), "assets"));
     let client: DocumentAnalysisClient;
@@ -317,7 +317,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
             "customFormModelName",
             `customFormModelName${getRandomNumber()}`
           );
-          const poller = await trainingClient.beginBuildModel(
+          const poller = await trainingClient.beginBuildDocumentModel(
             modelName,
             assertEnvironmentVariable("FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"),
             DocumentModelBuildMode.Template,

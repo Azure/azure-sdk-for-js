@@ -23,7 +23,7 @@ export interface SearchAddressResult {
   /** Time spent resolving the query, in milliseconds. */
   readonly queryTime: number;
   /** Number of results in the response. */
-  readonly numResults: number;
+  readonly numberResults: number;
   /** The starting offset of the returned Results within the full Result set. */
   readonly skip?: number;
   /** The total number of Results found. */
@@ -67,7 +67,7 @@ export interface SearchAddressResultItem {
   /** Information on the type of match. */
   readonly matchType?: MatchType;
   /** Detour time in seconds. Only returned for calls to the Search Along Route API. */
-  readonly detourTime?: number;
+  readonly detourTimeInSeconds?: number;
 }
 
 /** The entry point for the POI being returned. */
@@ -89,21 +89,23 @@ export interface AddressRanges {
   /** The end point of a street segment */
   to: LatLon;
 }
+/** Result type of the reverse search address API */
 
 export interface ReverseSearchAddressResult {
   /** Time spent resolving the query, in milliseconds. */
   readonly queryTime: number;
   /** Number of results in the response. */
-  readonly numResults: number;
+  readonly numberResults: number;
   /** The Result list, sorted in descending order by score. */
   readonly results: ReverseSearchAddressResultItem[];
 }
 
+/** Result type of the reverse search cross street address API */
 export interface ReverseSearchCrossStreetAddressResult {
   /** Time spent resolving the query, in milliseconds. */
   readonly queryTime: number;
   /** Number of results in the response. */
-  readonly numResults: number;
+  readonly numberResults: number;
   /** The Result list, sorted in descending order by score. */
   readonly results: ReverseSearchCrossStreetAddressResultItem[];
 }

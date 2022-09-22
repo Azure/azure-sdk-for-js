@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Checks that the data connection parameters are valid.
  *
  * @summary Checks that the data connection parameters are valid.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionEventGridValidationAsync.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionEventGridValidationAsync.json
  */
 async function kustoDataConnectionEventGridValidation() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
@@ -63,7 +63,7 @@ kustoDataConnectionEventGridValidation().catch(console.error);
  * This sample demonstrates how to Checks that the data connection parameters are valid.
  *
  * @summary Checks that the data connection parameters are valid.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionValidationAsync.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionValidationAsync.json
  */
 async function kustoDataConnectionValidation() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";

@@ -75,25 +75,9 @@
     }
   ],
   "outputs": {
-    "AZURE_TENANT_ID": {
-      "type": "string",
-      "value": "[parameters('tenantId')]"
-    },
-    "AZURE_CLIENT_ID": {
-      "type": "string",
-      "value": "[parameters('testApplicationId')]"
-    },
-    "AZURE_CLIENT_SECRET": {
-      "type": "string",
-      "value": "[parameters('testApplicationSecret')]"
-    },
     "MAPS_SUBSCRIPTION_KEY": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.Maps/accounts',variables('mapsAccountName')), '2021-12-01-preview').primaryKey]"
-    },
-    "MAPS_CLIENT_ID": {
-      "type": "string",
-      "value": "[reference(resourceId('Microsoft.Maps/accounts',variables('mapsAccountName'))).uniqueId]"
     }
   }
 }

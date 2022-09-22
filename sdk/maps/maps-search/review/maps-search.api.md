@@ -171,7 +171,7 @@ export interface FuzzySearchRequest {
 // @public
 export type GeographicEntityType = string;
 
-// @public (undocumented)
+// @public
 export interface GeoJsonCircleFeature extends GeoJsonFeature {
     // (undocumented)
     geometry: GeoJsonPoint;
@@ -455,11 +455,11 @@ export class MapsSearchClient {
     getPointOfInterestCategories(options?: GetPointOfInterestCategoriesOptions): Promise<PointOfInterestCategory[]>;
     resumeFuzzySearchBatch(resumeFrom: string, options?: FuzzySearchBatchOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
     resumeReverseSearchAddressBatch(resumeFrom: string, options?: ReverseSearchAddressBatchOptions): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>>;
-    resumeSearchAddressBatch(resumeFrom: string, options: SearchAddressBatchOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
+    resumeSearchAddressBatch(resumeFrom: string, options?: SearchAddressBatchOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
     reverseSearchAddress(coordinates: LatLon, options?: ReverseSearchAddressOptions & OperationOptions): Promise<ReverseSearchAddressResult>;
     reverseSearchCrossStreetAddress(coordinates: LatLon, options?: ReverseSearchCrossStreetAddressOptions): Promise<ReverseSearchCrossStreetAddressResult>;
     searchAddress(query: string, options?: SearchAddressOptions & OperationOptions): Promise<SearchAddressResult>;
-    searchAlongRoute(query: string, maxDetourTime: number, route: GeoJsonLineString, options?: SearchAlongRouteOptions): Promise<SearchAddressResult>;
+    searchAlongRoute(query: string, maxDetourTimeInSeconds: number, route: GeoJsonLineString, options?: SearchAlongRouteOptions): Promise<SearchAddressResult>;
     searchInsideGeometry(query: string, geometry: SearchGeometry, options?: SearchInsideGeometryOptions): Promise<SearchAddressResult>;
     searchNearbyPointOfInterest(coordinates: LatLon, options?: SearchNearbyPointOfInterestOptions): Promise<SearchAddressResult>;
     searchPointOfInterest(searchQuery: SearchQuery, options?: SearchPointOfInterestOptions): Promise<SearchAddressResult>;
@@ -561,9 +561,9 @@ export interface ReverseSearchAddressRequest {
     options?: ReverseSearchAddressOptions;
 }
 
-// @public (undocumented)
+// @public
 export interface ReverseSearchAddressResult {
-    readonly numResults: number;
+    readonly numberResults: number;
     readonly queryTime: number;
     readonly results: ReverseSearchAddressResultItem[];
 }
@@ -589,9 +589,9 @@ export interface ReverseSearchCrossStreetAddressOptions extends ReverseSearchBas
     top?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ReverseSearchCrossStreetAddressResult {
-    readonly numResults: number;
+    readonly numberResults: number;
     readonly queryTime: number;
     readonly results: ReverseSearchCrossStreetAddressResultItem[];
 }
@@ -634,7 +634,7 @@ export interface SearchAddressRequest {
 export interface SearchAddressResult {
     readonly fuzzyLevel?: number;
     readonly geoBias?: LatLon;
-    readonly numResults: number;
+    readonly numberResults: number;
     readonly query?: string;
     readonly queryTime: number;
     readonly queryType?: QueryType;
@@ -648,7 +648,7 @@ export interface SearchAddressResultItem {
     readonly address: Address;
     readonly addressRanges?: AddressRanges;
     readonly dataSources?: DataSource;
-    readonly detourTime?: number;
+    readonly detourTimeInSeconds?: number;
     readonly distanceInMeters?: number;
     readonly entityType?: GeographicEntityType;
     readonly entryPoints?: EntryPoint[];
@@ -687,7 +687,7 @@ export interface SearchExtraFilterOptions {
     electricVehicleConnectorFilter?: ElectricVehicleConnector[];
 }
 
-// @public (undocumented)
+// @public
 export type SearchGeometry = GeoJsonPolygon | GeoJsonPolygonCollection | GeoJsonCircleOrPolygonFeatureCollection;
 
 // @public

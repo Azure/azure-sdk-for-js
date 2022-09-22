@@ -18,13 +18,19 @@ import {
 export const LATEST_API_VERSION = "7.3";
 
 /**
- * The optional parameters accepted by the KeyVault's KeyClient
+ * The optional parameters accepted by the KeyVault's CertificateClient
  */
 export interface CertificateClientOptions extends ExtendedCommonClientOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
   serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3";
+
+  /**
+   * Whether to disable verification that the authentication challenge resource matches the Key Vault domain.
+   * Defaults to false.
+   */
+  disableChallengeResourceVerification?: boolean;
 }
 
 /**
