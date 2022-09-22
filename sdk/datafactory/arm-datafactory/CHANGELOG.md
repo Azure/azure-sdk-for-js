@@ -1,6 +1,6 @@
 # Release History
 
-## 10.7.1 (Unreleased)
+## 10.8.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,28 @@
 
 ### Other Changes
 
+## 10.8.0 (2022-09-07)
+    
+**Features**
+
+  - Added Interface AzureSynapseArtifactsLinkedService
+  - Added Interface BigDataPoolParametrizationReference
+  - Added Interface GoogleSheetsLinkedService
+  - Added Interface NotebookParameter
+  - Added Interface SynapseNotebookActivity
+  - Added Interface SynapseNotebookReference
+  - Added Interface SynapseSparkJobDefinitionActivity
+  - Added Interface SynapseSparkJobReference
+  - Added Type Alias BigDataPoolReferenceType
+  - Added Type Alias NotebookParameterType
+  - Added Type Alias NotebookReferenceType
+  - Added Type Alias SparkJobReferenceType
+  - Added Enum KnownBigDataPoolReferenceType
+  - Added Enum KnownNotebookParameterType
+  - Added Enum KnownNotebookReferenceType
+  - Added Enum KnownSparkJobReferenceType
+    
+    
 ## 10.7.0 (2022-06-22)
     
 **Features**

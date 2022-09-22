@@ -54,7 +54,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-11-15-preview",
+    defaultValue: "2022-08-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -249,6 +249,22 @@ export const body8: OperationParameter = {
   mapper: ScheduleUpdateMapper
 };
 
+export const location: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$"),
+      MaxLength: 100,
+      MinLength: 1
+    },
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const userName: OperationURLParameter = {
   parameterPath: "userName",
   mapper: {
@@ -299,20 +315,4 @@ export const virtualMachineName: OperationURLParameter = {
 export const body12: OperationParameter = {
   parameterPath: "body",
   mapper: ResetPasswordBodyMapper
-};
-
-export const location: OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[-\\w\\._]+$"),
-      MaxLength: 100,
-      MinLength: 1
-    },
-    serializedName: "location",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };

@@ -1,6 +1,6 @@
 # Release History
 
-## 17.1.0-beta.3 (Unreleased)
+## 18.0.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-## 17.1.0-beta.2 (2022-08-19)
+## 18.0.0-beta.1 (2022-09-21)
     
 **Features**
 
@@ -24,7 +24,10 @@
   - Added operation ManagedClusters.beginRotateServiceAccountSigningKeys
   - Added operation ManagedClusters.beginRotateServiceAccountSigningKeysAndWait
   - Added Interface AgentPoolsAbortLatestOperationOptionalParams
+  - Added Interface AgentPoolWindowsProfile
   - Added Interface AzureEntityResource
+  - Added Interface ContainerServiceNetworkProfileKubeProxyConfig
+  - Added Interface ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
   - Added Interface ErrorResponse
@@ -50,6 +53,7 @@
   - Added Interface FleetsListNextOptionalParams
   - Added Interface FleetsListOptionalParams
   - Added Interface FleetsUpdateOptionalParams
+  - Added Interface GuardrailsProfile
   - Added Interface ManagedClusterAzureMonitorProfile
   - Added Interface ManagedClusterAzureMonitorProfileKubeStateMetrics
   - Added Interface ManagedClusterAzureMonitorProfileMetrics
@@ -89,6 +93,7 @@
   - Added Interface TrustedAccessRoleRule
   - Added Interface TrustedAccessRolesListNextOptionalParams
   - Added Interface TrustedAccessRolesListOptionalParams
+  - Added Type Alias BackendPoolType
   - Added Type Alias ControlledValues
   - Added Type Alias FleetMemberProvisioningState
   - Added Type Alias FleetMembersCreateOrUpdateResponse
@@ -104,6 +109,8 @@
   - Added Type Alias FleetsListNextResponse
   - Added Type Alias FleetsListResponse
   - Added Type Alias FleetsUpdateResponse
+  - Added Type Alias IpvsScheduler
+  - Added Type Alias Level
   - Added Type Alias ManagedClusterSnapshotsCreateOrUpdateResponse
   - Added Type Alias ManagedClusterSnapshotsGetResponse
   - Added Type Alias ManagedClusterSnapshotsListByResourceGroupNextResponse
@@ -111,6 +118,7 @@
   - Added Type Alias ManagedClusterSnapshotsListNextResponse
   - Added Type Alias ManagedClusterSnapshotsListResponse
   - Added Type Alias ManagedClusterSnapshotsUpdateTagsResponse
+  - Added Type Alias Mode
   - Added Type Alias NetworkPluginMode
   - Added Type Alias TrustedAccessRoleBindingProvisioningState
   - Added Type Alias TrustedAccessRoleBindingsCreateOrUpdateResponse
@@ -123,20 +131,25 @@
   - Interface AgentPool has a new optional parameter capacityReservationGroupID
   - Interface AgentPool has a new optional parameter enableCustomCATrust
   - Interface AgentPool has a new optional parameter messageOfTheDay
+  - Interface AgentPool has a new optional parameter windowsProfile
   - Interface AgentPoolsDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
+  - Interface ContainerServiceNetworkProfile has a new optional parameter kubeProxyConfig
   - Interface ContainerServiceNetworkProfile has a new optional parameter networkPluginMode
   - Interface ManagedCluster has a new optional parameter azureMonitorProfile
   - Interface ManagedCluster has a new optional parameter creationData
   - Interface ManagedCluster has a new optional parameter enableNamespaceResources
+  - Interface ManagedCluster has a new optional parameter guardrailsProfile
   - Interface ManagedCluster has a new optional parameter ingressProfile
   - Interface ManagedCluster has a new optional parameter oidcIssuerProfile
   - Interface ManagedCluster has a new optional parameter workloadAutoScalerProfile
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter capacityReservationGroupID
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter enableCustomCATrust
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter messageOfTheDay
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter windowsProfile
   - Interface ManagedClusterAPIServerAccessProfile has a new optional parameter enableVnetIntegration
   - Interface ManagedClusterAPIServerAccessProfile has a new optional parameter subnetId
   - Interface ManagedClusterHttpProxyConfig has a new optional parameter effectiveNoProxy
+  - Interface ManagedClusterLoadBalancerProfile has a new optional parameter backendPoolType
   - Interface ManagedClustersDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
   - Interface ManagedClusterSecurityProfile has a new optional parameter imageCleaner
   - Interface ManagedClusterSecurityProfile has a new optional parameter nodeRestriction
@@ -148,16 +161,32 @@
   - Class ContainerServiceClient has a new parameter managedClusterSnapshots
   - Class ContainerServiceClient has a new parameter trustedAccessRoleBindings
   - Class ContainerServiceClient has a new parameter trustedAccessRoles
+  - Added Enum KnownBackendPoolType
   - Added Enum KnownControlledValues
   - Added Enum KnownFleetMemberProvisioningState
   - Added Enum KnownFleetProvisioningState
+  - Added Enum KnownIpvsScheduler
+  - Added Enum KnownLevel
+  - Added Enum KnownMode
   - Added Enum KnownNetworkPluginMode
   - Added Enum KnownTrustedAccessRoleBindingProvisioningState
   - Added Enum KnownUpdateMode
-  - Enum KnownOssku has a new value Windows2019
-  - Enum KnownOssku has a new value Windows2022
+  - Enum KnownOssku has a new value Mariner
   - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
   - Enum KnownSnapshotType has a new value ManagedCluster
+
+**Breaking Changes**
+
+  - Interface ContainerServiceClientOptionalParams no longer has parameter apiVersion
+  - Class ContainerServiceClient no longer has parameter apiVersion
+    
+    
+## 17.1.0 (2022-08-25)
+    
+**Features**
+
+  - Enum KnownOssku has a new value Windows2019
+  - Enum KnownOssku has a new value Windows2022
     
     
 ## 17.0.0 (2022-07-22)

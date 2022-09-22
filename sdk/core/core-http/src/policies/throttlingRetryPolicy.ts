@@ -12,7 +12,7 @@ import { Constants } from "../util/constants";
 import { DEFAULT_CLIENT_MAX_RETRY_COUNT } from "../util/throttlingRetryStrategy";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResourceLike } from "../webResource";
-import { delay } from "../util/delay";
+import { delay } from "@azure/core-util";
 
 type ResponseHandler = (
   httpRequest: WebResourceLike,
@@ -88,7 +88,7 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
       if (delayInMs) {
         this.numberOfRetries += 1;
 
-        await delay(delayInMs, undefined, {
+        await delay(delayInMs, {
           abortSignal: httpRequest.abortSignal,
           abortErrorMsg: StandardAbortMessage,
         });

@@ -22,7 +22,7 @@ This sample programs show how to use the JavaScript client libraries for Azure E
 
 ## Prerequisites
 
-The samples are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/) and run in browsers that support async/await (e.g. Edge, Firefox, Chrome.)
+The samples are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule) and run in browsers that support async/await (e.g. Edge, Firefox, Chrome.)
 
 You need [an Azure subscription][freesub] and [an Azure Event Hub resource][azhubacct] to run these sample programs.
 Samples retrieve credentials using the [InteractiveBrowserCredential][browsercred] from `@azure/identity`.

@@ -197,7 +197,14 @@ export class WebPubSubServiceClient {
 }
 
 // @public
+export interface WebPubSubServiceClientLogOptions {
+    additionalAllowedHeaderNames?: string[];
+    additionalAllowedQueryParameters?: string[];
+}
+
+// @public
 export interface WebPubSubServiceClientOptions extends CommonClientOptions {
+    loggingOptions?: WebPubSubServiceClientLogOptions;
     reverseProxyEndpoint?: string;
 }
 

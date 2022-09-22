@@ -136,7 +136,7 @@ const postOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  requestBody: Parameters.body5,
+  requestBody: Parameters.body7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.contentType, Parameters.accept],

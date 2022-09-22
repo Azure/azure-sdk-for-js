@@ -21,14 +21,14 @@ import {
 /** Interface representing a Settings. */
 export interface Settings {
   /**
-   * Settings about different configurations in security center
+   * Settings about different configurations in Microsoft Defender for Cloud
    * @param options The options parameters.
    */
   list(
     options?: SettingsListOptionalParams
   ): PagedAsyncIterableIterator<SettingUnion>;
   /**
-   * Settings of different configurations in security center
+   * Settings of different configurations in Microsoft Defender for Cloud
    * @param settingName The name of the setting
    * @param options The options parameters.
    */
@@ -37,7 +37,7 @@ export interface Settings {
     options?: SettingsGetOptionalParams
   ): Promise<SettingsGetResponse>;
   /**
-   * updating settings about different configurations in security center
+   * updating settings about different configurations in Microsoft Defender for Cloud
    * @param settingName The name of the setting
    * @param setting Setting object
    * @param options The options parameters.

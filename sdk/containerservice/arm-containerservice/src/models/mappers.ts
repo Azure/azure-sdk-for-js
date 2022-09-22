@@ -663,6 +663,13 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
         type: {
           name: "String"
         }
+      },
+      windowsProfile: {
+        serializedName: "windowsProfile",
+        type: {
+          name: "Composite",
+          className: "AgentPoolWindowsProfile"
+        }
       }
     }
   }
@@ -971,6 +978,21 @@ export const SysctlConfig: coreClient.CompositeMapper = {
         serializedName: "vmVfsCachePressure",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AgentPoolWindowsProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentPoolWindowsProfile",
+    modelProperties: {
+      disableOutboundNat: {
+        serializedName: "disableOutboundNat",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -1544,6 +1566,13 @@ export const ContainerServiceNetworkProfile: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      kubeProxyConfig: {
+        serializedName: "kubeProxyConfig",
+        type: {
+          name: "Composite",
+          className: "ContainerServiceNetworkProfileKubeProxyConfig"
+        }
       }
     }
   }
@@ -1613,6 +1642,13 @@ export const ManagedClusterLoadBalancerProfile: coreClient.CompositeMapper = {
         serializedName: "enableMultipleStandardLoadBalancers",
         type: {
           name: "Boolean"
+        }
+      },
+      backendPoolType: {
+        defaultValue: "NodeIPConfiguration",
+        serializedName: "backendPoolType",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1758,6 +1794,67 @@ export const ManagedClusterManagedOutboundIPProfile: coreClient.CompositeMapper 
           InclusiveMinimum: 1
         },
         serializedName: "count",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerServiceNetworkProfileKubeProxyConfig: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerServiceNetworkProfileKubeProxyConfig",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      mode: {
+        serializedName: "mode",
+        type: {
+          name: "String"
+        }
+      },
+      ipvsConfig: {
+        serializedName: "ipvsConfig",
+        type: {
+          name: "Composite",
+          className: "ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig",
+    modelProperties: {
+      scheduler: {
+        serializedName: "scheduler",
+        type: {
+          name: "String"
+        }
+      },
+      tcpTimeoutSeconds: {
+        serializedName: "tcpTimeoutSeconds",
+        type: {
+          name: "Number"
+        }
+      },
+      tcpFinTimeoutSeconds: {
+        serializedName: "tcpFinTimeoutSeconds",
+        type: {
+          name: "Number"
+        }
+      },
+      udpTimeoutSeconds: {
+        serializedName: "udpTimeoutSeconds",
         type: {
           name: "Number"
         }
@@ -2538,6 +2635,52 @@ export const ManagedClusterAzureMonitorProfileKubeStateMetrics: coreClient.Compo
         serializedName: "metricAnnotationsAllowList",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GuardrailsProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GuardrailsProfile",
+    modelProperties: {
+      systemExcludedNamespaces: {
+        serializedName: "systemExcludedNamespaces",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      version: {
+        serializedName: "version",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      level: {
+        serializedName: "level",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      excludedNamespaces: {
+        serializedName: "excludedNamespaces",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -4508,6 +4651,13 @@ export const AgentPool: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      windowsProfile: {
+        serializedName: "properties.windowsProfile",
+        type: {
+          name: "Composite",
+          className: "AgentPoolWindowsProfile"
+        }
       }
     }
   }
@@ -4808,6 +4958,13 @@ export const ManagedCluster: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedClusterAzureMonitorProfile"
+        }
+      },
+      guardrailsProfile: {
+        serializedName: "properties.guardrailsProfile",
+        type: {
+          name: "Composite",
+          className: "GuardrailsProfile"
         }
       }
     }

@@ -24,6 +24,8 @@ import {
   BuildServiceBuilderCreateOrUpdateResponse,
   BuildServiceBuilderDeleteOptionalParams,
   BuildServiceBuilderListResponse,
+  BuildServiceBuilderListDeploymentsOptionalParams,
+  BuildServiceBuilderListDeploymentsResponse,
   BuildServiceBuilderListNextResponse
 } from "../models";
 
@@ -381,6 +383,34 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
   }
 
   /**
+   * List deployments that are using the builder.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param buildServiceName The name of the build service resource.
+   * @param builderName The name of the builder resource.
+   * @param options The options parameters.
+   */
+  listDeployments(
+    resourceGroupName: string,
+    serviceName: string,
+    buildServiceName: string,
+    builderName: string,
+    options?: BuildServiceBuilderListDeploymentsOptionalParams
+  ): Promise<BuildServiceBuilderListDeploymentsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        buildServiceName,
+        builderName,
+        options
+      },
+      listDeploymentsOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -508,6 +538,30 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.buildServiceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listDeploymentsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders/{builderName}/listUsingDeployments",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.buildServiceName,
+    Parameters.builderName
   ],
   headerParameters: [Parameters.accept],
   serializer

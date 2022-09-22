@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -372,6 +372,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/ai-language-conversations",
+      "projectFolder": "sdk/cognitivelanguage/ai-language-conversations",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-text-analytics",
       "projectFolder": "sdk/textanalytics/ai-text-analytics",
       "versionPolicyName": "client"
@@ -384,6 +389,11 @@
     {
       "packageName": "@azure/ai-metrics-advisor",
       "projectFolder": "sdk/metricsadvisor/ai-metrics-advisor",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/ai-personalizer",
+      "projectFolder": "sdk/personalizer/ai-personalizer-rest",
       "versionPolicyName": "client"
     },
     {
@@ -444,6 +454,11 @@
     {
       "packageName": "@azure/communication-sms",
       "projectFolder": "sdk/communication/communication-sms",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/communication-job-router",
+      "projectFolder": "sdk/communication/communication-job-router",
       "versionPolicyName": "client"
     },
     {
@@ -1830,6 +1845,21 @@
       "packageName": "@azure/arm-nginx",
       "projectFolder": "sdk/nginx/arm-nginx",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-agrifood",
+      "projectFolder": "sdk/agrifood/arm-agrifood",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-chaos",
+      "projectFolder": "sdk/chaos/arm-chaos",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/functions-authentication-events",
+      "projectFolder": "sdk/entra/functions-authentication-events",
+      "versionPolicyName": "client"
     }
   ]
 }

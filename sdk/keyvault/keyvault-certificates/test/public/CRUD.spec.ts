@@ -7,7 +7,7 @@ import fs from "fs";
 import childProcess from "child_process";
 import { assert } from "@azure/test-utils";
 
-import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { env, isLiveMode, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { ClientSecretCredential } from "@azure/identity";
@@ -43,7 +43,11 @@ describe("Certificates client - create, read, update and delete", () => {
     recorder = authentication.recorder;
     keyVaultUrl = authentication.keyVaultUrl;
     credential = authentication.credential;
-    secretClient = new SecretClient(keyVaultUrl, credential, recorder.configureClientOptions({}));
+    secretClient = new SecretClient(
+      keyVaultUrl,
+      credential,
+      recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() })
+    );
   });
 
   afterEach(async function () {
