@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   ImagesDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,7 +25,7 @@ async function imagesDeleteMaximumSetGen() {
   const resourceGroupName = "rgcompute";
   const imageName = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: ImagesDeleteParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -54,7 +54,7 @@ async function imagesDeleteMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const imageName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: ImagesDeleteParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

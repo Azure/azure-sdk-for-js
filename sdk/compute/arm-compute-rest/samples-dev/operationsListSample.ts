@@ -5,9 +5,9 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   OperationsListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-compute";
-import { DefaultAzureCredential } from "@azure/identity"
+import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -22,11 +22,9 @@ async function operationsListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const options: OperationsListParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
-  const initialResponse = await client
-    .path("/providers/Microsoft.Compute/operations")
-    .get(options);
+  const initialResponse = await client.path("/providers/Microsoft.Compute/operations").get(options);
   const pageData = paginate(client, initialResponse);
   const result = [];
   for await (const item of pageData) {
@@ -46,11 +44,9 @@ async function operationsListMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const options: OperationsListParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
-  const initialResponse = await client
-    .path("/providers/Microsoft.Compute/operations")
-    .get(options);
+  const initialResponse = await client.path("/providers/Microsoft.Compute/operations").get(options);
   const pageData = paginate(client, initialResponse);
   const result = [];
   for await (const item of pageData) {

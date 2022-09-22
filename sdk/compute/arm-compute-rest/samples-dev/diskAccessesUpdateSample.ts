@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   DiskAccessesUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function updateADiskAccessResource() {
   const diskAccessName = "myDiskAccess";
   const options: DiskAccessesUpdateParameters = {
     body: { tags: { department: "Development", project: "PrivateEndpoints" } },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(

@@ -3,9 +3,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createComputeManagementClient, {
-  CloudServicesGetParameters
-} from "@azure-rest/arm-compute";
+import createComputeManagementClient, { CloudServicesGetParameters } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -24,7 +22,7 @@ async function getCloudServiceWithMultipleRolesAndRdpExtension() {
   const resourceGroupName = "ConstosoRG";
   const cloudServiceName = "{cs-name}";
   const options: CloudServicesGetParameters = {
-    queryParameters: { "api-version": "2022-04-04" }
+    queryParameters: { "api-version": "2022-04-04" },
   };
   const result = await client
     .path(

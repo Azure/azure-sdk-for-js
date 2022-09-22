@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachineScaleSetsConvertToSinglePlacementGroupParameters
+  VirtualMachineScaleSetsConvertToSinglePlacementGroupParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,7 +25,7 @@ async function virtualMachineScaleSetsConvertToSinglePlacementGroupMaximumSetGen
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsConvertToSinglePlacementGroupParameters = {
     body: { activePlacementGroupId: "aaaaaaaaaaaaaaaaaaaaaaaaaaa" },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -38,9 +38,7 @@ async function virtualMachineScaleSetsConvertToSinglePlacementGroupMaximumSetGen
   console.log(result);
 }
 
-virtualMachineScaleSetsConvertToSinglePlacementGroupMaximumSetGen().catch(
-  console.error
-);
+virtualMachineScaleSetsConvertToSinglePlacementGroupMaximumSetGen().catch(console.error);
 /**
  * This sample demonstrates how to Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
  *
@@ -55,7 +53,7 @@ async function virtualMachineScaleSetsConvertToSinglePlacementGroupMinimumSetGen
   const vmScaleSetName = "aaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsConvertToSinglePlacementGroupParameters = {
     body: {},
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -68,6 +66,4 @@ async function virtualMachineScaleSetsConvertToSinglePlacementGroupMinimumSetGen
   console.log(result);
 }
 
-virtualMachineScaleSetsConvertToSinglePlacementGroupMinimumSetGen().catch(
-  console.error
-);
+virtualMachineScaleSetsConvertToSinglePlacementGroupMinimumSetGen().catch(console.error);

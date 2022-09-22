@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachinesUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -33,14 +33,14 @@ async function updateAVMByDetachingDataDisk() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           dataDisks: [
@@ -48,31 +48,31 @@ async function updateAVMByDetachingDataDisk() {
               createOption: "Empty",
               diskSizeGB: 1023,
               lun: 0,
-              toBeDetached: true
+              toBeDetached: true,
             },
             {
               createOption: "Empty",
               diskSizeGB: 1023,
               lun: 1,
-              toBeDetached: false
-            }
+              toBeDetached: false,
+            },
           ],
           imageReference: {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -109,14 +109,14 @@ async function updateAVMByForceDetachingDataDisk() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           dataDisks: [
@@ -125,31 +125,31 @@ async function updateAVMByForceDetachingDataDisk() {
               detachOption: "ForceDetach",
               diskSizeGB: 1023,
               lun: 0,
-              toBeDetached: true
+              toBeDetached: true,
             },
             {
               createOption: "Empty",
               diskSizeGB: 1023,
               lun: 1,
-              toBeDetached: false
-            }
+              toBeDetached: false,
+            },
           ],
           imageReference: {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

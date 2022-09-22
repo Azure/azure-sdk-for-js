@@ -17,8 +17,8 @@ export default function createClient(
   options = {
     ...options,
     credentials: {
-      scopes: ["https://management.azure.com/.default"]
-    }
+      scopes: ["https://management.azure.com/.default"],
+    },
   };
 
   const userAgentInfo = `azsdk-js-arm-compute-rest/1.0.0-beta.1`;
@@ -29,15 +29,11 @@ export default function createClient(
   options = {
     ...options,
     userAgentOptions: {
-      userAgentPrefix
-    }
+      userAgentPrefix,
+    },
   };
 
-  const client = getClient(
-    baseUrl,
-    credentials,
-    options
-  ) as ComputeManagementClient;
+  const client = getClient(baseUrl, credentials, options) as ComputeManagementClient;
 
   return client;
 }

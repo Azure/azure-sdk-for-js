@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  CloudServiceRoleInstancesGetParameters
+  CloudServiceRoleInstancesGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,7 +25,7 @@ async function getCloudServiceRoleInstance() {
   const cloudServiceName = "{cs-name}";
   const roleInstanceName = "{roleInstance-name}";
   const options: CloudServiceRoleInstancesGetParameters = {
-    queryParameters: { "api-version": "2022-04-04" }
+    queryParameters: { "api-version": "2022-04-04" },
   };
   const result = await client
     .path(

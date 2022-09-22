@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachineScaleSetExtensionsUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -37,10 +37,10 @@ async function virtualMachineScaleSetExtensionsUpdateMaximumSetGen() {
         publisher: "{extension-Publisher}",
         settings: {},
         suppressFailures: true,
-        typeHandlerVersion: "{handler-version}"
-      }
+        typeHandlerVersion: "{handler-version}",
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -72,7 +72,7 @@ async function virtualMachineScaleSetExtensionsUpdateMinimumSetGen() {
   const vmssExtensionName = "aa";
   const options: VirtualMachineScaleSetExtensionsUpdateParameters = {
     body: {},
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

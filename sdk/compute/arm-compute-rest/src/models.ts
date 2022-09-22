@@ -464,9 +464,7 @@ export interface VirtualMachineScaleSetNetworkProfile {
   /** A reference to a load balancer probe used to determine the health of an instance in the virtual machine scale set. The reference will be in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}'. */
   healthProbe?: ApiEntityReference;
   /** The list of network configurations. */
-  networkInterfaceConfigurations?: Array<
-    VirtualMachineScaleSetNetworkConfiguration
-  >;
+  networkInterfaceConfigurations?: Array<VirtualMachineScaleSetNetworkConfiguration>;
   /** specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible' */
   networkApiVersion?: "2020-11-01";
 }
@@ -478,8 +476,7 @@ export interface ApiEntityReference {
 }
 
 /** Describes a virtual machine scale set network profile's network configurations. */
-export interface VirtualMachineScaleSetNetworkConfiguration
-  extends SubResource {
+export interface VirtualMachineScaleSetNetworkConfiguration extends SubResource {
   /** The network configuration name. */
   name: string;
   /** Describes a virtual machine scale set network profile's IP configuration. */
@@ -780,11 +777,7 @@ export interface VirtualMachineScaleSetIdentity {
   /** The tenant id associated with the virtual machine scale set. This property will only be provided for a system assigned identity. */
   tenantId?: string;
   /** The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine scale set. */
-  type?:
-    | "SystemAssigned"
-    | "UserAssigned"
-    | "SystemAssigned, UserAssigned"
-    | "None";
+  type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
   /** The list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
   userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
 }
@@ -924,16 +917,13 @@ export interface VirtualMachineScaleSetUpdateNetworkProfile {
   /** A reference to a load balancer probe used to determine the health of an instance in the virtual machine scale set. The reference will be in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}'. */
   healthProbe?: ApiEntityReference;
   /** The list of network configurations. */
-  networkInterfaceConfigurations?: Array<
-    VirtualMachineScaleSetUpdateNetworkConfiguration
-  >;
+  networkInterfaceConfigurations?: Array<VirtualMachineScaleSetUpdateNetworkConfiguration>;
   /** specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible' */
   networkApiVersion?: "2020-11-01";
 }
 
 /** Describes a virtual machine scale set network profile's network configurations. */
-export interface VirtualMachineScaleSetUpdateNetworkConfiguration
-  extends SubResource {
+export interface VirtualMachineScaleSetUpdateNetworkConfiguration extends SubResource {
   /** The network configuration name. */
   name?: string;
   /** Describes a virtual machine scale set updatable network profile's IP configuration.Use this object for updating network profile's IP Configuration. */
@@ -963,8 +953,7 @@ export interface VirtualMachineScaleSetUpdateNetworkConfigurationProperties {
 }
 
 /** Describes a virtual machine scale set network profile's IP configuration. NOTE: The subnet of a scale set may be modified as long as the original subnet and the new subnet are in the same virtual network */
-export interface VirtualMachineScaleSetUpdateIPConfiguration
-  extends SubResource {
+export interface VirtualMachineScaleSetUpdateIPConfiguration extends SubResource {
   /** The IP configuration name. */
   name?: string;
   /** Describes a virtual machine scale set network profile's IP configuration properties. */
@@ -1044,8 +1033,7 @@ export interface InstanceViewStatus {
 }
 
 /** Describes a Virtual Machine Scale Set Extension. */
-export interface VirtualMachineScaleSetExtensionUpdate
-  extends SubResourceReadOnly {
+export interface VirtualMachineScaleSetExtensionUpdate extends SubResourceReadOnly {
   /** The name of the extension. */
   name?: string;
   /** Resource type */
@@ -1179,8 +1167,7 @@ export interface VirtualMachineExtensionInstanceView {
 }
 
 /** Describes a VMSS VM Extension. */
-export interface VirtualMachineScaleSetVMExtensionUpdate
-  extends SubResourceReadOnly {
+export interface VirtualMachineScaleSetVMExtensionUpdate extends SubResourceReadOnly {
   /** The name of the extension. */
   name?: string;
   /** Resource type */
@@ -1330,11 +1317,7 @@ export interface MaintenanceRedeployStatus {
   /** End Time for the Maintenance Window. */
   maintenanceWindowEndTime?: Date | string;
   /** The Last Maintenance Operation Result Code. */
-  lastOperationResultCode?:
-    | "None"
-    | "RetryLater"
-    | "MaintenanceAborted"
-    | "MaintenanceCompleted";
+  lastOperationResultCode?: "None" | "RetryLater" | "MaintenanceAborted" | "MaintenanceCompleted";
   /** Message returned for the last Maintenance Operation. */
   lastOperationMessage?: string;
 }
@@ -1675,9 +1658,7 @@ export interface NetworkProfile {
   /** specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations */
   networkApiVersion?: "2020-11-01";
   /** Specifies the networking configurations that will be used to create the virtual machine networking resources. */
-  networkInterfaceConfigurations?: Array<
-    VirtualMachineNetworkInterfaceConfiguration
-  >;
+  networkInterfaceConfigurations?: Array<VirtualMachineNetworkInterfaceConfiguration>;
 }
 
 /** Describes a network interface reference. */
@@ -1802,9 +1783,7 @@ export interface VirtualMachineIpTag {
 /** Describes a virtual machine scale set VM network profile. */
 export interface VirtualMachineScaleSetVMNetworkProfileConfiguration {
   /** The list of network configurations. */
-  networkInterfaceConfigurations?: Array<
-    VirtualMachineScaleSetNetworkConfiguration
-  >;
+  networkInterfaceConfigurations?: Array<VirtualMachineScaleSetNetworkConfiguration>;
 }
 
 /** The protection policy of a virtual machine scale set VM. */
@@ -1842,11 +1821,7 @@ export interface VirtualMachineIdentity {
   /** The tenant id associated with the virtual machine. This property will only be provided for a system assigned identity. */
   tenantId?: string;
   /** The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
-  type?:
-    | "SystemAssigned"
-    | "UserAssigned"
-    | "SystemAssigned, UserAssigned"
-    | "None";
+  type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
   /** The list of user identities associated with the Virtual Machine. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
   userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
 }
@@ -1978,12 +1953,7 @@ export interface VirtualMachinePatchStatus {
 /** Describes the properties of an virtual machine instance view for available patch summary. */
 export interface AvailablePatchSummary {
   /** The overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings." */
-  status?:
-    | "Unknown"
-    | "InProgress"
-    | "Failed"
-    | "Succeeded"
-    | "CompletedWithWarnings";
+  status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
   /** The activity ID of the operation that produced this result. It is used to correlate across CRP and extension logs. */
   assessmentActivityId?: string;
   /** The overall reboot status of the VM. It will be true when partially installed patches require a reboot to complete installation but the reboot has not yet occurred. */
@@ -2003,12 +1973,7 @@ export interface AvailablePatchSummary {
 /** Describes the properties of the last installed patch summary. */
 export interface LastPatchInstallationSummary {
   /** The overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings." */
-  status?:
-    | "Unknown"
-    | "InProgress"
-    | "Failed"
-    | "Succeeded"
-    | "CompletedWithWarnings";
+  status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
   /** The activity ID of the operation that produced this result. It is used to correlate across CRP and extension logs. */
   installationActivityId?: string;
   /** Describes whether the operation ran out of time before it completed all its intended actions */
@@ -2306,8 +2271,7 @@ export interface DedicatedHostGroupInstanceView {
 }
 
 /** The instance view of a dedicated host that includes the name of the dedicated host. It is used for the response to the instance view of a dedicated host group. */
-export interface DedicatedHostInstanceViewWithName
-  extends DedicatedHostInstanceView {
+export interface DedicatedHostInstanceViewWithName extends DedicatedHostInstanceView {
   /** The name of the dedicated host. */
   name?: string;
 }
@@ -2520,10 +2484,7 @@ export interface RestorePointProperties {
   /** Gets the provisioning state of the restore point. */
   provisioningState?: string;
   /** ConsistencyMode of the RestorePoint. Can be specified in the input while creating a restore point. For now, only CrashConsistent is accepted as a valid input. Please refer to https://aka.ms/RestorePoints for more details. */
-  consistencyMode?:
-    | "CrashConsistent"
-    | "FileSystemConsistent"
-    | "ApplicationConsistent";
+  consistencyMode?: "CrashConsistent" | "FileSystemConsistent" | "ApplicationConsistent";
   /** Gets the creation time of the restore point. */
   timeCreated?: Date | string;
   /** Resource Id of the source restore point from which a copy needs to be created. */
@@ -2658,8 +2619,7 @@ export interface CapacityReservationGroupInstanceView {
 }
 
 /** The instance view of a capacity reservation that includes the name of the capacity reservation. It is used for the response to the instance view of a capacity reservation group. */
-export interface CapacityReservationInstanceViewWithName
-  extends CapacityReservationInstanceView {
+export interface CapacityReservationInstanceViewWithName extends CapacityReservationInstanceView {
   /** The name of the capacity reservation. */
   name?: string;
 }
@@ -3226,11 +3186,7 @@ export interface DiskEncryptionSet extends Resource {
 /** The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. */
 export interface EncryptionSetIdentity {
   /** The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations. Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active Directory tenant; it will cause the encrypted resources to lose access to the keys. */
-  type?:
-    | "SystemAssigned"
-    | "UserAssigned"
-    | "SystemAssigned, UserAssigned"
-    | "None";
+  type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
   /** The object id of the Managed Identity Resource. This will be sent to the RP from ARM via the x-ms-identity-principal-id header in the PUT request if the resource has a systemAssigned(implicit) identity */
   principalId?: string;
   /** The tenant id of the Managed Identity Resource. This will be sent to the RP from ARM via the x-ms-client-tenant-id header in the PUT request if the resource has a systemAssigned(implicit) identity */
@@ -3427,13 +3383,7 @@ export interface GalleryProperties {
   /** Describes the gallery unique name. */
   identifier?: GalleryIdentifier;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?:
-    | "Creating"
-    | "Updating"
-    | "Failed"
-    | "Succeeded"
-    | "Deleting"
-    | "Migrating";
+  provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
   /** Profile for gallery sharing to subscription or tenant */
   sharingProfile?: SharingProfile;
   /** Contains information about the soft deletion policy of the gallery. */
@@ -3557,13 +3507,7 @@ export interface GalleryImageProperties {
   /** Describes the gallery image definition purchase plan. This is used by marketplace images. */
   purchasePlan?: ImagePurchasePlan;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?:
-    | "Creating"
-    | "Updating"
-    | "Failed"
-    | "Succeeded"
-    | "Deleting"
-    | "Migrating";
+  provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
   /** A list of gallery image features. */
   features?: Array<GalleryImageFeature>;
   /** The architecture of the image. Applicable to OS disks only. */
@@ -3637,13 +3581,7 @@ export interface GalleryImageVersionProperties {
   /** The publishing profile of a gallery image Version. */
   publishingProfile?: GalleryImageVersionPublishingProfile;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?:
-    | "Creating"
-    | "Updating"
-    | "Failed"
-    | "Succeeded"
-    | "Deleting"
-    | "Migrating";
+  provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
   /** This is the storage profile of a Gallery Image Version. */
   storageProfile: GalleryImageVersionStorageProfile;
   /** This is the replication status of the gallery image version. */
@@ -3845,13 +3783,7 @@ export interface GalleryApplicationVersionProperties {
   /** The publishing profile of a gallery image version. */
   publishingProfile: GalleryApplicationVersionPublishingProfile;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?:
-    | "Creating"
-    | "Updating"
-    | "Failed"
-    | "Succeeded"
-    | "Deleting"
-    | "Migrating";
+  provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
   /** This is the replication status of the gallery image version. */
   replicationStatus?: ReplicationStatus;
 }
@@ -3896,8 +3828,7 @@ export interface UserArtifactSettings {
 }
 
 /** Specifies information about the gallery Application Version that you want to update. */
-export interface GalleryApplicationVersionUpdate
-  extends UpdateResourceDefinition {
+export interface GalleryApplicationVersionUpdate extends UpdateResourceDefinition {
   /** Describes the properties of a gallery image version. */
   properties?: GalleryApplicationVersionProperties;
 }

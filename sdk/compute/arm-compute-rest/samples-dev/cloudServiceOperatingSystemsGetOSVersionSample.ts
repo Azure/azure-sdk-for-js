@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  CloudServiceOperatingSystemsGetOSVersionParameters
+  CloudServiceOperatingSystemsGetOSVersionParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -24,7 +24,7 @@ async function getCloudServiceOSVersion() {
   const location = "westus2";
   const osVersionName = "WA-GUEST-OS-3.90_202010-02";
   const options: CloudServiceOperatingSystemsGetOSVersionParameters = {
-    queryParameters: { "api-version": "2022-04-04" }
+    queryParameters: { "api-version": "2022-04-04" },
   };
   const result = await client
     .path(

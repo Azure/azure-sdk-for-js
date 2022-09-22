@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   ImagesCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -30,19 +30,18 @@ async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource(
       properties: {
         storageProfile: {
           osDisk: {
-            blobUri:
-              "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+            blobUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
             diskEncryptionSet: {
               id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
             },
             osState: "Generalized",
-            osType: "Linux"
-          }
-        }
-      }
+            osType: "Linux",
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -57,9 +56,7 @@ async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource(
   console.log(result);
 }
 
-createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource().catch(
-  console.error
-);
+createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource().catch(console.error);
 /**
  * This sample demonstrates how to Create or update an image.
  *
@@ -78,16 +75,15 @@ async function createAVirtualMachineImageFromABlob() {
       properties: {
         storageProfile: {
           osDisk: {
-            blobUri:
-              "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+            blobUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
             osState: "Generalized",
-            osType: "Linux"
+            osType: "Linux",
           },
-          zoneResilient: true
-        }
-      }
+          zoneResilient: true,
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -123,19 +119,19 @@ async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetRe
           osDisk: {
             diskEncryptionSet: {
               id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
             },
             osState: "Generalized",
             osType: "Linux",
             snapshot: {
               id:
-                "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
-            }
-          }
-        }
-      }
+                "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+            },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -150,9 +146,7 @@ async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetRe
   console.log(result);
 }
 
-createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource().catch(
-  console.error
-);
+createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource().catch(console.error);
 /**
  * This sample demonstrates how to Create or update an image.
  *
@@ -173,16 +167,16 @@ async function createAVirtualMachineImageFromAManagedDisk() {
           osDisk: {
             managedDisk: {
               id:
-                "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk"
+                "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk",
             },
             osState: "Generalized",
-            osType: "Linux"
+            osType: "Linux",
           },
-          zoneResilient: true
-        }
-      }
+          zoneResilient: true,
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -218,19 +212,19 @@ async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResou
           osDisk: {
             diskEncryptionSet: {
               id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
             },
             managedDisk: {
               id:
-                "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk"
+                "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk",
             },
             osState: "Generalized",
-            osType: "Linux"
-          }
-        }
-      }
+            osType: "Linux",
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -245,9 +239,7 @@ async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResou
   console.log(result);
 }
 
-createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource().catch(
-  console.error
-);
+createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource().catch(console.error);
 /**
  * This sample demonstrates how to Create or update an image.
  *
@@ -270,14 +262,14 @@ async function createAVirtualMachineImageFromASnapshot() {
             osType: "Linux",
             snapshot: {
               id:
-                "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
-            }
+                "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+            },
           },
-          zoneResilient: false
-        }
-      }
+          zoneResilient: false,
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -311,11 +303,11 @@ async function createAVirtualMachineImageFromAnExistingVirtualMachine() {
       properties: {
         sourceVirtualMachine: {
           id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM"
-        }
-      }
+            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -350,22 +342,20 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromABlob() {
         storageProfile: {
           dataDisks: [
             {
-              blobUri:
-                "https://mystorageaccount.blob.core.windows.net/dataimages/dataimage.vhd",
-              lun: 1
-            }
+              blobUri: "https://mystorageaccount.blob.core.windows.net/dataimages/dataimage.vhd",
+              lun: 1,
+            },
           ],
           osDisk: {
-            blobUri:
-              "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+            blobUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
             osState: "Generalized",
-            osType: "Linux"
+            osType: "Linux",
           },
-          zoneResilient: false
-        }
-      }
+          zoneResilient: false,
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -403,23 +393,23 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk()
               lun: 1,
               managedDisk: {
                 id:
-                  "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk2"
-              }
-            }
+                  "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk2",
+              },
+            },
           ],
           osDisk: {
             managedDisk: {
               id:
-                "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk"
+                "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk",
             },
             osState: "Generalized",
-            osType: "Linux"
+            osType: "Linux",
           },
-          zoneResilient: false
-        }
-      }
+          zoneResilient: false,
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -434,9 +424,7 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk()
   console.log(result);
 }
 
-createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk().catch(
-  console.error
-);
+createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk().catch(console.error);
 /**
  * This sample demonstrates how to Create or update an image.
  *
@@ -459,23 +447,23 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot() {
               lun: 1,
               snapshot: {
                 id:
-                  "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot2"
-              }
-            }
+                  "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot2",
+              },
+            },
           ],
           osDisk: {
             osState: "Generalized",
             osType: "Linux",
             snapshot: {
               id:
-                "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
-            }
+                "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+            },
           },
-          zoneResilient: true
-        }
-      }
+          zoneResilient: true,
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -490,6 +478,4 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot() {
   console.log(result);
 }
 
-createAVirtualMachineImageThatIncludesADataDiskFromASnapshot().catch(
-  console.error
-);
+createAVirtualMachineImageThatIncludesADataDiskFromASnapshot().catch(console.error);

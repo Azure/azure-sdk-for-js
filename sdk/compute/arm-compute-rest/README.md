@@ -44,6 +44,55 @@ can be used to authenticate the client.
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
 AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
+Use the returned token credential to authenticate the client:
+
+```typescript
+import ComputeManagementClient from "@azure-rest/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+const credential = new DefaultAzureCredential();
+const client = ComputeManagementClient(credential);
+```
+
+## Examples
+
+The following section shows you how to initialize and authenticate your client, then list all of your Virtual Machines within a resource group.
+### List all virtual machines within a resource group
+
+```typescript
+import createComputeManagementClient, {
+  VirtualMachinesListParameters,
+  paginate,
+} from "@azure-rest/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+async function virtualMachinesListMaximumSetGen() {
+  const credential = new DefaultAzureCredential();
+  const client = createComputeManagementClient(credential);
+  const subscriptionId = "";
+  const resourceGroupName = "rgcompute";
+  const options: VirtualMachinesListParameters = {
+    queryParameters: {
+      $filter: "aaaaaaaaaaaaaaaaaaaaaaa",
+      "api-version": "2022-08-01",
+    },
+  };
+  const initialResponse = await client
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines",
+      subscriptionId,
+      resourceGroupName
+    )
+    .get(options);
+  const pageData = paginate(client, initialResponse);
+  const result = [];
+  for await (const item of pageData) {
+    result.push(item);
+  }
+  console.log(result);
+}
+
+virtualMachinesListMaximumSetGen().catch(console.error);
+```
+
 ## Troubleshooting
 
 ### Logging

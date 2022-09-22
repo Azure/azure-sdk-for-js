@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachineScaleSetsGetParameters
+  VirtualMachineScaleSetsGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -24,7 +24,7 @@ async function getVMScaleSetVMWithDiskControllerType() {
   const resourceGroupName = "myResourceGroup";
   const vmScaleSetName = "myVirtualMachineScaleSet";
   const options: VirtualMachineScaleSetsGetParameters = {
-    queryParameters: { "api-version": "2022-08-01", $expand: "userData" }
+    queryParameters: { "api-version": "2022-08-01", $expand: "userData" },
   };
   const result = await client
     .path(
@@ -51,7 +51,7 @@ async function getAVirtualMachineScaleSet() {
   const resourceGroupName = "myResourceGroup";
   const vmScaleSetName = "myVirtualMachineScaleSet";
   const options: VirtualMachineScaleSetsGetParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -78,7 +78,7 @@ async function getAVirtualMachineScaleSetPlacedOnADedicatedHostGroupThroughAutom
   const resourceGroupName = "myResourceGroup";
   const vmScaleSetName = "myVirtualMachineScaleSet";
   const options: VirtualMachineScaleSetsGetParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -107,7 +107,7 @@ async function getAVirtualMachineScaleSetWithUserData() {
   const resourceGroupName = "myResourceGroup";
   const vmScaleSetName = "myVirtualMachineScaleSet";
   const options: VirtualMachineScaleSetsGetParameters = {
-    queryParameters: { "api-version": "2022-08-01", $expand: "userData" }
+    queryParameters: { "api-version": "2022-08-01", $expand: "userData" },
   };
   const result = await client
     .path(

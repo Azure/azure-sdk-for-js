@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  SharedGalleryImageVersionsGetParameters
+  SharedGalleryImageVersionsGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function getASharedGalleryImageVersion() {
   const galleryImageName = "myGalleryImageName";
   const galleryImageVersionName = "myGalleryImageVersionName";
   const options: SharedGalleryImageVersionsGetParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const result = await client
     .path(

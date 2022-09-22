@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Update an availability set.
  *
  * @summary Update an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/availabilitySetExamples/AvailabilitySets_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySets_Update_MaximumSet_Gen.json
  */
 async function availabilitySetsUpdateMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -56,7 +56,7 @@ availabilitySetsUpdateMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Update an availability set.
  *
  * @summary Update an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/availabilitySetExamples/AvailabilitySets_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySets_Update_MinimumSet_Gen.json
  */
 async function availabilitySetsUpdateMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

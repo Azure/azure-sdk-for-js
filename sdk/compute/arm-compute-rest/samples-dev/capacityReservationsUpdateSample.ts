@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   CapacityReservationsUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -35,16 +35,16 @@ async function capacityReservationsUpdateMaximumSetGen() {
               displayStatus: "aaaaaa",
               level: "Info",
               message: "a",
-              time: new Date("2021-11-30T12:58:26.522Z")
-            }
+              time: new Date("2021-11-30T12:58:26.522Z"),
+            },
           ],
-          utilizationInfo: {}
-        }
+          utilizationInfo: {},
+        },
       },
       sku: { name: "Standard_DS1_v2", capacity: 7, tier: "aaa" },
-      tags: { key4974: "aaaaaaaaaaaaaaaa" }
+      tags: { key4974: "aaaaaaaaaaaaaaaa" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -76,7 +76,7 @@ async function capacityReservationsUpdateMinimumSetGen() {
   const capacityReservationName = "aaa";
   const options: CapacityReservationsUpdateParameters = {
     body: {},
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

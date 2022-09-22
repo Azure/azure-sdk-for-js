@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachineImagesListByEdgeZoneParameters
+  VirtualMachineImagesListByEdgeZoneParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -24,7 +24,7 @@ async function virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen() {
   const location = "WestUS";
   const edgeZone = "microsoftlosangeles1";
   const options: VirtualMachineImagesListByEdgeZoneParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -51,7 +51,7 @@ async function virtualMachineImagesEdgeZoneListByEdgeZoneMinimumSetGen() {
   const location = "WestUS";
   const edgeZone = "microsoftlosangeles1";
   const options: VirtualMachineImagesListByEdgeZoneParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(

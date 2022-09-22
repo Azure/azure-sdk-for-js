@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachinesPerformMaintenanceParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,7 +25,7 @@ async function virtualMachinesPerformMaintenanceMaximumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmName = "aaaaaaa";
   const options: VirtualMachinesPerformMaintenanceParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -54,7 +54,7 @@ async function virtualMachinesPerformMaintenanceMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmName = "aaaaaaaaaa";
   const options: VirtualMachinesPerformMaintenanceParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

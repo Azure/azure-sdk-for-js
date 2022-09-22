@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachineImagesListOffersParameters
+  VirtualMachineImagesListOffersParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -24,7 +24,7 @@ async function virtualMachineImagesListOffersMaximumSetGen() {
   const location = "aaaaaaa";
   const publisherName = "aaaaaaaa";
   const options: VirtualMachineImagesListOffersParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -51,7 +51,7 @@ async function virtualMachineImagesListOffersMinimumSetGen() {
   const location = "aaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineImagesListOffersParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(

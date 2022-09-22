@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   CapacityReservationGroupsListBySubscriptionParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,8 +25,8 @@ async function listCapacityReservationGroupsInSubscription() {
   const options: CapacityReservationGroupsListBySubscriptionParameters = {
     queryParameters: {
       "api-version": "2022-08-01",
-      $expand: "virtualMachines/$ref"
-    }
+      $expand: "virtualMachines/$ref",
+    },
   };
   const initialResponse = await client
     .path(

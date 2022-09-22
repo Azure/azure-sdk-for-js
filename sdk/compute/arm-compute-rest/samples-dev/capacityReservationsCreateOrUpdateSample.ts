@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   CapacityReservationsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -30,9 +30,9 @@ async function createOrUpdateACapacityReservation() {
       location: "westus",
       sku: { name: "Standard_DS1_v2", capacity: 4 },
       tags: { department: "HR" },
-      zones: ["1"]
+      zones: ["1"],
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

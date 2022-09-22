@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   CloudServicesUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function updateExistingCloudServiceToAddTags() {
   const cloudServiceName = "{cs-name}";
   const options: CloudServicesUpdateParameters = {
     body: { tags: { Documentation: "RestAPI" } },
-    queryParameters: { "api-version": "2022-04-04" }
+    queryParameters: { "api-version": "2022-04-04" },
   };
   const initialResponse = await client
     .path(

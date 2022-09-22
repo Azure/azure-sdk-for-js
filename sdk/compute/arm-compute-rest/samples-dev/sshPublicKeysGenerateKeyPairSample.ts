@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  SshPublicKeysGenerateKeyPairParameters
+  SshPublicKeysGenerateKeyPairParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -24,7 +24,7 @@ async function generateAnSshKeyPair() {
   const resourceGroupName = "myResourceGroup";
   const sshPublicKeyName = "mySshPublicKeyName";
   const options: SshPublicKeysGenerateKeyPairParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(

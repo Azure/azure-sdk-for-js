@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   GalleriesCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -34,13 +34,13 @@ async function createACommunityGallery() {
             eula: "eula",
             publicNamePrefix: "PirPublic",
             publisherContact: "pir@microsoft.com",
-            publisherUri: "uri"
+            publisherUri: "uri",
           },
-          permissions: "Community"
-        }
-      }
+          permissions: "Community",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
@@ -73,10 +73,10 @@ async function createOrUpdateASimpleGalleryWithSharingProfile() {
       location: "West US",
       properties: {
         description: "This is the gallery description.",
-        sharingProfile: { permissions: "Groups" }
-      }
+        sharingProfile: { permissions: "Groups" },
+      },
     },
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
@@ -109,10 +109,10 @@ async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
       location: "West US",
       properties: {
         description: "This is the gallery description.",
-        softDeletePolicy: { isSoftDeleteEnabled: true }
-      }
+        softDeletePolicy: { isSoftDeleteEnabled: true },
+      },
     },
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
@@ -143,9 +143,9 @@ async function createOrUpdateASimpleGallery() {
   const options: GalleriesCreateOrUpdateParameters = {
     body: {
       location: "West US",
-      properties: { description: "This is the gallery description." }
+      properties: { description: "This is the gallery description." },
     },
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(

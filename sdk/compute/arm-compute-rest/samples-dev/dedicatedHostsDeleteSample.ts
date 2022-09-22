@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   DedicatedHostsDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function dedicatedHostsDeleteMaximumSetGen() {
   const hostGroupName = "aaaaaa";
   const hostName = "aaaaaaaaaaaaaaa";
   const options: DedicatedHostsDeleteParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -57,7 +57,7 @@ async function dedicatedHostsDeleteMinimumSetGen() {
   const hostGroupName = "aaaaaaaaaaaaaaa";
   const hostName = "aaaaa";
   const options: DedicatedHostsDeleteParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

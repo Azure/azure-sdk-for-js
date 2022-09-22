@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   GalleryImageVersionsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -39,20 +39,20 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource() {
                   {
                     diskEncryptionSetId:
                       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet",
-                    lun: 0
+                    lun: 0,
                   },
                   {
                     diskEncryptionSetId:
                       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
-                    lun: 1
-                  }
+                    lun: 1,
+                  },
                 ],
                 osDiskImage: {
                   diskEncryptionSetId:
-                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
-                }
+                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
+                },
               },
-              regionalReplicaCount: 2
+              regionalReplicaCount: 2,
             },
             {
               name: "East US",
@@ -61,33 +61,33 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource() {
                   {
                     diskEncryptionSetId:
                       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet",
-                    lun: 0
+                    lun: 0,
                   },
                   {
                     diskEncryptionSetId:
                       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
-                    lun: 1
-                  }
+                    lun: 1,
+                  },
                 ],
                 osDiskImage: {
                   diskEncryptionSetId:
-                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
-                }
+                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
+                },
               },
               regionalReplicaCount: 2,
-              storageAccountType: "Standard_ZRS"
-            }
-          ]
+              storageAccountType: "Standard_ZRS",
+            },
+          ],
         },
         storageProfile: {
           source: {
             id:
-              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/virtualMachines/{vmName}"
-          }
-        }
-      }
+              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/virtualMachines/{vmName}",
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
@@ -132,20 +132,20 @@ async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource
                   {
                     diskEncryptionSetId:
                       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet",
-                    lun: 0
+                    lun: 0,
                   },
                   {
                     diskEncryptionSetId:
                       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
-                    lun: 1
-                  }
+                    lun: 1,
+                  },
                 ],
                 osDiskImage: {
                   diskEncryptionSetId:
-                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
-                }
+                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
+                },
               },
-              regionalReplicaCount: 1
+              regionalReplicaCount: 1,
             },
             {
               name: "East US",
@@ -154,33 +154,33 @@ async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource
                   {
                     diskEncryptionSetId:
                       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet",
-                    lun: 0
+                    lun: 0,
                   },
                   {
                     diskEncryptionSetId:
                       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
-                    lun: 1
-                  }
+                    lun: 1,
+                  },
                 ],
                 osDiskImage: {
                   diskEncryptionSetId:
-                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
-                }
+                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
+                },
               },
               regionalReplicaCount: 2,
-              storageAccountType: "Standard_ZRS"
-            }
-          ]
+              storageAccountType: "Standard_ZRS",
+            },
+          ],
         },
         storageProfile: {
           source: {
             id:
-              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"
-          }
-        }
-      }
+              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}",
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
@@ -197,9 +197,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource
   console.log(result);
 }
 
-createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource().catch(
-  console.error
-);
+createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource().catch(console.error);
 /**
  * This sample demonstrates how to Create or update a gallery image version.
  *
@@ -227,15 +225,15 @@ async function createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapsho
                   {
                     diskEncryptionSetId:
                       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
-                    lun: 1
-                  }
+                    lun: 1,
+                  },
                 ],
                 osDiskImage: {
                   diskEncryptionSetId:
-                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
-                }
+                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
+                },
               },
-              regionalReplicaCount: 1
+              regionalReplicaCount: 1,
             },
             {
               name: "East US",
@@ -244,18 +242,18 @@ async function createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapsho
                   {
                     diskEncryptionSetId:
                       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
-                    lun: 1
-                  }
+                    lun: 1,
+                  },
                 ],
                 osDiskImage: {
                   diskEncryptionSetId:
-                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
-                }
+                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
+                },
               },
               regionalReplicaCount: 2,
-              storageAccountType: "Standard_ZRS"
-            }
-          ]
+              storageAccountType: "Standard_ZRS",
+            },
+          ],
         },
         storageProfile: {
           dataDiskImages: [
@@ -264,21 +262,21 @@ async function createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapsho
               lun: 1,
               source: {
                 id:
-                  "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}"
-              }
-            }
+                  "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}",
+              },
+            },
           ],
           osDiskImage: {
             hostCaching: "ReadOnly",
             source: {
               id:
-                "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}"
-            }
-          }
-        }
-      }
+                "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}",
+            },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
@@ -295,9 +293,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapsho
   console.log(result);
 }
 
-createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapshotsAsASource().catch(
-  console.error
-);
+createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapshotsAsASource().catch(console.error);
 /**
  * This sample demonstrates how to Create or update a gallery image version.
  *
@@ -318,17 +314,17 @@ async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMo
       properties: {
         publishingProfile: {
           replicationMode: "Shallow",
-          targetRegions: [{ name: "West US", regionalReplicaCount: 1 }]
+          targetRegions: [{ name: "West US", regionalReplicaCount: 1 }],
         },
         storageProfile: {
           source: {
             id:
-              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"
-          }
-        }
-      }
+              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}",
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
@@ -345,9 +341,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMo
   console.log(result);
 }
 
-createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMode().catch(
-  console.error
-);
+createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMode().catch(console.error);
 /**
  * This sample demonstrates how to Create or update a gallery image version.
  *
@@ -375,20 +369,20 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource(
                   {
                     diskEncryptionSetId:
                       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet",
-                    lun: 0
+                    lun: 0,
                   },
                   {
                     diskEncryptionSetId:
                       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
-                    lun: 1
-                  }
+                    lun: 1,
+                  },
                 ],
                 osDiskImage: {
                   diskEncryptionSetId:
-                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
-                }
+                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
+                },
               },
-              regionalReplicaCount: 1
+              regionalReplicaCount: 1,
             },
             {
               name: "East US",
@@ -397,33 +391,33 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource(
                   {
                     diskEncryptionSetId:
                       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet",
-                    lun: 0
+                    lun: 0,
                   },
                   {
                     diskEncryptionSetId:
                       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
-                    lun: 1
-                  }
+                    lun: 1,
+                  },
                 ],
                 osDiskImage: {
                   diskEncryptionSetId:
-                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
-                }
+                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
+                },
               },
               regionalReplicaCount: 2,
-              storageAccountType: "Standard_ZRS"
-            }
-          ]
+              storageAccountType: "Standard_ZRS",
+            },
+          ],
         },
         storageProfile: {
           source: {
             id:
-              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{versionName}"
-          }
-        }
-      }
+              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{versionName}",
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
@@ -440,9 +434,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource(
   console.log(result);
 }
 
-createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource().catch(
-  console.error
-);
+createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource().catch(console.error);
 /**
  * This sample demonstrates how to Create or update a gallery image version.
  *
@@ -470,15 +462,15 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource()
                   {
                     diskEncryptionSetId:
                       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
-                    lun: 1
-                  }
+                    lun: 1,
+                  },
                 ],
                 osDiskImage: {
                   diskEncryptionSetId:
-                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
-                }
+                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
+                },
               },
-              regionalReplicaCount: 1
+              regionalReplicaCount: 1,
             },
             {
               name: "East US",
@@ -487,18 +479,18 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource()
                   {
                     diskEncryptionSetId:
                       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
-                    lun: 1
-                  }
+                    lun: 1,
+                  },
                 ],
                 osDiskImage: {
                   diskEncryptionSetId:
-                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
-                }
+                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
+                },
               },
               regionalReplicaCount: 2,
-              storageAccountType: "Standard_ZRS"
-            }
-          ]
+              storageAccountType: "Standard_ZRS",
+            },
+          ],
         },
         storageProfile: {
           dataDiskImages: [
@@ -507,21 +499,21 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource()
               lun: 1,
               source: {
                 id:
-                  "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}"
-              }
-            }
+                  "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}",
+              },
+            },
           ],
           osDiskImage: {
             hostCaching: "ReadOnly",
             source: {
               id:
-                "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}"
-            }
-          }
-        }
-      }
+                "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}",
+            },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
@@ -538,9 +530,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource()
   console.log(result);
 }
 
-createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource().catch(
-  console.error
-);
+createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource().catch(console.error);
 /**
  * This sample demonstrates how to Create or update a gallery image version.
  *
@@ -568,22 +558,22 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
                   {
                     diskEncryptionSetId:
                       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherDiskEncryptionSet",
-                    lun: 1
-                  }
+                    lun: 1,
+                  },
                 ],
                 osDiskImage: {
                   diskEncryptionSetId:
-                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myDiskEncryptionSet"
-                }
+                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myDiskEncryptionSet",
+                },
               },
-              regionalReplicaCount: 1
+              regionalReplicaCount: 1,
             },
             {
               name: "East US",
               regionalReplicaCount: 2,
-              storageAccountType: "Standard_ZRS"
-            }
-          ]
+              storageAccountType: "Standard_ZRS",
+            },
+          ],
         },
         storageProfile: {
           dataDiskImages: [
@@ -594,9 +584,9 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
                 id:
                   "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
                 uri:
-                  "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd"
-              }
-            }
+                  "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd",
+              },
+            },
           ],
           osDiskImage: {
             hostCaching: "ReadOnly",
@@ -604,13 +594,13 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
               id:
                 "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
               uri:
-                "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd"
-            }
-          }
-        }
-      }
+                "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd",
+            },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
@@ -627,9 +617,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
   console.log(result);
 }
 
-createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource().catch(
-  console.error
-);
+createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource().catch(console.error);
 /**
  * This sample demonstrates how to Create or update a gallery image version.
  *
@@ -657,20 +645,20 @@ async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocatio
                   {
                     diskEncryptionSetId:
                       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet",
-                    lun: 0
+                    lun: 0,
                   },
                   {
                     diskEncryptionSetId:
                       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
-                    lun: 1
-                  }
+                    lun: 1,
+                  },
                 ],
                 osDiskImage: {
                   diskEncryptionSetId:
-                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
-                }
+                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
+                },
               },
-              regionalReplicaCount: 1
+              regionalReplicaCount: 1,
             },
             {
               name: "East US",
@@ -679,33 +667,33 @@ async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocatio
                   {
                     diskEncryptionSetId:
                       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet",
-                    lun: 0
+                    lun: 0,
                   },
                   {
                     diskEncryptionSetId:
                       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
-                    lun: 1
-                  }
+                    lun: 1,
+                  },
                 ],
                 osDiskImage: {
                   diskEncryptionSetId:
-                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
-                }
+                    "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
+                },
               },
               regionalReplicaCount: 2,
-              storageAccountType: "Standard_ZRS"
-            }
-          ]
+              storageAccountType: "Standard_ZRS",
+            },
+          ],
         },
         storageProfile: {
           source: {
             id:
-              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"
-          }
-        }
-      }
+              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}",
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
@@ -722,6 +710,4 @@ async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocatio
   console.log(result);
 }
 
-createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocationsSpecified().catch(
-  console.error
-);
+createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocationsSpecified().catch(console.error);

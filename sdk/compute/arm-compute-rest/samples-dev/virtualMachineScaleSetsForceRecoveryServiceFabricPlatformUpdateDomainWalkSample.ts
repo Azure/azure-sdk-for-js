@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkParameters
+  VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -24,7 +24,7 @@ async function virtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDo
   const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkParameters = {
-    queryParameters: { "api-version": "2022-08-01", platformUpdateDomain: 30 }
+    queryParameters: { "api-version": "2022-08-01", platformUpdateDomain: 30 },
   };
   const result = await client
     .path(
@@ -53,7 +53,7 @@ async function virtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDo
   const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkParameters = {
-    queryParameters: { "api-version": "2022-08-01", platformUpdateDomain: 9 }
+    queryParameters: { "api-version": "2022-08-01", platformUpdateDomain: 9 },
   };
   const result = await client
     .path(

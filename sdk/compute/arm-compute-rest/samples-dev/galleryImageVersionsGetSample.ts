@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  GalleryImageVersionsGetParameters
+  GalleryImageVersionsGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -28,8 +28,8 @@ async function getAGalleryImageVersionWithReplicationStatus() {
   const options: GalleryImageVersionsGetParameters = {
     queryParameters: {
       $expand: "ReplicationStatus",
-      "api-version": "2022-01-03"
-    }
+      "api-version": "2022-01-03",
+    },
   };
   const result = await client
     .path(
@@ -60,7 +60,7 @@ async function getAGalleryImageVersionWithSnapshotsAsASource() {
   const galleryImageName = "myGalleryImageName";
   const galleryImageVersionName = "1.0.0";
   const options: GalleryImageVersionsGetParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const result = await client
     .path(
@@ -91,7 +91,7 @@ async function getAGalleryImageVersionWithVhdAsASource() {
   const galleryImageName = "myGalleryImageName";
   const galleryImageVersionName = "1.0.0";
   const options: GalleryImageVersionsGetParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const result = await client
     .path(
@@ -122,7 +122,7 @@ async function getAGalleryImageVersion() {
   const galleryImageName = "myGalleryImageName";
   const galleryImageVersionName = "1.0.0";
   const options: GalleryImageVersionsGetParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const result = await client
     .path(

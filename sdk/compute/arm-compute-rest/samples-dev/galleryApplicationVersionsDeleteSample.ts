@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   GalleryApplicationVersionsDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -27,7 +27,7 @@ async function deleteAGalleryApplicationVersion() {
   const galleryApplicationName = "myGalleryApplicationName";
   const galleryApplicationVersionName = "1.0.0";
   const options: GalleryApplicationVersionsDeleteParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(

@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   CloudServiceRoleInstancesRestartParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function restartCloudServiceRoleInstance() {
   const cloudServiceName = "{cs-name}";
   const roleInstanceName = "{roleInstance-name}";
   const options: CloudServiceRoleInstancesRestartParameters = {
-    queryParameters: { "api-version": "2022-04-04" }
+    queryParameters: { "api-version": "2022-04-04" },
   };
   const initialResponse = await client
     .path(

@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   DisksUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function createOrUpdateABurstingEnabledManagedDisk() {
   const diskName = "myDisk";
   const options: DisksUpdateParameters = {
     body: { properties: { burstingEnabled: true, diskSizeGB: 1024 } },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
@@ -56,9 +56,9 @@ async function updateAManagedDiskToAddAcceleratedNetworking() {
   const diskName = "myDisk";
   const options: DisksUpdateParameters = {
     body: {
-      properties: { supportedCapabilities: { acceleratedNetwork: false } }
+      properties: { supportedCapabilities: { acceleratedNetwork: false } },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
@@ -88,7 +88,7 @@ async function updateAManagedDiskToAddArchitecture() {
   const diskName = "myDisk";
   const options: DisksUpdateParameters = {
     body: { properties: { supportedCapabilities: { architecture: "Arm64" } } },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
@@ -123,11 +123,11 @@ async function updateAManagedDiskToAddPurchasePlan() {
           name: "myPurchasePlanName",
           product: "myPurchasePlanProduct",
           promotionCode: "myPurchasePlanPromotionCode",
-          publisher: "myPurchasePlanPublisher"
-        }
-      }
+          publisher: "myPurchasePlanPublisher",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
@@ -157,7 +157,7 @@ async function updateAManagedDiskToAddSupportsHibernation() {
   const diskName = "myDisk";
   const options: DisksUpdateParameters = {
     body: { properties: { supportsHibernation: true } },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
@@ -187,7 +187,7 @@ async function updateAManagedDiskToChangeTier() {
   const diskName = "myDisk";
   const options: DisksUpdateParameters = {
     body: { properties: { tier: "P30" } },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
@@ -217,7 +217,7 @@ async function updateAManagedDiskToDisableBursting() {
   const diskName = "myDisk";
   const options: DisksUpdateParameters = {
     body: { properties: { burstingEnabled: false } },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
@@ -247,7 +247,7 @@ async function updateAManagedDiskToDisableOptimizedForFrequentAttach() {
   const diskName = "myDisk";
   const options: DisksUpdateParameters = {
     body: { properties: { optimizedForFrequentAttach: false } },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
@@ -277,9 +277,9 @@ async function updateAManagedDiskWithDiskControllerTypes() {
   const diskName = "myDisk";
   const options: DisksUpdateParameters = {
     body: {
-      properties: { supportedCapabilities: { diskControllerTypes: "SCSI" } }
+      properties: { supportedCapabilities: { diskControllerTypes: "SCSI" } },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
@@ -309,7 +309,7 @@ async function updateManagedDiskToRemoveDiskAccessResourceAssociation() {
   const diskName = "myDisk";
   const options: DisksUpdateParameters = {
     body: { properties: { networkAccessPolicy: "AllowAll" } },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(

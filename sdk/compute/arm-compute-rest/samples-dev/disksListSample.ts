@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   DisksListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -23,13 +23,10 @@ async function listAllManagedDisksInASubscription() {
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
   const options: DisksListParameters = {
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/disks",
-      subscriptionId
-    )
+    .path("/subscriptions/{subscriptionId}/providers/Microsoft.Compute/disks", subscriptionId)
     .get(options);
   const pageData = paginate(client, initialResponse);
   const result = [];

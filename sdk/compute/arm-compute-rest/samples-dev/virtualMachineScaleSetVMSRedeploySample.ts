@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachineScaleSetVMsRedeployParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function virtualMachineScaleSetVMSRedeployMaximumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaa";
   const instanceId = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetVMsRedeployParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -57,7 +57,7 @@ async function virtualMachineScaleSetVMSRedeployMinimumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaa";
   const instanceId = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetVMsRedeployParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

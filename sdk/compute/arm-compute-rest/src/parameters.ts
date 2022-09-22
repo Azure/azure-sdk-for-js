@@ -71,7 +71,7 @@ import {
   CloudService,
   CloudServiceUpdate,
   RoleInstances,
-  UpdateDomain
+  UpdateDomain,
 } from "./models";
 
 export interface OperationsListQueryParamProperties {
@@ -83,8 +83,7 @@ export interface OperationsListQueryParam {
   queryParameters: OperationsListQueryParamProperties;
 }
 
-export type OperationsListParameters = OperationsListQueryParam &
-  RequestParameters;
+export type OperationsListParameters = OperationsListQueryParam & RequestParameters;
 
 export interface UsageListQueryParamProperties {
   /** Api Version */
@@ -1214,8 +1213,7 @@ export interface VirtualMachinesDeleteQueryParam {
   queryParameters: VirtualMachinesDeleteQueryParamProperties;
 }
 
-export type VirtualMachinesDeleteParameters = VirtualMachinesDeleteQueryParam &
-  RequestParameters;
+export type VirtualMachinesDeleteParameters = VirtualMachinesDeleteQueryParam & RequestParameters;
 
 export interface VirtualMachinesGetQueryParamProperties {
   /** The expand expression to apply on the operation. 'InstanceView' retrieves a snapshot of the runtime properties of the virtual machine that is managed by the platform and can change outside of control plane operations. 'UserData' retrieves the UserData property as part of the VM model view that was provided by the user during the VM Create/Update operation. */
@@ -1228,8 +1226,7 @@ export interface VirtualMachinesGetQueryParam {
   queryParameters: VirtualMachinesGetQueryParamProperties;
 }
 
-export type VirtualMachinesGetParameters = VirtualMachinesGetQueryParam &
-  RequestParameters;
+export type VirtualMachinesGetParameters = VirtualMachinesGetQueryParam & RequestParameters;
 
 export interface VirtualMachinesInstanceViewQueryParamProperties {
   /** Api Version */
@@ -1292,8 +1289,7 @@ export interface VirtualMachinesListQueryParam {
   queryParameters: VirtualMachinesListQueryParamProperties;
 }
 
-export type VirtualMachinesListParameters = VirtualMachinesListQueryParam &
-  RequestParameters;
+export type VirtualMachinesListParameters = VirtualMachinesListQueryParam & RequestParameters;
 
 export interface VirtualMachinesListAllQueryParamProperties {
   /** Api Version */
@@ -1308,8 +1304,7 @@ export interface VirtualMachinesListAllQueryParam {
   queryParameters: VirtualMachinesListAllQueryParamProperties;
 }
 
-export type VirtualMachinesListAllParameters = VirtualMachinesListAllQueryParam &
-  RequestParameters;
+export type VirtualMachinesListAllParameters = VirtualMachinesListAllQueryParam & RequestParameters;
 
 export interface VirtualMachinesListAvailableSizesQueryParamProperties {
   /** Api Version */
@@ -1346,8 +1341,7 @@ export interface VirtualMachinesReapplyQueryParam {
   queryParameters: VirtualMachinesReapplyQueryParamProperties;
 }
 
-export type VirtualMachinesReapplyParameters = VirtualMachinesReapplyQueryParam &
-  RequestParameters;
+export type VirtualMachinesReapplyParameters = VirtualMachinesReapplyQueryParam & RequestParameters;
 
 export interface VirtualMachinesRestartQueryParamProperties {
   /** Api Version */
@@ -1358,8 +1352,7 @@ export interface VirtualMachinesRestartQueryParam {
   queryParameters: VirtualMachinesRestartQueryParamProperties;
 }
 
-export type VirtualMachinesRestartParameters = VirtualMachinesRestartQueryParam &
-  RequestParameters;
+export type VirtualMachinesRestartParameters = VirtualMachinesRestartQueryParam & RequestParameters;
 
 export interface VirtualMachinesStartQueryParamProperties {
   /** Api Version */
@@ -1370,8 +1363,7 @@ export interface VirtualMachinesStartQueryParam {
   queryParameters: VirtualMachinesStartQueryParamProperties;
 }
 
-export type VirtualMachinesStartParameters = VirtualMachinesStartQueryParam &
-  RequestParameters;
+export type VirtualMachinesStartParameters = VirtualMachinesStartQueryParam & RequestParameters;
 
 export interface VirtualMachinesRedeployQueryParamProperties {
   /** Api Version */
@@ -1746,8 +1738,7 @@ export interface AvailabilitySetsDeleteQueryParam {
   queryParameters: AvailabilitySetsDeleteQueryParamProperties;
 }
 
-export type AvailabilitySetsDeleteParameters = AvailabilitySetsDeleteQueryParam &
-  RequestParameters;
+export type AvailabilitySetsDeleteParameters = AvailabilitySetsDeleteQueryParam & RequestParameters;
 
 export interface AvailabilitySetsGetQueryParamProperties {
   /** Api Version */
@@ -1758,8 +1749,7 @@ export interface AvailabilitySetsGetQueryParam {
   queryParameters: AvailabilitySetsGetQueryParamProperties;
 }
 
-export type AvailabilitySetsGetParameters = AvailabilitySetsGetQueryParam &
-  RequestParameters;
+export type AvailabilitySetsGetParameters = AvailabilitySetsGetQueryParam & RequestParameters;
 
 export interface AvailabilitySetsListBySubscriptionQueryParamProperties {
   /** Api Version */
@@ -1784,8 +1774,7 @@ export interface AvailabilitySetsListQueryParam {
   queryParameters: AvailabilitySetsListQueryParamProperties;
 }
 
-export type AvailabilitySetsListParameters = AvailabilitySetsListQueryParam &
-  RequestParameters;
+export type AvailabilitySetsListParameters = AvailabilitySetsListQueryParam & RequestParameters;
 
 export interface AvailabilitySetsListAvailableSizesQueryParamProperties {
   /** Api Version */
@@ -1968,8 +1957,7 @@ export interface DedicatedHostGroupsGetQueryParam {
   queryParameters: DedicatedHostGroupsGetQueryParamProperties;
 }
 
-export type DedicatedHostGroupsGetParameters = DedicatedHostGroupsGetQueryParam &
-  RequestParameters;
+export type DedicatedHostGroupsGetParameters = DedicatedHostGroupsGetQueryParam & RequestParameters;
 
 export interface DedicatedHostGroupsListByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -2052,8 +2040,7 @@ export interface DedicatedHostsDeleteQueryParam {
   queryParameters: DedicatedHostsDeleteQueryParamProperties;
 }
 
-export type DedicatedHostsDeleteParameters = DedicatedHostsDeleteQueryParam &
-  RequestParameters;
+export type DedicatedHostsDeleteParameters = DedicatedHostsDeleteQueryParam & RequestParameters;
 
 export interface DedicatedHostsGetQueryParamProperties {
   /** The expand expression to apply on the operation. 'InstanceView' will retrieve the list of instance views of the dedicated host. 'UserData' is not supported for dedicated host. */
@@ -2066,8 +2053,7 @@ export interface DedicatedHostsGetQueryParam {
   queryParameters: DedicatedHostsGetQueryParamProperties;
 }
 
-export type DedicatedHostsGetParameters = DedicatedHostsGetQueryParam &
-  RequestParameters;
+export type DedicatedHostsGetParameters = DedicatedHostsGetQueryParam & RequestParameters;
 
 export interface DedicatedHostsListByHostGroupQueryParamProperties {
   /** Api Version */
@@ -2090,8 +2076,7 @@ export interface DedicatedHostsRestartQueryParam {
   queryParameters: DedicatedHostsRestartQueryParamProperties;
 }
 
-export type DedicatedHostsRestartParameters = DedicatedHostsRestartQueryParam &
-  RequestParameters;
+export type DedicatedHostsRestartParameters = DedicatedHostsRestartQueryParam & RequestParameters;
 
 export interface SshPublicKeysListBySubscriptionQueryParamProperties {
   /** Api Version */
@@ -2174,8 +2159,7 @@ export interface SshPublicKeysDeleteQueryParam {
   queryParameters: SshPublicKeysDeleteQueryParamProperties;
 }
 
-export type SshPublicKeysDeleteParameters = SshPublicKeysDeleteQueryParam &
-  RequestParameters;
+export type SshPublicKeysDeleteParameters = SshPublicKeysDeleteQueryParam & RequestParameters;
 
 export interface SshPublicKeysGetQueryParamProperties {
   /** Api Version */
@@ -2186,8 +2170,7 @@ export interface SshPublicKeysGetQueryParam {
   queryParameters: SshPublicKeysGetQueryParamProperties;
 }
 
-export type SshPublicKeysGetParameters = SshPublicKeysGetQueryParam &
-  RequestParameters;
+export type SshPublicKeysGetParameters = SshPublicKeysGetQueryParam & RequestParameters;
 
 export interface SshPublicKeysGenerateKeyPairQueryParamProperties {
   /** Api Version */
@@ -2427,8 +2410,7 @@ export interface RestorePointsDeleteQueryParam {
   queryParameters: RestorePointsDeleteQueryParamProperties;
 }
 
-export type RestorePointsDeleteParameters = RestorePointsDeleteQueryParam &
-  RequestParameters;
+export type RestorePointsDeleteParameters = RestorePointsDeleteQueryParam & RequestParameters;
 
 export interface RestorePointsGetQueryParamProperties {
   /** The expand expression to apply on the operation. 'InstanceView' retrieves information about the run-time state of a restore point. */
@@ -2441,8 +2423,7 @@ export interface RestorePointsGetQueryParam {
   queryParameters: RestorePointsGetQueryParamProperties;
 }
 
-export type RestorePointsGetParameters = RestorePointsGetQueryParam &
-  RequestParameters;
+export type RestorePointsGetParameters = RestorePointsGetQueryParam & RequestParameters;
 
 export interface CapacityReservationGroupsCreateOrUpdateBodyParam {
   /** Parameters supplied to the Create capacity reservation Group. */
@@ -3006,8 +2987,7 @@ export interface DisksRevokeAccessQueryParam {
   queryParameters: DisksRevokeAccessQueryParamProperties;
 }
 
-export type DisksRevokeAccessParameters = DisksRevokeAccessQueryParam &
-  RequestParameters;
+export type DisksRevokeAccessParameters = DisksRevokeAccessQueryParam & RequestParameters;
 
 export interface DiskAccessesCreateOrUpdateBodyParam {
   /** disk access object supplied in the body of the Put disk access operation. */
@@ -3066,8 +3046,7 @@ export interface DiskAccessesGetQueryParam {
   queryParameters: DiskAccessesGetQueryParamProperties;
 }
 
-export type DiskAccessesGetParameters = DiskAccessesGetQueryParam &
-  RequestParameters;
+export type DiskAccessesGetParameters = DiskAccessesGetQueryParam & RequestParameters;
 
 export interface DiskAccessesDeleteQueryParamProperties {
   /** Api Version */
@@ -3078,8 +3057,7 @@ export interface DiskAccessesDeleteQueryParam {
   queryParameters: DiskAccessesDeleteQueryParamProperties;
 }
 
-export type DiskAccessesDeleteParameters = DiskAccessesDeleteQueryParam &
-  RequestParameters;
+export type DiskAccessesDeleteParameters = DiskAccessesDeleteQueryParam & RequestParameters;
 
 export interface DiskAccessesListByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -3102,8 +3080,7 @@ export interface DiskAccessesListQueryParam {
   queryParameters: DiskAccessesListQueryParamProperties;
 }
 
-export type DiskAccessesListParameters = DiskAccessesListQueryParam &
-  RequestParameters;
+export type DiskAccessesListParameters = DiskAccessesListQueryParam & RequestParameters;
 
 export interface DiskAccessesGetPrivateLinkResourcesQueryParamProperties {
   /** Api Version */
@@ -3234,8 +3211,7 @@ export interface DiskEncryptionSetsGetQueryParam {
   queryParameters: DiskEncryptionSetsGetQueryParamProperties;
 }
 
-export type DiskEncryptionSetsGetParameters = DiskEncryptionSetsGetQueryParam &
-  RequestParameters;
+export type DiskEncryptionSetsGetParameters = DiskEncryptionSetsGetQueryParam & RequestParameters;
 
 export interface DiskEncryptionSetsDeleteQueryParamProperties {
   /** Api Version */
@@ -3270,8 +3246,7 @@ export interface DiskEncryptionSetsListQueryParam {
   queryParameters: DiskEncryptionSetsListQueryParamProperties;
 }
 
-export type DiskEncryptionSetsListParameters = DiskEncryptionSetsListQueryParam &
-  RequestParameters;
+export type DiskEncryptionSetsListParameters = DiskEncryptionSetsListQueryParam & RequestParameters;
 
 export interface DiskEncryptionSetsListAssociatedResourcesQueryParamProperties {
   /** Api Version */
@@ -3294,8 +3269,7 @@ export interface DiskRestorePointGetQueryParam {
   queryParameters: DiskRestorePointGetQueryParamProperties;
 }
 
-export type DiskRestorePointGetParameters = DiskRestorePointGetQueryParam &
-  RequestParameters;
+export type DiskRestorePointGetParameters = DiskRestorePointGetQueryParam & RequestParameters;
 
 export interface DiskRestorePointListByRestorePointQueryParamProperties {
   /** Api Version */
@@ -3413,8 +3387,7 @@ export interface SnapshotsDeleteQueryParam {
   queryParameters: SnapshotsDeleteQueryParamProperties;
 }
 
-export type SnapshotsDeleteParameters = SnapshotsDeleteQueryParam &
-  RequestParameters;
+export type SnapshotsDeleteParameters = SnapshotsDeleteQueryParam & RequestParameters;
 
 export interface SnapshotsListByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -3437,8 +3410,7 @@ export interface SnapshotsListQueryParam {
   queryParameters: SnapshotsListQueryParamProperties;
 }
 
-export type SnapshotsListParameters = SnapshotsListQueryParam &
-  RequestParameters;
+export type SnapshotsListParameters = SnapshotsListQueryParam & RequestParameters;
 
 export interface SnapshotsGrantAccessBodyParam {
   /** Access data object supplied in the body of the get snapshot access operation. */
@@ -3473,8 +3445,7 @@ export interface SnapshotsRevokeAccessQueryParam {
   queryParameters: SnapshotsRevokeAccessQueryParamProperties;
 }
 
-export type SnapshotsRevokeAccessParameters = SnapshotsRevokeAccessQueryParam &
-  RequestParameters;
+export type SnapshotsRevokeAccessParameters = SnapshotsRevokeAccessQueryParam & RequestParameters;
 
 export interface ResourceSkusListQueryParamProperties {
   /** Api Version */
@@ -3489,8 +3460,7 @@ export interface ResourceSkusListQueryParam {
   queryParameters: ResourceSkusListQueryParamProperties;
 }
 
-export type ResourceSkusListParameters = ResourceSkusListQueryParam &
-  RequestParameters;
+export type ResourceSkusListParameters = ResourceSkusListQueryParam & RequestParameters;
 
 export interface GalleriesCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update Shared Image Gallery operation. */
@@ -3564,8 +3534,7 @@ export interface GalleriesDeleteQueryParam {
   queryParameters: GalleriesDeleteQueryParamProperties;
 }
 
-export type GalleriesDeleteParameters = GalleriesDeleteQueryParam &
-  RequestParameters;
+export type GalleriesDeleteParameters = GalleriesDeleteQueryParam & RequestParameters;
 
 export interface GalleriesListByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -3588,8 +3557,7 @@ export interface GalleriesListQueryParam {
   queryParameters: GalleriesListQueryParamProperties;
 }
 
-export type GalleriesListParameters = GalleriesListQueryParam &
-  RequestParameters;
+export type GalleriesListParameters = GalleriesListQueryParam & RequestParameters;
 
 export interface GalleryImagesCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update gallery image operation. */
@@ -3648,8 +3616,7 @@ export interface GalleryImagesGetQueryParam {
   queryParameters: GalleryImagesGetQueryParamProperties;
 }
 
-export type GalleryImagesGetParameters = GalleryImagesGetQueryParam &
-  RequestParameters;
+export type GalleryImagesGetParameters = GalleryImagesGetQueryParam & RequestParameters;
 
 export interface GalleryImagesDeleteQueryParamProperties {
   /** Api Version */
@@ -3660,8 +3627,7 @@ export interface GalleryImagesDeleteQueryParam {
   queryParameters: GalleryImagesDeleteQueryParamProperties;
 }
 
-export type GalleryImagesDeleteParameters = GalleryImagesDeleteQueryParam &
-  RequestParameters;
+export type GalleryImagesDeleteParameters = GalleryImagesDeleteQueryParam & RequestParameters;
 
 export interface GalleryImagesListByGalleryQueryParamProperties {
   /** Api Version */
@@ -3818,8 +3784,7 @@ export interface GalleryApplicationsGetQueryParam {
   queryParameters: GalleryApplicationsGetQueryParamProperties;
 }
 
-export type GalleryApplicationsGetParameters = GalleryApplicationsGetQueryParam &
-  RequestParameters;
+export type GalleryApplicationsGetParameters = GalleryApplicationsGetQueryParam & RequestParameters;
 
 export interface GalleryApplicationsDeleteQueryParamProperties {
   /** Api Version */
@@ -3966,8 +3931,7 @@ export interface SharedGalleriesListQueryParam {
   queryParameters: SharedGalleriesListQueryParamProperties;
 }
 
-export type SharedGalleriesListParameters = SharedGalleriesListQueryParam &
-  RequestParameters;
+export type SharedGalleriesListParameters = SharedGalleriesListQueryParam & RequestParameters;
 
 export interface SharedGalleriesGetQueryParamProperties {
   /** Api Version */
@@ -3978,8 +3942,7 @@ export interface SharedGalleriesGetQueryParam {
   queryParameters: SharedGalleriesGetQueryParamProperties;
 }
 
-export type SharedGalleriesGetParameters = SharedGalleriesGetQueryParam &
-  RequestParameters;
+export type SharedGalleriesGetParameters = SharedGalleriesGetQueryParam & RequestParameters;
 
 export interface SharedGalleryImagesListQueryParamProperties {
   /** Api Version */
@@ -4004,8 +3967,7 @@ export interface SharedGalleryImagesGetQueryParam {
   queryParameters: SharedGalleryImagesGetQueryParamProperties;
 }
 
-export type SharedGalleryImagesGetParameters = SharedGalleryImagesGetQueryParam &
-  RequestParameters;
+export type SharedGalleryImagesGetParameters = SharedGalleryImagesGetQueryParam & RequestParameters;
 
 export interface SharedGalleryImageVersionsListQueryParamProperties {
   /** Api Version */
@@ -4042,8 +4004,7 @@ export interface CommunityGalleriesGetQueryParam {
   queryParameters: CommunityGalleriesGetQueryParamProperties;
 }
 
-export type CommunityGalleriesGetParameters = CommunityGalleriesGetQueryParam &
-  RequestParameters;
+export type CommunityGalleriesGetParameters = CommunityGalleriesGetQueryParam & RequestParameters;
 
 export interface CommunityGalleryImagesGetQueryParamProperties {
   /** Api Version */
@@ -4202,8 +4163,7 @@ export interface CloudServiceRolesGetQueryParam {
   queryParameters: CloudServiceRolesGetQueryParamProperties;
 }
 
-export type CloudServiceRolesGetParameters = CloudServiceRolesGetQueryParam &
-  RequestParameters;
+export type CloudServiceRolesGetParameters = CloudServiceRolesGetQueryParam & RequestParameters;
 
 export interface CloudServiceRolesListQueryParamProperties {
   /** Api Version */
@@ -4214,8 +4174,7 @@ export interface CloudServiceRolesListQueryParam {
   queryParameters: CloudServiceRolesListQueryParamProperties;
 }
 
-export type CloudServiceRolesListParameters = CloudServiceRolesListQueryParam &
-  RequestParameters;
+export type CloudServiceRolesListParameters = CloudServiceRolesListQueryParam & RequestParameters;
 
 export interface CloudServicesCreateOrUpdateBodyParam {
   /** The cloud service object. */
@@ -4274,8 +4233,7 @@ export interface CloudServicesDeleteQueryParam {
   queryParameters: CloudServicesDeleteQueryParamProperties;
 }
 
-export type CloudServicesDeleteParameters = CloudServicesDeleteQueryParam &
-  RequestParameters;
+export type CloudServicesDeleteParameters = CloudServicesDeleteQueryParam & RequestParameters;
 
 export interface CloudServicesGetQueryParamProperties {
   /** Api Version */
@@ -4286,8 +4244,7 @@ export interface CloudServicesGetQueryParam {
   queryParameters: CloudServicesGetQueryParamProperties;
 }
 
-export type CloudServicesGetParameters = CloudServicesGetQueryParam &
-  RequestParameters;
+export type CloudServicesGetParameters = CloudServicesGetQueryParam & RequestParameters;
 
 export interface CloudServicesGetInstanceViewQueryParamProperties {
   /** Api Version */
@@ -4310,8 +4267,7 @@ export interface CloudServicesListAllQueryParam {
   queryParameters: CloudServicesListAllQueryParamProperties;
 }
 
-export type CloudServicesListAllParameters = CloudServicesListAllQueryParam &
-  RequestParameters;
+export type CloudServicesListAllParameters = CloudServicesListAllQueryParam & RequestParameters;
 
 export interface CloudServicesListQueryParamProperties {
   /** Api Version */
@@ -4322,8 +4278,7 @@ export interface CloudServicesListQueryParam {
   queryParameters: CloudServicesListQueryParamProperties;
 }
 
-export type CloudServicesListParameters = CloudServicesListQueryParam &
-  RequestParameters;
+export type CloudServicesListParameters = CloudServicesListQueryParam & RequestParameters;
 
 export interface CloudServicesStartQueryParamProperties {
   /** Api Version */
@@ -4334,8 +4289,7 @@ export interface CloudServicesStartQueryParam {
   queryParameters: CloudServicesStartQueryParamProperties;
 }
 
-export type CloudServicesStartParameters = CloudServicesStartQueryParam &
-  RequestParameters;
+export type CloudServicesStartParameters = CloudServicesStartQueryParam & RequestParameters;
 
 export interface CloudServicesPowerOffQueryParamProperties {
   /** Api Version */
@@ -4346,8 +4300,7 @@ export interface CloudServicesPowerOffQueryParam {
   queryParameters: CloudServicesPowerOffQueryParamProperties;
 }
 
-export type CloudServicesPowerOffParameters = CloudServicesPowerOffQueryParam &
-  RequestParameters;
+export type CloudServicesPowerOffParameters = CloudServicesPowerOffQueryParam & RequestParameters;
 
 export interface CloudServicesRestartBodyParam {
   /** List of cloud service role instance names. */

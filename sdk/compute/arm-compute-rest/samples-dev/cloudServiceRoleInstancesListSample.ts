@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   CloudServiceRoleInstancesListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,7 +25,7 @@ async function listRoleInstancesInACloudService() {
   const resourceGroupName = "ConstosoRG";
   const cloudServiceName = "{cs-name}";
   const options: CloudServiceRoleInstancesListParameters = {
-    queryParameters: { "api-version": "2022-04-04" }
+    queryParameters: { "api-version": "2022-04-04" },
   };
   const initialResponse = await client
     .path(

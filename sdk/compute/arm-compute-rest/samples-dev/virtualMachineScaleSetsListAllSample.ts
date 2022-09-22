@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachineScaleSetsListAllParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -23,7 +23,7 @@ async function virtualMachineScaleSetsListAllMaximumSetGen() {
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
   const options: VirtualMachineScaleSetsListAllParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -51,7 +51,7 @@ async function virtualMachineScaleSetsListAllMinimumSetGen() {
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
   const options: VirtualMachineScaleSetsListAllParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

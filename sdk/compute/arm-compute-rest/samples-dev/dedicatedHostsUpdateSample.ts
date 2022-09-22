@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   DedicatedHostsUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -31,7 +31,7 @@ async function dedicatedHostsUpdateMaximumSetGen() {
         autoReplaceOnFailure: true,
         instanceView: {
           availableCapacity: {
-            allocatableVMs: [{ count: 26, vmSize: "aaaaaaaaaaaaaaaaaaaa" }]
+            allocatableVMs: [{ count: 26, vmSize: "aaaaaaaaaaaaaaaaaaaa" }],
           },
           statuses: [
             {
@@ -39,16 +39,16 @@ async function dedicatedHostsUpdateMaximumSetGen() {
               displayStatus: "aaaaaa",
               level: "Info",
               message: "a",
-              time: new Date("2021-11-30T12:58:26.522Z")
-            }
-          ]
+              time: new Date("2021-11-30T12:58:26.522Z"),
+            },
+          ],
         },
         licenseType: "Windows_Server_Hybrid",
-        platformFaultDomain: 1
+        platformFaultDomain: 1,
       },
-      tags: { key8813: "aaaaaaaaaaaaaaaaaaaaaaaaaaa" }
+      tags: { key8813: "aaaaaaaaaaaaaaaaaaaaaaaaaaa" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -80,7 +80,7 @@ async function dedicatedHostsUpdateMinimumSetGen() {
   const hostName = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: DedicatedHostsUpdateParameters = {
     body: {},
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

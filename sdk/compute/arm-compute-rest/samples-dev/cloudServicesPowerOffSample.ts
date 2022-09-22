@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   CloudServicesPowerOffParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,7 +25,7 @@ async function stopOrPowerOffCloudService() {
   const resourceGroupName = "ConstosoRG";
   const cloudServiceName = "{cs-name}";
   const options: CloudServicesPowerOffParameters = {
-    queryParameters: { "api-version": "2022-04-04" }
+    queryParameters: { "api-version": "2022-04-04" },
   };
   const initialResponse = await client
     .path(

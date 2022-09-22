@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   DedicatedHostsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -30,9 +30,9 @@ async function createOrUpdateADedicatedHost() {
       location: "westus",
       properties: { platformFaultDomain: 1 },
       sku: { name: "DSv3-Type1" },
-      tags: { department: "HR" }
+      tags: { department: "HR" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

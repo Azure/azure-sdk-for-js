@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachineScaleSetExtensionsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -38,10 +38,10 @@ async function virtualMachineScaleSetExtensionsCreateOrUpdateMaximumSetGen() {
         publisher: "{extension-Publisher}",
         settings: {},
         suppressFailures: true,
-        typeHandlerVersion: "{handler-version}"
-      }
+        typeHandlerVersion: "{handler-version}",
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -57,9 +57,7 @@ async function virtualMachineScaleSetExtensionsCreateOrUpdateMaximumSetGen() {
   console.log(result);
 }
 
-virtualMachineScaleSetExtensionsCreateOrUpdateMaximumSetGen().catch(
-  console.error
-);
+virtualMachineScaleSetExtensionsCreateOrUpdateMaximumSetGen().catch(console.error);
 /**
  * This sample demonstrates how to The operation to create or update an extension.
  *
@@ -75,7 +73,7 @@ async function virtualMachineScaleSetExtensionsCreateOrUpdateMinimumSetGen() {
   const vmssExtensionName = "aaaaaaaaaaa";
   const options: VirtualMachineScaleSetExtensionsCreateOrUpdateParameters = {
     body: {},
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -91,6 +89,4 @@ async function virtualMachineScaleSetExtensionsCreateOrUpdateMinimumSetGen() {
   console.log(result);
 }
 
-virtualMachineScaleSetExtensionsCreateOrUpdateMinimumSetGen().catch(
-  console.error
-);
+virtualMachineScaleSetExtensionsCreateOrUpdateMinimumSetGen().catch(console.error);

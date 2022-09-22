@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  RestorePointCollectionsUpdateParameters
+  RestorePointCollectionsUpdateParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -28,12 +28,12 @@ async function restorePointCollectionsUpdateMaximumSetGen() {
       properties: {
         source: {
           id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM"
-        }
+            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
+        },
       },
-      tags: { key8536: "aaaaaaaaaaaaaaaaaaa" }
+      tags: { key8536: "aaaaaaaaaaaaaaaaaaa" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -61,7 +61,7 @@ async function restorePointCollectionsUpdateMinimumSetGen() {
   const restorePointCollectionName = "aaaaaaaaaaaaaaaaaa";
   const options: RestorePointCollectionsUpdateParameters = {
     body: {},
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(

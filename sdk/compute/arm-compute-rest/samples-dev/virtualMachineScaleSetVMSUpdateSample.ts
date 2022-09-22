@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachineScaleSetVMsUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -32,23 +32,23 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
         name: "aaaaaaaaaa",
         product: "aaaaaaaaaaaaaaaaaaaa",
         promotionCode: "aaaaaaaaaaaaaaaaaaaa",
-        publisher: "aaaaaaaaaaaaaaaaaaaaaa"
+        publisher: "aaaaaaaaaaaaaaaaaaaaaa",
       },
       properties: {
         additionalCapabilities: {
           hibernationEnabled: true,
-          ultraSSDEnabled: true
+          ultraSSDEnabled: true,
         },
         availabilitySet: {
           id:
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
         },
         diagnosticsProfile: {
-          bootDiagnostics: { enabled: true, storageUri: "aaaaaaaaaaaaa" }
+          bootDiagnostics: { enabled: true, storageUri: "aaaaaaaaaaaaa" },
         },
         hardwareProfile: {
           vmSize: "Basic_A0",
-          vmSizeProperties: { vCPUsAvailable: 9, vCPUsPerCore: 12 }
+          vmSizeProperties: { vCPUsAvailable: 9, vCPUsPerCore: 12 },
         },
         instanceView: {
           bootDiagnostics: {
@@ -57,8 +57,8 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
               displayStatus: "aaaaaa",
               level: "Info",
               message: "a",
-              time: new Date("2021-11-30T12:58:26.522Z")
-            }
+              time: new Date("2021-11-30T12:58:26.522Z"),
+            },
           },
           disks: [
             {
@@ -69,18 +69,18 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
                     secretUrl: "aaaaaaaa",
                     sourceVault: {
                       id:
-                        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
-                    }
+                        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                    },
                   },
                   enabled: true,
                   keyEncryptionKey: {
                     keyUrl: "aaaaaaaaaaaaaa",
                     sourceVault: {
                       id:
-                        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
-                    }
-                  }
-                }
+                        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                    },
+                  },
+                },
               ],
               statuses: [
                 {
@@ -88,10 +88,10 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
                   displayStatus: "aaaaaa",
                   level: "Info",
                   message: "a",
-                  time: new Date("2021-11-30T12:58:26.522Z")
-                }
-              ]
-            }
+                  time: new Date("2021-11-30T12:58:26.522Z"),
+                },
+              ],
+            },
           ],
           maintenanceRedeployStatus: {
             isCustomerInitiatedMaintenanceAllowed: true,
@@ -100,7 +100,7 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
             maintenanceWindowEndTime: new Date("2021-11-30T12:58:26.531Z"),
             maintenanceWindowStartTime: new Date("2021-11-30T12:58:26.531Z"),
             preMaintenanceWindowEndTime: new Date("2021-11-30T12:58:26.531Z"),
-            preMaintenanceWindowStartTime: new Date("2021-11-30T12:58:26.531Z")
+            preMaintenanceWindowStartTime: new Date("2021-11-30T12:58:26.531Z"),
           },
           placementGroupId: "aaa",
           platformFaultDomain: 14,
@@ -112,8 +112,8 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
               displayStatus: "aaaaaa",
               level: "Info",
               message: "a",
-              time: new Date("2021-11-30T12:58:26.522Z")
-            }
+              time: new Date("2021-11-30T12:58:26.522Z"),
+            },
           ],
           vmAgent: {
             extensionHandlers: [
@@ -124,10 +124,10 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
                   displayStatus: "aaaaaa",
                   level: "Info",
                   message: "a",
-                  time: new Date("2021-11-30T12:58:26.522Z")
+                  time: new Date("2021-11-30T12:58:26.522Z"),
                 },
-                typeHandlerVersion: "aaaaa"
-              }
+                typeHandlerVersion: "aaaaa",
+              },
             ],
             statuses: [
               {
@@ -135,10 +135,10 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
                 displayStatus: "aaaaaa",
                 level: "Info",
                 message: "a",
-                time: new Date("2021-11-30T12:58:26.522Z")
-              }
+                time: new Date("2021-11-30T12:58:26.522Z"),
+              },
             ],
-            vmAgentVersion: "aaaaaaaaaaaaaaaaaaaaaaa"
+            vmAgentVersion: "aaaaaaaaaaaaaaaaaaaaaaa",
           },
           vmHealth: {
             status: {
@@ -146,8 +146,8 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
               displayStatus: "aaaaaa",
               level: "Info",
               message: "a",
-              time: new Date("2021-11-30T12:58:26.522Z")
-            }
+              time: new Date("2021-11-30T12:58:26.522Z"),
+            },
           },
           extensions: [
             {
@@ -159,8 +159,8 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
                   displayStatus: "aaaaaa",
                   level: "Info",
                   message: "a",
-                  time: new Date("2021-11-30T12:58:26.522Z")
-                }
+                  time: new Date("2021-11-30T12:58:26.522Z"),
+                },
               ],
               substatuses: [
                 {
@@ -168,12 +168,12 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
                   displayStatus: "aaaaaa",
                   level: "Info",
                   message: "a",
-                  time: new Date("2021-11-30T12:58:26.522Z")
-                }
+                  time: new Date("2021-11-30T12:58:26.522Z"),
+                },
               ],
-              typeHandlerVersion: "aaaaaaaaaaaaaaaaaaaaaaaaaa"
-            }
-          ]
+              typeHandlerVersion: "aaaaaaaaaaaaaaaaaaaaaaaaaa",
+            },
+          ],
         },
         licenseType: "aaaaaaaaaa",
         networkProfile: {
@@ -186,7 +186,7 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
                 dnsSettings: { dnsServers: ["aaaaaa"] },
                 dscpConfiguration: {
                   id:
-                    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
+                    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
                 },
                 enableAcceleratedNetworking: true,
                 enableFpga: true,
@@ -198,20 +198,20 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
                       applicationGatewayBackendAddressPools: [
                         {
                           id:
-                            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
-                        }
+                            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                        },
                       ],
                       applicationSecurityGroups: [
                         {
                           id:
-                            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
-                        }
+                            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                        },
                       ],
                       loadBalancerBackendAddressPools: [
                         {
                           id:
-                            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
-                        }
+                            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                        },
                       ],
                       primary: true,
                       privateIPAddressVersion: "IPv4",
@@ -220,46 +220,46 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
                         properties: {
                           deleteOption: "Delete",
                           dnsSettings: {
-                            domainNameLabel: "aaaaaaaaaaaaaaaaaaaaaaaaa"
+                            domainNameLabel: "aaaaaaaaaaaaaaaaaaaaaaaaa",
                           },
                           idleTimeoutInMinutes: 2,
                           ipTags: [
                             {
                               ipTagType: "aaaaaaaaaaaaaaaaaaaaaaaaa",
-                              tag: "aaaaaaaaaaaaaaaaaaaa"
-                            }
+                              tag: "aaaaaaaaaaaaaaaaaaaa",
+                            },
                           ],
                           publicIPAddressVersion: "IPv4",
                           publicIPAllocationMethod: "Dynamic",
                           publicIPPrefix: {
                             id:
-                              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
-                          }
+                              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                          },
                         },
-                        sku: { name: "Basic", tier: "Regional" }
+                        sku: { name: "Basic", tier: "Regional" },
                       },
                       subnet: {
                         id:
-                          "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
-                      }
-                    }
-                  }
+                          "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                      },
+                    },
+                  },
                 ],
                 networkSecurityGroup: {
                   id:
-                    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
+                    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
                 },
-                primary: true
-              }
-            }
+                primary: true,
+              },
+            },
           ],
           networkInterfaces: [
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}/virtualMachines/0/networkInterfaces/vmsstestnetconfig5415",
-              properties: { deleteOption: "Delete", primary: true }
-            }
-          ]
+              properties: { deleteOption: "Delete", primary: true },
+            },
+          ],
         },
         networkProfileConfiguration: {
           networkInterfaceConfigurations: [
@@ -280,26 +280,26 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
                       applicationGatewayBackendAddressPools: [
                         {
                           id:
-                            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
-                        }
+                            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                        },
                       ],
                       applicationSecurityGroups: [
                         {
                           id:
-                            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
-                        }
+                            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                        },
                       ],
                       loadBalancerBackendAddressPools: [
                         {
                           id:
-                            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
-                        }
+                            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                        },
                       ],
                       loadBalancerInboundNatPools: [
                         {
                           id:
-                            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
-                        }
+                            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                        },
                       ],
                       primary: true,
                       privateIPAddressVersion: "IPv4",
@@ -308,38 +308,38 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
                         properties: {
                           deleteOption: "Delete",
                           dnsSettings: {
-                            domainNameLabel: "aaaaaaaaaaaaaaaaaa"
+                            domainNameLabel: "aaaaaaaaaaaaaaaaaa",
                           },
                           idleTimeoutInMinutes: 18,
                           ipTags: [
                             {
                               ipTagType: "aaaaaaa",
-                              tag: "aaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                            }
+                              tag: "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                            },
                           ],
                           publicIPAddressVersion: "IPv4",
                           publicIPPrefix: {
                             id:
-                              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
-                          }
+                              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                          },
                         },
-                        sku: { name: "Basic", tier: "Regional" }
+                        sku: { name: "Basic", tier: "Regional" },
                       },
                       subnet: {
                         id:
-                          "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/vn4071/subnets/sn5503"
-                      }
-                    }
-                  }
+                          "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/vn4071/subnets/sn5503",
+                      },
+                    },
+                  },
                 ],
                 networkSecurityGroup: {
                   id:
-                    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
+                    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
                 },
-                primary: true
-              }
-            }
-          ]
+                primary: true,
+              },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "aaaaaaaaaaaaaaaa",
@@ -351,10 +351,10 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
             disablePasswordAuthentication: true,
             patchSettings: {
               assessmentMode: "ImageDefault",
-              patchMode: "ImageDefault"
+              patchMode: "ImageDefault",
             },
             provisionVMAgent: true,
-            ssh: { publicKeys: [{ path: "aaa", keyData: "aaaaaa" }] }
+            ssh: { publicKeys: [{ path: "aaa", keyData: "aaaaaa" }] },
           },
           requireGuestProvisionSignal: true,
           secrets: [],
@@ -364,38 +364,35 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
                 componentName: "Microsoft-Windows-Shell-Setup",
                 content: "aaaaaaaaaaaaaaaaaaaa",
                 passName: "OobeSystem",
-                settingName: "AutoLogon"
-              }
+                settingName: "AutoLogon",
+              },
             ],
             enableAutomaticUpdates: true,
             patchSettings: {
               assessmentMode: "ImageDefault",
               enableHotpatching: true,
-              patchMode: "Manual"
+              patchMode: "Manual",
             },
             provisionVMAgent: true,
             timeZone: "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
             winRM: {
-              listeners: [
-                { certificateUrl: "aaaaaaaaaaaaaaaaaaaaaa", protocol: "Http" }
-              ]
-            }
-          }
+              listeners: [{ certificateUrl: "aaaaaaaaaaaaaaaaaaaaaa", protocol: "Http" }],
+            },
+          },
         },
         protectionPolicy: {
           protectFromScaleIn: true,
-          protectFromScaleSetActions: true
+          protectFromScaleSetActions: true,
         },
         securityProfile: {
           encryptionAtHost: true,
           securityType: "TrustedLaunch",
-          uefiSettings: { secureBootEnabled: true, vTpmEnabled: true }
+          uefiSettings: { secureBootEnabled: true, vTpmEnabled: true },
         },
         storageProfile: {
           dataDisks: [
             {
-              name:
-                "vmss3176_vmss3176_0_disk2_6c4f554bdafa49baa780eb2d128ff39d",
+              name: "vmss3176_vmss3176_0_disk2_6c4f554bdafa49baa780eb2d128ff39d",
               caching: "None",
               createOption: "Empty",
               deleteOption: "Delete",
@@ -403,22 +400,22 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
               diskSizeGB: 128,
               image: {
                 uri:
-                  "https://{storageAccountName}.blob.core.windows.net/{containerName}/{vhdName}.vhd"
+                  "https://{storageAccountName}.blob.core.windows.net/{containerName}/{vhdName}.vhd",
               },
               lun: 1,
               managedDisk: {
                 diskEncryptionSet: { id: "aaaaaaaaaaaa" },
                 id:
                   "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/vmss3176_vmss3176_0_disk2_6c4f554bdafa49baa780eb2d128ff39d",
-                storageAccountType: "Standard_LRS"
+                storageAccountType: "Standard_LRS",
               },
               toBeDetached: true,
               vhd: {
                 uri:
-                  "https://{storageAccountName}.blob.core.windows.net/{containerName}/{vhdName}.vhd"
+                  "https://{storageAccountName}.blob.core.windows.net/{containerName}/{vhdName}.vhd",
               },
-              writeAcceleratorEnabled: true
-            }
+              writeAcceleratorEnabled: true,
+            },
           ],
           imageReference: {
             id: "a",
@@ -426,11 +423,10 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
             publisher: "MicrosoftWindowsServer",
             sharedGalleryImageId: "aaaaaaaaaaaaaaaaaaaa",
             sku: "2012-R2-Datacenter",
-            version: "4.127.20180315"
+            version: "4.127.20180315",
           },
           osDisk: {
-            name:
-              "vmss3176_vmss3176_0_OsDisk_1_6d72b805e50e4de6830303c5055077fc",
+            name: "vmss3176_vmss3176_0_OsDisk_1_6d72b805e50e4de6830303c5055077fc",
             caching: "None",
             createOption: "FromImage",
             deleteOption: "Delete",
@@ -441,42 +437,42 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
                 secretUrl: "aaaaaaaa",
                 sourceVault: {
                   id:
-                    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
-                }
+                    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                },
               },
               enabled: true,
               keyEncryptionKey: {
                 keyUrl: "aaaaaaaaaaaaaa",
                 sourceVault: {
                   id:
-                    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
-                }
-              }
+                    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                },
+              },
             },
             image: {
               uri:
-                "https://{storageAccountName}.blob.core.windows.net/{containerName}/{vhdName}.vhd"
+                "https://{storageAccountName}.blob.core.windows.net/{containerName}/{vhdName}.vhd",
             },
             managedDisk: {
               diskEncryptionSet: { id: "aaaaaaaaaaaa" },
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/vmss3176_vmss3176_0_OsDisk_1_6d72b805e50e4de6830303c5055077fc",
-              storageAccountType: "Standard_LRS"
+              storageAccountType: "Standard_LRS",
             },
             osType: "Windows",
             vhd: {
               uri:
-                "https://{storageAccountName}.blob.core.windows.net/{containerName}/{vhdName}.vhd"
+                "https://{storageAccountName}.blob.core.windows.net/{containerName}/{vhdName}.vhd",
             },
-            writeAcceleratorEnabled: true
-          }
+            writeAcceleratorEnabled: true,
+          },
         },
-        userData: "RXhhbXBsZSBVc2VyRGF0YQ=="
+        userData: "RXhhbXBsZSBVc2VyRGF0YQ==",
       },
       sku: { name: "Classic", capacity: 29, tier: "aaaaaaaaaaaaaa" },
-      tags: {}
+      tags: {},
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -508,7 +504,7 @@ async function virtualMachineScaleSetVMSUpdateMinimumSetGen() {
   const instanceId = "aaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetVMsUpdateParameters = {
     body: { location: "westus" },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

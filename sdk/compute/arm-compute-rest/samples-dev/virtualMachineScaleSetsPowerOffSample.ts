@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachineScaleSetsPowerOffParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function virtualMachineScaleSetsPowerOffMaximumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsPowerOffParameters = {
     body: { instanceIds: ["aaaaaaaaaaaaaaaaa"] },
-    queryParameters: { skipShutdown: true, "api-version": "2022-08-01" }
+    queryParameters: { skipShutdown: true, "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -55,7 +55,7 @@ async function virtualMachineScaleSetsPowerOffMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmScaleSetName = "a";
   const options: VirtualMachineScaleSetsPowerOffParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

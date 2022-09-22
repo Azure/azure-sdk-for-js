@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   DiskEncryptionSetsUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -29,14 +29,13 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
       identity: { type: "SystemAssigned" },
       properties: {
         activeKey: {
-          keyUrl:
-            "https://myvaultdifferentsub.vault-int.azure-int.net/keys/keyName/keyVersion1"
+          keyUrl: "https://myvaultdifferentsub.vault-int.azure-int.net/keys/keyName/keyVersion1",
         },
         encryptionType: "EncryptionAtRestWithCustomerKey",
-        rotationToLatestKeyVersionEnabled: true
-      }
+        rotationToLatestKeyVersionEnabled: true,
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
@@ -71,14 +70,13 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
       identity: { type: "SystemAssigned" },
       properties: {
         activeKey: {
-          keyUrl:
-            "https://myvaultdifferentsub.vault-int.azure-int.net/keys/keyName/keyVersion1"
+          keyUrl: "https://myvaultdifferentsub.vault-int.azure-int.net/keys/keyName/keyVersion1",
         },
         encryptionType: "EncryptionAtRestWithCustomerKey",
-        rotationToLatestKeyVersionEnabled: true
-      }
+        rotationToLatestKeyVersionEnabled: true,
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
@@ -112,18 +110,17 @@ async function updateADiskEncryptionSet() {
     body: {
       properties: {
         activeKey: {
-          keyUrl:
-            "https://myvmvault.vault-int.azure-int.net/keys/keyName/keyVersion",
+          keyUrl: "https://myvmvault.vault-int.azure-int.net/keys/keyName/keyVersion",
           sourceVault: {
             id:
-              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault"
-          }
+              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault",
+          },
         },
-        encryptionType: "EncryptionAtRestWithCustomerKey"
+        encryptionType: "EncryptionAtRestWithCustomerKey",
       },
-      tags: { department: "Development", project: "Encryption" }
+      tags: { department: "Development", project: "Encryption" },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(

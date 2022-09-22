@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   RestorePointsDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function restorePointsDeleteMaximumSetGen() {
   const restorePointCollectionName = "aaaaaaaaaaaaaaaaaaaaaa";
   const restorePointName = "a";
   const options: RestorePointsDeleteParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -57,7 +57,7 @@ async function restorePointsDeleteMinimumSetGen() {
   const restorePointCollectionName = "aaaaaaaaaaaaaaaaa";
   const restorePointName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const options: RestorePointsDeleteParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

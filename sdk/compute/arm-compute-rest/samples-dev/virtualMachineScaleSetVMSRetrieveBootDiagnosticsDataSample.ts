@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataParameters
+  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -27,8 +27,8 @@ async function retrieveBootDiagnosticsDataOfAVirtualMachine() {
   const options: VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataParameters = {
     queryParameters: {
       sasUriExpirationTimeInMinutes: 60,
-      "api-version": "2022-08-01"
-    }
+      "api-version": "2022-08-01",
+    },
   };
   const result = await client
     .path(

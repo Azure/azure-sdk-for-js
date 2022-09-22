@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   DiskEncryptionSetsListAssociatedResourcesParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,7 +25,7 @@ async function listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet() {
   const resourceGroupName = "myResourceGroup";
   const diskEncryptionSetName = "myDiskEncryptionSet";
   const options: DiskEncryptionSetsListAssociatedResourcesParameters = {
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
@@ -43,6 +43,4 @@ async function listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet() {
   console.log(result);
 }
 
-listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet().catch(
-  console.error
-);
+listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet().catch(console.error);

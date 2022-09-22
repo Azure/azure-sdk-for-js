@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  DiskEncryptionSetsGetParameters
+  DiskEncryptionSetsGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -24,7 +24,7 @@ async function getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed() 
   const resourceGroupName = "myResourceGroup";
   const diskEncryptionSetName = "myDiskEncryptionSet";
   const options: DiskEncryptionSetsGetParameters = {
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const result = await client
     .path(
@@ -37,9 +37,7 @@ async function getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed() 
   console.log(result);
 }
 
-getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed().catch(
-  console.error
-);
+getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed().catch(console.error);
 /**
  * This sample demonstrates how to Gets information about a disk encryption set.
  *
@@ -53,7 +51,7 @@ async function getInformationAboutADiskEncryptionSet() {
   const resourceGroupName = "myResourceGroup";
   const diskEncryptionSetName = "myDiskEncryptionSet";
   const options: DiskEncryptionSetsGetParameters = {
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const result = await client
     .path(

@@ -280,7 +280,7 @@ import {
   CloudServiceOperatingSystemsGetOSVersionParameters,
   CloudServiceOperatingSystemsListOSVersionsParameters,
   CloudServiceOperatingSystemsGetOSFamilyParameters,
-  CloudServiceOperatingSystemsListOSFamiliesParameters
+  CloudServiceOperatingSystemsListOSFamiliesParameters,
 } from "./parameters";
 import {
   OperationsList200Response,
@@ -966,7 +966,7 @@ import {
   CloudServiceOperatingSystemsGetOSFamily200Response,
   CloudServiceOperatingSystemsGetOSFamilyDefaultResponse,
   CloudServiceOperatingSystemsListOSFamilies200Response,
-  CloudServiceOperatingSystemsListOSFamiliesDefaultResponse
+  CloudServiceOperatingSystemsListOSFamiliesDefaultResponse,
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -974,9 +974,7 @@ export interface OperationsList {
   /** Gets a list of compute operations. */
   get(
     options: OperationsListParameters
-  ): StreamableMethod<
-    OperationsList200Response | OperationsListDefaultResponse
-  >;
+  ): StreamableMethod<OperationsList200Response | OperationsListDefaultResponse>;
 }
 
 export interface UsageList {
@@ -990,9 +988,7 @@ export interface VirtualMachineSizesList {
   /** This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list) */
   get(
     options: VirtualMachineSizesListParameters
-  ): StreamableMethod<
-    VirtualMachineSizesList200Response | VirtualMachineSizesListDefaultResponse
-  >;
+  ): StreamableMethod<VirtualMachineSizesList200Response | VirtualMachineSizesListDefaultResponse>;
 }
 
 export interface VirtualMachineScaleSetsListByLocation {
@@ -1018,8 +1014,7 @@ export interface VirtualMachineScaleSetsCreateOrUpdate {
   patch(
     options: VirtualMachineScaleSetsUpdateParameters
   ): StreamableMethod<
-    | VirtualMachineScaleSetsUpdate200Response
-    | VirtualMachineScaleSetsUpdateDefaultResponse
+    VirtualMachineScaleSetsUpdate200Response | VirtualMachineScaleSetsUpdateDefaultResponse
   >;
   /** Deletes a VM scale set. */
   delete(
@@ -1034,8 +1029,7 @@ export interface VirtualMachineScaleSetsCreateOrUpdate {
   get(
     options: VirtualMachineScaleSetsGetParameters
   ): StreamableMethod<
-    | VirtualMachineScaleSetsGet200Response
-    | VirtualMachineScaleSetsGetDefaultResponse
+    VirtualMachineScaleSetsGet200Response | VirtualMachineScaleSetsGetDefaultResponse
   >;
 }
 
@@ -1076,8 +1070,7 @@ export interface VirtualMachineScaleSetsList {
   get(
     options: VirtualMachineScaleSetsListParameters
   ): StreamableMethod<
-    | VirtualMachineScaleSetsList200Response
-    | VirtualMachineScaleSetsListDefaultResponse
+    VirtualMachineScaleSetsList200Response | VirtualMachineScaleSetsListDefaultResponse
   >;
 }
 
@@ -1086,8 +1079,7 @@ export interface VirtualMachineScaleSetsListAll {
   get(
     options: VirtualMachineScaleSetsListAllParameters
   ): StreamableMethod<
-    | VirtualMachineScaleSetsListAll200Response
-    | VirtualMachineScaleSetsListAllDefaultResponse
+    VirtualMachineScaleSetsListAll200Response | VirtualMachineScaleSetsListAllDefaultResponse
   >;
 }
 
@@ -1096,8 +1088,7 @@ export interface VirtualMachineScaleSetsListSkus {
   get(
     options: VirtualMachineScaleSetsListSkusParameters
   ): StreamableMethod<
-    | VirtualMachineScaleSetsListSkus200Response
-    | VirtualMachineScaleSetsListSkusDefaultResponse
+    VirtualMachineScaleSetsListSkus200Response | VirtualMachineScaleSetsListSkusDefaultResponse
   >;
 }
 
@@ -1417,8 +1408,7 @@ export interface VirtualMachineScaleSetVMsUpdate {
   get(
     options: VirtualMachineScaleSetVMsGetParameters
   ): StreamableMethod<
-    | VirtualMachineScaleSetVMsGet200Response
-    | VirtualMachineScaleSetVMsGetDefaultResponse
+    VirtualMachineScaleSetVMsGet200Response | VirtualMachineScaleSetVMsGetDefaultResponse
   >;
 }
 
@@ -1437,8 +1427,7 @@ export interface VirtualMachineScaleSetVMsList {
   get(
     options: VirtualMachineScaleSetVMsListParameters
   ): StreamableMethod<
-    | VirtualMachineScaleSetVMsList200Response
-    | VirtualMachineScaleSetVMsListDefaultResponse
+    VirtualMachineScaleSetVMsList200Response | VirtualMachineScaleSetVMsListDefaultResponse
   >;
 }
 
@@ -1522,8 +1511,7 @@ export interface VirtualMachineScaleSetVMsRunCommand {
   post(
     options: VirtualMachineScaleSetVMsRunCommandParameters
   ): StreamableMethod<
-    | VirtualMachineScaleSetVMsRunCommand200Response
-    | VirtualMachineScaleSetVMsRunCommand202Response
+    VirtualMachineScaleSetVMsRunCommand200Response | VirtualMachineScaleSetVMsRunCommand202Response
   >;
 }
 
@@ -1540,8 +1528,7 @@ export interface VirtualMachineExtensionsCreateOrUpdate {
   patch(
     options: VirtualMachineExtensionsUpdateParameters
   ): StreamableMethod<
-    | VirtualMachineExtensionsUpdate200Response
-    | VirtualMachineExtensionsUpdateDefaultResponse
+    VirtualMachineExtensionsUpdate200Response | VirtualMachineExtensionsUpdateDefaultResponse
   >;
   /** The operation to delete the extension. */
   delete(
@@ -1556,8 +1543,7 @@ export interface VirtualMachineExtensionsCreateOrUpdate {
   get(
     options: VirtualMachineExtensionsGetParameters
   ): StreamableMethod<
-    | VirtualMachineExtensionsGet200Response
-    | VirtualMachineExtensionsGetDefaultResponse
+    VirtualMachineExtensionsGet200Response | VirtualMachineExtensionsGetDefaultResponse
   >;
 }
 
@@ -1566,8 +1552,7 @@ export interface VirtualMachineExtensionsList {
   get(
     options: VirtualMachineExtensionsListParameters
   ): StreamableMethod<
-    | VirtualMachineExtensionsList200Response
-    | VirtualMachineExtensionsListDefaultResponse
+    VirtualMachineExtensionsList200Response | VirtualMachineExtensionsListDefaultResponse
   >;
 }
 
@@ -1576,8 +1561,7 @@ export interface VirtualMachinesListByLocation {
   get(
     options: VirtualMachinesListByLocationParameters
   ): StreamableMethod<
-    | VirtualMachinesListByLocation200Response
-    | VirtualMachinesListByLocationDefaultResponse
+    VirtualMachinesListByLocation200Response | VirtualMachinesListByLocationDefaultResponse
   >;
 }
 
@@ -1604,9 +1588,7 @@ export interface VirtualMachinesCreateOrUpdate {
   /** The operation to update a virtual machine. */
   patch(
     options: VirtualMachinesUpdateParameters
-  ): StreamableMethod<
-    VirtualMachinesUpdate200Response | VirtualMachinesUpdateDefaultResponse
-  >;
+  ): StreamableMethod<VirtualMachinesUpdate200Response | VirtualMachinesUpdateDefaultResponse>;
   /** The operation to delete a virtual machine. */
   delete(
     options: VirtualMachinesDeleteParameters
@@ -1619,9 +1601,7 @@ export interface VirtualMachinesCreateOrUpdate {
   /** Retrieves information about the model view or the instance view of a virtual machine. */
   get(
     options: VirtualMachinesGetParameters
-  ): StreamableMethod<
-    VirtualMachinesGet200Response | VirtualMachinesGetDefaultResponse
-  >;
+  ): StreamableMethod<VirtualMachinesGet200Response | VirtualMachinesGetDefaultResponse>;
 }
 
 export interface VirtualMachinesInstanceView {
@@ -1629,8 +1609,7 @@ export interface VirtualMachinesInstanceView {
   get(
     options: VirtualMachinesInstanceViewParameters
   ): StreamableMethod<
-    | VirtualMachinesInstanceView200Response
-    | VirtualMachinesInstanceViewDefaultResponse
+    VirtualMachinesInstanceView200Response | VirtualMachinesInstanceViewDefaultResponse
   >;
 }
 
@@ -1661,8 +1640,7 @@ export interface VirtualMachinesGeneralize {
   post(
     options: VirtualMachinesGeneralizeParameters
   ): StreamableMethod<
-    | VirtualMachinesGeneralize200Response
-    | VirtualMachinesGeneralizeDefaultResponse
+    VirtualMachinesGeneralize200Response | VirtualMachinesGeneralizeDefaultResponse
   >;
 }
 
@@ -1670,18 +1648,14 @@ export interface VirtualMachinesList {
   /** Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines. */
   get(
     options: VirtualMachinesListParameters
-  ): StreamableMethod<
-    VirtualMachinesList200Response | VirtualMachinesListDefaultResponse
-  >;
+  ): StreamableMethod<VirtualMachinesList200Response | VirtualMachinesListDefaultResponse>;
 }
 
 export interface VirtualMachinesListAll {
   /** Lists all of the virtual machines in the specified subscription. Use the nextLink property in the response to get the next page of virtual machines. */
   get(
     options: VirtualMachinesListAllParameters
-  ): StreamableMethod<
-    VirtualMachinesListAll200Response | VirtualMachinesListAllDefaultResponse
-  >;
+  ): StreamableMethod<VirtualMachinesListAll200Response | VirtualMachinesListAllDefaultResponse>;
 }
 
 export interface VirtualMachinesListAvailableSizes {
@@ -1689,8 +1663,7 @@ export interface VirtualMachinesListAvailableSizes {
   get(
     options: VirtualMachinesListAvailableSizesParameters
   ): StreamableMethod<
-    | VirtualMachinesListAvailableSizes200Response
-    | VirtualMachinesListAvailableSizesDefaultResponse
+    VirtualMachinesListAvailableSizes200Response | VirtualMachinesListAvailableSizesDefaultResponse
   >;
 }
 
@@ -1786,8 +1759,7 @@ export interface VirtualMachinesSimulateEviction {
   post(
     options: VirtualMachinesSimulateEvictionParameters
   ): StreamableMethod<
-    | VirtualMachinesSimulateEviction204Response
-    | VirtualMachinesSimulateEvictionDefaultResponse
+    VirtualMachinesSimulateEviction204Response | VirtualMachinesSimulateEvictionDefaultResponse
   >;
 }
 
@@ -1817,18 +1789,14 @@ export interface VirtualMachinesRunCommand {
   /** Run command on the VM. */
   post(
     options: VirtualMachinesRunCommandParameters
-  ): StreamableMethod<
-    VirtualMachinesRunCommand200Response | VirtualMachinesRunCommand202Response
-  >;
+  ): StreamableMethod<VirtualMachinesRunCommand200Response | VirtualMachinesRunCommand202Response>;
 }
 
 export interface VirtualMachineImagesGet {
   /** Gets a virtual machine image. */
   get(
     options: VirtualMachineImagesGetParameters
-  ): StreamableMethod<
-    VirtualMachineImagesGet200Response | VirtualMachineImagesGetDefaultResponse
-  >;
+  ): StreamableMethod<VirtualMachineImagesGet200Response | VirtualMachineImagesGetDefaultResponse>;
 }
 
 export interface VirtualMachineImagesList {
@@ -1836,8 +1804,7 @@ export interface VirtualMachineImagesList {
   get(
     options: VirtualMachineImagesListParameters
   ): StreamableMethod<
-    | VirtualMachineImagesList200Response
-    | VirtualMachineImagesListDefaultResponse
+    VirtualMachineImagesList200Response | VirtualMachineImagesListDefaultResponse
   >;
 }
 
@@ -1846,8 +1813,7 @@ export interface VirtualMachineImagesListOffers {
   get(
     options: VirtualMachineImagesListOffersParameters
   ): StreamableMethod<
-    | VirtualMachineImagesListOffers200Response
-    | VirtualMachineImagesListOffersDefaultResponse
+    VirtualMachineImagesListOffers200Response | VirtualMachineImagesListOffersDefaultResponse
   >;
 }
 
@@ -1866,8 +1832,7 @@ export interface VirtualMachineImagesListSkus {
   get(
     options: VirtualMachineImagesListSkusParameters
   ): StreamableMethod<
-    | VirtualMachineImagesListSkus200Response
-    | VirtualMachineImagesListSkusDefaultResponse
+    VirtualMachineImagesListSkus200Response | VirtualMachineImagesListSkusDefaultResponse
   >;
 }
 
@@ -1886,8 +1851,7 @@ export interface VirtualMachineImagesEdgeZoneGet {
   get(
     options: VirtualMachineImagesEdgeZoneGetParameters
   ): StreamableMethod<
-    | VirtualMachineImagesEdgeZoneGet200Response
-    | VirtualMachineImagesEdgeZoneGetDefaultResponse
+    VirtualMachineImagesEdgeZoneGet200Response | VirtualMachineImagesEdgeZoneGetDefaultResponse
   >;
 }
 
@@ -1896,8 +1860,7 @@ export interface VirtualMachineImagesEdgeZoneList {
   get(
     options: VirtualMachineImagesEdgeZoneListParameters
   ): StreamableMethod<
-    | VirtualMachineImagesEdgeZoneList200Response
-    | VirtualMachineImagesEdgeZoneListDefaultResponse
+    VirtualMachineImagesEdgeZoneList200Response | VirtualMachineImagesEdgeZoneListDefaultResponse
   >;
 }
 
@@ -1936,8 +1899,7 @@ export interface VirtualMachineExtensionImagesGet {
   get(
     options: VirtualMachineExtensionImagesGetParameters
   ): StreamableMethod<
-    | VirtualMachineExtensionImagesGet200Response
-    | VirtualMachineExtensionImagesGetDefaultResponse
+    VirtualMachineExtensionImagesGet200Response | VirtualMachineExtensionImagesGetDefaultResponse
   >;
 }
 
@@ -1966,15 +1928,12 @@ export interface AvailabilitySetsCreateOrUpdate {
   put(
     options: AvailabilitySetsCreateOrUpdateParameters
   ): StreamableMethod<
-    | AvailabilitySetsCreateOrUpdate200Response
-    | AvailabilitySetsCreateOrUpdateDefaultResponse
+    AvailabilitySetsCreateOrUpdate200Response | AvailabilitySetsCreateOrUpdateDefaultResponse
   >;
   /** Update an availability set. */
   patch(
     options: AvailabilitySetsUpdateParameters
-  ): StreamableMethod<
-    AvailabilitySetsUpdate200Response | AvailabilitySetsUpdateDefaultResponse
-  >;
+  ): StreamableMethod<AvailabilitySetsUpdate200Response | AvailabilitySetsUpdateDefaultResponse>;
   /** Delete an availability set. */
   delete(
     options: AvailabilitySetsDeleteParameters
@@ -1986,9 +1945,7 @@ export interface AvailabilitySetsCreateOrUpdate {
   /** Retrieves information about an availability set. */
   get(
     options: AvailabilitySetsGetParameters
-  ): StreamableMethod<
-    AvailabilitySetsGet200Response | AvailabilitySetsGetDefaultResponse
-  >;
+  ): StreamableMethod<AvailabilitySetsGet200Response | AvailabilitySetsGetDefaultResponse>;
 }
 
 export interface AvailabilitySetsListBySubscription {
@@ -2005,9 +1962,7 @@ export interface AvailabilitySetsList {
   /** Lists all availability sets in a resource group. */
   get(
     options: AvailabilitySetsListParameters
-  ): StreamableMethod<
-    AvailabilitySetsList200Response | AvailabilitySetsListDefaultResponse
-  >;
+  ): StreamableMethod<AvailabilitySetsList200Response | AvailabilitySetsListDefaultResponse>;
 }
 
 export interface AvailabilitySetsListAvailableSizes {
@@ -2033,22 +1988,19 @@ export interface ProximityPlacementGroupsCreateOrUpdate {
   patch(
     options: ProximityPlacementGroupsUpdateParameters
   ): StreamableMethod<
-    | ProximityPlacementGroupsUpdate200Response
-    | ProximityPlacementGroupsUpdateDefaultResponse
+    ProximityPlacementGroupsUpdate200Response | ProximityPlacementGroupsUpdateDefaultResponse
   >;
   /** Delete a proximity placement group. */
   delete(
     options: ProximityPlacementGroupsDeleteParameters
   ): StreamableMethod<
-    | ProximityPlacementGroupsDelete200Response
-    | ProximityPlacementGroupsDeleteDefaultResponse
+    ProximityPlacementGroupsDelete200Response | ProximityPlacementGroupsDeleteDefaultResponse
   >;
   /** Retrieves information about a proximity placement group . */
   get(
     options: ProximityPlacementGroupsGetParameters
   ): StreamableMethod<
-    | ProximityPlacementGroupsGet200Response
-    | ProximityPlacementGroupsGetDefaultResponse
+    ProximityPlacementGroupsGet200Response | ProximityPlacementGroupsGetDefaultResponse
   >;
 }
 
@@ -2085,8 +2037,7 @@ export interface DedicatedHostGroupsCreateOrUpdate {
   patch(
     options: DedicatedHostGroupsUpdateParameters
   ): StreamableMethod<
-    | DedicatedHostGroupsUpdate200Response
-    | DedicatedHostGroupsUpdateDefaultResponse
+    DedicatedHostGroupsUpdate200Response | DedicatedHostGroupsUpdateDefaultResponse
   >;
   /** Delete a dedicated host group. */
   delete(
@@ -2099,9 +2050,7 @@ export interface DedicatedHostGroupsCreateOrUpdate {
   /** Retrieves information about a dedicated host group. */
   get(
     options: DedicatedHostGroupsGetParameters
-  ): StreamableMethod<
-    DedicatedHostGroupsGet200Response | DedicatedHostGroupsGetDefaultResponse
-  >;
+  ): StreamableMethod<DedicatedHostGroupsGet200Response | DedicatedHostGroupsGetDefaultResponse>;
 }
 
 export interface DedicatedHostGroupsListByResourceGroup {
@@ -2136,9 +2085,7 @@ export interface DedicatedHostsCreateOrUpdate {
   /** Update an dedicated host . */
   patch(
     options: DedicatedHostsUpdateParameters
-  ): StreamableMethod<
-    DedicatedHostsUpdate200Response | DedicatedHostsUpdateDefaultResponse
-  >;
+  ): StreamableMethod<DedicatedHostsUpdate200Response | DedicatedHostsUpdateDefaultResponse>;
   /** Delete a dedicated host. */
   delete(
     options: DedicatedHostsDeleteParameters
@@ -2151,9 +2098,7 @@ export interface DedicatedHostsCreateOrUpdate {
   /** Retrieves information about a dedicated host. */
   get(
     options: DedicatedHostsGetParameters
-  ): StreamableMethod<
-    DedicatedHostsGet200Response | DedicatedHostsGetDefaultResponse
-  >;
+  ): StreamableMethod<DedicatedHostsGet200Response | DedicatedHostsGetDefaultResponse>;
 }
 
 export interface DedicatedHostsListByHostGroup {
@@ -2161,8 +2106,7 @@ export interface DedicatedHostsListByHostGroup {
   get(
     options: DedicatedHostsListByHostGroupParameters
   ): StreamableMethod<
-    | DedicatedHostsListByHostGroup200Response
-    | DedicatedHostsListByHostGroupDefaultResponse
+    DedicatedHostsListByHostGroup200Response | DedicatedHostsListByHostGroupDefaultResponse
   >;
 }
 
@@ -2170,9 +2114,7 @@ export interface DedicatedHostsRestart {
   /** Restart the dedicated host. The operation will complete successfully once the dedicated host has restarted and is running. To determine the health of VMs deployed on the dedicated host after the restart check the Resource Health Center in the Azure Portal. Please refer to https://docs.microsoft.com/azure/service-health/resource-health-overview for more details. */
   post(
     options: DedicatedHostsRestartParameters
-  ): StreamableMethod<
-    DedicatedHostsRestart200Response | DedicatedHostsRestartDefaultResponse
-  >;
+  ): StreamableMethod<DedicatedHostsRestart200Response | DedicatedHostsRestartDefaultResponse>;
 }
 
 export interface SshPublicKeysListBySubscription {
@@ -2180,8 +2122,7 @@ export interface SshPublicKeysListBySubscription {
   get(
     options: SshPublicKeysListBySubscriptionParameters
   ): StreamableMethod<
-    | SshPublicKeysListBySubscription200Response
-    | SshPublicKeysListBySubscriptionDefaultResponse
+    SshPublicKeysListBySubscription200Response | SshPublicKeysListBySubscriptionDefaultResponse
   >;
 }
 
@@ -2190,8 +2131,7 @@ export interface SshPublicKeysListByResourceGroup {
   get(
     options: SshPublicKeysListByResourceGroupParameters
   ): StreamableMethod<
-    | SshPublicKeysListByResourceGroup200Response
-    | SshPublicKeysListByResourceGroupDefaultResponse
+    SshPublicKeysListByResourceGroup200Response | SshPublicKeysListByResourceGroupDefaultResponse
   >;
 }
 
@@ -2207,9 +2147,7 @@ export interface SshPublicKeysCreate {
   /** Updates a new SSH public key resource. */
   patch(
     options: SshPublicKeysUpdateParameters
-  ): StreamableMethod<
-    SshPublicKeysUpdate200Response | SshPublicKeysUpdateDefaultResponse
-  >;
+  ): StreamableMethod<SshPublicKeysUpdate200Response | SshPublicKeysUpdateDefaultResponse>;
   /** Delete an SSH public key. */
   delete(
     options: SshPublicKeysDeleteParameters
@@ -2221,9 +2159,7 @@ export interface SshPublicKeysCreate {
   /** Retrieves information about an SSH public key. */
   get(
     options: SshPublicKeysGetParameters
-  ): StreamableMethod<
-    SshPublicKeysGet200Response | SshPublicKeysGetDefaultResponse
-  >;
+  ): StreamableMethod<SshPublicKeysGet200Response | SshPublicKeysGetDefaultResponse>;
 }
 
 export interface SshPublicKeysGenerateKeyPair {
@@ -2231,8 +2167,7 @@ export interface SshPublicKeysGenerateKeyPair {
   post(
     options: SshPublicKeysGenerateKeyPairParameters
   ): StreamableMethod<
-    | SshPublicKeysGenerateKeyPair200Response
-    | SshPublicKeysGenerateKeyPairDefaultResponse
+    SshPublicKeysGenerateKeyPair200Response | SshPublicKeysGenerateKeyPairDefaultResponse
   >;
 }
 
@@ -2249,9 +2184,7 @@ export interface ImagesCreateOrUpdate {
   patch(
     options: ImagesUpdateParameters
   ): StreamableMethod<
-    | ImagesUpdate200Response
-    | ImagesUpdate201Response
-    | ImagesUpdateDefaultResponse
+    ImagesUpdate200Response | ImagesUpdate201Response | ImagesUpdateDefaultResponse
   >;
   /** Deletes an Image. */
   delete(
@@ -2273,8 +2206,7 @@ export interface ImagesListByResourceGroup {
   get(
     options: ImagesListByResourceGroupParameters
   ): StreamableMethod<
-    | ImagesListByResourceGroup200Response
-    | ImagesListByResourceGroupDefaultResponse
+    ImagesListByResourceGroup200Response | ImagesListByResourceGroupDefaultResponse
   >;
 }
 
@@ -2298,8 +2230,7 @@ export interface RestorePointCollectionsCreateOrUpdate {
   patch(
     options: RestorePointCollectionsUpdateParameters
   ): StreamableMethod<
-    | RestorePointCollectionsUpdate200Response
-    | RestorePointCollectionsUpdateDefaultResponse
+    RestorePointCollectionsUpdate200Response | RestorePointCollectionsUpdateDefaultResponse
   >;
   /** The operation to delete the restore point collection. This operation will also delete all the contained restore points. */
   delete(
@@ -2314,8 +2245,7 @@ export interface RestorePointCollectionsCreateOrUpdate {
   get(
     options: RestorePointCollectionsGetParameters
   ): StreamableMethod<
-    | RestorePointCollectionsGet200Response
-    | RestorePointCollectionsGetDefaultResponse
+    RestorePointCollectionsGet200Response | RestorePointCollectionsGetDefaultResponse
   >;
 }
 
@@ -2324,8 +2254,7 @@ export interface RestorePointCollectionsList {
   get(
     options: RestorePointCollectionsListParameters
   ): StreamableMethod<
-    | RestorePointCollectionsList200Response
-    | RestorePointCollectionsListDefaultResponse
+    RestorePointCollectionsList200Response | RestorePointCollectionsListDefaultResponse
   >;
 }
 
@@ -2334,8 +2263,7 @@ export interface RestorePointCollectionsListAll {
   get(
     options: RestorePointCollectionsListAllParameters
   ): StreamableMethod<
-    | RestorePointCollectionsListAll200Response
-    | RestorePointCollectionsListAllDefaultResponse
+    RestorePointCollectionsListAll200Response | RestorePointCollectionsListAllDefaultResponse
   >;
 }
 
@@ -2343,9 +2271,7 @@ export interface RestorePointsCreate {
   /** The operation to create the restore point. Updating properties of an existing restore point is not allowed */
   put(
     options: RestorePointsCreateParameters
-  ): StreamableMethod<
-    RestorePointsCreate201Response | RestorePointsCreateDefaultResponse
-  >;
+  ): StreamableMethod<RestorePointsCreate201Response | RestorePointsCreateDefaultResponse>;
   /** The operation to delete the restore point. */
   delete(
     options: RestorePointsDeleteParameters
@@ -2358,9 +2284,7 @@ export interface RestorePointsCreate {
   /** The operation to get the restore point. */
   get(
     options: RestorePointsGetParameters
-  ): StreamableMethod<
-    RestorePointsGet200Response | RestorePointsGetDefaultResponse
-  >;
+  ): StreamableMethod<RestorePointsGet200Response | RestorePointsGetDefaultResponse>;
 }
 
 export interface CapacityReservationGroupsCreateOrUpdate {
@@ -2376,8 +2300,7 @@ export interface CapacityReservationGroupsCreateOrUpdate {
   patch(
     options: CapacityReservationGroupsUpdateParameters
   ): StreamableMethod<
-    | CapacityReservationGroupsUpdate200Response
-    | CapacityReservationGroupsUpdateDefaultResponse
+    CapacityReservationGroupsUpdate200Response | CapacityReservationGroupsUpdateDefaultResponse
   >;
   /** The operation to delete a capacity reservation group. This operation is allowed only if all the associated resources are disassociated from the reservation group and all capacity reservations under the reservation group have also been deleted. Please refer to https://aka.ms/CapacityReservation for more details. */
   delete(
@@ -2391,8 +2314,7 @@ export interface CapacityReservationGroupsCreateOrUpdate {
   get(
     options: CapacityReservationGroupsGetParameters
   ): StreamableMethod<
-    | CapacityReservationGroupsGet200Response
-    | CapacityReservationGroupsGetDefaultResponse
+    CapacityReservationGroupsGet200Response | CapacityReservationGroupsGetDefaultResponse
   >;
 }
 
@@ -2445,9 +2367,7 @@ export interface CapacityReservationsCreateOrUpdate {
   /** The operation that retrieves information about the capacity reservation. */
   get(
     options: CapacityReservationsGetParameters
-  ): StreamableMethod<
-    CapacityReservationsGet200Response | CapacityReservationsGetDefaultResponse
-  >;
+  ): StreamableMethod<CapacityReservationsGet200Response | CapacityReservationsGetDefaultResponse>;
 }
 
 export interface CapacityReservationsListByCapacityReservationGroup {
@@ -2509,8 +2429,7 @@ export interface VirtualMachineRunCommandsCreateOrUpdate {
   patch(
     options: VirtualMachineRunCommandsUpdateParameters
   ): StreamableMethod<
-    | VirtualMachineRunCommandsUpdate200Response
-    | VirtualMachineRunCommandsUpdateDefaultResponse
+    VirtualMachineRunCommandsUpdate200Response | VirtualMachineRunCommandsUpdateDefaultResponse
   >;
   /** The operation to delete the run command. */
   delete(
@@ -2588,9 +2507,7 @@ export interface DisksCreateOrUpdate {
   /** Creates or updates a disk. */
   put(
     options: DisksCreateOrUpdateParameters
-  ): StreamableMethod<
-    DisksCreateOrUpdate200Response | DisksCreateOrUpdate202Response
-  >;
+  ): StreamableMethod<DisksCreateOrUpdate200Response | DisksCreateOrUpdate202Response>;
   /** Updates (patches) a disk. */
   patch(
     options: DisksUpdateParameters
@@ -2600,9 +2517,7 @@ export interface DisksCreateOrUpdate {
   /** Deletes a disk. */
   delete(
     options: DisksDeleteParameters
-  ): StreamableMethod<
-    DisksDelete200Response | DisksDelete202Response | DisksDelete204Response
-  >;
+  ): StreamableMethod<DisksDelete200Response | DisksDelete202Response | DisksDelete204Response>;
 }
 
 export interface DisksListByResourceGroup {
@@ -2621,18 +2536,14 @@ export interface DisksGrantAccess {
   /** Grants access to a disk. */
   post(
     options: DisksGrantAccessParameters
-  ): StreamableMethod<
-    DisksGrantAccess200Response | DisksGrantAccess202Response
-  >;
+  ): StreamableMethod<DisksGrantAccess200Response | DisksGrantAccess202Response>;
 }
 
 export interface DisksRevokeAccess {
   /** Revokes access to a disk. */
   post(
     options: DisksRevokeAccessParameters
-  ): StreamableMethod<
-    DisksRevokeAccess200Response | DisksRevokeAccess202Response
-  >;
+  ): StreamableMethod<DisksRevokeAccess200Response | DisksRevokeAccess202Response>;
 }
 
 export interface DiskAccessesCreateOrUpdate {
@@ -2655,9 +2566,7 @@ export interface DiskAccessesCreateOrUpdate {
   /** Gets information about a disk access resource. */
   get(
     options: DiskAccessesGetParameters
-  ): StreamableMethod<
-    DiskAccessesGet200Response | DiskAccessesGetDefaultResponse
-  >;
+  ): StreamableMethod<DiskAccessesGet200Response | DiskAccessesGetDefaultResponse>;
   /** Deletes a disk access resource. */
   delete(
     options: DiskAccessesDeleteParameters
@@ -2674,8 +2583,7 @@ export interface DiskAccessesListByResourceGroup {
   get(
     options: DiskAccessesListByResourceGroupParameters
   ): StreamableMethod<
-    | DiskAccessesListByResourceGroup200Response
-    | DiskAccessesListByResourceGroupDefaultResponse
+    DiskAccessesListByResourceGroup200Response | DiskAccessesListByResourceGroupDefaultResponse
   >;
 }
 
@@ -2683,9 +2591,7 @@ export interface DiskAccessesList {
   /** Lists all the disk access resources under a subscription. */
   get(
     options: DiskAccessesListParameters
-  ): StreamableMethod<
-    DiskAccessesList200Response | DiskAccessesListDefaultResponse
-  >;
+  ): StreamableMethod<DiskAccessesList200Response | DiskAccessesListDefaultResponse>;
 }
 
 export interface DiskAccessesGetPrivateLinkResources {
@@ -2752,9 +2658,7 @@ export interface DiskEncryptionSetsCreateOrUpdate {
   /** Gets information about a disk encryption set. */
   get(
     options: DiskEncryptionSetsGetParameters
-  ): StreamableMethod<
-    DiskEncryptionSetsGet200Response | DiskEncryptionSetsGetDefaultResponse
-  >;
+  ): StreamableMethod<DiskEncryptionSetsGet200Response | DiskEncryptionSetsGetDefaultResponse>;
   /** Deletes a disk encryption set. */
   delete(
     options: DiskEncryptionSetsDeleteParameters
@@ -2780,9 +2684,7 @@ export interface DiskEncryptionSetsList {
   /** Lists all the disk encryption sets under a subscription. */
   get(
     options: DiskEncryptionSetsListParameters
-  ): StreamableMethod<
-    DiskEncryptionSetsList200Response | DiskEncryptionSetsListDefaultResponse
-  >;
+  ): StreamableMethod<DiskEncryptionSetsList200Response | DiskEncryptionSetsListDefaultResponse>;
 }
 
 export interface DiskEncryptionSetsListAssociatedResources {
@@ -2799,9 +2701,7 @@ export interface DiskRestorePointGet {
   /** Get disk restorePoint resource */
   get(
     options: DiskRestorePointGetParameters
-  ): StreamableMethod<
-    DiskRestorePointGet200Response | DiskRestorePointGetDefaultResponse
-  >;
+  ): StreamableMethod<DiskRestorePointGet200Response | DiskRestorePointGetDefaultResponse>;
 }
 
 export interface DiskRestorePointListByRestorePoint {
@@ -2840,24 +2740,18 @@ export interface SnapshotsCreateOrUpdate {
   /** Creates or updates a snapshot. */
   put(
     options: SnapshotsCreateOrUpdateParameters
-  ): StreamableMethod<
-    SnapshotsCreateOrUpdate200Response | SnapshotsCreateOrUpdate202Response
-  >;
+  ): StreamableMethod<SnapshotsCreateOrUpdate200Response | SnapshotsCreateOrUpdate202Response>;
   /** Updates (patches) a snapshot. */
   patch(
     options: SnapshotsUpdateParameters
   ): StreamableMethod<SnapshotsUpdate200Response | SnapshotsUpdate202Response>;
   /** Gets information about a snapshot. */
-  get(
-    options: SnapshotsGetParameters
-  ): StreamableMethod<SnapshotsGet200Response>;
+  get(options: SnapshotsGetParameters): StreamableMethod<SnapshotsGet200Response>;
   /** Deletes a snapshot. */
   delete(
     options: SnapshotsDeleteParameters
   ): StreamableMethod<
-    | SnapshotsDelete200Response
-    | SnapshotsDelete202Response
-    | SnapshotsDelete204Response
+    SnapshotsDelete200Response | SnapshotsDelete202Response | SnapshotsDelete204Response
   >;
 }
 
@@ -2870,34 +2764,26 @@ export interface SnapshotsListByResourceGroup {
 
 export interface SnapshotsList {
   /** Lists snapshots under a subscription. */
-  get(
-    options: SnapshotsListParameters
-  ): StreamableMethod<SnapshotsList200Response>;
+  get(options: SnapshotsListParameters): StreamableMethod<SnapshotsList200Response>;
 }
 
 export interface SnapshotsGrantAccess {
   /** Grants access to a snapshot. */
   post(
     options: SnapshotsGrantAccessParameters
-  ): StreamableMethod<
-    SnapshotsGrantAccess200Response | SnapshotsGrantAccess202Response
-  >;
+  ): StreamableMethod<SnapshotsGrantAccess200Response | SnapshotsGrantAccess202Response>;
 }
 
 export interface SnapshotsRevokeAccess {
   /** Revokes access to a snapshot. */
   post(
     options: SnapshotsRevokeAccessParameters
-  ): StreamableMethod<
-    SnapshotsRevokeAccess200Response | SnapshotsRevokeAccess202Response
-  >;
+  ): StreamableMethod<SnapshotsRevokeAccess200Response | SnapshotsRevokeAccess202Response>;
 }
 
 export interface ResourceSkusList {
   /** Gets the list of Microsoft.Compute SKUs available for your Subscription. */
-  get(
-    options: ResourceSkusListParameters
-  ): StreamableMethod<ResourceSkusList200Response>;
+  get(options: ResourceSkusListParameters): StreamableMethod<ResourceSkusList200Response>;
 }
 
 export interface GalleriesCreateOrUpdate {
@@ -2913,9 +2799,7 @@ export interface GalleriesCreateOrUpdate {
   /** Update a Shared Image Gallery. */
   patch(
     options: GalleriesUpdateParameters
-  ): StreamableMethod<
-    GalleriesUpdate200Response | GalleriesUpdateDefaultResponse
-  >;
+  ): StreamableMethod<GalleriesUpdate200Response | GalleriesUpdateDefaultResponse>;
   /** Retrieves information about a Shared Image Gallery. */
   get(
     options: GalleriesGetParameters
@@ -2936,8 +2820,7 @@ export interface GalleriesListByResourceGroup {
   get(
     options: GalleriesListByResourceGroupParameters
   ): StreamableMethod<
-    | GalleriesListByResourceGroup200Response
-    | GalleriesListByResourceGroupDefaultResponse
+    GalleriesListByResourceGroup200Response | GalleriesListByResourceGroupDefaultResponse
   >;
 }
 
@@ -2961,15 +2844,11 @@ export interface GalleryImagesCreateOrUpdate {
   /** Update a gallery image definition. */
   patch(
     options: GalleryImagesUpdateParameters
-  ): StreamableMethod<
-    GalleryImagesUpdate200Response | GalleryImagesUpdateDefaultResponse
-  >;
+  ): StreamableMethod<GalleryImagesUpdate200Response | GalleryImagesUpdateDefaultResponse>;
   /** Retrieves information about a gallery image definition. */
   get(
     options: GalleryImagesGetParameters
-  ): StreamableMethod<
-    GalleryImagesGet200Response | GalleryImagesGetDefaultResponse
-  >;
+  ): StreamableMethod<GalleryImagesGet200Response | GalleryImagesGetDefaultResponse>;
   /** Delete a gallery image. */
   delete(
     options: GalleryImagesDeleteParameters
@@ -2986,8 +2865,7 @@ export interface GalleryImagesListByGallery {
   get(
     options: GalleryImagesListByGalleryParameters
   ): StreamableMethod<
-    | GalleryImagesListByGallery200Response
-    | GalleryImagesListByGalleryDefaultResponse
+    GalleryImagesListByGallery200Response | GalleryImagesListByGalleryDefaultResponse
   >;
 }
 
@@ -3005,15 +2883,12 @@ export interface GalleryImageVersionsCreateOrUpdate {
   patch(
     options: GalleryImageVersionsUpdateParameters
   ): StreamableMethod<
-    | GalleryImageVersionsUpdate200Response
-    | GalleryImageVersionsUpdateDefaultResponse
+    GalleryImageVersionsUpdate200Response | GalleryImageVersionsUpdateDefaultResponse
   >;
   /** Retrieves information about a gallery image version. */
   get(
     options: GalleryImageVersionsGetParameters
-  ): StreamableMethod<
-    GalleryImageVersionsGet200Response | GalleryImageVersionsGetDefaultResponse
-  >;
+  ): StreamableMethod<GalleryImageVersionsGet200Response | GalleryImageVersionsGetDefaultResponse>;
   /** Delete a gallery image version. */
   delete(
     options: GalleryImageVersionsDeleteParameters
@@ -3049,15 +2924,12 @@ export interface GalleryApplicationsCreateOrUpdate {
   patch(
     options: GalleryApplicationsUpdateParameters
   ): StreamableMethod<
-    | GalleryApplicationsUpdate200Response
-    | GalleryApplicationsUpdateDefaultResponse
+    GalleryApplicationsUpdate200Response | GalleryApplicationsUpdateDefaultResponse
   >;
   /** Retrieves information about a gallery Application Definition. */
   get(
     options: GalleryApplicationsGetParameters
-  ): StreamableMethod<
-    GalleryApplicationsGet200Response | GalleryApplicationsGetDefaultResponse
-  >;
+  ): StreamableMethod<GalleryApplicationsGet200Response | GalleryApplicationsGetDefaultResponse>;
   /** Delete a gallery Application. */
   delete(
     options: GalleryApplicationsDeleteParameters
@@ -3074,8 +2946,7 @@ export interface GalleryApplicationsListByGallery {
   get(
     options: GalleryApplicationsListByGalleryParameters
   ): StreamableMethod<
-    | GalleryApplicationsListByGallery200Response
-    | GalleryApplicationsListByGalleryDefaultResponse
+    GalleryApplicationsListByGallery200Response | GalleryApplicationsListByGalleryDefaultResponse
   >;
 }
 
@@ -3093,15 +2964,13 @@ export interface GalleryApplicationVersionsCreateOrUpdate {
   patch(
     options: GalleryApplicationVersionsUpdateParameters
   ): StreamableMethod<
-    | GalleryApplicationVersionsUpdate200Response
-    | GalleryApplicationVersionsUpdateDefaultResponse
+    GalleryApplicationVersionsUpdate200Response | GalleryApplicationVersionsUpdateDefaultResponse
   >;
   /** Retrieves information about a gallery Application Version. */
   get(
     options: GalleryApplicationVersionsGetParameters
   ): StreamableMethod<
-    | GalleryApplicationVersionsGet200Response
-    | GalleryApplicationVersionsGetDefaultResponse
+    GalleryApplicationVersionsGet200Response | GalleryApplicationVersionsGetDefaultResponse
   >;
   /** Delete a gallery Application Version. */
   delete(
@@ -3139,36 +3008,28 @@ export interface SharedGalleriesList {
   /** List shared galleries by subscription id or tenant id. */
   get(
     options: SharedGalleriesListParameters
-  ): StreamableMethod<
-    SharedGalleriesList200Response | SharedGalleriesListDefaultResponse
-  >;
+  ): StreamableMethod<SharedGalleriesList200Response | SharedGalleriesListDefaultResponse>;
 }
 
 export interface SharedGalleriesGet {
   /** Get a shared gallery by subscription id or tenant id. */
   get(
     options: SharedGalleriesGetParameters
-  ): StreamableMethod<
-    SharedGalleriesGet200Response | SharedGalleriesGetDefaultResponse
-  >;
+  ): StreamableMethod<SharedGalleriesGet200Response | SharedGalleriesGetDefaultResponse>;
 }
 
 export interface SharedGalleryImagesList {
   /** List shared gallery images by subscription id or tenant id. */
   get(
     options: SharedGalleryImagesListParameters
-  ): StreamableMethod<
-    SharedGalleryImagesList200Response | SharedGalleryImagesListDefaultResponse
-  >;
+  ): StreamableMethod<SharedGalleryImagesList200Response | SharedGalleryImagesListDefaultResponse>;
 }
 
 export interface SharedGalleryImagesGet {
   /** Get a shared gallery image by subscription id or tenant id. */
   get(
     options: SharedGalleryImagesGetParameters
-  ): StreamableMethod<
-    SharedGalleryImagesGet200Response | SharedGalleryImagesGetDefaultResponse
-  >;
+  ): StreamableMethod<SharedGalleryImagesGet200Response | SharedGalleryImagesGetDefaultResponse>;
 }
 
 export interface SharedGalleryImageVersionsList {
@@ -3176,8 +3037,7 @@ export interface SharedGalleryImageVersionsList {
   get(
     options: SharedGalleryImageVersionsListParameters
   ): StreamableMethod<
-    | SharedGalleryImageVersionsList200Response
-    | SharedGalleryImageVersionsListDefaultResponse
+    SharedGalleryImageVersionsList200Response | SharedGalleryImageVersionsListDefaultResponse
   >;
 }
 
@@ -3186,8 +3046,7 @@ export interface SharedGalleryImageVersionsGet {
   get(
     options: SharedGalleryImageVersionsGetParameters
   ): StreamableMethod<
-    | SharedGalleryImageVersionsGet200Response
-    | SharedGalleryImageVersionsGetDefaultResponse
+    SharedGalleryImageVersionsGet200Response | SharedGalleryImageVersionsGetDefaultResponse
   >;
 }
 
@@ -3195,9 +3054,7 @@ export interface CommunityGalleriesGet {
   /** Get a community gallery by gallery public name. */
   get(
     options: CommunityGalleriesGetParameters
-  ): StreamableMethod<
-    CommunityGalleriesGet200Response | CommunityGalleriesGetDefaultResponse
-  >;
+  ): StreamableMethod<CommunityGalleriesGet200Response | CommunityGalleriesGetDefaultResponse>;
 }
 
 export interface CommunityGalleryImagesGet {
@@ -3205,8 +3062,7 @@ export interface CommunityGalleryImagesGet {
   get(
     options: CommunityGalleryImagesGetParameters
   ): StreamableMethod<
-    | CommunityGalleryImagesGet200Response
-    | CommunityGalleryImagesGetDefaultResponse
+    CommunityGalleryImagesGet200Response | CommunityGalleryImagesGetDefaultResponse
   >;
 }
 
@@ -3215,8 +3071,7 @@ export interface CommunityGalleryImagesList {
   get(
     options: CommunityGalleryImagesListParameters
   ): StreamableMethod<
-    | CommunityGalleryImagesList200Response
-    | CommunityGalleryImagesListDefaultResponse
+    CommunityGalleryImagesList200Response | CommunityGalleryImagesListDefaultResponse
   >;
 }
 
@@ -3225,8 +3080,7 @@ export interface CommunityGalleryImageVersionsGet {
   get(
     options: CommunityGalleryImageVersionsGetParameters
   ): StreamableMethod<
-    | CommunityGalleryImageVersionsGet200Response
-    | CommunityGalleryImageVersionsGetDefaultResponse
+    CommunityGalleryImageVersionsGet200Response | CommunityGalleryImageVersionsGetDefaultResponse
   >;
 }
 
@@ -3235,8 +3089,7 @@ export interface CommunityGalleryImageVersionsList {
   get(
     options: CommunityGalleryImageVersionsListParameters
   ): StreamableMethod<
-    | CommunityGalleryImageVersionsList200Response
-    | CommunityGalleryImageVersionsListDefaultResponse
+    CommunityGalleryImageVersionsList200Response | CommunityGalleryImageVersionsListDefaultResponse
   >;
 }
 
@@ -3254,8 +3107,7 @@ export interface CloudServiceRoleInstancesDelete {
   get(
     options: CloudServiceRoleInstancesGetParameters
   ): StreamableMethod<
-    | CloudServiceRoleInstancesGet200Response
-    | CloudServiceRoleInstancesGetDefaultResponse
+    CloudServiceRoleInstancesGet200Response | CloudServiceRoleInstancesGetDefaultResponse
   >;
 }
 
@@ -3274,8 +3126,7 @@ export interface CloudServiceRoleInstancesList {
   get(
     options: CloudServiceRoleInstancesListParameters
   ): StreamableMethod<
-    | CloudServiceRoleInstancesList200Response
-    | CloudServiceRoleInstancesListDefaultResponse
+    CloudServiceRoleInstancesList200Response | CloudServiceRoleInstancesListDefaultResponse
   >;
 }
 
@@ -3326,18 +3177,14 @@ export interface CloudServiceRolesGet {
   /** Gets a role from a cloud service. */
   get(
     options: CloudServiceRolesGetParameters
-  ): StreamableMethod<
-    CloudServiceRolesGet200Response | CloudServiceRolesGetDefaultResponse
-  >;
+  ): StreamableMethod<CloudServiceRolesGet200Response | CloudServiceRolesGetDefaultResponse>;
 }
 
 export interface CloudServiceRolesList {
   /** Gets a list of all roles in a cloud service. Use nextLink property in the response to get the next page of roles. Do this till nextLink is null to fetch all the roles. */
   get(
     options: CloudServiceRolesListParameters
-  ): StreamableMethod<
-    CloudServiceRolesList200Response | CloudServiceRolesListDefaultResponse
-  >;
+  ): StreamableMethod<CloudServiceRolesList200Response | CloudServiceRolesListDefaultResponse>;
 }
 
 export interface CloudServicesCreateOrUpdate {
@@ -3352,9 +3199,7 @@ export interface CloudServicesCreateOrUpdate {
   /** Update a cloud service. */
   patch(
     options: CloudServicesUpdateParameters
-  ): StreamableMethod<
-    CloudServicesUpdate200Response | CloudServicesUpdateDefaultResponse
-  >;
+  ): StreamableMethod<CloudServicesUpdate200Response | CloudServicesUpdateDefaultResponse>;
   /** Deletes a cloud service. */
   delete(
     options: CloudServicesDeleteParameters
@@ -3367,9 +3212,7 @@ export interface CloudServicesCreateOrUpdate {
   /** Display information about a cloud service. */
   get(
     options: CloudServicesGetParameters
-  ): StreamableMethod<
-    CloudServicesGet200Response | CloudServicesGetDefaultResponse
-  >;
+  ): StreamableMethod<CloudServicesGet200Response | CloudServicesGetDefaultResponse>;
 }
 
 export interface CloudServicesGetInstanceView {
@@ -3377,8 +3220,7 @@ export interface CloudServicesGetInstanceView {
   get(
     options: CloudServicesGetInstanceViewParameters
   ): StreamableMethod<
-    | CloudServicesGetInstanceView200Response
-    | CloudServicesGetInstanceViewDefaultResponse
+    CloudServicesGetInstanceView200Response | CloudServicesGetInstanceViewDefaultResponse
   >;
 }
 
@@ -3386,18 +3228,14 @@ export interface CloudServicesListAll {
   /** Gets a list of all cloud services in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of Cloud Services. Do this till nextLink is null to fetch all the Cloud Services. */
   get(
     options: CloudServicesListAllParameters
-  ): StreamableMethod<
-    CloudServicesListAll200Response | CloudServicesListAllDefaultResponse
-  >;
+  ): StreamableMethod<CloudServicesListAll200Response | CloudServicesListAllDefaultResponse>;
 }
 
 export interface CloudServicesList {
   /** Gets a list of all cloud services under a resource group. Use nextLink property in the response to get the next page of Cloud Services. Do this till nextLink is null to fetch all the Cloud Services. */
   get(
     options: CloudServicesListParameters
-  ): StreamableMethod<
-    CloudServicesList200Response | CloudServicesListDefaultResponse
-  >;
+  ): StreamableMethod<CloudServicesList200Response | CloudServicesListDefaultResponse>;
 }
 
 export interface CloudServicesStart {

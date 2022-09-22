@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachineScaleSetVMsGetInstanceViewParameters
+  VirtualMachineScaleSetVMsGetInstanceViewParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,7 +25,7 @@ async function getInstanceViewOfAVirtualMachineFromAVMScaleSetPlacedOnADedicated
   const vmScaleSetName = "myVirtualMachineScaleSet";
   const instanceId = "0";
   const options: VirtualMachineScaleSetVMsGetInstanceViewParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(

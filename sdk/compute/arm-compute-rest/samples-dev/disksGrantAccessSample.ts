@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   DisksGrantAccessParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function getASasOnAManagedDisk() {
   const diskName = "myDisk";
   const options: DisksGrantAccessParameters = {
     body: { access: "Read", durationInSeconds: 300 },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
@@ -58,9 +58,9 @@ async function getSasOnManagedDiskAndVMGuestState() {
     body: {
       access: "Read",
       durationInSeconds: 300,
-      getSecureVMGuestStateSAS: true
+      getSecureVMGuestStateSAS: true,
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(

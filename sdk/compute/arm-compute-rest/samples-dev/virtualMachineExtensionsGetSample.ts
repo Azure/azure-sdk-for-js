@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachineExtensionsGetParameters
+  VirtualMachineExtensionsGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,7 +25,7 @@ async function virtualMachineExtensionsGetMaximumSetGen() {
   const vmName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const vmExtensionName = "aaaaaaa";
   const options: VirtualMachineExtensionsGetParameters = {
-    queryParameters: { $expand: "aaaaaa", "api-version": "2022-08-01" }
+    queryParameters: { $expand: "aaaaaa", "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -54,7 +54,7 @@ async function virtualMachineExtensionsGetMinimumSetGen() {
   const vmName = "a";
   const vmExtensionName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineExtensionsGetParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(

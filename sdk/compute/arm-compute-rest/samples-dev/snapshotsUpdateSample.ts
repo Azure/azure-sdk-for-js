@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   SnapshotsUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -28,11 +28,11 @@ async function updateASnapshotWithAcceleratedNetworking() {
     body: {
       properties: {
         diskSizeGB: 20,
-        supportedCapabilities: { acceleratedNetwork: false }
+        supportedCapabilities: { acceleratedNetwork: false },
       },
-      tags: { department: "Development", project: "UpdateSnapshots" }
+      tags: { department: "Development", project: "UpdateSnapshots" },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
@@ -63,9 +63,9 @@ async function updateASnapshot() {
   const options: SnapshotsUpdateParameters = {
     body: {
       properties: { diskSizeGB: 20 },
-      tags: { department: "Development", project: "UpdateSnapshots" }
+      tags: { department: "Development", project: "UpdateSnapshots" },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(

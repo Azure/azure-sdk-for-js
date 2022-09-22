@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   DiskAccessesUpdateAPrivateEndpointConnectionParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -30,11 +30,11 @@ async function approveAPrivateEndpointConnectionUnderADiskAccessResource() {
       properties: {
         privateLinkServiceConnectionState: {
           description: "Approving myPrivateEndpointConnection",
-          status: "Approved"
-        }
-      }
+          status: "Approved",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
@@ -50,6 +50,4 @@ async function approveAPrivateEndpointConnectionUnderADiskAccessResource() {
   console.log(result);
 }
 
-approveAPrivateEndpointConnectionUnderADiskAccessResource().catch(
-  console.error
-);
+approveAPrivateEndpointConnectionUnderADiskAccessResource().catch(console.error);

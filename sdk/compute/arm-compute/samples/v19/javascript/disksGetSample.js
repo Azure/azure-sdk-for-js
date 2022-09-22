@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets information about a disk.
  *
  * @summary Gets information about a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-02/DiskRP/examples/diskExamples/Disk_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Get.json
  */
 async function getInformationAboutAManagedDisk() {
   const subscriptionId = "{subscription-id}";

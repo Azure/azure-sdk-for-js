@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  CloudServiceRoleInstancesGetRemoteDesktopFileParameters
+  CloudServiceRoleInstancesGetRemoteDesktopFileParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,7 +25,7 @@ async function getCloudServiceRole() {
   const cloudServiceName = "aaaa";
   const roleInstanceName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: CloudServiceRoleInstancesGetRemoteDesktopFileParameters = {
-    queryParameters: { "api-version": "2022-04-04" }
+    queryParameters: { "api-version": "2022-04-04" },
   };
   const result = await client
     .path(

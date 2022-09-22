@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  RestorePointCollectionsGetParameters
+  RestorePointCollectionsGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -24,7 +24,7 @@ async function getARestorePointCollectionButNotTheRestorePointsContainedInTheRes
   const resourceGroupName = "myResourceGroup";
   const restorePointCollectionName = "myRpc";
   const options: RestorePointCollectionsGetParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -53,7 +53,7 @@ async function getARestorePointCollectionIncludingTheRestorePointsContainedInThe
   const resourceGroupName = "myResourceGroup";
   const restorePointCollectionName = "rpcName";
   const options: RestorePointCollectionsGetParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(

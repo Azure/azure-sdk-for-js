@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   DiskRestorePointRevokeAccessParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,10 +25,9 @@ async function revokesAccessToADiskRestorePoint() {
   const resourceGroupName = "myResourceGroup";
   const restorePointCollectionName = "rpc";
   const vmRestorePointName = "vmrp";
-  const diskRestorePointName =
-    "TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745";
+  const diskRestorePointName = "TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745";
   const options: DiskRestorePointRevokeAccessParameters = {
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(

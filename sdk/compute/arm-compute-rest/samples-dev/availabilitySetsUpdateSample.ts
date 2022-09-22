@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  AvailabilitySetsUpdateParameters
+  AvailabilitySetsUpdateParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -30,19 +30,19 @@ async function availabilitySetsUpdateMaximumSetGen() {
         platformUpdateDomainCount: 20,
         proximityPlacementGroup: {
           id:
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
         },
         virtualMachines: [
           {
             id:
-              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
-          }
-        ]
+              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+          },
+        ],
       },
       sku: { name: "DSv3-Type1", capacity: 7, tier: "aaa" },
-      tags: { key2574: "aaaaaaaa" }
+      tags: { key2574: "aaaaaaaa" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -70,7 +70,7 @@ async function availabilitySetsUpdateMinimumSetGen() {
   const availabilitySetName = "aaaaaaaaaaaaaaaaaaaa";
   const options: AvailabilitySetsUpdateParameters = {
     body: {},
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(

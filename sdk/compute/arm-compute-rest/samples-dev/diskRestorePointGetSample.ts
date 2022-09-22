@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  DiskRestorePointGetParameters
+  DiskRestorePointGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -24,10 +24,9 @@ async function getAnIncrementalDiskRestorePointResource() {
   const resourceGroupName = "myResourceGroup";
   const restorePointCollectionName = "rpc";
   const vmRestorePointName = "vmrp";
-  const diskRestorePointName =
-    "TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745";
+  const diskRestorePointName = "TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745";
   const options: DiskRestorePointGetParameters = {
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const result = await client
     .path(
@@ -56,10 +55,9 @@ async function getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferen
   const resourceGroupName = "myResourceGroup";
   const restorePointCollectionName = "rpc";
   const vmRestorePointName = "vmrp";
-  const diskRestorePointName =
-    "TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745";
+  const diskRestorePointName = "TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745";
   const options: DiskRestorePointGetParameters = {
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const result = await client
     .path(
@@ -74,6 +72,4 @@ async function getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferen
   console.log(result);
 }
 
-getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferentRegion().catch(
-  console.error
-);
+getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferentRegion().catch(console.error);

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on.
  *
  * @summary Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Redeploy_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Redeploy_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSRedeployMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -38,7 +38,7 @@ virtualMachineScaleSetVMSRedeployMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on.
  *
  * @summary Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Redeploy_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Redeploy_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSRedeployMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

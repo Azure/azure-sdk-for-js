@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachinesCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -34,9 +34,9 @@ async function createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
@@ -44,26 +44,26 @@ async function createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault() {
           computerName: "myVM",
           linuxConfiguration: {
             patchSettings: { assessmentMode: "ImageDefault" },
-            provisionVMAgent: true
-          }
+            provisionVMAgent: true,
+          },
         },
         storageProfile: {
           imageReference: {
             offer: "UbuntuServer",
             publisher: "Canonical",
             sku: "16.04-LTS",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Premium_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Premium_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -78,9 +78,7 @@ async function createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault() {
   console.log(result);
 }
 
-createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault().catch(
-  console.error
-);
+createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault().catch(console.error);
 /**
  * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
@@ -103,9 +101,9 @@ async function createALinuxVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndA
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
@@ -115,28 +113,28 @@ async function createALinuxVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndA
             patchSettings: {
               assessmentMode: "AutomaticByPlatform",
               automaticByPlatformSettings: { rebootSetting: "Never" },
-              patchMode: "AutomaticByPlatform"
+              patchMode: "AutomaticByPlatform",
             },
-            provisionVMAgent: true
-          }
+            provisionVMAgent: true,
+          },
         },
         storageProfile: {
           imageReference: {
             offer: "UbuntuServer",
             publisher: "Canonical",
             sku: "16.04-LTS",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Premium_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Premium_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -176,9 +174,9 @@ async function createALinuxVMWithAPatchSettingPatchModeOfImageDefault() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
@@ -186,26 +184,26 @@ async function createALinuxVMWithAPatchSettingPatchModeOfImageDefault() {
           computerName: "myVM",
           linuxConfiguration: {
             patchSettings: { patchMode: "ImageDefault" },
-            provisionVMAgent: true
-          }
+            provisionVMAgent: true,
+          },
         },
         storageProfile: {
           imageReference: {
             offer: "UbuntuServer",
             publisher: "Canonical",
             sku: "16.04-LTS",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Premium_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Premium_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -243,9 +241,9 @@ async function createALinuxVMWithAPatchSettingsPatchModeAndAssessmentModeSetToAu
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
@@ -254,28 +252,28 @@ async function createALinuxVMWithAPatchSettingsPatchModeAndAssessmentModeSetToAu
           linuxConfiguration: {
             patchSettings: {
               assessmentMode: "AutomaticByPlatform",
-              patchMode: "AutomaticByPlatform"
+              patchMode: "AutomaticByPlatform",
             },
-            provisionVMAgent: true
-          }
+            provisionVMAgent: true,
+          },
         },
         storageProfile: {
           imageReference: {
             offer: "UbuntuServer",
             publisher: "Canonical",
             sku: "16.04-LTS",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Premium_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Premium_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -315,30 +313,30 @@ async function createAVMFromACommunityGalleryImage() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           imageReference: {
             communityGalleryImageId:
-              "/CommunityGalleries/galleryPublicName/Images/communityGalleryImageName/Versions/communityGalleryImageVersionName"
+              "/CommunityGalleries/galleryPublicName/Images/communityGalleryImageName/Versions/communityGalleryImageVersionName",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -376,30 +374,30 @@ async function createAVMFromASharedGalleryImage() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           imageReference: {
             sharedGalleryImageId:
-              "/SharedGalleries/sharedGalleryName/Images/sharedGalleryImageName/Versions/sharedGalleryImageVersionName"
+              "/SharedGalleries/sharedGalleryName/Images/sharedGalleryImageName/Versions/sharedGalleryImageVersionName",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -434,9 +432,8 @@ async function createAVMWithDiskControllerType() {
         diagnosticsProfile: {
           bootDiagnostics: {
             enabled: true,
-            storageUri:
-              "http://{existing-storage-account-name}.blob.core.windows.net"
-          }
+            storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+          },
         },
         hardwareProfile: { vmSize: "Standard_D4_v3" },
         networkProfile: {
@@ -444,14 +441,14 @@ async function createAVMWithDiskControllerType() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           diskControllerType: "NVMe",
@@ -459,19 +456,19 @@ async function createAVMWithDiskControllerType() {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
         },
-        userData: "U29tZSBDdXN0b20gRGF0YQ=="
-      }
+        userData: "U29tZSBDdXN0b20gRGF0YQ==",
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -507,9 +504,8 @@ async function createAVMWithHibernationEnabled() {
         diagnosticsProfile: {
           bootDiagnostics: {
             enabled: true,
-            storageUri:
-              "http://{existing-storage-account-name}.blob.core.windows.net"
-          }
+            storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+          },
         },
         hardwareProfile: { vmSize: "Standard_D2s_v3" },
         networkProfile: {
@@ -517,32 +513,32 @@ async function createAVMWithHibernationEnabled() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "{vm-name}"
+          computerName: "{vm-name}",
         },
         storageProfile: {
           imageReference: {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2019-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "vmOSdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -580,36 +576,36 @@ async function createAVMWithUefiSettingsOfSecureBootAndVTpm() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         securityProfile: {
           securityType: "TrustedLaunch",
-          uefiSettings: { secureBootEnabled: true, vTpmEnabled: true }
+          uefiSettings: { secureBootEnabled: true, vTpmEnabled: true },
         },
         storageProfile: {
           imageReference: {
             offer: "windowsserver-gen2preview-preview",
             publisher: "MicrosoftWindowsServer",
             sku: "windows10-tvm",
-            version: "18363.592.2001092016"
+            version: "18363.592.2001092016",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadOnly",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "StandardSSD_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "StandardSSD_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -644,9 +640,8 @@ async function createAVMWithUserData() {
         diagnosticsProfile: {
           bootDiagnostics: {
             enabled: true,
-            storageUri:
-              "http://{existing-storage-account-name}.blob.core.windows.net"
-          }
+            storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+          },
         },
         hardwareProfile: { vmSize: "Standard_D1_v2" },
         networkProfile: {
@@ -654,33 +649,33 @@ async function createAVMWithUserData() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "{vm-name}"
+          computerName: "{vm-name}",
         },
         storageProfile: {
           imageReference: {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "vmOSdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
         },
-        userData: "RXhhbXBsZSBVc2VyRGF0YQ=="
-      }
+        userData: "RXhhbXBsZSBVc2VyRGF0YQ==",
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -715,46 +710,45 @@ async function createAVMWithVMSizeProperties() {
         diagnosticsProfile: {
           bootDiagnostics: {
             enabled: true,
-            storageUri:
-              "http://{existing-storage-account-name}.blob.core.windows.net"
-          }
+            storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+          },
         },
         hardwareProfile: {
           vmSize: "Standard_D4_v3",
-          vmSizeProperties: { vCPUsAvailable: 1, vCPUsPerCore: 1 }
+          vmSizeProperties: { vCPUsAvailable: 1, vCPUsPerCore: 1 },
         },
         networkProfile: {
           networkInterfaces: [
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           imageReference: {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
         },
-        userData: "U29tZSBDdXN0b20gRGF0YQ=="
-      }
+        userData: "U29tZSBDdXN0b20gRGF0YQ==",
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -803,40 +797,40 @@ async function createAVMWithNetworkInterfaceConfiguration() {
                         name: "{publicIP-config-name}",
                         properties: {
                           deleteOption: "Detach",
-                          publicIPAllocationMethod: "Static"
+                          publicIPAllocationMethod: "Static",
                         },
-                        sku: { name: "Basic", tier: "Global" }
-                      }
-                    }
-                  }
+                        sku: { name: "Basic", tier: "Global" },
+                      },
+                    },
+                  },
                 ],
-                primary: true
-              }
-            }
-          ]
+                primary: true,
+              },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           imageReference: {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -874,25 +868,25 @@ async function createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys() 
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         securityProfile: {
           securityType: "ConfidentialVM",
-          uefiSettings: { secureBootEnabled: true, vTpmEnabled: true }
+          uefiSettings: { secureBootEnabled: true, vTpmEnabled: true },
         },
         storageProfile: {
           imageReference: {
             offer: "2019-datacenter-cvm",
             publisher: "MicrosoftWindowsServer",
             sku: "windows-cvm",
-            version: "17763.2183.2109130127"
+            version: "17763.2183.2109130127",
           },
           osDisk: {
             name: "myVMosdisk",
@@ -902,17 +896,17 @@ async function createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys() 
               securityProfile: {
                 diskEncryptionSet: {
                   id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
                 },
-                securityEncryptionType: "DiskWithVMGuestState"
+                securityEncryptionType: "DiskWithVMGuestState",
               },
-              storageAccountType: "StandardSSD_LRS"
-            }
-          }
-        }
-      }
+              storageAccountType: "StandardSSD_LRS",
+            },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -927,9 +921,7 @@ async function createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys() 
   console.log(result);
 }
 
-createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys().catch(
-  console.error
-);
+createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys().catch(console.error);
 /**
  * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
@@ -952,25 +944,25 @@ async function createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys() 
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         securityProfile: {
           securityType: "ConfidentialVM",
-          uefiSettings: { secureBootEnabled: true, vTpmEnabled: true }
+          uefiSettings: { secureBootEnabled: true, vTpmEnabled: true },
         },
         storageProfile: {
           imageReference: {
             offer: "2019-datacenter-cvm",
             publisher: "MicrosoftWindowsServer",
             sku: "windows-cvm",
-            version: "17763.2183.2109130127"
+            version: "17763.2183.2109130127",
           },
           osDisk: {
             name: "myVMosdisk",
@@ -978,15 +970,15 @@ async function createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys() 
             createOption: "FromImage",
             managedDisk: {
               securityProfile: {
-                securityEncryptionType: "DiskWithVMGuestState"
+                securityEncryptionType: "DiskWithVMGuestState",
               },
-              storageAccountType: "StandardSSD_LRS"
-            }
-          }
-        }
-      }
+              storageAccountType: "StandardSSD_LRS",
+            },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -1001,9 +993,7 @@ async function createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys() 
   console.log(result);
 }
 
-createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys().catch(
-  console.error
-);
+createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys().catch(console.error);
 /**
  * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
@@ -1026,9 +1016,9 @@ async function createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
@@ -1037,26 +1027,26 @@ async function createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault() {
           windowsConfiguration: {
             enableAutomaticUpdates: true,
             patchSettings: { assessmentMode: "ImageDefault" },
-            provisionVMAgent: true
-          }
+            provisionVMAgent: true,
+          },
         },
         storageProfile: {
           imageReference: {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Premium_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Premium_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -1071,9 +1061,7 @@ async function createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault() {
   console.log(result);
 }
 
-createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault().catch(
-  console.error
-);
+createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault().catch(console.error);
 /**
  * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
@@ -1096,9 +1084,9 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/nsgExistingNic",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
@@ -1107,26 +1095,26 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS() {
           windowsConfiguration: {
             enableAutomaticUpdates: true,
             patchSettings: { patchMode: "AutomaticByOS" },
-            provisionVMAgent: true
-          }
+            provisionVMAgent: true,
+          },
         },
         storageProfile: {
           imageReference: {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Premium_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Premium_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -1141,9 +1129,7 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS() {
   console.log(result);
 }
 
-createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS().catch(
-  console.error
-);
+createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS().catch(console.error);
 /**
  * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
@@ -1166,9 +1152,9 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAn
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
@@ -1179,28 +1165,28 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAn
             patchSettings: {
               assessmentMode: "AutomaticByPlatform",
               automaticByPlatformSettings: { rebootSetting: "Never" },
-              patchMode: "AutomaticByPlatform"
+              patchMode: "AutomaticByPlatform",
             },
-            provisionVMAgent: true
-          }
+            provisionVMAgent: true,
+          },
         },
         storageProfile: {
           imageReference: {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Premium_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Premium_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -1240,9 +1226,9 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAn
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
@@ -1252,28 +1238,28 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAn
             enableAutomaticUpdates: true,
             patchSettings: {
               enableHotpatching: true,
-              patchMode: "AutomaticByPlatform"
+              patchMode: "AutomaticByPlatform",
             },
-            provisionVMAgent: true
-          }
+            provisionVMAgent: true,
+          },
         },
         storageProfile: {
           imageReference: {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Premium_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Premium_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -1313,9 +1299,9 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfManual() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
@@ -1324,26 +1310,26 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfManual() {
           windowsConfiguration: {
             enableAutomaticUpdates: true,
             patchSettings: { patchMode: "Manual" },
-            provisionVMAgent: true
-          }
+            provisionVMAgent: true,
+          },
         },
         storageProfile: {
           imageReference: {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Premium_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Premium_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -1381,9 +1367,9 @@ async function createAWindowsVMWithPatchSettingsPatchModeAndAssessmentModeSetToA
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
@@ -1393,28 +1379,28 @@ async function createAWindowsVMWithPatchSettingsPatchModeAndAssessmentModeSetToA
             enableAutomaticUpdates: true,
             patchSettings: {
               assessmentMode: "AutomaticByPlatform",
-              patchMode: "AutomaticByPlatform"
+              patchMode: "AutomaticByPlatform",
             },
-            provisionVMAgent: true
-          }
+            provisionVMAgent: true,
+          },
         },
         storageProfile: {
           imageReference: {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Premium_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Premium_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -1454,14 +1440,14 @@ async function createACustomImageVMFromAnUnmanagedGeneralizedOSImage() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           osDisk: {
@@ -1470,18 +1456,18 @@ async function createACustomImageVMFromAnUnmanagedGeneralizedOSImage() {
             createOption: "FromImage",
             image: {
               uri:
-                "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/{existing-generalized-os-image-blob-name}.vhd"
+                "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/{existing-generalized-os-image-blob-name}.vhd",
             },
             osType: "Windows",
             vhd: {
               uri:
-                "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd"
-            }
-          }
-        }
-      }
+                "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd",
+            },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -1519,14 +1505,14 @@ async function createAPlatformImageVMWithUnmanagedOSAndDataDisks() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           dataDisks: [
@@ -1536,8 +1522,8 @@ async function createAPlatformImageVMWithUnmanagedOSAndDataDisks() {
               lun: 0,
               vhd: {
                 uri:
-                  "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk0.vhd"
-              }
+                  "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk0.vhd",
+              },
             },
             {
               createOption: "Empty",
@@ -1545,15 +1531,15 @@ async function createAPlatformImageVMWithUnmanagedOSAndDataDisks() {
               lun: 1,
               vhd: {
                 uri:
-                  "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk1.vhd"
-              }
-            }
+                  "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk1.vhd",
+              },
+            },
           ],
           imageReference: {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
@@ -1561,13 +1547,13 @@ async function createAPlatformImageVMWithUnmanagedOSAndDataDisks() {
             createOption: "FromImage",
             vhd: {
               uri:
-                "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd"
-            }
-          }
-        }
-      }
+                "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd",
+            },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -1605,30 +1591,30 @@ async function createAVMFromACustomImage() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           imageReference: {
             id:
-              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}"
+              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -1666,30 +1652,30 @@ async function createAVMFromAGeneralizedSharedImage() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           imageReference: {
             id:
-              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage"
+              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -1727,25 +1713,25 @@ async function createAVMFromASpecializedSharedImage() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         storageProfile: {
           imageReference: {
             id:
-              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage"
+              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -1783,14 +1769,14 @@ async function createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFau
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         platformFaultDomain: 1,
         storageProfile: {
@@ -1798,22 +1784,22 @@ async function createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFau
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
         },
         virtualMachineScaleSet: {
           id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{existing-flex-vmss-name-with-platformFaultDomainCount-greater-than-1}"
-        }
-      }
+            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{existing-flex-vmss-name-with-platformFaultDomainCount-greater-than-1}",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -1828,9 +1814,7 @@ async function createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFau
   console.log(result);
 }
 
-createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFaultDomain().catch(
-  console.error
-);
+createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFaultDomain().catch(console.error);
 /**
  * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
@@ -1849,7 +1833,7 @@ async function createAVMInAnAvailabilitySet() {
       properties: {
         availabilitySet: {
           id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/availabilitySets/{existing-availability-set-name}"
+            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/availabilitySets/{existing-availability-set-name}",
         },
         hardwareProfile: { vmSize: "Standard_D1_v2" },
         networkProfile: {
@@ -1857,32 +1841,32 @@ async function createAVMInAnAvailabilitySet() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           imageReference: {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -1924,13 +1908,13 @@ async function createAVMWithApplicationProfile() {
               packageReferenceId:
                 "/subscriptions/32c17a9e-aa7b-4ba5-a45b-e324116b6fdb/resourceGroups/myresourceGroupName2/providers/Microsoft.Compute/galleries/myGallery1/applications/MyApplication1/versions/1.0",
               tags: "myTag1",
-              treatFailureAsDeploymentFailure: false
+              treatFailureAsDeploymentFailure: false,
             },
             {
               packageReferenceId:
-                "/subscriptions/32c17a9e-aa7b-4ba5-a45b-e324116b6fdg/resourceGroups/myresourceGroupName3/providers/Microsoft.Compute/galleries/myGallery2/applications/MyApplication2/versions/1.1"
-            }
-          ]
+                "/subscriptions/32c17a9e-aa7b-4ba5-a45b-e324116b6fdg/resourceGroups/myresourceGroupName3/providers/Microsoft.Compute/galleries/myGallery2/applications/MyApplication2/versions/1.1",
+            },
+          ],
         },
         hardwareProfile: { vmSize: "Standard_D1_v2" },
         networkProfile: {
@@ -1938,32 +1922,32 @@ async function createAVMWithApplicationProfile() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           imageReference: {
             offer: "{image_offer}",
             publisher: "{image_publisher}",
             sku: "{image_sku}",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -2001,14 +1985,14 @@ async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk() 
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           dataDisks: [
@@ -2020,10 +2004,10 @@ async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk() 
               managedDisk: {
                 diskEncryptionSet: {
                   id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
                 },
-                storageAccountType: "Standard_LRS"
-              }
+                storageAccountType: "Standard_LRS",
+              },
             },
             {
               caching: "ReadWrite",
@@ -2033,17 +2017,17 @@ async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk() 
               managedDisk: {
                 diskEncryptionSet: {
                   id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
                 },
                 id:
                   "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/{existing-managed-disk-name}",
-                storageAccountType: "Standard_LRS"
-              }
-            }
+                storageAccountType: "Standard_LRS",
+              },
+            },
           ],
           imageReference: {
             id:
-              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}"
+              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
           },
           osDisk: {
             name: "myVMosdisk",
@@ -2052,15 +2036,15 @@ async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk() 
             managedDisk: {
               diskEncryptionSet: {
                 id:
-                  "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+                  "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
               },
-              storageAccountType: "Standard_LRS"
-            }
-          }
-        }
-      }
+              storageAccountType: "Standard_LRS",
+            },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -2075,9 +2059,7 @@ async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk() 
   console.log(result);
 }
 
-createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk().catch(
-  console.error
-);
+createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk().catch(console.error);
 /**
  * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
@@ -2096,7 +2078,7 @@ async function createAVMWithHostEncryptionUsingEncryptionAtHostProperty() {
       plan: {
         name: "windows2016",
         product: "windows-data-science-vm",
-        publisher: "microsoft-ads"
+        publisher: "microsoft-ads",
       },
       properties: {
         hardwareProfile: { vmSize: "Standard_DS1_v2" },
@@ -2105,14 +2087,14 @@ async function createAVMWithHostEncryptionUsingEncryptionAtHostProperty() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         securityProfile: { encryptionAtHost: true },
         storageProfile: {
@@ -2120,18 +2102,18 @@ async function createAVMWithHostEncryptionUsingEncryptionAtHostProperty() {
             offer: "windows-data-science-vm",
             publisher: "microsoft-ads",
             sku: "windows2016",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadOnly",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -2166,9 +2148,8 @@ async function createAVMWithScheduledEventsProfile() {
         diagnosticsProfile: {
           bootDiagnostics: {
             enabled: true,
-            storageUri:
-              "http://{existing-storage-account-name}.blob.core.windows.net"
-          }
+            storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+          },
         },
         hardwareProfile: { vmSize: "Standard_D1_v2" },
         networkProfile: {
@@ -2176,38 +2157,38 @@ async function createAVMWithScheduledEventsProfile() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         scheduledEventsProfile: {
           terminateNotificationProfile: {
             enable: true,
-            notBeforeTimeout: "PT10M"
-          }
+            notBeforeTimeout: "PT10M",
+          },
         },
         storageProfile: {
           imageReference: {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -2241,7 +2222,7 @@ async function createAVMWithAMarketplaceImagePlan() {
       plan: {
         name: "windows2016",
         product: "windows-data-science-vm",
-        publisher: "microsoft-ads"
+        publisher: "microsoft-ads",
       },
       properties: {
         hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -2250,32 +2231,32 @@ async function createAVMWithAMarketplaceImagePlan() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           imageReference: {
             offer: "windows-data-science-vm",
             publisher: "microsoft-ads",
             sku: "windows2016",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -2310,9 +2291,8 @@ async function createAVMWithAnExtensionsTimeBudget() {
         diagnosticsProfile: {
           bootDiagnostics: {
             enabled: true,
-            storageUri:
-              "http://{existing-storage-account-name}.blob.core.windows.net"
-          }
+            storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+          },
         },
         extensionsTimeBudget: "PT30M",
         hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -2321,32 +2301,32 @@ async function createAVMWithAnExtensionsTimeBudget() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           imageReference: {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -2381,9 +2361,8 @@ async function createAVMWithBootDiagnostics() {
         diagnosticsProfile: {
           bootDiagnostics: {
             enabled: true,
-            storageUri:
-              "http://{existing-storage-account-name}.blob.core.windows.net"
-          }
+            storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+          },
         },
         hardwareProfile: { vmSize: "Standard_D1_v2" },
         networkProfile: {
@@ -2391,32 +2370,32 @@ async function createAVMWithBootDiagnostics() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           imageReference: {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -2454,36 +2433,36 @@ async function createAVMWithEmptyDataDisks() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           dataDisks: [
             { createOption: "Empty", diskSizeGB: 1023, lun: 0 },
-            { createOption: "Empty", diskSizeGB: 1023, lun: 1 }
+            { createOption: "Empty", diskSizeGB: 1023, lun: 1 },
           ],
           imageReference: {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -2517,7 +2496,7 @@ async function createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacement
       plan: {
         name: "windows2016",
         product: "windows-data-science-vm",
-        publisher: "microsoft-ads"
+        publisher: "microsoft-ads",
       },
       properties: {
         hardwareProfile: { vmSize: "Standard_DS1_v2" },
@@ -2526,33 +2505,33 @@ async function createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacement
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           imageReference: {
             offer: "windows-data-science-vm",
             publisher: "microsoft-ads",
             sku: "windows2016",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadOnly",
             createOption: "FromImage",
             diffDiskSettings: { option: "Local", placement: "CacheDisk" },
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -2567,9 +2546,7 @@ async function createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacement
   console.log(result);
 }
 
-createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacementProperty().catch(
-  console.error
-);
+createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacementProperty().catch(console.error);
 /**
  * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
@@ -2588,7 +2565,7 @@ async function createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacem
       plan: {
         name: "windows2016",
         product: "windows-data-science-vm",
-        publisher: "microsoft-ads"
+        publisher: "microsoft-ads",
       },
       properties: {
         hardwareProfile: { vmSize: "Standard_DS1_v2" },
@@ -2597,33 +2574,33 @@ async function createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacem
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           imageReference: {
             offer: "windows-data-science-vm",
             publisher: "microsoft-ads",
             sku: "windows2016",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadOnly",
             createOption: "FromImage",
             diffDiskSettings: { option: "Local", placement: "ResourceDisk" },
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -2638,9 +2615,7 @@ async function createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacem
   console.log(result);
 }
 
-createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacementProperty().catch(
-  console.error
-);
+createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacementProperty().catch(console.error);
 /**
  * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
@@ -2659,7 +2634,7 @@ async function createAVMWithEphemeralOSDisk() {
       plan: {
         name: "windows2016",
         product: "windows-data-science-vm",
-        publisher: "microsoft-ads"
+        publisher: "microsoft-ads",
       },
       properties: {
         hardwareProfile: { vmSize: "Standard_DS1_v2" },
@@ -2668,33 +2643,33 @@ async function createAVMWithEphemeralOSDisk() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           imageReference: {
             offer: "windows-data-science-vm",
             publisher: "microsoft-ads",
             sku: "windows2016",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadOnly",
             createOption: "FromImage",
             diffDiskSettings: { option: "Local" },
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -2733,32 +2708,32 @@ async function createAVMWithManagedBootDiagnostics() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           imageReference: {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -2796,32 +2771,32 @@ async function createAVMWithPasswordAuthentication() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           imageReference: {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -2859,32 +2834,32 @@ async function createAVMWithPremiumStorage() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           imageReference: {
             offer: "WindowsServer",
             publisher: "MicrosoftWindowsServer",
             sku: "2016-Datacenter",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Premium_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Premium_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -2922,9 +2897,9 @@ async function createAVMWithSshAuthentication() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminUsername: "{your-username}",
@@ -2936,29 +2911,29 @@ async function createAVMWithSshAuthentication() {
                 {
                   path: "/home/{your-username}/.ssh/authorized_keys",
                   keyData:
-                    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCeClRAk2ipUs/l5voIsDC5q9RI+YSRd1Bvd/O+axgY4WiBzG+4FwJWZm/mLLe5DoOdHQwmU2FrKXZSW4w2sYE70KeWnrFViCOX5MTVvJgPE8ClugNl8RWth/tU849DvM9sT7vFgfVSHcAS2yDRyDlueii+8nF2ym8XWAPltFVCyLHRsyBp5YPqK8JFYIa1eybKsY3hEAxRCA+/7bq8et+Gj3coOsuRmrehav7rE6N12Pb80I6ofa6SM5XNYq4Xk0iYNx7R3kdz0Jj9XgZYWjAHjJmT0gTRoOnt6upOuxK7xI/ykWrllgpXrCPu3Ymz+c+ujaqcxDopnAl2lmf69/J1"
-                }
-              ]
-            }
-          }
+                    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCeClRAk2ipUs/l5voIsDC5q9RI+YSRd1Bvd/O+axgY4WiBzG+4FwJWZm/mLLe5DoOdHQwmU2FrKXZSW4w2sYE70KeWnrFViCOX5MTVvJgPE8ClugNl8RWth/tU849DvM9sT7vFgfVSHcAS2yDRyDlueii+8nF2ym8XWAPltFVCyLHRsyBp5YPqK8JFYIa1eybKsY3hEAxRCA+/7bq8et+Gj3coOsuRmrehav7rE6N12Pb80I6ofa6SM5XNYq4Xk0iYNx7R3kdz0Jj9XgZYWjAHjJmT0gTRoOnt6upOuxK7xI/ykWrllgpXrCPu3Ymz+c+ujaqcxDopnAl2lmf69/J1",
+                },
+              ],
+            },
+          },
         },
         storageProfile: {
           imageReference: {
             offer: "{image_offer}",
             publisher: "{image_publisher}",
             sku: "{image_sku}",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadWrite",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -2992,14 +2967,14 @@ async function createOrUpdateAVMWithCapacityReservation() {
       plan: {
         name: "windows2016",
         product: "windows-data-science-vm",
-        publisher: "microsoft-ads"
+        publisher: "microsoft-ads",
       },
       properties: {
         capacityReservation: {
           capacityReservationGroup: {
             id:
-              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/CapacityReservationGroups/{crgName}"
-          }
+              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/CapacityReservationGroups/{crgName}",
+          },
         },
         hardwareProfile: { vmSize: "Standard_DS1_v2" },
         networkProfile: {
@@ -3007,32 +2982,32 @@ async function createOrUpdateAVMWithCapacityReservation() {
             {
               id:
                 "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-              properties: { primary: true }
-            }
-          ]
+              properties: { primary: true },
+            },
+          ],
         },
         osProfile: {
           adminPassword: "{your-password}",
           adminUsername: "{your-username}",
-          computerName: "myVM"
+          computerName: "myVM",
         },
         storageProfile: {
           imageReference: {
             offer: "windows-data-science-vm",
             publisher: "microsoft-ads",
             sku: "windows2016",
-            version: "latest"
+            version: "latest",
           },
           osDisk: {
             name: "myVMosdisk",
             caching: "ReadOnly",
             createOption: "FromImage",
-            managedDisk: { storageAccountType: "Standard_LRS" }
-          }
-        }
-      }
+            managedDisk: { storageAccountType: "Standard_LRS" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachineScaleSetsSetOrchestrationServiceStateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function virtualMachineScaleSetsSetOrchestrationServiceStateMaximumSetGen(
   const vmScaleSetName = "aaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsSetOrchestrationServiceStateParameters = {
     body: { action: "Resume", serviceName: "AutomaticRepairs" },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -41,9 +41,7 @@ async function virtualMachineScaleSetsSetOrchestrationServiceStateMaximumSetGen(
   console.log(result);
 }
 
-virtualMachineScaleSetsSetOrchestrationServiceStateMaximumSetGen().catch(
-  console.error
-);
+virtualMachineScaleSetsSetOrchestrationServiceStateMaximumSetGen().catch(console.error);
 /**
  * This sample demonstrates how to Changes ServiceState property for a given service
  *
@@ -58,7 +56,7 @@ async function virtualMachineScaleSetsSetOrchestrationServiceStateMinimumSetGen(
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsSetOrchestrationServiceStateParameters = {
     body: { action: "Resume", serviceName: "AutomaticRepairs" },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -73,6 +71,4 @@ async function virtualMachineScaleSetsSetOrchestrationServiceStateMinimumSetGen(
   console.log(result);
 }
 
-virtualMachineScaleSetsSetOrchestrationServiceStateMinimumSetGen().catch(
-  console.error
-);
+virtualMachineScaleSetsSetOrchestrationServiceStateMinimumSetGen().catch(console.error);

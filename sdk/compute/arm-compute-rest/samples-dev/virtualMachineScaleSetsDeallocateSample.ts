@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachineScaleSetsDeallocateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function virtualMachineScaleSetsDeallocateMaximumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsDeallocateParameters = {
     body: { instanceIds: ["aaaaaaaaaaaaaaaaa"] },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -55,7 +55,7 @@ async function virtualMachineScaleSetsDeallocateMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsDeallocateParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

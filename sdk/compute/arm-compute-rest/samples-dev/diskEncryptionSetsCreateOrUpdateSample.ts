@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   DiskEncryptionSetsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -30,13 +30,12 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription() 
       location: "West US",
       properties: {
         activeKey: {
-          keyUrl:
-            "https://myvaultdifferentsub.vault-int.azure-int.net/keys/{key}"
+          keyUrl: "https://myvaultdifferentsub.vault-int.azure-int.net/keys/{key}",
         },
-        encryptionType: "EncryptionAtRestWithCustomerKey"
-      }
+        encryptionType: "EncryptionAtRestWithCustomerKey",
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
@@ -51,9 +50,7 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription() 
   console.log(result);
 }
 
-createADiskEncryptionSetWithKeyVaultFromADifferentSubscription().catch(
-  console.error
-);
+createADiskEncryptionSetWithKeyVaultFromADifferentSubscription().catch(console.error);
 /**
  * This sample demonstrates how to Creates or updates a disk encryption set
  *
@@ -71,20 +68,19 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant() {
       identity: {
         type: "UserAssigned",
         userAssignedIdentities: {
-          "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}": {}
-        }
+          "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}": {},
+        },
       },
       location: "West US",
       properties: {
         activeKey: {
-          keyUrl:
-            "https://myvaultdifferenttenant.vault-int.azure-int.net/keys/{key}"
+          keyUrl: "https://myvaultdifferenttenant.vault-int.azure-int.net/keys/{key}",
         },
         encryptionType: "EncryptionAtRestWithCustomerKey",
-        federatedClientId: "00000000-0000-0000-0000-000000000000"
-      }
+        federatedClientId: "00000000-0000-0000-0000-000000000000",
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
@@ -121,13 +117,13 @@ async function createADiskEncryptionSet() {
           keyUrl: "https://myvmvault.vault-int.azure-int.net/keys/{key}",
           sourceVault: {
             id:
-              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault"
-          }
+              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault",
+          },
         },
-        encryptionType: "EncryptionAtRestWithCustomerKey"
-      }
+        encryptionType: "EncryptionAtRestWithCustomerKey",
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(

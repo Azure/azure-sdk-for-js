@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachineScaleSetExtensionsDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function virtualMachineScaleSetExtensionsDeleteMaximumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const vmssExtensionName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetExtensionsDeleteParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -57,7 +57,7 @@ async function virtualMachineScaleSetExtensionsDeleteMinimumSetGen() {
   const vmScaleSetName = "aaaa";
   const vmssExtensionName = "aaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetExtensionsDeleteParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

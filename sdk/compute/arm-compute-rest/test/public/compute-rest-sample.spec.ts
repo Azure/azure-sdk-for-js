@@ -6,12 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
@@ -119,7 +114,7 @@ describe("Compute test", () => {
       subnet_parameter,
       testPollingOptionsForNetwork
     );
-    console.log(subnet__create_info)
+    console.log(subnet__create_info);
   }
 
   //network_client.networkInterfaces.createOrUpdate

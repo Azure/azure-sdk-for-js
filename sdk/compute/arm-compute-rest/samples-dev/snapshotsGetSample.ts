@@ -3,9 +3,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createComputeManagementClient, {
-  SnapshotsGetParameters
-} from "@azure-rest/arm-compute";
+import createComputeManagementClient, { SnapshotsGetParameters } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -24,7 +22,7 @@ async function getInformationAboutASnapshot() {
   const resourceGroupName = "myResourceGroup";
   const snapshotName = "mySnapshot";
   const options: SnapshotsGetParameters = {
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const result = await client
     .path(
@@ -51,7 +49,7 @@ async function getInformationAboutAnIncrementalSnapshot() {
   const resourceGroupName = "myResourceGroup";
   const snapshotName = "myIncrementalSnapshot";
   const options: SnapshotsGetParameters = {
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const result = await client
     .path(

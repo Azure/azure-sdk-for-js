@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   GallerySharingProfileUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -29,16 +29,13 @@ async function addSharingIdToTheSharingProfileOfAGallery() {
       groups: [
         {
           type: "Subscriptions",
-          ids: [
-            "34a4ab42-0d72-47d9-bd1a-aed207386dac",
-            "380fd389-260b-41aa-bad9-0a83108c370b"
-          ]
+          ids: ["34a4ab42-0d72-47d9-bd1a-aed207386dac", "380fd389-260b-41aa-bad9-0a83108c370b"],
         },
-        { type: "AADTenants", ids: ["c24c76aa-8897-4027-9b03-8f7928b54ff6"] }
+        { type: "AADTenants", ids: ["c24c76aa-8897-4027-9b03-8f7928b54ff6"] },
       ],
-      operationType: "Add"
+      operationType: "Add",
     },
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
@@ -68,7 +65,7 @@ async function resetSharingProfileOfAGallery() {
   const galleryName = "myGalleryName";
   const options: GallerySharingProfileUpdateParameters = {
     body: { operationType: "Reset" },
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
@@ -98,7 +95,7 @@ async function shareAGalleryToCommunity() {
   const galleryName = "myGalleryName";
   const options: GallerySharingProfileUpdateParameters = {
     body: { operationType: "EnableCommunity" },
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(

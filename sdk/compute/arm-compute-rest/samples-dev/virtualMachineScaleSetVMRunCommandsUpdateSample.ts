@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachineScaleSetVMRunCommandsUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -28,9 +28,9 @@ async function updateVirtualMachineScaleSetVMRunCommand() {
   const runCommandName = "myRunCommand";
   const options: VirtualMachineScaleSetVMRunCommandsUpdateParameters = {
     body: {
-      properties: { source: { script: "Write-Host Script Source Updated!" } }
+      properties: { source: { script: "Write-Host Script Source Updated!" } },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

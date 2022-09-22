@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  CloudServicesUpdateDomainGetUpdateDomainParameters
+  CloudServicesUpdateDomainGetUpdateDomainParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,7 +25,7 @@ async function getCloudServiceUpdateDomain() {
   const cloudServiceName = "{cs-name}";
   const updateDomain = 1;
   const options: CloudServicesUpdateDomainGetUpdateDomainParameters = {
-    queryParameters: { "api-version": "2022-04-04" }
+    queryParameters: { "api-version": "2022-04-04" },
   };
   const result = await client
     .path(

@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachineScaleSetVMsDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function forceDeleteAVirtualMachineFromAVMScaleSet() {
   const vmScaleSetName = "myvmScaleSet";
   const instanceId = "0";
   const options: VirtualMachineScaleSetVMsDeleteParameters = {
-    queryParameters: { forceDeletion: true, "api-version": "2022-08-01" }
+    queryParameters: { forceDeletion: true, "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(

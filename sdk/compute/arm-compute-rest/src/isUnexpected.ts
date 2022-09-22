@@ -649,1212 +649,1188 @@ import {
   CloudServiceOperatingSystemsGetOSFamily200Response,
   CloudServiceOperatingSystemsGetOSFamilyDefaultResponse,
   CloudServiceOperatingSystemsListOSFamilies200Response,
-  CloudServiceOperatingSystemsListOSFamiliesDefaultResponse
+  CloudServiceOperatingSystemsListOSFamiliesDefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
   "GET /providers/Microsoft.Compute/operations": ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/usages": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/vmSizes": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/virtualMachineScaleSets": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/deallocate": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/deallocate": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/delete": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/delete": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/instanceView": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/virtualMachineScaleSets": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/skus": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osUpgradeHistory": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/poweroff": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/poweroff": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/restart": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/restart": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/start": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/start": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/redeploy": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/redeploy": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/performMaintenance": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/performMaintenance": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/manualupgrade": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/manualupgrade": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimage": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimage": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimageall": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimageall": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/forceRecoveryServiceFabricPlatformUpdateDomainWalk": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/convertToSinglePlacementGroup": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/setOrchestrationServiceState": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/setOrchestrationServiceState": [
     "200",
-    "202"
+    "202",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}": [
     "200",
-    "201"
+    "201",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/cancel": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/cancel": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osRollingUpgrade": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osRollingUpgrade": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensionRollingUpgrade": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensionRollingUpgrade": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/latest": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/reimage": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/reimage": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/reimageall": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/reimageall": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/deallocate": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/deallocate": [
     "200",
-    "202"
+    "202",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/instanceView": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/poweroff": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/poweroff": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/restart": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/restart": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/start": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/start": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/redeploy": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/redeploy": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/retrieveBootDiagnosticsData": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/performMaintenance": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/performMaintenance": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/simulateEviction": [
-    "204"
+    "204",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/runCommand": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/runCommand": [
     "200",
-    "202"
+    "202",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/virtualMachines": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/capture": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/capture": [
     "200",
-    "202"
+    "202",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/instanceView": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/convertToManagedDisks": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/convertToManagedDisks": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/deallocate": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/deallocate": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/generalize": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/virtualMachines": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/virtualMachines": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/vmSizes": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/powerOff": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/powerOff": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/reapply": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/reapply": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/restart": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/restart": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/start": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/start": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/redeploy": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/redeploy": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/reimage": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/reimage": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/retrieveBootDiagnosticsData": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/performMaintenance": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/performMaintenance": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/simulateEviction": [
-    "204"
+    "204",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/assessPatches": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/assessPatches": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/installPatches": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/installPatches": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommand": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommand": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions/{version}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/vmimages": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions/{version}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/publishers/{publisherName}/artifacttypes/vmimage/offers": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/publishers": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmextension/types/{type}/versions/{version}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmextension/types": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmextension/types/{type}/versions": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}": [
     "200",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/availabilitySets": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/availabilitySets": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}/vmSizes": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/proximityPlacementGroups": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}": [
     "200",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/hostGroups": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/hostGroups": ["200"],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}/restart": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}/restart": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/sshPublicKeys": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/sshPublicKeys": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}": [
     "200",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}/generateKeyPair": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}": [
     "200",
-    "201"
+    "201",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/images": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/images": ["200"],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/restorePointCollections": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{restorePointName}": [
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{restorePointName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{restorePointName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}": [
     "200",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/capacityReservationGroups": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}": [
     "200",
-    "202"
+    "202",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getRequestRateByInterval": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getRequestRateByInterval": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getThrottledRequests": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getThrottledRequests": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/runCommands": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/runCommands/{commandId}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommands/{runCommandName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommands/{runCommandName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommands/{runCommandName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommands/{runCommandName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommands": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/runCommands/{runCommandName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/runCommands/{runCommandName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/runCommands/{runCommandName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/runCommands/{runCommandName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/runCommands": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}": [
     "200",
-    "202"
+    "202",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/disks": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/disks": ["200"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}/beginGetAccess": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}/beginGetAccess": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}/endGetAccess": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}/endGetAccess": [
     "200",
-    "202"
+    "202",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}": [
     "200",
-    "202"
+    "202",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/diskAccesses": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/diskAccesses": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateLinkResources": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}": [
     "200",
-    "202"
+    "202",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/diskEncryptionSets": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/diskEncryptionSets": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}/associatedResources": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}/beginGetAccess": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}/beginGetAccess": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}/endGetAccess": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}/endGetAccess": [
     "200",
-    "202"
+    "202",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}": [
     "200",
-    "202"
+    "202",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/snapshots": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/snapshots": ["200"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/beginGetAccess": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/beginGetAccess": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/endGetAccess": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/endGetAccess": [
     "200",
-    "202"
+    "202",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/skus": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/skus": ["200"],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}": [
     "200",
     "201",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/galleries": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/galleries": ["200"],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}": [
     "200",
     "201",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}": [
     "200",
     "201",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}": [
     "200",
     "201",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}": [
     "200",
     "201",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/share": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/share": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}/versions": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}/versions/{galleryImageVersionName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}/versions": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/instanceView": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/restart": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/restart": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/reimage": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/reimage": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/rebuild": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/rebuild": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/remoteDesktopFile": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roles/{roleName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roles": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/instanceView": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/cloudServices": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/cloudServices": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/start": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/start": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/poweroff": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/poweroff": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/restart": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/restart": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/reimage": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/reimage": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/rebuild": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/rebuild": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/delete": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/delete": [
     "200",
-    "202"
+    "202",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains/{updateDomain}": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains/{updateDomain}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsVersions/{osVersionName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsVersions": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsFamilies/{osFamilyName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsFamilies": [
-    "200"
-  ]
+    "200",
+  ],
 };
 
 export function isUnexpected(
@@ -1864,9 +1840,7 @@ export function isUnexpected(
   response: UsageList200Response | UsageListDefaultResponse
 ): response is UsageListDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualMachineSizesList200Response
-    | VirtualMachineSizesListDefaultResponse
+  response: VirtualMachineSizesList200Response | VirtualMachineSizesListDefaultResponse
 ): response is VirtualMachineSizesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -1880,9 +1854,7 @@ export function isUnexpected(
     | VirtualMachineScaleSetsCreateOrUpdateDefaultResponse
 ): response is VirtualMachineScaleSetsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualMachineScaleSetsUpdate200Response
-    | VirtualMachineScaleSetsUpdateDefaultResponse
+  response: VirtualMachineScaleSetsUpdate200Response | VirtualMachineScaleSetsUpdateDefaultResponse
 ): response is VirtualMachineScaleSetsUpdateDefaultResponse;
 export function isUnexpected(
   response:
@@ -1892,9 +1864,7 @@ export function isUnexpected(
     | VirtualMachineScaleSetsDeleteDefaultResponse
 ): response is VirtualMachineScaleSetsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualMachineScaleSetsGet200Response
-    | VirtualMachineScaleSetsGetDefaultResponse
+  response: VirtualMachineScaleSetsGet200Response | VirtualMachineScaleSetsGetDefaultResponse
 ): response is VirtualMachineScaleSetsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -1914,9 +1884,7 @@ export function isUnexpected(
     | VirtualMachineScaleSetsGetInstanceViewDefaultResponse
 ): response is VirtualMachineScaleSetsGetInstanceViewDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualMachineScaleSetsList200Response
-    | VirtualMachineScaleSetsListDefaultResponse
+  response: VirtualMachineScaleSetsList200Response | VirtualMachineScaleSetsListDefaultResponse
 ): response is VirtualMachineScaleSetsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -2109,9 +2077,7 @@ export function isUnexpected(
     | VirtualMachineScaleSetVMsDeleteDefaultResponse
 ): response is VirtualMachineScaleSetVMsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualMachineScaleSetVMsGet200Response
-    | VirtualMachineScaleSetVMsGetDefaultResponse
+  response: VirtualMachineScaleSetVMsGet200Response | VirtualMachineScaleSetVMsGetDefaultResponse
 ): response is VirtualMachineScaleSetVMsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -2119,9 +2085,7 @@ export function isUnexpected(
     | VirtualMachineScaleSetVMsGetInstanceViewDefaultResponse
 ): response is VirtualMachineScaleSetVMsGetInstanceViewDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualMachineScaleSetVMsList200Response
-    | VirtualMachineScaleSetVMsListDefaultResponse
+  response: VirtualMachineScaleSetVMsList200Response | VirtualMachineScaleSetVMsListDefaultResponse
 ): response is VirtualMachineScaleSetVMsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -2182,19 +2146,13 @@ export function isUnexpected(
     | VirtualMachineExtensionsDeleteDefaultResponse
 ): response is VirtualMachineExtensionsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualMachineExtensionsGet200Response
-    | VirtualMachineExtensionsGetDefaultResponse
+  response: VirtualMachineExtensionsGet200Response | VirtualMachineExtensionsGetDefaultResponse
 ): response is VirtualMachineExtensionsGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualMachineExtensionsList200Response
-    | VirtualMachineExtensionsListDefaultResponse
+  response: VirtualMachineExtensionsList200Response | VirtualMachineExtensionsListDefaultResponse
 ): response is VirtualMachineExtensionsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualMachinesListByLocation200Response
-    | VirtualMachinesListByLocationDefaultResponse
+  response: VirtualMachinesListByLocation200Response | VirtualMachinesListByLocationDefaultResponse
 ): response is VirtualMachinesListByLocationDefaultResponse;
 export function isUnexpected(
   response:
@@ -2209,9 +2167,7 @@ export function isUnexpected(
     | VirtualMachinesCreateOrUpdateDefaultResponse
 ): response is VirtualMachinesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualMachinesUpdate200Response
-    | VirtualMachinesUpdateDefaultResponse
+  response: VirtualMachinesUpdate200Response | VirtualMachinesUpdateDefaultResponse
 ): response is VirtualMachinesUpdateDefaultResponse;
 export function isUnexpected(
   response:
@@ -2224,9 +2180,7 @@ export function isUnexpected(
   response: VirtualMachinesGet200Response | VirtualMachinesGetDefaultResponse
 ): response is VirtualMachinesGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualMachinesInstanceView200Response
-    | VirtualMachinesInstanceViewDefaultResponse
+  response: VirtualMachinesInstanceView200Response | VirtualMachinesInstanceViewDefaultResponse
 ): response is VirtualMachinesInstanceViewDefaultResponse;
 export function isUnexpected(
   response:
@@ -2241,17 +2195,13 @@ export function isUnexpected(
     | VirtualMachinesDeallocateDefaultResponse
 ): response is VirtualMachinesDeallocateDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualMachinesGeneralize200Response
-    | VirtualMachinesGeneralizeDefaultResponse
+  response: VirtualMachinesGeneralize200Response | VirtualMachinesGeneralizeDefaultResponse
 ): response is VirtualMachinesGeneralizeDefaultResponse;
 export function isUnexpected(
   response: VirtualMachinesList200Response | VirtualMachinesListDefaultResponse
 ): response is VirtualMachinesListDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualMachinesListAll200Response
-    | VirtualMachinesListAllDefaultResponse
+  response: VirtualMachinesListAll200Response | VirtualMachinesListAllDefaultResponse
 ): response is VirtualMachinesListAllDefaultResponse;
 export function isUnexpected(
   response:
@@ -2323,14 +2273,10 @@ export function isUnexpected(
     | VirtualMachinesInstallPatchesDefaultResponse
 ): response is VirtualMachinesInstallPatchesDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualMachineImagesGet200Response
-    | VirtualMachineImagesGetDefaultResponse
+  response: VirtualMachineImagesGet200Response | VirtualMachineImagesGetDefaultResponse
 ): response is VirtualMachineImagesGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualMachineImagesList200Response
-    | VirtualMachineImagesListDefaultResponse
+  response: VirtualMachineImagesList200Response | VirtualMachineImagesListDefaultResponse
 ): response is VirtualMachineImagesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -2343,9 +2289,7 @@ export function isUnexpected(
     | VirtualMachineImagesListPublishersDefaultResponse
 ): response is VirtualMachineImagesListPublishersDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualMachineImagesListSkus200Response
-    | VirtualMachineImagesListSkusDefaultResponse
+  response: VirtualMachineImagesListSkus200Response | VirtualMachineImagesListSkusDefaultResponse
 ): response is VirtualMachineImagesListSkusDefaultResponse;
 export function isUnexpected(
   response:
@@ -2398,9 +2342,7 @@ export function isUnexpected(
     | AvailabilitySetsCreateOrUpdateDefaultResponse
 ): response is AvailabilitySetsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | AvailabilitySetsUpdate200Response
-    | AvailabilitySetsUpdateDefaultResponse
+  response: AvailabilitySetsUpdate200Response | AvailabilitySetsUpdateDefaultResponse
 ): response is AvailabilitySetsUpdateDefaultResponse;
 export function isUnexpected(
   response:
@@ -2417,9 +2359,7 @@ export function isUnexpected(
     | AvailabilitySetsListBySubscriptionDefaultResponse
 ): response is AvailabilitySetsListBySubscriptionDefaultResponse;
 export function isUnexpected(
-  response:
-    | AvailabilitySetsList200Response
-    | AvailabilitySetsListDefaultResponse
+  response: AvailabilitySetsList200Response | AvailabilitySetsListDefaultResponse
 ): response is AvailabilitySetsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -2443,9 +2383,7 @@ export function isUnexpected(
     | ProximityPlacementGroupsDeleteDefaultResponse
 ): response is ProximityPlacementGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ProximityPlacementGroupsGet200Response
-    | ProximityPlacementGroupsGetDefaultResponse
+  response: ProximityPlacementGroupsGet200Response | ProximityPlacementGroupsGetDefaultResponse
 ): response is ProximityPlacementGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -2464,9 +2402,7 @@ export function isUnexpected(
     | DedicatedHostGroupsCreateOrUpdateDefaultResponse
 ): response is DedicatedHostGroupsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | DedicatedHostGroupsUpdate200Response
-    | DedicatedHostGroupsUpdateDefaultResponse
+  response: DedicatedHostGroupsUpdate200Response | DedicatedHostGroupsUpdateDefaultResponse
 ): response is DedicatedHostGroupsUpdateDefaultResponse;
 export function isUnexpected(
   response:
@@ -2475,9 +2411,7 @@ export function isUnexpected(
     | DedicatedHostGroupsDeleteDefaultResponse
 ): response is DedicatedHostGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | DedicatedHostGroupsGet200Response
-    | DedicatedHostGroupsGetDefaultResponse
+  response: DedicatedHostGroupsGet200Response | DedicatedHostGroupsGetDefaultResponse
 ): response is DedicatedHostGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -2496,9 +2430,7 @@ export function isUnexpected(
     | DedicatedHostsCreateOrUpdateDefaultResponse
 ): response is DedicatedHostsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | DedicatedHostsUpdate200Response
-    | DedicatedHostsUpdateDefaultResponse
+  response: DedicatedHostsUpdate200Response | DedicatedHostsUpdateDefaultResponse
 ): response is DedicatedHostsUpdateDefaultResponse;
 export function isUnexpected(
   response:
@@ -2511,14 +2443,10 @@ export function isUnexpected(
   response: DedicatedHostsGet200Response | DedicatedHostsGetDefaultResponse
 ): response is DedicatedHostsGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | DedicatedHostsListByHostGroup200Response
-    | DedicatedHostsListByHostGroupDefaultResponse
+  response: DedicatedHostsListByHostGroup200Response | DedicatedHostsListByHostGroupDefaultResponse
 ): response is DedicatedHostsListByHostGroupDefaultResponse;
 export function isUnexpected(
-  response:
-    | DedicatedHostsRestart200Response
-    | DedicatedHostsRestartDefaultResponse
+  response: DedicatedHostsRestart200Response | DedicatedHostsRestartDefaultResponse
 ): response is DedicatedHostsRestartDefaultResponse;
 export function isUnexpected(
   response:
@@ -2549,9 +2477,7 @@ export function isUnexpected(
   response: SshPublicKeysGet200Response | SshPublicKeysGetDefaultResponse
 ): response is SshPublicKeysGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | SshPublicKeysGenerateKeyPair200Response
-    | SshPublicKeysGenerateKeyPairDefaultResponse
+  response: SshPublicKeysGenerateKeyPair200Response | SshPublicKeysGenerateKeyPairDefaultResponse
 ): response is SshPublicKeysGenerateKeyPairDefaultResponse;
 export function isUnexpected(
   response:
@@ -2560,10 +2486,7 @@ export function isUnexpected(
     | ImagesCreateOrUpdateDefaultResponse
 ): response is ImagesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | ImagesUpdate200Response
-    | ImagesUpdate201Response
-    | ImagesUpdateDefaultResponse
+  response: ImagesUpdate200Response | ImagesUpdate201Response | ImagesUpdateDefaultResponse
 ): response is ImagesUpdateDefaultResponse;
 export function isUnexpected(
   response:
@@ -2576,9 +2499,7 @@ export function isUnexpected(
   response: ImagesGet200Response | ImagesGetDefaultResponse
 ): response is ImagesGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | ImagesListByResourceGroup200Response
-    | ImagesListByResourceGroupDefaultResponse
+  response: ImagesListByResourceGroup200Response | ImagesListByResourceGroupDefaultResponse
 ): response is ImagesListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response: ImagesList200Response | ImagesListDefaultResponse
@@ -2590,9 +2511,7 @@ export function isUnexpected(
     | RestorePointCollectionsCreateOrUpdateDefaultResponse
 ): response is RestorePointCollectionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | RestorePointCollectionsUpdate200Response
-    | RestorePointCollectionsUpdateDefaultResponse
+  response: RestorePointCollectionsUpdate200Response | RestorePointCollectionsUpdateDefaultResponse
 ): response is RestorePointCollectionsUpdateDefaultResponse;
 export function isUnexpected(
   response:
@@ -2602,14 +2521,10 @@ export function isUnexpected(
     | RestorePointCollectionsDeleteDefaultResponse
 ): response is RestorePointCollectionsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | RestorePointCollectionsGet200Response
-    | RestorePointCollectionsGetDefaultResponse
+  response: RestorePointCollectionsGet200Response | RestorePointCollectionsGetDefaultResponse
 ): response is RestorePointCollectionsGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | RestorePointCollectionsList200Response
-    | RestorePointCollectionsListDefaultResponse
+  response: RestorePointCollectionsList200Response | RestorePointCollectionsListDefaultResponse
 ): response is RestorePointCollectionsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -2647,9 +2562,7 @@ export function isUnexpected(
     | CapacityReservationGroupsDeleteDefaultResponse
 ): response is CapacityReservationGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | CapacityReservationGroupsGet200Response
-    | CapacityReservationGroupsGetDefaultResponse
+  response: CapacityReservationGroupsGet200Response | CapacityReservationGroupsGetDefaultResponse
 ): response is CapacityReservationGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -2681,9 +2594,7 @@ export function isUnexpected(
     | CapacityReservationsDeleteDefaultResponse
 ): response is CapacityReservationsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | CapacityReservationsGet200Response
-    | CapacityReservationsGetDefaultResponse
+  response: CapacityReservationsGet200Response | CapacityReservationsGetDefaultResponse
 ): response is CapacityReservationsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -2824,9 +2735,7 @@ export function isUnexpected(
     | DiskEncryptionSetsUpdateDefaultResponse
 ): response is DiskEncryptionSetsUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | DiskEncryptionSetsGet200Response
-    | DiskEncryptionSetsGetDefaultResponse
+  response: DiskEncryptionSetsGet200Response | DiskEncryptionSetsGetDefaultResponse
 ): response is DiskEncryptionSetsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -2841,9 +2750,7 @@ export function isUnexpected(
     | DiskEncryptionSetsListByResourceGroupDefaultResponse
 ): response is DiskEncryptionSetsListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response:
-    | DiskEncryptionSetsList200Response
-    | DiskEncryptionSetsListDefaultResponse
+  response: DiskEncryptionSetsList200Response | DiskEncryptionSetsListDefaultResponse
 ): response is DiskEncryptionSetsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -2891,9 +2798,7 @@ export function isUnexpected(
     | GalleriesDeleteDefaultResponse
 ): response is GalleriesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | GalleriesListByResourceGroup200Response
-    | GalleriesListByResourceGroupDefaultResponse
+  response: GalleriesListByResourceGroup200Response | GalleriesListByResourceGroupDefaultResponse
 ): response is GalleriesListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response: GalleriesList200Response | GalleriesListDefaultResponse
@@ -2919,9 +2824,7 @@ export function isUnexpected(
     | GalleryImagesDeleteDefaultResponse
 ): response is GalleryImagesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | GalleryImagesListByGallery200Response
-    | GalleryImagesListByGalleryDefaultResponse
+  response: GalleryImagesListByGallery200Response | GalleryImagesListByGalleryDefaultResponse
 ): response is GalleryImagesListByGalleryDefaultResponse;
 export function isUnexpected(
   response:
@@ -2931,14 +2834,10 @@ export function isUnexpected(
     | GalleryImageVersionsCreateOrUpdateDefaultResponse
 ): response is GalleryImageVersionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | GalleryImageVersionsUpdate200Response
-    | GalleryImageVersionsUpdateDefaultResponse
+  response: GalleryImageVersionsUpdate200Response | GalleryImageVersionsUpdateDefaultResponse
 ): response is GalleryImageVersionsUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | GalleryImageVersionsGet200Response
-    | GalleryImageVersionsGetDefaultResponse
+  response: GalleryImageVersionsGet200Response | GalleryImageVersionsGetDefaultResponse
 ): response is GalleryImageVersionsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -2960,14 +2859,10 @@ export function isUnexpected(
     | GalleryApplicationsCreateOrUpdateDefaultResponse
 ): response is GalleryApplicationsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | GalleryApplicationsUpdate200Response
-    | GalleryApplicationsUpdateDefaultResponse
+  response: GalleryApplicationsUpdate200Response | GalleryApplicationsUpdateDefaultResponse
 ): response is GalleryApplicationsUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | GalleryApplicationsGet200Response
-    | GalleryApplicationsGetDefaultResponse
+  response: GalleryApplicationsGet200Response | GalleryApplicationsGetDefaultResponse
 ): response is GalleryApplicationsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -2994,9 +2889,7 @@ export function isUnexpected(
     | GalleryApplicationVersionsUpdateDefaultResponse
 ): response is GalleryApplicationVersionsUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | GalleryApplicationVersionsGet200Response
-    | GalleryApplicationVersionsGetDefaultResponse
+  response: GalleryApplicationVersionsGet200Response | GalleryApplicationVersionsGetDefaultResponse
 ): response is GalleryApplicationVersionsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -3023,14 +2916,10 @@ export function isUnexpected(
   response: SharedGalleriesGet200Response | SharedGalleriesGetDefaultResponse
 ): response is SharedGalleriesGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | SharedGalleryImagesList200Response
-    | SharedGalleryImagesListDefaultResponse
+  response: SharedGalleryImagesList200Response | SharedGalleryImagesListDefaultResponse
 ): response is SharedGalleryImagesListDefaultResponse;
 export function isUnexpected(
-  response:
-    | SharedGalleryImagesGet200Response
-    | SharedGalleryImagesGetDefaultResponse
+  response: SharedGalleryImagesGet200Response | SharedGalleryImagesGetDefaultResponse
 ): response is SharedGalleryImagesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -3038,24 +2927,16 @@ export function isUnexpected(
     | SharedGalleryImageVersionsListDefaultResponse
 ): response is SharedGalleryImageVersionsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | SharedGalleryImageVersionsGet200Response
-    | SharedGalleryImageVersionsGetDefaultResponse
+  response: SharedGalleryImageVersionsGet200Response | SharedGalleryImageVersionsGetDefaultResponse
 ): response is SharedGalleryImageVersionsGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | CommunityGalleriesGet200Response
-    | CommunityGalleriesGetDefaultResponse
+  response: CommunityGalleriesGet200Response | CommunityGalleriesGetDefaultResponse
 ): response is CommunityGalleriesGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | CommunityGalleryImagesGet200Response
-    | CommunityGalleryImagesGetDefaultResponse
+  response: CommunityGalleryImagesGet200Response | CommunityGalleryImagesGetDefaultResponse
 ): response is CommunityGalleryImagesGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | CommunityGalleryImagesList200Response
-    | CommunityGalleryImagesListDefaultResponse
+  response: CommunityGalleryImagesList200Response | CommunityGalleryImagesListDefaultResponse
 ): response is CommunityGalleryImagesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -3075,9 +2956,7 @@ export function isUnexpected(
     | CloudServiceRoleInstancesDeleteDefaultResponse
 ): response is CloudServiceRoleInstancesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | CloudServiceRoleInstancesGet200Response
-    | CloudServiceRoleInstancesGetDefaultResponse
+  response: CloudServiceRoleInstancesGet200Response | CloudServiceRoleInstancesGetDefaultResponse
 ): response is CloudServiceRoleInstancesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -3085,9 +2964,7 @@ export function isUnexpected(
     | CloudServiceRoleInstancesGetInstanceViewDefaultResponse
 ): response is CloudServiceRoleInstancesGetInstanceViewDefaultResponse;
 export function isUnexpected(
-  response:
-    | CloudServiceRoleInstancesList200Response
-    | CloudServiceRoleInstancesListDefaultResponse
+  response: CloudServiceRoleInstancesList200Response | CloudServiceRoleInstancesListDefaultResponse
 ): response is CloudServiceRoleInstancesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -3113,14 +2990,10 @@ export function isUnexpected(
     | CloudServiceRoleInstancesGetRemoteDesktopFileDefaultResponse
 ): response is CloudServiceRoleInstancesGetRemoteDesktopFileDefaultResponse;
 export function isUnexpected(
-  response:
-    | CloudServiceRolesGet200Response
-    | CloudServiceRolesGetDefaultResponse
+  response: CloudServiceRolesGet200Response | CloudServiceRolesGetDefaultResponse
 ): response is CloudServiceRolesGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | CloudServiceRolesList200Response
-    | CloudServiceRolesListDefaultResponse
+  response: CloudServiceRolesList200Response | CloudServiceRolesListDefaultResponse
 ): response is CloudServiceRolesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -3142,14 +3015,10 @@ export function isUnexpected(
   response: CloudServicesGet200Response | CloudServicesGetDefaultResponse
 ): response is CloudServicesGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | CloudServicesGetInstanceView200Response
-    | CloudServicesGetInstanceViewDefaultResponse
+  response: CloudServicesGetInstanceView200Response | CloudServicesGetInstanceViewDefaultResponse
 ): response is CloudServicesGetInstanceViewDefaultResponse;
 export function isUnexpected(
-  response:
-    | CloudServicesListAll200Response
-    | CloudServicesListAllDefaultResponse
+  response: CloudServicesListAll200Response | CloudServicesListAllDefaultResponse
 ): response is CloudServicesListAllDefaultResponse;
 export function isUnexpected(
   response: CloudServicesList200Response | CloudServicesListDefaultResponse
@@ -4157,17 +4026,11 @@ function geParametrizedPathSuccess(path: string): string[] {
 
     // If the candidate and actual paths don't match in size
     // we move on to the next candidate path
-    if (
-      candidateParts.length === pathParts.length &&
-      hasParametrizedPath(key)
-    ) {
+    if (candidateParts.length === pathParts.length && hasParametrizedPath(key)) {
       // track if we have found a match to return the values found.
       let found = true;
       for (let i = 0; i < candidateParts.length; i++) {
-        if (
-          candidateParts[i]?.startsWith("{") &&
-          candidateParts[i]?.endsWith("}")
-        ) {
+        if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.endsWith("}")) {
           // If the current part of the candidate is a "template" part
           // it is a match with the actual path part on hand
           // skip as the parameterized part can match anything
