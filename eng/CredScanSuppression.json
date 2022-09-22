@@ -10,7 +10,6 @@
         "password: SecretBaseUnion;",
         "password: SecureString;",
         "secret: SecretFragment,",
-        "SecretPlaceholder",
         "azure_client_secret&scope=https%3A%2F%2Fsanitized%2F"
       ],
       "_justification": "Secret used by test code, it is fake and for testing purpose."
