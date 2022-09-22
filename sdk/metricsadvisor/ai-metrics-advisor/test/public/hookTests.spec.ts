@@ -16,8 +16,8 @@ import { Recorder } from "@azure-tools/test-recorder";
 import {
   matrix,
   getYieldedValue,
+  fakeTestPassPlaceholder,
   fakeTestSecretPlaceholder,
-  fakeTestPassword,
 } from "@azure/test-utils";
 
 matrix([[true, false]] as const, async (useAad) => {
@@ -68,7 +68,7 @@ matrix([[true, false]] as const, async (useAad) => {
           hookParameter: {
             endpoint: "https://httpbin.org/post",
             username: "user",
-            password: fakeTestPassword,
+            password: fakeTestPassPlaceholder,
           },
         };
         const created = await client.createHook(hook);

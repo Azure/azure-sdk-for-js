@@ -7,7 +7,7 @@ import { assert } from "chai";
 import { BatchServiceClient, BatchServiceModels } from "../src/batchServiceClient";
 import moment from "moment";
 import { createClient } from "./utils/recordedClient";
-import { fakeTestCertData, fakeTestPassword1, fakeTestPassword2, fakeTestPassword3 } from "./fakeTestSecrets";
+import { fakeTestCertData, fakeTestPasswordPlaceholder1, fakeTestPasswordPlaceholder2, fakeTestPasswordPlaceholder3 } from "./fakeTestSecrets";
 
 dotenv.config();
 const wait = (timeout = 1000) => new Promise((resolve) => setTimeout(() => resolve(null), timeout));
@@ -84,7 +84,7 @@ describe("Batch Service", () => {
       const cert: BatchServiceModels.CertificateAddParameter = {
         thumbprint: certThumb,
         thumbprintAlgorithm: "sha1",
-        password: fakeTestPassword1,
+        password: fakeTestPasswordPlaceholder1,
         certificateFormat: "pfx",
         data: fakeTestCertData,
       };
@@ -452,14 +452,14 @@ describe("Batch Service", () => {
     });
 
     it("should add a user to a compute node successfully", async () => {
-      const options = { name: TEST_USER, isAdmin: false, password: fakeTestPassword2 };
+      const options = { name: TEST_USER, isAdmin: false, password: fakeTestPasswordPlaceholder2 };
       const result = await client.computeNode.addUser(BASIC_POOL, compute_nodes[0], options);
 
       assert.equal(result._response.status, 201);
     });
 
     it("should update a compute node user successfully", async () => {
-      const options = { password: fakeTestPassword3 };
+      const options = { password: fakeTestPasswordPlaceholder3 };
       const result = await client.computeNode.updateUser(
         BASIC_POOL,
         compute_nodes[0],

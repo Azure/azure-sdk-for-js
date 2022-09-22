@@ -12,7 +12,7 @@ import { HttpMockFacade, getHttpMock } from "./mockHttp";
 import { PassThrough, Readable } from "stream";
 import { ReadStream, createReadStream } from "fs";
 import { TransferProgressEvent, WebResource } from "../src/webResource";
-import { fakeTestPassword, fakeTestSecretPlaceholder } from "@azure/test-utils";
+import { fakeTestPasswordPlaceholder, fakeTestSecretPlaceholder } from "@azure/test-utils";
 import { AbortController } from "@azure/abort-controller";
 import { DefaultHttpClient } from "../src/defaultHttpClient";
 import { OperationSpec } from "../src/operationSpec";
@@ -390,7 +390,7 @@ describe("defaultHttpClient (node)", function () {
       host: "host2",
       port: 8002,
       username: "user2",
-      password: fakeTestPassword,
+      password: fakeTestPasswordPlaceholder,
     };
     const client = new DefaultHttpClient();
 
