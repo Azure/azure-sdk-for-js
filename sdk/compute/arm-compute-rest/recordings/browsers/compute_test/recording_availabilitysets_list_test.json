@@ -5,11 +5,20 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-compute-rest/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "4fb1d274-8ab1-40d3-9a9a-a7bde7759507"
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "d98d2604-de50-4e9e-bbdf-af92a1ba9dd3",
+        "x-ms-useragent": "azsdk-js-arm-compute-rest/1.0.0-beta.1 core-rest-pipeline/1.9.2 OS/Win32"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +26,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 22 Sep 2022 06:56:57 GMT",
+        "Date": "Thu, 22 Sep 2022 07:12:08 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": [
@@ -28,11 +37,11 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "9ec0f54b-d35d-4511-922c-a898ddde0467",
-        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/LowCostGet3Min;3998,Microsoft.Compute/LowCostGet30Min;31993",
-        "x-ms-ratelimit-remaining-subscription-reads": "11998",
-        "x-ms-request-id": "36411c75-28bb-4f7e-a5fd-2b55853f2dfe",
-        "x-ms-routing-request-id": "KOREASOUTH:20220922T065658Z:9ec0f54b-d35d-4511-922c-a898ddde0467"
+        "x-ms-correlation-request-id": "3d609220-633c-4e8a-b804-2c507e9f19e8",
+        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/LowCostGet3Min;3998,Microsoft.Compute/LowCostGet30Min;31987",
+        "x-ms-ratelimit-remaining-subscription-reads": "11986",
+        "x-ms-request-id": "b9aa60b6-9a5c-4645-8b65-92e0ad56b35c",
+        "x-ms-routing-request-id": "KOREASOUTH:20220922T071209Z:3d609220-633c-4e8a-b804-2c507e9f19e8"
       },
       "ResponseBody": {
         "value": [
