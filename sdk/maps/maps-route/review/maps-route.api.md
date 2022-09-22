@@ -401,7 +401,9 @@ export class MapsRouteClient {
 }
 
 // @public
-export type MapsRouteClientOptions = CommonClientOptions;
+export type MapsRouteClientOptions = CommonClientOptions & {
+    endpoint?: string;
+};
 
 // @public
 export type Position = Position2D | Position3D;

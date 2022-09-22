@@ -17,6 +17,49 @@ import { MapsRouteClient } from "src/mapsRouteClient";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
+describe("Endpoint can be overwritten", function (this: Suite) {
+  let recorder: Recorder;
+  const fastTimeout = 10000;
+
+  beforeEach(async function (this: Context) {
+    testLogger.verbose(`Recorder: starting...`);
+    recorder = await createRecorder(this);
+  });
+
+  afterEach(async function () {
+    testLogger.verbose(`Recorder: stopping...`);
+    await recorder.stop();
+  });
+
+  before(function (this: Context) {
+    this.timeout(fastTimeout);
+  });
+
+  it("should be executed without specifying endpoint", async function () {
+    const client = createClient(recorder.configureClientOptions({}));
+    const routePoints: LatLon[] = [
+      [52.50931, 13.42936],
+      [52.50274, 13.43872],
+    ];
+    const routeDirectionsResult = await client.getRouteDirections(routePoints);
+
+    assert.isOk(routeDirectionsResult.routes);
+  });
+
+  it("should be executed with different endpoint", async function () {
+    const client = createClient(
+      recorder.configureClientOptions({ endpoint: "https://us.atlas.microsoft.com/" })
+    );
+    const routePoints: LatLon[] = [
+      [52.50931, 13.42936],
+      [52.50274, 13.43872],
+    ];
+    const routeDirectionsResult = await client.getRouteDirections(routePoints);
+
+    assert.isOk(routeDirectionsResult.routes);
+  });
+});
+
 describe("Get Route Directions", function (this: Suite) {
   let recorder: Recorder;
   let client: MapsRouteClient;

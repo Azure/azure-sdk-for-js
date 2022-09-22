@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://atlas.microsoft.com/route/directions/json?api-version=1.0\u0026vehicleAxleWeight=0\u0026vehicleLength=0\u0026vehicleHeight=0\u0026vehicleWidth=0\u0026vehicleMaxSpeed=0\u0026vehicleWeight=0\u0026query=52.50931%2C13.42936%3A52.50274%2C13.43872\u0026vehicleCommercial=false",
+      "RequestUri": "https://us.atlas.microsoft.com/route/directions/json?api-version=1.0\u0026vehicleAxleWeight=0\u0026vehicleLength=0\u0026vehicleHeight=0\u0026vehicleWidth=0\u0026vehicleMaxSpeed=0\u0026vehicleWeight=0\u0026query=52.50931%2C13.42936%3A52.50274%2C13.43872\u0026vehicleCommercial=false",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,7 +9,7 @@
         "Connection": "keep-alive",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "azsdk-js-maps-route/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
-        "x-ms-client-request-id": "625ef638-1780-4e29-99c6-284cc52449bd"
+        "x-ms-client-request-id": "a2155e82-0693-4e00-96a5-8940a0ca1aa3"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,14 +17,14 @@
         "Cache-Control": "no-transform, no-cache",
         "Content-Length": "1796",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 22 Sep 2022 03:33:20 GMT",
+        "Date": "Thu, 22 Sep 2022 03:33:19 GMT",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: A182CF17B8004E2FA4FC7F18EF75939B Ref B: SIN30EDGE0508 Ref C: 2022-09-22T03:33:20Z"
+        "x-ms-azuremaps-region": "East US",
+        "X-MSEdge-Ref": "Ref A: BDFC39E2F3A94049AF16BB2590067708 Ref B: SIN30EDGE0809 Ref C: 2022-09-22T03:33:19Z"
       },
       "ResponseBody": {
         "formatVersion": "0.0.12",

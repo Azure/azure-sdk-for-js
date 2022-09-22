@@ -22,7 +22,10 @@ import { GeoJsonMultiPoint, LatLon } from "./models";
 /**
  * Client options used to configure the Maps Route Client
  */
-export type MapsRouteClientOptions = CommonClientOptions;
+export type MapsRouteClientOptions = CommonClientOptions & {
+  /** Overrides client endpoint. Default: "https://atlas.microsoft.com"*/
+  endpoint?: string;
+};
 
 /**
  * Base options for route operations
