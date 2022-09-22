@@ -14541,7 +14541,7 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-N37vSXrSb3VaEpjLKwotn/eu7I2YHF6eK011ptpfTAdB6kLRxctaqGhlgTgrwvFrzspx+ynuGESVH4DuTrPlZg==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-mbkn5a35Dt8Pt3zzkZ1DhDGXCLM/D0B2piwwDwrazvUENmYd6F3IMrvxnPE3wwEEqoEs8O7iFRfKPamsf35VaQ==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
@@ -14553,6 +14553,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14560,11 +14562,10 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 

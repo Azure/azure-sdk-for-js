@@ -39,7 +39,7 @@ export class SettingsImpl implements Settings {
   }
 
   /**
-   * Settings about different configurations in security center
+   * Settings about different configurations in Microsoft Defender for Cloud
    * @param options The options parameters.
    */
   public list(
@@ -81,7 +81,7 @@ export class SettingsImpl implements Settings {
   }
 
   /**
-   * Settings about different configurations in security center
+   * Settings about different configurations in Microsoft Defender for Cloud
    * @param options The options parameters.
    */
   private _list(
@@ -91,7 +91,7 @@ export class SettingsImpl implements Settings {
   }
 
   /**
-   * Settings of different configurations in security center
+   * Settings of different configurations in Microsoft Defender for Cloud
    * @param settingName The name of the setting
    * @param options The options parameters.
    */
@@ -106,7 +106,7 @@ export class SettingsImpl implements Settings {
   }
 
   /**
-   * updating settings about different configurations in security center
+   * updating settings about different configurations in Microsoft Defender for Cloud
    * @param settingName The name of the setting
    * @param setting Setting object
    * @param options The options parameters.
