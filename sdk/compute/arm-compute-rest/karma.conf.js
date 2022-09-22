@@ -54,6 +54,7 @@ module.exports = function(config) {
     },
 
     envPreprocessor: [
+      "RECORDINGS_RELATIVE_PATH",
       "TEST_MODE",
       "ENDPOINT",
       "AZURE_CLIENT_SECRET",

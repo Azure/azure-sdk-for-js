@@ -37,8 +37,10 @@ export function getLongRunningPoller<TResult extends HttpResponse>(
       // to get the latest status. We use the client provided and the polling path
       // which is an opaque URL provided by caller, the service sends this in one of the following headers: operation-location, azure-asyncoperation or location
       // depending on the lro pattern that the service implements. If non is provided we default to the initial path.
+      const pollPath =
+        (path ?? initialResponse.request.url).replace("http://localhost:2345", "https://management.azure.com");
       const response = await client
-        .pathUnchecked(path ?? initialResponse.request.url)
+        .pathUnchecked(pollPath )
         .get();
       const lroResponse = getLroResponse(response as TResult);
       lroResponse.rawResponse.headers["x-ms-original-url"] =
