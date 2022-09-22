@@ -1686,7 +1686,7 @@ matrix(
                   method: "GET",
                   path: pollingPath,
                   status: 400,
-                  body: `{ "message" : "Expected bad request message" }`,
+                  body: `{ "message" : "Expected bad request message", "status": 400 }`,
                 },
               ],
             }),
@@ -1695,7 +1695,7 @@ matrix(
               statusCode: 400,
             },
             notThrowing: {
-              messagePattern: /The long-running operation has failed/,
+              messagePattern: /Polling was unsuccessful/,
             },
           });
         });
