@@ -102,7 +102,8 @@ export class PollerCancelledError extends Error {
 export abstract class Poller<TState extends PollOperationState<TResult>, TResult>
   implements PollerLike<TState, TResult>
 {
-  protected errorOnUnsuccessful: boolean = true;
+  /** controls whether to throw an error if the operation failed or was canceled. */
+  protected resolveOnUnsuccessful: boolean = false;
   private stopped: boolean = true;
   private resolve?: (value: TResult) => void;
   private reject?: (error: PollerStoppedError | PollerCancelledError | Error) => void;
@@ -299,14 +300,14 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   private processUpdatedState(): void {
     if (this.operation.state.error) {
       this.stopped = true;
-      if (this.errorOnUnsuccessful) {
+      if (!this.resolveOnUnsuccessful) {
         this.reject!(this.operation.state.error);
         throw this.operation.state.error;
       }
     }
     if (this.operation.state.isCancelled) {
       this.stopped = true;
-      if (this.errorOnUnsuccessful) {
+      if (!this.resolveOnUnsuccessful) {
         const error = new PollerCancelledError("Operation was canceled");
         this.reject!(error);
         throw error;

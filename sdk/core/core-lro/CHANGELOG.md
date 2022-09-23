@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Add `errorOnUnsuccessful` to `CreatePollerOptions` and `LroEngineOptions` to control whether to throw an error if the operation failed or was canceled.
+- Add `resolveOnUnsuccessful` to `CreatePollerOptions` and `LroEngineOptions` to control whether to throw an error if the operation failed or was canceled.
 
 ### Breaking Changes
 

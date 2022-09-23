@@ -55,7 +55,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     getStatusFromPollResponse,
     getResourceLocation,
     getPollingInterval,
-    errorOnUnsuccessful,
+    resolveOnUnsuccessful,
   } = inputs;
   return async (
     { init, poll }: Operation<TResponse, { abortSignal?: AbortSignalLike }>,
@@ -87,7 +87,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           processResult,
           getOperationStatus: getStatusFromInitialResponse,
           withOperationLocation,
-          setErrorAsResult: errorOnUnsuccessful,
+          setErrorAsResult: !resolveOnUnsuccessful,
         });
     let resultPromise: Promise<TResult> | undefined;
     let cancelJob: (() => void) | undefined;
@@ -137,11 +137,11 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
               return poller.getResult() as TResult;
             }
             case "canceled": {
-              if (errorOnUnsuccessful) throw new Error("Operation was canceled");
+              if (!resolveOnUnsuccessful) throw new Error("Operation was canceled");
               return poller.getResult() as TResult;
             }
             case "failed": {
-              if (errorOnUnsuccessful) throw state.error;
+              if (!resolveOnUnsuccessful) throw state.error;
               return poller.getResult() as TResult;
             }
             case "notStarted":
@@ -169,13 +169,13 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           setDelay: (pollIntervalInMs) => {
             currentPollIntervalInMs = pollIntervalInMs;
           },
-          setErrorAsResult: errorOnUnsuccessful,
+          setErrorAsResult: !resolveOnUnsuccessful,
         });
         await handleProgressEvents();
-        if (state.status === "canceled" && errorOnUnsuccessful) {
+        if (state.status === "canceled" && !resolveOnUnsuccessful) {
           throw new Error("Operation was canceled");
         }
-        if (state.status === "failed" && errorOnUnsuccessful) {
+        if (state.status === "failed" && !resolveOnUnsuccessful) {
           throw state.error;
         }
       },

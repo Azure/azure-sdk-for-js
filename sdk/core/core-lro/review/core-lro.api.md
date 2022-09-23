@@ -14,9 +14,9 @@ export function createHttpPoller<TResult, TState extends OperationState<TResult>
 
 // @public
 export interface CreateHttpPollerOptions<TResult, TState> {
-    errorOnUnsuccessful?: boolean;
     intervalInMs?: number;
     processResult?: (result: unknown, state: TState) => TResult;
+    resolveOnUnsuccessful?: boolean;
     resourceLocationConfig?: LroResourceLocationConfig;
     restoreFrom?: string;
     updateState?: (state: TState, response: LroResponse) => void;
@@ -41,11 +41,11 @@ export class LroEngine<TResult, TState extends PollOperationState<TResult>> exte
 
 // @public
 export interface LroEngineOptions<TResult, TState> {
-    errorOnUnsuccessful?: boolean;
     intervalInMs?: number;
     isDone?: (lastResponse: unknown, state: TState) => boolean;
     lroResourceLocationConfig?: LroResourceLocationConfig;
     processResult?: (result: unknown, state: TState) => TResult;
+    resolveOnUnsuccessful?: boolean;
     resumeFrom?: string;
     updateState?: (state: TState, lastResponse: RawResponse) => void;
 }
@@ -88,6 +88,7 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
     pollUntilDone(pollOptions?: {
         abortSignal?: AbortSignalLike;
     }): Promise<TResult>;
+    protected resolveOnUnsuccessful: boolean;
     stopPolling(): void;
     toString(): string;
 }

@@ -23,7 +23,7 @@ export class LroEngine<TResult, TState extends PollOperationState<TResult>> exte
     const {
       intervalInMs = POLL_INTERVAL_IN_MS,
       resumeFrom,
-      errorOnUnsuccessful = true,
+      resolveOnUnsuccessful = false,
       isDone,
       lroResourceLocationConfig,
       processResult,
@@ -35,14 +35,14 @@ export class LroEngine<TResult, TState extends PollOperationState<TResult>> exte
     const operation = new GenericPollOperation(
       state,
       lro,
-      errorOnUnsuccessful,
+      !resolveOnUnsuccessful,
       lroResourceLocationConfig,
       processResult,
       updateState,
       isDone
     );
     super(operation);
-    this.errorOnUnsuccessful = errorOnUnsuccessful;
+    this.resolveOnUnsuccessful = resolveOnUnsuccessful;
 
     this.config = { intervalInMs: intervalInMs };
     operation.setPollerConfig(this.config);

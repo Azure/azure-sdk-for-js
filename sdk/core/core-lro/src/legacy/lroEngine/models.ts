@@ -32,9 +32,9 @@ export interface LroEngineOptions<TResult, TState> {
    */
   isDone?: (lastResponse: unknown, state: TState) => boolean;
   /**
-   * Control whether to throw an exception when the operation has failed or been canceled.
+   * Control whether to throw an exception if the operation failed or was canceled.
    */
-  errorOnUnsuccessful?: boolean;
+  resolveOnUnsuccessful?: boolean;
 }
 
 export interface PollerConfig {
