@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Deletes virtual machines in a VM scale set.
  *
  * @summary Deletes virtual machines in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_DeleteInstances_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_DeleteInstances_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsDeleteInstancesMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -45,7 +45,7 @@ virtualMachineScaleSetsDeleteInstancesMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Deletes virtual machines in a VM scale set.
  *
  * @summary Deletes virtual machines in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_DeleteInstances_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_DeleteInstances_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsDeleteInstancesMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

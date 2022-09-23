@@ -14,7 +14,9 @@ import {
   NetAppResourceCheckFilePathAvailabilityResponse,
   CheckQuotaNameResourceTypes,
   NetAppResourceCheckQuotaAvailabilityOptionalParams,
-  NetAppResourceCheckQuotaAvailabilityResponse
+  NetAppResourceCheckQuotaAvailabilityResponse,
+  NetAppResourceQueryRegionInfoOptionalParams,
+  NetAppResourceQueryRegionInfoResponse
 } from "../models";
 
 /** Interface representing a NetAppResource. */
@@ -63,4 +65,13 @@ export interface NetAppResource {
     typeParam: CheckQuotaNameResourceTypes,
     options?: NetAppResourceCheckQuotaAvailabilityOptionalParams
   ): Promise<NetAppResourceCheckQuotaAvailabilityResponse>;
+  /**
+   * Provides storage to network proximity and logical zone mapping information.
+   * @param location The location
+   * @param options The options parameters.
+   */
+  queryRegionInfo(
+    location: string,
+    options?: NetAppResourceQueryRegionInfoOptionalParams
+  ): Promise<NetAppResourceQueryRegionInfoResponse>;
 }

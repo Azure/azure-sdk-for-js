@@ -68,7 +68,7 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
     const updateState = this.updateState;
     const isDone = this.isDone;
 
-    if (!this.state.isCompleted) {
+    if (!this.state.isCompleted && this.state.error === undefined) {
       await pollHttpOperation({
         lro: this.lro,
         state: this.state,
