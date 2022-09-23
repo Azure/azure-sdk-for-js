@@ -68,7 +68,11 @@ function toLroProcessors(responses: LroResponseSpec[]): RouteProcessor[] {
 function createRouteKey({ method, path }: { path: string; method: string }): string {
   return method + ":" + path;
 }
-function createClient(routes: RouteProcessor[]): HttpClient {
+function createClient(inputs: {
+  routes: RouteProcessor[];
+  throwOnNon2xxResponse?: boolean;
+}): HttpClient {
+  const { routes, throwOnNon2xxResponse = true } = inputs;
   const routesTable = new Map(routes.map((route) => [createRouteKey(route), route]));
   return {
     async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
@@ -80,12 +84,11 @@ function createClient(routes: RouteProcessor[]): HttpClient {
       const route = routesTable.get(createRouteKey({ method, path }));
       if (route !== undefined) {
         const response = getYieldedValue(route.process.next())(request);
-        if (response.status >= 400) {
-          const error = new RestError(
+        if (response.status >= 400 && throwOnNon2xxResponse) {
+          throw new RestError(
             `Received unexpected HTTP status code ${response.status} while polling. This may indicate a server issue.`,
             { statusCode: response.status }
           );
-          throw error;
         }
         return response;
       }
@@ -123,6 +126,7 @@ export function createTestPoller(settings: {
   processResult?: (result: unknown, state: State) => Result;
   updateState?: (state: State, lastResponse: LroResponse<Result>) => void;
   implName?: ImplementationName;
+  throwOnNon2xxResponse?: boolean;
 }): Promise<SimplePollerLike<State, Result>> {
   const {
     routes,
@@ -130,8 +134,9 @@ export function createTestPoller(settings: {
     processResult,
     updateState,
     implName = "createPoller",
+    throwOnNon2xxResponse = true,
   } = settings;
-  const client = createClient(toLroProcessors(routes));
+  const client = createClient({ routes: toLroProcessors(routes), throwOnNon2xxResponse });
   const { method: requestMethod, path = initialPath } = routes[0];
   const lro = createCoreRestPipelineLro({
     sendOperationFn: createSendOp({ client }),
@@ -179,6 +184,7 @@ async function runLro<TState>(settings: {
   processResult?: (result: unknown, state: TState) => Result;
   updateState?: (state: TState, lastResponse: RawResponse) => void;
   implName?: ImplementationName;
+  throwOnNon2xxResponse?: boolean;
 }): Promise<Result> {
   const {
     routes,
@@ -187,6 +193,7 @@ async function runLro<TState>(settings: {
     processResult,
     updateState,
     implName = "createPoller",
+    throwOnNon2xxResponse = true,
   } = settings;
   const poller = await createTestPoller({
     routes,
@@ -194,6 +201,7 @@ async function runLro<TState>(settings: {
     processResult,
     updateState: (state, { rawResponse }) => updateState?.(state, rawResponse),
     implName,
+    throwOnNon2xxResponse,
   });
   if (onProgress !== undefined) {
     poller.onProgress(onProgress);
@@ -201,8 +209,8 @@ async function runLro<TState>(settings: {
   return poller.pollUntilDone();
 }
 
-export const createRunLroWithImpl =
-  <TState>(implName: ImplementationName) =>
+export const createRunLroWith =
+  <TState>(variables: { implName: ImplementationName; throwOnNon2xxResponse?: boolean }) =>
   (settings: {
     routes: LroResponseSpec[];
     onProgress?: (state: TState) => void;
@@ -210,4 +218,4 @@ export const createRunLroWithImpl =
     processResult?: (result: unknown, state: TState) => Result;
     updateState?: (state: TState, lastResponse: RawResponse) => void;
   }): Promise<Result> =>
-    runLro({ ...settings, implName });
+    runLro({ ...settings, ...variables });
