@@ -36,13 +36,6 @@ function processOperationStatus<TState, TResult>(result: {
   stateProxy: StateProxy<TState, TResult>;
 }): void {
   const { state, stateProxy, status } = result;
-  logger.verbose(
-    `LRO: Status:\n\tPolling from: ${
-      state.config.operationLocation
-    }\n\tOperation status: ${status}\n\tPolling status: ${
-      terminalStates.includes(status) ? "Stopped" : "Running"
-    }`
-  );
   switch (status) {
     case "succeeded": {
       stateProxy.setSucceeded(state);
@@ -75,10 +68,11 @@ function buildResult<TResponse, TResult, TState>(inputs: {
 export async function initOperation<TResponse, TResult, TState>(inputs: {
   init: Operation<TResponse, unknown>["init"];
   stateProxy: StateProxy<TState, TResult>;
-  getOperationStatus: (
-    response: TResponse,
-    state: RestorableOperationState<TState>
-  ) => OperationStatus;
+  getOperationStatus: (inputs: {
+    response: TResponse;
+    state: RestorableOperationState<TState>;
+    operationLocation?: string;
+  }) => OperationStatus;
   processResult?: (result: TResponse, state: TState) => TResult;
   withOperationLocation?: (operationLocation: string, isUpdated: boolean) => void;
 }): Promise<RestorableOperationState<TState>> {
@@ -92,9 +86,9 @@ export async function initOperation<TResponse, TResult, TState>(inputs: {
   };
   logger.verbose(`LRO: Operation description:`, config);
   const state = stateProxy.initState(config);
-  const status = getOperationStatus(response, state);
-  if (status === "succeeded" || operationLocation === undefined) {
-    stateProxy.setSucceeded(state);
+  const status = getOperationStatus({ response, state, operationLocation });
+  processOperationStatus({ state, status, stateProxy });
+  if (status === "succeeded") {
     stateProxy.setResult(
       state,
       buildResult({
@@ -141,6 +135,13 @@ async function pollOperationHelper<TResponse, TState, TResult, TOptions>(inputs:
     })
   );
   const status = getOperationStatus(response, state);
+  logger.verbose(
+    `LRO: Status:\n\tPolling from: ${
+      state.config.operationLocation
+    }\n\tOperation status: ${status}\n\tPolling status: ${
+      terminalStates.includes(status) ? "Stopped" : "Running"
+    }`
+  );
   processOperationStatus({
     status,
     state,
