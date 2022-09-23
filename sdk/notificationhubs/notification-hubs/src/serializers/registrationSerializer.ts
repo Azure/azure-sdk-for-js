@@ -176,7 +176,9 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
       return results;
     }
 
-    for (const entry of xml.feed.entry) {
+    const entries = Array.isArray(xml.feed.entry) ? xml.feed.entry : [xml.feed.entry];
+
+    for (const entry of entries) {
       delete entry.content["$"];
 
       const keyName = Object.keys(entry.content)[0];

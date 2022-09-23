@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Returns an attached database configuration.
  *
  * @summary Returns an attached database configuration.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoAttachedDatabaseConfigurationsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoAttachedDatabaseConfigurationsGet.json
  */
 async function attachedDatabaseConfigurationsGet() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";

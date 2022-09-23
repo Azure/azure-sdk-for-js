@@ -6,7 +6,7 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 ### Currently supported environments
 
-- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### Prerequisites
@@ -25,7 +25,7 @@ npm install --save @azure/arm-authorization-profile-2019-03-01-hybrid @azure/ide
 ```
 
 > **Note**: You may have used either `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` in the past. These packages are in maintenance mode receiving critical bug fixes, but no new features.
-If you are on a [Node.js that has LTS status](https://nodejs.org/about/releases/), or are writing a client side browser application, we strongly encourage you to upgrade to `@azure/identity` which uses the latest versions of Azure Active Directory and MSAL APIs and provides more authentication options.
+If you are on a [Node.js that has LTS status](https://github.com/nodejs/release#release-schedule), or are writing a client side browser application, we strongly encourage you to upgrade to `@azure/identity` which uses the latest versions of Azure Active Directory and MSAL APIs and provides more authentication options.
 
 ### How to use
 

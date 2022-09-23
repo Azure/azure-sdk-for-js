@@ -3,7 +3,7 @@
 
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { NoOpCredential } from "@azure-tools/test-credential";
 
@@ -55,7 +55,7 @@ onVersions({ minVer: "7.2" }).describe(
         cryptoClient = new CryptographyClient(
           keyVaultKey.id!,
           credential,
-          recorder.configureClientOptions({})
+          recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() })
         );
         const text = this.test!.title;
         const encryptResult = await cryptoClient.encrypt({
@@ -83,7 +83,7 @@ onVersions({ minVer: "7.2" }).describe(
         cryptoClient = new CryptographyClient(
           keyVaultKey.id!,
           credential,
-          recorder.configureClientOptions({})
+          recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() })
         );
         const text = this.test!.title;
         // We are using a predictable IV to support our recorded tests; however, you should use a cryptographically secure IV or omit it and

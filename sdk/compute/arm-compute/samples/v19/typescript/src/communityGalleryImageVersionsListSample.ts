@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List community gallery image versions inside an image.
  *
  * @summary List community gallery image versions inside an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/communityGalleryExamples/CommunityGalleryImageVersion_List.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/communityGalleryExamples/CommunityGalleryImageVersion_List.json
  */
 async function listCommunityGalleryImageVersions() {
   const subscriptionId = "{subscription-id}";

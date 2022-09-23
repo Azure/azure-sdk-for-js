@@ -8,7 +8,6 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { TokenResponseParsedBody } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
 import { AuthenticationError } from "../../errors";
 import { tracingClient } from "../../util/tracing";
@@ -18,27 +17,6 @@ import { mapScopesToResource } from "./utils";
 
 const msiName = "ManagedIdentityCredential - IMDS";
 const logger = credentialLogger(msiName);
-
-/**
- * Formats the expiration date of the received token into the number of milliseconds between that date and midnight, January 1, 1970.
- */
-function expiresOnParser(requestBody: TokenResponseParsedBody): number {
-  if (requestBody.expires_on) {
-    // Use the expires_on timestamp if it's available
-    const expires = +requestBody.expires_on * 1000;
-    logger.info(
-      `${msiName}: Using expires_on: ${expires} (original value: ${requestBody.expires_on})`
-    );
-    return expires;
-  } else {
-    // If these aren't possible, use expires_in and calculate a timestamp
-    const expires = Date.now() + requestBody.expires_in * 1000;
-    logger.info(
-      `${msiName}: IMDS using expires_in: ${expires} (original value: ${requestBody.expires_in})`
-    );
-    return expires;
-  }
-}
 
 /**
  * Generates the options used on the request for an access token.
@@ -194,7 +172,7 @@ export const imdsMsi: MSI = {
           ...prepareRequestOptions(scopes, clientId, resourceId),
           allowInsecureConnection: true,
         });
-        const tokenResponse = await identityClient.sendTokenRequest(request, expiresOnParser);
+        const tokenResponse = await identityClient.sendTokenRequest(request);
         return (tokenResponse && tokenResponse.accessToken) || null;
       } catch (error: any) {
         if (error.statusCode === 404) {
