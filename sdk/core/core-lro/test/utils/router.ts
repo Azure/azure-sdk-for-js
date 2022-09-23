@@ -92,9 +92,17 @@ function createClient(inputs: {
         }
         return response;
       }
-      throw new RestError(`Route for ${method} request to ${path} was not found`, {
-        statusCode: 404,
-      });
+      const message = `Route for ${method} request to ${path} was not found`;
+      if (throwOnNon2xxResponse)
+        throw new RestError(message, {
+          statusCode: 404,
+        });
+      return {
+        bodyAsText: JSON.stringify({ message }),
+        status: 404,
+        request,
+        headers: createHttpHeaders(),
+      };
     },
   };
 }

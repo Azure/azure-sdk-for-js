@@ -1931,8 +1931,8 @@ matrix(
         });
 
         it("should handle putAsyncRelativeRetryInvalidHeader ", async () => {
-          await assertError(
-            runLro({
+          await assertDivergentBehavior({
+            op: runLro({
               routes: [
                 {
                   method: "PUT",
@@ -1945,10 +1945,16 @@ matrix(
                 },
               ],
             }),
-            {
+            throwOnNon2xxResponse,
+            throwing: {
               statusCode: 404,
-            }
-          );
+            },
+            notThrowing: {
+              partResult: {
+                statusCode: 404,
+              },
+            },
+          });
         });
 
         it("should handle putAsyncRelativeRetryInvalidJsonPolling ", async () => {
@@ -1980,8 +1986,8 @@ matrix(
         });
 
         it("should handle delete202RetryInvalidHeader ", async () => {
-          await assertError(
-            runLro({
+          await assertDivergentBehavior({
+            op: runLro({
               routes: [
                 {
                   method: "DELETE",
@@ -1993,15 +1999,21 @@ matrix(
                 },
               ],
             }),
-            {
+            throwOnNon2xxResponse,
+            throwing: {
               statusCode: 404,
-            }
-          );
+            },
+            notThrowing: {
+              partResult: {
+                statusCode: 404,
+              },
+            },
+          });
         });
 
         it("should handle deleteAsyncRelativeRetryInvalidHeader ", async () => {
-          await assertError(
-            runLro({
+          await assertDivergentBehavior({
+            op: runLro({
               routes: [
                 {
                   method: "DELETE",
@@ -2013,10 +2025,16 @@ matrix(
                 },
               ],
             }),
-            {
+            throwOnNon2xxResponse,
+            throwing: {
               statusCode: 404,
-            }
-          );
+            },
+            notThrowing: {
+              partResult: {
+                statusCode: 404,
+              },
+            },
+          });
         });
 
         it("should handle DeleteAsyncRelativeRetryInvalidJsonPolling ", async () => {
@@ -2047,8 +2065,8 @@ matrix(
         });
 
         it("should handle post202RetryInvalidHeader ", async () => {
-          await assertError(
-            runLro({
+          await assertDivergentBehavior({
+            op: runLro({
               routes: [
                 {
                   method: "POST",
@@ -2060,15 +2078,21 @@ matrix(
                 },
               ],
             }),
-            {
+            throwOnNon2xxResponse,
+            throwing: {
               statusCode: 404,
-            }
-          );
+            },
+            notThrowing: {
+              partResult: {
+                statusCode: 404,
+              },
+            },
+          });
         });
 
         it("should handle postAsyncRelativeRetryInvalidHeader ", async () => {
-          await assertError(
-            runLro({
+          await assertDivergentBehavior({
+            op: runLro({
               routes: [
                 {
                   method: "POST",
@@ -2080,10 +2104,16 @@ matrix(
                 },
               ],
             }),
-            {
+            throwOnNon2xxResponse,
+            throwing: {
               statusCode: 404,
-            }
-          );
+            },
+            notThrowing: {
+              partResult: {
+                statusCode: 404,
+              },
+            },
+          });
         });
 
         it("should handle postAsyncRelativeRetryInvalidJsonPolling ", async () => {
