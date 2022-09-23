@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -6,7 +9,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
@@ -17,20 +20,20 @@ import {
   AvailabilitySetsListParameters,
   AvailabilitySetsUpdateParameters,
   ComputeManagementClient,
-  getLongRunningPoller,
-  isUnexpected,
-  paginate,
   VirtualMachinesCreateOrUpdateParameters,
   VirtualMachinesDeleteParameters,
   VirtualMachinesGetParameters,
   VirtualMachinesListParameters,
   VirtualMachinesUpdateParameters,
+  getLongRunningPoller,
+  isUnexpected,
+  paginate,
 } from "../../src";
 import {
-  NetworkManagementClient,
-  VirtualNetwork,
-  Subnet,
   NetworkInterface,
+  NetworkManagementClient,
+  Subnet,
+  VirtualNetwork,
 } from "@azure/arm-network";
 import { createTestComputeManagementClient } from "./utils/recordedClient";
 
@@ -90,7 +93,7 @@ describe("Compute test", () => {
     await recorder.stop();
   });
 
-  //network_client.virtualNetworks.createOrUpdate
+  // network_client.virtualNetworks.createOrUpdate
   async function createVirtualNetwork() {
     const parameter: VirtualNetwork = {
       location: location,
@@ -118,8 +121,8 @@ describe("Compute test", () => {
     console.log(subnet__create_info);
   }
 
-  //network_client.networkInterfaces.createOrUpdate
-  async function createNetworkInterface(group_name: any, location: any, nic_name: any) {
+  // network_client.networkInterfaces.createOrUpdate
+  async function createNetworkInterface(group_name: any, nic_name: any) {
     const parameter: NetworkInterface = {
       location: location,
       ipConfigurations: [
@@ -263,7 +266,7 @@ describe("Compute test", () => {
 
   it("virtualMachines create test", async function () {
     await createVirtualNetwork();
-    await createNetworkInterface(resourceGroupName, location, interface_name);
+    await createNetworkInterface(resourceGroupName, interface_name);
     const options: VirtualMachinesCreateOrUpdateParameters = {
       body: {
         location: location,

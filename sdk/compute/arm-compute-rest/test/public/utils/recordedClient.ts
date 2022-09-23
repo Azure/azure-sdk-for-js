@@ -38,7 +38,10 @@ export function createTestComputeManagementClient(
   credentials: TokenCredential,
   options: ClientOptions = {}
 ): ComputeManagementClient {
-  const client = createComputeManagementClient(credentials, recorder.configureClientOptions(options));
+  const client = createComputeManagementClient(
+    credentials,
+    recorder.configureClientOptions(options)
+  );
   client.pipeline.addPolicy(customizedTestPolicy(), {
     beforePolicies: ["bearerTokenAuthenticationPolicy"],
   });
