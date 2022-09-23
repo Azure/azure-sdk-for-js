@@ -11,7 +11,7 @@ export function customizedTestPolicy(): PipelinePolicy {
     sendRequest: (req, next) => {
       const isLocalUrlReg: RegExp = /http:\/\/localhost:([0-9.\-A-Za-z]+)\//;
       if (isLocalUrlReg.test(req.url)) {
-        req.url = req.url.replace(isLocalUrlReg, "https://management.azure.com");
+        req.url = req.url.replace(isLocalUrlReg, "https://management.azure.com/");
       }
       return next(req);
     },
