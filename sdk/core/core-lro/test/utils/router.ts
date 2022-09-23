@@ -93,10 +93,11 @@ function createClient(inputs: {
         return response;
       }
       const message = `Route for ${method} request to ${path} was not found`;
-      if (throwOnNon2xxResponse)
+      if (throwOnNon2xxResponse) {
         throw new RestError(message, {
           statusCode: 404,
         });
+      }
       return {
         bodyAsText: JSON.stringify({ message }),
         status: 404,
