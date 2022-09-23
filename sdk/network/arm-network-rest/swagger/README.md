@@ -1,6 +1,6 @@
 # Azure AppService TypeScript Protocol Layer
 
->see https://aka.ms/autorest
+> see https://aka.ms/autorest
 
 ## Configuration
 
@@ -14,7 +14,7 @@ generate-sample: true
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/038882131730aab4173898d9ce4c3c0555deba25/specification/network/resource-manager/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/038882131730aab4173898d9ce4c3c0555deba25/specification/network/resource-manager/readme.md
 package-version: 1.0.0-beta.1
 rest-level-client: true
 add-credentials: true
