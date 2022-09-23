@@ -75,8 +75,16 @@ export async function initOperation<TResponse, TResult, TState>(inputs: {
   }) => OperationStatus;
   processResult?: (result: TResponse, state: TState) => TResult;
   withOperationLocation?: (operationLocation: string, isUpdated: boolean) => void;
+  setErrorAsResult: boolean;
 }): Promise<RestorableOperationState<TState>> {
-  const { init, stateProxy, processResult, getOperationStatus, withOperationLocation } = inputs;
+  const {
+    init,
+    stateProxy,
+    processResult,
+    getOperationStatus,
+    withOperationLocation,
+    setErrorAsResult,
+  } = inputs;
   const { operationLocation, resourceLocation, metadata, response } = await init();
   if (operationLocation) withOperationLocation?.(operationLocation, false);
   const config = {
@@ -88,7 +96,7 @@ export async function initOperation<TResponse, TResult, TState>(inputs: {
   const state = stateProxy.initState(config);
   const status = getOperationStatus({ response, state, operationLocation });
   processOperationStatus({ state, status, stateProxy });
-  if (status === "succeeded") {
+  if (["succeeded"].concat(setErrorAsResult ? [] : ["failed"])) {
     stateProxy.setResult(
       state,
       buildResult({
@@ -182,6 +190,7 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
   processResult?: (result: TResponse, state: TState) => TResult;
   updateState?: (state: TState, lastResponse: TResponse) => void;
   isDone?: (lastResponse: TResponse, state: TState) => boolean;
+  setErrorAsResult: boolean;
   options?: TOptions;
 }): Promise<void> {
   const {
@@ -198,6 +207,7 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
     updateState,
     setDelay,
     isDone,
+    setErrorAsResult,
   } = inputs;
   const { operationLocation } = state.config;
   if (operationLocation !== undefined) {
@@ -210,9 +220,11 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
       getResourceLocation,
       options,
     });
+
     if (
       isDone?.(response, state) ||
-      (isDone === undefined && ["succeeded", "canceled"].includes(status))
+      (isDone === undefined &&
+        ["succeeded", "canceled"].concat(setErrorAsResult ? [] : ["failed"]).includes(status))
     ) {
       stateProxy.setResult(
         state,

@@ -31,6 +31,7 @@ export async function createHttpPoller<TResult, TState extends OperationState<TR
     restoreFrom,
     updateState,
     withOperationLocation,
+    errorOnUnsuccessful = true,
   } = options || {};
   return buildCreatePoller<LroResponse, TResult, TState>({
     getStatusFromInitialResponse,
@@ -38,6 +39,7 @@ export async function createHttpPoller<TResult, TState extends OperationState<TR
     getOperationLocation,
     getResourceLocation,
     getPollingInterval: parseRetryAfter,
+    errorOnUnsuccessful,
   })(
     {
       init: async () => {

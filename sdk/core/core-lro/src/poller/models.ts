@@ -111,6 +111,10 @@ export interface BuildCreatePollerOptions<TResponse, TState> {
    * wait before sending the next polling request.
    */
   getPollingInterval?: (response: TResponse) => number | undefined;
+  /**
+   * Control whether to throw an exception when the operation failed or was canceled.
+   */
+  errorOnUnsuccessful: boolean;
 }
 
 /**

@@ -405,8 +405,9 @@ matrix(
 
         it("should handle put200Acceptedcanceled200", async () => {
           const path = "/put/200/accepted/canceled/200";
-          await assertError(
-            runLro({
+          const body = { properties: { provisioningState: "Canceled" } };
+          await assertDivergentBehavior({
+            op: runLro({
               routes: [
                 {
                   method: "PUT",
@@ -418,14 +419,21 @@ matrix(
                   method: "GET",
                   path,
                   status: 200,
-                  body: `{"properties":{"provisioningState":"Canceled"}}`,
+                  body: JSON.stringify(body),
                 },
               ],
             }),
-            {
+            throwOnNon2xxResponse,
+            throwing: {
               messagePattern: /Operation was canceled/,
-            }
-          );
+            },
+            notThrowing: {
+              result: {
+                ...body,
+                statusCode: 200,
+              },
+            },
+          });
         });
 
         it("should handle put200UpdatingSucceeded204", async () => {
@@ -453,8 +461,13 @@ matrix(
 
         it("should handle put201CreatingFailed200", async () => {
           const path = "/put/201/created/failed/200";
-          await assertError(
-            runLro({
+          const body = {
+            properties: {
+              provisioningState: "Failed",
+            },
+          };
+          await assertDivergentBehavior({
+            op: runLro({
               routes: [
                 {
                   method: "PUT",
@@ -466,14 +479,18 @@ matrix(
                   method: "GET",
                   path,
                   status: 200,
-                  body: `{"properties":{"provisioningState":"Failed"}}`,
+                  body: JSON.stringify(body),
                 },
               ],
             }),
-            {
+            throwOnNon2xxResponse,
+            throwing: {
               messagePattern: /The long-running operation has failed/,
-            }
-          );
+            },
+            notThrowing: {
+              result: { ...body, statusCode: 200 },
+            },
+          });
         });
 
         it("should handle post200WithPayload", async () => {
@@ -781,8 +798,9 @@ matrix(
 
             it("should handle deleteAsyncRetrycanceled", async () => {
               const pollingPath = "/deletelocation/retry/canceled/operationResults/200/";
-              await assertError(
-                runLro({
+              const body = { status: "Canceled" };
+              await assertDivergentBehavior({
+                op: runLro({
                   routes: [
                     {
                       method: "DELETE",
@@ -803,20 +821,25 @@ matrix(
                       method: "GET",
                       path: pollingPath,
                       status: 200,
-                      body: `{"status":"Canceled"}`,
+                      body: JSON.stringify(body),
                     },
                   ],
                 }),
-                {
+                throwOnNon2xxResponse,
+                throwing: {
                   messagePattern: /Operation was canceled/,
-                }
-              );
+                },
+                notThrowing: {
+                  result: { ...body, statusCode: 200 },
+                },
+              });
             });
 
             it("should handle DeleteAsyncRetryFailed", async () => {
               const pollingPath = "/deleteasync/retry/failed/operationResults/200/";
-              await assertError(
-                runLro({
+              const body = { status: "Failed" };
+              await assertDivergentBehavior({
+                op: runLro({
                   routes: [
                     {
                       method: "DELETE",
@@ -842,14 +865,18 @@ matrix(
                       method: "GET",
                       path: pollingPath,
                       status: 200,
-                      body: `{"status":"Failed"}`,
+                      body: JSON.stringify(body),
                     },
                   ],
                 }),
-                {
+                throwOnNon2xxResponse,
+                throwing: {
                   messagePattern: /The long-running operation has failed/,
-                }
-              );
+                },
+                notThrowing: {
+                  result: { ...body, statusCode: 200 },
+                },
+              });
             });
 
             it("should handle putAsyncRetrySucceeded", async () => {
@@ -929,8 +956,9 @@ matrix(
 
             it("should handle putAsyncRetryFailed", async () => {
               const pollingPath = "/putlocation/retry/failed/operationResults/200/";
-              await assertError(
-                runLro({
+              const body = { status: "Failed" };
+              await assertDivergentBehavior({
+                op: runLro({
                   routes: [
                     {
                       method: "PUT",
@@ -957,14 +985,18 @@ matrix(
                       method: "GET",
                       path: pollingPath,
                       status: 200,
-                      body: `{"status":"Failed"}`,
+                      body: JSON.stringify(body),
                     },
                   ],
                 }),
-                {
+                throwOnNon2xxResponse,
+                throwing: {
                   messagePattern: /The long-running operation has failed/,
-                }
-              );
+                },
+                notThrowing: {
+                  result: { ...body, statusCode: 200 },
+                },
+              });
             });
 
             it("should handle putAsyncNonResource", async () => {
@@ -1130,8 +1162,9 @@ matrix(
 
             it("should handle putAsyncNoRetrycanceled", async () => {
               const pollingPath = "/putlocation/noretry/canceled/operationResults/200/";
-              await assertError(
-                runLro({
+              const body = { status: "Canceled" };
+              await assertDivergentBehavior({
+                op: runLro({
                   routes: [
                     {
                       method: "PUT",
@@ -1160,14 +1193,23 @@ matrix(
                         location: pollingPath,
                         [headerName]: pollingPath,
                       },
-                      body: `{"status":"Canceled"}`,
+                      body: JSON.stringify(body),
                     },
                   ],
                 }),
-                {
+                throwOnNon2xxResponse,
+                throwing: {
                   messagePattern: /Operation was canceled/,
-                }
-              );
+                },
+                notThrowing: {
+                  result: {
+                    ...body,
+                    location: pollingPath,
+                    [headerName.toLocaleLowerCase()]: pollingPath,
+                    statusCode: 200,
+                  },
+                },
+              });
             });
 
             it("should handle putAsyncSubResource", async () => {
@@ -1281,8 +1323,9 @@ matrix(
 
             it("should handle postAsyncRetryFailed", async () => {
               const pollingPath = "/postlocation/retry/succeeded/operationResults/200/";
-              await assertError(
-                runLro({
+              const body = { status: "Failed" };
+              await assertDivergentBehavior({
+                op: runLro({
                   routes: [
                     {
                       method: "POST",
@@ -1298,14 +1341,18 @@ matrix(
                       method: "GET",
                       path: pollingPath,
                       status: 200,
-                      body: `{"status":"Failed"}`,
+                      body: JSON.stringify(body),
                     },
                   ],
                 }),
-                {
+                throwOnNon2xxResponse,
+                throwing: {
                   messagePattern: /The long-running operation has failed/,
-                }
-              );
+                },
+                notThrowing: {
+                  result: { ...body, statusCode: 200 },
+                },
+              });
             });
 
             it("should handle postAsyncRetrySucceeded", async () => {
@@ -1395,8 +1442,9 @@ matrix(
 
             it("should handle postAsyncRetrycanceled", async () => {
               const pollingPath = "/postasync/retry/canceled/operationResults/200/";
-              await assertError(
-                runLro({
+              const body = { status: "Canceled" };
+              await assertDivergentBehavior({
+                op: runLro({
                   routes: [
                     {
                       method: "POST",
@@ -1412,14 +1460,18 @@ matrix(
                       method: "GET",
                       path: pollingPath,
                       status: 200,
-                      body: `{"status":"Canceled"}`,
+                      body: JSON.stringify(body),
                     },
                   ],
                 }),
-                {
+                throwOnNon2xxResponse,
+                throwing: {
                   messagePattern: /Operation was canceled/,
-                }
-              );
+                },
+                notThrowing: {
+                  result: { ...body, statusCode: 200 },
+                },
+              });
             });
           });
         }
@@ -1434,13 +1486,15 @@ matrix(
               statusCode: 400,
             },
             notThrowing: {
-              messagePattern: /The long-running operation has failed/,
+              result: { statusCode: 400 },
             },
           });
         });
 
         it("should handle putNonRetry201Creating400 ", async () => {
           const path = "/nonretryerror/put/201/creating/400";
+          const body = { message: "Error from the server" };
+          const statusCode = 400;
           await assertDivergentBehavior({
             op: runLro({
               routes: [
@@ -1453,23 +1507,25 @@ matrix(
                 {
                   method: "GET",
                   path,
-                  status: 400,
-                  body: `{ "message": "Error from the server" }`,
+                  status: statusCode,
+                  body: JSON.stringify(body),
                 },
               ],
             }),
             throwOnNon2xxResponse,
             throwing: {
-              statusCode: 400,
+              statusCode,
             },
             notThrowing: {
-              messagePattern: /The long-running operation has failed/,
+              result: { ...body, statusCode },
             },
           });
         });
 
         it("should throw with putNonRetry201Creating400InvalidJson ", async () => {
           const path = "/nonretryerror/put/201/creating/400/invalidjson";
+          const body = { message: "Error from the server" };
+          const statusCode = 400;
           await assertDivergentBehavior({
             op: runLro({
               routes: [
@@ -1482,23 +1538,24 @@ matrix(
                 {
                   method: "GET",
                   path,
-                  status: 400,
-                  body: `{ "message": "Error from the server" }`,
+                  status: statusCode,
+                  body: JSON.stringify(body),
                 },
               ],
             }),
             throwOnNon2xxResponse,
             throwing: {
-              statusCode: 400,
+              statusCode,
             },
             notThrowing: {
-              messagePattern: /The long-running operation has failed/,
+              result: { ...body, statusCode },
             },
           });
         });
 
         it("should handle putAsyncRelativeRetry400 ", async () => {
           const pollingPath = `/nonretryerror/putasync/retry/failed/operationResults/400`;
+          const statusCode = 400;
           await assertDivergentBehavior({
             op: runLro({
               routes: [
@@ -1514,22 +1571,24 @@ matrix(
                 {
                   method: "GET",
                   path: pollingPath,
-                  status: 400,
+                  status: statusCode,
                 },
               ],
             }),
             throwOnNon2xxResponse,
             throwing: {
-              statusCode: 400,
+              statusCode,
             },
             notThrowing: {
-              messagePattern: /The long-running operation has failed/,
+              result: { statusCode },
             },
           });
         });
 
         it("should handle delete202NonRetry400 ", async () => {
           const path = "/nonretryerror/delete/202/retry/400";
+          const body = { message: "Expected bad request message" };
+          const statusCode = 400;
           await assertDivergentBehavior({
             op: runLro({
               routes: [
@@ -1546,38 +1605,40 @@ matrix(
                 {
                   method: "GET",
                   path,
-                  status: 400,
-                  body: `{ "message" : "Expected bad request message" }`,
+                  status: statusCode,
+                  body: JSON.stringify(body),
                 },
               ],
             }),
             throwOnNon2xxResponse,
             throwing: {
-              statusCode: 400,
+              statusCode,
             },
             notThrowing: {
-              messagePattern: /The long-running operation has failed/,
+              result: { ...body, statusCode },
             },
           });
         });
 
         it("should handle deleteNonRetry400 ", async () => {
+          const body = { message: "Expected bad request message" };
+          const statusCode = 400;
           await assertDivergentBehavior({
             op: runLro({
               routes: [
                 {
                   method: "DELETE",
-                  status: 400,
-                  body: `{ "message" : "Expected bad request message" }`,
+                  status: statusCode,
+                  body: JSON.stringify(body),
                 },
               ],
             }),
             throwOnNon2xxResponse,
             throwing: {
-              statusCode: 400,
+              statusCode,
             },
             notThrowing: {
-              messagePattern: /The long-running operation has failed/,
+              result: { ...body, statusCode },
             },
           });
         });
@@ -1615,28 +1676,32 @@ matrix(
         });
 
         it("should handle postNonRetry400 ", async () => {
+          const body = { message: "Expected bad request message" };
+          const statusCode = 400;
           await assertDivergentBehavior({
             op: runLro({
               routes: [
                 {
                   method: "POST",
-                  status: 400,
-                  body: `{ "message" : "Expected bad request message" }`,
+                  status: statusCode,
+                  body: JSON.stringify(body),
                 },
               ],
             }),
             throwOnNon2xxResponse,
             throwing: {
-              statusCode: 400,
+              statusCode,
             },
             notThrowing: {
-              messagePattern: /The long-running operation has failed/,
+              result: { ...body, statusCode },
             },
           });
         });
 
         it("should handle post202NonRetry400 ", async () => {
           const path = `/nonretryerror/post/202/retry/400`;
+          const body = { message: "Expected bad request message" };
+          const statusCode = 400;
           await assertDivergentBehavior({
             op: runLro({
               routes: [
@@ -1653,17 +1718,17 @@ matrix(
                 {
                   method: "GET",
                   path,
-                  status: 400,
-                  body: `{ "message" : "Expected bad request message" }`,
+                  status: statusCode,
+                  body: JSON.stringify(body),
                 },
               ],
             }),
             throwOnNon2xxResponse,
             throwing: {
-              statusCode: 400,
+              statusCode,
             },
             notThrowing: {
-              messagePattern: /The long-running operation has failed/,
+              result: { ...body, statusCode },
             },
           });
         });

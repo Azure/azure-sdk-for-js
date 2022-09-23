@@ -31,6 +31,10 @@ export interface LroEngineOptions<TResult, TState> {
    * A predicate to determine whether the LRO finished processing.
    */
   isDone?: (lastResponse: unknown, state: TState) => boolean;
+  /**
+   * Control whether to throw an exception when the operation has failed or been canceled.
+   */
+  errorOnUnsuccessful?: boolean;
 }
 
 export interface PollerConfig {

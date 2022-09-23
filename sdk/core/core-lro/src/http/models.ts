@@ -105,4 +105,8 @@ export interface CreateHttpPollerOptions<TResult, TState> {
    * service.
    */
   withOperationLocation?: (operationLocation: string) => void;
+  /**
+   * Control whether to throw an exception when the operation has failed or been canceled.
+   */
+  errorOnUnsuccessful?: boolean;
 }

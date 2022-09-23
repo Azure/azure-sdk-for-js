@@ -55,6 +55,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     getStatusFromPollResponse,
     getResourceLocation,
     getPollingInterval,
+    errorOnUnsuccessful,
   } = inputs;
   return async (
     { init, poll }: Operation<TResponse, { abortSignal?: AbortSignalLike }>,
@@ -86,6 +87,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           processResult,
           getOperationStatus: getStatusFromInitialResponse,
           withOperationLocation,
+          setErrorAsResult: errorOnUnsuccessful,
         });
     let resultPromise: Promise<TResult> | undefined;
     let cancelJob: (() => void) | undefined;
@@ -135,10 +137,12 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
               return poller.getResult() as TResult;
             }
             case "canceled": {
-              throw new Error("Operation was canceled");
+              if (errorOnUnsuccessful) throw new Error("Operation was canceled");
+              return poller.getResult() as TResult;
             }
             case "failed": {
-              throw state.error;
+              if (errorOnUnsuccessful) throw state.error;
+              return poller.getResult() as TResult;
             }
             case "notStarted":
             case "running": {
@@ -165,12 +169,13 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           setDelay: (pollIntervalInMs) => {
             currentPollIntervalInMs = pollIntervalInMs;
           },
+          setErrorAsResult: errorOnUnsuccessful,
         });
         await handleProgressEvents();
-        if (state.status === "canceled") {
+        if (state.status === "canceled" && errorOnUnsuccessful) {
           throw new Error("Operation was canceled");
         }
-        if (state.status === "failed") {
+        if (state.status === "failed" && errorOnUnsuccessful) {
           throw state.error;
         }
       },

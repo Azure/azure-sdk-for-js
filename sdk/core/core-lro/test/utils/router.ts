@@ -158,6 +158,7 @@ export function createTestPoller(settings: {
         updateState: updateState as
           | ((state: any, lastResponse: LroResponse<unknown>) => void)
           | undefined,
+        errorOnUnsuccessful: throwOnNon2xxResponse,
       });
     }
     case "LroEngine": {
@@ -168,6 +169,7 @@ export function createTestPoller(settings: {
           processResult,
           updateState: (state, rawResponse) =>
             updateState?.(state, { rawResponse, flatResponse: undefined as any }),
+          errorOnUnsuccessful: throwOnNon2xxResponse,
         })
       );
     }
