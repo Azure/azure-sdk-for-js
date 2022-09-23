@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
-export const apiVersionPolicyName = "CustomizedApiVersionPolicy";
+export const apiVersionPolicyName = "CustomizedTestPolicy";
 
 /**
  * The test recorder will change underlying url so we need to revert change when send new calls
