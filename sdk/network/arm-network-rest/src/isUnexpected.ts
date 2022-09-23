@@ -1,0 +1,9603 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import {
+  ApplicationGatewaysDelete200Response,
+  ApplicationGatewaysDelete202Response,
+  ApplicationGatewaysDelete204Response,
+  ApplicationGatewaysDeletedefaultResponse,
+  ApplicationGatewaysGet200Response,
+  ApplicationGatewaysGetdefaultResponse,
+  ApplicationGatewaysCreateOrUpdate200Response,
+  ApplicationGatewaysCreateOrUpdate201Response,
+  ApplicationGatewaysCreateOrUpdatedefaultResponse,
+  ApplicationGatewaysUpdateTags200Response,
+  ApplicationGatewaysUpdateTagsdefaultResponse,
+  ApplicationGatewaysList200Response,
+  ApplicationGatewaysListdefaultResponse,
+  ApplicationGatewaysListAll200Response,
+  ApplicationGatewaysListAlldefaultResponse,
+  ApplicationGatewaysStart200Response,
+  ApplicationGatewaysStart202Response,
+  ApplicationGatewaysStartdefaultResponse,
+  ApplicationGatewaysStop200Response,
+  ApplicationGatewaysStop202Response,
+  ApplicationGatewaysStopdefaultResponse,
+  ApplicationGatewaysBackendHealth200Response,
+  ApplicationGatewaysBackendHealth202Response,
+  ApplicationGatewaysBackendHealthdefaultResponse,
+  ApplicationGatewaysBackendHealthOnDemand200Response,
+  ApplicationGatewaysBackendHealthOnDemand202Response,
+  ApplicationGatewaysBackendHealthOnDemanddefaultResponse,
+  ApplicationGatewaysListAvailableServerVariables200Response,
+  ApplicationGatewaysListAvailableServerVariablesdefaultResponse,
+  ApplicationGatewaysListAvailableRequestHeaders200Response,
+  ApplicationGatewaysListAvailableRequestHeadersdefaultResponse,
+  ApplicationGatewaysListAvailableResponseHeaders200Response,
+  ApplicationGatewaysListAvailableResponseHeadersdefaultResponse,
+  ApplicationGatewaysListAvailableWafRuleSets200Response,
+  ApplicationGatewaysListAvailableWafRuleSetsdefaultResponse,
+  ApplicationGatewaysListAvailableSslOptions200Response,
+  ApplicationGatewaysListAvailableSslOptionsdefaultResponse,
+  ApplicationGatewaysListAvailableSslPredefinedPolicies200Response,
+  ApplicationGatewaysListAvailableSslPredefinedPoliciesdefaultResponse,
+  ApplicationGatewaysGetSslPredefinedPolicy200Response,
+  ApplicationGatewaysGetSslPredefinedPolicydefaultResponse,
+  ApplicationGatewayPrivateLinkResourcesList200Response,
+  ApplicationGatewayPrivateLinkResourcesListdefaultResponse,
+  ApplicationGatewayPrivateEndpointConnectionsDelete200Response,
+  ApplicationGatewayPrivateEndpointConnectionsDelete202Response,
+  ApplicationGatewayPrivateEndpointConnectionsDelete204Response,
+  ApplicationGatewayPrivateEndpointConnectionsDeletedefaultResponse,
+  ApplicationGatewayPrivateEndpointConnectionsUpdate200Response,
+  ApplicationGatewayPrivateEndpointConnectionsUpdate202Response,
+  ApplicationGatewayPrivateEndpointConnectionsUpdatedefaultResponse,
+  ApplicationGatewayPrivateEndpointConnectionsGet200Response,
+  ApplicationGatewayPrivateEndpointConnectionsGetdefaultResponse,
+  ApplicationGatewayPrivateEndpointConnectionsList200Response,
+  ApplicationGatewayPrivateEndpointConnectionsListdefaultResponse,
+  ApplicationGatewayWafDynamicManifestsDefaultGet200Response,
+  ApplicationGatewayWafDynamicManifestsDefaultGetdefaultResponse,
+  ApplicationGatewayWafDynamicManifestsGet200Response,
+  ApplicationGatewayWafDynamicManifestsGetdefaultResponse,
+  ApplicationSecurityGroupsDelete200Response,
+  ApplicationSecurityGroupsDelete202Response,
+  ApplicationSecurityGroupsDelete204Response,
+  ApplicationSecurityGroupsDeletedefaultResponse,
+  ApplicationSecurityGroupsGet200Response,
+  ApplicationSecurityGroupsGetdefaultResponse,
+  ApplicationSecurityGroupsCreateOrUpdate200Response,
+  ApplicationSecurityGroupsCreateOrUpdate201Response,
+  ApplicationSecurityGroupsCreateOrUpdatedefaultResponse,
+  ApplicationSecurityGroupsUpdateTags200Response,
+  ApplicationSecurityGroupsUpdateTagsdefaultResponse,
+  ApplicationSecurityGroupsListAll200Response,
+  ApplicationSecurityGroupsListAlldefaultResponse,
+  ApplicationSecurityGroupsList200Response,
+  ApplicationSecurityGroupsListdefaultResponse,
+  AvailableDelegationsList200Response,
+  AvailableDelegationsListdefaultResponse,
+  AvailableResourceGroupDelegationsList200Response,
+  AvailableResourceGroupDelegationsListdefaultResponse,
+  AvailableServiceAliasesList200Response,
+  AvailableServiceAliasesListdefaultResponse,
+  AvailableServiceAliasesListByResourceGroup200Response,
+  AvailableServiceAliasesListByResourceGroupdefaultResponse,
+  AzureFirewallsDelete200Response,
+  AzureFirewallsDelete202Response,
+  AzureFirewallsDelete204Response,
+  AzureFirewallsDeletedefaultResponse,
+  AzureFirewallsGet200Response,
+  AzureFirewallsGetdefaultResponse,
+  AzureFirewallsCreateOrUpdate200Response,
+  AzureFirewallsCreateOrUpdate201Response,
+  AzureFirewallsCreateOrUpdatedefaultResponse,
+  AzureFirewallsUpdateTags200Response,
+  AzureFirewallsUpdateTags202Response,
+  AzureFirewallsUpdateTagsdefaultResponse,
+  AzureFirewallsList200Response,
+  AzureFirewallsListdefaultResponse,
+  AzureFirewallsListAll200Response,
+  AzureFirewallsListAlldefaultResponse,
+  AzureFirewallsListLearnedPrefixes200Response,
+  AzureFirewallsListLearnedPrefixes202Response,
+  AzureFirewallsListLearnedPrefixesdefaultResponse,
+  AzureFirewallFqdnTagsListAll200Response,
+  AzureFirewallFqdnTagsListAlldefaultResponse,
+  WebCategoriesGet200Response,
+  WebCategoriesGetdefaultResponse,
+  WebCategoriesListBySubscription200Response,
+  WebCategoriesListBySubscriptiondefaultResponse,
+  BastionHostsDelete200Response,
+  BastionHostsDelete202Response,
+  BastionHostsDelete204Response,
+  BastionHostsDeletedefaultResponse,
+  BastionHostsGet200Response,
+  BastionHostsGetdefaultResponse,
+  BastionHostsCreateOrUpdate200Response,
+  BastionHostsCreateOrUpdate201Response,
+  BastionHostsCreateOrUpdatedefaultResponse,
+  BastionHostsUpdateTags200Response,
+  BastionHostsUpdateTags202Response,
+  BastionHostsUpdateTagsdefaultResponse,
+  BastionHostsList200Response,
+  BastionHostsListdefaultResponse,
+  BastionHostsListByResourceGroup200Response,
+  BastionHostsListByResourceGroupdefaultResponse,
+  PutBastionShareableLink200Response,
+  PutBastionShareableLink202Response,
+  PutBastionShareableLinkdefaultResponse,
+  DeleteBastionShareableLink200Response,
+  DeleteBastionShareableLink202Response,
+  DeleteBastionShareableLinkdefaultResponse,
+  GetBastionShareableLink200Response,
+  GetBastionShareableLinkdefaultResponse,
+  GetActiveSessions200Response,
+  GetActiveSessions202Response,
+  GetActiveSessionsdefaultResponse,
+  DisconnectActiveSessions200Response,
+  DisconnectActiveSessionsdefaultResponse,
+  CheckDnsNameAvailability200Response,
+  CheckDnsNameAvailabilitydefaultResponse,
+  ExpressRouteProviderPort200Response,
+  ExpressRouteProviderPortdefaultResponse,
+  ListActiveConnectivityConfigurations200Response,
+  ListActiveConnectivityConfigurationsdefaultResponse,
+  ListActiveSecurityAdminRules200Response,
+  ListActiveSecurityAdminRulesdefaultResponse,
+  ListNetworkManagerEffectiveConnectivityConfigurations200Response,
+  ListNetworkManagerEffectiveConnectivityConfigurationsdefaultResponse,
+  ListNetworkManagerEffectiveSecurityAdminRules200Response,
+  ListNetworkManagerEffectiveSecurityAdminRulesdefaultResponse,
+  SupportedSecurityProviders200Response,
+  SupportedSecurityProvidersdefaultResponse,
+  Generatevirtualwanvpnserverconfigurationvpnprofile200Response,
+  Generatevirtualwanvpnserverconfigurationvpnprofile202Response,
+  GeneratevirtualwanvpnserverconfigurationvpnprofiledefaultResponse,
+  NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfaces200Response,
+  NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesdefaultResponse,
+  NetworkInterfacesListCloudServiceNetworkInterfaces200Response,
+  NetworkInterfacesListCloudServiceNetworkInterfacesdefaultResponse,
+  NetworkInterfacesGetCloudServiceNetworkInterface200Response,
+  NetworkInterfacesGetCloudServiceNetworkInterfacedefaultResponse,
+  NetworkInterfacesDelete200Response,
+  NetworkInterfacesDelete202Response,
+  NetworkInterfacesDelete204Response,
+  NetworkInterfacesDeletedefaultResponse,
+  NetworkInterfacesGet200Response,
+  NetworkInterfacesGetdefaultResponse,
+  NetworkInterfacesCreateOrUpdate200Response,
+  NetworkInterfacesCreateOrUpdate201Response,
+  NetworkInterfacesCreateOrUpdatedefaultResponse,
+  NetworkInterfacesUpdateTags200Response,
+  NetworkInterfacesUpdateTagsdefaultResponse,
+  NetworkInterfacesListAll200Response,
+  NetworkInterfacesListAlldefaultResponse,
+  NetworkInterfacesList200Response,
+  NetworkInterfacesListdefaultResponse,
+  NetworkInterfacesGetEffectiveRouteTable200Response,
+  NetworkInterfacesGetEffectiveRouteTable202Response,
+  NetworkInterfacesGetEffectiveRouteTabledefaultResponse,
+  NetworkInterfacesListEffectiveNetworkSecurityGroups200Response,
+  NetworkInterfacesListEffectiveNetworkSecurityGroups202Response,
+  NetworkInterfacesListEffectiveNetworkSecurityGroupsdefaultResponse,
+  NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfaces200Response,
+  NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesdefaultResponse,
+  NetworkInterfacesListVirtualMachineScaleSetNetworkInterfaces200Response,
+  NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesdefaultResponse,
+  NetworkInterfacesGetVirtualMachineScaleSetNetworkInterface200Response,
+  NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfacedefaultResponse,
+  NetworkInterfacesListVirtualMachineScaleSetIpConfigurations200Response,
+  NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsdefaultResponse,
+  NetworkInterfacesGetVirtualMachineScaleSetIpConfiguration200Response,
+  NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationdefaultResponse,
+  PublicIPAddressesListCloudServicePublicIPAddresses200Response,
+  PublicIPAddressesListCloudServicePublicIPAddressesdefaultResponse,
+  PublicIPAddressesListCloudServiceRoleInstancePublicIPAddresses200Response,
+  PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesdefaultResponse,
+  PublicIPAddressesGetCloudServicePublicIPAddress200Response,
+  PublicIPAddressesGetCloudServicePublicIPAddressdefaultResponse,
+  PublicIPAddressesDelete200Response,
+  PublicIPAddressesDelete202Response,
+  PublicIPAddressesDelete204Response,
+  PublicIPAddressesDeletedefaultResponse,
+  PublicIPAddressesGet200Response,
+  PublicIPAddressesGetdefaultResponse,
+  PublicIPAddressesCreateOrUpdate200Response,
+  PublicIPAddressesCreateOrUpdate201Response,
+  PublicIPAddressesCreateOrUpdatedefaultResponse,
+  PublicIPAddressesUpdateTags200Response,
+  PublicIPAddressesUpdateTagsdefaultResponse,
+  PublicIPAddressesListAll200Response,
+  PublicIPAddressesListAlldefaultResponse,
+  PublicIPAddressesList200Response,
+  PublicIPAddressesListdefaultResponse,
+  PublicIPAddressesDdosProtectionStatus200Response,
+  PublicIPAddressesDdosProtectionStatus202Response,
+  PublicIPAddressesDdosProtectionStatusdefaultResponse,
+  PublicIPAddressesListVirtualMachineScaleSetPublicIPAddresses200Response,
+  PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesdefaultResponse,
+  PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddresses200Response,
+  PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesdefaultResponse,
+  PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddress200Response,
+  PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressdefaultResponse,
+  CustomIPPrefixesDelete200Response,
+  CustomIPPrefixesDelete202Response,
+  CustomIPPrefixesDelete204Response,
+  CustomIPPrefixesDeletedefaultResponse,
+  CustomIPPrefixesGet200Response,
+  CustomIPPrefixesGetdefaultResponse,
+  CustomIPPrefixesCreateOrUpdate200Response,
+  CustomIPPrefixesCreateOrUpdate201Response,
+  CustomIPPrefixesCreateOrUpdatedefaultResponse,
+  CustomIPPrefixesUpdateTags200Response,
+  CustomIPPrefixesUpdateTagsdefaultResponse,
+  CustomIPPrefixesListAll200Response,
+  CustomIPPrefixesListAlldefaultResponse,
+  CustomIPPrefixesList200Response,
+  CustomIPPrefixesListdefaultResponse,
+  DdosCustomPoliciesDelete200Response,
+  DdosCustomPoliciesDelete202Response,
+  DdosCustomPoliciesDelete204Response,
+  DdosCustomPoliciesDeletedefaultResponse,
+  DdosCustomPoliciesGet200Response,
+  DdosCustomPoliciesGetdefaultResponse,
+  DdosCustomPoliciesCreateOrUpdate200Response,
+  DdosCustomPoliciesCreateOrUpdate201Response,
+  DdosCustomPoliciesCreateOrUpdatedefaultResponse,
+  DdosCustomPoliciesUpdateTags200Response,
+  DdosCustomPoliciesUpdateTagsdefaultResponse,
+  DdosProtectionPlansDelete200Response,
+  DdosProtectionPlansDelete202Response,
+  DdosProtectionPlansDelete204Response,
+  DdosProtectionPlansDeletedefaultResponse,
+  DdosProtectionPlansGet200Response,
+  DdosProtectionPlansGetdefaultResponse,
+  DdosProtectionPlansCreateOrUpdate200Response,
+  DdosProtectionPlansCreateOrUpdate201Response,
+  DdosProtectionPlansCreateOrUpdatedefaultResponse,
+  DdosProtectionPlansUpdateTags200Response,
+  DdosProtectionPlansUpdateTagsdefaultResponse,
+  DdosProtectionPlansList200Response,
+  DdosProtectionPlansListdefaultResponse,
+  DdosProtectionPlansListByResourceGroup200Response,
+  DdosProtectionPlansListByResourceGroupdefaultResponse,
+  DscpConfigurationCreateOrUpdate200Response,
+  DscpConfigurationCreateOrUpdate201Response,
+  DscpConfigurationCreateOrUpdatedefaultResponse,
+  DscpConfigurationDelete200Response,
+  DscpConfigurationDelete202Response,
+  DscpConfigurationDelete204Response,
+  DscpConfigurationDeletedefaultResponse,
+  DscpConfigurationGet200Response,
+  DscpConfigurationGetdefaultResponse,
+  DscpConfigurationList200Response,
+  DscpConfigurationListdefaultResponse,
+  DscpConfigurationListAll200Response,
+  DscpConfigurationListAlldefaultResponse,
+  AvailableEndpointServicesList200Response,
+  AvailableEndpointServicesListdefaultResponse,
+  ExpressRouteCircuitAuthorizationsDelete200Response,
+  ExpressRouteCircuitAuthorizationsDelete202Response,
+  ExpressRouteCircuitAuthorizationsDelete204Response,
+  ExpressRouteCircuitAuthorizationsDeletedefaultResponse,
+  ExpressRouteCircuitAuthorizationsGet200Response,
+  ExpressRouteCircuitAuthorizationsGetdefaultResponse,
+  ExpressRouteCircuitAuthorizationsCreateOrUpdate200Response,
+  ExpressRouteCircuitAuthorizationsCreateOrUpdate201Response,
+  ExpressRouteCircuitAuthorizationsCreateOrUpdatedefaultResponse,
+  ExpressRouteCircuitAuthorizationsList200Response,
+  ExpressRouteCircuitAuthorizationsListdefaultResponse,
+  ExpressRouteCircuitPeeringsDelete200Response,
+  ExpressRouteCircuitPeeringsDelete202Response,
+  ExpressRouteCircuitPeeringsDelete204Response,
+  ExpressRouteCircuitPeeringsDeletedefaultResponse,
+  ExpressRouteCircuitPeeringsGet200Response,
+  ExpressRouteCircuitPeeringsGetdefaultResponse,
+  ExpressRouteCircuitPeeringsCreateOrUpdate200Response,
+  ExpressRouteCircuitPeeringsCreateOrUpdate201Response,
+  ExpressRouteCircuitPeeringsCreateOrUpdatedefaultResponse,
+  ExpressRouteCircuitPeeringsList200Response,
+  ExpressRouteCircuitPeeringsListdefaultResponse,
+  ExpressRouteCircuitConnectionsDelete200Response,
+  ExpressRouteCircuitConnectionsDelete202Response,
+  ExpressRouteCircuitConnectionsDelete204Response,
+  ExpressRouteCircuitConnectionsDeletedefaultResponse,
+  ExpressRouteCircuitConnectionsGet200Response,
+  ExpressRouteCircuitConnectionsGetdefaultResponse,
+  ExpressRouteCircuitConnectionsCreateOrUpdate200Response,
+  ExpressRouteCircuitConnectionsCreateOrUpdate201Response,
+  ExpressRouteCircuitConnectionsCreateOrUpdatedefaultResponse,
+  ExpressRouteCircuitConnectionsList200Response,
+  ExpressRouteCircuitConnectionsListdefaultResponse,
+  PeerExpressRouteCircuitConnectionsGet200Response,
+  PeerExpressRouteCircuitConnectionsGetdefaultResponse,
+  PeerExpressRouteCircuitConnectionsList200Response,
+  PeerExpressRouteCircuitConnectionsListdefaultResponse,
+  ExpressRouteCircuitsDelete200Response,
+  ExpressRouteCircuitsDelete202Response,
+  ExpressRouteCircuitsDelete204Response,
+  ExpressRouteCircuitsDeletedefaultResponse,
+  ExpressRouteCircuitsGet200Response,
+  ExpressRouteCircuitsGetdefaultResponse,
+  ExpressRouteCircuitsCreateOrUpdate200Response,
+  ExpressRouteCircuitsCreateOrUpdate201Response,
+  ExpressRouteCircuitsCreateOrUpdatedefaultResponse,
+  ExpressRouteCircuitsUpdateTags200Response,
+  ExpressRouteCircuitsUpdateTagsdefaultResponse,
+  ExpressRouteCircuitsListArpTable200Response,
+  ExpressRouteCircuitsListArpTable202Response,
+  ExpressRouteCircuitsListArpTabledefaultResponse,
+  ExpressRouteCircuitsListRoutesTable200Response,
+  ExpressRouteCircuitsListRoutesTable202Response,
+  ExpressRouteCircuitsListRoutesTabledefaultResponse,
+  ExpressRouteCircuitsListRoutesTableSummary200Response,
+  ExpressRouteCircuitsListRoutesTableSummary202Response,
+  ExpressRouteCircuitsListRoutesTableSummarydefaultResponse,
+  ExpressRouteCircuitsGetStats200Response,
+  ExpressRouteCircuitsGetStatsdefaultResponse,
+  ExpressRouteCircuitsGetPeeringStats200Response,
+  ExpressRouteCircuitsGetPeeringStatsdefaultResponse,
+  ExpressRouteCircuitsList200Response,
+  ExpressRouteCircuitsListdefaultResponse,
+  ExpressRouteCircuitsListAll200Response,
+  ExpressRouteCircuitsListAlldefaultResponse,
+  ExpressRouteServiceProvidersList200Response,
+  ExpressRouteServiceProvidersListdefaultResponse,
+  ExpressRouteCrossConnectionsList200Response,
+  ExpressRouteCrossConnectionsListdefaultResponse,
+  ExpressRouteCrossConnectionsListByResourceGroup200Response,
+  ExpressRouteCrossConnectionsListByResourceGroupdefaultResponse,
+  ExpressRouteCrossConnectionsGet200Response,
+  ExpressRouteCrossConnectionsGetdefaultResponse,
+  ExpressRouteCrossConnectionsCreateOrUpdate200Response,
+  ExpressRouteCrossConnectionsCreateOrUpdatedefaultResponse,
+  ExpressRouteCrossConnectionsUpdateTags200Response,
+  ExpressRouteCrossConnectionsUpdateTagsdefaultResponse,
+  ExpressRouteCrossConnectionsListArpTable200Response,
+  ExpressRouteCrossConnectionsListArpTable202Response,
+  ExpressRouteCrossConnectionsListArpTabledefaultResponse,
+  ExpressRouteCrossConnectionsListRoutesTableSummary200Response,
+  ExpressRouteCrossConnectionsListRoutesTableSummary202Response,
+  ExpressRouteCrossConnectionsListRoutesTableSummarydefaultResponse,
+  ExpressRouteCrossConnectionsListRoutesTable200Response,
+  ExpressRouteCrossConnectionsListRoutesTable202Response,
+  ExpressRouteCrossConnectionsListRoutesTabledefaultResponse,
+  ExpressRouteCrossConnectionPeeringsList200Response,
+  ExpressRouteCrossConnectionPeeringsListdefaultResponse,
+  ExpressRouteCrossConnectionPeeringsDelete200Response,
+  ExpressRouteCrossConnectionPeeringsDelete202Response,
+  ExpressRouteCrossConnectionPeeringsDelete204Response,
+  ExpressRouteCrossConnectionPeeringsDeletedefaultResponse,
+  ExpressRouteCrossConnectionPeeringsGet200Response,
+  ExpressRouteCrossConnectionPeeringsGetdefaultResponse,
+  ExpressRouteCrossConnectionPeeringsCreateOrUpdate200Response,
+  ExpressRouteCrossConnectionPeeringsCreateOrUpdate201Response,
+  ExpressRouteCrossConnectionPeeringsCreateOrUpdatedefaultResponse,
+  ExpressRoutePortsLocationsList200Response,
+  ExpressRoutePortsLocationsListdefaultResponse,
+  ExpressRoutePortsLocationsGet200Response,
+  ExpressRoutePortsLocationsGetdefaultResponse,
+  ExpressRoutePortsDelete200Response,
+  ExpressRoutePortsDelete202Response,
+  ExpressRoutePortsDelete204Response,
+  ExpressRoutePortsDeletedefaultResponse,
+  ExpressRoutePortsGet200Response,
+  ExpressRoutePortsGetdefaultResponse,
+  ExpressRoutePortsCreateOrUpdate200Response,
+  ExpressRoutePortsCreateOrUpdate201Response,
+  ExpressRoutePortsCreateOrUpdatedefaultResponse,
+  ExpressRoutePortsUpdateTags200Response,
+  ExpressRoutePortsUpdateTagsdefaultResponse,
+  ExpressRoutePortsListByResourceGroup200Response,
+  ExpressRoutePortsListByResourceGroupdefaultResponse,
+  ExpressRoutePortsList200Response,
+  ExpressRoutePortsListdefaultResponse,
+  ExpressRoutePortsGenerateLOA200Response,
+  ExpressRoutePortsGenerateLOAdefaultResponse,
+  ExpressRouteLinksGet200Response,
+  ExpressRouteLinksGetdefaultResponse,
+  ExpressRouteLinksList200Response,
+  ExpressRouteLinksListdefaultResponse,
+  ExpressRoutePortAuthorizationsDelete200Response,
+  ExpressRoutePortAuthorizationsDelete202Response,
+  ExpressRoutePortAuthorizationsDelete204Response,
+  ExpressRoutePortAuthorizationsDeletedefaultResponse,
+  ExpressRoutePortAuthorizationsGet200Response,
+  ExpressRoutePortAuthorizationsGetdefaultResponse,
+  ExpressRoutePortAuthorizationsCreateOrUpdate200Response,
+  ExpressRoutePortAuthorizationsCreateOrUpdate201Response,
+  ExpressRoutePortAuthorizationsCreateOrUpdatedefaultResponse,
+  ExpressRoutePortAuthorizationsList200Response,
+  ExpressRoutePortAuthorizationsListdefaultResponse,
+  ExpressRouteProviderPortsLocationList200Response,
+  ExpressRouteProviderPortsLocationListdefaultResponse,
+  FirewallPoliciesDelete200Response,
+  FirewallPoliciesDelete202Response,
+  FirewallPoliciesDelete204Response,
+  FirewallPoliciesDeletedefaultResponse,
+  FirewallPoliciesGet200Response,
+  FirewallPoliciesGetdefaultResponse,
+  FirewallPoliciesCreateOrUpdate200Response,
+  FirewallPoliciesCreateOrUpdate201Response,
+  FirewallPoliciesCreateOrUpdatedefaultResponse,
+  FirewallPoliciesUpdateTags200Response,
+  FirewallPoliciesUpdateTagsdefaultResponse,
+  FirewallPoliciesList200Response,
+  FirewallPoliciesListdefaultResponse,
+  FirewallPoliciesListAll200Response,
+  FirewallPoliciesListAlldefaultResponse,
+  FirewallPolicyRuleCollectionGroupsDelete200Response,
+  FirewallPolicyRuleCollectionGroupsDelete202Response,
+  FirewallPolicyRuleCollectionGroupsDelete204Response,
+  FirewallPolicyRuleCollectionGroupsDeletedefaultResponse,
+  FirewallPolicyRuleCollectionGroupsGet200Response,
+  FirewallPolicyRuleCollectionGroupsGetdefaultResponse,
+  FirewallPolicyRuleCollectionGroupsCreateOrUpdate200Response,
+  FirewallPolicyRuleCollectionGroupsCreateOrUpdate201Response,
+  FirewallPolicyRuleCollectionGroupsCreateOrUpdatedefaultResponse,
+  FirewallPolicyRuleCollectionGroupsList200Response,
+  FirewallPolicyRuleCollectionGroupsListdefaultResponse,
+  FirewallPolicyIdpsSignaturesList200Response,
+  FirewallPolicyIdpsSignaturesListdefaultResponse,
+  FirewallPolicyIdpsSignaturesOverridesPatch200Response,
+  FirewallPolicyIdpsSignaturesOverridesPatchdefaultResponse,
+  FirewallPolicyIdpsSignaturesOverridesPut200Response,
+  FirewallPolicyIdpsSignaturesOverridesPutdefaultResponse,
+  FirewallPolicyIdpsSignaturesOverridesGet200Response,
+  FirewallPolicyIdpsSignaturesOverridesGetdefaultResponse,
+  FirewallPolicyIdpsSignaturesOverridesList200Response,
+  FirewallPolicyIdpsSignaturesOverridesListdefaultResponse,
+  FirewallPolicyIdpsSignaturesFilterValuesList200Response,
+  FirewallPolicyIdpsSignaturesFilterValuesListdefaultResponse,
+  IpAllocationsDelete200Response,
+  IpAllocationsDelete202Response,
+  IpAllocationsDelete204Response,
+  IpAllocationsDeletedefaultResponse,
+  IpAllocationsGet200Response,
+  IpAllocationsGetdefaultResponse,
+  IpAllocationsCreateOrUpdate200Response,
+  IpAllocationsCreateOrUpdate201Response,
+  IpAllocationsCreateOrUpdatedefaultResponse,
+  IpAllocationsUpdateTags200Response,
+  IpAllocationsUpdateTagsdefaultResponse,
+  IpAllocationsList200Response,
+  IpAllocationsListdefaultResponse,
+  IpAllocationsListByResourceGroup200Response,
+  IpAllocationsListByResourceGroupdefaultResponse,
+  IpGroupsGet200Response,
+  IpGroupsGetdefaultResponse,
+  IpGroupsCreateOrUpdate200Response,
+  IpGroupsCreateOrUpdate201Response,
+  IpGroupsCreateOrUpdatedefaultResponse,
+  IpGroupsUpdateGroups200Response,
+  IpGroupsUpdateGroupsdefaultResponse,
+  IpGroupsDelete200Response,
+  IpGroupsDelete202Response,
+  IpGroupsDelete204Response,
+  IpGroupsDeletedefaultResponse,
+  IpGroupsListByResourceGroup200Response,
+  IpGroupsListByResourceGroupdefaultResponse,
+  IpGroupsList200Response,
+  IpGroupsListdefaultResponse,
+  LoadBalancersDelete200Response,
+  LoadBalancersDelete202Response,
+  LoadBalancersDelete204Response,
+  LoadBalancersDeletedefaultResponse,
+  LoadBalancersGet200Response,
+  LoadBalancersGetdefaultResponse,
+  LoadBalancersCreateOrUpdate200Response,
+  LoadBalancersCreateOrUpdate201Response,
+  LoadBalancersCreateOrUpdatedefaultResponse,
+  LoadBalancersUpdateTags200Response,
+  LoadBalancersUpdateTagsdefaultResponse,
+  LoadBalancersListAll200Response,
+  LoadBalancersListAlldefaultResponse,
+  LoadBalancersList200Response,
+  LoadBalancersListdefaultResponse,
+  LoadBalancersSwapPublicIpAddresses200Response,
+  LoadBalancersSwapPublicIpAddresses202Response,
+  LoadBalancersSwapPublicIpAddressesdefaultResponse,
+  LoadBalancersListInboundNatRulePortMappings200Response,
+  LoadBalancersListInboundNatRulePortMappings202Response,
+  LoadBalancersListInboundNatRulePortMappingsdefaultResponse,
+  LoadBalancerBackendAddressPoolsList200Response,
+  LoadBalancerBackendAddressPoolsListdefaultResponse,
+  LoadBalancerBackendAddressPoolsGet200Response,
+  LoadBalancerBackendAddressPoolsGetdefaultResponse,
+  LoadBalancerBackendAddressPoolsCreateOrUpdate200Response,
+  LoadBalancerBackendAddressPoolsCreateOrUpdate201Response,
+  LoadBalancerBackendAddressPoolsCreateOrUpdatedefaultResponse,
+  LoadBalancerBackendAddressPoolsDelete200Response,
+  LoadBalancerBackendAddressPoolsDelete202Response,
+  LoadBalancerBackendAddressPoolsDelete204Response,
+  LoadBalancerBackendAddressPoolsDeletedefaultResponse,
+  LoadBalancerFrontendIPConfigurationsList200Response,
+  LoadBalancerFrontendIPConfigurationsListdefaultResponse,
+  LoadBalancerFrontendIPConfigurationsGet200Response,
+  LoadBalancerFrontendIPConfigurationsGetdefaultResponse,
+  InboundNatRulesList200Response,
+  InboundNatRulesListdefaultResponse,
+  InboundNatRulesDelete200Response,
+  InboundNatRulesDelete202Response,
+  InboundNatRulesDelete204Response,
+  InboundNatRulesDeletedefaultResponse,
+  InboundNatRulesGet200Response,
+  InboundNatRulesGetdefaultResponse,
+  InboundNatRulesCreateOrUpdate200Response,
+  InboundNatRulesCreateOrUpdate201Response,
+  InboundNatRulesCreateOrUpdatedefaultResponse,
+  LoadBalancerLoadBalancingRulesList200Response,
+  LoadBalancerLoadBalancingRulesListdefaultResponse,
+  LoadBalancerLoadBalancingRulesGet200Response,
+  LoadBalancerLoadBalancingRulesGetdefaultResponse,
+  LoadBalancerOutboundRulesList200Response,
+  LoadBalancerOutboundRulesListdefaultResponse,
+  LoadBalancerOutboundRulesGet200Response,
+  LoadBalancerOutboundRulesGetdefaultResponse,
+  LoadBalancerNetworkInterfacesList200Response,
+  LoadBalancerNetworkInterfacesListdefaultResponse,
+  LoadBalancerProbesList200Response,
+  LoadBalancerProbesListdefaultResponse,
+  LoadBalancerProbesGet200Response,
+  LoadBalancerProbesGetdefaultResponse,
+  NatGatewaysDelete200Response,
+  NatGatewaysDelete202Response,
+  NatGatewaysDelete204Response,
+  NatGatewaysDeletedefaultResponse,
+  NatGatewaysGet200Response,
+  NatGatewaysGetdefaultResponse,
+  NatGatewaysCreateOrUpdate200Response,
+  NatGatewaysCreateOrUpdate201Response,
+  NatGatewaysCreateOrUpdate202Response,
+  NatGatewaysCreateOrUpdatedefaultResponse,
+  NatGatewaysUpdateTags200Response,
+  NatGatewaysUpdateTagsdefaultResponse,
+  NatGatewaysListAll200Response,
+  NatGatewaysListAlldefaultResponse,
+  NatGatewaysList200Response,
+  NatGatewaysListdefaultResponse,
+  NetworkInterfaceIPConfigurationsList200Response,
+  NetworkInterfaceIPConfigurationsListdefaultResponse,
+  NetworkInterfaceIPConfigurationsGet200Response,
+  NetworkInterfaceIPConfigurationsGetdefaultResponse,
+  NetworkInterfaceLoadBalancersList200Response,
+  NetworkInterfaceLoadBalancersListdefaultResponse,
+  NetworkInterfaceTapConfigurationsDelete200Response,
+  NetworkInterfaceTapConfigurationsDelete202Response,
+  NetworkInterfaceTapConfigurationsDelete204Response,
+  NetworkInterfaceTapConfigurationsDeletedefaultResponse,
+  NetworkInterfaceTapConfigurationsGet200Response,
+  NetworkInterfaceTapConfigurationsGetdefaultResponse,
+  NetworkInterfaceTapConfigurationsCreateOrUpdate200Response,
+  NetworkInterfaceTapConfigurationsCreateOrUpdate201Response,
+  NetworkInterfaceTapConfigurationsCreateOrUpdatedefaultResponse,
+  NetworkInterfaceTapConfigurationsList200Response,
+  NetworkInterfaceTapConfigurationsListdefaultResponse,
+  NetworkManagersGet200Response,
+  NetworkManagersGetdefaultResponse,
+  NetworkManagersCreateOrUpdate200Response,
+  NetworkManagersCreateOrUpdate201Response,
+  NetworkManagersCreateOrUpdatedefaultResponse,
+  NetworkManagersDelete200Response,
+  NetworkManagersDelete202Response,
+  NetworkManagersDelete204Response,
+  NetworkManagersDeletedefaultResponse,
+  NetworkManagersPatch200Response,
+  NetworkManagersPatchdefaultResponse,
+  NetworkManagersListBySubscription200Response,
+  NetworkManagersListBySubscriptiondefaultResponse,
+  NetworkManagersList200Response,
+  NetworkManagersListdefaultResponse,
+  NetworkManagerCommitsPost200Response,
+  NetworkManagerCommitsPost202Response,
+  NetworkManagerCommitsPostdefaultResponse,
+  NetworkManagerDeploymentStatusList200Response,
+  NetworkManagerDeploymentStatusListdefaultResponse,
+  SubscriptionNetworkManagerConnectionsCreateOrUpdate200Response,
+  SubscriptionNetworkManagerConnectionsCreateOrUpdate201Response,
+  SubscriptionNetworkManagerConnectionsCreateOrUpdatedefaultResponse,
+  SubscriptionNetworkManagerConnectionsGet200Response,
+  SubscriptionNetworkManagerConnectionsGetdefaultResponse,
+  SubscriptionNetworkManagerConnectionsDelete200Response,
+  SubscriptionNetworkManagerConnectionsDelete204Response,
+  SubscriptionNetworkManagerConnectionsDeletedefaultResponse,
+  SubscriptionNetworkManagerConnectionsList200Response,
+  SubscriptionNetworkManagerConnectionsListdefaultResponse,
+  ManagementGroupNetworkManagerConnectionsCreateOrUpdate200Response,
+  ManagementGroupNetworkManagerConnectionsCreateOrUpdate201Response,
+  ManagementGroupNetworkManagerConnectionsCreateOrUpdatedefaultResponse,
+  ManagementGroupNetworkManagerConnectionsGet200Response,
+  ManagementGroupNetworkManagerConnectionsGetdefaultResponse,
+  ManagementGroupNetworkManagerConnectionsDelete200Response,
+  ManagementGroupNetworkManagerConnectionsDelete204Response,
+  ManagementGroupNetworkManagerConnectionsDeletedefaultResponse,
+  ManagementGroupNetworkManagerConnectionsList200Response,
+  ManagementGroupNetworkManagerConnectionsListdefaultResponse,
+  ConnectivityConfigurationsGet200Response,
+  ConnectivityConfigurationsGetdefaultResponse,
+  ConnectivityConfigurationsCreateOrUpdate200Response,
+  ConnectivityConfigurationsCreateOrUpdate201Response,
+  ConnectivityConfigurationsCreateOrUpdatedefaultResponse,
+  ConnectivityConfigurationsDelete200Response,
+  ConnectivityConfigurationsDelete202Response,
+  ConnectivityConfigurationsDelete204Response,
+  ConnectivityConfigurationsDeletedefaultResponse,
+  ConnectivityConfigurationsList200Response,
+  ConnectivityConfigurationsListdefaultResponse,
+  NetworkGroupsGet200Response,
+  NetworkGroupsGetdefaultResponse,
+  NetworkGroupsCreateOrUpdate200Response,
+  NetworkGroupsCreateOrUpdate201Response,
+  NetworkGroupsCreateOrUpdatedefaultResponse,
+  NetworkGroupsDelete200Response,
+  NetworkGroupsDelete202Response,
+  NetworkGroupsDelete204Response,
+  NetworkGroupsDeletedefaultResponse,
+  NetworkGroupsList200Response,
+  NetworkGroupsListdefaultResponse,
+  StaticMembersGet200Response,
+  StaticMembersGetdefaultResponse,
+  StaticMembersCreateOrUpdate200Response,
+  StaticMembersCreateOrUpdate201Response,
+  StaticMembersCreateOrUpdatedefaultResponse,
+  StaticMembersDelete200Response,
+  StaticMembersDelete204Response,
+  StaticMembersDeletedefaultResponse,
+  StaticMembersList200Response,
+  StaticMembersListdefaultResponse,
+  ScopeConnectionsCreateOrUpdate200Response,
+  ScopeConnectionsCreateOrUpdate201Response,
+  ScopeConnectionsCreateOrUpdatedefaultResponse,
+  ScopeConnectionsGet200Response,
+  ScopeConnectionsGetdefaultResponse,
+  ScopeConnectionsDelete200Response,
+  ScopeConnectionsDelete204Response,
+  ScopeConnectionsDeletedefaultResponse,
+  ScopeConnectionsList200Response,
+  ScopeConnectionsListdefaultResponse,
+  SecurityAdminConfigurationsList200Response,
+  SecurityAdminConfigurationsListdefaultResponse,
+  SecurityAdminConfigurationsGet200Response,
+  SecurityAdminConfigurationsGetdefaultResponse,
+  SecurityAdminConfigurationsCreateOrUpdate200Response,
+  SecurityAdminConfigurationsCreateOrUpdate201Response,
+  SecurityAdminConfigurationsCreateOrUpdatedefaultResponse,
+  SecurityAdminConfigurationsDelete200Response,
+  SecurityAdminConfigurationsDelete202Response,
+  SecurityAdminConfigurationsDelete204Response,
+  SecurityAdminConfigurationsDeletedefaultResponse,
+  AdminRuleCollectionsList200Response,
+  AdminRuleCollectionsListdefaultResponse,
+  AdminRuleCollectionsGet200Response,
+  AdminRuleCollectionsGetdefaultResponse,
+  AdminRuleCollectionsCreateOrUpdate200Response,
+  AdminRuleCollectionsCreateOrUpdate201Response,
+  AdminRuleCollectionsCreateOrUpdatedefaultResponse,
+  AdminRuleCollectionsDelete200Response,
+  AdminRuleCollectionsDelete202Response,
+  AdminRuleCollectionsDelete204Response,
+  AdminRuleCollectionsDeletedefaultResponse,
+  AdminRulesList200Response,
+  AdminRulesListdefaultResponse,
+  AdminRulesGet200Response,
+  AdminRulesGetdefaultResponse,
+  AdminRulesCreateOrUpdate200Response,
+  AdminRulesCreateOrUpdate201Response,
+  AdminRulesCreateOrUpdatedefaultResponse,
+  AdminRulesDelete200Response,
+  AdminRulesDelete202Response,
+  AdminRulesDelete204Response,
+  AdminRulesDeletedefaultResponse,
+  NetworkProfilesDelete200Response,
+  NetworkProfilesDelete202Response,
+  NetworkProfilesDelete204Response,
+  NetworkProfilesDeletedefaultResponse,
+  NetworkProfilesGet200Response,
+  NetworkProfilesGetdefaultResponse,
+  NetworkProfilesCreateOrUpdate200Response,
+  NetworkProfilesCreateOrUpdate201Response,
+  NetworkProfilesCreateOrUpdatedefaultResponse,
+  NetworkProfilesUpdateTags200Response,
+  NetworkProfilesUpdateTagsdefaultResponse,
+  NetworkProfilesListAll200Response,
+  NetworkProfilesListAlldefaultResponse,
+  NetworkProfilesList200Response,
+  NetworkProfilesListdefaultResponse,
+  NetworkSecurityGroupsDelete200Response,
+  NetworkSecurityGroupsDelete202Response,
+  NetworkSecurityGroupsDelete204Response,
+  NetworkSecurityGroupsDeletedefaultResponse,
+  NetworkSecurityGroupsGet200Response,
+  NetworkSecurityGroupsGetdefaultResponse,
+  NetworkSecurityGroupsCreateOrUpdate200Response,
+  NetworkSecurityGroupsCreateOrUpdate201Response,
+  NetworkSecurityGroupsCreateOrUpdatedefaultResponse,
+  NetworkSecurityGroupsUpdateTags200Response,
+  NetworkSecurityGroupsUpdateTagsdefaultResponse,
+  NetworkSecurityGroupsListAll200Response,
+  NetworkSecurityGroupsListAlldefaultResponse,
+  NetworkSecurityGroupsList200Response,
+  NetworkSecurityGroupsListdefaultResponse,
+  SecurityRulesDelete200Response,
+  SecurityRulesDelete202Response,
+  SecurityRulesDelete204Response,
+  SecurityRulesDeletedefaultResponse,
+  SecurityRulesGet200Response,
+  SecurityRulesGetdefaultResponse,
+  SecurityRulesCreateOrUpdate200Response,
+  SecurityRulesCreateOrUpdate201Response,
+  SecurityRulesCreateOrUpdatedefaultResponse,
+  SecurityRulesList200Response,
+  SecurityRulesListdefaultResponse,
+  DefaultSecurityRulesList200Response,
+  DefaultSecurityRulesListdefaultResponse,
+  DefaultSecurityRulesGet200Response,
+  DefaultSecurityRulesGetdefaultResponse,
+  NetworkVirtualAppliancesDelete200Response,
+  NetworkVirtualAppliancesDelete202Response,
+  NetworkVirtualAppliancesDelete204Response,
+  NetworkVirtualAppliancesDeletedefaultResponse,
+  NetworkVirtualAppliancesGet200Response,
+  NetworkVirtualAppliancesGetdefaultResponse,
+  NetworkVirtualAppliancesUpdateTags200Response,
+  NetworkVirtualAppliancesUpdateTagsdefaultResponse,
+  NetworkVirtualAppliancesCreateOrUpdate200Response,
+  NetworkVirtualAppliancesCreateOrUpdate201Response,
+  NetworkVirtualAppliancesCreateOrUpdatedefaultResponse,
+  NetworkVirtualAppliancesListByResourceGroup200Response,
+  NetworkVirtualAppliancesListByResourceGroupdefaultResponse,
+  NetworkVirtualAppliancesList200Response,
+  NetworkVirtualAppliancesListdefaultResponse,
+  VirtualApplianceSitesDelete200Response,
+  VirtualApplianceSitesDelete202Response,
+  VirtualApplianceSitesDelete204Response,
+  VirtualApplianceSitesDeletedefaultResponse,
+  VirtualApplianceSitesGet200Response,
+  VirtualApplianceSitesGetdefaultResponse,
+  VirtualApplianceSitesCreateOrUpdate200Response,
+  VirtualApplianceSitesCreateOrUpdate201Response,
+  VirtualApplianceSitesCreateOrUpdatedefaultResponse,
+  VirtualApplianceSitesList200Response,
+  VirtualApplianceSitesListdefaultResponse,
+  VirtualApplianceSkusList200Response,
+  VirtualApplianceSkusListdefaultResponse,
+  VirtualApplianceSkusGet200Response,
+  VirtualApplianceSkusGetdefaultResponse,
+  InboundSecurityRuleCreateOrUpdate200Response,
+  InboundSecurityRuleCreateOrUpdate201Response,
+  InboundSecurityRuleCreateOrUpdatedefaultResponse,
+  NetworkWatchersCreateOrUpdate200Response,
+  NetworkWatchersCreateOrUpdate201Response,
+  NetworkWatchersCreateOrUpdatedefaultResponse,
+  NetworkWatchersGet200Response,
+  NetworkWatchersGetdefaultResponse,
+  NetworkWatchersDelete202Response,
+  NetworkWatchersDelete204Response,
+  NetworkWatchersDeletedefaultResponse,
+  NetworkWatchersUpdateTags200Response,
+  NetworkWatchersUpdateTagsdefaultResponse,
+  NetworkWatchersList200Response,
+  NetworkWatchersListdefaultResponse,
+  NetworkWatchersListAll200Response,
+  NetworkWatchersListAlldefaultResponse,
+  NetworkWatchersGetTopology200Response,
+  NetworkWatchersGetTopologydefaultResponse,
+  NetworkWatchersVerifyIPFlow200Response,
+  NetworkWatchersVerifyIPFlow202Response,
+  NetworkWatchersVerifyIPFlowdefaultResponse,
+  NetworkWatchersGetNextHop200Response,
+  NetworkWatchersGetNextHop202Response,
+  NetworkWatchersGetNextHopdefaultResponse,
+  NetworkWatchersGetVMSecurityRules200Response,
+  NetworkWatchersGetVMSecurityRules202Response,
+  NetworkWatchersGetVMSecurityRulesdefaultResponse,
+  NetworkWatchersGetTroubleshooting200Response,
+  NetworkWatchersGetTroubleshooting202Response,
+  NetworkWatchersGetTroubleshootingdefaultResponse,
+  NetworkWatchersGetTroubleshootingResult200Response,
+  NetworkWatchersGetTroubleshootingResult202Response,
+  NetworkWatchersGetTroubleshootingResultdefaultResponse,
+  NetworkWatchersSetFlowLogConfiguration200Response,
+  NetworkWatchersSetFlowLogConfiguration202Response,
+  NetworkWatchersSetFlowLogConfigurationdefaultResponse,
+  NetworkWatchersGetFlowLogStatus200Response,
+  NetworkWatchersGetFlowLogStatus202Response,
+  NetworkWatchersGetFlowLogStatusdefaultResponse,
+  NetworkWatchersCheckConnectivity200Response,
+  NetworkWatchersCheckConnectivity202Response,
+  NetworkWatchersCheckConnectivitydefaultResponse,
+  NetworkWatchersGetAzureReachabilityReport200Response,
+  NetworkWatchersGetAzureReachabilityReport202Response,
+  NetworkWatchersGetAzureReachabilityReportdefaultResponse,
+  NetworkWatchersListAvailableProviders200Response,
+  NetworkWatchersListAvailableProviders202Response,
+  NetworkWatchersListAvailableProvidersdefaultResponse,
+  NetworkWatchersGetNetworkConfigurationDiagnostic200Response,
+  NetworkWatchersGetNetworkConfigurationDiagnostic202Response,
+  NetworkWatchersGetNetworkConfigurationDiagnosticdefaultResponse,
+  PacketCapturesCreate201Response,
+  PacketCapturesCreatedefaultResponse,
+  PacketCapturesGet200Response,
+  PacketCapturesGetdefaultResponse,
+  PacketCapturesDelete202Response,
+  PacketCapturesDelete204Response,
+  PacketCapturesDeletedefaultResponse,
+  PacketCapturesStop200Response,
+  PacketCapturesStop202Response,
+  PacketCapturesStopdefaultResponse,
+  PacketCapturesGetStatus200Response,
+  PacketCapturesGetStatus202Response,
+  PacketCapturesGetStatusdefaultResponse,
+  PacketCapturesList200Response,
+  PacketCapturesListdefaultResponse,
+  ConnectionMonitorsCreateOrUpdate200Response,
+  ConnectionMonitorsCreateOrUpdate201Response,
+  ConnectionMonitorsCreateOrUpdatedefaultResponse,
+  ConnectionMonitorsGet200Response,
+  ConnectionMonitorsGetdefaultResponse,
+  ConnectionMonitorsDelete202Response,
+  ConnectionMonitorsDelete204Response,
+  ConnectionMonitorsDeletedefaultResponse,
+  ConnectionMonitorsUpdateTags200Response,
+  ConnectionMonitorsUpdateTagsdefaultResponse,
+  ConnectionMonitorsStop200Response,
+  ConnectionMonitorsStop202Response,
+  ConnectionMonitorsStopdefaultResponse,
+  ConnectionMonitorsStart200Response,
+  ConnectionMonitorsStart202Response,
+  ConnectionMonitorsStartdefaultResponse,
+  ConnectionMonitorsQuery200Response,
+  ConnectionMonitorsQuery202Response,
+  ConnectionMonitorsQuerydefaultResponse,
+  ConnectionMonitorsList200Response,
+  ConnectionMonitorsListdefaultResponse,
+  FlowLogsCreateOrUpdate200Response,
+  FlowLogsCreateOrUpdate201Response,
+  FlowLogsCreateOrUpdatedefaultResponse,
+  FlowLogsUpdateTags200Response,
+  FlowLogsUpdateTagsdefaultResponse,
+  FlowLogsGet200Response,
+  FlowLogsGetdefaultResponse,
+  FlowLogsDelete202Response,
+  FlowLogsDelete204Response,
+  FlowLogsDeletedefaultResponse,
+  FlowLogsList200Response,
+  FlowLogsListdefaultResponse,
+  OperationsList200Response,
+  OperationsListdefaultResponse,
+  PrivateEndpointsDelete200Response,
+  PrivateEndpointsDelete202Response,
+  PrivateEndpointsDelete204Response,
+  PrivateEndpointsDeletedefaultResponse,
+  PrivateEndpointsGet200Response,
+  PrivateEndpointsGetdefaultResponse,
+  PrivateEndpointsCreateOrUpdate200Response,
+  PrivateEndpointsCreateOrUpdate201Response,
+  PrivateEndpointsCreateOrUpdatedefaultResponse,
+  PrivateEndpointsList200Response,
+  PrivateEndpointsListdefaultResponse,
+  PrivateEndpointsListBySubscription200Response,
+  PrivateEndpointsListBySubscriptiondefaultResponse,
+  AvailablePrivateEndpointTypesList200Response,
+  AvailablePrivateEndpointTypesListdefaultResponse,
+  AvailablePrivateEndpointTypesListByResourceGroup200Response,
+  AvailablePrivateEndpointTypesListByResourceGroupdefaultResponse,
+  PrivateDnsZoneGroupsDelete200Response,
+  PrivateDnsZoneGroupsDelete202Response,
+  PrivateDnsZoneGroupsDelete204Response,
+  PrivateDnsZoneGroupsDeletedefaultResponse,
+  PrivateDnsZoneGroupsGet200Response,
+  PrivateDnsZoneGroupsGetdefaultResponse,
+  PrivateDnsZoneGroupsCreateOrUpdate200Response,
+  PrivateDnsZoneGroupsCreateOrUpdate201Response,
+  PrivateDnsZoneGroupsCreateOrUpdatedefaultResponse,
+  PrivateDnsZoneGroupsList200Response,
+  PrivateDnsZoneGroupsListdefaultResponse,
+  PrivateLinkServicesDelete200Response,
+  PrivateLinkServicesDelete202Response,
+  PrivateLinkServicesDelete204Response,
+  PrivateLinkServicesDeletedefaultResponse,
+  PrivateLinkServicesGet200Response,
+  PrivateLinkServicesGetdefaultResponse,
+  PrivateLinkServicesCreateOrUpdate200Response,
+  PrivateLinkServicesCreateOrUpdate201Response,
+  PrivateLinkServicesCreateOrUpdatedefaultResponse,
+  PrivateLinkServicesList200Response,
+  PrivateLinkServicesListdefaultResponse,
+  PrivateLinkServicesListBySubscription200Response,
+  PrivateLinkServicesListBySubscriptiondefaultResponse,
+  PrivateLinkServicesGetPrivateEndpointConnection200Response,
+  PrivateLinkServicesGetPrivateEndpointConnectiondefaultResponse,
+  PrivateLinkServicesUpdatePrivateEndpointConnection200Response,
+  PrivateLinkServicesUpdatePrivateEndpointConnectiondefaultResponse,
+  PrivateLinkServicesDeletePrivateEndpointConnection200Response,
+  PrivateLinkServicesDeletePrivateEndpointConnection202Response,
+  PrivateLinkServicesDeletePrivateEndpointConnection204Response,
+  PrivateLinkServicesDeletePrivateEndpointConnectiondefaultResponse,
+  PrivateLinkServicesListPrivateEndpointConnections200Response,
+  PrivateLinkServicesListPrivateEndpointConnectionsdefaultResponse,
+  PrivateLinkServicesCheckPrivateLinkServiceVisibility200Response,
+  PrivateLinkServicesCheckPrivateLinkServiceVisibility202Response,
+  PrivateLinkServicesCheckPrivateLinkServiceVisibilitydefaultResponse,
+  PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup200Response,
+  PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup202Response,
+  PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupdefaultResponse,
+  PrivateLinkServicesListAutoApprovedPrivateLinkServices200Response,
+  PrivateLinkServicesListAutoApprovedPrivateLinkServicesdefaultResponse,
+  PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroup200Response,
+  PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupdefaultResponse,
+  PublicIPPrefixesDelete200Response,
+  PublicIPPrefixesDelete202Response,
+  PublicIPPrefixesDelete204Response,
+  PublicIPPrefixesDeletedefaultResponse,
+  PublicIPPrefixesGet200Response,
+  PublicIPPrefixesGetdefaultResponse,
+  PublicIPPrefixesCreateOrUpdate200Response,
+  PublicIPPrefixesCreateOrUpdate201Response,
+  PublicIPPrefixesCreateOrUpdatedefaultResponse,
+  PublicIPPrefixesUpdateTags200Response,
+  PublicIPPrefixesUpdateTagsdefaultResponse,
+  PublicIPPrefixesListAll200Response,
+  PublicIPPrefixesListAlldefaultResponse,
+  PublicIPPrefixesList200Response,
+  PublicIPPrefixesListdefaultResponse,
+  RouteFiltersDelete200Response,
+  RouteFiltersDelete202Response,
+  RouteFiltersDelete204Response,
+  RouteFiltersDeletedefaultResponse,
+  RouteFiltersGet200Response,
+  RouteFiltersGetdefaultResponse,
+  RouteFiltersCreateOrUpdate200Response,
+  RouteFiltersCreateOrUpdate201Response,
+  RouteFiltersCreateOrUpdatedefaultResponse,
+  RouteFiltersUpdateTags200Response,
+  RouteFiltersUpdateTagsdefaultResponse,
+  RouteFiltersListByResourceGroup200Response,
+  RouteFiltersListByResourceGroupdefaultResponse,
+  RouteFiltersList200Response,
+  RouteFiltersListdefaultResponse,
+  RouteFilterRulesDelete200Response,
+  RouteFilterRulesDelete202Response,
+  RouteFilterRulesDelete204Response,
+  RouteFilterRulesDeletedefaultResponse,
+  RouteFilterRulesGet200Response,
+  RouteFilterRulesGetdefaultResponse,
+  RouteFilterRulesCreateOrUpdate200Response,
+  RouteFilterRulesCreateOrUpdate201Response,
+  RouteFilterRulesCreateOrUpdatedefaultResponse,
+  RouteFilterRulesListByRouteFilter200Response,
+  RouteFilterRulesListByRouteFilterdefaultResponse,
+  RouteTablesDelete200Response,
+  RouteTablesDelete202Response,
+  RouteTablesDelete204Response,
+  RouteTablesDeletedefaultResponse,
+  RouteTablesGet200Response,
+  RouteTablesGetdefaultResponse,
+  RouteTablesCreateOrUpdate200Response,
+  RouteTablesCreateOrUpdate201Response,
+  RouteTablesCreateOrUpdatedefaultResponse,
+  RouteTablesUpdateTags200Response,
+  RouteTablesUpdateTagsdefaultResponse,
+  RouteTablesList200Response,
+  RouteTablesListdefaultResponse,
+  RouteTablesListAll200Response,
+  RouteTablesListAlldefaultResponse,
+  RoutesDelete200Response,
+  RoutesDelete202Response,
+  RoutesDelete204Response,
+  RoutesDeletedefaultResponse,
+  RoutesGet200Response,
+  RoutesGetdefaultResponse,
+  RoutesCreateOrUpdate200Response,
+  RoutesCreateOrUpdate201Response,
+  RoutesCreateOrUpdatedefaultResponse,
+  RoutesList200Response,
+  RoutesListdefaultResponse,
+  SecurityPartnerProvidersDelete200Response,
+  SecurityPartnerProvidersDelete202Response,
+  SecurityPartnerProvidersDelete204Response,
+  SecurityPartnerProvidersDeletedefaultResponse,
+  SecurityPartnerProvidersGet200Response,
+  SecurityPartnerProvidersGetdefaultResponse,
+  SecurityPartnerProvidersCreateOrUpdate200Response,
+  SecurityPartnerProvidersCreateOrUpdate201Response,
+  SecurityPartnerProvidersCreateOrUpdatedefaultResponse,
+  SecurityPartnerProvidersUpdateTags200Response,
+  SecurityPartnerProvidersUpdateTagsdefaultResponse,
+  SecurityPartnerProvidersListByResourceGroup200Response,
+  SecurityPartnerProvidersListByResourceGroupdefaultResponse,
+  SecurityPartnerProvidersList200Response,
+  SecurityPartnerProvidersListdefaultResponse,
+  BgpServiceCommunitiesList200Response,
+  BgpServiceCommunitiesListdefaultResponse,
+  ServiceEndpointPoliciesDelete200Response,
+  ServiceEndpointPoliciesDelete202Response,
+  ServiceEndpointPoliciesDelete204Response,
+  ServiceEndpointPoliciesDeletedefaultResponse,
+  ServiceEndpointPoliciesGet200Response,
+  ServiceEndpointPoliciesGetdefaultResponse,
+  ServiceEndpointPoliciesCreateOrUpdate200Response,
+  ServiceEndpointPoliciesCreateOrUpdate201Response,
+  ServiceEndpointPoliciesCreateOrUpdatedefaultResponse,
+  ServiceEndpointPoliciesUpdateTags200Response,
+  ServiceEndpointPoliciesUpdateTagsdefaultResponse,
+  ServiceEndpointPoliciesList200Response,
+  ServiceEndpointPoliciesListdefaultResponse,
+  ServiceEndpointPoliciesListByResourceGroup200Response,
+  ServiceEndpointPoliciesListByResourceGroupdefaultResponse,
+  ServiceEndpointPolicyDefinitionsDelete200Response,
+  ServiceEndpointPolicyDefinitionsDelete202Response,
+  ServiceEndpointPolicyDefinitionsDelete204Response,
+  ServiceEndpointPolicyDefinitionsDeletedefaultResponse,
+  ServiceEndpointPolicyDefinitionsGet200Response,
+  ServiceEndpointPolicyDefinitionsGetdefaultResponse,
+  ServiceEndpointPolicyDefinitionsCreateOrUpdate200Response,
+  ServiceEndpointPolicyDefinitionsCreateOrUpdate201Response,
+  ServiceEndpointPolicyDefinitionsCreateOrUpdatedefaultResponse,
+  ServiceEndpointPolicyDefinitionsListByResourceGroup200Response,
+  ServiceEndpointPolicyDefinitionsListByResourceGroupdefaultResponse,
+  ServiceTagsList200Response,
+  ServiceTagsListdefaultResponse,
+  ServiceTagInformationList200Response,
+  ServiceTagInformationListdefaultResponse,
+  UsagesList200Response,
+  UsagesListdefaultResponse,
+  VirtualNetworksDelete200Response,
+  VirtualNetworksDelete202Response,
+  VirtualNetworksDelete204Response,
+  VirtualNetworksDeletedefaultResponse,
+  VirtualNetworksGet200Response,
+  VirtualNetworksGetdefaultResponse,
+  VirtualNetworksCreateOrUpdate200Response,
+  VirtualNetworksCreateOrUpdate201Response,
+  VirtualNetworksCreateOrUpdatedefaultResponse,
+  VirtualNetworksUpdateTags200Response,
+  VirtualNetworksUpdateTagsdefaultResponse,
+  VirtualNetworksListAll200Response,
+  VirtualNetworksListAlldefaultResponse,
+  VirtualNetworksList200Response,
+  VirtualNetworksListdefaultResponse,
+  VirtualNetworksCheckIPAddressAvailability200Response,
+  VirtualNetworksCheckIPAddressAvailabilitydefaultResponse,
+  VirtualNetworksListUsage200Response,
+  VirtualNetworksListUsagedefaultResponse,
+  VirtualNetworksListDdosProtectionStatus200Response,
+  VirtualNetworksListDdosProtectionStatus202Response,
+  VirtualNetworksListDdosProtectionStatusdefaultResponse,
+  SubnetsDelete200Response,
+  SubnetsDelete202Response,
+  SubnetsDelete204Response,
+  SubnetsDeletedefaultResponse,
+  SubnetsGet200Response,
+  SubnetsGetdefaultResponse,
+  SubnetsCreateOrUpdate200Response,
+  SubnetsCreateOrUpdate201Response,
+  SubnetsCreateOrUpdatedefaultResponse,
+  SubnetsPrepareNetworkPolicies200Response,
+  SubnetsPrepareNetworkPolicies202Response,
+  SubnetsPrepareNetworkPoliciesdefaultResponse,
+  SubnetsUnprepareNetworkPolicies200Response,
+  SubnetsUnprepareNetworkPolicies202Response,
+  SubnetsUnprepareNetworkPoliciesdefaultResponse,
+  SubnetsList200Response,
+  SubnetsListdefaultResponse,
+  ResourceNavigationLinksList200Response,
+  ResourceNavigationLinksListdefaultResponse,
+  ServiceAssociationLinksList200Response,
+  ServiceAssociationLinksListdefaultResponse,
+  VirtualNetworkPeeringsDelete200Response,
+  VirtualNetworkPeeringsDelete202Response,
+  VirtualNetworkPeeringsDelete204Response,
+  VirtualNetworkPeeringsDeletedefaultResponse,
+  VirtualNetworkPeeringsGet200Response,
+  VirtualNetworkPeeringsGetdefaultResponse,
+  VirtualNetworkPeeringsCreateOrUpdate200Response,
+  VirtualNetworkPeeringsCreateOrUpdate201Response,
+  VirtualNetworkPeeringsCreateOrUpdatedefaultResponse,
+  VirtualNetworkPeeringsList200Response,
+  VirtualNetworkPeeringsListdefaultResponse,
+  VirtualNetworkGatewaysCreateOrUpdate200Response,
+  VirtualNetworkGatewaysCreateOrUpdate201Response,
+  VirtualNetworkGatewaysCreateOrUpdatedefaultResponse,
+  VirtualNetworkGatewaysGet200Response,
+  VirtualNetworkGatewaysGetdefaultResponse,
+  VirtualNetworkGatewaysDelete200Response,
+  VirtualNetworkGatewaysDelete202Response,
+  VirtualNetworkGatewaysDelete204Response,
+  VirtualNetworkGatewaysDeletedefaultResponse,
+  VirtualNetworkGatewaysUpdateTags200Response,
+  VirtualNetworkGatewaysUpdateTags202Response,
+  VirtualNetworkGatewaysUpdateTagsdefaultResponse,
+  VirtualNetworkGatewaysList200Response,
+  VirtualNetworkGatewaysListdefaultResponse,
+  VirtualNetworkGatewaysListConnections200Response,
+  VirtualNetworkGatewaysListConnectionsdefaultResponse,
+  VirtualNetworkGatewaysReset200Response,
+  VirtualNetworkGatewaysReset202Response,
+  VirtualNetworkGatewaysResetdefaultResponse,
+  VirtualNetworkGatewaysResetVpnClientSharedKey200Response,
+  VirtualNetworkGatewaysResetVpnClientSharedKey202Response,
+  VirtualNetworkGatewaysResetVpnClientSharedKeydefaultResponse,
+  VirtualNetworkGatewaysGeneratevpnclientpackage200Response,
+  VirtualNetworkGatewaysGeneratevpnclientpackage202Response,
+  VirtualNetworkGatewaysGeneratevpnclientpackagedefaultResponse,
+  VirtualNetworkGatewaysGenerateVpnProfile200Response,
+  VirtualNetworkGatewaysGenerateVpnProfile202Response,
+  VirtualNetworkGatewaysGenerateVpnProfiledefaultResponse,
+  VirtualNetworkGatewaysGetVpnProfilePackageUrl200Response,
+  VirtualNetworkGatewaysGetVpnProfilePackageUrl202Response,
+  VirtualNetworkGatewaysGetVpnProfilePackageUrldefaultResponse,
+  VirtualNetworkGatewaysGetBgpPeerStatus200Response,
+  VirtualNetworkGatewaysGetBgpPeerStatus202Response,
+  VirtualNetworkGatewaysGetBgpPeerStatusdefaultResponse,
+  VirtualNetworkGatewaysSupportedVpnDevices200Response,
+  VirtualNetworkGatewaysSupportedVpnDevicesdefaultResponse,
+  VirtualNetworkGatewaysGetLearnedRoutes200Response,
+  VirtualNetworkGatewaysGetLearnedRoutes202Response,
+  VirtualNetworkGatewaysGetLearnedRoutesdefaultResponse,
+  VirtualNetworkGatewaysGetAdvertisedRoutes200Response,
+  VirtualNetworkGatewaysGetAdvertisedRoutes202Response,
+  VirtualNetworkGatewaysGetAdvertisedRoutesdefaultResponse,
+  VirtualNetworkGatewaysSetVpnclientIpsecParameters200Response,
+  VirtualNetworkGatewaysSetVpnclientIpsecParameters202Response,
+  VirtualNetworkGatewaysSetVpnclientIpsecParametersdefaultResponse,
+  VirtualNetworkGatewaysGetVpnclientIpsecParameters200Response,
+  VirtualNetworkGatewaysGetVpnclientIpsecParametersdefaultResponse,
+  VirtualNetworkGatewaysVpnDeviceConfigurationScript200Response,
+  VirtualNetworkGatewaysVpnDeviceConfigurationScriptdefaultResponse,
+  VirtualNetworkGatewaysStartPacketCapture200Response,
+  VirtualNetworkGatewaysStartPacketCapture202Response,
+  VirtualNetworkGatewaysStartPacketCapturedefaultResponse,
+  VirtualNetworkGatewaysStopPacketCapture200Response,
+  VirtualNetworkGatewaysStopPacketCapture202Response,
+  VirtualNetworkGatewaysStopPacketCapturedefaultResponse,
+  VirtualNetworkGatewaysGetVpnclientConnectionHealth200Response,
+  VirtualNetworkGatewaysGetVpnclientConnectionHealth202Response,
+  VirtualNetworkGatewaysGetVpnclientConnectionHealthdefaultResponse,
+  VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections200Response,
+  VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections202Response,
+  VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsdefaultResponse,
+  VirtualNetworkGatewayConnectionsCreateOrUpdate200Response,
+  VirtualNetworkGatewayConnectionsCreateOrUpdate201Response,
+  VirtualNetworkGatewayConnectionsCreateOrUpdatedefaultResponse,
+  VirtualNetworkGatewayConnectionsGet200Response,
+  VirtualNetworkGatewayConnectionsGetdefaultResponse,
+  VirtualNetworkGatewayConnectionsDelete200Response,
+  VirtualNetworkGatewayConnectionsDelete202Response,
+  VirtualNetworkGatewayConnectionsDelete204Response,
+  VirtualNetworkGatewayConnectionsDeletedefaultResponse,
+  VirtualNetworkGatewayConnectionsUpdateTags200Response,
+  VirtualNetworkGatewayConnectionsUpdateTags202Response,
+  VirtualNetworkGatewayConnectionsUpdateTagsdefaultResponse,
+  VirtualNetworkGatewayConnectionsSetSharedKey200Response,
+  VirtualNetworkGatewayConnectionsSetSharedKey201Response,
+  VirtualNetworkGatewayConnectionsSetSharedKeydefaultResponse,
+  VirtualNetworkGatewayConnectionsGetSharedKey200Response,
+  VirtualNetworkGatewayConnectionsGetSharedKeydefaultResponse,
+  VirtualNetworkGatewayConnectionsList200Response,
+  VirtualNetworkGatewayConnectionsListdefaultResponse,
+  VirtualNetworkGatewayConnectionsResetSharedKey200Response,
+  VirtualNetworkGatewayConnectionsResetSharedKey202Response,
+  VirtualNetworkGatewayConnectionsResetSharedKeydefaultResponse,
+  VirtualNetworkGatewayConnectionsStartPacketCapture200Response,
+  VirtualNetworkGatewayConnectionsStartPacketCapture202Response,
+  VirtualNetworkGatewayConnectionsStartPacketCapturedefaultResponse,
+  VirtualNetworkGatewayConnectionsStopPacketCapture200Response,
+  VirtualNetworkGatewayConnectionsStopPacketCapture202Response,
+  VirtualNetworkGatewayConnectionsStopPacketCapturedefaultResponse,
+  VirtualNetworkGatewayConnectionsGetIkeSas200Response,
+  VirtualNetworkGatewayConnectionsGetIkeSas202Response,
+  VirtualNetworkGatewayConnectionsGetIkeSasdefaultResponse,
+  VirtualNetworkGatewayConnectionsResetConnection202Response,
+  VirtualNetworkGatewayConnectionsResetConnectiondefaultResponse,
+  LocalNetworkGatewaysCreateOrUpdate200Response,
+  LocalNetworkGatewaysCreateOrUpdate201Response,
+  LocalNetworkGatewaysCreateOrUpdatedefaultResponse,
+  LocalNetworkGatewaysGet200Response,
+  LocalNetworkGatewaysGetdefaultResponse,
+  LocalNetworkGatewaysDelete200Response,
+  LocalNetworkGatewaysDelete202Response,
+  LocalNetworkGatewaysDelete204Response,
+  LocalNetworkGatewaysDeletedefaultResponse,
+  LocalNetworkGatewaysUpdateTags200Response,
+  LocalNetworkGatewaysUpdateTagsdefaultResponse,
+  LocalNetworkGatewaysList200Response,
+  LocalNetworkGatewaysListdefaultResponse,
+  VirtualNetworkGatewayNatRulesGet200Response,
+  VirtualNetworkGatewayNatRulesGetdefaultResponse,
+  VirtualNetworkGatewayNatRulesCreateOrUpdate200Response,
+  VirtualNetworkGatewayNatRulesCreateOrUpdate201Response,
+  VirtualNetworkGatewayNatRulesCreateOrUpdatedefaultResponse,
+  VirtualNetworkGatewayNatRulesDelete200Response,
+  VirtualNetworkGatewayNatRulesDelete202Response,
+  VirtualNetworkGatewayNatRulesDelete204Response,
+  VirtualNetworkGatewayNatRulesDeletedefaultResponse,
+  VirtualNetworkGatewayNatRulesListByVirtualNetworkGateway200Response,
+  VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewaydefaultResponse,
+  VirtualNetworkTapsDelete200Response,
+  VirtualNetworkTapsDelete202Response,
+  VirtualNetworkTapsDelete204Response,
+  VirtualNetworkTapsDeletedefaultResponse,
+  VirtualNetworkTapsGet200Response,
+  VirtualNetworkTapsGetdefaultResponse,
+  VirtualNetworkTapsCreateOrUpdate200Response,
+  VirtualNetworkTapsCreateOrUpdate201Response,
+  VirtualNetworkTapsCreateOrUpdatedefaultResponse,
+  VirtualNetworkTapsUpdateTags200Response,
+  VirtualNetworkTapsUpdateTagsdefaultResponse,
+  VirtualNetworkTapsListAll200Response,
+  VirtualNetworkTapsListAlldefaultResponse,
+  VirtualNetworkTapsListByResourceGroup200Response,
+  VirtualNetworkTapsListByResourceGroupdefaultResponse,
+  VirtualRoutersDelete200Response,
+  VirtualRoutersDelete202Response,
+  VirtualRoutersDelete204Response,
+  VirtualRoutersDeletedefaultResponse,
+  VirtualRoutersGet200Response,
+  VirtualRoutersGetdefaultResponse,
+  VirtualRoutersCreateOrUpdate200Response,
+  VirtualRoutersCreateOrUpdate201Response,
+  VirtualRoutersCreateOrUpdatedefaultResponse,
+  VirtualRoutersListByResourceGroup200Response,
+  VirtualRoutersListByResourceGroupdefaultResponse,
+  VirtualRoutersList200Response,
+  VirtualRoutersListdefaultResponse,
+  VirtualRouterPeeringsDelete200Response,
+  VirtualRouterPeeringsDelete202Response,
+  VirtualRouterPeeringsDelete204Response,
+  VirtualRouterPeeringsDeletedefaultResponse,
+  VirtualRouterPeeringsGet200Response,
+  VirtualRouterPeeringsGetdefaultResponse,
+  VirtualRouterPeeringsCreateOrUpdate200Response,
+  VirtualRouterPeeringsCreateOrUpdate201Response,
+  VirtualRouterPeeringsCreateOrUpdatedefaultResponse,
+  VirtualRouterPeeringsList200Response,
+  VirtualRouterPeeringsListdefaultResponse,
+  VirtualWansGet200Response,
+  VirtualWansGetdefaultResponse,
+  VirtualWansCreateOrUpdate200Response,
+  VirtualWansCreateOrUpdate201Response,
+  VirtualWansCreateOrUpdatedefaultResponse,
+  VirtualWansUpdateTags200Response,
+  VirtualWansUpdateTagsdefaultResponse,
+  VirtualWansDelete200Response,
+  VirtualWansDelete202Response,
+  VirtualWansDelete204Response,
+  VirtualWansDeletedefaultResponse,
+  VirtualWansListByResourceGroup200Response,
+  VirtualWansListByResourceGroupdefaultResponse,
+  VirtualWansList200Response,
+  VirtualWansListdefaultResponse,
+  VpnSitesGet200Response,
+  VpnSitesGetdefaultResponse,
+  VpnSitesCreateOrUpdate200Response,
+  VpnSitesCreateOrUpdate201Response,
+  VpnSitesCreateOrUpdatedefaultResponse,
+  VpnSitesUpdateTags200Response,
+  VpnSitesUpdateTagsdefaultResponse,
+  VpnSitesDelete200Response,
+  VpnSitesDelete202Response,
+  VpnSitesDelete204Response,
+  VpnSitesDeletedefaultResponse,
+  VpnSitesListByResourceGroup200Response,
+  VpnSitesListByResourceGroupdefaultResponse,
+  VpnSitesList200Response,
+  VpnSitesListdefaultResponse,
+  VpnSiteLinksGet200Response,
+  VpnSiteLinksGetdefaultResponse,
+  VpnSiteLinksListByVpnSite200Response,
+  VpnSiteLinksListByVpnSitedefaultResponse,
+  VpnSitesConfigurationDownload200Response,
+  VpnSitesConfigurationDownload202Response,
+  VpnSitesConfigurationDownloaddefaultResponse,
+  VpnServerConfigurationsGet200Response,
+  VpnServerConfigurationsGetdefaultResponse,
+  VpnServerConfigurationsCreateOrUpdate200Response,
+  VpnServerConfigurationsCreateOrUpdate201Response,
+  VpnServerConfigurationsCreateOrUpdatedefaultResponse,
+  VpnServerConfigurationsUpdateTags200Response,
+  VpnServerConfigurationsUpdateTagsdefaultResponse,
+  VpnServerConfigurationsDelete200Response,
+  VpnServerConfigurationsDelete202Response,
+  VpnServerConfigurationsDelete204Response,
+  VpnServerConfigurationsDeletedefaultResponse,
+  VpnServerConfigurationsListByResourceGroup200Response,
+  VpnServerConfigurationsListByResourceGroupdefaultResponse,
+  VpnServerConfigurationsList200Response,
+  VpnServerConfigurationsListdefaultResponse,
+  ConfigurationPolicyGroupsCreateOrUpdate200Response,
+  ConfigurationPolicyGroupsCreateOrUpdate201Response,
+  ConfigurationPolicyGroupsCreateOrUpdatedefaultResponse,
+  ConfigurationPolicyGroupsDelete200Response,
+  ConfigurationPolicyGroupsDelete202Response,
+  ConfigurationPolicyGroupsDelete204Response,
+  ConfigurationPolicyGroupsDeletedefaultResponse,
+  ConfigurationPolicyGroupsGet200Response,
+  ConfigurationPolicyGroupsGetdefaultResponse,
+  ConfigurationPolicyGroupsListByVpnServerConfiguration200Response,
+  ConfigurationPolicyGroupsListByVpnServerConfigurationdefaultResponse,
+  VirtualHubsGet200Response,
+  VirtualHubsGetdefaultResponse,
+  VirtualHubsCreateOrUpdate200Response,
+  VirtualHubsCreateOrUpdate201Response,
+  VirtualHubsCreateOrUpdatedefaultResponse,
+  VirtualHubsUpdateTags200Response,
+  VirtualHubsUpdateTagsdefaultResponse,
+  VirtualHubsDelete200Response,
+  VirtualHubsDelete202Response,
+  VirtualHubsDelete204Response,
+  VirtualHubsDeletedefaultResponse,
+  VirtualHubsListByResourceGroup200Response,
+  VirtualHubsListByResourceGroupdefaultResponse,
+  VirtualHubsList200Response,
+  VirtualHubsListdefaultResponse,
+  VirtualHubsGetEffectiveVirtualHubRoutes200Response,
+  VirtualHubsGetEffectiveVirtualHubRoutes202Response,
+  VirtualHubsGetEffectiveVirtualHubRoutesdefaultResponse,
+  VirtualHubsGetInboundRoutes200Response,
+  VirtualHubsGetInboundRoutes202Response,
+  VirtualHubsGetInboundRoutesdefaultResponse,
+  VirtualHubsGetOutboundRoutes200Response,
+  VirtualHubsGetOutboundRoutes202Response,
+  VirtualHubsGetOutboundRoutesdefaultResponse,
+  RouteMapsGet200Response,
+  RouteMapsGetdefaultResponse,
+  RouteMapsCreateOrUpdate200Response,
+  RouteMapsCreateOrUpdate201Response,
+  RouteMapsCreateOrUpdatedefaultResponse,
+  RouteMapsDelete200Response,
+  RouteMapsDelete202Response,
+  RouteMapsDelete204Response,
+  RouteMapsDeletedefaultResponse,
+  RouteMapsList200Response,
+  RouteMapsListdefaultResponse,
+  HubVirtualNetworkConnectionsCreateOrUpdate200Response,
+  HubVirtualNetworkConnectionsCreateOrUpdate201Response,
+  HubVirtualNetworkConnectionsCreateOrUpdatedefaultResponse,
+  HubVirtualNetworkConnectionsDelete200Response,
+  HubVirtualNetworkConnectionsDelete202Response,
+  HubVirtualNetworkConnectionsDelete204Response,
+  HubVirtualNetworkConnectionsDeletedefaultResponse,
+  HubVirtualNetworkConnectionsGet200Response,
+  HubVirtualNetworkConnectionsGetdefaultResponse,
+  HubVirtualNetworkConnectionsList200Response,
+  HubVirtualNetworkConnectionsListdefaultResponse,
+  VpnGatewaysGet200Response,
+  VpnGatewaysGetdefaultResponse,
+  VpnGatewaysCreateOrUpdate200Response,
+  VpnGatewaysCreateOrUpdate201Response,
+  VpnGatewaysCreateOrUpdatedefaultResponse,
+  VpnGatewaysUpdateTags200Response,
+  VpnGatewaysUpdateTags202Response,
+  VpnGatewaysUpdateTagsdefaultResponse,
+  VpnGatewaysDelete200Response,
+  VpnGatewaysDelete202Response,
+  VpnGatewaysDelete204Response,
+  VpnGatewaysDeletedefaultResponse,
+  VpnGatewaysReset200Response,
+  VpnGatewaysReset202Response,
+  VpnGatewaysResetdefaultResponse,
+  VpnGatewaysStartPacketCapture200Response,
+  VpnGatewaysStartPacketCapture202Response,
+  VpnGatewaysStartPacketCapturedefaultResponse,
+  VpnGatewaysStopPacketCapture200Response,
+  VpnGatewaysStopPacketCapture202Response,
+  VpnGatewaysStopPacketCapturedefaultResponse,
+  VpnGatewaysListByResourceGroup200Response,
+  VpnGatewaysListByResourceGroupdefaultResponse,
+  VpnGatewaysList200Response,
+  VpnGatewaysListdefaultResponse,
+  VpnLinkConnectionsResetConnection202Response,
+  VpnLinkConnectionsResetConnectiondefaultResponse,
+  VpnLinkConnectionsGetIkeSas200Response,
+  VpnLinkConnectionsGetIkeSas202Response,
+  VpnLinkConnectionsGetIkeSasdefaultResponse,
+  VpnLinkConnectionsListByVpnConnection200Response,
+  VpnLinkConnectionsListByVpnConnectiondefaultResponse,
+  VpnConnectionsGet200Response,
+  VpnConnectionsGetdefaultResponse,
+  VpnConnectionsCreateOrUpdate200Response,
+  VpnConnectionsCreateOrUpdate201Response,
+  VpnConnectionsCreateOrUpdatedefaultResponse,
+  VpnConnectionsDelete200Response,
+  VpnConnectionsDelete202Response,
+  VpnConnectionsDelete204Response,
+  VpnConnectionsDeletedefaultResponse,
+  VpnConnectionsStartPacketCapture200Response,
+  VpnConnectionsStartPacketCapture202Response,
+  VpnConnectionsStartPacketCapturedefaultResponse,
+  VpnConnectionsStopPacketCapture200Response,
+  VpnConnectionsStopPacketCapture202Response,
+  VpnConnectionsStopPacketCapturedefaultResponse,
+  VpnConnectionsListByVpnGateway200Response,
+  VpnConnectionsListByVpnGatewaydefaultResponse,
+  VpnSiteLinkConnectionsGet200Response,
+  VpnSiteLinkConnectionsGetdefaultResponse,
+  NatRulesGet200Response,
+  NatRulesGetdefaultResponse,
+  NatRulesCreateOrUpdate200Response,
+  NatRulesCreateOrUpdate201Response,
+  NatRulesCreateOrUpdatedefaultResponse,
+  NatRulesDelete200Response,
+  NatRulesDelete202Response,
+  NatRulesDelete204Response,
+  NatRulesDeletedefaultResponse,
+  NatRulesListByVpnGateway200Response,
+  NatRulesListByVpnGatewaydefaultResponse,
+  P2SVpnGatewaysGet200Response,
+  P2SVpnGatewaysGetdefaultResponse,
+  P2SVpnGatewaysCreateOrUpdate200Response,
+  P2SVpnGatewaysCreateOrUpdate201Response,
+  P2SVpnGatewaysCreateOrUpdatedefaultResponse,
+  P2SVpnGatewaysUpdateTags200Response,
+  P2SVpnGatewaysUpdateTags202Response,
+  P2SVpnGatewaysUpdateTagsdefaultResponse,
+  P2SVpnGatewaysDelete200Response,
+  P2SVpnGatewaysDelete202Response,
+  P2SVpnGatewaysDelete204Response,
+  P2SVpnGatewaysDeletedefaultResponse,
+  P2SVpnGatewaysListByResourceGroup200Response,
+  P2SVpnGatewaysListByResourceGroupdefaultResponse,
+  P2SVpnGatewaysList200Response,
+  P2SVpnGatewaysListdefaultResponse,
+  P2SVpnGatewaysReset200Response,
+  P2SVpnGatewaysReset202Response,
+  P2SVpnGatewaysResetdefaultResponse,
+  P2SVpnGatewaysGenerateVpnProfile200Response,
+  P2SVpnGatewaysGenerateVpnProfile202Response,
+  P2SVpnGatewaysGenerateVpnProfiledefaultResponse,
+  P2SVpnGatewaysGetP2SVpnConnectionHealth200Response,
+  P2SVpnGatewaysGetP2SVpnConnectionHealth202Response,
+  P2SVpnGatewaysGetP2SVpnConnectionHealthdefaultResponse,
+  P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed200Response,
+  P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed202Response,
+  P2SVpnGatewaysGetP2SVpnConnectionHealthDetaileddefaultResponse,
+  P2SVpnGatewaysDisconnectP2SVpnConnections200Response,
+  P2SVpnGatewaysDisconnectP2SVpnConnections202Response,
+  P2SVpnGatewaysDisconnectP2SVpnConnectionsdefaultResponse,
+  VpnServerConfigurationsAssociatedWithVirtualWanList200Response,
+  VpnServerConfigurationsAssociatedWithVirtualWanList202Response,
+  VpnServerConfigurationsAssociatedWithVirtualWanListdefaultResponse,
+  VirtualHubRouteTableV2SGet200Response,
+  VirtualHubRouteTableV2SGetdefaultResponse,
+  VirtualHubRouteTableV2SCreateOrUpdate200Response,
+  VirtualHubRouteTableV2SCreateOrUpdate201Response,
+  VirtualHubRouteTableV2SCreateOrUpdatedefaultResponse,
+  VirtualHubRouteTableV2SDelete200Response,
+  VirtualHubRouteTableV2SDelete202Response,
+  VirtualHubRouteTableV2SDelete204Response,
+  VirtualHubRouteTableV2SDeletedefaultResponse,
+  VirtualHubRouteTableV2SList200Response,
+  VirtualHubRouteTableV2SListdefaultResponse,
+  ExpressRouteGatewaysListBySubscription200Response,
+  ExpressRouteGatewaysListBySubscriptiondefaultResponse,
+  ExpressRouteGatewaysListByResourceGroup200Response,
+  ExpressRouteGatewaysListByResourceGroupdefaultResponse,
+  ExpressRouteGatewaysCreateOrUpdate200Response,
+  ExpressRouteGatewaysCreateOrUpdate201Response,
+  ExpressRouteGatewaysCreateOrUpdatedefaultResponse,
+  ExpressRouteGatewaysUpdateTags200Response,
+  ExpressRouteGatewaysUpdateTags202Response,
+  ExpressRouteGatewaysUpdateTagsdefaultResponse,
+  ExpressRouteGatewaysGet200Response,
+  ExpressRouteGatewaysGetdefaultResponse,
+  ExpressRouteGatewaysDelete200Response,
+  ExpressRouteGatewaysDelete202Response,
+  ExpressRouteGatewaysDelete204Response,
+  ExpressRouteGatewaysDeletedefaultResponse,
+  ExpressRouteConnectionsCreateOrUpdate200Response,
+  ExpressRouteConnectionsCreateOrUpdate201Response,
+  ExpressRouteConnectionsCreateOrUpdatedefaultResponse,
+  ExpressRouteConnectionsGet200Response,
+  ExpressRouteConnectionsGetdefaultResponse,
+  ExpressRouteConnectionsDelete200Response,
+  ExpressRouteConnectionsDelete202Response,
+  ExpressRouteConnectionsDelete204Response,
+  ExpressRouteConnectionsDeletedefaultResponse,
+  ExpressRouteConnectionsList200Response,
+  ExpressRouteConnectionsListdefaultResponse,
+  VirtualHubBgpConnectionGet200Response,
+  VirtualHubBgpConnectionGetdefaultResponse,
+  VirtualHubBgpConnectionCreateOrUpdate200Response,
+  VirtualHubBgpConnectionCreateOrUpdate201Response,
+  VirtualHubBgpConnectionCreateOrUpdatedefaultResponse,
+  VirtualHubBgpConnectionDelete200Response,
+  VirtualHubBgpConnectionDelete202Response,
+  VirtualHubBgpConnectionDelete204Response,
+  VirtualHubBgpConnectionDeletedefaultResponse,
+  VirtualHubBgpConnectionsList200Response,
+  VirtualHubBgpConnectionsListdefaultResponse,
+  VirtualHubBgpConnectionsListLearnedRoutes200Response,
+  VirtualHubBgpConnectionsListLearnedRoutes202Response,
+  VirtualHubBgpConnectionsListLearnedRoutesdefaultResponse,
+  VirtualHubBgpConnectionsListAdvertisedRoutes200Response,
+  VirtualHubBgpConnectionsListAdvertisedRoutes202Response,
+  VirtualHubBgpConnectionsListAdvertisedRoutesdefaultResponse,
+  VirtualHubIpConfigurationGet200Response,
+  VirtualHubIpConfigurationGetdefaultResponse,
+  VirtualHubIpConfigurationCreateOrUpdate200Response,
+  VirtualHubIpConfigurationCreateOrUpdate201Response,
+  VirtualHubIpConfigurationCreateOrUpdatedefaultResponse,
+  VirtualHubIpConfigurationDelete200Response,
+  VirtualHubIpConfigurationDelete202Response,
+  VirtualHubIpConfigurationDelete204Response,
+  VirtualHubIpConfigurationDeletedefaultResponse,
+  VirtualHubIpConfigurationList200Response,
+  VirtualHubIpConfigurationListdefaultResponse,
+  HubRouteTablesCreateOrUpdate200Response,
+  HubRouteTablesCreateOrUpdate201Response,
+  HubRouteTablesCreateOrUpdatedefaultResponse,
+  HubRouteTablesGet200Response,
+  HubRouteTablesGetdefaultResponse,
+  HubRouteTablesDelete200Response,
+  HubRouteTablesDelete202Response,
+  HubRouteTablesDelete204Response,
+  HubRouteTablesDeletedefaultResponse,
+  HubRouteTablesList200Response,
+  HubRouteTablesListdefaultResponse,
+  RoutingIntentCreateOrUpdate200Response,
+  RoutingIntentCreateOrUpdate201Response,
+  RoutingIntentCreateOrUpdatedefaultResponse,
+  RoutingIntentGet200Response,
+  RoutingIntentGetdefaultResponse,
+  RoutingIntentDelete200Response,
+  RoutingIntentDelete202Response,
+  RoutingIntentDelete204Response,
+  RoutingIntentDeletedefaultResponse,
+  RoutingIntentList200Response,
+  RoutingIntentListdefaultResponse,
+  WebApplicationFirewallPoliciesList200Response,
+  WebApplicationFirewallPoliciesListdefaultResponse,
+  WebApplicationFirewallPoliciesListAll200Response,
+  WebApplicationFirewallPoliciesListAlldefaultResponse,
+  WebApplicationFirewallPoliciesGet200Response,
+  WebApplicationFirewallPoliciesGetdefaultResponse,
+  WebApplicationFirewallPoliciesCreateOrUpdate200Response,
+  WebApplicationFirewallPoliciesCreateOrUpdate201Response,
+  WebApplicationFirewallPoliciesCreateOrUpdatedefaultResponse,
+  WebApplicationFirewallPoliciesDelete200Response,
+  WebApplicationFirewallPoliciesDelete202Response,
+  WebApplicationFirewallPoliciesDelete204Response,
+  WebApplicationFirewallPoliciesDeletedefaultResponse,
+  VipSwapGet200Response,
+  VipSwapGetdefaultResponse,
+  VipSwapCreate200Response,
+  VipSwapCreate202Response,
+  VipSwapCreatedefaultResponse,
+  VipSwapList200Response,
+  VipSwapListdefaultResponse
+} from "./responses";
+
+const responseMap: Record<string, string[]> = {
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGateways": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/start": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/start": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/stop": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/stop": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/backendhealth": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/backendhealth": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/getBackendHealthOnDemand": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/getBackendHealthOnDemand": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableServerVariables": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableRequestHeaders": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableResponseHeaders": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableWafRuleSets": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default/predefinedPolicies": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default/predefinedPolicies/{predefinedPolicyName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateLinkResources": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections/{connectionName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections/{connectionName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections/{connectionName}": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/applicationGatewayWafDynamicManifests/dafault": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/applicationGatewayWafDynamicManifests": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationSecurityGroups": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availableDelegations": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availableDelegations": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availableServiceAliases": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availableServiceAliases": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}": [
+    "200",
+    "202"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewalls": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}/learnedIPPrefixes": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}/learnedIPPrefixes": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewallFqdnTags": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/azureWebCategories/{name}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/azureWebCategories": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}": [
+    "200",
+    "202"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/bastionHosts": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/createShareableLinks": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/createShareableLinks": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/deleteShareableLinks": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/deleteShareableLinks": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/getShareableLinks": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/getActiveSessions": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/getActiveSessions": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/disconnectActiveSessions": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/CheckDnsNameAvailability": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts/{providerport}": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveConnectivityConfigurations": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveSecurityAdminRules": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/listNetworkManagerEffectiveConnectivityConfigurations": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/listNetworkManagerEffectiveSecurityAdminRules": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/supportedSecurityProviders": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/GenerateVpnProfile": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/GenerateVpnProfile": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/networkInterfaces": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces/{networkInterfaceName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkInterfaces": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveRouteTable": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveRouteTable": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveNetworkSecurityGroups": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveNetworkSecurityGroups": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/networkInterfaces": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipConfigurations": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipConfigurations/{ipConfigurationName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/publicipaddresses": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses/{publicIpAddressName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPAddresses": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}/ddosProtectionStatus": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}/ddosProtectionStatus": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/publicipaddresses": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses/{publicIpAddressName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/customIpPrefixes": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ddosProtectionPlans": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations/{dscpConfigurationName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations/{dscpConfigurationName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations/{dscpConfigurationName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/dscpConfigurations": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/virtualNetworkAvailableEndpointServices": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}": [
+    "200",
+    "201"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}": [
+    "200",
+    "201"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections/{connectionName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections/{connectionName}": [
+    "200",
+    "201"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections/{connectionName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/peerConnections/{connectionName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/peerConnections": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/arpTables/{devicePath}": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/arpTables/{devicePath}": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTables/{devicePath}": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTables/{devicePath}": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTablesSummary/{devicePath}": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTablesSummary/{devicePath}": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/stats": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/stats": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCircuits": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteServiceProviders": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCrossConnections": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}": [
+    "200"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/arpTables/{devicePath}": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/arpTables/{devicePath}": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTablesSummary/{devicePath}": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTablesSummary/{devicePath}": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTables/{devicePath}": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTables/{devicePath}": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}": [
+    "200",
+    "201"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePortsLocations": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePortsLocations/{locationName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePorts": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/generateLoa": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}/links/{linkName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}/links": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}": [
+    "200",
+    "201"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/firewallPolicies": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}": [
+    "200",
+    "201"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/listIdpsSignatures": [
+    "200"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides/default": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides/default": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides/default": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/listIdpsFilterOptions": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/IpAllocations": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ipGroups": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/loadBalancers": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/setLoadBalancerFrontendPublicIpAddresses": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/setLoadBalancerFrontendPublicIpAddresses": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendPoolName}/queryInboundNatRulePortMapping": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendPoolName}/queryInboundNatRulePortMapping": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}": [
+    "200",
+    "201"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/frontendIPConfigurations": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/frontendIPConfigurations/{frontendIPConfigurationName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}": [
+    "200",
+    "201"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/loadBalancingRules": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/loadBalancingRules/{loadBalancingRuleName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/outboundRules": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/outboundRules/{outboundRuleName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/networkInterfaces": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}": [
+    "200",
+    "201",
+    "202"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/natGateways": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/ipConfigurations": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/ipConfigurations/{ipConfigurationName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/loadBalancers": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}": [
+    "200",
+    "201"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}": [
+    "200",
+    "201"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagers": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/commit": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/commit": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listDeploymentStatus": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}": [
+    "200",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections": [
+    "200"
+  ],
+  "PUT /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}": [
+    "200",
+    "201"
+  ],
+  "GET /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}": [
+    "200"
+  ],
+  "DELETE /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}": [
+    "200",
+    "204"
+  ],
+  "GET /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}": [
+    "200",
+    "201"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}": [
+    "200",
+    "201"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers/{staticMemberName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers/{staticMemberName}": [
+    "200",
+    "201"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers/{staticMemberName}": [
+    "200",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections/{scopeConnectionName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections/{scopeConnectionName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections/{scopeConnectionName}": [
+    "200",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}": [
+    "200",
+    "201"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}": [
+    "200",
+    "201"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}": [
+    "200",
+    "201"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkProfiles": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkSecurityGroups": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}": [
+    "200",
+    "201"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/defaultSecurityRules": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/defaultSecurityRules/{defaultSecurityRuleName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualAppliances": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/virtualApplianceSites/{siteName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/virtualApplianceSites/{siteName}": [
+    "200",
+    "201"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/virtualApplianceSites/{siteName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/virtualApplianceSites": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus/{skuName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/inboundSecurityRules/{ruleCollectionName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/inboundSecurityRules/{ruleCollectionName}": [
+    "200",
+    "201"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}": [
+    "202",
+    "204"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkWatchers": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/topology": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/ipFlowVerify": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/ipFlowVerify": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/nextHop": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/nextHop": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/securityGroupView": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/securityGroupView": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/troubleshoot": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/troubleshoot": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/queryTroubleshootResult": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/queryTroubleshootResult": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/configureFlowLog": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/configureFlowLog": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/queryFlowLogStatus": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/queryFlowLogStatus": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectivityCheck": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectivityCheck": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/azureReachabilityReport": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/azureReachabilityReport": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/availableProvidersList": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/availableProvidersList": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/networkConfigurationDiagnostic": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/networkConfigurationDiagnostic": [
+    "200",
+    "202"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}": [
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}": [
+    "202",
+    "204"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}": [
+    "202",
+    "204"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/stop": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/stop": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/queryStatus": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/queryStatus": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}": [
+    "202",
+    "204"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/stop": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/stop": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/start": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/start": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/query": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/query": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}": [
+    "202",
+    "204"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}": [
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs": [
+    "200"
+  ],
+  "GET /providers/Microsoft.Network/operations": ["200"],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}": [
+    "200",
+    "201"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/privateEndpoints": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availablePrivateEndpointTypes": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availablePrivateEndpointTypes": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}": [
+    "200",
+    "201"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}": [
+    "200",
+    "201"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/privateLinkServices": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/autoApprovedPrivateLinkServices": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/autoApprovedPrivateLinkServices": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPPrefixes": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/routeFilters": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}": [
+    "200",
+    "201"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/routeTables": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}": [
+    "200",
+    "201"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/securityPartnerProviders": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/bgpServiceCommunities": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ServiceEndpointPolicies": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions/{serviceEndpointPolicyDefinitionName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions/{serviceEndpointPolicyDefinitionName}": [
+    "200",
+    "201"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions/{serviceEndpointPolicyDefinitionName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTags": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTagDetails": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/usages": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworks": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/CheckIPAddressAvailability": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/usages": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/ddosProtectionStatus": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/ddosProtectionStatus": [
+    "200",
+    "202"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}": [
+    "200",
+    "201"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}": [
+    "200",
+    "201"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/PrepareNetworkPolicies": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/PrepareNetworkPolicies": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/UnprepareNetworkPolicies": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/UnprepareNetworkPolicies": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/ResourceNavigationLinks": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/ServiceAssociationLinks": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}": [
+    "200",
+    "201"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}": [
+    "200",
+    "202"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/connections": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/reset": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/reset": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/resetvpnclientsharedkey": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/resetvpnclientsharedkey": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/generatevpnclientpackage": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/generatevpnclientpackage": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/generatevpnprofile": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/generatevpnprofile": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getvpnprofilepackageurl": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getvpnprofilepackageurl": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getBgpPeerStatus": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getBgpPeerStatus": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/supportedvpndevices": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getLearnedRoutes": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getLearnedRoutes": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getAdvertisedRoutes": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getAdvertisedRoutes": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/setvpnclientipsecparameters": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/setvpnclientipsecparameters": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getvpnclientipsecparameters": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getvpnclientipsecparameters": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/vpndeviceconfigurationscript": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/startPacketCapture": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/startPacketCapture": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/stopPacketCapture": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/stopPacketCapture": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getVpnClientConnectionHealth": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getVpnClientConnectionHealth": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/disconnectVirtualNetworkGatewayVpnConnections": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/disconnectVirtualNetworkGatewayVpnConnections": [
+    "200",
+    "202"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}": [
+    "200",
+    "202"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}": [
+    "200",
+    "202"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey/reset": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey/reset": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/startPacketCapture": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/startPacketCapture": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/stopPacketCapture": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/stopPacketCapture": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/getikesas": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/getikesas": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/resetconnection": [
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/resetconnection": [
+    "202"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules/{natRuleName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules/{natRuleName}": [
+    "200",
+    "201"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules/{natRuleName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworkTaps": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}": [
+    "200",
+    "201"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualRouters": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings/{peeringName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings/{peeringName}": [
+    "200",
+    "201"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings/{peeringName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualWans": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnSites": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}/vpnSiteLinks/{vpnSiteLinkName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}/vpnSiteLinks": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/vpnConfiguration": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/vpnConfiguration": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnServerConfigurations": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups/{configurationPolicyGroupName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups/{configurationPolicyGroupName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups/{configurationPolicyGroupName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualHubs": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/effectiveRoutes": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/effectiveRoutes": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/inboundRoutes": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/inboundRoutes": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/outboundRoutes": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/outboundRoutes": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps/{routeMapName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps/{routeMapName}": [
+    "200",
+    "201"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps/{routeMapName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}": [
+    "200"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}": [
+    "200",
+    "202"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/reset": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/reset": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/startpacketcapture": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/startpacketcapture": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/stoppacketcapture": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/stoppacketcapture": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnGateways": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}/resetconnection": [
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}/resetconnection": [
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}/getikesas": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}/getikesas": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}": [
+    "200",
+    "201"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{vpnConnectionName}/startpacketcapture": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{vpnConnectionName}/startpacketcapture": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{vpnConnectionName}/stoppacketcapture": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{vpnConnectionName}/stoppacketcapture": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules/{natRuleName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules/{natRuleName}": [
+    "200",
+    "201"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules/{natRuleName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}": [
+    "200",
+    "201"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}": [
+    "200",
+    "202"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/p2svpnGateways": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/reset": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/reset": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/generatevpnprofile": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/generatevpnprofile": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealth": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealth": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealthDetailed": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealthDetailed": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{p2sVpnGatewayName}/disconnectP2sVpnConnections": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{p2sVpnGatewayName}/disconnectP2sVpnConnections": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/vpnServerConfigurations": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/vpnServerConfigurations": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables/{routeTableName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables/{routeTableName}": [
+    "200",
+    "201"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables/{routeTableName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteGateways": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}": [
+    "200",
+    "202"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/expressRouteConnections/{connectionName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/expressRouteConnections/{connectionName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/expressRouteConnections/{connectionName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/expressRouteConnections": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections/{connectionName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections/{connectionName}": [
+    "200",
+    "201"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections/{connectionName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections": [
+    "200"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{hubName}/bgpConnections/{connectionName}/learnedRoutes": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{hubName}/bgpConnections/{connectionName}/learnedRoutes": [
+    "200",
+    "202"
+  ],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{hubName}/bgpConnections/{connectionName}/advertisedRoutes": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{hubName}/bgpConnections/{connectionName}/advertisedRoutes": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/ipConfigurations/{ipConfigName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/ipConfigurations/{ipConfigName}": [
+    "200",
+    "201"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/ipConfigurations/{ipConfigName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/ipConfigurations": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent/{routingIntentName}": [
+    "200",
+    "201"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent/{routingIntentName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent/{routingIntentName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies": [
+    "200"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}": [
+    "200",
+    "201"
+  ],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}": [
+    "200",
+    "202",
+    "204"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots/{singletonResource}": [
+    "200"
+  ],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots/{singletonResource}": [
+    "200",
+    "202"
+  ],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots": [
+    "200"
+  ]
+};
+
+export function isUnexpected(
+  response:
+    | ApplicationGatewaysDelete200Response
+    | ApplicationGatewaysDelete202Response
+    | ApplicationGatewaysDelete204Response
+    | ApplicationGatewaysDeletedefaultResponse
+): response is ApplicationGatewaysDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewaysGet200Response
+    | ApplicationGatewaysGetdefaultResponse
+): response is ApplicationGatewaysGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewaysCreateOrUpdate200Response
+    | ApplicationGatewaysCreateOrUpdate201Response
+    | ApplicationGatewaysCreateOrUpdatedefaultResponse
+): response is ApplicationGatewaysCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewaysUpdateTags200Response
+    | ApplicationGatewaysUpdateTagsdefaultResponse
+): response is ApplicationGatewaysUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewaysList200Response
+    | ApplicationGatewaysListdefaultResponse
+): response is ApplicationGatewaysListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewaysListAll200Response
+    | ApplicationGatewaysListAlldefaultResponse
+): response is ApplicationGatewaysListAlldefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewaysStart200Response
+    | ApplicationGatewaysStart202Response
+    | ApplicationGatewaysStartdefaultResponse
+): response is ApplicationGatewaysStartdefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewaysStop200Response
+    | ApplicationGatewaysStop202Response
+    | ApplicationGatewaysStopdefaultResponse
+): response is ApplicationGatewaysStopdefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewaysBackendHealth200Response
+    | ApplicationGatewaysBackendHealth202Response
+    | ApplicationGatewaysBackendHealthdefaultResponse
+): response is ApplicationGatewaysBackendHealthdefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewaysBackendHealthOnDemand200Response
+    | ApplicationGatewaysBackendHealthOnDemand202Response
+    | ApplicationGatewaysBackendHealthOnDemanddefaultResponse
+): response is ApplicationGatewaysBackendHealthOnDemanddefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewaysListAvailableServerVariables200Response
+    | ApplicationGatewaysListAvailableServerVariablesdefaultResponse
+): response is ApplicationGatewaysListAvailableServerVariablesdefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewaysListAvailableRequestHeaders200Response
+    | ApplicationGatewaysListAvailableRequestHeadersdefaultResponse
+): response is ApplicationGatewaysListAvailableRequestHeadersdefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewaysListAvailableResponseHeaders200Response
+    | ApplicationGatewaysListAvailableResponseHeadersdefaultResponse
+): response is ApplicationGatewaysListAvailableResponseHeadersdefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewaysListAvailableWafRuleSets200Response
+    | ApplicationGatewaysListAvailableWafRuleSetsdefaultResponse
+): response is ApplicationGatewaysListAvailableWafRuleSetsdefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewaysListAvailableSslOptions200Response
+    | ApplicationGatewaysListAvailableSslOptionsdefaultResponse
+): response is ApplicationGatewaysListAvailableSslOptionsdefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewaysListAvailableSslPredefinedPolicies200Response
+    | ApplicationGatewaysListAvailableSslPredefinedPoliciesdefaultResponse
+): response is ApplicationGatewaysListAvailableSslPredefinedPoliciesdefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewaysGetSslPredefinedPolicy200Response
+    | ApplicationGatewaysGetSslPredefinedPolicydefaultResponse
+): response is ApplicationGatewaysGetSslPredefinedPolicydefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewayPrivateLinkResourcesList200Response
+    | ApplicationGatewayPrivateLinkResourcesListdefaultResponse
+): response is ApplicationGatewayPrivateLinkResourcesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewayPrivateEndpointConnectionsDelete200Response
+    | ApplicationGatewayPrivateEndpointConnectionsDelete202Response
+    | ApplicationGatewayPrivateEndpointConnectionsDelete204Response
+    | ApplicationGatewayPrivateEndpointConnectionsDeletedefaultResponse
+): response is ApplicationGatewayPrivateEndpointConnectionsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewayPrivateEndpointConnectionsUpdate200Response
+    | ApplicationGatewayPrivateEndpointConnectionsUpdate202Response
+    | ApplicationGatewayPrivateEndpointConnectionsUpdatedefaultResponse
+): response is ApplicationGatewayPrivateEndpointConnectionsUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewayPrivateEndpointConnectionsGet200Response
+    | ApplicationGatewayPrivateEndpointConnectionsGetdefaultResponse
+): response is ApplicationGatewayPrivateEndpointConnectionsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewayPrivateEndpointConnectionsList200Response
+    | ApplicationGatewayPrivateEndpointConnectionsListdefaultResponse
+): response is ApplicationGatewayPrivateEndpointConnectionsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewayWafDynamicManifestsDefaultGet200Response
+    | ApplicationGatewayWafDynamicManifestsDefaultGetdefaultResponse
+): response is ApplicationGatewayWafDynamicManifestsDefaultGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewayWafDynamicManifestsGet200Response
+    | ApplicationGatewayWafDynamicManifestsGetdefaultResponse
+): response is ApplicationGatewayWafDynamicManifestsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationSecurityGroupsDelete200Response
+    | ApplicationSecurityGroupsDelete202Response
+    | ApplicationSecurityGroupsDelete204Response
+    | ApplicationSecurityGroupsDeletedefaultResponse
+): response is ApplicationSecurityGroupsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationSecurityGroupsGet200Response
+    | ApplicationSecurityGroupsGetdefaultResponse
+): response is ApplicationSecurityGroupsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationSecurityGroupsCreateOrUpdate200Response
+    | ApplicationSecurityGroupsCreateOrUpdate201Response
+    | ApplicationSecurityGroupsCreateOrUpdatedefaultResponse
+): response is ApplicationSecurityGroupsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationSecurityGroupsUpdateTags200Response
+    | ApplicationSecurityGroupsUpdateTagsdefaultResponse
+): response is ApplicationSecurityGroupsUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationSecurityGroupsListAll200Response
+    | ApplicationSecurityGroupsListAlldefaultResponse
+): response is ApplicationSecurityGroupsListAlldefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationSecurityGroupsList200Response
+    | ApplicationSecurityGroupsListdefaultResponse
+): response is ApplicationSecurityGroupsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | AvailableDelegationsList200Response
+    | AvailableDelegationsListdefaultResponse
+): response is AvailableDelegationsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | AvailableResourceGroupDelegationsList200Response
+    | AvailableResourceGroupDelegationsListdefaultResponse
+): response is AvailableResourceGroupDelegationsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | AvailableServiceAliasesList200Response
+    | AvailableServiceAliasesListdefaultResponse
+): response is AvailableServiceAliasesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | AvailableServiceAliasesListByResourceGroup200Response
+    | AvailableServiceAliasesListByResourceGroupdefaultResponse
+): response is AvailableServiceAliasesListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response:
+    | AzureFirewallsDelete200Response
+    | AzureFirewallsDelete202Response
+    | AzureFirewallsDelete204Response
+    | AzureFirewallsDeletedefaultResponse
+): response is AzureFirewallsDeletedefaultResponse;
+export function isUnexpected(
+  response: AzureFirewallsGet200Response | AzureFirewallsGetdefaultResponse
+): response is AzureFirewallsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | AzureFirewallsCreateOrUpdate200Response
+    | AzureFirewallsCreateOrUpdate201Response
+    | AzureFirewallsCreateOrUpdatedefaultResponse
+): response is AzureFirewallsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | AzureFirewallsUpdateTags200Response
+    | AzureFirewallsUpdateTags202Response
+    | AzureFirewallsUpdateTagsdefaultResponse
+): response is AzureFirewallsUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response: AzureFirewallsList200Response | AzureFirewallsListdefaultResponse
+): response is AzureFirewallsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | AzureFirewallsListAll200Response
+    | AzureFirewallsListAlldefaultResponse
+): response is AzureFirewallsListAlldefaultResponse;
+export function isUnexpected(
+  response:
+    | AzureFirewallsListLearnedPrefixes200Response
+    | AzureFirewallsListLearnedPrefixes202Response
+    | AzureFirewallsListLearnedPrefixesdefaultResponse
+): response is AzureFirewallsListLearnedPrefixesdefaultResponse;
+export function isUnexpected(
+  response:
+    | AzureFirewallFqdnTagsListAll200Response
+    | AzureFirewallFqdnTagsListAlldefaultResponse
+): response is AzureFirewallFqdnTagsListAlldefaultResponse;
+export function isUnexpected(
+  response: WebCategoriesGet200Response | WebCategoriesGetdefaultResponse
+): response is WebCategoriesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | WebCategoriesListBySubscription200Response
+    | WebCategoriesListBySubscriptiondefaultResponse
+): response is WebCategoriesListBySubscriptiondefaultResponse;
+export function isUnexpected(
+  response:
+    | BastionHostsDelete200Response
+    | BastionHostsDelete202Response
+    | BastionHostsDelete204Response
+    | BastionHostsDeletedefaultResponse
+): response is BastionHostsDeletedefaultResponse;
+export function isUnexpected(
+  response: BastionHostsGet200Response | BastionHostsGetdefaultResponse
+): response is BastionHostsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | BastionHostsCreateOrUpdate200Response
+    | BastionHostsCreateOrUpdate201Response
+    | BastionHostsCreateOrUpdatedefaultResponse
+): response is BastionHostsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | BastionHostsUpdateTags200Response
+    | BastionHostsUpdateTags202Response
+    | BastionHostsUpdateTagsdefaultResponse
+): response is BastionHostsUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response: BastionHostsList200Response | BastionHostsListdefaultResponse
+): response is BastionHostsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | BastionHostsListByResourceGroup200Response
+    | BastionHostsListByResourceGroupdefaultResponse
+): response is BastionHostsListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response:
+    | PutBastionShareableLink200Response
+    | PutBastionShareableLink202Response
+    | PutBastionShareableLinkdefaultResponse
+): response is PutBastionShareableLinkdefaultResponse;
+export function isUnexpected(
+  response:
+    | DeleteBastionShareableLink200Response
+    | DeleteBastionShareableLink202Response
+    | DeleteBastionShareableLinkdefaultResponse
+): response is DeleteBastionShareableLinkdefaultResponse;
+export function isUnexpected(
+  response:
+    | GetBastionShareableLink200Response
+    | GetBastionShareableLinkdefaultResponse
+): response is GetBastionShareableLinkdefaultResponse;
+export function isUnexpected(
+  response:
+    | GetActiveSessions200Response
+    | GetActiveSessions202Response
+    | GetActiveSessionsdefaultResponse
+): response is GetActiveSessionsdefaultResponse;
+export function isUnexpected(
+  response:
+    | DisconnectActiveSessions200Response
+    | DisconnectActiveSessionsdefaultResponse
+): response is DisconnectActiveSessionsdefaultResponse;
+export function isUnexpected(
+  response:
+    | CheckDnsNameAvailability200Response
+    | CheckDnsNameAvailabilitydefaultResponse
+): response is CheckDnsNameAvailabilitydefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteProviderPort200Response
+    | ExpressRouteProviderPortdefaultResponse
+): response is ExpressRouteProviderPortdefaultResponse;
+export function isUnexpected(
+  response:
+    | ListActiveConnectivityConfigurations200Response
+    | ListActiveConnectivityConfigurationsdefaultResponse
+): response is ListActiveConnectivityConfigurationsdefaultResponse;
+export function isUnexpected(
+  response:
+    | ListActiveSecurityAdminRules200Response
+    | ListActiveSecurityAdminRulesdefaultResponse
+): response is ListActiveSecurityAdminRulesdefaultResponse;
+export function isUnexpected(
+  response:
+    | ListNetworkManagerEffectiveConnectivityConfigurations200Response
+    | ListNetworkManagerEffectiveConnectivityConfigurationsdefaultResponse
+): response is ListNetworkManagerEffectiveConnectivityConfigurationsdefaultResponse;
+export function isUnexpected(
+  response:
+    | ListNetworkManagerEffectiveSecurityAdminRules200Response
+    | ListNetworkManagerEffectiveSecurityAdminRulesdefaultResponse
+): response is ListNetworkManagerEffectiveSecurityAdminRulesdefaultResponse;
+export function isUnexpected(
+  response:
+    | SupportedSecurityProviders200Response
+    | SupportedSecurityProvidersdefaultResponse
+): response is SupportedSecurityProvidersdefaultResponse;
+export function isUnexpected(
+  response:
+    | Generatevirtualwanvpnserverconfigurationvpnprofile200Response
+    | Generatevirtualwanvpnserverconfigurationvpnprofile202Response
+    | GeneratevirtualwanvpnserverconfigurationvpnprofiledefaultResponse
+): response is GeneratevirtualwanvpnserverconfigurationvpnprofiledefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfaces200Response
+    | NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesdefaultResponse
+): response is NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfacesListCloudServiceNetworkInterfaces200Response
+    | NetworkInterfacesListCloudServiceNetworkInterfacesdefaultResponse
+): response is NetworkInterfacesListCloudServiceNetworkInterfacesdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfacesGetCloudServiceNetworkInterface200Response
+    | NetworkInterfacesGetCloudServiceNetworkInterfacedefaultResponse
+): response is NetworkInterfacesGetCloudServiceNetworkInterfacedefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfacesDelete200Response
+    | NetworkInterfacesDelete202Response
+    | NetworkInterfacesDelete204Response
+    | NetworkInterfacesDeletedefaultResponse
+): response is NetworkInterfacesDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfacesGet200Response
+    | NetworkInterfacesGetdefaultResponse
+): response is NetworkInterfacesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfacesCreateOrUpdate200Response
+    | NetworkInterfacesCreateOrUpdate201Response
+    | NetworkInterfacesCreateOrUpdatedefaultResponse
+): response is NetworkInterfacesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfacesUpdateTags200Response
+    | NetworkInterfacesUpdateTagsdefaultResponse
+): response is NetworkInterfacesUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfacesListAll200Response
+    | NetworkInterfacesListAlldefaultResponse
+): response is NetworkInterfacesListAlldefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfacesList200Response
+    | NetworkInterfacesListdefaultResponse
+): response is NetworkInterfacesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfacesGetEffectiveRouteTable200Response
+    | NetworkInterfacesGetEffectiveRouteTable202Response
+    | NetworkInterfacesGetEffectiveRouteTabledefaultResponse
+): response is NetworkInterfacesGetEffectiveRouteTabledefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfacesListEffectiveNetworkSecurityGroups200Response
+    | NetworkInterfacesListEffectiveNetworkSecurityGroups202Response
+    | NetworkInterfacesListEffectiveNetworkSecurityGroupsdefaultResponse
+): response is NetworkInterfacesListEffectiveNetworkSecurityGroupsdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfaces200Response
+    | NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesdefaultResponse
+): response is NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfacesListVirtualMachineScaleSetNetworkInterfaces200Response
+    | NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesdefaultResponse
+): response is NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfacesGetVirtualMachineScaleSetNetworkInterface200Response
+    | NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfacedefaultResponse
+): response is NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfacedefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfacesListVirtualMachineScaleSetIpConfigurations200Response
+    | NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsdefaultResponse
+): response is NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfacesGetVirtualMachineScaleSetIpConfiguration200Response
+    | NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationdefaultResponse
+): response is NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationdefaultResponse;
+export function isUnexpected(
+  response:
+    | PublicIPAddressesListCloudServicePublicIPAddresses200Response
+    | PublicIPAddressesListCloudServicePublicIPAddressesdefaultResponse
+): response is PublicIPAddressesListCloudServicePublicIPAddressesdefaultResponse;
+export function isUnexpected(
+  response:
+    | PublicIPAddressesListCloudServiceRoleInstancePublicIPAddresses200Response
+    | PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesdefaultResponse
+): response is PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesdefaultResponse;
+export function isUnexpected(
+  response:
+    | PublicIPAddressesGetCloudServicePublicIPAddress200Response
+    | PublicIPAddressesGetCloudServicePublicIPAddressdefaultResponse
+): response is PublicIPAddressesGetCloudServicePublicIPAddressdefaultResponse;
+export function isUnexpected(
+  response:
+    | PublicIPAddressesDelete200Response
+    | PublicIPAddressesDelete202Response
+    | PublicIPAddressesDelete204Response
+    | PublicIPAddressesDeletedefaultResponse
+): response is PublicIPAddressesDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | PublicIPAddressesGet200Response
+    | PublicIPAddressesGetdefaultResponse
+): response is PublicIPAddressesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | PublicIPAddressesCreateOrUpdate200Response
+    | PublicIPAddressesCreateOrUpdate201Response
+    | PublicIPAddressesCreateOrUpdatedefaultResponse
+): response is PublicIPAddressesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | PublicIPAddressesUpdateTags200Response
+    | PublicIPAddressesUpdateTagsdefaultResponse
+): response is PublicIPAddressesUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | PublicIPAddressesListAll200Response
+    | PublicIPAddressesListAlldefaultResponse
+): response is PublicIPAddressesListAlldefaultResponse;
+export function isUnexpected(
+  response:
+    | PublicIPAddressesList200Response
+    | PublicIPAddressesListdefaultResponse
+): response is PublicIPAddressesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | PublicIPAddressesDdosProtectionStatus200Response
+    | PublicIPAddressesDdosProtectionStatus202Response
+    | PublicIPAddressesDdosProtectionStatusdefaultResponse
+): response is PublicIPAddressesDdosProtectionStatusdefaultResponse;
+export function isUnexpected(
+  response:
+    | PublicIPAddressesListVirtualMachineScaleSetPublicIPAddresses200Response
+    | PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesdefaultResponse
+): response is PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesdefaultResponse;
+export function isUnexpected(
+  response:
+    | PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddresses200Response
+    | PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesdefaultResponse
+): response is PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesdefaultResponse;
+export function isUnexpected(
+  response:
+    | PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddress200Response
+    | PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressdefaultResponse
+): response is PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressdefaultResponse;
+export function isUnexpected(
+  response:
+    | CustomIPPrefixesDelete200Response
+    | CustomIPPrefixesDelete202Response
+    | CustomIPPrefixesDelete204Response
+    | CustomIPPrefixesDeletedefaultResponse
+): response is CustomIPPrefixesDeletedefaultResponse;
+export function isUnexpected(
+  response: CustomIPPrefixesGet200Response | CustomIPPrefixesGetdefaultResponse
+): response is CustomIPPrefixesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | CustomIPPrefixesCreateOrUpdate200Response
+    | CustomIPPrefixesCreateOrUpdate201Response
+    | CustomIPPrefixesCreateOrUpdatedefaultResponse
+): response is CustomIPPrefixesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | CustomIPPrefixesUpdateTags200Response
+    | CustomIPPrefixesUpdateTagsdefaultResponse
+): response is CustomIPPrefixesUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | CustomIPPrefixesListAll200Response
+    | CustomIPPrefixesListAlldefaultResponse
+): response is CustomIPPrefixesListAlldefaultResponse;
+export function isUnexpected(
+  response:
+    | CustomIPPrefixesList200Response
+    | CustomIPPrefixesListdefaultResponse
+): response is CustomIPPrefixesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | DdosCustomPoliciesDelete200Response
+    | DdosCustomPoliciesDelete202Response
+    | DdosCustomPoliciesDelete204Response
+    | DdosCustomPoliciesDeletedefaultResponse
+): response is DdosCustomPoliciesDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | DdosCustomPoliciesGet200Response
+    | DdosCustomPoliciesGetdefaultResponse
+): response is DdosCustomPoliciesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | DdosCustomPoliciesCreateOrUpdate200Response
+    | DdosCustomPoliciesCreateOrUpdate201Response
+    | DdosCustomPoliciesCreateOrUpdatedefaultResponse
+): response is DdosCustomPoliciesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | DdosCustomPoliciesUpdateTags200Response
+    | DdosCustomPoliciesUpdateTagsdefaultResponse
+): response is DdosCustomPoliciesUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | DdosProtectionPlansDelete200Response
+    | DdosProtectionPlansDelete202Response
+    | DdosProtectionPlansDelete204Response
+    | DdosProtectionPlansDeletedefaultResponse
+): response is DdosProtectionPlansDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | DdosProtectionPlansGet200Response
+    | DdosProtectionPlansGetdefaultResponse
+): response is DdosProtectionPlansGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | DdosProtectionPlansCreateOrUpdate200Response
+    | DdosProtectionPlansCreateOrUpdate201Response
+    | DdosProtectionPlansCreateOrUpdatedefaultResponse
+): response is DdosProtectionPlansCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | DdosProtectionPlansUpdateTags200Response
+    | DdosProtectionPlansUpdateTagsdefaultResponse
+): response is DdosProtectionPlansUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | DdosProtectionPlansList200Response
+    | DdosProtectionPlansListdefaultResponse
+): response is DdosProtectionPlansListdefaultResponse;
+export function isUnexpected(
+  response:
+    | DdosProtectionPlansListByResourceGroup200Response
+    | DdosProtectionPlansListByResourceGroupdefaultResponse
+): response is DdosProtectionPlansListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response:
+    | DscpConfigurationCreateOrUpdate200Response
+    | DscpConfigurationCreateOrUpdate201Response
+    | DscpConfigurationCreateOrUpdatedefaultResponse
+): response is DscpConfigurationCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | DscpConfigurationDelete200Response
+    | DscpConfigurationDelete202Response
+    | DscpConfigurationDelete204Response
+    | DscpConfigurationDeletedefaultResponse
+): response is DscpConfigurationDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | DscpConfigurationGet200Response
+    | DscpConfigurationGetdefaultResponse
+): response is DscpConfigurationGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | DscpConfigurationList200Response
+    | DscpConfigurationListdefaultResponse
+): response is DscpConfigurationListdefaultResponse;
+export function isUnexpected(
+  response:
+    | DscpConfigurationListAll200Response
+    | DscpConfigurationListAlldefaultResponse
+): response is DscpConfigurationListAlldefaultResponse;
+export function isUnexpected(
+  response:
+    | AvailableEndpointServicesList200Response
+    | AvailableEndpointServicesListdefaultResponse
+): response is AvailableEndpointServicesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitAuthorizationsDelete200Response
+    | ExpressRouteCircuitAuthorizationsDelete202Response
+    | ExpressRouteCircuitAuthorizationsDelete204Response
+    | ExpressRouteCircuitAuthorizationsDeletedefaultResponse
+): response is ExpressRouteCircuitAuthorizationsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitAuthorizationsGet200Response
+    | ExpressRouteCircuitAuthorizationsGetdefaultResponse
+): response is ExpressRouteCircuitAuthorizationsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitAuthorizationsCreateOrUpdate200Response
+    | ExpressRouteCircuitAuthorizationsCreateOrUpdate201Response
+    | ExpressRouteCircuitAuthorizationsCreateOrUpdatedefaultResponse
+): response is ExpressRouteCircuitAuthorizationsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitAuthorizationsList200Response
+    | ExpressRouteCircuitAuthorizationsListdefaultResponse
+): response is ExpressRouteCircuitAuthorizationsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitPeeringsDelete200Response
+    | ExpressRouteCircuitPeeringsDelete202Response
+    | ExpressRouteCircuitPeeringsDelete204Response
+    | ExpressRouteCircuitPeeringsDeletedefaultResponse
+): response is ExpressRouteCircuitPeeringsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitPeeringsGet200Response
+    | ExpressRouteCircuitPeeringsGetdefaultResponse
+): response is ExpressRouteCircuitPeeringsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitPeeringsCreateOrUpdate200Response
+    | ExpressRouteCircuitPeeringsCreateOrUpdate201Response
+    | ExpressRouteCircuitPeeringsCreateOrUpdatedefaultResponse
+): response is ExpressRouteCircuitPeeringsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitPeeringsList200Response
+    | ExpressRouteCircuitPeeringsListdefaultResponse
+): response is ExpressRouteCircuitPeeringsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitConnectionsDelete200Response
+    | ExpressRouteCircuitConnectionsDelete202Response
+    | ExpressRouteCircuitConnectionsDelete204Response
+    | ExpressRouteCircuitConnectionsDeletedefaultResponse
+): response is ExpressRouteCircuitConnectionsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitConnectionsGet200Response
+    | ExpressRouteCircuitConnectionsGetdefaultResponse
+): response is ExpressRouteCircuitConnectionsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitConnectionsCreateOrUpdate200Response
+    | ExpressRouteCircuitConnectionsCreateOrUpdate201Response
+    | ExpressRouteCircuitConnectionsCreateOrUpdatedefaultResponse
+): response is ExpressRouteCircuitConnectionsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitConnectionsList200Response
+    | ExpressRouteCircuitConnectionsListdefaultResponse
+): response is ExpressRouteCircuitConnectionsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | PeerExpressRouteCircuitConnectionsGet200Response
+    | PeerExpressRouteCircuitConnectionsGetdefaultResponse
+): response is PeerExpressRouteCircuitConnectionsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | PeerExpressRouteCircuitConnectionsList200Response
+    | PeerExpressRouteCircuitConnectionsListdefaultResponse
+): response is PeerExpressRouteCircuitConnectionsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitsDelete200Response
+    | ExpressRouteCircuitsDelete202Response
+    | ExpressRouteCircuitsDelete204Response
+    | ExpressRouteCircuitsDeletedefaultResponse
+): response is ExpressRouteCircuitsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitsGet200Response
+    | ExpressRouteCircuitsGetdefaultResponse
+): response is ExpressRouteCircuitsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitsCreateOrUpdate200Response
+    | ExpressRouteCircuitsCreateOrUpdate201Response
+    | ExpressRouteCircuitsCreateOrUpdatedefaultResponse
+): response is ExpressRouteCircuitsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitsUpdateTags200Response
+    | ExpressRouteCircuitsUpdateTagsdefaultResponse
+): response is ExpressRouteCircuitsUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitsListArpTable200Response
+    | ExpressRouteCircuitsListArpTable202Response
+    | ExpressRouteCircuitsListArpTabledefaultResponse
+): response is ExpressRouteCircuitsListArpTabledefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitsListRoutesTable200Response
+    | ExpressRouteCircuitsListRoutesTable202Response
+    | ExpressRouteCircuitsListRoutesTabledefaultResponse
+): response is ExpressRouteCircuitsListRoutesTabledefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitsListRoutesTableSummary200Response
+    | ExpressRouteCircuitsListRoutesTableSummary202Response
+    | ExpressRouteCircuitsListRoutesTableSummarydefaultResponse
+): response is ExpressRouteCircuitsListRoutesTableSummarydefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitsGetStats200Response
+    | ExpressRouteCircuitsGetStatsdefaultResponse
+): response is ExpressRouteCircuitsGetStatsdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitsGetPeeringStats200Response
+    | ExpressRouteCircuitsGetPeeringStatsdefaultResponse
+): response is ExpressRouteCircuitsGetPeeringStatsdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitsList200Response
+    | ExpressRouteCircuitsListdefaultResponse
+): response is ExpressRouteCircuitsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCircuitsListAll200Response
+    | ExpressRouteCircuitsListAlldefaultResponse
+): response is ExpressRouteCircuitsListAlldefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteServiceProvidersList200Response
+    | ExpressRouteServiceProvidersListdefaultResponse
+): response is ExpressRouteServiceProvidersListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCrossConnectionsList200Response
+    | ExpressRouteCrossConnectionsListdefaultResponse
+): response is ExpressRouteCrossConnectionsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCrossConnectionsListByResourceGroup200Response
+    | ExpressRouteCrossConnectionsListByResourceGroupdefaultResponse
+): response is ExpressRouteCrossConnectionsListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCrossConnectionsGet200Response
+    | ExpressRouteCrossConnectionsGetdefaultResponse
+): response is ExpressRouteCrossConnectionsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCrossConnectionsCreateOrUpdate200Response
+    | ExpressRouteCrossConnectionsCreateOrUpdatedefaultResponse
+): response is ExpressRouteCrossConnectionsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCrossConnectionsUpdateTags200Response
+    | ExpressRouteCrossConnectionsUpdateTagsdefaultResponse
+): response is ExpressRouteCrossConnectionsUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCrossConnectionsListArpTable200Response
+    | ExpressRouteCrossConnectionsListArpTable202Response
+    | ExpressRouteCrossConnectionsListArpTabledefaultResponse
+): response is ExpressRouteCrossConnectionsListArpTabledefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCrossConnectionsListRoutesTableSummary200Response
+    | ExpressRouteCrossConnectionsListRoutesTableSummary202Response
+    | ExpressRouteCrossConnectionsListRoutesTableSummarydefaultResponse
+): response is ExpressRouteCrossConnectionsListRoutesTableSummarydefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCrossConnectionsListRoutesTable200Response
+    | ExpressRouteCrossConnectionsListRoutesTable202Response
+    | ExpressRouteCrossConnectionsListRoutesTabledefaultResponse
+): response is ExpressRouteCrossConnectionsListRoutesTabledefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCrossConnectionPeeringsList200Response
+    | ExpressRouteCrossConnectionPeeringsListdefaultResponse
+): response is ExpressRouteCrossConnectionPeeringsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCrossConnectionPeeringsDelete200Response
+    | ExpressRouteCrossConnectionPeeringsDelete202Response
+    | ExpressRouteCrossConnectionPeeringsDelete204Response
+    | ExpressRouteCrossConnectionPeeringsDeletedefaultResponse
+): response is ExpressRouteCrossConnectionPeeringsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCrossConnectionPeeringsGet200Response
+    | ExpressRouteCrossConnectionPeeringsGetdefaultResponse
+): response is ExpressRouteCrossConnectionPeeringsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteCrossConnectionPeeringsCreateOrUpdate200Response
+    | ExpressRouteCrossConnectionPeeringsCreateOrUpdate201Response
+    | ExpressRouteCrossConnectionPeeringsCreateOrUpdatedefaultResponse
+): response is ExpressRouteCrossConnectionPeeringsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRoutePortsLocationsList200Response
+    | ExpressRoutePortsLocationsListdefaultResponse
+): response is ExpressRoutePortsLocationsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRoutePortsLocationsGet200Response
+    | ExpressRoutePortsLocationsGetdefaultResponse
+): response is ExpressRoutePortsLocationsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRoutePortsDelete200Response
+    | ExpressRoutePortsDelete202Response
+    | ExpressRoutePortsDelete204Response
+    | ExpressRoutePortsDeletedefaultResponse
+): response is ExpressRoutePortsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRoutePortsGet200Response
+    | ExpressRoutePortsGetdefaultResponse
+): response is ExpressRoutePortsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRoutePortsCreateOrUpdate200Response
+    | ExpressRoutePortsCreateOrUpdate201Response
+    | ExpressRoutePortsCreateOrUpdatedefaultResponse
+): response is ExpressRoutePortsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRoutePortsUpdateTags200Response
+    | ExpressRoutePortsUpdateTagsdefaultResponse
+): response is ExpressRoutePortsUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRoutePortsListByResourceGroup200Response
+    | ExpressRoutePortsListByResourceGroupdefaultResponse
+): response is ExpressRoutePortsListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRoutePortsList200Response
+    | ExpressRoutePortsListdefaultResponse
+): response is ExpressRoutePortsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRoutePortsGenerateLOA200Response
+    | ExpressRoutePortsGenerateLOAdefaultResponse
+): response is ExpressRoutePortsGenerateLOAdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteLinksGet200Response
+    | ExpressRouteLinksGetdefaultResponse
+): response is ExpressRouteLinksGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteLinksList200Response
+    | ExpressRouteLinksListdefaultResponse
+): response is ExpressRouteLinksListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRoutePortAuthorizationsDelete200Response
+    | ExpressRoutePortAuthorizationsDelete202Response
+    | ExpressRoutePortAuthorizationsDelete204Response
+    | ExpressRoutePortAuthorizationsDeletedefaultResponse
+): response is ExpressRoutePortAuthorizationsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRoutePortAuthorizationsGet200Response
+    | ExpressRoutePortAuthorizationsGetdefaultResponse
+): response is ExpressRoutePortAuthorizationsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRoutePortAuthorizationsCreateOrUpdate200Response
+    | ExpressRoutePortAuthorizationsCreateOrUpdate201Response
+    | ExpressRoutePortAuthorizationsCreateOrUpdatedefaultResponse
+): response is ExpressRoutePortAuthorizationsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRoutePortAuthorizationsList200Response
+    | ExpressRoutePortAuthorizationsListdefaultResponse
+): response is ExpressRoutePortAuthorizationsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteProviderPortsLocationList200Response
+    | ExpressRouteProviderPortsLocationListdefaultResponse
+): response is ExpressRouteProviderPortsLocationListdefaultResponse;
+export function isUnexpected(
+  response:
+    | FirewallPoliciesDelete200Response
+    | FirewallPoliciesDelete202Response
+    | FirewallPoliciesDelete204Response
+    | FirewallPoliciesDeletedefaultResponse
+): response is FirewallPoliciesDeletedefaultResponse;
+export function isUnexpected(
+  response: FirewallPoliciesGet200Response | FirewallPoliciesGetdefaultResponse
+): response is FirewallPoliciesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | FirewallPoliciesCreateOrUpdate200Response
+    | FirewallPoliciesCreateOrUpdate201Response
+    | FirewallPoliciesCreateOrUpdatedefaultResponse
+): response is FirewallPoliciesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | FirewallPoliciesUpdateTags200Response
+    | FirewallPoliciesUpdateTagsdefaultResponse
+): response is FirewallPoliciesUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | FirewallPoliciesList200Response
+    | FirewallPoliciesListdefaultResponse
+): response is FirewallPoliciesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | FirewallPoliciesListAll200Response
+    | FirewallPoliciesListAlldefaultResponse
+): response is FirewallPoliciesListAlldefaultResponse;
+export function isUnexpected(
+  response:
+    | FirewallPolicyRuleCollectionGroupsDelete200Response
+    | FirewallPolicyRuleCollectionGroupsDelete202Response
+    | FirewallPolicyRuleCollectionGroupsDelete204Response
+    | FirewallPolicyRuleCollectionGroupsDeletedefaultResponse
+): response is FirewallPolicyRuleCollectionGroupsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | FirewallPolicyRuleCollectionGroupsGet200Response
+    | FirewallPolicyRuleCollectionGroupsGetdefaultResponse
+): response is FirewallPolicyRuleCollectionGroupsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | FirewallPolicyRuleCollectionGroupsCreateOrUpdate200Response
+    | FirewallPolicyRuleCollectionGroupsCreateOrUpdate201Response
+    | FirewallPolicyRuleCollectionGroupsCreateOrUpdatedefaultResponse
+): response is FirewallPolicyRuleCollectionGroupsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | FirewallPolicyRuleCollectionGroupsList200Response
+    | FirewallPolicyRuleCollectionGroupsListdefaultResponse
+): response is FirewallPolicyRuleCollectionGroupsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | FirewallPolicyIdpsSignaturesList200Response
+    | FirewallPolicyIdpsSignaturesListdefaultResponse
+): response is FirewallPolicyIdpsSignaturesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | FirewallPolicyIdpsSignaturesOverridesPatch200Response
+    | FirewallPolicyIdpsSignaturesOverridesPatchdefaultResponse
+): response is FirewallPolicyIdpsSignaturesOverridesPatchdefaultResponse;
+export function isUnexpected(
+  response:
+    | FirewallPolicyIdpsSignaturesOverridesPut200Response
+    | FirewallPolicyIdpsSignaturesOverridesPutdefaultResponse
+): response is FirewallPolicyIdpsSignaturesOverridesPutdefaultResponse;
+export function isUnexpected(
+  response:
+    | FirewallPolicyIdpsSignaturesOverridesGet200Response
+    | FirewallPolicyIdpsSignaturesOverridesGetdefaultResponse
+): response is FirewallPolicyIdpsSignaturesOverridesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | FirewallPolicyIdpsSignaturesOverridesList200Response
+    | FirewallPolicyIdpsSignaturesOverridesListdefaultResponse
+): response is FirewallPolicyIdpsSignaturesOverridesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | FirewallPolicyIdpsSignaturesFilterValuesList200Response
+    | FirewallPolicyIdpsSignaturesFilterValuesListdefaultResponse
+): response is FirewallPolicyIdpsSignaturesFilterValuesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | IpAllocationsDelete200Response
+    | IpAllocationsDelete202Response
+    | IpAllocationsDelete204Response
+    | IpAllocationsDeletedefaultResponse
+): response is IpAllocationsDeletedefaultResponse;
+export function isUnexpected(
+  response: IpAllocationsGet200Response | IpAllocationsGetdefaultResponse
+): response is IpAllocationsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | IpAllocationsCreateOrUpdate200Response
+    | IpAllocationsCreateOrUpdate201Response
+    | IpAllocationsCreateOrUpdatedefaultResponse
+): response is IpAllocationsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | IpAllocationsUpdateTags200Response
+    | IpAllocationsUpdateTagsdefaultResponse
+): response is IpAllocationsUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response: IpAllocationsList200Response | IpAllocationsListdefaultResponse
+): response is IpAllocationsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | IpAllocationsListByResourceGroup200Response
+    | IpAllocationsListByResourceGroupdefaultResponse
+): response is IpAllocationsListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response: IpGroupsGet200Response | IpGroupsGetdefaultResponse
+): response is IpGroupsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | IpGroupsCreateOrUpdate200Response
+    | IpGroupsCreateOrUpdate201Response
+    | IpGroupsCreateOrUpdatedefaultResponse
+): response is IpGroupsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | IpGroupsUpdateGroups200Response
+    | IpGroupsUpdateGroupsdefaultResponse
+): response is IpGroupsUpdateGroupsdefaultResponse;
+export function isUnexpected(
+  response:
+    | IpGroupsDelete200Response
+    | IpGroupsDelete202Response
+    | IpGroupsDelete204Response
+    | IpGroupsDeletedefaultResponse
+): response is IpGroupsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | IpGroupsListByResourceGroup200Response
+    | IpGroupsListByResourceGroupdefaultResponse
+): response is IpGroupsListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response: IpGroupsList200Response | IpGroupsListdefaultResponse
+): response is IpGroupsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadBalancersDelete200Response
+    | LoadBalancersDelete202Response
+    | LoadBalancersDelete204Response
+    | LoadBalancersDeletedefaultResponse
+): response is LoadBalancersDeletedefaultResponse;
+export function isUnexpected(
+  response: LoadBalancersGet200Response | LoadBalancersGetdefaultResponse
+): response is LoadBalancersGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadBalancersCreateOrUpdate200Response
+    | LoadBalancersCreateOrUpdate201Response
+    | LoadBalancersCreateOrUpdatedefaultResponse
+): response is LoadBalancersCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadBalancersUpdateTags200Response
+    | LoadBalancersUpdateTagsdefaultResponse
+): response is LoadBalancersUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadBalancersListAll200Response
+    | LoadBalancersListAlldefaultResponse
+): response is LoadBalancersListAlldefaultResponse;
+export function isUnexpected(
+  response: LoadBalancersList200Response | LoadBalancersListdefaultResponse
+): response is LoadBalancersListdefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadBalancersSwapPublicIpAddresses200Response
+    | LoadBalancersSwapPublicIpAddresses202Response
+    | LoadBalancersSwapPublicIpAddressesdefaultResponse
+): response is LoadBalancersSwapPublicIpAddressesdefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadBalancersListInboundNatRulePortMappings200Response
+    | LoadBalancersListInboundNatRulePortMappings202Response
+    | LoadBalancersListInboundNatRulePortMappingsdefaultResponse
+): response is LoadBalancersListInboundNatRulePortMappingsdefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadBalancerBackendAddressPoolsList200Response
+    | LoadBalancerBackendAddressPoolsListdefaultResponse
+): response is LoadBalancerBackendAddressPoolsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadBalancerBackendAddressPoolsGet200Response
+    | LoadBalancerBackendAddressPoolsGetdefaultResponse
+): response is LoadBalancerBackendAddressPoolsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadBalancerBackendAddressPoolsCreateOrUpdate200Response
+    | LoadBalancerBackendAddressPoolsCreateOrUpdate201Response
+    | LoadBalancerBackendAddressPoolsCreateOrUpdatedefaultResponse
+): response is LoadBalancerBackendAddressPoolsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadBalancerBackendAddressPoolsDelete200Response
+    | LoadBalancerBackendAddressPoolsDelete202Response
+    | LoadBalancerBackendAddressPoolsDelete204Response
+    | LoadBalancerBackendAddressPoolsDeletedefaultResponse
+): response is LoadBalancerBackendAddressPoolsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadBalancerFrontendIPConfigurationsList200Response
+    | LoadBalancerFrontendIPConfigurationsListdefaultResponse
+): response is LoadBalancerFrontendIPConfigurationsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadBalancerFrontendIPConfigurationsGet200Response
+    | LoadBalancerFrontendIPConfigurationsGetdefaultResponse
+): response is LoadBalancerFrontendIPConfigurationsGetdefaultResponse;
+export function isUnexpected(
+  response: InboundNatRulesList200Response | InboundNatRulesListdefaultResponse
+): response is InboundNatRulesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | InboundNatRulesDelete200Response
+    | InboundNatRulesDelete202Response
+    | InboundNatRulesDelete204Response
+    | InboundNatRulesDeletedefaultResponse
+): response is InboundNatRulesDeletedefaultResponse;
+export function isUnexpected(
+  response: InboundNatRulesGet200Response | InboundNatRulesGetdefaultResponse
+): response is InboundNatRulesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | InboundNatRulesCreateOrUpdate200Response
+    | InboundNatRulesCreateOrUpdate201Response
+    | InboundNatRulesCreateOrUpdatedefaultResponse
+): response is InboundNatRulesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadBalancerLoadBalancingRulesList200Response
+    | LoadBalancerLoadBalancingRulesListdefaultResponse
+): response is LoadBalancerLoadBalancingRulesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadBalancerLoadBalancingRulesGet200Response
+    | LoadBalancerLoadBalancingRulesGetdefaultResponse
+): response is LoadBalancerLoadBalancingRulesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadBalancerOutboundRulesList200Response
+    | LoadBalancerOutboundRulesListdefaultResponse
+): response is LoadBalancerOutboundRulesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadBalancerOutboundRulesGet200Response
+    | LoadBalancerOutboundRulesGetdefaultResponse
+): response is LoadBalancerOutboundRulesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadBalancerNetworkInterfacesList200Response
+    | LoadBalancerNetworkInterfacesListdefaultResponse
+): response is LoadBalancerNetworkInterfacesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadBalancerProbesList200Response
+    | LoadBalancerProbesListdefaultResponse
+): response is LoadBalancerProbesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadBalancerProbesGet200Response
+    | LoadBalancerProbesGetdefaultResponse
+): response is LoadBalancerProbesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | NatGatewaysDelete200Response
+    | NatGatewaysDelete202Response
+    | NatGatewaysDelete204Response
+    | NatGatewaysDeletedefaultResponse
+): response is NatGatewaysDeletedefaultResponse;
+export function isUnexpected(
+  response: NatGatewaysGet200Response | NatGatewaysGetdefaultResponse
+): response is NatGatewaysGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | NatGatewaysCreateOrUpdate200Response
+    | NatGatewaysCreateOrUpdate201Response
+    | NatGatewaysCreateOrUpdate202Response
+    | NatGatewaysCreateOrUpdatedefaultResponse
+): response is NatGatewaysCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | NatGatewaysUpdateTags200Response
+    | NatGatewaysUpdateTagsdefaultResponse
+): response is NatGatewaysUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response: NatGatewaysListAll200Response | NatGatewaysListAlldefaultResponse
+): response is NatGatewaysListAlldefaultResponse;
+export function isUnexpected(
+  response: NatGatewaysList200Response | NatGatewaysListdefaultResponse
+): response is NatGatewaysListdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfaceIPConfigurationsList200Response
+    | NetworkInterfaceIPConfigurationsListdefaultResponse
+): response is NetworkInterfaceIPConfigurationsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfaceIPConfigurationsGet200Response
+    | NetworkInterfaceIPConfigurationsGetdefaultResponse
+): response is NetworkInterfaceIPConfigurationsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfaceLoadBalancersList200Response
+    | NetworkInterfaceLoadBalancersListdefaultResponse
+): response is NetworkInterfaceLoadBalancersListdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfaceTapConfigurationsDelete200Response
+    | NetworkInterfaceTapConfigurationsDelete202Response
+    | NetworkInterfaceTapConfigurationsDelete204Response
+    | NetworkInterfaceTapConfigurationsDeletedefaultResponse
+): response is NetworkInterfaceTapConfigurationsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfaceTapConfigurationsGet200Response
+    | NetworkInterfaceTapConfigurationsGetdefaultResponse
+): response is NetworkInterfaceTapConfigurationsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfaceTapConfigurationsCreateOrUpdate200Response
+    | NetworkInterfaceTapConfigurationsCreateOrUpdate201Response
+    | NetworkInterfaceTapConfigurationsCreateOrUpdatedefaultResponse
+): response is NetworkInterfaceTapConfigurationsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkInterfaceTapConfigurationsList200Response
+    | NetworkInterfaceTapConfigurationsListdefaultResponse
+): response is NetworkInterfaceTapConfigurationsListdefaultResponse;
+export function isUnexpected(
+  response: NetworkManagersGet200Response | NetworkManagersGetdefaultResponse
+): response is NetworkManagersGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkManagersCreateOrUpdate200Response
+    | NetworkManagersCreateOrUpdate201Response
+    | NetworkManagersCreateOrUpdatedefaultResponse
+): response is NetworkManagersCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkManagersDelete200Response
+    | NetworkManagersDelete202Response
+    | NetworkManagersDelete204Response
+    | NetworkManagersDeletedefaultResponse
+): response is NetworkManagersDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkManagersPatch200Response
+    | NetworkManagersPatchdefaultResponse
+): response is NetworkManagersPatchdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkManagersListBySubscription200Response
+    | NetworkManagersListBySubscriptiondefaultResponse
+): response is NetworkManagersListBySubscriptiondefaultResponse;
+export function isUnexpected(
+  response: NetworkManagersList200Response | NetworkManagersListdefaultResponse
+): response is NetworkManagersListdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkManagerCommitsPost200Response
+    | NetworkManagerCommitsPost202Response
+    | NetworkManagerCommitsPostdefaultResponse
+): response is NetworkManagerCommitsPostdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkManagerDeploymentStatusList200Response
+    | NetworkManagerDeploymentStatusListdefaultResponse
+): response is NetworkManagerDeploymentStatusListdefaultResponse;
+export function isUnexpected(
+  response:
+    | SubscriptionNetworkManagerConnectionsCreateOrUpdate200Response
+    | SubscriptionNetworkManagerConnectionsCreateOrUpdate201Response
+    | SubscriptionNetworkManagerConnectionsCreateOrUpdatedefaultResponse
+): response is SubscriptionNetworkManagerConnectionsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | SubscriptionNetworkManagerConnectionsGet200Response
+    | SubscriptionNetworkManagerConnectionsGetdefaultResponse
+): response is SubscriptionNetworkManagerConnectionsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | SubscriptionNetworkManagerConnectionsDelete200Response
+    | SubscriptionNetworkManagerConnectionsDelete204Response
+    | SubscriptionNetworkManagerConnectionsDeletedefaultResponse
+): response is SubscriptionNetworkManagerConnectionsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | SubscriptionNetworkManagerConnectionsList200Response
+    | SubscriptionNetworkManagerConnectionsListdefaultResponse
+): response is SubscriptionNetworkManagerConnectionsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ManagementGroupNetworkManagerConnectionsCreateOrUpdate200Response
+    | ManagementGroupNetworkManagerConnectionsCreateOrUpdate201Response
+    | ManagementGroupNetworkManagerConnectionsCreateOrUpdatedefaultResponse
+): response is ManagementGroupNetworkManagerConnectionsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | ManagementGroupNetworkManagerConnectionsGet200Response
+    | ManagementGroupNetworkManagerConnectionsGetdefaultResponse
+): response is ManagementGroupNetworkManagerConnectionsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ManagementGroupNetworkManagerConnectionsDelete200Response
+    | ManagementGroupNetworkManagerConnectionsDelete204Response
+    | ManagementGroupNetworkManagerConnectionsDeletedefaultResponse
+): response is ManagementGroupNetworkManagerConnectionsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | ManagementGroupNetworkManagerConnectionsList200Response
+    | ManagementGroupNetworkManagerConnectionsListdefaultResponse
+): response is ManagementGroupNetworkManagerConnectionsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ConnectivityConfigurationsGet200Response
+    | ConnectivityConfigurationsGetdefaultResponse
+): response is ConnectivityConfigurationsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ConnectivityConfigurationsCreateOrUpdate200Response
+    | ConnectivityConfigurationsCreateOrUpdate201Response
+    | ConnectivityConfigurationsCreateOrUpdatedefaultResponse
+): response is ConnectivityConfigurationsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | ConnectivityConfigurationsDelete200Response
+    | ConnectivityConfigurationsDelete202Response
+    | ConnectivityConfigurationsDelete204Response
+    | ConnectivityConfigurationsDeletedefaultResponse
+): response is ConnectivityConfigurationsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | ConnectivityConfigurationsList200Response
+    | ConnectivityConfigurationsListdefaultResponse
+): response is ConnectivityConfigurationsListdefaultResponse;
+export function isUnexpected(
+  response: NetworkGroupsGet200Response | NetworkGroupsGetdefaultResponse
+): response is NetworkGroupsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkGroupsCreateOrUpdate200Response
+    | NetworkGroupsCreateOrUpdate201Response
+    | NetworkGroupsCreateOrUpdatedefaultResponse
+): response is NetworkGroupsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkGroupsDelete200Response
+    | NetworkGroupsDelete202Response
+    | NetworkGroupsDelete204Response
+    | NetworkGroupsDeletedefaultResponse
+): response is NetworkGroupsDeletedefaultResponse;
+export function isUnexpected(
+  response: NetworkGroupsList200Response | NetworkGroupsListdefaultResponse
+): response is NetworkGroupsListdefaultResponse;
+export function isUnexpected(
+  response: StaticMembersGet200Response | StaticMembersGetdefaultResponse
+): response is StaticMembersGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | StaticMembersCreateOrUpdate200Response
+    | StaticMembersCreateOrUpdate201Response
+    | StaticMembersCreateOrUpdatedefaultResponse
+): response is StaticMembersCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | StaticMembersDelete200Response
+    | StaticMembersDelete204Response
+    | StaticMembersDeletedefaultResponse
+): response is StaticMembersDeletedefaultResponse;
+export function isUnexpected(
+  response: StaticMembersList200Response | StaticMembersListdefaultResponse
+): response is StaticMembersListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ScopeConnectionsCreateOrUpdate200Response
+    | ScopeConnectionsCreateOrUpdate201Response
+    | ScopeConnectionsCreateOrUpdatedefaultResponse
+): response is ScopeConnectionsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response: ScopeConnectionsGet200Response | ScopeConnectionsGetdefaultResponse
+): response is ScopeConnectionsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ScopeConnectionsDelete200Response
+    | ScopeConnectionsDelete204Response
+    | ScopeConnectionsDeletedefaultResponse
+): response is ScopeConnectionsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | ScopeConnectionsList200Response
+    | ScopeConnectionsListdefaultResponse
+): response is ScopeConnectionsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | SecurityAdminConfigurationsList200Response
+    | SecurityAdminConfigurationsListdefaultResponse
+): response is SecurityAdminConfigurationsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | SecurityAdminConfigurationsGet200Response
+    | SecurityAdminConfigurationsGetdefaultResponse
+): response is SecurityAdminConfigurationsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | SecurityAdminConfigurationsCreateOrUpdate200Response
+    | SecurityAdminConfigurationsCreateOrUpdate201Response
+    | SecurityAdminConfigurationsCreateOrUpdatedefaultResponse
+): response is SecurityAdminConfigurationsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | SecurityAdminConfigurationsDelete200Response
+    | SecurityAdminConfigurationsDelete202Response
+    | SecurityAdminConfigurationsDelete204Response
+    | SecurityAdminConfigurationsDeletedefaultResponse
+): response is SecurityAdminConfigurationsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | AdminRuleCollectionsList200Response
+    | AdminRuleCollectionsListdefaultResponse
+): response is AdminRuleCollectionsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | AdminRuleCollectionsGet200Response
+    | AdminRuleCollectionsGetdefaultResponse
+): response is AdminRuleCollectionsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | AdminRuleCollectionsCreateOrUpdate200Response
+    | AdminRuleCollectionsCreateOrUpdate201Response
+    | AdminRuleCollectionsCreateOrUpdatedefaultResponse
+): response is AdminRuleCollectionsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | AdminRuleCollectionsDelete200Response
+    | AdminRuleCollectionsDelete202Response
+    | AdminRuleCollectionsDelete204Response
+    | AdminRuleCollectionsDeletedefaultResponse
+): response is AdminRuleCollectionsDeletedefaultResponse;
+export function isUnexpected(
+  response: AdminRulesList200Response | AdminRulesListdefaultResponse
+): response is AdminRulesListdefaultResponse;
+export function isUnexpected(
+  response: AdminRulesGet200Response | AdminRulesGetdefaultResponse
+): response is AdminRulesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | AdminRulesCreateOrUpdate200Response
+    | AdminRulesCreateOrUpdate201Response
+    | AdminRulesCreateOrUpdatedefaultResponse
+): response is AdminRulesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | AdminRulesDelete200Response
+    | AdminRulesDelete202Response
+    | AdminRulesDelete204Response
+    | AdminRulesDeletedefaultResponse
+): response is AdminRulesDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkProfilesDelete200Response
+    | NetworkProfilesDelete202Response
+    | NetworkProfilesDelete204Response
+    | NetworkProfilesDeletedefaultResponse
+): response is NetworkProfilesDeletedefaultResponse;
+export function isUnexpected(
+  response: NetworkProfilesGet200Response | NetworkProfilesGetdefaultResponse
+): response is NetworkProfilesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkProfilesCreateOrUpdate200Response
+    | NetworkProfilesCreateOrUpdate201Response
+    | NetworkProfilesCreateOrUpdatedefaultResponse
+): response is NetworkProfilesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkProfilesUpdateTags200Response
+    | NetworkProfilesUpdateTagsdefaultResponse
+): response is NetworkProfilesUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkProfilesListAll200Response
+    | NetworkProfilesListAlldefaultResponse
+): response is NetworkProfilesListAlldefaultResponse;
+export function isUnexpected(
+  response: NetworkProfilesList200Response | NetworkProfilesListdefaultResponse
+): response is NetworkProfilesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkSecurityGroupsDelete200Response
+    | NetworkSecurityGroupsDelete202Response
+    | NetworkSecurityGroupsDelete204Response
+    | NetworkSecurityGroupsDeletedefaultResponse
+): response is NetworkSecurityGroupsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkSecurityGroupsGet200Response
+    | NetworkSecurityGroupsGetdefaultResponse
+): response is NetworkSecurityGroupsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkSecurityGroupsCreateOrUpdate200Response
+    | NetworkSecurityGroupsCreateOrUpdate201Response
+    | NetworkSecurityGroupsCreateOrUpdatedefaultResponse
+): response is NetworkSecurityGroupsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkSecurityGroupsUpdateTags200Response
+    | NetworkSecurityGroupsUpdateTagsdefaultResponse
+): response is NetworkSecurityGroupsUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkSecurityGroupsListAll200Response
+    | NetworkSecurityGroupsListAlldefaultResponse
+): response is NetworkSecurityGroupsListAlldefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkSecurityGroupsList200Response
+    | NetworkSecurityGroupsListdefaultResponse
+): response is NetworkSecurityGroupsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | SecurityRulesDelete200Response
+    | SecurityRulesDelete202Response
+    | SecurityRulesDelete204Response
+    | SecurityRulesDeletedefaultResponse
+): response is SecurityRulesDeletedefaultResponse;
+export function isUnexpected(
+  response: SecurityRulesGet200Response | SecurityRulesGetdefaultResponse
+): response is SecurityRulesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | SecurityRulesCreateOrUpdate200Response
+    | SecurityRulesCreateOrUpdate201Response
+    | SecurityRulesCreateOrUpdatedefaultResponse
+): response is SecurityRulesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response: SecurityRulesList200Response | SecurityRulesListdefaultResponse
+): response is SecurityRulesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | DefaultSecurityRulesList200Response
+    | DefaultSecurityRulesListdefaultResponse
+): response is DefaultSecurityRulesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | DefaultSecurityRulesGet200Response
+    | DefaultSecurityRulesGetdefaultResponse
+): response is DefaultSecurityRulesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkVirtualAppliancesDelete200Response
+    | NetworkVirtualAppliancesDelete202Response
+    | NetworkVirtualAppliancesDelete204Response
+    | NetworkVirtualAppliancesDeletedefaultResponse
+): response is NetworkVirtualAppliancesDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkVirtualAppliancesGet200Response
+    | NetworkVirtualAppliancesGetdefaultResponse
+): response is NetworkVirtualAppliancesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkVirtualAppliancesUpdateTags200Response
+    | NetworkVirtualAppliancesUpdateTagsdefaultResponse
+): response is NetworkVirtualAppliancesUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkVirtualAppliancesCreateOrUpdate200Response
+    | NetworkVirtualAppliancesCreateOrUpdate201Response
+    | NetworkVirtualAppliancesCreateOrUpdatedefaultResponse
+): response is NetworkVirtualAppliancesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkVirtualAppliancesListByResourceGroup200Response
+    | NetworkVirtualAppliancesListByResourceGroupdefaultResponse
+): response is NetworkVirtualAppliancesListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkVirtualAppliancesList200Response
+    | NetworkVirtualAppliancesListdefaultResponse
+): response is NetworkVirtualAppliancesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualApplianceSitesDelete200Response
+    | VirtualApplianceSitesDelete202Response
+    | VirtualApplianceSitesDelete204Response
+    | VirtualApplianceSitesDeletedefaultResponse
+): response is VirtualApplianceSitesDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualApplianceSitesGet200Response
+    | VirtualApplianceSitesGetdefaultResponse
+): response is VirtualApplianceSitesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualApplianceSitesCreateOrUpdate200Response
+    | VirtualApplianceSitesCreateOrUpdate201Response
+    | VirtualApplianceSitesCreateOrUpdatedefaultResponse
+): response is VirtualApplianceSitesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualApplianceSitesList200Response
+    | VirtualApplianceSitesListdefaultResponse
+): response is VirtualApplianceSitesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualApplianceSkusList200Response
+    | VirtualApplianceSkusListdefaultResponse
+): response is VirtualApplianceSkusListdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualApplianceSkusGet200Response
+    | VirtualApplianceSkusGetdefaultResponse
+): response is VirtualApplianceSkusGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | InboundSecurityRuleCreateOrUpdate200Response
+    | InboundSecurityRuleCreateOrUpdate201Response
+    | InboundSecurityRuleCreateOrUpdatedefaultResponse
+): response is InboundSecurityRuleCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkWatchersCreateOrUpdate200Response
+    | NetworkWatchersCreateOrUpdate201Response
+    | NetworkWatchersCreateOrUpdatedefaultResponse
+): response is NetworkWatchersCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response: NetworkWatchersGet200Response | NetworkWatchersGetdefaultResponse
+): response is NetworkWatchersGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkWatchersDelete202Response
+    | NetworkWatchersDelete204Response
+    | NetworkWatchersDeletedefaultResponse
+): response is NetworkWatchersDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkWatchersUpdateTags200Response
+    | NetworkWatchersUpdateTagsdefaultResponse
+): response is NetworkWatchersUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response: NetworkWatchersList200Response | NetworkWatchersListdefaultResponse
+): response is NetworkWatchersListdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkWatchersListAll200Response
+    | NetworkWatchersListAlldefaultResponse
+): response is NetworkWatchersListAlldefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkWatchersGetTopology200Response
+    | NetworkWatchersGetTopologydefaultResponse
+): response is NetworkWatchersGetTopologydefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkWatchersVerifyIPFlow200Response
+    | NetworkWatchersVerifyIPFlow202Response
+    | NetworkWatchersVerifyIPFlowdefaultResponse
+): response is NetworkWatchersVerifyIPFlowdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkWatchersGetNextHop200Response
+    | NetworkWatchersGetNextHop202Response
+    | NetworkWatchersGetNextHopdefaultResponse
+): response is NetworkWatchersGetNextHopdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkWatchersGetVMSecurityRules200Response
+    | NetworkWatchersGetVMSecurityRules202Response
+    | NetworkWatchersGetVMSecurityRulesdefaultResponse
+): response is NetworkWatchersGetVMSecurityRulesdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkWatchersGetTroubleshooting200Response
+    | NetworkWatchersGetTroubleshooting202Response
+    | NetworkWatchersGetTroubleshootingdefaultResponse
+): response is NetworkWatchersGetTroubleshootingdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkWatchersGetTroubleshootingResult200Response
+    | NetworkWatchersGetTroubleshootingResult202Response
+    | NetworkWatchersGetTroubleshootingResultdefaultResponse
+): response is NetworkWatchersGetTroubleshootingResultdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkWatchersSetFlowLogConfiguration200Response
+    | NetworkWatchersSetFlowLogConfiguration202Response
+    | NetworkWatchersSetFlowLogConfigurationdefaultResponse
+): response is NetworkWatchersSetFlowLogConfigurationdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkWatchersGetFlowLogStatus200Response
+    | NetworkWatchersGetFlowLogStatus202Response
+    | NetworkWatchersGetFlowLogStatusdefaultResponse
+): response is NetworkWatchersGetFlowLogStatusdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkWatchersCheckConnectivity200Response
+    | NetworkWatchersCheckConnectivity202Response
+    | NetworkWatchersCheckConnectivitydefaultResponse
+): response is NetworkWatchersCheckConnectivitydefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkWatchersGetAzureReachabilityReport200Response
+    | NetworkWatchersGetAzureReachabilityReport202Response
+    | NetworkWatchersGetAzureReachabilityReportdefaultResponse
+): response is NetworkWatchersGetAzureReachabilityReportdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkWatchersListAvailableProviders200Response
+    | NetworkWatchersListAvailableProviders202Response
+    | NetworkWatchersListAvailableProvidersdefaultResponse
+): response is NetworkWatchersListAvailableProvidersdefaultResponse;
+export function isUnexpected(
+  response:
+    | NetworkWatchersGetNetworkConfigurationDiagnostic200Response
+    | NetworkWatchersGetNetworkConfigurationDiagnostic202Response
+    | NetworkWatchersGetNetworkConfigurationDiagnosticdefaultResponse
+): response is NetworkWatchersGetNetworkConfigurationDiagnosticdefaultResponse;
+export function isUnexpected(
+  response:
+    | PacketCapturesCreate201Response
+    | PacketCapturesCreatedefaultResponse
+): response is PacketCapturesCreatedefaultResponse;
+export function isUnexpected(
+  response: PacketCapturesGet200Response | PacketCapturesGetdefaultResponse
+): response is PacketCapturesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | PacketCapturesDelete202Response
+    | PacketCapturesDelete204Response
+    | PacketCapturesDeletedefaultResponse
+): response is PacketCapturesDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | PacketCapturesStop200Response
+    | PacketCapturesStop202Response
+    | PacketCapturesStopdefaultResponse
+): response is PacketCapturesStopdefaultResponse;
+export function isUnexpected(
+  response:
+    | PacketCapturesGetStatus200Response
+    | PacketCapturesGetStatus202Response
+    | PacketCapturesGetStatusdefaultResponse
+): response is PacketCapturesGetStatusdefaultResponse;
+export function isUnexpected(
+  response: PacketCapturesList200Response | PacketCapturesListdefaultResponse
+): response is PacketCapturesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ConnectionMonitorsCreateOrUpdate200Response
+    | ConnectionMonitorsCreateOrUpdate201Response
+    | ConnectionMonitorsCreateOrUpdatedefaultResponse
+): response is ConnectionMonitorsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | ConnectionMonitorsGet200Response
+    | ConnectionMonitorsGetdefaultResponse
+): response is ConnectionMonitorsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ConnectionMonitorsDelete202Response
+    | ConnectionMonitorsDelete204Response
+    | ConnectionMonitorsDeletedefaultResponse
+): response is ConnectionMonitorsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | ConnectionMonitorsUpdateTags200Response
+    | ConnectionMonitorsUpdateTagsdefaultResponse
+): response is ConnectionMonitorsUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | ConnectionMonitorsStop200Response
+    | ConnectionMonitorsStop202Response
+    | ConnectionMonitorsStopdefaultResponse
+): response is ConnectionMonitorsStopdefaultResponse;
+export function isUnexpected(
+  response:
+    | ConnectionMonitorsStart200Response
+    | ConnectionMonitorsStart202Response
+    | ConnectionMonitorsStartdefaultResponse
+): response is ConnectionMonitorsStartdefaultResponse;
+export function isUnexpected(
+  response:
+    | ConnectionMonitorsQuery200Response
+    | ConnectionMonitorsQuery202Response
+    | ConnectionMonitorsQuerydefaultResponse
+): response is ConnectionMonitorsQuerydefaultResponse;
+export function isUnexpected(
+  response:
+    | ConnectionMonitorsList200Response
+    | ConnectionMonitorsListdefaultResponse
+): response is ConnectionMonitorsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | FlowLogsCreateOrUpdate200Response
+    | FlowLogsCreateOrUpdate201Response
+    | FlowLogsCreateOrUpdatedefaultResponse
+): response is FlowLogsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response: FlowLogsUpdateTags200Response | FlowLogsUpdateTagsdefaultResponse
+): response is FlowLogsUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response: FlowLogsGet200Response | FlowLogsGetdefaultResponse
+): response is FlowLogsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | FlowLogsDelete202Response
+    | FlowLogsDelete204Response
+    | FlowLogsDeletedefaultResponse
+): response is FlowLogsDeletedefaultResponse;
+export function isUnexpected(
+  response: FlowLogsList200Response | FlowLogsListdefaultResponse
+): response is FlowLogsListdefaultResponse;
+export function isUnexpected(
+  response: OperationsList200Response | OperationsListdefaultResponse
+): response is OperationsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | PrivateEndpointsDelete200Response
+    | PrivateEndpointsDelete202Response
+    | PrivateEndpointsDelete204Response
+    | PrivateEndpointsDeletedefaultResponse
+): response is PrivateEndpointsDeletedefaultResponse;
+export function isUnexpected(
+  response: PrivateEndpointsGet200Response | PrivateEndpointsGetdefaultResponse
+): response is PrivateEndpointsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | PrivateEndpointsCreateOrUpdate200Response
+    | PrivateEndpointsCreateOrUpdate201Response
+    | PrivateEndpointsCreateOrUpdatedefaultResponse
+): response is PrivateEndpointsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | PrivateEndpointsList200Response
+    | PrivateEndpointsListdefaultResponse
+): response is PrivateEndpointsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | PrivateEndpointsListBySubscription200Response
+    | PrivateEndpointsListBySubscriptiondefaultResponse
+): response is PrivateEndpointsListBySubscriptiondefaultResponse;
+export function isUnexpected(
+  response:
+    | AvailablePrivateEndpointTypesList200Response
+    | AvailablePrivateEndpointTypesListdefaultResponse
+): response is AvailablePrivateEndpointTypesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | AvailablePrivateEndpointTypesListByResourceGroup200Response
+    | AvailablePrivateEndpointTypesListByResourceGroupdefaultResponse
+): response is AvailablePrivateEndpointTypesListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response:
+    | PrivateDnsZoneGroupsDelete200Response
+    | PrivateDnsZoneGroupsDelete202Response
+    | PrivateDnsZoneGroupsDelete204Response
+    | PrivateDnsZoneGroupsDeletedefaultResponse
+): response is PrivateDnsZoneGroupsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | PrivateDnsZoneGroupsGet200Response
+    | PrivateDnsZoneGroupsGetdefaultResponse
+): response is PrivateDnsZoneGroupsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | PrivateDnsZoneGroupsCreateOrUpdate200Response
+    | PrivateDnsZoneGroupsCreateOrUpdate201Response
+    | PrivateDnsZoneGroupsCreateOrUpdatedefaultResponse
+): response is PrivateDnsZoneGroupsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | PrivateDnsZoneGroupsList200Response
+    | PrivateDnsZoneGroupsListdefaultResponse
+): response is PrivateDnsZoneGroupsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | PrivateLinkServicesDelete200Response
+    | PrivateLinkServicesDelete202Response
+    | PrivateLinkServicesDelete204Response
+    | PrivateLinkServicesDeletedefaultResponse
+): response is PrivateLinkServicesDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | PrivateLinkServicesGet200Response
+    | PrivateLinkServicesGetdefaultResponse
+): response is PrivateLinkServicesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | PrivateLinkServicesCreateOrUpdate200Response
+    | PrivateLinkServicesCreateOrUpdate201Response
+    | PrivateLinkServicesCreateOrUpdatedefaultResponse
+): response is PrivateLinkServicesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | PrivateLinkServicesList200Response
+    | PrivateLinkServicesListdefaultResponse
+): response is PrivateLinkServicesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | PrivateLinkServicesListBySubscription200Response
+    | PrivateLinkServicesListBySubscriptiondefaultResponse
+): response is PrivateLinkServicesListBySubscriptiondefaultResponse;
+export function isUnexpected(
+  response:
+    | PrivateLinkServicesGetPrivateEndpointConnection200Response
+    | PrivateLinkServicesGetPrivateEndpointConnectiondefaultResponse
+): response is PrivateLinkServicesGetPrivateEndpointConnectiondefaultResponse;
+export function isUnexpected(
+  response:
+    | PrivateLinkServicesUpdatePrivateEndpointConnection200Response
+    | PrivateLinkServicesUpdatePrivateEndpointConnectiondefaultResponse
+): response is PrivateLinkServicesUpdatePrivateEndpointConnectiondefaultResponse;
+export function isUnexpected(
+  response:
+    | PrivateLinkServicesDeletePrivateEndpointConnection200Response
+    | PrivateLinkServicesDeletePrivateEndpointConnection202Response
+    | PrivateLinkServicesDeletePrivateEndpointConnection204Response
+    | PrivateLinkServicesDeletePrivateEndpointConnectiondefaultResponse
+): response is PrivateLinkServicesDeletePrivateEndpointConnectiondefaultResponse;
+export function isUnexpected(
+  response:
+    | PrivateLinkServicesListPrivateEndpointConnections200Response
+    | PrivateLinkServicesListPrivateEndpointConnectionsdefaultResponse
+): response is PrivateLinkServicesListPrivateEndpointConnectionsdefaultResponse;
+export function isUnexpected(
+  response:
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibility200Response
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibility202Response
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibilitydefaultResponse
+): response is PrivateLinkServicesCheckPrivateLinkServiceVisibilitydefaultResponse;
+export function isUnexpected(
+  response:
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup200Response
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup202Response
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupdefaultResponse
+): response is PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response:
+    | PrivateLinkServicesListAutoApprovedPrivateLinkServices200Response
+    | PrivateLinkServicesListAutoApprovedPrivateLinkServicesdefaultResponse
+): response is PrivateLinkServicesListAutoApprovedPrivateLinkServicesdefaultResponse;
+export function isUnexpected(
+  response:
+    | PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroup200Response
+    | PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupdefaultResponse
+): response is PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response:
+    | PublicIPPrefixesDelete200Response
+    | PublicIPPrefixesDelete202Response
+    | PublicIPPrefixesDelete204Response
+    | PublicIPPrefixesDeletedefaultResponse
+): response is PublicIPPrefixesDeletedefaultResponse;
+export function isUnexpected(
+  response: PublicIPPrefixesGet200Response | PublicIPPrefixesGetdefaultResponse
+): response is PublicIPPrefixesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | PublicIPPrefixesCreateOrUpdate200Response
+    | PublicIPPrefixesCreateOrUpdate201Response
+    | PublicIPPrefixesCreateOrUpdatedefaultResponse
+): response is PublicIPPrefixesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | PublicIPPrefixesUpdateTags200Response
+    | PublicIPPrefixesUpdateTagsdefaultResponse
+): response is PublicIPPrefixesUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | PublicIPPrefixesListAll200Response
+    | PublicIPPrefixesListAlldefaultResponse
+): response is PublicIPPrefixesListAlldefaultResponse;
+export function isUnexpected(
+  response:
+    | PublicIPPrefixesList200Response
+    | PublicIPPrefixesListdefaultResponse
+): response is PublicIPPrefixesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | RouteFiltersDelete200Response
+    | RouteFiltersDelete202Response
+    | RouteFiltersDelete204Response
+    | RouteFiltersDeletedefaultResponse
+): response is RouteFiltersDeletedefaultResponse;
+export function isUnexpected(
+  response: RouteFiltersGet200Response | RouteFiltersGetdefaultResponse
+): response is RouteFiltersGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | RouteFiltersCreateOrUpdate200Response
+    | RouteFiltersCreateOrUpdate201Response
+    | RouteFiltersCreateOrUpdatedefaultResponse
+): response is RouteFiltersCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | RouteFiltersUpdateTags200Response
+    | RouteFiltersUpdateTagsdefaultResponse
+): response is RouteFiltersUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | RouteFiltersListByResourceGroup200Response
+    | RouteFiltersListByResourceGroupdefaultResponse
+): response is RouteFiltersListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response: RouteFiltersList200Response | RouteFiltersListdefaultResponse
+): response is RouteFiltersListdefaultResponse;
+export function isUnexpected(
+  response:
+    | RouteFilterRulesDelete200Response
+    | RouteFilterRulesDelete202Response
+    | RouteFilterRulesDelete204Response
+    | RouteFilterRulesDeletedefaultResponse
+): response is RouteFilterRulesDeletedefaultResponse;
+export function isUnexpected(
+  response: RouteFilterRulesGet200Response | RouteFilterRulesGetdefaultResponse
+): response is RouteFilterRulesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | RouteFilterRulesCreateOrUpdate200Response
+    | RouteFilterRulesCreateOrUpdate201Response
+    | RouteFilterRulesCreateOrUpdatedefaultResponse
+): response is RouteFilterRulesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | RouteFilterRulesListByRouteFilter200Response
+    | RouteFilterRulesListByRouteFilterdefaultResponse
+): response is RouteFilterRulesListByRouteFilterdefaultResponse;
+export function isUnexpected(
+  response:
+    | RouteTablesDelete200Response
+    | RouteTablesDelete202Response
+    | RouteTablesDelete204Response
+    | RouteTablesDeletedefaultResponse
+): response is RouteTablesDeletedefaultResponse;
+export function isUnexpected(
+  response: RouteTablesGet200Response | RouteTablesGetdefaultResponse
+): response is RouteTablesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | RouteTablesCreateOrUpdate200Response
+    | RouteTablesCreateOrUpdate201Response
+    | RouteTablesCreateOrUpdatedefaultResponse
+): response is RouteTablesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | RouteTablesUpdateTags200Response
+    | RouteTablesUpdateTagsdefaultResponse
+): response is RouteTablesUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response: RouteTablesList200Response | RouteTablesListdefaultResponse
+): response is RouteTablesListdefaultResponse;
+export function isUnexpected(
+  response: RouteTablesListAll200Response | RouteTablesListAlldefaultResponse
+): response is RouteTablesListAlldefaultResponse;
+export function isUnexpected(
+  response:
+    | RoutesDelete200Response
+    | RoutesDelete202Response
+    | RoutesDelete204Response
+    | RoutesDeletedefaultResponse
+): response is RoutesDeletedefaultResponse;
+export function isUnexpected(
+  response: RoutesGet200Response | RoutesGetdefaultResponse
+): response is RoutesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | RoutesCreateOrUpdate200Response
+    | RoutesCreateOrUpdate201Response
+    | RoutesCreateOrUpdatedefaultResponse
+): response is RoutesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response: RoutesList200Response | RoutesListdefaultResponse
+): response is RoutesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | SecurityPartnerProvidersDelete200Response
+    | SecurityPartnerProvidersDelete202Response
+    | SecurityPartnerProvidersDelete204Response
+    | SecurityPartnerProvidersDeletedefaultResponse
+): response is SecurityPartnerProvidersDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | SecurityPartnerProvidersGet200Response
+    | SecurityPartnerProvidersGetdefaultResponse
+): response is SecurityPartnerProvidersGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | SecurityPartnerProvidersCreateOrUpdate200Response
+    | SecurityPartnerProvidersCreateOrUpdate201Response
+    | SecurityPartnerProvidersCreateOrUpdatedefaultResponse
+): response is SecurityPartnerProvidersCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | SecurityPartnerProvidersUpdateTags200Response
+    | SecurityPartnerProvidersUpdateTagsdefaultResponse
+): response is SecurityPartnerProvidersUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | SecurityPartnerProvidersListByResourceGroup200Response
+    | SecurityPartnerProvidersListByResourceGroupdefaultResponse
+): response is SecurityPartnerProvidersListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response:
+    | SecurityPartnerProvidersList200Response
+    | SecurityPartnerProvidersListdefaultResponse
+): response is SecurityPartnerProvidersListdefaultResponse;
+export function isUnexpected(
+  response:
+    | BgpServiceCommunitiesList200Response
+    | BgpServiceCommunitiesListdefaultResponse
+): response is BgpServiceCommunitiesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ServiceEndpointPoliciesDelete200Response
+    | ServiceEndpointPoliciesDelete202Response
+    | ServiceEndpointPoliciesDelete204Response
+    | ServiceEndpointPoliciesDeletedefaultResponse
+): response is ServiceEndpointPoliciesDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | ServiceEndpointPoliciesGet200Response
+    | ServiceEndpointPoliciesGetdefaultResponse
+): response is ServiceEndpointPoliciesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ServiceEndpointPoliciesCreateOrUpdate200Response
+    | ServiceEndpointPoliciesCreateOrUpdate201Response
+    | ServiceEndpointPoliciesCreateOrUpdatedefaultResponse
+): response is ServiceEndpointPoliciesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | ServiceEndpointPoliciesUpdateTags200Response
+    | ServiceEndpointPoliciesUpdateTagsdefaultResponse
+): response is ServiceEndpointPoliciesUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | ServiceEndpointPoliciesList200Response
+    | ServiceEndpointPoliciesListdefaultResponse
+): response is ServiceEndpointPoliciesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ServiceEndpointPoliciesListByResourceGroup200Response
+    | ServiceEndpointPoliciesListByResourceGroupdefaultResponse
+): response is ServiceEndpointPoliciesListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response:
+    | ServiceEndpointPolicyDefinitionsDelete200Response
+    | ServiceEndpointPolicyDefinitionsDelete202Response
+    | ServiceEndpointPolicyDefinitionsDelete204Response
+    | ServiceEndpointPolicyDefinitionsDeletedefaultResponse
+): response is ServiceEndpointPolicyDefinitionsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | ServiceEndpointPolicyDefinitionsGet200Response
+    | ServiceEndpointPolicyDefinitionsGetdefaultResponse
+): response is ServiceEndpointPolicyDefinitionsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ServiceEndpointPolicyDefinitionsCreateOrUpdate200Response
+    | ServiceEndpointPolicyDefinitionsCreateOrUpdate201Response
+    | ServiceEndpointPolicyDefinitionsCreateOrUpdatedefaultResponse
+): response is ServiceEndpointPolicyDefinitionsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | ServiceEndpointPolicyDefinitionsListByResourceGroup200Response
+    | ServiceEndpointPolicyDefinitionsListByResourceGroupdefaultResponse
+): response is ServiceEndpointPolicyDefinitionsListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response: ServiceTagsList200Response | ServiceTagsListdefaultResponse
+): response is ServiceTagsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ServiceTagInformationList200Response
+    | ServiceTagInformationListdefaultResponse
+): response is ServiceTagInformationListdefaultResponse;
+export function isUnexpected(
+  response: UsagesList200Response | UsagesListdefaultResponse
+): response is UsagesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworksDelete200Response
+    | VirtualNetworksDelete202Response
+    | VirtualNetworksDelete204Response
+    | VirtualNetworksDeletedefaultResponse
+): response is VirtualNetworksDeletedefaultResponse;
+export function isUnexpected(
+  response: VirtualNetworksGet200Response | VirtualNetworksGetdefaultResponse
+): response is VirtualNetworksGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworksCreateOrUpdate200Response
+    | VirtualNetworksCreateOrUpdate201Response
+    | VirtualNetworksCreateOrUpdatedefaultResponse
+): response is VirtualNetworksCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworksUpdateTags200Response
+    | VirtualNetworksUpdateTagsdefaultResponse
+): response is VirtualNetworksUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworksListAll200Response
+    | VirtualNetworksListAlldefaultResponse
+): response is VirtualNetworksListAlldefaultResponse;
+export function isUnexpected(
+  response: VirtualNetworksList200Response | VirtualNetworksListdefaultResponse
+): response is VirtualNetworksListdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworksCheckIPAddressAvailability200Response
+    | VirtualNetworksCheckIPAddressAvailabilitydefaultResponse
+): response is VirtualNetworksCheckIPAddressAvailabilitydefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworksListUsage200Response
+    | VirtualNetworksListUsagedefaultResponse
+): response is VirtualNetworksListUsagedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworksListDdosProtectionStatus200Response
+    | VirtualNetworksListDdosProtectionStatus202Response
+    | VirtualNetworksListDdosProtectionStatusdefaultResponse
+): response is VirtualNetworksListDdosProtectionStatusdefaultResponse;
+export function isUnexpected(
+  response:
+    | SubnetsDelete200Response
+    | SubnetsDelete202Response
+    | SubnetsDelete204Response
+    | SubnetsDeletedefaultResponse
+): response is SubnetsDeletedefaultResponse;
+export function isUnexpected(
+  response: SubnetsGet200Response | SubnetsGetdefaultResponse
+): response is SubnetsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | SubnetsCreateOrUpdate200Response
+    | SubnetsCreateOrUpdate201Response
+    | SubnetsCreateOrUpdatedefaultResponse
+): response is SubnetsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | SubnetsPrepareNetworkPolicies200Response
+    | SubnetsPrepareNetworkPolicies202Response
+    | SubnetsPrepareNetworkPoliciesdefaultResponse
+): response is SubnetsPrepareNetworkPoliciesdefaultResponse;
+export function isUnexpected(
+  response:
+    | SubnetsUnprepareNetworkPolicies200Response
+    | SubnetsUnprepareNetworkPolicies202Response
+    | SubnetsUnprepareNetworkPoliciesdefaultResponse
+): response is SubnetsUnprepareNetworkPoliciesdefaultResponse;
+export function isUnexpected(
+  response: SubnetsList200Response | SubnetsListdefaultResponse
+): response is SubnetsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ResourceNavigationLinksList200Response
+    | ResourceNavigationLinksListdefaultResponse
+): response is ResourceNavigationLinksListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ServiceAssociationLinksList200Response
+    | ServiceAssociationLinksListdefaultResponse
+): response is ServiceAssociationLinksListdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkPeeringsDelete200Response
+    | VirtualNetworkPeeringsDelete202Response
+    | VirtualNetworkPeeringsDelete204Response
+    | VirtualNetworkPeeringsDeletedefaultResponse
+): response is VirtualNetworkPeeringsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkPeeringsGet200Response
+    | VirtualNetworkPeeringsGetdefaultResponse
+): response is VirtualNetworkPeeringsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkPeeringsCreateOrUpdate200Response
+    | VirtualNetworkPeeringsCreateOrUpdate201Response
+    | VirtualNetworkPeeringsCreateOrUpdatedefaultResponse
+): response is VirtualNetworkPeeringsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkPeeringsList200Response
+    | VirtualNetworkPeeringsListdefaultResponse
+): response is VirtualNetworkPeeringsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysCreateOrUpdate200Response
+    | VirtualNetworkGatewaysCreateOrUpdate201Response
+    | VirtualNetworkGatewaysCreateOrUpdatedefaultResponse
+): response is VirtualNetworkGatewaysCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysGet200Response
+    | VirtualNetworkGatewaysGetdefaultResponse
+): response is VirtualNetworkGatewaysGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysDelete200Response
+    | VirtualNetworkGatewaysDelete202Response
+    | VirtualNetworkGatewaysDelete204Response
+    | VirtualNetworkGatewaysDeletedefaultResponse
+): response is VirtualNetworkGatewaysDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysUpdateTags200Response
+    | VirtualNetworkGatewaysUpdateTags202Response
+    | VirtualNetworkGatewaysUpdateTagsdefaultResponse
+): response is VirtualNetworkGatewaysUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysList200Response
+    | VirtualNetworkGatewaysListdefaultResponse
+): response is VirtualNetworkGatewaysListdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysListConnections200Response
+    | VirtualNetworkGatewaysListConnectionsdefaultResponse
+): response is VirtualNetworkGatewaysListConnectionsdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysReset200Response
+    | VirtualNetworkGatewaysReset202Response
+    | VirtualNetworkGatewaysResetdefaultResponse
+): response is VirtualNetworkGatewaysResetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysResetVpnClientSharedKey200Response
+    | VirtualNetworkGatewaysResetVpnClientSharedKey202Response
+    | VirtualNetworkGatewaysResetVpnClientSharedKeydefaultResponse
+): response is VirtualNetworkGatewaysResetVpnClientSharedKeydefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysGeneratevpnclientpackage200Response
+    | VirtualNetworkGatewaysGeneratevpnclientpackage202Response
+    | VirtualNetworkGatewaysGeneratevpnclientpackagedefaultResponse
+): response is VirtualNetworkGatewaysGeneratevpnclientpackagedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysGenerateVpnProfile200Response
+    | VirtualNetworkGatewaysGenerateVpnProfile202Response
+    | VirtualNetworkGatewaysGenerateVpnProfiledefaultResponse
+): response is VirtualNetworkGatewaysGenerateVpnProfiledefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysGetVpnProfilePackageUrl200Response
+    | VirtualNetworkGatewaysGetVpnProfilePackageUrl202Response
+    | VirtualNetworkGatewaysGetVpnProfilePackageUrldefaultResponse
+): response is VirtualNetworkGatewaysGetVpnProfilePackageUrldefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysGetBgpPeerStatus200Response
+    | VirtualNetworkGatewaysGetBgpPeerStatus202Response
+    | VirtualNetworkGatewaysGetBgpPeerStatusdefaultResponse
+): response is VirtualNetworkGatewaysGetBgpPeerStatusdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysSupportedVpnDevices200Response
+    | VirtualNetworkGatewaysSupportedVpnDevicesdefaultResponse
+): response is VirtualNetworkGatewaysSupportedVpnDevicesdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysGetLearnedRoutes200Response
+    | VirtualNetworkGatewaysGetLearnedRoutes202Response
+    | VirtualNetworkGatewaysGetLearnedRoutesdefaultResponse
+): response is VirtualNetworkGatewaysGetLearnedRoutesdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysGetAdvertisedRoutes200Response
+    | VirtualNetworkGatewaysGetAdvertisedRoutes202Response
+    | VirtualNetworkGatewaysGetAdvertisedRoutesdefaultResponse
+): response is VirtualNetworkGatewaysGetAdvertisedRoutesdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysSetVpnclientIpsecParameters200Response
+    | VirtualNetworkGatewaysSetVpnclientIpsecParameters202Response
+    | VirtualNetworkGatewaysSetVpnclientIpsecParametersdefaultResponse
+): response is VirtualNetworkGatewaysSetVpnclientIpsecParametersdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysGetVpnclientIpsecParameters200Response
+    | VirtualNetworkGatewaysGetVpnclientIpsecParametersdefaultResponse
+): response is VirtualNetworkGatewaysGetVpnclientIpsecParametersdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysVpnDeviceConfigurationScript200Response
+    | VirtualNetworkGatewaysVpnDeviceConfigurationScriptdefaultResponse
+): response is VirtualNetworkGatewaysVpnDeviceConfigurationScriptdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysStartPacketCapture200Response
+    | VirtualNetworkGatewaysStartPacketCapture202Response
+    | VirtualNetworkGatewaysStartPacketCapturedefaultResponse
+): response is VirtualNetworkGatewaysStartPacketCapturedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysStopPacketCapture200Response
+    | VirtualNetworkGatewaysStopPacketCapture202Response
+    | VirtualNetworkGatewaysStopPacketCapturedefaultResponse
+): response is VirtualNetworkGatewaysStopPacketCapturedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysGetVpnclientConnectionHealth200Response
+    | VirtualNetworkGatewaysGetVpnclientConnectionHealth202Response
+    | VirtualNetworkGatewaysGetVpnclientConnectionHealthdefaultResponse
+): response is VirtualNetworkGatewaysGetVpnclientConnectionHealthdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections200Response
+    | VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections202Response
+    | VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsdefaultResponse
+): response is VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewayConnectionsCreateOrUpdate200Response
+    | VirtualNetworkGatewayConnectionsCreateOrUpdate201Response
+    | VirtualNetworkGatewayConnectionsCreateOrUpdatedefaultResponse
+): response is VirtualNetworkGatewayConnectionsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewayConnectionsGet200Response
+    | VirtualNetworkGatewayConnectionsGetdefaultResponse
+): response is VirtualNetworkGatewayConnectionsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewayConnectionsDelete200Response
+    | VirtualNetworkGatewayConnectionsDelete202Response
+    | VirtualNetworkGatewayConnectionsDelete204Response
+    | VirtualNetworkGatewayConnectionsDeletedefaultResponse
+): response is VirtualNetworkGatewayConnectionsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewayConnectionsUpdateTags200Response
+    | VirtualNetworkGatewayConnectionsUpdateTags202Response
+    | VirtualNetworkGatewayConnectionsUpdateTagsdefaultResponse
+): response is VirtualNetworkGatewayConnectionsUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewayConnectionsSetSharedKey200Response
+    | VirtualNetworkGatewayConnectionsSetSharedKey201Response
+    | VirtualNetworkGatewayConnectionsSetSharedKeydefaultResponse
+): response is VirtualNetworkGatewayConnectionsSetSharedKeydefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewayConnectionsGetSharedKey200Response
+    | VirtualNetworkGatewayConnectionsGetSharedKeydefaultResponse
+): response is VirtualNetworkGatewayConnectionsGetSharedKeydefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewayConnectionsList200Response
+    | VirtualNetworkGatewayConnectionsListdefaultResponse
+): response is VirtualNetworkGatewayConnectionsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewayConnectionsResetSharedKey200Response
+    | VirtualNetworkGatewayConnectionsResetSharedKey202Response
+    | VirtualNetworkGatewayConnectionsResetSharedKeydefaultResponse
+): response is VirtualNetworkGatewayConnectionsResetSharedKeydefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewayConnectionsStartPacketCapture200Response
+    | VirtualNetworkGatewayConnectionsStartPacketCapture202Response
+    | VirtualNetworkGatewayConnectionsStartPacketCapturedefaultResponse
+): response is VirtualNetworkGatewayConnectionsStartPacketCapturedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewayConnectionsStopPacketCapture200Response
+    | VirtualNetworkGatewayConnectionsStopPacketCapture202Response
+    | VirtualNetworkGatewayConnectionsStopPacketCapturedefaultResponse
+): response is VirtualNetworkGatewayConnectionsStopPacketCapturedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewayConnectionsGetIkeSas200Response
+    | VirtualNetworkGatewayConnectionsGetIkeSas202Response
+    | VirtualNetworkGatewayConnectionsGetIkeSasdefaultResponse
+): response is VirtualNetworkGatewayConnectionsGetIkeSasdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewayConnectionsResetConnection202Response
+    | VirtualNetworkGatewayConnectionsResetConnectiondefaultResponse
+): response is VirtualNetworkGatewayConnectionsResetConnectiondefaultResponse;
+export function isUnexpected(
+  response:
+    | LocalNetworkGatewaysCreateOrUpdate200Response
+    | LocalNetworkGatewaysCreateOrUpdate201Response
+    | LocalNetworkGatewaysCreateOrUpdatedefaultResponse
+): response is LocalNetworkGatewaysCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | LocalNetworkGatewaysGet200Response
+    | LocalNetworkGatewaysGetdefaultResponse
+): response is LocalNetworkGatewaysGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | LocalNetworkGatewaysDelete200Response
+    | LocalNetworkGatewaysDelete202Response
+    | LocalNetworkGatewaysDelete204Response
+    | LocalNetworkGatewaysDeletedefaultResponse
+): response is LocalNetworkGatewaysDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | LocalNetworkGatewaysUpdateTags200Response
+    | LocalNetworkGatewaysUpdateTagsdefaultResponse
+): response is LocalNetworkGatewaysUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | LocalNetworkGatewaysList200Response
+    | LocalNetworkGatewaysListdefaultResponse
+): response is LocalNetworkGatewaysListdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewayNatRulesGet200Response
+    | VirtualNetworkGatewayNatRulesGetdefaultResponse
+): response is VirtualNetworkGatewayNatRulesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewayNatRulesCreateOrUpdate200Response
+    | VirtualNetworkGatewayNatRulesCreateOrUpdate201Response
+    | VirtualNetworkGatewayNatRulesCreateOrUpdatedefaultResponse
+): response is VirtualNetworkGatewayNatRulesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewayNatRulesDelete200Response
+    | VirtualNetworkGatewayNatRulesDelete202Response
+    | VirtualNetworkGatewayNatRulesDelete204Response
+    | VirtualNetworkGatewayNatRulesDeletedefaultResponse
+): response is VirtualNetworkGatewayNatRulesDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkGatewayNatRulesListByVirtualNetworkGateway200Response
+    | VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewaydefaultResponse
+): response is VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewaydefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkTapsDelete200Response
+    | VirtualNetworkTapsDelete202Response
+    | VirtualNetworkTapsDelete204Response
+    | VirtualNetworkTapsDeletedefaultResponse
+): response is VirtualNetworkTapsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkTapsGet200Response
+    | VirtualNetworkTapsGetdefaultResponse
+): response is VirtualNetworkTapsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkTapsCreateOrUpdate200Response
+    | VirtualNetworkTapsCreateOrUpdate201Response
+    | VirtualNetworkTapsCreateOrUpdatedefaultResponse
+): response is VirtualNetworkTapsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkTapsUpdateTags200Response
+    | VirtualNetworkTapsUpdateTagsdefaultResponse
+): response is VirtualNetworkTapsUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkTapsListAll200Response
+    | VirtualNetworkTapsListAlldefaultResponse
+): response is VirtualNetworkTapsListAlldefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualNetworkTapsListByResourceGroup200Response
+    | VirtualNetworkTapsListByResourceGroupdefaultResponse
+): response is VirtualNetworkTapsListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualRoutersDelete200Response
+    | VirtualRoutersDelete202Response
+    | VirtualRoutersDelete204Response
+    | VirtualRoutersDeletedefaultResponse
+): response is VirtualRoutersDeletedefaultResponse;
+export function isUnexpected(
+  response: VirtualRoutersGet200Response | VirtualRoutersGetdefaultResponse
+): response is VirtualRoutersGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualRoutersCreateOrUpdate200Response
+    | VirtualRoutersCreateOrUpdate201Response
+    | VirtualRoutersCreateOrUpdatedefaultResponse
+): response is VirtualRoutersCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualRoutersListByResourceGroup200Response
+    | VirtualRoutersListByResourceGroupdefaultResponse
+): response is VirtualRoutersListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response: VirtualRoutersList200Response | VirtualRoutersListdefaultResponse
+): response is VirtualRoutersListdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualRouterPeeringsDelete200Response
+    | VirtualRouterPeeringsDelete202Response
+    | VirtualRouterPeeringsDelete204Response
+    | VirtualRouterPeeringsDeletedefaultResponse
+): response is VirtualRouterPeeringsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualRouterPeeringsGet200Response
+    | VirtualRouterPeeringsGetdefaultResponse
+): response is VirtualRouterPeeringsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualRouterPeeringsCreateOrUpdate200Response
+    | VirtualRouterPeeringsCreateOrUpdate201Response
+    | VirtualRouterPeeringsCreateOrUpdatedefaultResponse
+): response is VirtualRouterPeeringsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualRouterPeeringsList200Response
+    | VirtualRouterPeeringsListdefaultResponse
+): response is VirtualRouterPeeringsListdefaultResponse;
+export function isUnexpected(
+  response: VirtualWansGet200Response | VirtualWansGetdefaultResponse
+): response is VirtualWansGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualWansCreateOrUpdate200Response
+    | VirtualWansCreateOrUpdate201Response
+    | VirtualWansCreateOrUpdatedefaultResponse
+): response is VirtualWansCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualWansUpdateTags200Response
+    | VirtualWansUpdateTagsdefaultResponse
+): response is VirtualWansUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualWansDelete200Response
+    | VirtualWansDelete202Response
+    | VirtualWansDelete204Response
+    | VirtualWansDeletedefaultResponse
+): response is VirtualWansDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualWansListByResourceGroup200Response
+    | VirtualWansListByResourceGroupdefaultResponse
+): response is VirtualWansListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response: VirtualWansList200Response | VirtualWansListdefaultResponse
+): response is VirtualWansListdefaultResponse;
+export function isUnexpected(
+  response: VpnSitesGet200Response | VpnSitesGetdefaultResponse
+): response is VpnSitesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnSitesCreateOrUpdate200Response
+    | VpnSitesCreateOrUpdate201Response
+    | VpnSitesCreateOrUpdatedefaultResponse
+): response is VpnSitesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response: VpnSitesUpdateTags200Response | VpnSitesUpdateTagsdefaultResponse
+): response is VpnSitesUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnSitesDelete200Response
+    | VpnSitesDelete202Response
+    | VpnSitesDelete204Response
+    | VpnSitesDeletedefaultResponse
+): response is VpnSitesDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnSitesListByResourceGroup200Response
+    | VpnSitesListByResourceGroupdefaultResponse
+): response is VpnSitesListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response: VpnSitesList200Response | VpnSitesListdefaultResponse
+): response is VpnSitesListdefaultResponse;
+export function isUnexpected(
+  response: VpnSiteLinksGet200Response | VpnSiteLinksGetdefaultResponse
+): response is VpnSiteLinksGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnSiteLinksListByVpnSite200Response
+    | VpnSiteLinksListByVpnSitedefaultResponse
+): response is VpnSiteLinksListByVpnSitedefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnSitesConfigurationDownload200Response
+    | VpnSitesConfigurationDownload202Response
+    | VpnSitesConfigurationDownloaddefaultResponse
+): response is VpnSitesConfigurationDownloaddefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnServerConfigurationsGet200Response
+    | VpnServerConfigurationsGetdefaultResponse
+): response is VpnServerConfigurationsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnServerConfigurationsCreateOrUpdate200Response
+    | VpnServerConfigurationsCreateOrUpdate201Response
+    | VpnServerConfigurationsCreateOrUpdatedefaultResponse
+): response is VpnServerConfigurationsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnServerConfigurationsUpdateTags200Response
+    | VpnServerConfigurationsUpdateTagsdefaultResponse
+): response is VpnServerConfigurationsUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnServerConfigurationsDelete200Response
+    | VpnServerConfigurationsDelete202Response
+    | VpnServerConfigurationsDelete204Response
+    | VpnServerConfigurationsDeletedefaultResponse
+): response is VpnServerConfigurationsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnServerConfigurationsListByResourceGroup200Response
+    | VpnServerConfigurationsListByResourceGroupdefaultResponse
+): response is VpnServerConfigurationsListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnServerConfigurationsList200Response
+    | VpnServerConfigurationsListdefaultResponse
+): response is VpnServerConfigurationsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ConfigurationPolicyGroupsCreateOrUpdate200Response
+    | ConfigurationPolicyGroupsCreateOrUpdate201Response
+    | ConfigurationPolicyGroupsCreateOrUpdatedefaultResponse
+): response is ConfigurationPolicyGroupsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | ConfigurationPolicyGroupsDelete200Response
+    | ConfigurationPolicyGroupsDelete202Response
+    | ConfigurationPolicyGroupsDelete204Response
+    | ConfigurationPolicyGroupsDeletedefaultResponse
+): response is ConfigurationPolicyGroupsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | ConfigurationPolicyGroupsGet200Response
+    | ConfigurationPolicyGroupsGetdefaultResponse
+): response is ConfigurationPolicyGroupsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ConfigurationPolicyGroupsListByVpnServerConfiguration200Response
+    | ConfigurationPolicyGroupsListByVpnServerConfigurationdefaultResponse
+): response is ConfigurationPolicyGroupsListByVpnServerConfigurationdefaultResponse;
+export function isUnexpected(
+  response: VirtualHubsGet200Response | VirtualHubsGetdefaultResponse
+): response is VirtualHubsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualHubsCreateOrUpdate200Response
+    | VirtualHubsCreateOrUpdate201Response
+    | VirtualHubsCreateOrUpdatedefaultResponse
+): response is VirtualHubsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualHubsUpdateTags200Response
+    | VirtualHubsUpdateTagsdefaultResponse
+): response is VirtualHubsUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualHubsDelete200Response
+    | VirtualHubsDelete202Response
+    | VirtualHubsDelete204Response
+    | VirtualHubsDeletedefaultResponse
+): response is VirtualHubsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualHubsListByResourceGroup200Response
+    | VirtualHubsListByResourceGroupdefaultResponse
+): response is VirtualHubsListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response: VirtualHubsList200Response | VirtualHubsListdefaultResponse
+): response is VirtualHubsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualHubsGetEffectiveVirtualHubRoutes200Response
+    | VirtualHubsGetEffectiveVirtualHubRoutes202Response
+    | VirtualHubsGetEffectiveVirtualHubRoutesdefaultResponse
+): response is VirtualHubsGetEffectiveVirtualHubRoutesdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualHubsGetInboundRoutes200Response
+    | VirtualHubsGetInboundRoutes202Response
+    | VirtualHubsGetInboundRoutesdefaultResponse
+): response is VirtualHubsGetInboundRoutesdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualHubsGetOutboundRoutes200Response
+    | VirtualHubsGetOutboundRoutes202Response
+    | VirtualHubsGetOutboundRoutesdefaultResponse
+): response is VirtualHubsGetOutboundRoutesdefaultResponse;
+export function isUnexpected(
+  response: RouteMapsGet200Response | RouteMapsGetdefaultResponse
+): response is RouteMapsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | RouteMapsCreateOrUpdate200Response
+    | RouteMapsCreateOrUpdate201Response
+    | RouteMapsCreateOrUpdatedefaultResponse
+): response is RouteMapsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | RouteMapsDelete200Response
+    | RouteMapsDelete202Response
+    | RouteMapsDelete204Response
+    | RouteMapsDeletedefaultResponse
+): response is RouteMapsDeletedefaultResponse;
+export function isUnexpected(
+  response: RouteMapsList200Response | RouteMapsListdefaultResponse
+): response is RouteMapsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | HubVirtualNetworkConnectionsCreateOrUpdate200Response
+    | HubVirtualNetworkConnectionsCreateOrUpdate201Response
+    | HubVirtualNetworkConnectionsCreateOrUpdatedefaultResponse
+): response is HubVirtualNetworkConnectionsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | HubVirtualNetworkConnectionsDelete200Response
+    | HubVirtualNetworkConnectionsDelete202Response
+    | HubVirtualNetworkConnectionsDelete204Response
+    | HubVirtualNetworkConnectionsDeletedefaultResponse
+): response is HubVirtualNetworkConnectionsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | HubVirtualNetworkConnectionsGet200Response
+    | HubVirtualNetworkConnectionsGetdefaultResponse
+): response is HubVirtualNetworkConnectionsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | HubVirtualNetworkConnectionsList200Response
+    | HubVirtualNetworkConnectionsListdefaultResponse
+): response is HubVirtualNetworkConnectionsListdefaultResponse;
+export function isUnexpected(
+  response: VpnGatewaysGet200Response | VpnGatewaysGetdefaultResponse
+): response is VpnGatewaysGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnGatewaysCreateOrUpdate200Response
+    | VpnGatewaysCreateOrUpdate201Response
+    | VpnGatewaysCreateOrUpdatedefaultResponse
+): response is VpnGatewaysCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnGatewaysUpdateTags200Response
+    | VpnGatewaysUpdateTags202Response
+    | VpnGatewaysUpdateTagsdefaultResponse
+): response is VpnGatewaysUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnGatewaysDelete200Response
+    | VpnGatewaysDelete202Response
+    | VpnGatewaysDelete204Response
+    | VpnGatewaysDeletedefaultResponse
+): response is VpnGatewaysDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnGatewaysReset200Response
+    | VpnGatewaysReset202Response
+    | VpnGatewaysResetdefaultResponse
+): response is VpnGatewaysResetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnGatewaysStartPacketCapture200Response
+    | VpnGatewaysStartPacketCapture202Response
+    | VpnGatewaysStartPacketCapturedefaultResponse
+): response is VpnGatewaysStartPacketCapturedefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnGatewaysStopPacketCapture200Response
+    | VpnGatewaysStopPacketCapture202Response
+    | VpnGatewaysStopPacketCapturedefaultResponse
+): response is VpnGatewaysStopPacketCapturedefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnGatewaysListByResourceGroup200Response
+    | VpnGatewaysListByResourceGroupdefaultResponse
+): response is VpnGatewaysListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response: VpnGatewaysList200Response | VpnGatewaysListdefaultResponse
+): response is VpnGatewaysListdefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnLinkConnectionsResetConnection202Response
+    | VpnLinkConnectionsResetConnectiondefaultResponse
+): response is VpnLinkConnectionsResetConnectiondefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnLinkConnectionsGetIkeSas200Response
+    | VpnLinkConnectionsGetIkeSas202Response
+    | VpnLinkConnectionsGetIkeSasdefaultResponse
+): response is VpnLinkConnectionsGetIkeSasdefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnLinkConnectionsListByVpnConnection200Response
+    | VpnLinkConnectionsListByVpnConnectiondefaultResponse
+): response is VpnLinkConnectionsListByVpnConnectiondefaultResponse;
+export function isUnexpected(
+  response: VpnConnectionsGet200Response | VpnConnectionsGetdefaultResponse
+): response is VpnConnectionsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnConnectionsCreateOrUpdate200Response
+    | VpnConnectionsCreateOrUpdate201Response
+    | VpnConnectionsCreateOrUpdatedefaultResponse
+): response is VpnConnectionsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnConnectionsDelete200Response
+    | VpnConnectionsDelete202Response
+    | VpnConnectionsDelete204Response
+    | VpnConnectionsDeletedefaultResponse
+): response is VpnConnectionsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnConnectionsStartPacketCapture200Response
+    | VpnConnectionsStartPacketCapture202Response
+    | VpnConnectionsStartPacketCapturedefaultResponse
+): response is VpnConnectionsStartPacketCapturedefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnConnectionsStopPacketCapture200Response
+    | VpnConnectionsStopPacketCapture202Response
+    | VpnConnectionsStopPacketCapturedefaultResponse
+): response is VpnConnectionsStopPacketCapturedefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnConnectionsListByVpnGateway200Response
+    | VpnConnectionsListByVpnGatewaydefaultResponse
+): response is VpnConnectionsListByVpnGatewaydefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnSiteLinkConnectionsGet200Response
+    | VpnSiteLinkConnectionsGetdefaultResponse
+): response is VpnSiteLinkConnectionsGetdefaultResponse;
+export function isUnexpected(
+  response: NatRulesGet200Response | NatRulesGetdefaultResponse
+): response is NatRulesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | NatRulesCreateOrUpdate200Response
+    | NatRulesCreateOrUpdate201Response
+    | NatRulesCreateOrUpdatedefaultResponse
+): response is NatRulesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | NatRulesDelete200Response
+    | NatRulesDelete202Response
+    | NatRulesDelete204Response
+    | NatRulesDeletedefaultResponse
+): response is NatRulesDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | NatRulesListByVpnGateway200Response
+    | NatRulesListByVpnGatewaydefaultResponse
+): response is NatRulesListByVpnGatewaydefaultResponse;
+export function isUnexpected(
+  response: P2SVpnGatewaysGet200Response | P2SVpnGatewaysGetdefaultResponse
+): response is P2SVpnGatewaysGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | P2SVpnGatewaysCreateOrUpdate200Response
+    | P2SVpnGatewaysCreateOrUpdate201Response
+    | P2SVpnGatewaysCreateOrUpdatedefaultResponse
+): response is P2SVpnGatewaysCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | P2SVpnGatewaysUpdateTags200Response
+    | P2SVpnGatewaysUpdateTags202Response
+    | P2SVpnGatewaysUpdateTagsdefaultResponse
+): response is P2SVpnGatewaysUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | P2SVpnGatewaysDelete200Response
+    | P2SVpnGatewaysDelete202Response
+    | P2SVpnGatewaysDelete204Response
+    | P2SVpnGatewaysDeletedefaultResponse
+): response is P2SVpnGatewaysDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | P2SVpnGatewaysListByResourceGroup200Response
+    | P2SVpnGatewaysListByResourceGroupdefaultResponse
+): response is P2SVpnGatewaysListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response: P2SVpnGatewaysList200Response | P2SVpnGatewaysListdefaultResponse
+): response is P2SVpnGatewaysListdefaultResponse;
+export function isUnexpected(
+  response:
+    | P2SVpnGatewaysReset200Response
+    | P2SVpnGatewaysReset202Response
+    | P2SVpnGatewaysResetdefaultResponse
+): response is P2SVpnGatewaysResetdefaultResponse;
+export function isUnexpected(
+  response:
+    | P2SVpnGatewaysGenerateVpnProfile200Response
+    | P2SVpnGatewaysGenerateVpnProfile202Response
+    | P2SVpnGatewaysGenerateVpnProfiledefaultResponse
+): response is P2SVpnGatewaysGenerateVpnProfiledefaultResponse;
+export function isUnexpected(
+  response:
+    | P2SVpnGatewaysGetP2SVpnConnectionHealth200Response
+    | P2SVpnGatewaysGetP2SVpnConnectionHealth202Response
+    | P2SVpnGatewaysGetP2SVpnConnectionHealthdefaultResponse
+): response is P2SVpnGatewaysGetP2SVpnConnectionHealthdefaultResponse;
+export function isUnexpected(
+  response:
+    | P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed200Response
+    | P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed202Response
+    | P2SVpnGatewaysGetP2SVpnConnectionHealthDetaileddefaultResponse
+): response is P2SVpnGatewaysGetP2SVpnConnectionHealthDetaileddefaultResponse;
+export function isUnexpected(
+  response:
+    | P2SVpnGatewaysDisconnectP2SVpnConnections200Response
+    | P2SVpnGatewaysDisconnectP2SVpnConnections202Response
+    | P2SVpnGatewaysDisconnectP2SVpnConnectionsdefaultResponse
+): response is P2SVpnGatewaysDisconnectP2SVpnConnectionsdefaultResponse;
+export function isUnexpected(
+  response:
+    | VpnServerConfigurationsAssociatedWithVirtualWanList200Response
+    | VpnServerConfigurationsAssociatedWithVirtualWanList202Response
+    | VpnServerConfigurationsAssociatedWithVirtualWanListdefaultResponse
+): response is VpnServerConfigurationsAssociatedWithVirtualWanListdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualHubRouteTableV2SGet200Response
+    | VirtualHubRouteTableV2SGetdefaultResponse
+): response is VirtualHubRouteTableV2SGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualHubRouteTableV2SCreateOrUpdate200Response
+    | VirtualHubRouteTableV2SCreateOrUpdate201Response
+    | VirtualHubRouteTableV2SCreateOrUpdatedefaultResponse
+): response is VirtualHubRouteTableV2SCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualHubRouteTableV2SDelete200Response
+    | VirtualHubRouteTableV2SDelete202Response
+    | VirtualHubRouteTableV2SDelete204Response
+    | VirtualHubRouteTableV2SDeletedefaultResponse
+): response is VirtualHubRouteTableV2SDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualHubRouteTableV2SList200Response
+    | VirtualHubRouteTableV2SListdefaultResponse
+): response is VirtualHubRouteTableV2SListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteGatewaysListBySubscription200Response
+    | ExpressRouteGatewaysListBySubscriptiondefaultResponse
+): response is ExpressRouteGatewaysListBySubscriptiondefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteGatewaysListByResourceGroup200Response
+    | ExpressRouteGatewaysListByResourceGroupdefaultResponse
+): response is ExpressRouteGatewaysListByResourceGroupdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteGatewaysCreateOrUpdate200Response
+    | ExpressRouteGatewaysCreateOrUpdate201Response
+    | ExpressRouteGatewaysCreateOrUpdatedefaultResponse
+): response is ExpressRouteGatewaysCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteGatewaysUpdateTags200Response
+    | ExpressRouteGatewaysUpdateTags202Response
+    | ExpressRouteGatewaysUpdateTagsdefaultResponse
+): response is ExpressRouteGatewaysUpdateTagsdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteGatewaysGet200Response
+    | ExpressRouteGatewaysGetdefaultResponse
+): response is ExpressRouteGatewaysGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteGatewaysDelete200Response
+    | ExpressRouteGatewaysDelete202Response
+    | ExpressRouteGatewaysDelete204Response
+    | ExpressRouteGatewaysDeletedefaultResponse
+): response is ExpressRouteGatewaysDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteConnectionsCreateOrUpdate200Response
+    | ExpressRouteConnectionsCreateOrUpdate201Response
+    | ExpressRouteConnectionsCreateOrUpdatedefaultResponse
+): response is ExpressRouteConnectionsCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteConnectionsGet200Response
+    | ExpressRouteConnectionsGetdefaultResponse
+): response is ExpressRouteConnectionsGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteConnectionsDelete200Response
+    | ExpressRouteConnectionsDelete202Response
+    | ExpressRouteConnectionsDelete204Response
+    | ExpressRouteConnectionsDeletedefaultResponse
+): response is ExpressRouteConnectionsDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | ExpressRouteConnectionsList200Response
+    | ExpressRouteConnectionsListdefaultResponse
+): response is ExpressRouteConnectionsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualHubBgpConnectionGet200Response
+    | VirtualHubBgpConnectionGetdefaultResponse
+): response is VirtualHubBgpConnectionGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualHubBgpConnectionCreateOrUpdate200Response
+    | VirtualHubBgpConnectionCreateOrUpdate201Response
+    | VirtualHubBgpConnectionCreateOrUpdatedefaultResponse
+): response is VirtualHubBgpConnectionCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualHubBgpConnectionDelete200Response
+    | VirtualHubBgpConnectionDelete202Response
+    | VirtualHubBgpConnectionDelete204Response
+    | VirtualHubBgpConnectionDeletedefaultResponse
+): response is VirtualHubBgpConnectionDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualHubBgpConnectionsList200Response
+    | VirtualHubBgpConnectionsListdefaultResponse
+): response is VirtualHubBgpConnectionsListdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualHubBgpConnectionsListLearnedRoutes200Response
+    | VirtualHubBgpConnectionsListLearnedRoutes202Response
+    | VirtualHubBgpConnectionsListLearnedRoutesdefaultResponse
+): response is VirtualHubBgpConnectionsListLearnedRoutesdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualHubBgpConnectionsListAdvertisedRoutes200Response
+    | VirtualHubBgpConnectionsListAdvertisedRoutes202Response
+    | VirtualHubBgpConnectionsListAdvertisedRoutesdefaultResponse
+): response is VirtualHubBgpConnectionsListAdvertisedRoutesdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualHubIpConfigurationGet200Response
+    | VirtualHubIpConfigurationGetdefaultResponse
+): response is VirtualHubIpConfigurationGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualHubIpConfigurationCreateOrUpdate200Response
+    | VirtualHubIpConfigurationCreateOrUpdate201Response
+    | VirtualHubIpConfigurationCreateOrUpdatedefaultResponse
+): response is VirtualHubIpConfigurationCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualHubIpConfigurationDelete200Response
+    | VirtualHubIpConfigurationDelete202Response
+    | VirtualHubIpConfigurationDelete204Response
+    | VirtualHubIpConfigurationDeletedefaultResponse
+): response is VirtualHubIpConfigurationDeletedefaultResponse;
+export function isUnexpected(
+  response:
+    | VirtualHubIpConfigurationList200Response
+    | VirtualHubIpConfigurationListdefaultResponse
+): response is VirtualHubIpConfigurationListdefaultResponse;
+export function isUnexpected(
+  response:
+    | HubRouteTablesCreateOrUpdate200Response
+    | HubRouteTablesCreateOrUpdate201Response
+    | HubRouteTablesCreateOrUpdatedefaultResponse
+): response is HubRouteTablesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response: HubRouteTablesGet200Response | HubRouteTablesGetdefaultResponse
+): response is HubRouteTablesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | HubRouteTablesDelete200Response
+    | HubRouteTablesDelete202Response
+    | HubRouteTablesDelete204Response
+    | HubRouteTablesDeletedefaultResponse
+): response is HubRouteTablesDeletedefaultResponse;
+export function isUnexpected(
+  response: HubRouteTablesList200Response | HubRouteTablesListdefaultResponse
+): response is HubRouteTablesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | RoutingIntentCreateOrUpdate200Response
+    | RoutingIntentCreateOrUpdate201Response
+    | RoutingIntentCreateOrUpdatedefaultResponse
+): response is RoutingIntentCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response: RoutingIntentGet200Response | RoutingIntentGetdefaultResponse
+): response is RoutingIntentGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | RoutingIntentDelete200Response
+    | RoutingIntentDelete202Response
+    | RoutingIntentDelete204Response
+    | RoutingIntentDeletedefaultResponse
+): response is RoutingIntentDeletedefaultResponse;
+export function isUnexpected(
+  response: RoutingIntentList200Response | RoutingIntentListdefaultResponse
+): response is RoutingIntentListdefaultResponse;
+export function isUnexpected(
+  response:
+    | WebApplicationFirewallPoliciesList200Response
+    | WebApplicationFirewallPoliciesListdefaultResponse
+): response is WebApplicationFirewallPoliciesListdefaultResponse;
+export function isUnexpected(
+  response:
+    | WebApplicationFirewallPoliciesListAll200Response
+    | WebApplicationFirewallPoliciesListAlldefaultResponse
+): response is WebApplicationFirewallPoliciesListAlldefaultResponse;
+export function isUnexpected(
+  response:
+    | WebApplicationFirewallPoliciesGet200Response
+    | WebApplicationFirewallPoliciesGetdefaultResponse
+): response is WebApplicationFirewallPoliciesGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | WebApplicationFirewallPoliciesCreateOrUpdate200Response
+    | WebApplicationFirewallPoliciesCreateOrUpdate201Response
+    | WebApplicationFirewallPoliciesCreateOrUpdatedefaultResponse
+): response is WebApplicationFirewallPoliciesCreateOrUpdatedefaultResponse;
+export function isUnexpected(
+  response:
+    | WebApplicationFirewallPoliciesDelete200Response
+    | WebApplicationFirewallPoliciesDelete202Response
+    | WebApplicationFirewallPoliciesDelete204Response
+    | WebApplicationFirewallPoliciesDeletedefaultResponse
+): response is WebApplicationFirewallPoliciesDeletedefaultResponse;
+export function isUnexpected(
+  response: VipSwapGet200Response | VipSwapGetdefaultResponse
+): response is VipSwapGetdefaultResponse;
+export function isUnexpected(
+  response:
+    | VipSwapCreate200Response
+    | VipSwapCreate202Response
+    | VipSwapCreatedefaultResponse
+): response is VipSwapCreatedefaultResponse;
+export function isUnexpected(
+  response: VipSwapList200Response | VipSwapListdefaultResponse
+): response is VipSwapListdefaultResponse;
+export function isUnexpected(
+  response:
+    | ApplicationGatewaysDelete200Response
+    | ApplicationGatewaysDelete202Response
+    | ApplicationGatewaysDelete204Response
+    | ApplicationGatewaysDeletedefaultResponse
+    | ApplicationGatewaysGet200Response
+    | ApplicationGatewaysGetdefaultResponse
+    | ApplicationGatewaysCreateOrUpdate200Response
+    | ApplicationGatewaysCreateOrUpdate201Response
+    | ApplicationGatewaysCreateOrUpdatedefaultResponse
+    | ApplicationGatewaysUpdateTags200Response
+    | ApplicationGatewaysUpdateTagsdefaultResponse
+    | ApplicationGatewaysList200Response
+    | ApplicationGatewaysListdefaultResponse
+    | ApplicationGatewaysListAll200Response
+    | ApplicationGatewaysListAlldefaultResponse
+    | ApplicationGatewaysStart200Response
+    | ApplicationGatewaysStart202Response
+    | ApplicationGatewaysStartdefaultResponse
+    | ApplicationGatewaysStop200Response
+    | ApplicationGatewaysStop202Response
+    | ApplicationGatewaysStopdefaultResponse
+    | ApplicationGatewaysBackendHealth200Response
+    | ApplicationGatewaysBackendHealth202Response
+    | ApplicationGatewaysBackendHealthdefaultResponse
+    | ApplicationGatewaysBackendHealthOnDemand200Response
+    | ApplicationGatewaysBackendHealthOnDemand202Response
+    | ApplicationGatewaysBackendHealthOnDemanddefaultResponse
+    | ApplicationGatewaysListAvailableServerVariables200Response
+    | ApplicationGatewaysListAvailableServerVariablesdefaultResponse
+    | ApplicationGatewaysListAvailableRequestHeaders200Response
+    | ApplicationGatewaysListAvailableRequestHeadersdefaultResponse
+    | ApplicationGatewaysListAvailableResponseHeaders200Response
+    | ApplicationGatewaysListAvailableResponseHeadersdefaultResponse
+    | ApplicationGatewaysListAvailableWafRuleSets200Response
+    | ApplicationGatewaysListAvailableWafRuleSetsdefaultResponse
+    | ApplicationGatewaysListAvailableSslOptions200Response
+    | ApplicationGatewaysListAvailableSslOptionsdefaultResponse
+    | ApplicationGatewaysListAvailableSslPredefinedPolicies200Response
+    | ApplicationGatewaysListAvailableSslPredefinedPoliciesdefaultResponse
+    | ApplicationGatewaysGetSslPredefinedPolicy200Response
+    | ApplicationGatewaysGetSslPredefinedPolicydefaultResponse
+    | ApplicationGatewayPrivateLinkResourcesList200Response
+    | ApplicationGatewayPrivateLinkResourcesListdefaultResponse
+    | ApplicationGatewayPrivateEndpointConnectionsDelete200Response
+    | ApplicationGatewayPrivateEndpointConnectionsDelete202Response
+    | ApplicationGatewayPrivateEndpointConnectionsDelete204Response
+    | ApplicationGatewayPrivateEndpointConnectionsDeletedefaultResponse
+    | ApplicationGatewayPrivateEndpointConnectionsUpdate200Response
+    | ApplicationGatewayPrivateEndpointConnectionsUpdate202Response
+    | ApplicationGatewayPrivateEndpointConnectionsUpdatedefaultResponse
+    | ApplicationGatewayPrivateEndpointConnectionsGet200Response
+    | ApplicationGatewayPrivateEndpointConnectionsGetdefaultResponse
+    | ApplicationGatewayPrivateEndpointConnectionsList200Response
+    | ApplicationGatewayPrivateEndpointConnectionsListdefaultResponse
+    | ApplicationGatewayWafDynamicManifestsDefaultGet200Response
+    | ApplicationGatewayWafDynamicManifestsDefaultGetdefaultResponse
+    | ApplicationGatewayWafDynamicManifestsGet200Response
+    | ApplicationGatewayWafDynamicManifestsGetdefaultResponse
+    | ApplicationSecurityGroupsDelete200Response
+    | ApplicationSecurityGroupsDelete202Response
+    | ApplicationSecurityGroupsDelete204Response
+    | ApplicationSecurityGroupsDeletedefaultResponse
+    | ApplicationSecurityGroupsGet200Response
+    | ApplicationSecurityGroupsGetdefaultResponse
+    | ApplicationSecurityGroupsCreateOrUpdate200Response
+    | ApplicationSecurityGroupsCreateOrUpdate201Response
+    | ApplicationSecurityGroupsCreateOrUpdatedefaultResponse
+    | ApplicationSecurityGroupsUpdateTags200Response
+    | ApplicationSecurityGroupsUpdateTagsdefaultResponse
+    | ApplicationSecurityGroupsListAll200Response
+    | ApplicationSecurityGroupsListAlldefaultResponse
+    | ApplicationSecurityGroupsList200Response
+    | ApplicationSecurityGroupsListdefaultResponse
+    | AvailableDelegationsList200Response
+    | AvailableDelegationsListdefaultResponse
+    | AvailableResourceGroupDelegationsList200Response
+    | AvailableResourceGroupDelegationsListdefaultResponse
+    | AvailableServiceAliasesList200Response
+    | AvailableServiceAliasesListdefaultResponse
+    | AvailableServiceAliasesListByResourceGroup200Response
+    | AvailableServiceAliasesListByResourceGroupdefaultResponse
+    | AzureFirewallsDelete200Response
+    | AzureFirewallsDelete202Response
+    | AzureFirewallsDelete204Response
+    | AzureFirewallsDeletedefaultResponse
+    | AzureFirewallsGet200Response
+    | AzureFirewallsGetdefaultResponse
+    | AzureFirewallsCreateOrUpdate200Response
+    | AzureFirewallsCreateOrUpdate201Response
+    | AzureFirewallsCreateOrUpdatedefaultResponse
+    | AzureFirewallsUpdateTags200Response
+    | AzureFirewallsUpdateTags202Response
+    | AzureFirewallsUpdateTagsdefaultResponse
+    | AzureFirewallsList200Response
+    | AzureFirewallsListdefaultResponse
+    | AzureFirewallsListAll200Response
+    | AzureFirewallsListAlldefaultResponse
+    | AzureFirewallsListLearnedPrefixes200Response
+    | AzureFirewallsListLearnedPrefixes202Response
+    | AzureFirewallsListLearnedPrefixesdefaultResponse
+    | AzureFirewallFqdnTagsListAll200Response
+    | AzureFirewallFqdnTagsListAlldefaultResponse
+    | WebCategoriesGet200Response
+    | WebCategoriesGetdefaultResponse
+    | WebCategoriesListBySubscription200Response
+    | WebCategoriesListBySubscriptiondefaultResponse
+    | BastionHostsDelete200Response
+    | BastionHostsDelete202Response
+    | BastionHostsDelete204Response
+    | BastionHostsDeletedefaultResponse
+    | BastionHostsGet200Response
+    | BastionHostsGetdefaultResponse
+    | BastionHostsCreateOrUpdate200Response
+    | BastionHostsCreateOrUpdate201Response
+    | BastionHostsCreateOrUpdatedefaultResponse
+    | BastionHostsUpdateTags200Response
+    | BastionHostsUpdateTags202Response
+    | BastionHostsUpdateTagsdefaultResponse
+    | BastionHostsList200Response
+    | BastionHostsListdefaultResponse
+    | BastionHostsListByResourceGroup200Response
+    | BastionHostsListByResourceGroupdefaultResponse
+    | PutBastionShareableLink200Response
+    | PutBastionShareableLink202Response
+    | PutBastionShareableLinkdefaultResponse
+    | DeleteBastionShareableLink200Response
+    | DeleteBastionShareableLink202Response
+    | DeleteBastionShareableLinkdefaultResponse
+    | GetBastionShareableLink200Response
+    | GetBastionShareableLinkdefaultResponse
+    | GetActiveSessions200Response
+    | GetActiveSessions202Response
+    | GetActiveSessionsdefaultResponse
+    | DisconnectActiveSessions200Response
+    | DisconnectActiveSessionsdefaultResponse
+    | CheckDnsNameAvailability200Response
+    | CheckDnsNameAvailabilitydefaultResponse
+    | ExpressRouteProviderPort200Response
+    | ExpressRouteProviderPortdefaultResponse
+    | ListActiveConnectivityConfigurations200Response
+    | ListActiveConnectivityConfigurationsdefaultResponse
+    | ListActiveSecurityAdminRules200Response
+    | ListActiveSecurityAdminRulesdefaultResponse
+    | ListNetworkManagerEffectiveConnectivityConfigurations200Response
+    | ListNetworkManagerEffectiveConnectivityConfigurationsdefaultResponse
+    | ListNetworkManagerEffectiveSecurityAdminRules200Response
+    | ListNetworkManagerEffectiveSecurityAdminRulesdefaultResponse
+    | SupportedSecurityProviders200Response
+    | SupportedSecurityProvidersdefaultResponse
+    | Generatevirtualwanvpnserverconfigurationvpnprofile200Response
+    | Generatevirtualwanvpnserverconfigurationvpnprofile202Response
+    | GeneratevirtualwanvpnserverconfigurationvpnprofiledefaultResponse
+    | NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfaces200Response
+    | NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesdefaultResponse
+    | NetworkInterfacesListCloudServiceNetworkInterfaces200Response
+    | NetworkInterfacesListCloudServiceNetworkInterfacesdefaultResponse
+    | NetworkInterfacesGetCloudServiceNetworkInterface200Response
+    | NetworkInterfacesGetCloudServiceNetworkInterfacedefaultResponse
+    | NetworkInterfacesDelete200Response
+    | NetworkInterfacesDelete202Response
+    | NetworkInterfacesDelete204Response
+    | NetworkInterfacesDeletedefaultResponse
+    | NetworkInterfacesGet200Response
+    | NetworkInterfacesGetdefaultResponse
+    | NetworkInterfacesCreateOrUpdate200Response
+    | NetworkInterfacesCreateOrUpdate201Response
+    | NetworkInterfacesCreateOrUpdatedefaultResponse
+    | NetworkInterfacesUpdateTags200Response
+    | NetworkInterfacesUpdateTagsdefaultResponse
+    | NetworkInterfacesListAll200Response
+    | NetworkInterfacesListAlldefaultResponse
+    | NetworkInterfacesList200Response
+    | NetworkInterfacesListdefaultResponse
+    | NetworkInterfacesGetEffectiveRouteTable200Response
+    | NetworkInterfacesGetEffectiveRouteTable202Response
+    | NetworkInterfacesGetEffectiveRouteTabledefaultResponse
+    | NetworkInterfacesListEffectiveNetworkSecurityGroups200Response
+    | NetworkInterfacesListEffectiveNetworkSecurityGroups202Response
+    | NetworkInterfacesListEffectiveNetworkSecurityGroupsdefaultResponse
+    | NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfaces200Response
+    | NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesdefaultResponse
+    | NetworkInterfacesListVirtualMachineScaleSetNetworkInterfaces200Response
+    | NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesdefaultResponse
+    | NetworkInterfacesGetVirtualMachineScaleSetNetworkInterface200Response
+    | NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfacedefaultResponse
+    | NetworkInterfacesListVirtualMachineScaleSetIpConfigurations200Response
+    | NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsdefaultResponse
+    | NetworkInterfacesGetVirtualMachineScaleSetIpConfiguration200Response
+    | NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationdefaultResponse
+    | PublicIPAddressesListCloudServicePublicIPAddresses200Response
+    | PublicIPAddressesListCloudServicePublicIPAddressesdefaultResponse
+    | PublicIPAddressesListCloudServiceRoleInstancePublicIPAddresses200Response
+    | PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesdefaultResponse
+    | PublicIPAddressesGetCloudServicePublicIPAddress200Response
+    | PublicIPAddressesGetCloudServicePublicIPAddressdefaultResponse
+    | PublicIPAddressesDelete200Response
+    | PublicIPAddressesDelete202Response
+    | PublicIPAddressesDelete204Response
+    | PublicIPAddressesDeletedefaultResponse
+    | PublicIPAddressesGet200Response
+    | PublicIPAddressesGetdefaultResponse
+    | PublicIPAddressesCreateOrUpdate200Response
+    | PublicIPAddressesCreateOrUpdate201Response
+    | PublicIPAddressesCreateOrUpdatedefaultResponse
+    | PublicIPAddressesUpdateTags200Response
+    | PublicIPAddressesUpdateTagsdefaultResponse
+    | PublicIPAddressesListAll200Response
+    | PublicIPAddressesListAlldefaultResponse
+    | PublicIPAddressesList200Response
+    | PublicIPAddressesListdefaultResponse
+    | PublicIPAddressesDdosProtectionStatus200Response
+    | PublicIPAddressesDdosProtectionStatus202Response
+    | PublicIPAddressesDdosProtectionStatusdefaultResponse
+    | PublicIPAddressesListVirtualMachineScaleSetPublicIPAddresses200Response
+    | PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesdefaultResponse
+    | PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddresses200Response
+    | PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesdefaultResponse
+    | PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddress200Response
+    | PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressdefaultResponse
+    | CustomIPPrefixesDelete200Response
+    | CustomIPPrefixesDelete202Response
+    | CustomIPPrefixesDelete204Response
+    | CustomIPPrefixesDeletedefaultResponse
+    | CustomIPPrefixesGet200Response
+    | CustomIPPrefixesGetdefaultResponse
+    | CustomIPPrefixesCreateOrUpdate200Response
+    | CustomIPPrefixesCreateOrUpdate201Response
+    | CustomIPPrefixesCreateOrUpdatedefaultResponse
+    | CustomIPPrefixesUpdateTags200Response
+    | CustomIPPrefixesUpdateTagsdefaultResponse
+    | CustomIPPrefixesListAll200Response
+    | CustomIPPrefixesListAlldefaultResponse
+    | CustomIPPrefixesList200Response
+    | CustomIPPrefixesListdefaultResponse
+    | DdosCustomPoliciesDelete200Response
+    | DdosCustomPoliciesDelete202Response
+    | DdosCustomPoliciesDelete204Response
+    | DdosCustomPoliciesDeletedefaultResponse
+    | DdosCustomPoliciesGet200Response
+    | DdosCustomPoliciesGetdefaultResponse
+    | DdosCustomPoliciesCreateOrUpdate200Response
+    | DdosCustomPoliciesCreateOrUpdate201Response
+    | DdosCustomPoliciesCreateOrUpdatedefaultResponse
+    | DdosCustomPoliciesUpdateTags200Response
+    | DdosCustomPoliciesUpdateTagsdefaultResponse
+    | DdosProtectionPlansDelete200Response
+    | DdosProtectionPlansDelete202Response
+    | DdosProtectionPlansDelete204Response
+    | DdosProtectionPlansDeletedefaultResponse
+    | DdosProtectionPlansGet200Response
+    | DdosProtectionPlansGetdefaultResponse
+    | DdosProtectionPlansCreateOrUpdate200Response
+    | DdosProtectionPlansCreateOrUpdate201Response
+    | DdosProtectionPlansCreateOrUpdatedefaultResponse
+    | DdosProtectionPlansUpdateTags200Response
+    | DdosProtectionPlansUpdateTagsdefaultResponse
+    | DdosProtectionPlansList200Response
+    | DdosProtectionPlansListdefaultResponse
+    | DdosProtectionPlansListByResourceGroup200Response
+    | DdosProtectionPlansListByResourceGroupdefaultResponse
+    | DscpConfigurationCreateOrUpdate200Response
+    | DscpConfigurationCreateOrUpdate201Response
+    | DscpConfigurationCreateOrUpdatedefaultResponse
+    | DscpConfigurationDelete200Response
+    | DscpConfigurationDelete202Response
+    | DscpConfigurationDelete204Response
+    | DscpConfigurationDeletedefaultResponse
+    | DscpConfigurationGet200Response
+    | DscpConfigurationGetdefaultResponse
+    | DscpConfigurationList200Response
+    | DscpConfigurationListdefaultResponse
+    | DscpConfigurationListAll200Response
+    | DscpConfigurationListAlldefaultResponse
+    | AvailableEndpointServicesList200Response
+    | AvailableEndpointServicesListdefaultResponse
+    | ExpressRouteCircuitAuthorizationsDelete200Response
+    | ExpressRouteCircuitAuthorizationsDelete202Response
+    | ExpressRouteCircuitAuthorizationsDelete204Response
+    | ExpressRouteCircuitAuthorizationsDeletedefaultResponse
+    | ExpressRouteCircuitAuthorizationsGet200Response
+    | ExpressRouteCircuitAuthorizationsGetdefaultResponse
+    | ExpressRouteCircuitAuthorizationsCreateOrUpdate200Response
+    | ExpressRouteCircuitAuthorizationsCreateOrUpdate201Response
+    | ExpressRouteCircuitAuthorizationsCreateOrUpdatedefaultResponse
+    | ExpressRouteCircuitAuthorizationsList200Response
+    | ExpressRouteCircuitAuthorizationsListdefaultResponse
+    | ExpressRouteCircuitPeeringsDelete200Response
+    | ExpressRouteCircuitPeeringsDelete202Response
+    | ExpressRouteCircuitPeeringsDelete204Response
+    | ExpressRouteCircuitPeeringsDeletedefaultResponse
+    | ExpressRouteCircuitPeeringsGet200Response
+    | ExpressRouteCircuitPeeringsGetdefaultResponse
+    | ExpressRouteCircuitPeeringsCreateOrUpdate200Response
+    | ExpressRouteCircuitPeeringsCreateOrUpdate201Response
+    | ExpressRouteCircuitPeeringsCreateOrUpdatedefaultResponse
+    | ExpressRouteCircuitPeeringsList200Response
+    | ExpressRouteCircuitPeeringsListdefaultResponse
+    | ExpressRouteCircuitConnectionsDelete200Response
+    | ExpressRouteCircuitConnectionsDelete202Response
+    | ExpressRouteCircuitConnectionsDelete204Response
+    | ExpressRouteCircuitConnectionsDeletedefaultResponse
+    | ExpressRouteCircuitConnectionsGet200Response
+    | ExpressRouteCircuitConnectionsGetdefaultResponse
+    | ExpressRouteCircuitConnectionsCreateOrUpdate200Response
+    | ExpressRouteCircuitConnectionsCreateOrUpdate201Response
+    | ExpressRouteCircuitConnectionsCreateOrUpdatedefaultResponse
+    | ExpressRouteCircuitConnectionsList200Response
+    | ExpressRouteCircuitConnectionsListdefaultResponse
+    | PeerExpressRouteCircuitConnectionsGet200Response
+    | PeerExpressRouteCircuitConnectionsGetdefaultResponse
+    | PeerExpressRouteCircuitConnectionsList200Response
+    | PeerExpressRouteCircuitConnectionsListdefaultResponse
+    | ExpressRouteCircuitsDelete200Response
+    | ExpressRouteCircuitsDelete202Response
+    | ExpressRouteCircuitsDelete204Response
+    | ExpressRouteCircuitsDeletedefaultResponse
+    | ExpressRouteCircuitsGet200Response
+    | ExpressRouteCircuitsGetdefaultResponse
+    | ExpressRouteCircuitsCreateOrUpdate200Response
+    | ExpressRouteCircuitsCreateOrUpdate201Response
+    | ExpressRouteCircuitsCreateOrUpdatedefaultResponse
+    | ExpressRouteCircuitsUpdateTags200Response
+    | ExpressRouteCircuitsUpdateTagsdefaultResponse
+    | ExpressRouteCircuitsListArpTable200Response
+    | ExpressRouteCircuitsListArpTable202Response
+    | ExpressRouteCircuitsListArpTabledefaultResponse
+    | ExpressRouteCircuitsListRoutesTable200Response
+    | ExpressRouteCircuitsListRoutesTable202Response
+    | ExpressRouteCircuitsListRoutesTabledefaultResponse
+    | ExpressRouteCircuitsListRoutesTableSummary200Response
+    | ExpressRouteCircuitsListRoutesTableSummary202Response
+    | ExpressRouteCircuitsListRoutesTableSummarydefaultResponse
+    | ExpressRouteCircuitsGetStats200Response
+    | ExpressRouteCircuitsGetStatsdefaultResponse
+    | ExpressRouteCircuitsGetPeeringStats200Response
+    | ExpressRouteCircuitsGetPeeringStatsdefaultResponse
+    | ExpressRouteCircuitsList200Response
+    | ExpressRouteCircuitsListdefaultResponse
+    | ExpressRouteCircuitsListAll200Response
+    | ExpressRouteCircuitsListAlldefaultResponse
+    | ExpressRouteServiceProvidersList200Response
+    | ExpressRouteServiceProvidersListdefaultResponse
+    | ExpressRouteCrossConnectionsList200Response
+    | ExpressRouteCrossConnectionsListdefaultResponse
+    | ExpressRouteCrossConnectionsListByResourceGroup200Response
+    | ExpressRouteCrossConnectionsListByResourceGroupdefaultResponse
+    | ExpressRouteCrossConnectionsGet200Response
+    | ExpressRouteCrossConnectionsGetdefaultResponse
+    | ExpressRouteCrossConnectionsCreateOrUpdate200Response
+    | ExpressRouteCrossConnectionsCreateOrUpdatedefaultResponse
+    | ExpressRouteCrossConnectionsUpdateTags200Response
+    | ExpressRouteCrossConnectionsUpdateTagsdefaultResponse
+    | ExpressRouteCrossConnectionsListArpTable200Response
+    | ExpressRouteCrossConnectionsListArpTable202Response
+    | ExpressRouteCrossConnectionsListArpTabledefaultResponse
+    | ExpressRouteCrossConnectionsListRoutesTableSummary200Response
+    | ExpressRouteCrossConnectionsListRoutesTableSummary202Response
+    | ExpressRouteCrossConnectionsListRoutesTableSummarydefaultResponse
+    | ExpressRouteCrossConnectionsListRoutesTable200Response
+    | ExpressRouteCrossConnectionsListRoutesTable202Response
+    | ExpressRouteCrossConnectionsListRoutesTabledefaultResponse
+    | ExpressRouteCrossConnectionPeeringsList200Response
+    | ExpressRouteCrossConnectionPeeringsListdefaultResponse
+    | ExpressRouteCrossConnectionPeeringsDelete200Response
+    | ExpressRouteCrossConnectionPeeringsDelete202Response
+    | ExpressRouteCrossConnectionPeeringsDelete204Response
+    | ExpressRouteCrossConnectionPeeringsDeletedefaultResponse
+    | ExpressRouteCrossConnectionPeeringsGet200Response
+    | ExpressRouteCrossConnectionPeeringsGetdefaultResponse
+    | ExpressRouteCrossConnectionPeeringsCreateOrUpdate200Response
+    | ExpressRouteCrossConnectionPeeringsCreateOrUpdate201Response
+    | ExpressRouteCrossConnectionPeeringsCreateOrUpdatedefaultResponse
+    | ExpressRoutePortsLocationsList200Response
+    | ExpressRoutePortsLocationsListdefaultResponse
+    | ExpressRoutePortsLocationsGet200Response
+    | ExpressRoutePortsLocationsGetdefaultResponse
+    | ExpressRoutePortsDelete200Response
+    | ExpressRoutePortsDelete202Response
+    | ExpressRoutePortsDelete204Response
+    | ExpressRoutePortsDeletedefaultResponse
+    | ExpressRoutePortsGet200Response
+    | ExpressRoutePortsGetdefaultResponse
+    | ExpressRoutePortsCreateOrUpdate200Response
+    | ExpressRoutePortsCreateOrUpdate201Response
+    | ExpressRoutePortsCreateOrUpdatedefaultResponse
+    | ExpressRoutePortsUpdateTags200Response
+    | ExpressRoutePortsUpdateTagsdefaultResponse
+    | ExpressRoutePortsListByResourceGroup200Response
+    | ExpressRoutePortsListByResourceGroupdefaultResponse
+    | ExpressRoutePortsList200Response
+    | ExpressRoutePortsListdefaultResponse
+    | ExpressRoutePortsGenerateLOA200Response
+    | ExpressRoutePortsGenerateLOAdefaultResponse
+    | ExpressRouteLinksGet200Response
+    | ExpressRouteLinksGetdefaultResponse
+    | ExpressRouteLinksList200Response
+    | ExpressRouteLinksListdefaultResponse
+    | ExpressRoutePortAuthorizationsDelete200Response
+    | ExpressRoutePortAuthorizationsDelete202Response
+    | ExpressRoutePortAuthorizationsDelete204Response
+    | ExpressRoutePortAuthorizationsDeletedefaultResponse
+    | ExpressRoutePortAuthorizationsGet200Response
+    | ExpressRoutePortAuthorizationsGetdefaultResponse
+    | ExpressRoutePortAuthorizationsCreateOrUpdate200Response
+    | ExpressRoutePortAuthorizationsCreateOrUpdate201Response
+    | ExpressRoutePortAuthorizationsCreateOrUpdatedefaultResponse
+    | ExpressRoutePortAuthorizationsList200Response
+    | ExpressRoutePortAuthorizationsListdefaultResponse
+    | ExpressRouteProviderPortsLocationList200Response
+    | ExpressRouteProviderPortsLocationListdefaultResponse
+    | FirewallPoliciesDelete200Response
+    | FirewallPoliciesDelete202Response
+    | FirewallPoliciesDelete204Response
+    | FirewallPoliciesDeletedefaultResponse
+    | FirewallPoliciesGet200Response
+    | FirewallPoliciesGetdefaultResponse
+    | FirewallPoliciesCreateOrUpdate200Response
+    | FirewallPoliciesCreateOrUpdate201Response
+    | FirewallPoliciesCreateOrUpdatedefaultResponse
+    | FirewallPoliciesUpdateTags200Response
+    | FirewallPoliciesUpdateTagsdefaultResponse
+    | FirewallPoliciesList200Response
+    | FirewallPoliciesListdefaultResponse
+    | FirewallPoliciesListAll200Response
+    | FirewallPoliciesListAlldefaultResponse
+    | FirewallPolicyRuleCollectionGroupsDelete200Response
+    | FirewallPolicyRuleCollectionGroupsDelete202Response
+    | FirewallPolicyRuleCollectionGroupsDelete204Response
+    | FirewallPolicyRuleCollectionGroupsDeletedefaultResponse
+    | FirewallPolicyRuleCollectionGroupsGet200Response
+    | FirewallPolicyRuleCollectionGroupsGetdefaultResponse
+    | FirewallPolicyRuleCollectionGroupsCreateOrUpdate200Response
+    | FirewallPolicyRuleCollectionGroupsCreateOrUpdate201Response
+    | FirewallPolicyRuleCollectionGroupsCreateOrUpdatedefaultResponse
+    | FirewallPolicyRuleCollectionGroupsList200Response
+    | FirewallPolicyRuleCollectionGroupsListdefaultResponse
+    | FirewallPolicyIdpsSignaturesList200Response
+    | FirewallPolicyIdpsSignaturesListdefaultResponse
+    | FirewallPolicyIdpsSignaturesOverridesPatch200Response
+    | FirewallPolicyIdpsSignaturesOverridesPatchdefaultResponse
+    | FirewallPolicyIdpsSignaturesOverridesPut200Response
+    | FirewallPolicyIdpsSignaturesOverridesPutdefaultResponse
+    | FirewallPolicyIdpsSignaturesOverridesGet200Response
+    | FirewallPolicyIdpsSignaturesOverridesGetdefaultResponse
+    | FirewallPolicyIdpsSignaturesOverridesList200Response
+    | FirewallPolicyIdpsSignaturesOverridesListdefaultResponse
+    | FirewallPolicyIdpsSignaturesFilterValuesList200Response
+    | FirewallPolicyIdpsSignaturesFilterValuesListdefaultResponse
+    | IpAllocationsDelete200Response
+    | IpAllocationsDelete202Response
+    | IpAllocationsDelete204Response
+    | IpAllocationsDeletedefaultResponse
+    | IpAllocationsGet200Response
+    | IpAllocationsGetdefaultResponse
+    | IpAllocationsCreateOrUpdate200Response
+    | IpAllocationsCreateOrUpdate201Response
+    | IpAllocationsCreateOrUpdatedefaultResponse
+    | IpAllocationsUpdateTags200Response
+    | IpAllocationsUpdateTagsdefaultResponse
+    | IpAllocationsList200Response
+    | IpAllocationsListdefaultResponse
+    | IpAllocationsListByResourceGroup200Response
+    | IpAllocationsListByResourceGroupdefaultResponse
+    | IpGroupsGet200Response
+    | IpGroupsGetdefaultResponse
+    | IpGroupsCreateOrUpdate200Response
+    | IpGroupsCreateOrUpdate201Response
+    | IpGroupsCreateOrUpdatedefaultResponse
+    | IpGroupsUpdateGroups200Response
+    | IpGroupsUpdateGroupsdefaultResponse
+    | IpGroupsDelete200Response
+    | IpGroupsDelete202Response
+    | IpGroupsDelete204Response
+    | IpGroupsDeletedefaultResponse
+    | IpGroupsListByResourceGroup200Response
+    | IpGroupsListByResourceGroupdefaultResponse
+    | IpGroupsList200Response
+    | IpGroupsListdefaultResponse
+    | LoadBalancersDelete200Response
+    | LoadBalancersDelete202Response
+    | LoadBalancersDelete204Response
+    | LoadBalancersDeletedefaultResponse
+    | LoadBalancersGet200Response
+    | LoadBalancersGetdefaultResponse
+    | LoadBalancersCreateOrUpdate200Response
+    | LoadBalancersCreateOrUpdate201Response
+    | LoadBalancersCreateOrUpdatedefaultResponse
+    | LoadBalancersUpdateTags200Response
+    | LoadBalancersUpdateTagsdefaultResponse
+    | LoadBalancersListAll200Response
+    | LoadBalancersListAlldefaultResponse
+    | LoadBalancersList200Response
+    | LoadBalancersListdefaultResponse
+    | LoadBalancersSwapPublicIpAddresses200Response
+    | LoadBalancersSwapPublicIpAddresses202Response
+    | LoadBalancersSwapPublicIpAddressesdefaultResponse
+    | LoadBalancersListInboundNatRulePortMappings200Response
+    | LoadBalancersListInboundNatRulePortMappings202Response
+    | LoadBalancersListInboundNatRulePortMappingsdefaultResponse
+    | LoadBalancerBackendAddressPoolsList200Response
+    | LoadBalancerBackendAddressPoolsListdefaultResponse
+    | LoadBalancerBackendAddressPoolsGet200Response
+    | LoadBalancerBackendAddressPoolsGetdefaultResponse
+    | LoadBalancerBackendAddressPoolsCreateOrUpdate200Response
+    | LoadBalancerBackendAddressPoolsCreateOrUpdate201Response
+    | LoadBalancerBackendAddressPoolsCreateOrUpdatedefaultResponse
+    | LoadBalancerBackendAddressPoolsDelete200Response
+    | LoadBalancerBackendAddressPoolsDelete202Response
+    | LoadBalancerBackendAddressPoolsDelete204Response
+    | LoadBalancerBackendAddressPoolsDeletedefaultResponse
+    | LoadBalancerFrontendIPConfigurationsList200Response
+    | LoadBalancerFrontendIPConfigurationsListdefaultResponse
+    | LoadBalancerFrontendIPConfigurationsGet200Response
+    | LoadBalancerFrontendIPConfigurationsGetdefaultResponse
+    | InboundNatRulesList200Response
+    | InboundNatRulesListdefaultResponse
+    | InboundNatRulesDelete200Response
+    | InboundNatRulesDelete202Response
+    | InboundNatRulesDelete204Response
+    | InboundNatRulesDeletedefaultResponse
+    | InboundNatRulesGet200Response
+    | InboundNatRulesGetdefaultResponse
+    | InboundNatRulesCreateOrUpdate200Response
+    | InboundNatRulesCreateOrUpdate201Response
+    | InboundNatRulesCreateOrUpdatedefaultResponse
+    | LoadBalancerLoadBalancingRulesList200Response
+    | LoadBalancerLoadBalancingRulesListdefaultResponse
+    | LoadBalancerLoadBalancingRulesGet200Response
+    | LoadBalancerLoadBalancingRulesGetdefaultResponse
+    | LoadBalancerOutboundRulesList200Response
+    | LoadBalancerOutboundRulesListdefaultResponse
+    | LoadBalancerOutboundRulesGet200Response
+    | LoadBalancerOutboundRulesGetdefaultResponse
+    | LoadBalancerNetworkInterfacesList200Response
+    | LoadBalancerNetworkInterfacesListdefaultResponse
+    | LoadBalancerProbesList200Response
+    | LoadBalancerProbesListdefaultResponse
+    | LoadBalancerProbesGet200Response
+    | LoadBalancerProbesGetdefaultResponse
+    | NatGatewaysDelete200Response
+    | NatGatewaysDelete202Response
+    | NatGatewaysDelete204Response
+    | NatGatewaysDeletedefaultResponse
+    | NatGatewaysGet200Response
+    | NatGatewaysGetdefaultResponse
+    | NatGatewaysCreateOrUpdate200Response
+    | NatGatewaysCreateOrUpdate201Response
+    | NatGatewaysCreateOrUpdate202Response
+    | NatGatewaysCreateOrUpdatedefaultResponse
+    | NatGatewaysUpdateTags200Response
+    | NatGatewaysUpdateTagsdefaultResponse
+    | NatGatewaysListAll200Response
+    | NatGatewaysListAlldefaultResponse
+    | NatGatewaysList200Response
+    | NatGatewaysListdefaultResponse
+    | NetworkInterfaceIPConfigurationsList200Response
+    | NetworkInterfaceIPConfigurationsListdefaultResponse
+    | NetworkInterfaceIPConfigurationsGet200Response
+    | NetworkInterfaceIPConfigurationsGetdefaultResponse
+    | NetworkInterfaceLoadBalancersList200Response
+    | NetworkInterfaceLoadBalancersListdefaultResponse
+    | NetworkInterfaceTapConfigurationsDelete200Response
+    | NetworkInterfaceTapConfigurationsDelete202Response
+    | NetworkInterfaceTapConfigurationsDelete204Response
+    | NetworkInterfaceTapConfigurationsDeletedefaultResponse
+    | NetworkInterfaceTapConfigurationsGet200Response
+    | NetworkInterfaceTapConfigurationsGetdefaultResponse
+    | NetworkInterfaceTapConfigurationsCreateOrUpdate200Response
+    | NetworkInterfaceTapConfigurationsCreateOrUpdate201Response
+    | NetworkInterfaceTapConfigurationsCreateOrUpdatedefaultResponse
+    | NetworkInterfaceTapConfigurationsList200Response
+    | NetworkInterfaceTapConfigurationsListdefaultResponse
+    | NetworkManagersGet200Response
+    | NetworkManagersGetdefaultResponse
+    | NetworkManagersCreateOrUpdate200Response
+    | NetworkManagersCreateOrUpdate201Response
+    | NetworkManagersCreateOrUpdatedefaultResponse
+    | NetworkManagersDelete200Response
+    | NetworkManagersDelete202Response
+    | NetworkManagersDelete204Response
+    | NetworkManagersDeletedefaultResponse
+    | NetworkManagersPatch200Response
+    | NetworkManagersPatchdefaultResponse
+    | NetworkManagersListBySubscription200Response
+    | NetworkManagersListBySubscriptiondefaultResponse
+    | NetworkManagersList200Response
+    | NetworkManagersListdefaultResponse
+    | NetworkManagerCommitsPost200Response
+    | NetworkManagerCommitsPost202Response
+    | NetworkManagerCommitsPostdefaultResponse
+    | NetworkManagerDeploymentStatusList200Response
+    | NetworkManagerDeploymentStatusListdefaultResponse
+    | SubscriptionNetworkManagerConnectionsCreateOrUpdate200Response
+    | SubscriptionNetworkManagerConnectionsCreateOrUpdate201Response
+    | SubscriptionNetworkManagerConnectionsCreateOrUpdatedefaultResponse
+    | SubscriptionNetworkManagerConnectionsGet200Response
+    | SubscriptionNetworkManagerConnectionsGetdefaultResponse
+    | SubscriptionNetworkManagerConnectionsDelete200Response
+    | SubscriptionNetworkManagerConnectionsDelete204Response
+    | SubscriptionNetworkManagerConnectionsDeletedefaultResponse
+    | SubscriptionNetworkManagerConnectionsList200Response
+    | SubscriptionNetworkManagerConnectionsListdefaultResponse
+    | ManagementGroupNetworkManagerConnectionsCreateOrUpdate200Response
+    | ManagementGroupNetworkManagerConnectionsCreateOrUpdate201Response
+    | ManagementGroupNetworkManagerConnectionsCreateOrUpdatedefaultResponse
+    | ManagementGroupNetworkManagerConnectionsGet200Response
+    | ManagementGroupNetworkManagerConnectionsGetdefaultResponse
+    | ManagementGroupNetworkManagerConnectionsDelete200Response
+    | ManagementGroupNetworkManagerConnectionsDelete204Response
+    | ManagementGroupNetworkManagerConnectionsDeletedefaultResponse
+    | ManagementGroupNetworkManagerConnectionsList200Response
+    | ManagementGroupNetworkManagerConnectionsListdefaultResponse
+    | ConnectivityConfigurationsGet200Response
+    | ConnectivityConfigurationsGetdefaultResponse
+    | ConnectivityConfigurationsCreateOrUpdate200Response
+    | ConnectivityConfigurationsCreateOrUpdate201Response
+    | ConnectivityConfigurationsCreateOrUpdatedefaultResponse
+    | ConnectivityConfigurationsDelete200Response
+    | ConnectivityConfigurationsDelete202Response
+    | ConnectivityConfigurationsDelete204Response
+    | ConnectivityConfigurationsDeletedefaultResponse
+    | ConnectivityConfigurationsList200Response
+    | ConnectivityConfigurationsListdefaultResponse
+    | NetworkGroupsGet200Response
+    | NetworkGroupsGetdefaultResponse
+    | NetworkGroupsCreateOrUpdate200Response
+    | NetworkGroupsCreateOrUpdate201Response
+    | NetworkGroupsCreateOrUpdatedefaultResponse
+    | NetworkGroupsDelete200Response
+    | NetworkGroupsDelete202Response
+    | NetworkGroupsDelete204Response
+    | NetworkGroupsDeletedefaultResponse
+    | NetworkGroupsList200Response
+    | NetworkGroupsListdefaultResponse
+    | StaticMembersGet200Response
+    | StaticMembersGetdefaultResponse
+    | StaticMembersCreateOrUpdate200Response
+    | StaticMembersCreateOrUpdate201Response
+    | StaticMembersCreateOrUpdatedefaultResponse
+    | StaticMembersDelete200Response
+    | StaticMembersDelete204Response
+    | StaticMembersDeletedefaultResponse
+    | StaticMembersList200Response
+    | StaticMembersListdefaultResponse
+    | ScopeConnectionsCreateOrUpdate200Response
+    | ScopeConnectionsCreateOrUpdate201Response
+    | ScopeConnectionsCreateOrUpdatedefaultResponse
+    | ScopeConnectionsGet200Response
+    | ScopeConnectionsGetdefaultResponse
+    | ScopeConnectionsDelete200Response
+    | ScopeConnectionsDelete204Response
+    | ScopeConnectionsDeletedefaultResponse
+    | ScopeConnectionsList200Response
+    | ScopeConnectionsListdefaultResponse
+    | SecurityAdminConfigurationsList200Response
+    | SecurityAdminConfigurationsListdefaultResponse
+    | SecurityAdminConfigurationsGet200Response
+    | SecurityAdminConfigurationsGetdefaultResponse
+    | SecurityAdminConfigurationsCreateOrUpdate200Response
+    | SecurityAdminConfigurationsCreateOrUpdate201Response
+    | SecurityAdminConfigurationsCreateOrUpdatedefaultResponse
+    | SecurityAdminConfigurationsDelete200Response
+    | SecurityAdminConfigurationsDelete202Response
+    | SecurityAdminConfigurationsDelete204Response
+    | SecurityAdminConfigurationsDeletedefaultResponse
+    | AdminRuleCollectionsList200Response
+    | AdminRuleCollectionsListdefaultResponse
+    | AdminRuleCollectionsGet200Response
+    | AdminRuleCollectionsGetdefaultResponse
+    | AdminRuleCollectionsCreateOrUpdate200Response
+    | AdminRuleCollectionsCreateOrUpdate201Response
+    | AdminRuleCollectionsCreateOrUpdatedefaultResponse
+    | AdminRuleCollectionsDelete200Response
+    | AdminRuleCollectionsDelete202Response
+    | AdminRuleCollectionsDelete204Response
+    | AdminRuleCollectionsDeletedefaultResponse
+    | AdminRulesList200Response
+    | AdminRulesListdefaultResponse
+    | AdminRulesGet200Response
+    | AdminRulesGetdefaultResponse
+    | AdminRulesCreateOrUpdate200Response
+    | AdminRulesCreateOrUpdate201Response
+    | AdminRulesCreateOrUpdatedefaultResponse
+    | AdminRulesDelete200Response
+    | AdminRulesDelete202Response
+    | AdminRulesDelete204Response
+    | AdminRulesDeletedefaultResponse
+    | NetworkProfilesDelete200Response
+    | NetworkProfilesDelete202Response
+    | NetworkProfilesDelete204Response
+    | NetworkProfilesDeletedefaultResponse
+    | NetworkProfilesGet200Response
+    | NetworkProfilesGetdefaultResponse
+    | NetworkProfilesCreateOrUpdate200Response
+    | NetworkProfilesCreateOrUpdate201Response
+    | NetworkProfilesCreateOrUpdatedefaultResponse
+    | NetworkProfilesUpdateTags200Response
+    | NetworkProfilesUpdateTagsdefaultResponse
+    | NetworkProfilesListAll200Response
+    | NetworkProfilesListAlldefaultResponse
+    | NetworkProfilesList200Response
+    | NetworkProfilesListdefaultResponse
+    | NetworkSecurityGroupsDelete200Response
+    | NetworkSecurityGroupsDelete202Response
+    | NetworkSecurityGroupsDelete204Response
+    | NetworkSecurityGroupsDeletedefaultResponse
+    | NetworkSecurityGroupsGet200Response
+    | NetworkSecurityGroupsGetdefaultResponse
+    | NetworkSecurityGroupsCreateOrUpdate200Response
+    | NetworkSecurityGroupsCreateOrUpdate201Response
+    | NetworkSecurityGroupsCreateOrUpdatedefaultResponse
+    | NetworkSecurityGroupsUpdateTags200Response
+    | NetworkSecurityGroupsUpdateTagsdefaultResponse
+    | NetworkSecurityGroupsListAll200Response
+    | NetworkSecurityGroupsListAlldefaultResponse
+    | NetworkSecurityGroupsList200Response
+    | NetworkSecurityGroupsListdefaultResponse
+    | SecurityRulesDelete200Response
+    | SecurityRulesDelete202Response
+    | SecurityRulesDelete204Response
+    | SecurityRulesDeletedefaultResponse
+    | SecurityRulesGet200Response
+    | SecurityRulesGetdefaultResponse
+    | SecurityRulesCreateOrUpdate200Response
+    | SecurityRulesCreateOrUpdate201Response
+    | SecurityRulesCreateOrUpdatedefaultResponse
+    | SecurityRulesList200Response
+    | SecurityRulesListdefaultResponse
+    | DefaultSecurityRulesList200Response
+    | DefaultSecurityRulesListdefaultResponse
+    | DefaultSecurityRulesGet200Response
+    | DefaultSecurityRulesGetdefaultResponse
+    | NetworkVirtualAppliancesDelete200Response
+    | NetworkVirtualAppliancesDelete202Response
+    | NetworkVirtualAppliancesDelete204Response
+    | NetworkVirtualAppliancesDeletedefaultResponse
+    | NetworkVirtualAppliancesGet200Response
+    | NetworkVirtualAppliancesGetdefaultResponse
+    | NetworkVirtualAppliancesUpdateTags200Response
+    | NetworkVirtualAppliancesUpdateTagsdefaultResponse
+    | NetworkVirtualAppliancesCreateOrUpdate200Response
+    | NetworkVirtualAppliancesCreateOrUpdate201Response
+    | NetworkVirtualAppliancesCreateOrUpdatedefaultResponse
+    | NetworkVirtualAppliancesListByResourceGroup200Response
+    | NetworkVirtualAppliancesListByResourceGroupdefaultResponse
+    | NetworkVirtualAppliancesList200Response
+    | NetworkVirtualAppliancesListdefaultResponse
+    | VirtualApplianceSitesDelete200Response
+    | VirtualApplianceSitesDelete202Response
+    | VirtualApplianceSitesDelete204Response
+    | VirtualApplianceSitesDeletedefaultResponse
+    | VirtualApplianceSitesGet200Response
+    | VirtualApplianceSitesGetdefaultResponse
+    | VirtualApplianceSitesCreateOrUpdate200Response
+    | VirtualApplianceSitesCreateOrUpdate201Response
+    | VirtualApplianceSitesCreateOrUpdatedefaultResponse
+    | VirtualApplianceSitesList200Response
+    | VirtualApplianceSitesListdefaultResponse
+    | VirtualApplianceSkusList200Response
+    | VirtualApplianceSkusListdefaultResponse
+    | VirtualApplianceSkusGet200Response
+    | VirtualApplianceSkusGetdefaultResponse
+    | InboundSecurityRuleCreateOrUpdate200Response
+    | InboundSecurityRuleCreateOrUpdate201Response
+    | InboundSecurityRuleCreateOrUpdatedefaultResponse
+    | NetworkWatchersCreateOrUpdate200Response
+    | NetworkWatchersCreateOrUpdate201Response
+    | NetworkWatchersCreateOrUpdatedefaultResponse
+    | NetworkWatchersGet200Response
+    | NetworkWatchersGetdefaultResponse
+    | NetworkWatchersDelete202Response
+    | NetworkWatchersDelete204Response
+    | NetworkWatchersDeletedefaultResponse
+    | NetworkWatchersUpdateTags200Response
+    | NetworkWatchersUpdateTagsdefaultResponse
+    | NetworkWatchersList200Response
+    | NetworkWatchersListdefaultResponse
+    | NetworkWatchersListAll200Response
+    | NetworkWatchersListAlldefaultResponse
+    | NetworkWatchersGetTopology200Response
+    | NetworkWatchersGetTopologydefaultResponse
+    | NetworkWatchersVerifyIPFlow200Response
+    | NetworkWatchersVerifyIPFlow202Response
+    | NetworkWatchersVerifyIPFlowdefaultResponse
+    | NetworkWatchersGetNextHop200Response
+    | NetworkWatchersGetNextHop202Response
+    | NetworkWatchersGetNextHopdefaultResponse
+    | NetworkWatchersGetVMSecurityRules200Response
+    | NetworkWatchersGetVMSecurityRules202Response
+    | NetworkWatchersGetVMSecurityRulesdefaultResponse
+    | NetworkWatchersGetTroubleshooting200Response
+    | NetworkWatchersGetTroubleshooting202Response
+    | NetworkWatchersGetTroubleshootingdefaultResponse
+    | NetworkWatchersGetTroubleshootingResult200Response
+    | NetworkWatchersGetTroubleshootingResult202Response
+    | NetworkWatchersGetTroubleshootingResultdefaultResponse
+    | NetworkWatchersSetFlowLogConfiguration200Response
+    | NetworkWatchersSetFlowLogConfiguration202Response
+    | NetworkWatchersSetFlowLogConfigurationdefaultResponse
+    | NetworkWatchersGetFlowLogStatus200Response
+    | NetworkWatchersGetFlowLogStatus202Response
+    | NetworkWatchersGetFlowLogStatusdefaultResponse
+    | NetworkWatchersCheckConnectivity200Response
+    | NetworkWatchersCheckConnectivity202Response
+    | NetworkWatchersCheckConnectivitydefaultResponse
+    | NetworkWatchersGetAzureReachabilityReport200Response
+    | NetworkWatchersGetAzureReachabilityReport202Response
+    | NetworkWatchersGetAzureReachabilityReportdefaultResponse
+    | NetworkWatchersListAvailableProviders200Response
+    | NetworkWatchersListAvailableProviders202Response
+    | NetworkWatchersListAvailableProvidersdefaultResponse
+    | NetworkWatchersGetNetworkConfigurationDiagnostic200Response
+    | NetworkWatchersGetNetworkConfigurationDiagnostic202Response
+    | NetworkWatchersGetNetworkConfigurationDiagnosticdefaultResponse
+    | PacketCapturesCreate201Response
+    | PacketCapturesCreatedefaultResponse
+    | PacketCapturesGet200Response
+    | PacketCapturesGetdefaultResponse
+    | PacketCapturesDelete202Response
+    | PacketCapturesDelete204Response
+    | PacketCapturesDeletedefaultResponse
+    | PacketCapturesStop200Response
+    | PacketCapturesStop202Response
+    | PacketCapturesStopdefaultResponse
+    | PacketCapturesGetStatus200Response
+    | PacketCapturesGetStatus202Response
+    | PacketCapturesGetStatusdefaultResponse
+    | PacketCapturesList200Response
+    | PacketCapturesListdefaultResponse
+    | ConnectionMonitorsCreateOrUpdate200Response
+    | ConnectionMonitorsCreateOrUpdate201Response
+    | ConnectionMonitorsCreateOrUpdatedefaultResponse
+    | ConnectionMonitorsGet200Response
+    | ConnectionMonitorsGetdefaultResponse
+    | ConnectionMonitorsDelete202Response
+    | ConnectionMonitorsDelete204Response
+    | ConnectionMonitorsDeletedefaultResponse
+    | ConnectionMonitorsUpdateTags200Response
+    | ConnectionMonitorsUpdateTagsdefaultResponse
+    | ConnectionMonitorsStop200Response
+    | ConnectionMonitorsStop202Response
+    | ConnectionMonitorsStopdefaultResponse
+    | ConnectionMonitorsStart200Response
+    | ConnectionMonitorsStart202Response
+    | ConnectionMonitorsStartdefaultResponse
+    | ConnectionMonitorsQuery200Response
+    | ConnectionMonitorsQuery202Response
+    | ConnectionMonitorsQuerydefaultResponse
+    | ConnectionMonitorsList200Response
+    | ConnectionMonitorsListdefaultResponse
+    | FlowLogsCreateOrUpdate200Response
+    | FlowLogsCreateOrUpdate201Response
+    | FlowLogsCreateOrUpdatedefaultResponse
+    | FlowLogsUpdateTags200Response
+    | FlowLogsUpdateTagsdefaultResponse
+    | FlowLogsGet200Response
+    | FlowLogsGetdefaultResponse
+    | FlowLogsDelete202Response
+    | FlowLogsDelete204Response
+    | FlowLogsDeletedefaultResponse
+    | FlowLogsList200Response
+    | FlowLogsListdefaultResponse
+    | OperationsList200Response
+    | OperationsListdefaultResponse
+    | PrivateEndpointsDelete200Response
+    | PrivateEndpointsDelete202Response
+    | PrivateEndpointsDelete204Response
+    | PrivateEndpointsDeletedefaultResponse
+    | PrivateEndpointsGet200Response
+    | PrivateEndpointsGetdefaultResponse
+    | PrivateEndpointsCreateOrUpdate200Response
+    | PrivateEndpointsCreateOrUpdate201Response
+    | PrivateEndpointsCreateOrUpdatedefaultResponse
+    | PrivateEndpointsList200Response
+    | PrivateEndpointsListdefaultResponse
+    | PrivateEndpointsListBySubscription200Response
+    | PrivateEndpointsListBySubscriptiondefaultResponse
+    | AvailablePrivateEndpointTypesList200Response
+    | AvailablePrivateEndpointTypesListdefaultResponse
+    | AvailablePrivateEndpointTypesListByResourceGroup200Response
+    | AvailablePrivateEndpointTypesListByResourceGroupdefaultResponse
+    | PrivateDnsZoneGroupsDelete200Response
+    | PrivateDnsZoneGroupsDelete202Response
+    | PrivateDnsZoneGroupsDelete204Response
+    | PrivateDnsZoneGroupsDeletedefaultResponse
+    | PrivateDnsZoneGroupsGet200Response
+    | PrivateDnsZoneGroupsGetdefaultResponse
+    | PrivateDnsZoneGroupsCreateOrUpdate200Response
+    | PrivateDnsZoneGroupsCreateOrUpdate201Response
+    | PrivateDnsZoneGroupsCreateOrUpdatedefaultResponse
+    | PrivateDnsZoneGroupsList200Response
+    | PrivateDnsZoneGroupsListdefaultResponse
+    | PrivateLinkServicesDelete200Response
+    | PrivateLinkServicesDelete202Response
+    | PrivateLinkServicesDelete204Response
+    | PrivateLinkServicesDeletedefaultResponse
+    | PrivateLinkServicesGet200Response
+    | PrivateLinkServicesGetdefaultResponse
+    | PrivateLinkServicesCreateOrUpdate200Response
+    | PrivateLinkServicesCreateOrUpdate201Response
+    | PrivateLinkServicesCreateOrUpdatedefaultResponse
+    | PrivateLinkServicesList200Response
+    | PrivateLinkServicesListdefaultResponse
+    | PrivateLinkServicesListBySubscription200Response
+    | PrivateLinkServicesListBySubscriptiondefaultResponse
+    | PrivateLinkServicesGetPrivateEndpointConnection200Response
+    | PrivateLinkServicesGetPrivateEndpointConnectiondefaultResponse
+    | PrivateLinkServicesUpdatePrivateEndpointConnection200Response
+    | PrivateLinkServicesUpdatePrivateEndpointConnectiondefaultResponse
+    | PrivateLinkServicesDeletePrivateEndpointConnection200Response
+    | PrivateLinkServicesDeletePrivateEndpointConnection202Response
+    | PrivateLinkServicesDeletePrivateEndpointConnection204Response
+    | PrivateLinkServicesDeletePrivateEndpointConnectiondefaultResponse
+    | PrivateLinkServicesListPrivateEndpointConnections200Response
+    | PrivateLinkServicesListPrivateEndpointConnectionsdefaultResponse
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibility200Response
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibility202Response
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibilitydefaultResponse
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup200Response
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup202Response
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupdefaultResponse
+    | PrivateLinkServicesListAutoApprovedPrivateLinkServices200Response
+    | PrivateLinkServicesListAutoApprovedPrivateLinkServicesdefaultResponse
+    | PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroup200Response
+    | PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupdefaultResponse
+    | PublicIPPrefixesDelete200Response
+    | PublicIPPrefixesDelete202Response
+    | PublicIPPrefixesDelete204Response
+    | PublicIPPrefixesDeletedefaultResponse
+    | PublicIPPrefixesGet200Response
+    | PublicIPPrefixesGetdefaultResponse
+    | PublicIPPrefixesCreateOrUpdate200Response
+    | PublicIPPrefixesCreateOrUpdate201Response
+    | PublicIPPrefixesCreateOrUpdatedefaultResponse
+    | PublicIPPrefixesUpdateTags200Response
+    | PublicIPPrefixesUpdateTagsdefaultResponse
+    | PublicIPPrefixesListAll200Response
+    | PublicIPPrefixesListAlldefaultResponse
+    | PublicIPPrefixesList200Response
+    | PublicIPPrefixesListdefaultResponse
+    | RouteFiltersDelete200Response
+    | RouteFiltersDelete202Response
+    | RouteFiltersDelete204Response
+    | RouteFiltersDeletedefaultResponse
+    | RouteFiltersGet200Response
+    | RouteFiltersGetdefaultResponse
+    | RouteFiltersCreateOrUpdate200Response
+    | RouteFiltersCreateOrUpdate201Response
+    | RouteFiltersCreateOrUpdatedefaultResponse
+    | RouteFiltersUpdateTags200Response
+    | RouteFiltersUpdateTagsdefaultResponse
+    | RouteFiltersListByResourceGroup200Response
+    | RouteFiltersListByResourceGroupdefaultResponse
+    | RouteFiltersList200Response
+    | RouteFiltersListdefaultResponse
+    | RouteFilterRulesDelete200Response
+    | RouteFilterRulesDelete202Response
+    | RouteFilterRulesDelete204Response
+    | RouteFilterRulesDeletedefaultResponse
+    | RouteFilterRulesGet200Response
+    | RouteFilterRulesGetdefaultResponse
+    | RouteFilterRulesCreateOrUpdate200Response
+    | RouteFilterRulesCreateOrUpdate201Response
+    | RouteFilterRulesCreateOrUpdatedefaultResponse
+    | RouteFilterRulesListByRouteFilter200Response
+    | RouteFilterRulesListByRouteFilterdefaultResponse
+    | RouteTablesDelete200Response
+    | RouteTablesDelete202Response
+    | RouteTablesDelete204Response
+    | RouteTablesDeletedefaultResponse
+    | RouteTablesGet200Response
+    | RouteTablesGetdefaultResponse
+    | RouteTablesCreateOrUpdate200Response
+    | RouteTablesCreateOrUpdate201Response
+    | RouteTablesCreateOrUpdatedefaultResponse
+    | RouteTablesUpdateTags200Response
+    | RouteTablesUpdateTagsdefaultResponse
+    | RouteTablesList200Response
+    | RouteTablesListdefaultResponse
+    | RouteTablesListAll200Response
+    | RouteTablesListAlldefaultResponse
+    | RoutesDelete200Response
+    | RoutesDelete202Response
+    | RoutesDelete204Response
+    | RoutesDeletedefaultResponse
+    | RoutesGet200Response
+    | RoutesGetdefaultResponse
+    | RoutesCreateOrUpdate200Response
+    | RoutesCreateOrUpdate201Response
+    | RoutesCreateOrUpdatedefaultResponse
+    | RoutesList200Response
+    | RoutesListdefaultResponse
+    | SecurityPartnerProvidersDelete200Response
+    | SecurityPartnerProvidersDelete202Response
+    | SecurityPartnerProvidersDelete204Response
+    | SecurityPartnerProvidersDeletedefaultResponse
+    | SecurityPartnerProvidersGet200Response
+    | SecurityPartnerProvidersGetdefaultResponse
+    | SecurityPartnerProvidersCreateOrUpdate200Response
+    | SecurityPartnerProvidersCreateOrUpdate201Response
+    | SecurityPartnerProvidersCreateOrUpdatedefaultResponse
+    | SecurityPartnerProvidersUpdateTags200Response
+    | SecurityPartnerProvidersUpdateTagsdefaultResponse
+    | SecurityPartnerProvidersListByResourceGroup200Response
+    | SecurityPartnerProvidersListByResourceGroupdefaultResponse
+    | SecurityPartnerProvidersList200Response
+    | SecurityPartnerProvidersListdefaultResponse
+    | BgpServiceCommunitiesList200Response
+    | BgpServiceCommunitiesListdefaultResponse
+    | ServiceEndpointPoliciesDelete200Response
+    | ServiceEndpointPoliciesDelete202Response
+    | ServiceEndpointPoliciesDelete204Response
+    | ServiceEndpointPoliciesDeletedefaultResponse
+    | ServiceEndpointPoliciesGet200Response
+    | ServiceEndpointPoliciesGetdefaultResponse
+    | ServiceEndpointPoliciesCreateOrUpdate200Response
+    | ServiceEndpointPoliciesCreateOrUpdate201Response
+    | ServiceEndpointPoliciesCreateOrUpdatedefaultResponse
+    | ServiceEndpointPoliciesUpdateTags200Response
+    | ServiceEndpointPoliciesUpdateTagsdefaultResponse
+    | ServiceEndpointPoliciesList200Response
+    | ServiceEndpointPoliciesListdefaultResponse
+    | ServiceEndpointPoliciesListByResourceGroup200Response
+    | ServiceEndpointPoliciesListByResourceGroupdefaultResponse
+    | ServiceEndpointPolicyDefinitionsDelete200Response
+    | ServiceEndpointPolicyDefinitionsDelete202Response
+    | ServiceEndpointPolicyDefinitionsDelete204Response
+    | ServiceEndpointPolicyDefinitionsDeletedefaultResponse
+    | ServiceEndpointPolicyDefinitionsGet200Response
+    | ServiceEndpointPolicyDefinitionsGetdefaultResponse
+    | ServiceEndpointPolicyDefinitionsCreateOrUpdate200Response
+    | ServiceEndpointPolicyDefinitionsCreateOrUpdate201Response
+    | ServiceEndpointPolicyDefinitionsCreateOrUpdatedefaultResponse
+    | ServiceEndpointPolicyDefinitionsListByResourceGroup200Response
+    | ServiceEndpointPolicyDefinitionsListByResourceGroupdefaultResponse
+    | ServiceTagsList200Response
+    | ServiceTagsListdefaultResponse
+    | ServiceTagInformationList200Response
+    | ServiceTagInformationListdefaultResponse
+    | UsagesList200Response
+    | UsagesListdefaultResponse
+    | VirtualNetworksDelete200Response
+    | VirtualNetworksDelete202Response
+    | VirtualNetworksDelete204Response
+    | VirtualNetworksDeletedefaultResponse
+    | VirtualNetworksGet200Response
+    | VirtualNetworksGetdefaultResponse
+    | VirtualNetworksCreateOrUpdate200Response
+    | VirtualNetworksCreateOrUpdate201Response
+    | VirtualNetworksCreateOrUpdatedefaultResponse
+    | VirtualNetworksUpdateTags200Response
+    | VirtualNetworksUpdateTagsdefaultResponse
+    | VirtualNetworksListAll200Response
+    | VirtualNetworksListAlldefaultResponse
+    | VirtualNetworksList200Response
+    | VirtualNetworksListdefaultResponse
+    | VirtualNetworksCheckIPAddressAvailability200Response
+    | VirtualNetworksCheckIPAddressAvailabilitydefaultResponse
+    | VirtualNetworksListUsage200Response
+    | VirtualNetworksListUsagedefaultResponse
+    | VirtualNetworksListDdosProtectionStatus200Response
+    | VirtualNetworksListDdosProtectionStatus202Response
+    | VirtualNetworksListDdosProtectionStatusdefaultResponse
+    | SubnetsDelete200Response
+    | SubnetsDelete202Response
+    | SubnetsDelete204Response
+    | SubnetsDeletedefaultResponse
+    | SubnetsGet200Response
+    | SubnetsGetdefaultResponse
+    | SubnetsCreateOrUpdate200Response
+    | SubnetsCreateOrUpdate201Response
+    | SubnetsCreateOrUpdatedefaultResponse
+    | SubnetsPrepareNetworkPolicies200Response
+    | SubnetsPrepareNetworkPolicies202Response
+    | SubnetsPrepareNetworkPoliciesdefaultResponse
+    | SubnetsUnprepareNetworkPolicies200Response
+    | SubnetsUnprepareNetworkPolicies202Response
+    | SubnetsUnprepareNetworkPoliciesdefaultResponse
+    | SubnetsList200Response
+    | SubnetsListdefaultResponse
+    | ResourceNavigationLinksList200Response
+    | ResourceNavigationLinksListdefaultResponse
+    | ServiceAssociationLinksList200Response
+    | ServiceAssociationLinksListdefaultResponse
+    | VirtualNetworkPeeringsDelete200Response
+    | VirtualNetworkPeeringsDelete202Response
+    | VirtualNetworkPeeringsDelete204Response
+    | VirtualNetworkPeeringsDeletedefaultResponse
+    | VirtualNetworkPeeringsGet200Response
+    | VirtualNetworkPeeringsGetdefaultResponse
+    | VirtualNetworkPeeringsCreateOrUpdate200Response
+    | VirtualNetworkPeeringsCreateOrUpdate201Response
+    | VirtualNetworkPeeringsCreateOrUpdatedefaultResponse
+    | VirtualNetworkPeeringsList200Response
+    | VirtualNetworkPeeringsListdefaultResponse
+    | VirtualNetworkGatewaysCreateOrUpdate200Response
+    | VirtualNetworkGatewaysCreateOrUpdate201Response
+    | VirtualNetworkGatewaysCreateOrUpdatedefaultResponse
+    | VirtualNetworkGatewaysGet200Response
+    | VirtualNetworkGatewaysGetdefaultResponse
+    | VirtualNetworkGatewaysDelete200Response
+    | VirtualNetworkGatewaysDelete202Response
+    | VirtualNetworkGatewaysDelete204Response
+    | VirtualNetworkGatewaysDeletedefaultResponse
+    | VirtualNetworkGatewaysUpdateTags200Response
+    | VirtualNetworkGatewaysUpdateTags202Response
+    | VirtualNetworkGatewaysUpdateTagsdefaultResponse
+    | VirtualNetworkGatewaysList200Response
+    | VirtualNetworkGatewaysListdefaultResponse
+    | VirtualNetworkGatewaysListConnections200Response
+    | VirtualNetworkGatewaysListConnectionsdefaultResponse
+    | VirtualNetworkGatewaysReset200Response
+    | VirtualNetworkGatewaysReset202Response
+    | VirtualNetworkGatewaysResetdefaultResponse
+    | VirtualNetworkGatewaysResetVpnClientSharedKey200Response
+    | VirtualNetworkGatewaysResetVpnClientSharedKey202Response
+    | VirtualNetworkGatewaysResetVpnClientSharedKeydefaultResponse
+    | VirtualNetworkGatewaysGeneratevpnclientpackage200Response
+    | VirtualNetworkGatewaysGeneratevpnclientpackage202Response
+    | VirtualNetworkGatewaysGeneratevpnclientpackagedefaultResponse
+    | VirtualNetworkGatewaysGenerateVpnProfile200Response
+    | VirtualNetworkGatewaysGenerateVpnProfile202Response
+    | VirtualNetworkGatewaysGenerateVpnProfiledefaultResponse
+    | VirtualNetworkGatewaysGetVpnProfilePackageUrl200Response
+    | VirtualNetworkGatewaysGetVpnProfilePackageUrl202Response
+    | VirtualNetworkGatewaysGetVpnProfilePackageUrldefaultResponse
+    | VirtualNetworkGatewaysGetBgpPeerStatus200Response
+    | VirtualNetworkGatewaysGetBgpPeerStatus202Response
+    | VirtualNetworkGatewaysGetBgpPeerStatusdefaultResponse
+    | VirtualNetworkGatewaysSupportedVpnDevices200Response
+    | VirtualNetworkGatewaysSupportedVpnDevicesdefaultResponse
+    | VirtualNetworkGatewaysGetLearnedRoutes200Response
+    | VirtualNetworkGatewaysGetLearnedRoutes202Response
+    | VirtualNetworkGatewaysGetLearnedRoutesdefaultResponse
+    | VirtualNetworkGatewaysGetAdvertisedRoutes200Response
+    | VirtualNetworkGatewaysGetAdvertisedRoutes202Response
+    | VirtualNetworkGatewaysGetAdvertisedRoutesdefaultResponse
+    | VirtualNetworkGatewaysSetVpnclientIpsecParameters200Response
+    | VirtualNetworkGatewaysSetVpnclientIpsecParameters202Response
+    | VirtualNetworkGatewaysSetVpnclientIpsecParametersdefaultResponse
+    | VirtualNetworkGatewaysGetVpnclientIpsecParameters200Response
+    | VirtualNetworkGatewaysGetVpnclientIpsecParametersdefaultResponse
+    | VirtualNetworkGatewaysVpnDeviceConfigurationScript200Response
+    | VirtualNetworkGatewaysVpnDeviceConfigurationScriptdefaultResponse
+    | VirtualNetworkGatewaysStartPacketCapture200Response
+    | VirtualNetworkGatewaysStartPacketCapture202Response
+    | VirtualNetworkGatewaysStartPacketCapturedefaultResponse
+    | VirtualNetworkGatewaysStopPacketCapture200Response
+    | VirtualNetworkGatewaysStopPacketCapture202Response
+    | VirtualNetworkGatewaysStopPacketCapturedefaultResponse
+    | VirtualNetworkGatewaysGetVpnclientConnectionHealth200Response
+    | VirtualNetworkGatewaysGetVpnclientConnectionHealth202Response
+    | VirtualNetworkGatewaysGetVpnclientConnectionHealthdefaultResponse
+    | VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections200Response
+    | VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections202Response
+    | VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsdefaultResponse
+    | VirtualNetworkGatewayConnectionsCreateOrUpdate200Response
+    | VirtualNetworkGatewayConnectionsCreateOrUpdate201Response
+    | VirtualNetworkGatewayConnectionsCreateOrUpdatedefaultResponse
+    | VirtualNetworkGatewayConnectionsGet200Response
+    | VirtualNetworkGatewayConnectionsGetdefaultResponse
+    | VirtualNetworkGatewayConnectionsDelete200Response
+    | VirtualNetworkGatewayConnectionsDelete202Response
+    | VirtualNetworkGatewayConnectionsDelete204Response
+    | VirtualNetworkGatewayConnectionsDeletedefaultResponse
+    | VirtualNetworkGatewayConnectionsUpdateTags200Response
+    | VirtualNetworkGatewayConnectionsUpdateTags202Response
+    | VirtualNetworkGatewayConnectionsUpdateTagsdefaultResponse
+    | VirtualNetworkGatewayConnectionsSetSharedKey200Response
+    | VirtualNetworkGatewayConnectionsSetSharedKey201Response
+    | VirtualNetworkGatewayConnectionsSetSharedKeydefaultResponse
+    | VirtualNetworkGatewayConnectionsGetSharedKey200Response
+    | VirtualNetworkGatewayConnectionsGetSharedKeydefaultResponse
+    | VirtualNetworkGatewayConnectionsList200Response
+    | VirtualNetworkGatewayConnectionsListdefaultResponse
+    | VirtualNetworkGatewayConnectionsResetSharedKey200Response
+    | VirtualNetworkGatewayConnectionsResetSharedKey202Response
+    | VirtualNetworkGatewayConnectionsResetSharedKeydefaultResponse
+    | VirtualNetworkGatewayConnectionsStartPacketCapture200Response
+    | VirtualNetworkGatewayConnectionsStartPacketCapture202Response
+    | VirtualNetworkGatewayConnectionsStartPacketCapturedefaultResponse
+    | VirtualNetworkGatewayConnectionsStopPacketCapture200Response
+    | VirtualNetworkGatewayConnectionsStopPacketCapture202Response
+    | VirtualNetworkGatewayConnectionsStopPacketCapturedefaultResponse
+    | VirtualNetworkGatewayConnectionsGetIkeSas200Response
+    | VirtualNetworkGatewayConnectionsGetIkeSas202Response
+    | VirtualNetworkGatewayConnectionsGetIkeSasdefaultResponse
+    | VirtualNetworkGatewayConnectionsResetConnection202Response
+    | VirtualNetworkGatewayConnectionsResetConnectiondefaultResponse
+    | LocalNetworkGatewaysCreateOrUpdate200Response
+    | LocalNetworkGatewaysCreateOrUpdate201Response
+    | LocalNetworkGatewaysCreateOrUpdatedefaultResponse
+    | LocalNetworkGatewaysGet200Response
+    | LocalNetworkGatewaysGetdefaultResponse
+    | LocalNetworkGatewaysDelete200Response
+    | LocalNetworkGatewaysDelete202Response
+    | LocalNetworkGatewaysDelete204Response
+    | LocalNetworkGatewaysDeletedefaultResponse
+    | LocalNetworkGatewaysUpdateTags200Response
+    | LocalNetworkGatewaysUpdateTagsdefaultResponse
+    | LocalNetworkGatewaysList200Response
+    | LocalNetworkGatewaysListdefaultResponse
+    | VirtualNetworkGatewayNatRulesGet200Response
+    | VirtualNetworkGatewayNatRulesGetdefaultResponse
+    | VirtualNetworkGatewayNatRulesCreateOrUpdate200Response
+    | VirtualNetworkGatewayNatRulesCreateOrUpdate201Response
+    | VirtualNetworkGatewayNatRulesCreateOrUpdatedefaultResponse
+    | VirtualNetworkGatewayNatRulesDelete200Response
+    | VirtualNetworkGatewayNatRulesDelete202Response
+    | VirtualNetworkGatewayNatRulesDelete204Response
+    | VirtualNetworkGatewayNatRulesDeletedefaultResponse
+    | VirtualNetworkGatewayNatRulesListByVirtualNetworkGateway200Response
+    | VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewaydefaultResponse
+    | VirtualNetworkTapsDelete200Response
+    | VirtualNetworkTapsDelete202Response
+    | VirtualNetworkTapsDelete204Response
+    | VirtualNetworkTapsDeletedefaultResponse
+    | VirtualNetworkTapsGet200Response
+    | VirtualNetworkTapsGetdefaultResponse
+    | VirtualNetworkTapsCreateOrUpdate200Response
+    | VirtualNetworkTapsCreateOrUpdate201Response
+    | VirtualNetworkTapsCreateOrUpdatedefaultResponse
+    | VirtualNetworkTapsUpdateTags200Response
+    | VirtualNetworkTapsUpdateTagsdefaultResponse
+    | VirtualNetworkTapsListAll200Response
+    | VirtualNetworkTapsListAlldefaultResponse
+    | VirtualNetworkTapsListByResourceGroup200Response
+    | VirtualNetworkTapsListByResourceGroupdefaultResponse
+    | VirtualRoutersDelete200Response
+    | VirtualRoutersDelete202Response
+    | VirtualRoutersDelete204Response
+    | VirtualRoutersDeletedefaultResponse
+    | VirtualRoutersGet200Response
+    | VirtualRoutersGetdefaultResponse
+    | VirtualRoutersCreateOrUpdate200Response
+    | VirtualRoutersCreateOrUpdate201Response
+    | VirtualRoutersCreateOrUpdatedefaultResponse
+    | VirtualRoutersListByResourceGroup200Response
+    | VirtualRoutersListByResourceGroupdefaultResponse
+    | VirtualRoutersList200Response
+    | VirtualRoutersListdefaultResponse
+    | VirtualRouterPeeringsDelete200Response
+    | VirtualRouterPeeringsDelete202Response
+    | VirtualRouterPeeringsDelete204Response
+    | VirtualRouterPeeringsDeletedefaultResponse
+    | VirtualRouterPeeringsGet200Response
+    | VirtualRouterPeeringsGetdefaultResponse
+    | VirtualRouterPeeringsCreateOrUpdate200Response
+    | VirtualRouterPeeringsCreateOrUpdate201Response
+    | VirtualRouterPeeringsCreateOrUpdatedefaultResponse
+    | VirtualRouterPeeringsList200Response
+    | VirtualRouterPeeringsListdefaultResponse
+    | VirtualWansGet200Response
+    | VirtualWansGetdefaultResponse
+    | VirtualWansCreateOrUpdate200Response
+    | VirtualWansCreateOrUpdate201Response
+    | VirtualWansCreateOrUpdatedefaultResponse
+    | VirtualWansUpdateTags200Response
+    | VirtualWansUpdateTagsdefaultResponse
+    | VirtualWansDelete200Response
+    | VirtualWansDelete202Response
+    | VirtualWansDelete204Response
+    | VirtualWansDeletedefaultResponse
+    | VirtualWansListByResourceGroup200Response
+    | VirtualWansListByResourceGroupdefaultResponse
+    | VirtualWansList200Response
+    | VirtualWansListdefaultResponse
+    | VpnSitesGet200Response
+    | VpnSitesGetdefaultResponse
+    | VpnSitesCreateOrUpdate200Response
+    | VpnSitesCreateOrUpdate201Response
+    | VpnSitesCreateOrUpdatedefaultResponse
+    | VpnSitesUpdateTags200Response
+    | VpnSitesUpdateTagsdefaultResponse
+    | VpnSitesDelete200Response
+    | VpnSitesDelete202Response
+    | VpnSitesDelete204Response
+    | VpnSitesDeletedefaultResponse
+    | VpnSitesListByResourceGroup200Response
+    | VpnSitesListByResourceGroupdefaultResponse
+    | VpnSitesList200Response
+    | VpnSitesListdefaultResponse
+    | VpnSiteLinksGet200Response
+    | VpnSiteLinksGetdefaultResponse
+    | VpnSiteLinksListByVpnSite200Response
+    | VpnSiteLinksListByVpnSitedefaultResponse
+    | VpnSitesConfigurationDownload200Response
+    | VpnSitesConfigurationDownload202Response
+    | VpnSitesConfigurationDownloaddefaultResponse
+    | VpnServerConfigurationsGet200Response
+    | VpnServerConfigurationsGetdefaultResponse
+    | VpnServerConfigurationsCreateOrUpdate200Response
+    | VpnServerConfigurationsCreateOrUpdate201Response
+    | VpnServerConfigurationsCreateOrUpdatedefaultResponse
+    | VpnServerConfigurationsUpdateTags200Response
+    | VpnServerConfigurationsUpdateTagsdefaultResponse
+    | VpnServerConfigurationsDelete200Response
+    | VpnServerConfigurationsDelete202Response
+    | VpnServerConfigurationsDelete204Response
+    | VpnServerConfigurationsDeletedefaultResponse
+    | VpnServerConfigurationsListByResourceGroup200Response
+    | VpnServerConfigurationsListByResourceGroupdefaultResponse
+    | VpnServerConfigurationsList200Response
+    | VpnServerConfigurationsListdefaultResponse
+    | ConfigurationPolicyGroupsCreateOrUpdate200Response
+    | ConfigurationPolicyGroupsCreateOrUpdate201Response
+    | ConfigurationPolicyGroupsCreateOrUpdatedefaultResponse
+    | ConfigurationPolicyGroupsDelete200Response
+    | ConfigurationPolicyGroupsDelete202Response
+    | ConfigurationPolicyGroupsDelete204Response
+    | ConfigurationPolicyGroupsDeletedefaultResponse
+    | ConfigurationPolicyGroupsGet200Response
+    | ConfigurationPolicyGroupsGetdefaultResponse
+    | ConfigurationPolicyGroupsListByVpnServerConfiguration200Response
+    | ConfigurationPolicyGroupsListByVpnServerConfigurationdefaultResponse
+    | VirtualHubsGet200Response
+    | VirtualHubsGetdefaultResponse
+    | VirtualHubsCreateOrUpdate200Response
+    | VirtualHubsCreateOrUpdate201Response
+    | VirtualHubsCreateOrUpdatedefaultResponse
+    | VirtualHubsUpdateTags200Response
+    | VirtualHubsUpdateTagsdefaultResponse
+    | VirtualHubsDelete200Response
+    | VirtualHubsDelete202Response
+    | VirtualHubsDelete204Response
+    | VirtualHubsDeletedefaultResponse
+    | VirtualHubsListByResourceGroup200Response
+    | VirtualHubsListByResourceGroupdefaultResponse
+    | VirtualHubsList200Response
+    | VirtualHubsListdefaultResponse
+    | VirtualHubsGetEffectiveVirtualHubRoutes200Response
+    | VirtualHubsGetEffectiveVirtualHubRoutes202Response
+    | VirtualHubsGetEffectiveVirtualHubRoutesdefaultResponse
+    | VirtualHubsGetInboundRoutes200Response
+    | VirtualHubsGetInboundRoutes202Response
+    | VirtualHubsGetInboundRoutesdefaultResponse
+    | VirtualHubsGetOutboundRoutes200Response
+    | VirtualHubsGetOutboundRoutes202Response
+    | VirtualHubsGetOutboundRoutesdefaultResponse
+    | RouteMapsGet200Response
+    | RouteMapsGetdefaultResponse
+    | RouteMapsCreateOrUpdate200Response
+    | RouteMapsCreateOrUpdate201Response
+    | RouteMapsCreateOrUpdatedefaultResponse
+    | RouteMapsDelete200Response
+    | RouteMapsDelete202Response
+    | RouteMapsDelete204Response
+    | RouteMapsDeletedefaultResponse
+    | RouteMapsList200Response
+    | RouteMapsListdefaultResponse
+    | HubVirtualNetworkConnectionsCreateOrUpdate200Response
+    | HubVirtualNetworkConnectionsCreateOrUpdate201Response
+    | HubVirtualNetworkConnectionsCreateOrUpdatedefaultResponse
+    | HubVirtualNetworkConnectionsDelete200Response
+    | HubVirtualNetworkConnectionsDelete202Response
+    | HubVirtualNetworkConnectionsDelete204Response
+    | HubVirtualNetworkConnectionsDeletedefaultResponse
+    | HubVirtualNetworkConnectionsGet200Response
+    | HubVirtualNetworkConnectionsGetdefaultResponse
+    | HubVirtualNetworkConnectionsList200Response
+    | HubVirtualNetworkConnectionsListdefaultResponse
+    | VpnGatewaysGet200Response
+    | VpnGatewaysGetdefaultResponse
+    | VpnGatewaysCreateOrUpdate200Response
+    | VpnGatewaysCreateOrUpdate201Response
+    | VpnGatewaysCreateOrUpdatedefaultResponse
+    | VpnGatewaysUpdateTags200Response
+    | VpnGatewaysUpdateTags202Response
+    | VpnGatewaysUpdateTagsdefaultResponse
+    | VpnGatewaysDelete200Response
+    | VpnGatewaysDelete202Response
+    | VpnGatewaysDelete204Response
+    | VpnGatewaysDeletedefaultResponse
+    | VpnGatewaysReset200Response
+    | VpnGatewaysReset202Response
+    | VpnGatewaysResetdefaultResponse
+    | VpnGatewaysStartPacketCapture200Response
+    | VpnGatewaysStartPacketCapture202Response
+    | VpnGatewaysStartPacketCapturedefaultResponse
+    | VpnGatewaysStopPacketCapture200Response
+    | VpnGatewaysStopPacketCapture202Response
+    | VpnGatewaysStopPacketCapturedefaultResponse
+    | VpnGatewaysListByResourceGroup200Response
+    | VpnGatewaysListByResourceGroupdefaultResponse
+    | VpnGatewaysList200Response
+    | VpnGatewaysListdefaultResponse
+    | VpnLinkConnectionsResetConnection202Response
+    | VpnLinkConnectionsResetConnectiondefaultResponse
+    | VpnLinkConnectionsGetIkeSas200Response
+    | VpnLinkConnectionsGetIkeSas202Response
+    | VpnLinkConnectionsGetIkeSasdefaultResponse
+    | VpnLinkConnectionsListByVpnConnection200Response
+    | VpnLinkConnectionsListByVpnConnectiondefaultResponse
+    | VpnConnectionsGet200Response
+    | VpnConnectionsGetdefaultResponse
+    | VpnConnectionsCreateOrUpdate200Response
+    | VpnConnectionsCreateOrUpdate201Response
+    | VpnConnectionsCreateOrUpdatedefaultResponse
+    | VpnConnectionsDelete200Response
+    | VpnConnectionsDelete202Response
+    | VpnConnectionsDelete204Response
+    | VpnConnectionsDeletedefaultResponse
+    | VpnConnectionsStartPacketCapture200Response
+    | VpnConnectionsStartPacketCapture202Response
+    | VpnConnectionsStartPacketCapturedefaultResponse
+    | VpnConnectionsStopPacketCapture200Response
+    | VpnConnectionsStopPacketCapture202Response
+    | VpnConnectionsStopPacketCapturedefaultResponse
+    | VpnConnectionsListByVpnGateway200Response
+    | VpnConnectionsListByVpnGatewaydefaultResponse
+    | VpnSiteLinkConnectionsGet200Response
+    | VpnSiteLinkConnectionsGetdefaultResponse
+    | NatRulesGet200Response
+    | NatRulesGetdefaultResponse
+    | NatRulesCreateOrUpdate200Response
+    | NatRulesCreateOrUpdate201Response
+    | NatRulesCreateOrUpdatedefaultResponse
+    | NatRulesDelete200Response
+    | NatRulesDelete202Response
+    | NatRulesDelete204Response
+    | NatRulesDeletedefaultResponse
+    | NatRulesListByVpnGateway200Response
+    | NatRulesListByVpnGatewaydefaultResponse
+    | P2SVpnGatewaysGet200Response
+    | P2SVpnGatewaysGetdefaultResponse
+    | P2SVpnGatewaysCreateOrUpdate200Response
+    | P2SVpnGatewaysCreateOrUpdate201Response
+    | P2SVpnGatewaysCreateOrUpdatedefaultResponse
+    | P2SVpnGatewaysUpdateTags200Response
+    | P2SVpnGatewaysUpdateTags202Response
+    | P2SVpnGatewaysUpdateTagsdefaultResponse
+    | P2SVpnGatewaysDelete200Response
+    | P2SVpnGatewaysDelete202Response
+    | P2SVpnGatewaysDelete204Response
+    | P2SVpnGatewaysDeletedefaultResponse
+    | P2SVpnGatewaysListByResourceGroup200Response
+    | P2SVpnGatewaysListByResourceGroupdefaultResponse
+    | P2SVpnGatewaysList200Response
+    | P2SVpnGatewaysListdefaultResponse
+    | P2SVpnGatewaysReset200Response
+    | P2SVpnGatewaysReset202Response
+    | P2SVpnGatewaysResetdefaultResponse
+    | P2SVpnGatewaysGenerateVpnProfile200Response
+    | P2SVpnGatewaysGenerateVpnProfile202Response
+    | P2SVpnGatewaysGenerateVpnProfiledefaultResponse
+    | P2SVpnGatewaysGetP2SVpnConnectionHealth200Response
+    | P2SVpnGatewaysGetP2SVpnConnectionHealth202Response
+    | P2SVpnGatewaysGetP2SVpnConnectionHealthdefaultResponse
+    | P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed200Response
+    | P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed202Response
+    | P2SVpnGatewaysGetP2SVpnConnectionHealthDetaileddefaultResponse
+    | P2SVpnGatewaysDisconnectP2SVpnConnections200Response
+    | P2SVpnGatewaysDisconnectP2SVpnConnections202Response
+    | P2SVpnGatewaysDisconnectP2SVpnConnectionsdefaultResponse
+    | VpnServerConfigurationsAssociatedWithVirtualWanList200Response
+    | VpnServerConfigurationsAssociatedWithVirtualWanList202Response
+    | VpnServerConfigurationsAssociatedWithVirtualWanListdefaultResponse
+    | VirtualHubRouteTableV2SGet200Response
+    | VirtualHubRouteTableV2SGetdefaultResponse
+    | VirtualHubRouteTableV2SCreateOrUpdate200Response
+    | VirtualHubRouteTableV2SCreateOrUpdate201Response
+    | VirtualHubRouteTableV2SCreateOrUpdatedefaultResponse
+    | VirtualHubRouteTableV2SDelete200Response
+    | VirtualHubRouteTableV2SDelete202Response
+    | VirtualHubRouteTableV2SDelete204Response
+    | VirtualHubRouteTableV2SDeletedefaultResponse
+    | VirtualHubRouteTableV2SList200Response
+    | VirtualHubRouteTableV2SListdefaultResponse
+    | ExpressRouteGatewaysListBySubscription200Response
+    | ExpressRouteGatewaysListBySubscriptiondefaultResponse
+    | ExpressRouteGatewaysListByResourceGroup200Response
+    | ExpressRouteGatewaysListByResourceGroupdefaultResponse
+    | ExpressRouteGatewaysCreateOrUpdate200Response
+    | ExpressRouteGatewaysCreateOrUpdate201Response
+    | ExpressRouteGatewaysCreateOrUpdatedefaultResponse
+    | ExpressRouteGatewaysUpdateTags200Response
+    | ExpressRouteGatewaysUpdateTags202Response
+    | ExpressRouteGatewaysUpdateTagsdefaultResponse
+    | ExpressRouteGatewaysGet200Response
+    | ExpressRouteGatewaysGetdefaultResponse
+    | ExpressRouteGatewaysDelete200Response
+    | ExpressRouteGatewaysDelete202Response
+    | ExpressRouteGatewaysDelete204Response
+    | ExpressRouteGatewaysDeletedefaultResponse
+    | ExpressRouteConnectionsCreateOrUpdate200Response
+    | ExpressRouteConnectionsCreateOrUpdate201Response
+    | ExpressRouteConnectionsCreateOrUpdatedefaultResponse
+    | ExpressRouteConnectionsGet200Response
+    | ExpressRouteConnectionsGetdefaultResponse
+    | ExpressRouteConnectionsDelete200Response
+    | ExpressRouteConnectionsDelete202Response
+    | ExpressRouteConnectionsDelete204Response
+    | ExpressRouteConnectionsDeletedefaultResponse
+    | ExpressRouteConnectionsList200Response
+    | ExpressRouteConnectionsListdefaultResponse
+    | VirtualHubBgpConnectionGet200Response
+    | VirtualHubBgpConnectionGetdefaultResponse
+    | VirtualHubBgpConnectionCreateOrUpdate200Response
+    | VirtualHubBgpConnectionCreateOrUpdate201Response
+    | VirtualHubBgpConnectionCreateOrUpdatedefaultResponse
+    | VirtualHubBgpConnectionDelete200Response
+    | VirtualHubBgpConnectionDelete202Response
+    | VirtualHubBgpConnectionDelete204Response
+    | VirtualHubBgpConnectionDeletedefaultResponse
+    | VirtualHubBgpConnectionsList200Response
+    | VirtualHubBgpConnectionsListdefaultResponse
+    | VirtualHubBgpConnectionsListLearnedRoutes200Response
+    | VirtualHubBgpConnectionsListLearnedRoutes202Response
+    | VirtualHubBgpConnectionsListLearnedRoutesdefaultResponse
+    | VirtualHubBgpConnectionsListAdvertisedRoutes200Response
+    | VirtualHubBgpConnectionsListAdvertisedRoutes202Response
+    | VirtualHubBgpConnectionsListAdvertisedRoutesdefaultResponse
+    | VirtualHubIpConfigurationGet200Response
+    | VirtualHubIpConfigurationGetdefaultResponse
+    | VirtualHubIpConfigurationCreateOrUpdate200Response
+    | VirtualHubIpConfigurationCreateOrUpdate201Response
+    | VirtualHubIpConfigurationCreateOrUpdatedefaultResponse
+    | VirtualHubIpConfigurationDelete200Response
+    | VirtualHubIpConfigurationDelete202Response
+    | VirtualHubIpConfigurationDelete204Response
+    | VirtualHubIpConfigurationDeletedefaultResponse
+    | VirtualHubIpConfigurationList200Response
+    | VirtualHubIpConfigurationListdefaultResponse
+    | HubRouteTablesCreateOrUpdate200Response
+    | HubRouteTablesCreateOrUpdate201Response
+    | HubRouteTablesCreateOrUpdatedefaultResponse
+    | HubRouteTablesGet200Response
+    | HubRouteTablesGetdefaultResponse
+    | HubRouteTablesDelete200Response
+    | HubRouteTablesDelete202Response
+    | HubRouteTablesDelete204Response
+    | HubRouteTablesDeletedefaultResponse
+    | HubRouteTablesList200Response
+    | HubRouteTablesListdefaultResponse
+    | RoutingIntentCreateOrUpdate200Response
+    | RoutingIntentCreateOrUpdate201Response
+    | RoutingIntentCreateOrUpdatedefaultResponse
+    | RoutingIntentGet200Response
+    | RoutingIntentGetdefaultResponse
+    | RoutingIntentDelete200Response
+    | RoutingIntentDelete202Response
+    | RoutingIntentDelete204Response
+    | RoutingIntentDeletedefaultResponse
+    | RoutingIntentList200Response
+    | RoutingIntentListdefaultResponse
+    | WebApplicationFirewallPoliciesList200Response
+    | WebApplicationFirewallPoliciesListdefaultResponse
+    | WebApplicationFirewallPoliciesListAll200Response
+    | WebApplicationFirewallPoliciesListAlldefaultResponse
+    | WebApplicationFirewallPoliciesGet200Response
+    | WebApplicationFirewallPoliciesGetdefaultResponse
+    | WebApplicationFirewallPoliciesCreateOrUpdate200Response
+    | WebApplicationFirewallPoliciesCreateOrUpdate201Response
+    | WebApplicationFirewallPoliciesCreateOrUpdatedefaultResponse
+    | WebApplicationFirewallPoliciesDelete200Response
+    | WebApplicationFirewallPoliciesDelete202Response
+    | WebApplicationFirewallPoliciesDelete204Response
+    | WebApplicationFirewallPoliciesDeletedefaultResponse
+    | VipSwapGet200Response
+    | VipSwapGetdefaultResponse
+    | VipSwapCreate200Response
+    | VipSwapCreate202Response
+    | VipSwapCreatedefaultResponse
+    | VipSwapList200Response
+    | VipSwapListdefaultResponse
+): response is
+  | ApplicationGatewaysDeletedefaultResponse
+  | ApplicationGatewaysGetdefaultResponse
+  | ApplicationGatewaysCreateOrUpdatedefaultResponse
+  | ApplicationGatewaysUpdateTagsdefaultResponse
+  | ApplicationGatewaysListdefaultResponse
+  | ApplicationGatewaysListAlldefaultResponse
+  | ApplicationGatewaysStartdefaultResponse
+  | ApplicationGatewaysStopdefaultResponse
+  | ApplicationGatewaysBackendHealthdefaultResponse
+  | ApplicationGatewaysBackendHealthOnDemanddefaultResponse
+  | ApplicationGatewaysListAvailableServerVariablesdefaultResponse
+  | ApplicationGatewaysListAvailableRequestHeadersdefaultResponse
+  | ApplicationGatewaysListAvailableResponseHeadersdefaultResponse
+  | ApplicationGatewaysListAvailableWafRuleSetsdefaultResponse
+  | ApplicationGatewaysListAvailableSslOptionsdefaultResponse
+  | ApplicationGatewaysListAvailableSslPredefinedPoliciesdefaultResponse
+  | ApplicationGatewaysGetSslPredefinedPolicydefaultResponse
+  | ApplicationGatewayPrivateLinkResourcesListdefaultResponse
+  | ApplicationGatewayPrivateEndpointConnectionsDeletedefaultResponse
+  | ApplicationGatewayPrivateEndpointConnectionsUpdatedefaultResponse
+  | ApplicationGatewayPrivateEndpointConnectionsGetdefaultResponse
+  | ApplicationGatewayPrivateEndpointConnectionsListdefaultResponse
+  | ApplicationGatewayWafDynamicManifestsDefaultGetdefaultResponse
+  | ApplicationGatewayWafDynamicManifestsGetdefaultResponse
+  | ApplicationSecurityGroupsDeletedefaultResponse
+  | ApplicationSecurityGroupsGetdefaultResponse
+  | ApplicationSecurityGroupsCreateOrUpdatedefaultResponse
+  | ApplicationSecurityGroupsUpdateTagsdefaultResponse
+  | ApplicationSecurityGroupsListAlldefaultResponse
+  | ApplicationSecurityGroupsListdefaultResponse
+  | AvailableDelegationsListdefaultResponse
+  | AvailableResourceGroupDelegationsListdefaultResponse
+  | AvailableServiceAliasesListdefaultResponse
+  | AvailableServiceAliasesListByResourceGroupdefaultResponse
+  | AzureFirewallsDeletedefaultResponse
+  | AzureFirewallsGetdefaultResponse
+  | AzureFirewallsCreateOrUpdatedefaultResponse
+  | AzureFirewallsUpdateTagsdefaultResponse
+  | AzureFirewallsListdefaultResponse
+  | AzureFirewallsListAlldefaultResponse
+  | AzureFirewallsListLearnedPrefixesdefaultResponse
+  | AzureFirewallFqdnTagsListAlldefaultResponse
+  | WebCategoriesGetdefaultResponse
+  | WebCategoriesListBySubscriptiondefaultResponse
+  | BastionHostsDeletedefaultResponse
+  | BastionHostsGetdefaultResponse
+  | BastionHostsCreateOrUpdatedefaultResponse
+  | BastionHostsUpdateTagsdefaultResponse
+  | BastionHostsListdefaultResponse
+  | BastionHostsListByResourceGroupdefaultResponse
+  | PutBastionShareableLinkdefaultResponse
+  | DeleteBastionShareableLinkdefaultResponse
+  | GetBastionShareableLinkdefaultResponse
+  | GetActiveSessionsdefaultResponse
+  | DisconnectActiveSessionsdefaultResponse
+  | CheckDnsNameAvailabilitydefaultResponse
+  | ExpressRouteProviderPortdefaultResponse
+  | ListActiveConnectivityConfigurationsdefaultResponse
+  | ListActiveSecurityAdminRulesdefaultResponse
+  | ListNetworkManagerEffectiveConnectivityConfigurationsdefaultResponse
+  | ListNetworkManagerEffectiveSecurityAdminRulesdefaultResponse
+  | SupportedSecurityProvidersdefaultResponse
+  | GeneratevirtualwanvpnserverconfigurationvpnprofiledefaultResponse
+  | NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesdefaultResponse
+  | NetworkInterfacesListCloudServiceNetworkInterfacesdefaultResponse
+  | NetworkInterfacesGetCloudServiceNetworkInterfacedefaultResponse
+  | NetworkInterfacesDeletedefaultResponse
+  | NetworkInterfacesGetdefaultResponse
+  | NetworkInterfacesCreateOrUpdatedefaultResponse
+  | NetworkInterfacesUpdateTagsdefaultResponse
+  | NetworkInterfacesListAlldefaultResponse
+  | NetworkInterfacesListdefaultResponse
+  | NetworkInterfacesGetEffectiveRouteTabledefaultResponse
+  | NetworkInterfacesListEffectiveNetworkSecurityGroupsdefaultResponse
+  | NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesdefaultResponse
+  | NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesdefaultResponse
+  | NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfacedefaultResponse
+  | NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsdefaultResponse
+  | NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationdefaultResponse
+  | PublicIPAddressesListCloudServicePublicIPAddressesdefaultResponse
+  | PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesdefaultResponse
+  | PublicIPAddressesGetCloudServicePublicIPAddressdefaultResponse
+  | PublicIPAddressesDeletedefaultResponse
+  | PublicIPAddressesGetdefaultResponse
+  | PublicIPAddressesCreateOrUpdatedefaultResponse
+  | PublicIPAddressesUpdateTagsdefaultResponse
+  | PublicIPAddressesListAlldefaultResponse
+  | PublicIPAddressesListdefaultResponse
+  | PublicIPAddressesDdosProtectionStatusdefaultResponse
+  | PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesdefaultResponse
+  | PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesdefaultResponse
+  | PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressdefaultResponse
+  | CustomIPPrefixesDeletedefaultResponse
+  | CustomIPPrefixesGetdefaultResponse
+  | CustomIPPrefixesCreateOrUpdatedefaultResponse
+  | CustomIPPrefixesUpdateTagsdefaultResponse
+  | CustomIPPrefixesListAlldefaultResponse
+  | CustomIPPrefixesListdefaultResponse
+  | DdosCustomPoliciesDeletedefaultResponse
+  | DdosCustomPoliciesGetdefaultResponse
+  | DdosCustomPoliciesCreateOrUpdatedefaultResponse
+  | DdosCustomPoliciesUpdateTagsdefaultResponse
+  | DdosProtectionPlansDeletedefaultResponse
+  | DdosProtectionPlansGetdefaultResponse
+  | DdosProtectionPlansCreateOrUpdatedefaultResponse
+  | DdosProtectionPlansUpdateTagsdefaultResponse
+  | DdosProtectionPlansListdefaultResponse
+  | DdosProtectionPlansListByResourceGroupdefaultResponse
+  | DscpConfigurationCreateOrUpdatedefaultResponse
+  | DscpConfigurationDeletedefaultResponse
+  | DscpConfigurationGetdefaultResponse
+  | DscpConfigurationListdefaultResponse
+  | DscpConfigurationListAlldefaultResponse
+  | AvailableEndpointServicesListdefaultResponse
+  | ExpressRouteCircuitAuthorizationsDeletedefaultResponse
+  | ExpressRouteCircuitAuthorizationsGetdefaultResponse
+  | ExpressRouteCircuitAuthorizationsCreateOrUpdatedefaultResponse
+  | ExpressRouteCircuitAuthorizationsListdefaultResponse
+  | ExpressRouteCircuitPeeringsDeletedefaultResponse
+  | ExpressRouteCircuitPeeringsGetdefaultResponse
+  | ExpressRouteCircuitPeeringsCreateOrUpdatedefaultResponse
+  | ExpressRouteCircuitPeeringsListdefaultResponse
+  | ExpressRouteCircuitConnectionsDeletedefaultResponse
+  | ExpressRouteCircuitConnectionsGetdefaultResponse
+  | ExpressRouteCircuitConnectionsCreateOrUpdatedefaultResponse
+  | ExpressRouteCircuitConnectionsListdefaultResponse
+  | PeerExpressRouteCircuitConnectionsGetdefaultResponse
+  | PeerExpressRouteCircuitConnectionsListdefaultResponse
+  | ExpressRouteCircuitsDeletedefaultResponse
+  | ExpressRouteCircuitsGetdefaultResponse
+  | ExpressRouteCircuitsCreateOrUpdatedefaultResponse
+  | ExpressRouteCircuitsUpdateTagsdefaultResponse
+  | ExpressRouteCircuitsListArpTabledefaultResponse
+  | ExpressRouteCircuitsListRoutesTabledefaultResponse
+  | ExpressRouteCircuitsListRoutesTableSummarydefaultResponse
+  | ExpressRouteCircuitsGetStatsdefaultResponse
+  | ExpressRouteCircuitsGetPeeringStatsdefaultResponse
+  | ExpressRouteCircuitsListdefaultResponse
+  | ExpressRouteCircuitsListAlldefaultResponse
+  | ExpressRouteServiceProvidersListdefaultResponse
+  | ExpressRouteCrossConnectionsListdefaultResponse
+  | ExpressRouteCrossConnectionsListByResourceGroupdefaultResponse
+  | ExpressRouteCrossConnectionsGetdefaultResponse
+  | ExpressRouteCrossConnectionsCreateOrUpdatedefaultResponse
+  | ExpressRouteCrossConnectionsUpdateTagsdefaultResponse
+  | ExpressRouteCrossConnectionsListArpTabledefaultResponse
+  | ExpressRouteCrossConnectionsListRoutesTableSummarydefaultResponse
+  | ExpressRouteCrossConnectionsListRoutesTabledefaultResponse
+  | ExpressRouteCrossConnectionPeeringsListdefaultResponse
+  | ExpressRouteCrossConnectionPeeringsDeletedefaultResponse
+  | ExpressRouteCrossConnectionPeeringsGetdefaultResponse
+  | ExpressRouteCrossConnectionPeeringsCreateOrUpdatedefaultResponse
+  | ExpressRoutePortsLocationsListdefaultResponse
+  | ExpressRoutePortsLocationsGetdefaultResponse
+  | ExpressRoutePortsDeletedefaultResponse
+  | ExpressRoutePortsGetdefaultResponse
+  | ExpressRoutePortsCreateOrUpdatedefaultResponse
+  | ExpressRoutePortsUpdateTagsdefaultResponse
+  | ExpressRoutePortsListByResourceGroupdefaultResponse
+  | ExpressRoutePortsListdefaultResponse
+  | ExpressRoutePortsGenerateLOAdefaultResponse
+  | ExpressRouteLinksGetdefaultResponse
+  | ExpressRouteLinksListdefaultResponse
+  | ExpressRoutePortAuthorizationsDeletedefaultResponse
+  | ExpressRoutePortAuthorizationsGetdefaultResponse
+  | ExpressRoutePortAuthorizationsCreateOrUpdatedefaultResponse
+  | ExpressRoutePortAuthorizationsListdefaultResponse
+  | ExpressRouteProviderPortsLocationListdefaultResponse
+  | FirewallPoliciesDeletedefaultResponse
+  | FirewallPoliciesGetdefaultResponse
+  | FirewallPoliciesCreateOrUpdatedefaultResponse
+  | FirewallPoliciesUpdateTagsdefaultResponse
+  | FirewallPoliciesListdefaultResponse
+  | FirewallPoliciesListAlldefaultResponse
+  | FirewallPolicyRuleCollectionGroupsDeletedefaultResponse
+  | FirewallPolicyRuleCollectionGroupsGetdefaultResponse
+  | FirewallPolicyRuleCollectionGroupsCreateOrUpdatedefaultResponse
+  | FirewallPolicyRuleCollectionGroupsListdefaultResponse
+  | FirewallPolicyIdpsSignaturesListdefaultResponse
+  | FirewallPolicyIdpsSignaturesOverridesPatchdefaultResponse
+  | FirewallPolicyIdpsSignaturesOverridesPutdefaultResponse
+  | FirewallPolicyIdpsSignaturesOverridesGetdefaultResponse
+  | FirewallPolicyIdpsSignaturesOverridesListdefaultResponse
+  | FirewallPolicyIdpsSignaturesFilterValuesListdefaultResponse
+  | IpAllocationsDeletedefaultResponse
+  | IpAllocationsGetdefaultResponse
+  | IpAllocationsCreateOrUpdatedefaultResponse
+  | IpAllocationsUpdateTagsdefaultResponse
+  | IpAllocationsListdefaultResponse
+  | IpAllocationsListByResourceGroupdefaultResponse
+  | IpGroupsGetdefaultResponse
+  | IpGroupsCreateOrUpdatedefaultResponse
+  | IpGroupsUpdateGroupsdefaultResponse
+  | IpGroupsDeletedefaultResponse
+  | IpGroupsListByResourceGroupdefaultResponse
+  | IpGroupsListdefaultResponse
+  | LoadBalancersDeletedefaultResponse
+  | LoadBalancersGetdefaultResponse
+  | LoadBalancersCreateOrUpdatedefaultResponse
+  | LoadBalancersUpdateTagsdefaultResponse
+  | LoadBalancersListAlldefaultResponse
+  | LoadBalancersListdefaultResponse
+  | LoadBalancersSwapPublicIpAddressesdefaultResponse
+  | LoadBalancersListInboundNatRulePortMappingsdefaultResponse
+  | LoadBalancerBackendAddressPoolsListdefaultResponse
+  | LoadBalancerBackendAddressPoolsGetdefaultResponse
+  | LoadBalancerBackendAddressPoolsCreateOrUpdatedefaultResponse
+  | LoadBalancerBackendAddressPoolsDeletedefaultResponse
+  | LoadBalancerFrontendIPConfigurationsListdefaultResponse
+  | LoadBalancerFrontendIPConfigurationsGetdefaultResponse
+  | InboundNatRulesListdefaultResponse
+  | InboundNatRulesDeletedefaultResponse
+  | InboundNatRulesGetdefaultResponse
+  | InboundNatRulesCreateOrUpdatedefaultResponse
+  | LoadBalancerLoadBalancingRulesListdefaultResponse
+  | LoadBalancerLoadBalancingRulesGetdefaultResponse
+  | LoadBalancerOutboundRulesListdefaultResponse
+  | LoadBalancerOutboundRulesGetdefaultResponse
+  | LoadBalancerNetworkInterfacesListdefaultResponse
+  | LoadBalancerProbesListdefaultResponse
+  | LoadBalancerProbesGetdefaultResponse
+  | NatGatewaysDeletedefaultResponse
+  | NatGatewaysGetdefaultResponse
+  | NatGatewaysCreateOrUpdatedefaultResponse
+  | NatGatewaysUpdateTagsdefaultResponse
+  | NatGatewaysListAlldefaultResponse
+  | NatGatewaysListdefaultResponse
+  | NetworkInterfaceIPConfigurationsListdefaultResponse
+  | NetworkInterfaceIPConfigurationsGetdefaultResponse
+  | NetworkInterfaceLoadBalancersListdefaultResponse
+  | NetworkInterfaceTapConfigurationsDeletedefaultResponse
+  | NetworkInterfaceTapConfigurationsGetdefaultResponse
+  | NetworkInterfaceTapConfigurationsCreateOrUpdatedefaultResponse
+  | NetworkInterfaceTapConfigurationsListdefaultResponse
+  | NetworkManagersGetdefaultResponse
+  | NetworkManagersCreateOrUpdatedefaultResponse
+  | NetworkManagersDeletedefaultResponse
+  | NetworkManagersPatchdefaultResponse
+  | NetworkManagersListBySubscriptiondefaultResponse
+  | NetworkManagersListdefaultResponse
+  | NetworkManagerCommitsPostdefaultResponse
+  | NetworkManagerDeploymentStatusListdefaultResponse
+  | SubscriptionNetworkManagerConnectionsCreateOrUpdatedefaultResponse
+  | SubscriptionNetworkManagerConnectionsGetdefaultResponse
+  | SubscriptionNetworkManagerConnectionsDeletedefaultResponse
+  | SubscriptionNetworkManagerConnectionsListdefaultResponse
+  | ManagementGroupNetworkManagerConnectionsCreateOrUpdatedefaultResponse
+  | ManagementGroupNetworkManagerConnectionsGetdefaultResponse
+  | ManagementGroupNetworkManagerConnectionsDeletedefaultResponse
+  | ManagementGroupNetworkManagerConnectionsListdefaultResponse
+  | ConnectivityConfigurationsGetdefaultResponse
+  | ConnectivityConfigurationsCreateOrUpdatedefaultResponse
+  | ConnectivityConfigurationsDeletedefaultResponse
+  | ConnectivityConfigurationsListdefaultResponse
+  | NetworkGroupsGetdefaultResponse
+  | NetworkGroupsCreateOrUpdatedefaultResponse
+  | NetworkGroupsDeletedefaultResponse
+  | NetworkGroupsListdefaultResponse
+  | StaticMembersGetdefaultResponse
+  | StaticMembersCreateOrUpdatedefaultResponse
+  | StaticMembersDeletedefaultResponse
+  | StaticMembersListdefaultResponse
+  | ScopeConnectionsCreateOrUpdatedefaultResponse
+  | ScopeConnectionsGetdefaultResponse
+  | ScopeConnectionsDeletedefaultResponse
+  | ScopeConnectionsListdefaultResponse
+  | SecurityAdminConfigurationsListdefaultResponse
+  | SecurityAdminConfigurationsGetdefaultResponse
+  | SecurityAdminConfigurationsCreateOrUpdatedefaultResponse
+  | SecurityAdminConfigurationsDeletedefaultResponse
+  | AdminRuleCollectionsListdefaultResponse
+  | AdminRuleCollectionsGetdefaultResponse
+  | AdminRuleCollectionsCreateOrUpdatedefaultResponse
+  | AdminRuleCollectionsDeletedefaultResponse
+  | AdminRulesListdefaultResponse
+  | AdminRulesGetdefaultResponse
+  | AdminRulesCreateOrUpdatedefaultResponse
+  | AdminRulesDeletedefaultResponse
+  | NetworkProfilesDeletedefaultResponse
+  | NetworkProfilesGetdefaultResponse
+  | NetworkProfilesCreateOrUpdatedefaultResponse
+  | NetworkProfilesUpdateTagsdefaultResponse
+  | NetworkProfilesListAlldefaultResponse
+  | NetworkProfilesListdefaultResponse
+  | NetworkSecurityGroupsDeletedefaultResponse
+  | NetworkSecurityGroupsGetdefaultResponse
+  | NetworkSecurityGroupsCreateOrUpdatedefaultResponse
+  | NetworkSecurityGroupsUpdateTagsdefaultResponse
+  | NetworkSecurityGroupsListAlldefaultResponse
+  | NetworkSecurityGroupsListdefaultResponse
+  | SecurityRulesDeletedefaultResponse
+  | SecurityRulesGetdefaultResponse
+  | SecurityRulesCreateOrUpdatedefaultResponse
+  | SecurityRulesListdefaultResponse
+  | DefaultSecurityRulesListdefaultResponse
+  | DefaultSecurityRulesGetdefaultResponse
+  | NetworkVirtualAppliancesDeletedefaultResponse
+  | NetworkVirtualAppliancesGetdefaultResponse
+  | NetworkVirtualAppliancesUpdateTagsdefaultResponse
+  | NetworkVirtualAppliancesCreateOrUpdatedefaultResponse
+  | NetworkVirtualAppliancesListByResourceGroupdefaultResponse
+  | NetworkVirtualAppliancesListdefaultResponse
+  | VirtualApplianceSitesDeletedefaultResponse
+  | VirtualApplianceSitesGetdefaultResponse
+  | VirtualApplianceSitesCreateOrUpdatedefaultResponse
+  | VirtualApplianceSitesListdefaultResponse
+  | VirtualApplianceSkusListdefaultResponse
+  | VirtualApplianceSkusGetdefaultResponse
+  | InboundSecurityRuleCreateOrUpdatedefaultResponse
+  | NetworkWatchersCreateOrUpdatedefaultResponse
+  | NetworkWatchersGetdefaultResponse
+  | NetworkWatchersDeletedefaultResponse
+  | NetworkWatchersUpdateTagsdefaultResponse
+  | NetworkWatchersListdefaultResponse
+  | NetworkWatchersListAlldefaultResponse
+  | NetworkWatchersGetTopologydefaultResponse
+  | NetworkWatchersVerifyIPFlowdefaultResponse
+  | NetworkWatchersGetNextHopdefaultResponse
+  | NetworkWatchersGetVMSecurityRulesdefaultResponse
+  | NetworkWatchersGetTroubleshootingdefaultResponse
+  | NetworkWatchersGetTroubleshootingResultdefaultResponse
+  | NetworkWatchersSetFlowLogConfigurationdefaultResponse
+  | NetworkWatchersGetFlowLogStatusdefaultResponse
+  | NetworkWatchersCheckConnectivitydefaultResponse
+  | NetworkWatchersGetAzureReachabilityReportdefaultResponse
+  | NetworkWatchersListAvailableProvidersdefaultResponse
+  | NetworkWatchersGetNetworkConfigurationDiagnosticdefaultResponse
+  | PacketCapturesCreatedefaultResponse
+  | PacketCapturesGetdefaultResponse
+  | PacketCapturesDeletedefaultResponse
+  | PacketCapturesStopdefaultResponse
+  | PacketCapturesGetStatusdefaultResponse
+  | PacketCapturesListdefaultResponse
+  | ConnectionMonitorsCreateOrUpdatedefaultResponse
+  | ConnectionMonitorsGetdefaultResponse
+  | ConnectionMonitorsDeletedefaultResponse
+  | ConnectionMonitorsUpdateTagsdefaultResponse
+  | ConnectionMonitorsStopdefaultResponse
+  | ConnectionMonitorsStartdefaultResponse
+  | ConnectionMonitorsQuerydefaultResponse
+  | ConnectionMonitorsListdefaultResponse
+  | FlowLogsCreateOrUpdatedefaultResponse
+  | FlowLogsUpdateTagsdefaultResponse
+  | FlowLogsGetdefaultResponse
+  | FlowLogsDeletedefaultResponse
+  | FlowLogsListdefaultResponse
+  | OperationsListdefaultResponse
+  | PrivateEndpointsDeletedefaultResponse
+  | PrivateEndpointsGetdefaultResponse
+  | PrivateEndpointsCreateOrUpdatedefaultResponse
+  | PrivateEndpointsListdefaultResponse
+  | PrivateEndpointsListBySubscriptiondefaultResponse
+  | AvailablePrivateEndpointTypesListdefaultResponse
+  | AvailablePrivateEndpointTypesListByResourceGroupdefaultResponse
+  | PrivateDnsZoneGroupsDeletedefaultResponse
+  | PrivateDnsZoneGroupsGetdefaultResponse
+  | PrivateDnsZoneGroupsCreateOrUpdatedefaultResponse
+  | PrivateDnsZoneGroupsListdefaultResponse
+  | PrivateLinkServicesDeletedefaultResponse
+  | PrivateLinkServicesGetdefaultResponse
+  | PrivateLinkServicesCreateOrUpdatedefaultResponse
+  | PrivateLinkServicesListdefaultResponse
+  | PrivateLinkServicesListBySubscriptiondefaultResponse
+  | PrivateLinkServicesGetPrivateEndpointConnectiondefaultResponse
+  | PrivateLinkServicesUpdatePrivateEndpointConnectiondefaultResponse
+  | PrivateLinkServicesDeletePrivateEndpointConnectiondefaultResponse
+  | PrivateLinkServicesListPrivateEndpointConnectionsdefaultResponse
+  | PrivateLinkServicesCheckPrivateLinkServiceVisibilitydefaultResponse
+  | PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupdefaultResponse
+  | PrivateLinkServicesListAutoApprovedPrivateLinkServicesdefaultResponse
+  | PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupdefaultResponse
+  | PublicIPPrefixesDeletedefaultResponse
+  | PublicIPPrefixesGetdefaultResponse
+  | PublicIPPrefixesCreateOrUpdatedefaultResponse
+  | PublicIPPrefixesUpdateTagsdefaultResponse
+  | PublicIPPrefixesListAlldefaultResponse
+  | PublicIPPrefixesListdefaultResponse
+  | RouteFiltersDeletedefaultResponse
+  | RouteFiltersGetdefaultResponse
+  | RouteFiltersCreateOrUpdatedefaultResponse
+  | RouteFiltersUpdateTagsdefaultResponse
+  | RouteFiltersListByResourceGroupdefaultResponse
+  | RouteFiltersListdefaultResponse
+  | RouteFilterRulesDeletedefaultResponse
+  | RouteFilterRulesGetdefaultResponse
+  | RouteFilterRulesCreateOrUpdatedefaultResponse
+  | RouteFilterRulesListByRouteFilterdefaultResponse
+  | RouteTablesDeletedefaultResponse
+  | RouteTablesGetdefaultResponse
+  | RouteTablesCreateOrUpdatedefaultResponse
+  | RouteTablesUpdateTagsdefaultResponse
+  | RouteTablesListdefaultResponse
+  | RouteTablesListAlldefaultResponse
+  | RoutesDeletedefaultResponse
+  | RoutesGetdefaultResponse
+  | RoutesCreateOrUpdatedefaultResponse
+  | RoutesListdefaultResponse
+  | SecurityPartnerProvidersDeletedefaultResponse
+  | SecurityPartnerProvidersGetdefaultResponse
+  | SecurityPartnerProvidersCreateOrUpdatedefaultResponse
+  | SecurityPartnerProvidersUpdateTagsdefaultResponse
+  | SecurityPartnerProvidersListByResourceGroupdefaultResponse
+  | SecurityPartnerProvidersListdefaultResponse
+  | BgpServiceCommunitiesListdefaultResponse
+  | ServiceEndpointPoliciesDeletedefaultResponse
+  | ServiceEndpointPoliciesGetdefaultResponse
+  | ServiceEndpointPoliciesCreateOrUpdatedefaultResponse
+  | ServiceEndpointPoliciesUpdateTagsdefaultResponse
+  | ServiceEndpointPoliciesListdefaultResponse
+  | ServiceEndpointPoliciesListByResourceGroupdefaultResponse
+  | ServiceEndpointPolicyDefinitionsDeletedefaultResponse
+  | ServiceEndpointPolicyDefinitionsGetdefaultResponse
+  | ServiceEndpointPolicyDefinitionsCreateOrUpdatedefaultResponse
+  | ServiceEndpointPolicyDefinitionsListByResourceGroupdefaultResponse
+  | ServiceTagsListdefaultResponse
+  | ServiceTagInformationListdefaultResponse
+  | UsagesListdefaultResponse
+  | VirtualNetworksDeletedefaultResponse
+  | VirtualNetworksGetdefaultResponse
+  | VirtualNetworksCreateOrUpdatedefaultResponse
+  | VirtualNetworksUpdateTagsdefaultResponse
+  | VirtualNetworksListAlldefaultResponse
+  | VirtualNetworksListdefaultResponse
+  | VirtualNetworksCheckIPAddressAvailabilitydefaultResponse
+  | VirtualNetworksListUsagedefaultResponse
+  | VirtualNetworksListDdosProtectionStatusdefaultResponse
+  | SubnetsDeletedefaultResponse
+  | SubnetsGetdefaultResponse
+  | SubnetsCreateOrUpdatedefaultResponse
+  | SubnetsPrepareNetworkPoliciesdefaultResponse
+  | SubnetsUnprepareNetworkPoliciesdefaultResponse
+  | SubnetsListdefaultResponse
+  | ResourceNavigationLinksListdefaultResponse
+  | ServiceAssociationLinksListdefaultResponse
+  | VirtualNetworkPeeringsDeletedefaultResponse
+  | VirtualNetworkPeeringsGetdefaultResponse
+  | VirtualNetworkPeeringsCreateOrUpdatedefaultResponse
+  | VirtualNetworkPeeringsListdefaultResponse
+  | VirtualNetworkGatewaysCreateOrUpdatedefaultResponse
+  | VirtualNetworkGatewaysGetdefaultResponse
+  | VirtualNetworkGatewaysDeletedefaultResponse
+  | VirtualNetworkGatewaysUpdateTagsdefaultResponse
+  | VirtualNetworkGatewaysListdefaultResponse
+  | VirtualNetworkGatewaysListConnectionsdefaultResponse
+  | VirtualNetworkGatewaysResetdefaultResponse
+  | VirtualNetworkGatewaysResetVpnClientSharedKeydefaultResponse
+  | VirtualNetworkGatewaysGeneratevpnclientpackagedefaultResponse
+  | VirtualNetworkGatewaysGenerateVpnProfiledefaultResponse
+  | VirtualNetworkGatewaysGetVpnProfilePackageUrldefaultResponse
+  | VirtualNetworkGatewaysGetBgpPeerStatusdefaultResponse
+  | VirtualNetworkGatewaysSupportedVpnDevicesdefaultResponse
+  | VirtualNetworkGatewaysGetLearnedRoutesdefaultResponse
+  | VirtualNetworkGatewaysGetAdvertisedRoutesdefaultResponse
+  | VirtualNetworkGatewaysSetVpnclientIpsecParametersdefaultResponse
+  | VirtualNetworkGatewaysGetVpnclientIpsecParametersdefaultResponse
+  | VirtualNetworkGatewaysVpnDeviceConfigurationScriptdefaultResponse
+  | VirtualNetworkGatewaysStartPacketCapturedefaultResponse
+  | VirtualNetworkGatewaysStopPacketCapturedefaultResponse
+  | VirtualNetworkGatewaysGetVpnclientConnectionHealthdefaultResponse
+  | VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsdefaultResponse
+  | VirtualNetworkGatewayConnectionsCreateOrUpdatedefaultResponse
+  | VirtualNetworkGatewayConnectionsGetdefaultResponse
+  | VirtualNetworkGatewayConnectionsDeletedefaultResponse
+  | VirtualNetworkGatewayConnectionsUpdateTagsdefaultResponse
+  | VirtualNetworkGatewayConnectionsSetSharedKeydefaultResponse
+  | VirtualNetworkGatewayConnectionsGetSharedKeydefaultResponse
+  | VirtualNetworkGatewayConnectionsListdefaultResponse
+  | VirtualNetworkGatewayConnectionsResetSharedKeydefaultResponse
+  | VirtualNetworkGatewayConnectionsStartPacketCapturedefaultResponse
+  | VirtualNetworkGatewayConnectionsStopPacketCapturedefaultResponse
+  | VirtualNetworkGatewayConnectionsGetIkeSasdefaultResponse
+  | VirtualNetworkGatewayConnectionsResetConnectiondefaultResponse
+  | LocalNetworkGatewaysCreateOrUpdatedefaultResponse
+  | LocalNetworkGatewaysGetdefaultResponse
+  | LocalNetworkGatewaysDeletedefaultResponse
+  | LocalNetworkGatewaysUpdateTagsdefaultResponse
+  | LocalNetworkGatewaysListdefaultResponse
+  | VirtualNetworkGatewayNatRulesGetdefaultResponse
+  | VirtualNetworkGatewayNatRulesCreateOrUpdatedefaultResponse
+  | VirtualNetworkGatewayNatRulesDeletedefaultResponse
+  | VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewaydefaultResponse
+  | VirtualNetworkTapsDeletedefaultResponse
+  | VirtualNetworkTapsGetdefaultResponse
+  | VirtualNetworkTapsCreateOrUpdatedefaultResponse
+  | VirtualNetworkTapsUpdateTagsdefaultResponse
+  | VirtualNetworkTapsListAlldefaultResponse
+  | VirtualNetworkTapsListByResourceGroupdefaultResponse
+  | VirtualRoutersDeletedefaultResponse
+  | VirtualRoutersGetdefaultResponse
+  | VirtualRoutersCreateOrUpdatedefaultResponse
+  | VirtualRoutersListByResourceGroupdefaultResponse
+  | VirtualRoutersListdefaultResponse
+  | VirtualRouterPeeringsDeletedefaultResponse
+  | VirtualRouterPeeringsGetdefaultResponse
+  | VirtualRouterPeeringsCreateOrUpdatedefaultResponse
+  | VirtualRouterPeeringsListdefaultResponse
+  | VirtualWansGetdefaultResponse
+  | VirtualWansCreateOrUpdatedefaultResponse
+  | VirtualWansUpdateTagsdefaultResponse
+  | VirtualWansDeletedefaultResponse
+  | VirtualWansListByResourceGroupdefaultResponse
+  | VirtualWansListdefaultResponse
+  | VpnSitesGetdefaultResponse
+  | VpnSitesCreateOrUpdatedefaultResponse
+  | VpnSitesUpdateTagsdefaultResponse
+  | VpnSitesDeletedefaultResponse
+  | VpnSitesListByResourceGroupdefaultResponse
+  | VpnSitesListdefaultResponse
+  | VpnSiteLinksGetdefaultResponse
+  | VpnSiteLinksListByVpnSitedefaultResponse
+  | VpnSitesConfigurationDownloaddefaultResponse
+  | VpnServerConfigurationsGetdefaultResponse
+  | VpnServerConfigurationsCreateOrUpdatedefaultResponse
+  | VpnServerConfigurationsUpdateTagsdefaultResponse
+  | VpnServerConfigurationsDeletedefaultResponse
+  | VpnServerConfigurationsListByResourceGroupdefaultResponse
+  | VpnServerConfigurationsListdefaultResponse
+  | ConfigurationPolicyGroupsCreateOrUpdatedefaultResponse
+  | ConfigurationPolicyGroupsDeletedefaultResponse
+  | ConfigurationPolicyGroupsGetdefaultResponse
+  | ConfigurationPolicyGroupsListByVpnServerConfigurationdefaultResponse
+  | VirtualHubsGetdefaultResponse
+  | VirtualHubsCreateOrUpdatedefaultResponse
+  | VirtualHubsUpdateTagsdefaultResponse
+  | VirtualHubsDeletedefaultResponse
+  | VirtualHubsListByResourceGroupdefaultResponse
+  | VirtualHubsListdefaultResponse
+  | VirtualHubsGetEffectiveVirtualHubRoutesdefaultResponse
+  | VirtualHubsGetInboundRoutesdefaultResponse
+  | VirtualHubsGetOutboundRoutesdefaultResponse
+  | RouteMapsGetdefaultResponse
+  | RouteMapsCreateOrUpdatedefaultResponse
+  | RouteMapsDeletedefaultResponse
+  | RouteMapsListdefaultResponse
+  | HubVirtualNetworkConnectionsCreateOrUpdatedefaultResponse
+  | HubVirtualNetworkConnectionsDeletedefaultResponse
+  | HubVirtualNetworkConnectionsGetdefaultResponse
+  | HubVirtualNetworkConnectionsListdefaultResponse
+  | VpnGatewaysGetdefaultResponse
+  | VpnGatewaysCreateOrUpdatedefaultResponse
+  | VpnGatewaysUpdateTagsdefaultResponse
+  | VpnGatewaysDeletedefaultResponse
+  | VpnGatewaysResetdefaultResponse
+  | VpnGatewaysStartPacketCapturedefaultResponse
+  | VpnGatewaysStopPacketCapturedefaultResponse
+  | VpnGatewaysListByResourceGroupdefaultResponse
+  | VpnGatewaysListdefaultResponse
+  | VpnLinkConnectionsResetConnectiondefaultResponse
+  | VpnLinkConnectionsGetIkeSasdefaultResponse
+  | VpnLinkConnectionsListByVpnConnectiondefaultResponse
+  | VpnConnectionsGetdefaultResponse
+  | VpnConnectionsCreateOrUpdatedefaultResponse
+  | VpnConnectionsDeletedefaultResponse
+  | VpnConnectionsStartPacketCapturedefaultResponse
+  | VpnConnectionsStopPacketCapturedefaultResponse
+  | VpnConnectionsListByVpnGatewaydefaultResponse
+  | VpnSiteLinkConnectionsGetdefaultResponse
+  | NatRulesGetdefaultResponse
+  | NatRulesCreateOrUpdatedefaultResponse
+  | NatRulesDeletedefaultResponse
+  | NatRulesListByVpnGatewaydefaultResponse
+  | P2SVpnGatewaysGetdefaultResponse
+  | P2SVpnGatewaysCreateOrUpdatedefaultResponse
+  | P2SVpnGatewaysUpdateTagsdefaultResponse
+  | P2SVpnGatewaysDeletedefaultResponse
+  | P2SVpnGatewaysListByResourceGroupdefaultResponse
+  | P2SVpnGatewaysListdefaultResponse
+  | P2SVpnGatewaysResetdefaultResponse
+  | P2SVpnGatewaysGenerateVpnProfiledefaultResponse
+  | P2SVpnGatewaysGetP2SVpnConnectionHealthdefaultResponse
+  | P2SVpnGatewaysGetP2SVpnConnectionHealthDetaileddefaultResponse
+  | P2SVpnGatewaysDisconnectP2SVpnConnectionsdefaultResponse
+  | VpnServerConfigurationsAssociatedWithVirtualWanListdefaultResponse
+  | VirtualHubRouteTableV2SGetdefaultResponse
+  | VirtualHubRouteTableV2SCreateOrUpdatedefaultResponse
+  | VirtualHubRouteTableV2SDeletedefaultResponse
+  | VirtualHubRouteTableV2SListdefaultResponse
+  | ExpressRouteGatewaysListBySubscriptiondefaultResponse
+  | ExpressRouteGatewaysListByResourceGroupdefaultResponse
+  | ExpressRouteGatewaysCreateOrUpdatedefaultResponse
+  | ExpressRouteGatewaysUpdateTagsdefaultResponse
+  | ExpressRouteGatewaysGetdefaultResponse
+  | ExpressRouteGatewaysDeletedefaultResponse
+  | ExpressRouteConnectionsCreateOrUpdatedefaultResponse
+  | ExpressRouteConnectionsGetdefaultResponse
+  | ExpressRouteConnectionsDeletedefaultResponse
+  | ExpressRouteConnectionsListdefaultResponse
+  | VirtualHubBgpConnectionGetdefaultResponse
+  | VirtualHubBgpConnectionCreateOrUpdatedefaultResponse
+  | VirtualHubBgpConnectionDeletedefaultResponse
+  | VirtualHubBgpConnectionsListdefaultResponse
+  | VirtualHubBgpConnectionsListLearnedRoutesdefaultResponse
+  | VirtualHubBgpConnectionsListAdvertisedRoutesdefaultResponse
+  | VirtualHubIpConfigurationGetdefaultResponse
+  | VirtualHubIpConfigurationCreateOrUpdatedefaultResponse
+  | VirtualHubIpConfigurationDeletedefaultResponse
+  | VirtualHubIpConfigurationListdefaultResponse
+  | HubRouteTablesCreateOrUpdatedefaultResponse
+  | HubRouteTablesGetdefaultResponse
+  | HubRouteTablesDeletedefaultResponse
+  | HubRouteTablesListdefaultResponse
+  | RoutingIntentCreateOrUpdatedefaultResponse
+  | RoutingIntentGetdefaultResponse
+  | RoutingIntentDeletedefaultResponse
+  | RoutingIntentListdefaultResponse
+  | WebApplicationFirewallPoliciesListdefaultResponse
+  | WebApplicationFirewallPoliciesListAlldefaultResponse
+  | WebApplicationFirewallPoliciesGetdefaultResponse
+  | WebApplicationFirewallPoliciesCreateOrUpdatedefaultResponse
+  | WebApplicationFirewallPoliciesDeletedefaultResponse
+  | VipSwapGetdefaultResponse
+  | VipSwapCreatedefaultResponse
+  | VipSwapListdefaultResponse {
+  const lroOriginal = response.headers["x-ms-original-url"];
+  const url = new URL(lroOriginal ?? response.request.url);
+  const method = response.request.method;
+  let pathDetails = responseMap[`${method} ${url.pathname}`];
+  if (!pathDetails) {
+    pathDetails = geParametrizedPathSuccess(url.pathname);
+  }
+  return !pathDetails.includes(response.status);
+}
+
+function geParametrizedPathSuccess(path: string): string[] {
+  const pathParts = path.split("/");
+
+  // Iterate the responseMap to find a match
+  for (const [key, value] of Object.entries(responseMap)) {
+    // Extracting the path from the map key which is in format
+    // GET /path/foo
+    const candidatePath = getPathFromMapKey(key);
+    // Get each part of the url path
+    const candidateParts = candidatePath.split("/");
+
+    // If the candidate and actual paths don't match in size
+    // we move on to the next candidate path
+    if (
+      candidateParts.length === pathParts.length &&
+      hasParametrizedPath(key)
+    ) {
+      // track if we have found a match to return the values found.
+      let found = true;
+      for (let i = 0; i < candidateParts.length; i++) {
+        if (
+          candidateParts[i].startsWith("{") &&
+          candidateParts[i].endsWith("}")
+        ) {
+          // If the current part of the candidate is a "template" part
+          // it is a match with the actual path part on hand
+          // skip as the parameterized part can match anything
+          continue;
+        }
+
+        // If the candidate part is not a template and
+        // the parts don't match mark the candidate as not found
+        // to move on with the next candidate path.
+        if (candidateParts[i] !== pathParts[i]) {
+          found = false;
+          break;
+        }
+      }
+
+      // We finished evaluating the current candidate parts
+      // if all parts matched we return the success values form
+      // the path mapping.
+      if (found) {
+        return value;
+      }
+    }
+  }
+
+  // No match was found, return an empty array.
+  return [];
+}
+
+function hasParametrizedPath(path: string): boolean {
+  return path.includes("/{");
+}
+
+function getPathFromMapKey(mapKey: string): string {
+  const pathStart = mapKey.indexOf("/");
+  return mapKey.slice(pathStart);
+}

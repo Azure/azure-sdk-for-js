@@ -8,13 +8,13 @@
 package-name: "@azure-rest/arm-network"
 title: NetworkManagementClient
 description: Network Management Rest Client
-generate-metadata: false
+generate-metadata: true
 generate-test: true
-generate-sample: true
+generate-sample: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/038882131730aab4173898d9ce4c3c0555deba25/specification/network/resource-manager/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b41f929626289b59e31be8a1091c99994864b096/specification/network/resource-manager/readme.md
 package-version: 1.0.0-beta.1
 rest-level-client: true
 add-credentials: true
