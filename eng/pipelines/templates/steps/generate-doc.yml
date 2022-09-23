@@ -3,10 +3,6 @@ parameters:
 
 steps:
   - script: |
-      npm i -g typedoc@0.16.x
-    displayName: "Install typedoc"
-
-  - script: |
       npm install
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/generate-doc
     displayName: "Install tool dependencies"
