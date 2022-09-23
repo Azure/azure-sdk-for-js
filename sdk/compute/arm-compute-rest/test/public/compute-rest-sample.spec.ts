@@ -10,7 +10,7 @@ import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tool
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
-import createComputeManagementClient, {
+import {
   AvailabilitySetsCreateOrUpdateParameters,
   AvailabilitySetsDeleteParameters,
   AvailabilitySetsGetParameters,
@@ -32,6 +32,7 @@ import {
   Subnet,
   NetworkInterface,
 } from "@azure/arm-network";
+import { createTestComputeManagementClient } from "./utils/recordedClient";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -70,7 +71,7 @@ describe("Compute test", () => {
     subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = createComputeManagementClient(credential, recorder.configureClientOptions({}));
+    client = createTestComputeManagementClient(recorder, credential);
     network_client = new NetworkManagementClient(
       credential,
       subscriptionId,
