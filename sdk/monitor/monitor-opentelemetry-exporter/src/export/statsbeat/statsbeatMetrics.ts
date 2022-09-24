@@ -26,6 +26,7 @@ class StatsbeatMetrics {
   public static EU_CONNECTION_STRING = "InstrumentationKey=7dc56bab-3c0c-4e9f-9ebb-d1acadee8d0f;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com";
   public static STATS_COLLECTION_SHORT_INTERVAL: number = 900000; // 15 minutes
 
+  private _commonProperties = {};
   private _meter: Meter;
   private _isEnabled: boolean = false;
   private _isInitialized: boolean = false;
@@ -135,6 +136,21 @@ class StatsbeatMetrics {
     // TODO: Determine if the emitter is relevant here and if we need to clean up the observable callbacks in any case.
     if (this._isEnabled && !this._isInitialized) {
       this._isInitialized = true;
+    }
+  }
+
+  public async trackShortIntervalStatsbeats() {
+    try {
+      await this._getResourceProvider();
+      this._commonProperties = {
+        os: this._os,
+        rp: this._resourceProvider,
+        cikey: this._cikey,
+        runtimeVersion: this._runtimeVersion,
+        language: this._language,
+        version: this._version,
+        attach: this._attach
+      };
 
       // Add observable callbacks
       this._successCountGauge.addCallback(this._getSuccessCount.bind(this));
@@ -143,45 +159,46 @@ class StatsbeatMetrics {
       this._throttleCountGauge.addCallback(this._getThrottleCount.bind(this));
       this._exceptionCountGauge.addCallback(this._getExceptionCount.bind(this));
       this._averageDurationGauge.addCallback(this._getAverageDuration.bind(this));
+    } catch (error) {
+      // TODO: Should I use AzureLogger here to output the info about the statsbeat metrics failing?
     }
   }
 
   private _getSuccessCount(observableResult: ObservableResult) {
     // TODO: Track duration here?
-    // TODO: Move networkProperties somewhere more central so each getCount can access it.
-    let networkProperties = {
-      os: this._os,
-      rp: this._resourceProvider,
-      cikey: this._cikey,
-      runtimeVersion: this._runtimeVersion,
-      language: this._language,
-      version: this._version,
-      attach: this._attach
-    };
-
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpoint, this._host);
     counter.totalSuccesfulRequestCount++;
-    observableResult.observe(counter.totalSuccesfulRequestCount, networkProperties);
+    observableResult.observe(counter.totalSuccesfulRequestCount, this._commonProperties);
   }
 
-  private _getFailureCount() {
-
+  private _getFailureCount(observableResult: ObservableResult) {
+    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpoint, this._host);
+    counter.totalFailedRequestCount++;
+    observableResult.observe(counter.totalFailedRequestCount, this._commonProperties);
   }
 
-  private _getAverageDuration() {
-
+  private _getAverageDuration(observableResult: ObservableResult) {
+    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpoint, this._host);
+    counter.totalSuccesfulRequestCount++;
+    observableResult.observe(counter.totalFailedRequestCount, this._commonProperties);
   }
 
-  private _getRetryCount() {
-
+  private _getRetryCount(observableResult: ObservableResult) {
+    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpoint, this._host);
+    counter.retryCount++;
+    observableResult.observe(counter.retryCount, this._commonProperties);
   }
 
-  private _getThrottleCount() {
-
+  private _getThrottleCount(observableResult: ObservableResult) {
+    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpoint, this._host);
+    counter.throttleCount++;
+    observableResult.observe(counter.throttleCount, this._commonProperties);
   }
 
-  private _getExceptionCount() {
-
+  private _getExceptionCount(observableResult: ObservableResult) {
+    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpoint, this._host);
+    counter.exceptionCount++;
+    observableResult.observe(counter.exceptionCount, this._commonProperties);
   }
 
   // Gets a networkStatsbeat counter if one exists for the given endpoint
