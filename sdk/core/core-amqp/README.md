@@ -16,7 +16,7 @@ npm install @azure/core-amqp
 
 ### Currently supported environments
 
-- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - Latest versions of Safari, Chrome, Edge, and Firefox.
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
@@ -105,7 +105,7 @@ export DEBUG=azure:core-amqp:(error|warning),rhea-promise:error,rhea:events,rhea
     node your-test-script.js &> out.log
     ```
 
-# Contributing
+## Contributing
 
 This project welcomes contributions and suggestions. Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us

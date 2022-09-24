@@ -16,7 +16,7 @@ import {
   ActivityLogAlertsGetOptionalParams,
   ActivityLogAlertsGetResponse,
   ActivityLogAlertsDeleteOptionalParams,
-  ActivityLogAlertPatchBody,
+  AlertRulePatchObject,
   ActivityLogAlertsUpdateOptionalParams,
   ActivityLogAlertsUpdateResponse
 } from "../models";
@@ -25,14 +25,14 @@ import {
 /** Interface representing a ActivityLogAlerts. */
 export interface ActivityLogAlerts {
   /**
-   * Get a list of all activity log alerts in a subscription.
+   * Get a list of all Activity Log Alert rules in a subscription.
    * @param options The options parameters.
    */
   listBySubscriptionId(
     options?: ActivityLogAlertsListBySubscriptionIdOptionalParams
   ): PagedAsyncIterableIterator<ActivityLogAlertResource>;
   /**
-   * Get a list of all activity log alerts in a resource group.
+   * Get a list of all Activity Log Alert rules in a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -41,22 +41,22 @@ export interface ActivityLogAlerts {
     options?: ActivityLogAlertsListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<ActivityLogAlertResource>;
   /**
-   * Create a new activity log alert or update an existing one.
+   * Create a new Activity Log Alert rule or update an existing one.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param activityLogAlertName The name of the activity log alert.
-   * @param activityLogAlert The activity log alert to create or use for the update.
+   * @param activityLogAlertName The name of the Activity Log Alert rule.
+   * @param activityLogAlertRule The Activity Log Alert rule to create or use for the update.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     activityLogAlertName: string,
-    activityLogAlert: ActivityLogAlertResource,
+    activityLogAlertRule: ActivityLogAlertResource,
     options?: ActivityLogAlertsCreateOrUpdateOptionalParams
   ): Promise<ActivityLogAlertsCreateOrUpdateResponse>;
   /**
-   * Get an activity log alert.
+   * Get an Activity Log Alert rule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param activityLogAlertName The name of the activity log alert.
+   * @param activityLogAlertName The name of the Activity Log Alert rule.
    * @param options The options parameters.
    */
   get(
@@ -65,9 +65,9 @@ export interface ActivityLogAlerts {
     options?: ActivityLogAlertsGetOptionalParams
   ): Promise<ActivityLogAlertsGetResponse>;
   /**
-   * Delete an activity log alert.
+   * Delete an Activity Log Alert rule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param activityLogAlertName The name of the activity log alert.
+   * @param activityLogAlertName The name of the Activity Log Alert rule.
    * @param options The options parameters.
    */
   delete(
@@ -76,17 +76,18 @@ export interface ActivityLogAlerts {
     options?: ActivityLogAlertsDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Updates an existing ActivityLogAlertResource's tags. To update other fields use the CreateOrUpdate
-   * method.
+   * Updates 'tags' and 'enabled' fields in an existing Alert rule. This method is used to update the
+   * Alert rule tags, and to enable or disable the Alert rule. To update other fields use CreateOrUpdate
+   * operation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param activityLogAlertName The name of the activity log alert.
-   * @param activityLogAlertPatch Parameters supplied to the operation.
+   * @param activityLogAlertName The name of the Activity Log Alert rule.
+   * @param activityLogAlertRulePatch Parameters supplied to the operation.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     activityLogAlertName: string,
-    activityLogAlertPatch: ActivityLogAlertPatchBody,
+    activityLogAlertRulePatch: AlertRulePatchObject,
     options?: ActivityLogAlertsUpdateOptionalParams
   ): Promise<ActivityLogAlertsUpdateResponse>;
 }

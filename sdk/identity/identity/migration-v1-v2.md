@@ -148,7 +148,7 @@ For more information, see [Interactive Browser Credential documentation](https:/
 
 ## Troubleshooting
 
-As part of the v2 release, a [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TROUBLESHOOTING.md) is provided. This guide includes solutions to many common problems users have encountered. In v2, errors and exception logs link to this troubleshooting guide.
+As part of the v2 release, a [troubleshooting guide](https://aka.ms/azsdk/js/identity/troubleshoot) is provided. This guide includes solutions to many common problems users have encountered. In v2, errors and exception logs link to this troubleshooting guide.
 
 ## Provide feedback
 

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Query threat intelligence indicators as per filtering criteria.
  *
  * @summary Query threat intelligence indicators as per filtering criteria.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/threatintelligence/QueryThreatIntelligence.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/threatintelligence/QueryThreatIntelligence.json
  */
 async function queryThreatIntelligenceIndicatorsAsPerFilteringCriteria() {
   const subscriptionId = "bd794837-4d29-4647-9105-6339bfdb4e6a";

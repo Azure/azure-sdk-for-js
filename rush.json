@@ -372,13 +372,28 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/ai-language-conversations",
+      "projectFolder": "sdk/cognitivelanguage/ai-language-conversations",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-text-analytics",
       "projectFolder": "sdk/textanalytics/ai-text-analytics",
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/ai-language-text",
+      "projectFolder": "sdk/cognitivelanguage/ai-language-text",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-metrics-advisor",
       "projectFolder": "sdk/metricsadvisor/ai-metrics-advisor",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/ai-personalizer",
+      "projectFolder": "sdk/personalizer/ai-personalizer-rest",
       "versionPolicyName": "client"
     },
     {
@@ -432,8 +447,18 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tools/communication-alpha-ids",
+      "projectFolder": "sdk/communication/communication-alpha-ids",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-sms",
       "projectFolder": "sdk/communication/communication-sms",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/communication-job-router",
+      "projectFolder": "sdk/communication/communication-job-router",
       "versionPolicyName": "client"
     },
     {
@@ -512,6 +537,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/monitor-ingestion",
+      "projectFolder": "sdk/monitor/monitor-ingestion",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/dev-tool",
       "projectFolder": "common/tools/dev-tool",
       "versionPolicyName": "utility"
@@ -585,6 +615,11 @@
       "packageName": "@azure/logger",
       "projectFolder": "sdk/core/logger",
       "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@azure/notification-hubs",
+      "projectFolder": "sdk/notificationhubs/notification-hubs",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/opentelemetry-instrumentation-azure-sdk",
@@ -748,7 +783,12 @@
     },
     {
       "packageName": "@azure-tests/perf-ai-text-analytics",
-      "projectFolder": "sdk/textanalytics/perf-tests/text-analytics",
+      "projectFolder": "sdk/textanalytics/perf-tests/ai-text-analytics",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-ai-language-text",
+      "projectFolder": "sdk/cognitivelanguage/perf-tests/ai-language-text",
       "versionPolicyName": "test"
     },
     {
@@ -922,6 +962,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure-rest/arm-appservice",
+      "projectFolder": "sdk/appservice/arm-appservice-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-resources-subscriptions",
       "projectFolder": "sdk/resources-subscriptions/arm-resources-subscriptions",
       "versionPolicyName": "management"
@@ -1017,6 +1062,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure-rest/arm-containerservice",
+      "projectFolder": "sdk/containerservice/arm-containerservice-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-operations",
       "projectFolder": "sdk/operationsmanagement/arm-operations",
       "versionPolicyName": "management"
@@ -1050,6 +1100,11 @@
       "packageName": "@azure/arm-servicefabric",
       "projectFolder": "sdk/servicefabric/arm-servicefabric",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/arm-servicefabric",
+      "projectFolder": "sdk/servicefabric/arm-servicefabric-rest",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/arm-mysql",
@@ -1702,6 +1757,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-workloads",
+      "projectFolder": "sdk/workloads/arm-workloads",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-dynatrace",
       "projectFolder": "sdk/dynatrace/arm-dynatrace",
       "versionPolicyName": "management"
@@ -1730,6 +1790,76 @@
       "packageName": "@azure/arm-confidentialledger",
       "projectFolder": "sdk/confidentialledger/arm-confidentialledger",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourceconnector",
+      "projectFolder": "sdk/resourceconnector/arm-resourceconnector",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/api-management-custom-widgets-scaffolder",
+      "projectFolder": "sdk/apimanagement/api-management-custom-widgets-scaffolder",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/api-management-custom-widgets-tools",
+      "projectFolder": "sdk/apimanagement/api-management-custom-widgets-tools",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-networkfunction",
+      "projectFolder": "sdk/networkfunction/arm-networkfunction",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-fluidrelay",
+      "projectFolder": "sdk/fluidrelay/arm-fluidrelay",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-automation",
+      "projectFolder": "sdk/automation/arm-automation",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-automanage",
+      "projectFolder": "sdk/automanage/arm-automanage",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-devcenter",
+      "projectFolder": "sdk/devcenter/arm-devcenter",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/communication-rooms",
+      "projectFolder": "sdk/communication/communication-rooms",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-connectedvmware",
+      "projectFolder": "sdk/connectedvmware/arm-connectedvmware",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-nginx",
+      "projectFolder": "sdk/nginx/arm-nginx",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-agrifood",
+      "projectFolder": "sdk/agrifood/arm-agrifood",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-chaos",
+      "projectFolder": "sdk/chaos/arm-chaos",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/functions-authentication-events",
+      "projectFolder": "sdk/entra/functions-authentication-events",
+      "versionPolicyName": "client"
     }
   ]
 }

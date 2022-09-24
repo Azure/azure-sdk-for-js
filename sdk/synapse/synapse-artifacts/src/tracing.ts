@@ -6,9 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpanFunction } from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
 
-export const createSpan = createSpanFunction({
+export const tracingClient = createTracingClient({
   namespace: "Azure.Synapse.Artifacts",
-  packagePrefix: "Microsoft.Synapse"
+  packageName: "@azure/synapse-artifacts",
+  packageVersion: "1.0.0-beta.13"
 });

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets the list of Microsoft.Compute SKUs available for your Subscription.
  *
  * @summary Gets the list of Microsoft.Compute SKUs available for your Subscription.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-07-01/examples/skus/ListAvailableResourceSkus.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/Skus/stable/2021-07-01/examples/skus/ListAvailableResourceSkus.json
  */
 async function listsAllAvailableResourceSkUs() {
   const subscriptionId = "{subscription-id}";
@@ -34,7 +34,7 @@ listsAllAvailableResourceSkUs().catch(console.error);
  * This sample demonstrates how to Gets the list of Microsoft.Compute SKUs available for your Subscription.
  *
  * @summary Gets the list of Microsoft.Compute SKUs available for your Subscription.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-07-01/examples/skus/ListAvailableResourceSkusForARegion.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/Skus/stable/2021-07-01/examples/skus/ListAvailableResourceSkusForARegion.json
  */
 async function listsAllAvailableResourceSkUsForTheSpecifiedRegion() {
   const subscriptionId = "{subscription-id}";
@@ -55,7 +55,7 @@ listsAllAvailableResourceSkUsForTheSpecifiedRegion().catch(console.error);
  * This sample demonstrates how to Gets the list of Microsoft.Compute SKUs available for your Subscription.
  *
  * @summary Gets the list of Microsoft.Compute SKUs available for your Subscription.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-07-01/examples/skus/ListAvailableResourceSkusWithExtendedLocations.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/Skus/stable/2021-07-01/examples/skus/ListAvailableResourceSkusWithExtendedLocations.json
  */
 async function listsAllAvailableResourceSkUsWithExtendedLocationInformation() {
   const subscriptionId = "{subscription-id}";

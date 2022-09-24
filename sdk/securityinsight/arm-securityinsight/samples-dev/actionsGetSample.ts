@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets the action of alert rule.
  *
  * @summary Gets the action of alert rule.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/actions/GetActionOfAlertRuleById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/actions/GetActionOfAlertRuleById.json
  */
 async function getAnActionOfAlertRule() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

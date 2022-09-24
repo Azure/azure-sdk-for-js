@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const SDK_VERSION: string = "12.10.1";
-export const SERVICE_VERSION: string = "2021-06-08";
+export const SDK_VERSION: string = "12.12.0-beta.2";
+export const SERVICE_VERSION: string = "2021-10-04";
 
 export const BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES: number = 256 * 1024 * 1024; // 256MB
 export const BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES: number = 4000 * 1024 * 1024; // 4000MB
@@ -10,6 +10,8 @@ export const BLOCK_BLOB_MAX_BLOCKS: number = 50000;
 export const DEFAULT_BLOCK_BUFFER_SIZE_BYTES: number = 8 * 1024 * 1024; // 8MB
 export const DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES: number = 4 * 1024 * 1024; // 4MB
 export const DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS: number = 5;
+
+export const REQUEST_TIMEOUT: number = 100 * 1000; // In ms
 /**
  * The OAuth scope to use with Azure Storage.
  */
@@ -208,3 +210,28 @@ export const StorageBlobLoggingAllowedQueryParameters = [
 export const BlobUsesCustomerSpecifiedEncryptionMsg = "BlobUsesCustomerSpecifiedEncryption";
 export const BlobDoesNotUseCustomerSpecifiedEncryption =
   "BlobDoesNotUseCustomerSpecifiedEncryption";
+
+/// List of ports used for path style addressing.
+/// Path style addressing means that storage account is put in URI's Path segment in instead of in host.
+export const PathStylePorts = [
+  "10000",
+  "10001",
+  "10002",
+  "10003",
+  "10004",
+  "10100",
+  "10101",
+  "10102",
+  "10103",
+  "10104",
+  "11000",
+  "11001",
+  "11002",
+  "11003",
+  "11004",
+  "11100",
+  "11101",
+  "11102",
+  "11103",
+  "11104",
+];

@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import * as sinon from "sinon";
-import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
-import { RestError } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { getError } from "./authTestUtils";
+import { AzureLogLevel, AzureLogger, getLogLevel, setLogLevel } from "@azure/logger";
 import { IdentityTestContextInterface, RawTestResponse, TestResponse } from "./httpRequestsCommon";
+import { RestError } from "@azure/core-rest-pipeline";
+import { getError } from "./authTestUtils";
 
 /**
  * Helps specify a different number of responses for Node and for the browser.

@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 import { AccessToken } from "@azure/core-auth";
-
-import { formatError } from "../../util/logging";
 import { CredentialFlowGetTokenOptions } from "../credentials";
+import { formatError } from "../../util/logging";
 import { parseCertificate } from "./msalClientCertificate";
-import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
 
 /**
  * Options that can be passed to configure MSAL to handle On-Behalf-Of authentication requests.
  * @internal
  */
-export interface MSALOnBehalfOfOptions extends MsalNodeOptions {
+export interface MsalOnBehalfOfOptions extends MsalNodeOptions {
   /**
    * A client secret that was generated for the App Registration.
    */
@@ -42,7 +41,7 @@ export class MsalOnBehalfOf extends MsalNode {
   private sendCertificateChain?: boolean;
   private clientSecret?: string;
 
-  constructor(options: MSALOnBehalfOfOptions) {
+  constructor(options: MsalOnBehalfOfOptions) {
     super(options);
     this.logger.info("Initialized MSAL's On-Behalf-Of flow");
     this.requiresConfidential = true;

@@ -3,17 +3,17 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
+import { AzureLogger, setLogLevel } from "@azure/logger";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
+import { Recorder, delay, env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { AbortController } from "@azure/abort-controller";
+import { ClientSecretCredential } from "../../../src";
+import { ConfidentialClientApplication } from "@azure/msal-node";
+import { Context } from "mocha";
+import { GetTokenOptions } from "@azure/core-auth";
+import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
 import Sinon from "sinon";
 import { assert } from "chai";
-import { GetTokenOptions } from "@azure/core-auth";
-import { AbortController } from "@azure/abort-controller";
-import { env, delay, isPlaybackMode, isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { ConfidentialClientApplication } from "@azure/msal-node";
-import { ClientSecretCredential } from "../../../src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
-import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
-import { Context } from "mocha";
-import { AzureLogger, setLogLevel } from "@azure/logger";
 
 describe("ClientSecretCredential (internal)", function () {
   let cleanup: MsalTestCleanup;

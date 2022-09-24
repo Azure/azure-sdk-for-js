@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/catalog/api/glossary/name/jsLROTesting-2/terms/import?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/catalog/api/glossary/name/jsLROTesting-2/terms/import?api-version=2022-03-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -18,11 +18,11 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "981f2d0a-1082-4909-b685-98ecb55f7fa5",
-        "x-ms-useragent": "azsdk-js-purview-catalog-rest/1.0.0-beta.4 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "139faa5b-939d-47f6-a36a-e722544567be",
+        "x-ms-useragent": "azsdk-js-purview-catalog-rest/1.0.0-beta.5 core-rest-pipeline/1.8.1 OS/Win32"
       },
-      "RequestBody": "LS0tLS0tV2ViS2l0Rm9ybUJvdW5kYXJ5SkNVaGNwMHQwVXM5d0tkcA0KQ29udGVudC1EaXNwb3NpdGlvbjogZm9ybS1kYXRhOyBuYW1lPSJmaWxlIg0KDQpyYW5kb20gY29udGVudA0KLS0tLS0tV2ViS2l0Rm9ybUJvdW5kYXJ5SkNVaGNwMHQwVXM5d0tkcC0tDQo=",
+      "RequestBody": "LS0tLS0tV2ViS2l0Rm9ybUJvdW5kYXJ5aGJCUU1RN0k1WXpzOGFNVg0KQ29udGVudC1EaXNwb3NpdGlvbjogZm9ybS1kYXRhOyBuYW1lPSJmaWxlIg0KDQpyYW5kb20gY29udGVudA0KLS0tLS0tV2ViS2l0Rm9ybUJvdW5kYXJ5aGJCUU1RN0k1WXpzOGFNVi0tDQo=",
       "StatusCode": 202,
       "ResponseHeaders": {
         "Access-Control-Allow-Headers": "authorization,content-type,x-xsrf-header,x-ms-client-request-id,lastmodifiedts",
@@ -31,23 +31,23 @@
         "Access-Control-Expose-Headers": "x-ms-request-id,lastmodifiedts",
         "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
-        "Date": "Tue, 19 Apr 2022 07:35:30 GMT",
+        "Date": "Tue, 14 Jun 2022 09:59:27 GMT",
         "Expires": "0",
-        "Location": "https://endpoint/catalog/api/glossary/terms/import/981f2d0a-1082-4909-b685-98ecb55f7fa5",
+        "Location": "https://endpoint/catalog/api/glossary/terms/import/139faa5b-939d-47f6-a36a-e722544567be",
         "Pragma": "no-cache",
         "Retry-After": "5",
         "Server": "AzurePurview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "6360485f-af44-4fee-9d8e-16139c8f6b2a",
-        "x-ms-request-id": "981f2d0a-1082-4909-b685-98ecb55f7fa5",
+        "x-ms-correlation-request-id": "1f1fb2cf-1ff6-4de5-b272-1dbc25d8f908",
+        "x-ms-request-id": "139faa5b-939d-47f6-a36a-e722544567be",
         "X-XSS-Protection": "1; mode=block"
       },
-      "ResponseBody": "eyJpZCI6Ijk4MWYyZDBhLTEwODItNDkwOS1iNjg1LTk4ZWNiNTVmN2ZhNSIsInN0YXR1cyI6IlJ1bm5pbmciLCJjcmVhdGVUaW1lIjoiMjAyMi0wNC0xOVQwNzozNTozMC40NDcrMDAwMCIsImxhc3RVcGRhdGVUaW1lIjoiMjAyMi0wNC0xOVQwNzozNTozMC40NDcrMDAwMCIsInByb3BlcnRpZXMiOnsiaW1wb3J0ZWRUZXJtcyI6IjAiLCJ0b3RhbFRlcm1zRGV0ZWN0ZWQiOiItMSJ9LCJlcnJvciI6eyJlcnJvckNvZGUiOjAsImVycm9yTWVzc2FnZSI6IiJ9fQ=="
+      "ResponseBody": "eyJpZCI6IjEzOWZhYTViLTkzOWQtNDdmNi1hMzZhLWU3MjI1NDQ1NjdiZSIsInN0YXR1cyI6IlJ1bm5pbmciLCJjcmVhdGVUaW1lIjoiMjAyMi0wNi0xNFQwOTo1OToyNy43MzkrMDAwMCIsImxhc3RVcGRhdGVUaW1lIjoiMjAyMi0wNi0xNFQwOTo1OToyNy43MzkrMDAwMCIsInByb3BlcnRpZXMiOnsiaW1wb3J0ZWRUZXJtcyI6IjAiLCJ0b3RhbFRlcm1zRGV0ZWN0ZWQiOiItMSJ9LCJlcnJvciI6eyJlcnJvckNvZGUiOjAsImVycm9yTWVzc2FnZSI6IiJ9fQ=="
     },
     {
-      "RequestUri": "https://endpoint/catalog/api/glossary/terms/import/981f2d0a-1082-4909-b685-98ecb55f7fa5?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/catalog/api/glossary/terms/import/139faa5b-939d-47f6-a36a-e722544567be?api-version=2022-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -62,9 +62,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "b52713e0-0526-483e-9c92-6642b1733915",
-        "x-ms-useragent": "azsdk-js-purview-catalog-rest/1.0.0-beta.4 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "8a281195-c32a-4357-9bab-0f6beecdf541",
+        "x-ms-useragent": "azsdk-js-purview-catalog-rest/1.0.0-beta.5 core-rest-pipeline/1.8.1 OS/Win32"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -75,23 +75,23 @@
         "Access-Control-Expose-Headers": "x-ms-request-id,lastmodifiedts",
         "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
-        "Date": "Tue, 19 Apr 2022 07:35:30 GMT",
+        "Date": "Tue, 14 Jun 2022 09:59:28 GMT",
         "Expires": "0",
-        "Location": "https://endpoint/catalog/api/glossary/terms/import/981f2d0a-1082-4909-b685-98ecb55f7fa5",
+        "Location": "https://endpoint/catalog/api/glossary/terms/import/139faa5b-939d-47f6-a36a-e722544567be",
         "Pragma": "no-cache",
         "Retry-After": "5",
         "Server": "AzurePurview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "d522c910-1316-4d66-aed8-3837ffac4368",
-        "x-ms-request-id": "b52713e0-0526-483e-9c92-6642b1733915",
+        "x-ms-correlation-request-id": "4de8de7a-65a6-481b-80e2-ee7a2d25c96e",
+        "x-ms-request-id": "8a281195-c32a-4357-9bab-0f6beecdf541",
         "X-XSS-Protection": "1; mode=block"
       },
-      "ResponseBody": "eyJpZCI6Ijk4MWYyZDBhLTEwODItNDkwOS1iNjg1LTk4ZWNiNTVmN2ZhNSIsInN0YXR1cyI6IlJ1bm5pbmciLCJjcmVhdGVUaW1lIjoiMjAyMi0wNC0xOVQwNzozNTozMC40NDcrMDAwMCIsImxhc3RVcGRhdGVUaW1lIjoiMjAyMi0wNC0xOVQwNzozNTozMC43ODkrMDAwMCIsInByb3BlcnRpZXMiOnsiaW1wb3J0ZWRUZXJtcyI6IjAiLCJ0b3RhbFRlcm1zRGV0ZWN0ZWQiOiIwIn0sImVycm9yIjp7ImVycm9yQ29kZSI6MCwiZXJyb3JNZXNzYWdlIjoiIn19"
+      "ResponseBody": "eyJpZCI6IjEzOWZhYTViLTkzOWQtNDdmNi1hMzZhLWU3MjI1NDQ1NjdiZSIsInN0YXR1cyI6IlJ1bm5pbmciLCJjcmVhdGVUaW1lIjoiMjAyMi0wNi0xNFQwOTo1OToyNy43MzkrMDAwMCIsImxhc3RVcGRhdGVUaW1lIjoiMjAyMi0wNi0xNFQwOTo1OToyNy44OTQrMDAwMCIsInByb3BlcnRpZXMiOnsiaW1wb3J0ZWRUZXJtcyI6IjAiLCJ0b3RhbFRlcm1zRGV0ZWN0ZWQiOiItMSJ9LCJlcnJvciI6eyJlcnJvckNvZGUiOjAsImVycm9yTWVzc2FnZSI6IiJ9fQ=="
     },
     {
-      "RequestUri": "https://endpoint/catalog/api/glossary/terms/import/981f2d0a-1082-4909-b685-98ecb55f7fa5?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/catalog/api/glossary/terms/import/139faa5b-939d-47f6-a36a-e722544567be?api-version=2022-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -106,9 +106,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "49a57f1f-236a-4657-915c-ecde76bfc896",
-        "x-ms-useragent": "azsdk-js-purview-catalog-rest/1.0.0-beta.4 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "b2b3e808-2040-4e18-be7a-2548d03ae851",
+        "x-ms-useragent": "azsdk-js-purview-catalog-rest/1.0.0-beta.5 core-rest-pipeline/1.8.1 OS/Win32"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -119,20 +119,20 @@
         "Access-Control-Expose-Headers": "x-ms-request-id,lastmodifiedts",
         "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
-        "Date": "Tue, 19 Apr 2022 07:35:36 GMT",
+        "Date": "Tue, 14 Jun 2022 09:59:33 GMT",
         "Expires": "0",
-        "Location": "https://endpoint/catalog/api/glossary/terms/import/981f2d0a-1082-4909-b685-98ecb55f7fa5",
+        "Location": "https://endpoint/catalog/api/glossary/terms/import/139faa5b-939d-47f6-a36a-e722544567be",
         "Pragma": "no-cache",
         "Retry-After": "5",
         "Server": "AzurePurview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "dba4b576-a06f-4b59-96c5-4b55d636d984",
-        "x-ms-request-id": "49a57f1f-236a-4657-915c-ecde76bfc896",
+        "x-ms-correlation-request-id": "97759abf-ce30-49c6-96b0-b2790b7cca24",
+        "x-ms-request-id": "b2b3e808-2040-4e18-be7a-2548d03ae851",
         "X-XSS-Protection": "1; mode=block"
       },
-      "ResponseBody": "eyJpZCI6Ijk4MWYyZDBhLTEwODItNDkwOS1iNjg1LTk4ZWNiNTVmN2ZhNSIsInN0YXR1cyI6IlN1Y2NlZWRlZCIsImNyZWF0ZVRpbWUiOiIyMDIyLTA0LTE5VDA3OjM1OjMwLjQ0NyswMDAwIiwibGFzdFVwZGF0ZVRpbWUiOiIyMDIyLTA0LTE5VDA3OjM1OjMwLjgyMyswMDAwIiwicHJvcGVydGllcyI6eyJpbXBvcnRlZFRlcm1zIjoiMCIsInRvdGFsVGVybXNEZXRlY3RlZCI6IjAifSwiZXJyb3IiOnsiZXJyb3JDb2RlIjowLCJlcnJvck1lc3NhZ2UiOiIifX0="
+      "ResponseBody": "eyJpZCI6IjEzOWZhYTViLTkzOWQtNDdmNi1hMzZhLWU3MjI1NDQ1NjdiZSIsInN0YXR1cyI6IlN1Y2NlZWRlZCIsImNyZWF0ZVRpbWUiOiIyMDIyLTA2LTE0VDA5OjU5OjI3LjczOSswMDAwIiwibGFzdFVwZGF0ZVRpbWUiOiIyMDIyLTA2LTE0VDA5OjU5OjI4LjU4MCswMDAwIiwicHJvcGVydGllcyI6eyJpbXBvcnRlZFRlcm1zIjoiMCIsInRvdGFsVGVybXNEZXRlY3RlZCI6IjAifSwiZXJyb3IiOnsiZXJyb3JDb2RlIjowLCJlcnJvck1lc3NhZ2UiOiIifX0="
     }
   ],
   "Variables": {}

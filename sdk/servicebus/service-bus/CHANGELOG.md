@@ -1,6 +1,6 @@
 # Release History
 
-## 7.6.0-beta.5 (Unreleased)
+## 7.7.2 (Unreleased)
 
 ### Features Added
 
@@ -10,7 +10,32 @@
 
 ### Other Changes
 
+## 7.7.1 (2022-09-07)
+
+### Bugs Fixed
+
+- Updating the `sendMessages` API to not batch the messages when it is just a single message. This allows users to send individual large message (>1MB) using the `sendMessages` API. [#23014](https://github.com/Azure/azure-sdk-for-js/pull/23014)
+
+## 7.7.0 (2022-08-09)
+
+### Features Added
+
+- Add Client Identifier support [tracking issue: #21902](https://github.com/Azure/azure-sdk-for-js/issues/21902)
+
+### Bugs Fixed
+
+- Fix an invalid date issue when converting a `ServiceBusMessage` with `timeToLive` property set to a `RheaMessage`.
+
+### Other Changes
+
+- Updated our `@azure/core-tracing` dependency to the latest version (v1.0.0)
+
+## 7.6.0 (2022-07-07)
+
+### Other Changes
+
 - Stop yielding empty page when listing rules using RuleManager.
+- Improves documentation for `maxAutoLockRenewalDurationInMs` with an example to clarify its usage. [#22343](https://github.com/Azure/azure-sdk-for-js/pull/22343)
 
 ## 7.6.0-beta.4 (2022-06-07)
 

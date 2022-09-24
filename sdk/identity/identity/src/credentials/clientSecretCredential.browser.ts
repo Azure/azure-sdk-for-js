@@ -1,12 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
+import {
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+} from "../util/tenantIdUtils";
+import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
 import { IdentityClient } from "../client/identityClient";
+import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { tracingClient } from "../util/tracing";
 
 const logger = credentialLogger("ClientSecretCredential");
@@ -26,6 +30,7 @@ const logger = credentialLogger("ClientSecretCredential");
 export class ClientSecretCredential implements TokenCredential {
   private identityClient: IdentityClient;
   private tenantId: string;
+  private additionallyAllowedTenantIds: string[];
   private clientId: string;
   private clientSecret: string;
 
@@ -43,10 +48,13 @@ export class ClientSecretCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     clientSecret: string,
-    options?: TokenCredentialOptions
+    options?: ClientSecretCredentialOptions
   ) {
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantId;
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants
+    );
     this.clientId = clientId;
     this.clientSecret = clientSecret;
   }
@@ -69,6 +77,12 @@ export class ClientSecretCredential implements TokenCredential {
       `${this.constructor.name}.getToken`,
       options,
       async (newOptions) => {
+        const tenantId = processMultiTenantRequest(
+          this.tenantId,
+          newOptions,
+          this.additionallyAllowedTenantIds
+        );
+
         const query = new URLSearchParams({
           response_type: "token",
           grant_type: "client_credentials",
@@ -78,9 +92,9 @@ export class ClientSecretCredential implements TokenCredential {
         });
 
         try {
-          const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
+          const urlSuffix = getIdentityTokenEndpointSuffix(tenantId!);
           const request = createPipelineRequest({
-            url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
+            url: `${this.identityClient.authorityHost}/${tenantId!}/${urlSuffix}`,
             method: "POST",
             body: query.toString(),
             headers: createHttpHeaders({

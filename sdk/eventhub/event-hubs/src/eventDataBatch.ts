@@ -5,7 +5,7 @@ import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { EventData, populateIdempotentMessageAnnotations, toRheaMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { MessageAnnotations, message, Message as RheaMessage } from "rhea-promise";
-import { isDefined, isObjectWithProperties } from "./util/typeGuards";
+import { isDefined, isObjectWithProperties } from "@azure/core-util";
 import { OperationTracingOptions, TracingContext } from "@azure/core-tracing";
 import { instrumentEventData } from "./diagnostics/instrumentEventData";
 import { throwTypeErrorIfParameterMissing } from "./util/error";

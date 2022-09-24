@@ -42,7 +42,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/generatedSchemaRegistryClientContext.ts",
+        "path": "src/generated/generatedSchemaRegistryClient.ts",
         "prefix": "packageDetails"
       },
       {
@@ -97,7 +97,7 @@
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^2.0.0",
     "@azure/identity": "^2.0.1",
-    "@microsoft/api-extractor": "7.18.11",
+    "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^7.0.2",

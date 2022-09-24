@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
+import { tracingClient } from "../tracing";
 import { SparkBatch } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SparkClientContext } from "../sparkClientContext";
+import { SparkClient } from "../sparkClient";
 import {
   SparkBatchGetSparkBatchJobsOptionalParams,
   SparkBatchGetSparkBatchJobsResponse,
@@ -26,13 +25,13 @@ import {
 
 /** Class containing SparkBatch operations. */
 export class SparkBatchImpl implements SparkBatch {
-  private readonly client: SparkClientContext;
+  private readonly client: SparkClient;
 
   /**
    * Initialize a new instance of the class SparkBatch class.
    * @param client Reference to the service client
    */
-  constructor(client: SparkClientContext) {
+  constructor(client: SparkClient) {
     this.client = client;
   }
 
@@ -43,22 +42,16 @@ export class SparkBatchImpl implements SparkBatch {
   async getSparkBatchJobs(
     options?: SparkBatchGetSparkBatchJobsOptionalParams
   ): Promise<SparkBatchGetSparkBatchJobsResponse> {
-    const { span } = createSpan("SparkClient-getSparkBatchJobs", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        getSparkBatchJobsOperationSpec
-      );
-      return result as SparkBatchGetSparkBatchJobsResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "SparkClient.getSparkBatchJobs",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getSparkBatchJobsOperationSpec
+        ) as Promise<SparkBatchGetSparkBatchJobsResponse>;
+      }
+    );
   }
 
   /**
@@ -70,25 +63,16 @@ export class SparkBatchImpl implements SparkBatch {
     sparkBatchJobOptions: SparkBatchJobOptions,
     options?: SparkBatchCreateSparkBatchJobOptionalParams
   ): Promise<SparkBatchCreateSparkBatchJobResponse> {
-    const { span } = createSpan(
-      "SparkClient-createSparkBatchJob",
-      options || {}
+    return tracingClient.withSpan(
+      "SparkClient.createSparkBatchJob",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { sparkBatchJobOptions, options },
+          createSparkBatchJobOperationSpec
+        ) as Promise<SparkBatchCreateSparkBatchJobResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { sparkBatchJobOptions, options },
-        createSparkBatchJobOperationSpec
-      );
-      return result as SparkBatchCreateSparkBatchJobResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -100,22 +84,16 @@ export class SparkBatchImpl implements SparkBatch {
     batchId: number,
     options?: SparkBatchGetSparkBatchJobOptionalParams
   ): Promise<SparkBatchGetSparkBatchJobResponse> {
-    const { span } = createSpan("SparkClient-getSparkBatchJob", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { batchId, options },
-        getSparkBatchJobOperationSpec
-      );
-      return result as SparkBatchGetSparkBatchJobResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "SparkClient.getSparkBatchJob",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { batchId, options },
+          getSparkBatchJobOperationSpec
+        ) as Promise<SparkBatchGetSparkBatchJobResponse>;
+      }
+    );
   }
 
   /**
@@ -127,25 +105,16 @@ export class SparkBatchImpl implements SparkBatch {
     batchId: number,
     options?: SparkBatchCancelSparkBatchJobOptionalParams
   ): Promise<void> {
-    const { span } = createSpan(
-      "SparkClient-cancelSparkBatchJob",
-      options || {}
+    return tracingClient.withSpan(
+      "SparkClient.cancelSparkBatchJob",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { batchId, options },
+          cancelSparkBatchJobOperationSpec
+        ) as Promise<void>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { batchId, options },
-        cancelSparkBatchJobOperationSpec
-      );
-      return result as void;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 }
 // Operation Specifications

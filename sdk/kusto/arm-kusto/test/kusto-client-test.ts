@@ -8,30 +8,25 @@
 
 import {
   env,
-  record,
-  RecorderEnvironmentSetup,
   Recorder,
-  isPlaybackMode
+  RecorderStartOptions,
+  delay,
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { Cluster, ClustersGetOptionalParams, ClustersListOptionalParams, ClusterUpdate, KustoManagementClient } from "../src";
-import { ClientSecretCredential } from "@azure/identity";
-import * as assert from "assert";
+import { assert } from "chai";
+import { Context } from "mocha";
 
-const recorderEnvSetup: RecorderEnvironmentSetup = {
-  replaceableVariables: {
-    AZURE_CLIENT_ID: "azure_client_id",
-    AZURE_CLIENT_SECRET: "azure_client_secret",
-    AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-    SUBSCRIPTION_ID: "azure_subscription_id"
-  },
-  customizationsOnRecordings: [
-    (recording: any): any =>
-      recording.replace(
-        /"access_token":"[^"]*"/g,
-        `"access_token":"access_token"`
-      )
-  ],
-  queryParametersToSkip: []
+const replaceableVariables: Record<string, string> = {
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+  SUBSCRIPTION_ID: "azure_subscription_id"
+};
+
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback: replaceableVariables
 };
 
 export const testPollingOptions = {
@@ -47,17 +42,14 @@ describe("KustoManagementClient", () => {
   let clusterName_2: string;
   let clusterParameters: Cluster;
 
-  beforeEach(async function () {
-    recorder = record(this, recorderEnvSetup);
-    subscriptionId = env.SUBSCRIPTION_ID;
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
-    const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
-    );
-    client = new KustoManagementClient(credential, subscriptionId);
-    resourceGroup = "marytest";
+    const credential = createTestCredential();
+    client = new KustoManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    resourceGroup = "myjstest";
     clusterName_1 = "mytestclustername5";
     clusterName_2 = "mytestclustername6";
     clusterParameters = {
@@ -84,6 +76,21 @@ describe("KustoManagementClient", () => {
     assert.strictEqual(res.name, clusterName_2);
   });
 
+  //kusto_client.clusters.beginUpdateAndWait
+  // it("could update tags in cluster", async () => {
+  //   const updateParams: ClusterUpdate = {
+  //     tags: {
+  //       key1: "value1",
+  //       key2: "value2",
+  //     }
+  //   };
+  //   const res = await client.clusters.beginUpdateAndWait(resourceGroup, clusterName_2, updateParams, testPollingOptions);
+  //   if (!isPlaybackMode()) {
+  //     await delay(600000);
+  //   }
+  //   assert.equal(res.name, clusterName_2);
+  // });
+
   //kusto_client.clusters.get
   it("could get cluster", async () => {
     const res = await client.clusters.get(resourceGroup, clusterName_1);
@@ -99,19 +106,6 @@ describe("KustoManagementClient", () => {
     assert.ok(resArray.length >= 2);
   });
 
-  //kusto_client.clusters.beginUpdateAndWait
-  it("could update tags in cluster", async () => {
-    const updateParams: ClusterUpdate = {
-      tags: {
-        key1: "value1",
-        key2: "value2",
-      }
-    };
-    const res = await client.clusters.beginUpdateAndWait(resourceGroup, clusterName_2, updateParams, testPollingOptions);
-    assert.strictEqual(res.name, clusterName_2);
-    assert.ok(res.tags);
-  });
-
   //kusto_client.clusters.beginDeleteAndWait
   it("could delete clusters", async () => {
     let res: any = await client.clusters.beginDeleteAndWait(resourceGroup, clusterName_1, testPollingOptions);
@@ -119,4 +113,5 @@ describe("KustoManagementClient", () => {
     res = await client.clusters.beginDeleteAndWait(resourceGroup, clusterName_2, testPollingOptions);
     assert.strictEqual(res?.body?.status, "Succeeded");
   });
+
 });

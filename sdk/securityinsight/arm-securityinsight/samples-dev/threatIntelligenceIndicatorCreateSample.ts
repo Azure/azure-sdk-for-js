@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Update a threat Intelligence indicator.
  *
  * @summary Update a threat Intelligence indicator.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/threatintelligence/UpdateThreatIntelligence.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/threatintelligence/UpdateThreatIntelligence.json
  */
 async function updateAThreatIntelligenceIndicator() {
   const subscriptionId = "bd794837-4d29-4647-9105-6339bfdb4e6a";

@@ -1,6 +1,88 @@
 # Release History
+
+## 17.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 17.0.0 (2022-09-21)
     
-## 16.0.0 (2022-06-10)
+**Features**
+
+  - Added operation Accounts.beginRenewCredentials
+  - Added operation Accounts.beginRenewCredentialsAndWait
+  - Added operation NetAppResource.queryRegionInfo
+  - Added Interface AccountsRenewCredentialsOptionalParams
+  - Added Interface EncryptionIdentity
+  - Added Interface Identity
+  - Added Interface KeyVaultProperties
+  - Added Interface NetAppResourceQueryRegionInfoOptionalParams
+  - Added Interface RegionInfo
+  - Added Interface RegionInfoAvailabilityZoneMappingsItem
+  - Added Interface RelocateVolumeRequest
+  - Added Interface UserAssignedIdentity
+  - Added Type Alias IdentityType
+  - Added Type Alias KeySource
+  - Added Type Alias KeyVaultStatus
+  - Added Type Alias NetAppResourceQueryRegionInfoResponse
+  - Added Type Alias RegionStorageToNetworkProximity
+  - Added Type Alias SmbAccessBasedEnumeration
+  - Added Type Alias SmbNonBrowsable
+  - Interface AccountEncryption has a new optional parameter identity
+  - Interface AccountEncryption has a new optional parameter keyVaultProperties
+  - Interface NetAppAccount has a new optional parameter disableShowmount
+  - Interface NetAppAccount has a new optional parameter identity
+  - Interface NetAppAccountPatch has a new optional parameter disableShowmount
+  - Interface Volume has a new optional parameter deleteBaseSnapshot
+  - Interface Volume has a new optional parameter smbAccessBasedEnumeration
+  - Interface Volume has a new optional parameter smbNonBrowsable
+  - Interface VolumeGroupVolumeProperties has a new optional parameter deleteBaseSnapshot
+  - Interface VolumeGroupVolumeProperties has a new optional parameter smbAccessBasedEnumeration
+  - Interface VolumeGroupVolumeProperties has a new optional parameter smbNonBrowsable
+  - Interface VolumesRelocateOptionalParams has a new optional parameter body
+  - Added Enum KnownIdentityType
+  - Added Enum KnownKeySource
+  - Added Enum KnownKeyVaultStatus
+  - Added Enum KnownRegionStorageToNetworkProximity
+  - Added Enum KnownSmbAccessBasedEnumeration
+  - Added Enum KnownSmbNonBrowsable
+
+**Breaking Changes**
+
+  - Interface Vault no longer has parameter location
+    
+    
+## 16.1.0 (2022-07-21)
+    
+**Features**
+
+  - Added operation Volumes.beginReestablishReplication
+  - Added operation Volumes.beginReestablishReplicationAndWait
+  - Added Interface BackupPolicy
+  - Added Interface CapacityPool
+  - Added Interface NetAppAccount
+  - Added Interface ProxyResource
+  - Added Interface ReestablishReplicationRequest
+  - Added Interface SnapshotPolicy
+  - Added Interface SubscriptionQuotaItem
+  - Added Interface SubvolumeInfo
+  - Added Interface TrackedResource
+  - Added Interface Volume
+  - Added Interface VolumeQuotaRule
+  - Added Interface VolumesReestablishReplicationOptionalParams
+  - Interface CapacityPoolPatch has a new optional parameter coolAccess
+  - Interface VolumeGroupVolumeProperties has a new optional parameter keyVaultPrivateEndpointResourceId
+  - Interface VolumePatch has a new optional parameter coolAccess
+  - Interface VolumePatch has a new optional parameter coolnessPeriod
+  - Enum KnownEncryptionKeySource has a new value MicrosoftKeyVault
+    
+    
+## 16.0.0 (2022-06-13)
     
 **Features**
 

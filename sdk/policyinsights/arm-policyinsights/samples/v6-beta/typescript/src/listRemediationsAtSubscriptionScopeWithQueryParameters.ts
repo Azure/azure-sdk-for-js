@@ -26,7 +26,7 @@ async function listRemediationsAtSubscriptionScopeWithQueryParameters() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.remediations.listForSubscription(options)) {
+  for await (let item of client.remediations.listForSubscription({ queryOptions: options })) {
     resArray.push(item);
   }
   console.log(resArray);

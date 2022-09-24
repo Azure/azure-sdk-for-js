@@ -38,12 +38,13 @@ Key links:
 
 ### Currently supported environments
 
-- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 
 ### Prerequisites
 
 - An [Azure subscription](https://azure.microsoft.com/free/)
-- A [Key Vault resource](https://docs.microsoft.com/azure/key-vault/quick-create-portal)
+- An existing [Azure Key Vault][azure_keyvault]. If you need to create a key vault, you can do so in the Azure Portal by following the steps in [this document][azure_keyvault_portal]. Alternatively, use the Azure CLI by following [these steps][azure_keyvault_cli].
+- If using Managed HSM, an existing [Azure Key Vault Managed HSM][azure_keyvault_mhsm]. If you need to create a Managed HSM, you can do so using the Azure CLI by following the steps in [this document][azure_keyvault_mhsm_cli].
 
 ### Install the package
 
@@ -66,75 +67,6 @@ npm install @types/node
 ```
 
 You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your tsconfig.json. Note that if you have enabled `compilerOptions.esModuleInterop`, `allowSyntheticDefaultImports` is enabled by default. See [TypeScript's compiler options handbook][tscompileroptions] for more information.
-
-### Configuring your Key Vault
-
-Use the [Azure CLI][azure-cli] snippet below to create/get client secret credentials.
-
-- Create a service principal and configure its access to Azure resources:
-  ```Bash
-  az ad sp create-for-rbac -n <your-application-name> --skip-assignment
-  ```
-  Output:
-  ```json
-  {
-    "appId": "generated-app-ID",
-    "displayName": "dummy-app-name",
-    "password": "random-password",
-    "tenant": "tenant-ID"
-  }
-  ```
-- Use the above returned credentials information to set **AZURE_CLIENT_ID**(appId), **AZURE_CLIENT_SECRET**(password) and **AZURE_TENANT_ID**(tenant) environment variables. The following example shows a way to do this in Bash:
-
-  ```Bash
-    export AZURE_CLIENT_ID="generated-app-ID"
-    export AZURE_CLIENT_SECRET="random-password"
-    export AZURE_TENANT_ID="tenant-ID"
-  ```
-
-- Grant the above mentioned application authorization to perform key operations on the keyvault:
-
-  ```Bash
-  az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --key-permissions backup create decrypt delete encrypt get import list purge recover restore sign unwrapKey update verify wrapKey
-  ```
-
-  > --key-permissions:
-  > Accepted values: backup, create, decrypt, delete, encrypt, get, import, list, purge, recover, restore, sign, unwrapKey, update, verify, wrapKey
-
-  If you have enabled role-based access control (RBAC) for Key Vault instead, you can find roles like "Key Vault Crypto Officer" in our [RBAC guide](https://docs.microsoft.com/azure/key-vault/general/rbac-guide).
-
-  If you are managing your keys using Managed HSM, read about its [access control](https://docs.microsoft.com/azure/key-vault/managed-hsm/access-control) that supports different built-in roles isolated from Azure Resource Manager (ARM).
-
-- Use the above mentioned Key Vault name to retrieve details of your Vault which also contains your Key Vault URL:
-  ```Bash
-  az keyvault show --name <your-key-vault-name>
-  ```
-
-### Activate your managed HSM
-
-> This section only applies if you are creating a Managed HSM. Feel free to skip to the next section if you are creating an Azure Key Vault.
-
-All data plane commands are disabled until the HSM is activated. You will not be able to create keys or assign roles. Only the designated administrators that were assigned during the create command can activate the HSM. To activate the HSM you must download the security domain.
-
-To activate your HSM you need:
-
-- Minimum 3 RSA key-pairs (maximum 10).
-- Specify minimum number of keys required to decrypt the security domain (quorum)
-  To activate the HSM you send at least 3 (maximum 10) RSA public keys to the HSM. The HSM encrypts the security domain with these keys and sends it back. Once this security domain is successfully downloaded, your HSM is ready to use. You also need to specify quorum, which is the minimum number of private keys required to decrypt the security domain.
-
-The example below shows how to use openssl to generate 3 self signed certificate.
-
-```Bash
-openssl req -newkey rsa:2048 -nodes -keyout cert_0.key -x509 -days 365 -out cert_0.cer
-openssl req -newkey rsa:2048 -nodes -keyout cert_1.key -x509 -days 365 -out cert_1.cer
-openssl req -newkey rsa:2048 -nodes -keyout cert_2.key -x509 -days 365 -out cert_2.cer
-```
-
-Use the az keyvault security-domain download command to download the security domain and activate your managed HSM. The example below uses 3 RSA key pairs (only public keys are needed for this command) and sets the quorum to 2.
-
-```Bash
-az keyvault security-domain download --hsm-name <your-key-vault-name> --sd-wrapping-keys ./certs/cert_0.cer ./certs/cert_1.cer ./certs/cert_2.cer --sd-quorum 2 --security-domain-file ContosoMHSM-SD.json
-```
 
 ## Key concepts
 
@@ -163,6 +95,10 @@ az keyvault security-domain download --hsm-name <your-key-vault-name> --sd-wrapp
 
 The Key Vault service relies on Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity/README.md) provides more details and samples to get you started.
 
+In order to interact with the Azure Key Vault service, you will need to create an instance of the `KeyClient` class, a **vault url** and a credential object. The examples shown in this document use a credential object named [`DefaultAzureCredential`][default_azure_credential], which is appropriate for most scenarios, including local development and production environments. Additionally, we recommend using a [managed identity][managed_identity] for authentication in production environments.
+
+You can find more information on different ways of authenticating and their corresponding credential types in the [Azure Identity documentation][azure_identity].
+
 Here's a quick example. First, import `DefaultAzureCredential` and `KeyClient`:
 
 ```javascript
@@ -170,16 +106,12 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { KeyClient } = require("@azure/keyvault-keys");
 ```
 
-Once these are imported, we can connect to the Azure Key Vault service. To do this, we'll need to copy some settings from the Azure Key Vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
+Once these are imported, we can next connect to the Key Vault service:
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
 const { KeyClient } = require("@azure/keyvault-keys");
 
-// DefaultAzureCredential expects the following three environment variables:
-// * AZURE_TENANT_ID: The tenant ID in Azure Active Directory
-// * AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
-// * AZURE_CLIENT_SECRET: The client secret for the registered application
 const credential = new DefaultAzureCredential();
 
 // Build the URL to reach your key vault
@@ -889,9 +821,9 @@ setLogLevel("info");
 
 You can find more code samples through the following links:
 
-- [KeyVault Keys Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/javascript)
-- [KeyVault Keys Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/typescript)
-- [KeyVault Keys Test Cases](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/test/)
+- [Key Vault Keys Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/javascript)
+- [Key Vault Keys Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/typescript)
+- [Key Vault Keys Test Cases](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/test/)
 
 ## Contributing
 
@@ -907,9 +839,14 @@ If you'd like to contribute to this library, please read the [contributing guide
 [docs-service]: https://azure.microsoft.com/services/key-vault/
 [samples]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples
 [tscompileroptions]: https://www.typescriptlang.org/docs/handbook/compiler-options.html
-[azure-sub]: https://azure.microsoft.com/free/
-[azure-cli]: https://docs.microsoft.com/cli/azure
-[createkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [softdelete]: https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete
+[azure_keyvault]: https://docs.microsoft.com/azure/key-vault/general/overview
+[azure_keyvault_cli]: https://docs.microsoft.com/azure/key-vault/general/quick-create-cli
+[azure_keyvault_portal]: https://docs.microsoft.com/azure/key-vault/general/quick-create-portal
+[azure_keyvault_mhsm]: https://docs.microsoft.com/azure/key-vault/managed-hsm/overview
+[azure_keyvault_mhsm_cli]: https://docs.microsoft.com/azure/key-vault/managed-hsm/quick-create-cli
+[default_azure_credential]: https://docs.microsoft.com/java/api/overview/azure/identity-readme?view=azure-java-stable#defaultazurecredential
+[managed_identity]: https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
+[azure_identity]: https://docs.microsoft.com/java/api/overview/azure/identity-readme?view=azure-java-stable
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-keys%2FREADME.png)

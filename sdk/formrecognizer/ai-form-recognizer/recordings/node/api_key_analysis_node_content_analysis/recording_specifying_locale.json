@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-layout:analyze?locale=en-US\u0026api-version=2022-06-30-preview",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-layout:analyze?locale=en-US\u0026api-version=2022-08-31",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,108 +10,108 @@
         "Content-Length": "73",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v16.15.0 OS/(x64-Linux-5.18.1-zen1-1-zen)",
-        "x-ms-client-request-id": "e0854d0a-cb4e-455c-9202-dc508e5d1061"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
+        "x-ms-client-request-id": "99c3edf8-a133-4385-833b-a0ac945e8289"
       },
       "RequestBody": {
         "urlSource": "https://storageaccount/testingdata/Invoice_1.pdf?sastoken"
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "20902979-7b9a-4285-8f55-cb392f9f6d2c",
+        "apim-request-id": "7af98ad3-7e1c-498d-81fa-0894244013f6",
         "Content-Length": "0",
-        "Date": "Thu, 02 Jun 2022 15:23:32 GMT",
-        "Operation-Location": "https://endpoint/formrecognizer/documentModels/prebuilt-layout/analyzeResults/20902979-7b9a-4285-8f55-cb392f9f6d2c?api-version=2022-06-30-preview",
+        "Date": "Thu, 08 Sep 2022 00:29:06 GMT",
+        "Operation-Location": "https://endpoint/formrecognizer/documentModels/prebuilt-layout/analyzeResults/7af98ad3-7e1c-498d-81fa-0894244013f6?api-version=2022-08-31",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "1407"
+        "x-envoy-upstream-service-time": "288"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-layout/analyzeResults/20902979-7b9a-4285-8f55-cb392f9f6d2c?api-version=2022-06-30-preview",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-layout/analyzeResults/7af98ad3-7e1c-498d-81fa-0894244013f6?api-version=2022-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v16.15.0 OS/(x64-Linux-5.18.1-zen1-1-zen)",
-        "x-ms-client-request-id": "10951a50-4ccf-4f93-bdab-ee2bd0da3f49"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
+        "x-ms-client-request-id": "2b0d78b8-d119-4716-ac0f-b7192af260e5"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "e9fe0e27-d0b3-4b98-a299-793c16b30d4a",
+        "apim-request-id": "c355e4e9-a1c9-42b3-ad1b-1249ea6226e1",
         "Content-Length": "106",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 02 Jun 2022 15:23:32 GMT",
+        "Date": "Thu, 08 Sep 2022 00:29:06 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "18"
+        "x-envoy-upstream-service-time": "15"
       },
       "ResponseBody": {
         "status": "running",
-        "createdDateTime": "2022-06-02T15:23:32Z",
-        "lastUpdatedDateTime": "2022-06-02T15:23:32Z"
+        "createdDateTime": "2022-09-08T00:29:06Z",
+        "lastUpdatedDateTime": "2022-09-08T00:29:06Z"
       }
     },
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-layout/analyzeResults/20902979-7b9a-4285-8f55-cb392f9f6d2c?api-version=2022-06-30-preview",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-layout/analyzeResults/7af98ad3-7e1c-498d-81fa-0894244013f6?api-version=2022-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v16.15.0 OS/(x64-Linux-5.18.1-zen1-1-zen)",
-        "x-ms-client-request-id": "f1025560-e3ff-4c2a-a35d-c724b16c44a2"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
+        "x-ms-client-request-id": "9af7c2d4-d020-489c-acf3-0bed964e868b"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "2715c682-31b0-4bc2-bcd8-38f60f2119ad",
+        "apim-request-id": "faced707-e154-40b3-90b1-6380d73271be",
         "Content-Length": "106",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 02 Jun 2022 15:23:32 GMT",
+        "Date": "Thu, 08 Sep 2022 00:29:06 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "12"
+      },
+      "ResponseBody": {
+        "status": "running",
+        "createdDateTime": "2022-09-08T00:29:06Z",
+        "lastUpdatedDateTime": "2022-09-08T00:29:06Z"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-layout/analyzeResults/7af98ad3-7e1c-498d-81fa-0894244013f6?api-version=2022-08-31",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
+        "x-ms-client-request-id": "555f78a7-27d1-4aea-9256-45ea8281c8ed"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "992db872-fc64-4b50-bd88-9138ade936a2",
+        "Content-Length": "12883",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 08 Sep 2022 00:29:11 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
         "x-envoy-upstream-service-time": "22"
       },
       "ResponseBody": {
-        "status": "running",
-        "createdDateTime": "2022-06-02T15:23:32Z",
-        "lastUpdatedDateTime": "2022-06-02T15:23:32Z"
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-layout/analyzeResults/20902979-7b9a-4285-8f55-cb392f9f6d2c?api-version=2022-06-30-preview",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Connection": "keep-alive",
-        "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v16.15.0 OS/(x64-Linux-5.18.1-zen1-1-zen)",
-        "x-ms-client-request-id": "f4552b50-991e-45d7-90eb-5b51fbeb6262"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "06d232bc-0cbd-4983-b774-74d8813702f6",
-        "Content-Length": "33331",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 02 Jun 2022 15:23:37 GMT",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "50"
-      },
-      "ResponseBody": {
         "status": "succeeded",
-        "createdDateTime": "2022-06-02T15:23:32Z",
-        "lastUpdatedDateTime": "2022-06-02T15:23:35Z",
+        "createdDateTime": "2022-09-08T00:29:06Z",
+        "lastUpdatedDateTime": "2022-09-08T00:29:09Z",
         "analyzeResult": {
-          "apiVersion": "2022-06-30-preview",
+          "apiVersion": "2022-08-31",
           "modelId": "prebuilt-layout",
           "stringIndexType": "textElements",
           "content": "Contoso\nAddress:\n1 Redmond way Suite\n6000 Redmond, WA\n99243\nInvoice For: Microsoft\n1020 Enterprise Way\nSunnayvale, CA 87659\nInvoice Number\nInvoice Date\nInvoice Due Date\nCharges\nVAT ID\n34278587\n6/18/2017\n6/24/2017\n$56,651.49\nPT",
@@ -1103,13 +1103,13 @@
                     {
                       "pageNumber": 1,
                       "polygon": [
-                        0.5064,
-                        2.7899,
-                        1.8833,
-                        2.7833,
-                        1.8905,
-                        3.3116,
-                        0.4991,
+                        0.5054,
+                        2.7896,
+                        1.8976,
+                        2.7896,
+                        1.8976,
+                        3.3181,
+                        0.4981,
                         3.3181
                       ]
                     }
@@ -1130,14 +1130,14 @@
                     {
                       "pageNumber": 1,
                       "polygon": [
-                        1.8833,
-                        2.7833,
-                        3.3037,
-                        2.7899,
-                        3.3037,
-                        3.3116,
-                        1.8905,
-                        3.3116
+                        1.8976,
+                        2.7896,
+                        3.3043,
+                        2.7896,
+                        3.2971,
+                        3.3181,
+                        1.8976,
+                        3.3181
                       ]
                     }
                   ],
@@ -1157,14 +1157,14 @@
                     {
                       "pageNumber": 1,
                       "polygon": [
-                        3.3037,
-                        2.7899,
-                        4.7023,
-                        2.7899,
-                        4.7023,
-                        3.3116,
-                        3.3037,
-                        3.3116
+                        3.3043,
+                        2.7896,
+                        4.6965,
+                        2.7896,
+                        4.6965,
+                        3.3181,
+                        3.2971,
+                        3.3181
                       ]
                     }
                   ],
@@ -1184,14 +1184,14 @@
                     {
                       "pageNumber": 1,
                       "polygon": [
-                        4.7023,
-                        2.7899,
-                        6.101,
-                        2.7833,
-                        6.101,
+                        4.6965,
+                        2.7896,
+                        6.1033,
+                        2.7896,
+                        6.1033,
                         3.3181,
-                        4.7023,
-                        3.3116
+                        4.6965,
+                        3.3181
                       ]
                     }
                   ],
@@ -1211,13 +1211,13 @@
                     {
                       "pageNumber": 1,
                       "polygon": [
-                        6.101,
-                        2.7833,
-                        7.4851,
-                        2.7833,
-                        7.4924,
+                        6.1033,
+                        2.7896,
+                        7.4881,
+                        2.7896,
+                        7.4881,
                         3.3181,
-                        6.101,
+                        6.1033,
                         3.3181
                       ]
                     }
@@ -1238,14 +1238,14 @@
                     {
                       "pageNumber": 1,
                       "polygon": [
-                        0.4991,
+                        0.4981,
                         3.3181,
-                        1.8905,
-                        3.3116,
-                        1.8905,
-                        3.8529,
-                        0.4991,
-                        3.8529
+                        1.8976,
+                        3.3181,
+                        1.8976,
+                        3.8533,
+                        0.4981,
+                        3.8533
                       ]
                     }
                   ],
@@ -1265,14 +1265,14 @@
                     {
                       "pageNumber": 1,
                       "polygon": [
-                        1.8905,
-                        3.3116,
-                        3.3037,
-                        3.3116,
-                        3.3037,
-                        3.8529,
-                        1.8905,
-                        3.8529
+                        1.8976,
+                        3.3181,
+                        3.2971,
+                        3.3181,
+                        3.2971,
+                        3.8533,
+                        1.8976,
+                        3.8533
                       ]
                     }
                   ],
@@ -1292,14 +1292,14 @@
                     {
                       "pageNumber": 1,
                       "polygon": [
-                        3.3037,
-                        3.3116,
-                        4.7023,
-                        3.3116,
-                        4.7023,
-                        3.8529,
-                        3.3037,
-                        3.8529
+                        3.2971,
+                        3.3181,
+                        4.6965,
+                        3.3181,
+                        4.6965,
+                        3.8533,
+                        3.2971,
+                        3.8533
                       ]
                     }
                   ],
@@ -1319,14 +1319,14 @@
                     {
                       "pageNumber": 1,
                       "polygon": [
-                        4.7023,
-                        3.3116,
-                        6.101,
+                        4.6965,
                         3.3181,
-                        6.101,
-                        3.8529,
-                        4.7023,
-                        3.8529
+                        6.1033,
+                        3.3181,
+                        6.1033,
+                        3.8533,
+                        4.6965,
+                        3.8533
                       ]
                     }
                   ],
@@ -1346,14 +1346,14 @@
                     {
                       "pageNumber": 1,
                       "polygon": [
-                        6.101,
+                        6.1033,
                         3.3181,
-                        7.4924,
+                        7.4881,
                         3.3181,
-                        7.4924,
-                        3.8529,
-                        6.101,
-                        3.8529
+                        7.4954,
+                        3.8533,
+                        6.1033,
+                        3.8533
                       ]
                     }
                   ],
@@ -1369,14 +1369,14 @@
                 {
                   "pageNumber": 1,
                   "polygon": [
-                    0.4955,
-                    2.7804,
-                    7.4929,
-                    2.7811,
-                    7.4936,
-                    3.858,
-                    0.4957,
-                    3.8571
+                    0.4916,
+                    2.7693,
+                    7.5266,
+                    2.7711,
+                    7.5265,
+                    3.8682,
+                    0.4908,
+                    3.8672
                   ]
                 }
               ],
@@ -1592,13 +1592,13 @@
                 {
                   "pageNumber": 1,
                   "polygon": [
-                    0.5064,
-                    2.7899,
-                    1.8833,
-                    2.7833,
-                    1.8905,
-                    3.3116,
-                    0.4991,
+                    0.5054,
+                    2.7896,
+                    1.8976,
+                    2.7896,
+                    1.8976,
+                    3.3181,
+                    0.4981,
                     3.3181
                   ]
                 }
@@ -1616,14 +1616,14 @@
                 {
                   "pageNumber": 1,
                   "polygon": [
-                    1.8833,
-                    2.7833,
-                    3.3037,
-                    2.7899,
-                    3.3037,
-                    3.3116,
-                    1.8905,
-                    3.3116
+                    1.8976,
+                    2.7896,
+                    3.3043,
+                    2.7896,
+                    3.2971,
+                    3.3181,
+                    1.8976,
+                    3.3181
                   ]
                 }
               ],
@@ -1640,14 +1640,14 @@
                 {
                   "pageNumber": 1,
                   "polygon": [
-                    3.3037,
-                    2.7899,
-                    4.7023,
-                    2.7899,
-                    4.7023,
-                    3.3116,
-                    3.3037,
-                    3.3116
+                    3.3043,
+                    2.7896,
+                    4.6965,
+                    2.7896,
+                    4.6965,
+                    3.3181,
+                    3.2971,
+                    3.3181
                   ]
                 }
               ],
@@ -1664,14 +1664,14 @@
                 {
                   "pageNumber": 1,
                   "polygon": [
-                    4.7023,
-                    2.7899,
-                    6.101,
-                    2.7833,
-                    6.101,
+                    4.6965,
+                    2.7896,
+                    6.1033,
+                    2.7896,
+                    6.1033,
                     3.3181,
-                    4.7023,
-                    3.3116
+                    4.6965,
+                    3.3181
                   ]
                 }
               ],
@@ -1688,13 +1688,13 @@
                 {
                   "pageNumber": 1,
                   "polygon": [
-                    6.101,
-                    2.7833,
-                    7.4851,
-                    2.7833,
-                    7.4924,
+                    6.1033,
+                    2.7896,
+                    7.4881,
+                    2.7896,
+                    7.4881,
                     3.3181,
-                    6.101,
+                    6.1033,
                     3.3181
                   ]
                 }
@@ -1712,14 +1712,14 @@
                 {
                   "pageNumber": 1,
                   "polygon": [
-                    0.4991,
+                    0.4981,
                     3.3181,
-                    1.8905,
-                    3.3116,
-                    1.8905,
-                    3.8529,
-                    0.4991,
-                    3.8529
+                    1.8976,
+                    3.3181,
+                    1.8976,
+                    3.8533,
+                    0.4981,
+                    3.8533
                   ]
                 }
               ],
@@ -1736,14 +1736,14 @@
                 {
                   "pageNumber": 1,
                   "polygon": [
-                    1.8905,
-                    3.3116,
-                    3.3037,
-                    3.3116,
-                    3.3037,
-                    3.8529,
-                    1.8905,
-                    3.8529
+                    1.8976,
+                    3.3181,
+                    3.2971,
+                    3.3181,
+                    3.2971,
+                    3.8533,
+                    1.8976,
+                    3.8533
                   ]
                 }
               ],
@@ -1760,14 +1760,14 @@
                 {
                   "pageNumber": 1,
                   "polygon": [
-                    3.3037,
-                    3.3116,
-                    4.7023,
-                    3.3116,
-                    4.7023,
-                    3.8529,
-                    3.3037,
-                    3.8529
+                    3.2971,
+                    3.3181,
+                    4.6965,
+                    3.3181,
+                    4.6965,
+                    3.8533,
+                    3.2971,
+                    3.8533
                   ]
                 }
               ],
@@ -1784,14 +1784,14 @@
                 {
                   "pageNumber": 1,
                   "polygon": [
-                    4.7023,
-                    3.3116,
-                    6.101,
+                    4.6965,
                     3.3181,
-                    6.101,
-                    3.8529,
-                    4.7023,
-                    3.8529
+                    6.1033,
+                    3.3181,
+                    6.1033,
+                    3.8533,
+                    4.6965,
+                    3.8533
                   ]
                 }
               ],
@@ -1808,14 +1808,14 @@
                 {
                   "pageNumber": 1,
                   "polygon": [
-                    6.101,
+                    6.1033,
                     3.3181,
-                    7.4924,
+                    7.4881,
                     3.3181,
-                    7.4924,
-                    3.8529,
-                    6.101,
-                    3.8529
+                    7.4954,
+                    3.8533,
+                    6.1033,
+                    3.8533
                   ]
                 }
               ],

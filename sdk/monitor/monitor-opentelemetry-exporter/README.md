@@ -12,7 +12,7 @@ This exporter package assumes your application is [already instrumented](https:/
 
 ### Currently supported environments
 
-- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - Latest versions of Safari, Chrome, Edge, and Firefox.
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
@@ -59,7 +59,27 @@ provider.addSpanProcessor(
 
 ### Metrics
 
-Coming Soon
+Add the exporter to your existing OpenTelemetry tracer provider (`NodeTracerProvider` / `BasicTracerProvider`)
+
+```js
+const { MeterProvider, PeriodicExportingMetricReader } = require("@opentelemetry/sdk-metrics-base");
+const { Resource } = require("@opentelemetry/resources");
+const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions");
+const { AzureMonitorMetricExporter } = require("@azure/monitor-opentelemetry-exporter");
+
+// Add the exporter into the MetricReader and register it with the MeterProvider
+const provider = new MeterProvider();
+const exporter = new AzureMonitorMetricExporter({
+  connectionString:
+    process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
+});
+const metricReaderOptions = {
+  exporter: exporter,
+};
+const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
+provider.addMetricReader(metricReader);
+);
+```
 
 ### Logs
 

@@ -28,7 +28,7 @@ async function createOrUpdatePolicyAssignmentById() {
     enforcementMode: "Default",
     metadata: { assignedBy: "Cheapskate Boss" },
     parameters: {
-      listOfAllowedSKUs: {}
+      listOfAllowedSKUs: { value: ["Standard_GRS", "Standard_LRS"] }
     },
     policyDefinitionId:
       "/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1"
@@ -63,7 +63,7 @@ async function createOrUpdatePolicyAssignmentWithAManagedIdentityById() {
     location: "eastus",
     metadata: { assignedBy: "Cheapskate Boss" },
     parameters: {
-      listOfAllowedSKUs: {}
+      listOfAllowedSKUs: { value: ["Standard_GRS", "Standard_LRS"] }
     },
     policyDefinitionId:
       "/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1"

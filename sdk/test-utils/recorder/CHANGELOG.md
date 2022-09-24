@@ -16,10 +16,12 @@
 
 - Fixed redirects not being passed to the test proxy in the browser. [#21713](https://github.com/Azure/azure-sdk-for-js/pull/21713)
 - The value of the `TEST_MODE` environment variable is no longer case-sensitive. [#22118](https://github.com/Azure/azure-sdk-for-js/pull/22118)
+- Fixed "ReferenceError: atob is not defined" in node where the `atob` method isn't available([deprecated](https://stackoverflow.com/questions/23097928/node-js-throws-btoa-is-not-defined-error)) in the environment, which masked the actual error that is supposed to throw from the test proxy tool. [#22266](https://github.com/Azure/azure-sdk-for-js/issues/22266)
 
 ### Other Changes
 
 - Improved formatting of error messages returned by the test proxy. [#21575](https://github.com/Azure/azure-sdk-for-js/pull/21575)
+- An error is now thrown if the RECORDINGS_RELATIVE_PATH is not set in browser mode. [#23057](https://github.com/Azure/azure-sdk-for-js/pull/23057)
 
 ## 2.0.0 (2022-04-11)
 

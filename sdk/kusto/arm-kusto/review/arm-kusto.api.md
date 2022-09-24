@@ -16,15 +16,17 @@ export interface AcceptedAudiences {
 }
 
 // @public
-export type AttachedDatabaseConfiguration = ProxyResource & {
+export interface AttachedDatabaseConfiguration extends ProxyResource {
+    readonly attachedDatabaseNames?: string[];
+    clusterResourceId?: string;
+    databaseName?: string;
+    databaseNameOverride?: string;
+    databaseNamePrefix?: string;
+    defaultPrincipalsModificationKind?: DefaultPrincipalsModificationKind;
     location?: string;
     readonly provisioningState?: ProvisioningState;
-    databaseName?: string;
-    clusterResourceId?: string;
-    readonly attachedDatabaseNames?: string[];
-    defaultPrincipalsModificationKind?: DefaultPrincipalsModificationKind;
     tableLevelSharingProperties?: TableLevelSharingProperties;
-};
+}
 
 // @public
 export interface AttachedDatabaseConfigurationListResult {
@@ -119,6 +121,9 @@ export type AzureSkuTier = string;
 export type BlobStorageEventType = string;
 
 // @public
+export type CallerRole = string;
+
+// @public
 export interface CheckNameRequest {
     name: string;
     type: Type;
@@ -146,37 +151,37 @@ export interface CloudErrorBody {
 }
 
 // @public
-export type Cluster = TrackedResource & {
-    sku: AzureSku;
-    readonly systemData?: SystemData;
-    zones?: string[];
-    identity?: Identity;
-    readonly etag?: string;
-    readonly state?: State;
-    readonly provisioningState?: ProvisioningState;
-    readonly uri?: string;
-    readonly dataIngestionUri?: string;
-    readonly stateReason?: string;
-    trustedExternalTenants?: TrustedExternalTenant[];
-    optimizedAutoscale?: OptimizedAutoscale;
-    enableDiskEncryption?: boolean;
-    enableStreamingIngest?: boolean;
-    virtualNetworkConfiguration?: VirtualNetworkConfiguration;
-    keyVaultProperties?: KeyVaultProperties;
-    enablePurge?: boolean;
-    readonly languageExtensions?: LanguageExtensionsList;
-    enableDoubleEncryption?: boolean;
-    publicNetworkAccess?: PublicNetworkAccess;
-    allowedIpRangeList?: string[];
-    engineType?: EngineType;
+export interface Cluster extends TrackedResource {
     acceptedAudiences?: AcceptedAudiences[];
-    enableAutoStop?: boolean;
-    restrictOutboundNetworkAccess?: ClusterNetworkAccessFlag;
     allowedFqdnList?: string[];
-    publicIPType?: PublicIPType;
-    virtualClusterGraduationProperties?: string;
+    allowedIpRangeList?: string[];
+    readonly dataIngestionUri?: string;
+    enableAutoStop?: boolean;
+    enableDiskEncryption?: boolean;
+    enableDoubleEncryption?: boolean;
+    enablePurge?: boolean;
+    enableStreamingIngest?: boolean;
+    engineType?: EngineType;
+    readonly etag?: string;
+    identity?: Identity;
+    keyVaultProperties?: KeyVaultProperties;
+    readonly languageExtensions?: LanguageExtensionsList;
+    optimizedAutoscale?: OptimizedAutoscale;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+    readonly provisioningState?: ProvisioningState;
+    publicIPType?: PublicIPType;
+    publicNetworkAccess?: PublicNetworkAccess;
+    restrictOutboundNetworkAccess?: ClusterNetworkAccessFlag;
+    sku: AzureSku;
+    readonly state?: State;
+    readonly stateReason?: string;
+    readonly systemData?: SystemData;
+    trustedExternalTenants?: TrustedExternalTenant[];
+    readonly uri?: string;
+    virtualClusterGraduationProperties?: string;
+    virtualNetworkConfiguration?: VirtualNetworkConfiguration;
+    zones?: string[];
+}
 
 // @public
 export interface ClusterCheckNameRequest {
@@ -193,16 +198,16 @@ export interface ClusterListResult {
 export type ClusterNetworkAccessFlag = string;
 
 // @public
-export type ClusterPrincipalAssignment = ProxyResource & {
+export interface ClusterPrincipalAssignment extends ProxyResource {
+    readonly aadObjectId?: string;
     principalId?: string;
+    readonly principalName?: string;
+    principalType?: PrincipalType;
+    readonly provisioningState?: ProvisioningState;
     role?: ClusterPrincipalRole;
     tenantId?: string;
-    principalType?: PrincipalType;
     readonly tenantName?: string;
-    readonly principalName?: string;
-    readonly provisioningState?: ProvisioningState;
-    readonly aadObjectId?: string;
-};
+}
 
 // @public
 export interface ClusterPrincipalAssignmentCheckNameRequest {
@@ -438,38 +443,38 @@ export interface ClustersUpdateOptionalParams extends coreClient.OperationOption
 export type ClustersUpdateResponse = Cluster;
 
 // @public
-export type ClusterUpdate = Resource & {
+export interface ClusterUpdate extends Resource {
+    acceptedAudiences?: AcceptedAudiences[];
+    allowedFqdnList?: string[];
+    allowedIpRangeList?: string[];
+    readonly dataIngestionUri?: string;
+    enableAutoStop?: boolean;
+    enableDiskEncryption?: boolean;
+    enableDoubleEncryption?: boolean;
+    enablePurge?: boolean;
+    enableStreamingIngest?: boolean;
+    engineType?: EngineType;
+    identity?: Identity;
+    keyVaultProperties?: KeyVaultProperties;
+    readonly languageExtensions?: LanguageExtensionsList;
+    location?: string;
+    optimizedAutoscale?: OptimizedAutoscale;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    publicIPType?: PublicIPType;
+    publicNetworkAccess?: PublicNetworkAccess;
+    restrictOutboundNetworkAccess?: ClusterNetworkAccessFlag;
+    sku?: AzureSku;
+    readonly state?: State;
+    readonly stateReason?: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location?: string;
-    sku?: AzureSku;
-    identity?: Identity;
-    readonly state?: State;
-    readonly provisioningState?: ProvisioningState;
-    readonly uri?: string;
-    readonly dataIngestionUri?: string;
-    readonly stateReason?: string;
     trustedExternalTenants?: TrustedExternalTenant[];
-    optimizedAutoscale?: OptimizedAutoscale;
-    enableDiskEncryption?: boolean;
-    enableStreamingIngest?: boolean;
-    virtualNetworkConfiguration?: VirtualNetworkConfiguration;
-    keyVaultProperties?: KeyVaultProperties;
-    enablePurge?: boolean;
-    readonly languageExtensions?: LanguageExtensionsList;
-    enableDoubleEncryption?: boolean;
-    publicNetworkAccess?: PublicNetworkAccess;
-    allowedIpRangeList?: string[];
-    engineType?: EngineType;
-    acceptedAudiences?: AcceptedAudiences[];
-    enableAutoStop?: boolean;
-    restrictOutboundNetworkAccess?: ClusterNetworkAccessFlag;
-    allowedFqdnList?: string[];
-    publicIPType?: PublicIPType;
+    readonly uri?: string;
     virtualClusterGraduationProperties?: string;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+    virtualNetworkConfiguration?: VirtualNetworkConfiguration;
+}
 
 // @public (undocumented)
 export interface ComponentsSgqdofSchemasIdentityPropertiesUserassignedidentitiesAdditionalproperties {
@@ -484,10 +489,10 @@ export type Compression = string;
 export type CreatedByType = string;
 
 // @public
-export type Database = ProxyResource & {
-    location?: string;
+export interface Database extends ProxyResource {
     kind: Kind;
-};
+    location?: string;
+}
 
 // @public
 export interface DatabaseListResult {
@@ -506,16 +511,16 @@ export interface DatabasePrincipal {
 }
 
 // @public
-export type DatabasePrincipalAssignment = ProxyResource & {
+export interface DatabasePrincipalAssignment extends ProxyResource {
+    readonly aadObjectId?: string;
     principalId?: string;
+    readonly principalName?: string;
+    principalType?: PrincipalType;
+    readonly provisioningState?: ProvisioningState;
     role?: DatabasePrincipalRole;
     tenantId?: string;
-    principalType?: PrincipalType;
     readonly tenantName?: string;
-    readonly principalName?: string;
-    readonly provisioningState?: ProvisioningState;
-    readonly aadObjectId?: string;
-};
+}
 
 // @public
 export interface DatabasePrincipalAssignmentCheckNameRequest {
@@ -626,6 +631,7 @@ export type DatabasesCheckNameAvailabilityResponse = CheckNameResult;
 
 // @public
 export interface DatabasesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    callerRole?: CallerRole;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -645,6 +651,9 @@ export interface DatabasesGetOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type DatabasesGetResponse = DatabaseUnion;
+
+// @public
+export type DatabaseShareOrigin = string;
 
 // @public
 export interface DatabasesListByClusterOptionalParams extends coreClient.OperationOptions {
@@ -679,6 +688,7 @@ export interface DatabasesUpdateHeaders {
 
 // @public
 export interface DatabasesUpdateOptionalParams extends coreClient.OperationOptions {
+    callerRole?: CallerRole;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -690,10 +700,10 @@ export type DatabasesUpdateResponse = DatabaseUnion;
 export type DatabaseUnion = Database | ReadWriteDatabase | ReadOnlyFollowingDatabase;
 
 // @public
-export type DataConnection = ProxyResource & {
-    location?: string;
+export interface DataConnection extends ProxyResource {
     kind: DataConnectionKind;
-};
+    location?: string;
+}
 
 // @public
 export interface DataConnectionCheckNameRequest {
@@ -825,39 +835,42 @@ export interface EndpointDetail {
 export type EngineType = string;
 
 // @public
-export type EventGridDataConnection = DataConnection & {
-    storageAccountResourceId?: string;
+export interface EventGridDataConnection extends DataConnection {
+    blobStorageEventType?: BlobStorageEventType;
+    consumerGroup?: string;
+    databaseRouting?: DatabaseRouting;
+    dataFormat?: EventGridDataFormat;
     eventGridResourceId?: string;
     eventHubResourceId?: string;
-    consumerGroup?: string;
-    tableName?: string;
-    mappingRuleName?: string;
-    dataFormat?: EventGridDataFormat;
     ignoreFirstRecord?: boolean;
-    blobStorageEventType?: BlobStorageEventType;
-    managedIdentityResourceId?: string;
+    kind: "EventGrid";
     readonly managedIdentityObjectId?: string;
-    databaseRouting?: DatabaseRouting;
+    managedIdentityResourceId?: string;
+    mappingRuleName?: string;
     readonly provisioningState?: ProvisioningState;
-};
+    storageAccountResourceId?: string;
+    tableName?: string;
+}
 
 // @public
 export type EventGridDataFormat = string;
 
 // @public
-export type EventHubDataConnection = DataConnection & {
-    eventHubResourceId?: string;
-    consumerGroup?: string;
-    tableName?: string;
-    mappingRuleName?: string;
-    dataFormat?: EventHubDataFormat;
-    eventSystemProperties?: string[];
+export interface EventHubDataConnection extends DataConnection {
     compression?: Compression;
-    readonly provisioningState?: ProvisioningState;
-    managedIdentityResourceId?: string;
-    readonly managedIdentityObjectId?: string;
+    consumerGroup?: string;
     databaseRouting?: DatabaseRouting;
-};
+    dataFormat?: EventHubDataFormat;
+    eventHubResourceId?: string;
+    eventSystemProperties?: string[];
+    kind: "EventHub";
+    readonly managedIdentityObjectId?: string;
+    managedIdentityResourceId?: string;
+    mappingRuleName?: string;
+    readonly provisioningState?: ProvisioningState;
+    retrievalStartDate?: Date;
+    tableName?: string;
+}
 
 // @public
 export type EventHubDataFormat = string;
@@ -867,6 +880,8 @@ export interface FollowerDatabaseDefinition {
     attachedDatabaseConfigurationName: string;
     clusterResourceId: string;
     readonly databaseName?: string;
+    readonly databaseShareOrigin?: DatabaseShareOrigin;
+    readonly tableLevelSharingProperties?: TableLevelSharingProperties;
 }
 
 // @public
@@ -888,17 +903,19 @@ export interface Identity {
 export type IdentityType = string;
 
 // @public
-export type IotHubDataConnection = DataConnection & {
-    iotHubResourceId?: string;
+export interface IotHubDataConnection extends DataConnection {
     consumerGroup?: string;
-    tableName?: string;
-    mappingRuleName?: string;
+    databaseRouting?: DatabaseRouting;
     dataFormat?: IotHubDataFormat;
     eventSystemProperties?: string[];
-    sharedAccessPolicyName?: string;
-    databaseRouting?: DatabaseRouting;
+    iotHubResourceId?: string;
+    kind: "IotHub";
+    mappingRuleName?: string;
     readonly provisioningState?: ProvisioningState;
-};
+    retrievalStartDate?: Date;
+    sharedAccessPolicyName?: string;
+    tableName?: string;
+}
 
 // @public
 export type IotHubDataFormat = string;
@@ -916,351 +933,247 @@ export type Kind = string;
 
 // @public
 export enum KnownAzureScaleType {
-    // (undocumented)
     Automatic = "automatic",
-    // (undocumented)
     Manual = "manual",
-    // (undocumented)
     None = "none"
 }
 
 // @public
 export enum KnownAzureSkuName {
-    // (undocumented)
     DevNoSLAStandardD11V2 = "Dev(No SLA)_Standard_D11_v2",
-    // (undocumented)
     DevNoSLAStandardE2AV4 = "Dev(No SLA)_Standard_E2a_v4",
-    // (undocumented)
     StandardD11V2 = "Standard_D11_v2",
-    // (undocumented)
     StandardD12V2 = "Standard_D12_v2",
-    // (undocumented)
     StandardD13V2 = "Standard_D13_v2",
-    // (undocumented)
     StandardD14V2 = "Standard_D14_v2",
-    // (undocumented)
     StandardD16DV5 = "Standard_D16d_v5",
-    // (undocumented)
     StandardD32DV4 = "Standard_D32d_v4",
-    // (undocumented)
     StandardD32DV5 = "Standard_D32d_v5",
-    // (undocumented)
     StandardDS13V21TBPS = "Standard_DS13_v2+1TB_PS",
-    // (undocumented)
     StandardDS13V22TBPS = "Standard_DS13_v2+2TB_PS",
-    // (undocumented)
     StandardDS14V23TBPS = "Standard_DS14_v2+3TB_PS",
-    // (undocumented)
     StandardDS14V24TBPS = "Standard_DS14_v2+4TB_PS",
-    // (undocumented)
     StandardE16AdsV5 = "Standard_E16ads_v5",
-    // (undocumented)
     StandardE16AsV43TBPS = "Standard_E16as_v4+3TB_PS",
-    // (undocumented)
     StandardE16AsV44TBPS = "Standard_E16as_v4+4TB_PS",
-    // (undocumented)
     StandardE16AsV53TBPS = "Standard_E16as_v5+3TB_PS",
-    // (undocumented)
     StandardE16AsV54TBPS = "Standard_E16as_v5+4TB_PS",
-    // (undocumented)
     StandardE16AV4 = "Standard_E16a_v4",
-    // (undocumented)
+    StandardE16DV4 = "Standard_E16d_v4",
+    StandardE16DV5 = "Standard_E16d_v5",
     StandardE16SV43TBPS = "Standard_E16s_v4+3TB_PS",
-    // (undocumented)
     StandardE16SV44TBPS = "Standard_E16s_v4+4TB_PS",
-    // (undocumented)
     StandardE16SV53TBPS = "Standard_E16s_v5+3TB_PS",
-    // (undocumented)
     StandardE16SV54TBPS = "Standard_E16s_v5+4TB_PS",
-    // (undocumented)
     StandardE2AdsV5 = "Standard_E2ads_v5",
-    // (undocumented)
     StandardE2AV4 = "Standard_E2a_v4",
-    // (undocumented)
+    StandardE2DV4 = "Standard_E2d_v4",
+    StandardE2DV5 = "Standard_E2d_v5",
     StandardE4AdsV5 = "Standard_E4ads_v5",
-    // (undocumented)
     StandardE4AV4 = "Standard_E4a_v4",
-    // (undocumented)
+    StandardE4DV4 = "Standard_E4d_v4",
+    StandardE4DV5 = "Standard_E4d_v5",
     StandardE64IV3 = "Standard_E64i_v3",
-    // (undocumented)
     StandardE80IdsV4 = "Standard_E80ids_v4",
-    // (undocumented)
     StandardE8AdsV5 = "Standard_E8ads_v5",
-    // (undocumented)
     StandardE8AsV41TBPS = "Standard_E8as_v4+1TB_PS",
-    // (undocumented)
     StandardE8AsV42TBPS = "Standard_E8as_v4+2TB_PS",
-    // (undocumented)
     StandardE8AsV51TBPS = "Standard_E8as_v5+1TB_PS",
-    // (undocumented)
     StandardE8AsV52TBPS = "Standard_E8as_v5+2TB_PS",
-    // (undocumented)
     StandardE8AV4 = "Standard_E8a_v4",
-    // (undocumented)
+    StandardE8DV4 = "Standard_E8d_v4",
+    StandardE8DV5 = "Standard_E8d_v5",
     StandardE8SV41TBPS = "Standard_E8s_v4+1TB_PS",
-    // (undocumented)
     StandardE8SV42TBPS = "Standard_E8s_v4+2TB_PS",
-    // (undocumented)
     StandardE8SV51TBPS = "Standard_E8s_v5+1TB_PS",
-    // (undocumented)
     StandardE8SV52TBPS = "Standard_E8s_v5+2TB_PS",
-    // (undocumented)
+    StandardEC16AdsV5 = "Standard_EC16ads_v5",
+    StandardEC16AsV53TBPS = "Standard_EC16as_v5+3TB_PS",
+    StandardEC16AsV54TBPS = "Standard_EC16as_v5+4TB_PS",
+    StandardEC8AdsV5 = "Standard_EC8ads_v5",
+    StandardEC8AsV51TBPS = "Standard_EC8as_v5+1TB_PS",
+    StandardEC8AsV52TBPS = "Standard_EC8as_v5+2TB_PS",
+    StandardL16AsV3 = "Standard_L16as_v3",
     StandardL16S = "Standard_L16s",
-    // (undocumented)
     StandardL16SV2 = "Standard_L16s_v2",
-    // (undocumented)
+    StandardL16SV3 = "Standard_L16s_v3",
     StandardL4S = "Standard_L4s",
-    // (undocumented)
+    StandardL8AsV3 = "Standard_L8as_v3",
     StandardL8S = "Standard_L8s",
-    // (undocumented)
-    StandardL8SV2 = "Standard_L8s_v2"
+    StandardL8SV2 = "Standard_L8s_v2",
+    StandardL8SV3 = "Standard_L8s_v3"
 }
 
 // @public
 export enum KnownAzureSkuTier {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownBlobStorageEventType {
-    // (undocumented)
     MicrosoftStorageBlobCreated = "Microsoft.Storage.BlobCreated",
-    // (undocumented)
     MicrosoftStorageBlobRenamed = "Microsoft.Storage.BlobRenamed"
 }
 
 // @public
+export enum KnownCallerRole {
+    Admin = "Admin",
+    None = "None"
+}
+
+// @public
 export enum KnownClusterNetworkAccessFlag {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownClusterPrincipalRole {
-    // (undocumented)
     AllDatabasesAdmin = "AllDatabasesAdmin",
-    // (undocumented)
     AllDatabasesViewer = "AllDatabasesViewer"
 }
 
 // @public
 export enum KnownCompression {
-    // (undocumented)
     GZip = "GZip",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDatabasePrincipalRole {
-    // (undocumented)
     Admin = "Admin",
-    // (undocumented)
     Ingestor = "Ingestor",
-    // (undocumented)
     Monitor = "Monitor",
-    // (undocumented)
     UnrestrictedViewer = "UnrestrictedViewer",
-    // (undocumented)
     User = "User",
-    // (undocumented)
     Viewer = "Viewer"
 }
 
 // @public
 export enum KnownDatabasePrincipalType {
-    // (undocumented)
     App = "App",
-    // (undocumented)
     Group = "Group",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDatabaseRouting {
-    // (undocumented)
     Multi = "Multi",
-    // (undocumented)
     Single = "Single"
 }
 
 // @public
+export enum KnownDatabaseShareOrigin {
+    DataShare = "DataShare",
+    Direct = "Direct",
+    Other = "Other"
+}
+
+// @public
 export enum KnownDataConnectionKind {
-    // (undocumented)
     EventGrid = "EventGrid",
-    // (undocumented)
     EventHub = "EventHub",
-    // (undocumented)
     IotHub = "IotHub"
 }
 
 // @public
 export enum KnownDefaultPrincipalsModificationKind {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     Replace = "Replace",
-    // (undocumented)
     Union = "Union"
 }
 
 // @public
 export enum KnownEngineType {
-    // (undocumented)
     V2 = "V2",
-    // (undocumented)
     V3 = "V3"
 }
 
 // @public
 export enum KnownEventGridDataFormat {
-    // (undocumented)
     Apacheavro = "APACHEAVRO",
-    // (undocumented)
     Avro = "AVRO",
-    // (undocumented)
     CSV = "CSV",
-    // (undocumented)
     Json = "JSON",
-    // (undocumented)
     Multijson = "MULTIJSON",
-    // (undocumented)
     ORC = "ORC",
-    // (undocumented)
     Parquet = "PARQUET",
-    // (undocumented)
     PSV = "PSV",
-    // (undocumented)
     RAW = "RAW",
-    // (undocumented)
     Scsv = "SCSV",
-    // (undocumented)
     Singlejson = "SINGLEJSON",
-    // (undocumented)
     Sohsv = "SOHSV",
-    // (undocumented)
     TSV = "TSV",
-    // (undocumented)
     Tsve = "TSVE",
-    // (undocumented)
     TXT = "TXT",
-    // (undocumented)
     W3Clogfile = "W3CLOGFILE"
 }
 
 // @public
 export enum KnownEventHubDataFormat {
-    // (undocumented)
     Apacheavro = "APACHEAVRO",
-    // (undocumented)
     Avro = "AVRO",
-    // (undocumented)
     CSV = "CSV",
-    // (undocumented)
     Json = "JSON",
-    // (undocumented)
     Multijson = "MULTIJSON",
-    // (undocumented)
     ORC = "ORC",
-    // (undocumented)
     Parquet = "PARQUET",
-    // (undocumented)
     PSV = "PSV",
-    // (undocumented)
     RAW = "RAW",
-    // (undocumented)
     Scsv = "SCSV",
-    // (undocumented)
     Singlejson = "SINGLEJSON",
-    // (undocumented)
     Sohsv = "SOHSV",
-    // (undocumented)
     TSV = "TSV",
-    // (undocumented)
     Tsve = "TSVE",
-    // (undocumented)
     TXT = "TXT",
-    // (undocumented)
     W3Clogfile = "W3CLOGFILE"
 }
 
 // @public
 export enum KnownIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownIotHubDataFormat {
-    // (undocumented)
     Apacheavro = "APACHEAVRO",
-    // (undocumented)
     Avro = "AVRO",
-    // (undocumented)
     CSV = "CSV",
-    // (undocumented)
     Json = "JSON",
-    // (undocumented)
     Multijson = "MULTIJSON",
-    // (undocumented)
     ORC = "ORC",
-    // (undocumented)
     Parquet = "PARQUET",
-    // (undocumented)
     PSV = "PSV",
-    // (undocumented)
     RAW = "RAW",
-    // (undocumented)
     Scsv = "SCSV",
-    // (undocumented)
     Singlejson = "SINGLEJSON",
-    // (undocumented)
     Sohsv = "SOHSV",
-    // (undocumented)
     TSV = "TSV",
-    // (undocumented)
     Tsve = "TSVE",
-    // (undocumented)
     TXT = "TXT",
-    // (undocumented)
     W3Clogfile = "W3CLOGFILE"
 }
 
 // @public
 export enum KnownKind {
-    // (undocumented)
     ReadOnlyFollowing = "ReadOnlyFollowing",
-    // (undocumented)
     ReadWrite = "ReadWrite"
 }
 
 // @public
 export enum KnownLanguageExtensionName {
-    // (undocumented)
     Python = "PYTHON",
     // (undocumented)
     R = "R"
@@ -1268,95 +1181,64 @@ export enum KnownLanguageExtensionName {
 
 // @public
 export enum KnownPrincipalsModificationKind {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     Replace = "Replace",
-    // (undocumented)
     Union = "Union"
 }
 
 // @public
 export enum KnownPrincipalType {
-    // (undocumented)
     App = "App",
-    // (undocumented)
     Group = "Group",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPublicIPType {
-    // (undocumented)
     DualStack = "DualStack",
-    // (undocumented)
     IPv4 = "IPv4"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownReason {
-    // (undocumented)
     AlreadyExists = "AlreadyExists",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Starting = "Starting",
-    // (undocumented)
     Stopped = "Stopped",
-    // (undocumented)
     Stopping = "Stopping",
-    // (undocumented)
     Unavailable = "Unavailable",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownStatus {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
@@ -1423,14 +1305,14 @@ export interface ListResourceSkusResult {
 }
 
 // @public
-export type ManagedPrivateEndpoint = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface ManagedPrivateEndpoint extends ProxyResource {
+    groupId?: string;
     privateLinkResourceId?: string;
     privateLinkResourceRegion?: string;
-    groupId?: string;
-    requestMessage?: string;
     readonly provisioningState?: ProvisioningState;
-};
+    requestMessage?: string;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface ManagedPrivateEndpointListResult {
@@ -1592,12 +1474,12 @@ export interface OptimizedAutoscale {
 }
 
 // @public
-export type OutboundNetworkDependenciesEndpoint = ProxyResource & {
-    readonly etag?: string;
+export interface OutboundNetworkDependenciesEndpoint extends ProxyResource {
     category?: string;
     endpoints?: EndpointDependency[];
+    readonly etag?: string;
     readonly provisioningState?: ProvisioningState;
-};
+}
 
 // @public
 export interface OutboundNetworkDependenciesEndpointListResult {
@@ -1612,13 +1494,13 @@ export type PrincipalsModificationKind = string;
 export type PrincipalType = string;
 
 // @public
-export type PrivateEndpointConnection = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface PrivateEndpointConnection extends ProxyResource {
+    readonly groupId?: string;
     readonly privateEndpoint?: PrivateEndpointProperty;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
-    readonly groupId?: string;
     readonly provisioningState?: string;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -1670,12 +1552,12 @@ export interface PrivateEndpointProperty {
 }
 
 // @public
-export type PrivateLinkResource = Resource & {
-    readonly systemData?: SystemData;
+export interface PrivateLinkResource extends Resource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     readonly requiredZoneNames?: string[];
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface PrivateLinkResourceListResult {
@@ -1713,7 +1595,8 @@ export interface PrivateLinkServiceConnectionStateProperty {
 export type ProvisioningState = string;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type PublicIPType = string;
@@ -1722,24 +1605,29 @@ export type PublicIPType = string;
 export type PublicNetworkAccess = string;
 
 // @public
-export type ReadOnlyFollowingDatabase = Database & {
+export interface ReadOnlyFollowingDatabase extends Database {
+    readonly attachedDatabaseConfigurationName?: string;
+    readonly databaseShareOrigin?: DatabaseShareOrigin;
+    hotCachePeriod?: string;
+    kind: "ReadOnlyFollowing";
+    readonly leaderClusterResourceId?: string;
+    readonly originalDatabaseName?: string;
+    readonly principalsModificationKind?: PrincipalsModificationKind;
     readonly provisioningState?: ProvisioningState;
     readonly softDeletePeriod?: string;
-    hotCachePeriod?: string;
     readonly statistics?: DatabaseStatistics;
-    readonly leaderClusterResourceId?: string;
-    readonly attachedDatabaseConfigurationName?: string;
-    readonly principalsModificationKind?: PrincipalsModificationKind;
-};
+    readonly tableLevelSharingProperties?: TableLevelSharingProperties;
+}
 
 // @public
-export type ReadWriteDatabase = Database & {
+export interface ReadWriteDatabase extends Database {
+    hotCachePeriod?: string;
+    readonly isFollowed?: boolean;
+    kind: "ReadWrite";
     readonly provisioningState?: ProvisioningState;
     softDeletePeriod?: string;
-    hotCachePeriod?: string;
     readonly statistics?: DatabaseStatistics;
-    readonly isFollowed?: boolean;
-};
+}
 
 // @public
 export type Reason = string;
@@ -1752,15 +1640,15 @@ export interface Resource {
 }
 
 // @public
-export type Script = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface Script extends ProxyResource {
+    continueOnErrors?: boolean;
+    forceUpdateTag?: string;
+    readonly provisioningState?: ProvisioningState;
+    scriptContent?: string;
     scriptUrl?: string;
     scriptUrlSasToken?: string;
-    scriptContent?: string;
-    forceUpdateTag?: string;
-    continueOnErrors?: boolean;
-    readonly provisioningState?: ProvisioningState;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface ScriptCheckNameRequest {
@@ -1884,12 +1772,12 @@ export interface TableLevelSharingProperties {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface TrustedExternalTenant {

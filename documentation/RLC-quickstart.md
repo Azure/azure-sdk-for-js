@@ -41,14 +41,14 @@ We are working on to automatically generate everything right now, but currently 
     input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/683e3f4849ee1d84629d0d0fa17789e80a9cee08/specification/agfood/data-plane/Microsoft.AgFoodPlatform/preview/2021-03-31-preview/agfood.json
     package-version: 1.0.0-beta.2
     rest-level-client: true
-    add-credentials: true
-    credential-scopes: https://farmbeats.azure.net/.default
+    security: AADToken
+    security-scopes: https://farmbeats.azure.net/.default
     use-extension:
-      "@autorest/typescript": "6.0.0-beta.14"
+      "@autorest/typescript": "6.0.0-rc.1"
     ```
     ~~~
 
-    Here, we need to replace the value in `package-name`, `title`, `description`, `input-file`, `package-version`, `credential-scopes` into **your own service's** `package-name`, `title`, `description` etc.
+    Here, we need to replace the value in `package-name`, `title`, `description`, `input-file`, `package-version`,  `security`,`security-scopes` into **your own service's** `package-name`, `title`, `description` etc. See [security configurations](#how-to-configure-authentication) for more details.
 
     ---
     **NOTE**
@@ -101,11 +101,13 @@ We are working on to automatically generate everything right now, but currently 
 
 # How to write test for RLC
 
-In order to release it, we need to add some tests for it to make sure we are delivering high quality packages. but before we add the test, we need to add a generate-test: true make the code generator generate the necessary change in package.json and tsconfig.json so that test framework can work. Once the generation finished, you will see a sampleTest.spec.ts file in your `{PROJECT_ROOT}/test/public` folder, which only has a empty test and you may change them into test against your own services.
+In order to release it, we need to add some tests for it to make sure we are delivering high quality packages. but before we add the test, we need to add a `generate-test: true` make the code generator generate the necessary change in `package.json` and `tsconfig.json` so that test framework can work. Once the generation finished, you will see a  `sampleTest.spec.ts` file in your `{PROJECT_ROOT}/test/public` folder, which only has a empty test and you may change them into test against your own services.
+
+See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/test-quickstart.md) for information on how to write and run tests for the Javascript SDK.
 
 ## Prerequisites
 
-- To record and playback the tests, [Docker](https://www.docker.com/) is required when we run the test, as the [test proxy server](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy) is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USER` should be sufficient.
+- To record and playback the tests, [Docker](https://www.docker.com/) is required when we run the test, as the [test proxy server](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy) is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it.
 
 1. **run the test**  
     Now, you can run the test like this. If you are the first time to run test, you need to set the environment variable `TEST_MODE` to `record`. This will generate recordings for your test they could be used in `playback` mode.
@@ -227,3 +229,37 @@ If there's already a ci.yml file in your project path. then the only thing you n
 
 # Create API View
 You may also want to create API View when submitting a PR. You can do it easily by uploading a json file to [API View Website](https://apiview.dev/). The json file is under `<you-sdk-folder>/temp`, and its name ends with `api.json`. For example: `sdk/compute/arm-compute/temp/arm-compute.api.json`.
+
+# How to do customizations
+There is many information about the SDK that AutoRest will never know, so you may want to do your customizations based on generated code. 
+
+We collect some common customization cases and you can read [Customization on the RLC rest-level client libraries](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-customization.md) for more details.
+
+# How to configure authentication
+Autorest only support two types of authentication: Azure Key Credential(AzureKey) and Token credential(AADToken), any other will need to be handled manually. 
+
+This could be either configured in OpenAPI spec or configuration file e.g `README.md`. You could learn more in [Authentication in AutoRest](https://github.com/Azure/autorest/blob/main/docs/generate/authentication.md).
+
+Here are the details if we configure in README.md file.
+- Support AAD token authentication
+```yaml
+security: AzureKey
+security-header-name: Your-Subscription-Key
+```
+- Support key authentication
+```yaml
+security: AADToken
+security-scopes: https://yourendpoint.azure.com/.default
+```
+- Support both credentials
+```yaml
+security:
+  - AADToken
+  - AzureKey
+security-header-name: Your-Subscription-Key
+security-scopes: https://yourendpoint.azure.com/.default
+```
+- Disable neither authentications
+```yaml
+add-credentials: false
+```

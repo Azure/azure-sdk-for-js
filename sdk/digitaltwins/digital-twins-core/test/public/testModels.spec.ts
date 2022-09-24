@@ -102,7 +102,11 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
       await client.createModels([]);
     } catch (error: any) {
       errorWasThrown = true;
-      assert.include(error.message, `should satisfy the constraint "MinItems`);
+      assert.isTrue(
+        error.message.includes(
+          "Operation failed as models provided was empty or of a type that is not supported."
+        ) || error.message.includes(`should satisfy the constraint "MinItems`)
+      );
     }
     should.equal(errorWasThrown, true, "Error was not thrown");
   });

@@ -1,6 +1,6 @@
 # Release History
 
-## 5.1.1 (Unreleased)
+## 5.2.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,52 @@
 
 ### Other Changes
 
+## 5.2.0 (2022-07-15)
+    
+**Features**
+
+  - Added operation Caches.beginPausePrimingJob
+  - Added operation Caches.beginPausePrimingJobAndWait
+  - Added operation Caches.beginResumePrimingJob
+  - Added operation Caches.beginResumePrimingJobAndWait
+  - Added operation Caches.beginSpaceAllocation
+  - Added operation Caches.beginSpaceAllocationAndWait
+  - Added operation Caches.beginStartPrimingJob
+  - Added operation Caches.beginStartPrimingJobAndWait
+  - Added operation Caches.beginStopPrimingJob
+  - Added operation Caches.beginStopPrimingJobAndWait
+  - Added Interface CachesPausePrimingJobHeaders
+  - Added Interface CachesPausePrimingJobOptionalParams
+  - Added Interface CachesResumePrimingJobHeaders
+  - Added Interface CachesResumePrimingJobOptionalParams
+  - Added Interface CachesSpaceAllocationHeaders
+  - Added Interface CachesSpaceAllocationOptionalParams
+  - Added Interface CachesStartPrimingJobHeaders
+  - Added Interface CachesStartPrimingJobOptionalParams
+  - Added Interface CachesStopPrimingJobHeaders
+  - Added Interface CachesStopPrimingJobOptionalParams
+  - Added Interface CacheUpgradeSettings
+  - Added Interface LogSpecification
+  - Added Interface PrimingJob
+  - Added Interface PrimingJobIdParameter
+  - Added Interface StorageTarget
+  - Added Interface StorageTargetSpaceAllocation
+  - Added Type Alias CachesPausePrimingJobResponse
+  - Added Type Alias CachesResumePrimingJobResponse
+  - Added Type Alias CachesSpaceAllocationResponse
+  - Added Type Alias CachesStartPrimingJobResponse
+  - Added Type Alias CachesStopPrimingJobResponse
+  - Added Type Alias PrimingJobState
+  - Interface ApiOperationPropertiesServiceSpecification has a new optional parameter logSpecifications
+  - Interface Cache_2 has a new optional parameter primingJobs
+  - Interface Cache_2 has a new optional parameter spaceAllocation
+  - Interface Cache_2 has a new optional parameter upgradeSettings
+  - Added Enum KnownPrimingJobState
+  - Enum KnownHealthStateType has a new value StartFailed
+  - Enum KnownHealthStateType has a new value UpgradeFailed
+  - Enum KnownHealthStateType has a new value WaitingForKey
+    
+    
 ## 5.1.0 (2022-03-15)
     
 **Features**

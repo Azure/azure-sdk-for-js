@@ -10,7 +10,6 @@ import {
   KeyVaultRestoreResult,
   KeyVaultSelectiveKeyRestoreResult,
 } from "./backupClientModels";
-import { LATEST_API_VERSION, authenticationScopes } from "./constants";
 import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller";
 import { KeyVaultBackupOperationState } from "./lro/backup/operation";
 import { KeyVaultBackupPoller } from "./lro/backup/poller";
@@ -19,10 +18,11 @@ import { KeyVaultRestoreOperationState } from "./lro/restore/operation";
 import { KeyVaultRestorePoller } from "./lro/restore/poller";
 import { KeyVaultSelectiveKeyRestoreOperationState } from "./lro/selectiveKeyRestore/operation";
 import { KeyVaultSelectiveKeyRestorePoller } from "./lro/selectiveKeyRestore/poller";
+import { LATEST_API_VERSION } from "./constants";
 import { PollerLike } from "@azure/core-lro";
 import { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { createChallengeCallbacks } from "./challengeAuthenticationCallbacks";
+import { createChallengeCallbacks } from "../../keyvault-common/src";
 import { logger } from "./log";
 import { mappings } from "./mappings";
 
@@ -63,7 +63,7 @@ export class KeyVaultBackupClient {
    *
    * let client = new KeyVaultBackupClient(vaultUrl, credentials);
    * ```
-   * @param vaultUrl - the URL of the Key Vault. It should have this shape: `https://${your-key-vault-name}.vault.azure.net`
+   * @param vaultUrl - the URL of the Key Vault. It should have this shape: `https://${your-key-vault-name}.vault.azure.net`. You should validate that this URL references a valid Key Vault or Managed HSM resource. See https://aka.ms/azsdk/blog/vault-uri for details.
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
    * @param options - options used to configure Key Vault API requests.
    */
@@ -92,8 +92,10 @@ export class KeyVaultBackupClient {
     this.client.pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
         credential,
-        scopes: authenticationScopes,
-        challengeCallbacks: createChallengeCallbacks(),
+        // The scopes will be populated in the challenge callbacks based on the WWW-authenticate header
+        // returned by the challenge, so pass an empty array as a placeholder.
+        scopes: [],
+        challengeCallbacks: createChallengeCallbacks(options),
       })
     );
   }

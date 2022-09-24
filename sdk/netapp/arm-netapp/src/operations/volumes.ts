@@ -18,6 +18,8 @@ import {
   Volume,
   VolumesListNextOptionalParams,
   VolumesListOptionalParams,
+  Replication,
+  VolumesListReplicationsOptionalParams,
   VolumesListResponse,
   VolumesGetOptionalParams,
   VolumesGetResponse,
@@ -31,9 +33,10 @@ import {
   VolumesRevertOptionalParams,
   VolumesResetCifsPasswordOptionalParams,
   VolumesBreakReplicationOptionalParams,
+  ReestablishReplicationRequest,
+  VolumesReestablishReplicationOptionalParams,
   VolumesReplicationStatusOptionalParams,
   VolumesReplicationStatusResponse,
-  VolumesListReplicationsOptionalParams,
   VolumesListReplicationsResponse,
   VolumesResyncReplicationOptionalParams,
   VolumesDeleteReplicationOptionalParams,
@@ -135,6 +138,82 @@ export class VolumesImpl implements Volumes {
       resourceGroupName,
       accountName,
       poolName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List all replications for a specified volume
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  public listReplications(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesListReplicationsOptionalParams
+  ): PagedAsyncIterableIterator<Replication> {
+    const iter = this.listReplicationsPagingAll(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listReplicationsPagingPage(
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          options
+        );
+      }
+    };
+  }
+
+  private async *listReplicationsPagingPage(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesListReplicationsOptionalParams
+  ): AsyncIterableIterator<Replication[]> {
+    let result = await this._listReplications(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      options
+    );
+    yield result.value || [];
+  }
+
+  private async *listReplicationsPagingAll(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesListReplicationsOptionalParams
+  ): AsyncIterableIterator<Replication> {
+    for await (const page of this.listReplicationsPagingPage(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
       options
     )) {
       yield* page;
@@ -761,6 +840,106 @@ export class VolumesImpl implements Volumes {
   }
 
   /**
+   * Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or
+   * policy-based snapshots
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param body body for the id of the source volume.
+   * @param options The options parameters.
+   */
+  async beginReestablishReplication(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    body: ReestablishReplicationRequest,
+    options?: VolumesReestablishReplicationOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, accountName, poolName, volumeName, body, options },
+      reestablishReplicationOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or
+   * policy-based snapshots
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param body body for the id of the source volume.
+   * @param options The options parameters.
+   */
+  async beginReestablishReplicationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    body: ReestablishReplicationRequest,
+    options?: VolumesReestablishReplicationOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginReestablishReplication(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      body,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Get the status of the replication
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -789,7 +968,7 @@ export class VolumesImpl implements Volumes {
    * @param volumeName The name of the volume
    * @param options The options parameters.
    */
-  listReplications(
+  private _listReplications(
     resourceGroupName: string,
     accountName: string,
     poolName: string,
@@ -1764,6 +1943,25 @@ const breakReplicationOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
+const reestablishReplicationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/reestablishReplication",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  requestBody: Parameters.body11,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName
+  ],
+  headerParameters: [Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const replicationStatusOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/replicationStatus",
@@ -1845,7 +2043,7 @@ const authorizeReplicationOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/authorizeReplication",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.body11,
+  requestBody: Parameters.body12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1880,7 +2078,7 @@ const poolChangeOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/poolChange",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.body12,
+  requestBody: Parameters.body13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1899,6 +2097,7 @@ const relocateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/relocate",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  requestBody: Parameters.body14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1908,6 +2107,8 @@ const relocateOperationSpec: coreClient.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
+  headerParameters: [Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const finalizeRelocationOperationSpec: coreClient.OperationSpec = {

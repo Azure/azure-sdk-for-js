@@ -1,19 +1,19 @@
 let nock = require('nock');
 
-module.exports.hash = "7b891932427534bc245efb756feaad4b";
+module.exports.hash = "eb2533bb5b03f78b899081260c6bad4e";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .put('/secrets/listSecretName-canlistsecretsbypage-0')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
+  .reply(401, {"error":{"code":"Unauthorized","message":"AKV10000: Request is missing a Bearer or PoP token."}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '87',
+  '97',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -21,23 +21,21 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/12345678-1234-1234-1234-123456789012", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  '3530cabf-6d93-4ce2-a74e-4745c5f69a06',
+  '87ac28af-39d6-4932-968e-18aa12948035',
   'x-ms-request-id',
-  '0abdd568-2276-43ec-8e6e-76061d424833',
+  '0f8bf403-3cc4-4ec2-a6ca-1dea358cafeb',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:08:42 GMT'
+  'Mon, 15 Aug 2022 18:23:53 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -59,26 +57,30 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'efbc4034-a77f-4a9f-a98e-109e10167502',
+  '4d51ee3e-e48e-43a7-9d82-e880486c6c00',
   'x-ms-ests-server',
-  '2.1.11654.16 - WUS2 ProdSlices',
+  '2.1.13524.5 - WUS2 ProdSlices',
+  'Content-Security-Policy-Report-Only',
+  "script-src 'self' 'nonce-3NZYsSJPKYaRRMKF9LhbwA' 'unsafe-eval' 'unsafe-inline'; object-src 'none'; base-uri 'none'; report-uri https://csp.microsoft.com/report/ESTS-UX-All",
+  'X-XSS-Protection',
+  '0',
   'Set-Cookie',
-  'fpc=AvRbS1ejrXtFnVVky6yL_PTmR1YbBAAAAOCrGtgOAAAA; expires=Fri, 28-May-2021 01:08:43 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ag4npZINN1lNrVwqts8rt5A; expires=Wed, 14-Sep-2022 18:23:53 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrTkhtpW8aiq1J2Rkq1VlyvuH_Kn8iR1GXOfevh4gQec0xbyBJzPb13xekHaf2QIBIP_r9xMSwCQIgEH9w2eG5cWZLwymE5wCwWSPZ3bnOgtVZn9iMYHNXCE9KLx4B8wBD8xdZ3wmbfzuOKPFDRgQS_8rd4Ivqva6fWha8Z28wO_sgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrofv_5UzV2XuWpBPliNf5_RPLx2BisYXdjmxrGwImFjozWWQQID9zJjJyC6WXxmz_WpTDUnZzqZF5Sek44dDnjA35J8fhw-BCiNNng6xrwUPIGBohY_qN0YbpxK7sv3kcn8ICFKLrD5t_mHz3U_021BCcZI_oZLHJfWEFTvYBTBIgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 28 Apr 2021 01:08:42 GMT',
+  'Mon, 15 Aug 2022 18:23:53 GMT',
   'Content-Length',
   '980'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .get('/12345678-1234-1234-1234-123456789012/v2.0/.well-known/openid-configuration')
-  .reply(200, {"token_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token","token_endpoint_auth_methods_supported":["client_secret_post","private_key_jwt","client_secret_basic"],"jwks_uri":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/discovery/v2.0/keys","response_modes_supported":["query","fragment","form_post"],"subject_types_supported":["pairwise"],"id_token_signing_alg_values_supported":["RS256"],"response_types_supported":["code","id_token","code id_token","id_token token"],"scopes_supported":["openid","profile","email","offline_access"],"issuer":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/v2.0","request_uri_parameter_supported":false,"userinfo_endpoint":"https://graph.microsoft.com/oidc/userinfo","authorization_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/authorize","device_authorization_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/devicecode","http_logout_supported":true,"frontchannel_logout_supported":true,"end_session_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/logout","claims_supported":["sub","iss","cloud_instance_name","cloud_instance_host_name","cloud_graph_host_name","msgraph_host","aud","exp","iat","auth_time","acr","nonce","preferred_username","name","tid","ver","at_hash","c_hash","email"],"tenant_region_scope":"NA","cloud_instance_name":"microsoftonline.com","cloud_graph_host_name":"graph.windows.net","msgraph_host":"graph.microsoft.com","rbac_url":"https://pas.windows.net"}, [
+  .reply(200, {"token_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token","token_endpoint_auth_methods_supported":["client_secret_post","private_key_jwt","client_secret_basic"],"jwks_uri":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/discovery/v2.0/keys","response_modes_supported":["query","fragment","form_post"],"subject_types_supported":["pairwise"],"id_token_signing_alg_values_supported":["RS256"],"response_types_supported":["code","id_token","code id_token","id_token token"],"scopes_supported":["openid","profile","email","offline_access"],"issuer":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/v2.0","request_uri_parameter_supported":false,"userinfo_endpoint":"https://graph.microsoft.com/oidc/userinfo","authorization_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/authorize","device_authorization_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/devicecode","http_logout_supported":true,"frontchannel_logout_supported":true,"end_session_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/logout","claims_supported":["sub","iss","cloud_instance_name","cloud_instance_host_name","cloud_graph_host_name","msgraph_host","aud","exp","iat","auth_time","acr","nonce","preferred_username","name","tid","ver","at_hash","c_hash","email"],"kerberos_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/kerberos","tenant_region_scope":"WW","cloud_instance_name":"microsoftonline.com","cloud_graph_host_name":"graph.windows.net","msgraph_host":"graph.microsoft.com","rbac_url":"https://pas.windows.net"}, [
   'Cache-Control',
   'max-age=86400, private',
   'Content-Type',
@@ -94,29 +96,28 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '076e25e2-b1ae-43ce-89f1-08dd49ccde00',
+  '621f00e8-7daa-40a1-8f91-a5bd9d725d00',
   'x-ms-ests-server',
-  '2.1.11654.16 - EUS ProdSlices',
+  '2.1.13524.5 - NCUS ProdSlices',
+  'X-XSS-Protection',
+  '0',
   'Set-Cookie',
-  'fpc=AvRbS1ejrXtFnVVky6yL_PTmR1YbBAAAAOCrGtgOAAAA; expires=Fri, 28-May-2021 01:08:43 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AvMNOfRLMM9OnBY1Kp-3mU0; expires=Wed, 14-Sep-2022 18:23:54 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrm_YFztKzbmOVTGmLeYY9BOknF5JpM77eTc2syieKgALNsiS-ziO2CP-hCFOus7tmVt9PT4Z1xu92ldtH-w5hsBrLZTFgdQWSJr_hIaYQXt8YP4kzUU1eFpnY5MMYQiunEfMkmxu53p0Nwj_tm9tSP9WQlb8FKzpvt9IH-HBpwVwgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrJKOYPcbQMv5pQ1t8tF3YlsJWAWSPEbL6wo9-TX2OpluGlxjKDmg0FuM3JWZUZiFQWibtk218Mkf0fDo64uBXrlzJYl1u_DWAF72YLWdTTnkEiozoaMX-QYpNjhhAbVMwWhGewQMgdKjr_9HBXoGeDfujJjScfUvYbk9wHf1b4-4gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 28 Apr 2021 01:08:43 GMT',
+  'Mon, 15 Aug 2022 18:23:53 GMT',
   'Content-Length',
-  '1651'
+  '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .filteringRequestBody(function (body) {
-            return body.replace(/client-request-id=[^&]*/g, "client-request-id=client-request-id");
-        })
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access&grant_type=client_credentials&client-request-id=client-request-id&client_secret=azure_client_secret")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.12.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=97cb132b-2689-46dc-ad53-65ac303460e3&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
+  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
@@ -132,27 +133,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '076e25e2-b1ae-43ce-89f1-08dd50ccde00',
+  '51ff94b6-ed94-4c55-893d-7522bd792500',
   'x-ms-ests-server',
-  '2.1.11654.16 - EUS ProdSlices',
+  '2.1.13524.5 - EUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
+  'X-XSS-Protection',
+  '0',
   'Set-Cookie',
-  'fpc=AvRbS1ejrXtFnVVky6yL_PTmR1YbBQAAAOCrGtgOAAAA; expires=Fri, 28-May-2021 01:08:43 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AnRD_Aju3BZCvAynVItm26FIOq-wAQAAADmGjNoOAAAA; expires=Wed, 14-Sep-2022 18:23:54 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 28 Apr 2021 01:08:43 GMT',
+  'Mon, 15 Aug 2022 18:23:53 GMT',
   'Content-Length',
-  '1313'
+  '1315'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .put('/secrets/listSecretName-canlistsecretsbypage-0', {"value":"RSA","attributes":{}})
   .query(true)
-  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-0/d34afb526c5d4af1afb903e85f398ac9","attributes":{"enabled":true,"created":1619572123,"updated":1619572123,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
+  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-0/8dbd07d2bae8433c958e96e223345127","attributes":{"enabled":true,"created":1660587834,"updated":1660587834,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -162,31 +165,33 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  '3530cabf-6d93-4ce2-a74e-4745c5f69a06',
+  '87ac28af-39d6-4932-968e-18aa12948035',
   'x-ms-request-id',
-  'e3efd22c-62bd-4fd3-bb59-315a09287bfa',
+  '49841de9-88e5-4ff0-af84-24e6be41b094',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=0;da_age=4852;rd_age=4852;brd_age=896;ra_notif_age=491;dec_lev=3;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:08:42 GMT',
+  'Mon, 15 Aug 2022 18:23:54 GMT',
   'Content-Length',
-  '293'
+  '297'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .put('/secrets/listSecretName-canlistsecretsbypage-1', {"value":"RSA","attributes":{}})
   .query(true)
-  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-1/0ccb1f79812d4ca588bec3a219c2d46a","attributes":{"enabled":true,"created":1619572123,"updated":1619572123,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
+  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-1/dc2883b54a124265b8838e5befa9d3d5","attributes":{"enabled":true,"created":1660587834,"updated":1660587834,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -196,31 +201,33 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  'c7a53987-ae8f-4606-95f9-26dfef4a3ed1',
+  'bd09ed28-2e7d-4164-a60b-03b72f467aef',
   'x-ms-request-id',
-  '7501ce95-2f8a-48de-b70a-c4e5457ec688',
+  '9cf90a5b-3b48-49e1-bd03-bfdf385fd2e6',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=0;da_age=4852;rd_age=4852;brd_age=896;ra_notif_age=491;dec_lev=1;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:08:43 GMT',
+  'Mon, 15 Aug 2022 18:23:54 GMT',
   'Content-Length',
-  '293'
+  '297'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/secrets')
   .query(true)
-  .reply(200, {"value":[{"contentType":"application/x-pkcs12","id":"https://keyvault_name.vault.azure.net/secrets/danrodri-test-2","managed":true,"attributes":{"enabled":true,"nbf":1617365112,"exp":1648901712,"created":1617365712,"updated":1617365712,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}},{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-0","attributes":{"enabled":true,"created":1619572123,"updated":1619572123,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}},{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-1","attributes":{"enabled":true,"created":1619572123,"updated":1619572123,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}],"nextLink":null}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-2083010967823180","attributes":{"enabled":true,"created":1660585097,"updated":1660585097,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDAhTURBd01EVTVJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNU1TVk5VVTBWRFVrVlVVMEpaVUVGSFJTMHlNRGd6TURFd09UWTNPREl6TVRneElUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -230,31 +237,33 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  '9a18e67c-8e64-4a4a-aeee-9f9a62befdfb',
+  'af7855bf-def1-45fd-9467-7e3947787af5',
   'x-ms-request-id',
-  '9081deb9-94b7-4bd0-b255-40611e5462f2',
+  '00d17807-ab16-4db3-b60d-73533be45f4e',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=0;da_age=4852;rd_age=4852;brd_age=896;ra_notif_age=491;dec_lev=1;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:08:43 GMT',
+  'Mon, 15 Aug 2022 18:23:54 GMT',
   'Content-Length',
-  '817'
+  '608'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/secrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName-canlistsecretsbypage-0","deletedDate":1619572123,"scheduledPurgeDate":1627348123,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-0/d34afb526c5d4af1afb903e85f398ac9","attributes":{"enabled":true,"created":1619572123,"updated":1619572123,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-2083010967823181","attributes":{"enabled":true,"created":1660585097,"updated":1660585097,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDAhTURBd01EWXhJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNU1TVk5VVTBWRFVrVlVVMEpaVUVGSFJTMHlNVFkyTlRnMk9UVXhNRFl3TkRJM05EQWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -264,3007 +273,1033 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  'f4c20b0c-5d8f-441f-b7f5-40399ef97a55',
+  '6a2aa269-6924-49bf-bdf3-591a7059d5f5',
   'x-ms-request-id',
-  '4de9033a-8178-41c6-9a07-d9b4b2914890',
+  'b2efbe70-e3ea-4a19-90ce-f273642ccc21',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=0;da_age=4852;rd_age=4852;brd_age=896;ra_notif_age=491;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:08:43 GMT',
+  'Mon, 15 Aug 2022 18:23:54 GMT',
   'Content-Length',
-  '463'
+  '608'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-216658695106042740","attributes":{"enabled":true,"created":1660585551,"updated":1660585551,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDAhTURBd01EWXhJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNU1TVk5VVTBWRFVrVlVVMEpaVUVGSFJTMHlNVFkyTlRnMk9UVXhNRFl3TkRJM05ERWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  'fe2dfac7-39f3-4140-b2eb-c36df89c8932',
+  'c6e10d8c-0bdb-4596-8417-f977b1b6dedc',
   'x-ms-request-id',
-  'b20df97d-9373-4124-ab89-39c10b315f73',
+  '3180ae0e-1513-4c6b-b45b-d9286d0ccf30',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=0;da_age=4852;rd_age=4852;brd_age=896;ra_notif_age=491;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:08:43 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'e8c4c8ab-4c0c-4e0f-add5-84eae8c7a218',
-  'x-ms-request-id',
-  '9be10770-4dd8-49bf-a872-b32c868d2df5',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
   'Strict-Transport-Security',
   'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 01:08:43 GMT'
+  'Mon, 15 Aug 2022 18:23:54 GMT',
+  'Content-Length',
+  '610'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-216658695106042741","attributes":{"enabled":true,"created":1660585551,"updated":1660585551,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDAhTURBd01EWXdJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNU1TVk5VVTBWRFVrVlVVMEpaVUVGSFJTMHlOakF4TXpZNU1UQTNNak0wT0RJeE1DRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  'c2474aae-bf79-4123-9135-836a6f608f17',
+  'f46962c0-bddf-4018-968a-b5ba98b8b7bf',
   'x-ms-request-id',
-  '305f4017-e631-4a66-9876-98c7977a1baa',
+  '0a336ac8-06f9-4b2e-be1f-c3eee208d954',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=0;da_age=4852;rd_age=4852;brd_age=896;ra_notif_age=491;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:08:46 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '49e4e554-1f2a-411e-81d7-6be8a2db8795',
-  'x-ms-request-id',
-  '91963442-d403-4b2a-b9aa-7a24d393bb5f',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
   'Strict-Transport-Security',
   'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 01:08:48 GMT'
+  'Mon, 15 Aug 2022 18:23:54 GMT',
+  'Content-Length',
+  '610'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-26013691072348210","attributes":{"enabled":true,"created":1660585547,"updated":1660585547,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDAhTURBd01EWXdJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNU1TVk5VVTBWRFVrVlVVMEpaVUVGSFJTMHlOakF4TXpZNU1UQTNNak0wT0RJeE1TRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  '30d672b1-f6d6-4c1f-a506-2a92542b618a',
+  '8baa81cb-c358-45b8-849c-25d010c1580b',
   'x-ms-request-id',
-  'f00e25d5-62ff-49e1-975b-60caabe05afc',
+  '69502a76-86b1-4ba6-bb5f-d59516f54795',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=0;da_age=4852;rd_age=4852;brd_age=897;ra_notif_age=491;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:08:49 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'cd6550f9-e7f7-4f34-9468-eba6e8607141',
-  'x-ms-request-id',
-  '811555a0-c851-4a47-9561-919c988ecb2d',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
   'Strict-Transport-Security',
   'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 01:08:51 GMT'
+  'Mon, 15 Aug 2022 18:23:54 GMT',
+  'Content-Length',
+  '609'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-26013691072348211","attributes":{"enabled":true,"created":1660585547,"updated":1660585547,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDAhTURBd01EWXdJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNU1TVk5VVTBWRFVrVlVVMEpaVUVGSFJTMDBOekkwTWpBeE5EQTNOVFkxTlRJNU1DRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  '4ee0ae7a-384a-4c09-8ace-7eabf2239495',
+  'f7bf5502-1fd2-4476-bb61-53fd85c36a7a',
   'x-ms-request-id',
-  '7e8aadef-f804-48b9-b23b-85b670c96449',
+  '8a5e83f5-2e20-4ea7-9632-e34cf8e65eb1',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=0;da_age=4852;rd_age=4852;brd_age=897;ra_notif_age=491;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:08:53 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '3349d63c-2f21-4ac9-90aa-4b22379f52fd',
-  'x-ms-request-id',
-  '661b7cea-401e-459b-bd10-729d11d21769',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
   'Strict-Transport-Security',
   'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 01:08:55 GMT'
+  'Mon, 15 Aug 2022 18:23:54 GMT',
+  'Content-Length',
+  '609'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-0","attributes":{"enabled":true,"created":1660587834,"updated":1660587834,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDAhTURBd01EWXdJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNU1TVk5VVTBWRFVrVlVVMEpaVUVGSFJTMDBOekkwTWpBeE5EQTNOVFkxTlRJNU1TRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  '098ae9e7-b7a2-4847-b561-97ea3198647d',
+  '4c4334ac-0fc5-45c8-8a66-287dd9fb3d7f',
   'x-ms-request-id',
-  'ff18958d-3c13-4e3f-a7b5-bae9f4bce64e',
+  '8085e58b-7d13-4c67-b074-4758ca2c9a3e',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=0;da_age=4852;rd_age=4852;brd_age=897;ra_notif_age=491;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:08:57 GMT'
+  'Mon, 15 Aug 2022 18:23:54 GMT',
+  'Content-Length',
+  '609'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-1","attributes":{"enabled":true,"created":1660587834,"updated":1660587834,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDAhTURBd01EWXdJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNU1TVk5VVTBWRFVrVlVVMEpaVUVGSFJTMDFNRFl3Tnprd05EZzFNekU0TURNMk1DRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  'dfe80f4c-a893-4f5b-8265-72ff9cb17a2d',
+  '6d7c0fb4-981a-410b-914c-8b8f89704ec2',
   'x-ms-request-id',
-  '8adfe7c9-95f2-4ae9-9c84-09cec31a0be6',
+  '12e808bf-748b-426b-b5a3-b7afb2e89e5a',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=0;da_age=4852;rd_age=4852;brd_age=897;ra_notif_age=491;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:01 GMT'
+  'Mon, 15 Aug 2022 18:23:54 GMT',
+  'Content-Length',
+  '609'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-50607904853180360","attributes":{"enabled":true,"created":1660585029,"updated":1660585029,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDAhTURBd01EWXdJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNU1TVk5VVTBWRFVrVlVVMEpaVUVGSFJTMDFNRFl3Tnprd05EZzFNekU0TURNMk1TRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  '9e4dc61d-cde4-446a-b6df-b1d8e5c1093d',
+  'b9473c83-d56e-452d-b917-f793d6de6df7',
   'x-ms-request-id',
-  'c45327d6-723f-46d4-b9da-80ddd9f0bd0a',
+  'f308f5d4-ad1a-446e-8914-a935baca106a',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=1;da_age=4852;rd_age=4852;brd_age=897;ra_notif_age=491;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:03 GMT'
+  'Mon, 15 Aug 2022 18:23:54 GMT',
+  'Content-Length',
+  '609'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-50607904853180361","attributes":{"enabled":true,"created":1660585030,"updated":1660585030,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDAhTURBd01EWXdJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNU1TVk5VVTBWRFVrVlVVMEpaVUVGSFJTMDNPVGszTkRRd01ESTBPRGN3TWpZME1DRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  '271159ce-7bef-4da7-89d0-f05d995b2519',
+  '5ad12f6f-2327-42ff-b4b2-6d1c210830b9',
   'x-ms-request-id',
-  'ecf97352-4ce6-4e43-a476-095a359e05a0',
+  '5c51836d-ae48-4792-9955-b7197b1c1bed',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=1;da_age=4852;rd_age=4852;brd_age=897;ra_notif_age=492;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:05 GMT'
+  'Mon, 15 Aug 2022 18:23:54 GMT',
+  'Content-Length',
+  '609'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-79974400248702640","attributes":{"enabled":true,"created":1660585025,"updated":1660585025,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDAhTURBd01EWXdJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNU1TVk5VVTBWRFVrVlVVMEpaVUVGSFJTMDNPVGszTkRRd01ESTBPRGN3TWpZME1TRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  'f6e7567b-c050-4349-8b91-99b7021bc330',
+  '255c88f0-4ada-431a-b1f6-a48ff73cfe00',
   'x-ms-request-id',
-  '220cc474-8544-4e60-a03e-a940f71fdf27',
+  'b6683c89-387c-49c8-9794-d16f9d663e02',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=1;da_age=4852;rd_age=4852;brd_age=897;ra_notif_age=492;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:07 GMT'
+  'Mon, 15 Aug 2022 18:23:54 GMT',
+  'Content-Length',
+  '609'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-79974400248702641","attributes":{"enabled":true,"created":1660585025,"updated":1660585025,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDAhTURBd01EWXdJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNU1TVk5VVTBWRFVrVlVVMEpaVUVGSFJTMDRORFEyTnpJNU1qazVOakU0TkRJeE1DRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  '0cc57d31-a16d-4d38-9839-386374dced1b',
+  'e7f21c94-b117-42f5-9354-506c42d511b3',
   'x-ms-request-id',
-  '017dddec-2deb-432e-9f44-e549a87c3d1b',
+  '738ea539-aaf2-4759-aff1-206b5d569318',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=1;da_age=4852;rd_age=4852;brd_age=897;ra_notif_age=492;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:08 GMT'
+  'Mon, 15 Aug 2022 18:23:54 GMT',
+  'Content-Length',
+  '609'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-84467292996184210","attributes":{"enabled":true,"created":1660585093,"updated":1660585093,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDAhTURBd01EWXdJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNU1TVk5VVTBWRFVrVlVVMEpaVUVGSFJTMDRORFEyTnpJNU1qazVOakU0TkRJeE1TRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  'daf0e3a1-7313-4cbd-9d07-5550f88d340c',
+  '26514e84-e700-44be-915a-775fcad67d46',
   'x-ms-request-id',
-  'd6359899-2b86-4550-92a2-3a291c6c5f86',
+  'f526b3f5-2852-4438-9292-81285de2b892',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=1;da_age=4852;rd_age=4852;brd_age=897;ra_notif_age=492;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:10 GMT'
+  'Mon, 15 Aug 2022 18:23:54 GMT',
+  'Content-Length',
+  '609'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-84467292996184211","attributes":{"enabled":true,"created":1660585093,"updated":1660585093,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjQhTURBd01EYzNJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNVNSVlJTU1VWV1JVRk1URlpGVWxOSlQwNVRUMFpCVTBWRFVrVlVRbGxRUVVkRkxURTBORFF4TmpJNE5UTXdPVFEzT1RRNElUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  'bf8d2fb7-db87-4c93-aa72-8c8d7274470a',
+  'c87881c2-de64-4ec0-94c6-fbe03a226c78',
   'x-ms-request-id',
-  '2c894571-86e1-464d-8eb8-a70653b72cf8',
+  '6a3c1755-fc58-40d7-9abf-0092b02b2e25',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=1;da_age=4853;rd_age=4853;brd_age=897;ra_notif_age=492;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:13 GMT'
+  'Mon, 15 Aug 2022 18:23:55 GMT',
+  'Content-Length',
+  '641'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecretbypage-14441628530947948","attributes":{"enabled":true,"created":1660583122,"updated":1660583122,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzJJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNVNSVlJTU1VWV1JVRk1URlpGVWxOSlQwNVRUMFpCVTBWRFVrVlVRbGxRUVVkRkxUTXdOVGsyTlRVME1qQXhNRFF6TmpnaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  '54578f93-22e1-4a40-a5ee-1b57bf1efbaf',
+  '27573179-ae78-443f-a6e5-86d846405746',
   'x-ms-request-id',
-  'ea8c5ac1-31dd-44d1-b299-84118f1070ca',
+  '1b7fdd0a-6330-478f-a5fd-50c12b7c846d',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=1;da_age=4853;rd_age=4853;brd_age=897;ra_notif_age=492;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:15 GMT'
+  'Mon, 15 Aug 2022 18:23:55 GMT',
+  'Content-Length',
+  '653'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecretbypage-3059655420104368","attributes":{"enabled":true,"created":1660586715,"updated":1660586715,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzJJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNVNSVlJTU1VWV1JVRk1URlpGVWxOSlQwNVRUMFpCVTBWRFVrVlVRbGxRUVVkRkxUTTBNVGM0TlRVMk1UVXpOemc0T1RVaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  '42c0bdb4-18ae-4478-bbd2-da025fd086d8',
+  '8cef9c0f-e86c-4406-8506-5f6586c599d2',
   'x-ms-request-id',
-  '51f107ed-f93e-4877-bc51-69706f43055a',
+  'abf548a7-c7fd-4292-b828-978d799ff706',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=1;da_age=4853;rd_age=4853;brd_age=897;ra_notif_age=492;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:18 GMT'
+  'Mon, 15 Aug 2022 18:23:55 GMT',
+  'Content-Length',
+  '652'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecretbypage-3417855615378895","attributes":{"enabled":true,"created":1660586712,"updated":1660586712,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzJJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNVNSVlJTU1VWV1JVRk1URlpGVWxOSlQwNVRUMFpCVTBWRFVrVlVRbGxRUVVkRkxUTTRNemt5TmpZNE9UTXdNREF3T1RjaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  'c845a864-b2fb-4f67-8e2b-12ab1a8c6791',
+  '7e011119-2dff-44bd-b2bf-ed24c7f69d6d',
   'x-ms-request-id',
-  '4e153777-89d8-4103-8cc2-dd70e9582241',
+  'b5971f9f-6db8-41c7-adc7-9db2ba3436ef',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=1;da_age=4853;rd_age=4853;brd_age=897;ra_notif_age=492;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:20 GMT'
+  'Mon, 15 Aug 2022 18:23:55 GMT',
+  'Content-Length',
+  '652'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecretbypage-3839266893000097","attributes":{"enabled":true,"created":1660584525,"updated":1660584525,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzJJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNVNSVlJTU1VWV1JVRk1URlpGVWxOSlQwNVRUMFpCVTBWRFVrVlVRbGxRUVVkRkxUUTRORE13TURVME16ZzBNVEkzT0RRaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  '83e1059c-b57e-4580-8548-935f80e71859',
+  'f1ea4aa8-f50c-41f5-9474-2a91b507ea83',
   'x-ms-request-id',
-  'ae3bbd51-c701-4532-a697-397cde76af50',
+  '734678d9-92dc-4f23-984e-ba8c4435c1d7',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=1;da_age=4853;rd_age=4853;brd_age=897;ra_notif_age=492;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:22 GMT'
+  'Mon, 15 Aug 2022 18:23:55 GMT',
+  'Content-Length',
+  '652'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecretbypage-4843005438412784","attributes":{"enabled":true,"created":1660585628,"updated":1660585628,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzJJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNVNSVlJTU1VWV1JVRk1URlpGVWxOSlQwNVRUMFpCVTBWRFVrVlVRbGxRUVVkRkxUVTBOekEzTXpZNE1UVXpNVFUyTkRJaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  '1b00273d-eb78-48f6-af54-fecc1c42d856',
+  '3b12d0aa-8004-4b1a-9c1b-92cd4488d17b',
   'x-ms-request-id',
-  '7d8debe0-3816-42ea-af14-84f916b8e53c',
+  '111ed15c-9dcc-4f62-b4e2-8a4f330fc8e1',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=1;da_age=4853;rd_age=4853;brd_age=897;ra_notif_age=492;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:24 GMT'
+  'Mon, 15 Aug 2022 18:23:55 GMT',
+  'Content-Length',
+  '652'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecretbypage-5470736815315642","attributes":{"enabled":true,"created":1660583895,"updated":1660583895,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzJJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNVNSVlJTU1VWV1JVRk1URlpGVWxOSlQwNVRUMFpCVTBWRFVrVlVRbGxRUVVkRkxUVTFOell6TmpVME16QTRNRFkzTkRJaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  '5a7cc085-4874-4cd5-b3da-19332c7d1cbb',
+  '9adfc732-bc3e-4478-938c-a1debe152308',
   'x-ms-request-id',
-  '5d605ec8-67f2-4232-8b17-867149955bd5',
+  'e2e6a92d-e419-4174-aa55-a15d66a52e6a',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=1;da_age=4853;rd_age=4853;brd_age=897;ra_notif_age=492;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:25 GMT'
+  'Mon, 15 Aug 2022 18:23:55 GMT',
+  'Content-Length',
+  '652'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecretbypage-5576365430806742","attributes":{"enabled":true,"created":1660584043,"updated":1660584043,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzJJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNVNSVlJTU1VWV1JVRk1URlpGVWxOSlQwNVRUMFpCVTBWRFVrVlVRbGxRUVVkRkxUWXhNamc0TlRFM01qVXdNVGMyT0RFaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  '6e69a11c-405a-4ac5-a20f-2ba3b74dd643',
+  '121aa9dd-b8db-4fa7-9354-b0732148ddd0',
   'x-ms-request-id',
-  '86ce1511-d1a3-48b5-ba5f-681adb7a5c37',
+  '096f2415-bccf-4d31-af2e-dc78dc434cd2',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=1;da_age=4853;rd_age=4853;brd_age=897;ra_notif_age=492;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:28 GMT'
+  'Mon, 15 Aug 2022 18:23:55 GMT',
+  'Content-Length',
+  '652'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecretbypage-6128851725017681","attributes":{"enabled":true,"created":1660586238,"updated":1660586238,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzJJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNVNSVlJTU1VWV1JVRk1URlpGVWxOSlQwNVRUMFpCVTBWRFVrVlVRbGxRUVVkRkxUWTNNRFV4TXpFek5qY3dNVE16T1RNaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  '4ea547a4-df1e-4817-a40e-ab5e409241d1',
+  'd1581f4a-90d5-4ab1-a0dd-1008365a32fe',
   'x-ms-request-id',
-  '489d7519-0279-4a5b-8d60-50f82ce1a6d7',
+  'be8e2536-3a87-463a-aa57-1fd2b5c11bb2',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=1;da_age=4853;rd_age=4853;brd_age=897;ra_notif_age=492;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:30 GMT'
+  'Mon, 15 Aug 2022 18:23:55 GMT',
+  'Content-Length',
+  '652'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecretbypage-6705131367013393","attributes":{"enabled":true,"created":1660584782,"updated":1660584782,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzFJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNVNSVlJTU1VWV1JVRk1URlpGVWxOSlQwNVRUMFpCVTBWRFVrVlVRbGxRUVVkRkxUYzNORGsyTlRJNU9EZ3dOelkyTVNFd01EQXdNamdoT1RrNU9TMHhNaTB6TVZReU16bzFPVG8xT1M0NU9UazVPVGs1V2lFLSIsIlRhcmdldExvY2F0aW9uIjowfQ&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  '5d06cfa3-da59-48a3-a77b-b111cf2ee259',
+  '6922e1ea-5c2d-4e1f-b3eb-548cf7d197e2',
   'x-ms-request-id',
-  'bdb3c901-7dc9-47e5-a567-f31e92f75862',
+  '4bf9b777-43ec-4eac-94dd-db9eb2e84762',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=1;da_age=4853;rd_age=4853;brd_age=897;ra_notif_age=492;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:33 GMT'
+  'Mon, 15 Aug 2022 18:23:55 GMT',
+  'Content-Length',
+  '652'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecretbypage-774965298807661","attributes":{"enabled":true,"created":1660583891,"updated":1660583891,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzJJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNVNSVlJTU1VWV1JVRk1URlpGVWxOSlQwNVRUMFpCVTBWRFVrVlVRbGxRUVVkRkxUYzRNVEEzTkRneE5USTVNalU1TlRVaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  'ad5721d1-e717-4b8e-be32-cc20d0f823bc',
+  'adca935f-cbd4-4011-8921-a4f60d9e360e',
   'x-ms-request-id',
-  '8b44c23c-4f4d-4630-8035-e12e9a2cd65c',
+  '123e9079-1c09-46de-9f44-ce1a53667899',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=1;da_age=4853;rd_age=4853;brd_age=897;ra_notif_age=492;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:34 GMT'
+  'Mon, 15 Aug 2022 18:23:55 GMT',
+  'Content-Length',
+  '651'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecretbypage-7810748152925955","attributes":{"enabled":true,"created":1660582983,"updated":1660582983,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzJJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNVNSVlJTU1VWV1JVRk1URlpGVWxOSlQwNVRUMFpCVTBWRFVrVlVRbGxRUVVkRkxUYzVPRGs0TURZeU56WTJNRFV3T1RnaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  '20948800-0d22-4742-a487-638490a6df5d',
+  '948d8af9-ea7c-4c22-bd55-b8e6e093f0e0',
   'x-ms-request-id',
-  'fc53dec8-3f6e-45bf-876c-3b2e5d212cd2',
+  'b2cbc9d6-e6d7-4aa4-8dd5-2c49146855da',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=1;da_age=4853;rd_age=4853;brd_age=898;ra_notif_age=492;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:36 GMT'
+  'Mon, 15 Aug 2022 18:23:55 GMT',
+  'Content-Length',
+  '652'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecretbypage-7989806276605098","attributes":{"enabled":true,"created":1660587534,"updated":1660587534,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzJJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNVNSVlJTU1VWV1JVRk1URlpGVWxOSlQwNVRUMFpCVTBWRFVrVlVRbGxRUVVkRkxUZzFOelk0TmpRNU1qTTVNVE0xTmpjaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  '503fd341-acd9-4165-b1bb-4e4c58bfacf4',
+  '84cbe2cb-7aa1-4119-89de-b204805c0d13',
   'x-ms-request-id',
-  '811f4080-4e33-4a35-aa18-12d122df2ce9',
+  'a7016655-bb1b-4487-8533-4afe8bd3370d',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=1;da_age=4853;rd_age=4853;brd_age=898;ra_notif_age=492;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:38 GMT'
+  'Mon, 15 Aug 2022 18:23:55 GMT',
+  'Content-Length',
+  '652'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecretbypage-8576864923913567","attributes":{"enabled":true,"created":1660587539,"updated":1660587539,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzBJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNVNSVlJTU1VWV1JVRk1URlpGVWxOSlQwNVRUMFpCVTBWRFVrVlVRbGxRUVVkRkxUZzFPVFF5Tmpjd01EUTFOalkwSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  'b4425f1b-879a-4319-9bc3-a64f27db2bbc',
+  'dc8fbfe3-ad17-481c-8810-887919c0c90f',
   'x-ms-request-id',
-  '3302998c-0ac1-4275-a982-645bf3f4bb26',
+  'f481fbee-d83b-4291-9c76-b6b62865d430',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=1;da_age=4853;rd_age=4853;brd_age=898;ra_notif_age=492;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:40 GMT'
+  'Mon, 15 Aug 2022 18:23:55 GMT',
+  'Content-Length',
+  '652'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecretbypage-85942670045664","attributes":{"enabled":true,"created":1660584897,"updated":1660584897,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzJJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNVNSVlJTU1VWV1JVRk1URlpGVWxOSlQwNVRUMFpCVTBWRFVrVlVRbGxRUVVkRkxUa3hNRGsxTmpJMU9UazFNVGN4TkRjaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  'c093e155-1422-416b-a088-6576fe8e03ca',
+  '2a9b785a-1b25-4c90-b033-5b6ec05eb028',
   'x-ms-request-id',
-  '98db707b-3c97-4e25-8aa7-9175b37a1d25',
+  'f27ced40-e133-49d1-b833-0e28ce972ab6',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=2;da_age=4853;rd_age=4853;brd_age=898;ra_notif_age=492;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:43 GMT'
+  'Mon, 15 Aug 2022 18:23:55 GMT',
+  'Content-Length',
+  '650'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecretbypage-9109562599517147","attributes":{"enabled":true,"created":1660583037,"updated":1660583037,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.3&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzJJWE5sWTNKbGRDOU1TVk5VVTBWRFVrVlVUa0ZOUlMxRFFVNVNSVlJTU1VWV1JVRk1URlpGVWxOSlQwNVRUMFpCVTBWRFVrVlVRbGxRUVVkRkxUazJPVEkxT0RnM05UWTVOREk0TkRnaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ&maxresults=1"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  '84f6fd08-3002-4d9a-8fb7-4cd35057195e',
+  'c40bdad8-8338-472a-9864-3db727a85bf2',
   'x-ms-request-id',
-  'e3678a9e-211f-48de-9aa6-228886720be6',
+  '07c1c5e1-6625-460f-99cb-c0c3409db648',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=2;da_age=4853;rd_age=4853;brd_age=898;ra_notif_age=492;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:45 GMT'
+  'Mon, 15 Aug 2022 18:23:55 GMT',
+  'Content-Length',
+  '652'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
+  .get('/secrets')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecretbypage-9692588756942848","attributes":{"enabled":true,"created":1660584039,"updated":1660584039,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}],"nextLink":null}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '126',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'eastus',
+  'westus',
   'x-ms-client-request-id',
-  '13d2035b-6268-4e76-bb2c-3b1e70991421',
+  '49888cb3-a4f2-4b9c-90b3-a05f40dc6bfc',
   'x-ms-request-id',
-  'f30a47a3-d555-4f9e-98e1-996ab9306afc',
+  '84ba8969-4a5d-4c4e-8b8a-9c70257e507a',
   'x-ms-keyvault-service-version',
-  '1.2.265.0',
+  '1.9.501.1',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
+  'conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=InterNetwork;',
+  'x-ms-keyvault-rbac-assignment-id',
+  '6c9b6de6-d98e-5367-b067-138ab294bcf6',
+  'x-ms-keyvault-rbac-cache',
+  'ra_age=2;da_age=4853;rd_age=4853;brd_age=898;ra_notif_age=493;dec_lev=0;',
   'X-Content-Type-Options',
   'nosniff',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
   'Date',
-  'Wed, 28 Apr 2021 01:09:47 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '6d5a3a9e-7e91-43ad-9e8e-06758a57c20c',
-  'x-ms-request-id',
-  '6d3291b0-f3fa-4975-a780-be3e9f5a8654',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:09:49 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '9a40b4ea-8224-4fbb-9f4c-996b9cbbcec2',
-  'x-ms-request-id',
-  'db560dbc-fe8f-4e5a-8ed4-45e45921c2fd',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:09:52 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '96132b24-b71b-4d15-8ba4-d18bd782cc70',
-  'x-ms-request-id',
-  'ddf637e0-1301-42c4-96bf-f224c2b6cf63',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:09:53 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '43345f0d-4dd5-447d-aff6-c84ecfb86977',
-  'x-ms-request-id',
-  'b5971d7e-df74-4275-8680-4e39ff0ed714',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:09:55 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '83c746db-71bc-4891-a8e7-d7ecc683e57a',
-  'x-ms-request-id',
-  '17659aee-43df-4a81-8090-747c11d758b9',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:09:57 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '2e1cd9bb-9ce4-482b-9c98-13805d1c8c87',
-  'x-ms-request-id',
-  '72d4462c-f8d1-42c8-9382-ab1c5ddfcb68',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:00 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '6269816e-ef5c-42c7-adf9-eda26a6bf155',
-  'x-ms-request-id',
-  '978fd884-aa4a-4724-8752-e962da2eb52f',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:02 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'a6cde2f7-2192-4129-b87e-c1213eeccbf4',
-  'x-ms-request-id',
-  '1375c0f1-a734-48fd-957e-26c0ec923678',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:04 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '6435eb85-7e3b-48b4-8c63-151c482a7498',
-  'x-ms-request-id',
-  'aabeb432-a11c-4319-b0e5-5d1e84b5714f',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:06 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '1bbe4893-6a88-4192-8075-9dfe8f44811b',
-  'x-ms-request-id',
-  '73850204-da9c-4f83-b8a7-5de7039c2e0c',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:08 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '9d926e60-4118-483c-90f7-dc6cf40bb16a',
-  'x-ms-request-id',
-  'b5b4bdfd-e07c-419b-8c79-cf38517abd52',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:10 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '6773f4c2-50e8-4100-8a11-be7806335fac',
-  'x-ms-request-id',
-  '9e0a238e-9024-4a5f-83e8-79e94c197a52',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:12 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '1356ceb0-a3f9-45a7-9413-0085f14ba5f3',
-  'x-ms-request-id',
-  'bf5cf839-dab5-48c6-9edf-a2837db94074',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:15 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'd72fe86c-67d9-437a-9ffc-b9bb594641f0',
-  'x-ms-request-id',
-  '544c6105-2fc3-49d5-a8bf-a7f522ad3d1f',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:16 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'cd23649e-bf5a-4aaf-9e80-e3c2d48bddc2',
-  'x-ms-request-id',
-  'c2036260-c76e-48a4-98ba-1689edaa5111',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:19 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'c4defddf-2ad8-473a-b533-679e7d0fb862',
-  'x-ms-request-id',
-  '2403d50c-31b1-4f79-b3ef-20bd7d1f9b43',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:21 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'f8c3100d-fed4-462a-8672-9f04cc6c9cca',
-  'x-ms-request-id',
-  'f82f064f-78e6-4e09-abca-b9f21b286913',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:23 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '6554cc1b-8165-42a4-b6c2-e59a4fbee5b5',
-  'x-ms-request-id',
-  'c7124a24-1a42-492c-87f9-7d33b7d7d8be',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:25 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '7aec40ac-0724-437b-81d1-cf0a95378a27',
-  'x-ms-request-id',
-  'ba1d02d6-a4b9-4abb-a17e-fce0fdd43742',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:28 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '0d7fc3c4-9126-4754-a82a-d8a0a1370275',
-  'x-ms-request-id',
-  '939aa22d-02b5-4a98-b4af-85071510934e',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:29 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '18572216-cd9b-4b46-9945-c5c2e5dcea83',
-  'x-ms-request-id',
-  '6a8013b7-815e-44fd-951f-0b0d62c3846b',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:31 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'd3b25523-4176-4919-81d8-2ce330e9c9c3',
-  'x-ms-request-id',
-  '65176af4-c4b4-460d-a16e-639d664cdb11',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:33 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '358c92b2-69f6-4139-9e5c-c916a9612e50',
-  'x-ms-request-id',
-  '608e7bb6-43c8-4ce8-9e68-1a8cdda5f33a',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:35 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '365102c1-0854-46a8-b559-082e92ebffd0',
-  'x-ms-request-id',
-  '4cdb2e4c-cb2a-44f5-b4e9-59d78f625cb4',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:38 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'a64d4302-39d1-4c18-a351-b3ced57cc9c0',
-  'x-ms-request-id',
-  '85d446d9-2065-4ce9-8730-0c8e4955f887',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:40 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'fe5145d9-5f5d-4c57-961c-203d4ba83cb3',
-  'x-ms-request-id',
-  'ff9d13cf-5c95-495a-b8d0-d9131751b598',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:42 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '21a56e99-81bc-41c7-97be-0d81d2b7e829',
-  'x-ms-request-id',
-  '9323dfc3-f3ca-4cc9-aec9-39c3e72cbf30',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:44 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '13ff5ac9-d7e4-4c7c-a2d3-6b090db4ea2e',
-  'x-ms-request-id',
-  '954da00e-cd7e-4c43-9355-e1ba36c1e7d0',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:46 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '984fc81b-9c54-4ba9-a015-04bba630a69e',
-  'x-ms-request-id',
-  '0767069b-3059-4bda-862f-fef8beaf6fab',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:48 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-0"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '58ce3970-de9a-4548-9894-99abbfb56776',
-  'x-ms-request-id',
-  'a86ee098-bf4b-4f36-9780-393edcf5c211',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:50 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName-canlistsecretsbypage-0","deletedDate":1619572123,"scheduledPurgeDate":1627348123,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-0/d34afb526c5d4af1afb903e85f398ac9","attributes":{"enabled":true,"created":1619572123,"updated":1619572123,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '0fe10cc5-5b25-4d67-8ab0-3bcab80b88ea',
-  'x-ms-request-id',
-  '534a5581-e230-4478-a66a-b6b570e9a1a0',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:53 GMT',
-  'Content-Length',
-  '463'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/listSecretName-canlistsecretsbypage-0')
-  .query(true)
-  .reply(204, "", [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'c79580c7-28a8-4b9e-bd6f-a36e2644c3d7',
-  'x-ms-request-id',
-  '73b7b588-b738-4926-b402-cca074ca9038',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:53 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/secrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName-canlistsecretsbypage-1","deletedDate":1619572253,"scheduledPurgeDate":1627348253,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-1/0ccb1f79812d4ca588bec3a219c2d46a","attributes":{"enabled":true,"created":1619572123,"updated":1619572123,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '420dec7d-109d-47af-9b32-aed50f42998a',
-  'x-ms-request-id',
-  'ae465cd8-e523-4735-9e26-1b638ccd7af9',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:53 GMT',
-  'Content-Length',
-  '463'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '6d721730-26b2-4235-a27f-50d48c63a884',
-  'x-ms-request-id',
-  '4a15d57a-e3dc-4549-b8b6-7da775741bd5',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:53 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'e2c45c00-ab5c-4ca6-a6ae-012e0c75f87d',
-  'x-ms-request-id',
-  '0ad668a6-e01e-41d7-b926-5a32c8f715d4',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:53 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '849040a0-1876-4bc8-807f-dbf736ef9421',
-  'x-ms-request-id',
-  'd72ecd24-5886-4198-a974-b379a27eba16',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:55 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '6a2d5e48-ff15-414f-b024-8dc25c5d08ec',
-  'x-ms-request-id',
-  'c511b854-328b-47d2-b309-7019c35b1e84',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:57 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '77d571b8-fbaf-4e98-8e54-0d491ccda756',
-  'x-ms-request-id',
-  'f5ec3230-76bd-4fa3-844e-48337f57f4a0',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:10:59 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'aef5f6ed-2f7d-4ae4-a02d-72dba4a4f513',
-  'x-ms-request-id',
-  'a83d8f2f-1ced-4e92-82fa-d65133364cc1',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:11:01 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'd565d17e-6e7b-4432-927f-a589e4174aa4',
-  'x-ms-request-id',
-  '789c89df-06ce-4116-8bae-3be474047dbc',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:11:03 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '562c0065-abe4-4bd9-98cf-cd9561af5b9d',
-  'x-ms-request-id',
-  '31bdc0b7-8301-4179-85c2-5b61725b0efc',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:11:06 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '19a34c37-47ee-4c90-8f5b-d73789a38088',
-  'x-ms-request-id',
-  '09432ce9-9a13-44f6-932c-af6bf2dea78f',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:11:08 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'f39a0640-14ec-44c2-923a-d3b485c6ff9f',
-  'x-ms-request-id',
-  '6b02a5b1-f505-4ed6-97f6-822ee5871dd8',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:11:10 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'e9bfb63a-6c29-4504-b32d-210ae5d7a2ac',
-  'x-ms-request-id',
-  '325d5712-caf3-42aa-99d8-6c9cc68add17',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:11:12 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '7b2eee43-9823-4b62-85de-873f9002705e',
-  'x-ms-request-id',
-  '25eb7b25-9cd4-4121-a6e4-774f74bddd76',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:11:14 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '67351099-c009-4e72-8259-321b195953a7',
-  'x-ms-request-id',
-  'd1038ad8-272b-4cd7-8664-9ba2b21fb54c',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:11:16 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'a89eb097-d977-4078-ac47-c527b0ad6a9d',
-  'x-ms-request-id',
-  '87c53f56-c793-444c-b936-75c8ca5e6f95',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:11:18 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '60bcec8e-5edb-4e13-83f4-9b8c1d423891',
-  'x-ms-request-id',
-  '92c57f45-f3cc-405f-b1b7-2c738e16cec1',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:11:20 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '1ef138a5-87c1-4a93-a4b8-27bd9f58d7d6',
-  'x-ms-request-id',
-  '88eeaf58-586d-479e-8f52-317105080f36',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:11:22 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '8b51eb0c-529f-4b61-94a3-7e609c77373c',
-  'x-ms-request-id',
-  'b234fb24-e4fa-4ed0-970e-50eecc4fc504',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:11:26 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '5ccb831b-2a65-4ad8-a45c-2f7ea993379f',
-  'x-ms-request-id',
-  '3c2fa931-1540-4b2c-ad5d-8eba41a7da6b',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:11:28 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'abc05eae-04a5-4c72-9a2e-b096e2d93b18',
-  'x-ms-request-id',
-  '6a6fac3b-92ed-47ed-baf0-da493845183b',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:11:30 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '1dab5063-dcd2-4869-9a44-9e9ecbbb8681',
-  'x-ms-request-id',
-  'fb5e9dc6-d77b-40cd-932a-1166494d83a7',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:11:32 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistsecretsbypage-1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '126',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '73a2acf2-93ec-48d2-9d00-57038eeac0be',
-  'x-ms-request-id',
-  '0de7d83d-8d6c-4151-8a5e-23abc26035b3',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:11:34 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName-canlistsecretsbypage-1","deletedDate":1619572253,"scheduledPurgeDate":1627348253,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecretsbypage-1/0ccb1f79812d4ca588bec3a219c2d46a","attributes":{"enabled":true,"created":1619572123,"updated":1619572123,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '6180ead1-6602-4a23-9852-b692222e65a0',
-  'x-ms-request-id',
-  'b832a86d-c2c0-463d-9d10-d0f4713970f3',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:11:36 GMT',
+  'Mon, 15 Aug 2022 18:23:55 GMT',
   'Content-Length',
-  '463'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/listSecretName-canlistsecretsbypage-1')
-  .query(true)
-  .reply(204, "", [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'e6ecd9fb-98ca-4e43-95f9-881c2f3bf21e',
-  'x-ms-request-id',
-  '424c9ec9-5da5-4f96-be5c-8f5be4063d08',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 01:11:36 GMT'
+  '294'
 ]);

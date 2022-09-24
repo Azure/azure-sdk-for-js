@@ -23,6 +23,7 @@ export {
 export { AuthenticationRecord } from "./msal/types";
 export { serializeAuthenticationRecord, deserializeAuthenticationRecord } from "./msal/utils";
 export { TokenCredentialOptions } from "./tokenCredentialOptions";
+export { MultiTenantTokenCredentialOptions } from "./credentials/multiTenantTokenCredentialOptions";
 
 // TODO: Export again once we're ready to release this feature.
 // export { RegionalAuthority } from "./regionalAuthority";
@@ -30,18 +31,20 @@ export { TokenCredentialOptions } from "./tokenCredentialOptions";
 export { InteractiveCredentialOptions } from "./credentials/interactiveCredentialOptions";
 
 export { ChainedTokenCredential } from "./credentials/chainedTokenCredential";
+
+export { ClientSecretCredential } from "./credentials/clientSecretCredential";
+export { ClientSecretCredentialOptions } from "./credentials/clientSecretCredentialOptions";
+
+export { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 export {
-  DefaultAzureCredential,
   DefaultAzureCredentialOptions,
   DefaultAzureCredentialClientIdOptions,
   DefaultAzureCredentialResourceIdOptions,
-} from "./credentials/defaultAzureCredential";
-export {
-  EnvironmentCredential,
-  EnvironmentCredentialOptions,
-} from "./credentials/environmentCredential";
-export { ClientSecretCredential } from "./credentials/clientSecretCredential";
-export { ClientSecretCredentialOptions } from "./credentials/clientSecretCredentialOptions";
+} from "./credentials/defaultAzureCredentialOptions";
+
+export { EnvironmentCredential } from "./credentials/environmentCredential";
+export { EnvironmentCredentialOptions } from "./credentials/environmentCredentialOptions";
+
 export {
   ClientCertificateCredential,
   ClientCertificateCredentialPEMConfiguration,
@@ -49,6 +52,8 @@ export {
   ClientCertificatePEMCertificate,
 } from "./credentials/clientCertificateCredential";
 export { ClientCertificateCredentialOptions } from "./credentials/clientCertificateCredentialOptions";
+export { ClientAssertionCredential } from "./credentials/clientAssertionCredential";
+export { ClientAssertionCredentialOptions } from "./credentials/clientAssertionCredentialOptions";
 export { CredentialPersistenceOptions } from "./credentials/credentialPersistenceOptions";
 export { AzureCliCredential } from "./credentials/azureCliCredential";
 export { AzureCliCredentialOptions } from "./credentials/azureCliCredentialOptions";
@@ -69,23 +74,21 @@ export {
   DeviceCodeInfo,
 } from "./credentials/deviceCodeCredentialOptions";
 export { DeviceCodeCredentialOptions } from "./credentials/deviceCodeCredentialOptions";
-export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";
-export { UsernamePasswordCredentialOptions } from "./credentials/usernamePasswordCredentialOptions";
+
 export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
+export { AuthorizationCodeCredentialOptions } from "./credentials/authorizationCodeCredentialOptions";
 export { AzurePowerShellCredential } from "./credentials/azurePowerShellCredential";
 export { AzurePowerShellCredentialOptions } from "./credentials/azurePowerShellCredentialOptions";
-
-export {
-  VisualStudioCodeCredential,
-  VisualStudioCodeCredentialOptions,
-} from "./credentials/visualStudioCodeCredential";
-
-export { OnBehalfOfCredential } from "./credentials/onBehalfOfCredential";
 export {
   OnBehalfOfCredentialOptions,
   OnBehalfOfCredentialSecretOptions,
   OnBehalfOfCredentialCertificateOptions,
 } from "./credentials/onBehalfOfCredentialOptions";
+export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";
+export { UsernamePasswordCredentialOptions } from "./credentials/usernamePasswordCredentialOptions";
+export { VisualStudioCodeCredential } from "./credentials/visualStudioCodeCredential";
+export { VisualStudioCodeCredentialOptions } from "./credentials/visualStudioCodeCredentialOptions";
+export { OnBehalfOfCredential } from "./credentials/onBehalfOfCredential";
 
 export { TokenCachePersistenceOptions } from "./msal/nodeFlows/tokenCachePersistenceOptions";
 

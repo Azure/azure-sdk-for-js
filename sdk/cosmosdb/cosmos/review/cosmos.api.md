@@ -405,6 +405,8 @@ export const Constants: {
     ThrottleRetryCount: string;
     ThrottleRetryWaitTimeInMs: string;
     CurrentVersion: string;
+    AzureNamespace: string;
+    AzurePackageName: string;
     SDKName: string;
     SDKVersion: string;
     Quota: {
@@ -541,7 +543,7 @@ export interface CosmosClientOptions {
     agent?: Agent;
     connectionPolicy?: ConnectionPolicy;
     consistencyLevel?: keyof typeof ConsistencyLevel;
-    // Warning: (ae-forgotten-export) The symbol "CosmosHeaders" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "CosmosHeaders_2" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
     defaultHeaders?: CosmosHeaders_2;
@@ -1718,7 +1720,6 @@ export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, reso
 export interface SharedOptions {
     abortSignal?: AbortSignal_2;
     initialHeaders?: CosmosHeaders;
-    // @beta
     maxIntegratedCacheStalenessInMs?: number;
     sessionToken?: string;
 }

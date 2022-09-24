@@ -4,15 +4,14 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import * as path from "path";
-import fs from "fs";
-import { assert } from "@azure/test-utils";
-import { AbortController } from "@azure/abort-controller";
-import { env, isPlaybackMode, delay, Recorder } from "@azure-tools/test-recorder";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
+import { Recorder, delay, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { AbortController } from "@azure/abort-controller";
 import { ClientCertificateCredential } from "../../../src";
 import { Context } from "mocha";
-import { readFileSync } from "fs";
 import { PipelineResponse } from "@azure/core-rest-pipeline";
+import { assert } from "@azure/test-utils";
+import fs from "fs";
 
 const ASSET_PATH = "assets";
 
@@ -52,7 +51,7 @@ describe("ClientCertificateCredential", function () {
       env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
       {
         certificate:
-          env.IDENTITY_PEM_CONTENTS || readFileSync(certificatePath, { encoding: "utf-8" }),
+          env.IDENTITY_PEM_CONTENTS || fs.readFileSync(certificatePath, { encoding: "utf-8" }),
       },
       recorder.configureClientOptions({})
     );

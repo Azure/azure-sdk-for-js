@@ -97,22 +97,32 @@ steps:
       eng/scripts/stage-api-review-file.ps1 -PackageInfoPath $(Build.ArtifactStagingDirectory)/PackageInfo -StagingDirectory $(Build.ArtifactStagingDirectory)
     displayName: 'Copy API extracted files'
 
+  - task: Powershell@2
+    inputs:
+      filePath: $(Build.SourcesDirectory)/eng/scripts/Generate-APIView-CodeFile.ps1
+      arguments: >
+        -ArtifactPath $(Build.ArtifactStagingDirectory)
+      pwsh: true
+      workingDirectory: $(Pipeline.Workspace)
+    displayName: Create APIView code file
+
   - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
     parameters:
       ArtifactPath: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'packages'
 
-  - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
-    displayName: 'Upload Package SBOM'
-    inputs:
-      BuildDropPath: $(Build.ArtifactStagingDirectory)
+  - ${{if eq(variables['System.TeamProject'], 'internal') }}:
+    - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
+      displayName: 'Upload Package SBOM'
+      inputs:
+        BuildDropPath: $(Build.ArtifactStagingDirectory)
 
-  - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
-    parameters:
-      ArtifactPath: '$(Build.ArtifactStagingDirectory)/_manifest'
-      ArtifactName: 'manifest'
+    - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+      parameters:
+        ArtifactPath: '$(Build.ArtifactStagingDirectory)/_manifest'
+        ArtifactName: 'manifest'
 
-  - template: /eng/common/pipelines/templates/steps/create-apireview.yml
+  - template: /eng/pipelines/templates/steps/create-apireview.yml
     parameters:
       Artifacts: ${{ parameters.Artifacts }}
 

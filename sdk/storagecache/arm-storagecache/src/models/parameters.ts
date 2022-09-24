@@ -13,6 +13,8 @@ import {
 } from "@azure/core-client";
 import {
   Cache as CacheMapper,
+  PrimingJob as PrimingJobMapper,
+  PrimingJobIdParameter as PrimingJobIdParameterMapper,
   StorageTarget as StorageTargetMapper
 } from "../models/mappers";
 
@@ -43,7 +45,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-01-01",
+    defaultValue: "2022-05-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -137,6 +139,32 @@ export const contentType: OperationParameter = {
 export const cache: OperationParameter = {
   parameterPath: ["options", "cache"],
   mapper: CacheMapper
+};
+
+export const primingjob: OperationParameter = {
+  parameterPath: ["options", "primingjob"],
+  mapper: PrimingJobMapper
+};
+
+export const primingJobId: OperationParameter = {
+  parameterPath: ["options", "primingJobId"],
+  mapper: PrimingJobIdParameterMapper
+};
+
+export const spaceAllocation: OperationParameter = {
+  parameterPath: ["options", "spaceAllocation"],
+  mapper: {
+    serializedName: "spaceAllocation",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "Composite",
+          className: "StorageTargetSpaceAllocation"
+        }
+      }
+    }
+  }
 };
 
 export const storageTargetName: OperationURLParameter = {

@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import * as path from "path";
+import { IdentityTestContext, prepareMSALResponses } from "../../httpRequests";
+import { IdentityTestContextInterface, createResponse } from "../../httpRequestsCommon";
+import { OnBehalfOfCredential } from "../../../src";
 import { assert } from "chai";
 import { isNode } from "@azure/core-util";
-import { OnBehalfOfCredential } from "../../../src";
-import { createResponse, IdentityTestContextInterface } from "../../httpRequestsCommon";
-import { IdentityTestContext, prepareMSALResponses } from "../../httpRequests";
 
 describe("OnBehalfOfCredential", function () {
   let testContext: IdentityTestContextInterface;

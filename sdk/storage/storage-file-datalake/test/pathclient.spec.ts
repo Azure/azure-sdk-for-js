@@ -10,7 +10,12 @@ import { assert } from "chai";
 
 import { DataLakeDirectoryClient, DataLakeFileClient, DataLakeFileSystemClient } from "../src";
 import { toPermissionsString } from "../src/transforms";
-import { bodyToString, getDataLakeServiceClient, recorderEnvSetup } from "./utils";
+import {
+  bodyToString,
+  getDataLakeServiceClient,
+  getEncryptionScope,
+  recorderEnvSetup,
+} from "./utils";
 import { Context } from "mocha";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 
@@ -39,6 +44,586 @@ describe("DataLakePathClient", () => {
   afterEach(async function () {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
+  });
+
+  it("DataLakeFileClient create with meta data", async () => {
+    const testFileName = recorder.getUniqueName("testfile");
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const metadata = {
+      a: "a",
+      b: "b",
+    };
+
+    await testFileClient.create({ metadata: metadata });
+    const result = await testFileClient.getProperties();
+    assert.deepStrictEqual(result.metadata, metadata);
+  });
+
+  it("DataLakeFileClient create with permission and umark", async () => {
+    const testFileName = recorder.getUniqueName("testfile");
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const permissionString = "0777";
+    const umask = "0057";
+
+    await testFileClient.create({ permissions: permissionString, umask: umask });
+    const result = await testFileClient.getAccessControl();
+    const permissions = {
+      owner: {
+        read: true,
+        write: true,
+        execute: true,
+      },
+      group: {
+        read: false,
+        write: true,
+        execute: false,
+      },
+      other: {
+        read: false,
+        write: false,
+        execute: false,
+      },
+      stickyBit: false,
+      extendedAcls: false,
+    };
+    assert.deepEqual(result.permissions, permissions);
+  });
+
+  it("DataLakeFileClient create with headers", async () => {
+    const testFileName = recorder.getUniqueName("testfile");
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const httpHeader = {
+      cacheControl: "control",
+      contentEncoding: "encoding",
+      contentLanguage: "language",
+      contentDisposition: "disposition",
+      contentType: "type/subtype",
+    };
+
+    await testFileClient.create({ pathHttpHeaders: httpHeader });
+    const result = await testFileClient.getProperties();
+    assert.equal(result.cacheControl, httpHeader.cacheControl);
+    assert.equal(result.contentEncoding, httpHeader.contentEncoding);
+    assert.equal(result.contentLanguage, httpHeader.contentLanguage);
+    assert.equal(result.contentDisposition, httpHeader.contentDisposition);
+    assert.equal(result.contentType, httpHeader.contentType);
+  });
+
+  it("DataLakeFileClient create with leaseId", async () => {
+    const testFileName = recorder.getUniqueName("testfile");
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const leaseId = "25180729-00c9-42b0-938b-ecabce67a007";
+    const leaseDuration = 20;
+
+    await testFileClient.create({ proposedLeaseId: leaseId, leaseDuration: leaseDuration });
+    const result = await testFileClient.getProperties();
+    assert.equal(result.leaseDuration, "fixed");
+    assert.equal(result.leaseState, "leased");
+    assert.equal(result.leaseStatus, "locked");
+  });
+
+  it("DataLakeFileClient create with relative expiry", async () => {
+    const testFileName = recorder.getUniqueName("testfile");
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const timeToExpireInMs = 60 * 60 * 1000; // 1hour
+    await testFileClient.create({ expiresOn: timeToExpireInMs });
+    const result = await testFileClient.getProperties();
+    assert.equal(result.createdOn!.getTime() + 1000 * 3600, result.expiresOn!.getTime());
+  });
+
+  it("DataLakeFileClient create with absolute expiry", async () => {
+    const now = new Date();
+    const recordedNow = recorder.newDate("now"); // Flaky workaround for the recording to work.
+    const delta = 20 * 1000;
+    const expiresOn = new Date(now.getTime() + delta);
+
+    const testFileName = recorder.getUniqueName("testfile");
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    await testFileClient.create({ expiresOn: expiresOn });
+
+    const result = await testFileClient.getProperties();
+    const recordedExpiresOn = new Date(recordedNow.getTime() + delta);
+    recordedExpiresOn.setMilliseconds(0); // milliseconds dropped
+    assert.equal(result.expiresOn?.getTime(), recordedExpiresOn.getTime());
+
+    await delay(delta);
+    assert.ok(!(await testFileClient.exists()));
+  });
+
+  it("DataLakeFileClient create with all parameters", async () => {
+    const metadata = {
+      a: "a",
+      b: "b",
+    };
+
+    const permissionString = "0777";
+    const umask = "0057";
+
+    const httpHeader = {
+      cacheControl: "control",
+      contentEncoding: "encoding",
+      contentLanguage: "language",
+      contentDisposition: "disposition",
+      contentType: "type/subtype",
+    };
+    const leaseId = "25180729-00c9-42b0-938b-ecabce67a007";
+    const leaseDuration = 20;
+
+    const timeToExpireInMs = 60 * 1000; // 60s
+
+    const testFileName = recorder.getUniqueName("testfile");
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    await testFileClient.create({
+      metadata: metadata,
+      permissions: permissionString,
+      umask: umask,
+      pathHttpHeaders: httpHeader,
+      proposedLeaseId: leaseId,
+      leaseDuration: leaseDuration,
+      expiresOn: timeToExpireInMs,
+    });
+
+    const result = await testFileClient.getProperties();
+    assert.deepStrictEqual(result.metadata, metadata);
+    assert.equal(result.createdOn!.getTime() + 1000 * 60, result.expiresOn!.getTime());
+    assert.equal(result.leaseDuration, "fixed");
+    assert.equal(result.leaseState, "leased");
+    assert.equal(result.leaseStatus, "locked");
+    assert.equal(result.cacheControl, httpHeader.cacheControl);
+    assert.equal(result.contentEncoding, httpHeader.contentEncoding);
+    assert.equal(result.contentLanguage, httpHeader.contentLanguage);
+    assert.equal(result.contentDisposition, httpHeader.contentDisposition);
+    assert.equal(result.contentType, httpHeader.contentType);
+    const aclResult = await testFileClient.getAccessControl();
+    const permissions = {
+      owner: {
+        read: true,
+        write: true,
+        execute: true,
+      },
+      group: {
+        read: false,
+        write: true,
+        execute: false,
+      },
+      other: {
+        read: false,
+        write: false,
+        execute: false,
+      },
+      stickyBit: false,
+      extendedAcls: false,
+    };
+    assert.deepEqual(aclResult.permissions, permissions);
+  });
+
+  it("DataLakeFileClient createIfNotExists with default parameters", async () => {
+    const testFileName = recorder.getUniqueName("testfile");
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+
+    await testFileClient.createIfNotExists();
+    assert.ok(await testFileClient.exists());
+  });
+
+  it("DataLakeFileClient createIfNotExists with meta data", async () => {
+    const testFileName = recorder.getUniqueName("testfile");
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const metadata = {
+      a: "a",
+      b: "b",
+    };
+
+    await testFileClient.createIfNotExists({ metadata: metadata });
+    const result = await testFileClient.getProperties();
+    assert.deepStrictEqual(result.metadata, metadata);
+  });
+
+  it("DataLakeFileClient createIfNotExists with permission and umark", async () => {
+    const testFileName = recorder.getUniqueName("testfile");
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const permissionString = "0777";
+    const umask = "0057";
+
+    await testFileClient.createIfNotExists({ permissions: permissionString, umask: umask });
+    const result = await testFileClient.getAccessControl();
+    const permissions = {
+      owner: {
+        read: true,
+        write: true,
+        execute: true,
+      },
+      group: {
+        read: false,
+        write: true,
+        execute: false,
+      },
+      other: {
+        read: false,
+        write: false,
+        execute: false,
+      },
+      stickyBit: false,
+      extendedAcls: false,
+    };
+    assert.deepEqual(result.permissions, permissions);
+  });
+
+  it("DataLakeFileClient createIfNotExists with headers", async () => {
+    const testFileName = recorder.getUniqueName("testfile");
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const httpHeader = {
+      cacheControl: "control",
+      contentEncoding: "encoding",
+      contentLanguage: "language",
+      contentDisposition: "disposition",
+      contentType: "type/subtype",
+    };
+
+    await testFileClient.createIfNotExists({ pathHttpHeaders: httpHeader });
+    const result = await testFileClient.getProperties();
+    assert.equal(result.cacheControl, httpHeader.cacheControl);
+    assert.equal(result.contentEncoding, httpHeader.contentEncoding);
+    assert.equal(result.contentLanguage, httpHeader.contentLanguage);
+    assert.equal(result.contentDisposition, httpHeader.contentDisposition);
+    assert.equal(result.contentType, httpHeader.contentType);
+  });
+
+  it("DataLakeFileClient createIfNotExists with leaseId", async () => {
+    const testFileName = recorder.getUniqueName("testfile");
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const leaseId = "25180729-00c9-42b0-938b-ecabce67a007";
+    const leaseDuration = 20;
+
+    await testFileClient.createIfNotExists({
+      proposedLeaseId: leaseId,
+      leaseDuration: leaseDuration,
+    });
+    const result = await testFileClient.getProperties();
+    assert.equal(result.leaseDuration, "fixed");
+    assert.equal(result.leaseState, "leased");
+    assert.equal(result.leaseStatus, "locked");
+  });
+
+  it("DataLakeFileClient createIfNotExists with relative expiry", async () => {
+    const testFileName = recorder.getUniqueName("testfile");
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const timeToExpireInMs = 60 * 60 * 1000; // 1hour
+    await testFileClient.createIfNotExists({ expiresOn: timeToExpireInMs });
+    const result = await testFileClient.getProperties();
+    assert.equal(result.createdOn!.getTime() + 1000 * 3600, result.expiresOn!.getTime());
+  });
+
+  it("DataLakeFileClient createIfNotExists with absolute expiry", async () => {
+    const now = new Date();
+    const recordedNow = recorder.newDate("now"); // Flaky workaround for the recording to work.
+    const delta = 20 * 1000;
+    const expiresOn = new Date(now.getTime() + delta);
+
+    const testFileName = recorder.getUniqueName("testfile");
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    await testFileClient.createIfNotExists({ expiresOn: expiresOn });
+
+    const result = await testFileClient.getProperties();
+    const recordedExpiresOn = new Date(recordedNow.getTime() + delta);
+    recordedExpiresOn.setMilliseconds(0); // milliseconds dropped
+    assert.equal(result.expiresOn?.getTime(), recordedExpiresOn.getTime());
+
+    await delay(delta);
+    assert.ok(!(await testFileClient.exists()));
+  });
+
+  it("DataLakeDirectoryClient create with default parameters", async () => {
+    const testDirName = recorder.getUniqueName("testdir");
+    const testdirClient = fileSystemClient.getDirectoryClient(testDirName);
+    await testdirClient.create();
+    assert.ok(await testdirClient.exists());
+  });
+
+  it("DataLakeDirectoryClient create with meta data", async () => {
+    const testDirName = recorder.getUniqueName("testdir");
+    const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
+    const metadata = {
+      a: "a",
+      b: "b",
+    };
+
+    await testDirClient.create({ metadata: metadata });
+    const result = await testDirClient.getProperties();
+    assert.deepStrictEqual(result.metadata, {
+      ...metadata,
+      hdi_isfolder: "true",
+    });
+  });
+
+  it("DataLakeDirectoryClient create with permission and umark", async () => {
+    const testDirName = recorder.getUniqueName("testdir");
+    const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
+    const permissionString = "0777";
+    const umask = "0057";
+
+    await testDirClient.create({ permissions: permissionString, umask: umask });
+    const result = await testDirClient.getAccessControl();
+    const permissions = {
+      owner: {
+        read: true,
+        write: true,
+        execute: true,
+      },
+      group: {
+        read: false,
+        write: true,
+        execute: false,
+      },
+      other: {
+        read: false,
+        write: false,
+        execute: false,
+      },
+      stickyBit: false,
+      extendedAcls: false,
+    };
+    assert.deepEqual(result.permissions, permissions);
+  });
+
+  it("DataLakeDirectoryClient create with headers", async () => {
+    const testDirName = recorder.getUniqueName("testdir");
+    const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
+    const httpHeader = {
+      cacheControl: "control",
+      contentEncoding: "encoding",
+      contentLanguage: "language",
+      contentDisposition: "disposition",
+      contentType: "type/subtype",
+    };
+
+    await testDirClient.create({ pathHttpHeaders: httpHeader });
+    const result = await testDirClient.getProperties();
+    assert.equal(result.cacheControl, httpHeader.cacheControl);
+    assert.equal(result.contentEncoding, httpHeader.contentEncoding);
+    assert.equal(result.contentLanguage, httpHeader.contentLanguage);
+    assert.equal(result.contentDisposition, httpHeader.contentDisposition);
+    assert.equal(result.contentType, httpHeader.contentType);
+  });
+
+  it("DataLakeDirectoryClient create with leaseId", async () => {
+    const testDirName = recorder.getUniqueName("testdir");
+    const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
+    const leaseId = "25180729-00c9-42b0-938b-ecabce67a007";
+    const leaseDuration = 20;
+
+    await testDirClient.create({ proposedLeaseId: leaseId, leaseDuration: leaseDuration });
+    const result = await testDirClient.getProperties();
+    assert.equal(result.leaseDuration, "fixed");
+    assert.equal(result.leaseState, "leased");
+    assert.equal(result.leaseStatus, "locked");
+  });
+
+  it("DataLakeDirectoryClient create with all parameters", async () => {
+    const metadata = {
+      a: "a",
+      b: "b",
+    };
+
+    const permissionString = "0777";
+    const umask = "0057";
+
+    const httpHeader = {
+      cacheControl: "control",
+      contentEncoding: "encoding",
+      contentLanguage: "language",
+      contentDisposition: "disposition",
+      contentType: "type/subtype",
+    };
+    const leaseId = "25180729-00c9-42b0-938b-ecabce67a007";
+    const leaseDuration = 20;
+
+    const testDirName = recorder.getUniqueName("testdir");
+    const testDirClient = fileSystemClient.getFileClient(testDirName);
+    await testDirClient.create({
+      metadata: metadata,
+      permissions: permissionString,
+      umask: umask,
+      pathHttpHeaders: httpHeader,
+      proposedLeaseId: leaseId,
+      leaseDuration: leaseDuration,
+    });
+
+    const result = await testDirClient.getProperties();
+    assert.deepStrictEqual(result.metadata, metadata);
+    assert.equal(result.leaseDuration, "fixed");
+    assert.equal(result.leaseState, "leased");
+    assert.equal(result.leaseStatus, "locked");
+    assert.equal(result.cacheControl, httpHeader.cacheControl);
+    assert.equal(result.contentEncoding, httpHeader.contentEncoding);
+    assert.equal(result.contentLanguage, httpHeader.contentLanguage);
+    assert.equal(result.contentDisposition, httpHeader.contentDisposition);
+    assert.equal(result.contentType, httpHeader.contentType);
+    const aclResult = await testDirClient.getAccessControl();
+    const permissions = {
+      owner: {
+        read: true,
+        write: true,
+        execute: true,
+      },
+      group: {
+        read: false,
+        write: true,
+        execute: false,
+      },
+      other: {
+        read: false,
+        write: false,
+        execute: false,
+      },
+      stickyBit: false,
+      extendedAcls: false,
+    };
+    assert.deepEqual(aclResult.permissions, permissions);
+  });
+
+  it("DataLakeDirectoryClient create with relative expiry", async () => {
+    const testDirName = recorder.getUniqueName("testdir");
+    const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
+    const timeToExpireInMs = 60 * 60 * 1000; // 1hour
+    try {
+      await testDirClient.create({ expiresOn: timeToExpireInMs });
+      assert.fail("Creating directory with expiry should fail.");
+    } catch (error) {
+      assert.ok((error as any).message.includes("Set Expiry is not supported for a directory"));
+    }
+  });
+
+  it("DataLakeDirectoryClient create with absolute expiry", async () => {
+    const now = new Date();
+    const delta = 20 * 1000;
+    const expiresOn = new Date(now.getTime() + delta);
+
+    const testDirName = recorder.getUniqueName("testdir");
+    const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
+
+    try {
+      await testDirClient.create({ expiresOn: expiresOn });
+      assert.fail("Creating directory with expiry should fail.");
+    } catch (error) {
+      assert.ok((error as any).message.includes("Set Expiry is not supported for a directory"));
+    }
+  });
+
+  it("DataLakeDirectoryClient createIfNotExists with default parameters", async () => {
+    const testDirName = recorder.getUniqueName("testdir");
+    const testdirClient = fileSystemClient.getDirectoryClient(testDirName);
+    await testdirClient.createIfNotExists();
+    assert.ok(await testdirClient.exists());
+  });
+
+  it("DataLakeDirectoryClient createIfNotExists with meta data", async () => {
+    const testDirName = recorder.getUniqueName("testdir");
+    const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
+    const metadata = {
+      a: "a",
+      b: "b",
+    };
+
+    await testDirClient.createIfNotExists({ metadata: metadata });
+    const result = await testDirClient.getProperties();
+    assert.deepStrictEqual(result.metadata, {
+      ...metadata,
+      hdi_isfolder: "true",
+    });
+  });
+
+  it("DataLakeDirectoryClient createIfNotExists with permission and umark", async () => {
+    const testDirName = recorder.getUniqueName("testdir");
+    const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
+    const permissionString = "0777";
+    const umask = "0057";
+
+    await testDirClient.createIfNotExists({ permissions: permissionString, umask: umask });
+    const result = await testDirClient.getAccessControl();
+    const permissions = {
+      owner: {
+        read: true,
+        write: true,
+        execute: true,
+      },
+      group: {
+        read: false,
+        write: true,
+        execute: false,
+      },
+      other: {
+        read: false,
+        write: false,
+        execute: false,
+      },
+      stickyBit: false,
+      extendedAcls: false,
+    };
+    assert.deepEqual(result.permissions, permissions);
+  });
+
+  it("DataLakeDirectoryClient createIfNotExists with headers", async () => {
+    const testDirName = recorder.getUniqueName("testdir");
+    const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
+    const httpHeader = {
+      cacheControl: "control",
+      contentEncoding: "encoding",
+      contentLanguage: "language",
+      contentDisposition: "disposition",
+      contentType: "type/subtype",
+    };
+
+    await testDirClient.createIfNotExists({ pathHttpHeaders: httpHeader });
+    const result = await testDirClient.getProperties();
+    assert.equal(result.cacheControl, httpHeader.cacheControl);
+    assert.equal(result.contentEncoding, httpHeader.contentEncoding);
+    assert.equal(result.contentLanguage, httpHeader.contentLanguage);
+    assert.equal(result.contentDisposition, httpHeader.contentDisposition);
+    assert.equal(result.contentType, httpHeader.contentType);
+  });
+
+  it("DataLakeDirectoryClient createIfNotExists with leaseId", async () => {
+    const testDirName = recorder.getUniqueName("testdir");
+    const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
+    const leaseId = "25180729-00c9-42b0-938b-ecabce67a007";
+    const leaseDuration = 20;
+
+    await testDirClient.createIfNotExists({
+      proposedLeaseId: leaseId,
+      leaseDuration: leaseDuration,
+    });
+    const result = await testDirClient.getProperties();
+    assert.equal(result.leaseDuration, "fixed");
+    assert.equal(result.leaseState, "leased");
+    assert.equal(result.leaseStatus, "locked");
+  });
+
+  it("DataLakeDirectoryClient createIfNotExists with relative expiry", async () => {
+    const testDirName = recorder.getUniqueName("testdir");
+    const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
+    const timeToExpireInMs = 60 * 60 * 1000; // 1hour
+    try {
+      await testDirClient.createIfNotExists({ expiresOn: timeToExpireInMs });
+      assert.fail("Creating directory with expiry should fail.");
+    } catch (error) {
+      assert.ok((error as any).message.includes("Set Expiry is not supported for a directory"));
+    }
+  });
+
+  it("DataLakeDirectoryClient createIfNotExists with absolute expiry", async () => {
+    const now = new Date();
+    const delta = 20 * 1000;
+    const expiresOn = new Date(now.getTime() + delta);
+
+    const testDirName = recorder.getUniqueName("testdir");
+    const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
+
+    try {
+      await testDirClient.createIfNotExists({ expiresOn: expiresOn });
+      assert.fail("Creating directory with expiry should fail.");
+    } catch (error) {
+      assert.ok((error as any).message.includes("Set Expiry is not supported for a directory"));
+    }
   });
 
   it("read with with default parameters", async () => {
@@ -210,6 +795,31 @@ describe("DataLakePathClient", () => {
       accountName,
       "Account name is not the same as the one provided."
     );
+  });
+
+  it("append with flush should work", async () => {
+    const body = "HelloWorld";
+
+    const tempFileName = recorder.getUniqueName("tempfile2");
+    const tempFileClient = fileSystemClient.getFileClient(tempFileName);
+
+    await tempFileClient.create();
+
+    await tempFileClient.append(body, 0, body.length, {
+      transactionalContentMD5: new Uint8Array([]),
+    });
+    await tempFileClient.append(body, body.length, body.length, {
+      transactionalContentMD5: new Uint8Array([]),
+    });
+    await tempFileClient.append(body, body.length * 2, body.length, {
+      transactionalContentMD5: new Uint8Array([]),
+      flush: true,
+    });
+
+    const properties = await tempFileClient.getProperties();
+    assert.deepStrictEqual(properties.contentLength, body.length * 3);
+
+    await tempFileClient.delete();
   });
 
   it("append & flush should work", async () => {
@@ -819,5 +1429,53 @@ describe("DataLakePathClient with CPK", () => {
       assert.equal((err as any).statusCode, 409);
     }
     assert.ok(gotError, "Should got an error");
+  });
+});
+
+describe("DataLakePathClient - Encryption Scope", () => {
+  let fileSystemName: string;
+  let fileSystemClient: DataLakeFileSystemClient;
+  let encryptionScopeName: string;
+
+  let recorder: Recorder;
+
+  beforeEach(async function (this: Context) {
+    recorder = record(this, recorderEnvSetup);
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const serviceClient = getDataLakeServiceClient();
+    fileSystemName = recorder.getUniqueName("filesystem");
+    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.createIfNotExists({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+  });
+
+  afterEach(async function () {
+    await fileSystemClient?.deleteIfExists();
+    await recorder.stop();
+  });
+
+  it("DataLakeFileClient - getProperties should return Encryption Scope", async () => {
+    const fileName = recorder.getUniqueName("file");
+    const fileClient = fileSystemClient.getFileClient(fileName);
+    await fileClient.create();
+    const result = await fileClient.getProperties();
+    assert.equal(result.encryptionScope, encryptionScopeName);
+  });
+
+  it("DataLakeDirectoryClient - getProperties should return Encryption Scope", async () => {
+    const dirName = recorder.getUniqueName("dir");
+    const dirClient = fileSystemClient.getDirectoryClient(dirName);
+    await dirClient.create();
+    const result = await dirClient.getProperties();
+    assert.equal(result.encryptionScope, encryptionScopeName);
   });
 });

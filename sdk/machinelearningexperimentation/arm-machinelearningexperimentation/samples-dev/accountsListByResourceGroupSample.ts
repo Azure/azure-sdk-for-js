@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Lists all the available machine learning team accounts under the specified resource group.
  * x-ms-original-file: specification/machinelearningexperimentation/resource-manager/Microsoft.MachineLearningExperimentation/preview/2017-05-01-preview/examples/ListAccountResourceGroup.json
  */
-async function accountCreate() {
+async function accountListByResourceGroup() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "accountcrud-1234";
   const credential = new DefaultAzureCredential();
@@ -31,4 +31,4 @@ async function accountCreate() {
   console.log(resArray);
 }
 
-accountCreate().catch(console.error);
+accountListByResourceGroup().catch(console.error);

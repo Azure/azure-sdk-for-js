@@ -41,8 +41,8 @@ export interface AppServiceInfo {
 
 // @public
 export interface AppServiceListResponse {
-    nextLink: string;
-    value: AppServiceInfo[];
+    nextLink?: string;
+    value?: AppServiceInfo[];
 }
 
 // @public
@@ -98,18 +98,18 @@ export interface DynatraceSingleSignOnProperties {
 }
 
 // @public
-export type DynatraceSingleSignOnResource = ProxyResource & {
-    readonly systemData?: SystemData;
-    singleSignOnState?: SingleSignOnStates;
-    enterpriseAppId?: string;
-    singleSignOnUrl?: string;
+export interface DynatraceSingleSignOnResource extends ProxyResource {
     aadDomains?: string[];
+    enterpriseAppId?: string;
     readonly provisioningState?: ProvisioningState;
-};
+    singleSignOnState?: SingleSignOnStates;
+    singleSignOnUrl?: string;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface DynatraceSingleSignOnResourceListResult {
-    nextLink: string;
+    nextLink?: string;
     value: DynatraceSingleSignOnResource[];
 }
 
@@ -160,219 +160,152 @@ export interface IdentityProperties {
 
 // @public
 export enum KnownActionType {
-    // (undocumented)
     Internal = "Internal"
 }
 
 // @public
 export enum KnownAutoUpdateSetting {
-    // (undocumented)
     Disabled = "DISABLED",
-    // (undocumented)
     Enabled = "ENABLED"
 }
 
 // @public
 export enum KnownAvailabilityState {
-    // (undocumented)
     Crashed = "CRASHED",
-    // (undocumented)
     Lost = "LOST",
-    // (undocumented)
     Monitored = "MONITORED",
-    // (undocumented)
     PREMonitored = "PRE_MONITORED",
-    // (undocumented)
     Shutdown = "SHUTDOWN",
-    // (undocumented)
     UnexpectedShutdown = "UNEXPECTED_SHUTDOWN",
-    // (undocumented)
     Unknown = "UNKNOWN",
-    // (undocumented)
     Unmonitored = "UNMONITORED"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownLiftrResourceCategories {
-    // (undocumented)
     MonitorLogs = "MonitorLogs",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownLogModule {
-    // (undocumented)
     Disabled = "DISABLED",
-    // (undocumented)
     Enabled = "ENABLED"
 }
 
 // @public
 export enum KnownManagedIdentityType {
-    // (undocumented)
     SystemAndUserAssigned = "SystemAndUserAssigned",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownMarketplaceSubscriptionStatus {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Suspended = "Suspended"
 }
 
 // @public
 export enum KnownMonitoringStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownMonitoringType {
-    // (undocumented)
     CloudInfrastructure = "CLOUD_INFRASTRUCTURE",
-    // (undocumented)
     FullStack = "FULL_STACK"
 }
 
 // @public
 export enum KnownOrigin {
-    // (undocumented)
     System = "system",
-    // (undocumented)
     User = "user",
-    // (undocumented)
     UserSystem = "user,system"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownSendAadLogsStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownSendActivityLogsStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownSendingLogsStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownSendingMetricsStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownSendSubscriptionLogsStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownSingleSignOnStates {
-    // (undocumented)
     Disable = "Disable",
-    // (undocumented)
     Enable = "Enable",
-    // (undocumented)
     Existing = "Existing",
-    // (undocumented)
     Initial = "Initial"
 }
 
 // @public
 export enum KnownSSOStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownTagAction {
-    // (undocumented)
     Exclude = "Exclude",
-    // (undocumented)
     Include = "Include"
 }
 
 // @public
 export enum KnownUpdateStatus {
-    // (undocumented)
     Incompatible = "INCOMPATIBLE",
-    // (undocumented)
     Outdated = "OUTDATED",
-    // (undocumented)
     Scheduled = "SCHEDULED",
-    // (undocumented)
     Suppressed = "SUPPRESSED",
-    // (undocumented)
     Unknown = "UNKNOWN",
-    // (undocumented)
     UP2Date = "UP2DATE",
-    // (undocumented)
     UpdateINProgress = "UPDATE_IN_PROGRESS",
-    // (undocumented)
     UpdatePending = "UPDATE_PENDING",
-    // (undocumented)
     UpdateProblem = "UPDATE_PROBLEM"
 }
 
@@ -432,8 +365,8 @@ export interface MonitoredResource {
 
 // @public
 export interface MonitoredResourceListResponse {
-    nextLink: string;
-    value: MonitoredResource[];
+    nextLink?: string;
+    value?: MonitoredResource[];
 }
 
 // @public
@@ -443,22 +376,22 @@ export type MonitoringStatus = string;
 export type MonitoringType = string;
 
 // @public
-export type MonitorResource = TrackedResource & {
-    readonly systemData?: SystemData;
-    identity?: IdentityProperties;
-    monitoringStatus?: MonitoringStatus;
-    marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus;
+export interface MonitorResource extends TrackedResource {
     dynatraceEnvironmentProperties?: DynatraceEnvironmentProperties;
-    userInfo?: UserInfo;
-    planData?: PlanData;
+    identity?: IdentityProperties;
     readonly liftrResourceCategory?: LiftrResourceCategories;
     readonly liftrResourcePreference?: number;
+    marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus;
+    monitoringStatus?: MonitoringStatus;
+    planData?: PlanData;
     readonly provisioningState?: ProvisioningState;
-};
+    readonly systemData?: SystemData;
+    userInfo?: UserInfo;
+}
 
 // @public
 export interface MonitorResourceListResult {
-    nextLink: string;
+    nextLink?: string;
     value: MonitorResource[];
 }
 
@@ -685,7 +618,8 @@ export interface PlanData {
 export type ProvisioningState = string;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface Resource {
@@ -781,16 +715,16 @@ export interface SystemData {
 export type TagAction = string;
 
 // @public
-export type TagRule = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface TagRule extends ProxyResource {
     logRules?: LogRules;
     metricRules?: MetricRules;
     readonly provisioningState?: ProvisioningState;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface TagRuleListResult {
-    nextLink: string;
+    nextLink?: string;
     value: TagRule[];
 }
 
@@ -855,12 +789,12 @@ export interface TagRuleUpdate {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export type UpdateStatus = string;
@@ -888,8 +822,8 @@ export interface VMExtensionPayload {
 
 // @public
 export interface VMHostsListResponse {
-    nextLink: string;
-    value: VMInfo[];
+    nextLink?: string;
+    value?: VMInfo[];
 }
 
 // @public

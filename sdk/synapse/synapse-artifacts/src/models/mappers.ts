@@ -65,6 +65,12 @@ export const LinkConnectionResource: coreClient.CompositeMapper = {
           name: "Composite",
           className: "LinkConnection"
         }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -192,6 +198,34 @@ export const LinkConnectionTargetDatabase: coreClient.CompositeMapper = {
           name: "Composite",
           className: "LinkedServiceReference"
         }
+      },
+      typeProperties: {
+        serializedName: "typeProperties",
+        type: {
+          name: "Composite",
+          className: "LinkConnectionTargetDatabaseTypeProperties"
+        }
+      }
+    }
+  }
+};
+
+export const LinkConnectionTargetDatabaseTypeProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkConnectionTargetDatabaseTypeProperties",
+    modelProperties: {
+      crossTableTransaction: {
+        serializedName: "crossTableTransaction",
+        type: {
+          name: "Boolean"
+        }
+      },
+      dropExistingTargetTableOnStart: {
+        serializedName: "dropExistingTargetTableOnStart",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -268,6 +302,16 @@ export const LinkConnectionCompute: coreClient.CompositeMapper = {
         serializedName: "computeType",
         type: {
           name: "String"
+        }
+      },
+      dataProcessIntervalMinutes: {
+        constraints: {
+          InclusiveMaximum: 60,
+          InclusiveMinimum: 20
+        },
+        serializedName: "dataProcessIntervalMinutes",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -415,6 +459,13 @@ export const LinkTableRequestTarget: coreClient.CompositeMapper = {
           name: "Composite",
           className: "LinkTableRequestTargetDistributionOptions"
         }
+      },
+      structureOptions: {
+        serializedName: "structureOptions",
+        type: {
+          name: "Composite",
+          className: "LinkTableRequestTargetStructureOptions"
+        }
       }
     }
   }
@@ -433,6 +484,21 @@ export const LinkTableRequestTargetDistributionOptions: coreClient.CompositeMapp
       },
       distributionColumn: {
         serializedName: "distributionColumn",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LinkTableRequestTargetStructureOptions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkTableRequestTargetStructureOptions",
+    modelProperties: {
+      type: {
+        serializedName: "type",
         type: {
           name: "String"
         }
@@ -498,6 +564,42 @@ export const LinkConnectionDetailedStatus: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "any"
+        }
+      },
+      refreshStatus: {
+        serializedName: "refreshStatus",
+        type: {
+          name: "Composite",
+          className: "LinkConnectionRefreshStatus"
+        }
+      },
+      landingZoneCredentialExpireTime: {
+        serializedName: "landingZoneCredentialExpireTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const LinkConnectionRefreshStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkConnectionRefreshStatus",
+    modelProperties: {
+      refreshStatus: {
+        serializedName: "refreshStatus",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      errorMessage: {
+        serializedName: "errorMessage",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -566,6 +668,9 @@ export const QueryTableStatusRequest: coreClient.CompositeMapper = {
     className: "QueryTableStatusRequest",
     modelProperties: {
       maxSegmentCount: {
+        constraints: {
+          InclusiveMaximum: 1000
+        },
         serializedName: "maxSegmentCount",
         type: {
           name: "Number"
@@ -641,6 +746,30 @@ export const LinkTableStatus: coreClient.CompositeMapper = {
         serializedName: "stopTime",
         type: {
           name: "any"
+        }
+      },
+      linkTableId: {
+        serializedName: "linkTableId",
+        type: {
+          name: "String"
+        }
+      },
+      errorCode: {
+        serializedName: "errorCode",
+        type: {
+          name: "String"
+        }
+      },
+      lastProcessedData: {
+        serializedName: "lastProcessedData",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastTransactionCommitTime: {
+        serializedName: "lastTransactionCommitTime",
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -2466,6 +2595,13 @@ export const Notebook: coreClient.CompositeMapper = {
           className: "BigDataPoolReference"
         }
       },
+      targetSparkConfiguration: {
+        serializedName: "targetSparkConfiguration",
+        type: {
+          name: "Composite",
+          className: "SparkConfigurationReference"
+        }
+      },
       sessionProperties: {
         serializedName: "sessionProperties",
         type: {
@@ -2522,6 +2658,29 @@ export const BigDataPoolReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "BigDataPoolReference",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      referenceName: {
+        serializedName: "referenceName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SparkConfigurationReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SparkConfigurationReference",
     modelProperties: {
       type: {
         serializedName: "type",
@@ -3404,6 +3563,13 @@ export const SparkJobDefinition: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "BigDataPoolReference"
+        }
+      },
+      targetSparkConfiguration: {
+        serializedName: "targetSparkConfiguration",
+        type: {
+          name: "Composite",
+          className: "SparkConfigurationReference"
         }
       },
       requiredSparkVersion: {
@@ -5044,35 +5210,6 @@ export const RerunTumblingWindowTriggerActionParameters: coreClient.CompositeMap
   }
 };
 
-export const RerunTriggerListResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RerunTriggerListResponse",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "RerunTriggerResource"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const GetSsisObjectMetadataRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5486,6 +5623,35 @@ export const DataFlowDebugResultResponse: coreClient.CompositeMapper = {
       },
       data: {
         serializedName: "data",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RerunTriggerListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RerunTriggerListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RerunTriggerResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -7734,6 +7900,7 @@ export const EntityReference: coreClient.CompositeMapper = {
 };
 
 export const CustomSetupBase: coreClient.CompositeMapper = {
+  serializedName: "CustomSetupBase",
   type: {
     name: "Composite",
     className: "CustomSetupBase",
@@ -8287,6 +8454,12 @@ export const ExcelDataset: coreClient.CompositeMapper = {
       },
       sheetName: {
         serializedName: "typeProperties.sheetName",
+        type: {
+          name: "any"
+        }
+      },
+      sheetIndex: {
+        serializedName: "typeProperties.sheetIndex",
         type: {
           name: "any"
         }
@@ -9738,6 +9911,34 @@ export const SapTableResourceDataset: coreClient.CompositeMapper = {
       ...Dataset.type.modelProperties,
       tableName: {
         serializedName: "typeProperties.tableName",
+        required: true,
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const SapOdpResourceDataset: coreClient.CompositeMapper = {
+  serializedName: "SapOdpResource",
+  type: {
+    name: "Composite",
+    className: "SapOdpResourceDataset",
+    uberParent: "Dataset",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Dataset.type.modelProperties,
+      context: {
+        serializedName: "typeProperties.context",
+        required: true,
+        type: {
+          name: "any"
+        }
+      },
+      objectName: {
+        serializedName: "typeProperties.objectName",
         required: true,
         type: {
           name: "any"
@@ -13267,6 +13468,129 @@ export const SapOpenHubLinkedService: coreClient.CompositeMapper = {
   }
 };
 
+export const SapOdpLinkedService: coreClient.CompositeMapper = {
+  serializedName: "SapOdp",
+  type: {
+    name: "Composite",
+    className: "SapOdpLinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      server: {
+        serializedName: "typeProperties.server",
+        type: {
+          name: "any"
+        }
+      },
+      systemNumber: {
+        serializedName: "typeProperties.systemNumber",
+        type: {
+          name: "any"
+        }
+      },
+      clientId: {
+        serializedName: "typeProperties.clientId",
+        type: {
+          name: "any"
+        }
+      },
+      language: {
+        serializedName: "typeProperties.language",
+        type: {
+          name: "any"
+        }
+      },
+      systemId: {
+        serializedName: "typeProperties.systemId",
+        type: {
+          name: "any"
+        }
+      },
+      userName: {
+        serializedName: "typeProperties.userName",
+        type: {
+          name: "any"
+        }
+      },
+      password: {
+        serializedName: "typeProperties.password",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      messageServer: {
+        serializedName: "typeProperties.messageServer",
+        type: {
+          name: "any"
+        }
+      },
+      messageServerService: {
+        serializedName: "typeProperties.messageServerService",
+        type: {
+          name: "any"
+        }
+      },
+      sncMode: {
+        serializedName: "typeProperties.sncMode",
+        type: {
+          name: "any"
+        }
+      },
+      sncMyName: {
+        serializedName: "typeProperties.sncMyName",
+        type: {
+          name: "any"
+        }
+      },
+      sncPartnerName: {
+        serializedName: "typeProperties.sncPartnerName",
+        type: {
+          name: "any"
+        }
+      },
+      sncLibraryPath: {
+        serializedName: "typeProperties.sncLibraryPath",
+        type: {
+          name: "any"
+        }
+      },
+      sncQop: {
+        serializedName: "typeProperties.sncQop",
+        type: {
+          name: "any"
+        }
+      },
+      x509CertificatePath: {
+        serializedName: "typeProperties.x509CertificatePath",
+        type: {
+          name: "any"
+        }
+      },
+      logonGroup: {
+        serializedName: "typeProperties.logonGroup",
+        type: {
+          name: "any"
+        }
+      },
+      subscriberName: {
+        serializedName: "typeProperties.subscriberName",
+        type: {
+          name: "any"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
 export const RestServiceLinkedService: coreClient.CompositeMapper = {
   serializedName: "RestService",
   type: {
@@ -13343,6 +13667,37 @@ export const RestServiceLinkedService: coreClient.CompositeMapper = {
       },
       encryptedCredential: {
         serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "any"
+        }
+      },
+      clientId: {
+        serializedName: "typeProperties.clientId",
+        type: {
+          name: "any"
+        }
+      },
+      clientSecret: {
+        serializedName: "typeProperties.clientSecret",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      tokenEndpoint: {
+        serializedName: "typeProperties.tokenEndpoint",
+        type: {
+          name: "any"
+        }
+      },
+      resource: {
+        serializedName: "typeProperties.resource",
+        type: {
+          name: "any"
+        }
+      },
+      scope: {
+        serializedName: "typeProperties.scope",
         type: {
           name: "any"
         }
@@ -13503,6 +13858,150 @@ export const ZendeskLinkedService: coreClient.CompositeMapper = {
           className: "SecretBase"
         }
       },
+      apiToken: {
+        serializedName: "typeProperties.apiToken",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const DataworldLinkedService: coreClient.CompositeMapper = {
+  serializedName: "Dataworld",
+  type: {
+    name: "Composite",
+    className: "DataworldLinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      apiToken: {
+        serializedName: "typeProperties.apiToken",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const AppFiguresLinkedService: coreClient.CompositeMapper = {
+  serializedName: "AppFigures",
+  type: {
+    name: "Composite",
+    className: "AppFiguresLinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      userName: {
+        serializedName: "typeProperties.userName",
+        required: true,
+        type: {
+          name: "any"
+        }
+      },
+      password: {
+        serializedName: "typeProperties.password",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      clientKey: {
+        serializedName: "typeProperties.clientKey",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      }
+    }
+  }
+};
+
+export const AsanaLinkedService: coreClient.CompositeMapper = {
+  serializedName: "Asana",
+  type: {
+    name: "Composite",
+    className: "AsanaLinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      apiToken: {
+        serializedName: "typeProperties.apiToken",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const TwilioLinkedService: coreClient.CompositeMapper = {
+  serializedName: "Twilio",
+  type: {
+    name: "Composite",
+    className: "TwilioLinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      userName: {
+        serializedName: "typeProperties.userName",
+        required: true,
+        type: {
+          name: "any"
+        }
+      },
+      password: {
+        serializedName: "typeProperties.password",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      }
+    }
+  }
+};
+
+export const GoogleSheetsLinkedService: coreClient.CompositeMapper = {
+  serializedName: "GoogleSheets",
+  type: {
+    name: "Composite",
+    className: "GoogleSheetsLinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
       apiToken: {
         serializedName: "typeProperties.apiToken",
         type: {
@@ -16896,6 +17395,33 @@ export const SharePointOnlineListLinkedService: coreClient.CompositeMapper = {
   }
 };
 
+export const AzureSynapseArtifactsLinkedService: coreClient.CompositeMapper = {
+  serializedName: "AzureSynapseArtifacts",
+  type: {
+    name: "Composite",
+    className: "AzureSynapseArtifactsLinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      endpoint: {
+        serializedName: "typeProperties.endpoint",
+        required: true,
+        type: {
+          name: "any"
+        }
+      },
+      authentication: {
+        serializedName: "typeProperties.authentication",
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
 export const ControlActivity: coreClient.CompositeMapper = {
   serializedName: "Container",
   type: {
@@ -17206,6 +17732,13 @@ export const DataFlowSink: coreClient.CompositeMapper = {
       ...Transformation.type.modelProperties,
       schemaLinkedService: {
         serializedName: "schemaLinkedService",
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      rejectedDataLinkedService: {
+        serializedName: "rejectedDataLinkedService",
         type: {
           name: "Composite",
           className: "LinkedServiceReference"
@@ -22004,6 +22537,34 @@ export const WaitActivity: coreClient.CompositeMapper = {
   }
 };
 
+export const FailActivity: coreClient.CompositeMapper = {
+  serializedName: "Fail",
+  type: {
+    name: "Composite",
+    className: "FailActivity",
+    uberParent: "Activity",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ControlActivity.type.modelProperties,
+      message: {
+        serializedName: "typeProperties.message",
+        required: true,
+        type: {
+          name: "any"
+        }
+      },
+      errorCode: {
+        serializedName: "typeProperties.errorCode",
+        required: true,
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
 export const UntilActivity: coreClient.CompositeMapper = {
   serializedName: "Until",
   type: {
@@ -23622,6 +24183,12 @@ export const ExecuteDataFlowActivity: coreClient.CompositeMapper = {
         type: {
           name: "any"
         }
+      },
+      sourceStagingConcurrency: {
+        serializedName: "typeProperties.sourceStagingConcurrency",
+        type: {
+          name: "any"
+        }
       }
     }
   }
@@ -23689,6 +24256,30 @@ export const SynapseNotebookActivity: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "Composite", className: "NotebookParameter" } }
+        }
+      },
+      executorSize: {
+        serializedName: "typeProperties.executorSize",
+        type: {
+          name: "any"
+        }
+      },
+      conf: {
+        serializedName: "typeProperties.conf",
+        type: {
+          name: "any"
+        }
+      },
+      driverSize: {
+        serializedName: "typeProperties.driverSize",
+        type: {
+          name: "any"
+        }
+      },
+      numExecutors: {
+        serializedName: "typeProperties.numExecutors",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -24246,6 +24837,44 @@ export const SapOpenHubSource: coreClient.CompositeMapper = {
       },
       sapDataColumnDelimiter: {
         serializedName: "sapDataColumnDelimiter",
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const SapOdpSource: coreClient.CompositeMapper = {
+  serializedName: "SapOdpSource",
+  type: {
+    name: "Composite",
+    className: "SapOdpSource",
+    uberParent: "CopySource",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: CopySource.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...TabularSource.type.modelProperties,
+      extractionMode: {
+        serializedName: "extractionMode",
+        type: {
+          name: "any"
+        }
+      },
+      subscriberProcess: {
+        serializedName: "subscriberProcess",
+        type: {
+          name: "any"
+        }
+      },
+      selection: {
+        serializedName: "selection",
+        type: {
+          name: "any"
+        }
+      },
+      projection: {
+        serializedName: "projection",
         type: {
           name: "any"
         }
@@ -25768,7 +26397,7 @@ export let discriminators = {
   ImportSettings: ImportSettings,
   CopyTranslator: CopyTranslator,
   DependencyReference: DependencyReference,
-  "CustomSetupBase.undefined": CustomSetupBase,
+  "CustomSetupBase.CustomSetupBase": CustomSetupBase,
   LinkedIntegrationRuntimeType: LinkedIntegrationRuntimeType,
   "SecretBase.SecureString": SecureString,
   "SecretBase.AzureKeyVaultSecret": AzureKeyVaultSecretReference,
@@ -25830,6 +26459,7 @@ export let discriminators = {
   "Dataset.AmazonRdsForSqlServerTable": AmazonRdsForSqlServerTableDataset,
   "Dataset.RestResource": RestResourceDataset,
   "Dataset.SapTableResource": SapTableResourceDataset,
+  "Dataset.SapOdpResource": SapOdpResourceDataset,
   "Dataset.WebTable": WebTableDataset,
   "Dataset.AzureSearchIndex": AzureSearchIndexDataset,
   "Dataset.HttpFile": HttpDataset,
@@ -25918,11 +26548,17 @@ export let discriminators = {
   "LinkedService.SapCloudForCustomer": SapCloudForCustomerLinkedService,
   "LinkedService.SapEcc": SapEccLinkedService,
   "LinkedService.SapOpenHub": SapOpenHubLinkedService,
+  "LinkedService.SapOdp": SapOdpLinkedService,
   "LinkedService.RestService": RestServiceLinkedService,
   "LinkedService.TeamDesk": TeamDeskLinkedService,
   "LinkedService.Quickbase": QuickbaseLinkedService,
   "LinkedService.Smartsheet": SmartsheetLinkedService,
   "LinkedService.Zendesk": ZendeskLinkedService,
+  "LinkedService.Dataworld": DataworldLinkedService,
+  "LinkedService.AppFigures": AppFiguresLinkedService,
+  "LinkedService.Asana": AsanaLinkedService,
+  "LinkedService.Twilio": TwilioLinkedService,
+  "LinkedService.GoogleSheets": GoogleSheetsLinkedService,
   "LinkedService.AmazonS3": AmazonS3LinkedService,
   "LinkedService.AmazonRedshift": AmazonRedshiftLinkedService,
   "LinkedService.CustomDataSource": CustomDataSourceLinkedService,
@@ -25975,6 +26611,7 @@ export let discriminators = {
   "LinkedService.AzureFunction": AzureFunctionLinkedService,
   "LinkedService.Snowflake": SnowflakeLinkedService,
   "LinkedService.SharePointOnlineList": SharePointOnlineListLinkedService,
+  "LinkedService.AzureSynapseArtifacts": AzureSynapseArtifactsLinkedService,
   "Activity.Container": ControlActivity,
   "Activity.Execution": ExecutionActivity,
   "Activity.SqlPoolStoredProcedure": SqlPoolStoredProcedureActivity,
@@ -26118,6 +26755,7 @@ export let discriminators = {
   "Activity.Switch": SwitchActivity,
   "Activity.ForEach": ForEachActivity,
   "Activity.Wait": WaitActivity,
+  "Activity.Fail": FailActivity,
   "Activity.Until": UntilActivity,
   "Activity.Validation": ValidationActivity,
   "Activity.Filter": FilterActivity,
@@ -26167,6 +26805,7 @@ export let discriminators = {
   "CopySource.SapEccSource": SapEccSource,
   "CopySource.SapHanaSource": SapHanaSource,
   "CopySource.SapOpenHubSource": SapOpenHubSource,
+  "CopySource.SapOdpSource": SapOdpSource,
   "CopySource.SapTableSource": SapTableSource,
   "CopySource.SqlSource": SqlSource,
   "CopySource.SqlServerSource": SqlServerSource,

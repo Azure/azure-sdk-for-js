@@ -78,6 +78,9 @@ stages:
         jobs:
         - template: /eng/common/pipelines/templates/jobs/archetype-sdk-tests-generate.yml
           parameters:
+            SparseCheckoutPaths:
+              # JS recording files are implicit excluded here since they are using '.js' file extension.
+              - "sdk/${{ parameters.ServiceDirectory }}/**/*.json"
             JobTemplatePath: /eng/pipelines/templates/jobs/live.tests.yml
             AdditionalParameters:
               PackageName: ${{ parameters.PackageName }}

@@ -57,7 +57,7 @@ jobs:
       matrix:
         Mac Node14 (AzureCloud):
           Pool: Azure Pipelines
-          OSVmImage: "macOS-10.15"
+          OSVmImage: "macos-11"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
           NodeTestVersion: "14.x"

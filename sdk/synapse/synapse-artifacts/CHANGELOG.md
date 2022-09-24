@@ -1,14 +1,11 @@
 # Release History
 
-## 1.0.0-beta.11 (Unreleased)
+## 1.0.0-beta.11 (2022-09-21)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Updated to `@azure/core-tracing` 1.0.
+- add a set of new LinkedService types.
 
 ## 1.0.0-beta.10 (2022-04-18)
 

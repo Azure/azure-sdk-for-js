@@ -16,6 +16,8 @@ import {
   PrivateLinkResourcesImpl,
   PrivateEndpointConnectionsImpl,
   LocationsImpl,
+  MediaServicesOperationStatusesImpl,
+  MediaServicesOperationResultsImpl,
   AssetsImpl,
   AssetFiltersImpl,
   TracksImpl,
@@ -37,6 +39,8 @@ import {
   PrivateLinkResources,
   PrivateEndpointConnections,
   Locations,
+  MediaServicesOperationStatuses,
+  MediaServicesOperationResults,
   Assets,
   AssetFilters,
   Tracks,
@@ -84,7 +88,7 @@ export class AzureMediaServices extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-mediaservices/11.0.1`;
+    const packageDetails = `azsdk-js-arm-mediaservices/13.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -104,27 +108,34 @@ export class AzureMediaServices extends coreClient.ServiceClient {
     };
     super(optionsWithDefaults);
 
+    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
+    }
+    if (
+      !options ||
+      !options.pipeline ||
+      options.pipeline.getOrderedPolicies().length == 0 ||
+      !bearerTokenAuthenticationPolicyFound
+    ) {
+      this.pipeline.removePolicy({
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+      });
+      this.pipeline.addPolicy(
+        coreRestPipeline.bearerTokenAuthenticationPolicy({
+          credential: credentials,
+          scopes: `${optionsWithDefaults.credentialScopes}`,
+          challengeCallbacks: {
+            authorizeRequestOnChallenge:
+              coreClient.authorizeRequestOnClaimChallenge
+          }
+        })
+      );
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
@@ -137,6 +148,12 @@ export class AzureMediaServices extends coreClient.ServiceClient {
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.locations = new LocationsImpl(this);
+    this.mediaServicesOperationStatuses = new MediaServicesOperationStatusesImpl(
+      this
+    );
+    this.mediaServicesOperationResults = new MediaServicesOperationResultsImpl(
+      this
+    );
     this.assets = new AssetsImpl(this);
     this.assetFilters = new AssetFiltersImpl(this);
     this.tracks = new TracksImpl(this);
@@ -158,6 +175,8 @@ export class AzureMediaServices extends coreClient.ServiceClient {
   privateLinkResources: PrivateLinkResources;
   privateEndpointConnections: PrivateEndpointConnections;
   locations: Locations;
+  mediaServicesOperationStatuses: MediaServicesOperationStatuses;
+  mediaServicesOperationResults: MediaServicesOperationResults;
   assets: Assets;
   assetFilters: AssetFilters;
   tracks: Tracks;

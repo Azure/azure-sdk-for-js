@@ -2,17 +2,15 @@
 // Licensed under the MIT license.
 
 import * as msalBrowser from "@azure/msal-browser";
-import { AccessToken } from "@azure/core-auth";
-
-import { DefaultTenantId } from "../../constants";
-import { resolveTenantId } from "../../util/resolveTenantId";
-import { processMultiTenantRequest } from "../../util/validateMultiTenant";
-import { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentialOptions";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../../errors";
-import { getAuthority, getKnownAuthorities, MsalBaseUtilities } from "../utils";
+import { MsalBaseUtilities, getAuthority, getKnownAuthorities } from "../utils";
 import { MsalFlow, MsalFlowOptions } from "../flows";
+import { processMultiTenantRequest, resolveTenantId } from "../../util/tenantIdUtils";
+import { AccessToken } from "@azure/core-auth";
 import { AuthenticationRecord } from "../types";
+import { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentialOptions";
 import { CredentialFlowGetTokenOptions } from "../credentials";
+import { DefaultTenantId } from "../../constants";
 
 /**
  * Union of the constructor parameters that all MSAL flow types take.

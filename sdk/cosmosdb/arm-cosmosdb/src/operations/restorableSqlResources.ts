@@ -13,7 +13,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
-  DatabaseRestoreResource,
+  RestorableSqlResourcesGetResult,
   RestorableSqlResourcesListOptionalParams,
   RestorableSqlResourcesListResponse
 } from "../models";
@@ -43,7 +43,7 @@ export class RestorableSqlResourcesImpl implements RestorableSqlResources {
     location: string,
     instanceId: string,
     options?: RestorableSqlResourcesListOptionalParams
-  ): PagedAsyncIterableIterator<DatabaseRestoreResource> {
+  ): PagedAsyncIterableIterator<RestorableSqlResourcesGetResult> {
     const iter = this.listPagingAll(location, instanceId, options);
     return {
       next() {
@@ -62,7 +62,7 @@ export class RestorableSqlResourcesImpl implements RestorableSqlResources {
     location: string,
     instanceId: string,
     options?: RestorableSqlResourcesListOptionalParams
-  ): AsyncIterableIterator<DatabaseRestoreResource[]> {
+  ): AsyncIterableIterator<RestorableSqlResourcesGetResult[]> {
     let result = await this._list(location, instanceId, options);
     yield result.value || [];
   }
@@ -71,7 +71,7 @@ export class RestorableSqlResourcesImpl implements RestorableSqlResources {
     location: string,
     instanceId: string,
     options?: RestorableSqlResourcesListOptionalParams
-  ): AsyncIterableIterator<DatabaseRestoreResource> {
+  ): AsyncIterableIterator<RestorableSqlResourcesGetResult> {
     for await (const page of this.listPagingPage(
       location,
       instanceId,

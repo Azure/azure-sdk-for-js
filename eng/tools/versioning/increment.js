@@ -21,7 +21,7 @@ let argv = require("yargs")
 const path = require("path");
 const semver = require("semver");
 const versionUtils = require("./VersionUtils");
-const packageUtils = require("eng-package-utils");
+const packageUtils = require("@azure-tools/eng-package-utils");
 
 function incrementVersion(currentVersion) {
   const prerelease = semver.prerelease(currentVersion);

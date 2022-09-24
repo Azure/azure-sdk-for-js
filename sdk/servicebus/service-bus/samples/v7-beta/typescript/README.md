@@ -24,16 +24,18 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [scheduledMessages.ts][scheduledmessages]                                                 | Demonstrates how to schedule messages to appear on a Service Bus Queue/Subscription at a later time                                                            |
 | [useProxy.ts][useproxy]                                                                   | This sample demonstrates how to create a ServiceBusClient meant to be used in an environment where outgoing network requests have to go through a proxy server |
 | [advanced/administrationClient.ts][advanced_administrationclient]                         | Demonstrates how to manage the resources of a service bus namespace.                                                                                           |
+| [advanced/ruleManager.ts][advanced_rulemanager]                                           | Demonstrates how to manage subscription-level rules using RuleManager.                                                                                         |
 | [advanced/sessionRoundRobin.ts][advanced_sessionroundrobin]                               | Demonstrates how to continually read through all the available sessions                                                                                        |
 | [advanced/deferral.ts][advanced_deferral]                                                 | Demonstrates how to defer a message for later processing.                                                                                                      |
 | [advanced/listingEntities.ts][advanced_listingentities]                                   | Demonstrates how the ServiceBusAdministrationClient can be used to list the entities of a service bus namespace                                                |
 | [advanced/sessionState.ts][advanced_sessionstate]                                         | Demonstrates usage of SessionState.                                                                                                                            |
 | [advanced/movingMessagesToDLQ.ts][advanced_movingmessagestodlq]                           | Demonstrates scenarios as to how a Service Bus message can be explicitly moved to the DLQ                                                                      |
-| [exceedMaxDeliveryCount.ts][exceedmaxdeliverycount]                 | Demonstrates exceeding the max delivery count, then processing the messages sent to the dead letter queue                                                      |
+| [advanced/processMessageFromDLQ.ts][advanced_processmessagefromdlq]                       | Demonstrates retrieving a message from a dead letter queue, editing it and sending it back to the main queue                                                   |
+| [exceedMaxDeliveryCount.ts][exceedmaxdeliverycount]                                       | Demonstrates exceeding the max delivery count, then processing the messages sent to the dead letter queue                                                      |
 
 ## Prerequisites
 
-The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
+The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 
 Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using:
 
@@ -93,6 +95,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [scheduledmessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/typescript/src/scheduledMessages.ts
 [useproxy]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/typescript/src/useProxy.ts
 [advanced_administrationclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/typescript/src/advanced/administrationClient.ts
+[advanced_rulemanager]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/typescript/src/advanced/ruleManager.ts
 [advanced_sessionroundrobin]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/typescript/src/advanced/sessionRoundRobin.ts
 [advanced_deferral]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/typescript/src/advanced/deferral.ts
 [advanced_listingentities]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/typescript/src/advanced/listingEntities.ts

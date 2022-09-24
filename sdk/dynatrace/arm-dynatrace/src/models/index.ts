@@ -80,9 +80,9 @@ export interface ErrorAdditionalInfo {
 /** List of all the resources being monitored by Dynatrace monitor resource */
 export interface MonitoredResourceListResponse {
   /** The items on this page */
-  value: MonitoredResource[];
+  value?: MonitoredResource[];
   /** The link to the next page of items */
-  nextLink: string;
+  nextLink?: string;
 }
 
 /** Details of resource being monitored by Dynatrace monitor resource */
@@ -328,7 +328,7 @@ export interface MonitorResourceListResult {
   /** The items on this page */
   value: MonitorResource[];
   /** The link to the next page of items */
-  nextLink: string;
+  nextLink?: string;
 }
 
 /** Set of rules for sending logs for the Monitor resource. */
@@ -375,7 +375,7 @@ export interface TagRuleListResult {
   /** The items on this page */
   value: TagRule[];
   /** The link to the next page of items */
-  nextLink: string;
+  nextLink?: string;
 }
 
 /** The response of a DynatraceSingleSignOnResource list operation. */
@@ -383,15 +383,15 @@ export interface DynatraceSingleSignOnResourceListResult {
   /** The items on this page */
   value: DynatraceSingleSignOnResource[];
   /** The link to the next page of items */
-  nextLink: string;
+  nextLink?: string;
 }
 
 /** Response of a list VM Host Operation. */
 export interface VMHostsListResponse {
   /** The items on this page */
-  value: VMInfo[];
+  value?: VMInfo[];
   /** The link to the next page of items */
-  nextLink: string;
+  nextLink?: string;
 }
 
 /** Details of VM Resource having Dynatrace OneAgent installed */
@@ -419,9 +419,9 @@ export interface VMInfo {
 /** Response of a list App Services Operation. */
 export interface AppServiceListResponse {
   /** The items on this page */
-  value: AppServiceInfo[];
+  value?: AppServiceInfo[];
   /** The link to the next page of items */
-  nextLink: string;
+  nextLink?: string;
 }
 
 /** Details of App Services having Dynatrace OneAgent installed */
@@ -495,18 +495,18 @@ export interface LinkableEnvironmentResponse {
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** Dynatrace Monitor Resource */
-export type MonitorResource = TrackedResource & {
+export interface MonitorResource extends TrackedResource {
   /**
    * System metadata for this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -539,10 +539,10 @@ export type MonitorResource = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** Tag rules for a monitor resource */
-export type TagRule = ProxyResource & {
+export interface TagRule extends ProxyResource {
   /**
    * System metadata for this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -557,10 +557,10 @@ export type TagRule = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** Single sign-on configurations for a given monitor resource. */
-export type DynatraceSingleSignOnResource = ProxyResource & {
+export interface DynatraceSingleSignOnResource extends ProxyResource {
   /**
    * System metadata for this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -579,11 +579,13 @@ export type DynatraceSingleSignOnResource = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** Known values of {@link SendingMetricsStatus} that the service accepts. */
 export enum KnownSendingMetricsStatus {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -599,7 +601,9 @@ export type SendingMetricsStatus = string;
 
 /** Known values of {@link SendingLogsStatus} that the service accepts. */
 export enum KnownSendingLogsStatus {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -615,7 +619,9 @@ export type SendingLogsStatus = string;
 
 /** Known values of {@link MonitoringStatus} that the service accepts. */
 export enum KnownMonitoringStatus {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -631,7 +637,9 @@ export type MonitoringStatus = string;
 
 /** Known values of {@link MarketplaceSubscriptionStatus} that the service accepts. */
 export enum KnownMarketplaceSubscriptionStatus {
+  /** Active */
   Active = "Active",
+  /** Suspended */
   Suspended = "Suspended"
 }
 
@@ -647,9 +655,13 @@ export type MarketplaceSubscriptionStatus = string;
 
 /** Known values of {@link SingleSignOnStates} that the service accepts. */
 export enum KnownSingleSignOnStates {
+  /** Initial */
   Initial = "Initial",
+  /** Enable */
   Enable = "Enable",
+  /** Disable */
   Disable = "Disable",
+  /** Existing */
   Existing = "Existing"
 }
 
@@ -667,14 +679,23 @@ export type SingleSignOnStates = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Accepted */
   Accepted = "Accepted",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Deleted */
   Deleted = "Deleted",
+  /** NotSpecified */
   NotSpecified = "NotSpecified"
 }
 
@@ -697,7 +718,9 @@ export type ProvisioningState = string;
 
 /** Known values of {@link LiftrResourceCategories} that the service accepts. */
 export enum KnownLiftrResourceCategories {
+  /** Unknown */
   Unknown = "Unknown",
+  /** MonitorLogs */
   MonitorLogs = "MonitorLogs"
 }
 
@@ -713,9 +736,13 @@ export type LiftrResourceCategories = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -733,8 +760,11 @@ export type CreatedByType = string;
 
 /** Known values of {@link ManagedIdentityType} that the service accepts. */
 export enum KnownManagedIdentityType {
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned",
+  /** SystemAndUserAssigned */
   SystemAndUserAssigned = "SystemAndUserAssigned"
 }
 
@@ -751,8 +781,11 @@ export type ManagedIdentityType = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
+  /** User */
   User = "user",
+  /** System */
   System = "system",
+  /** UserSystem */
   UserSystem = "user,system"
 }
 
@@ -769,6 +802,7 @@ export type Origin = string;
 
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
+  /** Internal */
   Internal = "Internal"
 }
 
@@ -783,7 +817,9 @@ export type ActionType = string;
 
 /** Known values of {@link SendAadLogsStatus} that the service accepts. */
 export enum KnownSendAadLogsStatus {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -799,7 +835,9 @@ export type SendAadLogsStatus = string;
 
 /** Known values of {@link SendSubscriptionLogsStatus} that the service accepts. */
 export enum KnownSendSubscriptionLogsStatus {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -815,7 +853,9 @@ export type SendSubscriptionLogsStatus = string;
 
 /** Known values of {@link SendActivityLogsStatus} that the service accepts. */
 export enum KnownSendActivityLogsStatus {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -831,7 +871,9 @@ export type SendActivityLogsStatus = string;
 
 /** Known values of {@link TagAction} that the service accepts. */
 export enum KnownTagAction {
+  /** Include */
   Include = "Include",
+  /** Exclude */
   Exclude = "Exclude"
 }
 
@@ -847,7 +889,9 @@ export type TagAction = string;
 
 /** Known values of {@link MonitoringType} that the service accepts. */
 export enum KnownMonitoringType {
+  /** CloudInfrastructure */
   CloudInfrastructure = "CLOUD_INFRASTRUCTURE",
+  /** FullStack */
   FullStack = "FULL_STACK"
 }
 
@@ -863,7 +907,9 @@ export type MonitoringType = string;
 
 /** Known values of {@link AutoUpdateSetting} that the service accepts. */
 export enum KnownAutoUpdateSetting {
+  /** Enabled */
   Enabled = "ENABLED",
+  /** Disabled */
   Disabled = "DISABLED"
 }
 
@@ -879,14 +925,23 @@ export type AutoUpdateSetting = string;
 
 /** Known values of {@link UpdateStatus} that the service accepts. */
 export enum KnownUpdateStatus {
+  /** Incompatible */
   Incompatible = "INCOMPATIBLE",
+  /** Outdated */
   Outdated = "OUTDATED",
+  /** Scheduled */
   Scheduled = "SCHEDULED",
+  /** Suppressed */
   Suppressed = "SUPPRESSED",
+  /** Unknown */
   Unknown = "UNKNOWN",
+  /** UP2Date */
   UP2Date = "UP2DATE",
+  /** UpdateINProgress */
   UpdateINProgress = "UPDATE_IN_PROGRESS",
+  /** UpdatePending */
   UpdatePending = "UPDATE_PENDING",
+  /** UpdateProblem */
   UpdateProblem = "UPDATE_PROBLEM"
 }
 
@@ -909,13 +964,21 @@ export type UpdateStatus = string;
 
 /** Known values of {@link AvailabilityState} that the service accepts. */
 export enum KnownAvailabilityState {
+  /** Crashed */
   Crashed = "CRASHED",
+  /** Lost */
   Lost = "LOST",
+  /** Monitored */
   Monitored = "MONITORED",
+  /** PREMonitored */
   PREMonitored = "PRE_MONITORED",
+  /** Shutdown */
   Shutdown = "SHUTDOWN",
+  /** UnexpectedShutdown */
   UnexpectedShutdown = "UNEXPECTED_SHUTDOWN",
+  /** Unknown */
   Unknown = "UNKNOWN",
+  /** Unmonitored */
   Unmonitored = "UNMONITORED"
 }
 
@@ -937,7 +1000,9 @@ export type AvailabilityState = string;
 
 /** Known values of {@link LogModule} that the service accepts. */
 export enum KnownLogModule {
+  /** Enabled */
   Enabled = "ENABLED",
+  /** Disabled */
   Disabled = "DISABLED"
 }
 
@@ -953,7 +1018,9 @@ export type LogModule = string;
 
 /** Known values of {@link SSOStatus} that the service accepts. */
 export enum KnownSSOStatus {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 

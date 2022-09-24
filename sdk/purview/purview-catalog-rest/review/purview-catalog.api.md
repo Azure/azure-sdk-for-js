@@ -94,6 +94,14 @@ export interface AtlasBaseTypeDefOutput {
 }
 
 // @public (undocumented)
+export interface AtlasBusinessMetadataDef extends AtlasStructDef {
+}
+
+// @public (undocumented)
+export interface AtlasBusinessMetadataDefOutput extends AtlasStructDefOutput {
+}
+
+// @public (undocumented)
 export interface AtlasClassification extends AtlasStruct {
     entityGuid?: string;
     entityStatus?: "ACTIVE" | "DELETED";
@@ -155,12 +163,16 @@ export interface AtlasEntitiesWithExtInfoOutput extends AtlasEntityExtInfoOutput
 
 // @public (undocumented)
 export interface AtlasEntity extends AtlasStruct {
+    businessAttributes?: Record<string, Record<string, unknown>>;
     classifications?: Array<AtlasClassification>;
     contacts?: Record<string, Array<ContactBasic>>;
     createdBy?: string;
     createTime?: number;
+    customAttributes?: Record<string, string>;
     guid?: string;
     homeId?: string;
+    isIncomplete?: boolean;
+    labels?: Array<string>;
     meanings?: Array<AtlasTermAssignmentHeader>;
     provenanceType?: number;
     proxy?: boolean;
@@ -203,6 +215,8 @@ export interface AtlasEntityHeader extends AtlasStruct {
     classifications?: Array<AtlasClassification>;
     displayText?: string;
     guid?: string;
+    isIncomplete?: boolean;
+    labels?: Array<string>;
     meaningNames?: Array<string>;
     meanings?: Array<AtlasTermAssignmentHeader>;
     status?: "ACTIVE" | "DELETED";
@@ -214,6 +228,8 @@ export interface AtlasEntityHeaderOutput extends AtlasStructOutput {
     classifications?: Array<AtlasClassificationOutput>;
     displayText?: string;
     guid?: string;
+    isIncomplete?: boolean;
+    labels?: Array<string>;
     meaningNames?: Array<string>;
     meanings?: Array<AtlasTermAssignmentHeaderOutput>;
     status?: "ACTIVE" | "DELETED";
@@ -226,12 +242,16 @@ export interface AtlasEntityHeaders {
 
 // @public (undocumented)
 export interface AtlasEntityOutput extends AtlasStructOutput {
+    businessAttributes?: Record<string, Record<string, unknown>>;
     classifications?: Array<AtlasClassificationOutput>;
     contacts?: Record<string, Array<ContactBasicOutput>>;
     createdBy?: string;
     createTime?: number;
+    customAttributes?: Record<string, string>;
     guid?: string;
     homeId?: string;
+    isIncomplete?: boolean;
+    labels?: Array<string>;
     meanings?: Array<AtlasTermAssignmentHeaderOutput>;
     provenanceType?: number;
     proxy?: boolean;
@@ -719,6 +739,7 @@ export interface AtlasTypeDefOutput extends AtlasBaseTypeDefOutput, AtlasExtraTy
 
 // @public (undocumented)
 export interface AtlasTypesDef {
+    businessMetadataDefs?: Array<AtlasBusinessMetadataDef>;
     classificationDefs?: Array<AtlasClassificationDef>;
     entityDefs?: Array<AtlasEntityDef>;
     enumDefs?: Array<AtlasEnumDef>;
@@ -729,6 +750,7 @@ export interface AtlasTypesDef {
 
 // @public (undocumented)
 export interface AtlasTypesDefOutput {
+    businessMetadataDefs?: Array<AtlasBusinessMetadataDefOutput>;
     classificationDefs?: Array<AtlasClassificationDefOutput>;
     entityDefs?: Array<AtlasEntityDefOutput>;
     enumDefs?: Array<AtlasEnumDefOutput>;
@@ -788,6 +810,12 @@ export interface BrowseResultValueOutput {
     owner?: Array<BrowseResultOwnerOutput>;
     path?: string;
     qualifiedName?: string;
+}
+
+// @public (undocumented)
+export interface BulkImportResponseOutput {
+    failedImportInfoList?: Array<ImportInfoOutput>;
+    successImportInfoList?: Array<ImportInfoOutput>;
 }
 
 // @public (undocumented)
@@ -1194,6 +1222,112 @@ export interface EntityAddClassificationsMediaTypesParam {
 // @public (undocumented)
 export type EntityAddClassificationsParameters = EntityAddClassificationsMediaTypesParam & EntityAddClassificationsBodyParam & RequestParameters;
 
+// @public
+export interface EntityAddLabel204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface EntityAddLabelBodyParam {
+    body?: Array<string>;
+}
+
+// @public (undocumented)
+export interface EntityAddLabelMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type EntityAddLabelParameters = EntityAddLabelMediaTypesParam & EntityAddLabelBodyParam & RequestParameters;
+
+// @public
+export interface EntityAddLabelsByUniqueAttribute204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface EntityAddLabelsByUniqueAttributeBodyParam {
+    body?: Array<string>;
+}
+
+// @public (undocumented)
+export interface EntityAddLabelsByUniqueAttributeMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type EntityAddLabelsByUniqueAttributeParameters = EntityAddLabelsByUniqueAttributeQueryParam & EntityAddLabelsByUniqueAttributeMediaTypesParam & EntityAddLabelsByUniqueAttributeBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface EntityAddLabelsByUniqueAttributeQueryParam {
+    // (undocumented)
+    queryParameters?: EntityAddLabelsByUniqueAttributeQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface EntityAddLabelsByUniqueAttributeQueryParamProperties {
+    "attr:qualifiedName"?: string;
+}
+
+// @public
+export interface EntityAddOrUpdateBusinessMetadata204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "204";
+}
+
+// @public
+export interface EntityAddOrUpdateBusinessMetadataAttributes204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface EntityAddOrUpdateBusinessMetadataAttributesBodyParam {
+    body?: Record<string, Record<string, unknown>>;
+}
+
+// @public (undocumented)
+export interface EntityAddOrUpdateBusinessMetadataAttributesMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type EntityAddOrUpdateBusinessMetadataAttributesParameters = EntityAddOrUpdateBusinessMetadataAttributesMediaTypesParam & EntityAddOrUpdateBusinessMetadataAttributesBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface EntityAddOrUpdateBusinessMetadataBodyParam {
+    body?: Record<string, Record<string, unknown>>;
+}
+
+// @public (undocumented)
+export interface EntityAddOrUpdateBusinessMetadataMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type EntityAddOrUpdateBusinessMetadataParameters = EntityAddOrUpdateBusinessMetadataQueryParam & EntityAddOrUpdateBusinessMetadataMediaTypesParam & EntityAddOrUpdateBusinessMetadataBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface EntityAddOrUpdateBusinessMetadataQueryParam {
+    // (undocumented)
+    queryParameters?: EntityAddOrUpdateBusinessMetadataQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface EntityAddOrUpdateBusinessMetadataQueryParamProperties {
+    isOverwrite?: boolean;
+}
+
 // @public (undocumented)
 export interface EntityCreateOrUpdate {
     post(options: EntityCreateOrUpdateParameters): Promise<EntityCreateOrUpdate200Response | EntityCreateOrUpdatedefaultResponse>;
@@ -1256,6 +1390,60 @@ export interface EntityCreateOrUpdateMediaTypesParam {
 
 // @public (undocumented)
 export type EntityCreateOrUpdateParameters = EntityCreateOrUpdateMediaTypesParam & EntityCreateOrUpdateBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface EntityDeleteBusinessMetadata {
+    delete(options?: EntityDeleteBusinessMetadataParameters): Promise<EntityDeleteBusinessMetadata204Response>;
+    post(options?: EntityAddOrUpdateBusinessMetadataParameters): Promise<EntityAddOrUpdateBusinessMetadata204Response>;
+}
+
+// @public
+export interface EntityDeleteBusinessMetadata204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface EntityDeleteBusinessMetadataAttributes {
+    delete(options?: EntityDeleteBusinessMetadataAttributesParameters): Promise<EntityDeleteBusinessMetadataAttributes204Response>;
+    post(options?: EntityAddOrUpdateBusinessMetadataAttributesParameters): Promise<EntityAddOrUpdateBusinessMetadataAttributes204Response>;
+}
+
+// @public
+export interface EntityDeleteBusinessMetadataAttributes204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface EntityDeleteBusinessMetadataAttributesBodyParam {
+    body?: Record<string, Record<string, unknown>>;
+}
+
+// @public (undocumented)
+export interface EntityDeleteBusinessMetadataAttributesMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type EntityDeleteBusinessMetadataAttributesParameters = EntityDeleteBusinessMetadataAttributesMediaTypesParam & EntityDeleteBusinessMetadataAttributesBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface EntityDeleteBusinessMetadataBodyParam {
+    body?: Record<string, Record<string, unknown>>;
+}
+
+// @public (undocumented)
+export interface EntityDeleteBusinessMetadataMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type EntityDeleteBusinessMetadataParameters = EntityDeleteBusinessMetadataMediaTypesParam & EntityDeleteBusinessMetadataBodyParam & RequestParameters;
 
 // @public
 export interface EntityDeleteByGuid200Response extends HttpResponse {
@@ -1389,6 +1577,73 @@ export interface EntityDeleteClassificationdefaultResponse extends HttpResponse 
 
 // @public (undocumented)
 export type EntityDeleteClassificationParameters = RequestParameters;
+
+// @public (undocumented)
+export interface EntityDeleteLabels {
+    delete(options?: EntityDeleteLabelsParameters): Promise<EntityDeleteLabels204Response>;
+    post(options?: EntitySetLabelsParameters): Promise<EntitySetLabels204Response>;
+    put(options?: EntityAddLabelParameters): Promise<EntityAddLabel204Response>;
+}
+
+// @public
+export interface EntityDeleteLabels204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface EntityDeleteLabelsBodyParam {
+    body?: Array<string>;
+}
+
+// @public (undocumented)
+export interface EntityDeleteLabelsByUniqueAttribute {
+    delete(options?: EntityDeleteLabelsByUniqueAttributeParameters): Promise<EntityDeleteLabelsByUniqueAttribute204Response>;
+    post(options?: EntitySetLabelsByUniqueAttributeParameters): Promise<EntitySetLabelsByUniqueAttribute204Response>;
+    put(options?: EntityAddLabelsByUniqueAttributeParameters): Promise<EntityAddLabelsByUniqueAttribute204Response>;
+}
+
+// @public
+export interface EntityDeleteLabelsByUniqueAttribute204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface EntityDeleteLabelsByUniqueAttributeBodyParam {
+    body?: Array<string>;
+}
+
+// @public (undocumented)
+export interface EntityDeleteLabelsByUniqueAttributeMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type EntityDeleteLabelsByUniqueAttributeParameters = EntityDeleteLabelsByUniqueAttributeQueryParam & EntityDeleteLabelsByUniqueAttributeMediaTypesParam & EntityDeleteLabelsByUniqueAttributeBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface EntityDeleteLabelsByUniqueAttributeQueryParam {
+    // (undocumented)
+    queryParameters?: EntityDeleteLabelsByUniqueAttributeQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface EntityDeleteLabelsByUniqueAttributeQueryParamProperties {
+    "attr:qualifiedName"?: string;
+}
+
+// @public (undocumented)
+export interface EntityDeleteLabelsMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type EntityDeleteLabelsParameters = EntityDeleteLabelsMediaTypesParam & EntityDeleteLabelsBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface EntityGetByGuid {
@@ -1580,6 +1835,77 @@ export interface EntityGetHeaderdefaultResponse extends HttpResponse {
 export type EntityGetHeaderParameters = RequestParameters;
 
 // @public (undocumented)
+export interface EntityGetSampleBusinessMetadataTemplate {
+    get(options?: EntityGetSampleBusinessMetadataTemplateParameters): Promise<EntityGetSampleBusinessMetadataTemplate200Response | EntityGetSampleBusinessMetadataTemplate400Response>;
+}
+
+// @public
+export interface EntityGetSampleBusinessMetadataTemplate200Response extends HttpResponse {
+    body: Uint8Array;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface EntityGetSampleBusinessMetadataTemplate400Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "400";
+}
+
+// @public (undocumented)
+export type EntityGetSampleBusinessMetadataTemplateParameters = RequestParameters;
+
+// @public (undocumented)
+export interface EntityImportBusinessMetadata {
+    post(options?: EntityImportBusinessMetadataParameters): Promise<EntityImportBusinessMetadata200Response | EntityImportBusinessMetadata400Response | EntityImportBusinessMetadata409Response>;
+}
+
+// @public
+export interface EntityImportBusinessMetadata200Response extends HttpResponse {
+    // (undocumented)
+    body: BulkImportResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface EntityImportBusinessMetadata400Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "400";
+}
+
+// @public
+export interface EntityImportBusinessMetadata409Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "409";
+}
+
+// @public (undocumented)
+export interface EntityImportBusinessMetadataBodyParam {
+    // (undocumented)
+    body?: EntityImportBusinessMetadataFormBody;
+}
+
+// @public (undocumented)
+export interface EntityImportBusinessMetadataFormBody {
+    uploadedInputStream?: string | Uint8Array;
+}
+
+// @public (undocumented)
+export interface EntityImportBusinessMetadataMediaTypesParam {
+    contentType?: "multipart/form-data";
+}
+
+// @public (undocumented)
+export type EntityImportBusinessMetadataParameters = EntityImportBusinessMetadataMediaTypesParam & EntityImportBusinessMetadataBodyParam & RequestParameters;
+
+// @public (undocumented)
 export interface EntityListByGuids {
     delete(options: EntityDeleteByGuidsParameters): Promise<EntityDeleteByGuids200Response | EntityDeleteByGuidsdefaultResponse>;
     get(options: EntityListByGuidsParameters): Promise<EntityListByGuids200Response | EntityListByGuidsdefaultResponse>;
@@ -1739,6 +2065,59 @@ export interface EntitySetClassificationsMediaTypesParam {
 
 // @public (undocumented)
 export type EntitySetClassificationsParameters = EntitySetClassificationsMediaTypesParam & EntitySetClassificationsBodyParam & RequestParameters;
+
+// @public
+export interface EntitySetLabels204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface EntitySetLabelsBodyParam {
+    body?: Array<string>;
+}
+
+// @public
+export interface EntitySetLabelsByUniqueAttribute204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface EntitySetLabelsByUniqueAttributeBodyParam {
+    body?: Array<string>;
+}
+
+// @public (undocumented)
+export interface EntitySetLabelsByUniqueAttributeMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type EntitySetLabelsByUniqueAttributeParameters = EntitySetLabelsByUniqueAttributeQueryParam & EntitySetLabelsByUniqueAttributeMediaTypesParam & EntitySetLabelsByUniqueAttributeBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface EntitySetLabelsByUniqueAttributeQueryParam {
+    // (undocumented)
+    queryParameters?: EntitySetLabelsByUniqueAttributeQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface EntitySetLabelsByUniqueAttributeQueryParamProperties {
+    "attr:qualifiedName"?: string;
+}
+
+// @public (undocumented)
+export interface EntitySetLabelsMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type EntitySetLabelsParameters = EntitySetLabelsMediaTypesParam & EntitySetLabelsBodyParam & RequestParameters;
 
 // @public
 export interface EntityUpdateClassifications204Response extends HttpResponse {
@@ -2326,6 +2705,7 @@ export interface GlossaryGetGlossaryTermQueryParam {
 
 // @public (undocumented)
 export interface GlossaryGetGlossaryTermQueryParamProperties {
+    excludeRelationshipTypes?: Array<string>;
     includeTermHierarchy?: boolean;
 }
 
@@ -3029,7 +3409,18 @@ export interface GlossaryUpdateGlossaryTermMediaTypesParam {
 }
 
 // @public (undocumented)
-export type GlossaryUpdateGlossaryTermParameters = GlossaryUpdateGlossaryTermMediaTypesParam & GlossaryUpdateGlossaryTermBodyParam & RequestParameters;
+export type GlossaryUpdateGlossaryTermParameters = GlossaryUpdateGlossaryTermQueryParam & GlossaryUpdateGlossaryTermMediaTypesParam & GlossaryUpdateGlossaryTermBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface GlossaryUpdateGlossaryTermQueryParam {
+    // (undocumented)
+    queryParameters?: GlossaryUpdateGlossaryTermQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface GlossaryUpdateGlossaryTermQueryParamProperties {
+    includeTermHierarchy?: boolean;
+}
 
 // @public (undocumented)
 export interface ImportCSVOperationErrorOutput {
@@ -3053,6 +3444,61 @@ export interface ImportCSVOperationOutput {
 export interface ImportCSVOperationPropertiesOutput {
     importedTerms?: string;
     totalTermsDetected?: string;
+}
+
+// @public (undocumented)
+export interface ImportInfoOutput {
+    childObjectName?: string;
+    importStatus?: "SUCCESS" | "FAILED";
+    parentObjectName?: string;
+    remarks?: string;
+}
+
+// @public (undocumented)
+export interface LineageGetLineageByUniqueAttribute {
+    get(options: LineageGetLineageByUniqueAttributeParameters): Promise<LineageGetLineageByUniqueAttribute200Response | LineageGetLineageByUniqueAttribute400Response | LineageGetLineageByUniqueAttribute404Response>;
+}
+
+// @public
+export interface LineageGetLineageByUniqueAttribute200Response extends HttpResponse {
+    // (undocumented)
+    body: AtlasLineageInfoOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface LineageGetLineageByUniqueAttribute400Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "400";
+}
+
+// @public
+export interface LineageGetLineageByUniqueAttribute404Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "404";
+}
+
+// @public (undocumented)
+export type LineageGetLineageByUniqueAttributeParameters = LineageGetLineageByUniqueAttributeQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface LineageGetLineageByUniqueAttributeQueryParam {
+    // (undocumented)
+    queryParameters: LineageGetLineageByUniqueAttributeQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface LineageGetLineageByUniqueAttributeQueryParamProperties {
+    depth?: number;
+    direction: "BOTH" | "INPUT" | "OUTPUT";
+    getDerivedLineage?: boolean;
+    includeParent?: boolean;
+    width?: number;
 }
 
 // @public (undocumented)
@@ -3347,6 +3793,12 @@ export interface Routes {
     (path: "/atlas/v2/entity/bulk/setClassifications"): EntitySetClassifications;
     (path: "/atlas/v2/entity/bulk/uniqueAttribute/type/{typeName}", typeName: string): EntityGetEntitiesByUniqueAttributes;
     (path: "/atlas/v2/entity/guid/{guid}/header", guid: string): EntityGetHeader;
+    (path: "/atlas/v2/entity/guid/{guid}/businessmetadata", guid: string): EntityDeleteBusinessMetadata;
+    (path: "/atlas/v2/entity/guid/{guid}/businessmetadata/{bmName}", guid: string, bmName: string): EntityDeleteBusinessMetadataAttributes;
+    (path: "/atlas/v2/entity/businessmetadata/import/template"): EntityGetSampleBusinessMetadataTemplate;
+    (path: "/atlas/v2/entity/businessmetadata/import"): EntityImportBusinessMetadata;
+    (path: "/atlas/v2/entity/guid/{guid}/labels", guid: string): EntityDeleteLabels;
+    (path: "/atlas/v2/entity/uniqueAttribute/type/{typeName}/labels", typeName: string): EntityDeleteLabelsByUniqueAttribute;
     (path: "/atlas/v2/glossary"): GlossaryListGlossaries;
     (path: "/atlas/v2/glossary/categories"): GlossaryCreateGlossaryCategories;
     (path: "/atlas/v2/glossary/category"): GlossaryCreateGlossaryCategory;
@@ -3378,8 +3830,11 @@ export interface Routes {
     (path: "/search/autocomplete"): DiscoveryAutoComplete;
     (path: "/atlas/v2/lineage/{guid}", guid: string): LineageGetLineageGraph;
     (path: "/lineage/{guid}/next/", guid: string): LineageNextPageLineage;
+    (path: "/atlas/v2/lineage/uniqueAttribute/type/{typeName}", typeName: string): LineageGetLineageByUniqueAttribute;
     (path: "/atlas/v2/relationship"): RelationshipCreate;
     (path: "/atlas/v2/relationship/guid/{guid}", guid: string): RelationshipGet;
+    (path: "/atlas/v2/types/businessmetadatadef/guid/{guid}", guid: string): TypesGetBusinessMetadataDefByGuid;
+    (path: "/atlas/v2/types/businessmetadatadef/name/{name}", name: string): TypesGetBusinessMetadataDefByName;
     (path: "/atlas/v2/types/classificationdef/guid/{guid}", guid: string): TypesGetClassificationDefByGuid;
     (path: "/atlas/v2/types/classificationdef/name/{name}", name: string): TypesGetClassificationDefByName;
     (path: "/atlas/v2/types/entitydef/guid/{guid}", guid: string): TypesGetEntityDefinitionByGuid;
@@ -3685,6 +4140,54 @@ export interface TypesGetAllTypeDefinitionsQueryParamProperties {
     includeTermTemplate?: boolean;
     type?: "enum" | "entity" | "classification" | "relationship" | "struct" | "term_template";
 }
+
+// @public (undocumented)
+export interface TypesGetBusinessMetadataDefByGuid {
+    get(options?: TypesGetBusinessMetadataDefByGuidParameters): Promise<TypesGetBusinessMetadataDefByGuid200Response | TypesGetBusinessMetadataDefByGuid404Response>;
+}
+
+// @public
+export interface TypesGetBusinessMetadataDefByGuid200Response extends HttpResponse {
+    // (undocumented)
+    body: AtlasBusinessMetadataDefOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface TypesGetBusinessMetadataDefByGuid404Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "404";
+}
+
+// @public (undocumented)
+export type TypesGetBusinessMetadataDefByGuidParameters = RequestParameters;
+
+// @public (undocumented)
+export interface TypesGetBusinessMetadataDefByName {
+    get(options?: TypesGetBusinessMetadataDefByNameParameters): Promise<TypesGetBusinessMetadataDefByName200Response | TypesGetBusinessMetadataDefByName404Response>;
+}
+
+// @public
+export interface TypesGetBusinessMetadataDefByName200Response extends HttpResponse {
+    // (undocumented)
+    body: AtlasBusinessMetadataDefOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface TypesGetBusinessMetadataDefByName404Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "404";
+}
+
+// @public (undocumented)
+export type TypesGetBusinessMetadataDefByNameParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetClassificationDefByGuid {

@@ -26,110 +26,6 @@ Install the Azure Key Vault administration client library for JavaScript and Typ
 npm install @azure/keyvault-admin
 ```
 
-### Currently supported environments
-
-- [LTS versions of Node.js](https://nodejs.org/about/releases/)
-
-### Prerequisites
-
-- An [Azure subscription](https://azure.microsoft.com/free/)
-- A [Key Vault resource](https://docs.microsoft.com/azure/key-vault/quick-create-portal)
-
-#### Getting Azure credentials
-
-Use the [Azure CLI][azure-cli] snippet below to create/get client secret credentials.
-
-- Create a service principal and configure its access to Azure resources:
-  ```PowerShell
-  az ad sp create-for-rbac -n <your-application-name> --skip-assignment
-  ```
-  Output:
-  ```json
-  {
-    "appId": "generated-app-ID",
-    "displayName": "some-app-name",
-    "name": "http://some-app-name",
-    "password": "random-password",
-    "tenant": "tenant-ID"
-  }
-  ```
-- Take note of the service principal objectId
-  ```PowerShell
-  az ad sp show --id <appId> --query objectId
-  ```
-  Output:
-  ```
-  "<your-service-principal-object-id>"
-  ```
-- Use the returned credentials above to set **AZURE_CLIENT_ID** (appId), **AZURE_CLIENT_SECRET** (password), and **AZURE_TENANT_ID** (tenant) environment variables.
-
-#### Get or create an Azure Managed HSM with the Azure CLI
-
-- Create the Managed HSM and grant the above mentioned service principal authorization to perform administrative operations on the Azure Key Vault (replace `<your-resource-group-name>` and `<your-key-vault-name>` with your own, unique names and `<your-service-principal-object-id>` with the value from above):
-
-  ```PowerShell
-  az keyvault create --hsm-name <your-key-vault-name> --resource-group <your-resource-group-name> --administrators <your-service-principal-object-id> --location <your-azure-location>
-  ```
-
-  This service principal is automatically added to the "Managed HSM Administrators" [built-in role][built_in_roles].
-
-- Use the above mentioned Azure Key Vault name to retrieve details of your Vault which also contains your Azure Key Vault URL:
-  ```PowerShell
-  az keyvault show --hsm-name <your-key-vault-name>
-  ```
-
-#### Activate your managed HSM
-
-All data plane commands are disabled until the HSM is activated. You will not be able to create keys or assign roles. Only the designated administrators that were assigned during the create command can activate the HSM. To activate the HSM you must download the security domain.
-
-To activate your HSM you need:
-
-- Minimum 3 RSA key-pairs (maximum 10)
-- Specify minimum number of keys required to decrypt the security domain (quorum)
-
-To activate the HSM you send at least 3 (maximum 10) RSA public keys to the HSM. The HSM encrypts the security domain with these keys and sends it back. Once this security domain is successfully downloaded, your HSM is ready to use. You also need to specify quorum, which is the minimum number of private keys required to decrypt the security domain.
-
-The example below shows how to use openssl to generate 3 self signed certificate.
-
-```PowerShell
-openssl req -newkey rsa:2048 -nodes -keyout cert_0.key -x509 -days 365 -out cert_0.cer
-openssl req -newkey rsa:2048 -nodes -keyout cert_1.key -x509 -days 365 -out cert_1.cer
-openssl req -newkey rsa:2048 -nodes -keyout cert_2.key -x509 -days 365 -out cert_2.cer
-```
-
-Use the az keyvault security-domain download command to download the security domain and activate your managed HSM. The example below, uses 3 RSA key pairs (only public keys are needed for this command) and sets the quorum to 2.
-
-```PowerShell
-az keyvault security-domain download --hsm-name <your-key-vault-name> --sd-wrapping-keys ./certs/cert_0.cer ./certs/cert_1.cer ./certs/cert_2.cer --sd-quorum 2 --security-domain-file ContosoMHSM-SD.json
-```
-
-#### Controlling access to your managed HSM
-
-The designated administrators assigned during creation are automatically added to the "Managed HSM Administrators" [built-in role][built_in_roles],
-who are able to download a security domain and [manage roles for data plane access][access_control], among other limited permissions.
-
-To perform other actions on keys, you need to assign principals to other roles such as "Managed HSM Crypto User", which can perform non-destructive key operations:
-
-```PowerShell
-az keyvault role assignment create --hsm-name <your-key-vault-name> --role "Managed HSM Crypto User" --scope / --assignee-object-id <principal-or-user-object-ID> --assignee-principal-type <principal-type>
-```
-
-Please read [best practices][best_practices] for properly securing your managed HSM.
-
-#### Get or create an Azure Storage Account with the Azure CLI
-
-A storage account is necessary to generate the backup of a Key Vault.
-
-To generate Key Vault backups, you will need to point the `KeyVaultBackupClient` to an existing Storage account.
-
-To create a new Storage Account, you can use the [Azure Portal][storage-account-create-portal],
-[Azure PowerShell][storage-account-create-ps], or the [Azure CLI][storage-account-create-cli].
-Here's an example using the Azure CLI:
-
-```Powershell
-az storage account create --name MyStorageAccount --resource-group MyResourceGroup --location westus --sku Standard_LRS
-```
-
 ### Configure TypeScript
 
 TypeScript users need to have Node type definitions installed:
@@ -140,21 +36,24 @@ npm install @types/node
 
 You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your tsconfig.json. Note that if you have enabled `compilerOptions.esModuleInterop`, `allowSyntheticDefaultImports` is enabled by default. See [TypeScript's compiler options handbook][compiler-options] for more information.
 
-### Authenticate the client
+### Currently supported environments
 
-In order to control permissions to the Key Vault service or to generate and restore backups of a specific Key Vault, you'll need to create either an instance of the `KeyVaultAccessControlClient` class or an instance of the `KeyVaultBackupClient` class, respectively.
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 
-In both cases, you'll need a **vault URL**, which you may see as "DNS Name" in the portal, and a credential object from the [@azure/identity][identity-npm] package which is used to authenticate with Azure Active Directory.
+### Prerequisites
 
-In the below example, we are using a **client secret credentials (client id, client secret, tenant id)**, but you can find more ways to authenticate with [Azure Identity][azure-identity]. To use the [DefaultAzureCredential][dac] provider shown below, or other credential providers provided with the Azure SDK, you should install the [@azure/identity][identity-npm] package:
+- An [Azure subscription](https://azure.microsoft.com/free/)
+- An existing [Key Vault Managed HSM][azure_keyvault_mhsm]. If you need to create a Managed HSM, you can do so using the Azure CLI by following the steps in [this document][azure_keyvault_mhsm_cli].
 
-```PowerShell
-npm install @azure/identity
-```
+## Authenticate the client
 
-#### Create KeyVaultAccessControlClient
+In order to interact with the Azure Key Vault service, you will need to create an instance of either the [`KeyVaultAccessControlClient`](#create-keyvaultaccesscontrolclient) class or the [`KeyVaultBackupClient`](#create-keyvaultbackupclient) class, as well as a **vault url** (which you may see as "DNS Name" in the Azure Portal) and a credential object. The examples shown in this document use a credential object named [`DefaultAzureCredential`][default_azure_credential], which is appropriate for most scenarios, including local development and production environments. Additionally, we recommend using a [managed identity][managed_identity] for authentication in production environments.
 
-Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** with the above returned URI, you can create the `KeyVaultAccessControlClient`:
+You can find more information on different ways of authenticating and their corresponding credential types in the [Azure Identity documentation][azure_identity].
+
+### Create KeyVaultAccessControlClient
+
+Once you've authenticated with [the authentication method that suits you best][default_azure_credential], you can create a `KeyVaultAccessControlClient` as follows, substituting in your Managed HSM URL in the constructor:
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -162,13 +61,12 @@ const { KeyVaultAccessControlClient } = require("@azure/keyvault-admin");
 
 const credentials = new DefaultAzureCredential();
 
-const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
+const client = new KeyVaultAccessControlClient(`<your Managed HSM URL>`, credentials);
 ```
 
-#### Create KeyVaultBackupClient
+### Create KeyVaultBackupClient
 
-Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** with the above returned URI, you can create the `KeyVaultBackupClient`:
+Once you've authenticated with [the authentication method that suits you best][default_azure_credential], you can create a `KeyVaultBackupClient` as follows, substituting in your Managed HSM URL in the constructor:
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -176,8 +74,7 @@ const { KeyVaultBackupClient } = require("@azure/keyvault-admin");
 
 const credentials = new DefaultAzureCredential();
 
-const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-const client = new KeyVaultBackupClient(vaultUrl, credentials);
+const client = new KeyVaultBackupClient(`<your Managed HSM URL>`, credentials);
 ```
 
 ## Key concepts
@@ -188,7 +85,7 @@ A Role Definition is a collection of permissions. A role definition defines the 
 
 Role definitions can be listed and specified as part of a `KeyVaultRoleAssignment`.
 
-### KeyVaultRoleAssignment.
+### KeyVaultRoleAssignment
 
 A Role Assignment is the association of a Role Definition to a service principal. They can be created, listed, fetched individually, and deleted.
 
@@ -235,9 +132,9 @@ setLogLevel("info");
 
 You can find more code samples through the following links:
 
-- [KeyVault Administration Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/samples/v4/javascript)
-- [KeyVault Administration Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/samples/v4/typescript)
-- [KeyVault Administration Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/test/)
+- [Key Vault Administration Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/samples/v4/javascript)
+- [Key Vault Administration Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/samples/v4/typescript)
+- [Key Vault Administration Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/test/)
 
 ## Contributing
 
@@ -247,34 +144,17 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 <!-- LINKS -->
 
-[dac]: https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/identity/Azure.Identity/README.md
-[jwk]: https://tools.ietf.org/html/rfc7517
-[access_control]: https://docs.microsoft.com/azure/key-vault/managed-hsm/access-control
-[api-rest]: https://docs.microsoft.com/rest/api/keyvault/
-[azure-cli]: https://docs.microsoft.com/cli/azure
-[azure-identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
-[azure-sub]: https://azure.microsoft.com/free/
-[backup_client]: ./src/KeyVaultBackupClient.cs
-[best_practices]: https://docs.microsoft.com/azure/key-vault/managed-hsm/best-practices
-[built_in_roles]: https://docs.microsoft.com/azure/key-vault/managed-hsm/built-in-roles
-[code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [compiler-options]: https://www.typescriptlang.org/docs/handbook/compiler-options.html
 [core-lro]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-lro
-[docs-overview]: https://docs.microsoft.com/azure/key-vault/key-vault-overview
 [docs-service]: https://azure.microsoft.com/services/key-vault/
 [docs]: https://docs.microsoft.com/javascript/api/@azure/keyvault-admin
-
-[dotenv]: https://www.npmjs.com/package/dotenv]
-[identity-npm]: https://www.npmjs.com/package/@azure/identity
-[keyvault_docs]: https://docs.microsoft.com/azure/key-vault/
-[logging]: https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/Diagnostics.ts.com/Azure/azure-sdk-for-net/blob/main/sdk/keyvault/Microsoft.Azure.KeyVault/CONTRIBUTING.md
 [managedhsm]: https://docs.microsoft.com/azure/key-vault/managed-hsm/overview
 [npm]: https://www.npmjs.com/
 [package-gh]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin
 [package-npm]: https://www.npmjs.com/package/@azure/keyvault-admin
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/samples
-[storage-account-create-cli]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-cli
-[storage-account-create-portal]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-portal
-[storage-account-create-ps]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-powershell
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-net%2Fsdk%2Ftables%2FAzure.Data.Tables%2FREADME.png)
+[azure_keyvault_mhsm]: https://docs.microsoft.com/azure/key-vault/managed-hsm/overview
+[azure_keyvault_mhsm_cli]: https://docs.microsoft.com/azure/key-vault/managed-hsm/quick-create-cli
+[default_azure_credential]: https://docs.microsoft.com/java/api/overview/azure/identity-readme?view=azure-java-stable#defaultazurecredential
+[managed_identity]: https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
+[azure_identity]: https://docs.microsoft.com/java/api/overview/azure/identity-readme?view=azure-java-stable

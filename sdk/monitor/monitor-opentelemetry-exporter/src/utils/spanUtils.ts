@@ -1,20 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import os from "os";
 import { URL } from "url";
 import { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { diag, SpanKind, SpanStatusCode, Link, SpanAttributes } from "@opentelemetry/api";
-import {
-  SemanticResourceAttributes,
-  SemanticAttributes,
-  DbSystemValues,
-} from "@opentelemetry/semantic-conventions";
+import { SemanticAttributes, DbSystemValues } from "@opentelemetry/semantic-conventions";
 
+import { createTagsFromResource } from "./resourceUtils";
 import { Tags, Properties, MSLink, Measurements } from "../types";
 import { msToTimeSpan } from "./breezeUtils";
-import { getInstance } from "../platform";
 import { parseEventHubSpan } from "./eventhub";
 import { DependencyTypes, MS_LINKS } from "./constants/applicationinsights";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
@@ -29,33 +24,10 @@ import {
 } from "../generated";
 
 function createGenericTagsFromSpan(span: ReadableSpan): Tags {
-  const context = getInstance();
-  const tags: Tags = { ...context.tags };
+  const tags: Tags = createTagsFromResource(span.resource);
   tags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
   if (span.parentSpanId) {
     tags[KnownContextTagKeys.AiOperationParentId] = span.parentSpanId;
-  }
-  if (span.resource && span.resource.attributes) {
-    const serviceName = span.resource.attributes[SemanticResourceAttributes.SERVICE_NAME];
-    const serviceNamespace = span.resource.attributes[SemanticResourceAttributes.SERVICE_NAMESPACE];
-    if (serviceName) {
-      if (serviceNamespace) {
-        tags[KnownContextTagKeys.AiCloudRole] = `${serviceNamespace}.${serviceName}`;
-      } else {
-        tags[KnownContextTagKeys.AiCloudRole] = String(serviceName);
-      }
-    }
-    const serviceInstanceId =
-      span.resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID];
-    if (serviceInstanceId) {
-      tags[KnownContextTagKeys.AiCloudRoleInstance] = String(serviceInstanceId);
-    } else {
-      tags[KnownContextTagKeys.AiCloudRoleInstance] = os && os.hostname();
-    }
-    const endUserId = span.resource.attributes[SemanticAttributes.ENDUSER_ID];
-    if (endUserId) {
-      tags[KnownContextTagKeys.AiUserId] = String(endUserId);
-    }
   }
   const httpUserAgent = span.attributes[SemanticAttributes.HTTP_USER_AGENT];
   if (httpUserAgent) {

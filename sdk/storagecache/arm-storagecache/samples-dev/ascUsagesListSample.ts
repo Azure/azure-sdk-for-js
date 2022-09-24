@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets the quantity used and quota limit for resources
  *
  * @summary Gets the quantity used and quota limit for resources
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/AscResourceUsages_Get.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/AscResourceUsages_Get.json
  */
 async function ascUsagesList() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

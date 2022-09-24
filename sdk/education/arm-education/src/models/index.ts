@@ -221,7 +221,7 @@ export interface StudentLabListResult {
 }
 
 /** Grant details. */
-export type GrantDetails = Resource & {
+export interface GrantDetails extends Resource {
   /**
    * Offer Cap
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -252,10 +252,10 @@ export type GrantDetails = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly allocatedBudget?: Amount;
-};
+}
 
 /** Lab details. */
-export type LabDetails = Resource & {
+export interface LabDetails extends Resource {
   /** Lab Display Name */
   displayName?: string;
   /** Default monetary cap for each student in this lab */
@@ -292,10 +292,10 @@ export type LabDetails = Resource & {
   currencyPropertiesTotalBudgetCurrency?: string;
   /** Amount value. */
   valuePropertiesTotalBudgetValue?: number;
-};
+}
 
 /** join requests. */
-export type JoinRequestDetails = Resource & {
+export interface JoinRequestDetails extends Resource {
   /** First Name */
   firstName?: string;
   /** Last Name */
@@ -304,10 +304,10 @@ export type JoinRequestDetails = Resource & {
   email?: string;
   /** Join request status */
   status?: JoinRequestStatus;
-};
+}
 
 /** Student details. */
-export type StudentDetails = Resource & {
+export interface StudentDetails extends Resource {
   /** First Name */
   firstName?: string;
   /** Last Name */
@@ -339,10 +339,10 @@ export type StudentDetails = Resource & {
   subscriptionAlias?: string;
   /** subscription invite last sent date */
   subscriptionInviteLastSentDate?: Date;
-};
+}
 
 /** Student lab details. */
-export type StudentLabDetails = Resource & {
+export interface StudentLabDetails extends Resource {
   /**
    * Student lab Display Name
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -388,12 +388,15 @@ export type StudentLabDetails = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly labScope?: string;
-};
+}
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
+  /** User */
   User = "user",
+  /** System */
   System = "system",
+  /** UserSystem */
   UserSystem = "user,system"
 }
 
@@ -410,6 +413,7 @@ export type Origin = string;
 
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
+  /** Internal */
   Internal = "Internal"
 }
 
@@ -424,7 +428,9 @@ export type ActionType = string;
 
 /** Known values of {@link GrantType} that the service accepts. */
 export enum KnownGrantType {
+  /** Student */
   Student = "Student",
+  /** Academic */
   Academic = "Academic"
 }
 
@@ -440,7 +446,9 @@ export type GrantType = string;
 
 /** Known values of {@link GrantStatus} that the service accepts. */
 export enum KnownGrantStatus {
+  /** Active */
   Active = "Active",
+  /** Inactive */
   Inactive = "Inactive"
 }
 
@@ -456,9 +464,13 @@ export type GrantStatus = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -476,8 +488,12 @@ export type CreatedByType = string;
 
 /** Known values of {@link LabStatus} that the service accepts. */
 export enum KnownLabStatus {
+  /** Active */
   Active = "Active",
-  Deleted = "Deleted"
+  /** Deleted */
+  Deleted = "Deleted",
+  /** Pending */
+  Pending = "Pending"
 }
 
 /**
@@ -486,13 +502,16 @@ export enum KnownLabStatus {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Active** \
- * **Deleted**
+ * **Deleted** \
+ * **Pending**
  */
 export type LabStatus = string;
 
 /** Known values of {@link JoinRequestStatus} that the service accepts. */
 export enum KnownJoinRequestStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Denied */
   Denied = "Denied"
 }
 
@@ -508,7 +527,9 @@ export type JoinRequestStatus = string;
 
 /** Known values of {@link StudentRole} that the service accepts. */
 export enum KnownStudentRole {
+  /** Student */
   Student = "Student",
+  /** Admin */
   Admin = "Admin"
 }
 
@@ -524,10 +545,15 @@ export type StudentRole = string;
 
 /** Known values of {@link StudentLabStatus} that the service accepts. */
 export enum KnownStudentLabStatus {
+  /** Active */
   Active = "Active",
+  /** Disabled */
   Disabled = "Disabled",
+  /** Expired */
   Expired = "Expired",
+  /** Pending */
   Pending = "Pending",
+  /** Deleted */
   Deleted = "Deleted"
 }
 

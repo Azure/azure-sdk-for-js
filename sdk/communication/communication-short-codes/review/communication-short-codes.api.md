@@ -19,6 +19,9 @@ export type AttachmentType = "callToAction" | "termsOfService" | "privacyPolicy"
 // @public
 export type BillingFrequency = "monthly" | "once";
 
+// @public
+export type CallToActionType = "website" | "pointOfSale" | "sms" | "interactiveVoiceResponse";
+
 // @public (undocumented)
 export interface CompanyInformation {
     address?: string;
@@ -61,20 +64,20 @@ export interface ListUSProgramBriefsOptions extends OperationOptions {
 }
 
 // @public
-export type MessageContentCategory = "ringTones" | "smsChat" | "video" | "loyaltyProgramPointsPrizes" | "gifting" | "inApplicationBilling" | "textToScreen" | "games" | "audioChat" | "mmsPictures" | "sweepstakesContestAuction" | "financialBanking" | "premiumWap" | "queryService" | "wallpaperScreensaver" | "voting" | "application" | "mobileGivingDonations" | "coupons" | "loyaltyProgram" | "noPointsPrizes" | "informationalAlerts" | "microBilling" | "trivia" | "entertainmentAlerts" | "accountNotification" | "ageGatedContent" | "conversationalMessaging" | "deliveryNotification" | "education" | "emergencyAlerts" | "fraudAlerts" | "loanArrangement" | "onBehalfOfCarrier" | "political" | "promotionalMarketing" | "publicServiceAnnouncements" | "securityAlerts" | "socialMedia" | "twoFactorAuthentication" | "other";
+export type MessageContentType = "accountNotificationInformationalAlerts" | "ageGatedContent" | "chatConversationalMessaging" | "deliveryNotification" | "donationsPledge" | "education" | "fraudAlerts" | "loanArrangement" | "loyaltyProgram" | "marketingAndPromotion" | "mmsPicture" | "mmsVideo" | "oneTimePasswordOrMultiFactorAuthentication" | "political" | "publicServiceAnnouncements" | "securityAlerts" | "socialMedia" | "sweepstakesOrContest" | "votingOrPolling" | "other";
 
 // @public (undocumented)
 export interface MessageDetails {
-    // (undocumented)
-    confirmationMessage?: string;
     directionality?: MessageDirectionality;
-    helpMessage?: string;
+    helpAnswerToUser?: string;
+    optInAnswerFromUser?: string;
     // (undocumented)
-    optInMessage?: string;
-    optInReply?: string;
-    optOutMessage?: string;
+    optInConfirmationMessageToUser?: string;
+    // (undocumented)
+    optInMessageToUser?: string;
+    optOutAnswerToUser?: string;
     recurrence?: Recurrence;
-    supportedProtocols?: MessageProtocol[];
+    supportedProtocol?: MessageProtocol;
     useCases?: UseCase[];
 }
 
@@ -103,17 +106,17 @@ export type NumberType = "shortCode" | "alphaId";
 
 // @public
 export interface ProgramBriefAttachment {
-    fileContent?: string;
-    fileSize?: number;
-    fileType?: FileType;
-    friendlyName?: string;
+    fileContentBase64: string;
+    fileName: string;
+    fileSizeInBytes?: number;
+    fileType: FileType;
     id: string;
-    type?: AttachmentType;
+    type: AttachmentType;
 }
 
 // @public
 export interface ProgramBriefAttachmentSummary {
-    friendlyName?: string;
+    fileName?: string;
     id?: string;
     type?: AttachmentType;
 }
@@ -123,6 +126,9 @@ export type ProgramBriefStatus = "submitted" | "approved" | "submitNewVanityNumb
 
 // @public (undocumented)
 export interface ProgramDetails {
+    callToAction?: string;
+    callToActionTypes?: CallToActionType[];
+    callToActionUrl?: string;
     description?: string;
     expectedDateOfService?: Date;
     isPoliticalCampaign?: boolean;
@@ -131,14 +137,9 @@ export interface ProgramDetails {
     numberType?: NumberType;
     preferredVanityNumbers?: string[];
     privacyPolicyUrl?: string;
-    signUpTypes?: ProgramSignUpType[];
-    signUpUrl?: string;
     termsOfServiceUrl?: string;
     url?: string;
 }
-
-// @public
-export type ProgramSignUpType = "website" | "pointOfSale" | "sms" | "interactiveVoiceResponse";
 
 // @public
 export type Recurrence = "subscription" | "transaction";
@@ -171,7 +172,7 @@ export class ShortCodesClient {
     constructor(endpoint: string, credential: KeyCredential, options?: ShortCodesClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: ShortCodesClientOptions);
     // (undocumented)
-    createOrReplaceUSProgramBriefAttachment(programBriefId: string, attachmentId: string, options?: ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams): Promise<USProgramBrief>;
+    createOrReplaceUSProgramBriefAttachment(programBriefId: string, attachmentId: string, fileName: string, fileType: FileType, fileContent: string, attachmentType: AttachmentType, options?: ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams): Promise<ProgramBriefAttachment>;
     // (undocumented)
     deleteUSProgramBrief(programBriefId: string, options?: DeleteUSProgramBriefOptions): Promise<void>;
     // (undocumented)
@@ -198,11 +199,7 @@ export interface ShortCodesClientOptions extends CommonClientOptions {
 
 // @public
 export interface ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams extends coreClient.OperationOptions {
-    fileContent?: string;
-    fileSize?: number;
-    fileType?: FileType;
-    friendlyName?: string;
-    typeParam?: AttachmentType;
+    fileSizeInBytes?: number;
 }
 
 // @public
@@ -246,7 +243,8 @@ export interface TrafficDetails {
 
 // @public
 export interface UseCase {
-    contentCategory?: MessageContentCategory;
+    contentType?: MessageContentType;
+    customContentType?: string;
     examples?: MessageExampleSequence[];
 }
 

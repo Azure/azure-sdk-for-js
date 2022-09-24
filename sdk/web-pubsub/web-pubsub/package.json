@@ -82,7 +82,7 @@
     "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^2.0.0",
-    "@microsoft/api-extractor": "7.18.11",
+    "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/jsonwebtoken": "~8.5.0",
     "@types/mocha": "^7.0.2",
@@ -113,7 +113,7 @@
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "typescript": "~4.2.0",
+    "typescript": "~4.6.0",
     "ws": "^8.2.0"
   },
   "//sampleConfiguration": {

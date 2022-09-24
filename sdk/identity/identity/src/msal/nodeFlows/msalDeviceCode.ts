@@ -2,17 +2,16 @@
 // Licensed under the MIT license.
 
 import * as msalNode from "@azure/msal-node";
+import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 import { AccessToken } from "@azure/core-auth";
-
-import { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
+import { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
 
 /**
  * Options that can be passed to configure MSAL to handle authentication through device codes.
  * @internal
  */
-export interface MSALDeviceCodeOptions extends MsalNodeOptions {
+export interface MsalDeviceCodeOptions extends MsalNodeOptions {
   userPromptCallback: DeviceCodePromptCallback;
 }
 
@@ -23,7 +22,7 @@ export interface MSALDeviceCodeOptions extends MsalNodeOptions {
 export class MsalDeviceCode extends MsalNode {
   private userPromptCallback: DeviceCodePromptCallback;
 
-  constructor(options: MSALDeviceCodeOptions) {
+  constructor(options: MsalDeviceCodeOptions) {
     super(options);
     this.userPromptCallback = options.userPromptCallback;
   }

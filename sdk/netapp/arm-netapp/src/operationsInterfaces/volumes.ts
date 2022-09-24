@@ -11,6 +11,8 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   Volume,
   VolumesListOptionalParams,
+  Replication,
+  VolumesListReplicationsOptionalParams,
   VolumesGetOptionalParams,
   VolumesGetResponse,
   VolumesCreateOrUpdateOptionalParams,
@@ -23,10 +25,10 @@ import {
   VolumesRevertOptionalParams,
   VolumesResetCifsPasswordOptionalParams,
   VolumesBreakReplicationOptionalParams,
+  ReestablishReplicationRequest,
+  VolumesReestablishReplicationOptionalParams,
   VolumesReplicationStatusOptionalParams,
   VolumesReplicationStatusResponse,
-  VolumesListReplicationsOptionalParams,
-  VolumesListReplicationsResponse,
   VolumesResyncReplicationOptionalParams,
   VolumesDeleteReplicationOptionalParams,
   AuthorizeRequest,
@@ -55,6 +57,21 @@ export interface Volumes {
     poolName: string,
     options?: VolumesListOptionalParams
   ): PagedAsyncIterableIterator<Volume>;
+  /**
+   * List all replications for a specified volume
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  listReplications(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesListReplicationsOptionalParams
+  ): PagedAsyncIterableIterator<Replication>;
   /**
    * Get the details of the specified volume
    * @param resourceGroupName The name of the resource group.
@@ -270,6 +287,42 @@ export interface Volumes {
     options?: VolumesBreakReplicationOptionalParams
   ): Promise<void>;
   /**
+   * Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or
+   * policy-based snapshots
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param body body for the id of the source volume.
+   * @param options The options parameters.
+   */
+  beginReestablishReplication(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    body: ReestablishReplicationRequest,
+    options?: VolumesReestablishReplicationOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or
+   * policy-based snapshots
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param body body for the id of the source volume.
+   * @param options The options parameters.
+   */
+  beginReestablishReplicationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    body: ReestablishReplicationRequest,
+    options?: VolumesReestablishReplicationOptionalParams
+  ): Promise<void>;
+  /**
    * Get the status of the replication
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -284,21 +337,6 @@ export interface Volumes {
     volumeName: string,
     options?: VolumesReplicationStatusOptionalParams
   ): Promise<VolumesReplicationStatusResponse>;
-  /**
-   * List all replications for a specified volume
-   * @param resourceGroupName The name of the resource group.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param options The options parameters.
-   */
-  listReplications(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    options?: VolumesListReplicationsOptionalParams
-  ): Promise<VolumesListReplicationsResponse>;
   /**
    * Resync the connection on the destination volume. If the operation is ran on the source volume it
    * will reverse-resync the connection and sync from destination to source.

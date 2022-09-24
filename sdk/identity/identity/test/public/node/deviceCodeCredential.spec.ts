@@ -3,12 +3,12 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { assert } from "@azure/test-utils";
-import { env, isLiveMode, delay, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { AbortController, AbortError } from "@azure/abort-controller";
 import { DeviceCodeCredential, DeviceCodePromptCallback } from "../../../src";
-import { msalNodeTestSetup, MsalTestCleanup } from "../../msalTestUtils";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
+import { Recorder, delay, env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { assert } from "@azure/test-utils";
 
 // https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/identity/Azure.Identity/src/Constants.cs#L9
 const DeveloperSignOnClientId = "04b07795-8ddb-461a-bbee-02f9e1bf7b46";

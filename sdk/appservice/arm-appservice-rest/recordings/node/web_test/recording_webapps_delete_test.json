@@ -1,0 +1,69 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/resource-group/providers/Microsoft.Web/sites/mysitexxxx?api-version=2021-03-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-appservice-rest/1.0.0 core-rest-pipeline/1.8.2 Node/v18.0.0 OS/(x64-Linux-5.4.0-1074-azure)",
+        "x-ms-client-request-id": "d2f71e99-13ae-4ad6-a404-096a49cc23e9"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "0",
+        "Date": "Wed, 01 Jun 2022 02:35:50 GMT",
+        "ETag": "\u00221D8756048325D00\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-IIS/10.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-AspNet-Version": "4.0.30319",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "f5d4b8e5-d7a2-470e-a5ec-1882e6659631",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "77488038-63d1-4326-9fb6-8d15132e5aa7",
+        "x-ms-routing-request-id": "WESTUS2:20220601T023551Z:f5d4b8e5-d7a2-470e-a5ec-1882e6659631",
+        "X-Powered-By": "ASP.NET"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Web/sites?api-version=2021-03-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-appservice-rest/1.0.0 core-rest-pipeline/1.8.2 Node/v18.0.0 OS/(x64-Linux-5.4.0-1074-azure)",
+        "x-ms-client-request-id": "583bec2a-045b-48e8-bee2-0197fbca2ca5"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "12",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 01 Jun 2022 02:35:54 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "e2ed623f-3e31-431e-aeb3-cb32ef83df20",
+        "x-ms-request-id": "e2ed623f-3e31-431e-aeb3-cb32ef83df20",
+        "x-ms-routing-request-id": "WESTUS2:20220601T023554Z:e2ed623f-3e31-431e-aeb3-cb32ef83df20"
+      },
+      "ResponseBody": {
+        "value": []
+      }
+    }
+  ],
+  "Variables": {}
+}

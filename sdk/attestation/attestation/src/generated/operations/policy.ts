@@ -6,11 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { tracingClient } from "../tracing";
 import { Policy } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedClientContext } from "../generatedClientContext";
+import { GeneratedClient } from "../generatedClient";
 import {
   AttestationType,
   PolicyGetOptionalParams,
@@ -21,15 +22,15 @@ import {
   PolicyResetResponse
 } from "../models";
 
-/** Class representing a Policy. */
+/** Class containing Policy operations. */
 export class PolicyImpl implements Policy {
-  private readonly client: GeneratedClientContext;
+  private readonly client: GeneratedClient;
 
   /**
    * Initialize a new instance of the class Policy class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedClientContext) {
+  constructor(client: GeneratedClient) {
     this.client = client;
   }
 
@@ -39,13 +40,19 @@ export class PolicyImpl implements Policy {
    *                        evidence
    * @param options The options parameters.
    */
-  get(
+  async get(
     attestationType: AttestationType,
     options?: PolicyGetOptionalParams
   ): Promise<PolicyGetResponse> {
-    return this.client.sendOperationRequest(
-      { attestationType, options },
-      getOperationSpec
+    return tracingClient.withSpan(
+      "GeneratedClient.get",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { attestationType, options },
+          getOperationSpec
+        ) as Promise<PolicyGetResponse>;
+      }
     );
   }
 
@@ -57,14 +64,20 @@ export class PolicyImpl implements Policy {
    *                             object.
    * @param options The options parameters.
    */
-  set(
+  async set(
     attestationType: AttestationType,
     newAttestationPolicy: string,
     options?: PolicySetModelOptionalParams
   ): Promise<PolicySetModelResponse> {
-    return this.client.sendOperationRequest(
-      { attestationType, newAttestationPolicy, options },
-      setOperationSpec
+    return tracingClient.withSpan(
+      "GeneratedClient.set",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { attestationType, newAttestationPolicy, options },
+          setOperationSpec
+        ) as Promise<PolicySetModelResponse>;
+      }
     );
   }
 
@@ -75,14 +88,20 @@ export class PolicyImpl implements Policy {
    * @param policyJws JSON Web Signature with an empty policy document
    * @param options The options parameters.
    */
-  reset(
+  async reset(
     attestationType: AttestationType,
     policyJws: string,
     options?: PolicyResetOptionalParams
   ): Promise<PolicyResetResponse> {
-    return this.client.sendOperationRequest(
-      { attestationType, policyJws, options },
-      resetOperationSpec
+    return tracingClient.withSpan(
+      "GeneratedClient.reset",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { attestationType, policyJws, options },
+          resetOperationSpec
+        ) as Promise<PolicyResetResponse>;
+      }
     );
   }
 }

@@ -11,6 +11,8 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   EventSubscription,
   DomainEventSubscriptionsListOptionalParams,
+  DomainEventSubscriptionsGetDeliveryAttributesOptionalParams,
+  DomainEventSubscriptionsGetDeliveryAttributesResponse,
   DomainEventSubscriptionsGetOptionalParams,
   DomainEventSubscriptionsGetResponse,
   DomainEventSubscriptionsCreateOrUpdateOptionalParams,
@@ -20,9 +22,7 @@ import {
   DomainEventSubscriptionsUpdateOptionalParams,
   DomainEventSubscriptionsUpdateResponse,
   DomainEventSubscriptionsGetFullUrlOptionalParams,
-  DomainEventSubscriptionsGetFullUrlResponse,
-  DomainEventSubscriptionsGetDeliveryAttributesOptionalParams,
-  DomainEventSubscriptionsGetDeliveryAttributesResponse
+  DomainEventSubscriptionsGetFullUrlResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,6 +39,19 @@ export interface DomainEventSubscriptions {
     domainName: string,
     options?: DomainEventSubscriptionsListOptionalParams
   ): PagedAsyncIterableIterator<EventSubscription>;
+  /**
+   * Get all delivery attributes for an event subscription for domain.
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param domainName Name of the domain topic.
+   * @param eventSubscriptionName Name of the event subscription.
+   * @param options The options parameters.
+   */
+  getDeliveryAttributes(
+    resourceGroupName: string,
+    domainName: string,
+    eventSubscriptionName: string,
+    options?: DomainEventSubscriptionsGetDeliveryAttributesOptionalParams
+  ): Promise<DomainEventSubscriptionsGetDeliveryAttributesResponse>;
   /**
    * Get properties of an event subscription of a domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
@@ -168,17 +181,4 @@ export interface DomainEventSubscriptions {
     eventSubscriptionName: string,
     options?: DomainEventSubscriptionsGetFullUrlOptionalParams
   ): Promise<DomainEventSubscriptionsGetFullUrlResponse>;
-  /**
-   * Get all delivery attributes for an event subscription for domain.
-   * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain topic.
-   * @param eventSubscriptionName Name of the event subscription.
-   * @param options The options parameters.
-   */
-  getDeliveryAttributes(
-    resourceGroupName: string,
-    domainName: string,
-    eventSubscriptionName: string,
-    options?: DomainEventSubscriptionsGetDeliveryAttributesOptionalParams
-  ): Promise<DomainEventSubscriptionsGetDeliveryAttributesResponse>;
 }

@@ -2,10 +2,9 @@
 // Licensed under the MIT license.
 
 import { AccessToken } from "@azure/core-auth";
-
-import { CredentialLogger } from "../util/logging";
 import { AuthenticationRecord } from "./types";
 import { CredentialFlowGetTokenOptions } from "./credentials";
+import { CredentialLogger } from "../util/logging";
 
 /**
  * Union of the constructor parameters that all MSAL flow types take.
@@ -18,6 +17,7 @@ export interface MsalFlowOptions {
   authorityHost?: string;
   authenticationRecord?: AuthenticationRecord;
   disableAutomaticAuthentication?: boolean;
+  getAssertion?: () => Promise<string>;
 }
 
 /**

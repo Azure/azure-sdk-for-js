@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/catalog/api/glossary/name/jsLROTesting-2/terms/import?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/catalog/api/glossary/name/jsLROTesting-2/terms/import?api-version=2022-03-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,10 +10,10 @@
         "Connection": "keep-alive",
         "Content-Length": "173",
         "contentType": "multipart/form-data",
-        "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "92dabb64-aa01-450c-bfeb-0f3f7cbeb12d"
+        "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.5 core-rest-pipeline/1.8.1 Node/v14.15.4 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "e157526d-ab3e-4f3e-a09e-45738ba6bd4c"
       },
-      "RequestBody": "LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLTQxMjIwMTYxNDU1MjgwMTE1ODQzMzc3MQ0KQ29udGVudC1EaXNwb3NpdGlvbjogZm9ybS1kYXRhOyBuYW1lPSJmaWxlIg0KDQpyYW5kb20gY29udGVudA0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLTQxMjIwMTYxNDU1MjgwMTE1ODQzMzc3MS0tDQo=",
+      "RequestBody": "LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLTIzMjQ5MzAzNjAxNjUwMjg4MjIzNzg1NA0KQ29udGVudC1EaXNwb3NpdGlvbjogZm9ybS1kYXRhOyBuYW1lPSJmaWxlIg0KDQpyYW5kb20gY29udGVudA0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLTIzMjQ5MzAzNjAxNjUwMjg4MjIzNzg1NC0tDQo=",
       "StatusCode": 202,
       "ResponseHeaders": {
         "Access-Control-Allow-Headers": "authorization,content-type,x-xsrf-header,x-ms-client-request-id,lastmodifiedts",
@@ -22,31 +22,31 @@
         "Access-Control-Expose-Headers": "x-ms-request-id,lastmodifiedts",
         "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
-        "Date": "Tue, 19 Apr 2022 07:33:45 GMT",
+        "Date": "Tue, 14 Jun 2022 09:57:36 GMT",
         "Expires": "0",
-        "Location": "https://endpoint/catalog/api/glossary/terms/import/92dabb64-aa01-450c-bfeb-0f3f7cbeb12d",
+        "Location": "https://endpoint/catalog/api/glossary/terms/import/e157526d-ab3e-4f3e-a09e-45738ba6bd4c",
         "Pragma": "no-cache",
         "Retry-After": "5",
         "Server": "AzurePurview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "68c227fa-6176-47b5-80aa-43693499c4d4",
-        "x-ms-request-id": "92dabb64-aa01-450c-bfeb-0f3f7cbeb12d",
+        "x-ms-correlation-request-id": "325614df-a75d-4fde-b8b8-d726b13b33d8",
+        "x-ms-request-id": "e157526d-ab3e-4f3e-a09e-45738ba6bd4c",
         "X-XSS-Protection": "1; mode=block"
       },
-      "ResponseBody": "eyJpZCI6IjkyZGFiYjY0LWFhMDEtNDUwYy1iZmViLTBmM2Y3Y2JlYjEyZCIsInN0YXR1cyI6IlJ1bm5pbmciLCJjcmVhdGVUaW1lIjoiMjAyMi0wNC0xOVQwNzozMzo0NS43NjQrMDAwMCIsImxhc3RVcGRhdGVUaW1lIjoiMjAyMi0wNC0xOVQwNzozMzo0NS43NjUrMDAwMCIsInByb3BlcnRpZXMiOnsiaW1wb3J0ZWRUZXJtcyI6IjAiLCJ0b3RhbFRlcm1zRGV0ZWN0ZWQiOiItMSJ9LCJlcnJvciI6eyJlcnJvckNvZGUiOjAsImVycm9yTWVzc2FnZSI6IiJ9fQ=="
+      "ResponseBody": "eyJpZCI6ImUxNTc1MjZkLWFiM2UtNGYzZS1hMDllLTQ1NzM4YmE2YmQ0YyIsInN0YXR1cyI6IlJ1bm5pbmciLCJjcmVhdGVUaW1lIjoiMjAyMi0wNi0xNFQwOTo1NzozNy4xNzkrMDAwMCIsImxhc3RVcGRhdGVUaW1lIjoiMjAyMi0wNi0xNFQwOTo1NzozNy4xNzkrMDAwMCIsInByb3BlcnRpZXMiOnsiaW1wb3J0ZWRUZXJtcyI6IjAiLCJ0b3RhbFRlcm1zRGV0ZWN0ZWQiOiItMSJ9LCJlcnJvciI6eyJlcnJvckNvZGUiOjAsImVycm9yTWVzc2FnZSI6IiJ9fQ=="
     },
     {
-      "RequestUri": "https://endpoint/catalog/api/glossary/terms/import/92dabb64-aa01-450c-bfeb-0f3f7cbeb12d?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/catalog/api/glossary/terms/import/e157526d-ab3e-4f3e-a09e-45738ba6bd4c?api-version=2022-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "1f374817-a520-4c46-b554-48798573a018"
+        "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.5 core-rest-pipeline/1.8.1 Node/v14.15.4 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "893770d7-0b8d-486c-99c8-1fbd50b51ee4"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -57,31 +57,31 @@
         "Access-Control-Expose-Headers": "x-ms-request-id,lastmodifiedts",
         "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
-        "Date": "Tue, 19 Apr 2022 07:33:46 GMT",
+        "Date": "Tue, 14 Jun 2022 09:57:37 GMT",
         "Expires": "0",
-        "Location": "https://endpoint/catalog/api/glossary/terms/import/92dabb64-aa01-450c-bfeb-0f3f7cbeb12d",
+        "Location": "https://endpoint/catalog/api/glossary/terms/import/e157526d-ab3e-4f3e-a09e-45738ba6bd4c",
         "Pragma": "no-cache",
         "Retry-After": "5",
         "Server": "AzurePurview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "ab502035-8591-462c-86dc-d2f2b266d37a",
-        "x-ms-request-id": "1f374817-a520-4c46-b554-48798573a018",
+        "x-ms-correlation-request-id": "e556b8ec-4358-4a7e-834c-bb52d27ffac3",
+        "x-ms-request-id": "893770d7-0b8d-486c-99c8-1fbd50b51ee4",
         "X-XSS-Protection": "1; mode=block"
       },
-      "ResponseBody": "eyJpZCI6IjkyZGFiYjY0LWFhMDEtNDUwYy1iZmViLTBmM2Y3Y2JlYjEyZCIsInN0YXR1cyI6IlJ1bm5pbmciLCJjcmVhdGVUaW1lIjoiMjAyMi0wNC0xOVQwNzozMzo0NS43NjQrMDAwMCIsImxhc3RVcGRhdGVUaW1lIjoiMjAyMi0wNC0xOVQwNzozMzo0Ni4wNzArMDAwMCIsInByb3BlcnRpZXMiOnsiaW1wb3J0ZWRUZXJtcyI6IjAiLCJ0b3RhbFRlcm1zRGV0ZWN0ZWQiOiIwIn0sImVycm9yIjp7ImVycm9yQ29kZSI6MCwiZXJyb3JNZXNzYWdlIjoiIn19"
+      "ResponseBody": "eyJpZCI6ImUxNTc1MjZkLWFiM2UtNGYzZS1hMDllLTQ1NzM4YmE2YmQ0YyIsInN0YXR1cyI6IlJ1bm5pbmciLCJjcmVhdGVUaW1lIjoiMjAyMi0wNi0xNFQwOTo1NzozNy4xNzkrMDAwMCIsImxhc3RVcGRhdGVUaW1lIjoiMjAyMi0wNi0xNFQwOTo1NzozNy4zMjUrMDAwMCIsInByb3BlcnRpZXMiOnsiaW1wb3J0ZWRUZXJtcyI6IjAiLCJ0b3RhbFRlcm1zRGV0ZWN0ZWQiOiItMSJ9LCJlcnJvciI6eyJlcnJvckNvZGUiOjAsImVycm9yTWVzc2FnZSI6IiJ9fQ=="
     },
     {
-      "RequestUri": "https://endpoint/catalog/api/glossary/terms/import/92dabb64-aa01-450c-bfeb-0f3f7cbeb12d?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/catalog/api/glossary/terms/import/e157526d-ab3e-4f3e-a09e-45738ba6bd4c?api-version=2022-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "f0abb223-f753-45d0-8c00-78946fd4a51a"
+        "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.5 core-rest-pipeline/1.8.1 Node/v14.15.4 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "f5b428a7-242a-4572-9f4e-420de36b4fc8"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -92,20 +92,20 @@
         "Access-Control-Expose-Headers": "x-ms-request-id,lastmodifiedts",
         "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
-        "Date": "Tue, 19 Apr 2022 07:33:51 GMT",
+        "Date": "Tue, 14 Jun 2022 09:57:42 GMT",
         "Expires": "0",
-        "Location": "https://endpoint/catalog/api/glossary/terms/import/92dabb64-aa01-450c-bfeb-0f3f7cbeb12d",
+        "Location": "https://endpoint/catalog/api/glossary/terms/import/e157526d-ab3e-4f3e-a09e-45738ba6bd4c",
         "Pragma": "no-cache",
         "Retry-After": "5",
         "Server": "AzurePurview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "1f730b76-3615-44e0-a1e7-7a429bd08696",
-        "x-ms-request-id": "f0abb223-f753-45d0-8c00-78946fd4a51a",
+        "x-ms-correlation-request-id": "df53802e-4e6d-432f-9fcd-de64fd39e724",
+        "x-ms-request-id": "f5b428a7-242a-4572-9f4e-420de36b4fc8",
         "X-XSS-Protection": "1; mode=block"
       },
-      "ResponseBody": "eyJpZCI6IjkyZGFiYjY0LWFhMDEtNDUwYy1iZmViLTBmM2Y3Y2JlYjEyZCIsInN0YXR1cyI6IlN1Y2NlZWRlZCIsImNyZWF0ZVRpbWUiOiIyMDIyLTA0LTE5VDA3OjMzOjQ1Ljc2NCswMDAwIiwibGFzdFVwZGF0ZVRpbWUiOiIyMDIyLTA0LTE5VDA3OjMzOjQ2LjExMCswMDAwIiwicHJvcGVydGllcyI6eyJpbXBvcnRlZFRlcm1zIjoiMCIsInRvdGFsVGVybXNEZXRlY3RlZCI6IjAifSwiZXJyb3IiOnsiZXJyb3JDb2RlIjowLCJlcnJvck1lc3NhZ2UiOiIifX0="
+      "ResponseBody": "eyJpZCI6ImUxNTc1MjZkLWFiM2UtNGYzZS1hMDllLTQ1NzM4YmE2YmQ0YyIsInN0YXR1cyI6IlN1Y2NlZWRlZCIsImNyZWF0ZVRpbWUiOiIyMDIyLTA2LTE0VDA5OjU3OjM3LjE3OSswMDAwIiwibGFzdFVwZGF0ZVRpbWUiOiIyMDIyLTA2LTE0VDA5OjU3OjM3LjgwMyswMDAwIiwicHJvcGVydGllcyI6eyJpbXBvcnRlZFRlcm1zIjoiMCIsInRvdGFsVGVybXNEZXRlY3RlZCI6IjAifSwiZXJyb3IiOnsiZXJyb3JDb2RlIjowLCJlcnJvck1lc3NhZ2UiOiIifX0="
     }
   ],
   "Variables": {}

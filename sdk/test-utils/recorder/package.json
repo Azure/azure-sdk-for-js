@@ -9,6 +9,7 @@
   "browser": {
     "./dist-esm/src/utils/relativePathCalculator.js": "./dist-esm/src/utils/relativePathCalculator.browser.js",
     "./dist-esm/src/utils/env.js": "./dist-esm/src/utils/env.browser.js",
+    "./dist-esm/src/utils/encoding.js": "./dist-esm/src/utils/encoding.browser.js",
     "./dist-esm/test/utils/server.js": "./dist-esm/test/utils/server.browser.js"
   },
   "scripts": {
@@ -106,7 +107,7 @@
     "rimraf": "^3.0.0",
     "tslib": "^2.2.0",
     "ts-node": "^9.0.0",
-    "typescript": "~4.2.0",
+    "typescript": "~4.6.0",
     "uuid": "^8.3.2"
   }
 }

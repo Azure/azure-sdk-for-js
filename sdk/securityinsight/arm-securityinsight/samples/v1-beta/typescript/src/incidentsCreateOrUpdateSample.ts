@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates the incident.
  *
  * @summary Creates or updates the incident.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/incidents/CreateIncident.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/incidents/CreateIncident.json
  */
 async function createsOrUpdatesAnIncident() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

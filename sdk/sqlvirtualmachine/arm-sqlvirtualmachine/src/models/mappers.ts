@@ -74,6 +74,29 @@ export const PrivateIPAddress: coreClient.CompositeMapper = {
   }
 };
 
+export const MultiSubnetIpConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MultiSubnetIpConfiguration",
+    modelProperties: {
+      privateIpAddress: {
+        serializedName: "privateIpAddress",
+        type: {
+          name: "Composite",
+          className: "PrivateIPAddress"
+        }
+      },
+      sqlVirtualMachineInstance: {
+        serializedName: "sqlVirtualMachineInstance",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AgConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -81,7 +104,6 @@ export const AgConfiguration: coreClient.CompositeMapper = {
     modelProperties: {
       replicas: {
         serializedName: "replicas",
-        readOnly: true,
         type: {
           name: "Sequence",
           element: {
@@ -397,6 +419,12 @@ export const WsfcDomainProfile: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      clusterSubnetType: {
+        serializedName: "clusterSubnetType",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -548,6 +576,7 @@ export const AutoPatchingSettings: coreClient.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: [
+            "Everyday",
             "Monday",
             "Tuesday",
             "Wednesday",
@@ -879,6 +908,18 @@ export const SQLInstanceSettings: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      isLpimEnabled: {
+        serializedName: "isLpimEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isIfiEnabled: {
+        serializedName: "isIfiEnabled",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -991,6 +1032,18 @@ export const SQLTempDbSettings: coreClient.CompositeMapper = {
         serializedName: "dataFileCount",
         type: {
           name: "Number"
+        }
+      },
+      persistFolder: {
+        serializedName: "persistFolder",
+        type: {
+          name: "Boolean"
+        }
+      },
+      persistFolderPath: {
+        serializedName: "persistFolderPath",
+        type: {
+          name: "String"
         }
       },
       luns: {
@@ -1178,6 +1231,18 @@ export const AvailabilityGroupListener: coreClient.CompositeMapper = {
           }
         }
       },
+      multiSubnetIpConfigurations: {
+        serializedName: "properties.multiSubnetIpConfigurations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MultiSubnetIpConfiguration"
+            }
+          }
+        }
+      },
       createDefaultAvailabilityGroupIfNotExist: {
         serializedName: "properties.createDefaultAvailabilityGroupIfNotExist",
         type: {
@@ -1316,6 +1381,12 @@ export const SqlVirtualMachine: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      leastPrivilegeMode: {
+        serializedName: "properties.leastPrivilegeMode",
+        type: {
+          name: "String"
+        }
+      },
       sqlImageSku: {
         serializedName: "properties.sqlImageSku",
         type: {
@@ -1333,6 +1404,12 @@ export const SqlVirtualMachine: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "WsfcDomainCredentials"
+        }
+      },
+      wsfcStaticIp: {
+        serializedName: "properties.wsfcStaticIp",
+        type: {
+          name: "String"
         }
       },
       autoPatchingSettings: {
@@ -1375,6 +1452,12 @@ export const SqlVirtualMachine: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AssessmentSettings"
+        }
+      },
+      enableAutomaticUpgrade: {
+        serializedName: "properties.enableAutomaticUpgrade",
+        type: {
+          name: "Boolean"
         }
       }
     }

@@ -237,6 +237,32 @@ export interface FollowerDatabaseDefinition {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly databaseName?: string;
+  /**
+   * Table level sharing specifications
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tableLevelSharingProperties?: TableLevelSharingProperties;
+  /**
+   * The origin of the following setup.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseShareOrigin?: DatabaseShareOrigin;
+}
+
+/** Tables that will be included and excluded in the follower database */
+export interface TableLevelSharingProperties {
+  /** List of tables to include in the follower database */
+  tablesToInclude?: string[];
+  /** List of tables to exclude from the follower database */
+  tablesToExclude?: string[];
+  /** List of external tables to include in the follower database */
+  externalTablesToInclude?: string[];
+  /** List of external tables exclude from the follower database */
+  externalTablesToExclude?: string[];
+  /** List of materialized views to include in the follower database */
+  materializedViewsToInclude?: string[];
+  /** List of materialized views exclude from the follower database */
+  materializedViewsToExclude?: string[];
 }
 
 export interface DiagnoseVirtualNetworkResult {
@@ -469,22 +495,6 @@ export interface AttachedDatabaseConfigurationListResult {
   value?: AttachedDatabaseConfiguration[];
 }
 
-/** Tables that will be included and excluded in the follower database */
-export interface TableLevelSharingProperties {
-  /** List of tables to include in the follower database */
-  tablesToInclude?: string[];
-  /** List of tables to exclude from the follower database */
-  tablesToExclude?: string[];
-  /** List of external tables to include in the follower database */
-  externalTablesToInclude?: string[];
-  /** List of external tables exclude from the follower database */
-  externalTablesToExclude?: string[];
-  /** List of materialized views to include in the follower database */
-  materializedViewsToInclude?: string[];
-  /** List of materialized views exclude from the follower database */
-  materializedViewsToExclude?: string[];
-}
-
 /** The list Kusto data connections operation response. */
 export interface DataConnectionListResult {
   /** The list of Kusto data connections. */
@@ -543,7 +553,7 @@ export interface Operation {
   display?: OperationDisplay;
   /** The intended executor of the operation. */
   origin?: string;
-  /** Any object */
+  /** Properties of the operation. */
   properties?: Record<string, unknown>;
 }
 
@@ -604,18 +614,18 @@ export interface DatabaseStatistics {
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** Class representing an update to a Kusto cluster. */
-export type ClusterUpdate = Resource & {
+export interface ClusterUpdate extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** Resource location. */
@@ -693,10 +703,10 @@ export type ClusterUpdate = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+}
 
 /** A private link resource */
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -717,10 +727,10 @@ export type PrivateLinkResource = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly requiredZoneNames?: string[];
-};
+}
 
 /** A private endpoint connection */
-export type PrivateEndpointConnection = ProxyResource & {
+export interface PrivateEndpointConnection extends ProxyResource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -743,10 +753,10 @@ export type PrivateEndpointConnection = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** Class representing a cluster principal assignment. */
-export type ClusterPrincipalAssignment = ProxyResource & {
+export interface ClusterPrincipalAssignment extends ProxyResource {
   /** The principal ID assigned to the cluster principal. It can be a user email, application ID, or security group name. */
   principalId?: string;
   /** Cluster principal role. */
@@ -775,18 +785,18 @@ export type ClusterPrincipalAssignment = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly aadObjectId?: string;
-};
+}
 
 /** Class representing a Kusto database. */
-export type Database = ProxyResource & {
+export interface Database extends ProxyResource {
   /** Resource location. */
   location?: string;
   /** Kind of the database */
   kind: Kind;
-};
+}
 
 /** Class representing a database principal assignment. */
-export type DatabasePrincipalAssignment = ProxyResource & {
+export interface DatabasePrincipalAssignment extends ProxyResource {
   /** The principal ID assigned to the database principal. It can be a user email, application ID, or security group name. */
   principalId?: string;
   /** Database principal role. */
@@ -815,10 +825,10 @@ export type DatabasePrincipalAssignment = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly aadObjectId?: string;
-};
+}
 
 /** Class representing a database script. */
-export type Script = ProxyResource & {
+export interface Script extends ProxyResource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -839,10 +849,10 @@ export type Script = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** Class representing a managed private endpoint. */
-export type ManagedPrivateEndpoint = ProxyResource & {
+export interface ManagedPrivateEndpoint extends ProxyResource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -861,10 +871,10 @@ export type ManagedPrivateEndpoint = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** Endpoints accessed for a common purpose that the Kusto Service Environment requires outbound network access to. */
-export type OutboundNetworkDependenciesEndpoint = ProxyResource & {
+export interface OutboundNetworkDependenciesEndpoint extends ProxyResource {
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -879,10 +889,10 @@ export type OutboundNetworkDependenciesEndpoint = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** Class representing an attached database configuration. */
-export type AttachedDatabaseConfiguration = ProxyResource & {
+export interface AttachedDatabaseConfiguration extends ProxyResource {
   /** Resource location. */
   location?: string;
   /**
@@ -903,18 +913,22 @@ export type AttachedDatabaseConfiguration = ProxyResource & {
   defaultPrincipalsModificationKind?: DefaultPrincipalsModificationKind;
   /** Table level sharing specifications */
   tableLevelSharingProperties?: TableLevelSharingProperties;
-};
+  /** Overrides the original database name. Relevant only when attaching to a specific database. */
+  databaseNameOverride?: string;
+  /** Adds a prefix to the attached databases name. When following an entire cluster, that prefix would be added to all of the databases original names from leader cluster. */
+  databaseNamePrefix?: string;
+}
 
 /** Class representing an data connection. */
-export type DataConnection = ProxyResource & {
+export interface DataConnection extends ProxyResource {
   /** Resource location. */
   location?: string;
   /** Kind of the endpoint for the data connection */
   kind: DataConnectionKind;
-};
+}
 
 /** Class representing a Kusto cluster. */
-export type Cluster = TrackedResource & {
+export interface Cluster extends TrackedResource {
   /** The SKU of the cluster. */
   sku: AzureSku;
   /**
@@ -1000,10 +1014,12 @@ export type Cluster = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+}
 
 /** Class representing a read write database. */
-export type ReadWriteDatabase = Database & {
+export interface ReadWriteDatabase extends Database {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "ReadWrite";
   /**
    * The provisioned state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1023,10 +1039,12 @@ export type ReadWriteDatabase = Database & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isFollowed?: boolean;
-};
+}
 
 /** Class representing a read only following database. */
-export type ReadOnlyFollowingDatabase = Database & {
+export interface ReadOnlyFollowingDatabase extends Database {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "ReadOnlyFollowing";
   /**
    * The provisioned state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1059,10 +1077,27 @@ export type ReadOnlyFollowingDatabase = Database & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalsModificationKind?: PrincipalsModificationKind;
-};
+  /**
+   * Table level sharing specifications
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tableLevelSharingProperties?: TableLevelSharingProperties;
+  /**
+   * The original database name, before databaseNameOverride or databaseNamePrefix where applied.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly originalDatabaseName?: string;
+  /**
+   * The origin of the following setup.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseShareOrigin?: DatabaseShareOrigin;
+}
 
 /** Class representing an event hub data connection. */
-export type EventHubDataConnection = DataConnection & {
+export interface EventHubDataConnection extends DataConnection {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "EventHub";
   /** The resource ID of the event hub to be used to create a data connection. */
   eventHubResourceId?: string;
   /** The event hub consumer group. */
@@ -1082,7 +1117,7 @@ export type EventHubDataConnection = DataConnection & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-  /** Empty for non-managed identity based data connection. For system assigned identity, provide cluster resource Id.  For user assigned identity (UAI) provide the UAI resource Id. */
+  /** The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub. */
   managedIdentityResourceId?: string;
   /**
    * The object ID of the managedIdentityResourceId
@@ -1091,10 +1126,14 @@ export type EventHubDataConnection = DataConnection & {
   readonly managedIdentityObjectId?: string;
   /** Indication for database routing information from the data connection, by default only database routing information is allowed */
   databaseRouting?: DatabaseRouting;
-};
+  /** When defined, the data connection retrieves existing Event hub events created since the Retrieval start date. It can only retrieve events retained by the Event hub, based on its retention period. */
+  retrievalStartDate?: Date;
+}
 
 /** Class representing an iot hub data connection. */
-export type IotHubDataConnection = DataConnection & {
+export interface IotHubDataConnection extends DataConnection {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "IotHub";
   /** The resource ID of the Iot hub to be used to create a data connection. */
   iotHubResourceId?: string;
   /** The iot hub consumer group. */
@@ -1111,15 +1150,19 @@ export type IotHubDataConnection = DataConnection & {
   sharedAccessPolicyName?: string;
   /** Indication for database routing information from the data connection, by default only database routing information is allowed */
   databaseRouting?: DatabaseRouting;
+  /** When defined, the data connection retrieves existing Event hub events created since the Retrieval start date. It can only retrieve events retained by the Event hub, based on its retention period. */
+  retrievalStartDate?: Date;
   /**
    * The provisioned state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** Class representing an Event Grid data connection. */
-export type EventGridDataConnection = DataConnection & {
+export interface EventGridDataConnection extends DataConnection {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "EventGrid";
   /** The resource ID of the storage account where the data resides. */
   storageAccountResourceId?: string;
   /** The resource ID of the event grid that is subscribed to the storage account events. */
@@ -1152,7 +1195,7 @@ export type EventGridDataConnection = DataConnection & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** Defines headers for Clusters_update operation. */
 export interface ClustersUpdateHeaders {
@@ -1186,50 +1229,130 @@ export interface DataConnectionsUpdateHeaders {
 
 /** Known values of {@link AzureSkuName} that the service accepts. */
 export enum KnownAzureSkuName {
+  /** DevNoSLAStandardD11V2 */
   DevNoSLAStandardD11V2 = "Dev(No SLA)_Standard_D11_v2",
+  /** DevNoSLAStandardE2AV4 */
   DevNoSLAStandardE2AV4 = "Dev(No SLA)_Standard_E2a_v4",
+  /** StandardD11V2 */
   StandardD11V2 = "Standard_D11_v2",
+  /** StandardD12V2 */
   StandardD12V2 = "Standard_D12_v2",
+  /** StandardD13V2 */
   StandardD13V2 = "Standard_D13_v2",
+  /** StandardD14V2 */
   StandardD14V2 = "Standard_D14_v2",
+  /** StandardD32DV4 */
   StandardD32DV4 = "Standard_D32d_v4",
+  /** StandardD16DV5 */
   StandardD16DV5 = "Standard_D16d_v5",
+  /** StandardD32DV5 */
   StandardD32DV5 = "Standard_D32d_v5",
+  /** StandardDS13V21TBPS */
   StandardDS13V21TBPS = "Standard_DS13_v2+1TB_PS",
+  /** StandardDS13V22TBPS */
   StandardDS13V22TBPS = "Standard_DS13_v2+2TB_PS",
+  /** StandardDS14V23TBPS */
   StandardDS14V23TBPS = "Standard_DS14_v2+3TB_PS",
+  /** StandardDS14V24TBPS */
   StandardDS14V24TBPS = "Standard_DS14_v2+4TB_PS",
+  /** StandardL4S */
   StandardL4S = "Standard_L4s",
+  /** StandardL8S */
   StandardL8S = "Standard_L8s",
+  /** StandardL16S */
   StandardL16S = "Standard_L16s",
+  /** StandardL8SV2 */
   StandardL8SV2 = "Standard_L8s_v2",
+  /** StandardL16SV2 */
   StandardL16SV2 = "Standard_L16s_v2",
+  /** StandardL8SV3 */
+  StandardL8SV3 = "Standard_L8s_v3",
+  /** StandardL16SV3 */
+  StandardL16SV3 = "Standard_L16s_v3",
+  /** StandardL8AsV3 */
+  StandardL8AsV3 = "Standard_L8as_v3",
+  /** StandardL16AsV3 */
+  StandardL16AsV3 = "Standard_L16as_v3",
+  /** StandardE64IV3 */
   StandardE64IV3 = "Standard_E64i_v3",
+  /** StandardE80IdsV4 */
   StandardE80IdsV4 = "Standard_E80ids_v4",
+  /** StandardE2AV4 */
   StandardE2AV4 = "Standard_E2a_v4",
+  /** StandardE4AV4 */
   StandardE4AV4 = "Standard_E4a_v4",
+  /** StandardE8AV4 */
   StandardE8AV4 = "Standard_E8a_v4",
+  /** StandardE16AV4 */
   StandardE16AV4 = "Standard_E16a_v4",
+  /** StandardE8AsV41TBPS */
   StandardE8AsV41TBPS = "Standard_E8as_v4+1TB_PS",
+  /** StandardE8AsV42TBPS */
   StandardE8AsV42TBPS = "Standard_E8as_v4+2TB_PS",
+  /** StandardE16AsV43TBPS */
   StandardE16AsV43TBPS = "Standard_E16as_v4+3TB_PS",
+  /** StandardE16AsV44TBPS */
   StandardE16AsV44TBPS = "Standard_E16as_v4+4TB_PS",
+  /** StandardE8AsV51TBPS */
   StandardE8AsV51TBPS = "Standard_E8as_v5+1TB_PS",
+  /** StandardE8AsV52TBPS */
   StandardE8AsV52TBPS = "Standard_E8as_v5+2TB_PS",
+  /** StandardE16AsV53TBPS */
   StandardE16AsV53TBPS = "Standard_E16as_v5+3TB_PS",
+  /** StandardE16AsV54TBPS */
   StandardE16AsV54TBPS = "Standard_E16as_v5+4TB_PS",
+  /** StandardE2AdsV5 */
   StandardE2AdsV5 = "Standard_E2ads_v5",
+  /** StandardE4AdsV5 */
   StandardE4AdsV5 = "Standard_E4ads_v5",
+  /** StandardE8AdsV5 */
   StandardE8AdsV5 = "Standard_E8ads_v5",
+  /** StandardE16AdsV5 */
   StandardE16AdsV5 = "Standard_E16ads_v5",
+  /** StandardEC8AsV51TBPS */
+  StandardEC8AsV51TBPS = "Standard_EC8as_v5+1TB_PS",
+  /** StandardEC8AsV52TBPS */
+  StandardEC8AsV52TBPS = "Standard_EC8as_v5+2TB_PS",
+  /** StandardEC16AsV53TBPS */
+  StandardEC16AsV53TBPS = "Standard_EC16as_v5+3TB_PS",
+  /** StandardEC16AsV54TBPS */
+  StandardEC16AsV54TBPS = "Standard_EC16as_v5+4TB_PS",
+  /** StandardEC8AdsV5 */
+  StandardEC8AdsV5 = "Standard_EC8ads_v5",
+  /** StandardEC16AdsV5 */
+  StandardEC16AdsV5 = "Standard_EC16ads_v5",
+  /** StandardE8SV41TBPS */
   StandardE8SV41TBPS = "Standard_E8s_v4+1TB_PS",
+  /** StandardE8SV42TBPS */
   StandardE8SV42TBPS = "Standard_E8s_v4+2TB_PS",
+  /** StandardE16SV43TBPS */
   StandardE16SV43TBPS = "Standard_E16s_v4+3TB_PS",
+  /** StandardE16SV44TBPS */
   StandardE16SV44TBPS = "Standard_E16s_v4+4TB_PS",
+  /** StandardE8SV51TBPS */
   StandardE8SV51TBPS = "Standard_E8s_v5+1TB_PS",
+  /** StandardE8SV52TBPS */
   StandardE8SV52TBPS = "Standard_E8s_v5+2TB_PS",
+  /** StandardE16SV53TBPS */
   StandardE16SV53TBPS = "Standard_E16s_v5+3TB_PS",
-  StandardE16SV54TBPS = "Standard_E16s_v5+4TB_PS"
+  /** StandardE16SV54TBPS */
+  StandardE16SV54TBPS = "Standard_E16s_v5+4TB_PS",
+  /** StandardE2DV4 */
+  StandardE2DV4 = "Standard_E2d_v4",
+  /** StandardE4DV4 */
+  StandardE4DV4 = "Standard_E4d_v4",
+  /** StandardE8DV4 */
+  StandardE8DV4 = "Standard_E8d_v4",
+  /** StandardE16DV4 */
+  StandardE16DV4 = "Standard_E16d_v4",
+  /** StandardE2DV5 */
+  StandardE2DV5 = "Standard_E2d_v5",
+  /** StandardE4DV5 */
+  StandardE4DV5 = "Standard_E4d_v5",
+  /** StandardE8DV5 */
+  StandardE8DV5 = "Standard_E8d_v5",
+  /** StandardE16DV5 */
+  StandardE16DV5 = "Standard_E16d_v5"
 }
 
 /**
@@ -1255,6 +1378,10 @@ export enum KnownAzureSkuName {
  * **Standard_L16s** \
  * **Standard_L8s_v2** \
  * **Standard_L16s_v2** \
+ * **Standard_L8s_v3** \
+ * **Standard_L16s_v3** \
+ * **Standard_L8as_v3** \
+ * **Standard_L16as_v3** \
  * **Standard_E64i_v3** \
  * **Standard_E80ids_v4** \
  * **Standard_E2a_v4** \
@@ -1273,6 +1400,12 @@ export enum KnownAzureSkuName {
  * **Standard_E4ads_v5** \
  * **Standard_E8ads_v5** \
  * **Standard_E16ads_v5** \
+ * **Standard_EC8as_v5+1TB_PS** \
+ * **Standard_EC8as_v5+2TB_PS** \
+ * **Standard_EC16as_v5+3TB_PS** \
+ * **Standard_EC16as_v5+4TB_PS** \
+ * **Standard_EC8ads_v5** \
+ * **Standard_EC16ads_v5** \
  * **Standard_E8s_v4+1TB_PS** \
  * **Standard_E8s_v4+2TB_PS** \
  * **Standard_E16s_v4+3TB_PS** \
@@ -1280,13 +1413,23 @@ export enum KnownAzureSkuName {
  * **Standard_E8s_v5+1TB_PS** \
  * **Standard_E8s_v5+2TB_PS** \
  * **Standard_E16s_v5+3TB_PS** \
- * **Standard_E16s_v5+4TB_PS**
+ * **Standard_E16s_v5+4TB_PS** \
+ * **Standard_E2d_v4** \
+ * **Standard_E4d_v4** \
+ * **Standard_E8d_v4** \
+ * **Standard_E16d_v4** \
+ * **Standard_E2d_v5** \
+ * **Standard_E4d_v5** \
+ * **Standard_E8d_v5** \
+ * **Standard_E16d_v5**
  */
 export type AzureSkuName = string;
 
 /** Known values of {@link AzureSkuTier} that the service accepts. */
 export enum KnownAzureSkuTier {
+  /** Basic */
   Basic = "Basic",
+  /** Standard */
   Standard = "Standard"
 }
 
@@ -1302,9 +1445,13 @@ export type AzureSkuTier = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -1322,9 +1469,13 @@ export type CreatedByType = string;
 
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
+  /** None */
   None = "None",
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
   SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
 }
 
@@ -1342,14 +1493,23 @@ export type IdentityType = string;
 
 /** Known values of {@link State} that the service accepts. */
 export enum KnownState {
+  /** Creating */
   Creating = "Creating",
+  /** Unavailable */
   Unavailable = "Unavailable",
+  /** Running */
   Running = "Running",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Stopping */
   Stopping = "Stopping",
+  /** Stopped */
   Stopped = "Stopped",
+  /** Starting */
   Starting = "Starting",
+  /** Updating */
   Updating = "Updating"
 }
 
@@ -1372,11 +1532,17 @@ export type State = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Running */
   Running = "Running",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Moving */
   Moving = "Moving"
 }
 
@@ -1396,7 +1562,9 @@ export type ProvisioningState = string;
 
 /** Known values of {@link LanguageExtensionName} that the service accepts. */
 export enum KnownLanguageExtensionName {
+  /** Python */
   Python = "PYTHON",
+  /** R */
   R = "R"
 }
 
@@ -1412,7 +1580,9 @@ export type LanguageExtensionName = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1428,7 +1598,9 @@ export type PublicNetworkAccess = string;
 
 /** Known values of {@link EngineType} that the service accepts. */
 export enum KnownEngineType {
+  /** V2 */
   V2 = "V2",
+  /** V3 */
   V3 = "V3"
 }
 
@@ -1444,7 +1616,9 @@ export type EngineType = string;
 
 /** Known values of {@link ClusterNetworkAccessFlag} that the service accepts. */
 export enum KnownClusterNetworkAccessFlag {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1460,7 +1634,9 @@ export type ClusterNetworkAccessFlag = string;
 
 /** Known values of {@link PublicIPType} that the service accepts. */
 export enum KnownPublicIPType {
+  /** IPv4 */
   IPv4 = "IPv4",
+  /** DualStack */
   DualStack = "DualStack"
 }
 
@@ -1476,7 +1652,9 @@ export type PublicIPType = string;
 
 /** Known values of {@link Reason} that the service accepts. */
 export enum KnownReason {
+  /** Invalid */
   Invalid = "Invalid",
+  /** AlreadyExists */
   AlreadyExists = "AlreadyExists"
 }
 
@@ -1492,7 +1670,9 @@ export type Reason = string;
 
 /** Known values of {@link ClusterPrincipalRole} that the service accepts. */
 export enum KnownClusterPrincipalRole {
+  /** AllDatabasesAdmin */
   AllDatabasesAdmin = "AllDatabasesAdmin",
+  /** AllDatabasesViewer */
   AllDatabasesViewer = "AllDatabasesViewer"
 }
 
@@ -1508,8 +1688,11 @@ export type ClusterPrincipalRole = string;
 
 /** Known values of {@link PrincipalType} that the service accepts. */
 export enum KnownPrincipalType {
+  /** App */
   App = "App",
+  /** Group */
   Group = "Group",
+  /** User */
   User = "User"
 }
 
@@ -1524,10 +1707,34 @@ export enum KnownPrincipalType {
  */
 export type PrincipalType = string;
 
+/** Known values of {@link DatabaseShareOrigin} that the service accepts. */
+export enum KnownDatabaseShareOrigin {
+  /** Direct */
+  Direct = "Direct",
+  /** DataShare */
+  DataShare = "DataShare",
+  /** Other */
+  Other = "Other"
+}
+
+/**
+ * Defines values for DatabaseShareOrigin. \
+ * {@link KnownDatabaseShareOrigin} can be used interchangeably with DatabaseShareOrigin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Direct** \
+ * **DataShare** \
+ * **Other**
+ */
+export type DatabaseShareOrigin = string;
+
 /** Known values of {@link AzureScaleType} that the service accepts. */
 export enum KnownAzureScaleType {
+  /** Automatic */
   Automatic = "automatic",
+  /** Manual */
   Manual = "manual",
+  /** None */
   None = "none"
 }
 
@@ -1544,7 +1751,9 @@ export type AzureScaleType = string;
 
 /** Known values of {@link Kind} that the service accepts. */
 export enum KnownKind {
+  /** ReadWrite */
   ReadWrite = "ReadWrite",
+  /** ReadOnlyFollowing */
   ReadOnlyFollowing = "ReadOnlyFollowing"
 }
 
@@ -1558,13 +1767,37 @@ export enum KnownKind {
  */
 export type Kind = string;
 
+/** Known values of {@link CallerRole} that the service accepts. */
+export enum KnownCallerRole {
+  /** Admin */
+  Admin = "Admin",
+  /** None */
+  None = "None"
+}
+
+/**
+ * Defines values for CallerRole. \
+ * {@link KnownCallerRole} can be used interchangeably with CallerRole,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Admin** \
+ * **None**
+ */
+export type CallerRole = string;
+
 /** Known values of {@link DatabasePrincipalRole} that the service accepts. */
 export enum KnownDatabasePrincipalRole {
+  /** Admin */
   Admin = "Admin",
+  /** Ingestor */
   Ingestor = "Ingestor",
+  /** Monitor */
   Monitor = "Monitor",
+  /** User */
   User = "User",
+  /** UnrestrictedViewer */
   UnrestrictedViewer = "UnrestrictedViewer",
+  /** Viewer */
   Viewer = "Viewer"
 }
 
@@ -1584,8 +1817,11 @@ export type DatabasePrincipalRole = string;
 
 /** Known values of {@link DatabasePrincipalType} that the service accepts. */
 export enum KnownDatabasePrincipalType {
+  /** App */
   App = "App",
+  /** Group */
   Group = "Group",
+  /** User */
   User = "User"
 }
 
@@ -1602,8 +1838,11 @@ export type DatabasePrincipalType = string;
 
 /** Known values of {@link DefaultPrincipalsModificationKind} that the service accepts. */
 export enum KnownDefaultPrincipalsModificationKind {
+  /** Union */
   Union = "Union",
+  /** Replace */
   Replace = "Replace",
+  /** None */
   None = "None"
 }
 
@@ -1620,8 +1859,11 @@ export type DefaultPrincipalsModificationKind = string;
 
 /** Known values of {@link DataConnectionKind} that the service accepts. */
 export enum KnownDataConnectionKind {
+  /** EventHub */
   EventHub = "EventHub",
+  /** EventGrid */
   EventGrid = "EventGrid",
+  /** IotHub */
   IotHub = "IotHub"
 }
 
@@ -1638,9 +1880,13 @@ export type DataConnectionKind = string;
 
 /** Known values of {@link Status} that the service accepts. */
 export enum KnownStatus {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** Running */
   Running = "Running"
 }
 
@@ -1658,8 +1904,11 @@ export type Status = string;
 
 /** Known values of {@link PrincipalsModificationKind} that the service accepts. */
 export enum KnownPrincipalsModificationKind {
+  /** Union */
   Union = "Union",
+  /** Replace */
   Replace = "Replace",
+  /** None */
   None = "None"
 }
 
@@ -1676,21 +1925,37 @@ export type PrincipalsModificationKind = string;
 
 /** Known values of {@link EventHubDataFormat} that the service accepts. */
 export enum KnownEventHubDataFormat {
+  /** Multijson */
   Multijson = "MULTIJSON",
+  /** Json */
   Json = "JSON",
+  /** CSV */
   CSV = "CSV",
+  /** TSV */
   TSV = "TSV",
+  /** Scsv */
   Scsv = "SCSV",
+  /** Sohsv */
   Sohsv = "SOHSV",
+  /** PSV */
   PSV = "PSV",
+  /** TXT */
   TXT = "TXT",
+  /** RAW */
   RAW = "RAW",
+  /** Singlejson */
   Singlejson = "SINGLEJSON",
+  /** Avro */
   Avro = "AVRO",
+  /** Tsve */
   Tsve = "TSVE",
+  /** Parquet */
   Parquet = "PARQUET",
+  /** ORC */
   ORC = "ORC",
+  /** Apacheavro */
   Apacheavro = "APACHEAVRO",
+  /** W3Clogfile */
   W3Clogfile = "W3CLOGFILE"
 }
 
@@ -1720,7 +1985,9 @@ export type EventHubDataFormat = string;
 
 /** Known values of {@link Compression} that the service accepts. */
 export enum KnownCompression {
+  /** None */
   None = "None",
+  /** GZip */
   GZip = "GZip"
 }
 
@@ -1736,7 +2003,9 @@ export type Compression = string;
 
 /** Known values of {@link DatabaseRouting} that the service accepts. */
 export enum KnownDatabaseRouting {
+  /** Single */
   Single = "Single",
+  /** Multi */
   Multi = "Multi"
 }
 
@@ -1752,21 +2021,37 @@ export type DatabaseRouting = string;
 
 /** Known values of {@link IotHubDataFormat} that the service accepts. */
 export enum KnownIotHubDataFormat {
+  /** Multijson */
   Multijson = "MULTIJSON",
+  /** Json */
   Json = "JSON",
+  /** CSV */
   CSV = "CSV",
+  /** TSV */
   TSV = "TSV",
+  /** Scsv */
   Scsv = "SCSV",
+  /** Sohsv */
   Sohsv = "SOHSV",
+  /** PSV */
   PSV = "PSV",
+  /** TXT */
   TXT = "TXT",
+  /** RAW */
   RAW = "RAW",
+  /** Singlejson */
   Singlejson = "SINGLEJSON",
+  /** Avro */
   Avro = "AVRO",
+  /** Tsve */
   Tsve = "TSVE",
+  /** Parquet */
   Parquet = "PARQUET",
+  /** ORC */
   ORC = "ORC",
+  /** Apacheavro */
   Apacheavro = "APACHEAVRO",
+  /** W3Clogfile */
   W3Clogfile = "W3CLOGFILE"
 }
 
@@ -1796,21 +2081,37 @@ export type IotHubDataFormat = string;
 
 /** Known values of {@link EventGridDataFormat} that the service accepts. */
 export enum KnownEventGridDataFormat {
+  /** Multijson */
   Multijson = "MULTIJSON",
+  /** Json */
   Json = "JSON",
+  /** CSV */
   CSV = "CSV",
+  /** TSV */
   TSV = "TSV",
+  /** Scsv */
   Scsv = "SCSV",
+  /** Sohsv */
   Sohsv = "SOHSV",
+  /** PSV */
   PSV = "PSV",
+  /** TXT */
   TXT = "TXT",
+  /** RAW */
   RAW = "RAW",
+  /** Singlejson */
   Singlejson = "SINGLEJSON",
+  /** Avro */
   Avro = "AVRO",
+  /** Tsve */
   Tsve = "TSVE",
+  /** Parquet */
   Parquet = "PARQUET",
+  /** ORC */
   ORC = "ORC",
+  /** Apacheavro */
   Apacheavro = "APACHEAVRO",
+  /** W3Clogfile */
   W3Clogfile = "W3CLOGFILE"
 }
 
@@ -1840,7 +2141,9 @@ export type EventGridDataFormat = string;
 
 /** Known values of {@link BlobStorageEventType} that the service accepts. */
 export enum KnownBlobStorageEventType {
+  /** MicrosoftStorageBlobCreated */
   MicrosoftStorageBlobCreated = "Microsoft.Storage.BlobCreated",
+  /** MicrosoftStorageBlobRenamed */
   MicrosoftStorageBlobRenamed = "Microsoft.Storage.BlobRenamed"
 }
 
@@ -2090,6 +2393,8 @@ export type DatabasesGetResponse = DatabaseUnion;
 /** Optional parameters. */
 export interface DatabasesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
+  /** By default, any user who run operation on a database become an Admin on it. This property allows the caller to exclude the caller from Admins list. */
+  callerRole?: CallerRole;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2102,6 +2407,8 @@ export type DatabasesCreateOrUpdateResponse = DatabaseUnion;
 /** Optional parameters. */
 export interface DatabasesUpdateOptionalParams
   extends coreClient.OperationOptions {
+  /** By default, any user who run operation on a database become an Admin on it. This property allows the caller to exclude the caller from Admins list. */
+  callerRole?: CallerRole;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */

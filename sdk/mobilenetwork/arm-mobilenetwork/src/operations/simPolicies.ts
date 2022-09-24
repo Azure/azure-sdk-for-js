@@ -44,7 +44,7 @@ export class SimPoliciesImpl implements SimPolicies {
   }
 
   /**
-   * Gets all the simPolicies in a mobile network.
+   * Gets all the SIM policies in a mobile network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param options The options parameters.
@@ -115,7 +115,7 @@ export class SimPoliciesImpl implements SimPolicies {
   }
 
   /**
-   * Deletes the specified sim policy.
+   * Deletes the specified SIM policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
@@ -181,7 +181,7 @@ export class SimPoliciesImpl implements SimPolicies {
   }
 
   /**
-   * Deletes the specified sim policy.
+   * Deletes the specified SIM policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
@@ -203,7 +203,7 @@ export class SimPoliciesImpl implements SimPolicies {
   }
 
   /**
-   * Gets information about the specified sim policy.
+   * Gets information about the specified SIM policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
@@ -222,11 +222,11 @@ export class SimPoliciesImpl implements SimPolicies {
   }
 
   /**
-   * Creates or updates a SimPolicy.
+   * Creates or updates a SIM policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
-   * @param parameters Parameters supplied to the create or update sim policy operation.
+   * @param parameters Parameters supplied to the create or update SIM policy operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
@@ -301,11 +301,11 @@ export class SimPoliciesImpl implements SimPolicies {
   }
 
   /**
-   * Creates or updates a SimPolicy.
+   * Creates or updates a SIM policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
-   * @param parameters Parameters supplied to the create or update sim policy operation.
+   * @param parameters Parameters supplied to the create or update SIM policy operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
@@ -326,11 +326,11 @@ export class SimPoliciesImpl implements SimPolicies {
   }
 
   /**
-   * Update sim policy tags.
+   * Updates SIM policy tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
-   * @param parameters Parameters supplied to update Sim Policy tags.
+   * @param parameters Parameters supplied to update SIM policy tags.
    * @param options The options parameters.
    */
   updateTags(
@@ -353,7 +353,7 @@ export class SimPoliciesImpl implements SimPolicies {
   }
 
   /**
-   * Gets all the simPolicies in a mobile network.
+   * Gets all the SIM policies in a mobile network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param options The options parameters.
@@ -459,7 +459,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters9,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Delete the alert rule.
  *
  * @summary Delete the alert rule.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/alertRules/DeleteAlertRule.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/alertRules/DeleteAlertRule.json
  */
 async function deleteAnAlertRule() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

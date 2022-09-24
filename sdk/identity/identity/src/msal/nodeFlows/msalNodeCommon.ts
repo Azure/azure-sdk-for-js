@@ -1,31 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as msalNode from "@azure/msal-node";
 import * as msalCommon from "@azure/msal-common";
+import * as msalNode from "@azure/msal-node";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { LogPolicyOptions } from "@azure/core-rest-pipeline";
-
-import { IdentityClient } from "../../client/identityClient";
-import { TokenCredentialOptions } from "../../tokenCredentialOptions";
-import { DeveloperSignOnClientId } from "../../constants";
-import { resolveTenantId } from "../../util/resolveTenantId";
-import { AuthenticationRequiredError } from "../../errors";
-import { CredentialFlowGetTokenOptions } from "../credentials";
-import { MsalFlow, MsalFlowOptions } from "../flows";
-import { AuthenticationRecord } from "../types";
 import {
+  MsalBaseUtilities,
   defaultLoggerCallback,
   getAuthority,
   getKnownAuthorities,
-  MsalBaseUtilities,
   msalToPublic,
   publicToMsal,
 } from "../utils";
-import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
-import { processMultiTenantRequest } from "../../util/validateMultiTenant";
+import { MsalFlow, MsalFlowOptions } from "../flows";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { AuthenticationRecord } from "../types";
+import { AuthenticationRequiredError } from "../../errors";
+import { CredentialFlowGetTokenOptions } from "../credentials";
+import { DeveloperSignOnClientId } from "../../constants";
+import { IdentityClient } from "../../client/identityClient";
+import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import { RegionalAuthority } from "../../regionalAuthority";
+import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
+import { TokenCredentialOptions } from "../../tokenCredentialOptions";
+import { processMultiTenantRequest, resolveTenantId } from "../../util/tenantIdUtils";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
@@ -94,11 +92,15 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
    */
   private cachedClaims: string | undefined;
 
+  protected getAssertion: (() => Promise<string>) | undefined;
   constructor(options: MsalNodeOptions) {
     super(options);
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
     this.clientId = this.msalConfig.auth.clientId;
+    if (options?.getAssertion) {
+      this.getAssertion = options.getAssertion;
+    }
 
     // If persistence has been configured
     if (persistenceProvider !== undefined && options.tokenCachePersistenceOptions?.enabled) {
@@ -181,6 +183,9 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     }
 
     this.publicApp = new msalNode.PublicClientApplication(this.msalConfig);
+    if (this.getAssertion) {
+      this.msalConfig.auth.clientAssertion = await this.getAssertion();
+    }
     // The confidential client requires either a secret, assertion or certificate.
     if (
       this.msalConfig.auth.clientSecret ||

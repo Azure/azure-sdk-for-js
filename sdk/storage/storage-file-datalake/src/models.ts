@@ -138,6 +138,11 @@ export interface CommonGenerateSasUrlOptions {
   identifier?: string;
 
   /**
+   * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
+   */
+  encryptionScope?: string;
+
+  /**
    * Optional. The cache-control header for the SAS.
    */
   cacheControl?: string;
@@ -223,6 +228,7 @@ export interface FileSystemProperties {
   publicAccess?: PublicAccessType;
   hasImmutabilityPolicy?: boolean;
   hasLegalHold?: boolean;
+  defaultEncryptionScope?: string;
   deletedOn?: Date;
   remainingRetentionDays?: number;
 }
@@ -282,6 +288,10 @@ export interface ServiceGenerateAccountSasUrlOptions {
    * Optional. IP range allowed.
    */
   ipRange?: SasIPRange;
+  /**
+   * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -310,6 +320,10 @@ export interface FileSystemCreateOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   metadata?: Metadata;
   access?: PublicAccessType;
+  /**
+   * File System encryption scope info.
+   */
+  fileSystemEncryptionScope?: FileSystemEncryptionScope;
 }
 
 export interface FileSystemCreateHeaders {
@@ -364,6 +378,10 @@ export interface FileSystemGetPropertiesHeaders {
   publicAccess?: PublicAccessType;
   hasImmutabilityPolicy?: boolean;
   hasLegalHold?: boolean;
+  /**
+   * The default encryption scope for the file system.
+   */
+  defaultEncryptionScope?: string;
 }
 
 export type FileSystemGetPropertiesResponse = FileSystemGetPropertiesHeaders & {
@@ -474,6 +492,10 @@ export interface Path {
   owner?: string;
   group?: string;
   permissions?: PathPermissions;
+  /**
+   * The name of the encryption scope under which the blob is encrypted.
+   */
+  encryptionScope?: string;
   /**
    * Creation time of the path.
    */
@@ -665,12 +687,39 @@ export interface PathCreateOptions extends CommonOptions {
   metadata?: Metadata;
   permissions?: string; // TODO: model or string?
   umask?: string; // TODO: model or string?
+  /**
+   * Optional. The owner of the blob or directory.
+   */
+  owner?: string;
+  /**
+   * Optional. The owning group of the blob or directory.
+   */
+  group?: string;
+  /**
+   * Optional. POSIX access control rights on files and directories.
+   */
+  acl?: PathAccessControlItem[];
   conditions?: DataLakeRequestConditions;
   pathHttpHeaders?: PathCreateHttpHeaders;
   /**
    * Customer Provided Key Info.
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Proposed lease ID, in a GUID string format. The Blob service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats.
+   */
+  proposedLeaseId?: string;
+  /**
+   * The lease duration is required to acquire a lease, and specifies the duration of the lease in seconds.  The lease duration must be between 15 and 60 seconds or -1 for infinite lease.
+   */
+  leaseDuration?: number;
+  /**
+   * Optional. Options for scheduling the deletion of a path.
+   * A number value indicates duration before file should be deleted in milliseconds.
+   * A Date value indicates the time to set for when the path will be deleted.
+   * Does not apply to directories.
+   */
+  expiresOn?: number | Date;
 }
 
 export interface PathCreateIfNotExistsOptions extends CommonOptions {
@@ -678,11 +727,38 @@ export interface PathCreateIfNotExistsOptions extends CommonOptions {
   metadata?: Metadata;
   permissions?: string;
   umask?: string;
+  /**
+   * Optional. The owner of the blob or directory.
+   */
+  owner?: string;
+  /**
+   * Optional. The owning group of the blob or directory.
+   */
+  group?: string;
+  /**
+   * Optional. POSIX access control rights on files and directories.
+   */
+  acl?: PathAccessControlItem[];
   pathHttpHeaders?: PathCreateHttpHeaders;
   /**
    * Customer Provided Key Info.
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Proposed lease ID, in a GUID string format. The Blob service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats.
+   */
+  proposedLeaseId?: string;
+  /**
+   * The lease duration is required to acquire a lease, and specifies the duration of the lease in seconds.  The lease duration must be between 15 and 60 seconds or -1 for infinite lease.
+   */
+  leaseDuration?: number;
+  /**
+   * Optional. Options for scheduling the deletion of a path.
+   * A number value indicates duration before file should be deleted in milliseconds.
+   * A Date value indicates the time to set for when the path will be deleted.
+   * Does not apply to directories.
+   */
+  expiresOn?: number | Date;
 }
 
 export interface PathDeleteOptions extends CommonOptions {
@@ -886,6 +962,11 @@ export interface PathGetPropertiesHeaders {
   // blobCommittedBlockCount?: number;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
+  /**
+   * Returns the name of the encryption scope used to encrypt the path contents and application metadata.
+   * Note that the absence of this header implies use of the default account encryption scope.
+   */
+  encryptionScope?: string;
   accessTier?: string;
   accessTierInferred?: boolean;
   archiveStatus?: string;
@@ -1136,6 +1217,10 @@ export interface FileAppendOptions extends CommonOptions {
    * Customer Provided Key Info.
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * If file should be flushed automatically after the append
+   */
+  flush?: boolean;
 }
 
 export interface FileFlushOptions extends CommonOptions {
@@ -1446,6 +1531,17 @@ export interface FileGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
    * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
    */
   permissions?: DataLakeSASPermissions;
+}
+
+/**
+ * Options to specify encryption scope on a file system.
+ */
+export declare interface FileSystemEncryptionScope {
+  /** Optional.  Version 2021-02-12 and later.  Specifies the default encryption scope to set on the file system and use for all future writes. */
+  defaultEncryptionScope?: string;
+
+  /** Optional.  Version 2021-02-12 and newer.  If true, prevents any request from specifying a different encryption scope than the scope set on the container. */
+  preventEncryptionScopeOverride?: boolean;
 }
 
 /** *********************************************************/

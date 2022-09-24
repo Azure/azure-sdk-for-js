@@ -1,6 +1,6 @@
 # Release History
 
-## 4.5.0-beta.1 (Unreleased)
+## 4.6.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,52 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.6.0 (2022-09-20)
+
+### Breaking Changes
+
+- Verify the challenge resource matches the vault domain.
+  This should affect few customers who can set `disableChallengeResourceVerification` in the options bag to `true` to disable.
+  See https://aka.ms/azsdk/blog/vault-uri for more information.
+
+## 4.5.1 (2022-08-15)
+
+### Bugs Fixed
+
+- Fixed an issue where `listPropertiesOfSecretVersions` would fail on the second page when using pagination.
+
+## 4.5.0 (2022-08-09)
+
+### Breaking Changes
+
+- Migrated to the Core v2 HTTP pipeline. As a result of this migration:
+  - The response types no longer contain the raw response `_response`. To access the raw response, an `onResponse` callback has to be passed in the request options bag, for example:
+    ```ts
+    let rawResponse: FullOperationResponse | undefined;
+    await client.operationName(/* ...parameters... */, {
+      onResponse: (response) => (rawResponse = response),
+    });
+    ```
+  - The re-export of the `PipelineOptions` type from `@azure/core-http` has been removed. If you previously relied on this export, consider either using the more specific `SecretClientOptions` type or importing `PipelineOptions` from `@azure/core-http` directly.
+
+## 4.5.0-beta.1 (2022-07-07)
+
+### Breaking Changes
+
+- As a result of the migration to Core v2:
+  - The response types no longer contain the raw response `_response`. To access the raw response, an `onResponse` callback has to be passed in the request options bag, for example:
+    ```ts
+    let rawResponse: FullOperationResponse | undefined;
+    await client.operationName(/* ...parameters... */, {
+      onResponse: (response) => (rawResponse = response),
+    });
+    ```
+  - The re-export of the `PipelineOptions` type from `@azure/core-http` has been removed. If you previously relied on this export, consider either using the more specific `SecretClientOptions` type or importing `PipelineOptions` from `@azure/core-http` directly.
+
+### Other Changes
+
+- Migrated the generated client to `@azure/core-rest-pipeline` ("Core v2"). See [Azure Core v1 vs v2](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/documentation/core2.md) for more on the difference and benefits of the move.
 
 ## 4.4.0 (2022-03-24)
 

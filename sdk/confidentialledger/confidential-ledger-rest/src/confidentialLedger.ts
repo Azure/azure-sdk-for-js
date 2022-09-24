@@ -1,30 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import GeneratedConfidentialLedger, {
-  ConfidentialLedgerRestClient,
-} from "./generated/src/confidentialLedger";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 
 import { ClientOptions } from "@azure-rest/core-client";
+import { ConfidentialLedgerClient } from "./generated/src/clientDefinitions";
+import GeneratedConfidentialLedger from "./generated/src/confidentialLedger";
 
 export default function ConfidentialLedger(
-  ledgerBaseUrl: string,
-  ledgerTlsCertificate: string,
+  ledgerEndpoint: string,
+  ledgerIdentityCertificate: string,
   options?: ClientOptions
-): ConfidentialLedgerRestClient;
+): ConfidentialLedgerClient;
 export default function ConfidentialLedger(
-  ledgerBaseUrl: string,
-  ledgerTlsCertificate: string,
+  ledgerEndpoint: string,
+  ledgerIdentityCertificate: string,
   credentials: TokenCredential,
   options?: ClientOptions
-): ConfidentialLedgerRestClient;
+): ConfidentialLedgerClient;
 export default function ConfidentialLedger(
-  ledgerBaseUrl: string,
-  ledgerTlsCertificate: string,
+  ledgerEndpoint: string,
+  ledgerIdentityCertificate: string,
   credentialsOrOptions?: TokenCredential | ClientOptions,
   opts?: ClientOptions
-): ConfidentialLedgerRestClient {
+): ConfidentialLedgerClient {
   let credentials: TokenCredential | undefined;
   let options: ClientOptions;
 
@@ -36,8 +35,8 @@ export default function ConfidentialLedger(
   }
 
   const tlsOptions = options?.tlsOptions ?? {};
-  tlsOptions.ca = ledgerTlsCertificate;
-  const confidentialLedger = GeneratedConfidentialLedger(ledgerBaseUrl, credentials, {
+  tlsOptions.ca = ledgerIdentityCertificate;
+  const confidentialLedger = GeneratedConfidentialLedger(ledgerEndpoint, credentials!, {
     ...options,
     tlsOptions,
   });

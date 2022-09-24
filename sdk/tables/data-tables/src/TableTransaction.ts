@@ -76,13 +76,42 @@ export class TableTransaction {
   /**
    * Adds an update action to the transaction
    * @param entity - entity to update
-   * @param updateMode - update mode
+   * @param updateOptions - options for the update operation
    */
   updateEntity<T extends object = Record<string, unknown>>(
     entity: TableEntity<T>,
-    updateMode: UpdateMode = "Merge"
+    updateOptions?: UpdateTableEntityOptions
+  ): void;
+
+  /**
+   * Adds an update action to the transaction
+   * @param entity - entity to update
+   * @param updateMode - update mode
+   * @param updateOptions - options for the update operation
+   */
+  updateEntity<T extends object = Record<string, unknown>>(
+    entity: TableEntity<T>,
+    updateMode: UpdateMode,
+    updateOptions?: UpdateTableEntityOptions
+  ): void;
+
+  /**
+   * Adds an update action to the transaction
+   * @param entity - entity to update
+   * @param updateModeOrOptions - update mode or update options
+   * @param updateOptions - options for the update operation
+   */
+  updateEntity<T extends object = Record<string, unknown>>(
+    entity: TableEntity<T>,
+    updateModeOrOptions: UpdateMode | UpdateTableEntityOptions | undefined,
+    updateOptions?: UpdateTableEntityOptions
   ): void {
-    this.actions.push(["update", entity, updateMode]);
+    // UpdateMode is a string union
+    const realUpdateMode: UpdateMode | undefined =
+      typeof updateModeOrOptions === "string" ? updateModeOrOptions : undefined;
+    const realUpdateOptions: UpdateTableEntityOptions | undefined =
+      typeof updateModeOrOptions === "object" ? updateModeOrOptions : updateOptions;
+    this.actions.push(["update", entity, realUpdateMode ?? "Merge", realUpdateOptions ?? {}]);
   }
 
   /**

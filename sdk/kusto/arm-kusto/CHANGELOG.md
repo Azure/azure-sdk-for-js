@@ -1,5 +1,71 @@
 # Release History
+
+## 7.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 7.2.0 (2022-09-15)
     
+**Features**
+
+  - Added Interface AttachedDatabaseConfiguration
+  - Added Interface Cluster
+  - Added Interface ClusterPrincipalAssignment
+  - Added Interface ClusterUpdate
+  - Added Interface Database
+  - Added Interface DatabasePrincipalAssignment
+  - Added Interface DataConnection
+  - Added Interface EventGridDataConnection
+  - Added Interface EventHubDataConnection
+  - Added Interface IotHubDataConnection
+  - Added Interface ManagedPrivateEndpoint
+  - Added Interface OutboundNetworkDependenciesEndpoint
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface ProxyResource
+  - Added Interface ReadOnlyFollowingDatabase
+  - Added Interface ReadWriteDatabase
+  - Added Interface Script
+  - Added Interface TrackedResource
+  - Added Type Alias CallerRole
+  - Added Type Alias DatabaseShareOrigin
+  - Interface DatabasesCreateOrUpdateOptionalParams has a new optional parameter callerRole
+  - Interface DatabasesUpdateOptionalParams has a new optional parameter callerRole
+  - Interface FollowerDatabaseDefinition has a new optional parameter databaseShareOrigin
+  - Interface FollowerDatabaseDefinition has a new optional parameter tableLevelSharingProperties
+  - Added Enum KnownCallerRole
+  - Added Enum KnownDatabaseShareOrigin
+  - Enum KnownAzureSkuName has a new value StandardE16DV4
+  - Enum KnownAzureSkuName has a new value StandardE16DV5
+  - Enum KnownAzureSkuName has a new value StandardE2DV4
+  - Enum KnownAzureSkuName has a new value StandardE2DV5
+  - Enum KnownAzureSkuName has a new value StandardE4DV4
+  - Enum KnownAzureSkuName has a new value StandardE4DV5
+  - Enum KnownAzureSkuName has a new value StandardE8DV4
+  - Enum KnownAzureSkuName has a new value StandardE8DV5
+  - Enum KnownAzureSkuName has a new value StandardEC16AdsV5
+  - Enum KnownAzureSkuName has a new value StandardEC16AsV53TBPS
+  - Enum KnownAzureSkuName has a new value StandardEC16AsV54TBPS
+  - Enum KnownAzureSkuName has a new value StandardEC8AdsV5
+  - Enum KnownAzureSkuName has a new value StandardEC8AsV51TBPS
+  - Enum KnownAzureSkuName has a new value StandardEC8AsV52TBPS
+  - Enum KnownAzureSkuName has a new value StandardL16AsV3
+  - Enum KnownAzureSkuName has a new value StandardL16SV3
+  - Enum KnownAzureSkuName has a new value StandardL8AsV3
+  - Enum KnownAzureSkuName has a new value StandardL8SV3
+    
+## 7.1.2 (2022-06-17)
+
+**Features**
+
+  - Bug fix   
+ 
 ## 7.1.1 (2022-04-24)
 
 **Features**

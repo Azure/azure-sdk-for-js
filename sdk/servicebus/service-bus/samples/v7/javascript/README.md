@@ -12,27 +12,31 @@ urlFragment: service-bus-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Service Bus in some common scenarios.
 
-| **File Name**                                                       | **Description**                                                                                                                                                |
-| ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [sendMessages.js][sendmessages]                                     | Demonstrates how to send messages to Service Bus Queue/Topic                                                                                                   |
-| [receiveMessagesLoop.js][receivemessagesloop]                       | Demonstrates how to receive Service Bus messages in a loop                                                                                                     |
-| [receiveMessagesStreaming.js][receivemessagesstreaming]             | Demonstrates how to receive Service Bus messages in a stream                                                                                                   |
-| [usingAadAuth.js][usingaadauth]                                     | This sample how to create a namespace using AAD token credentials                                                                                              |
-| [browseMessages.js][browsemessages]                                 | Demonstrates how to browse a Service Bus message                                                                                                               |
-| [session.js][session]                                               | Demonstrates how to send/receive messages to/from session enabled queues/subscriptions in Service Bus                                                          |
-| [scheduledMessages.js][scheduledmessages]                           | Demonstrates how to schedule messages to appear on a Service Bus Queue/Subscription at a later time                                                            |
-| [useProxy.js][useproxy]                                             | This sample demonstrates how to create a ServiceBusClient meant to be used in an environment where outgoing network requests have to go through a proxy server |
-| [advanced/administrationClient.js][advanced_administrationclient]   | Demonstrates how to manage the resources of a service bus namespace.                                                                                           |
-| [advanced/sessionRoundRobin.js][advanced_sessionroundrobin]         | Demonstrates how to continually read through all the available sessions                                                                                        |
-| [advanced/deferral.js][advanced_deferral]                           | Demonstrates how to defer a message for later processing.                                                                                                      |
-| [advanced/listingEntities.js][advanced_listingentities]             | Demonstrates how the ServiceBusAdministrationClient can be used to list the entities of a service bus namespace                                                |
-| [advanced/sessionState.js][advanced_sessionstate]                   | Demonstrates usage of SessionState.                                                                                                                            |
-| [advanced/movingMessagesToDLQ.js][advanced_movingmessagestodlq]     | Demonstrates scenarios as to how a Service Bus message can be explicitly moved to the DLQ                                                                      |
-| [advanced/processMessageFromDLQ.js][advanced_processmessagefromdlq] | Demonstrates retrieving a message from a dead letter queue, editing it and sending it back to the main queue                                                   |
+| **File Name**                                                                             | **Description**                                                                                                                                                |
+| ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [sendMessages.js][sendmessages]                                                           | Demonstrates how to send messages to Service Bus Queue/Topic                                                                                                   |
+| [topicSubscriptionWithRuleOperationsSample.js][topicsubscriptionwithruleoperationssample] | Demonstrates how to filter messages in Service Bus                                                                                                             |
+| [receiveMessagesLoop.js][receivemessagesloop]                                             | Demonstrates how to receive Service Bus messages in a loop                                                                                                     |
+| [receiveMessagesStreaming.js][receivemessagesstreaming]                                   | Demonstrates how to receive Service Bus messages in a stream                                                                                                   |
+| [usingAadAuth.js][usingaadauth]                                                           | This sample how to create a namespace using AAD token credentials                                                                                              |
+| [usingNamedKeyCredential.js][usingnamedkeycredential]                                     | This sample demonstrates how to authenticate using AzureNamedKeyCredential                                                                                     |
+| [browseMessages.js][browsemessages]                                                       | Demonstrates how to browse a Service Bus message                                                                                                               |
+| [session.js][session]                                                                     | Demonstrates how to send/receive messages to/from session enabled queues/subscriptions in Service Bus                                                          |
+| [scheduledMessages.js][scheduledmessages]                                                 | Demonstrates how to schedule messages to appear on a Service Bus Queue/Subscription at a later time                                                            |
+| [useProxy.js][useproxy]                                                                   | This sample demonstrates how to create a ServiceBusClient meant to be used in an environment where outgoing network requests have to go through a proxy server |
+| [advanced/administrationClient.js][advanced_administrationclient]                         | Demonstrates how to manage the resources of a service bus namespace.                                                                                           |
+| [advanced/ruleManager.js][advanced_rulemanager]                                           | Demonstrates how to manage subscription-level rules using RuleManager.                                                                                         |
+| [advanced/sessionRoundRobin.js][advanced_sessionroundrobin]                               | Demonstrates how to continually read through all the available sessions                                                                                        |
+| [advanced/deferral.js][advanced_deferral]                                                 | Demonstrates how to defer a message for later processing.                                                                                                      |
+| [advanced/listingEntities.js][advanced_listingentities]                                   | Demonstrates how the ServiceBusAdministrationClient can be used to list the entities of a service bus namespace                                                |
+| [advanced/sessionState.js][advanced_sessionstate]                                         | Demonstrates usage of SessionState.                                                                                                                            |
+| [advanced/movingMessagesToDLQ.js][advanced_movingmessagestodlq]                           | Demonstrates scenarios as to how a Service Bus message can be explicitly moved to the DLQ                                                                      |
+| [advanced/processMessageFromDLQ.js][advanced_processmessagefromdlq]                       | Demonstrates retrieving a message from a dead letter queue, editing it and sending it back to the main queue                                                   |
+| [exceedMaxDeliveryCount.js][exceedmaxdeliverycount]                                       | Demonstrates exceeding the max delivery count, then processing the messages sent to the dead letter queue                                                      |
 
 ## Prerequisites
 
-The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
+The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
@@ -71,20 +75,24 @@ npx cross-env SERVICEBUS_CONNECTION_STRING="<servicebus connection string>" QUEU
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [sendmessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/sendMessages.js
+[topicsubscriptionwithruleoperationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/topicSubscriptionWithRuleOperationsSample.js
 [receivemessagesloop]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/receiveMessagesLoop.js
 [receivemessagesstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/receiveMessagesStreaming.js
 [usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/usingAadAuth.js
+[usingnamedkeycredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/usingNamedKeyCredential.js
 [browsemessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/browseMessages.js
 [session]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/session.js
 [scheduledmessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/scheduledMessages.js
 [useproxy]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/useProxy.js
 [advanced_administrationclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/advanced/administrationClient.js
+[advanced_rulemanager]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/advanced/ruleManager.js
 [advanced_sessionroundrobin]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/advanced/sessionRoundRobin.js
 [advanced_deferral]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/advanced/deferral.js
 [advanced_listingentities]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/advanced/listingEntities.js
 [advanced_sessionstate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/advanced/sessionState.js
 [advanced_movingmessagestodlq]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/advanced/movingMessagesToDLQ.js
 [advanced_processmessagefromdlq]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/advanced/processMessageFromDLQ.js
+[exceedmaxdeliverycount]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/exceedMaxDeliveryCount.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/service-bus
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureservicebus]: https://docs.microsoft.com/azure/service-bus-messaging

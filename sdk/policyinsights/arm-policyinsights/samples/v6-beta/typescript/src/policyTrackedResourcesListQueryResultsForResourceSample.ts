@@ -54,8 +54,7 @@ async function queryAtResourceScopeUsingQueryParameters() {
   const filter =
     "PolicyAssignmentId eq '/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Authorization/policyAssignments/myPolicyAssignment' AND TrackedResourceId eq '/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Example/exampleResourceType/myResource/nestedResourceType/TrackedResource1'";
   const options: PolicyTrackedResourcesListQueryResultsForResourceOptionalParams = {
-    top,
-    filter
+    queryOptions: { top: top, filter: filter }
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);

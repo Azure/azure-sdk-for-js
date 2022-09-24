@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Create or update a Kusto cluster.
  *
  * @summary Create or update a Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoClustersCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoClustersCreateOrUpdate.json
  */
 async function kustoClustersCreateOrUpdate() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";

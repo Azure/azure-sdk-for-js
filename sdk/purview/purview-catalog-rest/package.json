@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic rest level client library for the Azure Purview Catalog service.",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0-beta.6",
   "keywords": [
     "node",
     "azure",
@@ -83,7 +83,7 @@
   "dependencies": {
     "@azure/core-lro": "^2.2.0",
     "@azure/core-auth": "^1.3.0",
-    "@azure-rest/core-client": "1.0.0-beta.9",
+    "@azure-rest/core-client": "^1.0.0",
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"
@@ -95,7 +95,7 @@
     "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-recorder": "^2.0.0",
     "@azure-tools/test-credential": "^1.0.0",
-    "@microsoft/api-extractor": "7.18.11",
+    "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
@@ -122,6 +122,6 @@
     "prettier": "2.5.1",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~4.2.0"
+    "typescript": "~4.6.0"
   }
 }

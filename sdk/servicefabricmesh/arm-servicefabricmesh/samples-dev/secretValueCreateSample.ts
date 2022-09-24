@@ -26,8 +26,8 @@ async function createSecretValue() {
   const secretResourceName = "dbConnectionString";
   const secretValueResourceName = "v1";
   const secretValueResourceDescription: SecretValueResourceDescription = {
-    location: "eastus",
     name: "v1",
+    location: "West US",
     value:
       "mongodb://contoso123:0Fc3IolnL12312asdfawejunASDF@asdfYXX2t8a97kghVcUzcDv98hawelufhawefafnoQRGwNj2nMPL1Y9qsIr9Srdw==@contoso123.documents.azure.com:10255/mydatabase?ssl=true"
   };

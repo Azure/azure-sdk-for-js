@@ -2,12 +2,15 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-
+import {
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+} from "../util/tenantIdUtils";
+import { ClientCertificateCredentialOptions } from "./clientCertificateCredentialOptions";
 import { MsalClientCertificate } from "../msal/nodeFlows/msalClientCertificate";
+import { MsalFlow } from "../msal/flows";
 import { credentialLogger } from "../util/logging";
 import { tracingClient } from "../util/tracing";
-import { MsalFlow } from "../msal/flows";
-import { ClientCertificateCredentialOptions } from "./clientCertificateCredentialOptions";
 
 const credentialName = "ClientCertificateCredential";
 const logger = credentialLogger(credentialName);
@@ -20,6 +23,11 @@ export interface ClientCertificatePEMCertificate {
    * The PEM-encoded public/private key certificate on the filesystem.
    */
   certificate: string;
+
+  /**
+   * The password for the certificate file.
+   */
+  certificatePassword?: string;
 }
 /**
  * Required configuration options for the {@link ClientCertificateCredential}, with the path to a PEM certificate.
@@ -29,6 +37,11 @@ export interface ClientCertificatePEMCertificatePath {
    * The path to the PEM-encoded public/private key certificate on the filesystem.
    */
   certificatePath: string;
+
+  /**
+   * The password for the certificate file.
+   */
+  certificatePassword?: string;
 }
 /**
  * Required configuration options for the {@link ClientCertificateCredential}, with either the string contents of a PEM certificate, or the path to a PEM certificate.
@@ -46,6 +59,8 @@ export type ClientCertificateCredentialPEMConfiguration =
  *
  */
 export class ClientCertificateCredential implements TokenCredential {
+  private tenantId: string;
+  private additionallyAllowedTenantIds: string[];
   private msalFlow: MsalFlow;
 
   /**
@@ -104,6 +119,12 @@ export class ClientCertificateCredential implements TokenCredential {
     if (!tenantId || !clientId) {
       throw new Error(`${credentialName}: tenantId and clientId are required parameters.`);
     }
+
+    this.tenantId = tenantId;
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants
+    );
+
     const configuration: ClientCertificateCredentialPEMConfiguration = {
       ...(typeof certificatePathOrConfiguration === "string"
         ? {
@@ -147,6 +168,12 @@ export class ClientCertificateCredential implements TokenCredential {
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
     return tracingClient.withSpan(`${credentialName}.getToken`, options, async (newOptions) => {
+      newOptions.tenantId = processMultiTenantRequest(
+        this.tenantId,
+        newOptions,
+        this.additionallyAllowedTenantIds
+      );
+
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       return this.msalFlow.getToken(arrayScopes, newOptions);
     });

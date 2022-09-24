@@ -11,6 +11,7 @@ trigger:
       - sdk/appservice/ci.mgmt.yml
       - sdk/appservice/arm-appservice-profile-2020-09-01-hybrid
       - sdk/appservice/arm-appservice
+      - sdk/appservice/arm-appservice-rest
 pr:
   branches:
     include:
@@ -25,6 +26,7 @@ pr:
       - sdk/appservice/ci.mgmt.yml
       - sdk/appservice/arm-appservice-profile-2020-09-01-hybrid
       - sdk/appservice/arm-appservice
+      - sdk/appservice/arm-appservice-rest
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -34,3 +36,5 @@ extends:
         safeName: azurearmappservice
       - name: azure-arm-appservice-profile-2020-09-01-hybrid
         safeName: azurearmappserviceprofile20200901hybrid
+      - name: azure-rest-arm-appservice
+        safeName: azurerestarmappservice

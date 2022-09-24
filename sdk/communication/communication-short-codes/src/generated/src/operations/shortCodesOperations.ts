@@ -6,12 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { tracingClient } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ShortCodesOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ShortCodesClientContext } from "../shortCodesClientContext";
+import { ShortCodesClient } from "../shortCodesClient";
 import {
   ShortCode,
   ShortCodesGetShortCodesNextOptionalParams,
@@ -31,6 +32,8 @@ import {
   ShortCodesSubmitUSProgramBriefOptionalParams,
   ShortCodesSubmitUSProgramBriefResponse,
   ShortCodesGetUSProgramBriefsResponse,
+  AttachmentType,
+  FileType,
   ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams,
   ShortCodesCreateOrReplaceUSProgramBriefAttachmentResponse,
   ShortCodesGetUSProgramBriefAttachmentOptionalParams,
@@ -45,13 +48,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ShortCodesOperations operations. */
 export class ShortCodesOperationsImpl implements ShortCodesOperations {
-  private readonly client: ShortCodesClientContext;
+  private readonly client: ShortCodesClient;
 
   /**
    * Initialize a new instance of the class ShortCodesOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: ShortCodesClientContext) {
+  constructor(client: ShortCodesClient) {
     this.client = client;
   }
 
@@ -205,12 +208,18 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
    * Gets the list of short codes for the current resource.
    * @param options The options parameters.
    */
-  private _getShortCodes(
+  private async _getShortCodes(
     options?: ShortCodesGetShortCodesOptionalParams
   ): Promise<ShortCodesGetShortCodesResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      getShortCodesOperationSpec
+    return tracingClient.withSpan(
+      "ShortCodesClient._getShortCodes",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getShortCodesOperationSpec
+        ) as Promise<ShortCodesGetShortCodesResponse>;
+      }
     );
   }
 
@@ -219,13 +228,19 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
    * @param programBriefId Program Brief Id. Must be a valid GUID
    * @param options The options parameters.
    */
-  upsertUSProgramBrief(
+  async upsertUSProgramBrief(
     programBriefId: string,
     options?: ShortCodesUpsertUSProgramBriefOptionalParams
   ): Promise<ShortCodesUpsertUSProgramBriefResponse> {
-    return this.client.sendOperationRequest(
-      { programBriefId, options },
-      upsertUSProgramBriefOperationSpec
+    return tracingClient.withSpan(
+      "ShortCodesClient.upsertUSProgramBrief",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { programBriefId, options },
+          upsertUSProgramBriefOperationSpec
+        ) as Promise<ShortCodesUpsertUSProgramBriefResponse>;
+      }
     );
   }
 
@@ -234,13 +249,19 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
    * @param programBriefId Program Brief Id. Must be a valid GUID
    * @param options The options parameters.
    */
-  deleteUSProgramBrief(
+  async deleteUSProgramBrief(
     programBriefId: string,
     options?: ShortCodesDeleteUSProgramBriefOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { programBriefId, options },
-      deleteUSProgramBriefOperationSpec
+    return tracingClient.withSpan(
+      "ShortCodesClient.deleteUSProgramBrief",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { programBriefId, options },
+          deleteUSProgramBriefOperationSpec
+        ) as Promise<void>;
+      }
     );
   }
 
@@ -249,13 +270,19 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
    * @param programBriefId Program Brief Id. Must be a valid GUID
    * @param options The options parameters.
    */
-  getUSProgramBrief(
+  async getUSProgramBrief(
     programBriefId: string,
     options?: ShortCodesGetUSProgramBriefOptionalParams
   ): Promise<ShortCodesGetUSProgramBriefResponse> {
-    return this.client.sendOperationRequest(
-      { programBriefId, options },
-      getUSProgramBriefOperationSpec
+    return tracingClient.withSpan(
+      "ShortCodesClient.getUSProgramBrief",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { programBriefId, options },
+          getUSProgramBriefOperationSpec
+        ) as Promise<ShortCodesGetUSProgramBriefResponse>;
+      }
     );
   }
 
@@ -264,13 +291,19 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
    * @param programBriefId Program Brief Id. Must be a valid GUID
    * @param options The options parameters.
    */
-  submitUSProgramBrief(
+  async submitUSProgramBrief(
     programBriefId: string,
     options?: ShortCodesSubmitUSProgramBriefOptionalParams
   ): Promise<ShortCodesSubmitUSProgramBriefResponse> {
-    return this.client.sendOperationRequest(
-      { programBriefId, options },
-      submitUSProgramBriefOperationSpec
+    return tracingClient.withSpan(
+      "ShortCodesClient.submitUSProgramBrief",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { programBriefId, options },
+          submitUSProgramBriefOperationSpec
+        ) as Promise<ShortCodesSubmitUSProgramBriefResponse>;
+      }
     );
   }
 
@@ -278,12 +311,18 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
    * Gets the list of US Program Briefs for the current resource.
    * @param options The options parameters.
    */
-  private _getUSProgramBriefs(
+  private async _getUSProgramBriefs(
     options?: ShortCodesGetUSProgramBriefsOptionalParams
   ): Promise<ShortCodesGetUSProgramBriefsResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      getUSProgramBriefsOperationSpec
+    return tracingClient.withSpan(
+      "ShortCodesClient._getUSProgramBriefs",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getUSProgramBriefsOperationSpec
+        ) as Promise<ShortCodesGetUSProgramBriefsResponse>;
+      }
     );
   }
 
@@ -292,17 +331,43 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
    * @param programBriefId Program Brief Id. Must be a valid GUID
    * @param attachmentId Attachment Id. Must be a valid GUID
    * @param id Program Brief Attachment Id.
+   * @param fileName The name of the file being attached
+   *                 e.g. 'myFile01'
+   * @param fileType The type of file being attached
+   *                 e.g. 'pdf', 'jpg', 'png'
+   * @param fileContentBase64 File content as base 64 encoded string
+   * @param type Attachment type describing the purpose of the attachment
+   *             e.g. 'callToAction', 'termsOfService'
    * @param options The options parameters.
    */
-  createOrReplaceUSProgramBriefAttachment(
+  async createOrReplaceUSProgramBriefAttachment(
     programBriefId: string,
     attachmentId: string,
     id: string,
+    fileName: string,
+    fileType: FileType,
+    fileContentBase64: string,
+    type: AttachmentType,
     options?: ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams
   ): Promise<ShortCodesCreateOrReplaceUSProgramBriefAttachmentResponse> {
-    return this.client.sendOperationRequest(
-      { programBriefId, attachmentId, id, options },
-      createOrReplaceUSProgramBriefAttachmentOperationSpec
+    return tracingClient.withSpan(
+      "ShortCodesClient.createOrReplaceUSProgramBriefAttachment",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          {
+            programBriefId,
+            attachmentId,
+            id,
+            fileName,
+            fileType,
+            fileContentBase64,
+            type,
+            options
+          },
+          createOrReplaceUSProgramBriefAttachmentOperationSpec
+        ) as Promise<ShortCodesCreateOrReplaceUSProgramBriefAttachmentResponse>;
+      }
     );
   }
 
@@ -312,14 +377,20 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
    * @param attachmentId Attachment Id. Must be a valid GUID
    * @param options The options parameters.
    */
-  getUSProgramBriefAttachment(
+  async getUSProgramBriefAttachment(
     programBriefId: string,
     attachmentId: string,
     options?: ShortCodesGetUSProgramBriefAttachmentOptionalParams
   ): Promise<ShortCodesGetUSProgramBriefAttachmentResponse> {
-    return this.client.sendOperationRequest(
-      { programBriefId, attachmentId, options },
-      getUSProgramBriefAttachmentOperationSpec
+    return tracingClient.withSpan(
+      "ShortCodesClient.getUSProgramBriefAttachment",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { programBriefId, attachmentId, options },
+          getUSProgramBriefAttachmentOperationSpec
+        ) as Promise<ShortCodesGetUSProgramBriefAttachmentResponse>;
+      }
     );
   }
 
@@ -329,14 +400,20 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
    * @param attachmentId Attachment Id. Must be a valid GUID
    * @param options The options parameters.
    */
-  deleteUSProgramBriefAttachment(
+  async deleteUSProgramBriefAttachment(
     programBriefId: string,
     attachmentId: string,
     options?: ShortCodesDeleteUSProgramBriefAttachmentOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { programBriefId, attachmentId, options },
-      deleteUSProgramBriefAttachmentOperationSpec
+    return tracingClient.withSpan(
+      "ShortCodesClient.deleteUSProgramBriefAttachment",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { programBriefId, attachmentId, options },
+          deleteUSProgramBriefAttachmentOperationSpec
+        ) as Promise<void>;
+      }
     );
   }
 
@@ -345,13 +422,19 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
    * @param programBriefId
    * @param options The options parameters.
    */
-  private _getUSProgramBriefAttachments(
+  private async _getUSProgramBriefAttachments(
     programBriefId: string,
     options?: ShortCodesGetUSProgramBriefAttachmentsOptionalParams
   ): Promise<ShortCodesGetUSProgramBriefAttachmentsResponse> {
-    return this.client.sendOperationRequest(
-      { programBriefId, options },
-      getUSProgramBriefAttachmentsOperationSpec
+    return tracingClient.withSpan(
+      "ShortCodesClient._getUSProgramBriefAttachments",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { programBriefId, options },
+          getUSProgramBriefAttachmentsOperationSpec
+        ) as Promise<ShortCodesGetUSProgramBriefAttachmentsResponse>;
+      }
     );
   }
 
@@ -360,13 +443,19 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
    * @param nextLink The nextLink from the previous successful call to the GetShortCodes method.
    * @param options The options parameters.
    */
-  private _getShortCodesNext(
+  private async _getShortCodesNext(
     nextLink: string,
     options?: ShortCodesGetShortCodesNextOptionalParams
   ): Promise<ShortCodesGetShortCodesNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      getShortCodesNextOperationSpec
+    return tracingClient.withSpan(
+      "ShortCodesClient._getShortCodesNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          getShortCodesNextOperationSpec
+        ) as Promise<ShortCodesGetShortCodesNextResponse>;
+      }
     );
   }
 
@@ -375,13 +464,19 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
    * @param nextLink The nextLink from the previous successful call to the GetUSProgramBriefs method.
    * @param options The options parameters.
    */
-  private _getUSProgramBriefsNext(
+  private async _getUSProgramBriefsNext(
     nextLink: string,
     options?: ShortCodesGetUSProgramBriefsNextOptionalParams
   ): Promise<ShortCodesGetUSProgramBriefsNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      getUSProgramBriefsNextOperationSpec
+    return tracingClient.withSpan(
+      "ShortCodesClient._getUSProgramBriefsNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          getUSProgramBriefsNextOperationSpec
+        ) as Promise<ShortCodesGetUSProgramBriefsNextResponse>;
+      }
     );
   }
 
@@ -392,14 +487,20 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
    *                 method.
    * @param options The options parameters.
    */
-  private _getUSProgramBriefAttachmentsNext(
+  private async _getUSProgramBriefAttachmentsNext(
     programBriefId: string,
     nextLink: string,
     options?: ShortCodesGetUSProgramBriefAttachmentsNextOptionalParams
   ): Promise<ShortCodesGetUSProgramBriefAttachmentsNextResponse> {
-    return this.client.sendOperationRequest(
-      { programBriefId, nextLink, options },
-      getUSProgramBriefAttachmentsNextOperationSpec
+    return tracingClient.withSpan(
+      "ShortCodesClient._getUSProgramBriefAttachmentsNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { programBriefId, nextLink, options },
+          getUSProgramBriefAttachmentsNextOperationSpec
+        ) as Promise<ShortCodesGetUSProgramBriefAttachmentsNextResponse>;
+      }
     );
   }
 }
@@ -523,11 +624,11 @@ const createOrReplaceUSProgramBriefAttachmentOperationSpec: coreClient.Operation
   requestBody: {
     parameterPath: {
       id: ["id"],
-      typeParam: ["options", "typeParam"],
-      friendlyName: ["options", "friendlyName"],
-      fileSize: ["options", "fileSize"],
-      fileType: ["options", "fileType"],
-      fileContent: ["options", "fileContent"]
+      type: ["type"],
+      fileName: ["fileName"],
+      fileSizeInBytes: ["options", "fileSizeInBytes"],
+      fileType: ["fileType"],
+      fileContentBase64: ["fileContentBase64"]
     },
     mapper: { ...Mappers.ProgramBriefAttachment, required: true }
   },

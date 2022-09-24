@@ -2,16 +2,15 @@
 // Licensed under the MIT license.
 
 import * as msalNode from "@azure/msal-node";
+import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 import { AccessToken } from "@azure/core-auth";
-
-import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 
 /**
  * Options that can be passed to configure MSAL to handle authentication through username and password.
  * @internal
  */
-export interface MSALUsernamePasswordOptions extends MsalNodeOptions {
+export interface MsalUsernamePasswordOptions extends MsalNodeOptions {
   username: string;
   password: string;
 }
@@ -24,7 +23,7 @@ export class MsalUsernamePassword extends MsalNode {
   private username: string;
   private password: string;
 
-  constructor(options: MSALUsernamePasswordOptions) {
+  constructor(options: MsalUsernamePasswordOptions) {
     super(options);
     this.username = options.username;
     this.password = options.password;
