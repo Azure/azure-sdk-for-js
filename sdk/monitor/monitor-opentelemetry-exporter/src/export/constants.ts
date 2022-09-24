@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 export const STATSBEAT_LANGUAGE = "node";
 
-export const RedirectStatusCodes = [
+export const redirectStatusCodes = [
   307, // Temporary redirect
   308 // Permanent redirect
 ];
 
-export const RetryableStatusCodes = [
+export const retryableStatusCodes = [
   206, // Partial success
   401, // Unauthorized
   403, // Forbidden
@@ -29,4 +29,13 @@ export const StatsbeatResourceProvider = {
   functions: "functions",
   vm: "vm",
   unknown: "unknown"
+}
+
+export enum StatsbeatCounter {
+  SUCCESS_COUNT = "Success Count",
+  FAILURE_COUNT = "Failure Count",
+  RETRY_COUNT = "Retry Count",
+  THROTTLE_COUNT = "Throttle Count",
+  EXCEPTION_COUNT = "Exception Count",
+  AVERAGE_DURATION = "Average Durtion"
 }

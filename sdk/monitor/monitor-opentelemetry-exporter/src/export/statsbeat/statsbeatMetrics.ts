@@ -2,10 +2,12 @@
 // Licensed under the MIT license.
 import { ServiceClient } from "@azure/core-client";
 import { createHttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
+import { ObservableGauge, ObservableResult } from "@opentelemetry/api-metrics";
 import { Meter } from "@opentelemetry/api-metrics/build/src/types/Meter";
 import { MeterProvider } from "@opentelemetry/sdk-metrics-base";
 import { SDK_VERSION } from "../../../../../../sdk/template/template/src/constants";
-import { StatsbeatResourceProvider, STATSBEAT_LANGUAGE } from "../constants";
+import { StatsbeatCounter, StatsbeatResourceProvider, STATSBEAT_LANGUAGE } from "../constants";
+import { NetworkStatsbeat } from "./types";
 
 var os = require("os");
 const AIMS_URI = "http://169.254.169.254/metadata/instance/compute";
@@ -20,13 +22,15 @@ export interface IVirtualMachineInfo {
 }
 
 class StatsbeatMetrics {
-
   public static NON_EU_CONNECTION_STRING = "InstrumentationKey=c4a29126-a7cb-47e5-b348-11414998b11e;IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com";
   public static EU_CONNECTION_STRING = "InstrumentationKey=7dc56bab-3c0c-4e9f-9ebb-d1acadee8d0f;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com";
   public static STATS_COLLECTION_SHORT_INTERVAL: number = 900000; // 15 minutes
 
   private _meter: Meter;
-  private _isVm: boolean|undefined;
+  private _isEnabled: boolean = false;
+  private _isInitialized: boolean = false;
+  private _isVm: boolean = false;
+  private _networkStatsbeatCollection: Array<NetworkStatsbeat> = [];
 
   // Custom dimensions
   private _resourceProvider: string = StatsbeatResourceProvider.unknown;
@@ -37,12 +41,22 @@ class StatsbeatMetrics {
   private _version: string;
   private _attach: string = "sdk"; // Python verison lists "attach" as TODO
 
+  // Observable Gauges
+  private _successCountGauge: ObservableGauge;
+  private _failureCountGauge: ObservableGauge;
+  private _retryCountGauge: ObservableGauge;
+  private _throttleCountGauge: ObservableGauge;
+  private _exceptionCountGauge: ObservableGauge;
+  private _averageDurationGauge: ObservableGauge;
+
   // Network attributes
   private _endpoint: string;
   private _host: string;
 
   constructor(meterProvider: MeterProvider, instrumentationKey: string, endpoint: string) {
-    // Need to determine what should populate the resourceProvider attribute.
+    // TODO: Determine what value should be passed as the name parameter.
+    this._meter = meterProvider.getMeter("new name");
+
     this._runtimeVersion = process.version;
     this._language = STATSBEAT_LANGUAGE;
     this._version = SDK_VERSION;
@@ -50,8 +64,12 @@ class StatsbeatMetrics {
     this._cikey = instrumentationKey;
     this._endpoint = endpoint;
 
-    // TODO: Determine what value should be passed as the name parameter.
-    this._meter = meterProvider.getMeter("new name");
+    this._successCountGauge = this._meter.createObservableGauge(StatsbeatCounter.SUCCESS_COUNT);
+    this._failureCountGauge = this._meter.createObservableGauge(StatsbeatCounter.FAILURE_COUNT);
+    this._retryCountGauge = this._meter.createObservableGauge(StatsbeatCounter.RETRY_COUNT);
+    this._throttleCountGauge = this._meter.createObservableGauge(StatsbeatCounter.THROTTLE_COUNT);
+    this._exceptionCountGauge = this._meter.createObservableGauge(StatsbeatCounter.EXCEPTION_COUNT);
+    this._averageDurationGauge = this._meter.createObservableGauge(StatsbeatCounter.AVERAGE_DURATION);
   }
 
   private async _getResourceProvider(): Promise<void> {
@@ -102,13 +120,48 @@ class StatsbeatMetrics {
       return false;
   }
 
-  // Create metrics related to the request calls to ingestion service
-  public initializeNetworkMetrics() {
-
+  public isInitialized() {
+    return this._isInitialized;
   }
 
-  private _getSuccessCount() {
+  public isEnabled() {
+    return this._isEnabled;
+  }
 
+  // Start instance of metrics.
+  public enable(isEnabled: boolean): void {
+    this._isEnabled = isEnabled;
+
+    // TODO: Determine if the emitter is relevant here and if we need to clean up the observable callbacks in any case.
+    if (this._isEnabled && !this._isInitialized) {
+      this._isInitialized = true;
+
+      // Add observable callbacks
+      this._successCountGauge.addCallback(this._getSuccessCount.bind(this));
+      this._failureCountGauge.addCallback(this._getFailureCount.bind(this));
+      this._retryCountGauge.addCallback(this._getRetryCount.bind(this));
+      this._throttleCountGauge.addCallback(this._getThrottleCount.bind(this));
+      this._exceptionCountGauge.addCallback(this._getExceptionCount.bind(this));
+      this._averageDurationGauge.addCallback(this._getAverageDuration.bind(this));
+    }
+  }
+
+  private _getSuccessCount(observableResult: ObservableResult) {
+    // TODO: Track duration here?
+    // TODO: Move networkProperties somewhere more central so each getCount can access it.
+    let networkProperties = {
+      os: this._os,
+      rp: this._resourceProvider,
+      cikey: this._cikey,
+      runtimeVersion: this._runtimeVersion,
+      language: this._language,
+      version: this._version,
+      attach: this._attach
+    };
+
+    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpoint, this._host);
+    counter.totalSuccesfulRequestCount++;
+    observableResult.observe(counter.totalSuccesfulRequestCount, networkProperties);
   }
 
   private _getFailureCount() {
@@ -127,8 +180,26 @@ class StatsbeatMetrics {
 
   }
 
-  private getExceptionCount() {
+  private _getExceptionCount() {
 
+  }
+
+  // Gets a networkStatsbeat counter if one exists for the given endpoint
+  private _getNetworkStatsbeatCounter(endpoint: string, host: string): NetworkStatsbeat {
+    // Check if the counter is available
+    for (let i = 0; i < this._networkStatsbeatCollection.length; i++) {
+      // Same object
+      if (
+        endpoint === this._networkStatsbeatCollection[i].endpoint &&
+        host === this._networkStatsbeatCollection[i].host
+        ) {
+          return this._networkStatsbeatCollection[i];
+        }
+      }
+      // Create a new counter if not found
+      let newCounter = new NetworkStatsbeat(endpoint, host);
+      this._networkStatsbeatCollection.push(newCounter);
+      return newCounter;
   }
 
   private _getShortHost(originalHost: string) {
