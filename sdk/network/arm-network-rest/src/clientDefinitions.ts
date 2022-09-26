@@ -58,7 +58,6 @@ import {
   GetActiveSessionsParameters,
   DisconnectActiveSessionsParameters,
   CheckDnsNameAvailabilityParameters,
-  ExpressRouteProviderPortParameters,
   ListActiveConnectivityConfigurationsParameters,
   ListActiveSecurityAdminRulesParameters,
   ListNetworkManagerEffectiveConnectivityConfigurationsParameters,
@@ -170,6 +169,7 @@ import {
   ExpressRoutePortAuthorizationsCreateOrUpdateParameters,
   ExpressRoutePortAuthorizationsListParameters,
   ExpressRouteProviderPortsLocationListParameters,
+  ExpressRouteProviderPortsGetParameters,
   FirewallPoliciesDeleteParameters,
   FirewallPoliciesGetParameters,
   FirewallPoliciesCreateOrUpdateParameters,
@@ -620,1568 +620,1568 @@ import {
   ApplicationGatewaysDelete200Response,
   ApplicationGatewaysDelete202Response,
   ApplicationGatewaysDelete204Response,
-  ApplicationGatewaysDeletedefaultResponse,
+  ApplicationGatewaysDeleteDefaultResponse,
   ApplicationGatewaysGet200Response,
-  ApplicationGatewaysGetdefaultResponse,
+  ApplicationGatewaysGetDefaultResponse,
   ApplicationGatewaysCreateOrUpdate200Response,
   ApplicationGatewaysCreateOrUpdate201Response,
-  ApplicationGatewaysCreateOrUpdatedefaultResponse,
+  ApplicationGatewaysCreateOrUpdateDefaultResponse,
   ApplicationGatewaysUpdateTags200Response,
-  ApplicationGatewaysUpdateTagsdefaultResponse,
+  ApplicationGatewaysUpdateTagsDefaultResponse,
   ApplicationGatewaysList200Response,
-  ApplicationGatewaysListdefaultResponse,
+  ApplicationGatewaysListDefaultResponse,
   ApplicationGatewaysListAll200Response,
-  ApplicationGatewaysListAlldefaultResponse,
+  ApplicationGatewaysListAllDefaultResponse,
   ApplicationGatewaysStart200Response,
   ApplicationGatewaysStart202Response,
-  ApplicationGatewaysStartdefaultResponse,
+  ApplicationGatewaysStartDefaultResponse,
   ApplicationGatewaysStop200Response,
   ApplicationGatewaysStop202Response,
-  ApplicationGatewaysStopdefaultResponse,
+  ApplicationGatewaysStopDefaultResponse,
   ApplicationGatewaysBackendHealth200Response,
   ApplicationGatewaysBackendHealth202Response,
-  ApplicationGatewaysBackendHealthdefaultResponse,
+  ApplicationGatewaysBackendHealthDefaultResponse,
   ApplicationGatewaysBackendHealthOnDemand200Response,
   ApplicationGatewaysBackendHealthOnDemand202Response,
-  ApplicationGatewaysBackendHealthOnDemanddefaultResponse,
+  ApplicationGatewaysBackendHealthOnDemandDefaultResponse,
   ApplicationGatewaysListAvailableServerVariables200Response,
-  ApplicationGatewaysListAvailableServerVariablesdefaultResponse,
+  ApplicationGatewaysListAvailableServerVariablesDefaultResponse,
   ApplicationGatewaysListAvailableRequestHeaders200Response,
-  ApplicationGatewaysListAvailableRequestHeadersdefaultResponse,
+  ApplicationGatewaysListAvailableRequestHeadersDefaultResponse,
   ApplicationGatewaysListAvailableResponseHeaders200Response,
-  ApplicationGatewaysListAvailableResponseHeadersdefaultResponse,
+  ApplicationGatewaysListAvailableResponseHeadersDefaultResponse,
   ApplicationGatewaysListAvailableWafRuleSets200Response,
-  ApplicationGatewaysListAvailableWafRuleSetsdefaultResponse,
+  ApplicationGatewaysListAvailableWafRuleSetsDefaultResponse,
   ApplicationGatewaysListAvailableSslOptions200Response,
-  ApplicationGatewaysListAvailableSslOptionsdefaultResponse,
+  ApplicationGatewaysListAvailableSslOptionsDefaultResponse,
   ApplicationGatewaysListAvailableSslPredefinedPolicies200Response,
-  ApplicationGatewaysListAvailableSslPredefinedPoliciesdefaultResponse,
+  ApplicationGatewaysListAvailableSslPredefinedPoliciesDefaultResponse,
   ApplicationGatewaysGetSslPredefinedPolicy200Response,
-  ApplicationGatewaysGetSslPredefinedPolicydefaultResponse,
+  ApplicationGatewaysGetSslPredefinedPolicyDefaultResponse,
   ApplicationGatewayPrivateLinkResourcesList200Response,
-  ApplicationGatewayPrivateLinkResourcesListdefaultResponse,
+  ApplicationGatewayPrivateLinkResourcesListDefaultResponse,
   ApplicationGatewayPrivateEndpointConnectionsDelete200Response,
   ApplicationGatewayPrivateEndpointConnectionsDelete202Response,
   ApplicationGatewayPrivateEndpointConnectionsDelete204Response,
-  ApplicationGatewayPrivateEndpointConnectionsDeletedefaultResponse,
+  ApplicationGatewayPrivateEndpointConnectionsDeleteDefaultResponse,
   ApplicationGatewayPrivateEndpointConnectionsUpdate200Response,
   ApplicationGatewayPrivateEndpointConnectionsUpdate202Response,
-  ApplicationGatewayPrivateEndpointConnectionsUpdatedefaultResponse,
+  ApplicationGatewayPrivateEndpointConnectionsUpdateDefaultResponse,
   ApplicationGatewayPrivateEndpointConnectionsGet200Response,
-  ApplicationGatewayPrivateEndpointConnectionsGetdefaultResponse,
+  ApplicationGatewayPrivateEndpointConnectionsGetDefaultResponse,
   ApplicationGatewayPrivateEndpointConnectionsList200Response,
-  ApplicationGatewayPrivateEndpointConnectionsListdefaultResponse,
+  ApplicationGatewayPrivateEndpointConnectionsListDefaultResponse,
   ApplicationGatewayWafDynamicManifestsDefaultGet200Response,
-  ApplicationGatewayWafDynamicManifestsDefaultGetdefaultResponse,
+  ApplicationGatewayWafDynamicManifestsDefaultGetDefaultResponse,
   ApplicationGatewayWafDynamicManifestsGet200Response,
-  ApplicationGatewayWafDynamicManifestsGetdefaultResponse,
+  ApplicationGatewayWafDynamicManifestsGetDefaultResponse,
   ApplicationSecurityGroupsDelete200Response,
   ApplicationSecurityGroupsDelete202Response,
   ApplicationSecurityGroupsDelete204Response,
-  ApplicationSecurityGroupsDeletedefaultResponse,
+  ApplicationSecurityGroupsDeleteDefaultResponse,
   ApplicationSecurityGroupsGet200Response,
-  ApplicationSecurityGroupsGetdefaultResponse,
+  ApplicationSecurityGroupsGetDefaultResponse,
   ApplicationSecurityGroupsCreateOrUpdate200Response,
   ApplicationSecurityGroupsCreateOrUpdate201Response,
-  ApplicationSecurityGroupsCreateOrUpdatedefaultResponse,
+  ApplicationSecurityGroupsCreateOrUpdateDefaultResponse,
   ApplicationSecurityGroupsUpdateTags200Response,
-  ApplicationSecurityGroupsUpdateTagsdefaultResponse,
+  ApplicationSecurityGroupsUpdateTagsDefaultResponse,
   ApplicationSecurityGroupsListAll200Response,
-  ApplicationSecurityGroupsListAlldefaultResponse,
+  ApplicationSecurityGroupsListAllDefaultResponse,
   ApplicationSecurityGroupsList200Response,
-  ApplicationSecurityGroupsListdefaultResponse,
+  ApplicationSecurityGroupsListDefaultResponse,
   AvailableDelegationsList200Response,
-  AvailableDelegationsListdefaultResponse,
+  AvailableDelegationsListDefaultResponse,
   AvailableResourceGroupDelegationsList200Response,
-  AvailableResourceGroupDelegationsListdefaultResponse,
+  AvailableResourceGroupDelegationsListDefaultResponse,
   AvailableServiceAliasesList200Response,
-  AvailableServiceAliasesListdefaultResponse,
+  AvailableServiceAliasesListDefaultResponse,
   AvailableServiceAliasesListByResourceGroup200Response,
-  AvailableServiceAliasesListByResourceGroupdefaultResponse,
+  AvailableServiceAliasesListByResourceGroupDefaultResponse,
   AzureFirewallsDelete200Response,
   AzureFirewallsDelete202Response,
   AzureFirewallsDelete204Response,
-  AzureFirewallsDeletedefaultResponse,
+  AzureFirewallsDeleteDefaultResponse,
   AzureFirewallsGet200Response,
-  AzureFirewallsGetdefaultResponse,
+  AzureFirewallsGetDefaultResponse,
   AzureFirewallsCreateOrUpdate200Response,
   AzureFirewallsCreateOrUpdate201Response,
-  AzureFirewallsCreateOrUpdatedefaultResponse,
+  AzureFirewallsCreateOrUpdateDefaultResponse,
   AzureFirewallsUpdateTags200Response,
   AzureFirewallsUpdateTags202Response,
-  AzureFirewallsUpdateTagsdefaultResponse,
+  AzureFirewallsUpdateTagsDefaultResponse,
   AzureFirewallsList200Response,
-  AzureFirewallsListdefaultResponse,
+  AzureFirewallsListDefaultResponse,
   AzureFirewallsListAll200Response,
-  AzureFirewallsListAlldefaultResponse,
+  AzureFirewallsListAllDefaultResponse,
   AzureFirewallsListLearnedPrefixes200Response,
   AzureFirewallsListLearnedPrefixes202Response,
-  AzureFirewallsListLearnedPrefixesdefaultResponse,
+  AzureFirewallsListLearnedPrefixesDefaultResponse,
   AzureFirewallFqdnTagsListAll200Response,
-  AzureFirewallFqdnTagsListAlldefaultResponse,
+  AzureFirewallFqdnTagsListAllDefaultResponse,
   WebCategoriesGet200Response,
-  WebCategoriesGetdefaultResponse,
+  WebCategoriesGetDefaultResponse,
   WebCategoriesListBySubscription200Response,
-  WebCategoriesListBySubscriptiondefaultResponse,
+  WebCategoriesListBySubscriptionDefaultResponse,
   BastionHostsDelete200Response,
   BastionHostsDelete202Response,
   BastionHostsDelete204Response,
-  BastionHostsDeletedefaultResponse,
+  BastionHostsDeleteDefaultResponse,
   BastionHostsGet200Response,
-  BastionHostsGetdefaultResponse,
+  BastionHostsGetDefaultResponse,
   BastionHostsCreateOrUpdate200Response,
   BastionHostsCreateOrUpdate201Response,
-  BastionHostsCreateOrUpdatedefaultResponse,
+  BastionHostsCreateOrUpdateDefaultResponse,
   BastionHostsUpdateTags200Response,
   BastionHostsUpdateTags202Response,
-  BastionHostsUpdateTagsdefaultResponse,
+  BastionHostsUpdateTagsDefaultResponse,
   BastionHostsList200Response,
-  BastionHostsListdefaultResponse,
+  BastionHostsListDefaultResponse,
   BastionHostsListByResourceGroup200Response,
-  BastionHostsListByResourceGroupdefaultResponse,
+  BastionHostsListByResourceGroupDefaultResponse,
   PutBastionShareableLink200Response,
   PutBastionShareableLink202Response,
-  PutBastionShareableLinkdefaultResponse,
+  PutBastionShareableLinkDefaultResponse,
   DeleteBastionShareableLink200Response,
   DeleteBastionShareableLink202Response,
-  DeleteBastionShareableLinkdefaultResponse,
+  DeleteBastionShareableLinkDefaultResponse,
   GetBastionShareableLink200Response,
-  GetBastionShareableLinkdefaultResponse,
+  GetBastionShareableLinkDefaultResponse,
   GetActiveSessions200Response,
   GetActiveSessions202Response,
-  GetActiveSessionsdefaultResponse,
+  GetActiveSessionsDefaultResponse,
   DisconnectActiveSessions200Response,
-  DisconnectActiveSessionsdefaultResponse,
+  DisconnectActiveSessionsDefaultResponse,
   CheckDnsNameAvailability200Response,
-  CheckDnsNameAvailabilitydefaultResponse,
-  ExpressRouteProviderPort200Response,
-  ExpressRouteProviderPortdefaultResponse,
+  CheckDnsNameAvailabilityDefaultResponse,
   ListActiveConnectivityConfigurations200Response,
-  ListActiveConnectivityConfigurationsdefaultResponse,
+  ListActiveConnectivityConfigurationsDefaultResponse,
   ListActiveSecurityAdminRules200Response,
-  ListActiveSecurityAdminRulesdefaultResponse,
+  ListActiveSecurityAdminRulesDefaultResponse,
   ListNetworkManagerEffectiveConnectivityConfigurations200Response,
-  ListNetworkManagerEffectiveConnectivityConfigurationsdefaultResponse,
+  ListNetworkManagerEffectiveConnectivityConfigurationsDefaultResponse,
   ListNetworkManagerEffectiveSecurityAdminRules200Response,
-  ListNetworkManagerEffectiveSecurityAdminRulesdefaultResponse,
+  ListNetworkManagerEffectiveSecurityAdminRulesDefaultResponse,
   SupportedSecurityProviders200Response,
-  SupportedSecurityProvidersdefaultResponse,
+  SupportedSecurityProvidersDefaultResponse,
   Generatevirtualwanvpnserverconfigurationvpnprofile200Response,
   Generatevirtualwanvpnserverconfigurationvpnprofile202Response,
-  GeneratevirtualwanvpnserverconfigurationvpnprofiledefaultResponse,
+  GeneratevirtualwanvpnserverconfigurationvpnprofileDefaultResponse,
   NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfaces200Response,
-  NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesdefaultResponse,
+  NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesDefaultResponse,
   NetworkInterfacesListCloudServiceNetworkInterfaces200Response,
-  NetworkInterfacesListCloudServiceNetworkInterfacesdefaultResponse,
+  NetworkInterfacesListCloudServiceNetworkInterfacesDefaultResponse,
   NetworkInterfacesGetCloudServiceNetworkInterface200Response,
-  NetworkInterfacesGetCloudServiceNetworkInterfacedefaultResponse,
+  NetworkInterfacesGetCloudServiceNetworkInterfaceDefaultResponse,
   NetworkInterfacesDelete200Response,
   NetworkInterfacesDelete202Response,
   NetworkInterfacesDelete204Response,
-  NetworkInterfacesDeletedefaultResponse,
+  NetworkInterfacesDeleteDefaultResponse,
   NetworkInterfacesGet200Response,
-  NetworkInterfacesGetdefaultResponse,
+  NetworkInterfacesGetDefaultResponse,
   NetworkInterfacesCreateOrUpdate200Response,
   NetworkInterfacesCreateOrUpdate201Response,
-  NetworkInterfacesCreateOrUpdatedefaultResponse,
+  NetworkInterfacesCreateOrUpdateDefaultResponse,
   NetworkInterfacesUpdateTags200Response,
-  NetworkInterfacesUpdateTagsdefaultResponse,
+  NetworkInterfacesUpdateTagsDefaultResponse,
   NetworkInterfacesListAll200Response,
-  NetworkInterfacesListAlldefaultResponse,
+  NetworkInterfacesListAllDefaultResponse,
   NetworkInterfacesList200Response,
-  NetworkInterfacesListdefaultResponse,
+  NetworkInterfacesListDefaultResponse,
   NetworkInterfacesGetEffectiveRouteTable200Response,
   NetworkInterfacesGetEffectiveRouteTable202Response,
-  NetworkInterfacesGetEffectiveRouteTabledefaultResponse,
+  NetworkInterfacesGetEffectiveRouteTableDefaultResponse,
   NetworkInterfacesListEffectiveNetworkSecurityGroups200Response,
   NetworkInterfacesListEffectiveNetworkSecurityGroups202Response,
-  NetworkInterfacesListEffectiveNetworkSecurityGroupsdefaultResponse,
+  NetworkInterfacesListEffectiveNetworkSecurityGroupsDefaultResponse,
   NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfaces200Response,
-  NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesdefaultResponse,
+  NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesDefaultResponse,
   NetworkInterfacesListVirtualMachineScaleSetNetworkInterfaces200Response,
-  NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesdefaultResponse,
+  NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesDefaultResponse,
   NetworkInterfacesGetVirtualMachineScaleSetNetworkInterface200Response,
-  NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfacedefaultResponse,
+  NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceDefaultResponse,
   NetworkInterfacesListVirtualMachineScaleSetIpConfigurations200Response,
-  NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsdefaultResponse,
+  NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsDefaultResponse,
   NetworkInterfacesGetVirtualMachineScaleSetIpConfiguration200Response,
-  NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationdefaultResponse,
+  NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationDefaultResponse,
   PublicIPAddressesListCloudServicePublicIPAddresses200Response,
-  PublicIPAddressesListCloudServicePublicIPAddressesdefaultResponse,
+  PublicIPAddressesListCloudServicePublicIPAddressesDefaultResponse,
   PublicIPAddressesListCloudServiceRoleInstancePublicIPAddresses200Response,
-  PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesdefaultResponse,
+  PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesDefaultResponse,
   PublicIPAddressesGetCloudServicePublicIPAddress200Response,
-  PublicIPAddressesGetCloudServicePublicIPAddressdefaultResponse,
+  PublicIPAddressesGetCloudServicePublicIPAddressDefaultResponse,
   PublicIPAddressesDelete200Response,
   PublicIPAddressesDelete202Response,
   PublicIPAddressesDelete204Response,
-  PublicIPAddressesDeletedefaultResponse,
+  PublicIPAddressesDeleteDefaultResponse,
   PublicIPAddressesGet200Response,
-  PublicIPAddressesGetdefaultResponse,
+  PublicIPAddressesGetDefaultResponse,
   PublicIPAddressesCreateOrUpdate200Response,
   PublicIPAddressesCreateOrUpdate201Response,
-  PublicIPAddressesCreateOrUpdatedefaultResponse,
+  PublicIPAddressesCreateOrUpdateDefaultResponse,
   PublicIPAddressesUpdateTags200Response,
-  PublicIPAddressesUpdateTagsdefaultResponse,
+  PublicIPAddressesUpdateTagsDefaultResponse,
   PublicIPAddressesListAll200Response,
-  PublicIPAddressesListAlldefaultResponse,
+  PublicIPAddressesListAllDefaultResponse,
   PublicIPAddressesList200Response,
-  PublicIPAddressesListdefaultResponse,
+  PublicIPAddressesListDefaultResponse,
   PublicIPAddressesDdosProtectionStatus200Response,
   PublicIPAddressesDdosProtectionStatus202Response,
-  PublicIPAddressesDdosProtectionStatusdefaultResponse,
+  PublicIPAddressesDdosProtectionStatusDefaultResponse,
   PublicIPAddressesListVirtualMachineScaleSetPublicIPAddresses200Response,
-  PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesdefaultResponse,
+  PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesDefaultResponse,
   PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddresses200Response,
-  PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesdefaultResponse,
+  PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesDefaultResponse,
   PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddress200Response,
-  PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressdefaultResponse,
+  PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressDefaultResponse,
   CustomIPPrefixesDelete200Response,
   CustomIPPrefixesDelete202Response,
   CustomIPPrefixesDelete204Response,
-  CustomIPPrefixesDeletedefaultResponse,
+  CustomIPPrefixesDeleteDefaultResponse,
   CustomIPPrefixesGet200Response,
-  CustomIPPrefixesGetdefaultResponse,
+  CustomIPPrefixesGetDefaultResponse,
   CustomIPPrefixesCreateOrUpdate200Response,
   CustomIPPrefixesCreateOrUpdate201Response,
-  CustomIPPrefixesCreateOrUpdatedefaultResponse,
+  CustomIPPrefixesCreateOrUpdateDefaultResponse,
   CustomIPPrefixesUpdateTags200Response,
-  CustomIPPrefixesUpdateTagsdefaultResponse,
+  CustomIPPrefixesUpdateTagsDefaultResponse,
   CustomIPPrefixesListAll200Response,
-  CustomIPPrefixesListAlldefaultResponse,
+  CustomIPPrefixesListAllDefaultResponse,
   CustomIPPrefixesList200Response,
-  CustomIPPrefixesListdefaultResponse,
+  CustomIPPrefixesListDefaultResponse,
   DdosCustomPoliciesDelete200Response,
   DdosCustomPoliciesDelete202Response,
   DdosCustomPoliciesDelete204Response,
-  DdosCustomPoliciesDeletedefaultResponse,
+  DdosCustomPoliciesDeleteDefaultResponse,
   DdosCustomPoliciesGet200Response,
-  DdosCustomPoliciesGetdefaultResponse,
+  DdosCustomPoliciesGetDefaultResponse,
   DdosCustomPoliciesCreateOrUpdate200Response,
   DdosCustomPoliciesCreateOrUpdate201Response,
-  DdosCustomPoliciesCreateOrUpdatedefaultResponse,
+  DdosCustomPoliciesCreateOrUpdateDefaultResponse,
   DdosCustomPoliciesUpdateTags200Response,
-  DdosCustomPoliciesUpdateTagsdefaultResponse,
+  DdosCustomPoliciesUpdateTagsDefaultResponse,
   DdosProtectionPlansDelete200Response,
   DdosProtectionPlansDelete202Response,
   DdosProtectionPlansDelete204Response,
-  DdosProtectionPlansDeletedefaultResponse,
+  DdosProtectionPlansDeleteDefaultResponse,
   DdosProtectionPlansGet200Response,
-  DdosProtectionPlansGetdefaultResponse,
+  DdosProtectionPlansGetDefaultResponse,
   DdosProtectionPlansCreateOrUpdate200Response,
   DdosProtectionPlansCreateOrUpdate201Response,
-  DdosProtectionPlansCreateOrUpdatedefaultResponse,
+  DdosProtectionPlansCreateOrUpdateDefaultResponse,
   DdosProtectionPlansUpdateTags200Response,
-  DdosProtectionPlansUpdateTagsdefaultResponse,
+  DdosProtectionPlansUpdateTagsDefaultResponse,
   DdosProtectionPlansList200Response,
-  DdosProtectionPlansListdefaultResponse,
+  DdosProtectionPlansListDefaultResponse,
   DdosProtectionPlansListByResourceGroup200Response,
-  DdosProtectionPlansListByResourceGroupdefaultResponse,
+  DdosProtectionPlansListByResourceGroupDefaultResponse,
   DscpConfigurationCreateOrUpdate200Response,
   DscpConfigurationCreateOrUpdate201Response,
-  DscpConfigurationCreateOrUpdatedefaultResponse,
+  DscpConfigurationCreateOrUpdateDefaultResponse,
   DscpConfigurationDelete200Response,
   DscpConfigurationDelete202Response,
   DscpConfigurationDelete204Response,
-  DscpConfigurationDeletedefaultResponse,
+  DscpConfigurationDeleteDefaultResponse,
   DscpConfigurationGet200Response,
-  DscpConfigurationGetdefaultResponse,
+  DscpConfigurationGetDefaultResponse,
   DscpConfigurationList200Response,
-  DscpConfigurationListdefaultResponse,
+  DscpConfigurationListDefaultResponse,
   DscpConfigurationListAll200Response,
-  DscpConfigurationListAlldefaultResponse,
+  DscpConfigurationListAllDefaultResponse,
   AvailableEndpointServicesList200Response,
-  AvailableEndpointServicesListdefaultResponse,
+  AvailableEndpointServicesListDefaultResponse,
   ExpressRouteCircuitAuthorizationsDelete200Response,
   ExpressRouteCircuitAuthorizationsDelete202Response,
   ExpressRouteCircuitAuthorizationsDelete204Response,
-  ExpressRouteCircuitAuthorizationsDeletedefaultResponse,
+  ExpressRouteCircuitAuthorizationsDeleteDefaultResponse,
   ExpressRouteCircuitAuthorizationsGet200Response,
-  ExpressRouteCircuitAuthorizationsGetdefaultResponse,
+  ExpressRouteCircuitAuthorizationsGetDefaultResponse,
   ExpressRouteCircuitAuthorizationsCreateOrUpdate200Response,
   ExpressRouteCircuitAuthorizationsCreateOrUpdate201Response,
-  ExpressRouteCircuitAuthorizationsCreateOrUpdatedefaultResponse,
+  ExpressRouteCircuitAuthorizationsCreateOrUpdateDefaultResponse,
   ExpressRouteCircuitAuthorizationsList200Response,
-  ExpressRouteCircuitAuthorizationsListdefaultResponse,
+  ExpressRouteCircuitAuthorizationsListDefaultResponse,
   ExpressRouteCircuitPeeringsDelete200Response,
   ExpressRouteCircuitPeeringsDelete202Response,
   ExpressRouteCircuitPeeringsDelete204Response,
-  ExpressRouteCircuitPeeringsDeletedefaultResponse,
+  ExpressRouteCircuitPeeringsDeleteDefaultResponse,
   ExpressRouteCircuitPeeringsGet200Response,
-  ExpressRouteCircuitPeeringsGetdefaultResponse,
+  ExpressRouteCircuitPeeringsGetDefaultResponse,
   ExpressRouteCircuitPeeringsCreateOrUpdate200Response,
   ExpressRouteCircuitPeeringsCreateOrUpdate201Response,
-  ExpressRouteCircuitPeeringsCreateOrUpdatedefaultResponse,
+  ExpressRouteCircuitPeeringsCreateOrUpdateDefaultResponse,
   ExpressRouteCircuitPeeringsList200Response,
-  ExpressRouteCircuitPeeringsListdefaultResponse,
+  ExpressRouteCircuitPeeringsListDefaultResponse,
   ExpressRouteCircuitConnectionsDelete200Response,
   ExpressRouteCircuitConnectionsDelete202Response,
   ExpressRouteCircuitConnectionsDelete204Response,
-  ExpressRouteCircuitConnectionsDeletedefaultResponse,
+  ExpressRouteCircuitConnectionsDeleteDefaultResponse,
   ExpressRouteCircuitConnectionsGet200Response,
-  ExpressRouteCircuitConnectionsGetdefaultResponse,
+  ExpressRouteCircuitConnectionsGetDefaultResponse,
   ExpressRouteCircuitConnectionsCreateOrUpdate200Response,
   ExpressRouteCircuitConnectionsCreateOrUpdate201Response,
-  ExpressRouteCircuitConnectionsCreateOrUpdatedefaultResponse,
+  ExpressRouteCircuitConnectionsCreateOrUpdateDefaultResponse,
   ExpressRouteCircuitConnectionsList200Response,
-  ExpressRouteCircuitConnectionsListdefaultResponse,
+  ExpressRouteCircuitConnectionsListDefaultResponse,
   PeerExpressRouteCircuitConnectionsGet200Response,
-  PeerExpressRouteCircuitConnectionsGetdefaultResponse,
+  PeerExpressRouteCircuitConnectionsGetDefaultResponse,
   PeerExpressRouteCircuitConnectionsList200Response,
-  PeerExpressRouteCircuitConnectionsListdefaultResponse,
+  PeerExpressRouteCircuitConnectionsListDefaultResponse,
   ExpressRouteCircuitsDelete200Response,
   ExpressRouteCircuitsDelete202Response,
   ExpressRouteCircuitsDelete204Response,
-  ExpressRouteCircuitsDeletedefaultResponse,
+  ExpressRouteCircuitsDeleteDefaultResponse,
   ExpressRouteCircuitsGet200Response,
-  ExpressRouteCircuitsGetdefaultResponse,
+  ExpressRouteCircuitsGetDefaultResponse,
   ExpressRouteCircuitsCreateOrUpdate200Response,
   ExpressRouteCircuitsCreateOrUpdate201Response,
-  ExpressRouteCircuitsCreateOrUpdatedefaultResponse,
+  ExpressRouteCircuitsCreateOrUpdateDefaultResponse,
   ExpressRouteCircuitsUpdateTags200Response,
-  ExpressRouteCircuitsUpdateTagsdefaultResponse,
+  ExpressRouteCircuitsUpdateTagsDefaultResponse,
   ExpressRouteCircuitsListArpTable200Response,
   ExpressRouteCircuitsListArpTable202Response,
-  ExpressRouteCircuitsListArpTabledefaultResponse,
+  ExpressRouteCircuitsListArpTableDefaultResponse,
   ExpressRouteCircuitsListRoutesTable200Response,
   ExpressRouteCircuitsListRoutesTable202Response,
-  ExpressRouteCircuitsListRoutesTabledefaultResponse,
+  ExpressRouteCircuitsListRoutesTableDefaultResponse,
   ExpressRouteCircuitsListRoutesTableSummary200Response,
   ExpressRouteCircuitsListRoutesTableSummary202Response,
-  ExpressRouteCircuitsListRoutesTableSummarydefaultResponse,
+  ExpressRouteCircuitsListRoutesTableSummaryDefaultResponse,
   ExpressRouteCircuitsGetStats200Response,
-  ExpressRouteCircuitsGetStatsdefaultResponse,
+  ExpressRouteCircuitsGetStatsDefaultResponse,
   ExpressRouteCircuitsGetPeeringStats200Response,
-  ExpressRouteCircuitsGetPeeringStatsdefaultResponse,
+  ExpressRouteCircuitsGetPeeringStatsDefaultResponse,
   ExpressRouteCircuitsList200Response,
-  ExpressRouteCircuitsListdefaultResponse,
+  ExpressRouteCircuitsListDefaultResponse,
   ExpressRouteCircuitsListAll200Response,
-  ExpressRouteCircuitsListAlldefaultResponse,
+  ExpressRouteCircuitsListAllDefaultResponse,
   ExpressRouteServiceProvidersList200Response,
-  ExpressRouteServiceProvidersListdefaultResponse,
+  ExpressRouteServiceProvidersListDefaultResponse,
   ExpressRouteCrossConnectionsList200Response,
-  ExpressRouteCrossConnectionsListdefaultResponse,
+  ExpressRouteCrossConnectionsListDefaultResponse,
   ExpressRouteCrossConnectionsListByResourceGroup200Response,
-  ExpressRouteCrossConnectionsListByResourceGroupdefaultResponse,
+  ExpressRouteCrossConnectionsListByResourceGroupDefaultResponse,
   ExpressRouteCrossConnectionsGet200Response,
-  ExpressRouteCrossConnectionsGetdefaultResponse,
+  ExpressRouteCrossConnectionsGetDefaultResponse,
   ExpressRouteCrossConnectionsCreateOrUpdate200Response,
-  ExpressRouteCrossConnectionsCreateOrUpdatedefaultResponse,
+  ExpressRouteCrossConnectionsCreateOrUpdateDefaultResponse,
   ExpressRouteCrossConnectionsUpdateTags200Response,
-  ExpressRouteCrossConnectionsUpdateTagsdefaultResponse,
+  ExpressRouteCrossConnectionsUpdateTagsDefaultResponse,
   ExpressRouteCrossConnectionsListArpTable200Response,
   ExpressRouteCrossConnectionsListArpTable202Response,
-  ExpressRouteCrossConnectionsListArpTabledefaultResponse,
+  ExpressRouteCrossConnectionsListArpTableDefaultResponse,
   ExpressRouteCrossConnectionsListRoutesTableSummary200Response,
   ExpressRouteCrossConnectionsListRoutesTableSummary202Response,
-  ExpressRouteCrossConnectionsListRoutesTableSummarydefaultResponse,
+  ExpressRouteCrossConnectionsListRoutesTableSummaryDefaultResponse,
   ExpressRouteCrossConnectionsListRoutesTable200Response,
   ExpressRouteCrossConnectionsListRoutesTable202Response,
-  ExpressRouteCrossConnectionsListRoutesTabledefaultResponse,
+  ExpressRouteCrossConnectionsListRoutesTableDefaultResponse,
   ExpressRouteCrossConnectionPeeringsList200Response,
-  ExpressRouteCrossConnectionPeeringsListdefaultResponse,
+  ExpressRouteCrossConnectionPeeringsListDefaultResponse,
   ExpressRouteCrossConnectionPeeringsDelete200Response,
   ExpressRouteCrossConnectionPeeringsDelete202Response,
   ExpressRouteCrossConnectionPeeringsDelete204Response,
-  ExpressRouteCrossConnectionPeeringsDeletedefaultResponse,
+  ExpressRouteCrossConnectionPeeringsDeleteDefaultResponse,
   ExpressRouteCrossConnectionPeeringsGet200Response,
-  ExpressRouteCrossConnectionPeeringsGetdefaultResponse,
+  ExpressRouteCrossConnectionPeeringsGetDefaultResponse,
   ExpressRouteCrossConnectionPeeringsCreateOrUpdate200Response,
   ExpressRouteCrossConnectionPeeringsCreateOrUpdate201Response,
-  ExpressRouteCrossConnectionPeeringsCreateOrUpdatedefaultResponse,
+  ExpressRouteCrossConnectionPeeringsCreateOrUpdateDefaultResponse,
   ExpressRoutePortsLocationsList200Response,
-  ExpressRoutePortsLocationsListdefaultResponse,
+  ExpressRoutePortsLocationsListDefaultResponse,
   ExpressRoutePortsLocationsGet200Response,
-  ExpressRoutePortsLocationsGetdefaultResponse,
+  ExpressRoutePortsLocationsGetDefaultResponse,
   ExpressRoutePortsDelete200Response,
   ExpressRoutePortsDelete202Response,
   ExpressRoutePortsDelete204Response,
-  ExpressRoutePortsDeletedefaultResponse,
+  ExpressRoutePortsDeleteDefaultResponse,
   ExpressRoutePortsGet200Response,
-  ExpressRoutePortsGetdefaultResponse,
+  ExpressRoutePortsGetDefaultResponse,
   ExpressRoutePortsCreateOrUpdate200Response,
   ExpressRoutePortsCreateOrUpdate201Response,
-  ExpressRoutePortsCreateOrUpdatedefaultResponse,
+  ExpressRoutePortsCreateOrUpdateDefaultResponse,
   ExpressRoutePortsUpdateTags200Response,
-  ExpressRoutePortsUpdateTagsdefaultResponse,
+  ExpressRoutePortsUpdateTagsDefaultResponse,
   ExpressRoutePortsListByResourceGroup200Response,
-  ExpressRoutePortsListByResourceGroupdefaultResponse,
+  ExpressRoutePortsListByResourceGroupDefaultResponse,
   ExpressRoutePortsList200Response,
-  ExpressRoutePortsListdefaultResponse,
+  ExpressRoutePortsListDefaultResponse,
   ExpressRoutePortsGenerateLOA200Response,
-  ExpressRoutePortsGenerateLOAdefaultResponse,
+  ExpressRoutePortsGenerateLOADefaultResponse,
   ExpressRouteLinksGet200Response,
-  ExpressRouteLinksGetdefaultResponse,
+  ExpressRouteLinksGetDefaultResponse,
   ExpressRouteLinksList200Response,
-  ExpressRouteLinksListdefaultResponse,
+  ExpressRouteLinksListDefaultResponse,
   ExpressRoutePortAuthorizationsDelete200Response,
   ExpressRoutePortAuthorizationsDelete202Response,
   ExpressRoutePortAuthorizationsDelete204Response,
-  ExpressRoutePortAuthorizationsDeletedefaultResponse,
+  ExpressRoutePortAuthorizationsDeleteDefaultResponse,
   ExpressRoutePortAuthorizationsGet200Response,
-  ExpressRoutePortAuthorizationsGetdefaultResponse,
+  ExpressRoutePortAuthorizationsGetDefaultResponse,
   ExpressRoutePortAuthorizationsCreateOrUpdate200Response,
   ExpressRoutePortAuthorizationsCreateOrUpdate201Response,
-  ExpressRoutePortAuthorizationsCreateOrUpdatedefaultResponse,
+  ExpressRoutePortAuthorizationsCreateOrUpdateDefaultResponse,
   ExpressRoutePortAuthorizationsList200Response,
-  ExpressRoutePortAuthorizationsListdefaultResponse,
+  ExpressRoutePortAuthorizationsListDefaultResponse,
   ExpressRouteProviderPortsLocationList200Response,
-  ExpressRouteProviderPortsLocationListdefaultResponse,
+  ExpressRouteProviderPortsLocationListDefaultResponse,
+  ExpressRouteProviderPortsGet200Response,
+  ExpressRouteProviderPortsGetDefaultResponse,
   FirewallPoliciesDelete200Response,
   FirewallPoliciesDelete202Response,
   FirewallPoliciesDelete204Response,
-  FirewallPoliciesDeletedefaultResponse,
+  FirewallPoliciesDeleteDefaultResponse,
   FirewallPoliciesGet200Response,
-  FirewallPoliciesGetdefaultResponse,
+  FirewallPoliciesGetDefaultResponse,
   FirewallPoliciesCreateOrUpdate200Response,
   FirewallPoliciesCreateOrUpdate201Response,
-  FirewallPoliciesCreateOrUpdatedefaultResponse,
+  FirewallPoliciesCreateOrUpdateDefaultResponse,
   FirewallPoliciesUpdateTags200Response,
-  FirewallPoliciesUpdateTagsdefaultResponse,
+  FirewallPoliciesUpdateTagsDefaultResponse,
   FirewallPoliciesList200Response,
-  FirewallPoliciesListdefaultResponse,
+  FirewallPoliciesListDefaultResponse,
   FirewallPoliciesListAll200Response,
-  FirewallPoliciesListAlldefaultResponse,
+  FirewallPoliciesListAllDefaultResponse,
   FirewallPolicyRuleCollectionGroupsDelete200Response,
   FirewallPolicyRuleCollectionGroupsDelete202Response,
   FirewallPolicyRuleCollectionGroupsDelete204Response,
-  FirewallPolicyRuleCollectionGroupsDeletedefaultResponse,
+  FirewallPolicyRuleCollectionGroupsDeleteDefaultResponse,
   FirewallPolicyRuleCollectionGroupsGet200Response,
-  FirewallPolicyRuleCollectionGroupsGetdefaultResponse,
+  FirewallPolicyRuleCollectionGroupsGetDefaultResponse,
   FirewallPolicyRuleCollectionGroupsCreateOrUpdate200Response,
   FirewallPolicyRuleCollectionGroupsCreateOrUpdate201Response,
-  FirewallPolicyRuleCollectionGroupsCreateOrUpdatedefaultResponse,
+  FirewallPolicyRuleCollectionGroupsCreateOrUpdateDefaultResponse,
   FirewallPolicyRuleCollectionGroupsList200Response,
-  FirewallPolicyRuleCollectionGroupsListdefaultResponse,
+  FirewallPolicyRuleCollectionGroupsListDefaultResponse,
   FirewallPolicyIdpsSignaturesList200Response,
-  FirewallPolicyIdpsSignaturesListdefaultResponse,
+  FirewallPolicyIdpsSignaturesListDefaultResponse,
   FirewallPolicyIdpsSignaturesOverridesPatch200Response,
-  FirewallPolicyIdpsSignaturesOverridesPatchdefaultResponse,
+  FirewallPolicyIdpsSignaturesOverridesPatchDefaultResponse,
   FirewallPolicyIdpsSignaturesOverridesPut200Response,
-  FirewallPolicyIdpsSignaturesOverridesPutdefaultResponse,
+  FirewallPolicyIdpsSignaturesOverridesPutDefaultResponse,
   FirewallPolicyIdpsSignaturesOverridesGet200Response,
-  FirewallPolicyIdpsSignaturesOverridesGetdefaultResponse,
+  FirewallPolicyIdpsSignaturesOverridesGetDefaultResponse,
   FirewallPolicyIdpsSignaturesOverridesList200Response,
-  FirewallPolicyIdpsSignaturesOverridesListdefaultResponse,
+  FirewallPolicyIdpsSignaturesOverridesListDefaultResponse,
   FirewallPolicyIdpsSignaturesFilterValuesList200Response,
-  FirewallPolicyIdpsSignaturesFilterValuesListdefaultResponse,
+  FirewallPolicyIdpsSignaturesFilterValuesListDefaultResponse,
   IpAllocationsDelete200Response,
   IpAllocationsDelete202Response,
   IpAllocationsDelete204Response,
-  IpAllocationsDeletedefaultResponse,
+  IpAllocationsDeleteDefaultResponse,
   IpAllocationsGet200Response,
-  IpAllocationsGetdefaultResponse,
+  IpAllocationsGetDefaultResponse,
   IpAllocationsCreateOrUpdate200Response,
   IpAllocationsCreateOrUpdate201Response,
-  IpAllocationsCreateOrUpdatedefaultResponse,
+  IpAllocationsCreateOrUpdateDefaultResponse,
   IpAllocationsUpdateTags200Response,
-  IpAllocationsUpdateTagsdefaultResponse,
+  IpAllocationsUpdateTagsDefaultResponse,
   IpAllocationsList200Response,
-  IpAllocationsListdefaultResponse,
+  IpAllocationsListDefaultResponse,
   IpAllocationsListByResourceGroup200Response,
-  IpAllocationsListByResourceGroupdefaultResponse,
+  IpAllocationsListByResourceGroupDefaultResponse,
   IpGroupsGet200Response,
-  IpGroupsGetdefaultResponse,
+  IpGroupsGetDefaultResponse,
   IpGroupsCreateOrUpdate200Response,
   IpGroupsCreateOrUpdate201Response,
-  IpGroupsCreateOrUpdatedefaultResponse,
+  IpGroupsCreateOrUpdateDefaultResponse,
   IpGroupsUpdateGroups200Response,
-  IpGroupsUpdateGroupsdefaultResponse,
+  IpGroupsUpdateGroupsDefaultResponse,
   IpGroupsDelete200Response,
   IpGroupsDelete202Response,
   IpGroupsDelete204Response,
-  IpGroupsDeletedefaultResponse,
+  IpGroupsDeleteDefaultResponse,
   IpGroupsListByResourceGroup200Response,
-  IpGroupsListByResourceGroupdefaultResponse,
+  IpGroupsListByResourceGroupDefaultResponse,
   IpGroupsList200Response,
-  IpGroupsListdefaultResponse,
+  IpGroupsListDefaultResponse,
   LoadBalancersDelete200Response,
   LoadBalancersDelete202Response,
   LoadBalancersDelete204Response,
-  LoadBalancersDeletedefaultResponse,
+  LoadBalancersDeleteDefaultResponse,
   LoadBalancersGet200Response,
-  LoadBalancersGetdefaultResponse,
+  LoadBalancersGetDefaultResponse,
   LoadBalancersCreateOrUpdate200Response,
   LoadBalancersCreateOrUpdate201Response,
-  LoadBalancersCreateOrUpdatedefaultResponse,
+  LoadBalancersCreateOrUpdateDefaultResponse,
   LoadBalancersUpdateTags200Response,
-  LoadBalancersUpdateTagsdefaultResponse,
+  LoadBalancersUpdateTagsDefaultResponse,
   LoadBalancersListAll200Response,
-  LoadBalancersListAlldefaultResponse,
+  LoadBalancersListAllDefaultResponse,
   LoadBalancersList200Response,
-  LoadBalancersListdefaultResponse,
+  LoadBalancersListDefaultResponse,
   LoadBalancersSwapPublicIpAddresses200Response,
   LoadBalancersSwapPublicIpAddresses202Response,
-  LoadBalancersSwapPublicIpAddressesdefaultResponse,
+  LoadBalancersSwapPublicIpAddressesDefaultResponse,
   LoadBalancersListInboundNatRulePortMappings200Response,
   LoadBalancersListInboundNatRulePortMappings202Response,
-  LoadBalancersListInboundNatRulePortMappingsdefaultResponse,
+  LoadBalancersListInboundNatRulePortMappingsDefaultResponse,
   LoadBalancerBackendAddressPoolsList200Response,
-  LoadBalancerBackendAddressPoolsListdefaultResponse,
+  LoadBalancerBackendAddressPoolsListDefaultResponse,
   LoadBalancerBackendAddressPoolsGet200Response,
-  LoadBalancerBackendAddressPoolsGetdefaultResponse,
+  LoadBalancerBackendAddressPoolsGetDefaultResponse,
   LoadBalancerBackendAddressPoolsCreateOrUpdate200Response,
   LoadBalancerBackendAddressPoolsCreateOrUpdate201Response,
-  LoadBalancerBackendAddressPoolsCreateOrUpdatedefaultResponse,
+  LoadBalancerBackendAddressPoolsCreateOrUpdateDefaultResponse,
   LoadBalancerBackendAddressPoolsDelete200Response,
   LoadBalancerBackendAddressPoolsDelete202Response,
   LoadBalancerBackendAddressPoolsDelete204Response,
-  LoadBalancerBackendAddressPoolsDeletedefaultResponse,
+  LoadBalancerBackendAddressPoolsDeleteDefaultResponse,
   LoadBalancerFrontendIPConfigurationsList200Response,
-  LoadBalancerFrontendIPConfigurationsListdefaultResponse,
+  LoadBalancerFrontendIPConfigurationsListDefaultResponse,
   LoadBalancerFrontendIPConfigurationsGet200Response,
-  LoadBalancerFrontendIPConfigurationsGetdefaultResponse,
+  LoadBalancerFrontendIPConfigurationsGetDefaultResponse,
   InboundNatRulesList200Response,
-  InboundNatRulesListdefaultResponse,
+  InboundNatRulesListDefaultResponse,
   InboundNatRulesDelete200Response,
   InboundNatRulesDelete202Response,
   InboundNatRulesDelete204Response,
-  InboundNatRulesDeletedefaultResponse,
+  InboundNatRulesDeleteDefaultResponse,
   InboundNatRulesGet200Response,
-  InboundNatRulesGetdefaultResponse,
+  InboundNatRulesGetDefaultResponse,
   InboundNatRulesCreateOrUpdate200Response,
   InboundNatRulesCreateOrUpdate201Response,
-  InboundNatRulesCreateOrUpdatedefaultResponse,
+  InboundNatRulesCreateOrUpdateDefaultResponse,
   LoadBalancerLoadBalancingRulesList200Response,
-  LoadBalancerLoadBalancingRulesListdefaultResponse,
+  LoadBalancerLoadBalancingRulesListDefaultResponse,
   LoadBalancerLoadBalancingRulesGet200Response,
-  LoadBalancerLoadBalancingRulesGetdefaultResponse,
+  LoadBalancerLoadBalancingRulesGetDefaultResponse,
   LoadBalancerOutboundRulesList200Response,
-  LoadBalancerOutboundRulesListdefaultResponse,
+  LoadBalancerOutboundRulesListDefaultResponse,
   LoadBalancerOutboundRulesGet200Response,
-  LoadBalancerOutboundRulesGetdefaultResponse,
+  LoadBalancerOutboundRulesGetDefaultResponse,
   LoadBalancerNetworkInterfacesList200Response,
-  LoadBalancerNetworkInterfacesListdefaultResponse,
+  LoadBalancerNetworkInterfacesListDefaultResponse,
   LoadBalancerProbesList200Response,
-  LoadBalancerProbesListdefaultResponse,
+  LoadBalancerProbesListDefaultResponse,
   LoadBalancerProbesGet200Response,
-  LoadBalancerProbesGetdefaultResponse,
+  LoadBalancerProbesGetDefaultResponse,
   NatGatewaysDelete200Response,
   NatGatewaysDelete202Response,
   NatGatewaysDelete204Response,
-  NatGatewaysDeletedefaultResponse,
+  NatGatewaysDeleteDefaultResponse,
   NatGatewaysGet200Response,
-  NatGatewaysGetdefaultResponse,
+  NatGatewaysGetDefaultResponse,
   NatGatewaysCreateOrUpdate200Response,
   NatGatewaysCreateOrUpdate201Response,
   NatGatewaysCreateOrUpdate202Response,
-  NatGatewaysCreateOrUpdatedefaultResponse,
+  NatGatewaysCreateOrUpdateDefaultResponse,
   NatGatewaysUpdateTags200Response,
-  NatGatewaysUpdateTagsdefaultResponse,
+  NatGatewaysUpdateTagsDefaultResponse,
   NatGatewaysListAll200Response,
-  NatGatewaysListAlldefaultResponse,
+  NatGatewaysListAllDefaultResponse,
   NatGatewaysList200Response,
-  NatGatewaysListdefaultResponse,
+  NatGatewaysListDefaultResponse,
   NetworkInterfaceIPConfigurationsList200Response,
-  NetworkInterfaceIPConfigurationsListdefaultResponse,
+  NetworkInterfaceIPConfigurationsListDefaultResponse,
   NetworkInterfaceIPConfigurationsGet200Response,
-  NetworkInterfaceIPConfigurationsGetdefaultResponse,
+  NetworkInterfaceIPConfigurationsGetDefaultResponse,
   NetworkInterfaceLoadBalancersList200Response,
-  NetworkInterfaceLoadBalancersListdefaultResponse,
+  NetworkInterfaceLoadBalancersListDefaultResponse,
   NetworkInterfaceTapConfigurationsDelete200Response,
   NetworkInterfaceTapConfigurationsDelete202Response,
   NetworkInterfaceTapConfigurationsDelete204Response,
-  NetworkInterfaceTapConfigurationsDeletedefaultResponse,
+  NetworkInterfaceTapConfigurationsDeleteDefaultResponse,
   NetworkInterfaceTapConfigurationsGet200Response,
-  NetworkInterfaceTapConfigurationsGetdefaultResponse,
+  NetworkInterfaceTapConfigurationsGetDefaultResponse,
   NetworkInterfaceTapConfigurationsCreateOrUpdate200Response,
   NetworkInterfaceTapConfigurationsCreateOrUpdate201Response,
-  NetworkInterfaceTapConfigurationsCreateOrUpdatedefaultResponse,
+  NetworkInterfaceTapConfigurationsCreateOrUpdateDefaultResponse,
   NetworkInterfaceTapConfigurationsList200Response,
-  NetworkInterfaceTapConfigurationsListdefaultResponse,
+  NetworkInterfaceTapConfigurationsListDefaultResponse,
   NetworkManagersGet200Response,
-  NetworkManagersGetdefaultResponse,
+  NetworkManagersGetDefaultResponse,
   NetworkManagersCreateOrUpdate200Response,
   NetworkManagersCreateOrUpdate201Response,
-  NetworkManagersCreateOrUpdatedefaultResponse,
+  NetworkManagersCreateOrUpdateDefaultResponse,
   NetworkManagersDelete200Response,
   NetworkManagersDelete202Response,
   NetworkManagersDelete204Response,
-  NetworkManagersDeletedefaultResponse,
+  NetworkManagersDeleteDefaultResponse,
   NetworkManagersPatch200Response,
-  NetworkManagersPatchdefaultResponse,
+  NetworkManagersPatchDefaultResponse,
   NetworkManagersListBySubscription200Response,
-  NetworkManagersListBySubscriptiondefaultResponse,
+  NetworkManagersListBySubscriptionDefaultResponse,
   NetworkManagersList200Response,
-  NetworkManagersListdefaultResponse,
+  NetworkManagersListDefaultResponse,
   NetworkManagerCommitsPost200Response,
   NetworkManagerCommitsPost202Response,
-  NetworkManagerCommitsPostdefaultResponse,
+  NetworkManagerCommitsPostDefaultResponse,
   NetworkManagerDeploymentStatusList200Response,
-  NetworkManagerDeploymentStatusListdefaultResponse,
+  NetworkManagerDeploymentStatusListDefaultResponse,
   SubscriptionNetworkManagerConnectionsCreateOrUpdate200Response,
   SubscriptionNetworkManagerConnectionsCreateOrUpdate201Response,
-  SubscriptionNetworkManagerConnectionsCreateOrUpdatedefaultResponse,
+  SubscriptionNetworkManagerConnectionsCreateOrUpdateDefaultResponse,
   SubscriptionNetworkManagerConnectionsGet200Response,
-  SubscriptionNetworkManagerConnectionsGetdefaultResponse,
+  SubscriptionNetworkManagerConnectionsGetDefaultResponse,
   SubscriptionNetworkManagerConnectionsDelete200Response,
   SubscriptionNetworkManagerConnectionsDelete204Response,
-  SubscriptionNetworkManagerConnectionsDeletedefaultResponse,
+  SubscriptionNetworkManagerConnectionsDeleteDefaultResponse,
   SubscriptionNetworkManagerConnectionsList200Response,
-  SubscriptionNetworkManagerConnectionsListdefaultResponse,
+  SubscriptionNetworkManagerConnectionsListDefaultResponse,
   ManagementGroupNetworkManagerConnectionsCreateOrUpdate200Response,
   ManagementGroupNetworkManagerConnectionsCreateOrUpdate201Response,
-  ManagementGroupNetworkManagerConnectionsCreateOrUpdatedefaultResponse,
+  ManagementGroupNetworkManagerConnectionsCreateOrUpdateDefaultResponse,
   ManagementGroupNetworkManagerConnectionsGet200Response,
-  ManagementGroupNetworkManagerConnectionsGetdefaultResponse,
+  ManagementGroupNetworkManagerConnectionsGetDefaultResponse,
   ManagementGroupNetworkManagerConnectionsDelete200Response,
   ManagementGroupNetworkManagerConnectionsDelete204Response,
-  ManagementGroupNetworkManagerConnectionsDeletedefaultResponse,
+  ManagementGroupNetworkManagerConnectionsDeleteDefaultResponse,
   ManagementGroupNetworkManagerConnectionsList200Response,
-  ManagementGroupNetworkManagerConnectionsListdefaultResponse,
+  ManagementGroupNetworkManagerConnectionsListDefaultResponse,
   ConnectivityConfigurationsGet200Response,
-  ConnectivityConfigurationsGetdefaultResponse,
+  ConnectivityConfigurationsGetDefaultResponse,
   ConnectivityConfigurationsCreateOrUpdate200Response,
   ConnectivityConfigurationsCreateOrUpdate201Response,
-  ConnectivityConfigurationsCreateOrUpdatedefaultResponse,
+  ConnectivityConfigurationsCreateOrUpdateDefaultResponse,
   ConnectivityConfigurationsDelete200Response,
   ConnectivityConfigurationsDelete202Response,
   ConnectivityConfigurationsDelete204Response,
-  ConnectivityConfigurationsDeletedefaultResponse,
+  ConnectivityConfigurationsDeleteDefaultResponse,
   ConnectivityConfigurationsList200Response,
-  ConnectivityConfigurationsListdefaultResponse,
+  ConnectivityConfigurationsListDefaultResponse,
   NetworkGroupsGet200Response,
-  NetworkGroupsGetdefaultResponse,
+  NetworkGroupsGetDefaultResponse,
   NetworkGroupsCreateOrUpdate200Response,
   NetworkGroupsCreateOrUpdate201Response,
-  NetworkGroupsCreateOrUpdatedefaultResponse,
+  NetworkGroupsCreateOrUpdateDefaultResponse,
   NetworkGroupsDelete200Response,
   NetworkGroupsDelete202Response,
   NetworkGroupsDelete204Response,
-  NetworkGroupsDeletedefaultResponse,
+  NetworkGroupsDeleteDefaultResponse,
   NetworkGroupsList200Response,
-  NetworkGroupsListdefaultResponse,
+  NetworkGroupsListDefaultResponse,
   StaticMembersGet200Response,
-  StaticMembersGetdefaultResponse,
+  StaticMembersGetDefaultResponse,
   StaticMembersCreateOrUpdate200Response,
   StaticMembersCreateOrUpdate201Response,
-  StaticMembersCreateOrUpdatedefaultResponse,
+  StaticMembersCreateOrUpdateDefaultResponse,
   StaticMembersDelete200Response,
   StaticMembersDelete204Response,
-  StaticMembersDeletedefaultResponse,
+  StaticMembersDeleteDefaultResponse,
   StaticMembersList200Response,
-  StaticMembersListdefaultResponse,
+  StaticMembersListDefaultResponse,
   ScopeConnectionsCreateOrUpdate200Response,
   ScopeConnectionsCreateOrUpdate201Response,
-  ScopeConnectionsCreateOrUpdatedefaultResponse,
+  ScopeConnectionsCreateOrUpdateDefaultResponse,
   ScopeConnectionsGet200Response,
-  ScopeConnectionsGetdefaultResponse,
+  ScopeConnectionsGetDefaultResponse,
   ScopeConnectionsDelete200Response,
   ScopeConnectionsDelete204Response,
-  ScopeConnectionsDeletedefaultResponse,
+  ScopeConnectionsDeleteDefaultResponse,
   ScopeConnectionsList200Response,
-  ScopeConnectionsListdefaultResponse,
+  ScopeConnectionsListDefaultResponse,
   SecurityAdminConfigurationsList200Response,
-  SecurityAdminConfigurationsListdefaultResponse,
+  SecurityAdminConfigurationsListDefaultResponse,
   SecurityAdminConfigurationsGet200Response,
-  SecurityAdminConfigurationsGetdefaultResponse,
+  SecurityAdminConfigurationsGetDefaultResponse,
   SecurityAdminConfigurationsCreateOrUpdate200Response,
   SecurityAdminConfigurationsCreateOrUpdate201Response,
-  SecurityAdminConfigurationsCreateOrUpdatedefaultResponse,
+  SecurityAdminConfigurationsCreateOrUpdateDefaultResponse,
   SecurityAdminConfigurationsDelete200Response,
   SecurityAdminConfigurationsDelete202Response,
   SecurityAdminConfigurationsDelete204Response,
-  SecurityAdminConfigurationsDeletedefaultResponse,
+  SecurityAdminConfigurationsDeleteDefaultResponse,
   AdminRuleCollectionsList200Response,
-  AdminRuleCollectionsListdefaultResponse,
+  AdminRuleCollectionsListDefaultResponse,
   AdminRuleCollectionsGet200Response,
-  AdminRuleCollectionsGetdefaultResponse,
+  AdminRuleCollectionsGetDefaultResponse,
   AdminRuleCollectionsCreateOrUpdate200Response,
   AdminRuleCollectionsCreateOrUpdate201Response,
-  AdminRuleCollectionsCreateOrUpdatedefaultResponse,
+  AdminRuleCollectionsCreateOrUpdateDefaultResponse,
   AdminRuleCollectionsDelete200Response,
   AdminRuleCollectionsDelete202Response,
   AdminRuleCollectionsDelete204Response,
-  AdminRuleCollectionsDeletedefaultResponse,
+  AdminRuleCollectionsDeleteDefaultResponse,
   AdminRulesList200Response,
-  AdminRulesListdefaultResponse,
+  AdminRulesListDefaultResponse,
   AdminRulesGet200Response,
-  AdminRulesGetdefaultResponse,
+  AdminRulesGetDefaultResponse,
   AdminRulesCreateOrUpdate200Response,
   AdminRulesCreateOrUpdate201Response,
-  AdminRulesCreateOrUpdatedefaultResponse,
+  AdminRulesCreateOrUpdateDefaultResponse,
   AdminRulesDelete200Response,
   AdminRulesDelete202Response,
   AdminRulesDelete204Response,
-  AdminRulesDeletedefaultResponse,
+  AdminRulesDeleteDefaultResponse,
   NetworkProfilesDelete200Response,
   NetworkProfilesDelete202Response,
   NetworkProfilesDelete204Response,
-  NetworkProfilesDeletedefaultResponse,
+  NetworkProfilesDeleteDefaultResponse,
   NetworkProfilesGet200Response,
-  NetworkProfilesGetdefaultResponse,
+  NetworkProfilesGetDefaultResponse,
   NetworkProfilesCreateOrUpdate200Response,
   NetworkProfilesCreateOrUpdate201Response,
-  NetworkProfilesCreateOrUpdatedefaultResponse,
+  NetworkProfilesCreateOrUpdateDefaultResponse,
   NetworkProfilesUpdateTags200Response,
-  NetworkProfilesUpdateTagsdefaultResponse,
+  NetworkProfilesUpdateTagsDefaultResponse,
   NetworkProfilesListAll200Response,
-  NetworkProfilesListAlldefaultResponse,
+  NetworkProfilesListAllDefaultResponse,
   NetworkProfilesList200Response,
-  NetworkProfilesListdefaultResponse,
+  NetworkProfilesListDefaultResponse,
   NetworkSecurityGroupsDelete200Response,
   NetworkSecurityGroupsDelete202Response,
   NetworkSecurityGroupsDelete204Response,
-  NetworkSecurityGroupsDeletedefaultResponse,
+  NetworkSecurityGroupsDeleteDefaultResponse,
   NetworkSecurityGroupsGet200Response,
-  NetworkSecurityGroupsGetdefaultResponse,
+  NetworkSecurityGroupsGetDefaultResponse,
   NetworkSecurityGroupsCreateOrUpdate200Response,
   NetworkSecurityGroupsCreateOrUpdate201Response,
-  NetworkSecurityGroupsCreateOrUpdatedefaultResponse,
+  NetworkSecurityGroupsCreateOrUpdateDefaultResponse,
   NetworkSecurityGroupsUpdateTags200Response,
-  NetworkSecurityGroupsUpdateTagsdefaultResponse,
+  NetworkSecurityGroupsUpdateTagsDefaultResponse,
   NetworkSecurityGroupsListAll200Response,
-  NetworkSecurityGroupsListAlldefaultResponse,
+  NetworkSecurityGroupsListAllDefaultResponse,
   NetworkSecurityGroupsList200Response,
-  NetworkSecurityGroupsListdefaultResponse,
+  NetworkSecurityGroupsListDefaultResponse,
   SecurityRulesDelete200Response,
   SecurityRulesDelete202Response,
   SecurityRulesDelete204Response,
-  SecurityRulesDeletedefaultResponse,
+  SecurityRulesDeleteDefaultResponse,
   SecurityRulesGet200Response,
-  SecurityRulesGetdefaultResponse,
+  SecurityRulesGetDefaultResponse,
   SecurityRulesCreateOrUpdate200Response,
   SecurityRulesCreateOrUpdate201Response,
-  SecurityRulesCreateOrUpdatedefaultResponse,
+  SecurityRulesCreateOrUpdateDefaultResponse,
   SecurityRulesList200Response,
-  SecurityRulesListdefaultResponse,
+  SecurityRulesListDefaultResponse,
   DefaultSecurityRulesList200Response,
-  DefaultSecurityRulesListdefaultResponse,
+  DefaultSecurityRulesListDefaultResponse,
   DefaultSecurityRulesGet200Response,
-  DefaultSecurityRulesGetdefaultResponse,
+  DefaultSecurityRulesGetDefaultResponse,
   NetworkVirtualAppliancesDelete200Response,
   NetworkVirtualAppliancesDelete202Response,
   NetworkVirtualAppliancesDelete204Response,
-  NetworkVirtualAppliancesDeletedefaultResponse,
+  NetworkVirtualAppliancesDeleteDefaultResponse,
   NetworkVirtualAppliancesGet200Response,
-  NetworkVirtualAppliancesGetdefaultResponse,
+  NetworkVirtualAppliancesGetDefaultResponse,
   NetworkVirtualAppliancesUpdateTags200Response,
-  NetworkVirtualAppliancesUpdateTagsdefaultResponse,
+  NetworkVirtualAppliancesUpdateTagsDefaultResponse,
   NetworkVirtualAppliancesCreateOrUpdate200Response,
   NetworkVirtualAppliancesCreateOrUpdate201Response,
-  NetworkVirtualAppliancesCreateOrUpdatedefaultResponse,
+  NetworkVirtualAppliancesCreateOrUpdateDefaultResponse,
   NetworkVirtualAppliancesListByResourceGroup200Response,
-  NetworkVirtualAppliancesListByResourceGroupdefaultResponse,
+  NetworkVirtualAppliancesListByResourceGroupDefaultResponse,
   NetworkVirtualAppliancesList200Response,
-  NetworkVirtualAppliancesListdefaultResponse,
+  NetworkVirtualAppliancesListDefaultResponse,
   VirtualApplianceSitesDelete200Response,
   VirtualApplianceSitesDelete202Response,
   VirtualApplianceSitesDelete204Response,
-  VirtualApplianceSitesDeletedefaultResponse,
+  VirtualApplianceSitesDeleteDefaultResponse,
   VirtualApplianceSitesGet200Response,
-  VirtualApplianceSitesGetdefaultResponse,
+  VirtualApplianceSitesGetDefaultResponse,
   VirtualApplianceSitesCreateOrUpdate200Response,
   VirtualApplianceSitesCreateOrUpdate201Response,
-  VirtualApplianceSitesCreateOrUpdatedefaultResponse,
+  VirtualApplianceSitesCreateOrUpdateDefaultResponse,
   VirtualApplianceSitesList200Response,
-  VirtualApplianceSitesListdefaultResponse,
+  VirtualApplianceSitesListDefaultResponse,
   VirtualApplianceSkusList200Response,
-  VirtualApplianceSkusListdefaultResponse,
+  VirtualApplianceSkusListDefaultResponse,
   VirtualApplianceSkusGet200Response,
-  VirtualApplianceSkusGetdefaultResponse,
+  VirtualApplianceSkusGetDefaultResponse,
   InboundSecurityRuleCreateOrUpdate200Response,
   InboundSecurityRuleCreateOrUpdate201Response,
-  InboundSecurityRuleCreateOrUpdatedefaultResponse,
+  InboundSecurityRuleCreateOrUpdateDefaultResponse,
   NetworkWatchersCreateOrUpdate200Response,
   NetworkWatchersCreateOrUpdate201Response,
-  NetworkWatchersCreateOrUpdatedefaultResponse,
+  NetworkWatchersCreateOrUpdateDefaultResponse,
   NetworkWatchersGet200Response,
-  NetworkWatchersGetdefaultResponse,
+  NetworkWatchersGetDefaultResponse,
   NetworkWatchersDelete202Response,
   NetworkWatchersDelete204Response,
-  NetworkWatchersDeletedefaultResponse,
+  NetworkWatchersDeleteDefaultResponse,
   NetworkWatchersUpdateTags200Response,
-  NetworkWatchersUpdateTagsdefaultResponse,
+  NetworkWatchersUpdateTagsDefaultResponse,
   NetworkWatchersList200Response,
-  NetworkWatchersListdefaultResponse,
+  NetworkWatchersListDefaultResponse,
   NetworkWatchersListAll200Response,
-  NetworkWatchersListAlldefaultResponse,
+  NetworkWatchersListAllDefaultResponse,
   NetworkWatchersGetTopology200Response,
-  NetworkWatchersGetTopologydefaultResponse,
+  NetworkWatchersGetTopologyDefaultResponse,
   NetworkWatchersVerifyIPFlow200Response,
   NetworkWatchersVerifyIPFlow202Response,
-  NetworkWatchersVerifyIPFlowdefaultResponse,
+  NetworkWatchersVerifyIPFlowDefaultResponse,
   NetworkWatchersGetNextHop200Response,
   NetworkWatchersGetNextHop202Response,
-  NetworkWatchersGetNextHopdefaultResponse,
+  NetworkWatchersGetNextHopDefaultResponse,
   NetworkWatchersGetVMSecurityRules200Response,
   NetworkWatchersGetVMSecurityRules202Response,
-  NetworkWatchersGetVMSecurityRulesdefaultResponse,
+  NetworkWatchersGetVMSecurityRulesDefaultResponse,
   NetworkWatchersGetTroubleshooting200Response,
   NetworkWatchersGetTroubleshooting202Response,
-  NetworkWatchersGetTroubleshootingdefaultResponse,
+  NetworkWatchersGetTroubleshootingDefaultResponse,
   NetworkWatchersGetTroubleshootingResult200Response,
   NetworkWatchersGetTroubleshootingResult202Response,
-  NetworkWatchersGetTroubleshootingResultdefaultResponse,
+  NetworkWatchersGetTroubleshootingResultDefaultResponse,
   NetworkWatchersSetFlowLogConfiguration200Response,
   NetworkWatchersSetFlowLogConfiguration202Response,
-  NetworkWatchersSetFlowLogConfigurationdefaultResponse,
+  NetworkWatchersSetFlowLogConfigurationDefaultResponse,
   NetworkWatchersGetFlowLogStatus200Response,
   NetworkWatchersGetFlowLogStatus202Response,
-  NetworkWatchersGetFlowLogStatusdefaultResponse,
+  NetworkWatchersGetFlowLogStatusDefaultResponse,
   NetworkWatchersCheckConnectivity200Response,
   NetworkWatchersCheckConnectivity202Response,
-  NetworkWatchersCheckConnectivitydefaultResponse,
+  NetworkWatchersCheckConnectivityDefaultResponse,
   NetworkWatchersGetAzureReachabilityReport200Response,
   NetworkWatchersGetAzureReachabilityReport202Response,
-  NetworkWatchersGetAzureReachabilityReportdefaultResponse,
+  NetworkWatchersGetAzureReachabilityReportDefaultResponse,
   NetworkWatchersListAvailableProviders200Response,
   NetworkWatchersListAvailableProviders202Response,
-  NetworkWatchersListAvailableProvidersdefaultResponse,
+  NetworkWatchersListAvailableProvidersDefaultResponse,
   NetworkWatchersGetNetworkConfigurationDiagnostic200Response,
   NetworkWatchersGetNetworkConfigurationDiagnostic202Response,
-  NetworkWatchersGetNetworkConfigurationDiagnosticdefaultResponse,
+  NetworkWatchersGetNetworkConfigurationDiagnosticDefaultResponse,
   PacketCapturesCreate201Response,
-  PacketCapturesCreatedefaultResponse,
+  PacketCapturesCreateDefaultResponse,
   PacketCapturesGet200Response,
-  PacketCapturesGetdefaultResponse,
+  PacketCapturesGetDefaultResponse,
   PacketCapturesDelete202Response,
   PacketCapturesDelete204Response,
-  PacketCapturesDeletedefaultResponse,
+  PacketCapturesDeleteDefaultResponse,
   PacketCapturesStop200Response,
   PacketCapturesStop202Response,
-  PacketCapturesStopdefaultResponse,
+  PacketCapturesStopDefaultResponse,
   PacketCapturesGetStatus200Response,
   PacketCapturesGetStatus202Response,
-  PacketCapturesGetStatusdefaultResponse,
+  PacketCapturesGetStatusDefaultResponse,
   PacketCapturesList200Response,
-  PacketCapturesListdefaultResponse,
+  PacketCapturesListDefaultResponse,
   ConnectionMonitorsCreateOrUpdate200Response,
   ConnectionMonitorsCreateOrUpdate201Response,
-  ConnectionMonitorsCreateOrUpdatedefaultResponse,
+  ConnectionMonitorsCreateOrUpdateDefaultResponse,
   ConnectionMonitorsGet200Response,
-  ConnectionMonitorsGetdefaultResponse,
+  ConnectionMonitorsGetDefaultResponse,
   ConnectionMonitorsDelete202Response,
   ConnectionMonitorsDelete204Response,
-  ConnectionMonitorsDeletedefaultResponse,
+  ConnectionMonitorsDeleteDefaultResponse,
   ConnectionMonitorsUpdateTags200Response,
-  ConnectionMonitorsUpdateTagsdefaultResponse,
+  ConnectionMonitorsUpdateTagsDefaultResponse,
   ConnectionMonitorsStop200Response,
   ConnectionMonitorsStop202Response,
-  ConnectionMonitorsStopdefaultResponse,
+  ConnectionMonitorsStopDefaultResponse,
   ConnectionMonitorsStart200Response,
   ConnectionMonitorsStart202Response,
-  ConnectionMonitorsStartdefaultResponse,
+  ConnectionMonitorsStartDefaultResponse,
   ConnectionMonitorsQuery200Response,
   ConnectionMonitorsQuery202Response,
-  ConnectionMonitorsQuerydefaultResponse,
+  ConnectionMonitorsQueryDefaultResponse,
   ConnectionMonitorsList200Response,
-  ConnectionMonitorsListdefaultResponse,
+  ConnectionMonitorsListDefaultResponse,
   FlowLogsCreateOrUpdate200Response,
   FlowLogsCreateOrUpdate201Response,
-  FlowLogsCreateOrUpdatedefaultResponse,
+  FlowLogsCreateOrUpdateDefaultResponse,
   FlowLogsUpdateTags200Response,
-  FlowLogsUpdateTagsdefaultResponse,
+  FlowLogsUpdateTagsDefaultResponse,
   FlowLogsGet200Response,
-  FlowLogsGetdefaultResponse,
+  FlowLogsGetDefaultResponse,
   FlowLogsDelete202Response,
   FlowLogsDelete204Response,
-  FlowLogsDeletedefaultResponse,
+  FlowLogsDeleteDefaultResponse,
   FlowLogsList200Response,
-  FlowLogsListdefaultResponse,
+  FlowLogsListDefaultResponse,
   OperationsList200Response,
-  OperationsListdefaultResponse,
+  OperationsListDefaultResponse,
   PrivateEndpointsDelete200Response,
   PrivateEndpointsDelete202Response,
   PrivateEndpointsDelete204Response,
-  PrivateEndpointsDeletedefaultResponse,
+  PrivateEndpointsDeleteDefaultResponse,
   PrivateEndpointsGet200Response,
-  PrivateEndpointsGetdefaultResponse,
+  PrivateEndpointsGetDefaultResponse,
   PrivateEndpointsCreateOrUpdate200Response,
   PrivateEndpointsCreateOrUpdate201Response,
-  PrivateEndpointsCreateOrUpdatedefaultResponse,
+  PrivateEndpointsCreateOrUpdateDefaultResponse,
   PrivateEndpointsList200Response,
-  PrivateEndpointsListdefaultResponse,
+  PrivateEndpointsListDefaultResponse,
   PrivateEndpointsListBySubscription200Response,
-  PrivateEndpointsListBySubscriptiondefaultResponse,
+  PrivateEndpointsListBySubscriptionDefaultResponse,
   AvailablePrivateEndpointTypesList200Response,
-  AvailablePrivateEndpointTypesListdefaultResponse,
+  AvailablePrivateEndpointTypesListDefaultResponse,
   AvailablePrivateEndpointTypesListByResourceGroup200Response,
-  AvailablePrivateEndpointTypesListByResourceGroupdefaultResponse,
+  AvailablePrivateEndpointTypesListByResourceGroupDefaultResponse,
   PrivateDnsZoneGroupsDelete200Response,
   PrivateDnsZoneGroupsDelete202Response,
   PrivateDnsZoneGroupsDelete204Response,
-  PrivateDnsZoneGroupsDeletedefaultResponse,
+  PrivateDnsZoneGroupsDeleteDefaultResponse,
   PrivateDnsZoneGroupsGet200Response,
-  PrivateDnsZoneGroupsGetdefaultResponse,
+  PrivateDnsZoneGroupsGetDefaultResponse,
   PrivateDnsZoneGroupsCreateOrUpdate200Response,
   PrivateDnsZoneGroupsCreateOrUpdate201Response,
-  PrivateDnsZoneGroupsCreateOrUpdatedefaultResponse,
+  PrivateDnsZoneGroupsCreateOrUpdateDefaultResponse,
   PrivateDnsZoneGroupsList200Response,
-  PrivateDnsZoneGroupsListdefaultResponse,
+  PrivateDnsZoneGroupsListDefaultResponse,
   PrivateLinkServicesDelete200Response,
   PrivateLinkServicesDelete202Response,
   PrivateLinkServicesDelete204Response,
-  PrivateLinkServicesDeletedefaultResponse,
+  PrivateLinkServicesDeleteDefaultResponse,
   PrivateLinkServicesGet200Response,
-  PrivateLinkServicesGetdefaultResponse,
+  PrivateLinkServicesGetDefaultResponse,
   PrivateLinkServicesCreateOrUpdate200Response,
   PrivateLinkServicesCreateOrUpdate201Response,
-  PrivateLinkServicesCreateOrUpdatedefaultResponse,
+  PrivateLinkServicesCreateOrUpdateDefaultResponse,
   PrivateLinkServicesList200Response,
-  PrivateLinkServicesListdefaultResponse,
+  PrivateLinkServicesListDefaultResponse,
   PrivateLinkServicesListBySubscription200Response,
-  PrivateLinkServicesListBySubscriptiondefaultResponse,
+  PrivateLinkServicesListBySubscriptionDefaultResponse,
   PrivateLinkServicesGetPrivateEndpointConnection200Response,
-  PrivateLinkServicesGetPrivateEndpointConnectiondefaultResponse,
+  PrivateLinkServicesGetPrivateEndpointConnectionDefaultResponse,
   PrivateLinkServicesUpdatePrivateEndpointConnection200Response,
-  PrivateLinkServicesUpdatePrivateEndpointConnectiondefaultResponse,
+  PrivateLinkServicesUpdatePrivateEndpointConnectionDefaultResponse,
   PrivateLinkServicesDeletePrivateEndpointConnection200Response,
   PrivateLinkServicesDeletePrivateEndpointConnection202Response,
   PrivateLinkServicesDeletePrivateEndpointConnection204Response,
-  PrivateLinkServicesDeletePrivateEndpointConnectiondefaultResponse,
+  PrivateLinkServicesDeletePrivateEndpointConnectionDefaultResponse,
   PrivateLinkServicesListPrivateEndpointConnections200Response,
-  PrivateLinkServicesListPrivateEndpointConnectionsdefaultResponse,
+  PrivateLinkServicesListPrivateEndpointConnectionsDefaultResponse,
   PrivateLinkServicesCheckPrivateLinkServiceVisibility200Response,
   PrivateLinkServicesCheckPrivateLinkServiceVisibility202Response,
-  PrivateLinkServicesCheckPrivateLinkServiceVisibilitydefaultResponse,
+  PrivateLinkServicesCheckPrivateLinkServiceVisibilityDefaultResponse,
   PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup200Response,
   PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup202Response,
-  PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupdefaultResponse,
+  PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupDefaultResponse,
   PrivateLinkServicesListAutoApprovedPrivateLinkServices200Response,
-  PrivateLinkServicesListAutoApprovedPrivateLinkServicesdefaultResponse,
+  PrivateLinkServicesListAutoApprovedPrivateLinkServicesDefaultResponse,
   PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroup200Response,
-  PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupdefaultResponse,
+  PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupDefaultResponse,
   PublicIPPrefixesDelete200Response,
   PublicIPPrefixesDelete202Response,
   PublicIPPrefixesDelete204Response,
-  PublicIPPrefixesDeletedefaultResponse,
+  PublicIPPrefixesDeleteDefaultResponse,
   PublicIPPrefixesGet200Response,
-  PublicIPPrefixesGetdefaultResponse,
+  PublicIPPrefixesGetDefaultResponse,
   PublicIPPrefixesCreateOrUpdate200Response,
   PublicIPPrefixesCreateOrUpdate201Response,
-  PublicIPPrefixesCreateOrUpdatedefaultResponse,
+  PublicIPPrefixesCreateOrUpdateDefaultResponse,
   PublicIPPrefixesUpdateTags200Response,
-  PublicIPPrefixesUpdateTagsdefaultResponse,
+  PublicIPPrefixesUpdateTagsDefaultResponse,
   PublicIPPrefixesListAll200Response,
-  PublicIPPrefixesListAlldefaultResponse,
+  PublicIPPrefixesListAllDefaultResponse,
   PublicIPPrefixesList200Response,
-  PublicIPPrefixesListdefaultResponse,
+  PublicIPPrefixesListDefaultResponse,
   RouteFiltersDelete200Response,
   RouteFiltersDelete202Response,
   RouteFiltersDelete204Response,
-  RouteFiltersDeletedefaultResponse,
+  RouteFiltersDeleteDefaultResponse,
   RouteFiltersGet200Response,
-  RouteFiltersGetdefaultResponse,
+  RouteFiltersGetDefaultResponse,
   RouteFiltersCreateOrUpdate200Response,
   RouteFiltersCreateOrUpdate201Response,
-  RouteFiltersCreateOrUpdatedefaultResponse,
+  RouteFiltersCreateOrUpdateDefaultResponse,
   RouteFiltersUpdateTags200Response,
-  RouteFiltersUpdateTagsdefaultResponse,
+  RouteFiltersUpdateTagsDefaultResponse,
   RouteFiltersListByResourceGroup200Response,
-  RouteFiltersListByResourceGroupdefaultResponse,
+  RouteFiltersListByResourceGroupDefaultResponse,
   RouteFiltersList200Response,
-  RouteFiltersListdefaultResponse,
+  RouteFiltersListDefaultResponse,
   RouteFilterRulesDelete200Response,
   RouteFilterRulesDelete202Response,
   RouteFilterRulesDelete204Response,
-  RouteFilterRulesDeletedefaultResponse,
+  RouteFilterRulesDeleteDefaultResponse,
   RouteFilterRulesGet200Response,
-  RouteFilterRulesGetdefaultResponse,
+  RouteFilterRulesGetDefaultResponse,
   RouteFilterRulesCreateOrUpdate200Response,
   RouteFilterRulesCreateOrUpdate201Response,
-  RouteFilterRulesCreateOrUpdatedefaultResponse,
+  RouteFilterRulesCreateOrUpdateDefaultResponse,
   RouteFilterRulesListByRouteFilter200Response,
-  RouteFilterRulesListByRouteFilterdefaultResponse,
+  RouteFilterRulesListByRouteFilterDefaultResponse,
   RouteTablesDelete200Response,
   RouteTablesDelete202Response,
   RouteTablesDelete204Response,
-  RouteTablesDeletedefaultResponse,
+  RouteTablesDeleteDefaultResponse,
   RouteTablesGet200Response,
-  RouteTablesGetdefaultResponse,
+  RouteTablesGetDefaultResponse,
   RouteTablesCreateOrUpdate200Response,
   RouteTablesCreateOrUpdate201Response,
-  RouteTablesCreateOrUpdatedefaultResponse,
+  RouteTablesCreateOrUpdateDefaultResponse,
   RouteTablesUpdateTags200Response,
-  RouteTablesUpdateTagsdefaultResponse,
+  RouteTablesUpdateTagsDefaultResponse,
   RouteTablesList200Response,
-  RouteTablesListdefaultResponse,
+  RouteTablesListDefaultResponse,
   RouteTablesListAll200Response,
-  RouteTablesListAlldefaultResponse,
+  RouteTablesListAllDefaultResponse,
   RoutesDelete200Response,
   RoutesDelete202Response,
   RoutesDelete204Response,
-  RoutesDeletedefaultResponse,
+  RoutesDeleteDefaultResponse,
   RoutesGet200Response,
-  RoutesGetdefaultResponse,
+  RoutesGetDefaultResponse,
   RoutesCreateOrUpdate200Response,
   RoutesCreateOrUpdate201Response,
-  RoutesCreateOrUpdatedefaultResponse,
+  RoutesCreateOrUpdateDefaultResponse,
   RoutesList200Response,
-  RoutesListdefaultResponse,
+  RoutesListDefaultResponse,
   SecurityPartnerProvidersDelete200Response,
   SecurityPartnerProvidersDelete202Response,
   SecurityPartnerProvidersDelete204Response,
-  SecurityPartnerProvidersDeletedefaultResponse,
+  SecurityPartnerProvidersDeleteDefaultResponse,
   SecurityPartnerProvidersGet200Response,
-  SecurityPartnerProvidersGetdefaultResponse,
+  SecurityPartnerProvidersGetDefaultResponse,
   SecurityPartnerProvidersCreateOrUpdate200Response,
   SecurityPartnerProvidersCreateOrUpdate201Response,
-  SecurityPartnerProvidersCreateOrUpdatedefaultResponse,
+  SecurityPartnerProvidersCreateOrUpdateDefaultResponse,
   SecurityPartnerProvidersUpdateTags200Response,
-  SecurityPartnerProvidersUpdateTagsdefaultResponse,
+  SecurityPartnerProvidersUpdateTagsDefaultResponse,
   SecurityPartnerProvidersListByResourceGroup200Response,
-  SecurityPartnerProvidersListByResourceGroupdefaultResponse,
+  SecurityPartnerProvidersListByResourceGroupDefaultResponse,
   SecurityPartnerProvidersList200Response,
-  SecurityPartnerProvidersListdefaultResponse,
+  SecurityPartnerProvidersListDefaultResponse,
   BgpServiceCommunitiesList200Response,
-  BgpServiceCommunitiesListdefaultResponse,
+  BgpServiceCommunitiesListDefaultResponse,
   ServiceEndpointPoliciesDelete200Response,
   ServiceEndpointPoliciesDelete202Response,
   ServiceEndpointPoliciesDelete204Response,
-  ServiceEndpointPoliciesDeletedefaultResponse,
+  ServiceEndpointPoliciesDeleteDefaultResponse,
   ServiceEndpointPoliciesGet200Response,
-  ServiceEndpointPoliciesGetdefaultResponse,
+  ServiceEndpointPoliciesGetDefaultResponse,
   ServiceEndpointPoliciesCreateOrUpdate200Response,
   ServiceEndpointPoliciesCreateOrUpdate201Response,
-  ServiceEndpointPoliciesCreateOrUpdatedefaultResponse,
+  ServiceEndpointPoliciesCreateOrUpdateDefaultResponse,
   ServiceEndpointPoliciesUpdateTags200Response,
-  ServiceEndpointPoliciesUpdateTagsdefaultResponse,
+  ServiceEndpointPoliciesUpdateTagsDefaultResponse,
   ServiceEndpointPoliciesList200Response,
-  ServiceEndpointPoliciesListdefaultResponse,
+  ServiceEndpointPoliciesListDefaultResponse,
   ServiceEndpointPoliciesListByResourceGroup200Response,
-  ServiceEndpointPoliciesListByResourceGroupdefaultResponse,
+  ServiceEndpointPoliciesListByResourceGroupDefaultResponse,
   ServiceEndpointPolicyDefinitionsDelete200Response,
   ServiceEndpointPolicyDefinitionsDelete202Response,
   ServiceEndpointPolicyDefinitionsDelete204Response,
-  ServiceEndpointPolicyDefinitionsDeletedefaultResponse,
+  ServiceEndpointPolicyDefinitionsDeleteDefaultResponse,
   ServiceEndpointPolicyDefinitionsGet200Response,
-  ServiceEndpointPolicyDefinitionsGetdefaultResponse,
+  ServiceEndpointPolicyDefinitionsGetDefaultResponse,
   ServiceEndpointPolicyDefinitionsCreateOrUpdate200Response,
   ServiceEndpointPolicyDefinitionsCreateOrUpdate201Response,
-  ServiceEndpointPolicyDefinitionsCreateOrUpdatedefaultResponse,
+  ServiceEndpointPolicyDefinitionsCreateOrUpdateDefaultResponse,
   ServiceEndpointPolicyDefinitionsListByResourceGroup200Response,
-  ServiceEndpointPolicyDefinitionsListByResourceGroupdefaultResponse,
+  ServiceEndpointPolicyDefinitionsListByResourceGroupDefaultResponse,
   ServiceTagsList200Response,
-  ServiceTagsListdefaultResponse,
+  ServiceTagsListDefaultResponse,
   ServiceTagInformationList200Response,
-  ServiceTagInformationListdefaultResponse,
+  ServiceTagInformationListDefaultResponse,
   UsagesList200Response,
-  UsagesListdefaultResponse,
+  UsagesListDefaultResponse,
   VirtualNetworksDelete200Response,
   VirtualNetworksDelete202Response,
   VirtualNetworksDelete204Response,
-  VirtualNetworksDeletedefaultResponse,
+  VirtualNetworksDeleteDefaultResponse,
   VirtualNetworksGet200Response,
-  VirtualNetworksGetdefaultResponse,
+  VirtualNetworksGetDefaultResponse,
   VirtualNetworksCreateOrUpdate200Response,
   VirtualNetworksCreateOrUpdate201Response,
-  VirtualNetworksCreateOrUpdatedefaultResponse,
+  VirtualNetworksCreateOrUpdateDefaultResponse,
   VirtualNetworksUpdateTags200Response,
-  VirtualNetworksUpdateTagsdefaultResponse,
+  VirtualNetworksUpdateTagsDefaultResponse,
   VirtualNetworksListAll200Response,
-  VirtualNetworksListAlldefaultResponse,
+  VirtualNetworksListAllDefaultResponse,
   VirtualNetworksList200Response,
-  VirtualNetworksListdefaultResponse,
+  VirtualNetworksListDefaultResponse,
   VirtualNetworksCheckIPAddressAvailability200Response,
-  VirtualNetworksCheckIPAddressAvailabilitydefaultResponse,
+  VirtualNetworksCheckIPAddressAvailabilityDefaultResponse,
   VirtualNetworksListUsage200Response,
-  VirtualNetworksListUsagedefaultResponse,
+  VirtualNetworksListUsageDefaultResponse,
   VirtualNetworksListDdosProtectionStatus200Response,
   VirtualNetworksListDdosProtectionStatus202Response,
-  VirtualNetworksListDdosProtectionStatusdefaultResponse,
+  VirtualNetworksListDdosProtectionStatusDefaultResponse,
   SubnetsDelete200Response,
   SubnetsDelete202Response,
   SubnetsDelete204Response,
-  SubnetsDeletedefaultResponse,
+  SubnetsDeleteDefaultResponse,
   SubnetsGet200Response,
-  SubnetsGetdefaultResponse,
+  SubnetsGetDefaultResponse,
   SubnetsCreateOrUpdate200Response,
   SubnetsCreateOrUpdate201Response,
-  SubnetsCreateOrUpdatedefaultResponse,
+  SubnetsCreateOrUpdateDefaultResponse,
   SubnetsPrepareNetworkPolicies200Response,
   SubnetsPrepareNetworkPolicies202Response,
-  SubnetsPrepareNetworkPoliciesdefaultResponse,
+  SubnetsPrepareNetworkPoliciesDefaultResponse,
   SubnetsUnprepareNetworkPolicies200Response,
   SubnetsUnprepareNetworkPolicies202Response,
-  SubnetsUnprepareNetworkPoliciesdefaultResponse,
+  SubnetsUnprepareNetworkPoliciesDefaultResponse,
   SubnetsList200Response,
-  SubnetsListdefaultResponse,
+  SubnetsListDefaultResponse,
   ResourceNavigationLinksList200Response,
-  ResourceNavigationLinksListdefaultResponse,
+  ResourceNavigationLinksListDefaultResponse,
   ServiceAssociationLinksList200Response,
-  ServiceAssociationLinksListdefaultResponse,
+  ServiceAssociationLinksListDefaultResponse,
   VirtualNetworkPeeringsDelete200Response,
   VirtualNetworkPeeringsDelete202Response,
   VirtualNetworkPeeringsDelete204Response,
-  VirtualNetworkPeeringsDeletedefaultResponse,
+  VirtualNetworkPeeringsDeleteDefaultResponse,
   VirtualNetworkPeeringsGet200Response,
-  VirtualNetworkPeeringsGetdefaultResponse,
+  VirtualNetworkPeeringsGetDefaultResponse,
   VirtualNetworkPeeringsCreateOrUpdate200Response,
   VirtualNetworkPeeringsCreateOrUpdate201Response,
-  VirtualNetworkPeeringsCreateOrUpdatedefaultResponse,
+  VirtualNetworkPeeringsCreateOrUpdateDefaultResponse,
   VirtualNetworkPeeringsList200Response,
-  VirtualNetworkPeeringsListdefaultResponse,
+  VirtualNetworkPeeringsListDefaultResponse,
   VirtualNetworkGatewaysCreateOrUpdate200Response,
   VirtualNetworkGatewaysCreateOrUpdate201Response,
-  VirtualNetworkGatewaysCreateOrUpdatedefaultResponse,
+  VirtualNetworkGatewaysCreateOrUpdateDefaultResponse,
   VirtualNetworkGatewaysGet200Response,
-  VirtualNetworkGatewaysGetdefaultResponse,
+  VirtualNetworkGatewaysGetDefaultResponse,
   VirtualNetworkGatewaysDelete200Response,
   VirtualNetworkGatewaysDelete202Response,
   VirtualNetworkGatewaysDelete204Response,
-  VirtualNetworkGatewaysDeletedefaultResponse,
+  VirtualNetworkGatewaysDeleteDefaultResponse,
   VirtualNetworkGatewaysUpdateTags200Response,
   VirtualNetworkGatewaysUpdateTags202Response,
-  VirtualNetworkGatewaysUpdateTagsdefaultResponse,
+  VirtualNetworkGatewaysUpdateTagsDefaultResponse,
   VirtualNetworkGatewaysList200Response,
-  VirtualNetworkGatewaysListdefaultResponse,
+  VirtualNetworkGatewaysListDefaultResponse,
   VirtualNetworkGatewaysListConnections200Response,
-  VirtualNetworkGatewaysListConnectionsdefaultResponse,
+  VirtualNetworkGatewaysListConnectionsDefaultResponse,
   VirtualNetworkGatewaysReset200Response,
   VirtualNetworkGatewaysReset202Response,
-  VirtualNetworkGatewaysResetdefaultResponse,
+  VirtualNetworkGatewaysResetDefaultResponse,
   VirtualNetworkGatewaysResetVpnClientSharedKey200Response,
   VirtualNetworkGatewaysResetVpnClientSharedKey202Response,
-  VirtualNetworkGatewaysResetVpnClientSharedKeydefaultResponse,
+  VirtualNetworkGatewaysResetVpnClientSharedKeyDefaultResponse,
   VirtualNetworkGatewaysGeneratevpnclientpackage200Response,
   VirtualNetworkGatewaysGeneratevpnclientpackage202Response,
-  VirtualNetworkGatewaysGeneratevpnclientpackagedefaultResponse,
+  VirtualNetworkGatewaysGeneratevpnclientpackageDefaultResponse,
   VirtualNetworkGatewaysGenerateVpnProfile200Response,
   VirtualNetworkGatewaysGenerateVpnProfile202Response,
-  VirtualNetworkGatewaysGenerateVpnProfiledefaultResponse,
+  VirtualNetworkGatewaysGenerateVpnProfileDefaultResponse,
   VirtualNetworkGatewaysGetVpnProfilePackageUrl200Response,
   VirtualNetworkGatewaysGetVpnProfilePackageUrl202Response,
-  VirtualNetworkGatewaysGetVpnProfilePackageUrldefaultResponse,
+  VirtualNetworkGatewaysGetVpnProfilePackageUrlDefaultResponse,
   VirtualNetworkGatewaysGetBgpPeerStatus200Response,
   VirtualNetworkGatewaysGetBgpPeerStatus202Response,
-  VirtualNetworkGatewaysGetBgpPeerStatusdefaultResponse,
+  VirtualNetworkGatewaysGetBgpPeerStatusDefaultResponse,
   VirtualNetworkGatewaysSupportedVpnDevices200Response,
-  VirtualNetworkGatewaysSupportedVpnDevicesdefaultResponse,
+  VirtualNetworkGatewaysSupportedVpnDevicesDefaultResponse,
   VirtualNetworkGatewaysGetLearnedRoutes200Response,
   VirtualNetworkGatewaysGetLearnedRoutes202Response,
-  VirtualNetworkGatewaysGetLearnedRoutesdefaultResponse,
+  VirtualNetworkGatewaysGetLearnedRoutesDefaultResponse,
   VirtualNetworkGatewaysGetAdvertisedRoutes200Response,
   VirtualNetworkGatewaysGetAdvertisedRoutes202Response,
-  VirtualNetworkGatewaysGetAdvertisedRoutesdefaultResponse,
+  VirtualNetworkGatewaysGetAdvertisedRoutesDefaultResponse,
   VirtualNetworkGatewaysSetVpnclientIpsecParameters200Response,
   VirtualNetworkGatewaysSetVpnclientIpsecParameters202Response,
-  VirtualNetworkGatewaysSetVpnclientIpsecParametersdefaultResponse,
+  VirtualNetworkGatewaysSetVpnclientIpsecParametersDefaultResponse,
   VirtualNetworkGatewaysGetVpnclientIpsecParameters200Response,
-  VirtualNetworkGatewaysGetVpnclientIpsecParametersdefaultResponse,
+  VirtualNetworkGatewaysGetVpnclientIpsecParametersDefaultResponse,
   VirtualNetworkGatewaysVpnDeviceConfigurationScript200Response,
-  VirtualNetworkGatewaysVpnDeviceConfigurationScriptdefaultResponse,
+  VirtualNetworkGatewaysVpnDeviceConfigurationScriptDefaultResponse,
   VirtualNetworkGatewaysStartPacketCapture200Response,
   VirtualNetworkGatewaysStartPacketCapture202Response,
-  VirtualNetworkGatewaysStartPacketCapturedefaultResponse,
+  VirtualNetworkGatewaysStartPacketCaptureDefaultResponse,
   VirtualNetworkGatewaysStopPacketCapture200Response,
   VirtualNetworkGatewaysStopPacketCapture202Response,
-  VirtualNetworkGatewaysStopPacketCapturedefaultResponse,
+  VirtualNetworkGatewaysStopPacketCaptureDefaultResponse,
   VirtualNetworkGatewaysGetVpnclientConnectionHealth200Response,
   VirtualNetworkGatewaysGetVpnclientConnectionHealth202Response,
-  VirtualNetworkGatewaysGetVpnclientConnectionHealthdefaultResponse,
+  VirtualNetworkGatewaysGetVpnclientConnectionHealthDefaultResponse,
   VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections200Response,
   VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections202Response,
-  VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsdefaultResponse,
+  VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsDefaultResponse,
   VirtualNetworkGatewayConnectionsCreateOrUpdate200Response,
   VirtualNetworkGatewayConnectionsCreateOrUpdate201Response,
-  VirtualNetworkGatewayConnectionsCreateOrUpdatedefaultResponse,
+  VirtualNetworkGatewayConnectionsCreateOrUpdateDefaultResponse,
   VirtualNetworkGatewayConnectionsGet200Response,
-  VirtualNetworkGatewayConnectionsGetdefaultResponse,
+  VirtualNetworkGatewayConnectionsGetDefaultResponse,
   VirtualNetworkGatewayConnectionsDelete200Response,
   VirtualNetworkGatewayConnectionsDelete202Response,
   VirtualNetworkGatewayConnectionsDelete204Response,
-  VirtualNetworkGatewayConnectionsDeletedefaultResponse,
+  VirtualNetworkGatewayConnectionsDeleteDefaultResponse,
   VirtualNetworkGatewayConnectionsUpdateTags200Response,
   VirtualNetworkGatewayConnectionsUpdateTags202Response,
-  VirtualNetworkGatewayConnectionsUpdateTagsdefaultResponse,
+  VirtualNetworkGatewayConnectionsUpdateTagsDefaultResponse,
   VirtualNetworkGatewayConnectionsSetSharedKey200Response,
   VirtualNetworkGatewayConnectionsSetSharedKey201Response,
-  VirtualNetworkGatewayConnectionsSetSharedKeydefaultResponse,
+  VirtualNetworkGatewayConnectionsSetSharedKeyDefaultResponse,
   VirtualNetworkGatewayConnectionsGetSharedKey200Response,
-  VirtualNetworkGatewayConnectionsGetSharedKeydefaultResponse,
+  VirtualNetworkGatewayConnectionsGetSharedKeyDefaultResponse,
   VirtualNetworkGatewayConnectionsList200Response,
-  VirtualNetworkGatewayConnectionsListdefaultResponse,
+  VirtualNetworkGatewayConnectionsListDefaultResponse,
   VirtualNetworkGatewayConnectionsResetSharedKey200Response,
   VirtualNetworkGatewayConnectionsResetSharedKey202Response,
-  VirtualNetworkGatewayConnectionsResetSharedKeydefaultResponse,
+  VirtualNetworkGatewayConnectionsResetSharedKeyDefaultResponse,
   VirtualNetworkGatewayConnectionsStartPacketCapture200Response,
   VirtualNetworkGatewayConnectionsStartPacketCapture202Response,
-  VirtualNetworkGatewayConnectionsStartPacketCapturedefaultResponse,
+  VirtualNetworkGatewayConnectionsStartPacketCaptureDefaultResponse,
   VirtualNetworkGatewayConnectionsStopPacketCapture200Response,
   VirtualNetworkGatewayConnectionsStopPacketCapture202Response,
-  VirtualNetworkGatewayConnectionsStopPacketCapturedefaultResponse,
+  VirtualNetworkGatewayConnectionsStopPacketCaptureDefaultResponse,
   VirtualNetworkGatewayConnectionsGetIkeSas200Response,
   VirtualNetworkGatewayConnectionsGetIkeSas202Response,
-  VirtualNetworkGatewayConnectionsGetIkeSasdefaultResponse,
+  VirtualNetworkGatewayConnectionsGetIkeSasDefaultResponse,
   VirtualNetworkGatewayConnectionsResetConnection202Response,
-  VirtualNetworkGatewayConnectionsResetConnectiondefaultResponse,
+  VirtualNetworkGatewayConnectionsResetConnectionDefaultResponse,
   LocalNetworkGatewaysCreateOrUpdate200Response,
   LocalNetworkGatewaysCreateOrUpdate201Response,
-  LocalNetworkGatewaysCreateOrUpdatedefaultResponse,
+  LocalNetworkGatewaysCreateOrUpdateDefaultResponse,
   LocalNetworkGatewaysGet200Response,
-  LocalNetworkGatewaysGetdefaultResponse,
+  LocalNetworkGatewaysGetDefaultResponse,
   LocalNetworkGatewaysDelete200Response,
   LocalNetworkGatewaysDelete202Response,
   LocalNetworkGatewaysDelete204Response,
-  LocalNetworkGatewaysDeletedefaultResponse,
+  LocalNetworkGatewaysDeleteDefaultResponse,
   LocalNetworkGatewaysUpdateTags200Response,
-  LocalNetworkGatewaysUpdateTagsdefaultResponse,
+  LocalNetworkGatewaysUpdateTagsDefaultResponse,
   LocalNetworkGatewaysList200Response,
-  LocalNetworkGatewaysListdefaultResponse,
+  LocalNetworkGatewaysListDefaultResponse,
   VirtualNetworkGatewayNatRulesGet200Response,
-  VirtualNetworkGatewayNatRulesGetdefaultResponse,
+  VirtualNetworkGatewayNatRulesGetDefaultResponse,
   VirtualNetworkGatewayNatRulesCreateOrUpdate200Response,
   VirtualNetworkGatewayNatRulesCreateOrUpdate201Response,
-  VirtualNetworkGatewayNatRulesCreateOrUpdatedefaultResponse,
+  VirtualNetworkGatewayNatRulesCreateOrUpdateDefaultResponse,
   VirtualNetworkGatewayNatRulesDelete200Response,
   VirtualNetworkGatewayNatRulesDelete202Response,
   VirtualNetworkGatewayNatRulesDelete204Response,
-  VirtualNetworkGatewayNatRulesDeletedefaultResponse,
+  VirtualNetworkGatewayNatRulesDeleteDefaultResponse,
   VirtualNetworkGatewayNatRulesListByVirtualNetworkGateway200Response,
-  VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewaydefaultResponse,
+  VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayDefaultResponse,
   VirtualNetworkTapsDelete200Response,
   VirtualNetworkTapsDelete202Response,
   VirtualNetworkTapsDelete204Response,
-  VirtualNetworkTapsDeletedefaultResponse,
+  VirtualNetworkTapsDeleteDefaultResponse,
   VirtualNetworkTapsGet200Response,
-  VirtualNetworkTapsGetdefaultResponse,
+  VirtualNetworkTapsGetDefaultResponse,
   VirtualNetworkTapsCreateOrUpdate200Response,
   VirtualNetworkTapsCreateOrUpdate201Response,
-  VirtualNetworkTapsCreateOrUpdatedefaultResponse,
+  VirtualNetworkTapsCreateOrUpdateDefaultResponse,
   VirtualNetworkTapsUpdateTags200Response,
-  VirtualNetworkTapsUpdateTagsdefaultResponse,
+  VirtualNetworkTapsUpdateTagsDefaultResponse,
   VirtualNetworkTapsListAll200Response,
-  VirtualNetworkTapsListAlldefaultResponse,
+  VirtualNetworkTapsListAllDefaultResponse,
   VirtualNetworkTapsListByResourceGroup200Response,
-  VirtualNetworkTapsListByResourceGroupdefaultResponse,
+  VirtualNetworkTapsListByResourceGroupDefaultResponse,
   VirtualRoutersDelete200Response,
   VirtualRoutersDelete202Response,
   VirtualRoutersDelete204Response,
-  VirtualRoutersDeletedefaultResponse,
+  VirtualRoutersDeleteDefaultResponse,
   VirtualRoutersGet200Response,
-  VirtualRoutersGetdefaultResponse,
+  VirtualRoutersGetDefaultResponse,
   VirtualRoutersCreateOrUpdate200Response,
   VirtualRoutersCreateOrUpdate201Response,
-  VirtualRoutersCreateOrUpdatedefaultResponse,
+  VirtualRoutersCreateOrUpdateDefaultResponse,
   VirtualRoutersListByResourceGroup200Response,
-  VirtualRoutersListByResourceGroupdefaultResponse,
+  VirtualRoutersListByResourceGroupDefaultResponse,
   VirtualRoutersList200Response,
-  VirtualRoutersListdefaultResponse,
+  VirtualRoutersListDefaultResponse,
   VirtualRouterPeeringsDelete200Response,
   VirtualRouterPeeringsDelete202Response,
   VirtualRouterPeeringsDelete204Response,
-  VirtualRouterPeeringsDeletedefaultResponse,
+  VirtualRouterPeeringsDeleteDefaultResponse,
   VirtualRouterPeeringsGet200Response,
-  VirtualRouterPeeringsGetdefaultResponse,
+  VirtualRouterPeeringsGetDefaultResponse,
   VirtualRouterPeeringsCreateOrUpdate200Response,
   VirtualRouterPeeringsCreateOrUpdate201Response,
-  VirtualRouterPeeringsCreateOrUpdatedefaultResponse,
+  VirtualRouterPeeringsCreateOrUpdateDefaultResponse,
   VirtualRouterPeeringsList200Response,
-  VirtualRouterPeeringsListdefaultResponse,
+  VirtualRouterPeeringsListDefaultResponse,
   VirtualWansGet200Response,
-  VirtualWansGetdefaultResponse,
+  VirtualWansGetDefaultResponse,
   VirtualWansCreateOrUpdate200Response,
   VirtualWansCreateOrUpdate201Response,
-  VirtualWansCreateOrUpdatedefaultResponse,
+  VirtualWansCreateOrUpdateDefaultResponse,
   VirtualWansUpdateTags200Response,
-  VirtualWansUpdateTagsdefaultResponse,
+  VirtualWansUpdateTagsDefaultResponse,
   VirtualWansDelete200Response,
   VirtualWansDelete202Response,
   VirtualWansDelete204Response,
-  VirtualWansDeletedefaultResponse,
+  VirtualWansDeleteDefaultResponse,
   VirtualWansListByResourceGroup200Response,
-  VirtualWansListByResourceGroupdefaultResponse,
+  VirtualWansListByResourceGroupDefaultResponse,
   VirtualWansList200Response,
-  VirtualWansListdefaultResponse,
+  VirtualWansListDefaultResponse,
   VpnSitesGet200Response,
-  VpnSitesGetdefaultResponse,
+  VpnSitesGetDefaultResponse,
   VpnSitesCreateOrUpdate200Response,
   VpnSitesCreateOrUpdate201Response,
-  VpnSitesCreateOrUpdatedefaultResponse,
+  VpnSitesCreateOrUpdateDefaultResponse,
   VpnSitesUpdateTags200Response,
-  VpnSitesUpdateTagsdefaultResponse,
+  VpnSitesUpdateTagsDefaultResponse,
   VpnSitesDelete200Response,
   VpnSitesDelete202Response,
   VpnSitesDelete204Response,
-  VpnSitesDeletedefaultResponse,
+  VpnSitesDeleteDefaultResponse,
   VpnSitesListByResourceGroup200Response,
-  VpnSitesListByResourceGroupdefaultResponse,
+  VpnSitesListByResourceGroupDefaultResponse,
   VpnSitesList200Response,
-  VpnSitesListdefaultResponse,
+  VpnSitesListDefaultResponse,
   VpnSiteLinksGet200Response,
-  VpnSiteLinksGetdefaultResponse,
+  VpnSiteLinksGetDefaultResponse,
   VpnSiteLinksListByVpnSite200Response,
-  VpnSiteLinksListByVpnSitedefaultResponse,
+  VpnSiteLinksListByVpnSiteDefaultResponse,
   VpnSitesConfigurationDownload200Response,
   VpnSitesConfigurationDownload202Response,
-  VpnSitesConfigurationDownloaddefaultResponse,
+  VpnSitesConfigurationDownloadDefaultResponse,
   VpnServerConfigurationsGet200Response,
-  VpnServerConfigurationsGetdefaultResponse,
+  VpnServerConfigurationsGetDefaultResponse,
   VpnServerConfigurationsCreateOrUpdate200Response,
   VpnServerConfigurationsCreateOrUpdate201Response,
-  VpnServerConfigurationsCreateOrUpdatedefaultResponse,
+  VpnServerConfigurationsCreateOrUpdateDefaultResponse,
   VpnServerConfigurationsUpdateTags200Response,
-  VpnServerConfigurationsUpdateTagsdefaultResponse,
+  VpnServerConfigurationsUpdateTagsDefaultResponse,
   VpnServerConfigurationsDelete200Response,
   VpnServerConfigurationsDelete202Response,
   VpnServerConfigurationsDelete204Response,
-  VpnServerConfigurationsDeletedefaultResponse,
+  VpnServerConfigurationsDeleteDefaultResponse,
   VpnServerConfigurationsListByResourceGroup200Response,
-  VpnServerConfigurationsListByResourceGroupdefaultResponse,
+  VpnServerConfigurationsListByResourceGroupDefaultResponse,
   VpnServerConfigurationsList200Response,
-  VpnServerConfigurationsListdefaultResponse,
+  VpnServerConfigurationsListDefaultResponse,
   ConfigurationPolicyGroupsCreateOrUpdate200Response,
   ConfigurationPolicyGroupsCreateOrUpdate201Response,
-  ConfigurationPolicyGroupsCreateOrUpdatedefaultResponse,
+  ConfigurationPolicyGroupsCreateOrUpdateDefaultResponse,
   ConfigurationPolicyGroupsDelete200Response,
   ConfigurationPolicyGroupsDelete202Response,
   ConfigurationPolicyGroupsDelete204Response,
-  ConfigurationPolicyGroupsDeletedefaultResponse,
+  ConfigurationPolicyGroupsDeleteDefaultResponse,
   ConfigurationPolicyGroupsGet200Response,
-  ConfigurationPolicyGroupsGetdefaultResponse,
+  ConfigurationPolicyGroupsGetDefaultResponse,
   ConfigurationPolicyGroupsListByVpnServerConfiguration200Response,
-  ConfigurationPolicyGroupsListByVpnServerConfigurationdefaultResponse,
+  ConfigurationPolicyGroupsListByVpnServerConfigurationDefaultResponse,
   VirtualHubsGet200Response,
-  VirtualHubsGetdefaultResponse,
+  VirtualHubsGetDefaultResponse,
   VirtualHubsCreateOrUpdate200Response,
   VirtualHubsCreateOrUpdate201Response,
-  VirtualHubsCreateOrUpdatedefaultResponse,
+  VirtualHubsCreateOrUpdateDefaultResponse,
   VirtualHubsUpdateTags200Response,
-  VirtualHubsUpdateTagsdefaultResponse,
+  VirtualHubsUpdateTagsDefaultResponse,
   VirtualHubsDelete200Response,
   VirtualHubsDelete202Response,
   VirtualHubsDelete204Response,
-  VirtualHubsDeletedefaultResponse,
+  VirtualHubsDeleteDefaultResponse,
   VirtualHubsListByResourceGroup200Response,
-  VirtualHubsListByResourceGroupdefaultResponse,
+  VirtualHubsListByResourceGroupDefaultResponse,
   VirtualHubsList200Response,
-  VirtualHubsListdefaultResponse,
+  VirtualHubsListDefaultResponse,
   VirtualHubsGetEffectiveVirtualHubRoutes200Response,
   VirtualHubsGetEffectiveVirtualHubRoutes202Response,
-  VirtualHubsGetEffectiveVirtualHubRoutesdefaultResponse,
+  VirtualHubsGetEffectiveVirtualHubRoutesDefaultResponse,
   VirtualHubsGetInboundRoutes200Response,
   VirtualHubsGetInboundRoutes202Response,
-  VirtualHubsGetInboundRoutesdefaultResponse,
+  VirtualHubsGetInboundRoutesDefaultResponse,
   VirtualHubsGetOutboundRoutes200Response,
   VirtualHubsGetOutboundRoutes202Response,
-  VirtualHubsGetOutboundRoutesdefaultResponse,
+  VirtualHubsGetOutboundRoutesDefaultResponse,
   RouteMapsGet200Response,
-  RouteMapsGetdefaultResponse,
+  RouteMapsGetDefaultResponse,
   RouteMapsCreateOrUpdate200Response,
   RouteMapsCreateOrUpdate201Response,
-  RouteMapsCreateOrUpdatedefaultResponse,
+  RouteMapsCreateOrUpdateDefaultResponse,
   RouteMapsDelete200Response,
   RouteMapsDelete202Response,
   RouteMapsDelete204Response,
-  RouteMapsDeletedefaultResponse,
+  RouteMapsDeleteDefaultResponse,
   RouteMapsList200Response,
-  RouteMapsListdefaultResponse,
+  RouteMapsListDefaultResponse,
   HubVirtualNetworkConnectionsCreateOrUpdate200Response,
   HubVirtualNetworkConnectionsCreateOrUpdate201Response,
-  HubVirtualNetworkConnectionsCreateOrUpdatedefaultResponse,
+  HubVirtualNetworkConnectionsCreateOrUpdateDefaultResponse,
   HubVirtualNetworkConnectionsDelete200Response,
   HubVirtualNetworkConnectionsDelete202Response,
   HubVirtualNetworkConnectionsDelete204Response,
-  HubVirtualNetworkConnectionsDeletedefaultResponse,
+  HubVirtualNetworkConnectionsDeleteDefaultResponse,
   HubVirtualNetworkConnectionsGet200Response,
-  HubVirtualNetworkConnectionsGetdefaultResponse,
+  HubVirtualNetworkConnectionsGetDefaultResponse,
   HubVirtualNetworkConnectionsList200Response,
-  HubVirtualNetworkConnectionsListdefaultResponse,
+  HubVirtualNetworkConnectionsListDefaultResponse,
   VpnGatewaysGet200Response,
-  VpnGatewaysGetdefaultResponse,
+  VpnGatewaysGetDefaultResponse,
   VpnGatewaysCreateOrUpdate200Response,
   VpnGatewaysCreateOrUpdate201Response,
-  VpnGatewaysCreateOrUpdatedefaultResponse,
+  VpnGatewaysCreateOrUpdateDefaultResponse,
   VpnGatewaysUpdateTags200Response,
   VpnGatewaysUpdateTags202Response,
-  VpnGatewaysUpdateTagsdefaultResponse,
+  VpnGatewaysUpdateTagsDefaultResponse,
   VpnGatewaysDelete200Response,
   VpnGatewaysDelete202Response,
   VpnGatewaysDelete204Response,
-  VpnGatewaysDeletedefaultResponse,
+  VpnGatewaysDeleteDefaultResponse,
   VpnGatewaysReset200Response,
   VpnGatewaysReset202Response,
-  VpnGatewaysResetdefaultResponse,
+  VpnGatewaysResetDefaultResponse,
   VpnGatewaysStartPacketCapture200Response,
   VpnGatewaysStartPacketCapture202Response,
-  VpnGatewaysStartPacketCapturedefaultResponse,
+  VpnGatewaysStartPacketCaptureDefaultResponse,
   VpnGatewaysStopPacketCapture200Response,
   VpnGatewaysStopPacketCapture202Response,
-  VpnGatewaysStopPacketCapturedefaultResponse,
+  VpnGatewaysStopPacketCaptureDefaultResponse,
   VpnGatewaysListByResourceGroup200Response,
-  VpnGatewaysListByResourceGroupdefaultResponse,
+  VpnGatewaysListByResourceGroupDefaultResponse,
   VpnGatewaysList200Response,
-  VpnGatewaysListdefaultResponse,
+  VpnGatewaysListDefaultResponse,
   VpnLinkConnectionsResetConnection202Response,
-  VpnLinkConnectionsResetConnectiondefaultResponse,
+  VpnLinkConnectionsResetConnectionDefaultResponse,
   VpnLinkConnectionsGetIkeSas200Response,
   VpnLinkConnectionsGetIkeSas202Response,
-  VpnLinkConnectionsGetIkeSasdefaultResponse,
+  VpnLinkConnectionsGetIkeSasDefaultResponse,
   VpnLinkConnectionsListByVpnConnection200Response,
-  VpnLinkConnectionsListByVpnConnectiondefaultResponse,
+  VpnLinkConnectionsListByVpnConnectionDefaultResponse,
   VpnConnectionsGet200Response,
-  VpnConnectionsGetdefaultResponse,
+  VpnConnectionsGetDefaultResponse,
   VpnConnectionsCreateOrUpdate200Response,
   VpnConnectionsCreateOrUpdate201Response,
-  VpnConnectionsCreateOrUpdatedefaultResponse,
+  VpnConnectionsCreateOrUpdateDefaultResponse,
   VpnConnectionsDelete200Response,
   VpnConnectionsDelete202Response,
   VpnConnectionsDelete204Response,
-  VpnConnectionsDeletedefaultResponse,
+  VpnConnectionsDeleteDefaultResponse,
   VpnConnectionsStartPacketCapture200Response,
   VpnConnectionsStartPacketCapture202Response,
-  VpnConnectionsStartPacketCapturedefaultResponse,
+  VpnConnectionsStartPacketCaptureDefaultResponse,
   VpnConnectionsStopPacketCapture200Response,
   VpnConnectionsStopPacketCapture202Response,
-  VpnConnectionsStopPacketCapturedefaultResponse,
+  VpnConnectionsStopPacketCaptureDefaultResponse,
   VpnConnectionsListByVpnGateway200Response,
-  VpnConnectionsListByVpnGatewaydefaultResponse,
+  VpnConnectionsListByVpnGatewayDefaultResponse,
   VpnSiteLinkConnectionsGet200Response,
-  VpnSiteLinkConnectionsGetdefaultResponse,
+  VpnSiteLinkConnectionsGetDefaultResponse,
   NatRulesGet200Response,
-  NatRulesGetdefaultResponse,
+  NatRulesGetDefaultResponse,
   NatRulesCreateOrUpdate200Response,
   NatRulesCreateOrUpdate201Response,
-  NatRulesCreateOrUpdatedefaultResponse,
+  NatRulesCreateOrUpdateDefaultResponse,
   NatRulesDelete200Response,
   NatRulesDelete202Response,
   NatRulesDelete204Response,
-  NatRulesDeletedefaultResponse,
+  NatRulesDeleteDefaultResponse,
   NatRulesListByVpnGateway200Response,
-  NatRulesListByVpnGatewaydefaultResponse,
+  NatRulesListByVpnGatewayDefaultResponse,
   P2SVpnGatewaysGet200Response,
-  P2SVpnGatewaysGetdefaultResponse,
+  P2SVpnGatewaysGetDefaultResponse,
   P2SVpnGatewaysCreateOrUpdate200Response,
   P2SVpnGatewaysCreateOrUpdate201Response,
-  P2SVpnGatewaysCreateOrUpdatedefaultResponse,
+  P2SVpnGatewaysCreateOrUpdateDefaultResponse,
   P2SVpnGatewaysUpdateTags200Response,
   P2SVpnGatewaysUpdateTags202Response,
-  P2SVpnGatewaysUpdateTagsdefaultResponse,
+  P2SVpnGatewaysUpdateTagsDefaultResponse,
   P2SVpnGatewaysDelete200Response,
   P2SVpnGatewaysDelete202Response,
   P2SVpnGatewaysDelete204Response,
-  P2SVpnGatewaysDeletedefaultResponse,
+  P2SVpnGatewaysDeleteDefaultResponse,
   P2SVpnGatewaysListByResourceGroup200Response,
-  P2SVpnGatewaysListByResourceGroupdefaultResponse,
+  P2SVpnGatewaysListByResourceGroupDefaultResponse,
   P2SVpnGatewaysList200Response,
-  P2SVpnGatewaysListdefaultResponse,
+  P2SVpnGatewaysListDefaultResponse,
   P2SVpnGatewaysReset200Response,
   P2SVpnGatewaysReset202Response,
-  P2SVpnGatewaysResetdefaultResponse,
+  P2SVpnGatewaysResetDefaultResponse,
   P2SVpnGatewaysGenerateVpnProfile200Response,
   P2SVpnGatewaysGenerateVpnProfile202Response,
-  P2SVpnGatewaysGenerateVpnProfiledefaultResponse,
+  P2SVpnGatewaysGenerateVpnProfileDefaultResponse,
   P2SVpnGatewaysGetP2SVpnConnectionHealth200Response,
   P2SVpnGatewaysGetP2SVpnConnectionHealth202Response,
-  P2SVpnGatewaysGetP2SVpnConnectionHealthdefaultResponse,
+  P2SVpnGatewaysGetP2SVpnConnectionHealthDefaultResponse,
   P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed200Response,
   P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed202Response,
-  P2SVpnGatewaysGetP2SVpnConnectionHealthDetaileddefaultResponse,
+  P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedDefaultResponse,
   P2SVpnGatewaysDisconnectP2SVpnConnections200Response,
   P2SVpnGatewaysDisconnectP2SVpnConnections202Response,
-  P2SVpnGatewaysDisconnectP2SVpnConnectionsdefaultResponse,
+  P2SVpnGatewaysDisconnectP2SVpnConnectionsDefaultResponse,
   VpnServerConfigurationsAssociatedWithVirtualWanList200Response,
   VpnServerConfigurationsAssociatedWithVirtualWanList202Response,
-  VpnServerConfigurationsAssociatedWithVirtualWanListdefaultResponse,
+  VpnServerConfigurationsAssociatedWithVirtualWanListDefaultResponse,
   VirtualHubRouteTableV2SGet200Response,
-  VirtualHubRouteTableV2SGetdefaultResponse,
+  VirtualHubRouteTableV2SGetDefaultResponse,
   VirtualHubRouteTableV2SCreateOrUpdate200Response,
   VirtualHubRouteTableV2SCreateOrUpdate201Response,
-  VirtualHubRouteTableV2SCreateOrUpdatedefaultResponse,
+  VirtualHubRouteTableV2SCreateOrUpdateDefaultResponse,
   VirtualHubRouteTableV2SDelete200Response,
   VirtualHubRouteTableV2SDelete202Response,
   VirtualHubRouteTableV2SDelete204Response,
-  VirtualHubRouteTableV2SDeletedefaultResponse,
+  VirtualHubRouteTableV2SDeleteDefaultResponse,
   VirtualHubRouteTableV2SList200Response,
-  VirtualHubRouteTableV2SListdefaultResponse,
+  VirtualHubRouteTableV2SListDefaultResponse,
   ExpressRouteGatewaysListBySubscription200Response,
-  ExpressRouteGatewaysListBySubscriptiondefaultResponse,
+  ExpressRouteGatewaysListBySubscriptionDefaultResponse,
   ExpressRouteGatewaysListByResourceGroup200Response,
-  ExpressRouteGatewaysListByResourceGroupdefaultResponse,
+  ExpressRouteGatewaysListByResourceGroupDefaultResponse,
   ExpressRouteGatewaysCreateOrUpdate200Response,
   ExpressRouteGatewaysCreateOrUpdate201Response,
-  ExpressRouteGatewaysCreateOrUpdatedefaultResponse,
+  ExpressRouteGatewaysCreateOrUpdateDefaultResponse,
   ExpressRouteGatewaysUpdateTags200Response,
   ExpressRouteGatewaysUpdateTags202Response,
-  ExpressRouteGatewaysUpdateTagsdefaultResponse,
+  ExpressRouteGatewaysUpdateTagsDefaultResponse,
   ExpressRouteGatewaysGet200Response,
-  ExpressRouteGatewaysGetdefaultResponse,
+  ExpressRouteGatewaysGetDefaultResponse,
   ExpressRouteGatewaysDelete200Response,
   ExpressRouteGatewaysDelete202Response,
   ExpressRouteGatewaysDelete204Response,
-  ExpressRouteGatewaysDeletedefaultResponse,
+  ExpressRouteGatewaysDeleteDefaultResponse,
   ExpressRouteConnectionsCreateOrUpdate200Response,
   ExpressRouteConnectionsCreateOrUpdate201Response,
-  ExpressRouteConnectionsCreateOrUpdatedefaultResponse,
+  ExpressRouteConnectionsCreateOrUpdateDefaultResponse,
   ExpressRouteConnectionsGet200Response,
-  ExpressRouteConnectionsGetdefaultResponse,
+  ExpressRouteConnectionsGetDefaultResponse,
   ExpressRouteConnectionsDelete200Response,
   ExpressRouteConnectionsDelete202Response,
   ExpressRouteConnectionsDelete204Response,
-  ExpressRouteConnectionsDeletedefaultResponse,
+  ExpressRouteConnectionsDeleteDefaultResponse,
   ExpressRouteConnectionsList200Response,
-  ExpressRouteConnectionsListdefaultResponse,
+  ExpressRouteConnectionsListDefaultResponse,
   VirtualHubBgpConnectionGet200Response,
-  VirtualHubBgpConnectionGetdefaultResponse,
+  VirtualHubBgpConnectionGetDefaultResponse,
   VirtualHubBgpConnectionCreateOrUpdate200Response,
   VirtualHubBgpConnectionCreateOrUpdate201Response,
-  VirtualHubBgpConnectionCreateOrUpdatedefaultResponse,
+  VirtualHubBgpConnectionCreateOrUpdateDefaultResponse,
   VirtualHubBgpConnectionDelete200Response,
   VirtualHubBgpConnectionDelete202Response,
   VirtualHubBgpConnectionDelete204Response,
-  VirtualHubBgpConnectionDeletedefaultResponse,
+  VirtualHubBgpConnectionDeleteDefaultResponse,
   VirtualHubBgpConnectionsList200Response,
-  VirtualHubBgpConnectionsListdefaultResponse,
+  VirtualHubBgpConnectionsListDefaultResponse,
   VirtualHubBgpConnectionsListLearnedRoutes200Response,
   VirtualHubBgpConnectionsListLearnedRoutes202Response,
-  VirtualHubBgpConnectionsListLearnedRoutesdefaultResponse,
+  VirtualHubBgpConnectionsListLearnedRoutesDefaultResponse,
   VirtualHubBgpConnectionsListAdvertisedRoutes200Response,
   VirtualHubBgpConnectionsListAdvertisedRoutes202Response,
-  VirtualHubBgpConnectionsListAdvertisedRoutesdefaultResponse,
+  VirtualHubBgpConnectionsListAdvertisedRoutesDefaultResponse,
   VirtualHubIpConfigurationGet200Response,
-  VirtualHubIpConfigurationGetdefaultResponse,
+  VirtualHubIpConfigurationGetDefaultResponse,
   VirtualHubIpConfigurationCreateOrUpdate200Response,
   VirtualHubIpConfigurationCreateOrUpdate201Response,
-  VirtualHubIpConfigurationCreateOrUpdatedefaultResponse,
+  VirtualHubIpConfigurationCreateOrUpdateDefaultResponse,
   VirtualHubIpConfigurationDelete200Response,
   VirtualHubIpConfigurationDelete202Response,
   VirtualHubIpConfigurationDelete204Response,
-  VirtualHubIpConfigurationDeletedefaultResponse,
+  VirtualHubIpConfigurationDeleteDefaultResponse,
   VirtualHubIpConfigurationList200Response,
-  VirtualHubIpConfigurationListdefaultResponse,
+  VirtualHubIpConfigurationListDefaultResponse,
   HubRouteTablesCreateOrUpdate200Response,
   HubRouteTablesCreateOrUpdate201Response,
-  HubRouteTablesCreateOrUpdatedefaultResponse,
+  HubRouteTablesCreateOrUpdateDefaultResponse,
   HubRouteTablesGet200Response,
-  HubRouteTablesGetdefaultResponse,
+  HubRouteTablesGetDefaultResponse,
   HubRouteTablesDelete200Response,
   HubRouteTablesDelete202Response,
   HubRouteTablesDelete204Response,
-  HubRouteTablesDeletedefaultResponse,
+  HubRouteTablesDeleteDefaultResponse,
   HubRouteTablesList200Response,
-  HubRouteTablesListdefaultResponse,
+  HubRouteTablesListDefaultResponse,
   RoutingIntentCreateOrUpdate200Response,
   RoutingIntentCreateOrUpdate201Response,
-  RoutingIntentCreateOrUpdatedefaultResponse,
+  RoutingIntentCreateOrUpdateDefaultResponse,
   RoutingIntentGet200Response,
-  RoutingIntentGetdefaultResponse,
+  RoutingIntentGetDefaultResponse,
   RoutingIntentDelete200Response,
   RoutingIntentDelete202Response,
   RoutingIntentDelete204Response,
-  RoutingIntentDeletedefaultResponse,
+  RoutingIntentDeleteDefaultResponse,
   RoutingIntentList200Response,
-  RoutingIntentListdefaultResponse,
+  RoutingIntentListDefaultResponse,
   WebApplicationFirewallPoliciesList200Response,
-  WebApplicationFirewallPoliciesListdefaultResponse,
+  WebApplicationFirewallPoliciesListDefaultResponse,
   WebApplicationFirewallPoliciesListAll200Response,
-  WebApplicationFirewallPoliciesListAlldefaultResponse,
+  WebApplicationFirewallPoliciesListAllDefaultResponse,
   WebApplicationFirewallPoliciesGet200Response,
-  WebApplicationFirewallPoliciesGetdefaultResponse,
+  WebApplicationFirewallPoliciesGetDefaultResponse,
   WebApplicationFirewallPoliciesCreateOrUpdate200Response,
   WebApplicationFirewallPoliciesCreateOrUpdate201Response,
-  WebApplicationFirewallPoliciesCreateOrUpdatedefaultResponse,
+  WebApplicationFirewallPoliciesCreateOrUpdateDefaultResponse,
   WebApplicationFirewallPoliciesDelete200Response,
   WebApplicationFirewallPoliciesDelete202Response,
   WebApplicationFirewallPoliciesDelete204Response,
-  WebApplicationFirewallPoliciesDeletedefaultResponse,
+  WebApplicationFirewallPoliciesDeleteDefaultResponse,
   VipSwapGet200Response,
-  VipSwapGetdefaultResponse,
+  VipSwapGetDefaultResponse,
   VipSwapCreate200Response,
   VipSwapCreate202Response,
-  VipSwapCreatedefaultResponse,
+  VipSwapCreateDefaultResponse,
   VipSwapList200Response,
-  VipSwapListdefaultResponse
+  VipSwapListDefaultResponse
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -2193,13 +2193,13 @@ export interface ApplicationGatewaysDelete {
     | ApplicationGatewaysDelete200Response
     | ApplicationGatewaysDelete202Response
     | ApplicationGatewaysDelete204Response
-    | ApplicationGatewaysDeletedefaultResponse
+    | ApplicationGatewaysDeleteDefaultResponse
   >;
   /** Gets the specified application gateway. */
   get(
     options: ApplicationGatewaysGetParameters
   ): StreamableMethod<
-    ApplicationGatewaysGet200Response | ApplicationGatewaysGetdefaultResponse
+    ApplicationGatewaysGet200Response | ApplicationGatewaysGetDefaultResponse
   >;
   /** Creates or updates the specified application gateway. */
   put(
@@ -2207,14 +2207,14 @@ export interface ApplicationGatewaysDelete {
   ): StreamableMethod<
     | ApplicationGatewaysCreateOrUpdate200Response
     | ApplicationGatewaysCreateOrUpdate201Response
-    | ApplicationGatewaysCreateOrUpdatedefaultResponse
+    | ApplicationGatewaysCreateOrUpdateDefaultResponse
   >;
   /** Updates the specified application gateway tags. */
   patch(
     options: ApplicationGatewaysUpdateTagsParameters
   ): StreamableMethod<
     | ApplicationGatewaysUpdateTags200Response
-    | ApplicationGatewaysUpdateTagsdefaultResponse
+    | ApplicationGatewaysUpdateTagsDefaultResponse
   >;
 }
 
@@ -2223,7 +2223,7 @@ export interface ApplicationGatewaysList {
   get(
     options: ApplicationGatewaysListParameters
   ): StreamableMethod<
-    ApplicationGatewaysList200Response | ApplicationGatewaysListdefaultResponse
+    ApplicationGatewaysList200Response | ApplicationGatewaysListDefaultResponse
   >;
 }
 
@@ -2233,7 +2233,7 @@ export interface ApplicationGatewaysListAll {
     options: ApplicationGatewaysListAllParameters
   ): StreamableMethod<
     | ApplicationGatewaysListAll200Response
-    | ApplicationGatewaysListAlldefaultResponse
+    | ApplicationGatewaysListAllDefaultResponse
   >;
 }
 
@@ -2244,7 +2244,7 @@ export interface ApplicationGatewaysStart {
   ): StreamableMethod<
     | ApplicationGatewaysStart200Response
     | ApplicationGatewaysStart202Response
-    | ApplicationGatewaysStartdefaultResponse
+    | ApplicationGatewaysStartDefaultResponse
   >;
 }
 
@@ -2255,7 +2255,7 @@ export interface ApplicationGatewaysStop {
   ): StreamableMethod<
     | ApplicationGatewaysStop200Response
     | ApplicationGatewaysStop202Response
-    | ApplicationGatewaysStopdefaultResponse
+    | ApplicationGatewaysStopDefaultResponse
   >;
 }
 
@@ -2266,7 +2266,7 @@ export interface ApplicationGatewaysBackendHealth {
   ): StreamableMethod<
     | ApplicationGatewaysBackendHealth200Response
     | ApplicationGatewaysBackendHealth202Response
-    | ApplicationGatewaysBackendHealthdefaultResponse
+    | ApplicationGatewaysBackendHealthDefaultResponse
   >;
 }
 
@@ -2277,7 +2277,7 @@ export interface ApplicationGatewaysBackendHealthOnDemand {
   ): StreamableMethod<
     | ApplicationGatewaysBackendHealthOnDemand200Response
     | ApplicationGatewaysBackendHealthOnDemand202Response
-    | ApplicationGatewaysBackendHealthOnDemanddefaultResponse
+    | ApplicationGatewaysBackendHealthOnDemandDefaultResponse
   >;
 }
 
@@ -2287,7 +2287,7 @@ export interface ApplicationGatewaysListAvailableServerVariables {
     options: ApplicationGatewaysListAvailableServerVariablesParameters
   ): StreamableMethod<
     | ApplicationGatewaysListAvailableServerVariables200Response
-    | ApplicationGatewaysListAvailableServerVariablesdefaultResponse
+    | ApplicationGatewaysListAvailableServerVariablesDefaultResponse
   >;
 }
 
@@ -2297,7 +2297,7 @@ export interface ApplicationGatewaysListAvailableRequestHeaders {
     options: ApplicationGatewaysListAvailableRequestHeadersParameters
   ): StreamableMethod<
     | ApplicationGatewaysListAvailableRequestHeaders200Response
-    | ApplicationGatewaysListAvailableRequestHeadersdefaultResponse
+    | ApplicationGatewaysListAvailableRequestHeadersDefaultResponse
   >;
 }
 
@@ -2307,7 +2307,7 @@ export interface ApplicationGatewaysListAvailableResponseHeaders {
     options: ApplicationGatewaysListAvailableResponseHeadersParameters
   ): StreamableMethod<
     | ApplicationGatewaysListAvailableResponseHeaders200Response
-    | ApplicationGatewaysListAvailableResponseHeadersdefaultResponse
+    | ApplicationGatewaysListAvailableResponseHeadersDefaultResponse
   >;
 }
 
@@ -2317,7 +2317,7 @@ export interface ApplicationGatewaysListAvailableWafRuleSets {
     options: ApplicationGatewaysListAvailableWafRuleSetsParameters
   ): StreamableMethod<
     | ApplicationGatewaysListAvailableWafRuleSets200Response
-    | ApplicationGatewaysListAvailableWafRuleSetsdefaultResponse
+    | ApplicationGatewaysListAvailableWafRuleSetsDefaultResponse
   >;
 }
 
@@ -2327,7 +2327,7 @@ export interface ApplicationGatewaysListAvailableSslOptions {
     options: ApplicationGatewaysListAvailableSslOptionsParameters
   ): StreamableMethod<
     | ApplicationGatewaysListAvailableSslOptions200Response
-    | ApplicationGatewaysListAvailableSslOptionsdefaultResponse
+    | ApplicationGatewaysListAvailableSslOptionsDefaultResponse
   >;
 }
 
@@ -2337,7 +2337,7 @@ export interface ApplicationGatewaysListAvailableSslPredefinedPolicies {
     options: ApplicationGatewaysListAvailableSslPredefinedPoliciesParameters
   ): StreamableMethod<
     | ApplicationGatewaysListAvailableSslPredefinedPolicies200Response
-    | ApplicationGatewaysListAvailableSslPredefinedPoliciesdefaultResponse
+    | ApplicationGatewaysListAvailableSslPredefinedPoliciesDefaultResponse
   >;
 }
 
@@ -2347,7 +2347,7 @@ export interface ApplicationGatewaysGetSslPredefinedPolicy {
     options: ApplicationGatewaysGetSslPredefinedPolicyParameters
   ): StreamableMethod<
     | ApplicationGatewaysGetSslPredefinedPolicy200Response
-    | ApplicationGatewaysGetSslPredefinedPolicydefaultResponse
+    | ApplicationGatewaysGetSslPredefinedPolicyDefaultResponse
   >;
 }
 
@@ -2357,7 +2357,7 @@ export interface ApplicationGatewayPrivateLinkResourcesList {
     options: ApplicationGatewayPrivateLinkResourcesListParameters
   ): StreamableMethod<
     | ApplicationGatewayPrivateLinkResourcesList200Response
-    | ApplicationGatewayPrivateLinkResourcesListdefaultResponse
+    | ApplicationGatewayPrivateLinkResourcesListDefaultResponse
   >;
 }
 
@@ -2369,7 +2369,7 @@ export interface ApplicationGatewayPrivateEndpointConnectionsDelete {
     | ApplicationGatewayPrivateEndpointConnectionsDelete200Response
     | ApplicationGatewayPrivateEndpointConnectionsDelete202Response
     | ApplicationGatewayPrivateEndpointConnectionsDelete204Response
-    | ApplicationGatewayPrivateEndpointConnectionsDeletedefaultResponse
+    | ApplicationGatewayPrivateEndpointConnectionsDeleteDefaultResponse
   >;
   /** Updates the specified private endpoint connection on application gateway. */
   put(
@@ -2377,14 +2377,14 @@ export interface ApplicationGatewayPrivateEndpointConnectionsDelete {
   ): StreamableMethod<
     | ApplicationGatewayPrivateEndpointConnectionsUpdate200Response
     | ApplicationGatewayPrivateEndpointConnectionsUpdate202Response
-    | ApplicationGatewayPrivateEndpointConnectionsUpdatedefaultResponse
+    | ApplicationGatewayPrivateEndpointConnectionsUpdateDefaultResponse
   >;
   /** Gets the specified private endpoint connection on application gateway. */
   get(
     options: ApplicationGatewayPrivateEndpointConnectionsGetParameters
   ): StreamableMethod<
     | ApplicationGatewayPrivateEndpointConnectionsGet200Response
-    | ApplicationGatewayPrivateEndpointConnectionsGetdefaultResponse
+    | ApplicationGatewayPrivateEndpointConnectionsGetDefaultResponse
   >;
 }
 
@@ -2394,7 +2394,7 @@ export interface ApplicationGatewayPrivateEndpointConnectionsList {
     options: ApplicationGatewayPrivateEndpointConnectionsListParameters
   ): StreamableMethod<
     | ApplicationGatewayPrivateEndpointConnectionsList200Response
-    | ApplicationGatewayPrivateEndpointConnectionsListdefaultResponse
+    | ApplicationGatewayPrivateEndpointConnectionsListDefaultResponse
   >;
 }
 
@@ -2404,7 +2404,7 @@ export interface ApplicationGatewayWafDynamicManifestsDefaultGet {
     options: ApplicationGatewayWafDynamicManifestsDefaultGetParameters
   ): StreamableMethod<
     | ApplicationGatewayWafDynamicManifestsDefaultGet200Response
-    | ApplicationGatewayWafDynamicManifestsDefaultGetdefaultResponse
+    | ApplicationGatewayWafDynamicManifestsDefaultGetDefaultResponse
   >;
 }
 
@@ -2414,7 +2414,7 @@ export interface ApplicationGatewayWafDynamicManifestsGet {
     options: ApplicationGatewayWafDynamicManifestsGetParameters
   ): StreamableMethod<
     | ApplicationGatewayWafDynamicManifestsGet200Response
-    | ApplicationGatewayWafDynamicManifestsGetdefaultResponse
+    | ApplicationGatewayWafDynamicManifestsGetDefaultResponse
   >;
 }
 
@@ -2426,14 +2426,14 @@ export interface ApplicationSecurityGroupsDelete {
     | ApplicationSecurityGroupsDelete200Response
     | ApplicationSecurityGroupsDelete202Response
     | ApplicationSecurityGroupsDelete204Response
-    | ApplicationSecurityGroupsDeletedefaultResponse
+    | ApplicationSecurityGroupsDeleteDefaultResponse
   >;
   /** Gets information about the specified application security group. */
   get(
     options: ApplicationSecurityGroupsGetParameters
   ): StreamableMethod<
     | ApplicationSecurityGroupsGet200Response
-    | ApplicationSecurityGroupsGetdefaultResponse
+    | ApplicationSecurityGroupsGetDefaultResponse
   >;
   /** Creates or updates an application security group. */
   put(
@@ -2441,14 +2441,14 @@ export interface ApplicationSecurityGroupsDelete {
   ): StreamableMethod<
     | ApplicationSecurityGroupsCreateOrUpdate200Response
     | ApplicationSecurityGroupsCreateOrUpdate201Response
-    | ApplicationSecurityGroupsCreateOrUpdatedefaultResponse
+    | ApplicationSecurityGroupsCreateOrUpdateDefaultResponse
   >;
   /** Updates an application security group's tags. */
   patch(
     options: ApplicationSecurityGroupsUpdateTagsParameters
   ): StreamableMethod<
     | ApplicationSecurityGroupsUpdateTags200Response
-    | ApplicationSecurityGroupsUpdateTagsdefaultResponse
+    | ApplicationSecurityGroupsUpdateTagsDefaultResponse
   >;
 }
 
@@ -2458,7 +2458,7 @@ export interface ApplicationSecurityGroupsListAll {
     options: ApplicationSecurityGroupsListAllParameters
   ): StreamableMethod<
     | ApplicationSecurityGroupsListAll200Response
-    | ApplicationSecurityGroupsListAlldefaultResponse
+    | ApplicationSecurityGroupsListAllDefaultResponse
   >;
 }
 
@@ -2468,7 +2468,7 @@ export interface ApplicationSecurityGroupsList {
     options: ApplicationSecurityGroupsListParameters
   ): StreamableMethod<
     | ApplicationSecurityGroupsList200Response
-    | ApplicationSecurityGroupsListdefaultResponse
+    | ApplicationSecurityGroupsListDefaultResponse
   >;
 }
 
@@ -2478,7 +2478,7 @@ export interface AvailableDelegationsList {
     options: AvailableDelegationsListParameters
   ): StreamableMethod<
     | AvailableDelegationsList200Response
-    | AvailableDelegationsListdefaultResponse
+    | AvailableDelegationsListDefaultResponse
   >;
 }
 
@@ -2488,7 +2488,7 @@ export interface AvailableResourceGroupDelegationsList {
     options: AvailableResourceGroupDelegationsListParameters
   ): StreamableMethod<
     | AvailableResourceGroupDelegationsList200Response
-    | AvailableResourceGroupDelegationsListdefaultResponse
+    | AvailableResourceGroupDelegationsListDefaultResponse
   >;
 }
 
@@ -2498,7 +2498,7 @@ export interface AvailableServiceAliasesList {
     options: AvailableServiceAliasesListParameters
   ): StreamableMethod<
     | AvailableServiceAliasesList200Response
-    | AvailableServiceAliasesListdefaultResponse
+    | AvailableServiceAliasesListDefaultResponse
   >;
 }
 
@@ -2508,7 +2508,7 @@ export interface AvailableServiceAliasesListByResourceGroup {
     options: AvailableServiceAliasesListByResourceGroupParameters
   ): StreamableMethod<
     | AvailableServiceAliasesListByResourceGroup200Response
-    | AvailableServiceAliasesListByResourceGroupdefaultResponse
+    | AvailableServiceAliasesListByResourceGroupDefaultResponse
   >;
 }
 
@@ -2520,13 +2520,13 @@ export interface AzureFirewallsDelete {
     | AzureFirewallsDelete200Response
     | AzureFirewallsDelete202Response
     | AzureFirewallsDelete204Response
-    | AzureFirewallsDeletedefaultResponse
+    | AzureFirewallsDeleteDefaultResponse
   >;
   /** Gets the specified Azure Firewall. */
   get(
     options: AzureFirewallsGetParameters
   ): StreamableMethod<
-    AzureFirewallsGet200Response | AzureFirewallsGetdefaultResponse
+    AzureFirewallsGet200Response | AzureFirewallsGetDefaultResponse
   >;
   /** Creates or updates the specified Azure Firewall. */
   put(
@@ -2534,7 +2534,7 @@ export interface AzureFirewallsDelete {
   ): StreamableMethod<
     | AzureFirewallsCreateOrUpdate200Response
     | AzureFirewallsCreateOrUpdate201Response
-    | AzureFirewallsCreateOrUpdatedefaultResponse
+    | AzureFirewallsCreateOrUpdateDefaultResponse
   >;
   /** Updates tags of an Azure Firewall resource. */
   patch(
@@ -2542,7 +2542,7 @@ export interface AzureFirewallsDelete {
   ): StreamableMethod<
     | AzureFirewallsUpdateTags200Response
     | AzureFirewallsUpdateTags202Response
-    | AzureFirewallsUpdateTagsdefaultResponse
+    | AzureFirewallsUpdateTagsDefaultResponse
   >;
 }
 
@@ -2551,7 +2551,7 @@ export interface AzureFirewallsList {
   get(
     options: AzureFirewallsListParameters
   ): StreamableMethod<
-    AzureFirewallsList200Response | AzureFirewallsListdefaultResponse
+    AzureFirewallsList200Response | AzureFirewallsListDefaultResponse
   >;
 }
 
@@ -2560,7 +2560,7 @@ export interface AzureFirewallsListAll {
   get(
     options: AzureFirewallsListAllParameters
   ): StreamableMethod<
-    AzureFirewallsListAll200Response | AzureFirewallsListAlldefaultResponse
+    AzureFirewallsListAll200Response | AzureFirewallsListAllDefaultResponse
   >;
 }
 
@@ -2571,7 +2571,7 @@ export interface AzureFirewallsListLearnedPrefixes {
   ): StreamableMethod<
     | AzureFirewallsListLearnedPrefixes200Response
     | AzureFirewallsListLearnedPrefixes202Response
-    | AzureFirewallsListLearnedPrefixesdefaultResponse
+    | AzureFirewallsListLearnedPrefixesDefaultResponse
   >;
 }
 
@@ -2581,7 +2581,7 @@ export interface AzureFirewallFqdnTagsListAll {
     options: AzureFirewallFqdnTagsListAllParameters
   ): StreamableMethod<
     | AzureFirewallFqdnTagsListAll200Response
-    | AzureFirewallFqdnTagsListAlldefaultResponse
+    | AzureFirewallFqdnTagsListAllDefaultResponse
   >;
 }
 
@@ -2590,7 +2590,7 @@ export interface WebCategoriesGet {
   get(
     options: WebCategoriesGetParameters
   ): StreamableMethod<
-    WebCategoriesGet200Response | WebCategoriesGetdefaultResponse
+    WebCategoriesGet200Response | WebCategoriesGetDefaultResponse
   >;
 }
 
@@ -2600,7 +2600,7 @@ export interface WebCategoriesListBySubscription {
     options: WebCategoriesListBySubscriptionParameters
   ): StreamableMethod<
     | WebCategoriesListBySubscription200Response
-    | WebCategoriesListBySubscriptiondefaultResponse
+    | WebCategoriesListBySubscriptionDefaultResponse
   >;
 }
 
@@ -2612,13 +2612,13 @@ export interface BastionHostsDelete {
     | BastionHostsDelete200Response
     | BastionHostsDelete202Response
     | BastionHostsDelete204Response
-    | BastionHostsDeletedefaultResponse
+    | BastionHostsDeleteDefaultResponse
   >;
   /** Gets the specified Bastion Host. */
   get(
     options: BastionHostsGetParameters
   ): StreamableMethod<
-    BastionHostsGet200Response | BastionHostsGetdefaultResponse
+    BastionHostsGet200Response | BastionHostsGetDefaultResponse
   >;
   /** Creates or updates the specified Bastion Host. */
   put(
@@ -2626,7 +2626,7 @@ export interface BastionHostsDelete {
   ): StreamableMethod<
     | BastionHostsCreateOrUpdate200Response
     | BastionHostsCreateOrUpdate201Response
-    | BastionHostsCreateOrUpdatedefaultResponse
+    | BastionHostsCreateOrUpdateDefaultResponse
   >;
   /** Updates Tags for BastionHost resource */
   patch(
@@ -2634,7 +2634,7 @@ export interface BastionHostsDelete {
   ): StreamableMethod<
     | BastionHostsUpdateTags200Response
     | BastionHostsUpdateTags202Response
-    | BastionHostsUpdateTagsdefaultResponse
+    | BastionHostsUpdateTagsDefaultResponse
   >;
 }
 
@@ -2643,7 +2643,7 @@ export interface BastionHostsList {
   get(
     options: BastionHostsListParameters
   ): StreamableMethod<
-    BastionHostsList200Response | BastionHostsListdefaultResponse
+    BastionHostsList200Response | BastionHostsListDefaultResponse
   >;
 }
 
@@ -2653,7 +2653,7 @@ export interface BastionHostsListByResourceGroup {
     options: BastionHostsListByResourceGroupParameters
   ): StreamableMethod<
     | BastionHostsListByResourceGroup200Response
-    | BastionHostsListByResourceGroupdefaultResponse
+    | BastionHostsListByResourceGroupDefaultResponse
   >;
 }
 
@@ -2664,7 +2664,7 @@ export interface PutBastionShareableLink {
   ): StreamableMethod<
     | PutBastionShareableLink200Response
     | PutBastionShareableLink202Response
-    | PutBastionShareableLinkdefaultResponse
+    | PutBastionShareableLinkDefaultResponse
   >;
 }
 
@@ -2675,7 +2675,7 @@ export interface DeleteBastionShareableLink {
   ): StreamableMethod<
     | DeleteBastionShareableLink200Response
     | DeleteBastionShareableLink202Response
-    | DeleteBastionShareableLinkdefaultResponse
+    | DeleteBastionShareableLinkDefaultResponse
   >;
 }
 
@@ -2684,7 +2684,7 @@ export interface GetBastionShareableLink {
   post(
     options: GetBastionShareableLinkParameters
   ): StreamableMethod<
-    GetBastionShareableLink200Response | GetBastionShareableLinkdefaultResponse
+    GetBastionShareableLink200Response | GetBastionShareableLinkDefaultResponse
   >;
 }
 
@@ -2695,7 +2695,7 @@ export interface GetActiveSessions {
   ): StreamableMethod<
     | GetActiveSessions200Response
     | GetActiveSessions202Response
-    | GetActiveSessionsdefaultResponse
+    | GetActiveSessionsDefaultResponse
   >;
 }
 
@@ -2705,7 +2705,7 @@ export interface DisconnectActiveSessions {
     options: DisconnectActiveSessionsParameters
   ): StreamableMethod<
     | DisconnectActiveSessions200Response
-    | DisconnectActiveSessionsdefaultResponse
+    | DisconnectActiveSessionsDefaultResponse
   >;
 }
 
@@ -2715,17 +2715,7 @@ export interface CheckDnsNameAvailability {
     options: CheckDnsNameAvailabilityParameters
   ): StreamableMethod<
     | CheckDnsNameAvailability200Response
-    | CheckDnsNameAvailabilitydefaultResponse
-  >;
-}
-
-export interface ExpressRouteProviderPort {
-  /** Retrieves detail of a provider port. */
-  get(
-    options: ExpressRouteProviderPortParameters
-  ): StreamableMethod<
-    | ExpressRouteProviderPort200Response
-    | ExpressRouteProviderPortdefaultResponse
+    | CheckDnsNameAvailabilityDefaultResponse
   >;
 }
 
@@ -2735,7 +2725,7 @@ export interface ListActiveConnectivityConfigurations {
     options: ListActiveConnectivityConfigurationsParameters
   ): StreamableMethod<
     | ListActiveConnectivityConfigurations200Response
-    | ListActiveConnectivityConfigurationsdefaultResponse
+    | ListActiveConnectivityConfigurationsDefaultResponse
   >;
 }
 
@@ -2745,7 +2735,7 @@ export interface ListActiveSecurityAdminRules {
     options: ListActiveSecurityAdminRulesParameters
   ): StreamableMethod<
     | ListActiveSecurityAdminRules200Response
-    | ListActiveSecurityAdminRulesdefaultResponse
+    | ListActiveSecurityAdminRulesDefaultResponse
   >;
 }
 
@@ -2755,7 +2745,7 @@ export interface ListNetworkManagerEffectiveConnectivityConfigurations {
     options: ListNetworkManagerEffectiveConnectivityConfigurationsParameters
   ): StreamableMethod<
     | ListNetworkManagerEffectiveConnectivityConfigurations200Response
-    | ListNetworkManagerEffectiveConnectivityConfigurationsdefaultResponse
+    | ListNetworkManagerEffectiveConnectivityConfigurationsDefaultResponse
   >;
 }
 
@@ -2765,7 +2755,7 @@ export interface ListNetworkManagerEffectiveSecurityAdminRules {
     options: ListNetworkManagerEffectiveSecurityAdminRulesParameters
   ): StreamableMethod<
     | ListNetworkManagerEffectiveSecurityAdminRules200Response
-    | ListNetworkManagerEffectiveSecurityAdminRulesdefaultResponse
+    | ListNetworkManagerEffectiveSecurityAdminRulesDefaultResponse
   >;
 }
 
@@ -2775,7 +2765,7 @@ export interface SupportedSecurityProviders {
     options: SupportedSecurityProvidersParameters
   ): StreamableMethod<
     | SupportedSecurityProviders200Response
-    | SupportedSecurityProvidersdefaultResponse
+    | SupportedSecurityProvidersDefaultResponse
   >;
 }
 
@@ -2786,7 +2776,7 @@ export interface Generatevirtualwanvpnserverconfigurationvpnprofile {
   ): StreamableMethod<
     | Generatevirtualwanvpnserverconfigurationvpnprofile200Response
     | Generatevirtualwanvpnserverconfigurationvpnprofile202Response
-    | GeneratevirtualwanvpnserverconfigurationvpnprofiledefaultResponse
+    | GeneratevirtualwanvpnserverconfigurationvpnprofileDefaultResponse
   >;
 }
 
@@ -2796,7 +2786,7 @@ export interface NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfaces 
     options: NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesParameters
   ): StreamableMethod<
     | NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfaces200Response
-    | NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesdefaultResponse
+    | NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesDefaultResponse
   >;
 }
 
@@ -2806,7 +2796,7 @@ export interface NetworkInterfacesListCloudServiceNetworkInterfaces {
     options: NetworkInterfacesListCloudServiceNetworkInterfacesParameters
   ): StreamableMethod<
     | NetworkInterfacesListCloudServiceNetworkInterfaces200Response
-    | NetworkInterfacesListCloudServiceNetworkInterfacesdefaultResponse
+    | NetworkInterfacesListCloudServiceNetworkInterfacesDefaultResponse
   >;
 }
 
@@ -2816,7 +2806,7 @@ export interface NetworkInterfacesGetCloudServiceNetworkInterface {
     options: NetworkInterfacesGetCloudServiceNetworkInterfaceParameters
   ): StreamableMethod<
     | NetworkInterfacesGetCloudServiceNetworkInterface200Response
-    | NetworkInterfacesGetCloudServiceNetworkInterfacedefaultResponse
+    | NetworkInterfacesGetCloudServiceNetworkInterfaceDefaultResponse
   >;
 }
 
@@ -2828,13 +2818,13 @@ export interface NetworkInterfacesDelete {
     | NetworkInterfacesDelete200Response
     | NetworkInterfacesDelete202Response
     | NetworkInterfacesDelete204Response
-    | NetworkInterfacesDeletedefaultResponse
+    | NetworkInterfacesDeleteDefaultResponse
   >;
   /** Gets information about the specified network interface. */
   get(
     options: NetworkInterfacesGetParameters
   ): StreamableMethod<
-    NetworkInterfacesGet200Response | NetworkInterfacesGetdefaultResponse
+    NetworkInterfacesGet200Response | NetworkInterfacesGetDefaultResponse
   >;
   /** Creates or updates a network interface. */
   put(
@@ -2842,14 +2832,14 @@ export interface NetworkInterfacesDelete {
   ): StreamableMethod<
     | NetworkInterfacesCreateOrUpdate200Response
     | NetworkInterfacesCreateOrUpdate201Response
-    | NetworkInterfacesCreateOrUpdatedefaultResponse
+    | NetworkInterfacesCreateOrUpdateDefaultResponse
   >;
   /** Updates a network interface tags. */
   patch(
     options: NetworkInterfacesUpdateTagsParameters
   ): StreamableMethod<
     | NetworkInterfacesUpdateTags200Response
-    | NetworkInterfacesUpdateTagsdefaultResponse
+    | NetworkInterfacesUpdateTagsDefaultResponse
   >;
 }
 
@@ -2859,7 +2849,7 @@ export interface NetworkInterfacesListAll {
     options: NetworkInterfacesListAllParameters
   ): StreamableMethod<
     | NetworkInterfacesListAll200Response
-    | NetworkInterfacesListAlldefaultResponse
+    | NetworkInterfacesListAllDefaultResponse
   >;
 }
 
@@ -2868,7 +2858,7 @@ export interface NetworkInterfacesList {
   get(
     options: NetworkInterfacesListParameters
   ): StreamableMethod<
-    NetworkInterfacesList200Response | NetworkInterfacesListdefaultResponse
+    NetworkInterfacesList200Response | NetworkInterfacesListDefaultResponse
   >;
 }
 
@@ -2879,7 +2869,7 @@ export interface NetworkInterfacesGetEffectiveRouteTable {
   ): StreamableMethod<
     | NetworkInterfacesGetEffectiveRouteTable200Response
     | NetworkInterfacesGetEffectiveRouteTable202Response
-    | NetworkInterfacesGetEffectiveRouteTabledefaultResponse
+    | NetworkInterfacesGetEffectiveRouteTableDefaultResponse
   >;
 }
 
@@ -2890,7 +2880,7 @@ export interface NetworkInterfacesListEffectiveNetworkSecurityGroups {
   ): StreamableMethod<
     | NetworkInterfacesListEffectiveNetworkSecurityGroups200Response
     | NetworkInterfacesListEffectiveNetworkSecurityGroups202Response
-    | NetworkInterfacesListEffectiveNetworkSecurityGroupsdefaultResponse
+    | NetworkInterfacesListEffectiveNetworkSecurityGroupsDefaultResponse
   >;
 }
 
@@ -2900,7 +2890,7 @@ export interface NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfaces 
     options: NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesParameters
   ): StreamableMethod<
     | NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfaces200Response
-    | NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesdefaultResponse
+    | NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesDefaultResponse
   >;
 }
 
@@ -2910,7 +2900,7 @@ export interface NetworkInterfacesListVirtualMachineScaleSetNetworkInterfaces {
     options: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesParameters
   ): StreamableMethod<
     | NetworkInterfacesListVirtualMachineScaleSetNetworkInterfaces200Response
-    | NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesdefaultResponse
+    | NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesDefaultResponse
   >;
 }
 
@@ -2920,7 +2910,7 @@ export interface NetworkInterfacesGetVirtualMachineScaleSetNetworkInterface {
     options: NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceParameters
   ): StreamableMethod<
     | NetworkInterfacesGetVirtualMachineScaleSetNetworkInterface200Response
-    | NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfacedefaultResponse
+    | NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceDefaultResponse
   >;
 }
 
@@ -2930,7 +2920,7 @@ export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurations {
     options: NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsParameters
   ): StreamableMethod<
     | NetworkInterfacesListVirtualMachineScaleSetIpConfigurations200Response
-    | NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsdefaultResponse
+    | NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsDefaultResponse
   >;
 }
 
@@ -2940,7 +2930,7 @@ export interface NetworkInterfacesGetVirtualMachineScaleSetIpConfiguration {
     options: NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationParameters
   ): StreamableMethod<
     | NetworkInterfacesGetVirtualMachineScaleSetIpConfiguration200Response
-    | NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationdefaultResponse
+    | NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationDefaultResponse
   >;
 }
 
@@ -2950,7 +2940,7 @@ export interface PublicIPAddressesListCloudServicePublicIPAddresses {
     options: PublicIPAddressesListCloudServicePublicIPAddressesParameters
   ): StreamableMethod<
     | PublicIPAddressesListCloudServicePublicIPAddresses200Response
-    | PublicIPAddressesListCloudServicePublicIPAddressesdefaultResponse
+    | PublicIPAddressesListCloudServicePublicIPAddressesDefaultResponse
   >;
 }
 
@@ -2960,7 +2950,7 @@ export interface PublicIPAddressesListCloudServiceRoleInstancePublicIPAddresses 
     options: PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesParameters
   ): StreamableMethod<
     | PublicIPAddressesListCloudServiceRoleInstancePublicIPAddresses200Response
-    | PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesdefaultResponse
+    | PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesDefaultResponse
   >;
 }
 
@@ -2970,7 +2960,7 @@ export interface PublicIPAddressesGetCloudServicePublicIPAddress {
     options: PublicIPAddressesGetCloudServicePublicIPAddressParameters
   ): StreamableMethod<
     | PublicIPAddressesGetCloudServicePublicIPAddress200Response
-    | PublicIPAddressesGetCloudServicePublicIPAddressdefaultResponse
+    | PublicIPAddressesGetCloudServicePublicIPAddressDefaultResponse
   >;
 }
 
@@ -2982,13 +2972,13 @@ export interface PublicIPAddressesDelete {
     | PublicIPAddressesDelete200Response
     | PublicIPAddressesDelete202Response
     | PublicIPAddressesDelete204Response
-    | PublicIPAddressesDeletedefaultResponse
+    | PublicIPAddressesDeleteDefaultResponse
   >;
   /** Gets the specified public IP address in a specified resource group. */
   get(
     options: PublicIPAddressesGetParameters
   ): StreamableMethod<
-    PublicIPAddressesGet200Response | PublicIPAddressesGetdefaultResponse
+    PublicIPAddressesGet200Response | PublicIPAddressesGetDefaultResponse
   >;
   /** Creates or updates a static or dynamic public IP address. */
   put(
@@ -2996,14 +2986,14 @@ export interface PublicIPAddressesDelete {
   ): StreamableMethod<
     | PublicIPAddressesCreateOrUpdate200Response
     | PublicIPAddressesCreateOrUpdate201Response
-    | PublicIPAddressesCreateOrUpdatedefaultResponse
+    | PublicIPAddressesCreateOrUpdateDefaultResponse
   >;
   /** Updates public IP address tags. */
   patch(
     options: PublicIPAddressesUpdateTagsParameters
   ): StreamableMethod<
     | PublicIPAddressesUpdateTags200Response
-    | PublicIPAddressesUpdateTagsdefaultResponse
+    | PublicIPAddressesUpdateTagsDefaultResponse
   >;
 }
 
@@ -3013,7 +3003,7 @@ export interface PublicIPAddressesListAll {
     options: PublicIPAddressesListAllParameters
   ): StreamableMethod<
     | PublicIPAddressesListAll200Response
-    | PublicIPAddressesListAlldefaultResponse
+    | PublicIPAddressesListAllDefaultResponse
   >;
 }
 
@@ -3022,7 +3012,7 @@ export interface PublicIPAddressesList {
   get(
     options: PublicIPAddressesListParameters
   ): StreamableMethod<
-    PublicIPAddressesList200Response | PublicIPAddressesListdefaultResponse
+    PublicIPAddressesList200Response | PublicIPAddressesListDefaultResponse
   >;
 }
 
@@ -3033,7 +3023,7 @@ export interface PublicIPAddressesDdosProtectionStatus {
   ): StreamableMethod<
     | PublicIPAddressesDdosProtectionStatus200Response
     | PublicIPAddressesDdosProtectionStatus202Response
-    | PublicIPAddressesDdosProtectionStatusdefaultResponse
+    | PublicIPAddressesDdosProtectionStatusDefaultResponse
   >;
 }
 
@@ -3043,7 +3033,7 @@ export interface PublicIPAddressesListVirtualMachineScaleSetPublicIPAddresses {
     options: PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesParameters
   ): StreamableMethod<
     | PublicIPAddressesListVirtualMachineScaleSetPublicIPAddresses200Response
-    | PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesdefaultResponse
+    | PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesDefaultResponse
   >;
 }
 
@@ -3053,7 +3043,7 @@ export interface PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddresses 
     options: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesParameters
   ): StreamableMethod<
     | PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddresses200Response
-    | PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesdefaultResponse
+    | PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesDefaultResponse
   >;
 }
 
@@ -3063,7 +3053,7 @@ export interface PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddress {
     options: PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressParameters
   ): StreamableMethod<
     | PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddress200Response
-    | PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressdefaultResponse
+    | PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressDefaultResponse
   >;
 }
 
@@ -3075,13 +3065,13 @@ export interface CustomIPPrefixesDelete {
     | CustomIPPrefixesDelete200Response
     | CustomIPPrefixesDelete202Response
     | CustomIPPrefixesDelete204Response
-    | CustomIPPrefixesDeletedefaultResponse
+    | CustomIPPrefixesDeleteDefaultResponse
   >;
   /** Gets the specified custom IP prefix in a specified resource group. */
   get(
     options: CustomIPPrefixesGetParameters
   ): StreamableMethod<
-    CustomIPPrefixesGet200Response | CustomIPPrefixesGetdefaultResponse
+    CustomIPPrefixesGet200Response | CustomIPPrefixesGetDefaultResponse
   >;
   /** Creates or updates a custom IP prefix. */
   put(
@@ -3089,14 +3079,14 @@ export interface CustomIPPrefixesDelete {
   ): StreamableMethod<
     | CustomIPPrefixesCreateOrUpdate200Response
     | CustomIPPrefixesCreateOrUpdate201Response
-    | CustomIPPrefixesCreateOrUpdatedefaultResponse
+    | CustomIPPrefixesCreateOrUpdateDefaultResponse
   >;
   /** Updates custom IP prefix tags. */
   patch(
     options: CustomIPPrefixesUpdateTagsParameters
   ): StreamableMethod<
     | CustomIPPrefixesUpdateTags200Response
-    | CustomIPPrefixesUpdateTagsdefaultResponse
+    | CustomIPPrefixesUpdateTagsDefaultResponse
   >;
 }
 
@@ -3105,7 +3095,7 @@ export interface CustomIPPrefixesListAll {
   get(
     options: CustomIPPrefixesListAllParameters
   ): StreamableMethod<
-    CustomIPPrefixesListAll200Response | CustomIPPrefixesListAlldefaultResponse
+    CustomIPPrefixesListAll200Response | CustomIPPrefixesListAllDefaultResponse
   >;
 }
 
@@ -3114,7 +3104,7 @@ export interface CustomIPPrefixesList {
   get(
     options: CustomIPPrefixesListParameters
   ): StreamableMethod<
-    CustomIPPrefixesList200Response | CustomIPPrefixesListdefaultResponse
+    CustomIPPrefixesList200Response | CustomIPPrefixesListDefaultResponse
   >;
 }
 
@@ -3126,13 +3116,13 @@ export interface DdosCustomPoliciesDelete {
     | DdosCustomPoliciesDelete200Response
     | DdosCustomPoliciesDelete202Response
     | DdosCustomPoliciesDelete204Response
-    | DdosCustomPoliciesDeletedefaultResponse
+    | DdosCustomPoliciesDeleteDefaultResponse
   >;
   /** Gets information about the specified DDoS custom policy. */
   get(
     options: DdosCustomPoliciesGetParameters
   ): StreamableMethod<
-    DdosCustomPoliciesGet200Response | DdosCustomPoliciesGetdefaultResponse
+    DdosCustomPoliciesGet200Response | DdosCustomPoliciesGetDefaultResponse
   >;
   /** Creates or updates a DDoS custom policy. */
   put(
@@ -3140,14 +3130,14 @@ export interface DdosCustomPoliciesDelete {
   ): StreamableMethod<
     | DdosCustomPoliciesCreateOrUpdate200Response
     | DdosCustomPoliciesCreateOrUpdate201Response
-    | DdosCustomPoliciesCreateOrUpdatedefaultResponse
+    | DdosCustomPoliciesCreateOrUpdateDefaultResponse
   >;
   /** Update a DDoS custom policy tags. */
   patch(
     options: DdosCustomPoliciesUpdateTagsParameters
   ): StreamableMethod<
     | DdosCustomPoliciesUpdateTags200Response
-    | DdosCustomPoliciesUpdateTagsdefaultResponse
+    | DdosCustomPoliciesUpdateTagsDefaultResponse
   >;
 }
 
@@ -3159,13 +3149,13 @@ export interface DdosProtectionPlansDelete {
     | DdosProtectionPlansDelete200Response
     | DdosProtectionPlansDelete202Response
     | DdosProtectionPlansDelete204Response
-    | DdosProtectionPlansDeletedefaultResponse
+    | DdosProtectionPlansDeleteDefaultResponse
   >;
   /** Gets information about the specified DDoS protection plan. */
   get(
     options: DdosProtectionPlansGetParameters
   ): StreamableMethod<
-    DdosProtectionPlansGet200Response | DdosProtectionPlansGetdefaultResponse
+    DdosProtectionPlansGet200Response | DdosProtectionPlansGetDefaultResponse
   >;
   /** Creates or updates a DDoS protection plan. */
   put(
@@ -3173,14 +3163,14 @@ export interface DdosProtectionPlansDelete {
   ): StreamableMethod<
     | DdosProtectionPlansCreateOrUpdate200Response
     | DdosProtectionPlansCreateOrUpdate201Response
-    | DdosProtectionPlansCreateOrUpdatedefaultResponse
+    | DdosProtectionPlansCreateOrUpdateDefaultResponse
   >;
   /** Update a DDoS protection plan tags. */
   patch(
     options: DdosProtectionPlansUpdateTagsParameters
   ): StreamableMethod<
     | DdosProtectionPlansUpdateTags200Response
-    | DdosProtectionPlansUpdateTagsdefaultResponse
+    | DdosProtectionPlansUpdateTagsDefaultResponse
   >;
 }
 
@@ -3189,7 +3179,7 @@ export interface DdosProtectionPlansList {
   get(
     options: DdosProtectionPlansListParameters
   ): StreamableMethod<
-    DdosProtectionPlansList200Response | DdosProtectionPlansListdefaultResponse
+    DdosProtectionPlansList200Response | DdosProtectionPlansListDefaultResponse
   >;
 }
 
@@ -3199,7 +3189,7 @@ export interface DdosProtectionPlansListByResourceGroup {
     options: DdosProtectionPlansListByResourceGroupParameters
   ): StreamableMethod<
     | DdosProtectionPlansListByResourceGroup200Response
-    | DdosProtectionPlansListByResourceGroupdefaultResponse
+    | DdosProtectionPlansListByResourceGroupDefaultResponse
   >;
 }
 
@@ -3210,7 +3200,7 @@ export interface DscpConfigurationCreateOrUpdate {
   ): StreamableMethod<
     | DscpConfigurationCreateOrUpdate200Response
     | DscpConfigurationCreateOrUpdate201Response
-    | DscpConfigurationCreateOrUpdatedefaultResponse
+    | DscpConfigurationCreateOrUpdateDefaultResponse
   >;
   /** Deletes a DSCP Configuration. */
   delete(
@@ -3219,13 +3209,13 @@ export interface DscpConfigurationCreateOrUpdate {
     | DscpConfigurationDelete200Response
     | DscpConfigurationDelete202Response
     | DscpConfigurationDelete204Response
-    | DscpConfigurationDeletedefaultResponse
+    | DscpConfigurationDeleteDefaultResponse
   >;
   /** Gets a DSCP Configuration. */
   get(
     options: DscpConfigurationGetParameters
   ): StreamableMethod<
-    DscpConfigurationGet200Response | DscpConfigurationGetdefaultResponse
+    DscpConfigurationGet200Response | DscpConfigurationGetDefaultResponse
   >;
 }
 
@@ -3234,7 +3224,7 @@ export interface DscpConfigurationList {
   get(
     options: DscpConfigurationListParameters
   ): StreamableMethod<
-    DscpConfigurationList200Response | DscpConfigurationListdefaultResponse
+    DscpConfigurationList200Response | DscpConfigurationListDefaultResponse
   >;
 }
 
@@ -3244,7 +3234,7 @@ export interface DscpConfigurationListAll {
     options: DscpConfigurationListAllParameters
   ): StreamableMethod<
     | DscpConfigurationListAll200Response
-    | DscpConfigurationListAlldefaultResponse
+    | DscpConfigurationListAllDefaultResponse
   >;
 }
 
@@ -3254,7 +3244,7 @@ export interface AvailableEndpointServicesList {
     options: AvailableEndpointServicesListParameters
   ): StreamableMethod<
     | AvailableEndpointServicesList200Response
-    | AvailableEndpointServicesListdefaultResponse
+    | AvailableEndpointServicesListDefaultResponse
   >;
 }
 
@@ -3266,14 +3256,14 @@ export interface ExpressRouteCircuitAuthorizationsDelete {
     | ExpressRouteCircuitAuthorizationsDelete200Response
     | ExpressRouteCircuitAuthorizationsDelete202Response
     | ExpressRouteCircuitAuthorizationsDelete204Response
-    | ExpressRouteCircuitAuthorizationsDeletedefaultResponse
+    | ExpressRouteCircuitAuthorizationsDeleteDefaultResponse
   >;
   /** Gets the specified authorization from the specified express route circuit. */
   get(
     options: ExpressRouteCircuitAuthorizationsGetParameters
   ): StreamableMethod<
     | ExpressRouteCircuitAuthorizationsGet200Response
-    | ExpressRouteCircuitAuthorizationsGetdefaultResponse
+    | ExpressRouteCircuitAuthorizationsGetDefaultResponse
   >;
   /** Creates or updates an authorization in the specified express route circuit. */
   put(
@@ -3281,7 +3271,7 @@ export interface ExpressRouteCircuitAuthorizationsDelete {
   ): StreamableMethod<
     | ExpressRouteCircuitAuthorizationsCreateOrUpdate200Response
     | ExpressRouteCircuitAuthorizationsCreateOrUpdate201Response
-    | ExpressRouteCircuitAuthorizationsCreateOrUpdatedefaultResponse
+    | ExpressRouteCircuitAuthorizationsCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -3291,7 +3281,7 @@ export interface ExpressRouteCircuitAuthorizationsList {
     options: ExpressRouteCircuitAuthorizationsListParameters
   ): StreamableMethod<
     | ExpressRouteCircuitAuthorizationsList200Response
-    | ExpressRouteCircuitAuthorizationsListdefaultResponse
+    | ExpressRouteCircuitAuthorizationsListDefaultResponse
   >;
 }
 
@@ -3303,14 +3293,14 @@ export interface ExpressRouteCircuitPeeringsDelete {
     | ExpressRouteCircuitPeeringsDelete200Response
     | ExpressRouteCircuitPeeringsDelete202Response
     | ExpressRouteCircuitPeeringsDelete204Response
-    | ExpressRouteCircuitPeeringsDeletedefaultResponse
+    | ExpressRouteCircuitPeeringsDeleteDefaultResponse
   >;
   /** Gets the specified peering for the express route circuit. */
   get(
     options: ExpressRouteCircuitPeeringsGetParameters
   ): StreamableMethod<
     | ExpressRouteCircuitPeeringsGet200Response
-    | ExpressRouteCircuitPeeringsGetdefaultResponse
+    | ExpressRouteCircuitPeeringsGetDefaultResponse
   >;
   /** Creates or updates a peering in the specified express route circuits. */
   put(
@@ -3318,7 +3308,7 @@ export interface ExpressRouteCircuitPeeringsDelete {
   ): StreamableMethod<
     | ExpressRouteCircuitPeeringsCreateOrUpdate200Response
     | ExpressRouteCircuitPeeringsCreateOrUpdate201Response
-    | ExpressRouteCircuitPeeringsCreateOrUpdatedefaultResponse
+    | ExpressRouteCircuitPeeringsCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -3328,7 +3318,7 @@ export interface ExpressRouteCircuitPeeringsList {
     options: ExpressRouteCircuitPeeringsListParameters
   ): StreamableMethod<
     | ExpressRouteCircuitPeeringsList200Response
-    | ExpressRouteCircuitPeeringsListdefaultResponse
+    | ExpressRouteCircuitPeeringsListDefaultResponse
   >;
 }
 
@@ -3340,14 +3330,14 @@ export interface ExpressRouteCircuitConnectionsDelete {
     | ExpressRouteCircuitConnectionsDelete200Response
     | ExpressRouteCircuitConnectionsDelete202Response
     | ExpressRouteCircuitConnectionsDelete204Response
-    | ExpressRouteCircuitConnectionsDeletedefaultResponse
+    | ExpressRouteCircuitConnectionsDeleteDefaultResponse
   >;
   /** Gets the specified Express Route Circuit Connection from the specified express route circuit. */
   get(
     options: ExpressRouteCircuitConnectionsGetParameters
   ): StreamableMethod<
     | ExpressRouteCircuitConnectionsGet200Response
-    | ExpressRouteCircuitConnectionsGetdefaultResponse
+    | ExpressRouteCircuitConnectionsGetDefaultResponse
   >;
   /** Creates or updates a Express Route Circuit Connection in the specified express route circuits. */
   put(
@@ -3355,7 +3345,7 @@ export interface ExpressRouteCircuitConnectionsDelete {
   ): StreamableMethod<
     | ExpressRouteCircuitConnectionsCreateOrUpdate200Response
     | ExpressRouteCircuitConnectionsCreateOrUpdate201Response
-    | ExpressRouteCircuitConnectionsCreateOrUpdatedefaultResponse
+    | ExpressRouteCircuitConnectionsCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -3365,7 +3355,7 @@ export interface ExpressRouteCircuitConnectionsList {
     options: ExpressRouteCircuitConnectionsListParameters
   ): StreamableMethod<
     | ExpressRouteCircuitConnectionsList200Response
-    | ExpressRouteCircuitConnectionsListdefaultResponse
+    | ExpressRouteCircuitConnectionsListDefaultResponse
   >;
 }
 
@@ -3375,7 +3365,7 @@ export interface PeerExpressRouteCircuitConnectionsGet {
     options: PeerExpressRouteCircuitConnectionsGetParameters
   ): StreamableMethod<
     | PeerExpressRouteCircuitConnectionsGet200Response
-    | PeerExpressRouteCircuitConnectionsGetdefaultResponse
+    | PeerExpressRouteCircuitConnectionsGetDefaultResponse
   >;
 }
 
@@ -3385,7 +3375,7 @@ export interface PeerExpressRouteCircuitConnectionsList {
     options: PeerExpressRouteCircuitConnectionsListParameters
   ): StreamableMethod<
     | PeerExpressRouteCircuitConnectionsList200Response
-    | PeerExpressRouteCircuitConnectionsListdefaultResponse
+    | PeerExpressRouteCircuitConnectionsListDefaultResponse
   >;
 }
 
@@ -3397,13 +3387,13 @@ export interface ExpressRouteCircuitsDelete {
     | ExpressRouteCircuitsDelete200Response
     | ExpressRouteCircuitsDelete202Response
     | ExpressRouteCircuitsDelete204Response
-    | ExpressRouteCircuitsDeletedefaultResponse
+    | ExpressRouteCircuitsDeleteDefaultResponse
   >;
   /** Gets information about the specified express route circuit. */
   get(
     options: ExpressRouteCircuitsGetParameters
   ): StreamableMethod<
-    ExpressRouteCircuitsGet200Response | ExpressRouteCircuitsGetdefaultResponse
+    ExpressRouteCircuitsGet200Response | ExpressRouteCircuitsGetDefaultResponse
   >;
   /** Creates or updates an express route circuit. */
   put(
@@ -3411,14 +3401,14 @@ export interface ExpressRouteCircuitsDelete {
   ): StreamableMethod<
     | ExpressRouteCircuitsCreateOrUpdate200Response
     | ExpressRouteCircuitsCreateOrUpdate201Response
-    | ExpressRouteCircuitsCreateOrUpdatedefaultResponse
+    | ExpressRouteCircuitsCreateOrUpdateDefaultResponse
   >;
   /** Updates an express route circuit tags. */
   patch(
     options: ExpressRouteCircuitsUpdateTagsParameters
   ): StreamableMethod<
     | ExpressRouteCircuitsUpdateTags200Response
-    | ExpressRouteCircuitsUpdateTagsdefaultResponse
+    | ExpressRouteCircuitsUpdateTagsDefaultResponse
   >;
 }
 
@@ -3429,7 +3419,7 @@ export interface ExpressRouteCircuitsListArpTable {
   ): StreamableMethod<
     | ExpressRouteCircuitsListArpTable200Response
     | ExpressRouteCircuitsListArpTable202Response
-    | ExpressRouteCircuitsListArpTabledefaultResponse
+    | ExpressRouteCircuitsListArpTableDefaultResponse
   >;
 }
 
@@ -3440,7 +3430,7 @@ export interface ExpressRouteCircuitsListRoutesTable {
   ): StreamableMethod<
     | ExpressRouteCircuitsListRoutesTable200Response
     | ExpressRouteCircuitsListRoutesTable202Response
-    | ExpressRouteCircuitsListRoutesTabledefaultResponse
+    | ExpressRouteCircuitsListRoutesTableDefaultResponse
   >;
 }
 
@@ -3451,7 +3441,7 @@ export interface ExpressRouteCircuitsListRoutesTableSummary {
   ): StreamableMethod<
     | ExpressRouteCircuitsListRoutesTableSummary200Response
     | ExpressRouteCircuitsListRoutesTableSummary202Response
-    | ExpressRouteCircuitsListRoutesTableSummarydefaultResponse
+    | ExpressRouteCircuitsListRoutesTableSummaryDefaultResponse
   >;
 }
 
@@ -3461,7 +3451,7 @@ export interface ExpressRouteCircuitsGetStats {
     options: ExpressRouteCircuitsGetStatsParameters
   ): StreamableMethod<
     | ExpressRouteCircuitsGetStats200Response
-    | ExpressRouteCircuitsGetStatsdefaultResponse
+    | ExpressRouteCircuitsGetStatsDefaultResponse
   >;
 }
 
@@ -3471,7 +3461,7 @@ export interface ExpressRouteCircuitsGetPeeringStats {
     options: ExpressRouteCircuitsGetPeeringStatsParameters
   ): StreamableMethod<
     | ExpressRouteCircuitsGetPeeringStats200Response
-    | ExpressRouteCircuitsGetPeeringStatsdefaultResponse
+    | ExpressRouteCircuitsGetPeeringStatsDefaultResponse
   >;
 }
 
@@ -3481,7 +3471,7 @@ export interface ExpressRouteCircuitsList {
     options: ExpressRouteCircuitsListParameters
   ): StreamableMethod<
     | ExpressRouteCircuitsList200Response
-    | ExpressRouteCircuitsListdefaultResponse
+    | ExpressRouteCircuitsListDefaultResponse
   >;
 }
 
@@ -3491,7 +3481,7 @@ export interface ExpressRouteCircuitsListAll {
     options: ExpressRouteCircuitsListAllParameters
   ): StreamableMethod<
     | ExpressRouteCircuitsListAll200Response
-    | ExpressRouteCircuitsListAlldefaultResponse
+    | ExpressRouteCircuitsListAllDefaultResponse
   >;
 }
 
@@ -3501,7 +3491,7 @@ export interface ExpressRouteServiceProvidersList {
     options: ExpressRouteServiceProvidersListParameters
   ): StreamableMethod<
     | ExpressRouteServiceProvidersList200Response
-    | ExpressRouteServiceProvidersListdefaultResponse
+    | ExpressRouteServiceProvidersListDefaultResponse
   >;
 }
 
@@ -3511,7 +3501,7 @@ export interface ExpressRouteCrossConnectionsList {
     options: ExpressRouteCrossConnectionsListParameters
   ): StreamableMethod<
     | ExpressRouteCrossConnectionsList200Response
-    | ExpressRouteCrossConnectionsListdefaultResponse
+    | ExpressRouteCrossConnectionsListDefaultResponse
   >;
 }
 
@@ -3521,7 +3511,7 @@ export interface ExpressRouteCrossConnectionsListByResourceGroup {
     options: ExpressRouteCrossConnectionsListByResourceGroupParameters
   ): StreamableMethod<
     | ExpressRouteCrossConnectionsListByResourceGroup200Response
-    | ExpressRouteCrossConnectionsListByResourceGroupdefaultResponse
+    | ExpressRouteCrossConnectionsListByResourceGroupDefaultResponse
   >;
 }
 
@@ -3531,21 +3521,21 @@ export interface ExpressRouteCrossConnectionsGet {
     options: ExpressRouteCrossConnectionsGetParameters
   ): StreamableMethod<
     | ExpressRouteCrossConnectionsGet200Response
-    | ExpressRouteCrossConnectionsGetdefaultResponse
+    | ExpressRouteCrossConnectionsGetDefaultResponse
   >;
   /** Update the specified ExpressRouteCrossConnection. */
   put(
     options: ExpressRouteCrossConnectionsCreateOrUpdateParameters
   ): StreamableMethod<
     | ExpressRouteCrossConnectionsCreateOrUpdate200Response
-    | ExpressRouteCrossConnectionsCreateOrUpdatedefaultResponse
+    | ExpressRouteCrossConnectionsCreateOrUpdateDefaultResponse
   >;
   /** Updates an express route cross connection tags. */
   patch(
     options: ExpressRouteCrossConnectionsUpdateTagsParameters
   ): StreamableMethod<
     | ExpressRouteCrossConnectionsUpdateTags200Response
-    | ExpressRouteCrossConnectionsUpdateTagsdefaultResponse
+    | ExpressRouteCrossConnectionsUpdateTagsDefaultResponse
   >;
 }
 
@@ -3556,7 +3546,7 @@ export interface ExpressRouteCrossConnectionsListArpTable {
   ): StreamableMethod<
     | ExpressRouteCrossConnectionsListArpTable200Response
     | ExpressRouteCrossConnectionsListArpTable202Response
-    | ExpressRouteCrossConnectionsListArpTabledefaultResponse
+    | ExpressRouteCrossConnectionsListArpTableDefaultResponse
   >;
 }
 
@@ -3567,7 +3557,7 @@ export interface ExpressRouteCrossConnectionsListRoutesTableSummary {
   ): StreamableMethod<
     | ExpressRouteCrossConnectionsListRoutesTableSummary200Response
     | ExpressRouteCrossConnectionsListRoutesTableSummary202Response
-    | ExpressRouteCrossConnectionsListRoutesTableSummarydefaultResponse
+    | ExpressRouteCrossConnectionsListRoutesTableSummaryDefaultResponse
   >;
 }
 
@@ -3578,7 +3568,7 @@ export interface ExpressRouteCrossConnectionsListRoutesTable {
   ): StreamableMethod<
     | ExpressRouteCrossConnectionsListRoutesTable200Response
     | ExpressRouteCrossConnectionsListRoutesTable202Response
-    | ExpressRouteCrossConnectionsListRoutesTabledefaultResponse
+    | ExpressRouteCrossConnectionsListRoutesTableDefaultResponse
   >;
 }
 
@@ -3588,7 +3578,7 @@ export interface ExpressRouteCrossConnectionPeeringsList {
     options: ExpressRouteCrossConnectionPeeringsListParameters
   ): StreamableMethod<
     | ExpressRouteCrossConnectionPeeringsList200Response
-    | ExpressRouteCrossConnectionPeeringsListdefaultResponse
+    | ExpressRouteCrossConnectionPeeringsListDefaultResponse
   >;
 }
 
@@ -3600,14 +3590,14 @@ export interface ExpressRouteCrossConnectionPeeringsDelete {
     | ExpressRouteCrossConnectionPeeringsDelete200Response
     | ExpressRouteCrossConnectionPeeringsDelete202Response
     | ExpressRouteCrossConnectionPeeringsDelete204Response
-    | ExpressRouteCrossConnectionPeeringsDeletedefaultResponse
+    | ExpressRouteCrossConnectionPeeringsDeleteDefaultResponse
   >;
   /** Gets the specified peering for the ExpressRouteCrossConnection. */
   get(
     options: ExpressRouteCrossConnectionPeeringsGetParameters
   ): StreamableMethod<
     | ExpressRouteCrossConnectionPeeringsGet200Response
-    | ExpressRouteCrossConnectionPeeringsGetdefaultResponse
+    | ExpressRouteCrossConnectionPeeringsGetDefaultResponse
   >;
   /** Creates or updates a peering in the specified ExpressRouteCrossConnection. */
   put(
@@ -3615,7 +3605,7 @@ export interface ExpressRouteCrossConnectionPeeringsDelete {
   ): StreamableMethod<
     | ExpressRouteCrossConnectionPeeringsCreateOrUpdate200Response
     | ExpressRouteCrossConnectionPeeringsCreateOrUpdate201Response
-    | ExpressRouteCrossConnectionPeeringsCreateOrUpdatedefaultResponse
+    | ExpressRouteCrossConnectionPeeringsCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -3625,7 +3615,7 @@ export interface ExpressRoutePortsLocationsList {
     options: ExpressRoutePortsLocationsListParameters
   ): StreamableMethod<
     | ExpressRoutePortsLocationsList200Response
-    | ExpressRoutePortsLocationsListdefaultResponse
+    | ExpressRoutePortsLocationsListDefaultResponse
   >;
 }
 
@@ -3635,7 +3625,7 @@ export interface ExpressRoutePortsLocationsGet {
     options: ExpressRoutePortsLocationsGetParameters
   ): StreamableMethod<
     | ExpressRoutePortsLocationsGet200Response
-    | ExpressRoutePortsLocationsGetdefaultResponse
+    | ExpressRoutePortsLocationsGetDefaultResponse
   >;
 }
 
@@ -3647,13 +3637,13 @@ export interface ExpressRoutePortsDelete {
     | ExpressRoutePortsDelete200Response
     | ExpressRoutePortsDelete202Response
     | ExpressRoutePortsDelete204Response
-    | ExpressRoutePortsDeletedefaultResponse
+    | ExpressRoutePortsDeleteDefaultResponse
   >;
   /** Retrieves the requested ExpressRoutePort resource. */
   get(
     options: ExpressRoutePortsGetParameters
   ): StreamableMethod<
-    ExpressRoutePortsGet200Response | ExpressRoutePortsGetdefaultResponse
+    ExpressRoutePortsGet200Response | ExpressRoutePortsGetDefaultResponse
   >;
   /** Creates or updates the specified ExpressRoutePort resource. */
   put(
@@ -3661,14 +3651,14 @@ export interface ExpressRoutePortsDelete {
   ): StreamableMethod<
     | ExpressRoutePortsCreateOrUpdate200Response
     | ExpressRoutePortsCreateOrUpdate201Response
-    | ExpressRoutePortsCreateOrUpdatedefaultResponse
+    | ExpressRoutePortsCreateOrUpdateDefaultResponse
   >;
   /** Update ExpressRoutePort tags. */
   patch(
     options: ExpressRoutePortsUpdateTagsParameters
   ): StreamableMethod<
     | ExpressRoutePortsUpdateTags200Response
-    | ExpressRoutePortsUpdateTagsdefaultResponse
+    | ExpressRoutePortsUpdateTagsDefaultResponse
   >;
 }
 
@@ -3678,7 +3668,7 @@ export interface ExpressRoutePortsListByResourceGroup {
     options: ExpressRoutePortsListByResourceGroupParameters
   ): StreamableMethod<
     | ExpressRoutePortsListByResourceGroup200Response
-    | ExpressRoutePortsListByResourceGroupdefaultResponse
+    | ExpressRoutePortsListByResourceGroupDefaultResponse
   >;
 }
 
@@ -3687,7 +3677,7 @@ export interface ExpressRoutePortsList {
   get(
     options: ExpressRoutePortsListParameters
   ): StreamableMethod<
-    ExpressRoutePortsList200Response | ExpressRoutePortsListdefaultResponse
+    ExpressRoutePortsList200Response | ExpressRoutePortsListDefaultResponse
   >;
 }
 
@@ -3697,7 +3687,7 @@ export interface ExpressRoutePortsGenerateLOA {
     options: ExpressRoutePortsGenerateLOAParameters
   ): StreamableMethod<
     | ExpressRoutePortsGenerateLOA200Response
-    | ExpressRoutePortsGenerateLOAdefaultResponse
+    | ExpressRoutePortsGenerateLOADefaultResponse
   >;
 }
 
@@ -3706,7 +3696,7 @@ export interface ExpressRouteLinksGet {
   get(
     options: ExpressRouteLinksGetParameters
   ): StreamableMethod<
-    ExpressRouteLinksGet200Response | ExpressRouteLinksGetdefaultResponse
+    ExpressRouteLinksGet200Response | ExpressRouteLinksGetDefaultResponse
   >;
 }
 
@@ -3715,7 +3705,7 @@ export interface ExpressRouteLinksList {
   get(
     options: ExpressRouteLinksListParameters
   ): StreamableMethod<
-    ExpressRouteLinksList200Response | ExpressRouteLinksListdefaultResponse
+    ExpressRouteLinksList200Response | ExpressRouteLinksListDefaultResponse
   >;
 }
 
@@ -3727,14 +3717,14 @@ export interface ExpressRoutePortAuthorizationsDelete {
     | ExpressRoutePortAuthorizationsDelete200Response
     | ExpressRoutePortAuthorizationsDelete202Response
     | ExpressRoutePortAuthorizationsDelete204Response
-    | ExpressRoutePortAuthorizationsDeletedefaultResponse
+    | ExpressRoutePortAuthorizationsDeleteDefaultResponse
   >;
   /** Gets the specified authorization from the specified express route port. */
   get(
     options: ExpressRoutePortAuthorizationsGetParameters
   ): StreamableMethod<
     | ExpressRoutePortAuthorizationsGet200Response
-    | ExpressRoutePortAuthorizationsGetdefaultResponse
+    | ExpressRoutePortAuthorizationsGetDefaultResponse
   >;
   /** Creates or updates an authorization in the specified express route port. */
   put(
@@ -3742,7 +3732,7 @@ export interface ExpressRoutePortAuthorizationsDelete {
   ): StreamableMethod<
     | ExpressRoutePortAuthorizationsCreateOrUpdate200Response
     | ExpressRoutePortAuthorizationsCreateOrUpdate201Response
-    | ExpressRoutePortAuthorizationsCreateOrUpdatedefaultResponse
+    | ExpressRoutePortAuthorizationsCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -3752,7 +3742,7 @@ export interface ExpressRoutePortAuthorizationsList {
     options: ExpressRoutePortAuthorizationsListParameters
   ): StreamableMethod<
     | ExpressRoutePortAuthorizationsList200Response
-    | ExpressRoutePortAuthorizationsListdefaultResponse
+    | ExpressRoutePortAuthorizationsListDefaultResponse
   >;
 }
 
@@ -3762,7 +3752,17 @@ export interface ExpressRouteProviderPortsLocationList {
     options: ExpressRouteProviderPortsLocationListParameters
   ): StreamableMethod<
     | ExpressRouteProviderPortsLocationList200Response
-    | ExpressRouteProviderPortsLocationListdefaultResponse
+    | ExpressRouteProviderPortsLocationListDefaultResponse
+  >;
+}
+
+export interface ExpressRouteProviderPortsGet {
+  /** Retrieves detail of a provider port. */
+  get(
+    options: ExpressRouteProviderPortsGetParameters
+  ): StreamableMethod<
+    | ExpressRouteProviderPortsGet200Response
+    | ExpressRouteProviderPortsGetDefaultResponse
   >;
 }
 
@@ -3774,13 +3774,13 @@ export interface FirewallPoliciesDelete {
     | FirewallPoliciesDelete200Response
     | FirewallPoliciesDelete202Response
     | FirewallPoliciesDelete204Response
-    | FirewallPoliciesDeletedefaultResponse
+    | FirewallPoliciesDeleteDefaultResponse
   >;
   /** Gets the specified Firewall Policy. */
   get(
     options: FirewallPoliciesGetParameters
   ): StreamableMethod<
-    FirewallPoliciesGet200Response | FirewallPoliciesGetdefaultResponse
+    FirewallPoliciesGet200Response | FirewallPoliciesGetDefaultResponse
   >;
   /** Creates or updates the specified Firewall Policy. */
   put(
@@ -3788,14 +3788,14 @@ export interface FirewallPoliciesDelete {
   ): StreamableMethod<
     | FirewallPoliciesCreateOrUpdate200Response
     | FirewallPoliciesCreateOrUpdate201Response
-    | FirewallPoliciesCreateOrUpdatedefaultResponse
+    | FirewallPoliciesCreateOrUpdateDefaultResponse
   >;
   /** Updates tags of a Azure Firewall Policy resource. */
   patch(
     options: FirewallPoliciesUpdateTagsParameters
   ): StreamableMethod<
     | FirewallPoliciesUpdateTags200Response
-    | FirewallPoliciesUpdateTagsdefaultResponse
+    | FirewallPoliciesUpdateTagsDefaultResponse
   >;
 }
 
@@ -3804,7 +3804,7 @@ export interface FirewallPoliciesList {
   get(
     options: FirewallPoliciesListParameters
   ): StreamableMethod<
-    FirewallPoliciesList200Response | FirewallPoliciesListdefaultResponse
+    FirewallPoliciesList200Response | FirewallPoliciesListDefaultResponse
   >;
 }
 
@@ -3813,7 +3813,7 @@ export interface FirewallPoliciesListAll {
   get(
     options: FirewallPoliciesListAllParameters
   ): StreamableMethod<
-    FirewallPoliciesListAll200Response | FirewallPoliciesListAlldefaultResponse
+    FirewallPoliciesListAll200Response | FirewallPoliciesListAllDefaultResponse
   >;
 }
 
@@ -3825,14 +3825,14 @@ export interface FirewallPolicyRuleCollectionGroupsDelete {
     | FirewallPolicyRuleCollectionGroupsDelete200Response
     | FirewallPolicyRuleCollectionGroupsDelete202Response
     | FirewallPolicyRuleCollectionGroupsDelete204Response
-    | FirewallPolicyRuleCollectionGroupsDeletedefaultResponse
+    | FirewallPolicyRuleCollectionGroupsDeleteDefaultResponse
   >;
   /** Gets the specified FirewallPolicyRuleCollectionGroup. */
   get(
     options: FirewallPolicyRuleCollectionGroupsGetParameters
   ): StreamableMethod<
     | FirewallPolicyRuleCollectionGroupsGet200Response
-    | FirewallPolicyRuleCollectionGroupsGetdefaultResponse
+    | FirewallPolicyRuleCollectionGroupsGetDefaultResponse
   >;
   /** Creates or updates the specified FirewallPolicyRuleCollectionGroup. */
   put(
@@ -3840,7 +3840,7 @@ export interface FirewallPolicyRuleCollectionGroupsDelete {
   ): StreamableMethod<
     | FirewallPolicyRuleCollectionGroupsCreateOrUpdate200Response
     | FirewallPolicyRuleCollectionGroupsCreateOrUpdate201Response
-    | FirewallPolicyRuleCollectionGroupsCreateOrUpdatedefaultResponse
+    | FirewallPolicyRuleCollectionGroupsCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -3850,7 +3850,7 @@ export interface FirewallPolicyRuleCollectionGroupsList {
     options: FirewallPolicyRuleCollectionGroupsListParameters
   ): StreamableMethod<
     | FirewallPolicyRuleCollectionGroupsList200Response
-    | FirewallPolicyRuleCollectionGroupsListdefaultResponse
+    | FirewallPolicyRuleCollectionGroupsListDefaultResponse
   >;
 }
 
@@ -3860,7 +3860,7 @@ export interface FirewallPolicyIdpsSignaturesList {
     options: FirewallPolicyIdpsSignaturesListParameters
   ): StreamableMethod<
     | FirewallPolicyIdpsSignaturesList200Response
-    | FirewallPolicyIdpsSignaturesListdefaultResponse
+    | FirewallPolicyIdpsSignaturesListDefaultResponse
   >;
 }
 
@@ -3870,21 +3870,21 @@ export interface FirewallPolicyIdpsSignaturesOverridesPatch {
     options: FirewallPolicyIdpsSignaturesOverridesPatchParameters
   ): StreamableMethod<
     | FirewallPolicyIdpsSignaturesOverridesPatch200Response
-    | FirewallPolicyIdpsSignaturesOverridesPatchdefaultResponse
+    | FirewallPolicyIdpsSignaturesOverridesPatchDefaultResponse
   >;
   /** Will override/create a new signature overrides for the policy's IDPS */
   put(
     options: FirewallPolicyIdpsSignaturesOverridesPutParameters
   ): StreamableMethod<
     | FirewallPolicyIdpsSignaturesOverridesPut200Response
-    | FirewallPolicyIdpsSignaturesOverridesPutdefaultResponse
+    | FirewallPolicyIdpsSignaturesOverridesPutDefaultResponse
   >;
   /** Returns all signatures overrides for a specific policy. */
   get(
     options: FirewallPolicyIdpsSignaturesOverridesGetParameters
   ): StreamableMethod<
     | FirewallPolicyIdpsSignaturesOverridesGet200Response
-    | FirewallPolicyIdpsSignaturesOverridesGetdefaultResponse
+    | FirewallPolicyIdpsSignaturesOverridesGetDefaultResponse
   >;
 }
 
@@ -3894,7 +3894,7 @@ export interface FirewallPolicyIdpsSignaturesOverridesList {
     options: FirewallPolicyIdpsSignaturesOverridesListParameters
   ): StreamableMethod<
     | FirewallPolicyIdpsSignaturesOverridesList200Response
-    | FirewallPolicyIdpsSignaturesOverridesListdefaultResponse
+    | FirewallPolicyIdpsSignaturesOverridesListDefaultResponse
   >;
 }
 
@@ -3904,7 +3904,7 @@ export interface FirewallPolicyIdpsSignaturesFilterValuesList {
     options: FirewallPolicyIdpsSignaturesFilterValuesListParameters
   ): StreamableMethod<
     | FirewallPolicyIdpsSignaturesFilterValuesList200Response
-    | FirewallPolicyIdpsSignaturesFilterValuesListdefaultResponse
+    | FirewallPolicyIdpsSignaturesFilterValuesListDefaultResponse
   >;
 }
 
@@ -3916,13 +3916,13 @@ export interface IpAllocationsDelete {
     | IpAllocationsDelete200Response
     | IpAllocationsDelete202Response
     | IpAllocationsDelete204Response
-    | IpAllocationsDeletedefaultResponse
+    | IpAllocationsDeleteDefaultResponse
   >;
   /** Gets the specified IpAllocation by resource group. */
   get(
     options: IpAllocationsGetParameters
   ): StreamableMethod<
-    IpAllocationsGet200Response | IpAllocationsGetdefaultResponse
+    IpAllocationsGet200Response | IpAllocationsGetDefaultResponse
   >;
   /** Creates or updates an IpAllocation in the specified resource group. */
   put(
@@ -3930,13 +3930,13 @@ export interface IpAllocationsDelete {
   ): StreamableMethod<
     | IpAllocationsCreateOrUpdate200Response
     | IpAllocationsCreateOrUpdate201Response
-    | IpAllocationsCreateOrUpdatedefaultResponse
+    | IpAllocationsCreateOrUpdateDefaultResponse
   >;
   /** Updates a IpAllocation tags. */
   patch(
     options: IpAllocationsUpdateTagsParameters
   ): StreamableMethod<
-    IpAllocationsUpdateTags200Response | IpAllocationsUpdateTagsdefaultResponse
+    IpAllocationsUpdateTags200Response | IpAllocationsUpdateTagsDefaultResponse
   >;
 }
 
@@ -3945,7 +3945,7 @@ export interface IpAllocationsList {
   get(
     options: IpAllocationsListParameters
   ): StreamableMethod<
-    IpAllocationsList200Response | IpAllocationsListdefaultResponse
+    IpAllocationsList200Response | IpAllocationsListDefaultResponse
   >;
 }
 
@@ -3955,7 +3955,7 @@ export interface IpAllocationsListByResourceGroup {
     options: IpAllocationsListByResourceGroupParameters
   ): StreamableMethod<
     | IpAllocationsListByResourceGroup200Response
-    | IpAllocationsListByResourceGroupdefaultResponse
+    | IpAllocationsListByResourceGroupDefaultResponse
   >;
 }
 
@@ -3963,20 +3963,20 @@ export interface IpGroupsGet {
   /** Gets the specified ipGroups. */
   get(
     options: IpGroupsGetParameters
-  ): StreamableMethod<IpGroupsGet200Response | IpGroupsGetdefaultResponse>;
+  ): StreamableMethod<IpGroupsGet200Response | IpGroupsGetDefaultResponse>;
   /** Creates or updates an ipGroups in a specified resource group. */
   put(
     options: IpGroupsCreateOrUpdateParameters
   ): StreamableMethod<
     | IpGroupsCreateOrUpdate200Response
     | IpGroupsCreateOrUpdate201Response
-    | IpGroupsCreateOrUpdatedefaultResponse
+    | IpGroupsCreateOrUpdateDefaultResponse
   >;
   /** Updates tags of an IpGroups resource. */
   patch(
     options: IpGroupsUpdateGroupsParameters
   ): StreamableMethod<
-    IpGroupsUpdateGroups200Response | IpGroupsUpdateGroupsdefaultResponse
+    IpGroupsUpdateGroups200Response | IpGroupsUpdateGroupsDefaultResponse
   >;
   /** Deletes the specified ipGroups. */
   delete(
@@ -3985,7 +3985,7 @@ export interface IpGroupsGet {
     | IpGroupsDelete200Response
     | IpGroupsDelete202Response
     | IpGroupsDelete204Response
-    | IpGroupsDeletedefaultResponse
+    | IpGroupsDeleteDefaultResponse
   >;
 }
 
@@ -3995,7 +3995,7 @@ export interface IpGroupsListByResourceGroup {
     options: IpGroupsListByResourceGroupParameters
   ): StreamableMethod<
     | IpGroupsListByResourceGroup200Response
-    | IpGroupsListByResourceGroupdefaultResponse
+    | IpGroupsListByResourceGroupDefaultResponse
   >;
 }
 
@@ -4003,7 +4003,7 @@ export interface IpGroupsList {
   /** Gets all IpGroups in a subscription. */
   get(
     options: IpGroupsListParameters
-  ): StreamableMethod<IpGroupsList200Response | IpGroupsListdefaultResponse>;
+  ): StreamableMethod<IpGroupsList200Response | IpGroupsListDefaultResponse>;
 }
 
 export interface LoadBalancersDelete {
@@ -4014,13 +4014,13 @@ export interface LoadBalancersDelete {
     | LoadBalancersDelete200Response
     | LoadBalancersDelete202Response
     | LoadBalancersDelete204Response
-    | LoadBalancersDeletedefaultResponse
+    | LoadBalancersDeleteDefaultResponse
   >;
   /** Gets the specified load balancer. */
   get(
     options: LoadBalancersGetParameters
   ): StreamableMethod<
-    LoadBalancersGet200Response | LoadBalancersGetdefaultResponse
+    LoadBalancersGet200Response | LoadBalancersGetDefaultResponse
   >;
   /** Creates or updates a load balancer. */
   put(
@@ -4028,13 +4028,13 @@ export interface LoadBalancersDelete {
   ): StreamableMethod<
     | LoadBalancersCreateOrUpdate200Response
     | LoadBalancersCreateOrUpdate201Response
-    | LoadBalancersCreateOrUpdatedefaultResponse
+    | LoadBalancersCreateOrUpdateDefaultResponse
   >;
   /** Updates a load balancer tags. */
   patch(
     options: LoadBalancersUpdateTagsParameters
   ): StreamableMethod<
-    LoadBalancersUpdateTags200Response | LoadBalancersUpdateTagsdefaultResponse
+    LoadBalancersUpdateTags200Response | LoadBalancersUpdateTagsDefaultResponse
   >;
 }
 
@@ -4043,7 +4043,7 @@ export interface LoadBalancersListAll {
   get(
     options: LoadBalancersListAllParameters
   ): StreamableMethod<
-    LoadBalancersListAll200Response | LoadBalancersListAlldefaultResponse
+    LoadBalancersListAll200Response | LoadBalancersListAllDefaultResponse
   >;
 }
 
@@ -4052,7 +4052,7 @@ export interface LoadBalancersList {
   get(
     options: LoadBalancersListParameters
   ): StreamableMethod<
-    LoadBalancersList200Response | LoadBalancersListdefaultResponse
+    LoadBalancersList200Response | LoadBalancersListDefaultResponse
   >;
 }
 
@@ -4063,7 +4063,7 @@ export interface LoadBalancersSwapPublicIpAddresses {
   ): StreamableMethod<
     | LoadBalancersSwapPublicIpAddresses200Response
     | LoadBalancersSwapPublicIpAddresses202Response
-    | LoadBalancersSwapPublicIpAddressesdefaultResponse
+    | LoadBalancersSwapPublicIpAddressesDefaultResponse
   >;
 }
 
@@ -4074,7 +4074,7 @@ export interface LoadBalancersListInboundNatRulePortMappings {
   ): StreamableMethod<
     | LoadBalancersListInboundNatRulePortMappings200Response
     | LoadBalancersListInboundNatRulePortMappings202Response
-    | LoadBalancersListInboundNatRulePortMappingsdefaultResponse
+    | LoadBalancersListInboundNatRulePortMappingsDefaultResponse
   >;
 }
 
@@ -4084,7 +4084,7 @@ export interface LoadBalancerBackendAddressPoolsList {
     options: LoadBalancerBackendAddressPoolsListParameters
   ): StreamableMethod<
     | LoadBalancerBackendAddressPoolsList200Response
-    | LoadBalancerBackendAddressPoolsListdefaultResponse
+    | LoadBalancerBackendAddressPoolsListDefaultResponse
   >;
 }
 
@@ -4094,7 +4094,7 @@ export interface LoadBalancerBackendAddressPoolsGet {
     options: LoadBalancerBackendAddressPoolsGetParameters
   ): StreamableMethod<
     | LoadBalancerBackendAddressPoolsGet200Response
-    | LoadBalancerBackendAddressPoolsGetdefaultResponse
+    | LoadBalancerBackendAddressPoolsGetDefaultResponse
   >;
   /** Creates or updates a load balancer backend address pool. */
   put(
@@ -4102,7 +4102,7 @@ export interface LoadBalancerBackendAddressPoolsGet {
   ): StreamableMethod<
     | LoadBalancerBackendAddressPoolsCreateOrUpdate200Response
     | LoadBalancerBackendAddressPoolsCreateOrUpdate201Response
-    | LoadBalancerBackendAddressPoolsCreateOrUpdatedefaultResponse
+    | LoadBalancerBackendAddressPoolsCreateOrUpdateDefaultResponse
   >;
   /** Deletes the specified load balancer backend address pool. */
   delete(
@@ -4111,7 +4111,7 @@ export interface LoadBalancerBackendAddressPoolsGet {
     | LoadBalancerBackendAddressPoolsDelete200Response
     | LoadBalancerBackendAddressPoolsDelete202Response
     | LoadBalancerBackendAddressPoolsDelete204Response
-    | LoadBalancerBackendAddressPoolsDeletedefaultResponse
+    | LoadBalancerBackendAddressPoolsDeleteDefaultResponse
   >;
 }
 
@@ -4121,7 +4121,7 @@ export interface LoadBalancerFrontendIPConfigurationsList {
     options: LoadBalancerFrontendIPConfigurationsListParameters
   ): StreamableMethod<
     | LoadBalancerFrontendIPConfigurationsList200Response
-    | LoadBalancerFrontendIPConfigurationsListdefaultResponse
+    | LoadBalancerFrontendIPConfigurationsListDefaultResponse
   >;
 }
 
@@ -4131,7 +4131,7 @@ export interface LoadBalancerFrontendIPConfigurationsGet {
     options: LoadBalancerFrontendIPConfigurationsGetParameters
   ): StreamableMethod<
     | LoadBalancerFrontendIPConfigurationsGet200Response
-    | LoadBalancerFrontendIPConfigurationsGetdefaultResponse
+    | LoadBalancerFrontendIPConfigurationsGetDefaultResponse
   >;
 }
 
@@ -4140,7 +4140,7 @@ export interface InboundNatRulesList {
   get(
     options: InboundNatRulesListParameters
   ): StreamableMethod<
-    InboundNatRulesList200Response | InboundNatRulesListdefaultResponse
+    InboundNatRulesList200Response | InboundNatRulesListDefaultResponse
   >;
 }
 
@@ -4152,13 +4152,13 @@ export interface InboundNatRulesDelete {
     | InboundNatRulesDelete200Response
     | InboundNatRulesDelete202Response
     | InboundNatRulesDelete204Response
-    | InboundNatRulesDeletedefaultResponse
+    | InboundNatRulesDeleteDefaultResponse
   >;
   /** Gets the specified load balancer inbound NAT rule. */
   get(
     options: InboundNatRulesGetParameters
   ): StreamableMethod<
-    InboundNatRulesGet200Response | InboundNatRulesGetdefaultResponse
+    InboundNatRulesGet200Response | InboundNatRulesGetDefaultResponse
   >;
   /** Creates or updates a load balancer inbound NAT rule. */
   put(
@@ -4166,7 +4166,7 @@ export interface InboundNatRulesDelete {
   ): StreamableMethod<
     | InboundNatRulesCreateOrUpdate200Response
     | InboundNatRulesCreateOrUpdate201Response
-    | InboundNatRulesCreateOrUpdatedefaultResponse
+    | InboundNatRulesCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -4176,7 +4176,7 @@ export interface LoadBalancerLoadBalancingRulesList {
     options: LoadBalancerLoadBalancingRulesListParameters
   ): StreamableMethod<
     | LoadBalancerLoadBalancingRulesList200Response
-    | LoadBalancerLoadBalancingRulesListdefaultResponse
+    | LoadBalancerLoadBalancingRulesListDefaultResponse
   >;
 }
 
@@ -4186,7 +4186,7 @@ export interface LoadBalancerLoadBalancingRulesGet {
     options: LoadBalancerLoadBalancingRulesGetParameters
   ): StreamableMethod<
     | LoadBalancerLoadBalancingRulesGet200Response
-    | LoadBalancerLoadBalancingRulesGetdefaultResponse
+    | LoadBalancerLoadBalancingRulesGetDefaultResponse
   >;
 }
 
@@ -4196,7 +4196,7 @@ export interface LoadBalancerOutboundRulesList {
     options: LoadBalancerOutboundRulesListParameters
   ): StreamableMethod<
     | LoadBalancerOutboundRulesList200Response
-    | LoadBalancerOutboundRulesListdefaultResponse
+    | LoadBalancerOutboundRulesListDefaultResponse
   >;
 }
 
@@ -4206,7 +4206,7 @@ export interface LoadBalancerOutboundRulesGet {
     options: LoadBalancerOutboundRulesGetParameters
   ): StreamableMethod<
     | LoadBalancerOutboundRulesGet200Response
-    | LoadBalancerOutboundRulesGetdefaultResponse
+    | LoadBalancerOutboundRulesGetDefaultResponse
   >;
 }
 
@@ -4216,7 +4216,7 @@ export interface LoadBalancerNetworkInterfacesList {
     options: LoadBalancerNetworkInterfacesListParameters
   ): StreamableMethod<
     | LoadBalancerNetworkInterfacesList200Response
-    | LoadBalancerNetworkInterfacesListdefaultResponse
+    | LoadBalancerNetworkInterfacesListDefaultResponse
   >;
 }
 
@@ -4225,7 +4225,7 @@ export interface LoadBalancerProbesList {
   get(
     options: LoadBalancerProbesListParameters
   ): StreamableMethod<
-    LoadBalancerProbesList200Response | LoadBalancerProbesListdefaultResponse
+    LoadBalancerProbesList200Response | LoadBalancerProbesListDefaultResponse
   >;
 }
 
@@ -4234,7 +4234,7 @@ export interface LoadBalancerProbesGet {
   get(
     options: LoadBalancerProbesGetParameters
   ): StreamableMethod<
-    LoadBalancerProbesGet200Response | LoadBalancerProbesGetdefaultResponse
+    LoadBalancerProbesGet200Response | LoadBalancerProbesGetDefaultResponse
   >;
 }
 
@@ -4246,13 +4246,13 @@ export interface NatGatewaysDelete {
     | NatGatewaysDelete200Response
     | NatGatewaysDelete202Response
     | NatGatewaysDelete204Response
-    | NatGatewaysDeletedefaultResponse
+    | NatGatewaysDeleteDefaultResponse
   >;
   /** Gets the specified nat gateway in a specified resource group. */
   get(
     options: NatGatewaysGetParameters
   ): StreamableMethod<
-    NatGatewaysGet200Response | NatGatewaysGetdefaultResponse
+    NatGatewaysGet200Response | NatGatewaysGetDefaultResponse
   >;
   /** Creates or updates a nat gateway. */
   put(
@@ -4261,13 +4261,13 @@ export interface NatGatewaysDelete {
     | NatGatewaysCreateOrUpdate200Response
     | NatGatewaysCreateOrUpdate201Response
     | NatGatewaysCreateOrUpdate202Response
-    | NatGatewaysCreateOrUpdatedefaultResponse
+    | NatGatewaysCreateOrUpdateDefaultResponse
   >;
   /** Updates nat gateway tags. */
   patch(
     options: NatGatewaysUpdateTagsParameters
   ): StreamableMethod<
-    NatGatewaysUpdateTags200Response | NatGatewaysUpdateTagsdefaultResponse
+    NatGatewaysUpdateTags200Response | NatGatewaysUpdateTagsDefaultResponse
   >;
 }
 
@@ -4276,7 +4276,7 @@ export interface NatGatewaysListAll {
   get(
     options: NatGatewaysListAllParameters
   ): StreamableMethod<
-    NatGatewaysListAll200Response | NatGatewaysListAlldefaultResponse
+    NatGatewaysListAll200Response | NatGatewaysListAllDefaultResponse
   >;
 }
 
@@ -4285,7 +4285,7 @@ export interface NatGatewaysList {
   get(
     options: NatGatewaysListParameters
   ): StreamableMethod<
-    NatGatewaysList200Response | NatGatewaysListdefaultResponse
+    NatGatewaysList200Response | NatGatewaysListDefaultResponse
   >;
 }
 
@@ -4295,7 +4295,7 @@ export interface NetworkInterfaceIPConfigurationsList {
     options: NetworkInterfaceIPConfigurationsListParameters
   ): StreamableMethod<
     | NetworkInterfaceIPConfigurationsList200Response
-    | NetworkInterfaceIPConfigurationsListdefaultResponse
+    | NetworkInterfaceIPConfigurationsListDefaultResponse
   >;
 }
 
@@ -4305,7 +4305,7 @@ export interface NetworkInterfaceIPConfigurationsGet {
     options: NetworkInterfaceIPConfigurationsGetParameters
   ): StreamableMethod<
     | NetworkInterfaceIPConfigurationsGet200Response
-    | NetworkInterfaceIPConfigurationsGetdefaultResponse
+    | NetworkInterfaceIPConfigurationsGetDefaultResponse
   >;
 }
 
@@ -4315,7 +4315,7 @@ export interface NetworkInterfaceLoadBalancersList {
     options: NetworkInterfaceLoadBalancersListParameters
   ): StreamableMethod<
     | NetworkInterfaceLoadBalancersList200Response
-    | NetworkInterfaceLoadBalancersListdefaultResponse
+    | NetworkInterfaceLoadBalancersListDefaultResponse
   >;
 }
 
@@ -4327,14 +4327,14 @@ export interface NetworkInterfaceTapConfigurationsDelete {
     | NetworkInterfaceTapConfigurationsDelete200Response
     | NetworkInterfaceTapConfigurationsDelete202Response
     | NetworkInterfaceTapConfigurationsDelete204Response
-    | NetworkInterfaceTapConfigurationsDeletedefaultResponse
+    | NetworkInterfaceTapConfigurationsDeleteDefaultResponse
   >;
   /** Get the specified tap configuration on a network interface. */
   get(
     options: NetworkInterfaceTapConfigurationsGetParameters
   ): StreamableMethod<
     | NetworkInterfaceTapConfigurationsGet200Response
-    | NetworkInterfaceTapConfigurationsGetdefaultResponse
+    | NetworkInterfaceTapConfigurationsGetDefaultResponse
   >;
   /** Creates or updates a Tap configuration in the specified NetworkInterface. */
   put(
@@ -4342,7 +4342,7 @@ export interface NetworkInterfaceTapConfigurationsDelete {
   ): StreamableMethod<
     | NetworkInterfaceTapConfigurationsCreateOrUpdate200Response
     | NetworkInterfaceTapConfigurationsCreateOrUpdate201Response
-    | NetworkInterfaceTapConfigurationsCreateOrUpdatedefaultResponse
+    | NetworkInterfaceTapConfigurationsCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -4352,7 +4352,7 @@ export interface NetworkInterfaceTapConfigurationsList {
     options: NetworkInterfaceTapConfigurationsListParameters
   ): StreamableMethod<
     | NetworkInterfaceTapConfigurationsList200Response
-    | NetworkInterfaceTapConfigurationsListdefaultResponse
+    | NetworkInterfaceTapConfigurationsListDefaultResponse
   >;
 }
 
@@ -4361,7 +4361,7 @@ export interface NetworkManagersGet {
   get(
     options: NetworkManagersGetParameters
   ): StreamableMethod<
-    NetworkManagersGet200Response | NetworkManagersGetdefaultResponse
+    NetworkManagersGet200Response | NetworkManagersGetDefaultResponse
   >;
   /** Creates or updates a Network Manager. */
   put(
@@ -4369,7 +4369,7 @@ export interface NetworkManagersGet {
   ): StreamableMethod<
     | NetworkManagersCreateOrUpdate200Response
     | NetworkManagersCreateOrUpdate201Response
-    | NetworkManagersCreateOrUpdatedefaultResponse
+    | NetworkManagersCreateOrUpdateDefaultResponse
   >;
   /** Deletes a network manager. */
   delete(
@@ -4378,13 +4378,13 @@ export interface NetworkManagersGet {
     | NetworkManagersDelete200Response
     | NetworkManagersDelete202Response
     | NetworkManagersDelete204Response
-    | NetworkManagersDeletedefaultResponse
+    | NetworkManagersDeleteDefaultResponse
   >;
   /** Patch NetworkManager. */
   patch(
     options: NetworkManagersPatchParameters
   ): StreamableMethod<
-    NetworkManagersPatch200Response | NetworkManagersPatchdefaultResponse
+    NetworkManagersPatch200Response | NetworkManagersPatchDefaultResponse
   >;
 }
 
@@ -4394,7 +4394,7 @@ export interface NetworkManagersListBySubscription {
     options: NetworkManagersListBySubscriptionParameters
   ): StreamableMethod<
     | NetworkManagersListBySubscription200Response
-    | NetworkManagersListBySubscriptiondefaultResponse
+    | NetworkManagersListBySubscriptionDefaultResponse
   >;
 }
 
@@ -4403,7 +4403,7 @@ export interface NetworkManagersList {
   get(
     options: NetworkManagersListParameters
   ): StreamableMethod<
-    NetworkManagersList200Response | NetworkManagersListdefaultResponse
+    NetworkManagersList200Response | NetworkManagersListDefaultResponse
   >;
 }
 
@@ -4414,7 +4414,7 @@ export interface NetworkManagerCommitsPost {
   ): StreamableMethod<
     | NetworkManagerCommitsPost200Response
     | NetworkManagerCommitsPost202Response
-    | NetworkManagerCommitsPostdefaultResponse
+    | NetworkManagerCommitsPostDefaultResponse
   >;
 }
 
@@ -4424,7 +4424,7 @@ export interface NetworkManagerDeploymentStatusList {
     options: NetworkManagerDeploymentStatusListParameters
   ): StreamableMethod<
     | NetworkManagerDeploymentStatusList200Response
-    | NetworkManagerDeploymentStatusListdefaultResponse
+    | NetworkManagerDeploymentStatusListDefaultResponse
   >;
 }
 
@@ -4435,14 +4435,14 @@ export interface SubscriptionNetworkManagerConnectionsCreateOrUpdate {
   ): StreamableMethod<
     | SubscriptionNetworkManagerConnectionsCreateOrUpdate200Response
     | SubscriptionNetworkManagerConnectionsCreateOrUpdate201Response
-    | SubscriptionNetworkManagerConnectionsCreateOrUpdatedefaultResponse
+    | SubscriptionNetworkManagerConnectionsCreateOrUpdateDefaultResponse
   >;
   /** Get a specified connection created by this subscription. */
   get(
     options: SubscriptionNetworkManagerConnectionsGetParameters
   ): StreamableMethod<
     | SubscriptionNetworkManagerConnectionsGet200Response
-    | SubscriptionNetworkManagerConnectionsGetdefaultResponse
+    | SubscriptionNetworkManagerConnectionsGetDefaultResponse
   >;
   /** Delete specified connection created by this subscription. */
   delete(
@@ -4450,7 +4450,7 @@ export interface SubscriptionNetworkManagerConnectionsCreateOrUpdate {
   ): StreamableMethod<
     | SubscriptionNetworkManagerConnectionsDelete200Response
     | SubscriptionNetworkManagerConnectionsDelete204Response
-    | SubscriptionNetworkManagerConnectionsDeletedefaultResponse
+    | SubscriptionNetworkManagerConnectionsDeleteDefaultResponse
   >;
 }
 
@@ -4460,7 +4460,7 @@ export interface SubscriptionNetworkManagerConnectionsList {
     options: SubscriptionNetworkManagerConnectionsListParameters
   ): StreamableMethod<
     | SubscriptionNetworkManagerConnectionsList200Response
-    | SubscriptionNetworkManagerConnectionsListdefaultResponse
+    | SubscriptionNetworkManagerConnectionsListDefaultResponse
   >;
 }
 
@@ -4471,14 +4471,14 @@ export interface ManagementGroupNetworkManagerConnectionsCreateOrUpdate {
   ): StreamableMethod<
     | ManagementGroupNetworkManagerConnectionsCreateOrUpdate200Response
     | ManagementGroupNetworkManagerConnectionsCreateOrUpdate201Response
-    | ManagementGroupNetworkManagerConnectionsCreateOrUpdatedefaultResponse
+    | ManagementGroupNetworkManagerConnectionsCreateOrUpdateDefaultResponse
   >;
   /** Get a specified connection created by this management group. */
   get(
     options: ManagementGroupNetworkManagerConnectionsGetParameters
   ): StreamableMethod<
     | ManagementGroupNetworkManagerConnectionsGet200Response
-    | ManagementGroupNetworkManagerConnectionsGetdefaultResponse
+    | ManagementGroupNetworkManagerConnectionsGetDefaultResponse
   >;
   /** Delete specified pending connection created by this management group. */
   delete(
@@ -4486,7 +4486,7 @@ export interface ManagementGroupNetworkManagerConnectionsCreateOrUpdate {
   ): StreamableMethod<
     | ManagementGroupNetworkManagerConnectionsDelete200Response
     | ManagementGroupNetworkManagerConnectionsDelete204Response
-    | ManagementGroupNetworkManagerConnectionsDeletedefaultResponse
+    | ManagementGroupNetworkManagerConnectionsDeleteDefaultResponse
   >;
 }
 
@@ -4496,7 +4496,7 @@ export interface ManagementGroupNetworkManagerConnectionsList {
     options: ManagementGroupNetworkManagerConnectionsListParameters
   ): StreamableMethod<
     | ManagementGroupNetworkManagerConnectionsList200Response
-    | ManagementGroupNetworkManagerConnectionsListdefaultResponse
+    | ManagementGroupNetworkManagerConnectionsListDefaultResponse
   >;
 }
 
@@ -4506,7 +4506,7 @@ export interface ConnectivityConfigurationsGet {
     options: ConnectivityConfigurationsGetParameters
   ): StreamableMethod<
     | ConnectivityConfigurationsGet200Response
-    | ConnectivityConfigurationsGetdefaultResponse
+    | ConnectivityConfigurationsGetDefaultResponse
   >;
   /** Creates/Updates a new network manager connectivity configuration */
   put(
@@ -4514,7 +4514,7 @@ export interface ConnectivityConfigurationsGet {
   ): StreamableMethod<
     | ConnectivityConfigurationsCreateOrUpdate200Response
     | ConnectivityConfigurationsCreateOrUpdate201Response
-    | ConnectivityConfigurationsCreateOrUpdatedefaultResponse
+    | ConnectivityConfigurationsCreateOrUpdateDefaultResponse
   >;
   /** Deletes a network manager connectivity configuration, specified by the resource group, network manager name, and connectivity configuration name */
   delete(
@@ -4523,7 +4523,7 @@ export interface ConnectivityConfigurationsGet {
     | ConnectivityConfigurationsDelete200Response
     | ConnectivityConfigurationsDelete202Response
     | ConnectivityConfigurationsDelete204Response
-    | ConnectivityConfigurationsDeletedefaultResponse
+    | ConnectivityConfigurationsDeleteDefaultResponse
   >;
 }
 
@@ -4533,7 +4533,7 @@ export interface ConnectivityConfigurationsList {
     options: ConnectivityConfigurationsListParameters
   ): StreamableMethod<
     | ConnectivityConfigurationsList200Response
-    | ConnectivityConfigurationsListdefaultResponse
+    | ConnectivityConfigurationsListDefaultResponse
   >;
 }
 
@@ -4542,7 +4542,7 @@ export interface NetworkGroupsGet {
   get(
     options: NetworkGroupsGetParameters
   ): StreamableMethod<
-    NetworkGroupsGet200Response | NetworkGroupsGetdefaultResponse
+    NetworkGroupsGet200Response | NetworkGroupsGetDefaultResponse
   >;
   /** Creates or updates a network group. */
   put(
@@ -4550,7 +4550,7 @@ export interface NetworkGroupsGet {
   ): StreamableMethod<
     | NetworkGroupsCreateOrUpdate200Response
     | NetworkGroupsCreateOrUpdate201Response
-    | NetworkGroupsCreateOrUpdatedefaultResponse
+    | NetworkGroupsCreateOrUpdateDefaultResponse
   >;
   /** Deletes a network group. */
   delete(
@@ -4559,7 +4559,7 @@ export interface NetworkGroupsGet {
     | NetworkGroupsDelete200Response
     | NetworkGroupsDelete202Response
     | NetworkGroupsDelete204Response
-    | NetworkGroupsDeletedefaultResponse
+    | NetworkGroupsDeleteDefaultResponse
   >;
 }
 
@@ -4568,7 +4568,7 @@ export interface NetworkGroupsList {
   get(
     options: NetworkGroupsListParameters
   ): StreamableMethod<
-    NetworkGroupsList200Response | NetworkGroupsListdefaultResponse
+    NetworkGroupsList200Response | NetworkGroupsListDefaultResponse
   >;
 }
 
@@ -4577,7 +4577,7 @@ export interface StaticMembersGet {
   get(
     options: StaticMembersGetParameters
   ): StreamableMethod<
-    StaticMembersGet200Response | StaticMembersGetdefaultResponse
+    StaticMembersGet200Response | StaticMembersGetDefaultResponse
   >;
   /** Creates or updates a static member. */
   put(
@@ -4585,7 +4585,7 @@ export interface StaticMembersGet {
   ): StreamableMethod<
     | StaticMembersCreateOrUpdate200Response
     | StaticMembersCreateOrUpdate201Response
-    | StaticMembersCreateOrUpdatedefaultResponse
+    | StaticMembersCreateOrUpdateDefaultResponse
   >;
   /** Deletes a static member. */
   delete(
@@ -4593,7 +4593,7 @@ export interface StaticMembersGet {
   ): StreamableMethod<
     | StaticMembersDelete200Response
     | StaticMembersDelete204Response
-    | StaticMembersDeletedefaultResponse
+    | StaticMembersDeleteDefaultResponse
   >;
 }
 
@@ -4602,7 +4602,7 @@ export interface StaticMembersList {
   get(
     options: StaticMembersListParameters
   ): StreamableMethod<
-    StaticMembersList200Response | StaticMembersListdefaultResponse
+    StaticMembersList200Response | StaticMembersListDefaultResponse
   >;
 }
 
@@ -4613,13 +4613,13 @@ export interface ScopeConnectionsCreateOrUpdate {
   ): StreamableMethod<
     | ScopeConnectionsCreateOrUpdate200Response
     | ScopeConnectionsCreateOrUpdate201Response
-    | ScopeConnectionsCreateOrUpdatedefaultResponse
+    | ScopeConnectionsCreateOrUpdateDefaultResponse
   >;
   /** Get specified scope connection created by this Network Manager. */
   get(
     options: ScopeConnectionsGetParameters
   ): StreamableMethod<
-    ScopeConnectionsGet200Response | ScopeConnectionsGetdefaultResponse
+    ScopeConnectionsGet200Response | ScopeConnectionsGetDefaultResponse
   >;
   /** Delete the pending scope connection created by this network manager. */
   delete(
@@ -4627,7 +4627,7 @@ export interface ScopeConnectionsCreateOrUpdate {
   ): StreamableMethod<
     | ScopeConnectionsDelete200Response
     | ScopeConnectionsDelete204Response
-    | ScopeConnectionsDeletedefaultResponse
+    | ScopeConnectionsDeleteDefaultResponse
   >;
 }
 
@@ -4636,7 +4636,7 @@ export interface ScopeConnectionsList {
   get(
     options: ScopeConnectionsListParameters
   ): StreamableMethod<
-    ScopeConnectionsList200Response | ScopeConnectionsListdefaultResponse
+    ScopeConnectionsList200Response | ScopeConnectionsListDefaultResponse
   >;
 }
 
@@ -4646,7 +4646,7 @@ export interface SecurityAdminConfigurationsList {
     options: SecurityAdminConfigurationsListParameters
   ): StreamableMethod<
     | SecurityAdminConfigurationsList200Response
-    | SecurityAdminConfigurationsListdefaultResponse
+    | SecurityAdminConfigurationsListDefaultResponse
   >;
 }
 
@@ -4656,7 +4656,7 @@ export interface SecurityAdminConfigurationsGet {
     options: SecurityAdminConfigurationsGetParameters
   ): StreamableMethod<
     | SecurityAdminConfigurationsGet200Response
-    | SecurityAdminConfigurationsGetdefaultResponse
+    | SecurityAdminConfigurationsGetDefaultResponse
   >;
   /** Creates or updates a network manager security admin configuration. */
   put(
@@ -4664,7 +4664,7 @@ export interface SecurityAdminConfigurationsGet {
   ): StreamableMethod<
     | SecurityAdminConfigurationsCreateOrUpdate200Response
     | SecurityAdminConfigurationsCreateOrUpdate201Response
-    | SecurityAdminConfigurationsCreateOrUpdatedefaultResponse
+    | SecurityAdminConfigurationsCreateOrUpdateDefaultResponse
   >;
   /** Deletes a network manager security admin configuration. */
   delete(
@@ -4673,7 +4673,7 @@ export interface SecurityAdminConfigurationsGet {
     | SecurityAdminConfigurationsDelete200Response
     | SecurityAdminConfigurationsDelete202Response
     | SecurityAdminConfigurationsDelete204Response
-    | SecurityAdminConfigurationsDeletedefaultResponse
+    | SecurityAdminConfigurationsDeleteDefaultResponse
   >;
 }
 
@@ -4683,7 +4683,7 @@ export interface AdminRuleCollectionsList {
     options: AdminRuleCollectionsListParameters
   ): StreamableMethod<
     | AdminRuleCollectionsList200Response
-    | AdminRuleCollectionsListdefaultResponse
+    | AdminRuleCollectionsListDefaultResponse
   >;
 }
 
@@ -4692,7 +4692,7 @@ export interface AdminRuleCollectionsGet {
   get(
     options: AdminRuleCollectionsGetParameters
   ): StreamableMethod<
-    AdminRuleCollectionsGet200Response | AdminRuleCollectionsGetdefaultResponse
+    AdminRuleCollectionsGet200Response | AdminRuleCollectionsGetDefaultResponse
   >;
   /** Creates or updates an admin rule collection. */
   put(
@@ -4700,7 +4700,7 @@ export interface AdminRuleCollectionsGet {
   ): StreamableMethod<
     | AdminRuleCollectionsCreateOrUpdate200Response
     | AdminRuleCollectionsCreateOrUpdate201Response
-    | AdminRuleCollectionsCreateOrUpdatedefaultResponse
+    | AdminRuleCollectionsCreateOrUpdateDefaultResponse
   >;
   /** Deletes an admin rule collection. */
   delete(
@@ -4709,7 +4709,7 @@ export interface AdminRuleCollectionsGet {
     | AdminRuleCollectionsDelete200Response
     | AdminRuleCollectionsDelete202Response
     | AdminRuleCollectionsDelete204Response
-    | AdminRuleCollectionsDeletedefaultResponse
+    | AdminRuleCollectionsDeleteDefaultResponse
   >;
 }
 
@@ -4718,7 +4718,7 @@ export interface AdminRulesList {
   get(
     options: AdminRulesListParameters
   ): StreamableMethod<
-    AdminRulesList200Response | AdminRulesListdefaultResponse
+    AdminRulesList200Response | AdminRulesListDefaultResponse
   >;
 }
 
@@ -4726,14 +4726,14 @@ export interface AdminRulesGet {
   /** Gets a network manager security configuration admin rule. */
   get(
     options: AdminRulesGetParameters
-  ): StreamableMethod<AdminRulesGet200Response | AdminRulesGetdefaultResponse>;
+  ): StreamableMethod<AdminRulesGet200Response | AdminRulesGetDefaultResponse>;
   /** Creates or updates an admin rule. */
   put(
     options: AdminRulesCreateOrUpdateParameters
   ): StreamableMethod<
     | AdminRulesCreateOrUpdate200Response
     | AdminRulesCreateOrUpdate201Response
-    | AdminRulesCreateOrUpdatedefaultResponse
+    | AdminRulesCreateOrUpdateDefaultResponse
   >;
   /** Deletes an admin rule. */
   delete(
@@ -4742,7 +4742,7 @@ export interface AdminRulesGet {
     | AdminRulesDelete200Response
     | AdminRulesDelete202Response
     | AdminRulesDelete204Response
-    | AdminRulesDeletedefaultResponse
+    | AdminRulesDeleteDefaultResponse
   >;
 }
 
@@ -4754,13 +4754,13 @@ export interface NetworkProfilesDelete {
     | NetworkProfilesDelete200Response
     | NetworkProfilesDelete202Response
     | NetworkProfilesDelete204Response
-    | NetworkProfilesDeletedefaultResponse
+    | NetworkProfilesDeleteDefaultResponse
   >;
   /** Gets the specified network profile in a specified resource group. */
   get(
     options: NetworkProfilesGetParameters
   ): StreamableMethod<
-    NetworkProfilesGet200Response | NetworkProfilesGetdefaultResponse
+    NetworkProfilesGet200Response | NetworkProfilesGetDefaultResponse
   >;
   /** Creates or updates a network profile. */
   put(
@@ -4768,14 +4768,14 @@ export interface NetworkProfilesDelete {
   ): StreamableMethod<
     | NetworkProfilesCreateOrUpdate200Response
     | NetworkProfilesCreateOrUpdate201Response
-    | NetworkProfilesCreateOrUpdatedefaultResponse
+    | NetworkProfilesCreateOrUpdateDefaultResponse
   >;
   /** Updates network profile tags. */
   patch(
     options: NetworkProfilesUpdateTagsParameters
   ): StreamableMethod<
     | NetworkProfilesUpdateTags200Response
-    | NetworkProfilesUpdateTagsdefaultResponse
+    | NetworkProfilesUpdateTagsDefaultResponse
   >;
 }
 
@@ -4784,7 +4784,7 @@ export interface NetworkProfilesListAll {
   get(
     options: NetworkProfilesListAllParameters
   ): StreamableMethod<
-    NetworkProfilesListAll200Response | NetworkProfilesListAlldefaultResponse
+    NetworkProfilesListAll200Response | NetworkProfilesListAllDefaultResponse
   >;
 }
 
@@ -4793,7 +4793,7 @@ export interface NetworkProfilesList {
   get(
     options: NetworkProfilesListParameters
   ): StreamableMethod<
-    NetworkProfilesList200Response | NetworkProfilesListdefaultResponse
+    NetworkProfilesList200Response | NetworkProfilesListDefaultResponse
   >;
 }
 
@@ -4805,14 +4805,14 @@ export interface NetworkSecurityGroupsDelete {
     | NetworkSecurityGroupsDelete200Response
     | NetworkSecurityGroupsDelete202Response
     | NetworkSecurityGroupsDelete204Response
-    | NetworkSecurityGroupsDeletedefaultResponse
+    | NetworkSecurityGroupsDeleteDefaultResponse
   >;
   /** Gets the specified network security group. */
   get(
     options: NetworkSecurityGroupsGetParameters
   ): StreamableMethod<
     | NetworkSecurityGroupsGet200Response
-    | NetworkSecurityGroupsGetdefaultResponse
+    | NetworkSecurityGroupsGetDefaultResponse
   >;
   /** Creates or updates a network security group in the specified resource group. */
   put(
@@ -4820,14 +4820,14 @@ export interface NetworkSecurityGroupsDelete {
   ): StreamableMethod<
     | NetworkSecurityGroupsCreateOrUpdate200Response
     | NetworkSecurityGroupsCreateOrUpdate201Response
-    | NetworkSecurityGroupsCreateOrUpdatedefaultResponse
+    | NetworkSecurityGroupsCreateOrUpdateDefaultResponse
   >;
   /** Updates a network security group tags. */
   patch(
     options: NetworkSecurityGroupsUpdateTagsParameters
   ): StreamableMethod<
     | NetworkSecurityGroupsUpdateTags200Response
-    | NetworkSecurityGroupsUpdateTagsdefaultResponse
+    | NetworkSecurityGroupsUpdateTagsDefaultResponse
   >;
 }
 
@@ -4837,7 +4837,7 @@ export interface NetworkSecurityGroupsListAll {
     options: NetworkSecurityGroupsListAllParameters
   ): StreamableMethod<
     | NetworkSecurityGroupsListAll200Response
-    | NetworkSecurityGroupsListAlldefaultResponse
+    | NetworkSecurityGroupsListAllDefaultResponse
   >;
 }
 
@@ -4847,7 +4847,7 @@ export interface NetworkSecurityGroupsList {
     options: NetworkSecurityGroupsListParameters
   ): StreamableMethod<
     | NetworkSecurityGroupsList200Response
-    | NetworkSecurityGroupsListdefaultResponse
+    | NetworkSecurityGroupsListDefaultResponse
   >;
 }
 
@@ -4859,13 +4859,13 @@ export interface SecurityRulesDelete {
     | SecurityRulesDelete200Response
     | SecurityRulesDelete202Response
     | SecurityRulesDelete204Response
-    | SecurityRulesDeletedefaultResponse
+    | SecurityRulesDeleteDefaultResponse
   >;
   /** Get the specified network security rule. */
   get(
     options: SecurityRulesGetParameters
   ): StreamableMethod<
-    SecurityRulesGet200Response | SecurityRulesGetdefaultResponse
+    SecurityRulesGet200Response | SecurityRulesGetDefaultResponse
   >;
   /** Creates or updates a security rule in the specified network security group. */
   put(
@@ -4873,7 +4873,7 @@ export interface SecurityRulesDelete {
   ): StreamableMethod<
     | SecurityRulesCreateOrUpdate200Response
     | SecurityRulesCreateOrUpdate201Response
-    | SecurityRulesCreateOrUpdatedefaultResponse
+    | SecurityRulesCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -4882,7 +4882,7 @@ export interface SecurityRulesList {
   get(
     options: SecurityRulesListParameters
   ): StreamableMethod<
-    SecurityRulesList200Response | SecurityRulesListdefaultResponse
+    SecurityRulesList200Response | SecurityRulesListDefaultResponse
   >;
 }
 
@@ -4892,7 +4892,7 @@ export interface DefaultSecurityRulesList {
     options: DefaultSecurityRulesListParameters
   ): StreamableMethod<
     | DefaultSecurityRulesList200Response
-    | DefaultSecurityRulesListdefaultResponse
+    | DefaultSecurityRulesListDefaultResponse
   >;
 }
 
@@ -4901,7 +4901,7 @@ export interface DefaultSecurityRulesGet {
   get(
     options: DefaultSecurityRulesGetParameters
   ): StreamableMethod<
-    DefaultSecurityRulesGet200Response | DefaultSecurityRulesGetdefaultResponse
+    DefaultSecurityRulesGet200Response | DefaultSecurityRulesGetDefaultResponse
   >;
 }
 
@@ -4913,21 +4913,21 @@ export interface NetworkVirtualAppliancesDelete {
     | NetworkVirtualAppliancesDelete200Response
     | NetworkVirtualAppliancesDelete202Response
     | NetworkVirtualAppliancesDelete204Response
-    | NetworkVirtualAppliancesDeletedefaultResponse
+    | NetworkVirtualAppliancesDeleteDefaultResponse
   >;
   /** Gets the specified Network Virtual Appliance. */
   get(
     options: NetworkVirtualAppliancesGetParameters
   ): StreamableMethod<
     | NetworkVirtualAppliancesGet200Response
-    | NetworkVirtualAppliancesGetdefaultResponse
+    | NetworkVirtualAppliancesGetDefaultResponse
   >;
   /** Updates a Network Virtual Appliance. */
   patch(
     options: NetworkVirtualAppliancesUpdateTagsParameters
   ): StreamableMethod<
     | NetworkVirtualAppliancesUpdateTags200Response
-    | NetworkVirtualAppliancesUpdateTagsdefaultResponse
+    | NetworkVirtualAppliancesUpdateTagsDefaultResponse
   >;
   /** Creates or updates the specified Network Virtual Appliance. */
   put(
@@ -4935,7 +4935,7 @@ export interface NetworkVirtualAppliancesDelete {
   ): StreamableMethod<
     | NetworkVirtualAppliancesCreateOrUpdate200Response
     | NetworkVirtualAppliancesCreateOrUpdate201Response
-    | NetworkVirtualAppliancesCreateOrUpdatedefaultResponse
+    | NetworkVirtualAppliancesCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -4945,7 +4945,7 @@ export interface NetworkVirtualAppliancesListByResourceGroup {
     options: NetworkVirtualAppliancesListByResourceGroupParameters
   ): StreamableMethod<
     | NetworkVirtualAppliancesListByResourceGroup200Response
-    | NetworkVirtualAppliancesListByResourceGroupdefaultResponse
+    | NetworkVirtualAppliancesListByResourceGroupDefaultResponse
   >;
 }
 
@@ -4955,7 +4955,7 @@ export interface NetworkVirtualAppliancesList {
     options: NetworkVirtualAppliancesListParameters
   ): StreamableMethod<
     | NetworkVirtualAppliancesList200Response
-    | NetworkVirtualAppliancesListdefaultResponse
+    | NetworkVirtualAppliancesListDefaultResponse
   >;
 }
 
@@ -4967,14 +4967,14 @@ export interface VirtualApplianceSitesDelete {
     | VirtualApplianceSitesDelete200Response
     | VirtualApplianceSitesDelete202Response
     | VirtualApplianceSitesDelete204Response
-    | VirtualApplianceSitesDeletedefaultResponse
+    | VirtualApplianceSitesDeleteDefaultResponse
   >;
   /** Gets the specified Virtual Appliance Site. */
   get(
     options: VirtualApplianceSitesGetParameters
   ): StreamableMethod<
     | VirtualApplianceSitesGet200Response
-    | VirtualApplianceSitesGetdefaultResponse
+    | VirtualApplianceSitesGetDefaultResponse
   >;
   /** Creates or updates the specified Network Virtual Appliance Site. */
   put(
@@ -4982,7 +4982,7 @@ export interface VirtualApplianceSitesDelete {
   ): StreamableMethod<
     | VirtualApplianceSitesCreateOrUpdate200Response
     | VirtualApplianceSitesCreateOrUpdate201Response
-    | VirtualApplianceSitesCreateOrUpdatedefaultResponse
+    | VirtualApplianceSitesCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -4992,7 +4992,7 @@ export interface VirtualApplianceSitesList {
     options: VirtualApplianceSitesListParameters
   ): StreamableMethod<
     | VirtualApplianceSitesList200Response
-    | VirtualApplianceSitesListdefaultResponse
+    | VirtualApplianceSitesListDefaultResponse
   >;
 }
 
@@ -5002,7 +5002,7 @@ export interface VirtualApplianceSkusList {
     options: VirtualApplianceSkusListParameters
   ): StreamableMethod<
     | VirtualApplianceSkusList200Response
-    | VirtualApplianceSkusListdefaultResponse
+    | VirtualApplianceSkusListDefaultResponse
   >;
 }
 
@@ -5011,7 +5011,7 @@ export interface VirtualApplianceSkusGet {
   get(
     options: VirtualApplianceSkusGetParameters
   ): StreamableMethod<
-    VirtualApplianceSkusGet200Response | VirtualApplianceSkusGetdefaultResponse
+    VirtualApplianceSkusGet200Response | VirtualApplianceSkusGetDefaultResponse
   >;
 }
 
@@ -5022,7 +5022,7 @@ export interface InboundSecurityRuleCreateOrUpdate {
   ): StreamableMethod<
     | InboundSecurityRuleCreateOrUpdate200Response
     | InboundSecurityRuleCreateOrUpdate201Response
-    | InboundSecurityRuleCreateOrUpdatedefaultResponse
+    | InboundSecurityRuleCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -5033,13 +5033,13 @@ export interface NetworkWatchersCreateOrUpdate {
   ): StreamableMethod<
     | NetworkWatchersCreateOrUpdate200Response
     | NetworkWatchersCreateOrUpdate201Response
-    | NetworkWatchersCreateOrUpdatedefaultResponse
+    | NetworkWatchersCreateOrUpdateDefaultResponse
   >;
   /** Gets the specified network watcher by resource group. */
   get(
     options: NetworkWatchersGetParameters
   ): StreamableMethod<
-    NetworkWatchersGet200Response | NetworkWatchersGetdefaultResponse
+    NetworkWatchersGet200Response | NetworkWatchersGetDefaultResponse
   >;
   /** Deletes the specified network watcher resource. */
   delete(
@@ -5047,14 +5047,14 @@ export interface NetworkWatchersCreateOrUpdate {
   ): StreamableMethod<
     | NetworkWatchersDelete202Response
     | NetworkWatchersDelete204Response
-    | NetworkWatchersDeletedefaultResponse
+    | NetworkWatchersDeleteDefaultResponse
   >;
   /** Updates a network watcher tags. */
   patch(
     options: NetworkWatchersUpdateTagsParameters
   ): StreamableMethod<
     | NetworkWatchersUpdateTags200Response
-    | NetworkWatchersUpdateTagsdefaultResponse
+    | NetworkWatchersUpdateTagsDefaultResponse
   >;
 }
 
@@ -5063,7 +5063,7 @@ export interface NetworkWatchersList {
   get(
     options: NetworkWatchersListParameters
   ): StreamableMethod<
-    NetworkWatchersList200Response | NetworkWatchersListdefaultResponse
+    NetworkWatchersList200Response | NetworkWatchersListDefaultResponse
   >;
 }
 
@@ -5072,7 +5072,7 @@ export interface NetworkWatchersListAll {
   get(
     options: NetworkWatchersListAllParameters
   ): StreamableMethod<
-    NetworkWatchersListAll200Response | NetworkWatchersListAlldefaultResponse
+    NetworkWatchersListAll200Response | NetworkWatchersListAllDefaultResponse
   >;
 }
 
@@ -5082,7 +5082,7 @@ export interface NetworkWatchersGetTopology {
     options: NetworkWatchersGetTopologyParameters
   ): StreamableMethod<
     | NetworkWatchersGetTopology200Response
-    | NetworkWatchersGetTopologydefaultResponse
+    | NetworkWatchersGetTopologyDefaultResponse
   >;
 }
 
@@ -5093,7 +5093,7 @@ export interface NetworkWatchersVerifyIPFlow {
   ): StreamableMethod<
     | NetworkWatchersVerifyIPFlow200Response
     | NetworkWatchersVerifyIPFlow202Response
-    | NetworkWatchersVerifyIPFlowdefaultResponse
+    | NetworkWatchersVerifyIPFlowDefaultResponse
   >;
 }
 
@@ -5104,7 +5104,7 @@ export interface NetworkWatchersGetNextHop {
   ): StreamableMethod<
     | NetworkWatchersGetNextHop200Response
     | NetworkWatchersGetNextHop202Response
-    | NetworkWatchersGetNextHopdefaultResponse
+    | NetworkWatchersGetNextHopDefaultResponse
   >;
 }
 
@@ -5115,7 +5115,7 @@ export interface NetworkWatchersGetVMSecurityRules {
   ): StreamableMethod<
     | NetworkWatchersGetVMSecurityRules200Response
     | NetworkWatchersGetVMSecurityRules202Response
-    | NetworkWatchersGetVMSecurityRulesdefaultResponse
+    | NetworkWatchersGetVMSecurityRulesDefaultResponse
   >;
 }
 
@@ -5126,7 +5126,7 @@ export interface NetworkWatchersGetTroubleshooting {
   ): StreamableMethod<
     | NetworkWatchersGetTroubleshooting200Response
     | NetworkWatchersGetTroubleshooting202Response
-    | NetworkWatchersGetTroubleshootingdefaultResponse
+    | NetworkWatchersGetTroubleshootingDefaultResponse
   >;
 }
 
@@ -5137,7 +5137,7 @@ export interface NetworkWatchersGetTroubleshootingResult {
   ): StreamableMethod<
     | NetworkWatchersGetTroubleshootingResult200Response
     | NetworkWatchersGetTroubleshootingResult202Response
-    | NetworkWatchersGetTroubleshootingResultdefaultResponse
+    | NetworkWatchersGetTroubleshootingResultDefaultResponse
   >;
 }
 
@@ -5148,7 +5148,7 @@ export interface NetworkWatchersSetFlowLogConfiguration {
   ): StreamableMethod<
     | NetworkWatchersSetFlowLogConfiguration200Response
     | NetworkWatchersSetFlowLogConfiguration202Response
-    | NetworkWatchersSetFlowLogConfigurationdefaultResponse
+    | NetworkWatchersSetFlowLogConfigurationDefaultResponse
   >;
 }
 
@@ -5159,7 +5159,7 @@ export interface NetworkWatchersGetFlowLogStatus {
   ): StreamableMethod<
     | NetworkWatchersGetFlowLogStatus200Response
     | NetworkWatchersGetFlowLogStatus202Response
-    | NetworkWatchersGetFlowLogStatusdefaultResponse
+    | NetworkWatchersGetFlowLogStatusDefaultResponse
   >;
 }
 
@@ -5170,7 +5170,7 @@ export interface NetworkWatchersCheckConnectivity {
   ): StreamableMethod<
     | NetworkWatchersCheckConnectivity200Response
     | NetworkWatchersCheckConnectivity202Response
-    | NetworkWatchersCheckConnectivitydefaultResponse
+    | NetworkWatchersCheckConnectivityDefaultResponse
   >;
 }
 
@@ -5181,7 +5181,7 @@ export interface NetworkWatchersGetAzureReachabilityReport {
   ): StreamableMethod<
     | NetworkWatchersGetAzureReachabilityReport200Response
     | NetworkWatchersGetAzureReachabilityReport202Response
-    | NetworkWatchersGetAzureReachabilityReportdefaultResponse
+    | NetworkWatchersGetAzureReachabilityReportDefaultResponse
   >;
 }
 
@@ -5192,7 +5192,7 @@ export interface NetworkWatchersListAvailableProviders {
   ): StreamableMethod<
     | NetworkWatchersListAvailableProviders200Response
     | NetworkWatchersListAvailableProviders202Response
-    | NetworkWatchersListAvailableProvidersdefaultResponse
+    | NetworkWatchersListAvailableProvidersDefaultResponse
   >;
 }
 
@@ -5203,7 +5203,7 @@ export interface NetworkWatchersGetNetworkConfigurationDiagnostic {
   ): StreamableMethod<
     | NetworkWatchersGetNetworkConfigurationDiagnostic200Response
     | NetworkWatchersGetNetworkConfigurationDiagnostic202Response
-    | NetworkWatchersGetNetworkConfigurationDiagnosticdefaultResponse
+    | NetworkWatchersGetNetworkConfigurationDiagnosticDefaultResponse
   >;
 }
 
@@ -5212,13 +5212,13 @@ export interface PacketCapturesCreate {
   put(
     options: PacketCapturesCreateParameters
   ): StreamableMethod<
-    PacketCapturesCreate201Response | PacketCapturesCreatedefaultResponse
+    PacketCapturesCreate201Response | PacketCapturesCreateDefaultResponse
   >;
   /** Gets a packet capture session by name. */
   get(
     options: PacketCapturesGetParameters
   ): StreamableMethod<
-    PacketCapturesGet200Response | PacketCapturesGetdefaultResponse
+    PacketCapturesGet200Response | PacketCapturesGetDefaultResponse
   >;
   /** Deletes the specified packet capture session. */
   delete(
@@ -5226,7 +5226,7 @@ export interface PacketCapturesCreate {
   ): StreamableMethod<
     | PacketCapturesDelete202Response
     | PacketCapturesDelete204Response
-    | PacketCapturesDeletedefaultResponse
+    | PacketCapturesDeleteDefaultResponse
   >;
 }
 
@@ -5237,7 +5237,7 @@ export interface PacketCapturesStop {
   ): StreamableMethod<
     | PacketCapturesStop200Response
     | PacketCapturesStop202Response
-    | PacketCapturesStopdefaultResponse
+    | PacketCapturesStopDefaultResponse
   >;
 }
 
@@ -5248,7 +5248,7 @@ export interface PacketCapturesGetStatus {
   ): StreamableMethod<
     | PacketCapturesGetStatus200Response
     | PacketCapturesGetStatus202Response
-    | PacketCapturesGetStatusdefaultResponse
+    | PacketCapturesGetStatusDefaultResponse
   >;
 }
 
@@ -5257,7 +5257,7 @@ export interface PacketCapturesList {
   get(
     options: PacketCapturesListParameters
   ): StreamableMethod<
-    PacketCapturesList200Response | PacketCapturesListdefaultResponse
+    PacketCapturesList200Response | PacketCapturesListDefaultResponse
   >;
 }
 
@@ -5268,13 +5268,13 @@ export interface ConnectionMonitorsCreateOrUpdate {
   ): StreamableMethod<
     | ConnectionMonitorsCreateOrUpdate200Response
     | ConnectionMonitorsCreateOrUpdate201Response
-    | ConnectionMonitorsCreateOrUpdatedefaultResponse
+    | ConnectionMonitorsCreateOrUpdateDefaultResponse
   >;
   /** Gets a connection monitor by name. */
   get(
     options: ConnectionMonitorsGetParameters
   ): StreamableMethod<
-    ConnectionMonitorsGet200Response | ConnectionMonitorsGetdefaultResponse
+    ConnectionMonitorsGet200Response | ConnectionMonitorsGetDefaultResponse
   >;
   /** Deletes the specified connection monitor. */
   delete(
@@ -5282,14 +5282,14 @@ export interface ConnectionMonitorsCreateOrUpdate {
   ): StreamableMethod<
     | ConnectionMonitorsDelete202Response
     | ConnectionMonitorsDelete204Response
-    | ConnectionMonitorsDeletedefaultResponse
+    | ConnectionMonitorsDeleteDefaultResponse
   >;
   /** Update tags of the specified connection monitor. */
   patch(
     options: ConnectionMonitorsUpdateTagsParameters
   ): StreamableMethod<
     | ConnectionMonitorsUpdateTags200Response
-    | ConnectionMonitorsUpdateTagsdefaultResponse
+    | ConnectionMonitorsUpdateTagsDefaultResponse
   >;
 }
 
@@ -5300,7 +5300,7 @@ export interface ConnectionMonitorsStop {
   ): StreamableMethod<
     | ConnectionMonitorsStop200Response
     | ConnectionMonitorsStop202Response
-    | ConnectionMonitorsStopdefaultResponse
+    | ConnectionMonitorsStopDefaultResponse
   >;
 }
 
@@ -5311,7 +5311,7 @@ export interface ConnectionMonitorsStart {
   ): StreamableMethod<
     | ConnectionMonitorsStart200Response
     | ConnectionMonitorsStart202Response
-    | ConnectionMonitorsStartdefaultResponse
+    | ConnectionMonitorsStartDefaultResponse
   >;
 }
 
@@ -5322,7 +5322,7 @@ export interface ConnectionMonitorsQuery {
   ): StreamableMethod<
     | ConnectionMonitorsQuery200Response
     | ConnectionMonitorsQuery202Response
-    | ConnectionMonitorsQuerydefaultResponse
+    | ConnectionMonitorsQueryDefaultResponse
   >;
 }
 
@@ -5331,7 +5331,7 @@ export interface ConnectionMonitorsList {
   get(
     options: ConnectionMonitorsListParameters
   ): StreamableMethod<
-    ConnectionMonitorsList200Response | ConnectionMonitorsListdefaultResponse
+    ConnectionMonitorsList200Response | ConnectionMonitorsListDefaultResponse
   >;
 }
 
@@ -5342,25 +5342,25 @@ export interface FlowLogsCreateOrUpdate {
   ): StreamableMethod<
     | FlowLogsCreateOrUpdate200Response
     | FlowLogsCreateOrUpdate201Response
-    | FlowLogsCreateOrUpdatedefaultResponse
+    | FlowLogsCreateOrUpdateDefaultResponse
   >;
   /** Update tags of the specified flow log. */
   patch(
     options: FlowLogsUpdateTagsParameters
   ): StreamableMethod<
-    FlowLogsUpdateTags200Response | FlowLogsUpdateTagsdefaultResponse
+    FlowLogsUpdateTags200Response | FlowLogsUpdateTagsDefaultResponse
   >;
   /** Gets a flow log resource by name. */
   get(
     options: FlowLogsGetParameters
-  ): StreamableMethod<FlowLogsGet200Response | FlowLogsGetdefaultResponse>;
+  ): StreamableMethod<FlowLogsGet200Response | FlowLogsGetDefaultResponse>;
   /** Deletes the specified flow log resource. */
   delete(
     options: FlowLogsDeleteParameters
   ): StreamableMethod<
     | FlowLogsDelete202Response
     | FlowLogsDelete204Response
-    | FlowLogsDeletedefaultResponse
+    | FlowLogsDeleteDefaultResponse
   >;
 }
 
@@ -5368,7 +5368,7 @@ export interface FlowLogsList {
   /** Lists all flow log resources for the specified Network Watcher. */
   get(
     options: FlowLogsListParameters
-  ): StreamableMethod<FlowLogsList200Response | FlowLogsListdefaultResponse>;
+  ): StreamableMethod<FlowLogsList200Response | FlowLogsListDefaultResponse>;
 }
 
 export interface OperationsList {
@@ -5376,7 +5376,7 @@ export interface OperationsList {
   get(
     options: OperationsListParameters
   ): StreamableMethod<
-    OperationsList200Response | OperationsListdefaultResponse
+    OperationsList200Response | OperationsListDefaultResponse
   >;
 }
 
@@ -5388,13 +5388,13 @@ export interface PrivateEndpointsDelete {
     | PrivateEndpointsDelete200Response
     | PrivateEndpointsDelete202Response
     | PrivateEndpointsDelete204Response
-    | PrivateEndpointsDeletedefaultResponse
+    | PrivateEndpointsDeleteDefaultResponse
   >;
   /** Gets the specified private endpoint by resource group. */
   get(
     options: PrivateEndpointsGetParameters
   ): StreamableMethod<
-    PrivateEndpointsGet200Response | PrivateEndpointsGetdefaultResponse
+    PrivateEndpointsGet200Response | PrivateEndpointsGetDefaultResponse
   >;
   /** Creates or updates an private endpoint in the specified resource group. */
   put(
@@ -5402,7 +5402,7 @@ export interface PrivateEndpointsDelete {
   ): StreamableMethod<
     | PrivateEndpointsCreateOrUpdate200Response
     | PrivateEndpointsCreateOrUpdate201Response
-    | PrivateEndpointsCreateOrUpdatedefaultResponse
+    | PrivateEndpointsCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -5411,7 +5411,7 @@ export interface PrivateEndpointsList {
   get(
     options: PrivateEndpointsListParameters
   ): StreamableMethod<
-    PrivateEndpointsList200Response | PrivateEndpointsListdefaultResponse
+    PrivateEndpointsList200Response | PrivateEndpointsListDefaultResponse
   >;
 }
 
@@ -5421,7 +5421,7 @@ export interface PrivateEndpointsListBySubscription {
     options: PrivateEndpointsListBySubscriptionParameters
   ): StreamableMethod<
     | PrivateEndpointsListBySubscription200Response
-    | PrivateEndpointsListBySubscriptiondefaultResponse
+    | PrivateEndpointsListBySubscriptionDefaultResponse
   >;
 }
 
@@ -5431,7 +5431,7 @@ export interface AvailablePrivateEndpointTypesList {
     options: AvailablePrivateEndpointTypesListParameters
   ): StreamableMethod<
     | AvailablePrivateEndpointTypesList200Response
-    | AvailablePrivateEndpointTypesListdefaultResponse
+    | AvailablePrivateEndpointTypesListDefaultResponse
   >;
 }
 
@@ -5441,7 +5441,7 @@ export interface AvailablePrivateEndpointTypesListByResourceGroup {
     options: AvailablePrivateEndpointTypesListByResourceGroupParameters
   ): StreamableMethod<
     | AvailablePrivateEndpointTypesListByResourceGroup200Response
-    | AvailablePrivateEndpointTypesListByResourceGroupdefaultResponse
+    | AvailablePrivateEndpointTypesListByResourceGroupDefaultResponse
   >;
 }
 
@@ -5453,13 +5453,13 @@ export interface PrivateDnsZoneGroupsDelete {
     | PrivateDnsZoneGroupsDelete200Response
     | PrivateDnsZoneGroupsDelete202Response
     | PrivateDnsZoneGroupsDelete204Response
-    | PrivateDnsZoneGroupsDeletedefaultResponse
+    | PrivateDnsZoneGroupsDeleteDefaultResponse
   >;
   /** Gets the private dns zone group resource by specified private dns zone group name. */
   get(
     options: PrivateDnsZoneGroupsGetParameters
   ): StreamableMethod<
-    PrivateDnsZoneGroupsGet200Response | PrivateDnsZoneGroupsGetdefaultResponse
+    PrivateDnsZoneGroupsGet200Response | PrivateDnsZoneGroupsGetDefaultResponse
   >;
   /** Creates or updates a private dns zone group in the specified private endpoint. */
   put(
@@ -5467,7 +5467,7 @@ export interface PrivateDnsZoneGroupsDelete {
   ): StreamableMethod<
     | PrivateDnsZoneGroupsCreateOrUpdate200Response
     | PrivateDnsZoneGroupsCreateOrUpdate201Response
-    | PrivateDnsZoneGroupsCreateOrUpdatedefaultResponse
+    | PrivateDnsZoneGroupsCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -5477,7 +5477,7 @@ export interface PrivateDnsZoneGroupsList {
     options: PrivateDnsZoneGroupsListParameters
   ): StreamableMethod<
     | PrivateDnsZoneGroupsList200Response
-    | PrivateDnsZoneGroupsListdefaultResponse
+    | PrivateDnsZoneGroupsListDefaultResponse
   >;
 }
 
@@ -5489,13 +5489,13 @@ export interface PrivateLinkServicesDelete {
     | PrivateLinkServicesDelete200Response
     | PrivateLinkServicesDelete202Response
     | PrivateLinkServicesDelete204Response
-    | PrivateLinkServicesDeletedefaultResponse
+    | PrivateLinkServicesDeleteDefaultResponse
   >;
   /** Gets the specified private link service by resource group. */
   get(
     options: PrivateLinkServicesGetParameters
   ): StreamableMethod<
-    PrivateLinkServicesGet200Response | PrivateLinkServicesGetdefaultResponse
+    PrivateLinkServicesGet200Response | PrivateLinkServicesGetDefaultResponse
   >;
   /** Creates or updates an private link service in the specified resource group. */
   put(
@@ -5503,7 +5503,7 @@ export interface PrivateLinkServicesDelete {
   ): StreamableMethod<
     | PrivateLinkServicesCreateOrUpdate200Response
     | PrivateLinkServicesCreateOrUpdate201Response
-    | PrivateLinkServicesCreateOrUpdatedefaultResponse
+    | PrivateLinkServicesCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -5512,7 +5512,7 @@ export interface PrivateLinkServicesList {
   get(
     options: PrivateLinkServicesListParameters
   ): StreamableMethod<
-    PrivateLinkServicesList200Response | PrivateLinkServicesListdefaultResponse
+    PrivateLinkServicesList200Response | PrivateLinkServicesListDefaultResponse
   >;
 }
 
@@ -5522,7 +5522,7 @@ export interface PrivateLinkServicesListBySubscription {
     options: PrivateLinkServicesListBySubscriptionParameters
   ): StreamableMethod<
     | PrivateLinkServicesListBySubscription200Response
-    | PrivateLinkServicesListBySubscriptiondefaultResponse
+    | PrivateLinkServicesListBySubscriptionDefaultResponse
   >;
 }
 
@@ -5532,14 +5532,14 @@ export interface PrivateLinkServicesGetPrivateEndpointConnection {
     options: PrivateLinkServicesGetPrivateEndpointConnectionParameters
   ): StreamableMethod<
     | PrivateLinkServicesGetPrivateEndpointConnection200Response
-    | PrivateLinkServicesGetPrivateEndpointConnectiondefaultResponse
+    | PrivateLinkServicesGetPrivateEndpointConnectionDefaultResponse
   >;
   /** Approve or reject private end point connection for a private link service in a subscription. */
   put(
     options: PrivateLinkServicesUpdatePrivateEndpointConnectionParameters
   ): StreamableMethod<
     | PrivateLinkServicesUpdatePrivateEndpointConnection200Response
-    | PrivateLinkServicesUpdatePrivateEndpointConnectiondefaultResponse
+    | PrivateLinkServicesUpdatePrivateEndpointConnectionDefaultResponse
   >;
   /** Delete private end point connection for a private link service in a subscription. */
   delete(
@@ -5548,7 +5548,7 @@ export interface PrivateLinkServicesGetPrivateEndpointConnection {
     | PrivateLinkServicesDeletePrivateEndpointConnection200Response
     | PrivateLinkServicesDeletePrivateEndpointConnection202Response
     | PrivateLinkServicesDeletePrivateEndpointConnection204Response
-    | PrivateLinkServicesDeletePrivateEndpointConnectiondefaultResponse
+    | PrivateLinkServicesDeletePrivateEndpointConnectionDefaultResponse
   >;
 }
 
@@ -5558,7 +5558,7 @@ export interface PrivateLinkServicesListPrivateEndpointConnections {
     options: PrivateLinkServicesListPrivateEndpointConnectionsParameters
   ): StreamableMethod<
     | PrivateLinkServicesListPrivateEndpointConnections200Response
-    | PrivateLinkServicesListPrivateEndpointConnectionsdefaultResponse
+    | PrivateLinkServicesListPrivateEndpointConnectionsDefaultResponse
   >;
 }
 
@@ -5569,7 +5569,7 @@ export interface PrivateLinkServicesCheckPrivateLinkServiceVisibility {
   ): StreamableMethod<
     | PrivateLinkServicesCheckPrivateLinkServiceVisibility200Response
     | PrivateLinkServicesCheckPrivateLinkServiceVisibility202Response
-    | PrivateLinkServicesCheckPrivateLinkServiceVisibilitydefaultResponse
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibilityDefaultResponse
   >;
 }
 
@@ -5580,7 +5580,7 @@ export interface PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceG
   ): StreamableMethod<
     | PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup200Response
     | PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup202Response
-    | PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupdefaultResponse
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupDefaultResponse
   >;
 }
 
@@ -5590,7 +5590,7 @@ export interface PrivateLinkServicesListAutoApprovedPrivateLinkServices {
     options: PrivateLinkServicesListAutoApprovedPrivateLinkServicesParameters
   ): StreamableMethod<
     | PrivateLinkServicesListAutoApprovedPrivateLinkServices200Response
-    | PrivateLinkServicesListAutoApprovedPrivateLinkServicesdefaultResponse
+    | PrivateLinkServicesListAutoApprovedPrivateLinkServicesDefaultResponse
   >;
 }
 
@@ -5600,7 +5600,7 @@ export interface PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourc
     options: PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupParameters
   ): StreamableMethod<
     | PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroup200Response
-    | PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupdefaultResponse
+    | PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupDefaultResponse
   >;
 }
 
@@ -5612,13 +5612,13 @@ export interface PublicIPPrefixesDelete {
     | PublicIPPrefixesDelete200Response
     | PublicIPPrefixesDelete202Response
     | PublicIPPrefixesDelete204Response
-    | PublicIPPrefixesDeletedefaultResponse
+    | PublicIPPrefixesDeleteDefaultResponse
   >;
   /** Gets the specified public IP prefix in a specified resource group. */
   get(
     options: PublicIPPrefixesGetParameters
   ): StreamableMethod<
-    PublicIPPrefixesGet200Response | PublicIPPrefixesGetdefaultResponse
+    PublicIPPrefixesGet200Response | PublicIPPrefixesGetDefaultResponse
   >;
   /** Creates or updates a static or dynamic public IP prefix. */
   put(
@@ -5626,14 +5626,14 @@ export interface PublicIPPrefixesDelete {
   ): StreamableMethod<
     | PublicIPPrefixesCreateOrUpdate200Response
     | PublicIPPrefixesCreateOrUpdate201Response
-    | PublicIPPrefixesCreateOrUpdatedefaultResponse
+    | PublicIPPrefixesCreateOrUpdateDefaultResponse
   >;
   /** Updates public IP prefix tags. */
   patch(
     options: PublicIPPrefixesUpdateTagsParameters
   ): StreamableMethod<
     | PublicIPPrefixesUpdateTags200Response
-    | PublicIPPrefixesUpdateTagsdefaultResponse
+    | PublicIPPrefixesUpdateTagsDefaultResponse
   >;
 }
 
@@ -5642,7 +5642,7 @@ export interface PublicIPPrefixesListAll {
   get(
     options: PublicIPPrefixesListAllParameters
   ): StreamableMethod<
-    PublicIPPrefixesListAll200Response | PublicIPPrefixesListAlldefaultResponse
+    PublicIPPrefixesListAll200Response | PublicIPPrefixesListAllDefaultResponse
   >;
 }
 
@@ -5651,7 +5651,7 @@ export interface PublicIPPrefixesList {
   get(
     options: PublicIPPrefixesListParameters
   ): StreamableMethod<
-    PublicIPPrefixesList200Response | PublicIPPrefixesListdefaultResponse
+    PublicIPPrefixesList200Response | PublicIPPrefixesListDefaultResponse
   >;
 }
 
@@ -5663,13 +5663,13 @@ export interface RouteFiltersDelete {
     | RouteFiltersDelete200Response
     | RouteFiltersDelete202Response
     | RouteFiltersDelete204Response
-    | RouteFiltersDeletedefaultResponse
+    | RouteFiltersDeleteDefaultResponse
   >;
   /** Gets the specified route filter. */
   get(
     options: RouteFiltersGetParameters
   ): StreamableMethod<
-    RouteFiltersGet200Response | RouteFiltersGetdefaultResponse
+    RouteFiltersGet200Response | RouteFiltersGetDefaultResponse
   >;
   /** Creates or updates a route filter in a specified resource group. */
   put(
@@ -5677,13 +5677,13 @@ export interface RouteFiltersDelete {
   ): StreamableMethod<
     | RouteFiltersCreateOrUpdate200Response
     | RouteFiltersCreateOrUpdate201Response
-    | RouteFiltersCreateOrUpdatedefaultResponse
+    | RouteFiltersCreateOrUpdateDefaultResponse
   >;
   /** Updates tags of a route filter. */
   patch(
     options: RouteFiltersUpdateTagsParameters
   ): StreamableMethod<
-    RouteFiltersUpdateTags200Response | RouteFiltersUpdateTagsdefaultResponse
+    RouteFiltersUpdateTags200Response | RouteFiltersUpdateTagsDefaultResponse
   >;
 }
 
@@ -5693,7 +5693,7 @@ export interface RouteFiltersListByResourceGroup {
     options: RouteFiltersListByResourceGroupParameters
   ): StreamableMethod<
     | RouteFiltersListByResourceGroup200Response
-    | RouteFiltersListByResourceGroupdefaultResponse
+    | RouteFiltersListByResourceGroupDefaultResponse
   >;
 }
 
@@ -5702,7 +5702,7 @@ export interface RouteFiltersList {
   get(
     options: RouteFiltersListParameters
   ): StreamableMethod<
-    RouteFiltersList200Response | RouteFiltersListdefaultResponse
+    RouteFiltersList200Response | RouteFiltersListDefaultResponse
   >;
 }
 
@@ -5714,13 +5714,13 @@ export interface RouteFilterRulesDelete {
     | RouteFilterRulesDelete200Response
     | RouteFilterRulesDelete202Response
     | RouteFilterRulesDelete204Response
-    | RouteFilterRulesDeletedefaultResponse
+    | RouteFilterRulesDeleteDefaultResponse
   >;
   /** Gets the specified rule from a route filter. */
   get(
     options: RouteFilterRulesGetParameters
   ): StreamableMethod<
-    RouteFilterRulesGet200Response | RouteFilterRulesGetdefaultResponse
+    RouteFilterRulesGet200Response | RouteFilterRulesGetDefaultResponse
   >;
   /** Creates or updates a route in the specified route filter. */
   put(
@@ -5728,7 +5728,7 @@ export interface RouteFilterRulesDelete {
   ): StreamableMethod<
     | RouteFilterRulesCreateOrUpdate200Response
     | RouteFilterRulesCreateOrUpdate201Response
-    | RouteFilterRulesCreateOrUpdatedefaultResponse
+    | RouteFilterRulesCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -5738,7 +5738,7 @@ export interface RouteFilterRulesListByRouteFilter {
     options: RouteFilterRulesListByRouteFilterParameters
   ): StreamableMethod<
     | RouteFilterRulesListByRouteFilter200Response
-    | RouteFilterRulesListByRouteFilterdefaultResponse
+    | RouteFilterRulesListByRouteFilterDefaultResponse
   >;
 }
 
@@ -5750,13 +5750,13 @@ export interface RouteTablesDelete {
     | RouteTablesDelete200Response
     | RouteTablesDelete202Response
     | RouteTablesDelete204Response
-    | RouteTablesDeletedefaultResponse
+    | RouteTablesDeleteDefaultResponse
   >;
   /** Gets the specified route table. */
   get(
     options: RouteTablesGetParameters
   ): StreamableMethod<
-    RouteTablesGet200Response | RouteTablesGetdefaultResponse
+    RouteTablesGet200Response | RouteTablesGetDefaultResponse
   >;
   /** Create or updates a route table in a specified resource group. */
   put(
@@ -5764,13 +5764,13 @@ export interface RouteTablesDelete {
   ): StreamableMethod<
     | RouteTablesCreateOrUpdate200Response
     | RouteTablesCreateOrUpdate201Response
-    | RouteTablesCreateOrUpdatedefaultResponse
+    | RouteTablesCreateOrUpdateDefaultResponse
   >;
   /** Updates a route table tags. */
   patch(
     options: RouteTablesUpdateTagsParameters
   ): StreamableMethod<
-    RouteTablesUpdateTags200Response | RouteTablesUpdateTagsdefaultResponse
+    RouteTablesUpdateTags200Response | RouteTablesUpdateTagsDefaultResponse
   >;
 }
 
@@ -5779,7 +5779,7 @@ export interface RouteTablesList {
   get(
     options: RouteTablesListParameters
   ): StreamableMethod<
-    RouteTablesList200Response | RouteTablesListdefaultResponse
+    RouteTablesList200Response | RouteTablesListDefaultResponse
   >;
 }
 
@@ -5788,7 +5788,7 @@ export interface RouteTablesListAll {
   get(
     options: RouteTablesListAllParameters
   ): StreamableMethod<
-    RouteTablesListAll200Response | RouteTablesListAlldefaultResponse
+    RouteTablesListAll200Response | RouteTablesListAllDefaultResponse
   >;
 }
 
@@ -5800,19 +5800,19 @@ export interface RoutesDelete {
     | RoutesDelete200Response
     | RoutesDelete202Response
     | RoutesDelete204Response
-    | RoutesDeletedefaultResponse
+    | RoutesDeleteDefaultResponse
   >;
   /** Gets the specified route from a route table. */
   get(
     options: RoutesGetParameters
-  ): StreamableMethod<RoutesGet200Response | RoutesGetdefaultResponse>;
+  ): StreamableMethod<RoutesGet200Response | RoutesGetDefaultResponse>;
   /** Creates or updates a route in the specified route table. */
   put(
     options: RoutesCreateOrUpdateParameters
   ): StreamableMethod<
     | RoutesCreateOrUpdate200Response
     | RoutesCreateOrUpdate201Response
-    | RoutesCreateOrUpdatedefaultResponse
+    | RoutesCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -5820,7 +5820,7 @@ export interface RoutesList {
   /** Gets all routes in a route table. */
   get(
     options: RoutesListParameters
-  ): StreamableMethod<RoutesList200Response | RoutesListdefaultResponse>;
+  ): StreamableMethod<RoutesList200Response | RoutesListDefaultResponse>;
 }
 
 export interface SecurityPartnerProvidersDelete {
@@ -5831,14 +5831,14 @@ export interface SecurityPartnerProvidersDelete {
     | SecurityPartnerProvidersDelete200Response
     | SecurityPartnerProvidersDelete202Response
     | SecurityPartnerProvidersDelete204Response
-    | SecurityPartnerProvidersDeletedefaultResponse
+    | SecurityPartnerProvidersDeleteDefaultResponse
   >;
   /** Gets the specified Security Partner Provider. */
   get(
     options: SecurityPartnerProvidersGetParameters
   ): StreamableMethod<
     | SecurityPartnerProvidersGet200Response
-    | SecurityPartnerProvidersGetdefaultResponse
+    | SecurityPartnerProvidersGetDefaultResponse
   >;
   /** Creates or updates the specified Security Partner Provider. */
   put(
@@ -5846,14 +5846,14 @@ export interface SecurityPartnerProvidersDelete {
   ): StreamableMethod<
     | SecurityPartnerProvidersCreateOrUpdate200Response
     | SecurityPartnerProvidersCreateOrUpdate201Response
-    | SecurityPartnerProvidersCreateOrUpdatedefaultResponse
+    | SecurityPartnerProvidersCreateOrUpdateDefaultResponse
   >;
   /** Updates tags of a Security Partner Provider resource. */
   patch(
     options: SecurityPartnerProvidersUpdateTagsParameters
   ): StreamableMethod<
     | SecurityPartnerProvidersUpdateTags200Response
-    | SecurityPartnerProvidersUpdateTagsdefaultResponse
+    | SecurityPartnerProvidersUpdateTagsDefaultResponse
   >;
 }
 
@@ -5863,7 +5863,7 @@ export interface SecurityPartnerProvidersListByResourceGroup {
     options: SecurityPartnerProvidersListByResourceGroupParameters
   ): StreamableMethod<
     | SecurityPartnerProvidersListByResourceGroup200Response
-    | SecurityPartnerProvidersListByResourceGroupdefaultResponse
+    | SecurityPartnerProvidersListByResourceGroupDefaultResponse
   >;
 }
 
@@ -5873,7 +5873,7 @@ export interface SecurityPartnerProvidersList {
     options: SecurityPartnerProvidersListParameters
   ): StreamableMethod<
     | SecurityPartnerProvidersList200Response
-    | SecurityPartnerProvidersListdefaultResponse
+    | SecurityPartnerProvidersListDefaultResponse
   >;
 }
 
@@ -5883,7 +5883,7 @@ export interface BgpServiceCommunitiesList {
     options: BgpServiceCommunitiesListParameters
   ): StreamableMethod<
     | BgpServiceCommunitiesList200Response
-    | BgpServiceCommunitiesListdefaultResponse
+    | BgpServiceCommunitiesListDefaultResponse
   >;
 }
 
@@ -5895,14 +5895,14 @@ export interface ServiceEndpointPoliciesDelete {
     | ServiceEndpointPoliciesDelete200Response
     | ServiceEndpointPoliciesDelete202Response
     | ServiceEndpointPoliciesDelete204Response
-    | ServiceEndpointPoliciesDeletedefaultResponse
+    | ServiceEndpointPoliciesDeleteDefaultResponse
   >;
   /** Gets the specified service Endpoint Policies in a specified resource group. */
   get(
     options: ServiceEndpointPoliciesGetParameters
   ): StreamableMethod<
     | ServiceEndpointPoliciesGet200Response
-    | ServiceEndpointPoliciesGetdefaultResponse
+    | ServiceEndpointPoliciesGetDefaultResponse
   >;
   /** Creates or updates a service Endpoint Policies. */
   put(
@@ -5910,14 +5910,14 @@ export interface ServiceEndpointPoliciesDelete {
   ): StreamableMethod<
     | ServiceEndpointPoliciesCreateOrUpdate200Response
     | ServiceEndpointPoliciesCreateOrUpdate201Response
-    | ServiceEndpointPoliciesCreateOrUpdatedefaultResponse
+    | ServiceEndpointPoliciesCreateOrUpdateDefaultResponse
   >;
   /** Updates tags of a service endpoint policy. */
   patch(
     options: ServiceEndpointPoliciesUpdateTagsParameters
   ): StreamableMethod<
     | ServiceEndpointPoliciesUpdateTags200Response
-    | ServiceEndpointPoliciesUpdateTagsdefaultResponse
+    | ServiceEndpointPoliciesUpdateTagsDefaultResponse
   >;
 }
 
@@ -5927,7 +5927,7 @@ export interface ServiceEndpointPoliciesList {
     options: ServiceEndpointPoliciesListParameters
   ): StreamableMethod<
     | ServiceEndpointPoliciesList200Response
-    | ServiceEndpointPoliciesListdefaultResponse
+    | ServiceEndpointPoliciesListDefaultResponse
   >;
 }
 
@@ -5937,7 +5937,7 @@ export interface ServiceEndpointPoliciesListByResourceGroup {
     options: ServiceEndpointPoliciesListByResourceGroupParameters
   ): StreamableMethod<
     | ServiceEndpointPoliciesListByResourceGroup200Response
-    | ServiceEndpointPoliciesListByResourceGroupdefaultResponse
+    | ServiceEndpointPoliciesListByResourceGroupDefaultResponse
   >;
 }
 
@@ -5949,14 +5949,14 @@ export interface ServiceEndpointPolicyDefinitionsDelete {
     | ServiceEndpointPolicyDefinitionsDelete200Response
     | ServiceEndpointPolicyDefinitionsDelete202Response
     | ServiceEndpointPolicyDefinitionsDelete204Response
-    | ServiceEndpointPolicyDefinitionsDeletedefaultResponse
+    | ServiceEndpointPolicyDefinitionsDeleteDefaultResponse
   >;
   /** Get the specified service endpoint policy definitions from service endpoint policy. */
   get(
     options: ServiceEndpointPolicyDefinitionsGetParameters
   ): StreamableMethod<
     | ServiceEndpointPolicyDefinitionsGet200Response
-    | ServiceEndpointPolicyDefinitionsGetdefaultResponse
+    | ServiceEndpointPolicyDefinitionsGetDefaultResponse
   >;
   /** Creates or updates a service endpoint policy definition in the specified service endpoint policy. */
   put(
@@ -5964,7 +5964,7 @@ export interface ServiceEndpointPolicyDefinitionsDelete {
   ): StreamableMethod<
     | ServiceEndpointPolicyDefinitionsCreateOrUpdate200Response
     | ServiceEndpointPolicyDefinitionsCreateOrUpdate201Response
-    | ServiceEndpointPolicyDefinitionsCreateOrUpdatedefaultResponse
+    | ServiceEndpointPolicyDefinitionsCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -5974,7 +5974,7 @@ export interface ServiceEndpointPolicyDefinitionsListByResourceGroup {
     options: ServiceEndpointPolicyDefinitionsListByResourceGroupParameters
   ): StreamableMethod<
     | ServiceEndpointPolicyDefinitionsListByResourceGroup200Response
-    | ServiceEndpointPolicyDefinitionsListByResourceGroupdefaultResponse
+    | ServiceEndpointPolicyDefinitionsListByResourceGroupDefaultResponse
   >;
 }
 
@@ -5983,7 +5983,7 @@ export interface ServiceTagsList {
   get(
     options: ServiceTagsListParameters
   ): StreamableMethod<
-    ServiceTagsList200Response | ServiceTagsListdefaultResponse
+    ServiceTagsList200Response | ServiceTagsListDefaultResponse
   >;
 }
 
@@ -5993,7 +5993,7 @@ export interface ServiceTagInformationList {
     options: ServiceTagInformationListParameters
   ): StreamableMethod<
     | ServiceTagInformationList200Response
-    | ServiceTagInformationListdefaultResponse
+    | ServiceTagInformationListDefaultResponse
   >;
 }
 
@@ -6001,7 +6001,7 @@ export interface UsagesList {
   /** List network usages for a subscription. */
   get(
     options: UsagesListParameters
-  ): StreamableMethod<UsagesList200Response | UsagesListdefaultResponse>;
+  ): StreamableMethod<UsagesList200Response | UsagesListDefaultResponse>;
 }
 
 export interface VirtualNetworksDelete {
@@ -6012,13 +6012,13 @@ export interface VirtualNetworksDelete {
     | VirtualNetworksDelete200Response
     | VirtualNetworksDelete202Response
     | VirtualNetworksDelete204Response
-    | VirtualNetworksDeletedefaultResponse
+    | VirtualNetworksDeleteDefaultResponse
   >;
   /** Gets the specified virtual network by resource group. */
   get(
     options: VirtualNetworksGetParameters
   ): StreamableMethod<
-    VirtualNetworksGet200Response | VirtualNetworksGetdefaultResponse
+    VirtualNetworksGet200Response | VirtualNetworksGetDefaultResponse
   >;
   /** Creates or updates a virtual network in the specified resource group. */
   put(
@@ -6026,14 +6026,14 @@ export interface VirtualNetworksDelete {
   ): StreamableMethod<
     | VirtualNetworksCreateOrUpdate200Response
     | VirtualNetworksCreateOrUpdate201Response
-    | VirtualNetworksCreateOrUpdatedefaultResponse
+    | VirtualNetworksCreateOrUpdateDefaultResponse
   >;
   /** Updates a virtual network tags. */
   patch(
     options: VirtualNetworksUpdateTagsParameters
   ): StreamableMethod<
     | VirtualNetworksUpdateTags200Response
-    | VirtualNetworksUpdateTagsdefaultResponse
+    | VirtualNetworksUpdateTagsDefaultResponse
   >;
 }
 
@@ -6042,7 +6042,7 @@ export interface VirtualNetworksListAll {
   get(
     options: VirtualNetworksListAllParameters
   ): StreamableMethod<
-    VirtualNetworksListAll200Response | VirtualNetworksListAlldefaultResponse
+    VirtualNetworksListAll200Response | VirtualNetworksListAllDefaultResponse
   >;
 }
 
@@ -6051,7 +6051,7 @@ export interface VirtualNetworksList {
   get(
     options: VirtualNetworksListParameters
   ): StreamableMethod<
-    VirtualNetworksList200Response | VirtualNetworksListdefaultResponse
+    VirtualNetworksList200Response | VirtualNetworksListDefaultResponse
   >;
 }
 
@@ -6061,7 +6061,7 @@ export interface VirtualNetworksCheckIPAddressAvailability {
     options: VirtualNetworksCheckIPAddressAvailabilityParameters
   ): StreamableMethod<
     | VirtualNetworksCheckIPAddressAvailability200Response
-    | VirtualNetworksCheckIPAddressAvailabilitydefaultResponse
+    | VirtualNetworksCheckIPAddressAvailabilityDefaultResponse
   >;
 }
 
@@ -6071,7 +6071,7 @@ export interface VirtualNetworksListUsage {
     options: VirtualNetworksListUsageParameters
   ): StreamableMethod<
     | VirtualNetworksListUsage200Response
-    | VirtualNetworksListUsagedefaultResponse
+    | VirtualNetworksListUsageDefaultResponse
   >;
 }
 
@@ -6082,7 +6082,7 @@ export interface VirtualNetworksListDdosProtectionStatus {
   ): StreamableMethod<
     | VirtualNetworksListDdosProtectionStatus200Response
     | VirtualNetworksListDdosProtectionStatus202Response
-    | VirtualNetworksListDdosProtectionStatusdefaultResponse
+    | VirtualNetworksListDdosProtectionStatusDefaultResponse
   >;
 }
 
@@ -6094,19 +6094,19 @@ export interface SubnetsDelete {
     | SubnetsDelete200Response
     | SubnetsDelete202Response
     | SubnetsDelete204Response
-    | SubnetsDeletedefaultResponse
+    | SubnetsDeleteDefaultResponse
   >;
   /** Gets the specified subnet by virtual network and resource group. */
   get(
     options: SubnetsGetParameters
-  ): StreamableMethod<SubnetsGet200Response | SubnetsGetdefaultResponse>;
+  ): StreamableMethod<SubnetsGet200Response | SubnetsGetDefaultResponse>;
   /** Creates or updates a subnet in the specified virtual network. */
   put(
     options: SubnetsCreateOrUpdateParameters
   ): StreamableMethod<
     | SubnetsCreateOrUpdate200Response
     | SubnetsCreateOrUpdate201Response
-    | SubnetsCreateOrUpdatedefaultResponse
+    | SubnetsCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -6117,7 +6117,7 @@ export interface SubnetsPrepareNetworkPolicies {
   ): StreamableMethod<
     | SubnetsPrepareNetworkPolicies200Response
     | SubnetsPrepareNetworkPolicies202Response
-    | SubnetsPrepareNetworkPoliciesdefaultResponse
+    | SubnetsPrepareNetworkPoliciesDefaultResponse
   >;
 }
 
@@ -6128,7 +6128,7 @@ export interface SubnetsUnprepareNetworkPolicies {
   ): StreamableMethod<
     | SubnetsUnprepareNetworkPolicies200Response
     | SubnetsUnprepareNetworkPolicies202Response
-    | SubnetsUnprepareNetworkPoliciesdefaultResponse
+    | SubnetsUnprepareNetworkPoliciesDefaultResponse
   >;
 }
 
@@ -6136,7 +6136,7 @@ export interface SubnetsList {
   /** Gets all subnets in a virtual network. */
   get(
     options: SubnetsListParameters
-  ): StreamableMethod<SubnetsList200Response | SubnetsListdefaultResponse>;
+  ): StreamableMethod<SubnetsList200Response | SubnetsListDefaultResponse>;
 }
 
 export interface ResourceNavigationLinksList {
@@ -6145,7 +6145,7 @@ export interface ResourceNavigationLinksList {
     options: ResourceNavigationLinksListParameters
   ): StreamableMethod<
     | ResourceNavigationLinksList200Response
-    | ResourceNavigationLinksListdefaultResponse
+    | ResourceNavigationLinksListDefaultResponse
   >;
 }
 
@@ -6155,7 +6155,7 @@ export interface ServiceAssociationLinksList {
     options: ServiceAssociationLinksListParameters
   ): StreamableMethod<
     | ServiceAssociationLinksList200Response
-    | ServiceAssociationLinksListdefaultResponse
+    | ServiceAssociationLinksListDefaultResponse
   >;
 }
 
@@ -6167,14 +6167,14 @@ export interface VirtualNetworkPeeringsDelete {
     | VirtualNetworkPeeringsDelete200Response
     | VirtualNetworkPeeringsDelete202Response
     | VirtualNetworkPeeringsDelete204Response
-    | VirtualNetworkPeeringsDeletedefaultResponse
+    | VirtualNetworkPeeringsDeleteDefaultResponse
   >;
   /** Gets the specified virtual network peering. */
   get(
     options: VirtualNetworkPeeringsGetParameters
   ): StreamableMethod<
     | VirtualNetworkPeeringsGet200Response
-    | VirtualNetworkPeeringsGetdefaultResponse
+    | VirtualNetworkPeeringsGetDefaultResponse
   >;
   /** Creates or updates a peering in the specified virtual network. */
   put(
@@ -6182,7 +6182,7 @@ export interface VirtualNetworkPeeringsDelete {
   ): StreamableMethod<
     | VirtualNetworkPeeringsCreateOrUpdate200Response
     | VirtualNetworkPeeringsCreateOrUpdate201Response
-    | VirtualNetworkPeeringsCreateOrUpdatedefaultResponse
+    | VirtualNetworkPeeringsCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -6192,7 +6192,7 @@ export interface VirtualNetworkPeeringsList {
     options: VirtualNetworkPeeringsListParameters
   ): StreamableMethod<
     | VirtualNetworkPeeringsList200Response
-    | VirtualNetworkPeeringsListdefaultResponse
+    | VirtualNetworkPeeringsListDefaultResponse
   >;
 }
 
@@ -6203,14 +6203,14 @@ export interface VirtualNetworkGatewaysCreateOrUpdate {
   ): StreamableMethod<
     | VirtualNetworkGatewaysCreateOrUpdate200Response
     | VirtualNetworkGatewaysCreateOrUpdate201Response
-    | VirtualNetworkGatewaysCreateOrUpdatedefaultResponse
+    | VirtualNetworkGatewaysCreateOrUpdateDefaultResponse
   >;
   /** Gets the specified virtual network gateway by resource group. */
   get(
     options: VirtualNetworkGatewaysGetParameters
   ): StreamableMethod<
     | VirtualNetworkGatewaysGet200Response
-    | VirtualNetworkGatewaysGetdefaultResponse
+    | VirtualNetworkGatewaysGetDefaultResponse
   >;
   /** Deletes the specified virtual network gateway. */
   delete(
@@ -6219,7 +6219,7 @@ export interface VirtualNetworkGatewaysCreateOrUpdate {
     | VirtualNetworkGatewaysDelete200Response
     | VirtualNetworkGatewaysDelete202Response
     | VirtualNetworkGatewaysDelete204Response
-    | VirtualNetworkGatewaysDeletedefaultResponse
+    | VirtualNetworkGatewaysDeleteDefaultResponse
   >;
   /** Updates a virtual network gateway tags. */
   patch(
@@ -6227,7 +6227,7 @@ export interface VirtualNetworkGatewaysCreateOrUpdate {
   ): StreamableMethod<
     | VirtualNetworkGatewaysUpdateTags200Response
     | VirtualNetworkGatewaysUpdateTags202Response
-    | VirtualNetworkGatewaysUpdateTagsdefaultResponse
+    | VirtualNetworkGatewaysUpdateTagsDefaultResponse
   >;
 }
 
@@ -6237,7 +6237,7 @@ export interface VirtualNetworkGatewaysList {
     options: VirtualNetworkGatewaysListParameters
   ): StreamableMethod<
     | VirtualNetworkGatewaysList200Response
-    | VirtualNetworkGatewaysListdefaultResponse
+    | VirtualNetworkGatewaysListDefaultResponse
   >;
 }
 
@@ -6247,7 +6247,7 @@ export interface VirtualNetworkGatewaysListConnections {
     options: VirtualNetworkGatewaysListConnectionsParameters
   ): StreamableMethod<
     | VirtualNetworkGatewaysListConnections200Response
-    | VirtualNetworkGatewaysListConnectionsdefaultResponse
+    | VirtualNetworkGatewaysListConnectionsDefaultResponse
   >;
 }
 
@@ -6258,7 +6258,7 @@ export interface VirtualNetworkGatewaysReset {
   ): StreamableMethod<
     | VirtualNetworkGatewaysReset200Response
     | VirtualNetworkGatewaysReset202Response
-    | VirtualNetworkGatewaysResetdefaultResponse
+    | VirtualNetworkGatewaysResetDefaultResponse
   >;
 }
 
@@ -6269,7 +6269,7 @@ export interface VirtualNetworkGatewaysResetVpnClientSharedKey {
   ): StreamableMethod<
     | VirtualNetworkGatewaysResetVpnClientSharedKey200Response
     | VirtualNetworkGatewaysResetVpnClientSharedKey202Response
-    | VirtualNetworkGatewaysResetVpnClientSharedKeydefaultResponse
+    | VirtualNetworkGatewaysResetVpnClientSharedKeyDefaultResponse
   >;
 }
 
@@ -6280,7 +6280,7 @@ export interface VirtualNetworkGatewaysGeneratevpnclientpackage {
   ): StreamableMethod<
     | VirtualNetworkGatewaysGeneratevpnclientpackage200Response
     | VirtualNetworkGatewaysGeneratevpnclientpackage202Response
-    | VirtualNetworkGatewaysGeneratevpnclientpackagedefaultResponse
+    | VirtualNetworkGatewaysGeneratevpnclientpackageDefaultResponse
   >;
 }
 
@@ -6291,7 +6291,7 @@ export interface VirtualNetworkGatewaysGenerateVpnProfile {
   ): StreamableMethod<
     | VirtualNetworkGatewaysGenerateVpnProfile200Response
     | VirtualNetworkGatewaysGenerateVpnProfile202Response
-    | VirtualNetworkGatewaysGenerateVpnProfiledefaultResponse
+    | VirtualNetworkGatewaysGenerateVpnProfileDefaultResponse
   >;
 }
 
@@ -6302,7 +6302,7 @@ export interface VirtualNetworkGatewaysGetVpnProfilePackageUrl {
   ): StreamableMethod<
     | VirtualNetworkGatewaysGetVpnProfilePackageUrl200Response
     | VirtualNetworkGatewaysGetVpnProfilePackageUrl202Response
-    | VirtualNetworkGatewaysGetVpnProfilePackageUrldefaultResponse
+    | VirtualNetworkGatewaysGetVpnProfilePackageUrlDefaultResponse
   >;
 }
 
@@ -6313,7 +6313,7 @@ export interface VirtualNetworkGatewaysGetBgpPeerStatus {
   ): StreamableMethod<
     | VirtualNetworkGatewaysGetBgpPeerStatus200Response
     | VirtualNetworkGatewaysGetBgpPeerStatus202Response
-    | VirtualNetworkGatewaysGetBgpPeerStatusdefaultResponse
+    | VirtualNetworkGatewaysGetBgpPeerStatusDefaultResponse
   >;
 }
 
@@ -6323,7 +6323,7 @@ export interface VirtualNetworkGatewaysSupportedVpnDevices {
     options: VirtualNetworkGatewaysSupportedVpnDevicesParameters
   ): StreamableMethod<
     | VirtualNetworkGatewaysSupportedVpnDevices200Response
-    | VirtualNetworkGatewaysSupportedVpnDevicesdefaultResponse
+    | VirtualNetworkGatewaysSupportedVpnDevicesDefaultResponse
   >;
 }
 
@@ -6334,7 +6334,7 @@ export interface VirtualNetworkGatewaysGetLearnedRoutes {
   ): StreamableMethod<
     | VirtualNetworkGatewaysGetLearnedRoutes200Response
     | VirtualNetworkGatewaysGetLearnedRoutes202Response
-    | VirtualNetworkGatewaysGetLearnedRoutesdefaultResponse
+    | VirtualNetworkGatewaysGetLearnedRoutesDefaultResponse
   >;
 }
 
@@ -6345,7 +6345,7 @@ export interface VirtualNetworkGatewaysGetAdvertisedRoutes {
   ): StreamableMethod<
     | VirtualNetworkGatewaysGetAdvertisedRoutes200Response
     | VirtualNetworkGatewaysGetAdvertisedRoutes202Response
-    | VirtualNetworkGatewaysGetAdvertisedRoutesdefaultResponse
+    | VirtualNetworkGatewaysGetAdvertisedRoutesDefaultResponse
   >;
 }
 
@@ -6356,7 +6356,7 @@ export interface VirtualNetworkGatewaysSetVpnclientIpsecParameters {
   ): StreamableMethod<
     | VirtualNetworkGatewaysSetVpnclientIpsecParameters200Response
     | VirtualNetworkGatewaysSetVpnclientIpsecParameters202Response
-    | VirtualNetworkGatewaysSetVpnclientIpsecParametersdefaultResponse
+    | VirtualNetworkGatewaysSetVpnclientIpsecParametersDefaultResponse
   >;
 }
 
@@ -6366,7 +6366,7 @@ export interface VirtualNetworkGatewaysGetVpnclientIpsecParameters {
     options: VirtualNetworkGatewaysGetVpnclientIpsecParametersParameters
   ): StreamableMethod<
     | VirtualNetworkGatewaysGetVpnclientIpsecParameters200Response
-    | VirtualNetworkGatewaysGetVpnclientIpsecParametersdefaultResponse
+    | VirtualNetworkGatewaysGetVpnclientIpsecParametersDefaultResponse
   >;
 }
 
@@ -6376,7 +6376,7 @@ export interface VirtualNetworkGatewaysVpnDeviceConfigurationScript {
     options: VirtualNetworkGatewaysVpnDeviceConfigurationScriptParameters
   ): StreamableMethod<
     | VirtualNetworkGatewaysVpnDeviceConfigurationScript200Response
-    | VirtualNetworkGatewaysVpnDeviceConfigurationScriptdefaultResponse
+    | VirtualNetworkGatewaysVpnDeviceConfigurationScriptDefaultResponse
   >;
 }
 
@@ -6387,7 +6387,7 @@ export interface VirtualNetworkGatewaysStartPacketCapture {
   ): StreamableMethod<
     | VirtualNetworkGatewaysStartPacketCapture200Response
     | VirtualNetworkGatewaysStartPacketCapture202Response
-    | VirtualNetworkGatewaysStartPacketCapturedefaultResponse
+    | VirtualNetworkGatewaysStartPacketCaptureDefaultResponse
   >;
 }
 
@@ -6398,7 +6398,7 @@ export interface VirtualNetworkGatewaysStopPacketCapture {
   ): StreamableMethod<
     | VirtualNetworkGatewaysStopPacketCapture200Response
     | VirtualNetworkGatewaysStopPacketCapture202Response
-    | VirtualNetworkGatewaysStopPacketCapturedefaultResponse
+    | VirtualNetworkGatewaysStopPacketCaptureDefaultResponse
   >;
 }
 
@@ -6409,7 +6409,7 @@ export interface VirtualNetworkGatewaysGetVpnclientConnectionHealth {
   ): StreamableMethod<
     | VirtualNetworkGatewaysGetVpnclientConnectionHealth200Response
     | VirtualNetworkGatewaysGetVpnclientConnectionHealth202Response
-    | VirtualNetworkGatewaysGetVpnclientConnectionHealthdefaultResponse
+    | VirtualNetworkGatewaysGetVpnclientConnectionHealthDefaultResponse
   >;
 }
 
@@ -6420,7 +6420,7 @@ export interface VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnect
   ): StreamableMethod<
     | VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections200Response
     | VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections202Response
-    | VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsdefaultResponse
+    | VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsDefaultResponse
   >;
 }
 
@@ -6431,14 +6431,14 @@ export interface VirtualNetworkGatewayConnectionsCreateOrUpdate {
   ): StreamableMethod<
     | VirtualNetworkGatewayConnectionsCreateOrUpdate200Response
     | VirtualNetworkGatewayConnectionsCreateOrUpdate201Response
-    | VirtualNetworkGatewayConnectionsCreateOrUpdatedefaultResponse
+    | VirtualNetworkGatewayConnectionsCreateOrUpdateDefaultResponse
   >;
   /** Gets the specified virtual network gateway connection by resource group. */
   get(
     options: VirtualNetworkGatewayConnectionsGetParameters
   ): StreamableMethod<
     | VirtualNetworkGatewayConnectionsGet200Response
-    | VirtualNetworkGatewayConnectionsGetdefaultResponse
+    | VirtualNetworkGatewayConnectionsGetDefaultResponse
   >;
   /** Deletes the specified virtual network Gateway connection. */
   delete(
@@ -6447,7 +6447,7 @@ export interface VirtualNetworkGatewayConnectionsCreateOrUpdate {
     | VirtualNetworkGatewayConnectionsDelete200Response
     | VirtualNetworkGatewayConnectionsDelete202Response
     | VirtualNetworkGatewayConnectionsDelete204Response
-    | VirtualNetworkGatewayConnectionsDeletedefaultResponse
+    | VirtualNetworkGatewayConnectionsDeleteDefaultResponse
   >;
   /** Updates a virtual network gateway connection tags. */
   patch(
@@ -6455,7 +6455,7 @@ export interface VirtualNetworkGatewayConnectionsCreateOrUpdate {
   ): StreamableMethod<
     | VirtualNetworkGatewayConnectionsUpdateTags200Response
     | VirtualNetworkGatewayConnectionsUpdateTags202Response
-    | VirtualNetworkGatewayConnectionsUpdateTagsdefaultResponse
+    | VirtualNetworkGatewayConnectionsUpdateTagsDefaultResponse
   >;
 }
 
@@ -6466,14 +6466,14 @@ export interface VirtualNetworkGatewayConnectionsSetSharedKey {
   ): StreamableMethod<
     | VirtualNetworkGatewayConnectionsSetSharedKey200Response
     | VirtualNetworkGatewayConnectionsSetSharedKey201Response
-    | VirtualNetworkGatewayConnectionsSetSharedKeydefaultResponse
+    | VirtualNetworkGatewayConnectionsSetSharedKeyDefaultResponse
   >;
   /** The Get VirtualNetworkGatewayConnectionSharedKey operation retrieves information about the specified virtual network gateway connection shared key through Network resource provider. */
   get(
     options: VirtualNetworkGatewayConnectionsGetSharedKeyParameters
   ): StreamableMethod<
     | VirtualNetworkGatewayConnectionsGetSharedKey200Response
-    | VirtualNetworkGatewayConnectionsGetSharedKeydefaultResponse
+    | VirtualNetworkGatewayConnectionsGetSharedKeyDefaultResponse
   >;
 }
 
@@ -6483,7 +6483,7 @@ export interface VirtualNetworkGatewayConnectionsList {
     options: VirtualNetworkGatewayConnectionsListParameters
   ): StreamableMethod<
     | VirtualNetworkGatewayConnectionsList200Response
-    | VirtualNetworkGatewayConnectionsListdefaultResponse
+    | VirtualNetworkGatewayConnectionsListDefaultResponse
   >;
 }
 
@@ -6494,7 +6494,7 @@ export interface VirtualNetworkGatewayConnectionsResetSharedKey {
   ): StreamableMethod<
     | VirtualNetworkGatewayConnectionsResetSharedKey200Response
     | VirtualNetworkGatewayConnectionsResetSharedKey202Response
-    | VirtualNetworkGatewayConnectionsResetSharedKeydefaultResponse
+    | VirtualNetworkGatewayConnectionsResetSharedKeyDefaultResponse
   >;
 }
 
@@ -6505,7 +6505,7 @@ export interface VirtualNetworkGatewayConnectionsStartPacketCapture {
   ): StreamableMethod<
     | VirtualNetworkGatewayConnectionsStartPacketCapture200Response
     | VirtualNetworkGatewayConnectionsStartPacketCapture202Response
-    | VirtualNetworkGatewayConnectionsStartPacketCapturedefaultResponse
+    | VirtualNetworkGatewayConnectionsStartPacketCaptureDefaultResponse
   >;
 }
 
@@ -6516,7 +6516,7 @@ export interface VirtualNetworkGatewayConnectionsStopPacketCapture {
   ): StreamableMethod<
     | VirtualNetworkGatewayConnectionsStopPacketCapture200Response
     | VirtualNetworkGatewayConnectionsStopPacketCapture202Response
-    | VirtualNetworkGatewayConnectionsStopPacketCapturedefaultResponse
+    | VirtualNetworkGatewayConnectionsStopPacketCaptureDefaultResponse
   >;
 }
 
@@ -6527,7 +6527,7 @@ export interface VirtualNetworkGatewayConnectionsGetIkeSas {
   ): StreamableMethod<
     | VirtualNetworkGatewayConnectionsGetIkeSas200Response
     | VirtualNetworkGatewayConnectionsGetIkeSas202Response
-    | VirtualNetworkGatewayConnectionsGetIkeSasdefaultResponse
+    | VirtualNetworkGatewayConnectionsGetIkeSasDefaultResponse
   >;
 }
 
@@ -6537,7 +6537,7 @@ export interface VirtualNetworkGatewayConnectionsResetConnection {
     options: VirtualNetworkGatewayConnectionsResetConnectionParameters
   ): StreamableMethod<
     | VirtualNetworkGatewayConnectionsResetConnection202Response
-    | VirtualNetworkGatewayConnectionsResetConnectiondefaultResponse
+    | VirtualNetworkGatewayConnectionsResetConnectionDefaultResponse
   >;
 }
 
@@ -6548,13 +6548,13 @@ export interface LocalNetworkGatewaysCreateOrUpdate {
   ): StreamableMethod<
     | LocalNetworkGatewaysCreateOrUpdate200Response
     | LocalNetworkGatewaysCreateOrUpdate201Response
-    | LocalNetworkGatewaysCreateOrUpdatedefaultResponse
+    | LocalNetworkGatewaysCreateOrUpdateDefaultResponse
   >;
   /** Gets the specified local network gateway in a resource group. */
   get(
     options: LocalNetworkGatewaysGetParameters
   ): StreamableMethod<
-    LocalNetworkGatewaysGet200Response | LocalNetworkGatewaysGetdefaultResponse
+    LocalNetworkGatewaysGet200Response | LocalNetworkGatewaysGetDefaultResponse
   >;
   /** Deletes the specified local network gateway. */
   delete(
@@ -6563,14 +6563,14 @@ export interface LocalNetworkGatewaysCreateOrUpdate {
     | LocalNetworkGatewaysDelete200Response
     | LocalNetworkGatewaysDelete202Response
     | LocalNetworkGatewaysDelete204Response
-    | LocalNetworkGatewaysDeletedefaultResponse
+    | LocalNetworkGatewaysDeleteDefaultResponse
   >;
   /** Updates a local network gateway tags. */
   patch(
     options: LocalNetworkGatewaysUpdateTagsParameters
   ): StreamableMethod<
     | LocalNetworkGatewaysUpdateTags200Response
-    | LocalNetworkGatewaysUpdateTagsdefaultResponse
+    | LocalNetworkGatewaysUpdateTagsDefaultResponse
   >;
 }
 
@@ -6580,7 +6580,7 @@ export interface LocalNetworkGatewaysList {
     options: LocalNetworkGatewaysListParameters
   ): StreamableMethod<
     | LocalNetworkGatewaysList200Response
-    | LocalNetworkGatewaysListdefaultResponse
+    | LocalNetworkGatewaysListDefaultResponse
   >;
 }
 
@@ -6590,7 +6590,7 @@ export interface VirtualNetworkGatewayNatRulesGet {
     options: VirtualNetworkGatewayNatRulesGetParameters
   ): StreamableMethod<
     | VirtualNetworkGatewayNatRulesGet200Response
-    | VirtualNetworkGatewayNatRulesGetdefaultResponse
+    | VirtualNetworkGatewayNatRulesGetDefaultResponse
   >;
   /** Creates a nat rule to a scalable virtual network gateway if it doesn't exist else updates the existing nat rules. */
   put(
@@ -6598,7 +6598,7 @@ export interface VirtualNetworkGatewayNatRulesGet {
   ): StreamableMethod<
     | VirtualNetworkGatewayNatRulesCreateOrUpdate200Response
     | VirtualNetworkGatewayNatRulesCreateOrUpdate201Response
-    | VirtualNetworkGatewayNatRulesCreateOrUpdatedefaultResponse
+    | VirtualNetworkGatewayNatRulesCreateOrUpdateDefaultResponse
   >;
   /** Deletes a nat rule. */
   delete(
@@ -6607,7 +6607,7 @@ export interface VirtualNetworkGatewayNatRulesGet {
     | VirtualNetworkGatewayNatRulesDelete200Response
     | VirtualNetworkGatewayNatRulesDelete202Response
     | VirtualNetworkGatewayNatRulesDelete204Response
-    | VirtualNetworkGatewayNatRulesDeletedefaultResponse
+    | VirtualNetworkGatewayNatRulesDeleteDefaultResponse
   >;
 }
 
@@ -6617,7 +6617,7 @@ export interface VirtualNetworkGatewayNatRulesListByVirtualNetworkGateway {
     options: VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayParameters
   ): StreamableMethod<
     | VirtualNetworkGatewayNatRulesListByVirtualNetworkGateway200Response
-    | VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewaydefaultResponse
+    | VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayDefaultResponse
   >;
 }
 
@@ -6629,13 +6629,13 @@ export interface VirtualNetworkTapsDelete {
     | VirtualNetworkTapsDelete200Response
     | VirtualNetworkTapsDelete202Response
     | VirtualNetworkTapsDelete204Response
-    | VirtualNetworkTapsDeletedefaultResponse
+    | VirtualNetworkTapsDeleteDefaultResponse
   >;
   /** Gets information about the specified virtual network tap. */
   get(
     options: VirtualNetworkTapsGetParameters
   ): StreamableMethod<
-    VirtualNetworkTapsGet200Response | VirtualNetworkTapsGetdefaultResponse
+    VirtualNetworkTapsGet200Response | VirtualNetworkTapsGetDefaultResponse
   >;
   /** Creates or updates a Virtual Network Tap. */
   put(
@@ -6643,14 +6643,14 @@ export interface VirtualNetworkTapsDelete {
   ): StreamableMethod<
     | VirtualNetworkTapsCreateOrUpdate200Response
     | VirtualNetworkTapsCreateOrUpdate201Response
-    | VirtualNetworkTapsCreateOrUpdatedefaultResponse
+    | VirtualNetworkTapsCreateOrUpdateDefaultResponse
   >;
   /** Updates an VirtualNetworkTap tags. */
   patch(
     options: VirtualNetworkTapsUpdateTagsParameters
   ): StreamableMethod<
     | VirtualNetworkTapsUpdateTags200Response
-    | VirtualNetworkTapsUpdateTagsdefaultResponse
+    | VirtualNetworkTapsUpdateTagsDefaultResponse
   >;
 }
 
@@ -6660,7 +6660,7 @@ export interface VirtualNetworkTapsListAll {
     options: VirtualNetworkTapsListAllParameters
   ): StreamableMethod<
     | VirtualNetworkTapsListAll200Response
-    | VirtualNetworkTapsListAlldefaultResponse
+    | VirtualNetworkTapsListAllDefaultResponse
   >;
 }
 
@@ -6670,7 +6670,7 @@ export interface VirtualNetworkTapsListByResourceGroup {
     options: VirtualNetworkTapsListByResourceGroupParameters
   ): StreamableMethod<
     | VirtualNetworkTapsListByResourceGroup200Response
-    | VirtualNetworkTapsListByResourceGroupdefaultResponse
+    | VirtualNetworkTapsListByResourceGroupDefaultResponse
   >;
 }
 
@@ -6682,13 +6682,13 @@ export interface VirtualRoutersDelete {
     | VirtualRoutersDelete200Response
     | VirtualRoutersDelete202Response
     | VirtualRoutersDelete204Response
-    | VirtualRoutersDeletedefaultResponse
+    | VirtualRoutersDeleteDefaultResponse
   >;
   /** Gets the specified Virtual Router. */
   get(
     options: VirtualRoutersGetParameters
   ): StreamableMethod<
-    VirtualRoutersGet200Response | VirtualRoutersGetdefaultResponse
+    VirtualRoutersGet200Response | VirtualRoutersGetDefaultResponse
   >;
   /** Creates or updates the specified Virtual Router. */
   put(
@@ -6696,7 +6696,7 @@ export interface VirtualRoutersDelete {
   ): StreamableMethod<
     | VirtualRoutersCreateOrUpdate200Response
     | VirtualRoutersCreateOrUpdate201Response
-    | VirtualRoutersCreateOrUpdatedefaultResponse
+    | VirtualRoutersCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -6706,7 +6706,7 @@ export interface VirtualRoutersListByResourceGroup {
     options: VirtualRoutersListByResourceGroupParameters
   ): StreamableMethod<
     | VirtualRoutersListByResourceGroup200Response
-    | VirtualRoutersListByResourceGroupdefaultResponse
+    | VirtualRoutersListByResourceGroupDefaultResponse
   >;
 }
 
@@ -6715,7 +6715,7 @@ export interface VirtualRoutersList {
   get(
     options: VirtualRoutersListParameters
   ): StreamableMethod<
-    VirtualRoutersList200Response | VirtualRoutersListdefaultResponse
+    VirtualRoutersList200Response | VirtualRoutersListDefaultResponse
   >;
 }
 
@@ -6727,14 +6727,14 @@ export interface VirtualRouterPeeringsDelete {
     | VirtualRouterPeeringsDelete200Response
     | VirtualRouterPeeringsDelete202Response
     | VirtualRouterPeeringsDelete204Response
-    | VirtualRouterPeeringsDeletedefaultResponse
+    | VirtualRouterPeeringsDeleteDefaultResponse
   >;
   /** Gets the specified Virtual Router Peering. */
   get(
     options: VirtualRouterPeeringsGetParameters
   ): StreamableMethod<
     | VirtualRouterPeeringsGet200Response
-    | VirtualRouterPeeringsGetdefaultResponse
+    | VirtualRouterPeeringsGetDefaultResponse
   >;
   /** Creates or updates the specified Virtual Router Peering. */
   put(
@@ -6742,7 +6742,7 @@ export interface VirtualRouterPeeringsDelete {
   ): StreamableMethod<
     | VirtualRouterPeeringsCreateOrUpdate200Response
     | VirtualRouterPeeringsCreateOrUpdate201Response
-    | VirtualRouterPeeringsCreateOrUpdatedefaultResponse
+    | VirtualRouterPeeringsCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -6752,7 +6752,7 @@ export interface VirtualRouterPeeringsList {
     options: VirtualRouterPeeringsListParameters
   ): StreamableMethod<
     | VirtualRouterPeeringsList200Response
-    | VirtualRouterPeeringsListdefaultResponse
+    | VirtualRouterPeeringsListDefaultResponse
   >;
 }
 
@@ -6761,7 +6761,7 @@ export interface VirtualWansGet {
   get(
     options: VirtualWansGetParameters
   ): StreamableMethod<
-    VirtualWansGet200Response | VirtualWansGetdefaultResponse
+    VirtualWansGet200Response | VirtualWansGetDefaultResponse
   >;
   /** Creates a VirtualWAN resource if it doesn't exist else updates the existing VirtualWAN. */
   put(
@@ -6769,13 +6769,13 @@ export interface VirtualWansGet {
   ): StreamableMethod<
     | VirtualWansCreateOrUpdate200Response
     | VirtualWansCreateOrUpdate201Response
-    | VirtualWansCreateOrUpdatedefaultResponse
+    | VirtualWansCreateOrUpdateDefaultResponse
   >;
   /** Updates a VirtualWAN tags. */
   patch(
     options: VirtualWansUpdateTagsParameters
   ): StreamableMethod<
-    VirtualWansUpdateTags200Response | VirtualWansUpdateTagsdefaultResponse
+    VirtualWansUpdateTags200Response | VirtualWansUpdateTagsDefaultResponse
   >;
   /** Deletes a VirtualWAN. */
   delete(
@@ -6784,7 +6784,7 @@ export interface VirtualWansGet {
     | VirtualWansDelete200Response
     | VirtualWansDelete202Response
     | VirtualWansDelete204Response
-    | VirtualWansDeletedefaultResponse
+    | VirtualWansDeleteDefaultResponse
   >;
 }
 
@@ -6794,7 +6794,7 @@ export interface VirtualWansListByResourceGroup {
     options: VirtualWansListByResourceGroupParameters
   ): StreamableMethod<
     | VirtualWansListByResourceGroup200Response
-    | VirtualWansListByResourceGroupdefaultResponse
+    | VirtualWansListByResourceGroupDefaultResponse
   >;
 }
 
@@ -6803,7 +6803,7 @@ export interface VirtualWansList {
   get(
     options: VirtualWansListParameters
   ): StreamableMethod<
-    VirtualWansList200Response | VirtualWansListdefaultResponse
+    VirtualWansList200Response | VirtualWansListDefaultResponse
   >;
 }
 
@@ -6811,20 +6811,20 @@ export interface VpnSitesGet {
   /** Retrieves the details of a VPN site. */
   get(
     options: VpnSitesGetParameters
-  ): StreamableMethod<VpnSitesGet200Response | VpnSitesGetdefaultResponse>;
+  ): StreamableMethod<VpnSitesGet200Response | VpnSitesGetDefaultResponse>;
   /** Creates a VpnSite resource if it doesn't exist else updates the existing VpnSite. */
   put(
     options: VpnSitesCreateOrUpdateParameters
   ): StreamableMethod<
     | VpnSitesCreateOrUpdate200Response
     | VpnSitesCreateOrUpdate201Response
-    | VpnSitesCreateOrUpdatedefaultResponse
+    | VpnSitesCreateOrUpdateDefaultResponse
   >;
   /** Updates VpnSite tags. */
   patch(
     options: VpnSitesUpdateTagsParameters
   ): StreamableMethod<
-    VpnSitesUpdateTags200Response | VpnSitesUpdateTagsdefaultResponse
+    VpnSitesUpdateTags200Response | VpnSitesUpdateTagsDefaultResponse
   >;
   /** Deletes a VpnSite. */
   delete(
@@ -6833,7 +6833,7 @@ export interface VpnSitesGet {
     | VpnSitesDelete200Response
     | VpnSitesDelete202Response
     | VpnSitesDelete204Response
-    | VpnSitesDeletedefaultResponse
+    | VpnSitesDeleteDefaultResponse
   >;
 }
 
@@ -6843,7 +6843,7 @@ export interface VpnSitesListByResourceGroup {
     options: VpnSitesListByResourceGroupParameters
   ): StreamableMethod<
     | VpnSitesListByResourceGroup200Response
-    | VpnSitesListByResourceGroupdefaultResponse
+    | VpnSitesListByResourceGroupDefaultResponse
   >;
 }
 
@@ -6851,7 +6851,7 @@ export interface VpnSitesList {
   /** Lists all the VpnSites in a subscription. */
   get(
     options: VpnSitesListParameters
-  ): StreamableMethod<VpnSitesList200Response | VpnSitesListdefaultResponse>;
+  ): StreamableMethod<VpnSitesList200Response | VpnSitesListDefaultResponse>;
 }
 
 export interface VpnSiteLinksGet {
@@ -6859,7 +6859,7 @@ export interface VpnSiteLinksGet {
   get(
     options: VpnSiteLinksGetParameters
   ): StreamableMethod<
-    VpnSiteLinksGet200Response | VpnSiteLinksGetdefaultResponse
+    VpnSiteLinksGet200Response | VpnSiteLinksGetDefaultResponse
   >;
 }
 
@@ -6869,7 +6869,7 @@ export interface VpnSiteLinksListByVpnSite {
     options: VpnSiteLinksListByVpnSiteParameters
   ): StreamableMethod<
     | VpnSiteLinksListByVpnSite200Response
-    | VpnSiteLinksListByVpnSitedefaultResponse
+    | VpnSiteLinksListByVpnSiteDefaultResponse
   >;
 }
 
@@ -6880,7 +6880,7 @@ export interface VpnSitesConfigurationDownload {
   ): StreamableMethod<
     | VpnSitesConfigurationDownload200Response
     | VpnSitesConfigurationDownload202Response
-    | VpnSitesConfigurationDownloaddefaultResponse
+    | VpnSitesConfigurationDownloadDefaultResponse
   >;
 }
 
@@ -6890,7 +6890,7 @@ export interface VpnServerConfigurationsGet {
     options: VpnServerConfigurationsGetParameters
   ): StreamableMethod<
     | VpnServerConfigurationsGet200Response
-    | VpnServerConfigurationsGetdefaultResponse
+    | VpnServerConfigurationsGetDefaultResponse
   >;
   /** Creates a VpnServerConfiguration resource if it doesn't exist else updates the existing VpnServerConfiguration. */
   put(
@@ -6898,14 +6898,14 @@ export interface VpnServerConfigurationsGet {
   ): StreamableMethod<
     | VpnServerConfigurationsCreateOrUpdate200Response
     | VpnServerConfigurationsCreateOrUpdate201Response
-    | VpnServerConfigurationsCreateOrUpdatedefaultResponse
+    | VpnServerConfigurationsCreateOrUpdateDefaultResponse
   >;
   /** Updates VpnServerConfiguration tags. */
   patch(
     options: VpnServerConfigurationsUpdateTagsParameters
   ): StreamableMethod<
     | VpnServerConfigurationsUpdateTags200Response
-    | VpnServerConfigurationsUpdateTagsdefaultResponse
+    | VpnServerConfigurationsUpdateTagsDefaultResponse
   >;
   /** Deletes a VpnServerConfiguration. */
   delete(
@@ -6914,7 +6914,7 @@ export interface VpnServerConfigurationsGet {
     | VpnServerConfigurationsDelete200Response
     | VpnServerConfigurationsDelete202Response
     | VpnServerConfigurationsDelete204Response
-    | VpnServerConfigurationsDeletedefaultResponse
+    | VpnServerConfigurationsDeleteDefaultResponse
   >;
 }
 
@@ -6924,7 +6924,7 @@ export interface VpnServerConfigurationsListByResourceGroup {
     options: VpnServerConfigurationsListByResourceGroupParameters
   ): StreamableMethod<
     | VpnServerConfigurationsListByResourceGroup200Response
-    | VpnServerConfigurationsListByResourceGroupdefaultResponse
+    | VpnServerConfigurationsListByResourceGroupDefaultResponse
   >;
 }
 
@@ -6934,7 +6934,7 @@ export interface VpnServerConfigurationsList {
     options: VpnServerConfigurationsListParameters
   ): StreamableMethod<
     | VpnServerConfigurationsList200Response
-    | VpnServerConfigurationsListdefaultResponse
+    | VpnServerConfigurationsListDefaultResponse
   >;
 }
 
@@ -6945,7 +6945,7 @@ export interface ConfigurationPolicyGroupsCreateOrUpdate {
   ): StreamableMethod<
     | ConfigurationPolicyGroupsCreateOrUpdate200Response
     | ConfigurationPolicyGroupsCreateOrUpdate201Response
-    | ConfigurationPolicyGroupsCreateOrUpdatedefaultResponse
+    | ConfigurationPolicyGroupsCreateOrUpdateDefaultResponse
   >;
   /** Deletes a ConfigurationPolicyGroup. */
   delete(
@@ -6954,14 +6954,14 @@ export interface ConfigurationPolicyGroupsCreateOrUpdate {
     | ConfigurationPolicyGroupsDelete200Response
     | ConfigurationPolicyGroupsDelete202Response
     | ConfigurationPolicyGroupsDelete204Response
-    | ConfigurationPolicyGroupsDeletedefaultResponse
+    | ConfigurationPolicyGroupsDeleteDefaultResponse
   >;
   /** Retrieves the details of a ConfigurationPolicyGroup. */
   get(
     options: ConfigurationPolicyGroupsGetParameters
   ): StreamableMethod<
     | ConfigurationPolicyGroupsGet200Response
-    | ConfigurationPolicyGroupsGetdefaultResponse
+    | ConfigurationPolicyGroupsGetDefaultResponse
   >;
 }
 
@@ -6971,7 +6971,7 @@ export interface ConfigurationPolicyGroupsListByVpnServerConfiguration {
     options: ConfigurationPolicyGroupsListByVpnServerConfigurationParameters
   ): StreamableMethod<
     | ConfigurationPolicyGroupsListByVpnServerConfiguration200Response
-    | ConfigurationPolicyGroupsListByVpnServerConfigurationdefaultResponse
+    | ConfigurationPolicyGroupsListByVpnServerConfigurationDefaultResponse
   >;
 }
 
@@ -6980,7 +6980,7 @@ export interface VirtualHubsGet {
   get(
     options: VirtualHubsGetParameters
   ): StreamableMethod<
-    VirtualHubsGet200Response | VirtualHubsGetdefaultResponse
+    VirtualHubsGet200Response | VirtualHubsGetDefaultResponse
   >;
   /** Creates a VirtualHub resource if it doesn't exist else updates the existing VirtualHub. */
   put(
@@ -6988,13 +6988,13 @@ export interface VirtualHubsGet {
   ): StreamableMethod<
     | VirtualHubsCreateOrUpdate200Response
     | VirtualHubsCreateOrUpdate201Response
-    | VirtualHubsCreateOrUpdatedefaultResponse
+    | VirtualHubsCreateOrUpdateDefaultResponse
   >;
   /** Updates VirtualHub tags. */
   patch(
     options: VirtualHubsUpdateTagsParameters
   ): StreamableMethod<
-    VirtualHubsUpdateTags200Response | VirtualHubsUpdateTagsdefaultResponse
+    VirtualHubsUpdateTags200Response | VirtualHubsUpdateTagsDefaultResponse
   >;
   /** Deletes a VirtualHub. */
   delete(
@@ -7003,7 +7003,7 @@ export interface VirtualHubsGet {
     | VirtualHubsDelete200Response
     | VirtualHubsDelete202Response
     | VirtualHubsDelete204Response
-    | VirtualHubsDeletedefaultResponse
+    | VirtualHubsDeleteDefaultResponse
   >;
 }
 
@@ -7013,7 +7013,7 @@ export interface VirtualHubsListByResourceGroup {
     options: VirtualHubsListByResourceGroupParameters
   ): StreamableMethod<
     | VirtualHubsListByResourceGroup200Response
-    | VirtualHubsListByResourceGroupdefaultResponse
+    | VirtualHubsListByResourceGroupDefaultResponse
   >;
 }
 
@@ -7022,7 +7022,7 @@ export interface VirtualHubsList {
   get(
     options: VirtualHubsListParameters
   ): StreamableMethod<
-    VirtualHubsList200Response | VirtualHubsListdefaultResponse
+    VirtualHubsList200Response | VirtualHubsListDefaultResponse
   >;
 }
 
@@ -7033,7 +7033,7 @@ export interface VirtualHubsGetEffectiveVirtualHubRoutes {
   ): StreamableMethod<
     | VirtualHubsGetEffectiveVirtualHubRoutes200Response
     | VirtualHubsGetEffectiveVirtualHubRoutes202Response
-    | VirtualHubsGetEffectiveVirtualHubRoutesdefaultResponse
+    | VirtualHubsGetEffectiveVirtualHubRoutesDefaultResponse
   >;
 }
 
@@ -7044,7 +7044,7 @@ export interface VirtualHubsGetInboundRoutes {
   ): StreamableMethod<
     | VirtualHubsGetInboundRoutes200Response
     | VirtualHubsGetInboundRoutes202Response
-    | VirtualHubsGetInboundRoutesdefaultResponse
+    | VirtualHubsGetInboundRoutesDefaultResponse
   >;
 }
 
@@ -7055,7 +7055,7 @@ export interface VirtualHubsGetOutboundRoutes {
   ): StreamableMethod<
     | VirtualHubsGetOutboundRoutes200Response
     | VirtualHubsGetOutboundRoutes202Response
-    | VirtualHubsGetOutboundRoutesdefaultResponse
+    | VirtualHubsGetOutboundRoutesDefaultResponse
   >;
 }
 
@@ -7063,14 +7063,14 @@ export interface RouteMapsGet {
   /** Retrieves the details of a RouteMap. */
   get(
     options: RouteMapsGetParameters
-  ): StreamableMethod<RouteMapsGet200Response | RouteMapsGetdefaultResponse>;
+  ): StreamableMethod<RouteMapsGet200Response | RouteMapsGetDefaultResponse>;
   /** Creates a RouteMap if it doesn't exist else updates the existing one. */
   put(
     options: RouteMapsCreateOrUpdateParameters
   ): StreamableMethod<
     | RouteMapsCreateOrUpdate200Response
     | RouteMapsCreateOrUpdate201Response
-    | RouteMapsCreateOrUpdatedefaultResponse
+    | RouteMapsCreateOrUpdateDefaultResponse
   >;
   /** Deletes a RouteMap. */
   delete(
@@ -7079,7 +7079,7 @@ export interface RouteMapsGet {
     | RouteMapsDelete200Response
     | RouteMapsDelete202Response
     | RouteMapsDelete204Response
-    | RouteMapsDeletedefaultResponse
+    | RouteMapsDeleteDefaultResponse
   >;
 }
 
@@ -7087,7 +7087,7 @@ export interface RouteMapsList {
   /** Retrieves the details of all RouteMaps. */
   get(
     options: RouteMapsListParameters
-  ): StreamableMethod<RouteMapsList200Response | RouteMapsListdefaultResponse>;
+  ): StreamableMethod<RouteMapsList200Response | RouteMapsListDefaultResponse>;
 }
 
 export interface HubVirtualNetworkConnectionsCreateOrUpdate {
@@ -7097,7 +7097,7 @@ export interface HubVirtualNetworkConnectionsCreateOrUpdate {
   ): StreamableMethod<
     | HubVirtualNetworkConnectionsCreateOrUpdate200Response
     | HubVirtualNetworkConnectionsCreateOrUpdate201Response
-    | HubVirtualNetworkConnectionsCreateOrUpdatedefaultResponse
+    | HubVirtualNetworkConnectionsCreateOrUpdateDefaultResponse
   >;
   /** Deletes a HubVirtualNetworkConnection. */
   delete(
@@ -7106,14 +7106,14 @@ export interface HubVirtualNetworkConnectionsCreateOrUpdate {
     | HubVirtualNetworkConnectionsDelete200Response
     | HubVirtualNetworkConnectionsDelete202Response
     | HubVirtualNetworkConnectionsDelete204Response
-    | HubVirtualNetworkConnectionsDeletedefaultResponse
+    | HubVirtualNetworkConnectionsDeleteDefaultResponse
   >;
   /** Retrieves the details of a HubVirtualNetworkConnection. */
   get(
     options: HubVirtualNetworkConnectionsGetParameters
   ): StreamableMethod<
     | HubVirtualNetworkConnectionsGet200Response
-    | HubVirtualNetworkConnectionsGetdefaultResponse
+    | HubVirtualNetworkConnectionsGetDefaultResponse
   >;
 }
 
@@ -7123,7 +7123,7 @@ export interface HubVirtualNetworkConnectionsList {
     options: HubVirtualNetworkConnectionsListParameters
   ): StreamableMethod<
     | HubVirtualNetworkConnectionsList200Response
-    | HubVirtualNetworkConnectionsListdefaultResponse
+    | HubVirtualNetworkConnectionsListDefaultResponse
   >;
 }
 
@@ -7132,7 +7132,7 @@ export interface VpnGatewaysGet {
   get(
     options: VpnGatewaysGetParameters
   ): StreamableMethod<
-    VpnGatewaysGet200Response | VpnGatewaysGetdefaultResponse
+    VpnGatewaysGet200Response | VpnGatewaysGetDefaultResponse
   >;
   /** Creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway. */
   put(
@@ -7140,7 +7140,7 @@ export interface VpnGatewaysGet {
   ): StreamableMethod<
     | VpnGatewaysCreateOrUpdate200Response
     | VpnGatewaysCreateOrUpdate201Response
-    | VpnGatewaysCreateOrUpdatedefaultResponse
+    | VpnGatewaysCreateOrUpdateDefaultResponse
   >;
   /** Updates virtual wan vpn gateway tags. */
   patch(
@@ -7148,7 +7148,7 @@ export interface VpnGatewaysGet {
   ): StreamableMethod<
     | VpnGatewaysUpdateTags200Response
     | VpnGatewaysUpdateTags202Response
-    | VpnGatewaysUpdateTagsdefaultResponse
+    | VpnGatewaysUpdateTagsDefaultResponse
   >;
   /** Deletes a virtual wan vpn gateway. */
   delete(
@@ -7157,7 +7157,7 @@ export interface VpnGatewaysGet {
     | VpnGatewaysDelete200Response
     | VpnGatewaysDelete202Response
     | VpnGatewaysDelete204Response
-    | VpnGatewaysDeletedefaultResponse
+    | VpnGatewaysDeleteDefaultResponse
   >;
 }
 
@@ -7168,7 +7168,7 @@ export interface VpnGatewaysReset {
   ): StreamableMethod<
     | VpnGatewaysReset200Response
     | VpnGatewaysReset202Response
-    | VpnGatewaysResetdefaultResponse
+    | VpnGatewaysResetDefaultResponse
   >;
 }
 
@@ -7179,7 +7179,7 @@ export interface VpnGatewaysStartPacketCapture {
   ): StreamableMethod<
     | VpnGatewaysStartPacketCapture200Response
     | VpnGatewaysStartPacketCapture202Response
-    | VpnGatewaysStartPacketCapturedefaultResponse
+    | VpnGatewaysStartPacketCaptureDefaultResponse
   >;
 }
 
@@ -7190,7 +7190,7 @@ export interface VpnGatewaysStopPacketCapture {
   ): StreamableMethod<
     | VpnGatewaysStopPacketCapture200Response
     | VpnGatewaysStopPacketCapture202Response
-    | VpnGatewaysStopPacketCapturedefaultResponse
+    | VpnGatewaysStopPacketCaptureDefaultResponse
   >;
 }
 
@@ -7200,7 +7200,7 @@ export interface VpnGatewaysListByResourceGroup {
     options: VpnGatewaysListByResourceGroupParameters
   ): StreamableMethod<
     | VpnGatewaysListByResourceGroup200Response
-    | VpnGatewaysListByResourceGroupdefaultResponse
+    | VpnGatewaysListByResourceGroupDefaultResponse
   >;
 }
 
@@ -7209,7 +7209,7 @@ export interface VpnGatewaysList {
   get(
     options: VpnGatewaysListParameters
   ): StreamableMethod<
-    VpnGatewaysList200Response | VpnGatewaysListdefaultResponse
+    VpnGatewaysList200Response | VpnGatewaysListDefaultResponse
   >;
 }
 
@@ -7219,7 +7219,7 @@ export interface VpnLinkConnectionsResetConnection {
     options: VpnLinkConnectionsResetConnectionParameters
   ): StreamableMethod<
     | VpnLinkConnectionsResetConnection202Response
-    | VpnLinkConnectionsResetConnectiondefaultResponse
+    | VpnLinkConnectionsResetConnectionDefaultResponse
   >;
 }
 
@@ -7230,7 +7230,7 @@ export interface VpnLinkConnectionsGetIkeSas {
   ): StreamableMethod<
     | VpnLinkConnectionsGetIkeSas200Response
     | VpnLinkConnectionsGetIkeSas202Response
-    | VpnLinkConnectionsGetIkeSasdefaultResponse
+    | VpnLinkConnectionsGetIkeSasDefaultResponse
   >;
 }
 
@@ -7240,7 +7240,7 @@ export interface VpnLinkConnectionsListByVpnConnection {
     options: VpnLinkConnectionsListByVpnConnectionParameters
   ): StreamableMethod<
     | VpnLinkConnectionsListByVpnConnection200Response
-    | VpnLinkConnectionsListByVpnConnectiondefaultResponse
+    | VpnLinkConnectionsListByVpnConnectionDefaultResponse
   >;
 }
 
@@ -7249,7 +7249,7 @@ export interface VpnConnectionsGet {
   get(
     options: VpnConnectionsGetParameters
   ): StreamableMethod<
-    VpnConnectionsGet200Response | VpnConnectionsGetdefaultResponse
+    VpnConnectionsGet200Response | VpnConnectionsGetDefaultResponse
   >;
   /** Creates a vpn connection to a scalable vpn gateway if it doesn't exist else updates the existing connection. */
   put(
@@ -7257,7 +7257,7 @@ export interface VpnConnectionsGet {
   ): StreamableMethod<
     | VpnConnectionsCreateOrUpdate200Response
     | VpnConnectionsCreateOrUpdate201Response
-    | VpnConnectionsCreateOrUpdatedefaultResponse
+    | VpnConnectionsCreateOrUpdateDefaultResponse
   >;
   /** Deletes a vpn connection. */
   delete(
@@ -7266,7 +7266,7 @@ export interface VpnConnectionsGet {
     | VpnConnectionsDelete200Response
     | VpnConnectionsDelete202Response
     | VpnConnectionsDelete204Response
-    | VpnConnectionsDeletedefaultResponse
+    | VpnConnectionsDeleteDefaultResponse
   >;
 }
 
@@ -7277,7 +7277,7 @@ export interface VpnConnectionsStartPacketCapture {
   ): StreamableMethod<
     | VpnConnectionsStartPacketCapture200Response
     | VpnConnectionsStartPacketCapture202Response
-    | VpnConnectionsStartPacketCapturedefaultResponse
+    | VpnConnectionsStartPacketCaptureDefaultResponse
   >;
 }
 
@@ -7288,7 +7288,7 @@ export interface VpnConnectionsStopPacketCapture {
   ): StreamableMethod<
     | VpnConnectionsStopPacketCapture200Response
     | VpnConnectionsStopPacketCapture202Response
-    | VpnConnectionsStopPacketCapturedefaultResponse
+    | VpnConnectionsStopPacketCaptureDefaultResponse
   >;
 }
 
@@ -7298,7 +7298,7 @@ export interface VpnConnectionsListByVpnGateway {
     options: VpnConnectionsListByVpnGatewayParameters
   ): StreamableMethod<
     | VpnConnectionsListByVpnGateway200Response
-    | VpnConnectionsListByVpnGatewaydefaultResponse
+    | VpnConnectionsListByVpnGatewayDefaultResponse
   >;
 }
 
@@ -7308,7 +7308,7 @@ export interface VpnSiteLinkConnectionsGet {
     options: VpnSiteLinkConnectionsGetParameters
   ): StreamableMethod<
     | VpnSiteLinkConnectionsGet200Response
-    | VpnSiteLinkConnectionsGetdefaultResponse
+    | VpnSiteLinkConnectionsGetDefaultResponse
   >;
 }
 
@@ -7316,14 +7316,14 @@ export interface NatRulesGet {
   /** Retrieves the details of a nat ruleGet. */
   get(
     options: NatRulesGetParameters
-  ): StreamableMethod<NatRulesGet200Response | NatRulesGetdefaultResponse>;
+  ): StreamableMethod<NatRulesGet200Response | NatRulesGetDefaultResponse>;
   /** Creates a nat rule to a scalable vpn gateway if it doesn't exist else updates the existing nat rules. */
   put(
     options: NatRulesCreateOrUpdateParameters
   ): StreamableMethod<
     | NatRulesCreateOrUpdate200Response
     | NatRulesCreateOrUpdate201Response
-    | NatRulesCreateOrUpdatedefaultResponse
+    | NatRulesCreateOrUpdateDefaultResponse
   >;
   /** Deletes a nat rule. */
   delete(
@@ -7332,7 +7332,7 @@ export interface NatRulesGet {
     | NatRulesDelete200Response
     | NatRulesDelete202Response
     | NatRulesDelete204Response
-    | NatRulesDeletedefaultResponse
+    | NatRulesDeleteDefaultResponse
   >;
 }
 
@@ -7342,7 +7342,7 @@ export interface NatRulesListByVpnGateway {
     options: NatRulesListByVpnGatewayParameters
   ): StreamableMethod<
     | NatRulesListByVpnGateway200Response
-    | NatRulesListByVpnGatewaydefaultResponse
+    | NatRulesListByVpnGatewayDefaultResponse
   >;
 }
 
@@ -7351,7 +7351,7 @@ export interface P2SVpnGatewaysGet {
   get(
     options: P2SVpnGatewaysGetParameters
   ): StreamableMethod<
-    P2SVpnGatewaysGet200Response | P2SVpnGatewaysGetdefaultResponse
+    P2SVpnGatewaysGet200Response | P2SVpnGatewaysGetDefaultResponse
   >;
   /** Creates a virtual wan p2s vpn gateway if it doesn't exist else updates the existing gateway. */
   put(
@@ -7359,7 +7359,7 @@ export interface P2SVpnGatewaysGet {
   ): StreamableMethod<
     | P2SVpnGatewaysCreateOrUpdate200Response
     | P2SVpnGatewaysCreateOrUpdate201Response
-    | P2SVpnGatewaysCreateOrUpdatedefaultResponse
+    | P2SVpnGatewaysCreateOrUpdateDefaultResponse
   >;
   /** Updates virtual wan p2s vpn gateway tags. */
   patch(
@@ -7367,7 +7367,7 @@ export interface P2SVpnGatewaysGet {
   ): StreamableMethod<
     | P2SVpnGatewaysUpdateTags200Response
     | P2SVpnGatewaysUpdateTags202Response
-    | P2SVpnGatewaysUpdateTagsdefaultResponse
+    | P2SVpnGatewaysUpdateTagsDefaultResponse
   >;
   /** Deletes a virtual wan p2s vpn gateway. */
   delete(
@@ -7376,7 +7376,7 @@ export interface P2SVpnGatewaysGet {
     | P2SVpnGatewaysDelete200Response
     | P2SVpnGatewaysDelete202Response
     | P2SVpnGatewaysDelete204Response
-    | P2SVpnGatewaysDeletedefaultResponse
+    | P2SVpnGatewaysDeleteDefaultResponse
   >;
 }
 
@@ -7386,7 +7386,7 @@ export interface P2SVpnGatewaysListByResourceGroup {
     options: P2SVpnGatewaysListByResourceGroupParameters
   ): StreamableMethod<
     | P2SVpnGatewaysListByResourceGroup200Response
-    | P2SVpnGatewaysListByResourceGroupdefaultResponse
+    | P2SVpnGatewaysListByResourceGroupDefaultResponse
   >;
 }
 
@@ -7395,7 +7395,7 @@ export interface P2SVpnGatewaysList {
   get(
     options: P2SVpnGatewaysListParameters
   ): StreamableMethod<
-    P2SVpnGatewaysList200Response | P2SVpnGatewaysListdefaultResponse
+    P2SVpnGatewaysList200Response | P2SVpnGatewaysListDefaultResponse
   >;
 }
 
@@ -7406,7 +7406,7 @@ export interface P2SVpnGatewaysReset {
   ): StreamableMethod<
     | P2SVpnGatewaysReset200Response
     | P2SVpnGatewaysReset202Response
-    | P2SVpnGatewaysResetdefaultResponse
+    | P2SVpnGatewaysResetDefaultResponse
   >;
 }
 
@@ -7417,7 +7417,7 @@ export interface P2SVpnGatewaysGenerateVpnProfile {
   ): StreamableMethod<
     | P2SVpnGatewaysGenerateVpnProfile200Response
     | P2SVpnGatewaysGenerateVpnProfile202Response
-    | P2SVpnGatewaysGenerateVpnProfiledefaultResponse
+    | P2SVpnGatewaysGenerateVpnProfileDefaultResponse
   >;
 }
 
@@ -7428,7 +7428,7 @@ export interface P2SVpnGatewaysGetP2SVpnConnectionHealth {
   ): StreamableMethod<
     | P2SVpnGatewaysGetP2SVpnConnectionHealth200Response
     | P2SVpnGatewaysGetP2SVpnConnectionHealth202Response
-    | P2SVpnGatewaysGetP2SVpnConnectionHealthdefaultResponse
+    | P2SVpnGatewaysGetP2SVpnConnectionHealthDefaultResponse
   >;
 }
 
@@ -7439,7 +7439,7 @@ export interface P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed {
   ): StreamableMethod<
     | P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed200Response
     | P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed202Response
-    | P2SVpnGatewaysGetP2SVpnConnectionHealthDetaileddefaultResponse
+    | P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedDefaultResponse
   >;
 }
 
@@ -7450,7 +7450,7 @@ export interface P2SVpnGatewaysDisconnectP2SVpnConnections {
   ): StreamableMethod<
     | P2SVpnGatewaysDisconnectP2SVpnConnections200Response
     | P2SVpnGatewaysDisconnectP2SVpnConnections202Response
-    | P2SVpnGatewaysDisconnectP2SVpnConnectionsdefaultResponse
+    | P2SVpnGatewaysDisconnectP2SVpnConnectionsDefaultResponse
   >;
 }
 
@@ -7461,7 +7461,7 @@ export interface VpnServerConfigurationsAssociatedWithVirtualWanList {
   ): StreamableMethod<
     | VpnServerConfigurationsAssociatedWithVirtualWanList200Response
     | VpnServerConfigurationsAssociatedWithVirtualWanList202Response
-    | VpnServerConfigurationsAssociatedWithVirtualWanListdefaultResponse
+    | VpnServerConfigurationsAssociatedWithVirtualWanListDefaultResponse
   >;
 }
 
@@ -7471,7 +7471,7 @@ export interface VirtualHubRouteTableV2SGet {
     options: VirtualHubRouteTableV2SGetParameters
   ): StreamableMethod<
     | VirtualHubRouteTableV2SGet200Response
-    | VirtualHubRouteTableV2SGetdefaultResponse
+    | VirtualHubRouteTableV2SGetDefaultResponse
   >;
   /** Creates a VirtualHubRouteTableV2 resource if it doesn't exist else updates the existing VirtualHubRouteTableV2. */
   put(
@@ -7479,7 +7479,7 @@ export interface VirtualHubRouteTableV2SGet {
   ): StreamableMethod<
     | VirtualHubRouteTableV2SCreateOrUpdate200Response
     | VirtualHubRouteTableV2SCreateOrUpdate201Response
-    | VirtualHubRouteTableV2SCreateOrUpdatedefaultResponse
+    | VirtualHubRouteTableV2SCreateOrUpdateDefaultResponse
   >;
   /** Deletes a VirtualHubRouteTableV2. */
   delete(
@@ -7488,7 +7488,7 @@ export interface VirtualHubRouteTableV2SGet {
     | VirtualHubRouteTableV2SDelete200Response
     | VirtualHubRouteTableV2SDelete202Response
     | VirtualHubRouteTableV2SDelete204Response
-    | VirtualHubRouteTableV2SDeletedefaultResponse
+    | VirtualHubRouteTableV2SDeleteDefaultResponse
   >;
 }
 
@@ -7498,7 +7498,7 @@ export interface VirtualHubRouteTableV2SList {
     options: VirtualHubRouteTableV2SListParameters
   ): StreamableMethod<
     | VirtualHubRouteTableV2SList200Response
-    | VirtualHubRouteTableV2SListdefaultResponse
+    | VirtualHubRouteTableV2SListDefaultResponse
   >;
 }
 
@@ -7508,7 +7508,7 @@ export interface ExpressRouteGatewaysListBySubscription {
     options: ExpressRouteGatewaysListBySubscriptionParameters
   ): StreamableMethod<
     | ExpressRouteGatewaysListBySubscription200Response
-    | ExpressRouteGatewaysListBySubscriptiondefaultResponse
+    | ExpressRouteGatewaysListBySubscriptionDefaultResponse
   >;
 }
 
@@ -7518,7 +7518,7 @@ export interface ExpressRouteGatewaysListByResourceGroup {
     options: ExpressRouteGatewaysListByResourceGroupParameters
   ): StreamableMethod<
     | ExpressRouteGatewaysListByResourceGroup200Response
-    | ExpressRouteGatewaysListByResourceGroupdefaultResponse
+    | ExpressRouteGatewaysListByResourceGroupDefaultResponse
   >;
 }
 
@@ -7529,7 +7529,7 @@ export interface ExpressRouteGatewaysCreateOrUpdate {
   ): StreamableMethod<
     | ExpressRouteGatewaysCreateOrUpdate200Response
     | ExpressRouteGatewaysCreateOrUpdate201Response
-    | ExpressRouteGatewaysCreateOrUpdatedefaultResponse
+    | ExpressRouteGatewaysCreateOrUpdateDefaultResponse
   >;
   /** Updates express route gateway tags. */
   patch(
@@ -7537,13 +7537,13 @@ export interface ExpressRouteGatewaysCreateOrUpdate {
   ): StreamableMethod<
     | ExpressRouteGatewaysUpdateTags200Response
     | ExpressRouteGatewaysUpdateTags202Response
-    | ExpressRouteGatewaysUpdateTagsdefaultResponse
+    | ExpressRouteGatewaysUpdateTagsDefaultResponse
   >;
   /** Fetches the details of a ExpressRoute gateway in a resource group. */
   get(
     options: ExpressRouteGatewaysGetParameters
   ): StreamableMethod<
-    ExpressRouteGatewaysGet200Response | ExpressRouteGatewaysGetdefaultResponse
+    ExpressRouteGatewaysGet200Response | ExpressRouteGatewaysGetDefaultResponse
   >;
   /** Deletes the specified ExpressRoute gateway in a resource group. An ExpressRoute gateway resource can only be deleted when there are no connection subresources. */
   delete(
@@ -7552,7 +7552,7 @@ export interface ExpressRouteGatewaysCreateOrUpdate {
     | ExpressRouteGatewaysDelete200Response
     | ExpressRouteGatewaysDelete202Response
     | ExpressRouteGatewaysDelete204Response
-    | ExpressRouteGatewaysDeletedefaultResponse
+    | ExpressRouteGatewaysDeleteDefaultResponse
   >;
 }
 
@@ -7563,14 +7563,14 @@ export interface ExpressRouteConnectionsCreateOrUpdate {
   ): StreamableMethod<
     | ExpressRouteConnectionsCreateOrUpdate200Response
     | ExpressRouteConnectionsCreateOrUpdate201Response
-    | ExpressRouteConnectionsCreateOrUpdatedefaultResponse
+    | ExpressRouteConnectionsCreateOrUpdateDefaultResponse
   >;
   /** Gets the specified ExpressRouteConnection. */
   get(
     options: ExpressRouteConnectionsGetParameters
   ): StreamableMethod<
     | ExpressRouteConnectionsGet200Response
-    | ExpressRouteConnectionsGetdefaultResponse
+    | ExpressRouteConnectionsGetDefaultResponse
   >;
   /** Deletes a connection to a ExpressRoute circuit. */
   delete(
@@ -7579,7 +7579,7 @@ export interface ExpressRouteConnectionsCreateOrUpdate {
     | ExpressRouteConnectionsDelete200Response
     | ExpressRouteConnectionsDelete202Response
     | ExpressRouteConnectionsDelete204Response
-    | ExpressRouteConnectionsDeletedefaultResponse
+    | ExpressRouteConnectionsDeleteDefaultResponse
   >;
 }
 
@@ -7589,7 +7589,7 @@ export interface ExpressRouteConnectionsList {
     options: ExpressRouteConnectionsListParameters
   ): StreamableMethod<
     | ExpressRouteConnectionsList200Response
-    | ExpressRouteConnectionsListdefaultResponse
+    | ExpressRouteConnectionsListDefaultResponse
   >;
 }
 
@@ -7599,7 +7599,7 @@ export interface VirtualHubBgpConnectionGet {
     options: VirtualHubBgpConnectionGetParameters
   ): StreamableMethod<
     | VirtualHubBgpConnectionGet200Response
-    | VirtualHubBgpConnectionGetdefaultResponse
+    | VirtualHubBgpConnectionGetDefaultResponse
   >;
   /** Creates a VirtualHubBgpConnection resource if it doesn't exist else updates the existing VirtualHubBgpConnection. */
   put(
@@ -7607,7 +7607,7 @@ export interface VirtualHubBgpConnectionGet {
   ): StreamableMethod<
     | VirtualHubBgpConnectionCreateOrUpdate200Response
     | VirtualHubBgpConnectionCreateOrUpdate201Response
-    | VirtualHubBgpConnectionCreateOrUpdatedefaultResponse
+    | VirtualHubBgpConnectionCreateOrUpdateDefaultResponse
   >;
   /** Deletes a VirtualHubBgpConnection. */
   delete(
@@ -7616,7 +7616,7 @@ export interface VirtualHubBgpConnectionGet {
     | VirtualHubBgpConnectionDelete200Response
     | VirtualHubBgpConnectionDelete202Response
     | VirtualHubBgpConnectionDelete204Response
-    | VirtualHubBgpConnectionDeletedefaultResponse
+    | VirtualHubBgpConnectionDeleteDefaultResponse
   >;
 }
 
@@ -7626,7 +7626,7 @@ export interface VirtualHubBgpConnectionsList {
     options: VirtualHubBgpConnectionsListParameters
   ): StreamableMethod<
     | VirtualHubBgpConnectionsList200Response
-    | VirtualHubBgpConnectionsListdefaultResponse
+    | VirtualHubBgpConnectionsListDefaultResponse
   >;
 }
 
@@ -7637,7 +7637,7 @@ export interface VirtualHubBgpConnectionsListLearnedRoutes {
   ): StreamableMethod<
     | VirtualHubBgpConnectionsListLearnedRoutes200Response
     | VirtualHubBgpConnectionsListLearnedRoutes202Response
-    | VirtualHubBgpConnectionsListLearnedRoutesdefaultResponse
+    | VirtualHubBgpConnectionsListLearnedRoutesDefaultResponse
   >;
 }
 
@@ -7648,7 +7648,7 @@ export interface VirtualHubBgpConnectionsListAdvertisedRoutes {
   ): StreamableMethod<
     | VirtualHubBgpConnectionsListAdvertisedRoutes200Response
     | VirtualHubBgpConnectionsListAdvertisedRoutes202Response
-    | VirtualHubBgpConnectionsListAdvertisedRoutesdefaultResponse
+    | VirtualHubBgpConnectionsListAdvertisedRoutesDefaultResponse
   >;
 }
 
@@ -7658,7 +7658,7 @@ export interface VirtualHubIpConfigurationGet {
     options: VirtualHubIpConfigurationGetParameters
   ): StreamableMethod<
     | VirtualHubIpConfigurationGet200Response
-    | VirtualHubIpConfigurationGetdefaultResponse
+    | VirtualHubIpConfigurationGetDefaultResponse
   >;
   /** Creates a VirtualHubIpConfiguration resource if it doesn't exist else updates the existing VirtualHubIpConfiguration. */
   put(
@@ -7666,7 +7666,7 @@ export interface VirtualHubIpConfigurationGet {
   ): StreamableMethod<
     | VirtualHubIpConfigurationCreateOrUpdate200Response
     | VirtualHubIpConfigurationCreateOrUpdate201Response
-    | VirtualHubIpConfigurationCreateOrUpdatedefaultResponse
+    | VirtualHubIpConfigurationCreateOrUpdateDefaultResponse
   >;
   /** Deletes a VirtualHubIpConfiguration. */
   delete(
@@ -7675,7 +7675,7 @@ export interface VirtualHubIpConfigurationGet {
     | VirtualHubIpConfigurationDelete200Response
     | VirtualHubIpConfigurationDelete202Response
     | VirtualHubIpConfigurationDelete204Response
-    | VirtualHubIpConfigurationDeletedefaultResponse
+    | VirtualHubIpConfigurationDeleteDefaultResponse
   >;
 }
 
@@ -7685,7 +7685,7 @@ export interface VirtualHubIpConfigurationList {
     options: VirtualHubIpConfigurationListParameters
   ): StreamableMethod<
     | VirtualHubIpConfigurationList200Response
-    | VirtualHubIpConfigurationListdefaultResponse
+    | VirtualHubIpConfigurationListDefaultResponse
   >;
 }
 
@@ -7696,13 +7696,13 @@ export interface HubRouteTablesCreateOrUpdate {
   ): StreamableMethod<
     | HubRouteTablesCreateOrUpdate200Response
     | HubRouteTablesCreateOrUpdate201Response
-    | HubRouteTablesCreateOrUpdatedefaultResponse
+    | HubRouteTablesCreateOrUpdateDefaultResponse
   >;
   /** Retrieves the details of a RouteTable. */
   get(
     options: HubRouteTablesGetParameters
   ): StreamableMethod<
-    HubRouteTablesGet200Response | HubRouteTablesGetdefaultResponse
+    HubRouteTablesGet200Response | HubRouteTablesGetDefaultResponse
   >;
   /** Deletes a RouteTable. */
   delete(
@@ -7711,7 +7711,7 @@ export interface HubRouteTablesCreateOrUpdate {
     | HubRouteTablesDelete200Response
     | HubRouteTablesDelete202Response
     | HubRouteTablesDelete204Response
-    | HubRouteTablesDeletedefaultResponse
+    | HubRouteTablesDeleteDefaultResponse
   >;
 }
 
@@ -7720,7 +7720,7 @@ export interface HubRouteTablesList {
   get(
     options: HubRouteTablesListParameters
   ): StreamableMethod<
-    HubRouteTablesList200Response | HubRouteTablesListdefaultResponse
+    HubRouteTablesList200Response | HubRouteTablesListDefaultResponse
   >;
 }
 
@@ -7731,13 +7731,13 @@ export interface RoutingIntentCreateOrUpdate {
   ): StreamableMethod<
     | RoutingIntentCreateOrUpdate200Response
     | RoutingIntentCreateOrUpdate201Response
-    | RoutingIntentCreateOrUpdatedefaultResponse
+    | RoutingIntentCreateOrUpdateDefaultResponse
   >;
   /** Retrieves the details of a RoutingIntent. */
   get(
     options: RoutingIntentGetParameters
   ): StreamableMethod<
-    RoutingIntentGet200Response | RoutingIntentGetdefaultResponse
+    RoutingIntentGet200Response | RoutingIntentGetDefaultResponse
   >;
   /** Deletes a RoutingIntent. */
   delete(
@@ -7746,7 +7746,7 @@ export interface RoutingIntentCreateOrUpdate {
     | RoutingIntentDelete200Response
     | RoutingIntentDelete202Response
     | RoutingIntentDelete204Response
-    | RoutingIntentDeletedefaultResponse
+    | RoutingIntentDeleteDefaultResponse
   >;
 }
 
@@ -7755,7 +7755,7 @@ export interface RoutingIntentList {
   get(
     options: RoutingIntentListParameters
   ): StreamableMethod<
-    RoutingIntentList200Response | RoutingIntentListdefaultResponse
+    RoutingIntentList200Response | RoutingIntentListDefaultResponse
   >;
 }
 
@@ -7765,7 +7765,7 @@ export interface WebApplicationFirewallPoliciesList {
     options: WebApplicationFirewallPoliciesListParameters
   ): StreamableMethod<
     | WebApplicationFirewallPoliciesList200Response
-    | WebApplicationFirewallPoliciesListdefaultResponse
+    | WebApplicationFirewallPoliciesListDefaultResponse
   >;
 }
 
@@ -7775,7 +7775,7 @@ export interface WebApplicationFirewallPoliciesListAll {
     options: WebApplicationFirewallPoliciesListAllParameters
   ): StreamableMethod<
     | WebApplicationFirewallPoliciesListAll200Response
-    | WebApplicationFirewallPoliciesListAlldefaultResponse
+    | WebApplicationFirewallPoliciesListAllDefaultResponse
   >;
 }
 
@@ -7785,7 +7785,7 @@ export interface WebApplicationFirewallPoliciesGet {
     options: WebApplicationFirewallPoliciesGetParameters
   ): StreamableMethod<
     | WebApplicationFirewallPoliciesGet200Response
-    | WebApplicationFirewallPoliciesGetdefaultResponse
+    | WebApplicationFirewallPoliciesGetDefaultResponse
   >;
   /** Creates or update policy with specified rule set name within a resource group. */
   put(
@@ -7793,7 +7793,7 @@ export interface WebApplicationFirewallPoliciesGet {
   ): StreamableMethod<
     | WebApplicationFirewallPoliciesCreateOrUpdate200Response
     | WebApplicationFirewallPoliciesCreateOrUpdate201Response
-    | WebApplicationFirewallPoliciesCreateOrUpdatedefaultResponse
+    | WebApplicationFirewallPoliciesCreateOrUpdateDefaultResponse
   >;
   /** Deletes Policy. */
   delete(
@@ -7802,7 +7802,7 @@ export interface WebApplicationFirewallPoliciesGet {
     | WebApplicationFirewallPoliciesDelete200Response
     | WebApplicationFirewallPoliciesDelete202Response
     | WebApplicationFirewallPoliciesDelete204Response
-    | WebApplicationFirewallPoliciesDeletedefaultResponse
+    | WebApplicationFirewallPoliciesDeleteDefaultResponse
   >;
 }
 
@@ -7810,14 +7810,14 @@ export interface VipSwapGet {
   /** Gets the SwapResource which identifies the slot type for the specified cloud service. The slot type on a cloud service can either be Staging or Production */
   get(
     options: VipSwapGetParameters
-  ): StreamableMethod<VipSwapGet200Response | VipSwapGetdefaultResponse>;
+  ): StreamableMethod<VipSwapGet200Response | VipSwapGetDefaultResponse>;
   /** Performs vip swap operation on swappable cloud services. */
   put(
     options: VipSwapCreateParameters
   ): StreamableMethod<
     | VipSwapCreate200Response
     | VipSwapCreate202Response
-    | VipSwapCreatedefaultResponse
+    | VipSwapCreateDefaultResponse
   >;
 }
 
@@ -7825,7 +7825,7 @@ export interface VipSwapList {
   /** Gets the list of SwapResource which identifies the slot type for the specified cloud service. The slot type on a cloud service can either be Staging or Production */
   get(
     options: VipSwapListParameters
-  ): StreamableMethod<VipSwapList200Response | VipSwapListdefaultResponse>;
+  ): StreamableMethod<VipSwapList200Response | VipSwapListDefaultResponse>;
 }
 
 export interface Routes {
@@ -8089,12 +8089,6 @@ export interface Routes {
     subscriptionId: string,
     location: string
   ): CheckDnsNameAvailability;
-  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/expressRouteProviderPorts/\{providerport\}' has methods for the following verbs: get */
-  (
-    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts/{providerport}",
-    subscriptionId: string,
-    providerport: string
-  ): ExpressRouteProviderPort;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkManagers/\{networkManagerName\}/listActiveConnectivityConfigurations' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveConnectivityConfigurations",
@@ -8644,6 +8638,12 @@ export interface Routes {
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts",
     subscriptionId: string
   ): ExpressRouteProviderPortsLocationList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/expressRouteProviderPorts/\{providerport\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts/{providerport}",
+    subscriptionId: string,
+    providerport: string
+  ): ExpressRouteProviderPortsGet;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/firewallPolicies/\{firewallPolicyName\}' has methods for the following verbs: delete, get, put, patch */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}",

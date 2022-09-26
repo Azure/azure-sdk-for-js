@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/** An error response from the service. */
 export interface CloudErrorOutput {
   /** Cloud error body. */
   error?: CloudErrorBodyOutput;
 }
 
+/** An error response from the service. */
 export interface CloudErrorBodyOutput {
   /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
   code?: string;
@@ -17,6 +19,7 @@ export interface CloudErrorBodyOutput {
   details?: Array<CloudErrorBodyOutput>;
 }
 
+/** Application gateway resource. */
 export interface ApplicationGatewayOutput extends ResourceOutput {
   /** Properties of the application gateway. */
   properties?: ApplicationGatewayPropertiesFormatOutput;
@@ -28,6 +31,7 @@ export interface ApplicationGatewayOutput extends ResourceOutput {
   identity?: ManagedServiceIdentityOutput;
 }
 
+/** Properties of the application gateway. */
 export interface ApplicationGatewayPropertiesFormatOutput {
   /** SKU of the application gateway resource. */
   sku?: ApplicationGatewaySkuOutput;
@@ -117,6 +121,7 @@ export interface ApplicationGatewayPropertiesFormatOutput {
   globalConfiguration?: ApplicationGatewayGlobalConfigurationOutput;
 }
 
+/** SKU of an application gateway. */
 export interface ApplicationGatewaySkuOutput {
   /** Name of an application gateway SKU. */
   name?:
@@ -133,6 +138,7 @@ export interface ApplicationGatewaySkuOutput {
   capacity?: number;
 }
 
+/** Application Gateway Ssl policy. */
 export interface ApplicationGatewaySslPolicyOutput {
   /** Ssl protocols to be disabled on application gateway. */
   disabledSslProtocols?: Array<"TLSv1_0" | "TLSv1_1" | "TLSv1_2" | "TLSv1_3">;
@@ -180,6 +186,7 @@ export interface ApplicationGatewaySslPolicyOutput {
   minProtocolVersion?: "TLSv1_0" | "TLSv1_1" | "TLSv1_2" | "TLSv1_3";
 }
 
+/** IP configuration of an application gateway. Currently 1 public and 1 private IP configuration is allowed. */
 export interface ApplicationGatewayIPConfigurationOutput
   extends SubResourceOutput {
   /** Properties of the application gateway IP configuration. */
@@ -192,6 +199,7 @@ export interface ApplicationGatewayIPConfigurationOutput
   type?: string;
 }
 
+/** Properties of IP configuration of an application gateway. */
 export interface ApplicationGatewayIPConfigurationPropertiesFormatOutput {
   /** Reference to the subnet resource. A subnet from where application gateway gets its private address. */
   subnet?: SubResourceOutput;
@@ -199,11 +207,13 @@ export interface ApplicationGatewayIPConfigurationPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Reference to another subresource. */
 export interface SubResourceOutput {
   /** Resource ID. */
   id?: string;
 }
 
+/** Authentication certificates of an application gateway. */
 export interface ApplicationGatewayAuthenticationCertificateOutput
   extends SubResourceOutput {
   /** Properties of the application gateway authentication certificate. */
@@ -216,6 +226,7 @@ export interface ApplicationGatewayAuthenticationCertificateOutput
   type?: string;
 }
 
+/** Authentication certificates properties of an application gateway. */
 export interface ApplicationGatewayAuthenticationCertificatePropertiesFormatOutput {
   /** Certificate public data. */
   data?: string;
@@ -223,6 +234,7 @@ export interface ApplicationGatewayAuthenticationCertificatePropertiesFormatOutp
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Trusted Root certificates of an application gateway. */
 export interface ApplicationGatewayTrustedRootCertificateOutput
   extends SubResourceOutput {
   /** Properties of the application gateway trusted root certificate. */
@@ -235,6 +247,7 @@ export interface ApplicationGatewayTrustedRootCertificateOutput
   type?: string;
 }
 
+/** Trusted Root certificates properties of an application gateway. */
 export interface ApplicationGatewayTrustedRootCertificatePropertiesFormatOutput {
   /** Certificate public data. */
   data?: string;
@@ -244,6 +257,7 @@ export interface ApplicationGatewayTrustedRootCertificatePropertiesFormatOutput 
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Trusted client certificates of an application gateway. */
 export interface ApplicationGatewayTrustedClientCertificateOutput
   extends SubResourceOutput {
   /** Properties of the application gateway trusted client certificate. */
@@ -256,6 +270,7 @@ export interface ApplicationGatewayTrustedClientCertificateOutput
   type?: string;
 }
 
+/** Trusted client certificates properties of an application gateway. */
 export interface ApplicationGatewayTrustedClientCertificatePropertiesFormatOutput {
   /** Certificate public data. */
   data?: string;
@@ -267,6 +282,7 @@ export interface ApplicationGatewayTrustedClientCertificatePropertiesFormatOutpu
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** SSL certificates of an application gateway. */
 export interface ApplicationGatewaySslCertificateOutput
   extends SubResourceOutput {
   /** Properties of the application gateway SSL certificate. */
@@ -279,6 +295,7 @@ export interface ApplicationGatewaySslCertificateOutput
   type?: string;
 }
 
+/** Properties of SSL certificates of an application gateway. */
 export interface ApplicationGatewaySslCertificatePropertiesFormatOutput {
   /** Base-64 encoded pfx certificate. Only applicable in PUT Request. */
   data?: string;
@@ -292,6 +309,7 @@ export interface ApplicationGatewaySslCertificatePropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Frontend IP configuration of an application gateway. */
 export interface ApplicationGatewayFrontendIPConfigurationOutput
   extends SubResourceOutput {
   /** Properties of the application gateway frontend IP configuration. */
@@ -304,6 +322,7 @@ export interface ApplicationGatewayFrontendIPConfigurationOutput
   type?: string;
 }
 
+/** Properties of Frontend IP configuration of an application gateway. */
 export interface ApplicationGatewayFrontendIPConfigurationPropertiesFormatOutput {
   /** PrivateIPAddress of the network interface IP Configuration. */
   privateIPAddress?: string;
@@ -319,6 +338,7 @@ export interface ApplicationGatewayFrontendIPConfigurationPropertiesFormatOutput
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Frontend port of an application gateway. */
 export interface ApplicationGatewayFrontendPortOutput
   extends SubResourceOutput {
   /** Properties of the application gateway frontend port. */
@@ -331,6 +351,7 @@ export interface ApplicationGatewayFrontendPortOutput
   type?: string;
 }
 
+/** Properties of Frontend port of an application gateway. */
 export interface ApplicationGatewayFrontendPortPropertiesFormatOutput {
   /** Frontend port. */
   port?: number;
@@ -338,6 +359,7 @@ export interface ApplicationGatewayFrontendPortPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Probe of the application gateway. */
 export interface ApplicationGatewayProbeOutput extends SubResourceOutput {
   /** Properties of the application gateway probe. */
   properties?: ApplicationGatewayProbePropertiesFormatOutput;
@@ -349,6 +371,7 @@ export interface ApplicationGatewayProbeOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of probe of an application gateway. */
 export interface ApplicationGatewayProbePropertiesFormatOutput {
   /** The protocol used for the probe. */
   protocol?: "Http" | "Https" | "Tcp" | "Tls";
@@ -376,6 +399,7 @@ export interface ApplicationGatewayProbePropertiesFormatOutput {
   port?: number;
 }
 
+/** Application gateway probe health response match. */
 export interface ApplicationGatewayProbeHealthResponseMatchOutput {
   /** Body that must be contained in the health response. Default value is empty. */
   body?: string;
@@ -383,6 +407,7 @@ export interface ApplicationGatewayProbeHealthResponseMatchOutput {
   statusCodes?: Array<string>;
 }
 
+/** Backend Address Pool of an application gateway. */
 export interface ApplicationGatewayBackendAddressPoolOutput
   extends SubResourceOutput {
   /** Properties of the application gateway backend address pool. */
@@ -395,6 +420,7 @@ export interface ApplicationGatewayBackendAddressPoolOutput
   type?: string;
 }
 
+/** Properties of Backend Address Pool of an application gateway. */
 export interface ApplicationGatewayBackendAddressPoolPropertiesFormatOutput {
   /** Collection of references to IPs defined in network interfaces. */
   backendIPConfigurations?: Array<NetworkInterfaceIPConfigurationOutput>;
@@ -404,6 +430,7 @@ export interface ApplicationGatewayBackendAddressPoolPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** IPConfiguration in a network interface. */
 export interface NetworkInterfaceIPConfigurationOutput
   extends SubResourceOutput {
   /** Network interface IP configuration properties. */
@@ -416,6 +443,7 @@ export interface NetworkInterfaceIPConfigurationOutput
   type?: string;
 }
 
+/** Properties of IP configuration. */
 export interface NetworkInterfaceIPConfigurationPropertiesFormatOutput {
   /** The reference to gateway load balancer frontend IP. */
   gatewayLoadBalancer?: SubResourceOutput;
@@ -449,6 +477,7 @@ export interface NetworkInterfaceIPConfigurationPropertiesFormatOutput {
   privateLinkConnectionProperties?: NetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesOutput;
 }
 
+/** Virtual Network Tap resource. */
 export interface VirtualNetworkTapOutput extends ResourceOutput {
   /** Virtual Network Tap Properties. */
   properties?: VirtualNetworkTapPropertiesFormatOutput;
@@ -456,6 +485,7 @@ export interface VirtualNetworkTapOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Virtual Network Tap properties. */
 export interface VirtualNetworkTapPropertiesFormatOutput {
   /** Specifies the list of resource IDs for the network interface IP configuration that needs to be tapped. */
   networkInterfaceTapConfigurations?: Array<
@@ -473,6 +503,7 @@ export interface VirtualNetworkTapPropertiesFormatOutput {
   destinationPort?: number;
 }
 
+/** Tap configuration in a Network Interface. */
 export interface NetworkInterfaceTapConfigurationOutput
   extends SubResourceOutput {
   /** Properties of the Virtual Network Tap configuration. */
@@ -485,6 +516,7 @@ export interface NetworkInterfaceTapConfigurationOutput
   type?: string;
 }
 
+/** Properties of Virtual Network Tap configuration. */
 export interface NetworkInterfaceTapConfigurationPropertiesFormatOutput {
   /** The reference to the Virtual Network Tap resource. */
   virtualNetworkTap?: VirtualNetworkTapOutput;
@@ -492,6 +524,7 @@ export interface NetworkInterfaceTapConfigurationPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Frontend IP address of the load balancer. */
 export interface FrontendIPConfigurationOutput extends SubResourceOutput {
   /** Properties of the load balancer probe. */
   properties?: FrontendIPConfigurationPropertiesFormatOutput;
@@ -505,6 +538,7 @@ export interface FrontendIPConfigurationOutput extends SubResourceOutput {
   zones?: Array<string>;
 }
 
+/** Properties of Frontend IP Configuration of the load balancer. */
 export interface FrontendIPConfigurationPropertiesFormatOutput {
   /** An array of references to inbound rules that use this frontend IP. */
   inboundNatRules?: Array<SubResourceOutput>;
@@ -532,6 +566,7 @@ export interface FrontendIPConfigurationPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Subnet in a virtual network resource. */
 export interface SubnetOutput extends SubResourceOutput {
   /** Properties of the subnet. */
   properties?: SubnetPropertiesFormatOutput;
@@ -543,6 +578,7 @@ export interface SubnetOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of the subnet. */
 export interface SubnetPropertiesFormatOutput {
   /** The address prefix for the subnet. */
   addressPrefix?: string;
@@ -586,6 +622,7 @@ export interface SubnetPropertiesFormatOutput {
   >;
 }
 
+/** NetworkSecurityGroup resource. */
 export interface NetworkSecurityGroupOutput extends ResourceOutput {
   /** Properties of the network security group. */
   properties?: NetworkSecurityGroupPropertiesFormatOutput;
@@ -593,6 +630,7 @@ export interface NetworkSecurityGroupOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Network Security Group resource. */
 export interface NetworkSecurityGroupPropertiesFormatOutput {
   /** When enabled, flows created from Network Security Group connections will be re-evaluated when rules are updates. Initial enablement will trigger re-evaluation. */
   flushConnection?: boolean;
@@ -612,6 +650,7 @@ export interface NetworkSecurityGroupPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Network security rule. */
 export interface SecurityRuleOutput extends SubResourceOutput {
   /** Properties of the security rule. */
   properties?: SecurityRulePropertiesFormatOutput;
@@ -623,6 +662,7 @@ export interface SecurityRuleOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Security rule resource. */
 export interface SecurityRulePropertiesFormatOutput {
   /** A description for this rule. Restricted to 140 chars. */
   description?: string;
@@ -658,6 +698,7 @@ export interface SecurityRulePropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** An application security group in a resource group. */
 export interface ApplicationSecurityGroupOutput extends ResourceOutput {
   /** Properties of the application security group. */
   properties?: ApplicationSecurityGroupPropertiesFormatOutput;
@@ -665,6 +706,7 @@ export interface ApplicationSecurityGroupOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Application security group properties. */
 export interface ApplicationSecurityGroupPropertiesFormatOutput {
   /** The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups. */
   resourceGuid?: string;
@@ -672,6 +714,7 @@ export interface ApplicationSecurityGroupPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Common resource representation. */
 export interface ResourceOutput {
   /** Resource ID. */
   id?: string;
@@ -685,6 +728,7 @@ export interface ResourceOutput {
   tags?: Record<string, string>;
 }
 
+/** A network interface in a resource group. */
 export interface NetworkInterfaceOutput extends ResourceOutput {
   /** The extended location of the network interface. */
   extendedLocation?: ExtendedLocationOutput;
@@ -694,6 +738,7 @@ export interface NetworkInterfaceOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** ExtendedLocation complex type. */
 export interface ExtendedLocationOutput {
   /** The name of the extended location. */
   name?: string;
@@ -701,6 +746,7 @@ export interface ExtendedLocationOutput {
   type?: "EdgeZone";
 }
 
+/** NetworkInterface properties. */
 export interface NetworkInterfacePropertiesFormatOutput {
   /** The reference to a virtual machine. */
   virtualMachine?: SubResourceOutput;
@@ -746,6 +792,7 @@ export interface NetworkInterfacePropertiesFormatOutput {
   auxiliaryMode?: "None" | "MaxConnections" | "Floating";
 }
 
+/** Private endpoint resource. */
 export interface PrivateEndpointOutput extends ResourceOutput {
   /** The extended location of the load balancer. */
   extendedLocation?: ExtendedLocationOutput;
@@ -755,6 +802,7 @@ export interface PrivateEndpointOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Properties of the private endpoint. */
 export interface PrivateEndpointPropertiesOutput {
   /** The ID of the subnet from which the private IP will be allocated. */
   subnet?: SubnetOutput;
@@ -778,6 +826,7 @@ export interface PrivateEndpointPropertiesOutput {
   customNetworkInterfaceName?: string;
 }
 
+/** PrivateLinkServiceConnection resource. */
 export interface PrivateLinkServiceConnectionOutput extends SubResourceOutput {
   /** Properties of the private link service connection. */
   properties?: PrivateLinkServiceConnectionPropertiesOutput;
@@ -789,6 +838,7 @@ export interface PrivateLinkServiceConnectionOutput extends SubResourceOutput {
   etag?: string;
 }
 
+/** Properties of the PrivateLinkServiceConnection. */
 export interface PrivateLinkServiceConnectionPropertiesOutput {
   /** The provisioning state of the private link service connection resource. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
@@ -802,6 +852,7 @@ export interface PrivateLinkServiceConnectionPropertiesOutput {
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateOutput;
 }
 
+/** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionStateOutput {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
   status?: string;
@@ -811,6 +862,7 @@ export interface PrivateLinkServiceConnectionStateOutput {
   actionsRequired?: string;
 }
 
+/** Contains custom Dns resolution configuration from customer. */
 export interface CustomDnsConfigPropertiesFormatOutput {
   /** Fqdn that resolves to private endpoint ip address. */
   fqdn?: string;
@@ -818,6 +870,7 @@ export interface CustomDnsConfigPropertiesFormatOutput {
   ipAddresses?: Array<string>;
 }
 
+/** An IP Configuration of the private endpoint. */
 export interface PrivateEndpointIPConfigurationOutput {
   /** Properties of private endpoint IP configurations. */
   properties?: PrivateEndpointIPConfigurationPropertiesOutput;
@@ -829,6 +882,7 @@ export interface PrivateEndpointIPConfigurationOutput {
   etag?: string;
 }
 
+/** Properties of an IP Configuration of the private endpoint. */
 export interface PrivateEndpointIPConfigurationPropertiesOutput {
   /** The ID of a group obtained from the remote resource that this private endpoint should connect to. */
   groupId?: string;
@@ -838,6 +892,7 @@ export interface PrivateEndpointIPConfigurationPropertiesOutput {
   privateIPAddress?: string;
 }
 
+/** DNS settings of a network interface. */
 export interface NetworkInterfaceDnsSettingsOutput {
   /** List of DNS servers IP addresses. Use 'AzureProvidedDNS' to switch to azure provided DNS resolution. 'AzureProvidedDNS' value cannot be combined with other IPs, it must be the only value in dnsServers collection. */
   dnsServers?: Array<string>;
@@ -851,6 +906,7 @@ export interface NetworkInterfaceDnsSettingsOutput {
   internalDomainNameSuffix?: string;
 }
 
+/** Private link service resource. */
 export interface PrivateLinkServiceOutput extends ResourceOutput {
   /** The extended location of the load balancer. */
   extendedLocation?: ExtendedLocationOutput;
@@ -860,6 +916,7 @@ export interface PrivateLinkServiceOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Properties of the private link service. */
 export interface PrivateLinkServicePropertiesOutput {
   /** An array of references to the load balancer IP configurations. */
   loadBalancerFrontendIpConfigurations?: Array<FrontendIPConfigurationOutput>;
@@ -883,6 +940,7 @@ export interface PrivateLinkServicePropertiesOutput {
   enableProxyProtocol?: boolean;
 }
 
+/** The private link service ip configuration. */
 export interface PrivateLinkServiceIpConfigurationOutput
   extends SubResourceOutput {
   /** Properties of the private link service ip configuration. */
@@ -895,6 +953,7 @@ export interface PrivateLinkServiceIpConfigurationOutput
   type?: string;
 }
 
+/** Properties of private link service IP configuration. */
 export interface PrivateLinkServiceIpConfigurationPropertiesOutput {
   /** The private IP address of the IP configuration. */
   privateIPAddress?: string;
@@ -910,6 +969,7 @@ export interface PrivateLinkServiceIpConfigurationPropertiesOutput {
   privateIPAddressVersion?: "IPv4" | "IPv6";
 }
 
+/** PrivateEndpointConnection resource. */
 export interface PrivateEndpointConnectionOutput extends SubResourceOutput {
   /** Properties of the private end point connection. */
   properties?: PrivateEndpointConnectionPropertiesOutput;
@@ -921,6 +981,7 @@ export interface PrivateEndpointConnectionOutput extends SubResourceOutput {
   etag?: string;
 }
 
+/** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionPropertiesOutput {
   /** The resource of private end point. */
   privateEndpoint?: PrivateEndpointOutput;
@@ -932,17 +993,21 @@ export interface PrivateEndpointConnectionPropertiesOutput {
   linkIdentifier?: string;
 }
 
+/** The visibility list of the private link service. */
 export interface PrivateLinkServicePropertiesVisibilityOutput
   extends ResourceSetOutput {}
 
+/** The base resource set for visibility and auto-approval. */
 export interface ResourceSetOutput {
   /** The list of subscriptions. */
   subscriptions?: Array<string>;
 }
 
+/** The auto-approval list of the private link service. */
 export interface PrivateLinkServicePropertiesAutoApprovalOutput
   extends ResourceSetOutput {}
 
+/** A flow log resource. */
 export interface FlowLogOutput extends ResourceOutput {
   /** Properties of the flow log. */
   properties?: FlowLogPropertiesFormatOutput;
@@ -950,6 +1015,7 @@ export interface FlowLogOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Parameters that define the configuration of flow log. */
 export interface FlowLogPropertiesFormatOutput {
   /** ID of network security group to which flow log will be applied. */
   targetResourceId: string;
@@ -969,6 +1035,7 @@ export interface FlowLogPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Parameters that define the retention policy for flow log. */
 export interface RetentionPolicyParametersOutput {
   /** Number of days to retain flow log records. */
   days?: number;
@@ -976,6 +1043,7 @@ export interface RetentionPolicyParametersOutput {
   enabled?: boolean;
 }
 
+/** Parameters that define the flow log format. */
 export interface FlowLogFormatParametersOutput {
   /** The file type of flow log. */
   type?: "JSON";
@@ -983,11 +1051,13 @@ export interface FlowLogFormatParametersOutput {
   version?: number;
 }
 
+/** Parameters that define the configuration of traffic analytics. */
 export interface TrafficAnalyticsPropertiesOutput {
   /** Parameters that define the configuration of traffic analytics. */
   networkWatcherFlowAnalyticsConfiguration?: TrafficAnalyticsConfigurationPropertiesOutput;
 }
 
+/** Parameters that define the configuration of traffic analytics. */
 export interface TrafficAnalyticsConfigurationPropertiesOutput {
   /** Flag to enable/disable traffic analytics. */
   enabled?: boolean;
@@ -1001,6 +1071,7 @@ export interface TrafficAnalyticsConfigurationPropertiesOutput {
   trafficAnalyticsInterval?: number;
 }
 
+/** Route table resource. */
 export interface RouteTableOutput extends ResourceOutput {
   /** Properties of the route table. */
   properties?: RouteTablePropertiesFormatOutput;
@@ -1008,6 +1079,7 @@ export interface RouteTableOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Route Table resource. */
 export interface RouteTablePropertiesFormatOutput {
   /** Collection of routes contained within a route table. */
   routes?: Array<RouteOutput>;
@@ -1021,6 +1093,7 @@ export interface RouteTablePropertiesFormatOutput {
   resourceGuid?: string;
 }
 
+/** Route resource. */
 export interface RouteOutput extends SubResourceOutput {
   /** Properties of the route. */
   properties?: RoutePropertiesFormatOutput;
@@ -1032,6 +1105,7 @@ export interface RouteOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Route resource. */
 export interface RoutePropertiesFormatOutput {
   /** The destination CIDR to which the route applies. */
   addressPrefix?: string;
@@ -1050,6 +1124,7 @@ export interface RoutePropertiesFormatOutput {
   hasBgpOverride?: boolean;
 }
 
+/** The service endpoint properties. */
 export interface ServiceEndpointPropertiesFormatOutput {
   /** The type of the endpoint service. */
   service?: string;
@@ -1059,6 +1134,7 @@ export interface ServiceEndpointPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Service End point policy resource. */
 export interface ServiceEndpointPolicyOutput extends ResourceOutput {
   /** Properties of the service end point policy. */
   properties?: ServiceEndpointPolicyPropertiesFormatOutput;
@@ -1068,6 +1144,7 @@ export interface ServiceEndpointPolicyOutput extends ResourceOutput {
   kind?: string;
 }
 
+/** Service Endpoint Policy resource. */
 export interface ServiceEndpointPolicyPropertiesFormatOutput {
   /** A collection of service endpoint policy definitions of the service endpoint policy. */
   serviceEndpointPolicyDefinitions?: Array<
@@ -1085,6 +1162,7 @@ export interface ServiceEndpointPolicyPropertiesFormatOutput {
   contextualServiceEndpointPolicies?: Array<string>;
 }
 
+/** Service Endpoint policy definitions. */
 export interface ServiceEndpointPolicyDefinitionOutput
   extends SubResourceOutput {
   /** Properties of the service endpoint policy definition. */
@@ -1097,6 +1175,7 @@ export interface ServiceEndpointPolicyDefinitionOutput
   type?: string;
 }
 
+/** Service Endpoint policy definition resource. */
 export interface ServiceEndpointPolicyDefinitionPropertiesFormatOutput {
   /** A description for this rule. Restricted to 140 chars. */
   description?: string;
@@ -1108,6 +1187,7 @@ export interface ServiceEndpointPolicyDefinitionPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** IP configuration. */
 export interface IPConfigurationOutput extends SubResourceOutput {
   /** Properties of the IP configuration. */
   properties?: IPConfigurationPropertiesFormatOutput;
@@ -1117,6 +1197,7 @@ export interface IPConfigurationOutput extends SubResourceOutput {
   etag?: string;
 }
 
+/** Properties of IP configuration. */
 export interface IPConfigurationPropertiesFormatOutput {
   /** The private IP address of the IP configuration. */
   privateIPAddress?: string;
@@ -1130,6 +1211,7 @@ export interface IPConfigurationPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Public IP address resource. */
 export interface PublicIPAddressOutput extends ResourceOutput {
   /** The extended location of the public ip address. */
   extendedLocation?: ExtendedLocationOutput;
@@ -1143,6 +1225,7 @@ export interface PublicIPAddressOutput extends ResourceOutput {
   zones?: Array<string>;
 }
 
+/** SKU of a public IP address. */
 export interface PublicIPAddressSkuOutput {
   /** Name of a public IP address SKU. */
   name?: "Basic" | "Standard";
@@ -1150,6 +1233,7 @@ export interface PublicIPAddressSkuOutput {
   tier?: "Regional" | "Global";
 }
 
+/** Public IP address properties. */
 export interface PublicIPAddressPropertiesFormatOutput {
   /** The public IP address allocation method. */
   publicIPAllocationMethod?: "Static" | "Dynamic";
@@ -1185,6 +1269,7 @@ export interface PublicIPAddressPropertiesFormatOutput {
   deleteOption?: "Delete" | "Detach";
 }
 
+/** Contains FQDN of the DNS record associated with the public IP address. */
 export interface PublicIPAddressDnsSettingsOutput {
   /** The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system. */
   domainNameLabel?: string;
@@ -1194,6 +1279,7 @@ export interface PublicIPAddressDnsSettingsOutput {
   reverseFqdn?: string;
 }
 
+/** Contains the DDoS protection settings of the public IP. */
 export interface DdosSettingsOutput {
   /** The DDoS protection mode of the public IP */
   protectionMode?: "VirtualNetworkInherited" | "Enabled" | "Disabled";
@@ -1201,6 +1287,7 @@ export interface DdosSettingsOutput {
   ddosProtectionPlan?: SubResourceOutput;
 }
 
+/** Contains the IpTag associated with the object. */
 export interface IpTagOutput {
   /** The IP tag type. Example: FirstPartyUsage. */
   ipTagType?: string;
@@ -1208,6 +1295,7 @@ export interface IpTagOutput {
   tag?: string;
 }
 
+/** Nat Gateway resource. */
 export interface NatGatewayOutput extends ResourceOutput {
   /** The nat gateway SKU. */
   sku?: NatGatewaySkuOutput;
@@ -1219,11 +1307,13 @@ export interface NatGatewayOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** SKU of nat gateway. */
 export interface NatGatewaySkuOutput {
   /** Name of Nat Gateway SKU. */
   name?: "Standard";
 }
 
+/** Nat Gateway properties. */
 export interface NatGatewayPropertiesFormatOutput {
   /** The idle timeout of the nat gateway. */
   idleTimeoutInMinutes?: number;
@@ -1239,6 +1329,7 @@ export interface NatGatewayPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** IP configuration profile child resource. */
 export interface IPConfigurationProfileOutput extends SubResourceOutput {
   /** Properties of the IP configuration profile. */
   properties?: IPConfigurationProfilePropertiesFormatOutput;
@@ -1250,6 +1341,7 @@ export interface IPConfigurationProfileOutput extends SubResourceOutput {
   etag?: string;
 }
 
+/** IP configuration profile properties. */
 export interface IPConfigurationProfilePropertiesFormatOutput {
   /** The reference to the subnet resource to create a container network interface ip configuration. */
   subnet?: SubnetOutput;
@@ -1257,6 +1349,7 @@ export interface IPConfigurationProfilePropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** ResourceNavigationLink resource. */
 export interface ResourceNavigationLinkOutput extends SubResourceOutput {
   /** Resource navigation link properties format. */
   properties?: ResourceNavigationLinkFormatOutput;
@@ -1268,6 +1361,7 @@ export interface ResourceNavigationLinkOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of ResourceNavigationLink. */
 export interface ResourceNavigationLinkFormatOutput {
   /** Resource type of the linked resource. */
   linkedResourceType?: string;
@@ -1277,6 +1371,7 @@ export interface ResourceNavigationLinkFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** ServiceAssociationLink resource. */
 export interface ServiceAssociationLinkOutput extends SubResourceOutput {
   /** Resource navigation link properties format. */
   properties?: ServiceAssociationLinkPropertiesFormatOutput;
@@ -1288,6 +1383,7 @@ export interface ServiceAssociationLinkOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of ServiceAssociationLink. */
 export interface ServiceAssociationLinkPropertiesFormatOutput {
   /** Resource type of the linked resource. */
   linkedResourceType?: string;
@@ -1301,6 +1397,7 @@ export interface ServiceAssociationLinkPropertiesFormatOutput {
   locations?: Array<string>;
 }
 
+/** Details the service to which the subnet is delegated. */
 export interface DelegationOutput extends SubResourceOutput {
   /** Properties of the subnet. */
   properties?: ServiceDelegationPropertiesFormatOutput;
@@ -1312,6 +1409,7 @@ export interface DelegationOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of a service delegation. */
 export interface ServiceDelegationPropertiesFormatOutput {
   /** The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers). */
   serviceName?: string;
@@ -1321,6 +1419,7 @@ export interface ServiceDelegationPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Pool of backend IP addresses. */
 export interface BackendAddressPoolOutput extends SubResourceOutput {
   /** Properties of load balancer backend address pool. */
   properties?: BackendAddressPoolPropertiesFormatOutput;
@@ -1332,6 +1431,7 @@ export interface BackendAddressPoolOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of the backend address pool. */
 export interface BackendAddressPoolPropertiesFormatOutput {
   /** The location of the backend address pool. */
   location?: string;
@@ -1355,6 +1455,7 @@ export interface BackendAddressPoolPropertiesFormatOutput {
   drainPeriodInSeconds?: number;
 }
 
+/** Gateway load balancer tunnel interface of a load balancer backend address pool. */
 export interface GatewayLoadBalancerTunnelInterfaceOutput {
   /** Port of gateway load balancer tunnel interface. */
   port?: number;
@@ -1366,6 +1467,7 @@ export interface GatewayLoadBalancerTunnelInterfaceOutput {
   type?: "None" | "Internal" | "External";
 }
 
+/** Load balancer backend addresses. */
 export interface LoadBalancerBackendAddressOutput {
   /** Properties of load balancer backend address pool. */
   properties?: LoadBalancerBackendAddressPropertiesFormatOutput;
@@ -1373,6 +1475,7 @@ export interface LoadBalancerBackendAddressOutput {
   name?: string;
 }
 
+/** Properties of the load balancer backend addresses. */
 export interface LoadBalancerBackendAddressPropertiesFormatOutput {
   /** Reference to an existing virtual network. */
   virtualNetwork?: SubResourceOutput;
@@ -1390,6 +1493,7 @@ export interface LoadBalancerBackendAddressPropertiesFormatOutput {
   adminState?: "None" | "Up" | "Down" | "Drain";
 }
 
+/** Individual port mappings for inbound NAT rule created for backend pool. */
 export interface NatRulePortMappingOutput {
   /** Name of inbound NAT rule. */
   inboundNatRuleName?: string;
@@ -1399,6 +1503,7 @@ export interface NatRulePortMappingOutput {
   backendPort?: number;
 }
 
+/** Inbound NAT rule of the load balancer. */
 export interface InboundNatRuleOutput extends SubResourceOutput {
   /** Properties of load balancer inbound NAT rule. */
   properties?: InboundNatRulePropertiesFormatOutput;
@@ -1410,6 +1515,7 @@ export interface InboundNatRuleOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of the inbound NAT rule. */
 export interface InboundNatRulePropertiesFormatOutput {
   /** A reference to frontend IP addresses. */
   frontendIPConfiguration?: SubResourceOutput;
@@ -1437,6 +1543,7 @@ export interface InboundNatRulePropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** PrivateLinkConnection properties for the network interface. */
 export interface NetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesOutput {
   /** The group ID for current private link connection. */
   groupId?: string;
@@ -1446,6 +1553,7 @@ export interface NetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesO
   fqdns?: Array<string>;
 }
 
+/** Backend address of an application gateway. */
 export interface ApplicationGatewayBackendAddressOutput {
   /** Fully qualified domain name (FQDN). */
   fqdn?: string;
@@ -1453,6 +1561,7 @@ export interface ApplicationGatewayBackendAddressOutput {
   ipAddress?: string;
 }
 
+/** Backend address pool settings of an application gateway. */
 export interface ApplicationGatewayBackendHttpSettingsOutput
   extends SubResourceOutput {
   /** Properties of the application gateway backend HTTP settings. */
@@ -1465,6 +1574,7 @@ export interface ApplicationGatewayBackendHttpSettingsOutput
   type?: string;
 }
 
+/** Properties of Backend address pool settings of an application gateway. */
 export interface ApplicationGatewayBackendHttpSettingsPropertiesFormatOutput {
   /** The destination port on the backend. */
   port?: number;
@@ -1496,6 +1606,7 @@ export interface ApplicationGatewayBackendHttpSettingsPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Connection draining allows open connections to a backend server to be active for a specified time after the backend server got removed from the configuration. */
 export interface ApplicationGatewayConnectionDrainingOutput {
   /** Whether connection draining is enabled or not. */
   enabled: boolean;
@@ -1503,6 +1614,7 @@ export interface ApplicationGatewayConnectionDrainingOutput {
   drainTimeoutInSec: number;
 }
 
+/** Backend address pool settings of an application gateway. */
 export interface ApplicationGatewayBackendSettingsOutput
   extends SubResourceOutput {
   /** Properties of the application gateway backend settings. */
@@ -1515,6 +1627,7 @@ export interface ApplicationGatewayBackendSettingsOutput
   type?: string;
 }
 
+/** Properties of Backend address pool settings of an application gateway. */
 export interface ApplicationGatewayBackendSettingsPropertiesFormatOutput {
   /** The destination port on the backend. */
   port?: number;
@@ -1534,6 +1647,7 @@ export interface ApplicationGatewayBackendSettingsPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Http listener of an application gateway. */
 export interface ApplicationGatewayHttpListenerOutput
   extends SubResourceOutput {
   /** Properties of the application gateway HTTP listener. */
@@ -1546,6 +1660,7 @@ export interface ApplicationGatewayHttpListenerOutput
   type?: string;
 }
 
+/** Properties of HTTP listener of an application gateway. */
 export interface ApplicationGatewayHttpListenerPropertiesFormatOutput {
   /** Frontend IP configuration resource of an application gateway. */
   frontendIPConfiguration?: SubResourceOutput;
@@ -1571,6 +1686,7 @@ export interface ApplicationGatewayHttpListenerPropertiesFormatOutput {
   hostNames?: Array<string>;
 }
 
+/** Customer error of an application gateway. */
 export interface ApplicationGatewayCustomErrorOutput {
   /** Status code of the application gateway customer error. */
   statusCode?: "HttpStatus403" | "HttpStatus502";
@@ -1578,6 +1694,7 @@ export interface ApplicationGatewayCustomErrorOutput {
   customErrorPageUrl?: string;
 }
 
+/** Listener of an application gateway. */
 export interface ApplicationGatewayListenerOutput extends SubResourceOutput {
   /** Properties of the application gateway listener. */
   properties?: ApplicationGatewayListenerPropertiesFormatOutput;
@@ -1589,6 +1706,7 @@ export interface ApplicationGatewayListenerOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of listener of an application gateway. */
 export interface ApplicationGatewayListenerPropertiesFormatOutput {
   /** Frontend IP configuration resource of an application gateway. */
   frontendIPConfiguration?: SubResourceOutput;
@@ -1604,6 +1722,7 @@ export interface ApplicationGatewayListenerPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** SSL profile of an application gateway. */
 export interface ApplicationGatewaySslProfileOutput extends SubResourceOutput {
   /** Properties of the application gateway SSL profile. */
   properties?: ApplicationGatewaySslProfilePropertiesFormatOutput;
@@ -1615,6 +1734,7 @@ export interface ApplicationGatewaySslProfileOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of SSL profile of an application gateway. */
 export interface ApplicationGatewaySslProfilePropertiesFormatOutput {
   /** Array of references to application gateway trusted client certificates. */
   trustedClientCertificates?: Array<SubResourceOutput>;
@@ -1626,6 +1746,7 @@ export interface ApplicationGatewaySslProfilePropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Application gateway client authentication configuration. */
 export interface ApplicationGatewayClientAuthConfigurationOutput {
   /** Verify client certificate issuer name on the application gateway. */
   verifyClientCertIssuerDN?: boolean;
@@ -1633,6 +1754,7 @@ export interface ApplicationGatewayClientAuthConfigurationOutput {
   verifyClientRevocation?: "None" | "OCSP";
 }
 
+/** UrlPathMaps give a url path to the backend mapping information for PathBasedRouting. */
 export interface ApplicationGatewayUrlPathMapOutput extends SubResourceOutput {
   /** Properties of the application gateway URL path map. */
   properties?: ApplicationGatewayUrlPathMapPropertiesFormatOutput;
@@ -1644,6 +1766,7 @@ export interface ApplicationGatewayUrlPathMapOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of UrlPathMap of the application gateway. */
 export interface ApplicationGatewayUrlPathMapPropertiesFormatOutput {
   /** Default backend address pool resource of URL path map. */
   defaultBackendAddressPool?: SubResourceOutput;
@@ -1661,6 +1784,7 @@ export interface ApplicationGatewayUrlPathMapPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Path rule of URL path map of an application gateway. */
 export interface ApplicationGatewayPathRuleOutput extends SubResourceOutput {
   /** Properties of the application gateway path rule. */
   properties?: ApplicationGatewayPathRulePropertiesFormatOutput;
@@ -1672,6 +1796,7 @@ export interface ApplicationGatewayPathRuleOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of path rule of an application gateway. */
 export interface ApplicationGatewayPathRulePropertiesFormatOutput {
   /** Path rules of URL path map. */
   paths?: Array<string>;
@@ -1691,6 +1816,7 @@ export interface ApplicationGatewayPathRulePropertiesFormatOutput {
   firewallPolicy?: SubResourceOutput;
 }
 
+/** Request routing rule of an application gateway. */
 export interface ApplicationGatewayRequestRoutingRuleOutput
   extends SubResourceOutput {
   /** Properties of the application gateway request routing rule. */
@@ -1703,6 +1829,7 @@ export interface ApplicationGatewayRequestRoutingRuleOutput
   type?: string;
 }
 
+/** Properties of request routing rule of the application gateway. */
 export interface ApplicationGatewayRequestRoutingRulePropertiesFormatOutput {
   /** Rule type. */
   ruleType?: "Basic" | "PathBasedRouting";
@@ -1726,6 +1853,7 @@ export interface ApplicationGatewayRequestRoutingRulePropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Routing rule of an application gateway. */
 export interface ApplicationGatewayRoutingRuleOutput extends SubResourceOutput {
   /** Properties of the application gateway routing rule. */
   properties?: ApplicationGatewayRoutingRulePropertiesFormatOutput;
@@ -1737,6 +1865,7 @@ export interface ApplicationGatewayRoutingRuleOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of routing rule of the application gateway. */
 export interface ApplicationGatewayRoutingRulePropertiesFormatOutput {
   /** Rule type. */
   ruleType?: "Basic" | "PathBasedRouting";
@@ -1752,6 +1881,7 @@ export interface ApplicationGatewayRoutingRulePropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Rewrite rule set of an application gateway. */
 export interface ApplicationGatewayRewriteRuleSetOutput
   extends SubResourceOutput {
   /** Properties of the application gateway rewrite rule set. */
@@ -1762,6 +1892,7 @@ export interface ApplicationGatewayRewriteRuleSetOutput
   etag?: string;
 }
 
+/** Properties of rewrite rule set of the application gateway. */
 export interface ApplicationGatewayRewriteRuleSetPropertiesFormatOutput {
   /** Rewrite rules in the rewrite rule set. */
   rewriteRules?: Array<ApplicationGatewayRewriteRuleOutput>;
@@ -1769,6 +1900,7 @@ export interface ApplicationGatewayRewriteRuleSetPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Rewrite rule of an application gateway. */
 export interface ApplicationGatewayRewriteRuleOutput {
   /** Name of the rewrite rule that is unique within an Application Gateway. */
   name?: string;
@@ -1780,6 +1912,7 @@ export interface ApplicationGatewayRewriteRuleOutput {
   actionSet?: ApplicationGatewayRewriteRuleActionSetOutput;
 }
 
+/** Set of conditions in the Rewrite Rule in Application Gateway. */
 export interface ApplicationGatewayRewriteRuleConditionOutput {
   /** The condition parameter of the RewriteRuleCondition. */
   variable?: string;
@@ -1791,6 +1924,7 @@ export interface ApplicationGatewayRewriteRuleConditionOutput {
   negate?: boolean;
 }
 
+/** Set of actions in the Rewrite Rule in Application Gateway. */
 export interface ApplicationGatewayRewriteRuleActionSetOutput {
   /** Request Header Actions in the Action Set. */
   requestHeaderConfigurations?: Array<
@@ -1804,6 +1938,7 @@ export interface ApplicationGatewayRewriteRuleActionSetOutput {
   urlConfiguration?: ApplicationGatewayUrlConfigurationOutput;
 }
 
+/** Header configuration of the Actions set in Application Gateway. */
 export interface ApplicationGatewayHeaderConfigurationOutput {
   /** Header name of the header configuration. */
   headerName?: string;
@@ -1811,6 +1946,7 @@ export interface ApplicationGatewayHeaderConfigurationOutput {
   headerValue?: string;
 }
 
+/** Url configuration of the Actions set in Application Gateway. */
 export interface ApplicationGatewayUrlConfigurationOutput {
   /** Url path which user has provided for url rewrite. Null means no path will be updated. Default value is null. */
   modifiedPath?: string;
@@ -1820,6 +1956,7 @@ export interface ApplicationGatewayUrlConfigurationOutput {
   reroute?: boolean;
 }
 
+/** Redirect configuration of an application gateway. */
 export interface ApplicationGatewayRedirectConfigurationOutput
   extends SubResourceOutput {
   /** Properties of the application gateway redirect configuration. */
@@ -1832,6 +1969,7 @@ export interface ApplicationGatewayRedirectConfigurationOutput
   type?: string;
 }
 
+/** Properties of redirect configuration of the application gateway. */
 export interface ApplicationGatewayRedirectConfigurationPropertiesFormatOutput {
   /** HTTP redirection type. */
   redirectType?: "Permanent" | "Found" | "SeeOther" | "Temporary";
@@ -1851,6 +1989,7 @@ export interface ApplicationGatewayRedirectConfigurationPropertiesFormatOutput {
   pathRules?: Array<SubResourceOutput>;
 }
 
+/** Application gateway web application firewall configuration. */
 export interface ApplicationGatewayWebApplicationFirewallConfigurationOutput {
   /** Whether the web application firewall is enabled or not. */
   enabled: boolean;
@@ -1874,6 +2013,7 @@ export interface ApplicationGatewayWebApplicationFirewallConfigurationOutput {
   exclusions?: Array<ApplicationGatewayFirewallExclusionOutput>;
 }
 
+/** Allows to disable rules within a rule group or an entire rule group. */
 export interface ApplicationGatewayFirewallDisabledRuleGroupOutput {
   /** The name of the rule group that will be disabled. */
   ruleGroupName: string;
@@ -1881,6 +2021,7 @@ export interface ApplicationGatewayFirewallDisabledRuleGroupOutput {
   rules?: Array<number>;
 }
 
+/** Allow to exclude some variable satisfy the condition for the WAF check. */
 export interface ApplicationGatewayFirewallExclusionOutput {
   /** The variable to be excluded. */
   matchVariable: string;
@@ -1890,6 +2031,7 @@ export interface ApplicationGatewayFirewallExclusionOutput {
   selector: string;
 }
 
+/** Application Gateway autoscale configuration. */
 export interface ApplicationGatewayAutoscaleConfigurationOutput {
   /** Lower bound on number of Application Gateway capacity. */
   minCapacity: number;
@@ -1897,6 +2039,7 @@ export interface ApplicationGatewayAutoscaleConfigurationOutput {
   maxCapacity?: number;
 }
 
+/** Private Link Configuration on an application gateway. */
 export interface ApplicationGatewayPrivateLinkConfigurationOutput
   extends SubResourceOutput {
   /** Properties of the application gateway private link configuration. */
@@ -1909,6 +2052,7 @@ export interface ApplicationGatewayPrivateLinkConfigurationOutput
   type?: string;
 }
 
+/** Properties of private link configuration on an application gateway. */
 export interface ApplicationGatewayPrivateLinkConfigurationPropertiesOutput {
   /** An array of application gateway private link ip configurations. */
   ipConfigurations?: Array<ApplicationGatewayPrivateLinkIpConfigurationOutput>;
@@ -1916,6 +2060,7 @@ export interface ApplicationGatewayPrivateLinkConfigurationPropertiesOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** The application gateway private link ip configuration. */
 export interface ApplicationGatewayPrivateLinkIpConfigurationOutput
   extends SubResourceOutput {
   /** Properties of an application gateway private link ip configuration. */
@@ -1928,6 +2073,7 @@ export interface ApplicationGatewayPrivateLinkIpConfigurationOutput
   type?: string;
 }
 
+/** Properties of an application gateway private link IP configuration. */
 export interface ApplicationGatewayPrivateLinkIpConfigurationPropertiesOutput {
   /** The private IP address of the IP configuration. */
   privateIPAddress?: string;
@@ -1941,6 +2087,7 @@ export interface ApplicationGatewayPrivateLinkIpConfigurationPropertiesOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Private Endpoint connection on an application gateway. */
 export interface ApplicationGatewayPrivateEndpointConnectionOutput
   extends SubResourceOutput {
   /** Properties of the application gateway private endpoint connection. */
@@ -1953,6 +2100,7 @@ export interface ApplicationGatewayPrivateEndpointConnectionOutput
   type?: string;
 }
 
+/** Properties of Private Link Resource of an application gateway. */
 export interface ApplicationGatewayPrivateEndpointConnectionPropertiesOutput {
   /** The resource of private end point. */
   privateEndpoint?: PrivateEndpointOutput;
@@ -1964,6 +2112,7 @@ export interface ApplicationGatewayPrivateEndpointConnectionPropertiesOutput {
   linkIdentifier?: string;
 }
 
+/** Load Distribution Policy of an application gateway. */
 export interface ApplicationGatewayLoadDistributionPolicyOutput
   extends SubResourceOutput {
   /** Properties of the application gateway load distribution policy. */
@@ -1976,6 +2125,7 @@ export interface ApplicationGatewayLoadDistributionPolicyOutput
   type?: string;
 }
 
+/** Properties of Load Distribution Policy of an application gateway. */
 export interface ApplicationGatewayLoadDistributionPolicyPropertiesFormatOutput {
   /** Load Distribution Targets resource of an application gateway. */
   loadDistributionTargets?: Array<
@@ -1987,6 +2137,7 @@ export interface ApplicationGatewayLoadDistributionPolicyPropertiesFormatOutput 
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Load Distribution Target of an application gateway. */
 export interface ApplicationGatewayLoadDistributionTargetOutput
   extends SubResourceOutput {
   /** Properties of the application gateway load distribution target. */
@@ -2006,6 +2157,7 @@ export interface ApplicationGatewayLoadDistributionTargetPropertiesFormatOutput 
   backendAddressPool?: SubResourceOutput;
 }
 
+/** Application Gateway global configuration. */
 export interface ApplicationGatewayGlobalConfigurationOutput {
   /** Enable request buffering. */
   enableRequestBuffering?: boolean;
@@ -2013,6 +2165,7 @@ export interface ApplicationGatewayGlobalConfigurationOutput {
   enableResponseBuffering?: boolean;
 }
 
+/** Identity for the resource. */
 export interface ManagedServiceIdentityOutput {
   /** The principal id of the system assigned identity. This property will only be provided for a system assigned identity. */
   principalId?: string;
@@ -2038,6 +2191,7 @@ export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserass
   clientId?: string;
 }
 
+/** Response for ListApplicationGateways API service call. */
 export interface ApplicationGatewayListResultOutput {
   /** List of an application gateways in a resource group. */
   value?: Array<ApplicationGatewayOutput>;
@@ -2045,11 +2199,13 @@ export interface ApplicationGatewayListResultOutput {
   nextLink?: string;
 }
 
+/** Response for ApplicationGatewayBackendHealth API service call. */
 export interface ApplicationGatewayBackendHealthOutput {
   /** A list of ApplicationGatewayBackendHealthPool resources. */
   backendAddressPools?: Array<ApplicationGatewayBackendHealthPoolOutput>;
 }
 
+/** Application gateway BackendHealth pool. */
 export interface ApplicationGatewayBackendHealthPoolOutput {
   /** Reference to an ApplicationGatewayBackendAddressPool resource. */
   backendAddressPool?: ApplicationGatewayBackendAddressPoolOutput;
@@ -2059,6 +2215,7 @@ export interface ApplicationGatewayBackendHealthPoolOutput {
   >;
 }
 
+/** Application gateway BackendHealthHttp settings. */
 export interface ApplicationGatewayBackendHealthHttpSettingsOutput {
   /** Reference to an ApplicationGatewayBackendHttpSettings resource. */
   backendHttpSettings?: ApplicationGatewayBackendHttpSettingsOutput;
@@ -2066,6 +2223,7 @@ export interface ApplicationGatewayBackendHealthHttpSettingsOutput {
   servers?: Array<ApplicationGatewayBackendHealthServerOutput>;
 }
 
+/** Application gateway backendhealth http settings. */
 export interface ApplicationGatewayBackendHealthServerOutput {
   /** IP address or FQDN of backend server. */
   address?: string;
@@ -2077,6 +2235,7 @@ export interface ApplicationGatewayBackendHealthServerOutput {
   healthProbeLog?: string;
 }
 
+/** Result of on demand test probe. */
 export interface ApplicationGatewayBackendHealthOnDemandOutput {
   /** Reference to an ApplicationGatewayBackendAddressPool resource. */
   backendAddressPool?: ApplicationGatewayBackendAddressPoolOutput;
@@ -2084,6 +2243,7 @@ export interface ApplicationGatewayBackendHealthOnDemandOutput {
   backendHealthHttpSettings?: ApplicationGatewayBackendHealthHttpSettingsOutput;
 }
 
+/** Response for ListApplicationGatewayPrivateLinkResources API service call. Gets all private link resources for an application gateway. */
 export interface ApplicationGatewayPrivateLinkResourceListResultOutput {
   /** List of private link resources of an application gateway. */
   value?: Array<ApplicationGatewayPrivateLinkResourceOutput>;
@@ -2091,6 +2251,7 @@ export interface ApplicationGatewayPrivateLinkResourceListResultOutput {
   nextLink?: string;
 }
 
+/** PrivateLink Resource of an application gateway. */
 export interface ApplicationGatewayPrivateLinkResourceOutput
   extends SubResourceOutput {
   /** Properties of the application gateway private link resource. */
@@ -2103,6 +2264,7 @@ export interface ApplicationGatewayPrivateLinkResourceOutput
   type?: string;
 }
 
+/** Properties of a private link resource. */
 export interface ApplicationGatewayPrivateLinkResourcePropertiesOutput {
   /** Group identifier of private link resource. */
   groupId?: string;
@@ -2112,6 +2274,7 @@ export interface ApplicationGatewayPrivateLinkResourcePropertiesOutput {
   requiredZoneNames?: Array<string>;
 }
 
+/** Response for ListApplicationGatewayPrivateEndpointConnection API service call. Gets all private endpoint connections for an application gateway. */
 export interface ApplicationGatewayPrivateEndpointConnectionListResultOutput {
   /** List of private endpoint connections on an application gateway. */
   value?: Array<ApplicationGatewayPrivateEndpointConnectionOutput>;
@@ -2119,6 +2282,7 @@ export interface ApplicationGatewayPrivateEndpointConnectionListResultOutput {
   nextLink?: string;
 }
 
+/** Common error representation. */
 export interface ErrorModelOutput {
   /** Error code. */
   code?: string;
@@ -2132,6 +2296,7 @@ export interface ErrorModelOutput {
   innerError?: string;
 }
 
+/** Common error details representation. */
 export interface ErrorDetailsOutput {
   /** Error code. */
   code?: string;
@@ -2141,17 +2306,20 @@ export interface ErrorDetailsOutput {
   message?: string;
 }
 
+/** Response for ApplicationGatewayAvailableWafRuleSets API service call. */
 export interface ApplicationGatewayAvailableWafRuleSetsResultOutput {
   /** The list of application gateway rule sets. */
   value?: Array<ApplicationGatewayFirewallRuleSetOutput>;
 }
 
+/** A web application firewall rule set. */
 export interface ApplicationGatewayFirewallRuleSetOutput
   extends ResourceOutput {
   /** Properties of the application gateway firewall rule set. */
   properties?: ApplicationGatewayFirewallRuleSetPropertiesFormatOutput;
 }
 
+/** Properties of the web application firewall rule set. */
 export interface ApplicationGatewayFirewallRuleSetPropertiesFormatOutput {
   /** The provisioning state of the web application firewall rule set. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
@@ -2165,6 +2333,7 @@ export interface ApplicationGatewayFirewallRuleSetPropertiesFormatOutput {
   tiers?: Array<"Standard" | "WAF" | "Standard_v2" | "WAF_v2">;
 }
 
+/** A web application firewall rule group. */
 export interface ApplicationGatewayFirewallRuleGroupOutput {
   /** The name of the web application firewall rule group. */
   ruleGroupName: string;
@@ -2174,6 +2343,7 @@ export interface ApplicationGatewayFirewallRuleGroupOutput {
   rules: Array<ApplicationGatewayFirewallRuleOutput>;
 }
 
+/** A web application firewall rule. */
 export interface ApplicationGatewayFirewallRuleOutput {
   /** The identifier of the web application firewall rule. */
   ruleId: number;
@@ -2187,12 +2357,14 @@ export interface ApplicationGatewayFirewallRuleOutput {
   description?: string;
 }
 
+/** Response for ApplicationGatewayAvailableSslOptions API service call. */
 export interface ApplicationGatewayAvailableSslOptionsOutput
   extends ResourceOutput {
   /** Properties of the application gateway available SSL options. */
   properties?: ApplicationGatewayAvailableSslOptionsPropertiesFormatOutput;
 }
 
+/** Properties of ApplicationGatewayAvailableSslOptions. */
 export interface ApplicationGatewayAvailableSslOptionsPropertiesFormatOutput {
   /** List of available Ssl predefined policy. */
   predefinedPolicies?: Array<SubResourceOutput>;
@@ -2238,6 +2410,7 @@ export interface ApplicationGatewayAvailableSslOptionsPropertiesFormatOutput {
   availableProtocols?: Array<"TLSv1_0" | "TLSv1_1" | "TLSv1_2" | "TLSv1_3">;
 }
 
+/** Response for ApplicationGatewayAvailableSslOptions API service call. */
 export interface ApplicationGatewayAvailableSslPredefinedPoliciesOutput {
   /** List of available Ssl predefined policy. */
   value?: Array<ApplicationGatewaySslPredefinedPolicyOutput>;
@@ -2245,6 +2418,7 @@ export interface ApplicationGatewayAvailableSslPredefinedPoliciesOutput {
   nextLink?: string;
 }
 
+/** An Ssl predefined policy. */
 export interface ApplicationGatewaySslPredefinedPolicyOutput
   extends SubResourceOutput {
   /** Name of the Ssl predefined policy. */
@@ -2253,6 +2427,7 @@ export interface ApplicationGatewaySslPredefinedPolicyOutput
   properties?: ApplicationGatewaySslPredefinedPolicyPropertiesFormatOutput;
 }
 
+/** Properties of ApplicationGatewaySslPredefinedPolicy. */
 export interface ApplicationGatewaySslPredefinedPolicyPropertiesFormatOutput {
   /** Ssl cipher suites to be enabled in the specified order for application gateway. */
   cipherSuites?: Array<
@@ -2289,6 +2464,7 @@ export interface ApplicationGatewaySslPredefinedPolicyPropertiesFormatOutput {
   minProtocolVersion?: "TLSv1_0" | "TLSv1_1" | "TLSv1_2" | "TLSv1_3";
 }
 
+/** Response for ApplicationGatewayWafDynamicManifest API service call. */
 export interface ApplicationGatewayWafDynamicManifestResultOutput {
   /** Resource ID. */
   id?: string;
@@ -2300,6 +2476,7 @@ export interface ApplicationGatewayWafDynamicManifestResultOutput {
   properties?: ApplicationGatewayWafDynamicManifestPropertiesResultOutput;
 }
 
+/** Properties of ApplicationGatewayWafDynamicManifest. */
 export interface ApplicationGatewayWafDynamicManifestPropertiesResultOutput {
   /** The default ruleset. */
   defaultRuleSet?: DefaultRuleSetPropertyFormatOutput;
@@ -2307,6 +2484,7 @@ export interface ApplicationGatewayWafDynamicManifestPropertiesResultOutput {
   availableRuleSets?: Array<ApplicationGatewayFirewallManifestRuleSetOutput>;
 }
 
+/** the default web application firewall rule set. */
 export interface DefaultRuleSetPropertyFormatOutput {
   /** The type of the web application firewall rule set. */
   ruleSetType?: string;
@@ -2314,6 +2492,7 @@ export interface DefaultRuleSetPropertyFormatOutput {
   ruleSetVersion?: string;
 }
 
+/** Properties of the web application firewall rule set. */
 export interface ApplicationGatewayFirewallManifestRuleSetOutput {
   /** The type of the web application firewall rule set. */
   ruleSetType: string;
@@ -2327,6 +2506,7 @@ export interface ApplicationGatewayFirewallManifestRuleSetOutput {
   ruleGroups: Array<ApplicationGatewayFirewallRuleGroupOutput>;
 }
 
+/** Response for ApplicationGatewayWafDynamicManifests API service call. */
 export interface ApplicationGatewayWafDynamicManifestResultListOutput {
   /** The list of application gateway waf manifest. */
   value?: Array<ApplicationGatewayWafDynamicManifestResultOutput>;
@@ -2334,6 +2514,7 @@ export interface ApplicationGatewayWafDynamicManifestResultListOutput {
   nextLink?: string;
 }
 
+/** A list of application security groups. */
 export interface ApplicationSecurityGroupListResultOutput {
   /** A list of application security groups. */
   value?: Array<ApplicationSecurityGroupOutput>;
@@ -2341,6 +2522,7 @@ export interface ApplicationSecurityGroupListResultOutput {
   nextLink?: string;
 }
 
+/** An array of available delegations. */
 export interface AvailableDelegationsResultOutput {
   /** An array of available delegations. */
   value?: Array<AvailableDelegationOutput>;
@@ -2348,6 +2530,7 @@ export interface AvailableDelegationsResultOutput {
   nextLink?: string;
 }
 
+/** The serviceName of an AvailableDelegation indicates a possible delegation for a subnet. */
 export interface AvailableDelegationOutput {
   /** The name of the AvailableDelegation resource. */
   name?: string;
@@ -2361,6 +2544,7 @@ export interface AvailableDelegationOutput {
   actions?: Array<string>;
 }
 
+/** An array of available service aliases. */
 export interface AvailableServiceAliasesResultOutput {
   /** An array of available service aliases. */
   value?: Array<AvailableServiceAliasOutput>;
@@ -2368,6 +2552,7 @@ export interface AvailableServiceAliasesResultOutput {
   nextLink?: string;
 }
 
+/** The available service alias. */
 export interface AvailableServiceAliasOutput {
   /** The name of the service alias. */
   name?: string;
@@ -2379,6 +2564,7 @@ export interface AvailableServiceAliasOutput {
   resourceName?: string;
 }
 
+/** Azure Firewall resource. */
 export interface AzureFirewallOutput extends ResourceOutput {
   /** Properties of the azure firewall. */
   properties?: AzureFirewallPropertiesFormatOutput;
@@ -2388,6 +2574,7 @@ export interface AzureFirewallOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Properties of the Azure Firewall. */
 export interface AzureFirewallPropertiesFormatOutput {
   /** Collection of application rule collections used by Azure Firewall. */
   applicationRuleCollections?: Array<
@@ -2419,6 +2606,7 @@ export interface AzureFirewallPropertiesFormatOutput {
   additionalProperties?: Record<string, string>;
 }
 
+/** Application rule collection resource. */
 export interface AzureFirewallApplicationRuleCollectionOutput
   extends SubResourceOutput {
   /** Properties of the azure firewall application rule collection. */
@@ -2429,6 +2617,7 @@ export interface AzureFirewallApplicationRuleCollectionOutput
   etag?: string;
 }
 
+/** Properties of the application rule collection. */
 export interface AzureFirewallApplicationRuleCollectionPropertiesFormatOutput {
   /** Priority of the application rule collection resource. */
   priority?: number;
@@ -2440,11 +2629,13 @@ export interface AzureFirewallApplicationRuleCollectionPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Properties of the AzureFirewallRCAction. */
 export interface AzureFirewallRCActionOutput {
   /** The type of action. */
   type?: "Allow" | "Deny";
 }
 
+/** Properties of an application rule. */
 export interface AzureFirewallApplicationRuleOutput {
   /** Name of the application rule. */
   name?: string;
@@ -2462,6 +2653,7 @@ export interface AzureFirewallApplicationRuleOutput {
   sourceIpGroups?: Array<string>;
 }
 
+/** Properties of the application rule protocol. */
 export interface AzureFirewallApplicationRuleProtocolOutput {
   /** Protocol type. */
   protocolType?: "Http" | "Https" | "Mssql";
@@ -2469,6 +2661,7 @@ export interface AzureFirewallApplicationRuleProtocolOutput {
   port?: number;
 }
 
+/** NAT rule collection resource. */
 export interface AzureFirewallNatRuleCollectionOutput
   extends SubResourceOutput {
   /** Properties of the azure firewall NAT rule collection. */
@@ -2479,6 +2672,7 @@ export interface AzureFirewallNatRuleCollectionOutput
   etag?: string;
 }
 
+/** Properties of the NAT rule collection. */
 export interface AzureFirewallNatRuleCollectionPropertiesOutput {
   /** Priority of the NAT rule collection resource. */
   priority?: number;
@@ -2490,11 +2684,13 @@ export interface AzureFirewallNatRuleCollectionPropertiesOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** AzureFirewall NAT Rule Collection Action. */
 export interface AzureFirewallNatRCActionOutput {
   /** The type of action. */
   type?: "Snat" | "Dnat";
 }
 
+/** Properties of a NAT rule. */
 export interface AzureFirewallNatRuleOutput {
   /** Name of the NAT rule. */
   name?: string;
@@ -2518,6 +2714,7 @@ export interface AzureFirewallNatRuleOutput {
   sourceIpGroups?: Array<string>;
 }
 
+/** Network rule collection resource. */
 export interface AzureFirewallNetworkRuleCollectionOutput
   extends SubResourceOutput {
   /** Properties of the azure firewall network rule collection. */
@@ -2528,6 +2725,7 @@ export interface AzureFirewallNetworkRuleCollectionOutput
   etag?: string;
 }
 
+/** Properties of the network rule collection. */
 export interface AzureFirewallNetworkRuleCollectionPropertiesFormatOutput {
   /** Priority of the network rule collection resource. */
   priority?: number;
@@ -2539,6 +2737,7 @@ export interface AzureFirewallNetworkRuleCollectionPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Properties of the network rule. */
 export interface AzureFirewallNetworkRuleOutput {
   /** Name of the network rule. */
   name?: string;
@@ -2560,6 +2759,7 @@ export interface AzureFirewallNetworkRuleOutput {
   destinationIpGroups?: Array<string>;
 }
 
+/** IP configuration of an Azure Firewall. */
 export interface AzureFirewallIPConfigurationOutput extends SubResourceOutput {
   /** Properties of the azure firewall IP configuration. */
   properties?: AzureFirewallIPConfigurationPropertiesFormatOutput;
@@ -2571,6 +2771,7 @@ export interface AzureFirewallIPConfigurationOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of IP configuration of an Azure Firewall. */
 export interface AzureFirewallIPConfigurationPropertiesFormatOutput {
   /** The Firewall Internal Load Balancer IP to be used as the next hop in User Defined Routes. */
   privateIPAddress?: string;
@@ -2582,6 +2783,7 @@ export interface AzureFirewallIPConfigurationPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** IP addresses associated with azure firewall. */
 export interface HubIPAddressesOutput {
   /** Public IP addresses associated with azure firewall. */
   publicIPs?: HubPublicIPAddressesOutput;
@@ -2589,6 +2791,7 @@ export interface HubIPAddressesOutput {
   privateIPAddress?: string;
 }
 
+/** Public IP addresses associated with azure firewall. */
 export interface HubPublicIPAddressesOutput {
   /** The list of Public IP addresses associated with azure firewall or IP addresses to be retained. */
   addresses?: Array<AzureFirewallPublicIPAddressOutput>;
@@ -2596,11 +2799,13 @@ export interface HubPublicIPAddressesOutput {
   count?: number;
 }
 
+/** Public IP Address associated with azure firewall. */
 export interface AzureFirewallPublicIPAddressOutput {
   /** Public IP Address value. */
   address?: string;
 }
 
+/** IpGroups associated with azure firewall. */
 export interface AzureFirewallIpGroupsOutput {
   /** Resource ID. */
   id?: string;
@@ -2608,6 +2813,7 @@ export interface AzureFirewallIpGroupsOutput {
   changeNumber?: string;
 }
 
+/** SKU of an Azure Firewall. */
 export interface AzureFirewallSkuOutput {
   /** Name of an Azure Firewall SKU. */
   name?: "AZFW_VNet" | "AZFW_Hub";
@@ -2615,6 +2821,7 @@ export interface AzureFirewallSkuOutput {
   tier?: "Standard" | "Premium" | "Basic";
 }
 
+/** Response for ListAzureFirewalls API service call. */
 export interface AzureFirewallListResultOutput {
   /** List of Azure Firewalls in a resource group. */
   value?: Array<AzureFirewallOutput>;
@@ -2622,11 +2829,13 @@ export interface AzureFirewallListResultOutput {
   nextLink?: string;
 }
 
+/** List of SNAT IP Prefixes learnt by firewall to not SNAT */
 export interface IPPrefixesListOutput {
   /** IP Prefix value. */
   ipPrefixes?: Array<string>;
 }
 
+/** Response for ListAzureFirewallFqdnTags API service call. */
 export interface AzureFirewallFqdnTagListResultOutput {
   /** List of Azure Firewall FQDN Tags in a resource group. */
   value?: Array<AzureFirewallFqdnTagOutput>;
@@ -2634,6 +2843,7 @@ export interface AzureFirewallFqdnTagListResultOutput {
   nextLink?: string;
 }
 
+/** Azure Firewall FQDN Tag Resource. */
 export interface AzureFirewallFqdnTagOutput extends ResourceOutput {
   /** Properties of the azure firewall FQDN tag. */
   properties?: AzureFirewallFqdnTagPropertiesFormatOutput;
@@ -2641,6 +2851,7 @@ export interface AzureFirewallFqdnTagOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Azure Firewall FQDN Tag Properties. */
 export interface AzureFirewallFqdnTagPropertiesFormatOutput {
   /** The provisioning state of the Azure firewall FQDN tag resource. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
@@ -2648,6 +2859,7 @@ export interface AzureFirewallFqdnTagPropertiesFormatOutput {
   fqdnTagName?: string;
 }
 
+/** Azure Web Category Resource. */
 export interface AzureWebCategoryOutput {
   /** Properties of the Azure Web Category. */
   properties?: AzureWebCategoryPropertiesFormatOutput;
@@ -2661,11 +2873,13 @@ export interface AzureWebCategoryOutput {
   etag?: string;
 }
 
+/** Azure Web Category Properties. */
 export interface AzureWebCategoryPropertiesFormatOutput {
   /** The name of the group that the category belongs to. */
   group?: string;
 }
 
+/** Response for ListAzureWebCategories API service call. */
 export interface AzureWebCategoryListResultOutput {
   /** List of Azure Web Categories for a given Subscription. */
   value?: Array<AzureWebCategoryOutput>;
@@ -2673,6 +2887,7 @@ export interface AzureWebCategoryListResultOutput {
   nextLink?: string;
 }
 
+/** Bastion Host resource. */
 export interface BastionHostOutput extends ResourceOutput {
   /** Represents the bastion host resource. */
   properties?: BastionHostPropertiesFormatOutput;
@@ -2682,6 +2897,7 @@ export interface BastionHostOutput extends ResourceOutput {
   sku?: SkuOutput;
 }
 
+/** Properties of the Bastion Host. */
 export interface BastionHostPropertiesFormatOutput {
   /** IP configuration of the Bastion Host resource. */
   ipConfigurations?: Array<BastionHostIPConfigurationOutput>;
@@ -2703,6 +2919,7 @@ export interface BastionHostPropertiesFormatOutput {
   enableTunneling?: boolean;
 }
 
+/** IP configuration of an Bastion Host. */
 export interface BastionHostIPConfigurationOutput extends SubResourceOutput {
   /** Represents the ip configuration associated with the resource. */
   properties?: BastionHostIPConfigurationPropertiesFormatOutput;
@@ -2714,6 +2931,7 @@ export interface BastionHostIPConfigurationOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of IP configuration of an Bastion Host. */
 export interface BastionHostIPConfigurationPropertiesFormatOutput {
   /** Reference of the subnet resource. */
   subnet: SubResourceOutput;
@@ -2725,11 +2943,13 @@ export interface BastionHostIPConfigurationPropertiesFormatOutput {
   privateIPAllocationMethod?: "Static" | "Dynamic";
 }
 
+/** The sku of this Bastion Host. */
 export interface SkuOutput {
   /** The name of this Bastion Host. */
   name?: "Basic" | "Standard";
 }
 
+/** Response for ListBastionHosts API service call. */
 export interface BastionHostListResultOutput {
   /** List of Bastion Hosts in a resource group. */
   value?: Array<BastionHostOutput>;
@@ -2737,6 +2957,7 @@ export interface BastionHostListResultOutput {
   nextLink?: string;
 }
 
+/** Bastion Shareable Link. */
 export interface BastionShareableLinkOutput {
   /** Reference of the virtual machine resource. */
   vm: VmOutput;
@@ -2748,8 +2969,10 @@ export interface BastionShareableLinkOutput {
   message?: string;
 }
 
+/** Describes a Virtual Machine. */
 export interface VmOutput extends ResourceOutput {}
 
+/** Response for all the Bastion Shareable Link endpoints. */
 export interface BastionShareableLinkListResultOutput {
   /** List of Bastion Shareable Links for the request. */
   value?: Array<BastionShareableLinkOutput>;
@@ -2757,6 +2980,7 @@ export interface BastionShareableLinkListResultOutput {
   nextLink?: string;
 }
 
+/** Response for GetActiveSessions. */
 export interface BastionActiveSessionListResultOutput {
   /** List of active sessions on the bastion. */
   value?: Array<BastionActiveSessionOutput>;
@@ -2764,6 +2988,7 @@ export interface BastionActiveSessionListResultOutput {
   nextLink?: string;
 }
 
+/** The session detail for a target. */
 export interface BastionActiveSessionOutput {
   /** A unique id for the session. */
   sessionId?: string;
@@ -2789,6 +3014,7 @@ export interface BastionActiveSessionOutput {
   sessionDurationInMins?: number;
 }
 
+/** Response for DisconnectActiveSessions. */
 export interface BastionSessionDeleteResultOutput {
   /** List of sessions with their corresponding state. */
   value?: Array<BastionSessionStateOutput>;
@@ -2796,6 +3022,7 @@ export interface BastionSessionDeleteResultOutput {
   nextLink?: string;
 }
 
+/** The session state detail for a target. */
 export interface BastionSessionStateOutput {
   /** A unique id for the session. */
   sessionId?: string;
@@ -2805,11 +3032,13 @@ export interface BastionSessionStateOutput {
   state?: string;
 }
 
+/** Response for the CheckDnsNameAvailability API service call. */
 export interface DnsNameAvailabilityResultOutput {
   /** Domain availability (True/False). */
   available?: boolean;
 }
 
+/** Response for the ListNetworkInterface API service call. */
 export interface NetworkInterfaceListResultOutput {
   /** A list of network interfaces in a resource group. */
   value?: Array<NetworkInterfaceOutput>;
@@ -2817,6 +3046,7 @@ export interface NetworkInterfaceListResultOutput {
   nextLink?: string;
 }
 
+/** Response for ListPublicIpAddresses API service call. */
 export interface PublicIPAddressListResultOutput {
   /** A list of public IP addresses that exists in a resource group. */
   value?: Array<PublicIPAddressOutput>;
@@ -2824,6 +3054,7 @@ export interface PublicIPAddressListResultOutput {
   nextLink?: string;
 }
 
+/** Custom IP prefix resource. */
 export interface CustomIpPrefixOutput extends ResourceOutput {
   /** The extended location of the custom IP prefix. */
   extendedLocation?: ExtendedLocationOutput;
@@ -2835,6 +3066,7 @@ export interface CustomIpPrefixOutput extends ResourceOutput {
   zones?: Array<string>;
 }
 
+/** Custom IP prefix properties. */
 export interface CustomIpPrefixPropertiesFormatOutput {
   /** The ASN for CIDR advertising. Should be an integer as string. */
   asn?: string;
@@ -2885,6 +3117,7 @@ export interface CustomIpPrefixPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Response for ListCustomIpPrefixes API service call. */
 export interface CustomIpPrefixListResultOutput {
   /** A list of Custom IP prefixes that exists in a resource group. */
   value?: Array<CustomIpPrefixOutput>;
@@ -2892,6 +3125,7 @@ export interface CustomIpPrefixListResultOutput {
   nextLink?: string;
 }
 
+/** A DDoS custom policy in a resource group. */
 export interface DdosCustomPolicyOutput extends ResourceOutput {
   /** Properties of the DDoS custom policy. */
   properties?: DdosCustomPolicyPropertiesFormatOutput;
@@ -2899,6 +3133,7 @@ export interface DdosCustomPolicyOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** DDoS custom policy properties. */
 export interface DdosCustomPolicyPropertiesFormatOutput {
   /** The resource GUID property of the DDoS custom policy resource. It uniquely identifies the resource, even if the user changes its name or migrate the resource across subscriptions or resource groups. */
   resourceGuid?: string;
@@ -2906,6 +3141,7 @@ export interface DdosCustomPolicyPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** A DDoS protection plan in a resource group. */
 export interface DdosProtectionPlanOutput {
   /** Resource ID. */
   id?: string;
@@ -2923,6 +3159,7 @@ export interface DdosProtectionPlanOutput {
   etag?: string;
 }
 
+/** DDoS protection plan properties. */
 export interface DdosProtectionPlanPropertiesFormatOutput {
   /** The resource GUID property of the DDoS protection plan resource. It uniquely identifies the resource, even if the user changes its name or migrate the resource across subscriptions or resource groups. */
   resourceGuid?: string;
@@ -2934,6 +3171,7 @@ export interface DdosProtectionPlanPropertiesFormatOutput {
   virtualNetworks?: Array<SubResourceOutput>;
 }
 
+/** A list of DDoS protection plans. */
 export interface DdosProtectionPlanListResultOutput {
   /** A list of DDoS protection plans. */
   value?: Array<DdosProtectionPlanOutput>;
@@ -2941,6 +3179,7 @@ export interface DdosProtectionPlanListResultOutput {
   nextLink?: string;
 }
 
+/** Differentiated Services Code Point configuration for any given network interface */
 export interface DscpConfigurationOutput extends ResourceOutput {
   /** Properties of the network interface. */
   properties?: DscpConfigurationPropertiesFormatOutput;
@@ -2948,6 +3187,7 @@ export interface DscpConfigurationOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Differentiated Services Code Point configuration properties. */
 export interface DscpConfigurationPropertiesFormatOutput {
   /** List of markings to be used in the configuration. */
   markings?: Array<number>;
@@ -2982,6 +3222,7 @@ export interface DscpConfigurationPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Qos Traffic Profiler IP Range properties. */
 export interface QosIpRangeOutput {
   /** Start IP Address. */
   startIP?: string;
@@ -2989,6 +3230,7 @@ export interface QosIpRangeOutput {
   endIP?: string;
 }
 
+/** Qos Traffic Profiler Port range properties. */
 export interface QosPortRangeOutput {
   /** Qos Port Range start. */
   start?: number;
@@ -2996,6 +3238,7 @@ export interface QosPortRangeOutput {
   end?: number;
 }
 
+/** Quality of Service defines the traffic configuration between endpoints. Mandatory to have one marking. */
 export interface QosDefinitionOutput {
   /** List of markings to be used in the configuration. */
   markings?: Array<number>;
@@ -3020,6 +3263,7 @@ export interface QosDefinitionOutput {
     | "All";
 }
 
+/** Response for the DscpConfigurationList API service call. */
 export interface DscpConfigurationListResultOutput {
   /** A list of dscp configurations in a resource group. */
   value?: Array<DscpConfigurationOutput>;
@@ -3027,6 +3271,7 @@ export interface DscpConfigurationListResultOutput {
   nextLink?: string;
 }
 
+/** Response for the ListAvailableEndpointServices API service call. */
 export interface EndpointServicesListResultOutput {
   /** List of available endpoint services in a region. */
   value?: Array<EndpointServiceResultOutput>;
@@ -3034,6 +3279,7 @@ export interface EndpointServicesListResultOutput {
   nextLink?: string;
 }
 
+/** Endpoint service. */
 export interface EndpointServiceResultOutput extends SubResourceOutput {
   /** Name of the endpoint service. */
   name?: string;
@@ -3041,6 +3287,7 @@ export interface EndpointServiceResultOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Authorization in an ExpressRouteCircuit resource. */
 export interface ExpressRouteCircuitAuthorizationOutput
   extends SubResourceOutput {
   /** Properties of the express route circuit authorization. */
@@ -3053,6 +3300,7 @@ export interface ExpressRouteCircuitAuthorizationOutput
   type?: string;
 }
 
+/** Properties of ExpressRouteCircuitAuthorization. */
 export interface AuthorizationPropertiesFormatOutput {
   /** The authorization key. */
   authorizationKey?: string;
@@ -3062,6 +3310,7 @@ export interface AuthorizationPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Response for ListAuthorizations API service call retrieves all authorizations that belongs to an ExpressRouteCircuit. */
 export interface AuthorizationListResultOutput {
   /** The authorizations in an ExpressRoute Circuit. */
   value?: Array<ExpressRouteCircuitAuthorizationOutput>;
@@ -3069,6 +3318,7 @@ export interface AuthorizationListResultOutput {
   nextLink?: string;
 }
 
+/** Peering in an ExpressRouteCircuit resource. */
 export interface ExpressRouteCircuitPeeringOutput extends SubResourceOutput {
   /** Properties of the express route circuit peering. */
   properties?: ExpressRouteCircuitPeeringPropertiesFormatOutput;
@@ -3080,6 +3330,7 @@ export interface ExpressRouteCircuitPeeringOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of the express route circuit peering. */
 export interface ExpressRouteCircuitPeeringPropertiesFormatOutput {
   /** The peering type. */
   peeringType?:
@@ -3126,6 +3377,7 @@ export interface ExpressRouteCircuitPeeringPropertiesFormatOutput {
   peeredConnections?: Array<PeerExpressRouteCircuitConnectionOutput>;
 }
 
+/** Specifies the peering configuration. */
 export interface ExpressRouteCircuitPeeringConfigOutput {
   /** The reference to AdvertisedPublicPrefixes. */
   advertisedPublicPrefixes?: Array<string>;
@@ -3145,6 +3397,7 @@ export interface ExpressRouteCircuitPeeringConfigOutput {
   routingRegistryName?: string;
 }
 
+/** Contains stats associated with the peering. */
 export interface ExpressRouteCircuitStatsOutput {
   /** The Primary BytesIn of the peering. */
   primarybytesIn?: number;
@@ -3156,6 +3409,7 @@ export interface ExpressRouteCircuitStatsOutput {
   secondarybytesOut?: number;
 }
 
+/** Contains IPv6 peering config. */
 export interface Ipv6ExpressRouteCircuitPeeringConfigOutput {
   /** The primary address prefix. */
   primaryPeerAddressPrefix?: string;
@@ -3169,11 +3423,13 @@ export interface Ipv6ExpressRouteCircuitPeeringConfigOutput {
   state?: "Disabled" | "Enabled";
 }
 
+/** The ID of the ExpressRouteConnection. */
 export interface ExpressRouteConnectionIdOutput {
   /** The ID of the ExpressRouteConnection. */
   id?: string;
 }
 
+/** Express Route Circuit Connection in an ExpressRouteCircuitPeering resource. */
 export interface ExpressRouteCircuitConnectionOutput extends SubResourceOutput {
   /** Properties of the express route circuit connection. */
   properties?: ExpressRouteCircuitConnectionPropertiesFormatOutput;
@@ -3185,6 +3441,7 @@ export interface ExpressRouteCircuitConnectionOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of the express route circuit connection. */
 export interface ExpressRouteCircuitConnectionPropertiesFormatOutput {
   /** Reference to Express Route Circuit Private Peering Resource of the circuit initiating connection. */
   expressRouteCircuitPeering?: SubResourceOutput;
@@ -3202,6 +3459,7 @@ export interface ExpressRouteCircuitConnectionPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** IPv6 Circuit Connection properties for global reach. */
 export interface Ipv6CircuitConnectionConfigOutput {
   /** /125 IP address space to carve out customer addresses for global reach. */
   addressPrefix?: string;
@@ -3209,6 +3467,7 @@ export interface Ipv6CircuitConnectionConfigOutput {
   circuitConnectionStatus?: "Connected" | "Connecting" | "Disconnected";
 }
 
+/** Peer Express Route Circuit Connection in an ExpressRouteCircuitPeering resource. */
 export interface PeerExpressRouteCircuitConnectionOutput
   extends SubResourceOutput {
   /** Properties of the peer express route circuit connection. */
@@ -3221,6 +3480,7 @@ export interface PeerExpressRouteCircuitConnectionOutput
   type?: string;
 }
 
+/** Properties of the peer express route circuit connection. */
 export interface PeerExpressRouteCircuitConnectionPropertiesFormatOutput {
   /** Reference to Express Route Circuit Private Peering Resource of the circuit. */
   expressRouteCircuitPeering?: SubResourceOutput;
@@ -3238,6 +3498,7 @@ export interface PeerExpressRouteCircuitConnectionPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Response for ListPeering API service call retrieves all peerings that belong to an ExpressRouteCircuit. */
 export interface ExpressRouteCircuitPeeringListResultOutput {
   /** The peerings in an express route circuit. */
   value?: Array<ExpressRouteCircuitPeeringOutput>;
@@ -3245,6 +3506,7 @@ export interface ExpressRouteCircuitPeeringListResultOutput {
   nextLink?: string;
 }
 
+/** Response for ListConnections API service call retrieves all global reach connections that belongs to a Private Peering for an ExpressRouteCircuit. */
 export interface ExpressRouteCircuitConnectionListResultOutput {
   /** The global reach connection associated with Private Peering in an ExpressRoute Circuit. */
   value?: Array<ExpressRouteCircuitConnectionOutput>;
@@ -3252,6 +3514,7 @@ export interface ExpressRouteCircuitConnectionListResultOutput {
   nextLink?: string;
 }
 
+/** Response for ListPeeredConnections API service call retrieves all global reach peer circuit connections that belongs to a Private Peering for an ExpressRouteCircuit. */
 export interface PeerExpressRouteCircuitConnectionListResultOutput {
   /** The global reach peer circuit connection associated with Private Peering in an ExpressRoute Circuit. */
   value?: Array<PeerExpressRouteCircuitConnectionOutput>;
@@ -3259,6 +3522,7 @@ export interface PeerExpressRouteCircuitConnectionListResultOutput {
   nextLink?: string;
 }
 
+/** ExpressRouteCircuit resource. */
 export interface ExpressRouteCircuitOutput extends ResourceOutput {
   /** The SKU. */
   sku?: ExpressRouteCircuitSkuOutput;
@@ -3268,6 +3532,7 @@ export interface ExpressRouteCircuitOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Contains SKU in an ExpressRouteCircuit. */
 export interface ExpressRouteCircuitSkuOutput {
   /** The name of the SKU. */
   name?: string;
@@ -3277,6 +3542,7 @@ export interface ExpressRouteCircuitSkuOutput {
   family?: "UnlimitedData" | "MeteredData";
 }
 
+/** Properties of ExpressRouteCircuit. */
 export interface ExpressRouteCircuitPropertiesFormatOutput {
   /** Allow classic operations. */
   allowClassicOperations?: boolean;
@@ -3314,6 +3580,7 @@ export interface ExpressRouteCircuitPropertiesFormatOutput {
   authorizationKey?: string;
 }
 
+/** Contains ServiceProviderProperties in an ExpressRouteCircuit. */
 export interface ExpressRouteCircuitServiceProviderPropertiesOutput {
   /** The serviceProviderName. */
   serviceProviderName?: string;
@@ -3323,6 +3590,7 @@ export interface ExpressRouteCircuitServiceProviderPropertiesOutput {
   bandwidthInMbps?: number;
 }
 
+/** Response for ListArpTable associated with the Express Route Circuits API. */
 export interface ExpressRouteCircuitsArpTableListResultOutput {
   /** A list of the ARP tables. */
   value?: Array<ExpressRouteCircuitArpTableOutput>;
@@ -3330,6 +3598,7 @@ export interface ExpressRouteCircuitsArpTableListResultOutput {
   nextLink?: string;
 }
 
+/** The ARP table associated with the ExpressRouteCircuit. */
 export interface ExpressRouteCircuitArpTableOutput {
   /** Entry age in minutes. */
   age?: number;
@@ -3341,6 +3610,7 @@ export interface ExpressRouteCircuitArpTableOutput {
   macAddress?: string;
 }
 
+/** Response for ListRoutesTable associated with the Express Route Circuits API. */
 export interface ExpressRouteCircuitsRoutesTableListResultOutput {
   /** The list of routes table. */
   value?: Array<ExpressRouteCircuitRoutesTableOutput>;
@@ -3348,6 +3618,7 @@ export interface ExpressRouteCircuitsRoutesTableListResultOutput {
   nextLink?: string;
 }
 
+/** The routes table associated with the ExpressRouteCircuit. */
 export interface ExpressRouteCircuitRoutesTableOutput {
   /** IP address of a network entity. */
   network?: string;
@@ -3361,6 +3632,7 @@ export interface ExpressRouteCircuitRoutesTableOutput {
   path?: string;
 }
 
+/** Response for ListRoutesTable associated with the Express Route Circuits API. */
 export interface ExpressRouteCircuitsRoutesTableSummaryListResultOutput {
   /** A list of the routes table. */
   value?: Array<ExpressRouteCircuitRoutesTableSummaryOutput>;
@@ -3368,6 +3640,7 @@ export interface ExpressRouteCircuitsRoutesTableSummaryListResultOutput {
   nextLink?: string;
 }
 
+/** The routes table associated with the ExpressRouteCircuit. */
 export interface ExpressRouteCircuitRoutesTableSummaryOutput {
   /** IP address of the neighbor. */
   neighbor?: string;
@@ -3381,6 +3654,7 @@ export interface ExpressRouteCircuitRoutesTableSummaryOutput {
   statePfxRcd?: string;
 }
 
+/** Response for ListExpressRouteCircuit API service call. */
 export interface ExpressRouteCircuitListResultOutput {
   /** A list of ExpressRouteCircuits in a resource group. */
   value?: Array<ExpressRouteCircuitOutput>;
@@ -3388,6 +3662,7 @@ export interface ExpressRouteCircuitListResultOutput {
   nextLink?: string;
 }
 
+/** Response for the ListExpressRouteServiceProvider API service call. */
 export interface ExpressRouteServiceProviderListResultOutput {
   /** A list of ExpressRouteResourceProvider resources. */
   value?: Array<ExpressRouteServiceProviderOutput>;
@@ -3395,11 +3670,13 @@ export interface ExpressRouteServiceProviderListResultOutput {
   nextLink?: string;
 }
 
+/** A ExpressRouteResourceProvider object. */
 export interface ExpressRouteServiceProviderOutput extends ResourceOutput {
   /** Properties of the express route service provider. */
   properties?: ExpressRouteServiceProviderPropertiesFormatOutput;
 }
 
+/** Properties of ExpressRouteServiceProvider. */
 export interface ExpressRouteServiceProviderPropertiesFormatOutput {
   /** A list of peering locations. */
   peeringLocations?: Array<string>;
@@ -3409,6 +3686,7 @@ export interface ExpressRouteServiceProviderPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Contains bandwidths offered in ExpressRouteServiceProvider resources. */
 export interface ExpressRouteServiceProviderBandwidthsOfferedOutput {
   /** The OfferName. */
   offerName?: string;
@@ -3416,6 +3694,7 @@ export interface ExpressRouteServiceProviderBandwidthsOfferedOutput {
   valueInMbps?: number;
 }
 
+/** Response for ListExpressRouteCrossConnection API service call. */
 export interface ExpressRouteCrossConnectionListResultOutput {
   /** A list of ExpressRouteCrossConnection resources. */
   value?: Array<ExpressRouteCrossConnectionOutput>;
@@ -3423,6 +3702,7 @@ export interface ExpressRouteCrossConnectionListResultOutput {
   nextLink?: string;
 }
 
+/** ExpressRouteCrossConnection resource. */
 export interface ExpressRouteCrossConnectionOutput extends ResourceOutput {
   /** Properties of the express route cross connection. */
   properties?: ExpressRouteCrossConnectionPropertiesOutput;
@@ -3430,6 +3710,7 @@ export interface ExpressRouteCrossConnectionOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Properties of ExpressRouteCrossConnection. */
 export interface ExpressRouteCrossConnectionPropertiesOutput {
   /** The name of the primary port. */
   primaryAzurePort?: string;
@@ -3457,11 +3738,13 @@ export interface ExpressRouteCrossConnectionPropertiesOutput {
   peerings?: Array<ExpressRouteCrossConnectionPeeringOutput>;
 }
 
+/** Reference to an express route circuit. */
 export interface ExpressRouteCircuitReferenceOutput {
   /** Corresponding Express Route Circuit Id. */
   id?: string;
 }
 
+/** Peering in an ExpressRoute Cross Connection resource. */
 export interface ExpressRouteCrossConnectionPeeringOutput
   extends SubResourceOutput {
   /** Properties of the express route cross connection peering. */
@@ -3472,6 +3755,7 @@ export interface ExpressRouteCrossConnectionPeeringOutput
   etag?: string;
 }
 
+/** Properties of express route cross connection peering. */
 export interface ExpressRouteCrossConnectionPeeringPropertiesOutput {
   /** The peering type. */
   peeringType?:
@@ -3508,6 +3792,7 @@ export interface ExpressRouteCrossConnectionPeeringPropertiesOutput {
   ipv6PeeringConfig?: Ipv6ExpressRouteCircuitPeeringConfigOutput;
 }
 
+/** Response for ListPeering API service call retrieves all peerings that belong to an ExpressRouteCrossConnection. */
 export interface ExpressRouteCrossConnectionPeeringListOutput {
   /** The peerings in an express route cross connection. */
   value?: Array<ExpressRouteCrossConnectionPeeringOutput>;
@@ -3515,6 +3800,7 @@ export interface ExpressRouteCrossConnectionPeeringListOutput {
   nextLink?: string;
 }
 
+/** Response for ListRoutesTable associated with the Express Route Cross Connections. */
 export interface ExpressRouteCrossConnectionsRoutesTableSummaryListResultOutput {
   /** A list of the routes table. */
   value?: Array<ExpressRouteCrossConnectionRoutesTableSummaryOutput>;
@@ -3522,6 +3808,7 @@ export interface ExpressRouteCrossConnectionsRoutesTableSummaryListResultOutput 
   nextLink?: string;
 }
 
+/** The routes table associated with the ExpressRouteCircuit. */
 export interface ExpressRouteCrossConnectionRoutesTableSummaryOutput {
   /** IP address of Neighbor router. */
   neighbor?: string;
@@ -3533,6 +3820,7 @@ export interface ExpressRouteCrossConnectionRoutesTableSummaryOutput {
   stateOrPrefixesReceived?: string;
 }
 
+/** Response for ListExpressRoutePortsLocations API service call. */
 export interface ExpressRoutePortsLocationListResultOutput {
   /** The list of all ExpressRoutePort peering locations. */
   value?: Array<ExpressRoutePortsLocationOutput>;
@@ -3540,11 +3828,13 @@ export interface ExpressRoutePortsLocationListResultOutput {
   nextLink?: string;
 }
 
+/** Definition of the ExpressRoutePorts peering location resource. */
 export interface ExpressRoutePortsLocationOutput extends ResourceOutput {
   /** ExpressRoutePort peering location properties. */
   properties?: ExpressRoutePortsLocationPropertiesFormatOutput;
 }
 
+/** Properties specific to ExpressRoutePorts peering location resources. */
 export interface ExpressRoutePortsLocationPropertiesFormatOutput {
   /** Address of peering location. */
   address?: string;
@@ -3556,6 +3846,7 @@ export interface ExpressRoutePortsLocationPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Real-time inventory of available ExpressRoute port bandwidths. */
 export interface ExpressRoutePortsLocationBandwidthsOutput {
   /** Bandwidth descriptive name. */
   offerName?: string;
@@ -3563,6 +3854,7 @@ export interface ExpressRoutePortsLocationBandwidthsOutput {
   valueInGbps?: number;
 }
 
+/** ExpressRoutePort resource definition. */
 export interface ExpressRoutePortOutput extends ResourceOutput {
   /** ExpressRoutePort properties. */
   properties?: ExpressRoutePortPropertiesFormatOutput;
@@ -3572,6 +3864,7 @@ export interface ExpressRoutePortOutput extends ResourceOutput {
   identity?: ManagedServiceIdentityOutput;
 }
 
+/** Properties specific to ExpressRoutePort resources. */
 export interface ExpressRoutePortPropertiesFormatOutput {
   /** The name of the peering location that the ExpressRoutePort is mapped to physically. */
   peeringLocation?: string;
@@ -3599,6 +3892,7 @@ export interface ExpressRoutePortPropertiesFormatOutput {
   billingType?: "MeteredData" | "UnlimitedData";
 }
 
+/** ExpressRouteLink child resource definition. */
 export interface ExpressRouteLinkOutput extends SubResourceOutput {
   /** ExpressRouteLink properties. */
   properties?: ExpressRouteLinkPropertiesFormatOutput;
@@ -3608,6 +3902,7 @@ export interface ExpressRouteLinkOutput extends SubResourceOutput {
   etag?: string;
 }
 
+/** Properties specific to ExpressRouteLink resources. */
 export interface ExpressRouteLinkPropertiesFormatOutput {
   /** Name of Azure router associated with physical port. */
   routerName?: string;
@@ -3629,6 +3924,7 @@ export interface ExpressRouteLinkPropertiesFormatOutput {
   macSecConfig?: ExpressRouteLinkMacSecConfigOutput;
 }
 
+/** ExpressRouteLink Mac Security Configuration. */
 export interface ExpressRouteLinkMacSecConfigOutput {
   /** Keyvault Secret Identifier URL containing Mac security CKN key. */
   cknSecretIdentifier?: string;
@@ -3640,6 +3936,7 @@ export interface ExpressRouteLinkMacSecConfigOutput {
   sciState?: "Disabled" | "Enabled";
 }
 
+/** Response for ListExpressRoutePorts API service call. */
 export interface ExpressRoutePortListResultOutput {
   /** A list of ExpressRoutePort resources. */
   value?: Array<ExpressRoutePortOutput>;
@@ -3647,6 +3944,7 @@ export interface ExpressRoutePortListResultOutput {
   nextLink?: string;
 }
 
+/** Response for ListExpressRouteLinks API service call. */
 export interface ExpressRouteLinkListResultOutput {
   /** The list of ExpressRouteLink sub-resources. */
   value?: Array<ExpressRouteLinkOutput>;
@@ -3654,11 +3952,13 @@ export interface ExpressRouteLinkListResultOutput {
   nextLink?: string;
 }
 
+/** Response for GenerateExpressRoutePortsLOA API service call. */
 export interface GenerateExpressRoutePortsLOAResultOutput {
   /** The content as a base64 encoded string. */
   encodedContent?: string;
 }
 
+/** ExpressRoutePort Authorization resource definition. */
 export interface ExpressRoutePortAuthorizationOutput extends SubResourceOutput {
   /** ExpressRoutePort properties. */
   properties?: ExpressRoutePortAuthorizationPropertiesFormatOutput;
@@ -3670,6 +3970,7 @@ export interface ExpressRoutePortAuthorizationOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of ExpressRoutePort Authorization. */
 export interface ExpressRoutePortAuthorizationPropertiesFormatOutput {
   /** The authorization key. */
   authorizationKey?: string;
@@ -3681,6 +3982,7 @@ export interface ExpressRoutePortAuthorizationPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Response for ListExpressRoutePortAuthorizations API service call. */
 export interface ExpressRoutePortAuthorizationListResultOutput {
   /** The authorizations in an ExpressRoute Port. */
   value?: Array<ExpressRoutePortAuthorizationOutput>;
@@ -3688,6 +3990,7 @@ export interface ExpressRoutePortAuthorizationListResultOutput {
   nextLink?: string;
 }
 
+/** Response for ListExpressRouteProviderPort API service call. */
 export interface ExpressRouteProviderPortListResultOutput {
   /** A list of ExpressRouteProviderPort resources. */
   value?: Array<ExpressRouteProviderPortOutput>;
@@ -3695,6 +3998,7 @@ export interface ExpressRouteProviderPortListResultOutput {
   nextLink?: string;
 }
 
+/** ExpressRouteProviderPort resource. */
 export interface ExpressRouteProviderPortOutput extends ResourceOutput {
   /** Properties of the express route Service Provider Port. */
   properties?: ExpressRouteProviderPortPropertiesOutput;
@@ -3702,6 +4006,7 @@ export interface ExpressRouteProviderPortOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Properties of ExpressRouteProviderPort. */
 export interface ExpressRouteProviderPortPropertiesOutput {
   /** The name of the port pair. */
   portPairDescriptor?: string;
@@ -3721,6 +4026,7 @@ export interface ExpressRouteProviderPortPropertiesOutput {
   remainingBandwidthInMbps?: number;
 }
 
+/** FirewallPolicy Resource. */
 export interface FirewallPolicyOutput extends ResourceOutput {
   /** Properties of the firewall policy. */
   properties?: FirewallPolicyPropertiesFormatOutput;
@@ -3730,6 +4036,7 @@ export interface FirewallPolicyOutput extends ResourceOutput {
   identity?: ManagedServiceIdentityOutput;
 }
 
+/** Firewall Policy definition. */
 export interface FirewallPolicyPropertiesFormatOutput {
   /** List of references to FirewallPolicyRuleCollectionGroups. */
   ruleCollectionGroups?: Array<SubResourceOutput>;
@@ -3763,6 +4070,7 @@ export interface FirewallPolicyPropertiesFormatOutput {
   sku?: FirewallPolicySkuOutput;
 }
 
+/** ThreatIntel Whitelist for Firewall Policy. */
 export interface FirewallPolicyThreatIntelWhitelistOutput {
   /** List of IP addresses for the ThreatIntel Whitelist. */
   ipAddresses?: Array<string>;
@@ -3770,6 +4078,7 @@ export interface FirewallPolicyThreatIntelWhitelistOutput {
   fqdns?: Array<string>;
 }
 
+/** Firewall Policy Insights. */
 export interface FirewallPolicyInsightsOutput {
   /** A flag to indicate if the insights are enabled on the policy. */
   isEnabled?: boolean;
@@ -3779,6 +4088,7 @@ export interface FirewallPolicyInsightsOutput {
   logAnalyticsResources?: FirewallPolicyLogAnalyticsResourcesOutput;
 }
 
+/** Log Analytics Resources for Firewall Policy Insights. */
 export interface FirewallPolicyLogAnalyticsResourcesOutput {
   /** List of workspaces for Firewall Policy Insights. */
   workspaces?: Array<FirewallPolicyLogAnalyticsWorkspaceOutput>;
@@ -3786,6 +4096,7 @@ export interface FirewallPolicyLogAnalyticsResourcesOutput {
   defaultWorkspaceId?: SubResourceOutput;
 }
 
+/** Log Analytics Workspace for Firewall Policy Insights. */
 export interface FirewallPolicyLogAnalyticsWorkspaceOutput {
   /** Region to configure the Workspace. */
   region?: string;
@@ -3793,6 +4104,7 @@ export interface FirewallPolicyLogAnalyticsWorkspaceOutput {
   workspaceId?: SubResourceOutput;
 }
 
+/** The private IP addresses/IP ranges to which traffic will not be SNAT. */
 export interface FirewallPolicySnatOutput {
   /** List of private IP addresses/IP address ranges to not be SNAT. */
   privateRanges?: Array<string>;
@@ -3800,11 +4112,13 @@ export interface FirewallPolicySnatOutput {
   autoLearnPrivateRanges?: "Enabled" | "Disabled";
 }
 
+/** SQL Settings in Firewall Policy. */
 export interface FirewallPolicySQLOutput {
   /** A flag to indicate if SQL Redirect traffic filtering is enabled. Turning on the flag requires no rule using port 11000-11999. */
   allowSqlRedirect?: boolean;
 }
 
+/** DNS Proxy Settings in Firewall Policy. */
 export interface DnsSettingsOutput {
   /** List of Custom DNS Servers. */
   servers?: Array<string>;
@@ -3814,6 +4128,7 @@ export interface DnsSettingsOutput {
   requireProxyForNetworkRules?: boolean;
 }
 
+/** Explicit Proxy Settings in Firewall Policy. */
 export interface ExplicitProxyOutput {
   /** When set to true, explicit proxy mode is enabled. */
   enableExplicitProxy?: boolean;
@@ -3829,6 +4144,7 @@ export interface ExplicitProxyOutput {
   pacFile?: string;
 }
 
+/** Configuration for intrusion detection mode and rules. */
 export interface FirewallPolicyIntrusionDetectionOutput {
   /** Intrusion detection general state. */
   mode?: "Off" | "Alert" | "Deny";
@@ -3836,6 +4152,7 @@ export interface FirewallPolicyIntrusionDetectionOutput {
   configuration?: FirewallPolicyIntrusionDetectionConfigurationOutput;
 }
 
+/** The operation for configuring intrusion detection. */
 export interface FirewallPolicyIntrusionDetectionConfigurationOutput {
   /** List of specific signatures states. */
   signatureOverrides?: Array<
@@ -3849,6 +4166,7 @@ export interface FirewallPolicyIntrusionDetectionConfigurationOutput {
   privateRanges?: Array<string>;
 }
 
+/** Intrusion detection signatures specification states. */
 export interface FirewallPolicyIntrusionDetectionSignatureSpecificationOutput {
   /** Signature id. */
   id?: string;
@@ -3856,6 +4174,7 @@ export interface FirewallPolicyIntrusionDetectionSignatureSpecificationOutput {
   mode?: "Off" | "Alert" | "Deny";
 }
 
+/** Intrusion detection bypass traffic specification. */
 export interface FirewallPolicyIntrusionDetectionBypassTrafficSpecificationsOutput {
   /** Name of the bypass traffic rule. */
   name?: string;
@@ -3875,11 +4194,13 @@ export interface FirewallPolicyIntrusionDetectionBypassTrafficSpecificationsOutp
   destinationIpGroups?: Array<string>;
 }
 
+/** Configuration needed to perform TLS termination & initiation. */
 export interface FirewallPolicyTransportSecurityOutput {
   /** The CA used for intermediate CA generation. */
   certificateAuthority?: FirewallPolicyCertificateAuthorityOutput;
 }
 
+/** Trusted Root certificates properties for tls. */
 export interface FirewallPolicyCertificateAuthorityOutput {
   /** Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault. */
   keyVaultSecretId?: string;
@@ -3887,11 +4208,13 @@ export interface FirewallPolicyCertificateAuthorityOutput {
   name?: string;
 }
 
+/** SKU of Firewall policy. */
 export interface FirewallPolicySkuOutput {
   /** Tier of Firewall Policy. */
   tier?: "Standard" | "Premium" | "Basic";
 }
 
+/** Response for ListFirewallPolicies API service call. */
 export interface FirewallPolicyListResultOutput {
   /** List of Firewall Policies in a resource group. */
   value?: Array<FirewallPolicyOutput>;
@@ -3899,6 +4222,7 @@ export interface FirewallPolicyListResultOutput {
   nextLink?: string;
 }
 
+/** Rule Collection Group resource. */
 export interface FirewallPolicyRuleCollectionGroupOutput
   extends SubResourceOutput {
   /** The properties of the firewall policy rule collection group. */
@@ -3911,6 +4235,7 @@ export interface FirewallPolicyRuleCollectionGroupOutput
   type?: string;
 }
 
+/** Properties of the rule collection group. */
 export interface FirewallPolicyRuleCollectionGroupPropertiesOutput {
   /** Priority of the Firewall Policy Rule Collection Group resource. */
   priority?: number;
@@ -3920,6 +4245,7 @@ export interface FirewallPolicyRuleCollectionGroupPropertiesOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Properties of the rule collection. */
 export interface FirewallPolicyRuleCollectionOutputParent {
   /** The name of the rule collection. */
   name?: string;
@@ -3931,6 +4257,7 @@ export interface FirewallPolicyRuleCollectionOutputParent {
     | "FirewallPolicyFilterRuleCollection";
 }
 
+/** Response for ListFirewallPolicyRuleCollectionGroups API service call. */
 export interface FirewallPolicyRuleCollectionGroupListResultOutput {
   /** List of FirewallPolicyRuleCollectionGroups in a FirewallPolicy. */
   value?: Array<FirewallPolicyRuleCollectionGroupOutput>;
@@ -3938,6 +4265,7 @@ export interface FirewallPolicyRuleCollectionGroupListResultOutput {
   nextLink?: string;
 }
 
+/** Query result */
 export interface QueryResultsOutput {
   /** Number of total records matching the query. */
   matchingRecordsCount?: number;
@@ -3970,6 +4298,7 @@ export interface SingleQueryResultOutput {
   inheritedFromParentPolicy?: boolean;
 }
 
+/** Contains all specific policy signatures overrides for the IDPS */
 export interface SignaturesOverridesOutput {
   /** Contains the name of the resource (default) */
   name?: string;
@@ -3981,21 +4310,25 @@ export interface SignaturesOverridesOutput {
   properties?: SignaturesOverridesPropertiesOutput;
 }
 
+/** Will contain the properties of the resource (the actual signature overrides) */
 export interface SignaturesOverridesPropertiesOutput {
   /** Dictionary of <string> */
   signatures?: Record<string, string>;
 }
 
+/** Describes the list of all possible values for a specific filter value */
 export interface SignatureOverridesFilterValuesResponseOutput {
   /** Describes the possible values */
   filterValues?: Array<string>;
 }
 
+/** Describes an object containing an array with a single item */
 export interface SignaturesOverridesListOutput {
   /** Describes a list consisting exactly one item describing the policy's signature override status */
   value?: Array<SignaturesOverridesOutput>;
 }
 
+/** IpAllocation resource. */
 export interface IpAllocationOutput extends ResourceOutput {
   /** Properties of the IpAllocation. */
   properties?: IpAllocationPropertiesFormatOutput;
@@ -4003,6 +4336,7 @@ export interface IpAllocationOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Properties of the IpAllocation. */
 export interface IpAllocationPropertiesFormatOutput {
   /** The Subnet that using the prefix of this IpAllocation resource. */
   subnet?: SubResourceOutput;
@@ -4022,6 +4356,7 @@ export interface IpAllocationPropertiesFormatOutput {
   allocationTags?: Record<string, string>;
 }
 
+/** Response for the ListIpAllocations API service call. */
 export interface IpAllocationListResultOutput {
   /** A list of IpAllocation resources. */
   value?: Array<IpAllocationOutput>;
@@ -4029,6 +4364,7 @@ export interface IpAllocationListResultOutput {
   nextLink?: string;
 }
 
+/** The IpGroups resource information. */
 export interface IpGroupOutput extends ResourceOutput {
   /** Properties of the IpGroups. */
   properties?: IpGroupPropertiesFormatOutput;
@@ -4036,6 +4372,7 @@ export interface IpGroupOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** The IpGroups property information. */
 export interface IpGroupPropertiesFormatOutput {
   /** The provisioning state of the IpGroups resource. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
@@ -4047,6 +4384,7 @@ export interface IpGroupPropertiesFormatOutput {
   firewallPolicies?: Array<SubResourceOutput>;
 }
 
+/** Response for the ListIpGroups API service call. */
 export interface IpGroupListResultOutput {
   /** The list of IpGroups information resources. */
   value?: Array<IpGroupOutput>;
@@ -4054,6 +4392,7 @@ export interface IpGroupListResultOutput {
   nextLink?: string;
 }
 
+/** LoadBalancer resource. */
 export interface LoadBalancerOutput extends ResourceOutput {
   /** The extended location of the load balancer. */
   extendedLocation?: ExtendedLocationOutput;
@@ -4065,6 +4404,7 @@ export interface LoadBalancerOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** SKU of a load balancer. */
 export interface LoadBalancerSkuOutput {
   /** Name of a load balancer SKU. */
   name?: "Basic" | "Standard" | "Gateway";
@@ -4072,6 +4412,7 @@ export interface LoadBalancerSkuOutput {
   tier?: "Regional" | "Global";
 }
 
+/** Properties of the load balancer. */
 export interface LoadBalancerPropertiesFormatOutput {
   /** Object representing the frontend IPs to be used for the load balancer. */
   frontendIPConfigurations?: Array<FrontendIPConfigurationOutput>;
@@ -4093,6 +4434,7 @@ export interface LoadBalancerPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** A load balancing rule for a load balancer. */
 export interface LoadBalancingRuleOutput extends SubResourceOutput {
   /** Properties of load balancer load balancing rule. */
   properties?: LoadBalancingRulePropertiesFormatOutput;
@@ -4104,6 +4446,7 @@ export interface LoadBalancingRuleOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of the load balancer. */
 export interface LoadBalancingRulePropertiesFormatOutput {
   /** A reference to frontend IP addresses. */
   frontendIPConfiguration?: SubResourceOutput;
@@ -4133,6 +4476,7 @@ export interface LoadBalancingRulePropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** A load balancer probe. */
 export interface ProbeOutput extends SubResourceOutput {
   /** Properties of load balancer probe. */
   properties?: ProbePropertiesFormatOutput;
@@ -4144,6 +4488,7 @@ export interface ProbeOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Load balancer probe resource. */
 export interface ProbePropertiesFormatOutput {
   /** The load balancer rules that use this probe. */
   loadBalancingRules?: Array<SubResourceOutput>;
@@ -4163,6 +4508,7 @@ export interface ProbePropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Inbound NAT pool of the load balancer. */
 export interface InboundNatPoolOutput extends SubResourceOutput {
   /** Properties of load balancer inbound nat pool. */
   properties?: InboundNatPoolPropertiesFormatOutput;
@@ -4174,6 +4520,7 @@ export interface InboundNatPoolOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of Inbound NAT pool. */
 export interface InboundNatPoolPropertiesFormatOutput {
   /** A reference to frontend IP addresses. */
   frontendIPConfiguration?: SubResourceOutput;
@@ -4195,6 +4542,7 @@ export interface InboundNatPoolPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Outbound rule of the load balancer. */
 export interface OutboundRuleOutput extends SubResourceOutput {
   /** Properties of load balancer outbound rule. */
   properties?: OutboundRulePropertiesFormatOutput;
@@ -4206,6 +4554,7 @@ export interface OutboundRuleOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Outbound rule of the load balancer. */
 export interface OutboundRulePropertiesFormatOutput {
   /** The number of outbound ports to be used for NAT. */
   allocatedOutboundPorts?: number;
@@ -4223,6 +4572,7 @@ export interface OutboundRulePropertiesFormatOutput {
   idleTimeoutInMinutes?: number;
 }
 
+/** Response for ListLoadBalancers API service call. */
 export interface LoadBalancerListResultOutput {
   /** A list of load balancers in a resource group. */
   value?: Array<LoadBalancerOutput>;
@@ -4230,6 +4580,7 @@ export interface LoadBalancerListResultOutput {
   nextLink?: string;
 }
 
+/** Response for ListBackendAddressPool API service call. */
 export interface LoadBalancerBackendAddressPoolListResultOutput {
   /** A list of backend address pools in a load balancer. */
   value?: Array<BackendAddressPoolOutput>;
@@ -4237,6 +4588,7 @@ export interface LoadBalancerBackendAddressPoolListResultOutput {
   nextLink?: string;
 }
 
+/** Response for ListFrontendIPConfiguration API service call. */
 export interface LoadBalancerFrontendIPConfigurationListResultOutput {
   /** A list of frontend IP configurations in a load balancer. */
   value?: Array<FrontendIPConfigurationOutput>;
@@ -4244,6 +4596,7 @@ export interface LoadBalancerFrontendIPConfigurationListResultOutput {
   nextLink?: string;
 }
 
+/** Response for ListInboundNatRule API service call. */
 export interface InboundNatRuleListResultOutput {
   /** A list of inbound NAT rules in a load balancer. */
   value?: Array<InboundNatRuleOutput>;
@@ -4251,6 +4604,7 @@ export interface InboundNatRuleListResultOutput {
   nextLink?: string;
 }
 
+/** Response for ListLoadBalancingRule API service call. */
 export interface LoadBalancerLoadBalancingRuleListResultOutput {
   /** A list of load balancing rules in a load balancer. */
   value?: Array<LoadBalancingRuleOutput>;
@@ -4258,6 +4612,7 @@ export interface LoadBalancerLoadBalancingRuleListResultOutput {
   nextLink?: string;
 }
 
+/** Response for ListOutboundRule API service call. */
 export interface LoadBalancerOutboundRuleListResultOutput {
   /** A list of outbound rules in a load balancer. */
   value?: Array<OutboundRuleOutput>;
@@ -4265,6 +4620,7 @@ export interface LoadBalancerOutboundRuleListResultOutput {
   nextLink?: string;
 }
 
+/** Response for ListProbe API service call. */
 export interface LoadBalancerProbeListResultOutput {
   /** A list of probes in a load balancer. */
   value?: Array<ProbeOutput>;
@@ -4272,11 +4628,13 @@ export interface LoadBalancerProbeListResultOutput {
   nextLink?: string;
 }
 
+/** The response for a QueryInboundNatRulePortMapping API. */
 export interface BackendAddressInboundNatRulePortMappingsOutput {
   /** Collection of inbound NAT rule port mappings. */
   inboundNatRulePortMappings?: Array<InboundNatRulePortMappingOutput>;
 }
 
+/** Individual port mappings for inbound NAT rule created for backend pool. */
 export interface InboundNatRulePortMappingOutput {
   /** Name of inbound NAT rule. */
   inboundNatRuleName?: string;
@@ -4288,6 +4646,7 @@ export interface InboundNatRulePortMappingOutput {
   backendPort?: number;
 }
 
+/** Response for ListNatGateways API service call. */
 export interface NatGatewayListResultOutput {
   /** A list of Nat Gateways that exists in a resource group. */
   value?: Array<NatGatewayOutput>;
@@ -4295,6 +4654,7 @@ export interface NatGatewayListResultOutput {
   nextLink?: string;
 }
 
+/** Response for list effective route API service call. */
 export interface EffectiveRouteListResultOutput {
   /** A list of effective routes. */
   value?: Array<EffectiveRouteOutput>;
@@ -4302,6 +4662,7 @@ export interface EffectiveRouteListResultOutput {
   nextLink?: string;
 }
 
+/** Effective Route. */
 export interface EffectiveRouteOutput {
   /** The name of the user defined route. This is optional. */
   name?: string;
@@ -4324,6 +4685,7 @@ export interface EffectiveRouteOutput {
     | "None";
 }
 
+/** Response for list effective network security groups API service call. */
 export interface EffectiveNetworkSecurityGroupListResultOutput {
   /** A list of effective network security groups. */
   value?: Array<EffectiveNetworkSecurityGroupOutput>;
@@ -4331,6 +4693,7 @@ export interface EffectiveNetworkSecurityGroupListResultOutput {
   nextLink?: string;
 }
 
+/** Effective network security group. */
 export interface EffectiveNetworkSecurityGroupOutput {
   /** The ID of network security group that is applied. */
   networkSecurityGroup?: SubResourceOutput;
@@ -4342,6 +4705,7 @@ export interface EffectiveNetworkSecurityGroupOutput {
   tagMap?: string;
 }
 
+/** The effective network security group association. */
 export interface EffectiveNetworkSecurityGroupAssociationOutput {
   /** The ID of the Azure network manager if assigned. */
   networkManager?: SubResourceOutput;
@@ -4351,6 +4715,7 @@ export interface EffectiveNetworkSecurityGroupAssociationOutput {
   networkInterface?: SubResourceOutput;
 }
 
+/** Effective network security rules. */
 export interface EffectiveNetworkSecurityRuleOutput {
   /** The name of the security rule specified by the user (if created by the user). */
   name?: string;
@@ -4384,6 +4749,7 @@ export interface EffectiveNetworkSecurityRuleOutput {
   direction?: "Inbound" | "Outbound";
 }
 
+/** Response for list ip configurations API service call. */
 export interface NetworkInterfaceIPConfigurationListResultOutput {
   /** A list of ip configurations. */
   value?: Array<NetworkInterfaceIPConfigurationOutput>;
@@ -4391,6 +4757,7 @@ export interface NetworkInterfaceIPConfigurationListResultOutput {
   nextLink?: string;
 }
 
+/** Response for list ip configurations API service call. */
 export interface NetworkInterfaceLoadBalancerListResultOutput {
   /** A list of load balancers. */
   value?: Array<LoadBalancerOutput>;
@@ -4398,6 +4765,7 @@ export interface NetworkInterfaceLoadBalancerListResultOutput {
   nextLink?: string;
 }
 
+/** Response for list tap configurations API service call. */
 export interface NetworkInterfaceTapConfigurationListResultOutput {
   /** A list of tap configurations. */
   value?: Array<NetworkInterfaceTapConfigurationOutput>;
@@ -4405,6 +4773,7 @@ export interface NetworkInterfaceTapConfigurationListResultOutput {
   nextLink?: string;
 }
 
+/** The Managed Network resource */
 export interface NetworkManagerOutput extends ResourceOutput {
   /** The network manager properties */
   properties?: NetworkManagerPropertiesOutput;
@@ -4414,6 +4783,7 @@ export interface NetworkManagerOutput extends ResourceOutput {
   systemData?: SystemDataOutput;
 }
 
+/** Properties of Managed Network */
 export interface NetworkManagerPropertiesOutput {
   /** A description of the network manager. */
   description?: string;
@@ -4425,6 +4795,7 @@ export interface NetworkManagerPropertiesOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Scope of Network Manager. */
 export interface NetworkManagerPropertiesNetworkManagerScopesOutput {
   /** List of management groups. */
   managementGroups?: Array<string>;
@@ -4434,6 +4805,7 @@ export interface NetworkManagerPropertiesNetworkManagerScopesOutput {
   crossTenantScopes?: Array<CrossTenantScopesOutput>;
 }
 
+/** Cross tenant scopes. */
 export interface CrossTenantScopesOutput {
   /** Tenant ID. */
   tenantId?: string;
@@ -4443,6 +4815,7 @@ export interface CrossTenantScopesOutput {
   subscriptions?: Array<string>;
 }
 
+/** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemDataOutput {
   /** The identity that created the resource. */
   createdBy?: string;
@@ -4458,6 +4831,7 @@ export interface SystemDataOutput {
   lastModifiedAt?: string;
 }
 
+/** Network Manager Commit. */
 export interface NetworkManagerCommitOutput {
   /** Commit Id. */
   commitId?: string;
@@ -4469,6 +4843,7 @@ export interface NetworkManagerCommitOutput {
   commitType: "SecurityAdmin" | "Connectivity";
 }
 
+/** A list of Network Manager Deployment Status */
 export interface NetworkManagerDeploymentStatusListResultOutput {
   /** Gets a page of Network Manager Deployment Status */
   value?: Array<NetworkManagerDeploymentStatusOutput>;
@@ -4476,6 +4851,7 @@ export interface NetworkManagerDeploymentStatusListResultOutput {
   skipToken?: string;
 }
 
+/** Network Manager Deployment Status. */
 export interface NetworkManagerDeploymentStatusOutput {
   /** Commit Time. */
   commitTime?: string;
@@ -4491,6 +4867,7 @@ export interface NetworkManagerDeploymentStatusOutput {
   errorMessage?: string;
 }
 
+/** Result of the request to list NetworkManager. It contains a list of network managers and a URL link to get the next set of results. */
 export interface NetworkManagerListResultOutput {
   /** Gets a page of NetworkManager */
   value?: Array<NetworkManagerOutput>;
@@ -4498,6 +4875,7 @@ export interface NetworkManagerListResultOutput {
   nextLink?: string;
 }
 
+/** Result of the request to list active connectivity configurations. It contains a list of active connectivity configurations and a skiptoken to get the next set of results. */
 export interface ActiveConnectivityConfigurationsListResultOutput {
   /** Gets a page of active connectivity configurations. */
   value?: Array<ActiveConnectivityConfigurationOutput>;
@@ -4505,6 +4883,7 @@ export interface ActiveConnectivityConfigurationsListResultOutput {
   skipToken?: string;
 }
 
+/** Active connectivity configuration. */
 export interface ActiveConnectivityConfigurationOutput
   extends EffectiveConnectivityConfigurationOutput {
   /** Deployment time string. */
@@ -4513,6 +4892,7 @@ export interface ActiveConnectivityConfigurationOutput
   region?: string;
 }
 
+/** The network manager effective connectivity configuration */
 export interface EffectiveConnectivityConfigurationOutput {
   /** Connectivity configuration ID. */
   id?: string;
@@ -4522,6 +4902,7 @@ export interface EffectiveConnectivityConfigurationOutput {
   configurationGroups?: Array<ConfigurationGroupOutput>;
 }
 
+/** Properties of network manager connectivity configuration */
 export interface ConnectivityConfigurationPropertiesOutput {
   /** A description of the connectivity configuration. */
   description?: string;
@@ -4539,6 +4920,7 @@ export interface ConnectivityConfigurationPropertiesOutput {
   deleteExistingPeering?: "False" | "True";
 }
 
+/** Hub Item. */
 export interface HubOutput {
   /** Resource Id. */
   resourceId?: string;
@@ -4546,6 +4928,7 @@ export interface HubOutput {
   resourceType?: string;
 }
 
+/** Connectivity group item. */
 export interface ConnectivityGroupItemOutput {
   /** Network group Id. */
   networkGroupId: string;
@@ -4557,6 +4940,7 @@ export interface ConnectivityGroupItemOutput {
   groupConnectivity: "None" | "DirectlyConnected";
 }
 
+/** The network configuration group resource */
 export interface ConfigurationGroupOutput {
   /** Network group ID. */
   id?: string;
@@ -4564,6 +4948,7 @@ export interface ConfigurationGroupOutput {
   properties?: NetworkGroupPropertiesOutput;
 }
 
+/** Properties of network group */
 export interface NetworkGroupPropertiesOutput {
   /** A description of the network group. */
   description?: string;
@@ -4571,6 +4956,7 @@ export interface NetworkGroupPropertiesOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Result of the request to list active security admin rules. It contains a list of active security admin rules and a skiptoken to get the next set of results. */
 export interface ActiveSecurityAdminRulesListResultOutput {
   /** Gets a page of active security admin rules. */
   value?: Array<ActiveBaseSecurityAdminRuleOutput>;
@@ -4578,6 +4964,7 @@ export interface ActiveSecurityAdminRulesListResultOutput {
   skipToken?: string;
 }
 
+/** Network base admin rule. */
 export interface ActiveBaseSecurityAdminRuleOutputParent {
   /** Resource ID. */
   id?: string;
@@ -4596,11 +4983,13 @@ export interface ActiveBaseSecurityAdminRuleOutputParent {
   kind: "ActiveBaseSecurityAdminRule" | "Custom" | "Default";
 }
 
+/** Network manager security group item. */
 export interface NetworkManagerSecurityGroupItemOutput {
   /** Network manager group Id. */
   networkGroupId: string;
 }
 
+/** The Network Manager Connection resource */
 export interface NetworkManagerConnectionOutput extends ChildResourceOutput {
   /** The scope connection properties */
   properties?: NetworkManagerConnectionPropertiesOutput;
@@ -4608,6 +4997,7 @@ export interface NetworkManagerConnectionOutput extends ChildResourceOutput {
   systemData?: SystemDataOutput;
 }
 
+/** Information about the network manager connection. */
 export interface NetworkManagerConnectionPropertiesOutput {
   /** Network Manager Id. */
   networkManagerId?: string;
@@ -4622,6 +5012,7 @@ export interface NetworkManagerConnectionPropertiesOutput {
   description?: string;
 }
 
+/** Proxy resource representation. */
 export interface ChildResourceOutput {
   /** Resource ID. */
   id?: string;
@@ -4633,6 +5024,7 @@ export interface ChildResourceOutput {
   etag?: string;
 }
 
+/** List of network manager connections. */
 export interface NetworkManagerConnectionListResultOutput {
   /** List of network manager connections. */
   value?: Array<NetworkManagerConnectionOutput>;
@@ -4640,6 +5032,7 @@ export interface NetworkManagerConnectionListResultOutput {
   nextLink?: string;
 }
 
+/** The network manager connectivity configuration resource */
 export interface ConnectivityConfigurationOutput extends ChildResourceOutput {
   /** Properties of a network manager connectivity configuration */
   properties?: ConnectivityConfigurationPropertiesOutput;
@@ -4647,6 +5040,7 @@ export interface ConnectivityConfigurationOutput extends ChildResourceOutput {
   systemData?: SystemDataOutput;
 }
 
+/** Result of the request to list network manager connectivity configurations. It contains a list of configurations and a link to get the next set of results. */
 export interface ConnectivityConfigurationListResultOutput {
   /** Gets a page of Connectivity Configurations */
   value?: Array<ConnectivityConfigurationOutput>;
@@ -4654,6 +5048,7 @@ export interface ConnectivityConfigurationListResultOutput {
   nextLink?: string;
 }
 
+/** Result of the request to list networkManagerEffectiveConnectivityConfiguration. It contains a list of groups and a skiptoken to get the next set of results. */
 export interface NetworkManagerEffectiveConnectivityConfigurationListResultOutput {
   /** Gets a page of NetworkManagerEffectiveConnectivityConfiguration */
   value?: Array<EffectiveConnectivityConfigurationOutput>;
@@ -4661,6 +5056,7 @@ export interface NetworkManagerEffectiveConnectivityConfigurationListResultOutpu
   skipToken?: string;
 }
 
+/** Result of the request to list networkManagerEffectiveSecurityAdminRules. It contains a list of groups and a skiptoken to get the next set of results. */
 export interface NetworkManagerEffectiveSecurityAdminRulesListResultOutput {
   /** Gets a page of NetworkManagerEffectiveSecurityAdminRules */
   value?: Array<EffectiveBaseSecurityAdminRuleOutput>;
@@ -4668,6 +5064,7 @@ export interface NetworkManagerEffectiveSecurityAdminRulesListResultOutput {
   skipToken?: string;
 }
 
+/** Network base admin rule. */
 export interface EffectiveBaseSecurityAdminRuleOutputParent {
   /** Resource ID. */
   id?: string;
@@ -4682,6 +5079,7 @@ export interface EffectiveBaseSecurityAdminRuleOutputParent {
   kind: "EffectiveBaseSecurityAdminRule" | "Custom" | "Default";
 }
 
+/** The network group resource */
 export interface NetworkGroupOutput extends ChildResourceOutput {
   /** The Network Group properties */
   properties?: NetworkGroupPropertiesOutput;
@@ -4689,6 +5087,7 @@ export interface NetworkGroupOutput extends ChildResourceOutput {
   systemData?: SystemDataOutput;
 }
 
+/** Result of the request to list NetworkGroup. It contains a list of groups and a URL link to get the next set of results. */
 export interface NetworkGroupListResultOutput {
   /** Gets a page of NetworkGroup */
   value?: Array<NetworkGroupOutput>;
@@ -4696,6 +5095,7 @@ export interface NetworkGroupListResultOutput {
   nextLink?: string;
 }
 
+/** StaticMember Item. */
 export interface StaticMemberOutput extends ChildResourceOutput {
   /** The Static Member properties */
   properties?: StaticMemberPropertiesOutput;
@@ -4703,6 +5103,7 @@ export interface StaticMemberOutput extends ChildResourceOutput {
   systemData?: SystemDataOutput;
 }
 
+/** Properties of static member. */
 export interface StaticMemberPropertiesOutput {
   /** Resource Id. */
   resourceId?: string;
@@ -4712,6 +5113,7 @@ export interface StaticMemberPropertiesOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Result of the request to list StaticMember. It contains a list of groups and a URL link to get the next set of results. */
 export interface StaticMemberListResultOutput {
   /** Gets a page of StaticMember */
   value?: Array<StaticMemberOutput>;
@@ -4719,6 +5121,7 @@ export interface StaticMemberListResultOutput {
   nextLink?: string;
 }
 
+/** The Scope Connections resource */
 export interface ScopeConnectionOutput extends ChildResourceOutput {
   /** The scope connection properties */
   properties?: ScopeConnectionPropertiesOutput;
@@ -4726,6 +5129,7 @@ export interface ScopeConnectionOutput extends ChildResourceOutput {
   systemData?: SystemDataOutput;
 }
 
+/** Scope connection. */
 export interface ScopeConnectionPropertiesOutput {
   /** Tenant ID. */
   tenantId?: string;
@@ -4742,6 +5146,7 @@ export interface ScopeConnectionPropertiesOutput {
   description?: string;
 }
 
+/** List of scope connections. */
 export interface ScopeConnectionListResultOutput {
   /** List of scope connections. */
   value?: Array<ScopeConnectionOutput>;
@@ -4749,6 +5154,7 @@ export interface ScopeConnectionListResultOutput {
   nextLink?: string;
 }
 
+/** A list of network manager security admin configurations */
 export interface SecurityAdminConfigurationListResultOutput {
   /** Gets a page of security admin configurations */
   value?: Array<SecurityAdminConfigurationOutput>;
@@ -4756,6 +5162,7 @@ export interface SecurityAdminConfigurationListResultOutput {
   nextLink?: string;
 }
 
+/** Defines the security admin configuration */
 export interface SecurityAdminConfigurationOutput extends ChildResourceOutput {
   /** Indicates the properties for the network manager security admin configuration. */
   properties?: SecurityAdminConfigurationPropertiesFormatOutput;
@@ -4763,6 +5170,7 @@ export interface SecurityAdminConfigurationOutput extends ChildResourceOutput {
   systemData?: SystemDataOutput;
 }
 
+/** Defines the security admin configuration properties. */
 export interface SecurityAdminConfigurationPropertiesFormatOutput {
   /** A description of the security configuration. */
   description?: string;
@@ -4774,6 +5182,7 @@ export interface SecurityAdminConfigurationPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Security admin configuration rule collection list result. */
 export interface AdminRuleCollectionListResultOutput {
   /** A list of network manager security admin configuration rule collections */
   value?: Array<AdminRuleCollectionOutput>;
@@ -4781,6 +5190,7 @@ export interface AdminRuleCollectionListResultOutput {
   nextLink?: string;
 }
 
+/** Defines the admin rule collection. */
 export interface AdminRuleCollectionOutput extends ChildResourceOutput {
   /** Indicates the properties for the network manager admin rule collection. */
   properties?: AdminRuleCollectionPropertiesFormatOutput;
@@ -4788,6 +5198,7 @@ export interface AdminRuleCollectionOutput extends ChildResourceOutput {
   systemData?: SystemDataOutput;
 }
 
+/** Defines the admin rule collection properties. */
 export interface AdminRuleCollectionPropertiesFormatOutput {
   /** A description of the admin rule collection. */
   description?: string;
@@ -4797,6 +5208,7 @@ export interface AdminRuleCollectionPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** security configuration admin rule list result. */
 export interface AdminRuleListResultOutput {
   /** A list of admin rules */
   value?: Array<BaseAdminRuleOutput>;
@@ -4804,12 +5216,14 @@ export interface AdminRuleListResultOutput {
   nextLink?: string;
 }
 
+/** Network base admin rule. */
 export interface BaseAdminRuleOutputParent extends ChildResourceOutput {
   /** The system metadata related to this resource. */
   systemData?: SystemDataOutput;
   kind: "BaseAdminRule" | "Custom" | "Default";
 }
 
+/** Network profile resource. */
 export interface NetworkProfileOutput extends ResourceOutput {
   /** Network profile properties. */
   properties?: NetworkProfilePropertiesFormatOutput;
@@ -4817,6 +5231,7 @@ export interface NetworkProfileOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Network profile properties. */
 export interface NetworkProfilePropertiesFormatOutput {
   /** List of child container network interfaces. */
   containerNetworkInterfaces?: Array<ContainerNetworkInterfaceOutput>;
@@ -4830,6 +5245,7 @@ export interface NetworkProfilePropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Container network interface child resource. */
 export interface ContainerNetworkInterfaceOutput extends SubResourceOutput {
   /** Container network interface properties. */
   properties?: ContainerNetworkInterfacePropertiesFormatOutput;
@@ -4841,6 +5257,7 @@ export interface ContainerNetworkInterfaceOutput extends SubResourceOutput {
   etag?: string;
 }
 
+/** Properties of container network interface. */
 export interface ContainerNetworkInterfacePropertiesFormatOutput {
   /** Container network interface configuration from which this container network interface is created. */
   containerNetworkInterfaceConfiguration?: ContainerNetworkInterfaceConfigurationOutput;
@@ -4852,6 +5269,7 @@ export interface ContainerNetworkInterfacePropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Container network interface configuration child resource. */
 export interface ContainerNetworkInterfaceConfigurationOutput
   extends SubResourceOutput {
   /** Container network interface configuration properties. */
@@ -4864,6 +5282,7 @@ export interface ContainerNetworkInterfaceConfigurationOutput
   etag?: string;
 }
 
+/** Container network interface configuration properties. */
 export interface ContainerNetworkInterfaceConfigurationPropertiesFormatOutput {
   /** A list of ip configurations of the container network interface configuration. */
   ipConfigurations?: Array<IPConfigurationProfileOutput>;
@@ -4873,8 +5292,10 @@ export interface ContainerNetworkInterfaceConfigurationPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Reference to container resource in remote resource provider. */
 export interface ContainerOutput extends SubResourceOutput {}
 
+/** The ip configuration for a container network interface. */
 export interface ContainerNetworkInterfaceIpConfigurationOutput {
   /** Properties of the container network interface IP configuration. */
   properties?: ContainerNetworkInterfaceIpConfigurationPropertiesFormatOutput;
@@ -4886,11 +5307,13 @@ export interface ContainerNetworkInterfaceIpConfigurationOutput {
   etag?: string;
 }
 
+/** Properties of the container network interface IP configuration. */
 export interface ContainerNetworkInterfaceIpConfigurationPropertiesFormatOutput {
   /** The provisioning state of the container network interface IP configuration resource. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Response for ListNetworkProfiles API service call. */
 export interface NetworkProfileListResultOutput {
   /** A list of network profiles that exist in a resource group. */
   value?: Array<NetworkProfileOutput>;
@@ -4898,6 +5321,7 @@ export interface NetworkProfileListResultOutput {
   nextLink?: string;
 }
 
+/** Response for ListNetworkSecurityGroups API service call. */
 export interface NetworkSecurityGroupListResultOutput {
   /** A list of NetworkSecurityGroup resources. */
   value?: Array<NetworkSecurityGroupOutput>;
@@ -4905,6 +5329,7 @@ export interface NetworkSecurityGroupListResultOutput {
   nextLink?: string;
 }
 
+/** Response for ListSecurityRule API service call. Retrieves all security rules that belongs to a network security group. */
 export interface SecurityRuleListResultOutput {
   /** The security rules in a network security group. */
   value?: Array<SecurityRuleOutput>;
@@ -4912,6 +5337,7 @@ export interface SecurityRuleListResultOutput {
   nextLink?: string;
 }
 
+/** NetworkVirtualAppliance Resource. */
 export interface NetworkVirtualApplianceOutput extends ResourceOutput {
   /** Properties of the Network Virtual Appliance. */
   properties?: NetworkVirtualAppliancePropertiesFormatOutput;
@@ -4921,6 +5347,7 @@ export interface NetworkVirtualApplianceOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Network Virtual Appliance definition. */
 export interface NetworkVirtualAppliancePropertiesFormatOutput {
   /** Network Virtual Appliance SKU. */
   nvaSku?: VirtualApplianceSkuPropertiesOutput;
@@ -4948,6 +5375,7 @@ export interface NetworkVirtualAppliancePropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Network Virtual Appliance Sku Properties. */
 export interface VirtualApplianceSkuPropertiesOutput {
   /** Virtual Appliance Vendor. */
   vendor?: string;
@@ -4957,6 +5385,7 @@ export interface VirtualApplianceSkuPropertiesOutput {
   marketPlaceVersion?: string;
 }
 
+/** Network Virtual Appliance NIC properties. */
 export interface VirtualApplianceNicPropertiesOutput {
   /** NIC name. */
   name?: string;
@@ -4966,6 +5395,7 @@ export interface VirtualApplianceNicPropertiesOutput {
   privateIpAddress?: string;
 }
 
+/** Response for ListNetworkVirtualAppliances API service call. */
 export interface NetworkVirtualApplianceListResultOutput {
   /** List of Network Virtual Appliances. */
   value?: Array<NetworkVirtualApplianceOutput>;
@@ -4973,6 +5403,7 @@ export interface NetworkVirtualApplianceListResultOutput {
   nextLink?: string;
 }
 
+/** Virtual Appliance Site resource. */
 export interface VirtualApplianceSiteOutput extends SubResourceOutput {
   /** The properties of the Virtual Appliance Sites. */
   properties?: VirtualApplianceSitePropertiesOutput;
@@ -4984,6 +5415,7 @@ export interface VirtualApplianceSiteOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of the rule group. */
 export interface VirtualApplianceSitePropertiesOutput {
   /** Address Prefix. */
   addressPrefix?: string;
@@ -4993,11 +5425,13 @@ export interface VirtualApplianceSitePropertiesOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Network Virtual Appliance Sku Properties. */
 export interface Office365PolicyPropertiesOutput {
   /** Office 365 breakout categories. */
   breakOutCategories?: BreakOutCategoryPoliciesOutput;
 }
 
+/** Network Virtual Appliance Sku Properties. */
 export interface BreakOutCategoryPoliciesOutput {
   /** Flag to control breakout of o365 allow category. */
   allow?: boolean;
@@ -5007,6 +5441,7 @@ export interface BreakOutCategoryPoliciesOutput {
   default?: boolean;
 }
 
+/** Response for ListNetworkVirtualApplianceSites API service call. */
 export interface NetworkVirtualApplianceSiteListResultOutput {
   /** List of Network Virtual Appliance sites. */
   value?: Array<VirtualApplianceSiteOutput>;
@@ -5014,6 +5449,7 @@ export interface NetworkVirtualApplianceSiteListResultOutput {
   nextLink?: string;
 }
 
+/** Response for ListNetworkVirtualApplianceSkus API service call. */
 export interface NetworkVirtualApplianceSkuListResultOutput {
   /** List of Network Virtual Appliance Skus that are available. */
   value?: Array<NetworkVirtualApplianceSkuOutput>;
@@ -5021,6 +5457,7 @@ export interface NetworkVirtualApplianceSkuListResultOutput {
   nextLink?: string;
 }
 
+/** Definition of the NetworkVirtualApplianceSkus resource. */
 export interface NetworkVirtualApplianceSkuOutput extends ResourceOutput {
   /** NetworkVirtualApplianceSku properties. */
   properties?: NetworkVirtualApplianceSkuPropertiesFormatOutput;
@@ -5028,6 +5465,7 @@ export interface NetworkVirtualApplianceSkuOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Properties specific to NetworkVirtualApplianceSkus. */
 export interface NetworkVirtualApplianceSkuPropertiesFormatOutput {
   /** Network Virtual Appliance Sku vendor. */
   vendor?: string;
@@ -5037,6 +5475,7 @@ export interface NetworkVirtualApplianceSkuPropertiesFormatOutput {
   availableScaleUnits?: Array<NetworkVirtualApplianceSkuInstancesOutput>;
 }
 
+/** List of available Sku and instances. */
 export interface NetworkVirtualApplianceSkuInstancesOutput {
   /** Scale Unit. */
   scaleUnit?: string;
@@ -5044,6 +5483,7 @@ export interface NetworkVirtualApplianceSkuInstancesOutput {
   instanceCount?: number;
 }
 
+/** NVA Inbound Security Rule resource. */
 export interface InboundSecurityRuleOutput extends SubResourceOutput {
   /** The properties of the Inbound Security Rules. */
   properties?: InboundSecurityRulePropertiesOutput;
@@ -5055,6 +5495,7 @@ export interface InboundSecurityRuleOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of the Inbound Security Rules resource. */
 export interface InboundSecurityRulePropertiesOutput {
   /** List of allowed rules. */
   rules?: Array<InboundSecurityRulesOutput>;
@@ -5062,6 +5503,7 @@ export interface InboundSecurityRulePropertiesOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Properties of the Inbound Security Rules resource. */
 export interface InboundSecurityRulesOutput {
   /** Protocol. This should be either TCP or UDP. */
   protocol?: "TCP" | "UDP";
@@ -5071,6 +5513,7 @@ export interface InboundSecurityRulesOutput {
   destinationPortRange?: number;
 }
 
+/** Network watcher in a resource group. */
 export interface NetworkWatcherOutput extends ResourceOutput {
   /** A unique read-only string that changes whenever the resource is updated. */
   etag?: string;
@@ -5078,21 +5521,25 @@ export interface NetworkWatcherOutput extends ResourceOutput {
   properties?: NetworkWatcherPropertiesFormatOutput;
 }
 
+/** The network watcher properties. */
 export interface NetworkWatcherPropertiesFormatOutput {
   /** The provisioning state of the network watcher resource. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** The error object. */
 export interface ErrorResponseOutput {
   /** The error details object. */
   error?: ErrorDetailsOutput;
 }
 
+/** Response for ListNetworkWatchers API service call. */
 export interface NetworkWatcherListResultOutput {
   /** List of network watcher resources. */
   value?: Array<NetworkWatcherOutput>;
 }
 
+/** Topology of the specified resource group. */
 export interface TopologyOutput {
   /** GUID representing the operation id. */
   id?: string;
@@ -5104,6 +5551,7 @@ export interface TopologyOutput {
   resources?: Array<TopologyResourceOutput>;
 }
 
+/** The network resource topology information for the given resource group. */
 export interface TopologyResourceOutput {
   /** Name of the resource. */
   name?: string;
@@ -5115,6 +5563,7 @@ export interface TopologyResourceOutput {
   associations?: Array<TopologyAssociationOutput>;
 }
 
+/** Resources that have an association with the parent resource. */
 export interface TopologyAssociationOutput {
   /** The name of the resource that is associated with the parent resource. */
   name?: string;
@@ -5124,6 +5573,7 @@ export interface TopologyAssociationOutput {
   associationType?: "Associated" | "Contains";
 }
 
+/** Results of IP flow verification on the target resource. */
 export interface VerificationIPFlowResultOutput {
   /** Indicates whether the traffic is allowed or denied. */
   access?: "Allow" | "Deny";
@@ -5131,6 +5581,7 @@ export interface VerificationIPFlowResultOutput {
   ruleName?: string;
 }
 
+/** The information about next hop from the specified VM. */
 export interface NextHopResultOutput {
   /** Next hop type. */
   nextHopType?:
@@ -5146,11 +5597,13 @@ export interface NextHopResultOutput {
   routeTableId?: string;
 }
 
+/** The information about security rules applied to the specified VM. */
 export interface SecurityGroupViewResultOutput {
   /** List of network interfaces on the specified VM. */
   networkInterfaces?: Array<SecurityGroupNetworkInterfaceOutput>;
 }
 
+/** Network interface and all its associated security rules. */
 export interface SecurityGroupNetworkInterfaceOutput {
   /** ID of the network interface. */
   id?: string;
@@ -5158,6 +5611,7 @@ export interface SecurityGroupNetworkInterfaceOutput {
   securityRuleAssociations?: SecurityRuleAssociationsOutput;
 }
 
+/** All security rules associated with the network interface. */
 export interface SecurityRuleAssociationsOutput {
   /** Network interface and it's custom security rules. */
   networkInterfaceAssociation?: NetworkInterfaceAssociationOutput;
@@ -5169,6 +5623,7 @@ export interface SecurityRuleAssociationsOutput {
   effectiveSecurityRules?: Array<EffectiveNetworkSecurityRuleOutput>;
 }
 
+/** Network interface and its custom security rules. */
 export interface NetworkInterfaceAssociationOutput {
   /** Network interface ID. */
   id?: string;
@@ -5176,6 +5631,7 @@ export interface NetworkInterfaceAssociationOutput {
   securityRules?: Array<SecurityRuleOutput>;
 }
 
+/** Subnet and it's custom security rules. */
 export interface SubnetAssociationOutput {
   /** Subnet ID. */
   id?: string;
@@ -5183,6 +5639,7 @@ export interface SubnetAssociationOutput {
   securityRules?: Array<SecurityRuleOutput>;
 }
 
+/** Parameters that define the create packet capture operation. */
 export interface PacketCaptureParametersOutput {
   /** The ID of the targeted resource, only AzureVM and AzureVMSS as target type are currently supported. */
   target: string;
@@ -5202,6 +5659,7 @@ export interface PacketCaptureParametersOutput {
   filters?: Array<PacketCaptureFilterOutput>;
 }
 
+/** A list of AzureVMSS instances which can be included or excluded to run packet capture. If both included and excluded are empty, then the packet capture will run on all instances of AzureVMSS. */
 export interface PacketCaptureMachineScopeOutput {
   /** List of AzureVMSS instances to run packet capture on. */
   include?: Array<string>;
@@ -5209,6 +5667,7 @@ export interface PacketCaptureMachineScopeOutput {
   exclude?: Array<string>;
 }
 
+/** The storage location for a packet capture session. */
 export interface PacketCaptureStorageLocationOutput {
   /** The ID of the storage account to save the packet capture session. Required if no local file path is provided. */
   storageId?: string;
@@ -5218,6 +5677,7 @@ export interface PacketCaptureStorageLocationOutput {
   filePath?: string;
 }
 
+/** Filter that is applied to packet capture request. Multiple filters can be applied. */
 export interface PacketCaptureFilterOutput {
   /** Protocol to be filtered on. */
   protocol?: "TCP" | "UDP" | "Any";
@@ -5231,6 +5691,7 @@ export interface PacketCaptureFilterOutput {
   remotePort?: string;
 }
 
+/** Information about packet capture session. */
 export interface PacketCaptureResultOutput {
   /** Name of the packet capture session. */
   name?: string;
@@ -5242,12 +5703,14 @@ export interface PacketCaptureResultOutput {
   properties?: PacketCaptureResultPropertiesOutput;
 }
 
+/** The properties of a packet capture session. */
 export interface PacketCaptureResultPropertiesOutput
   extends PacketCaptureParametersOutput {
   /** The provisioning state of the packet capture session. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Status of packet capture session. */
 export interface PacketCaptureQueryStatusResultOutput {
   /** The name of the packet capture resource. */
   name?: string;
@@ -5274,11 +5737,13 @@ export interface PacketCaptureQueryStatusResultOutput {
   >;
 }
 
+/** List of packet capture sessions. */
 export interface PacketCaptureListResultOutput {
   /** Information about packet capture sessions. */
   value?: Array<PacketCaptureResultOutput>;
 }
 
+/** Troubleshooting information gained from specified resource. */
 export interface TroubleshootingResultOutput {
   /** The start time of the troubleshooting. */
   startTime?: string;
@@ -5290,6 +5755,7 @@ export interface TroubleshootingResultOutput {
   results?: Array<TroubleshootingDetailsOutput>;
 }
 
+/** Information gained from troubleshooting of specified resource. */
 export interface TroubleshootingDetailsOutput {
   /** The id of the get troubleshoot operation. */
   id?: string;
@@ -5303,6 +5769,7 @@ export interface TroubleshootingDetailsOutput {
   recommendedActions?: Array<TroubleshootingRecommendedActionsOutput>;
 }
 
+/** Recommended actions based on discovered issues. */
 export interface TroubleshootingRecommendedActionsOutput {
   /** ID of the recommended action. */
   actionId?: string;
@@ -5314,6 +5781,7 @@ export interface TroubleshootingRecommendedActionsOutput {
   actionUriText?: string;
 }
 
+/** Information on the configuration of flow log and traffic analytics (optional) . */
 export interface FlowLogInformationOutput {
   /** The ID of the resource to configure for flow log and traffic analytics (optional) . */
   targetResourceId: string;
@@ -5323,6 +5791,7 @@ export interface FlowLogInformationOutput {
   flowAnalyticsConfiguration?: TrafficAnalyticsPropertiesOutput;
 }
 
+/** Parameters that define the configuration of flow log. */
 export interface FlowLogPropertiesOutput {
   /** ID of the storage account which is used to store the flow log. */
   storageId: string;
@@ -5334,6 +5803,7 @@ export interface FlowLogPropertiesOutput {
   format?: FlowLogFormatParametersOutput;
 }
 
+/** The HTTP header. */
 export interface HttpHeaderOutput {
   /** The name in HTTP header. */
   name?: string;
@@ -5341,6 +5811,7 @@ export interface HttpHeaderOutput {
   value?: string;
 }
 
+/** Information on the connectivity status. */
 export interface ConnectivityInformationOutput {
   /** List of hops between the source and the destination. */
   hops?: Array<ConnectivityHopOutput>;
@@ -5358,6 +5829,7 @@ export interface ConnectivityInformationOutput {
   probesFailed?: number;
 }
 
+/** Information about a hop between the source and the destination. */
 export interface ConnectivityHopOutput {
   /** The type of the hop. */
   type?: string;
@@ -5379,6 +5851,7 @@ export interface ConnectivityHopOutput {
   issues?: Array<ConnectivityIssueOutput>;
 }
 
+/** Hop link. */
 export interface HopLinkOutput {
   /** The ID of the next hop. */
   nextHopId?: string;
@@ -5394,6 +5867,7 @@ export interface HopLinkOutput {
   resourceId?: string;
 }
 
+/** Hop link properties. */
 export interface HopLinkPropertiesOutput {
   /** Minimum roundtrip time in milliseconds. */
   roundTripTimeMin?: number;
@@ -5403,6 +5877,7 @@ export interface HopLinkPropertiesOutput {
   roundTripTimeMax?: number;
 }
 
+/** Information about an issue encountered in the process of checking for connectivity. */
 export interface ConnectivityIssueOutput {
   /** The origin of the issue. */
   origin?: "Local" | "Inbound" | "Outbound";
@@ -5423,6 +5898,7 @@ export interface ConnectivityIssueOutput {
   context?: Array<Record<string, string>>;
 }
 
+/** Parameters that define a geographic location. */
 export interface AzureReachabilityReportLocationOutput {
   /** The name of the country. */
   country: string;
@@ -5432,6 +5908,7 @@ export interface AzureReachabilityReportLocationOutput {
   city?: string;
 }
 
+/** Azure reachability report details. */
 export interface AzureReachabilityReportOutput {
   /** The aggregation level of Azure reachability report. Can be Country, State or City. */
   aggregationLevel: string;
@@ -5441,6 +5918,7 @@ export interface AzureReachabilityReportOutput {
   reachabilityReport: Array<AzureReachabilityReportItemOutput>;
 }
 
+/** Azure reachability report details for a given provider location. */
 export interface AzureReachabilityReportItemOutput {
   /** The Internet service provider. */
   provider?: string;
@@ -5450,6 +5928,7 @@ export interface AzureReachabilityReportItemOutput {
   latencies?: Array<AzureReachabilityReportLatencyInfoOutput>;
 }
 
+/** Details on latency for a time series. */
 export interface AzureReachabilityReportLatencyInfoOutput {
   /** The time stamp. */
   timeStamp?: string;
@@ -5457,11 +5936,13 @@ export interface AzureReachabilityReportLatencyInfoOutput {
   score?: number;
 }
 
+/** List of available countries with details. */
 export interface AvailableProvidersListOutput {
   /** List of available countries. */
   countries: Array<AvailableProvidersListCountryOutput>;
 }
 
+/** Country details. */
 export interface AvailableProvidersListCountryOutput {
   /** The country name. */
   countryName?: string;
@@ -5471,6 +5952,7 @@ export interface AvailableProvidersListCountryOutput {
   states?: Array<AvailableProvidersListStateOutput>;
 }
 
+/** State details. */
 export interface AvailableProvidersListStateOutput {
   /** The state name. */
   stateName?: string;
@@ -5480,6 +5962,7 @@ export interface AvailableProvidersListStateOutput {
   cities?: Array<AvailableProvidersListCityOutput>;
 }
 
+/** City or town details. */
 export interface AvailableProvidersListCityOutput {
   /** The city or town name. */
   cityName?: string;
@@ -5487,6 +5970,7 @@ export interface AvailableProvidersListCityOutput {
   providers?: Array<string>;
 }
 
+/** Parameters to compare with network configuration. */
 export interface NetworkConfigurationDiagnosticProfileOutput {
   /** The direction of the traffic. */
   direction: "Inbound" | "Outbound";
@@ -5500,11 +5984,13 @@ export interface NetworkConfigurationDiagnosticProfileOutput {
   destinationPort: string;
 }
 
+/** Results of network configuration diagnostic on the target resource. */
 export interface NetworkConfigurationDiagnosticResponseOutput {
   /** List of network configuration diagnostic results. */
   results?: Array<NetworkConfigurationDiagnosticResultOutput>;
 }
 
+/** Network configuration diagnostic result corresponded to provided traffic query. */
 export interface NetworkConfigurationDiagnosticResultOutput {
   /** Network configuration diagnostic profile. */
   profile?: NetworkConfigurationDiagnosticProfileOutput;
@@ -5512,6 +5998,7 @@ export interface NetworkConfigurationDiagnosticResultOutput {
   networkSecurityGroupResult?: NetworkSecurityGroupResultOutput;
 }
 
+/** Network configuration diagnostic result corresponded provided traffic query. */
 export interface NetworkSecurityGroupResultOutput {
   /** The network traffic is allowed or denied. */
   securityRuleAccessResult?: "Allow" | "Deny";
@@ -5519,6 +6006,7 @@ export interface NetworkSecurityGroupResultOutput {
   evaluatedNetworkSecurityGroups?: Array<EvaluatedNetworkSecurityGroupOutput>;
 }
 
+/** Results of network security group evaluation. */
 export interface EvaluatedNetworkSecurityGroupOutput {
   /** Network security group ID. */
   networkSecurityGroupId?: string;
@@ -5530,6 +6018,7 @@ export interface EvaluatedNetworkSecurityGroupOutput {
   rulesEvaluationResult?: Array<NetworkSecurityRulesEvaluationResultOutput>;
 }
 
+/** Matched rule. */
 export interface MatchedRuleOutput {
   /** Name of the matched network security rule. */
   ruleName?: string;
@@ -5537,6 +6026,7 @@ export interface MatchedRuleOutput {
   action?: string;
 }
 
+/** Network security rules evaluation result. */
 export interface NetworkSecurityRulesEvaluationResultOutput {
   /** Name of the network security rule. */
   name?: string;
@@ -5552,6 +6042,7 @@ export interface NetworkSecurityRulesEvaluationResultOutput {
   destinationPortMatched?: boolean;
 }
 
+/** Parameters that define the operation to create a connection monitor. */
 export interface ConnectionMonitorParametersOutput {
   /** Describes the source of connection monitor. */
   source?: ConnectionMonitorSourceOutput;
@@ -5573,6 +6064,7 @@ export interface ConnectionMonitorParametersOutput {
   notes?: string;
 }
 
+/** Describes the source of connection monitor. */
 export interface ConnectionMonitorSourceOutput {
   /** The ID of the resource used as the source by connection monitor. */
   resourceId: string;
@@ -5580,6 +6072,7 @@ export interface ConnectionMonitorSourceOutput {
   port?: number;
 }
 
+/** Describes the destination of connection monitor. */
 export interface ConnectionMonitorDestinationOutput {
   /** The ID of the resource used as the destination by connection monitor. */
   resourceId?: string;
@@ -5589,6 +6082,7 @@ export interface ConnectionMonitorDestinationOutput {
   port?: number;
 }
 
+/** Describes the connection monitor endpoint. */
 export interface ConnectionMonitorEndpointOutput {
   /** The name of the connection monitor endpoint. */
   name: string;
@@ -5620,6 +6114,7 @@ export interface ConnectionMonitorEndpointOutput {
     | "Full";
 }
 
+/** Describes the connection monitor endpoint filter. */
 export interface ConnectionMonitorEndpointFilterOutput {
   /** The behavior of the endpoint filter. Currently only 'Include' is supported. */
   type?: "Include";
@@ -5627,6 +6122,7 @@ export interface ConnectionMonitorEndpointFilterOutput {
   items?: Array<ConnectionMonitorEndpointFilterItemOutput>;
 }
 
+/** Describes the connection monitor endpoint filter item. */
 export interface ConnectionMonitorEndpointFilterItemOutput {
   /** The type of item included in the filter. Currently only 'AgentAddress' is supported. */
   type?: "AgentAddress";
@@ -5634,6 +6130,7 @@ export interface ConnectionMonitorEndpointFilterItemOutput {
   address?: string;
 }
 
+/** Describes the connection monitor endpoint scope. */
 export interface ConnectionMonitorEndpointScopeOutput {
   /** List of items which needs to be included to the endpoint scope. */
   include?: Array<ConnectionMonitorEndpointScopeItemOutput>;
@@ -5641,11 +6138,13 @@ export interface ConnectionMonitorEndpointScopeOutput {
   exclude?: Array<ConnectionMonitorEndpointScopeItemOutput>;
 }
 
+/** Describes the connection monitor endpoint scope item. */
 export interface ConnectionMonitorEndpointScopeItemOutput {
   /** The address of the endpoint item. Supported types are IPv4/IPv6 subnet mask or IPv4/IPv6 IP address. */
   address?: string;
 }
 
+/** Describes a connection monitor test configuration. */
 export interface ConnectionMonitorTestConfigurationOutput {
   /** The name of the connection monitor test configuration. */
   name: string;
@@ -5665,6 +6164,7 @@ export interface ConnectionMonitorTestConfigurationOutput {
   successThreshold?: ConnectionMonitorSuccessThresholdOutput;
 }
 
+/** Describes the HTTP configuration. */
 export interface ConnectionMonitorHttpConfigurationOutput {
   /** The port to connect to. */
   port?: number;
@@ -5680,6 +6180,7 @@ export interface ConnectionMonitorHttpConfigurationOutput {
   preferHTTPS?: boolean;
 }
 
+/** Describes the TCP configuration. */
 export interface ConnectionMonitorTcpConfigurationOutput {
   /** The port to connect to. */
   port?: number;
@@ -5689,11 +6190,13 @@ export interface ConnectionMonitorTcpConfigurationOutput {
   destinationPortBehavior?: "None" | "ListenIfAvailable";
 }
 
+/** Describes the ICMP configuration. */
 export interface ConnectionMonitorIcmpConfigurationOutput {
   /** Value indicating whether path evaluation with trace route should be disabled. */
   disableTraceRoute?: boolean;
 }
 
+/** Describes the threshold for declaring a test successful. */
 export interface ConnectionMonitorSuccessThresholdOutput {
   /** The maximum percentage of failed checks permitted for a test to evaluate as successful. */
   checksFailedPercent?: number;
@@ -5701,6 +6204,7 @@ export interface ConnectionMonitorSuccessThresholdOutput {
   roundTripTimeMs?: number;
 }
 
+/** Describes the connection monitor test group. */
 export interface ConnectionMonitorTestGroupOutput {
   /** The name of the connection monitor test group. */
   name: string;
@@ -5714,6 +6218,7 @@ export interface ConnectionMonitorTestGroupOutput {
   destinations: Array<string>;
 }
 
+/** Describes a connection monitor output destination. */
 export interface ConnectionMonitorOutputOutput {
   /** Connection monitor output destination type. Currently, only "Workspace" is supported. */
   type?: "Workspace";
@@ -5721,11 +6226,13 @@ export interface ConnectionMonitorOutputOutput {
   workspaceSettings?: ConnectionMonitorWorkspaceSettingsOutput;
 }
 
+/** Describes the settings for producing output into a log analytics workspace. */
 export interface ConnectionMonitorWorkspaceSettingsOutput {
   /** Log analytics workspace resource ID. */
   workspaceResourceId?: string;
 }
 
+/** Information about the connection monitor. */
 export interface ConnectionMonitorResultOutput {
   /** Name of the connection monitor. */
   name?: string;
@@ -5743,6 +6250,7 @@ export interface ConnectionMonitorResultOutput {
   properties?: ConnectionMonitorResultPropertiesOutput;
 }
 
+/** Describes the properties of a connection monitor. */
 export interface ConnectionMonitorResultPropertiesOutput
   extends ConnectionMonitorParametersOutput {
   /** The provisioning state of the connection monitor. */
@@ -5755,6 +6263,7 @@ export interface ConnectionMonitorResultPropertiesOutput
   connectionMonitorType?: "MultiEndpoint" | "SingleSourceDestination";
 }
 
+/** List of connection states snapshots. */
 export interface ConnectionMonitorQueryResultOutput {
   /** Status of connection monitor source. */
   sourceStatus?: "Unknown" | "Active" | "Inactive";
@@ -5762,6 +6271,7 @@ export interface ConnectionMonitorQueryResultOutput {
   states?: Array<ConnectionStateSnapshotOutput>;
 }
 
+/** Connection state snapshot. */
 export interface ConnectionStateSnapshotOutput {
   /** The connection state. */
   connectionState?: "Reachable" | "Unreachable" | "Unknown";
@@ -5785,11 +6295,13 @@ export interface ConnectionStateSnapshotOutput {
   hops?: Array<ConnectivityHopOutput>;
 }
 
+/** List of connection monitors. */
 export interface ConnectionMonitorListResultOutput {
   /** Information about connection monitors. */
   value?: Array<ConnectionMonitorResultOutput>;
 }
 
+/** List of flow logs. */
 export interface FlowLogListResultOutput {
   /** Information about flow log resource. */
   value?: Array<FlowLogOutput>;
@@ -5797,6 +6309,7 @@ export interface FlowLogListResultOutput {
   nextLink?: string;
 }
 
+/** Result of the request to list Network operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResultOutput {
   /** List of Network operations supported by the Network resource provider. */
   value?: Array<OperationOutput>;
@@ -5804,6 +6317,7 @@ export interface OperationListResultOutput {
   nextLink?: string;
 }
 
+/** Network REST API operation definition. */
 export interface OperationOutput {
   /** Operation name: {provider}/{resource}/{operation}. */
   name?: string;
@@ -5815,6 +6329,7 @@ export interface OperationOutput {
   properties?: OperationPropertiesFormatOutput;
 }
 
+/** Display metadata associated with the operation. */
 export interface OperationDisplayOutput {
   /** Service provider: Microsoft Network. */
   provider?: string;
@@ -5826,11 +6341,13 @@ export interface OperationDisplayOutput {
   description?: string;
 }
 
+/** Description of operation properties format. */
 export interface OperationPropertiesFormatOutput {
   /** Specification of the service. */
   serviceSpecification?: OperationPropertiesFormatServiceSpecificationOutput;
 }
 
+/** Specification of the service. */
 export interface OperationPropertiesFormatServiceSpecificationOutput {
   /** Operation service specification. */
   metricSpecifications?: Array<MetricSpecificationOutput>;
@@ -5838,6 +6355,7 @@ export interface OperationPropertiesFormatServiceSpecificationOutput {
   logSpecifications?: Array<LogSpecificationOutput>;
 }
 
+/** Description of metrics specification. */
 export interface MetricSpecificationOutput {
   /** The name of the metric. */
   name?: string;
@@ -5869,6 +6387,7 @@ export interface MetricSpecificationOutput {
   resourceIdDimensionNameOverride?: string;
 }
 
+/** Availability of the metric. */
 export interface AvailabilityOutput {
   /** The time grain of the availability. */
   timeGrain?: string;
@@ -5878,6 +6397,7 @@ export interface AvailabilityOutput {
   blobDuration?: string;
 }
 
+/** Dimension of the metric. */
 export interface DimensionOutput {
   /** The name of the dimension. */
   name?: string;
@@ -5887,6 +6407,7 @@ export interface DimensionOutput {
   internalName?: string;
 }
 
+/** Description of logging specification. */
 export interface LogSpecificationOutput {
   /** The name of the specification. */
   name?: string;
@@ -5896,6 +6417,7 @@ export interface LogSpecificationOutput {
   blobDuration?: string;
 }
 
+/** Response for the ListPrivateEndpoints API service call. */
 export interface PrivateEndpointListResultOutput {
   /** A list of private endpoint resources in a resource group. */
   value?: Array<PrivateEndpointOutput>;
@@ -5903,6 +6425,7 @@ export interface PrivateEndpointListResultOutput {
   nextLink?: string;
 }
 
+/** An array of available PrivateEndpoint types. */
 export interface AvailablePrivateEndpointTypesResultOutput {
   /** An array of available privateEndpoint type. */
   value?: Array<AvailablePrivateEndpointTypeOutput>;
@@ -5910,6 +6433,7 @@ export interface AvailablePrivateEndpointTypesResultOutput {
   nextLink?: string;
 }
 
+/** The information of an AvailablePrivateEndpointType. */
 export interface AvailablePrivateEndpointTypeOutput {
   /** The name of the service and resource. */
   name?: string;
@@ -5923,6 +6447,7 @@ export interface AvailablePrivateEndpointTypeOutput {
   displayName?: string;
 }
 
+/** Private dns zone group resource. */
 export interface PrivateDnsZoneGroupOutput extends SubResourceOutput {
   /** Name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
@@ -5932,6 +6457,7 @@ export interface PrivateDnsZoneGroupOutput extends SubResourceOutput {
   properties?: PrivateDnsZoneGroupPropertiesFormatOutput;
 }
 
+/** Properties of the private dns zone group. */
 export interface PrivateDnsZoneGroupPropertiesFormatOutput {
   /** The provisioning state of the private dns zone group resource. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
@@ -5939,6 +6465,7 @@ export interface PrivateDnsZoneGroupPropertiesFormatOutput {
   privateDnsZoneConfigs?: Array<PrivateDnsZoneConfigOutput>;
 }
 
+/** PrivateDnsZoneConfig resource. */
 export interface PrivateDnsZoneConfigOutput {
   /** Name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
@@ -5946,6 +6473,7 @@ export interface PrivateDnsZoneConfigOutput {
   properties?: PrivateDnsZonePropertiesFormatOutput;
 }
 
+/** Properties of the private dns zone configuration resource. */
 export interface PrivateDnsZonePropertiesFormatOutput {
   /** The resource id of the private dns zone. */
   privateDnsZoneId?: string;
@@ -5953,6 +6481,7 @@ export interface PrivateDnsZonePropertiesFormatOutput {
   recordSets?: Array<RecordSetOutput>;
 }
 
+/** A collective group of information about the record set information. */
 export interface RecordSetOutput {
   /** Resource record type. */
   recordType?: string;
@@ -5968,6 +6497,7 @@ export interface RecordSetOutput {
   ipAddresses?: Array<string>;
 }
 
+/** Response for the ListPrivateDnsZoneGroups API service call. */
 export interface PrivateDnsZoneGroupListResultOutput {
   /** A list of private dns zone group resources in a private endpoint. */
   value?: Array<PrivateDnsZoneGroupOutput>;
@@ -5975,6 +6505,7 @@ export interface PrivateDnsZoneGroupListResultOutput {
   nextLink?: string;
 }
 
+/** Response for the ListPrivateLinkService API service call. */
 export interface PrivateLinkServiceListResultOutput {
   /** A list of PrivateLinkService resources in a resource group. */
   value?: Array<PrivateLinkServiceOutput>;
@@ -5982,6 +6513,7 @@ export interface PrivateLinkServiceListResultOutput {
   nextLink?: string;
 }
 
+/** Response for the ListPrivateEndpointConnection API service call. */
 export interface PrivateEndpointConnectionListResultOutput {
   /** A list of PrivateEndpointConnection resources for a specific private link service. */
   value?: Array<PrivateEndpointConnectionOutput>;
@@ -5989,11 +6521,13 @@ export interface PrivateEndpointConnectionListResultOutput {
   nextLink?: string;
 }
 
+/** Response for the CheckPrivateLinkServiceVisibility API service call. */
 export interface PrivateLinkServiceVisibilityOutput {
   /** Private Link Service Visibility (True/False). */
   visible?: boolean;
 }
 
+/** An array of private link service id that can be linked to a private end point with auto approved. */
 export interface AutoApprovedPrivateLinkServicesResultOutput {
   /** An array of auto approved private link service. */
   value?: Array<AutoApprovedPrivateLinkServiceOutput>;
@@ -6001,11 +6535,13 @@ export interface AutoApprovedPrivateLinkServicesResultOutput {
   nextLink?: string;
 }
 
+/** The information of an AutoApprovedPrivateLinkService. */
 export interface AutoApprovedPrivateLinkServiceOutput {
   /** The id of the private link service resource. */
   privateLinkService?: string;
 }
 
+/** Response for GetPublicIpAddressDdosProtectionStatusOperation API service call. */
 export interface PublicIpDdosProtectionStatusResultOutput {
   /** Public IP ARM resource ID */
   publicIpAddressId?: string;
@@ -6017,6 +6553,7 @@ export interface PublicIpDdosProtectionStatusResultOutput {
   ddosProtectionPlanId?: string;
 }
 
+/** Public IP prefix resource. */
 export interface PublicIPPrefixOutput extends ResourceOutput {
   /** The extended location of the public ip address. */
   extendedLocation?: ExtendedLocationOutput;
@@ -6030,6 +6567,7 @@ export interface PublicIPPrefixOutput extends ResourceOutput {
   zones?: Array<string>;
 }
 
+/** SKU of a public IP prefix. */
 export interface PublicIPPrefixSkuOutput {
   /** Name of a public IP prefix SKU. */
   name?: "Standard";
@@ -6037,6 +6575,7 @@ export interface PublicIPPrefixSkuOutput {
   tier?: "Regional" | "Global";
 }
 
+/** Public IP prefix properties. */
 export interface PublicIPPrefixPropertiesFormatOutput {
   /** The public IP address version. */
   publicIPAddressVersion?: "IPv4" | "IPv6";
@@ -6060,11 +6599,13 @@ export interface PublicIPPrefixPropertiesFormatOutput {
   natGateway?: NatGatewayOutput;
 }
 
+/** Reference to a public IP address. */
 export interface ReferencedPublicIpAddressOutput {
   /** The PublicIPAddress Reference. */
   id?: string;
 }
 
+/** Response for ListPublicIpPrefixes API service call. */
 export interface PublicIPPrefixListResultOutput {
   /** A list of public IP prefixes that exists in a resource group. */
   value?: Array<PublicIPPrefixOutput>;
@@ -6072,6 +6613,7 @@ export interface PublicIPPrefixListResultOutput {
   nextLink?: string;
 }
 
+/** Route Filter Resource. */
 export interface RouteFilterOutput extends ResourceOutput {
   /** Properties of the route filter. */
   properties?: RouteFilterPropertiesFormatOutput;
@@ -6079,6 +6621,7 @@ export interface RouteFilterOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Route Filter Resource. */
 export interface RouteFilterPropertiesFormatOutput {
   /** Collection of RouteFilterRules contained within a route filter. */
   rules?: Array<RouteFilterRuleOutput>;
@@ -6090,6 +6633,7 @@ export interface RouteFilterPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Route Filter Rule Resource. */
 export interface RouteFilterRuleOutput extends SubResourceOutput {
   /** Properties of the route filter rule. */
   properties?: RouteFilterRulePropertiesFormatOutput;
@@ -6101,6 +6645,7 @@ export interface RouteFilterRuleOutput extends SubResourceOutput {
   etag?: string;
 }
 
+/** Route Filter Rule Resource. */
 export interface RouteFilterRulePropertiesFormatOutput {
   /** The access type of the rule. */
   access: "Allow" | "Deny";
@@ -6112,6 +6657,7 @@ export interface RouteFilterRulePropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Response for the ListRouteFilters API service call. */
 export interface RouteFilterListResultOutput {
   /** A list of route filters in a resource group. */
   value?: Array<RouteFilterOutput>;
@@ -6119,6 +6665,7 @@ export interface RouteFilterListResultOutput {
   nextLink?: string;
 }
 
+/** Response for the ListRouteFilterRules API service call. */
 export interface RouteFilterRuleListResultOutput {
   /** A list of RouteFilterRules in a resource group. */
   value?: Array<RouteFilterRuleOutput>;
@@ -6126,6 +6673,7 @@ export interface RouteFilterRuleListResultOutput {
   nextLink?: string;
 }
 
+/** Response for the ListRouteTable API service call. */
 export interface RouteTableListResultOutput {
   /** A list of route tables in a resource group. */
   value?: Array<RouteTableOutput>;
@@ -6133,6 +6681,7 @@ export interface RouteTableListResultOutput {
   nextLink?: string;
 }
 
+/** Response for the ListRoute API service call. */
 export interface RouteListResultOutput {
   /** A list of routes in a resource group. */
   value?: Array<RouteOutput>;
@@ -6140,6 +6689,7 @@ export interface RouteListResultOutput {
   nextLink?: string;
 }
 
+/** Security Partner Provider resource. */
 export interface SecurityPartnerProviderOutput extends ResourceOutput {
   /** Properties of the Security Partner Provider. */
   properties?: SecurityPartnerProviderPropertiesFormatOutput;
@@ -6147,6 +6697,7 @@ export interface SecurityPartnerProviderOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Properties of the Security Partner Provider. */
 export interface SecurityPartnerProviderPropertiesFormatOutput {
   /** The provisioning state of the Security Partner Provider resource. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
@@ -6162,6 +6713,7 @@ export interface SecurityPartnerProviderPropertiesFormatOutput {
   virtualHub?: SubResourceOutput;
 }
 
+/** Response for ListSecurityPartnerProviders API service call. */
 export interface SecurityPartnerProviderListResultOutput {
   /** List of Security Partner Providers in a resource group. */
   value?: Array<SecurityPartnerProviderOutput>;
@@ -6169,6 +6721,7 @@ export interface SecurityPartnerProviderListResultOutput {
   nextLink?: string;
 }
 
+/** Response for the ListServiceCommunity API service call. */
 export interface BgpServiceCommunityListResultOutput {
   /** A list of service community resources. */
   value?: Array<BgpServiceCommunityOutput>;
@@ -6176,11 +6729,13 @@ export interface BgpServiceCommunityListResultOutput {
   nextLink?: string;
 }
 
+/** Service Community Properties. */
 export interface BgpServiceCommunityOutput extends ResourceOutput {
   /** Properties of the BGP service community. */
   properties?: BgpServiceCommunityPropertiesFormatOutput;
 }
 
+/** Properties of Service Community. */
 export interface BgpServiceCommunityPropertiesFormatOutput {
   /** The name of the bgp community. e.g. Skype. */
   serviceName?: string;
@@ -6188,6 +6743,7 @@ export interface BgpServiceCommunityPropertiesFormatOutput {
   bgpCommunities?: Array<BGPCommunityOutput>;
 }
 
+/** Contains bgp community information offered in Service Community resources. */
 export interface BGPCommunityOutput {
   /** The region which the service support. e.g. For O365, region is Global. */
   serviceSupportedRegion?: string;
@@ -6203,6 +6759,7 @@ export interface BGPCommunityOutput {
   serviceGroup?: string;
 }
 
+/** Response for ListServiceEndpointPolicies API service call. */
 export interface ServiceEndpointPolicyListResultOutput {
   /** A list of ServiceEndpointPolicy resources. */
   value?: Array<ServiceEndpointPolicyOutput>;
@@ -6210,6 +6767,7 @@ export interface ServiceEndpointPolicyListResultOutput {
   nextLink?: string;
 }
 
+/** Response for ListServiceEndpointPolicyDefinition API service call. Retrieves all service endpoint policy definition that belongs to a service endpoint policy. */
 export interface ServiceEndpointPolicyDefinitionListResultOutput {
   /** The service endpoint policy definition in a service endpoint policy. */
   value?: Array<ServiceEndpointPolicyDefinitionOutput>;
@@ -6217,6 +6775,7 @@ export interface ServiceEndpointPolicyDefinitionListResultOutput {
   nextLink?: string;
 }
 
+/** Response for the ListServiceTags API service call. */
 export interface ServiceTagsListResultOutput {
   /** The name of the cloud. */
   name?: string;
@@ -6234,6 +6793,7 @@ export interface ServiceTagsListResultOutput {
   nextLink?: string;
 }
 
+/** The service tag information. */
 export interface ServiceTagInformationOutput {
   /** Properties of the service tag information. */
   properties?: ServiceTagInformationPropertiesFormatOutput;
@@ -6245,6 +6805,7 @@ export interface ServiceTagInformationOutput {
   serviceTagChangeNumber?: string;
 }
 
+/** Properties of the service tag information. */
 export interface ServiceTagInformationPropertiesFormatOutput {
   /** The iteration number of service tag. */
   changeNumber?: string;
@@ -6258,6 +6819,7 @@ export interface ServiceTagInformationPropertiesFormatOutput {
   state?: string;
 }
 
+/** Response for Get ServiceTagInformation API service call. Retrieves the list of service tag information resources. */
 export interface ServiceTagInformationListResultOutput {
   /** The list of service tag information resources. */
   value?: Array<ServiceTagInformationOutput>;
@@ -6265,6 +6827,7 @@ export interface ServiceTagInformationListResultOutput {
   nextLink?: string;
 }
 
+/** The list usages operation response. */
 export interface UsagesListResultOutput {
   /** The list network resource usages. */
   value?: Array<UsageOutput>;
@@ -6272,6 +6835,7 @@ export interface UsagesListResultOutput {
   nextLink?: string;
 }
 
+/** The network resource usage. */
 export interface UsageOutput {
   /** Resource identifier. */
   id?: string;
@@ -6285,6 +6849,7 @@ export interface UsageOutput {
   name: UsageNameOutput;
 }
 
+/** The usage names. */
 export interface UsageNameOutput {
   /** A string describing the resource name. */
   value?: string;
@@ -6292,6 +6857,7 @@ export interface UsageNameOutput {
   localizedValue?: string;
 }
 
+/** Virtual Network resource. */
 export interface VirtualNetworkOutput extends ResourceOutput {
   /** The extended location of the virtual network. */
   extendedLocation?: ExtendedLocationOutput;
@@ -6301,6 +6867,7 @@ export interface VirtualNetworkOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Properties of the virtual network. */
 export interface VirtualNetworkPropertiesFormatOutput {
   /** The AddressSpace that contains an array of IP address ranges that can be used by subnets. */
   addressSpace?: AddressSpaceOutput;
@@ -6330,16 +6897,19 @@ export interface VirtualNetworkPropertiesFormatOutput {
   ipAllocations?: Array<SubResourceOutput>;
 }
 
+/** AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network. */
 export interface AddressSpaceOutput {
   /** A list of address blocks reserved for this virtual network in CIDR notation. */
   addressPrefixes?: Array<string>;
 }
 
+/** DhcpOptions contains an array of DNS servers available to VMs deployed in the virtual network. Standard DHCP option for a subnet overrides VNET DHCP options. */
 export interface DhcpOptionsOutput {
   /** The list of DNS servers IP addresses. */
   dnsServers?: Array<string>;
 }
 
+/** Peerings in a virtual network resource. */
 export interface VirtualNetworkPeeringOutput extends SubResourceOutput {
   /** Properties of the virtual network peering. */
   properties?: VirtualNetworkPeeringPropertiesFormatOutput;
@@ -6351,6 +6921,7 @@ export interface VirtualNetworkPeeringOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of the virtual network peering. */
 export interface VirtualNetworkPeeringPropertiesFormatOutput {
   /** Whether the VMs in the local virtual network space would be able to access the VMs in remote virtual network space. */
   allowVirtualNetworkAccess?: boolean;
@@ -6386,6 +6957,7 @@ export interface VirtualNetworkPeeringPropertiesFormatOutput {
   resourceGuid?: string;
 }
 
+/** Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET. */
 export interface VirtualNetworkBgpCommunitiesOutput {
   /** The BGP community associated with the virtual network. */
   virtualNetworkCommunity: string;
@@ -6393,6 +6965,7 @@ export interface VirtualNetworkBgpCommunitiesOutput {
   regionalCommunity?: string;
 }
 
+/** Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet. */
 export interface VirtualNetworkEncryptionOutput {
   /** Indicates if encryption is enabled on the virtual network. */
   enabled: boolean;
@@ -6400,6 +6973,7 @@ export interface VirtualNetworkEncryptionOutput {
   enforcement?: "DropUnencrypted" | "AllowUnencrypted";
 }
 
+/** Response for the ListVirtualNetworks API service call. */
 export interface VirtualNetworkListResultOutput {
   /** A list of VirtualNetwork resources in a resource group. */
   value?: Array<VirtualNetworkOutput>;
@@ -6407,11 +6981,13 @@ export interface VirtualNetworkListResultOutput {
   nextLink?: string;
 }
 
+/** Network Intent Policy resource. */
 export interface NetworkIntentPolicyOutput extends ResourceOutput {
   /** A unique read-only string that changes whenever the resource is updated. */
   etag?: string;
 }
 
+/** Response for ResourceNavigationLinks_List operation. */
 export interface ResourceNavigationLinksListResultOutput {
   /** The resource navigation links in a subnet. */
   value?: Array<ResourceNavigationLinkOutput>;
@@ -6419,6 +6995,7 @@ export interface ResourceNavigationLinksListResultOutput {
   nextLink?: string;
 }
 
+/** Response for ServiceAssociationLinks_List operation. */
 export interface ServiceAssociationLinksListResultOutput {
   /** The service association links in a subnet. */
   value?: Array<ServiceAssociationLinkOutput>;
@@ -6426,6 +7003,7 @@ export interface ServiceAssociationLinksListResultOutput {
   nextLink?: string;
 }
 
+/** Response for ListSubnets API service callRetrieves all subnet that belongs to a virtual network. */
 export interface SubnetListResultOutput {
   /** The subnets in a virtual network. */
   value?: Array<SubnetOutput>;
@@ -6433,6 +7011,7 @@ export interface SubnetListResultOutput {
   nextLink?: string;
 }
 
+/** Response for ListSubnets API service call. Retrieves all subnets that belong to a virtual network. */
 export interface VirtualNetworkPeeringListResultOutput {
   /** The peerings in a virtual network. */
   value?: Array<VirtualNetworkPeeringOutput>;
@@ -6440,6 +7019,7 @@ export interface VirtualNetworkPeeringListResultOutput {
   nextLink?: string;
 }
 
+/** Response for CheckIPAddressAvailability API service call. */
 export interface IPAddressAvailabilityResultOutput {
   /** Private IP address availability. */
   available?: boolean;
@@ -6449,6 +7029,7 @@ export interface IPAddressAvailabilityResultOutput {
   isPlatformReserved?: boolean;
 }
 
+/** Response for the virtual networks GetUsage API service call. */
 export interface VirtualNetworkListUsageResultOutput {
   /** VirtualNetwork usage stats. */
   value?: Array<VirtualNetworkUsageOutput>;
@@ -6456,6 +7037,7 @@ export interface VirtualNetworkListUsageResultOutput {
   nextLink?: string;
 }
 
+/** Usage details for subnet. */
 export interface VirtualNetworkUsageOutput {
   /** Indicates number of IPs used from the Subnet. */
   currentValue?: number;
@@ -6469,6 +7051,7 @@ export interface VirtualNetworkUsageOutput {
   unit?: string;
 }
 
+/** Usage strings container. */
 export interface VirtualNetworkUsageNameOutput {
   /** Localized subnet size and usage string. */
   localizedValue?: string;
@@ -6476,6 +7059,7 @@ export interface VirtualNetworkUsageNameOutput {
   value?: string;
 }
 
+/** Response for GetVirtualNetworkDdosProtectionStatusOperation. */
 export interface VirtualNetworkDdosProtectionStatusResultOutput {
   /** The Ddos Protection Status Result for each public ip under a virtual network. */
   value?: Array<PublicIpDdosProtectionStatusResultOutput>;
@@ -6483,6 +7067,7 @@ export interface VirtualNetworkDdosProtectionStatusResultOutput {
   nextLink?: string;
 }
 
+/** A common class for general resource information. */
 export interface VirtualNetworkGatewayOutput extends ResourceOutput {
   /** Properties of the virtual network gateway. */
   properties: VirtualNetworkGatewayPropertiesFormatOutput;
@@ -6492,6 +7077,7 @@ export interface VirtualNetworkGatewayOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** VirtualNetworkGateway properties. */
 export interface VirtualNetworkGatewayPropertiesFormatOutput {
   /** IP configurations for virtual network gateway. */
   ipConfigurations?: Array<VirtualNetworkGatewayIPConfigurationOutput>;
@@ -6539,6 +7125,7 @@ export interface VirtualNetworkGatewayPropertiesFormatOutput {
   enableBgpRouteTranslationForNat?: boolean;
 }
 
+/** IP configuration for virtual network gateway. */
 export interface VirtualNetworkGatewayIPConfigurationOutput
   extends SubResourceOutput {
   /** Properties of the virtual network gateway ip configuration. */
@@ -6549,6 +7136,7 @@ export interface VirtualNetworkGatewayIPConfigurationOutput
   etag?: string;
 }
 
+/** Properties of VirtualNetworkGatewayIPConfiguration. */
 export interface VirtualNetworkGatewayIPConfigurationPropertiesFormatOutput {
   /** The private IP address allocation method. */
   privateIPAllocationMethod?: "Static" | "Dynamic";
@@ -6562,6 +7150,7 @@ export interface VirtualNetworkGatewayIPConfigurationPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** VirtualNetworkGatewaySku details. */
 export interface VirtualNetworkGatewaySkuOutput {
   /** Gateway SKU name. */
   name?:
@@ -6605,6 +7194,7 @@ export interface VirtualNetworkGatewaySkuOutput {
   capacity?: number;
 }
 
+/** VpnClientConfiguration for P2S client. */
 export interface VpnClientConfigurationOutput {
   /** The reference to the address space resource which represents Address space for P2S VpnClient. */
   vpnClientAddressPool?: AddressSpaceOutput;
@@ -6636,6 +7226,7 @@ export interface VpnClientConfigurationOutput {
   >;
 }
 
+/** VPN client root certificate of virtual network gateway. */
 export interface VpnClientRootCertificateOutput extends SubResourceOutput {
   /** Properties of the vpn client root certificate. */
   properties: VpnClientRootCertificatePropertiesFormatOutput;
@@ -6645,6 +7236,7 @@ export interface VpnClientRootCertificateOutput extends SubResourceOutput {
   etag?: string;
 }
 
+/** Properties of SSL certificates of application gateway. */
 export interface VpnClientRootCertificatePropertiesFormatOutput {
   /** The certificate public data. */
   publicCertData: string;
@@ -6652,6 +7244,7 @@ export interface VpnClientRootCertificatePropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** VPN client revoked certificate of virtual network gateway. */
 export interface VpnClientRevokedCertificateOutput extends SubResourceOutput {
   /** Properties of the vpn client revoked certificate. */
   properties?: VpnClientRevokedCertificatePropertiesFormatOutput;
@@ -6661,6 +7254,7 @@ export interface VpnClientRevokedCertificateOutput extends SubResourceOutput {
   etag?: string;
 }
 
+/** Properties of the revoked VPN client certificate of virtual network gateway. */
 export interface VpnClientRevokedCertificatePropertiesFormatOutput {
   /** The revoked VPN client certificate thumbprint. */
   thumbprint?: string;
@@ -6668,6 +7262,7 @@ export interface VpnClientRevokedCertificatePropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** An IPSec Policy configuration for a virtual network gateway connection. */
 export interface IpsecPolicyOutput {
   /** The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site to site VPN tunnel. */
   saLifeTimeSeconds: number;
@@ -6732,6 +7327,7 @@ export interface IpsecPolicyOutput {
     | "PFSMM";
 }
 
+/** Radius Server Settings. */
 export interface RadiusServerOutput {
   /** The address of this radius server. */
   radiusServerAddress: string;
@@ -6741,6 +7337,7 @@ export interface RadiusServerOutput {
   radiusServerSecret?: string;
 }
 
+/** A vpn client connection configuration for client connection configuration. */
 export interface VngClientConnectionConfigurationOutput
   extends SubResourceOutput {
   /** Properties of the vpn client root certificate. */
@@ -6751,6 +7348,7 @@ export interface VngClientConnectionConfigurationOutput
   etag?: string;
 }
 
+/** Properties of VngClientConnectionConfiguration. */
 export interface VngClientConnectionConfigurationPropertiesOutput {
   /** The reference to the address space resource which represents Address space for P2S VpnClient. */
   vpnClientAddressPool: AddressSpaceOutput;
@@ -6760,6 +7358,7 @@ export interface VngClientConnectionConfigurationPropertiesOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Parameters for VirtualNetworkGatewayPolicyGroup. */
 export interface VirtualNetworkGatewayPolicyGroupOutput
   extends SubResourceOutput {
   /** Properties of tVirtualNetworkGatewayPolicyGroup. */
@@ -6770,6 +7369,7 @@ export interface VirtualNetworkGatewayPolicyGroupOutput
   etag?: string;
 }
 
+/** Properties of VirtualNetworkGatewayPolicyGroup. */
 export interface VirtualNetworkGatewayPolicyGroupPropertiesOutput {
   /** Shows if this is a Default VirtualNetworkGatewayPolicyGroup or not. */
   isDefault: boolean;
@@ -6783,6 +7383,7 @@ export interface VirtualNetworkGatewayPolicyGroupPropertiesOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Vpn Client Connection configuration PolicyGroup member */
 export interface VirtualNetworkGatewayPolicyGroupMemberOutput {
   /** Name of the VirtualNetworkGatewayPolicyGroupMember. */
   name?: string;
@@ -6792,6 +7393,7 @@ export interface VirtualNetworkGatewayPolicyGroupMemberOutput {
   attributeValue?: string;
 }
 
+/** BGP settings details. */
 export interface BgpSettingsOutput {
   /** The BGP speaker's ASN. */
   asn?: number;
@@ -6803,6 +7405,7 @@ export interface BgpSettingsOutput {
   bgpPeeringAddresses?: Array<IPConfigurationBgpPeeringAddressOutput>;
 }
 
+/** Properties of IPConfigurationBgpPeeringAddress. */
 export interface IPConfigurationBgpPeeringAddressOutput {
   /** The ID of IP configuration which belongs to gateway. */
   ipconfigurationId?: string;
@@ -6814,6 +7417,7 @@ export interface IPConfigurationBgpPeeringAddressOutput {
   tunnelIpAddresses?: Array<string>;
 }
 
+/** VirtualNetworkGatewayNatRule Resource. */
 export interface VirtualNetworkGatewayNatRuleOutput extends SubResourceOutput {
   /** Properties of the Virtual Network Gateway NAT rule. */
   properties?: VirtualNetworkGatewayNatRulePropertiesOutput;
@@ -6825,6 +7429,7 @@ export interface VirtualNetworkGatewayNatRuleOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Parameters for VirtualNetworkGatewayNatRule. */
 export interface VirtualNetworkGatewayNatRulePropertiesOutput {
   /** The provisioning state of the NAT Rule resource. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
@@ -6840,6 +7445,7 @@ export interface VirtualNetworkGatewayNatRulePropertiesOutput {
   ipConfigurationId?: string;
 }
 
+/** Vpn NatRule mapping. */
 export interface VpnNatRuleMappingOutput {
   /** Address space for Vpn NatRule mapping. */
   addressSpace?: string;
@@ -6847,6 +7453,7 @@ export interface VpnNatRuleMappingOutput {
   portRange?: string;
 }
 
+/** Response for the ListVirtualNetworkGateways API service call. */
 export interface VirtualNetworkGatewayListResultOutput {
   /** A list of VirtualNetworkGateway resources that exists in a resource group. */
   value?: Array<VirtualNetworkGatewayOutput>;
@@ -6854,6 +7461,7 @@ export interface VirtualNetworkGatewayListResultOutput {
   nextLink?: string;
 }
 
+/** Response for the VirtualNetworkGatewayListConnections API service call. */
 export interface VirtualNetworkGatewayListConnectionsResultOutput {
   /** A list of VirtualNetworkGatewayConnection resources that exists in a resource group. */
   value?: Array<VirtualNetworkGatewayConnectionListEntityOutput>;
@@ -6861,6 +7469,7 @@ export interface VirtualNetworkGatewayListConnectionsResultOutput {
   nextLink?: string;
 }
 
+/** A common class for general resource information. */
 export interface VirtualNetworkGatewayConnectionListEntityOutput
   extends ResourceOutput {
   /** Properties of the virtual network gateway connection. */
@@ -6869,6 +7478,7 @@ export interface VirtualNetworkGatewayConnectionListEntityOutput
   etag?: string;
 }
 
+/** VirtualNetworkGatewayConnection properties. */
 export interface VirtualNetworkGatewayConnectionListEntityPropertiesFormatOutput {
   /** The authorizationKey. */
   authorizationKey?: string;
@@ -6920,11 +7530,13 @@ export interface VirtualNetworkGatewayConnectionListEntityPropertiesFormatOutput
   enablePrivateLinkFastPath?: boolean;
 }
 
+/** A reference to VirtualNetworkGateway or LocalNetworkGateway resource. */
 export interface VirtualNetworkConnectionGatewayReferenceOutput {
   /** The ID of VirtualNetworkGateway or LocalNetworkGateway resource. */
   id: string;
 }
 
+/** VirtualNetworkGatewayConnection properties. */
 export interface TunnelConnectionHealthOutput {
   /** Tunnel name. */
   tunnel?: string;
@@ -6938,6 +7550,7 @@ export interface TunnelConnectionHealthOutput {
   lastConnectionEstablishedUtcTime?: string;
 }
 
+/** GatewayCustomBgpIpAddressIpConfiguration for a virtual network gateway connection. */
 export interface GatewayCustomBgpIpAddressIpConfigurationOutput {
   /** The IpconfigurationId of ipconfiguration which belongs to gateway. */
   ipConfigurationId: string;
@@ -6945,6 +7558,7 @@ export interface GatewayCustomBgpIpAddressIpConfigurationOutput {
   customBgpIpAddress: string;
 }
 
+/** An traffic selector policy for a virtual network gateway connection. */
 export interface TrafficSelectorPolicyOutput {
   /** A collection of local address spaces in CIDR format. */
   localAddressRanges: Array<string>;
@@ -6952,11 +7566,13 @@ export interface TrafficSelectorPolicyOutput {
   remoteAddressRanges: Array<string>;
 }
 
+/** Response for list BGP peer status API service call. */
 export interface BgpPeerStatusListResultOutput {
   /** List of BGP peers. */
   value?: Array<BgpPeerStatusOutput>;
 }
 
+/** BGP peer status details. */
 export interface BgpPeerStatusOutput {
   /** The virtual network gateway's local address. */
   localAddress?: string;
@@ -6976,11 +7592,13 @@ export interface BgpPeerStatusOutput {
   messagesReceived?: number;
 }
 
+/** List of virtual network gateway routes. */
 export interface GatewayRouteListResultOutput {
   /** List of gateway routes. */
   value?: Array<GatewayRouteOutput>;
 }
 
+/** Gateway routing details. */
 export interface GatewayRouteOutput {
   /** The gateway's local address. */
   localAddress?: string;
@@ -6998,6 +7616,7 @@ export interface GatewayRouteOutput {
   weight?: number;
 }
 
+/** An IPSec parameters for a virtual network gateway P2S connection. */
 export interface VpnClientIPsecParametersOutput {
   /** The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for P2S client. */
   saLifeTimeSeconds: number;
@@ -7062,6 +7681,7 @@ export interface VpnClientIPsecParametersOutput {
     | "PFSMM";
 }
 
+/** A common class for general resource information. */
 export interface VirtualNetworkGatewayConnectionOutput extends ResourceOutput {
   /** Properties of the virtual network gateway connection. */
   properties: VirtualNetworkGatewayConnectionPropertiesFormatOutput;
@@ -7069,6 +7689,7 @@ export interface VirtualNetworkGatewayConnectionOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** VirtualNetworkGatewayConnection properties. */
 export interface VirtualNetworkGatewayConnectionPropertiesFormatOutput {
   /** The authorizationKey. */
   authorizationKey?: string;
@@ -7128,6 +7749,7 @@ export interface VirtualNetworkGatewayConnectionPropertiesFormatOutput {
   enablePrivateLinkFastPath?: boolean;
 }
 
+/** A common class for general resource information. */
 export interface LocalNetworkGatewayOutput extends ResourceOutput {
   /** Properties of the local network gateway. */
   properties: LocalNetworkGatewayPropertiesFormatOutput;
@@ -7135,6 +7757,7 @@ export interface LocalNetworkGatewayOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** LocalNetworkGateway properties. */
 export interface LocalNetworkGatewayPropertiesFormatOutput {
   /** Local network site address space. */
   localNetworkAddressSpace?: AddressSpaceOutput;
@@ -7150,11 +7773,13 @@ export interface LocalNetworkGatewayPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Response for GetConnectionSharedKey API service call. */
 export interface ConnectionSharedKeyOutput extends SubResourceOutput {
   /** The virtual network connection shared key value. */
   value: string;
 }
 
+/** Response for the ListVirtualNetworkGatewayConnections API service call. */
 export interface VirtualNetworkGatewayConnectionListResultOutput {
   /** A list of VirtualNetworkGatewayConnection resources that exists in a resource group. */
   value?: Array<VirtualNetworkGatewayConnectionOutput>;
@@ -7162,11 +7787,13 @@ export interface VirtualNetworkGatewayConnectionListResultOutput {
   nextLink?: string;
 }
 
+/** The virtual network connection reset shared key. */
 export interface ConnectionResetSharedKeyOutput {
   /** The virtual network connection reset shared key length, should between 1 and 128. */
   keyLength: number;
 }
 
+/** Response for ListLocalNetworkGateways API service call. */
 export interface LocalNetworkGatewayListResultOutput {
   /** A list of local network gateways that exists in a resource group. */
   value?: Array<LocalNetworkGatewayOutput>;
@@ -7174,11 +7801,13 @@ export interface LocalNetworkGatewayListResultOutput {
   nextLink?: string;
 }
 
+/** List of virtual network gateway vpn client connection health. */
 export interface VpnClientConnectionHealthDetailListResultOutput {
   /** List of vpn client connection health. */
   value?: Array<VpnClientConnectionHealthDetailOutput>;
 }
 
+/** VPN client connection health detail. */
 export interface VpnClientConnectionHealthDetailOutput {
   /** The vpn client Id. */
   vpnConnectionId?: string;
@@ -7206,6 +7835,7 @@ export interface VpnClientConnectionHealthDetailOutput {
   maxPacketsPerSecond?: number;
 }
 
+/** Result of the request to list all nat rules to a virtual network gateway. It contains a list of Nat rules and a URL nextLink to get the next set of results. */
 export interface ListVirtualNetworkGatewayNatRulesResultOutput {
   /** List of Nat Rules. */
   value?: Array<VirtualNetworkGatewayNatRuleOutput>;
@@ -7213,6 +7843,7 @@ export interface ListVirtualNetworkGatewayNatRulesResultOutput {
   nextLink?: string;
 }
 
+/** Response for ListVirtualNetworkTap API service call. */
 export interface VirtualNetworkTapListResultOutput {
   /** A list of VirtualNetworkTaps in a resource group. */
   value?: Array<VirtualNetworkTapOutput>;
@@ -7220,6 +7851,7 @@ export interface VirtualNetworkTapListResultOutput {
   nextLink?: string;
 }
 
+/** VirtualRouter Resource. */
 export interface VirtualRouterOutput extends ResourceOutput {
   /** Properties of the Virtual Router. */
   properties?: VirtualRouterPropertiesFormatOutput;
@@ -7227,6 +7859,7 @@ export interface VirtualRouterOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Virtual Router definition. */
 export interface VirtualRouterPropertiesFormatOutput {
   /** VirtualRouter ASN. */
   virtualRouterAsn?: number;
@@ -7242,6 +7875,7 @@ export interface VirtualRouterPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Response for ListVirtualRouters API service call. */
 export interface VirtualRouterListResultOutput {
   /** List of Virtual Routers. */
   value?: Array<VirtualRouterOutput>;
@@ -7249,6 +7883,7 @@ export interface VirtualRouterListResultOutput {
   nextLink?: string;
 }
 
+/** Virtual Router Peering resource. */
 export interface VirtualRouterPeeringOutput extends SubResourceOutput {
   /** The properties of the Virtual Router Peering. */
   properties?: VirtualRouterPeeringPropertiesOutput;
@@ -7260,6 +7895,7 @@ export interface VirtualRouterPeeringOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of the rule group. */
 export interface VirtualRouterPeeringPropertiesOutput {
   /** Peer ASN. */
   peerAsn?: number;
@@ -7269,6 +7905,7 @@ export interface VirtualRouterPeeringPropertiesOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Response for ListVirtualRouterPeerings API service call. */
 export interface VirtualRouterPeeringListResultOutput {
   /** List of VirtualRouterPeerings in a VirtualRouter. */
   value?: Array<VirtualRouterPeeringOutput>;
@@ -7276,6 +7913,7 @@ export interface VirtualRouterPeeringListResultOutput {
   nextLink?: string;
 }
 
+/** VirtualWAN Resource. */
 export interface VirtualWANOutput extends ResourceOutput {
   /** Properties of the virtual WAN. */
   properties?: VirtualWanPropertiesOutput;
@@ -7283,6 +7921,7 @@ export interface VirtualWANOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Parameters for VirtualWAN. */
 export interface VirtualWanPropertiesOutput {
   /** Vpn encryption to be disabled or not. */
   disableVpnEncryption?: boolean;
@@ -7306,6 +7945,7 @@ export interface VirtualWanPropertiesOutput {
   type?: string;
 }
 
+/** Result of the request to list VirtualWANs. It contains a list of VirtualWANs and a URL nextLink to get the next set of results. */
 export interface ListVirtualWANsResultOutput {
   /** List of VirtualWANs. */
   value?: Array<VirtualWANOutput>;
@@ -7313,6 +7953,7 @@ export interface ListVirtualWANsResultOutput {
   nextLink?: string;
 }
 
+/** VpnSite Resource. */
 export interface VpnSiteOutput extends ResourceOutput {
   /** Properties of the VPN site. */
   properties?: VpnSitePropertiesOutput;
@@ -7320,6 +7961,7 @@ export interface VpnSiteOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Parameters for VpnSite. */
 export interface VpnSitePropertiesOutput {
   /** The VirtualWAN to which the vpnSite belongs. */
   virtualWan?: SubResourceOutput;
@@ -7343,6 +7985,7 @@ export interface VpnSitePropertiesOutput {
   o365Policy?: O365PolicyPropertiesOutput;
 }
 
+/** List of properties of the device. */
 export interface DevicePropertiesOutput {
   /** Name of the device Vendor. */
   deviceVendor?: string;
@@ -7352,6 +7995,7 @@ export interface DevicePropertiesOutput {
   linkSpeedInMbps?: number;
 }
 
+/** VpnSiteLink Resource. */
 export interface VpnSiteLinkOutput extends SubResourceOutput {
   /** Properties of the VPN site link. */
   properties?: VpnSiteLinkPropertiesOutput;
@@ -7363,6 +8007,7 @@ export interface VpnSiteLinkOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Parameters for VpnSite. */
 export interface VpnSiteLinkPropertiesOutput {
   /** The link provider properties. */
   linkProperties?: VpnLinkProviderPropertiesOutput;
@@ -7376,6 +8021,7 @@ export interface VpnSiteLinkPropertiesOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** List of properties of a link provider. */
 export interface VpnLinkProviderPropertiesOutput {
   /** Name of the link provider. */
   linkProviderName?: string;
@@ -7383,6 +8029,7 @@ export interface VpnLinkProviderPropertiesOutput {
   linkSpeedInMbps?: number;
 }
 
+/** BGP settings details for a link. */
 export interface VpnLinkBgpSettingsOutput {
   /** The BGP speaker's ASN. */
   asn?: number;
@@ -7390,11 +8037,13 @@ export interface VpnLinkBgpSettingsOutput {
   bgpPeeringAddress?: string;
 }
 
+/** The Office365 breakout policy. */
 export interface O365PolicyPropertiesOutput {
   /** Office365 breakout categories. */
   breakOutCategories?: O365BreakOutCategoryPoliciesOutput;
 }
 
+/** Office365 breakout categories. */
 export interface O365BreakOutCategoryPoliciesOutput {
   /** Flag to control allow category. */
   allow?: boolean;
@@ -7404,6 +8053,7 @@ export interface O365BreakOutCategoryPoliciesOutput {
   default?: boolean;
 }
 
+/** Result of the request to list VpnSites. It contains a list of VpnSites and a URL nextLink to get the next set of results. */
 export interface ListVpnSitesResultOutput {
   /** List of VpnSites. */
   value?: Array<VpnSiteOutput>;
@@ -7411,6 +8061,7 @@ export interface ListVpnSitesResultOutput {
   nextLink?: string;
 }
 
+/** Result of the request to list VpnSiteLinks. It contains a list of VpnSiteLinks and a URL nextLink to get the next set of results. */
 export interface ListVpnSiteLinksResultOutput {
   /** List of VpnSitesLinks. */
   value?: Array<VpnSiteLinkOutput>;
@@ -7418,11 +8069,13 @@ export interface ListVpnSiteLinksResultOutput {
   nextLink?: string;
 }
 
+/** Collection of SecurityProviders. */
 export interface VirtualWanSecurityProvidersOutput {
   /** List of VirtualWAN security providers. */
   supportedProviders?: Array<VirtualWanSecurityProviderOutput>;
 }
 
+/** Collection of SecurityProviders. */
 export interface VirtualWanSecurityProviderOutput {
   /** Name of the security provider. */
   name?: string;
@@ -7432,6 +8085,7 @@ export interface VirtualWanSecurityProviderOutput {
   type?: "External" | "Native";
 }
 
+/** VpnServerConfiguration Resource. */
 export interface VpnServerConfigurationOutput extends ResourceOutput {
   /** Properties of the P2SVpnServer configuration. */
   properties?: VpnServerConfigurationPropertiesOutput;
@@ -7439,6 +8093,7 @@ export interface VpnServerConfigurationOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Parameters for VpnServerConfiguration. */
 export interface VpnServerConfigurationPropertiesOutput {
   /** The name of the VpnServerConfiguration that is unique within a resource group. */
   name?: string;
@@ -7482,6 +8137,7 @@ export interface VpnServerConfigurationPropertiesOutput {
   etag?: string;
 }
 
+/** Properties of VPN client root certificate of VpnServerConfiguration. */
 export interface VpnServerConfigVpnClientRootCertificateOutput {
   /** The certificate name. */
   name?: string;
@@ -7489,6 +8145,7 @@ export interface VpnServerConfigVpnClientRootCertificateOutput {
   publicCertData?: string;
 }
 
+/** Properties of the revoked VPN client certificate of VpnServerConfiguration. */
 export interface VpnServerConfigVpnClientRevokedCertificateOutput {
   /** The certificate name. */
   name?: string;
@@ -7496,6 +8153,7 @@ export interface VpnServerConfigVpnClientRevokedCertificateOutput {
   thumbprint?: string;
 }
 
+/** Properties of Radius Server root certificate of VpnServerConfiguration. */
 export interface VpnServerConfigRadiusServerRootCertificateOutput {
   /** The certificate name. */
   name?: string;
@@ -7503,6 +8161,7 @@ export interface VpnServerConfigRadiusServerRootCertificateOutput {
   publicCertData?: string;
 }
 
+/** Properties of the Radius client root certificate of VpnServerConfiguration. */
 export interface VpnServerConfigRadiusClientRootCertificateOutput {
   /** The certificate name. */
   name?: string;
@@ -7510,6 +8169,7 @@ export interface VpnServerConfigRadiusClientRootCertificateOutput {
   thumbprint?: string;
 }
 
+/** AAD Vpn authentication type related parameters. */
 export interface AadAuthenticationParametersOutput {
   /** AAD Vpn authentication parameter AAD tenant. */
   aadTenant?: string;
@@ -7519,6 +8179,7 @@ export interface AadAuthenticationParametersOutput {
   aadIssuer?: string;
 }
 
+/** P2SVpnGateway Resource. */
 export interface P2SVpnGatewayOutput extends ResourceOutput {
   /** Properties of the P2SVpnGateway. */
   properties?: P2SVpnGatewayPropertiesOutput;
@@ -7526,6 +8187,7 @@ export interface P2SVpnGatewayOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Parameters for P2SVpnGateway. */
 export interface P2SVpnGatewayPropertiesOutput {
   /** The VirtualHub to which the gateway belongs. */
   virtualHub?: SubResourceOutput;
@@ -7545,6 +8207,7 @@ export interface P2SVpnGatewayPropertiesOutput {
   isRoutingPreferenceInternet?: boolean;
 }
 
+/** P2SConnectionConfiguration Resource. */
 export interface P2SConnectionConfigurationOutput extends SubResourceOutput {
   /** Properties of the P2S connection configuration. */
   properties?: P2SConnectionConfigurationPropertiesOutput;
@@ -7554,6 +8217,7 @@ export interface P2SConnectionConfigurationOutput extends SubResourceOutput {
   etag?: string;
 }
 
+/** Parameters for P2SConnectionConfiguration. */
 export interface P2SConnectionConfigurationPropertiesOutput {
   /** The reference to the address space resource which represents Address space for P2S VpnClient. */
   vpnClientAddressPool?: AddressSpaceOutput;
@@ -7571,6 +8235,7 @@ export interface P2SConnectionConfigurationPropertiesOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Routing Configuration indicating the associated and propagated route tables for this connection. */
 export interface RoutingConfigurationOutput {
   /** The resource id RouteTable associated with this RoutingConfiguration. */
   associatedRouteTable?: SubResourceOutput;
@@ -7584,6 +8249,7 @@ export interface RoutingConfigurationOutput {
   outboundRouteMap?: SubResourceOutput;
 }
 
+/** The list of RouteTables to advertise the routes to. */
 export interface PropagatedRouteTableOutput {
   /** The list of labels. */
   labels?: Array<string>;
@@ -7591,6 +8257,7 @@ export interface PropagatedRouteTableOutput {
   ids?: Array<SubResourceOutput>;
 }
 
+/** List of routes that control routing from VirtualHub into a virtual network connection. */
 export interface VnetRouteOutput {
   /** Configuration for static routes on this HubVnetConnection. */
   staticRoutesConfig?: StaticRoutesConfigOutput;
@@ -7600,6 +8267,7 @@ export interface VnetRouteOutput {
   bgpConnections?: Array<SubResourceOutput>;
 }
 
+/** Configuration for static routes on this HubVnetConnectionConfiguration for static routes on this HubVnetConnection. */
 export interface StaticRoutesConfigOutput {
   /** Boolean indicating whether static routes on this connection are automatically propagate to route tables which this connection propagates to. */
   propagateStaticRoutes?: boolean;
@@ -7607,6 +8275,7 @@ export interface StaticRoutesConfigOutput {
   vnetLocalRouteOverrideCriteria?: "Contains" | "Equal";
 }
 
+/** List of all Static Routes. */
 export interface StaticRouteOutput {
   /** The name of the StaticRoute that is unique within a VnetRoute. */
   name?: string;
@@ -7616,6 +8285,7 @@ export interface StaticRouteOutput {
   nextHopIpAddress?: string;
 }
 
+/** VpnServerConfigurationPolicyGroup Resource. */
 export interface VpnServerConfigurationPolicyGroupOutput
   extends SubResourceOutput {
   /** Properties of the VpnServerConfigurationPolicyGroup. */
@@ -7628,6 +8298,7 @@ export interface VpnServerConfigurationPolicyGroupOutput
   type?: string;
 }
 
+/** Parameters for VpnServerConfigurationPolicyGroup. */
 export interface VpnServerConfigurationPolicyGroupPropertiesOutput {
   /** Shows if this is a Default VpnServerConfigurationPolicyGroup or not. */
   isDefault?: boolean;
@@ -7641,6 +8312,7 @@ export interface VpnServerConfigurationPolicyGroupPropertiesOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** VpnServerConfiguration PolicyGroup member */
 export interface VpnServerConfigurationPolicyGroupMemberOutput {
   /** Name of the VpnServerConfigurationPolicyGroupMember. */
   name?: string;
@@ -7650,6 +8322,7 @@ export interface VpnServerConfigurationPolicyGroupMemberOutput {
   attributeValue?: string;
 }
 
+/** VpnClientConnectionHealth properties. */
 export interface VpnClientConnectionHealthOutput {
   /** Total of the Ingress Bytes Transferred in this P2S Vpn connection. */
   totalIngressBytesTransferred?: number;
@@ -7661,6 +8334,7 @@ export interface VpnClientConnectionHealthOutput {
   allocatedIpAddresses?: Array<string>;
 }
 
+/** Result of the request to list all VpnServerConfigurations. It contains a list of VpnServerConfigurations and a URL nextLink to get the next set of results. */
 export interface ListVpnServerConfigurationsResultOutput {
   /** List of VpnServerConfigurations. */
   value?: Array<VpnServerConfigurationOutput>;
@@ -7668,6 +8342,7 @@ export interface ListVpnServerConfigurationsResultOutput {
   nextLink?: string;
 }
 
+/** Result of the request to list VpnServerConfigurationPolicyGroups. It contains a list of VpnServerConfigurationPolicyGroups and a URL nextLink to get the next set of results. */
 export interface ListVpnServerConfigurationPolicyGroupsResultOutput {
   /** List of VpnServerConfigurationPolicyGroups. */
   value?: Array<VpnServerConfigurationPolicyGroupOutput>;
@@ -7675,6 +8350,7 @@ export interface ListVpnServerConfigurationPolicyGroupsResultOutput {
   nextLink?: string;
 }
 
+/** VirtualHub Resource. */
 export interface VirtualHubOutput extends ResourceOutput {
   /** Properties of the virtual hub. */
   properties?: VirtualHubPropertiesOutput;
@@ -7684,6 +8360,7 @@ export interface VirtualHubOutput extends ResourceOutput {
   kind?: string;
 }
 
+/** Parameters for VirtualHub. */
 export interface VirtualHubPropertiesOutput {
   /** The VirtualWAN to which the VirtualHub belongs. */
   virtualWan?: SubResourceOutput;
@@ -7731,11 +8408,13 @@ export interface VirtualHubPropertiesOutput {
   virtualRouterAutoScaleConfiguration?: VirtualRouterAutoScaleConfigurationOutput;
 }
 
+/** VirtualHub route table. */
 export interface VirtualHubRouteTableOutput {
   /** List of all routes. */
   routes?: Array<VirtualHubRouteOutput>;
 }
 
+/** VirtualHub route. */
 export interface VirtualHubRouteOutput {
   /** List of all addressPrefixes. */
   addressPrefixes?: Array<string>;
@@ -7743,6 +8422,7 @@ export interface VirtualHubRouteOutput {
   nextHopIpAddress?: string;
 }
 
+/** VirtualHubRouteTableV2 Resource. */
 export interface VirtualHubRouteTableV2Output extends SubResourceOutput {
   /** Properties of the virtual hub route table v2. */
   properties?: VirtualHubRouteTableV2PropertiesOutput;
@@ -7752,6 +8432,7 @@ export interface VirtualHubRouteTableV2Output extends SubResourceOutput {
   etag?: string;
 }
 
+/** Parameters for VirtualHubRouteTableV2. */
 export interface VirtualHubRouteTableV2PropertiesOutput {
   /** List of all routes. */
   routes?: Array<VirtualHubRouteV2Output>;
@@ -7761,6 +8442,7 @@ export interface VirtualHubRouteTableV2PropertiesOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** VirtualHubRouteTableV2 route. */
 export interface VirtualHubRouteV2Output {
   /** The type of destinations. */
   destinationType?: string;
@@ -7772,11 +8454,13 @@ export interface VirtualHubRouteV2Output {
   nextHops?: Array<string>;
 }
 
+/** The VirtualHub Router autoscale configuration. */
 export interface VirtualRouterAutoScaleConfigurationOutput {
   /** The minimum number of scale units for VirtualHub Router. */
   minCapacity?: number;
 }
 
+/** Result of the request to list VirtualHubs. It contains a list of VirtualHubs and a URL nextLink to get the next set of results. */
 export interface ListVirtualHubsResultOutput {
   /** List of VirtualHubs. */
   value?: Array<VirtualHubOutput>;
@@ -7784,6 +8468,7 @@ export interface ListVirtualHubsResultOutput {
   nextLink?: string;
 }
 
+/** The RouteMap child resource of a Virtual hub. */
 export interface RouteMapOutput extends SubResourceOutput {
   /** Properties of the RouteMap resource. */
   properties?: RouteMapPropertiesOutput;
@@ -7795,6 +8480,7 @@ export interface RouteMapOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of RouteMap resource */
 export interface RouteMapPropertiesOutput {
   /** List of connections which have this RoutMap associated for inbound traffic. */
   associatedInboundConnections?: Array<string>;
@@ -7806,6 +8492,7 @@ export interface RouteMapPropertiesOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** A RouteMap Rule. */
 export interface RouteMapRuleOutput {
   /** The unique name for the rule. */
   name?: string;
@@ -7817,6 +8504,7 @@ export interface RouteMapRuleOutput {
   nextStepIfMatched?: "Unknown" | "Continue" | "Terminate";
 }
 
+/** A matching criteria which matches routes based on route prefix, community, and AS path. */
 export interface CriterionOutput {
   /** List of route prefixes which this criteria matches. */
   routePrefix?: Array<string>;
@@ -7833,6 +8521,7 @@ export interface CriterionOutput {
     | "NotEquals";
 }
 
+/** Action to be taken on a route matching a RouteMap criterion. */
 export interface ActionOutput {
   /** Type of action to be taken. Supported types are 'Remove', 'Add', 'Replace', and 'Drop.' */
   type?: "Unknown" | "Remove" | "Add" | "Replace" | "Drop";
@@ -7840,6 +8529,7 @@ export interface ActionOutput {
   parameters?: Array<ParameterOutput>;
 }
 
+/** Parameters for an Action. */
 export interface ParameterOutput {
   /** List of route prefixes. */
   routePrefix?: Array<string>;
@@ -7849,6 +8539,7 @@ export interface ParameterOutput {
   asPath?: Array<string>;
 }
 
+/** List of RouteMaps and a URL nextLink to get the next set of results. */
 export interface ListRouteMapsResultOutput {
   /** List of RouteMaps. */
   value?: Array<RouteMapOutput>;
@@ -7856,6 +8547,7 @@ export interface ListRouteMapsResultOutput {
   nextLink?: string;
 }
 
+/** HubVirtualNetworkConnection Resource. */
 export interface HubVirtualNetworkConnectionOutput extends SubResourceOutput {
   /** Properties of the hub virtual network connection. */
   properties?: HubVirtualNetworkConnectionPropertiesOutput;
@@ -7865,6 +8557,7 @@ export interface HubVirtualNetworkConnectionOutput extends SubResourceOutput {
   etag?: string;
 }
 
+/** Parameters for HubVirtualNetworkConnection. */
 export interface HubVirtualNetworkConnectionPropertiesOutput {
   /** Reference to the remote virtual network. */
   remoteVirtualNetwork?: SubResourceOutput;
@@ -7880,6 +8573,7 @@ export interface HubVirtualNetworkConnectionPropertiesOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** List of HubVirtualNetworkConnections and a URL nextLink to get the next set of results. */
 export interface ListHubVirtualNetworkConnectionsResultOutput {
   /** List of HubVirtualNetworkConnections. */
   value?: Array<HubVirtualNetworkConnectionOutput>;
@@ -7887,6 +8581,7 @@ export interface ListHubVirtualNetworkConnectionsResultOutput {
   nextLink?: string;
 }
 
+/** VpnGateway Resource. */
 export interface VpnGatewayOutput extends ResourceOutput {
   /** Properties of the VPN gateway. */
   properties?: VpnGatewayPropertiesOutput;
@@ -7894,6 +8589,7 @@ export interface VpnGatewayOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Parameters for VpnGateway. */
 export interface VpnGatewayPropertiesOutput {
   /** The VirtualHub to which the gateway belongs. */
   virtualHub?: SubResourceOutput;
@@ -7915,6 +8611,7 @@ export interface VpnGatewayPropertiesOutput {
   natRules?: Array<VpnGatewayNatRuleOutput>;
 }
 
+/** VpnConnection Resource. */
 export interface VpnConnectionOutput extends SubResourceOutput {
   /** Properties of the VPN connection. */
   properties?: VpnConnectionPropertiesOutput;
@@ -7924,6 +8621,7 @@ export interface VpnConnectionOutput extends SubResourceOutput {
   etag?: string;
 }
 
+/** Parameters for VpnConnection. */
 export interface VpnConnectionPropertiesOutput {
   /** Id of the connected vpn site. */
   remoteVpnSite?: SubResourceOutput;
@@ -7965,6 +8663,7 @@ export interface VpnConnectionPropertiesOutput {
   routingConfiguration?: RoutingConfigurationOutput;
 }
 
+/** VpnSiteLinkConnection Resource. */
 export interface VpnSiteLinkConnectionOutput extends SubResourceOutput {
   /** Properties of the VPN site link connection. */
   properties?: VpnSiteLinkConnectionPropertiesOutput;
@@ -7976,6 +8675,7 @@ export interface VpnSiteLinkConnectionOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Parameters for VpnConnection. */
 export interface VpnSiteLinkConnectionPropertiesOutput {
   /** Id of the connected vpn site link. */
   vpnSiteLink?: SubResourceOutput;
@@ -8017,6 +8717,7 @@ export interface VpnSiteLinkConnectionPropertiesOutput {
   egressNatRules?: Array<SubResourceOutput>;
 }
 
+/** IP Configuration of a VPN Gateway Resource. */
 export interface VpnGatewayIpConfigurationOutput {
   /** The identifier of the IP configuration for a VPN Gateway. */
   id?: string;
@@ -8026,6 +8727,7 @@ export interface VpnGatewayIpConfigurationOutput {
   privateIpAddress?: string;
 }
 
+/** VpnGatewayNatRule Resource. */
 export interface VpnGatewayNatRuleOutput extends SubResourceOutput {
   /** Properties of the VpnGateway NAT rule. */
   properties?: VpnGatewayNatRulePropertiesOutput;
@@ -8037,6 +8739,7 @@ export interface VpnGatewayNatRuleOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Parameters for VpnGatewayNatRule. */
 export interface VpnGatewayNatRulePropertiesOutput {
   /** The provisioning state of the NAT Rule resource. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
@@ -8056,6 +8759,7 @@ export interface VpnGatewayNatRulePropertiesOutput {
   ingressVpnSiteLinkConnections?: Array<SubResourceOutput>;
 }
 
+/** Result of the request to list VpnGateways. It contains a list of VpnGateways and a URL nextLink to get the next set of results. */
 export interface ListVpnGatewaysResultOutput {
   /** List of VpnGateways. */
   value?: Array<VpnGatewayOutput>;
@@ -8063,6 +8767,7 @@ export interface ListVpnGatewaysResultOutput {
   nextLink?: string;
 }
 
+/** Result of the request to list all vpn connections to a virtual wan vpn gateway. It contains a list of Vpn Connections and a URL nextLink to get the next set of results. */
 export interface ListVpnConnectionsResultOutput {
   /** List of Vpn Connections. */
   value?: Array<VpnConnectionOutput>;
@@ -8070,6 +8775,7 @@ export interface ListVpnConnectionsResultOutput {
   nextLink?: string;
 }
 
+/** Result of the request to list all vpn connections to a virtual wan vpn gateway. It contains a list of Vpn Connections and a URL nextLink to get the next set of results. */
 export interface ListVpnSiteLinkConnectionsResultOutput {
   /** List of VpnSiteLinkConnections. */
   value?: Array<VpnSiteLinkConnectionOutput>;
@@ -8077,6 +8783,7 @@ export interface ListVpnSiteLinkConnectionsResultOutput {
   nextLink?: string;
 }
 
+/** Result of the request to list all nat rules to a virtual wan vpn gateway. It contains a list of Nat rules and a URL nextLink to get the next set of results. */
 export interface ListVpnGatewayNatRulesResultOutput {
   /** List of Nat Rules. */
   value?: Array<VpnGatewayNatRuleOutput>;
@@ -8084,6 +8791,7 @@ export interface ListVpnGatewayNatRulesResultOutput {
   nextLink?: string;
 }
 
+/** Result of the request to list P2SVpnGateways. It contains a list of P2SVpnGateways and a URL nextLink to get the next set of results. */
 export interface ListP2SVpnGatewaysResultOutput {
   /** List of P2SVpnGateways. */
   value?: Array<P2SVpnGatewayOutput>;
@@ -8091,21 +8799,25 @@ export interface ListP2SVpnGatewaysResultOutput {
   nextLink?: string;
 }
 
+/** Vpn Profile Response for package generation. */
 export interface VpnProfileResponseOutput {
   /** URL to the VPN profile. */
   profileUrl?: string;
 }
 
+/** P2S Vpn connection detailed health written to sas url. */
 export interface P2SVpnConnectionHealthOutput {
   /** Returned sas url of the blob to which the p2s vpn connection detailed health will be written. */
   sasUrl?: string;
 }
 
+/** VpnServerConfigurations list associated with VirtualWan Response. */
 export interface VpnServerConfigurationsResponseOutput {
   /** List of VpnServerConfigurations associated with VirtualWan. */
   vpnServerConfigurationResourceIds?: Array<string>;
 }
 
+/** List of VirtualHubRouteTableV2s and a URL nextLink to get the next set of results. */
 export interface ListVirtualHubRouteTableV2SResultOutput {
   /** List of VirtualHubRouteTableV2s. */
   value?: Array<VirtualHubRouteTableV2Output>;
@@ -8113,11 +8825,13 @@ export interface ListVirtualHubRouteTableV2SResultOutput {
   nextLink?: string;
 }
 
+/** List of ExpressRoute gateways. */
 export interface ExpressRouteGatewayListOutput {
   /** List of ExpressRoute gateways. */
   value?: Array<ExpressRouteGatewayOutput>;
 }
 
+/** ExpressRoute gateway resource. */
 export interface ExpressRouteGatewayOutput extends ResourceOutput {
   /** Properties of the express route gateway. */
   properties?: ExpressRouteGatewayPropertiesOutput;
@@ -8125,6 +8839,7 @@ export interface ExpressRouteGatewayOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** ExpressRoute gateway resource properties. */
 export interface ExpressRouteGatewayPropertiesOutput {
   /** Configuration for auto scaling. */
   autoScaleConfiguration?: ExpressRouteGatewayPropertiesAutoScaleConfigurationOutput;
@@ -8136,11 +8851,13 @@ export interface ExpressRouteGatewayPropertiesOutput {
   virtualHub: VirtualHubIdOutput;
 }
 
+/** Configuration for auto scaling. */
 export interface ExpressRouteGatewayPropertiesAutoScaleConfigurationOutput {
   /** Minimum and maximum number of scale units to deploy. */
   bounds?: ExpressRouteGatewayPropertiesAutoScaleConfigurationBoundsOutput;
 }
 
+/** Minimum and maximum number of scale units to deploy. */
 export interface ExpressRouteGatewayPropertiesAutoScaleConfigurationBoundsOutput {
   /** Minimum number of scale units deployed for ExpressRoute gateway. */
   min?: number;
@@ -8148,6 +8865,7 @@ export interface ExpressRouteGatewayPropertiesAutoScaleConfigurationBoundsOutput
   max?: number;
 }
 
+/** ExpressRouteConnection resource. */
 export interface ExpressRouteConnectionOutput extends SubResourceOutput {
   /** Properties of the express route connection. */
   properties?: ExpressRouteConnectionPropertiesOutput;
@@ -8155,6 +8873,7 @@ export interface ExpressRouteConnectionOutput extends SubResourceOutput {
   name: string;
 }
 
+/** Properties of the ExpressRouteConnection subresource. */
 export interface ExpressRouteConnectionPropertiesOutput {
   /** The provisioning state of the express route connection resource. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
@@ -8174,21 +8893,25 @@ export interface ExpressRouteConnectionPropertiesOutput {
   routingConfiguration?: RoutingConfigurationOutput;
 }
 
+/** ExpressRoute circuit peering identifier. */
 export interface ExpressRouteCircuitPeeringIdOutput {
   /** The ID of the ExpressRoute circuit peering. */
   id?: string;
 }
 
+/** Virtual Hub identifier. */
 export interface VirtualHubIdOutput {
   /** The resource URI for the Virtual Hub where the ExpressRoute gateway is or will be deployed. The Virtual Hub resource and the ExpressRoute gateway resource reside in the same subscription. */
   id?: string;
 }
 
+/** ExpressRouteConnection list. */
 export interface ExpressRouteConnectionListOutput {
   /** The list of ExpressRoute connections. */
   value?: Array<ExpressRouteConnectionOutput>;
 }
 
+/** Virtual Appliance Site resource. */
 export interface BgpConnectionOutput extends SubResourceOutput {
   /** The properties of the Bgp connections. */
   properties?: BgpConnectionPropertiesOutput;
@@ -8200,6 +8923,7 @@ export interface BgpConnectionOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of the bgp connection. */
 export interface BgpConnectionPropertiesOutput {
   /** Peer ASN. */
   peerAsn?: number;
@@ -8213,6 +8937,7 @@ export interface BgpConnectionPropertiesOutput {
   connectionState?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
 }
 
+/** VirtualHubBgpConnections list. */
 export interface ListVirtualHubBgpConnectionResultsOutput {
   /** The list of VirtualHubBgpConnections. */
   value?: Array<BgpConnectionOutput>;
@@ -8220,11 +8945,13 @@ export interface ListVirtualHubBgpConnectionResultsOutput {
   nextLink?: string;
 }
 
+/** List of virtual router peer routes. */
 export interface PeerRouteListOutput {
   /** List of peer routes. */
   value?: Array<PeerRouteOutput>;
 }
 
+/** Peer routing details. */
 export interface PeerRouteOutput {
   /** The peer's local address. */
   localAddress?: string;
@@ -8242,6 +8969,7 @@ export interface PeerRouteOutput {
   weight?: number;
 }
 
+/** IpConfigurations. */
 export interface HubIpConfigurationOutput extends SubResourceOutput {
   /** The properties of the Virtual Hub IPConfigurations. */
   properties?: HubIPConfigurationPropertiesFormatOutput;
@@ -8253,6 +8981,7 @@ export interface HubIpConfigurationOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Properties of IP configuration. */
 export interface HubIPConfigurationPropertiesFormatOutput {
   /** The private IP address of the IP configuration. */
   privateIPAddress?: string;
@@ -8266,6 +8995,7 @@ export interface HubIPConfigurationPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** VirtualHubIpConfigurations list. */
 export interface ListVirtualHubIpConfigurationResultsOutput {
   /** The list of VirtualHubIpConfigurations. */
   value?: Array<HubIpConfigurationOutput>;
@@ -8273,6 +9003,7 @@ export interface ListVirtualHubIpConfigurationResultsOutput {
   nextLink?: string;
 }
 
+/** RouteTable resource in a virtual hub. */
 export interface HubRouteTableOutput extends SubResourceOutput {
   /** Properties of the RouteTable resource. */
   properties?: HubRouteTablePropertiesOutput;
@@ -8284,6 +9015,7 @@ export interface HubRouteTableOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** Parameters for RouteTable. */
 export interface HubRouteTablePropertiesOutput {
   /** List of all routes. */
   routes?: Array<HubRouteOutput>;
@@ -8297,6 +9029,7 @@ export interface HubRouteTablePropertiesOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** RouteTable route. */
 export interface HubRouteOutput {
   /** The name of the Route that is unique within a RouteTable. This name can be used to access this route. */
   name: string;
@@ -8310,6 +9043,7 @@ export interface HubRouteOutput {
   nextHop: string;
 }
 
+/** List of RouteTables and a URL nextLink to get the next set of results. */
 export interface ListHubRouteTablesResultOutput {
   /** List of RouteTables. */
   value?: Array<HubRouteTableOutput>;
@@ -8317,6 +9051,7 @@ export interface ListHubRouteTablesResultOutput {
   nextLink?: string;
 }
 
+/** The routing intent child resource of a Virtual hub. */
 export interface RoutingIntentOutput extends SubResourceOutput {
   /** Properties of the RoutingIntent resource. */
   properties?: RoutingIntentPropertiesOutput;
@@ -8328,6 +9063,7 @@ export interface RoutingIntentOutput extends SubResourceOutput {
   type?: string;
 }
 
+/** The properties of a RoutingIntent resource. */
 export interface RoutingIntentPropertiesOutput {
   /** List of routing policies. */
   routingPolicies?: Array<RoutingPolicyOutput>;
@@ -8335,6 +9071,7 @@ export interface RoutingIntentPropertiesOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** The routing policy object used in a RoutingIntent resource. */
 export interface RoutingPolicyOutput {
   /** The unique name for the routing policy. */
   name: string;
@@ -8344,6 +9081,7 @@ export interface RoutingPolicyOutput {
   nextHop: string;
 }
 
+/** List of the routing intent result and a URL nextLink to get the next set of results. */
 export interface ListRoutingIntentResultOutput {
   /** List of RoutingIntent resource. */
   value?: Array<RoutingIntentOutput>;
@@ -8351,6 +9089,7 @@ export interface ListRoutingIntentResultOutput {
   nextLink?: string;
 }
 
+/** Result of the request to list WebApplicationFirewallPolicies. It contains a list of WebApplicationFirewallPolicy objects and a URL link to get the next set of results. */
 export interface WebApplicationFirewallPolicyListResultOutput {
   /** List of WebApplicationFirewallPolicies within a resource group. */
   value?: Array<WebApplicationFirewallPolicyOutput>;
@@ -8358,6 +9097,7 @@ export interface WebApplicationFirewallPolicyListResultOutput {
   nextLink?: string;
 }
 
+/** Defines web application firewall policy. */
 export interface WebApplicationFirewallPolicyOutput extends ResourceOutput {
   /** Properties of the web application firewall policy. */
   properties?: WebApplicationFirewallPolicyPropertiesFormatOutput;
@@ -8365,6 +9105,7 @@ export interface WebApplicationFirewallPolicyOutput extends ResourceOutput {
   etag?: string;
 }
 
+/** Defines web application firewall policy properties. */
 export interface WebApplicationFirewallPolicyPropertiesFormatOutput {
   /** The PolicySettings for policy. */
   policySettings?: PolicySettingsOutput;
@@ -8390,6 +9131,7 @@ export interface WebApplicationFirewallPolicyPropertiesFormatOutput {
   pathBasedRules?: Array<SubResourceOutput>;
 }
 
+/** Defines contents of a web application firewall global configuration. */
 export interface PolicySettingsOutput {
   /** The state of the policy. */
   state?: "Disabled" | "Enabled";
@@ -8403,6 +9145,7 @@ export interface PolicySettingsOutput {
   fileUploadLimitInMb?: number;
 }
 
+/** Defines contents of a web application rule. */
 export interface WebApplicationFirewallCustomRuleOutput {
   /** The name of the resource that is unique within a policy. This name can be used to access the resource. */
   name?: string;
@@ -8418,6 +9161,7 @@ export interface WebApplicationFirewallCustomRuleOutput {
   action: "Allow" | "Block" | "Log";
 }
 
+/** Define match conditions. */
 export interface MatchConditionOutput {
   /** List of match variables. */
   matchVariables: Array<MatchVariableOutput>;
@@ -8451,6 +9195,7 @@ export interface MatchConditionOutput {
   >;
 }
 
+/** Define match variables. */
 export interface MatchVariableOutput {
   /** Match Variable. */
   variableName:
@@ -8466,6 +9211,7 @@ export interface MatchVariableOutput {
   selector?: string;
 }
 
+/** Allow to exclude some variable satisfy the condition for the WAF check. */
 export interface ManagedRulesDefinitionOutput {
   /** The Exclusions that are applied on the policy. */
   exclusions?: Array<OwaspCrsExclusionEntryOutput>;
@@ -8473,6 +9219,7 @@ export interface ManagedRulesDefinitionOutput {
   managedRuleSets: Array<ManagedRuleSetOutput>;
 }
 
+/** Allow to exclude some variable satisfy the condition for the WAF check. */
 export interface OwaspCrsExclusionEntryOutput {
   /** The variable to be excluded. */
   matchVariable:
@@ -8498,6 +9245,7 @@ export interface OwaspCrsExclusionEntryOutput {
   exclusionManagedRuleSets?: Array<ExclusionManagedRuleSetOutput>;
 }
 
+/** Defines a managed rule set for Exclusions. */
 export interface ExclusionManagedRuleSetOutput {
   /** Defines the rule set type to use. */
   ruleSetType: string;
@@ -8507,6 +9255,7 @@ export interface ExclusionManagedRuleSetOutput {
   ruleGroups?: Array<ExclusionManagedRuleGroupOutput>;
 }
 
+/** Defines a managed rule group to use for exclusion. */
 export interface ExclusionManagedRuleGroupOutput {
   /** The managed rule group for exclusion. */
   ruleGroupName: string;
@@ -8514,11 +9263,13 @@ export interface ExclusionManagedRuleGroupOutput {
   rules?: Array<ExclusionManagedRuleOutput>;
 }
 
+/** Defines a managed rule to use for exclusion. */
 export interface ExclusionManagedRuleOutput {
   /** Identifier for the managed rule. */
   ruleId: string;
 }
 
+/** Defines a managed rule set. */
 export interface ManagedRuleSetOutput {
   /** Defines the rule set type to use. */
   ruleSetType: string;
@@ -8528,6 +9279,7 @@ export interface ManagedRuleSetOutput {
   ruleGroupOverrides?: Array<ManagedRuleGroupOverrideOutput>;
 }
 
+/** Defines a managed rule group override setting. */
 export interface ManagedRuleGroupOverrideOutput {
   /** The managed rule group to override. */
   ruleGroupName: string;
@@ -8535,6 +9287,7 @@ export interface ManagedRuleGroupOverrideOutput {
   rules?: Array<ManagedRuleOverrideOutput>;
 }
 
+/** Defines a managed rule group override setting. */
 export interface ManagedRuleOverrideOutput {
   /** Identifier for the managed rule. */
   ruleId: string;
@@ -8544,6 +9297,7 @@ export interface ManagedRuleOverrideOutput {
   action?: "AnomalyScoring" | "Allow" | "Block" | "Log";
 }
 
+/** SwapResource to represent slot type on the specified cloud service. */
 export interface SwapResourceOutput {
   /** Resource Id. */
   id?: string;
@@ -8555,15 +9309,18 @@ export interface SwapResourceOutput {
   properties?: SwapResourcePropertiesOutput;
 }
 
+/** Swap resource properties */
 export interface SwapResourcePropertiesOutput {
   /** Specifies slot info on a cloud service */
   slotType?: "Production" | "Staging";
 }
 
+/** SwapResource List with single entry to represent slot type on the specified cloud service. */
 export interface SwapResourceListResultOutput {
   value?: Array<SwapResourceOutput>;
 }
 
+/** Firewall Policy NAT Rule Collection. */
 export interface FirewallPolicyNatRuleCollectionOutput
   extends FirewallPolicyRuleCollectionOutputParent {
   /** The action type of a Nat rule collection. */
@@ -8573,11 +9330,13 @@ export interface FirewallPolicyNatRuleCollectionOutput
   ruleCollectionType: "FirewallPolicyNatRuleCollection";
 }
 
+/** Properties of the FirewallPolicyNatRuleCollectionAction. */
 export interface FirewallPolicyNatRuleCollectionActionOutput {
   /** The type of action. */
   type?: "DNAT";
 }
 
+/** Properties of a rule. */
 export interface FirewallPolicyRuleOutputParent {
   /** Name of the rule. */
   name?: string;
@@ -8590,6 +9349,7 @@ export interface FirewallPolicyRuleOutputParent {
     | "NetworkRule";
 }
 
+/** Firewall Policy Filter Rule Collection. */
 export interface FirewallPolicyFilterRuleCollectionOutput
   extends FirewallPolicyRuleCollectionOutputParent {
   /** The action type of a Filter rule collection. */
@@ -8599,11 +9359,13 @@ export interface FirewallPolicyFilterRuleCollectionOutput
   ruleCollectionType: "FirewallPolicyFilterRuleCollection";
 }
 
+/** Properties of the FirewallPolicyFilterRuleCollectionAction. */
 export interface FirewallPolicyFilterRuleCollectionActionOutput {
   /** The type of action. */
   type?: "Allow" | "Deny";
 }
 
+/** Rule of type application. */
 export interface ApplicationRuleOutput extends FirewallPolicyRuleOutputParent {
   /** List of source IP addresses for this rule. */
   sourceAddresses?: Array<string>;
@@ -8626,6 +9388,7 @@ export interface ApplicationRuleOutput extends FirewallPolicyRuleOutputParent {
   ruleType: "ApplicationRule";
 }
 
+/** Properties of the application rule protocol. */
 export interface FirewallPolicyRuleApplicationProtocolOutput {
   /** Protocol type. */
   protocolType?: "Http" | "Https";
@@ -8633,6 +9396,7 @@ export interface FirewallPolicyRuleApplicationProtocolOutput {
   port?: number;
 }
 
+/** Rule of type nat. */
 export interface NatRuleOutput extends FirewallPolicyRuleOutputParent {
   /** Array of FirewallPolicyRuleNetworkProtocols. */
   ipProtocols?: Array<"TCP" | "UDP" | "Any" | "ICMP">;
@@ -8653,6 +9417,7 @@ export interface NatRuleOutput extends FirewallPolicyRuleOutputParent {
   ruleType: "NatRule";
 }
 
+/** Rule of type network. */
 export interface NetworkRuleOutput extends FirewallPolicyRuleOutputParent {
   /** Array of FirewallPolicyRuleNetworkProtocols. */
   ipProtocols?: Array<"TCP" | "UDP" | "Any" | "ICMP">;
@@ -8671,6 +9436,7 @@ export interface NetworkRuleOutput extends FirewallPolicyRuleOutputParent {
   ruleType: "NetworkRule";
 }
 
+/** Network admin rule. */
 export interface ActiveSecurityAdminRuleOutput
   extends ActiveBaseSecurityAdminRuleOutputParent {
   /** Indicates the properties of the security admin rule */
@@ -8678,6 +9444,7 @@ export interface ActiveSecurityAdminRuleOutput
   kind: "Custom";
 }
 
+/** Security admin rule resource. */
 export interface AdminPropertiesFormatOutput {
   /** A description for this rule. Restricted to 140 chars. */
   description?: string;
@@ -8701,6 +9468,7 @@ export interface AdminPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Address prefix item. */
 export interface AddressPrefixItemOutput {
   /** Address prefix. */
   addressPrefix?: string;
@@ -8708,6 +9476,7 @@ export interface AddressPrefixItemOutput {
   addressPrefixType?: "IPPrefix" | "ServiceTag";
 }
 
+/** Network default admin rule. */
 export interface ActiveDefaultSecurityAdminRuleOutput
   extends ActiveBaseSecurityAdminRuleOutputParent {
   /** Indicates the properties of the default security admin rule */
@@ -8715,6 +9484,7 @@ export interface ActiveDefaultSecurityAdminRuleOutput
   kind: "Default";
 }
 
+/** Security default admin rule resource. */
 export interface DefaultAdminPropertiesFormatOutput {
   /** A description for this rule. Restricted to 140 chars. */
   description?: string;
@@ -8740,6 +9510,7 @@ export interface DefaultAdminPropertiesFormatOutput {
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
+/** Network admin rule. */
 export interface EffectiveSecurityAdminRuleOutput
   extends EffectiveBaseSecurityAdminRuleOutputParent {
   /** Indicates the properties of the security admin rule */
@@ -8747,6 +9518,7 @@ export interface EffectiveSecurityAdminRuleOutput
   kind: "Custom";
 }
 
+/** Network default admin rule. */
 export interface EffectiveDefaultSecurityAdminRuleOutput
   extends EffectiveBaseSecurityAdminRuleOutputParent {
   /** Indicates the properties of the default security admin rule */
@@ -8754,18 +9526,21 @@ export interface EffectiveDefaultSecurityAdminRuleOutput
   kind: "Default";
 }
 
+/** Network admin rule. */
 export interface AdminRuleOutput extends BaseAdminRuleOutputParent {
   /** Indicates the properties of the security admin rule */
   properties?: AdminPropertiesFormatOutput;
   kind: "Custom";
 }
 
+/** Network default admin rule. */
 export interface DefaultAdminRuleOutput extends BaseAdminRuleOutputParent {
   /** Indicates the properties of the security admin rule */
   properties?: DefaultAdminPropertiesFormatOutput;
   kind: "Default";
 }
 
+/** Route Filter Rule Resource. */
 export interface PatchRouteFilterRuleOutput extends SubResourceOutput {
   /** Properties of the route filter rule. */
   properties?: RouteFilterRulePropertiesFormatOutput;
@@ -8775,6 +9550,7 @@ export interface PatchRouteFilterRuleOutput extends SubResourceOutput {
   etag?: string;
 }
 
+/** Route Filter Resource. */
 export interface PatchRouteFilterOutput extends SubResourceOutput {
   /** Properties of the route filter. */
   properties?: RouteFilterPropertiesFormatOutput;
@@ -8788,16 +9564,21 @@ export interface PatchRouteFilterOutput extends SubResourceOutput {
   tags?: Record<string, string>;
 }
 
+/** Properties of the rule collection. */
 export type FirewallPolicyRuleCollectionOutput =
   | FirewallPolicyNatRuleCollectionOutput
   | FirewallPolicyFilterRuleCollectionOutput;
+/** Network base admin rule. */
 export type ActiveBaseSecurityAdminRuleOutput =
   | ActiveSecurityAdminRuleOutput
   | ActiveDefaultSecurityAdminRuleOutput;
+/** Network base admin rule. */
 export type EffectiveBaseSecurityAdminRuleOutput =
   | EffectiveSecurityAdminRuleOutput
   | EffectiveDefaultSecurityAdminRuleOutput;
+/** Network base admin rule. */
 export type BaseAdminRuleOutput = AdminRuleOutput | DefaultAdminRuleOutput;
+/** Properties of a rule. */
 export type FirewallPolicyRuleOutput =
   | ApplicationRuleOutput
   | NatRuleOutput

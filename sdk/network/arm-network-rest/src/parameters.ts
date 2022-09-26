@@ -992,18 +992,6 @@ export interface CheckDnsNameAvailabilityQueryParam {
 export type CheckDnsNameAvailabilityParameters = CheckDnsNameAvailabilityQueryParam &
   RequestParameters;
 
-export interface ExpressRouteProviderPortQueryParamProperties {
-  /** Api Version */
-  "api-version": "2022-05-01";
-}
-
-export interface ExpressRouteProviderPortQueryParam {
-  queryParameters: ExpressRouteProviderPortQueryParamProperties;
-}
-
-export type ExpressRouteProviderPortParameters = ExpressRouteProviderPortQueryParam &
-  RequestParameters;
-
 export interface ListActiveConnectivityConfigurationsBodyParam {
   /** Active Configuration Parameter. */
   body: ActiveConfigurationParameter;
@@ -2698,6 +2686,18 @@ export interface ExpressRouteProviderPortsLocationListQueryParam {
 }
 
 export type ExpressRouteProviderPortsLocationListParameters = ExpressRouteProviderPortsLocationListQueryParam &
+  RequestParameters;
+
+export interface ExpressRouteProviderPortsGetQueryParamProperties {
+  /** Api Version */
+  "api-version": "2022-05-01";
+}
+
+export interface ExpressRouteProviderPortsGetQueryParam {
+  queryParameters: ExpressRouteProviderPortsGetQueryParamProperties;
+}
+
+export type ExpressRouteProviderPortsGetParameters = ExpressRouteProviderPortsGetQueryParam &
   RequestParameters;
 
 export interface FirewallPoliciesDeleteQueryParamProperties {
