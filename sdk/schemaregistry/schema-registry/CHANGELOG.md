@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- `getSchemaByVersion` is added to query schemas by their version.
+- An overload of `getSchema` is added that queries schemas by their version.
 - `version` property is added to `SchemaProperties`.
 
 ## 1.1.0 (2022-05-10)
