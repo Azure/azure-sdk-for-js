@@ -14,10 +14,11 @@ import { CommunicationIdentityClient, CreateUserAndTokenOptions, GetTokenOptions
 import { Context } from "mocha";
 import { assert } from "chai";
 import { matrix } from "@azure/test-utils";
+import { given } from "mocha-testdata";
 
 matrix([[true, false]], async function (useAad: boolean) {
   describe(`CommunicationIdentityClient [Playback/Live]${useAad ? " [AAD]" : ""}`, function () {
-    const ALLOWED_DEVIATION: number = 0.05;
+    const TOKEN_EXPIRATION_ALLOWED_DEVIATION: number = 0.05;
     let recorder: Recorder;
     let client: CommunicationIdentityClient;
 
@@ -39,14 +40,17 @@ matrix([[true, false]], async function (useAad: boolean) {
       expectedTokenExpiration: number,
       tokenExpiresIn: Date,
       allowedDeviation: number
-    ): boolean {
+    ) {
       const timeNow = Date.now();
       const expiration = tokenExpiresIn.getTime();
       const tokenSeconds = (expiration - timeNow) / 1000;
       const expectedSeconds = expectedTokenExpiration * 60;
       const timeDiff = Math.abs(expectedSeconds - tokenSeconds);
       const allowedDiff = expectedSeconds * allowedDeviation;
-      return timeDiff < allowedDiff;
+      return {
+        withinAllowedDeviation: timeDiff < allowedDiff,
+        tokenExpirationInMinutes: tokenSeconds / 60,
+      };
     }
 
     it("successfully creates a user", async function () {
@@ -74,44 +78,31 @@ matrix([[true, false]], async function (useAad: boolean) {
       assert.instanceOf(expiresOn, Date);
     });
 
-    it("successfully gets a token with min valid custom expiration", async function () {
+    given([
+      { tokenExpiresInMinutes: 60, description: "min valid custom expiration" },
+      { tokenExpiresInMinutes: 1440, description: "max valid custom expiration" },
+    ]).it("successfully gets a token with valid custom expiration", async function (input) {
       const user: CommunicationUserIdentifier = await client.createUser();
-      const tokenExpiresInMinutes = 60;
-      const tokenOptions: GetTokenOptions = { tokenExpiresInMinutes: tokenExpiresInMinutes };
+      const tokenOptions: GetTokenOptions = { tokenExpiresInMinutes: input.tokenExpiresInMinutes };
       const { token, expiresOn } = await client.getToken(user, ["chat"], tokenOptions);
 
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
       if (isLiveMode()) {
-        const isValid = tokenExpirationWithinAllowedDeviation(
-          tokenExpiresInMinutes,
-          expiresOn,
-          ALLOWED_DEVIATION
-        );
+        const { withinAllowedDeviation, tokenExpirationInMinutes } =
+          tokenExpirationWithinAllowedDeviation(
+            input.tokenExpiresInMinutes,
+            expiresOn,
+            TOKEN_EXPIRATION_ALLOWED_DEVIATION
+          );
         assert.isTrue(
-          isValid,
-          `Token expiration is outside of allowed ${ALLOWED_DEVIATION * 100}% deviation.`
-        );
-      }
-    });
-
-    it("successfully gets a token with max valid custom expiration", async function () {
-      const user: CommunicationUserIdentifier = await client.createUser();
-      const tokenExpiresInMinutes = 1440;
-      const tokenOptions: GetTokenOptions = { tokenExpiresInMinutes: tokenExpiresInMinutes };
-      const { token, expiresOn } = await client.getToken(user, ["chat"], tokenOptions);
-
-      assert.isString(token);
-      assert.instanceOf(expiresOn, Date);
-      if (isLiveMode()) {
-        const isValid = tokenExpirationWithinAllowedDeviation(
-          tokenExpiresInMinutes,
-          expiresOn,
-          ALLOWED_DEVIATION
-        );
-        assert.isTrue(
-          isValid,
-          `Token expiration is outside of allowed ${ALLOWED_DEVIATION * 100}% deviation.`
+          withinAllowedDeviation,
+          `Token expiration is outside of allowed ${
+            TOKEN_EXPIRATION_ALLOWED_DEVIATION * 100
+          }% deviation. Expected minutes: ${input.tokenExpiresInMinutes}, actual minutes: ${
+            // to round to max 2 decimal places
+            Math.round((tokenExpirationInMinutes + Number.EPSILON) * 100) / 100
+          }.`
         );
       }
     });
@@ -172,16 +163,24 @@ matrix([[true, false]], async function (useAad: boolean) {
         }
       });
 
-      it("throws an error when attempting to issue a token with min invalid expiration", async function () {
-        const user: CommunicationUserIdentifier = await client.createUser();
-        const tokenOptions: GetTokenOptions = { tokenExpiresInMinutes: 1441 };
-        try {
-          await client.getToken(user, ["chat"], tokenOptions);
-          assert.fail("Should have thrown an error");
-        } catch (e: any) {
-          assert.equal(e.statusCode, 400);
+      given([
+        { tokenExpiresInMinutes: 59, description: "low invalid custom expiration" },
+        { tokenExpiresInMinutes: 1441, description: "high invalid custom expiration" },
+      ]).it(
+        "throws an error when attempting to issue a token with invalid expiration",
+        async function (input) {
+          const user: CommunicationUserIdentifier = await client.createUser();
+          const tokenOptions: GetTokenOptions = {
+            tokenExpiresInMinutes: input.tokenExpiresInMinutes,
+          };
+          try {
+            await client.getToken(user, ["chat"], tokenOptions);
+            assert.fail("Should have thrown an error");
+          } catch (e: any) {
+            assert.equal(e.statusCode, 400);
+          }
         }
-      });
+      );
 
       it("throws an error when attempting to issue a token with max invalid expiration", async function () {
         const user: CommunicationUserIdentifier = await client.createUser();

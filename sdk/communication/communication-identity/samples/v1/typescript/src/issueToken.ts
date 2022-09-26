@@ -29,17 +29,16 @@ export async function main() {
 
   // Create user
   console.log("Creating User");
-
   const user = await client.createUser();
-
   console.log(`Created user with id: ${user.communicationUserId}`);
   console.log("Issuing Token");
 
   // Issue token and get token from response
-  const vanillaToken: CommunicationAccessToken = await client.getToken(user, scopes);
-  console.log(`Issued token: ${vanillaToken.token}`);
+  const defaultToken: CommunicationAccessToken = await client.getToken(user, scopes);
+  console.log(`Issued token: ${defaultToken.token}`);
 
   // Issue token with custom expiration and get token from response
+  console.log("Issuing Token with custom expiration.");
   const tokenOptions: GetTokenOptions = { tokenExpiresInMinutes: 60 };
   const { token, expiresOn } = await client.getToken(user, scopes, tokenOptions);
   console.log(`Issued token with custom expiration: ${token}`);

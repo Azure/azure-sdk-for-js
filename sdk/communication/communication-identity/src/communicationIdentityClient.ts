@@ -21,7 +21,6 @@ import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-a
 import { IdentityRestClient } from "./generated/src/identityRestClient";
 import { logger } from "./common/logger";
 import { tracingClient } from "./generated/src/tracing";
-import { CommunicationIdentityIssueAccessTokenOptionalParams } from "./generated/src/models";
 
 const isCommunicationIdentityClientOptions = (
   options: any
@@ -108,19 +107,13 @@ export class CommunicationIdentityClient {
     scopes: TokenScope[],
     options: GetTokenOptions = {}
   ): Promise<CommunicationAccessToken> {
-    const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams =
-      this.parseOptions(options);
-    return tracingClient.withSpan(
-      "CommunicationIdentity-issueToken",
-      operationOptions,
-      (updatedOptions) => {
-        return this.client.communicationIdentityOperations.issueAccessToken(
-          user.communicationUserId,
-          scopes,
-          updatedOptions
-        );
-      }
-    );
+    return tracingClient.withSpan("CommunicationIdentity-issueToken", options, (updatedOptions) => {
+      return this.client.communicationIdentityOperations.issueAccessToken(
+        user.communicationUserId,
+        scopes,
+        { expiresInMinutes: options.tokenExpiresInMinutes, ...updatedOptions }
+      );
+    });
   }
 
   /**
@@ -151,13 +144,14 @@ export class CommunicationIdentityClient {
    * @param options - Additional options for the request.
    */
   public createUser(options: OperationOptions = {}): Promise<CommunicationUserIdentifier> {
-    const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams = options;
-    operationOptions.expiresInMinutes = undefined;
     return tracingClient.withSpan(
       "CommunicationIdentity-createUser",
-      operationOptions,
+      options,
       async (updatedOptions) => {
-        const result = await this.client.communicationIdentityOperations.create(updatedOptions);
+        const result = await this.client.communicationIdentityOperations.create({
+          expiresInMinutes: undefined,
+          ...updatedOptions,
+        });
         return {
           communicationUserId: result.identity.id,
         };
@@ -175,14 +169,13 @@ export class CommunicationIdentityClient {
     scopes: TokenScope[],
     options: CreateUserAndTokenOptions = {}
   ): Promise<CommunicationUserToken> {
-    const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams =
-      this.parseOptions(options);
     return tracingClient.withSpan(
       "CommunicationIdentity-createUserAndToken",
-      operationOptions,
+      options,
       async (updatedOptions) => {
         const { identity, accessToken } = await this.client.communicationIdentityOperations.create({
           createTokenWithScopes: scopes,
+          expiresInMinutes: options.tokenExpiresInMinutes,
           ...updatedOptions,
         });
         return {
@@ -236,17 +229,5 @@ export class CommunicationIdentityClient {
         );
       }
     );
-  }
-
-  private parseOptions(
-    options: CreateUserAndTokenOptions | GetTokenOptions
-  ): CommunicationIdentityIssueAccessTokenOptionalParams {
-    const operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams = options;
-    if (options.tokenExpiresInMinutes && typeof options.tokenExpiresInMinutes === "number") {
-      operationOptions.expiresInMinutes = options.tokenExpiresInMinutes;
-    } else {
-      operationOptions.expiresInMinutes = undefined;
-    }
-    return operationOptions;
   }
 }

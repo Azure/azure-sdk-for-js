@@ -62,6 +62,7 @@ export interface GetTokenForTeamsUserOptions extends OperationOptions {
  * Options to create a single user and a token simultaneously.
  */
 export declare interface CreateUserAndTokenOptions extends OperationOptions {
+  /** Optional custom validity period of the token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used. */
   tokenExpiresInMinutes?: number;
 }
 
@@ -69,5 +70,6 @@ export declare interface CreateUserAndTokenOptions extends OperationOptions {
  * Options to create a scoped user token.
  */
 export declare interface GetTokenOptions extends OperationOptions {
+  /** Optional custom validity period of the token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used. */
   tokenExpiresInMinutes?: number;
 }

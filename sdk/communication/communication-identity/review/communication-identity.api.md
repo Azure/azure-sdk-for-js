@@ -40,7 +40,6 @@ export interface CommunicationUserToken extends CommunicationAccessToken {
 
 // @public
 export interface CreateUserAndTokenOptions extends OperationOptions {
-    // (undocumented)
     tokenExpiresInMinutes?: number;
 }
 
@@ -53,7 +52,6 @@ export interface GetTokenForTeamsUserOptions extends OperationOptions {
 
 // @public
 export interface GetTokenOptions extends OperationOptions {
-    // (undocumented)
     tokenExpiresInMinutes?: number;
 }
 
