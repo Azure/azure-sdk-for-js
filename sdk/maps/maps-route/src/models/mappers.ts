@@ -10,8 +10,8 @@ import {
   RouteGetRouteRangeResponse,
 } from "src/generated";
 import { BatchResult, RouteDirections, RouteRangeResult } from "./results";
-import { RouteDirectionsOptions, RouteDirectionsRequest } from "./options";
 import { LatLon, RouteMatrixResult, RouteSummary } from "./models";
+import { RouteDirectionsOptions, RouteDirectionsRequest } from "./options";
 
 /**
  * @internal

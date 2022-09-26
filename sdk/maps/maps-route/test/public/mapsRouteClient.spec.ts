@@ -90,32 +90,6 @@ describe("Get Route Directions", function (this: Suite) {
     assert.isNotEmpty(routeDirectionsResult.routes);
   });
 
-  it("should throw error on empty routePoints array", async function () {
-    // "routePoints must be a non-empty array"
-    assert.isRejected(client.getRouteDirections([]));
-  });
-});
-
-describe("Get Route Directions With Additional Parameters", function () {
-  let recorder: Recorder;
-  let client: MapsRouteClient;
-  const fastTimeout = 10000;
-
-  beforeEach(async function (this: Context) {
-    testLogger.verbose(`Recorder: starting...`);
-    recorder = await createRecorder(this);
-    client = createClient(recorder.configureClientOptions({}));
-  });
-
-  afterEach(async function () {
-    testLogger.verbose(`Recorder: stopping...`);
-    await recorder.stop();
-  });
-
-  before(function (this: Context) {
-    this.timeout(fastTimeout);
-  });
-
   it("should accept additional parameters and return route directions", async function () {
     const routePoints: LatLon[] = [
       [47.6133869, -122.0235832],
@@ -138,21 +112,14 @@ describe("Get Route Directions With Additional Parameters", function () {
       },
       avoidVignette: ["AUS", "CHE"],
     };
-    const routeDirectionsResult = await client.getRouteDirectionsWithAdditionalParameters(
-      routePoints,
-      additionalParams
-    );
+    const routeDirectionsResult = await client.getRouteDirections(routePoints, additionalParams);
 
     assert.isNotEmpty(routeDirectionsResult.routes);
   });
 
   it("should throw error on empty routePoints array", async function () {
-    const additionalParams: RouteDirectionParameters = {
-      avoidVignette: ["AUS", "CHE"],
-    };
-
     // "routePoints must be a non-empty array"
-    assert.isRejected(client.getRouteDirectionsWithAdditionalParameters([], additionalParams));
+    assert.isRejected(client.getRouteDirections([]));
   });
 });
 

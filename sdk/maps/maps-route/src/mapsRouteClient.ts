@@ -48,6 +48,21 @@ const isMapsRouteClientOptions = (
 ): clientIdOrOptions is MapsRouteClientOptions =>
   clientIdOrOptions && typeof clientIdOrOptions !== "string";
 
+function isRouteDirectionParameters(
+  routeDirectionParametersOrOptions:
+    | (RouteDirectionsOptions & OperationOptions)
+    | RouteDirectionParameters
+    | undefined
+): routeDirectionParametersOrOptions is RouteDirectionParameters {
+  return (
+    (routeDirectionParametersOrOptions as RouteDirectionParameters)?.supportingPoints !==
+      undefined ||
+    (routeDirectionParametersOrOptions as RouteDirectionParameters)?.avoidVignette !== undefined ||
+    (routeDirectionParametersOrOptions as RouteDirectionParameters)?.allowVignette !== undefined ||
+    (routeDirectionParametersOrOptions as RouteDirectionParameters)?.avoidAreas !== undefined
+  );
+}
+
 /**
  * Client class for interacting with Azure Maps Route Service.
  */
@@ -134,31 +149,8 @@ export class MapsRouteClient {
    */
   public async getRouteDirections(
     routePoints: LatLon[],
-    options: RouteDirectionsOptions & OperationOptions = {}
-  ): Promise<RouteDirections> {
-    if (!Array.isArray(routePoints) || routePoints.length === 0) {
-      throw new Error("routePoints must be a non-empty array");
-    }
-
-    const { span, updatedOptions } = createSpan("MapsRouteClient-getRouteDirections", options);
-    try {
-      const result = await this.client.routeOperations.getRouteDirections(
-        this.defaultFormat,
-        toColonDelimitedLatLonString(routePoints),
-        updatedOptions
-      );
-      return mapResponseToRouteDirections(result);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
+    options?: RouteDirectionsOptions & OperationOptions
+  ): Promise<RouteDirections>;
   /**
    * Returns a route between an origin and a destination, passing through waypoints if they are specified.
    *
@@ -166,28 +158,48 @@ export class MapsRouteClient {
    * @param routeDirectionParameters - Additional parameters used for reconstructing a route and for calculating zero or more alternative routes to this reference route
    * @param options - Optional parameters for the operation
    */
-  public async getRouteDirectionsWithAdditionalParameters(
+  public async getRouteDirections(
     routePoints: LatLon[],
     routeDirectionParameters: RouteDirectionParameters,
-    options: RouteDirectionsOptions & OperationOptions = {}
+    options?: RouteDirectionsOptions & OperationOptions
+  ): Promise<RouteDirections>;
+  public async getRouteDirections(
+    routePoints: LatLon[],
+    routeDirectionParametersOrOptions?:
+      | RouteDirectionParameters
+      | (RouteDirectionsOptions & OperationOptions),
+    maybeOptions?: RouteDirectionsOptions & OperationOptions
   ): Promise<RouteDirections> {
-    const { span, updatedOptions } = createSpan(
-      "MapsRouteClient-getRouteDirectionsWithAdditionalParameters",
-      options
-    );
+    if (!Array.isArray(routePoints) || routePoints.length === 0) {
+      throw new Error("routePoints must be a non-empty array");
+    }
+
+    const options =
+      (isRouteDirectionParameters(routeDirectionParametersOrOptions)
+        ? maybeOptions
+        : routeDirectionParametersOrOptions) || {};
+
+    const { span, updatedOptions } = createSpan("MapsRouteClient-getRouteDirections", options);
     try {
-      const result = await this.client.routeOperations.getRouteDirectionsWithAdditionalParameters(
-        this.defaultFormat,
-        toColonDelimitedLatLonString(routePoints),
-        {
-          ...routeDirectionParameters,
-          supportingPoints: routeDirectionParameters.supportingPoints as unknown as Record<
-            string,
-            unknown
-          >,
-        },
-        updatedOptions
-      );
+      const result = isRouteDirectionParameters(routeDirectionParametersOrOptions)
+        ? await this.client.routeOperations.getRouteDirectionsWithAdditionalParameters(
+            this.defaultFormat,
+            toColonDelimitedLatLonString(routePoints),
+            {
+              ...routeDirectionParametersOrOptions,
+              supportingPoints:
+                routeDirectionParametersOrOptions.supportingPoints as unknown as Record<
+                  string,
+                  unknown
+                >,
+            },
+            updatedOptions
+          )
+        : await this.client.routeOperations.getRouteDirections(
+            this.defaultFormat,
+            toColonDelimitedLatLonString(routePoints),
+            updatedOptions
+          );
       return mapResponseToRouteDirections(result);
     } catch (e) {
       span.setStatus({

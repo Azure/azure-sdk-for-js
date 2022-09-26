@@ -394,7 +394,7 @@ export class MapsRouteClient {
     beginRequestRouteDirectionsBatch(requests: RouteDirectionsRequest[], options?: RouteDirectionsBatchOptions): Promise<BatchPoller<BatchResult<RouteDirections>>>;
     beginRequestRouteMatrix(routeMatrixQuery: RouteMatrixQuery, options?: RouteMatrixRequestOptions): Promise<BatchPoller<RouteMatrixResult>>;
     getRouteDirections(routePoints: LatLon[], options?: RouteDirectionsOptions & OperationOptions): Promise<RouteDirections>;
-    getRouteDirectionsWithAdditionalParameters(routePoints: LatLon[], routeDirectionParameters: RouteDirectionParameters, options?: RouteDirectionsOptions & OperationOptions): Promise<RouteDirections>;
+    getRouteDirections(routePoints: LatLon[], routeDirectionParameters: RouteDirectionParameters, options?: RouteDirectionsOptions & OperationOptions): Promise<RouteDirections>;
     getRouteRange(coordinates: LatLon, budget: RouteRangeBudget, options?: RouteRangeOptions): Promise<RouteRangeResult>;
     resumeRequestRouteDirectionsBatch(resumeFrom: string, options?: RouteDirectionsBatchOptions): Promise<BatchPoller<BatchResult<RouteDirections>>>;
     resumeRequestRouteMatrix(resumeFrom: string, options?: RouteMatrixRequestOptions): Promise<BatchPoller<RouteMatrixResult>>;

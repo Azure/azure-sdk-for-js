@@ -106,7 +106,7 @@ async function main() {
     },
   };
 
-  getRouteDirectionsResult = await client.getRouteDirectionsWithAdditionalParameters(
+  getRouteDirectionsResult = await client.getRouteDirections(
     [
       [52.50931, 13.42936],
       [52.50274, 13.43872],
