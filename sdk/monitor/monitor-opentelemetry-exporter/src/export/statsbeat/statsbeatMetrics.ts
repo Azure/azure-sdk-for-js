@@ -178,9 +178,21 @@ class StatsbeatMetrics {
   }
 
   private _getAverageDuration(observableResult: ObservableResult) {
-    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpoint, this._host);
-    counter.totalSuccesfulRequestCount++;
-    observableResult.observe(counter.totalFailedRequestCount, this._commonProperties);
+    // TODO: Figure out how to manage duration since it's not managed in the success/failure count methods
+    // TOOD: Determine how the averageRequestDuration gets reported from this method/observed.
+    for (let i = 0; i < this._networkStatsbeatCollection.length; i++) {
+      let currentCounter = this._networkStatsbeatCollection[i];
+      currentCounter.time = Number(new Date);
+      let intervalRequests = currentCounter.totalRequestCount - currentCounter.lastRequestCount || 0;
+      let averageRequestExecutionTime = 
+        (currentCounter.intervalRequestExecutionTime -
+          currentCounter.lastIntervalRequestExecutionTime) /
+        intervalRequests || 0;
+      currentCounter.lastIntervalRequestExecutionTime = currentCounter.intervalRequestExecutionTime; // reset
+      
+      currentCounter.lastRequestCount = currentCounter.totalRequestCount;
+      currentCounter.lastTime = currentCounter.time;
+    }
   }
 
   private _getRetryCount(observableResult: ObservableResult) {
