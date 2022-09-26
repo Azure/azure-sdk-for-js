@@ -12,13 +12,14 @@ urlFragment: maps-route-javascript-beta
 
 These sample programs show how to use the JavaScript client libraries for Azure Maps Route in some common scenarios.
 
-| **File Name**     | **Description**                                             |
-| ----------------- | ----------------------------------------------------------- |
-| [route.js][route] | Demonstrates Route API usage. Simple queries are performed. |
+| **File Name**                   | **Description**                                             |
+| ------------------------------- | ----------------------------------------------------------- |
+| [route.js][route]               | Demonstrates Route API usage. Simple queries are performed. |
+| [batchRequest.js][batchrequest] | Demonstrates how to manipulate batch requests.              |
 
 ## Prerequisites
 
-The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
+The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
@@ -49,7 +50,7 @@ node route.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env MAPS_SUBSCRIPTION_KEY="<maps subscription key>" MAPS_SUBSCRIPTION_KEY="<maps subscription key>" MAPS_CLIENT_ID="<maps client id>" MAPS_CLIENT_ID="<maps client id>" node route.js
+npx cross-env MAPS_SUBSCRIPTION_KEY="<maps subscription key>" node route.js
 ```
 
 ## Next Steps
@@ -57,7 +58,10 @@ npx cross-env MAPS_SUBSCRIPTION_KEY="<maps subscription key>" MAPS_SUBSCRIPTION_
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [route]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route/samples/v1-beta/javascript/route.js
-[apiref]: https://docs.microsoft.com/rest/api/maps/route
+[batchrequest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route/samples/v1-beta/javascript/batchRequest.js
+
+<!-- [apiref]: https://docs.microsoft.com/javascript/api/@azure/maps-route -->
+
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuremapsresource]: https://docs.microsoft.com/azure/azure-maps/how-to-create-template
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route/README.md

@@ -5,8 +5,8 @@
  * @summary Demonstrates Route API usage. Simple queries are performed.
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
+// import { DefaultAzureCredential } from "@azure/identity";
 import {
   MapsRouteClient,
   RouteMatrixQuery,
@@ -20,40 +20,32 @@ import {
 import * as dotenv from "dotenv";
 dotenv.config();
 
-/**
- * Azure Maps supports two ways to authenticate requests:
- * - Shared Key authentication (subscription-key)
- * - Azure Active Directory (Azure AD) authentication
- *
- * In this sample you can put MAPS_SUBSCRIPTION_KEY into .env file to use the first approach or populate
- * the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for trying out AAD auth.
- *
- * More info is available at https://docs.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
- */
-
 async function main() {
-  let client: MapsRouteClient;
+  /**
+   * Azure Maps supports two ways to authenticate requests:
+   * - Shared Key authentication (subscription-key)
+   * - Azure Active Directory (Azure AD) authentication
+   *
+   * In this sample you can put MAPS_SUBSCRIPTION_KEY into .env file to use the first approach or populate
+   * the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for trying out AAD auth.
+   *
+   * More info is available at https://docs.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
+   */
+  /** Shared Key authentication (subscription-key) */
+  const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
+  const credential = new AzureKeyCredential(subscriptionKey);
+  const client = new MapsRouteClient(credential);
 
-  if (process.env.MAPS_SUBSCRIPTION_KEY) {
-    // Use subscription key authentication
-    const credential = new AzureKeyCredential(process.env.MAPS_SUBSCRIPTION_KEY);
-    client = new MapsRouteClient(credential);
-  } else {
-    // Use Azure AD authentication
-    if (process.env.MAPS_CLIENT_ID) {
-      const credential = new DefaultAzureCredential();
-      const mapsClientId = process.env.MAPS_CLIENT_ID;
-      client = new MapsRouteClient(credential, mapsClientId);
-    } else {
-      throw Error("Cannot authenticate the client.");
-    }
-  }
+  /** Azure Active Directory (Azure AD) authentication */
+  // const credential = new DefaultAzureCredential();
+  // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
+  // const client = new MapsRouteClient(credential, mapsClientId);
 
   console.log(" --- Get route directions:");
-  let getRouteDirectionsResult = await client.getRouteDirections(
+  const getRouteDirectionsResult = await client.getRouteDirections(
     [
-      { latitude: 51.368752, longitude: -0.118332 },
-      { latitude: 41.385426, longitude: -0.128929 },
+      [51.368752, -0.118332],
+      [41.385426, -0.128929],
     ],
     {
       vehicleWidth: 2,
@@ -106,41 +98,38 @@ async function main() {
     },
   };
 
-  getRouteDirectionsResult = await client.getRouteDirectionsWithAdditionalParameters(
+  const routeDirectionsWithParamResult = await client.getRouteDirections(
     [
-      { latitude: 52.50931, longitude: 13.42936 },
-      { latitude: 52.50274, longitude: 13.43872 },
+      [52.50931, 13.42936],
+      [52.50274, 13.43872],
     ],
     routeDirectionParameters
   );
-  console.log(getRouteDirectionsResult);
+  console.log(routeDirectionsWithParamResult);
 
   console.log(" --- Get route range:");
   const routeRangeBudget: RouteRangeBudget = { timeBudgetInSeconds: 6000 };
-  const routeRangeResult = await client.getRouteRange(
-    { latitude: 50.97452, longitude: 5.86605 },
-    routeRangeBudget
-  );
+  const routeRangeResult = await client.getRouteRange([50.97452, 5.86605], routeRangeBudget);
   console.log(routeRangeResult);
 
   console.log(" --- Request route directions batch:");
   const routeDirectionsRequests: RouteDirectionsRequest[] = [
     {
       routePoints: [
-        { latitude: 47.639987, longitude: -122.128384 },
-        { latitude: 47.621252, longitude: -122.184408 },
-        { latitude: 47.596437, longitude: -122.332 },
+        [47.639987, -122.128384],
+        [47.621252, -122.184408],
+        [47.596437, -122.332],
       ],
       options: {
         routeType: KnownRouteType.Fastest,
         travelMode: KnownTravelMode.Car,
-        maxAlternatives: 99,
+        maxAlternatives: 5,
       },
     },
     {
       routePoints: [
-        { latitude: 47.620659, longitude: -122.348934 },
-        { latitude: 47.610101, longitude: -122.342015 },
+        [47.620659, -122.348934],
+        [47.610101, -122.342015],
       ],
       options: {
         routeType: KnownRouteType.Economy,
@@ -150,8 +139,8 @@ async function main() {
     },
     {
       routePoints: [
-        { latitude: 40.759856, longitude: -73.985108 },
-        { latitude: 40.771136, longitude: -73.973506 },
+        [40.759856, -73.985108],
+        [40.771136, -73.973506],
       ],
       options: { routeType: KnownRouteType.Shortest, travelMode: KnownTravelMode.Pedestrian },
     },
@@ -161,7 +150,7 @@ async function main() {
   );
 
   const routeDirectionsBatchResults = await routeDirectionPoller.pollUntilDone();
-  console.log(routeDirectionsBatchResults);
+  console.log(routeDirectionsBatchResults.batchItems.map((item) => item.response));
 
   console.log(" --- Post route matrix:");
   const routeMatrixQuery: RouteMatrixQuery = {
