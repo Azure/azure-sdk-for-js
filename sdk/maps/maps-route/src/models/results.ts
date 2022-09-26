@@ -69,7 +69,9 @@ export interface RouteDirections {
   /** Reports the effective settings used in the current call. */
   report?: RouteReport;
 }
-
+/**
+ * Detailed information of a single route
+ */
 export interface Route {
   /**
    * Summary object

@@ -428,7 +428,7 @@ export type ResponseSectionType = string;
 // @public
 export type ResponseTravelMode = string;
 
-// @public (undocumented)
+// @public
 export interface Route {
     readonly guidance?: RouteGuidance;
     readonly legs: RouteLeg[];
@@ -500,7 +500,7 @@ export interface RouteDirectionsOptions extends RouteBaseOptions {
     instructionsType?: RouteInstructionsType;
     language?: string;
     maxAlternatives?: number;
-    minDeviationDistance?: number;
+    minDeviationDistanceInSeconds?: number;
     minDeviationTime?: number;
     report?: Report;
     routeRepresentationForBestOrder?: RouteRepresentationForBestOrder;
@@ -511,7 +511,6 @@ export interface RouteDirectionsOptions extends RouteBaseOptions {
 export interface RouteDirectionsRequest {
     // (undocumented)
     options?: RouteDirectionsOptions;
-    // (undocumented)
     routePoints: LatLon[];
 }
 
@@ -582,12 +581,12 @@ export type RouteMatrixRequestOptions = RouteMatrixOptions & {
     filterSectionType?: SectionType;
     arriveAt?: Date;
     departAt?: Date;
-    vehicleAxleWeight?: number;
-    vehicleLength?: number;
-    vehicleHeight?: number;
-    vehicleWidth?: number;
-    vehicleMaxSpeed?: number;
-    vehicleWeight?: number;
+    vehicleAxleWeightInKg?: number;
+    vehicleLengthInMeters?: number;
+    vehicleHeightInMeters?: number;
+    vehicleWidthInMeters?: number;
+    vehicleMaxSpeedInKmPerHour?: number;
+    vehicleWeightInKg?: number;
     windingness?: WindingnessLevel;
     inclineLevel?: InclineLevel;
     travelMode?: TravelMode;

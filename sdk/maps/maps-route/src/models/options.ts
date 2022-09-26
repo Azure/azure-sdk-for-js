@@ -244,7 +244,7 @@ export interface RouteDirectionsOptions extends RouteBaseOptions {
    * All alternative routes returned will follow the reference route from the origin point of the calculateRoute request for at least this number of meters.
    * Can only be used when reconstructing a route. The minDeviationDistance parameter cannot be used in conjunction with arriveAt.
    */
-  minDeviationDistance?: number;
+  minDeviationDistanceInSeconds?: number;
   /**
    * All alternative routes returned will follow the reference route from the origin point of the calculateRoute request for at least this number of seconds.
    * Can only be used when reconstructing a route. The minDeviationTime parameter cannot be used in conjunction with arriveAt.
@@ -362,13 +362,13 @@ export type RouteMatrixRequestOptions = RouteMatrixOptions & {
   /** The date and time of departure from the origin point. */
   departAt?: Date;
   /** Weight per axle of the vehicle in kg. A value of 0 means that weight restrictions per axle are not considered. */
-  vehicleAxleWeight?: number;
+  vehicleAxleWeightInKg?: number;
   /** Length of the vehicle in meters. A value of 0 means that length restrictions are not considered. */
-  vehicleLength?: number;
+  vehicleLengthInMeters?: number;
   /** Height of the vehicle in meters. A value of 0 means that height restrictions are not considered. */
-  vehicleHeight?: number;
+  vehicleHeightInMeters?: number;
   /** Width of the vehicle in meters. A value of 0 means that width restrictions are not considered. */
-  vehicleWidth?: number;
+  vehicleWidthInMeters?: number;
   /**
    * Maximum speed of the vehicle in km/hour.
    * The max speed in the vehicle profile is used to check whether a vehicle is allowed on motorways.
@@ -380,9 +380,9 @@ export type RouteMatrixRequestOptions = RouteMatrixOptions & {
    *   If the vehicle maximum speed is set to 50 km/hour, the routing engine will consider 60 km/hour as this is the current situation.
    *   If the maximum speed of the vehicle is provided as 80 km/hour, then routing engine will again use 60 km/hour.
    */
-  vehicleMaxSpeed?: number;
+  vehicleMaxSpeedInKmPerHour?: number;
   /** Weight of the vehicle in kilograms. */
-  vehicleWeight?: number;
+  vehicleWeightInKg?: number;
   /** Level of turns for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling. */
   windingness?: WindingnessLevel;
   /** Degree of hilliness for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling. */
@@ -419,6 +419,7 @@ export type RouteDirectionsBatchOptions = OperationOptions & BatchPollerOptions;
  * Request object containing parameters for making route directions calls
  */
 export interface RouteDirectionsRequest {
+  /** The latitudes and longitudes of the target routing points */
   routePoints: LatLon[];
   options?: RouteDirectionsOptions;
 }
