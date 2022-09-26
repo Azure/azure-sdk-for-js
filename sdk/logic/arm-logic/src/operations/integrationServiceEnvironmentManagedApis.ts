@@ -218,10 +218,12 @@ export class IntegrationServiceEnvironmentManagedApisImpl
       },
       putOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -306,10 +308,12 @@ export class IntegrationServiceEnvironmentManagedApisImpl
       { resourceGroup, integrationServiceEnvironmentName, apiName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

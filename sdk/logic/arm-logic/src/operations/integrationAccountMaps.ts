@@ -149,7 +149,9 @@ export class IntegrationAccountMapsImpl implements IntegrationAccountMaps {
   }
 
   /**
-   * Creates or updates an integration account map.
+   * Creates or updates an integration account map. If the map is larger than 4 MB, you need to store the
+   * map in an Azure blob and use the blob's Shared Access Signature (SAS) URL as the 'contentLink'
+   * property value.
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
    * @param mapName The integration account map name.
