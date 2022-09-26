@@ -419,7 +419,7 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOn
           }
         ]
       },
-      sku: { name: "Premium" }
+      sku: { name: "Standard" }
     },
     queryParameters: { "api-version": "2022-05-01" }
   };
@@ -518,7 +518,7 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTw
           }
         ]
       },
-      sku: { name: "Premium" }
+      sku: { name: "Standard" }
     },
     queryParameters: { "api-version": "2022-05-01" }
   };

@@ -4,6 +4,11 @@
 import { Context } from "mocha";
 import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import "./env";
+import { NetworkManagementClient } from "../../../src/clientDefinitions";
+import { customizedTestPolicy } from "./customizedTestPolicy";
+import { TokenCredential } from "@azure/core-auth";
+import { ClientOptions } from "@azure-rest/core-client";
+import createNetworkManagementClient from "../../../src";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",
@@ -26,4 +31,19 @@ export async function createRecorder(context: Context): Promise<Recorder> {
   const recorder = new Recorder(context.currentTest);
   await recorder.start(recorderEnvSetup);
   return recorder;
+}
+
+export function createTestNetworkManagementClient(
+  recorder: Recorder,
+  credentials: TokenCredential,
+  options: ClientOptions = {}
+): NetworkManagementClient {
+  const client = createNetworkManagementClient(
+    credentials,
+    recorder.configureClientOptions(options)
+  );
+  client.pipeline.addPolicy(customizedTestPolicy(), {
+    beforePolicies: ["bearerTokenAuthenticationPolicy"],
+  });
+  return client;
 }

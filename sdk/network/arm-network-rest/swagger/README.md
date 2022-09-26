@@ -8,19 +8,18 @@
 package-name: "@azure-rest/arm-network"
 title: NetworkManagementClient
 description: Network Management Rest Client
-generate-metadata: true
+generate-metadata: false
 generate-test: true
 generate-sample: true
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src
-# require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b41f929626289b59e31be8a1091c99994864b096/specification/network/resource-manager/readme.md
-require: ../../../../../azure-rest-api-specs/specification/network/resource-manager/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b41f929626289b59e31be8a1091c99994864b096/specification/network/resource-manager/readme.md
 package-version: 1.0.0-beta.1
 rest-level-client: true
 add-credentials: true
 security: AADToken
 security-scopes: "https://management.azure.com/.default"
-# use-extension:
-#   "@autorest/typescript": "6.0.0-rc.1.20220727.1"
+use-extension:
+  "@autorest/typescript": "6.0.0-rc.1.20220727.1"
 ```

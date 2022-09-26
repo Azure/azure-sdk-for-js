@@ -6,6 +6,7 @@
 import createNetworkManagementClient, {
   ManagementGroupNetworkManagerConnectionsDeleteParameters
 } from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -17,7 +18,8 @@ dotenv.config();
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerConnectionManagementGroupDelete.json
  */
 async function deleteManagementGroupNetworkManagerConnection() {
-  const client = createNetworkManagementClient();
+  const credential = new DefaultAzureCredential();
+  const client = createNetworkManagementClient(credential);
   const managementGroupId = "managementGroupA";
   const networkManagerConnectionName = "TestNMConnection";
   const options: ManagementGroupNetworkManagerConnectionsDeleteParameters = {

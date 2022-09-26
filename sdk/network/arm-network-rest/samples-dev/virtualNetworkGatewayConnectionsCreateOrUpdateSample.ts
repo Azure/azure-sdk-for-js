@@ -77,7 +77,7 @@ async function createVirtualNetworkGatewayConnectionS2S() {
             "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw",
           location: "centralus",
           properties: {
-            active: false,
+            activeActive: false,
             bgpSettings: {
               asn: 65514,
               bgpPeeringAddress: "10.0.1.30",

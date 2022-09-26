@@ -25,7 +25,7 @@ async function networkManagerDeploymentStatusList() {
   const networkManagerName = "testNetworkManager";
   const options: NetworkManagerDeploymentStatusListParameters = {
     body: {
-      deploymentTypes: ["Connectivity", "AdminPolicy"],
+      deploymentTypes: ["Connectivity", "SecurityAdmin"],
       regions: ["eastus", "westus"],
       skipToken: "FakeSkipTokenCode"
     },

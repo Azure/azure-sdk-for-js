@@ -25,6 +25,7 @@ async function networkGroupsPut() {
   const networkManagerName = "testNetworkManager";
   const networkGroupName = "testNetworkGroup";
   const options: NetworkGroupsCreateOrUpdateParameters = {
+    headers: {},
     body: { properties: { description: "A sample group" } },
     queryParameters: { "api-version": "2022-05-01" }
   };

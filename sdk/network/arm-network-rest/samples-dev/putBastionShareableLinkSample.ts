@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   PutBastionShareableLinkParameters,
-  getLongRunningPoller,
+  // getLongRunningPoller,
   paginate
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";

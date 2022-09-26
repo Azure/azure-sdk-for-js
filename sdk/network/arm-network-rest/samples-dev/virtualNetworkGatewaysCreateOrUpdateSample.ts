@@ -28,7 +28,7 @@ async function updateVirtualNetworkGateway() {
     body: {
       location: "centralus",
       properties: {
-        active: false,
+        activeActive: false,
         bgpSettings: {
           asn: 65515,
           bgpPeeringAddress: "10.0.1.30",

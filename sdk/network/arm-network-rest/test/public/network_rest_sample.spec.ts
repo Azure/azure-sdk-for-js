@@ -15,7 +15,25 @@ import {
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { getLongRunningPoller, IpGroupsCreateOrUpdateParameters, isUnexpected, NetworkManagementClient, SubnetsCreateOrUpdateParameters, VirtualNetworksCreateOrUpdateParameters } from "../../src";
+import {
+  getLongRunningPoller,
+  IpGroupsCreateOrUpdateParameters,
+  IpGroupsDeleteParameters,
+  IpGroupsGetParameters,
+  IpGroupsListParameters,
+  isUnexpected,
+  NetworkManagementClient,
+  paginate,
+  SubnetsCreateOrUpdateParameters,
+  SubnetsDeleteParameters,
+  SubnetsGetParameters,
+  SubnetsListParameters,
+  VirtualNetworksCreateOrUpdateParameters,
+  VirtualNetworksDeleteParameters,
+  VirtualNetworksGetParameters,
+  VirtualNetworksListParameters,
+  VirtualNetworksUpdateTagsParameters
+} from "../../src";
 import { createTestNetworkManagementClient } from "./utils/recordedClient";
 
 const replaceableVariables: Record<string, string> = {
@@ -69,7 +87,7 @@ describe("Network test", () => {
             addressPrefixes: ["10.0.0.0/16"],
           }
         },
-        location: "eastus",
+        location: location,
       },
       queryParameters: { "api-version": "2022-05-01" },
     }
@@ -88,7 +106,7 @@ describe("Network test", () => {
 
     const poller = getLongRunningPoller(client, res, testPollingOptions);
     const result = await poller.pollUntilDone();
-    assert.equal(res.body.name, virtualNetworkName);
+    assert.equal(result.body.name, virtualNetworkName);
   });
 
   it("subnets create test", async function () {
@@ -113,7 +131,9 @@ describe("Network test", () => {
     if (isUnexpected(res)) {
       throw "create availability set error result" + res;
     }
-    assert.equal(res.body.name, subnet_name);
+    const poller = getLongRunningPoller(client, res, testPollingOptions);
+    const result = await poller.pollUntilDone();
+    assert.equal(result.body.name, subnet_name);
   })
 
   it("ipGroups create test", async function () {
@@ -141,6 +161,278 @@ describe("Network test", () => {
     if (isUnexpected(res)) {
       throw "create availability set error result" + res;
     }
-    assert.equal(res.body.name, ipGroupName);
+    const poller = getLongRunningPoller(client, res, testPollingOptions);
+    const result = await poller.pollUntilDone();
+    assert.equal(result.body.name, subnet_name);
+  });
+
+  it("virtualNetworks get test", async function () {
+    const option: VirtualNetworksGetParameters = {
+      queryParameters: { "api-version": "2022-05-01" },
+    }
+    const res = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
+        subscriptionId,
+        resourceGroupName,
+        virtualNetworkName
+      )
+      .get(option);
+
+    if (isUnexpected(res)) {
+      throw "create availability set error result" + res;
+    }
+    assert.equal(res.body.name, virtualNetworkName);
+  });
+
+  it("subnets get test", async function () {
+    const option: SubnetsGetParameters = {
+      queryParameters: { "api-version": "2022-05-01" },
+    }
+    const res = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}",
+        subscriptionId,
+        resourceGroupName,
+        virtualNetworkName,
+        subnet_name
+      )
+      .get(option);
+
+    if (isUnexpected(res)) {
+      throw "create availability set error result" + res;
+    }
+    const poller = getLongRunningPoller(client, res, testPollingOptions);
+    const result = await poller.pollUntilDone();
+    assert.equal(result.body.name, subnet_name);
+  });
+
+  it("ipGroups get test", async function () {
+    const option: IpGroupsGetParameters = {
+      queryParameters: { "api-version": "2022-05-01" },
+    }
+    const res = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
+        subscriptionId,
+        resourceGroupName,
+        ipGroupName
+      )
+      .get(option);
+
+    if (isUnexpected(res)) {
+      throw "create availability set error result" + res;
+    }
+    const poller = getLongRunningPoller(client, res, testPollingOptions);
+    const result = await poller.pollUntilDone();
+    assert.equal(result.body.name, subnet_name);
+  });
+
+  it("virtualNetworks list test", async function () {
+    const option: VirtualNetworksListParameters = {
+      queryParameters: { "api-version": "2022-05-01" },
+    }
+    const res = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
+        subscriptionId,
+        resourceGroupName,
+        virtualNetworkName
+      )
+      .get(option);
+
+    const pageData = paginate(client, res);
+    const result = [];
+    for await (const item of pageData) {
+      result.push(item);
+    }
+    assert.equal(result.length, 1);
+  });
+
+  it("subnets list test", async function () {
+    const option: SubnetsListParameters = {
+      queryParameters: { "api-version": "2022-05-01" },
+    }
+    const res = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}",
+        subscriptionId,
+        resourceGroupName,
+        virtualNetworkName,
+        subnet_name
+      )
+      .get(option);
+
+    const pageData = paginate(client, res);
+    const result = [];
+    for await (const item of pageData) {
+      result.push(item);
+    }
+    assert.equal(result.length, 1);
+  });
+
+  it("ipGroups list test", async function () {
+    const option: IpGroupsListParameters = {
+      queryParameters: { "api-version": "2022-05-01" },
+    }
+    const res = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
+        subscriptionId,
+        resourceGroupName,
+        ipGroupName
+      )
+      .get(option);
+
+    const pageData = paginate(client, res);
+    const result = [];
+    for await (const item of pageData) {
+      result.push(item);
+    }
+    assert.equal(result.length, 1);
+  });
+
+  it("virtualNetworks updatetags test", async function () {
+    const options: VirtualNetworksUpdateTagsParameters = {
+      body: { tags: { tag1: "value1", tag2: "value2" } },
+      queryParameters: { "api-version": "2022-05-01" }
+    };
+    const res = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
+        subscriptionId,
+        resourceGroupName,
+        virtualNetworkName
+      )
+      .patch(options);
+
+    if (isUnexpected(res)) {
+      throw "create availability set error result" + res;
+    }
+    const poller = getLongRunningPoller(client, res, testPollingOptions);
+    const result = await poller.pollUntilDone();
+    assert.equal(result.body.name, subnet_name);
+  });
+
+  it("ipGroups beginDeleteAndWait test", async function () {
+    const options: IpGroupsDeleteParameters = {
+      queryParameters: { "api-version": "2022-05-01" }
+    };
+    const deleteInitialResponse = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
+        subscriptionId,
+        resourceGroupName,
+        ipGroupName
+      )
+      .delete(options);
+
+    const poller = getLongRunningPoller(client, deleteInitialResponse, testPollingOptions);
+    const deleteResponse = await poller.pollUntilDone();
+
+    if (isUnexpected(deleteResponse)) {
+      throw "create availability set error result" + deleteResponse;
+    }
+
+    const option: IpGroupsListParameters = {
+      queryParameters: { "api-version": "2022-05-01" },
+    }
+    const res = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
+        subscriptionId,
+        resourceGroupName,
+        ipGroupName
+      )
+      .get(option);
+
+    const pageData = paginate(client, res);
+    const result = [];
+    for await (const item of pageData) {
+      result.push(item);
+    }
+    assert.equal(result.length, 0);
+  });
+
+  it("subnets beginDeleteAndWait test", async function () {
+    const options: SubnetsDeleteParameters = {
+      queryParameters: { "api-version": "2022-05-01" }
+    };
+    const deleteInitialResponse = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}",
+        subscriptionId,
+        resourceGroupName,
+        virtualNetworkName,
+        subnet_name
+      )
+      .delete(options);
+
+    const poller = getLongRunningPoller(client, deleteInitialResponse, testPollingOptions);
+    const deleteResponse = await poller.pollUntilDone();
+
+    if (isUnexpected(deleteResponse)) {
+      throw "create availability set error result" + deleteResponse;
+    }
+
+    const option: SubnetsListParameters = {
+      queryParameters: { "api-version": "2022-05-01" },
+    }
+    const res = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}",
+        subscriptionId,
+        resourceGroupName,
+        virtualNetworkName,
+        subnet_name
+      )
+      .get(option);
+
+    const pageData = paginate(client, res);
+    const result = [];
+    for await (const item of pageData) {
+      result.push(item);
+    }
+    assert.equal(result.length, 0);
+  });
+
+  it("virtualNetworks beginDeleteAndWait test", async function () {
+    const options: VirtualNetworksDeleteParameters = {
+      queryParameters: { "api-version": "2022-05-01" }
+    };
+    const deleteInitialResponse = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
+        subscriptionId,
+        resourceGroupName,
+        virtualNetworkName
+      )
+      .delete(options);
+
+    const poller = getLongRunningPoller(client, deleteInitialResponse, testPollingOptions);
+    const deleteResponse = await poller.pollUntilDone();
+
+    if (isUnexpected(deleteResponse)) {
+      throw "create availability set error result" + deleteResponse;
+    }
+
+    const option: VirtualNetworksListParameters = {
+      queryParameters: { "api-version": "2022-05-01" },
+    }
+    const res = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
+        subscriptionId,
+        resourceGroupName,
+        virtualNetworkName
+      )
+      .get(option);
+
+    const pageData = paginate(client, res);
+    const result = [];
+    for await (const item of pageData) {
+      result.push(item);
+    }
+    assert.equal(result.length, 0);
   });
 });

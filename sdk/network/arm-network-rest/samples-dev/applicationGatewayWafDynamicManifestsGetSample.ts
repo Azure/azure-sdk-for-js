@@ -24,7 +24,7 @@ async function getsWafManifests() {
   const subscriptionId = "";
   const location = "westus";
   const options: ApplicationGatewayWafDynamicManifestsGetParameters = {
-    queryParameters: { "api-version": "2021-05-01" }
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
