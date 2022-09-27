@@ -15,9 +15,7 @@ import { PollOperationState } from '@azure/core-lro';
 export interface BatchPoller<TBatchResult> extends PollerLike<PollOperationState<TBatchResult>, TBatchResult> {
 }
 
-// Warning: (ae-internal-missing-underscore) The name "BatchPollerProxy" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
+// @public
 export class BatchPollerProxy<TBatchResult, TInternalBatchResult> implements BatchPoller<TBatchResult> {
     constructor(internalPoller: PollerLike<PollOperationState<TInternalBatchResult>, TInternalBatchResult>, mapper: (res: TInternalBatchResult) => TBatchResult);
     // (undocumented)

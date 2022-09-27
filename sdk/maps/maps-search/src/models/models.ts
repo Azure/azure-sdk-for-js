@@ -24,7 +24,7 @@ import {
   Position,
   Position2D,
   Position3D,
-} from "../../../maps-common/src";
+} from "@azure/maps-common";
 
 export {
   GeoJsonGeometryCollection,
