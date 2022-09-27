@@ -2662,7 +2662,7 @@ export interface PageBlobGetPageRangesDiffResponse extends PageList, PageBlobGet
     };
 }
 
-// Warning: (ae-forgotten-export) The symbol "PageList" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "PageList_2" needs to be exported by the entry point index.d.ts
 //
 // @public
 export type PageBlobGetPageRangesDiffResponseModel = PageBlobGetPageRangesDiffHeaders & PageList_2 & {

@@ -36,7 +36,7 @@ export class SecureScoresImpl implements SecureScores {
   }
 
   /**
-   * List secure scores for all your Security Center initiatives within your current scope.
+   * List secure scores for all your Microsoft Defender for Cloud initiatives within your current scope.
    * @param options The options parameters.
    */
   public list(
@@ -78,7 +78,7 @@ export class SecureScoresImpl implements SecureScores {
   }
 
   /**
-   * List secure scores for all your Security Center initiatives within your current scope.
+   * List secure scores for all your Microsoft Defender for Cloud initiatives within your current scope.
    * @param options The options parameters.
    */
   private _list(
@@ -88,8 +88,8 @@ export class SecureScoresImpl implements SecureScores {
   }
 
   /**
-   * Get secure score for a specific Security Center initiative within your current scope. For the ASC
-   * Default initiative, use 'ascScore'.
+   * Get secure score for a specific Microsoft Defender for Cloud initiative within your current scope.
+   * For the ASC Default initiative, use 'ascScore'.
    * @param secureScoreName The initiative name. For the ASC Default initiative, use 'ascScore' as in the
    *                        sample request below.
    * @param options The options parameters.
@@ -134,7 +134,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -151,7 +151,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -171,7 +171,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

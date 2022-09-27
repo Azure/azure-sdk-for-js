@@ -192,7 +192,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer
@@ -209,7 +209,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion10, Parameters.expand],
+  queryParameters: [Parameters.apiVersion11, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
@@ -234,7 +234,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.assessment,
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
@@ -255,7 +255,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
@@ -275,7 +275,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer

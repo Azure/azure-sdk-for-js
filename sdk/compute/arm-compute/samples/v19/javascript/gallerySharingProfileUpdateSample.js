@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Update sharing profile of a gallery.
  *
  * @summary Update sharing profile of a gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/Gallery_AddToSharingProfile.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_AddToSharingProfile.json
  */
 async function addSharingIdToTheSharingProfileOfAGallery() {
   const subscriptionId = "{subscription-id}";
@@ -47,7 +47,7 @@ addSharingIdToTheSharingProfileOfAGallery().catch(console.error);
  * This sample demonstrates how to Update sharing profile of a gallery.
  *
  * @summary Update sharing profile of a gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/Gallery_ResetSharingProfile.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_ResetSharingProfile.json
  */
 async function resetSharingProfileOfAGallery() {
   const subscriptionId = "{subscription-id}";
@@ -70,7 +70,7 @@ resetSharingProfileOfAGallery().catch(console.error);
  * This sample demonstrates how to Update sharing profile of a gallery.
  *
  * @summary Update sharing profile of a gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/Gallery_EnableCommunityGallery.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_EnableCommunityGallery.json
  */
 async function shareAGalleryToCommunity() {
   const subscriptionId = "{subscription-id}";

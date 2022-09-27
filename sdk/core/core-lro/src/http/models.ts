@@ -15,11 +15,11 @@ export type LroResourceLocationConfig = "azure-async-operation" | "location" | "
 
 export interface ResponseBody extends Record<string, unknown> {
   /** The status of the operation. */
-  status?: string;
+  status?: unknown;
   /** The state of the provisioning process */
-  provisioningState?: string;
+  provisioningState?: unknown;
   /** The properties of the provisioning process */
-  properties?: { provisioningState?: string } & Record<string, unknown>;
+  properties?: { provisioningState?: unknown } & Record<string, unknown>;
 }
 
 /**

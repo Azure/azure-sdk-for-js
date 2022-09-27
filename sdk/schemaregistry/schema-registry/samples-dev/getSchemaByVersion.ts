@@ -55,7 +55,7 @@ export async function main() {
   );
 
   // Get definition of existing schema by its version
-  const foundSchema = await client.getSchemaByVersion({
+  const foundSchema = await client.getSchema({
     groupName,
     name,
     version,

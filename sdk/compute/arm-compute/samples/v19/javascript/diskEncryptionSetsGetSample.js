@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets information about a disk encryption set.
  *
  * @summary Gets information about a disk encryption set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-02/DiskRP/examples/diskEncryptionSetExamples/DiskEncryptionSet_Get_WithAutoKeyRotationError.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Get_WithAutoKeyRotationError.json
  */
 async function getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed() {
   const subscriptionId = "{subscription-id}";
@@ -33,7 +33,7 @@ getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed().catch(console.e
  * This sample demonstrates how to Gets information about a disk encryption set.
  *
  * @summary Gets information about a disk encryption set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-02/DiskRP/examples/diskEncryptionSetExamples/DiskEncryptionSet_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Get.json
  */
 async function getInformationAboutADiskEncryptionSet() {
   const subscriptionId = "{subscription-id}";
