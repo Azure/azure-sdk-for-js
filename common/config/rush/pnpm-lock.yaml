@@ -6,13 +6,16 @@ specifiers:
   '@rush-temp/ai-anomaly-detector': file:./projects/ai-anomaly-detector.tgz
   '@rush-temp/ai-document-translator': file:./projects/ai-document-translator.tgz
   '@rush-temp/ai-form-recognizer': file:./projects/ai-form-recognizer.tgz
+  '@rush-temp/ai-language-conversations': file:./projects/ai-language-conversations.tgz
   '@rush-temp/ai-language-text': file:./projects/ai-language-text.tgz
   '@rush-temp/ai-metrics-advisor': file:./projects/ai-metrics-advisor.tgz
+  '@rush-temp/ai-personalizer': file:./projects/ai-personalizer.tgz
   '@rush-temp/ai-text-analytics': file:./projects/ai-text-analytics.tgz
   '@rush-temp/api-management-custom-widgets-scaffolder': file:./projects/api-management-custom-widgets-scaffolder.tgz
   '@rush-temp/api-management-custom-widgets-tools': file:./projects/api-management-custom-widgets-tools.tgz
   '@rush-temp/app-configuration': file:./projects/app-configuration.tgz
   '@rush-temp/arm-advisor': file:./projects/arm-advisor.tgz
+  '@rush-temp/arm-agrifood': file:./projects/arm-agrifood.tgz
   '@rush-temp/arm-analysisservices': file:./projects/arm-analysisservices.tgz
   '@rush-temp/arm-apimanagement': file:./projects/arm-apimanagement.tgz
   '@rush-temp/arm-app': file:./projects/arm-app.tgz
@@ -38,6 +41,7 @@ specifiers:
   '@rush-temp/arm-cdn': file:./projects/arm-cdn.tgz
   '@rush-temp/arm-changeanalysis': file:./projects/arm-changeanalysis.tgz
   '@rush-temp/arm-changes': file:./projects/arm-changes.tgz
+  '@rush-temp/arm-chaos': file:./projects/arm-chaos.tgz
   '@rush-temp/arm-cognitiveservices': file:./projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-commerce': file:./projects/arm-commerce.tgz
   '@rush-temp/arm-commerce-profile-2020-09-01-hybrid': file:./projects/arm-commerce-profile-2020-09-01-hybrid.tgz
@@ -204,6 +208,7 @@ specifiers:
   '@rush-temp/communication-common': file:./projects/communication-common.tgz
   '@rush-temp/communication-email': file:./projects/communication-email.tgz
   '@rush-temp/communication-identity': file:./projects/communication-identity.tgz
+  '@rush-temp/communication-job-router': file:./projects/communication-job-router.tgz
   '@rush-temp/communication-network-traversal': file:./projects/communication-network-traversal.tgz
   '@rush-temp/communication-phone-numbers': file:./projects/communication-phone-numbers.tgz
   '@rush-temp/communication-rooms': file:./projects/communication-rooms.tgz
@@ -311,13 +316,16 @@ dependencies:
   '@rush-temp/ai-anomaly-detector': file:projects/ai-anomaly-detector.tgz
   '@rush-temp/ai-document-translator': file:projects/ai-document-translator.tgz
   '@rush-temp/ai-form-recognizer': file:projects/ai-form-recognizer.tgz
+  '@rush-temp/ai-language-conversations': file:projects/ai-language-conversations.tgz
   '@rush-temp/ai-language-text': file:projects/ai-language-text.tgz
   '@rush-temp/ai-metrics-advisor': file:projects/ai-metrics-advisor.tgz
+  '@rush-temp/ai-personalizer': file:projects/ai-personalizer.tgz
   '@rush-temp/ai-text-analytics': file:projects/ai-text-analytics.tgz
   '@rush-temp/api-management-custom-widgets-scaffolder': file:projects/api-management-custom-widgets-scaffolder.tgz
   '@rush-temp/api-management-custom-widgets-tools': file:projects/api-management-custom-widgets-tools.tgz
   '@rush-temp/app-configuration': file:projects/app-configuration.tgz
   '@rush-temp/arm-advisor': file:projects/arm-advisor.tgz
+  '@rush-temp/arm-agrifood': file:projects/arm-agrifood.tgz
   '@rush-temp/arm-analysisservices': file:projects/arm-analysisservices.tgz
   '@rush-temp/arm-apimanagement': file:projects/arm-apimanagement.tgz
   '@rush-temp/arm-app': file:projects/arm-app.tgz
@@ -343,6 +351,7 @@ dependencies:
   '@rush-temp/arm-cdn': file:projects/arm-cdn.tgz
   '@rush-temp/arm-changeanalysis': file:projects/arm-changeanalysis.tgz
   '@rush-temp/arm-changes': file:projects/arm-changes.tgz
+  '@rush-temp/arm-chaos': file:projects/arm-chaos.tgz
   '@rush-temp/arm-cognitiveservices': file:projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-commerce': file:projects/arm-commerce.tgz
   '@rush-temp/arm-commerce-profile-2020-09-01-hybrid': file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz
@@ -509,6 +518,7 @@ dependencies:
   '@rush-temp/communication-common': file:projects/communication-common.tgz
   '@rush-temp/communication-email': file:projects/communication-email.tgz
   '@rush-temp/communication-identity': file:projects/communication-identity.tgz
+  '@rush-temp/communication-job-router': file:projects/communication-job-router.tgz
   '@rush-temp/communication-network-traversal': file:projects/communication-network-traversal.tgz
   '@rush-temp/communication-phone-numbers': file:projects/communication-phone-numbers.tgz
   '@rush-temp/communication-rooms': file:projects/communication-rooms.tgz
@@ -972,7 +982,7 @@ packages:
     resolution: {integrity: sha512-KxDlhXyMlh2Jhj2ykX6vNEU0Vou4nHr025KoSEiz7cS3BNiHNaZcdECk/DmLkEB0as5T7b/TpRcehJ5yV6NeXQ==}
     engines: {node: '>=12.0.0'}
     dependencies:
-      '@opentelemetry/api': 1.1.0
+      '@opentelemetry/api': 1.2.0
       tslib: 2.4.0
     dev: false
 
@@ -995,13 +1005,6 @@ packages:
   /@azure/core-util/1.0.0:
     resolution: {integrity: sha512-yWshY9cdPthlebnb3Zuz/j0Lv4kjU6u7PR5sW7A9FF7EX+0irMRJAtyTq5TPiDHJfjH8gTSlnIYFj9m7Ed76IQ==}
     engines: {node: '>=12.0.0'}
-    dependencies:
-      tslib: 2.4.0
-    dev: false
-
-  /@azure/core-util/1.0.0-beta.1:
-    resolution: {integrity: sha512-pS6cup979/qyuyNP9chIybK2qVkJ3MarbY/bx3JcGKE6An6dRweLnsfJfU2ydqUI/B51Rjnn59ajHIhCUTwWZw==}
-    engines: {node: '>=8.0.0'}
     dependencies:
       tslib: 2.4.0
     dev: false
@@ -1175,11 +1178,11 @@ packages:
     engines: {node: '>=12.0.0'}
     dependencies:
       '@azure/core-http': 2.2.5
-      '@opentelemetry/api': 1.1.0
-      '@opentelemetry/core': 0.22.0_@opentelemetry+api@1.1.0
-      '@opentelemetry/resources': 0.22.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/api': 1.2.0
+      '@opentelemetry/core': 0.22.0_@opentelemetry+api@1.2.0
+      '@opentelemetry/resources': 0.22.0_@opentelemetry+api@1.2.0
       '@opentelemetry/semantic-conventions': 0.22.0
-      '@opentelemetry/tracing': 0.22.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/tracing': 0.22.0_@opentelemetry+api@1.2.0
       tslib: 2.4.0
     transitivePeerDependencies:
       - encoding
@@ -1658,12 +1661,12 @@ packages:
       '@rushstack/node-core-library': 3.41.0
     dev: false
 
-  /@microsoft/api-extractor-model/7.22.1:
-    resolution: {integrity: sha512-3Bx6VC8F4ti8XlhaOCynCpwGvdXGwHD2dGBpo2xpJT9gEmPQvpAL3Ni+5gaEX0eQ27zGILVTUZDqZSRYskk/Rw==}
+  /@microsoft/api-extractor-model/7.24.2:
+    resolution: {integrity: sha512-uUvjqTCY7hYERWGks+joTioN1QYHIucCDy7I/JqLxFxLbFXE5dpc1X7L+FG4PN/s8QYL24DKt0fqJkgcrFKLTw==}
     dependencies:
       '@microsoft/tsdoc': 0.14.1
       '@microsoft/tsdoc-config': 0.16.1
-      '@rushstack/node-core-library': 3.49.0
+      '@rushstack/node-core-library': 3.52.0
     dev: false
 
   /@microsoft/api-extractor-model/7.7.10:
@@ -1691,22 +1694,22 @@ packages:
       typescript: 4.4.4
     dev: false
 
-  /@microsoft/api-extractor/7.28.6:
-    resolution: {integrity: sha512-RNUokJTlBGD0ax/Jo8xLPWv4s6IboqrYrcabEEh6rFadO/tVPoV/R5YHtEeZ2q4ubvwhHTtX3sRm+p4fJo/3Sg==}
+  /@microsoft/api-extractor/7.31.2:
+    resolution: {integrity: sha512-ZODCU9ckTS9brXiZpUW2iDrnAg7jLxeLBM1AkPpSZFcbG/8HGLvfKOKrd71VIJHjc52x2lB8xj7ZWksnP7AOBA==}
     hasBin: true
     dependencies:
-      '@microsoft/api-extractor-model': 7.22.1
+      '@microsoft/api-extractor-model': 7.24.2
       '@microsoft/tsdoc': 0.14.1
       '@microsoft/tsdoc-config': 0.16.1
-      '@rushstack/node-core-library': 3.49.0
-      '@rushstack/rig-package': 0.3.13
-      '@rushstack/ts-command-line': 4.12.1
+      '@rushstack/node-core-library': 3.52.0
+      '@rushstack/rig-package': 0.3.15
+      '@rushstack/ts-command-line': 4.12.3
       colors: 1.2.5
       lodash: 4.17.21
       resolve: 1.17.0
       semver: 7.3.7
       source-map: 0.6.1
-      typescript: 4.6.4
+      typescript: 4.7.4
     dev: false
 
   /@microsoft/api-extractor/7.7.11:
@@ -1780,23 +1783,18 @@ packages:
     engines: {node: '>=6.0'}
     dev: false
 
-  /@opentelemetry/api-metrics/0.27.0:
-    resolution: {integrity: sha512-tB79288bwjkdhPNpw4UdOEy3bacVwtol6Que7cAu8KEJ9ULjRfSiwpYEwJY/oER3xZ7zNFz0uiJ7N1jSiotpVA==}
-    engines: {node: '>=8.0.0'}
-    dev: false
-
-  /@opentelemetry/api-metrics/0.29.2:
-    resolution: {integrity: sha512-yRdF5beqKuEdsPNoO7ijWCQ9HcyN0Tlgicf8RS6gzGOI54d6Hj7yKquJ6+X9XV+CSRbRWJYb+lOsXyso7uyX2g==}
-    engines: {node: '>=8.12.0'}
-    dependencies:
-      '@opentelemetry/api': 1.1.0
-    dev: false
-
   /@opentelemetry/api-metrics/0.31.0:
     resolution: {integrity: sha512-PcL1x0kZtMie7NsNy67OyMvzLEXqf3xd0TZJKHHPMGTe89oMpNVrD1zJB1kZcwXOxLlHHb6tz21G3vvXPdXyZg==}
     engines: {node: '>=14'}
     dependencies:
       '@opentelemetry/api': 1.1.0
+    dev: false
+
+  /@opentelemetry/api-metrics/0.32.0:
+    resolution: {integrity: sha512-g1WLhpG8B6iuDyZJFRGsR+JKyZ94m5LEmY2f+duEJ9Xb4XRlLHrZvh6G34OH6GJ8iDHxfHb/sWjJ1ZpkI9yGMQ==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@opentelemetry/api': 1.2.0
     dev: false
 
   /@opentelemetry/api/0.10.2:
@@ -1816,6 +1814,11 @@ packages:
     engines: {node: '>=8.0.0'}
     dev: false
 
+  /@opentelemetry/api/1.2.0:
+    resolution: {integrity: sha512-0nBr+VZNKm9tvNDZFstI3Pq1fCTEDK5OZTnVKNvBNAKgd0yIvmwsP4m61rEv7ZP+tOUjWJhROpxK5MsnlF911g==}
+    engines: {node: '>=8.0.0'}
+    dev: false
+
   /@opentelemetry/context-async-hooks/1.4.0_@opentelemetry+api@1.1.0:
     resolution: {integrity: sha512-yXpe1qCK3CevzWN3VmLlEOcipNdSV6al204lWMDoBI4eCy3rWZZEAGlwRvIiEy3uPrHClh6BQ5Z0q1+LEB/y8g==}
     engines: {node: '>=14'}
@@ -1825,30 +1828,38 @@ packages:
       '@opentelemetry/api': 1.1.0
     dev: false
 
+  /@opentelemetry/context-async-hooks/1.7.0_@opentelemetry+api@1.1.0:
+    resolution: {integrity: sha512-g4bMzyVW5dVBeMkyadaf3NRFpmNrdD4Pp9OJsrP29HwIam/zVMNfIWQpT5IBzjtTSMhl/ED5YQYR+UOSjVq3sQ==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.3.0'
+    dependencies:
+      '@opentelemetry/api': 1.1.0
+    dev: false
+
+  /@opentelemetry/context-async-hooks/1.7.0_@opentelemetry+api@1.2.0:
+    resolution: {integrity: sha512-g4bMzyVW5dVBeMkyadaf3NRFpmNrdD4Pp9OJsrP29HwIam/zVMNfIWQpT5IBzjtTSMhl/ED5YQYR+UOSjVq3sQ==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.3.0'
+    dependencies:
+      '@opentelemetry/api': 1.2.0
+    dev: false
+
   /@opentelemetry/context-base/0.10.2:
     resolution: {integrity: sha512-hZNKjKOYsckoOEgBziGMnBcX0M7EtstnCmwz5jZUOUYwlZ+/xxX6z3jPu1XVO2Jivk0eLfuP9GP+vFD49CMetw==}
     engines: {node: '>=8.0.0'}
     dev: false
 
-  /@opentelemetry/core/0.22.0_@opentelemetry+api@1.1.0:
+  /@opentelemetry/core/0.22.0_@opentelemetry+api@1.2.0:
     resolution: {integrity: sha512-x6JxuQ4rY2x39GEXJSqMgyf8XZPNNiZrGcCMhZSrtypq/WXlsJuxMNnUAl2hj2rpSGGukhhWn5cMpCmMJJz1hw==}
     engines: {node: '>=8.5.0'}
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
-      '@opentelemetry/api': 1.1.0
+      '@opentelemetry/api': 1.2.0
       '@opentelemetry/semantic-conventions': 0.22.0
       semver: 7.3.7
-    dev: false
-
-  /@opentelemetry/core/1.3.1_@opentelemetry+api@1.1.0:
-    resolution: {integrity: sha512-k7lOC86N7WIyUZsUuSKZfFIrUtINtlauMGQsC1r7jNmcr0vVJGqK1ROBvt7WWMxLbpMnt1q2pXJO8tKu0b9auA==}
-    engines: {node: '>=8.12.0'}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.0.0 <1.2.0'
-    dependencies:
-      '@opentelemetry/api': 1.1.0
-      '@opentelemetry/semantic-conventions': 1.3.1
     dev: false
 
   /@opentelemetry/core/1.4.0_@opentelemetry+api@1.1.0:
@@ -1871,28 +1882,59 @@ packages:
       '@opentelemetry/semantic-conventions': 1.5.0
     dev: false
 
-  /@opentelemetry/instrumentation-http/0.29.2_@opentelemetry+api@1.1.0:
-    resolution: {integrity: sha512-XIF9WCH03rp3vQjwXXVdTxlsXT2AG6LYfFKO8r2QC+w4F4KFuZa4J3VPYJ0L/a/6dWt34DA67eBh3l6Z1rMZrg==}
-    engines: {node: '>=8.12.0'}
+  /@opentelemetry/core/1.6.0_@opentelemetry+api@1.2.0:
+    resolution: {integrity: sha512-MsEhsyCTfYme6frK8/AqEWwbS9SB3Ta5bjgz4jPQJjL7ijUM3JiLVvqh/kHo1UlUjbUbLmGG7jA5Nw4d7SMcLQ==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.3.0'
+    dependencies:
+      '@opentelemetry/api': 1.2.0
+      '@opentelemetry/semantic-conventions': 1.6.0
+    dev: false
+
+  /@opentelemetry/core/1.7.0_@opentelemetry+api@1.1.0:
+    resolution: {integrity: sha512-AVqAi5uc8DrKJBimCTFUT4iFI+5eXpo4sYmGbQ0CypG0piOTHE2g9c5aSoTGYXu3CzOmJZf7pT6Xh+nwm5d6yQ==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.3.0'
+    dependencies:
+      '@opentelemetry/api': 1.1.0
+      '@opentelemetry/semantic-conventions': 1.7.0
+    dev: false
+
+  /@opentelemetry/core/1.7.0_@opentelemetry+api@1.2.0:
+    resolution: {integrity: sha512-AVqAi5uc8DrKJBimCTFUT4iFI+5eXpo4sYmGbQ0CypG0piOTHE2g9c5aSoTGYXu3CzOmJZf7pT6Xh+nwm5d6yQ==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.3.0'
+    dependencies:
+      '@opentelemetry/api': 1.2.0
+      '@opentelemetry/semantic-conventions': 1.7.0
+    dev: false
+
+  /@opentelemetry/instrumentation-http/0.32.0_@opentelemetry+api@1.2.0:
+    resolution: {integrity: sha512-EbNdJl6IjouphbxPVGV8/utiqB2DhveyH5TD6vxjc2OXlQ3A/mKg3fYSSWB+rYQBuuli+jWQfBJe2ntOFZtTMw==}
+    engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
-      '@opentelemetry/api': 1.1.0
-      '@opentelemetry/core': 1.3.1_@opentelemetry+api@1.1.0
-      '@opentelemetry/instrumentation': 0.29.2_@opentelemetry+api@1.1.0
-      '@opentelemetry/semantic-conventions': 1.3.1
+      '@opentelemetry/api': 1.2.0
+      '@opentelemetry/core': 1.6.0_@opentelemetry+api@1.2.0
+      '@opentelemetry/instrumentation': 0.32.0_@opentelemetry+api@1.2.0
+      '@opentelemetry/semantic-conventions': 1.6.0
       semver: 7.3.7
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@opentelemetry/instrumentation/0.27.0_@opentelemetry+api@1.1.0:
-    resolution: {integrity: sha512-dUwY/VoDptdK8AYigwS3IKblG+unV5xIdV4VQKy+nX5aT3f7vd5PMYs4arCQSYLbLRe0s7GxK6S9dtjai/TsHQ==}
+  /@opentelemetry/instrumentation/0.32.0_@opentelemetry+api@1.1.0:
+    resolution: {integrity: sha512-y6ADjHpkUz/v1nkyyYjsQa/zorhX+0qVGpFvXMcbjU4sHnBnC02c6wcc93sIgZfiQClIWo45TGku1KQxJ5UUbQ==}
+    engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
       '@opentelemetry/api': 1.1.0
-      '@opentelemetry/api-metrics': 0.27.0
+      '@opentelemetry/api-metrics': 0.32.0
       require-in-the-middle: 5.1.0
       semver: 7.3.7
       shimmer: 1.2.1
@@ -1900,13 +1942,14 @@ packages:
       - supports-color
     dev: false
 
-  /@opentelemetry/instrumentation/0.29.2_@opentelemetry+api@1.1.0:
-    resolution: {integrity: sha512-LXx5V0ONNATQFCE8C5uqnxWSm4rcXLssdLHdXjtGdxRmURqj/JO8jYefqXCD0LzsqEQ6yxOx2GZ0dgXvhBVdTw==}
+  /@opentelemetry/instrumentation/0.32.0_@opentelemetry+api@1.2.0:
+    resolution: {integrity: sha512-y6ADjHpkUz/v1nkyyYjsQa/zorhX+0qVGpFvXMcbjU4sHnBnC02c6wcc93sIgZfiQClIWo45TGku1KQxJ5UUbQ==}
+    engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
-      '@opentelemetry/api': 1.1.0
-      '@opentelemetry/api-metrics': 0.29.2
+      '@opentelemetry/api': 1.2.0
+      '@opentelemetry/api-metrics': 0.32.0
       require-in-the-middle: 5.1.0
       semver: 7.3.7
       shimmer: 1.2.1
@@ -1924,6 +1967,26 @@ packages:
       '@opentelemetry/core': 1.4.0_@opentelemetry+api@1.1.0
     dev: false
 
+  /@opentelemetry/propagator-b3/1.7.0_@opentelemetry+api@1.1.0:
+    resolution: {integrity: sha512-8kKGS1KwArvkThdhubMZlomuREE9FaBcn9L4JrYHh2jly1FZpqOtFNO2byHymVRjH59d43Pa+eJuFpD0Fp7kSw==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.3.0'
+    dependencies:
+      '@opentelemetry/api': 1.1.0
+      '@opentelemetry/core': 1.7.0_@opentelemetry+api@1.1.0
+    dev: false
+
+  /@opentelemetry/propagator-b3/1.7.0_@opentelemetry+api@1.2.0:
+    resolution: {integrity: sha512-8kKGS1KwArvkThdhubMZlomuREE9FaBcn9L4JrYHh2jly1FZpqOtFNO2byHymVRjH59d43Pa+eJuFpD0Fp7kSw==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.3.0'
+    dependencies:
+      '@opentelemetry/api': 1.2.0
+      '@opentelemetry/core': 1.7.0_@opentelemetry+api@1.2.0
+    dev: false
+
   /@opentelemetry/propagator-jaeger/1.4.0_@opentelemetry+api@1.1.0:
     resolution: {integrity: sha512-LvSzgt9RIGYiMP9E45ifT5WtALsDyY74y/1Ol0DK4xmJt8Sku7YastjCZaxpsvLGA4CGAtth0ozic88AvJrmgw==}
     engines: {node: '>=14'}
@@ -1934,14 +1997,34 @@ packages:
       '@opentelemetry/core': 1.4.0_@opentelemetry+api@1.1.0
     dev: false
 
-  /@opentelemetry/resources/0.22.0_@opentelemetry+api@1.1.0:
+  /@opentelemetry/propagator-jaeger/1.7.0_@opentelemetry+api@1.1.0:
+    resolution: {integrity: sha512-V7i/L1bx+R/ve4z6dTdn2jtvFxGThRsXS2wNb/tWZVfV8gqnePQp+HfoLrqB/Yz2iRPUcMWrcjx6vV78umvJFA==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.3.0'
+    dependencies:
+      '@opentelemetry/api': 1.1.0
+      '@opentelemetry/core': 1.7.0_@opentelemetry+api@1.1.0
+    dev: false
+
+  /@opentelemetry/propagator-jaeger/1.7.0_@opentelemetry+api@1.2.0:
+    resolution: {integrity: sha512-V7i/L1bx+R/ve4z6dTdn2jtvFxGThRsXS2wNb/tWZVfV8gqnePQp+HfoLrqB/Yz2iRPUcMWrcjx6vV78umvJFA==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.3.0'
+    dependencies:
+      '@opentelemetry/api': 1.2.0
+      '@opentelemetry/core': 1.7.0_@opentelemetry+api@1.2.0
+    dev: false
+
+  /@opentelemetry/resources/0.22.0_@opentelemetry+api@1.2.0:
     resolution: {integrity: sha512-LiX6/JyuD2eHi7Ewrq/PUP79azDqshd0r2oksNTJ+VwgbGfMlq79ykd4FhiEEk23fFbajGt+9ginadXoRk17dg==}
     engines: {node: '>=8.0.0'}
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
-      '@opentelemetry/api': 1.1.0
-      '@opentelemetry/core': 0.22.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/api': 1.2.0
+      '@opentelemetry/core': 0.22.0_@opentelemetry+api@1.2.0
       '@opentelemetry/semantic-conventions': 0.22.0
     dev: false
 
@@ -1967,6 +2050,39 @@ packages:
       '@opentelemetry/semantic-conventions': 1.5.0
     dev: false
 
+  /@opentelemetry/resources/1.6.0_@opentelemetry+api@1.2.0:
+    resolution: {integrity: sha512-07GlHuq72r2rnJugYVdGumviQvfrl8kEPidkZSVoseLVfIjV7nzxxt5/vqs9pK7JItWOrvjRdr/jTBVayFBr/w==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.3.0'
+    dependencies:
+      '@opentelemetry/api': 1.2.0
+      '@opentelemetry/core': 1.6.0_@opentelemetry+api@1.2.0
+      '@opentelemetry/semantic-conventions': 1.6.0
+    dev: false
+
+  /@opentelemetry/resources/1.7.0_@opentelemetry+api@1.1.0:
+    resolution: {integrity: sha512-u1M0yZotkjyKx8dj+46Sg5thwtOTBmtRieNXqdCRiWUp6SfFiIP0bI+1XK3LhuXqXkBXA1awJZaTqKduNMStRg==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.3.0'
+    dependencies:
+      '@opentelemetry/api': 1.1.0
+      '@opentelemetry/core': 1.7.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/semantic-conventions': 1.7.0
+    dev: false
+
+  /@opentelemetry/resources/1.7.0_@opentelemetry+api@1.2.0:
+    resolution: {integrity: sha512-u1M0yZotkjyKx8dj+46Sg5thwtOTBmtRieNXqdCRiWUp6SfFiIP0bI+1XK3LhuXqXkBXA1awJZaTqKduNMStRg==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.3.0'
+    dependencies:
+      '@opentelemetry/api': 1.2.0
+      '@opentelemetry/core': 1.7.0_@opentelemetry+api@1.2.0
+      '@opentelemetry/semantic-conventions': 1.7.0
+    dev: false
+
   /@opentelemetry/sdk-metrics-base/0.31.0_@opentelemetry+api@1.1.0:
     resolution: {integrity: sha512-4R2Bjl3wlqIGcq4bCoI9/pD49ld+tEoM9n85UfFzr/aUe+2huY2jTPq/BP9SVB8d2Zfg7mGTIFeapcEvAdKK7g==}
     engines: {node: '>=14'}
@@ -1980,6 +2096,19 @@ packages:
       lodash.merge: 4.6.2
     dev: false
 
+  /@opentelemetry/sdk-metrics/0.32.0_@opentelemetry+api@1.2.0:
+    resolution: {integrity: sha512-zC9RCOIsXRqOHWmWfcxArtDHbip2/jaIH1yu/OKau/shDZYFluAxY6zAEYIb4YEAzKKEF+fpaoRgpodDWNGVGA==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': ^1.0.0
+    dependencies:
+      '@opentelemetry/api': 1.2.0
+      '@opentelemetry/api-metrics': 0.32.0
+      '@opentelemetry/core': 1.6.0_@opentelemetry+api@1.2.0
+      '@opentelemetry/resources': 1.6.0_@opentelemetry+api@1.2.0
+      lodash.merge: 4.6.2
+    dev: false
+
   /@opentelemetry/sdk-trace-base/1.4.0_@opentelemetry+api@1.1.0:
     resolution: {integrity: sha512-l7EEjcOgYlKWK0hfxz4Jtkkk2DuGiqBDWmRZf7g2Is9RVneF1IgcrbYZTKGaVfBKA7lPuVtUiQ2qTv3R+dKJrw==}
     engines: {node: '>=14'}
@@ -1990,6 +2119,30 @@ packages:
       '@opentelemetry/core': 1.4.0_@opentelemetry+api@1.1.0
       '@opentelemetry/resources': 1.4.0_@opentelemetry+api@1.1.0
       '@opentelemetry/semantic-conventions': 1.4.0
+    dev: false
+
+  /@opentelemetry/sdk-trace-base/1.7.0_@opentelemetry+api@1.1.0:
+    resolution: {integrity: sha512-Iz84C+FVOskmauh9FNnj4+VrA+hG5o+tkMzXuoesvSfunVSioXib0syVFeNXwOm4+M5GdWCuW632LVjqEXStIg==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.3.0'
+    dependencies:
+      '@opentelemetry/api': 1.1.0
+      '@opentelemetry/core': 1.7.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/resources': 1.7.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/semantic-conventions': 1.7.0
+    dev: false
+
+  /@opentelemetry/sdk-trace-base/1.7.0_@opentelemetry+api@1.2.0:
+    resolution: {integrity: sha512-Iz84C+FVOskmauh9FNnj4+VrA+hG5o+tkMzXuoesvSfunVSioXib0syVFeNXwOm4+M5GdWCuW632LVjqEXStIg==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.3.0'
+    dependencies:
+      '@opentelemetry/api': 1.2.0
+      '@opentelemetry/core': 1.7.0_@opentelemetry+api@1.2.0
+      '@opentelemetry/resources': 1.7.0_@opentelemetry+api@1.2.0
+      '@opentelemetry/semantic-conventions': 1.7.0
     dev: false
 
   /@opentelemetry/sdk-trace-node/1.4.0_@opentelemetry+api@1.1.0:
@@ -2007,14 +2160,39 @@ packages:
       semver: 7.3.7
     dev: false
 
+  /@opentelemetry/sdk-trace-node/1.7.0_@opentelemetry+api@1.1.0:
+    resolution: {integrity: sha512-DCAAbi0Zbb1pIofQcKzoAVy9/6bz24asFYeLb4fW/8QYAaawDnxumA++5Huw/RcYdJs8q8AIRBykwjYWWCm/5A==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.3.0'
+    dependencies:
+      '@opentelemetry/api': 1.1.0
+      '@opentelemetry/context-async-hooks': 1.7.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/core': 1.7.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/propagator-b3': 1.7.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/propagator-jaeger': 1.7.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/sdk-trace-base': 1.7.0_@opentelemetry+api@1.1.0
+      semver: 7.3.7
+    dev: false
+
+  /@opentelemetry/sdk-trace-node/1.7.0_@opentelemetry+api@1.2.0:
+    resolution: {integrity: sha512-DCAAbi0Zbb1pIofQcKzoAVy9/6bz24asFYeLb4fW/8QYAaawDnxumA++5Huw/RcYdJs8q8AIRBykwjYWWCm/5A==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.3.0'
+    dependencies:
+      '@opentelemetry/api': 1.2.0
+      '@opentelemetry/context-async-hooks': 1.7.0_@opentelemetry+api@1.2.0
+      '@opentelemetry/core': 1.7.0_@opentelemetry+api@1.2.0
+      '@opentelemetry/propagator-b3': 1.7.0_@opentelemetry+api@1.2.0
+      '@opentelemetry/propagator-jaeger': 1.7.0_@opentelemetry+api@1.2.0
+      '@opentelemetry/sdk-trace-base': 1.7.0_@opentelemetry+api@1.2.0
+      semver: 7.3.7
+    dev: false
+
   /@opentelemetry/semantic-conventions/0.22.0:
     resolution: {integrity: sha512-t4fKikazahwNKmwD+CE/icHyuZldWvNMupJhjxdk9T/KxHFx3zCGjHT3MKavwYP6abzgAAm5WwzD1oHlmj7dyg==}
     engines: {node: '>=8.0.0'}
-    dev: false
-
-  /@opentelemetry/semantic-conventions/1.3.1:
-    resolution: {integrity: sha512-wU5J8rUoo32oSef/rFpOT1HIjLjAv3qIDHkw1QIhODV3OpAVHi5oVzlouozg9obUmZKtbZ0qUe/m7FP0y0yBzA==}
-    engines: {node: '>=8.12.0'}
     dev: false
 
   /@opentelemetry/semantic-conventions/1.4.0:
@@ -2027,16 +2205,26 @@ packages:
     engines: {node: '>=14'}
     dev: false
 
-  /@opentelemetry/tracing/0.22.0_@opentelemetry+api@1.1.0:
+  /@opentelemetry/semantic-conventions/1.6.0:
+    resolution: {integrity: sha512-aPfcBeLErM/PPiAuAbNFLN5sNbZLc3KZlar27uohllN8Zs6jJbHyJU1y7cMA6W/zuq+thkaG8mujiS+3iD/FWQ==}
+    engines: {node: '>=14'}
+    dev: false
+
+  /@opentelemetry/semantic-conventions/1.7.0:
+    resolution: {integrity: sha512-FGBx/Qd09lMaqQcogCHyYrFEpTx4cAjeS+48lMIR12z7LdH+zofGDVQSubN59nL6IpubfKqTeIDu9rNO28iHVA==}
+    engines: {node: '>=14'}
+    dev: false
+
+  /@opentelemetry/tracing/0.22.0_@opentelemetry+api@1.2.0:
     resolution: {integrity: sha512-EFrKTFndiEdh/KnzwDgo/EcphG/5z/NyLck8oiUUY+YMP7hskXNYHjTWSAv9UxtYe1MzgLbjmAateTuMmFIVNw==}
     engines: {node: '>=8.0.0'}
     deprecated: Package renamed to @opentelemetry/sdk-trace-base
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
-      '@opentelemetry/api': 1.1.0
-      '@opentelemetry/core': 0.22.0_@opentelemetry+api@1.1.0
-      '@opentelemetry/resources': 0.22.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/api': 1.2.0
+      '@opentelemetry/core': 0.22.0_@opentelemetry+api@1.2.0
+      '@opentelemetry/resources': 0.22.0_@opentelemetry+api@1.2.0
       '@opentelemetry/semantic-conventions': 0.22.0
       lodash.merge: 4.6.2
     dev: false
@@ -2055,20 +2243,20 @@ packages:
       rollup: 1.32.1
     dev: false
 
-  /@rollup/plugin-commonjs/21.0.1_rollup@2.77.2:
+  /@rollup/plugin-commonjs/21.0.1_rollup@2.79.1:
     resolution: {integrity: sha512-EA+g22lbNJ8p5kuZJUYyhhDK7WgJckW5g4pNN7n4mAFUM96VuwUnNT3xr2Db2iCZPI1pJPbGyfT5mS9T1dHfMg==}
     engines: {node: '>= 8.0.0'}
     peerDependencies:
       rollup: ^2.38.3
     dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.77.2
+      '@rollup/pluginutils': 3.1.0_rollup@2.79.1
       commondir: 1.0.1
       estree-walker: 2.0.2
       glob: 7.2.3
       is-reference: 1.2.1
       magic-string: 0.25.9
       resolve: 1.22.1
-      rollup: 2.77.2
+      rollup: 2.79.1
     dev: false
 
   /@rollup/plugin-commonjs/21.1.0_rollup@2.77.2:
@@ -2087,20 +2275,36 @@ packages:
       rollup: 2.77.2
     dev: false
 
-  /@rollup/plugin-commonjs/22.0.1_rollup@2.77.2:
-    resolution: {integrity: sha512-dGfEZvdjDHObBiP5IvwTKMVeq/tBZGMBHZFMdIV1ClMM/YoWS34xrHFGfag9SN2ZtMgNZRFruqvxZQEa70O6nQ==}
-    engines: {node: '>= 12.0.0'}
+  /@rollup/plugin-commonjs/21.1.0_rollup@2.79.1:
+    resolution: {integrity: sha512-6ZtHx3VHIp2ReNNDxHjuUml6ur+WcQ28N1yHgCQwsbNkQg2suhxGMDQGJOn/KuDxKtd1xuZP5xSTwBA4GQ8hbA==}
+    engines: {node: '>= 8.0.0'}
     peerDependencies:
-      rollup: ^2.68.0
+      rollup: ^2.38.3
     dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.77.2
+      '@rollup/pluginutils': 3.1.0_rollup@2.79.1
       commondir: 1.0.1
       estree-walker: 2.0.2
       glob: 7.2.3
       is-reference: 1.2.1
       magic-string: 0.25.9
       resolve: 1.22.1
-      rollup: 2.77.2
+      rollup: 2.79.1
+    dev: false
+
+  /@rollup/plugin-commonjs/22.0.1_rollup@2.79.1:
+    resolution: {integrity: sha512-dGfEZvdjDHObBiP5IvwTKMVeq/tBZGMBHZFMdIV1ClMM/YoWS34xrHFGfag9SN2ZtMgNZRFruqvxZQEa70O6nQ==}
+    engines: {node: '>= 12.0.0'}
+    peerDependencies:
+      rollup: ^2.68.0
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.79.1
+      commondir: 1.0.1
+      estree-walker: 2.0.2
+      glob: 7.2.3
+      is-reference: 1.2.1
+      magic-string: 0.25.9
+      resolve: 1.22.1
+      rollup: 2.79.1
     dev: false
 
   /@rollup/plugin-inject/4.0.4_rollup@2.77.2:
@@ -2112,6 +2316,17 @@ packages:
       estree-walker: 2.0.2
       magic-string: 0.25.9
       rollup: 2.77.2
+    dev: false
+
+  /@rollup/plugin-inject/4.0.4_rollup@2.79.1:
+    resolution: {integrity: sha512-4pbcU4J/nS+zuHk+c+OL3WtmEQhqxlZ9uqfjQMQDOHOPld7PsCd8k5LWs8h5wjwJN7MgnAn768F2sDxEP4eNFQ==}
+    peerDependencies:
+      rollup: ^1.20.0 || ^2.0.0
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.79.1
+      estree-walker: 2.0.2
+      magic-string: 0.25.9
+      rollup: 2.79.1
     dev: false
 
   /@rollup/plugin-json/4.1.0_rollup@1.32.1:
@@ -2132,6 +2347,15 @@ packages:
       rollup: 2.77.2
     dev: false
 
+  /@rollup/plugin-json/4.1.0_rollup@2.79.1:
+    resolution: {integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==}
+    peerDependencies:
+      rollup: ^1.20.0 || ^2.0.0
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.79.1
+      rollup: 2.79.1
+    dev: false
+
   /@rollup/plugin-multi-entry/3.0.1_rollup@1.32.1:
     resolution: {integrity: sha512-Gcp9E8y68Kx+Jo8zy/ZpiiAkb0W01cSqnxOz6h9bPR7MU3gaoTEdRf7xXYplwli1SBFEswXX588ESj+50Brfxw==}
     peerDependencies:
@@ -2150,6 +2374,15 @@ packages:
       rollup: 2.77.2
     dev: false
 
+  /@rollup/plugin-multi-entry/3.0.1_rollup@2.79.1:
+    resolution: {integrity: sha512-Gcp9E8y68Kx+Jo8zy/ZpiiAkb0W01cSqnxOz6h9bPR7MU3gaoTEdRf7xXYplwli1SBFEswXX588ESj+50Brfxw==}
+    peerDependencies:
+      rollup: ^1.20.0 || ^2.0.0
+    dependencies:
+      matched: 1.0.2
+      rollup: 2.79.1
+    dev: false
+
   /@rollup/plugin-multi-entry/4.1.0_rollup@2.77.2:
     resolution: {integrity: sha512-nellK5pr50W0JA2+bDJbG8F79GBP802J40YRoC0wyfpTAeAn5mJ4eaFiB/MN+YoX9hgb/6RJoZl9leDjZnUFKw==}
     engines: {node: '>=10.0.0'}
@@ -2159,6 +2392,17 @@ packages:
       '@rollup/plugin-virtual': 2.1.0_rollup@2.77.2
       matched: 5.0.1
       rollup: 2.77.2
+    dev: false
+
+  /@rollup/plugin-multi-entry/4.1.0_rollup@2.79.1:
+    resolution: {integrity: sha512-nellK5pr50W0JA2+bDJbG8F79GBP802J40YRoC0wyfpTAeAn5mJ4eaFiB/MN+YoX9hgb/6RJoZl9leDjZnUFKw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0 || ^2.0.0
+    dependencies:
+      '@rollup/plugin-virtual': 2.1.0_rollup@2.79.1
+      matched: 5.0.1
+      rollup: 2.79.1
     dev: false
 
   /@rollup/plugin-node-resolve/13.3.0_rollup@2.75.7:
@@ -2189,6 +2433,21 @@ packages:
       is-module: 1.0.0
       resolve: 1.22.1
       rollup: 2.77.2
+    dev: false
+
+  /@rollup/plugin-node-resolve/13.3.0_rollup@2.79.1:
+    resolution: {integrity: sha512-Lus8rbUo1eEcnS4yTFKLZrVumLPY+YayBdWXgFSHYhTT2iJbMhoaaBL3xl5NCdeRytErGr8tZ0L71BMRmnlwSw==}
+    engines: {node: '>= 10.0.0'}
+    peerDependencies:
+      rollup: ^2.42.0
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.79.1
+      '@types/resolve': 1.17.1
+      deepmerge: 4.2.2
+      is-builtin-module: 3.1.0
+      is-module: 1.0.0
+      resolve: 1.22.1
+      rollup: 2.79.1
     dev: false
 
   /@rollup/plugin-node-resolve/8.4.0_rollup@1.32.1:
@@ -2223,6 +2482,22 @@ packages:
       rollup: 2.77.2
     dev: false
 
+  /@rollup/plugin-node-resolve/8.4.0_rollup@2.79.1:
+    resolution: {integrity: sha512-LFqKdRLn0ShtQyf6SBYO69bGE1upV6wUhBX0vFOUnLAyzx5cwp8svA0eHUnu8+YU57XOkrMtfG63QOpQx25pHQ==}
+    engines: {node: '>= 8.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.79.1
+      '@types/resolve': 1.17.1
+      builtin-modules: 3.3.0
+      deep-freeze: 0.0.1
+      deepmerge: 4.2.2
+      is-module: 1.0.0
+      resolve: 1.22.1
+      rollup: 2.79.1
+    dev: false
+
   /@rollup/plugin-replace/2.4.2_rollup@2.77.2:
     resolution: {integrity: sha512-IGcu+cydlUMZ5En85jxHH4qj2hta/11BHq95iHEyb2sbgiN0eCdzvUcHw5gt9pBL5lTi4JDYJ1acCoMGpTvEZg==}
     peerDependencies:
@@ -2233,6 +2508,16 @@ packages:
       rollup: 2.77.2
     dev: false
 
+  /@rollup/plugin-replace/2.4.2_rollup@2.79.1:
+    resolution: {integrity: sha512-IGcu+cydlUMZ5En85jxHH4qj2hta/11BHq95iHEyb2sbgiN0eCdzvUcHw5gt9pBL5lTi4JDYJ1acCoMGpTvEZg==}
+    peerDependencies:
+      rollup: ^1.20.0 || ^2.0.0
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.79.1
+      magic-string: 0.25.9
+      rollup: 2.79.1
+    dev: false
+
   /@rollup/plugin-virtual/2.1.0_rollup@2.77.2:
     resolution: {integrity: sha512-CPPAtlKT53HFqC8jFHb/V5WErpU8Hrq2TyCR0A7kPQMlF2wNUf0o1xuAc+Qxj8NCZM0Z3Yvl+FbUXfJjVWqDwA==}
     engines: {node: '>=8.0.0'}
@@ -2240,6 +2525,15 @@ packages:
       rollup: ^1.20.0||^2.0.0
     dependencies:
       rollup: 2.77.2
+    dev: false
+
+  /@rollup/plugin-virtual/2.1.0_rollup@2.79.1:
+    resolution: {integrity: sha512-CPPAtlKT53HFqC8jFHb/V5WErpU8Hrq2TyCR0A7kPQMlF2wNUf0o1xuAc+Qxj8NCZM0Z3Yvl+FbUXfJjVWqDwA==}
+    engines: {node: '>=8.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0
+    dependencies:
+      rollup: 2.79.1
     dev: false
 
   /@rollup/pluginutils/3.1.0_rollup@1.32.1:
@@ -2278,6 +2572,18 @@ packages:
       rollup: 2.77.2
     dev: false
 
+  /@rollup/pluginutils/3.1.0_rollup@2.79.1:
+    resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==}
+    engines: {node: '>= 8.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0
+    dependencies:
+      '@types/estree': 0.0.39
+      estree-walker: 1.0.1
+      picomatch: 2.3.1
+      rollup: 2.79.1
+    dev: false
+
   /@rushstack/node-core-library/3.19.6:
     resolution: {integrity: sha512-1+FoymIdr9W9k0D8fdZBBPwi5YcMwh/RyESuL5bY29rLICFxSLOPK+ImVZ1OcWj9GEMsvDx5pNpJ311mHQk+MA==}
     dependencies:
@@ -2304,8 +2610,8 @@ packages:
       z-schema: 3.18.4
     dev: false
 
-  /@rushstack/node-core-library/3.49.0:
-    resolution: {integrity: sha512-yBJRzGgUNFwulVrwwBARhbGaHsxVMjsZ9JwU1uSBbqPYCdac+t2HYdzi4f4q/Zpgb0eNbwYj2yxgHYpJORNEaw==}
+  /@rushstack/node-core-library/3.52.0:
+    resolution: {integrity: sha512-Z+MAP//G3rEGZd3JxJcBGcPYJlh8pvPoLMTLa5Sy6FTE6hRPzN+5J8DT7BbTmlqZaL6SZpXF30heRUbnYOvujw==}
     dependencies:
       '@types/node': 12.20.24
       colors: 1.2.5
@@ -2314,7 +2620,6 @@ packages:
       jju: 1.4.0
       resolve: 1.17.0
       semver: 7.3.7
-      timsort: 0.3.0
       z-schema: 5.0.3
     dev: false
 
@@ -2325,15 +2630,15 @@ packages:
       strip-json-comments: 3.1.1
     dev: false
 
-  /@rushstack/rig-package/0.3.13:
-    resolution: {integrity: sha512-4/2+yyA/uDl7LQvtYtFs1AkhSWuaIGEKhP9/KK2nNARqOVc5eCXmu1vyOqr5mPvNq7sHoIR+sG84vFbaKYGaDA==}
+  /@rushstack/rig-package/0.3.15:
+    resolution: {integrity: sha512-jxVfvO5OnkRlYRhcVDZWvwiI2l4pv37HDJRtyg5HbD8Z/I8Xj32RICgrxS5xMeGGytobrg5S6OfPOHskg7Nw+A==}
     dependencies:
       resolve: 1.17.0
       strip-json-comments: 3.1.1
     dev: false
 
-  /@rushstack/ts-command-line/4.12.1:
-    resolution: {integrity: sha512-S1Nev6h/kNnamhHeGdp30WgxZTA+B76SJ/P721ctP7DrnC+rrjAc6h/R80I4V0cA2QuEEcMdVOQCtK2BTjsOiQ==}
+  /@rushstack/ts-command-line/4.12.3:
+    resolution: {integrity: sha512-Pdij22RotMXzI+HWHyYCvw0RMZhiP5a6Za/96XamZ1+mxmpSm4ujf8TROKxGAHySmR5A8iNVSlzhNMnUlFQE6g==}
     dependencies:
       '@types/argparse': 1.0.38
       argparse: 1.0.10
@@ -2797,7 +3102,7 @@ packages:
     dev: false
     optional: true
 
-  /@typescript-eslint/eslint-plugin/5.31.0_cdc2d1a8a3264171039c48f3cb751375:
+  /@typescript-eslint/eslint-plugin/5.31.0_8aa5e4b8405bf55abee39ca125640724:
     resolution: {integrity: sha512-VKW4JPHzG5yhYQrQ1AzXgVgX8ZAJEvCz0QI6mLRX4tf7rnFfh5D8SKm0Pq6w5PyNfAWJk6sv313+nEt3ohWMBQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -2808,36 +3113,36 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.31.0_eslint@8.20.0+typescript@4.6.4
+      '@typescript-eslint/parser': 5.31.0_eslint@8.20.0+typescript@4.8.3
       '@typescript-eslint/scope-manager': 5.31.0
-      '@typescript-eslint/type-utils': 5.31.0_eslint@8.20.0+typescript@4.6.4
-      '@typescript-eslint/utils': 5.31.0_eslint@8.20.0+typescript@4.6.4
+      '@typescript-eslint/type-utils': 5.31.0_eslint@8.20.0+typescript@4.8.3
+      '@typescript-eslint/utils': 5.31.0_eslint@8.20.0+typescript@4.8.3
       debug: 4.3.4
       eslint: 8.20.0
       functional-red-black-tree: 1.0.1
       ignore: 5.2.0
       regexpp: 3.2.0
       semver: 7.3.7
-      tsutils: 3.21.0_typescript@4.6.4
-      typescript: 4.6.4
+      tsutils: 3.21.0_typescript@4.8.3
+      typescript: 4.8.3
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@typescript-eslint/experimental-utils/5.31.0_eslint@8.20.0+typescript@4.6.4:
+  /@typescript-eslint/experimental-utils/5.31.0_eslint@8.20.0+typescript@4.8.3:
     resolution: {integrity: sha512-Yiar0ggNPyOsvrslJBdOo3jc3wjI6NnmWOQBA8WhR54YPbVqTNLuuHC6zxEt8FIgMozerxRlAncwznEjK+cJVA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
     dependencies:
-      '@typescript-eslint/utils': 5.31.0_eslint@8.20.0+typescript@4.6.4
+      '@typescript-eslint/utils': 5.31.0_eslint@8.20.0+typescript@4.8.3
       eslint: 8.20.0
     transitivePeerDependencies:
       - supports-color
       - typescript
     dev: false
 
-  /@typescript-eslint/parser/5.31.0_eslint@8.20.0+typescript@4.6.4:
+  /@typescript-eslint/parser/5.31.0_eslint@8.20.0+typescript@4.8.3:
     resolution: {integrity: sha512-UStjQiZ9OFTFReTrN+iGrC6O/ko9LVDhreEK5S3edmXgR396JGq7CoX2TWIptqt/ESzU2iRKXAHfSF2WJFcWHw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -2849,10 +3154,10 @@ packages:
     dependencies:
       '@typescript-eslint/scope-manager': 5.31.0
       '@typescript-eslint/types': 5.31.0
-      '@typescript-eslint/typescript-estree': 5.31.0_typescript@4.6.4
+      '@typescript-eslint/typescript-estree': 5.31.0_typescript@4.8.3
       debug: 4.3.4
       eslint: 8.20.0
-      typescript: 4.6.4
+      typescript: 4.8.3
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -2865,7 +3170,7 @@ packages:
       '@typescript-eslint/visitor-keys': 5.31.0
     dev: false
 
-  /@typescript-eslint/type-utils/5.31.0_eslint@8.20.0+typescript@4.6.4:
+  /@typescript-eslint/type-utils/5.31.0_eslint@8.20.0+typescript@4.8.3:
     resolution: {integrity: sha512-7ZYqFbvEvYXFn9ax02GsPcEOmuWNg+14HIf4q+oUuLnMbpJ6eHAivCg7tZMVwzrIuzX3QCeAOqKoyMZCv5xe+w==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -2875,11 +3180,11 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@typescript-eslint/utils': 5.31.0_eslint@8.20.0+typescript@4.6.4
+      '@typescript-eslint/utils': 5.31.0_eslint@8.20.0+typescript@4.8.3
       debug: 4.3.4
       eslint: 8.20.0
-      tsutils: 3.21.0_typescript@4.6.4
-      typescript: 4.6.4
+      tsutils: 3.21.0_typescript@4.8.3
+      typescript: 4.8.3
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -2889,7 +3194,7 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: false
 
-  /@typescript-eslint/typescript-estree/5.31.0_typescript@4.6.4:
+  /@typescript-eslint/typescript-estree/5.31.0_typescript@4.8.3:
     resolution: {integrity: sha512-3S625TMcARX71wBc2qubHaoUwMEn+l9TCsaIzYI/ET31Xm2c9YQ+zhGgpydjorwQO9pLfR/6peTzS/0G3J/hDw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -2904,13 +3209,13 @@ packages:
       globby: 11.1.0
       is-glob: 4.0.3
       semver: 7.3.7
-      tsutils: 3.21.0_typescript@4.6.4
-      typescript: 4.6.4
+      tsutils: 3.21.0_typescript@4.8.3
+      typescript: 4.8.3
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@typescript-eslint/utils/5.31.0_eslint@8.20.0+typescript@4.6.4:
+  /@typescript-eslint/utils/5.31.0_eslint@8.20.0+typescript@4.8.3:
     resolution: {integrity: sha512-kcVPdQS6VIpVTQ7QnGNKMFtdJdvnStkqS5LeALr4rcwx11G6OWb2HB17NMPnlRHvaZP38hL9iK8DdE9Fne7NYg==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -2919,7 +3224,7 @@ packages:
       '@types/json-schema': 7.0.11
       '@typescript-eslint/scope-manager': 5.31.0
       '@typescript-eslint/types': 5.31.0
-      '@typescript-eslint/typescript-estree': 5.31.0_typescript@4.6.4
+      '@typescript-eslint/typescript-estree': 5.31.0_typescript@4.8.3
       eslint: 8.20.0
       eslint-scope: 5.1.1
       eslint-utils: 3.0.0_eslint@8.20.0
@@ -4082,24 +4387,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220919
-    dev: false
-
-  /downlevel-dts/0.4.0:
-    resolution: {integrity: sha512-nh5vM3n2pRhPwZqh0iWo5gpItPAYEGEWw9yd0YpI+lO60B7A3A6iJlxDbt7kKVNbqBXKsptL+jwE/Yg5Go66WQ==}
-    hasBin: true
-    dependencies:
-      shelljs: 0.8.5
-      typescript: 3.9.10
-    dev: false
-
-  /downlevel-dts/0.8.0:
-    resolution: {integrity: sha512-wBy+Q0Ya/1XRz9MMaj3BXH95E8aSckY3lppmUnf8Qv7dUg0wbWm3szDiVL4PdAvwcS7JbBBDPhCXeAGNT3ttFQ==}
-    hasBin: true
-    dependencies:
-      semver: 7.3.7
-      shelljs: 0.8.5
-      typescript: 4.7.4
+      typescript: 4.9.0-dev.20220927
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -7922,13 +8210,13 @@ packages:
       glob: 7.2.3
     dev: false
 
-  /rollup-plugin-polyfill-node/0.8.0_rollup@2.77.2:
+  /rollup-plugin-polyfill-node/0.8.0_rollup@2.79.1:
     resolution: {integrity: sha512-C4UeKedOmOBkB3FgR+z/v9kzRwV1Q/H8xWs1u1+CNe4XOV6hINfOrcO+TredKxYvopCmr+WKUSNsFUnD1RLHgQ==}
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0
     dependencies:
-      '@rollup/plugin-inject': 4.0.4_rollup@2.77.2
-      rollup: 2.77.2
+      '@rollup/plugin-inject': 4.0.4_rollup@2.79.1
+      rollup: 2.79.1
     dev: false
 
   /rollup-plugin-shim/1.0.0:
@@ -7957,6 +8245,17 @@ packages:
       source-map-resolve: 0.5.3
     dev: false
 
+  /rollup-plugin-sourcemaps/0.4.2_rollup@2.79.1:
+    resolution: {integrity: sha512-pHUvzofmQx/C3zCkX14h9J9MbRfMjaARED8j8qOY+au4prtk2d567GD29WAHQTeGsDAVeStms3cPnRboC41YzA==}
+    engines: {node: '>=4.5.0', npm: '>=2.15.9'}
+    peerDependencies:
+      rollup: '>=0.31.2'
+    dependencies:
+      rollup: 2.79.1
+      rollup-pluginutils: 2.8.2
+      source-map-resolve: 0.5.3
+    dev: false
+
   /rollup-plugin-sourcemaps/0.6.3_33537704779d09e8a7b3ae8d1134dd59:
     resolution: {integrity: sha512-paFu+nT1xvuO1tPFYXGe+XnQvg4Hjqv/eIhG8i5EspfYYPBKL57X7iVbfv55aNVASg3dzWvES9dmWsL2KhfByw==}
     engines: {node: '>=10.0.0'}
@@ -7970,6 +8269,22 @@ packages:
       '@rollup/pluginutils': 3.1.0_rollup@2.77.2
       '@types/node': 12.20.55
       rollup: 2.77.2
+      source-map-resolve: 0.6.0
+    dev: false
+
+  /rollup-plugin-sourcemaps/0.6.3_d5cdf4085e8d861e18b050352f98f0b9:
+    resolution: {integrity: sha512-paFu+nT1xvuO1tPFYXGe+XnQvg4Hjqv/eIhG8i5EspfYYPBKL57X7iVbfv55aNVASg3dzWvES9dmWsL2KhfByw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      '@types/node': '>=10.0.0'
+      rollup: '>=0.31.2'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.79.1
+      '@types/node': 12.20.55
+      rollup: 2.79.1
       source-map-resolve: 0.6.0
     dev: false
 
@@ -7988,6 +8303,34 @@ packages:
       source-map-resolve: 0.6.0
     dev: false
 
+  /rollup-plugin-sourcemaps/0.6.3_rollup@2.79.1:
+    resolution: {integrity: sha512-paFu+nT1xvuO1tPFYXGe+XnQvg4Hjqv/eIhG8i5EspfYYPBKL57X7iVbfv55aNVASg3dzWvES9dmWsL2KhfByw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      '@types/node': '>=10.0.0'
+      rollup: '>=0.31.2'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.79.1
+      rollup: 2.79.1
+      source-map-resolve: 0.6.0
+    dev: false
+
+  /rollup-plugin-terser/5.3.1_rollup@1.32.1:
+    resolution: {integrity: sha512-1pkwkervMJQGFYvM9nscrUoncPwiKR/K+bHdjv6PFgRo3cgPHoRT83y2Aa3GvINj4539S15t/tpFPb775TDs6w==}
+    peerDependencies:
+      rollup: '>=0.66.0 <3'
+    dependencies:
+      '@babel/code-frame': 7.18.6
+      jest-worker: 24.9.0
+      rollup: 1.32.1
+      rollup-pluginutils: 2.8.2
+      serialize-javascript: 4.0.0
+      terser: 4.8.1
+    dev: false
+
   /rollup-plugin-terser/5.3.1_rollup@2.77.2:
     resolution: {integrity: sha512-1pkwkervMJQGFYvM9nscrUoncPwiKR/K+bHdjv6PFgRo3cgPHoRT83y2Aa3GvINj4539S15t/tpFPb775TDs6w==}
     peerDependencies:
@@ -8001,7 +8344,34 @@ packages:
       terser: 4.8.1
     dev: false
 
-  /rollup-plugin-visualizer/5.7.1_rollup@2.77.2:
+  /rollup-plugin-terser/5.3.1_rollup@2.79.1:
+    resolution: {integrity: sha512-1pkwkervMJQGFYvM9nscrUoncPwiKR/K+bHdjv6PFgRo3cgPHoRT83y2Aa3GvINj4539S15t/tpFPb775TDs6w==}
+    peerDependencies:
+      rollup: '>=0.66.0 <3'
+    dependencies:
+      '@babel/code-frame': 7.18.6
+      jest-worker: 24.9.0
+      rollup: 2.79.1
+      rollup-pluginutils: 2.8.2
+      serialize-javascript: 4.0.0
+      terser: 4.8.1
+    dev: false
+
+  /rollup-plugin-visualizer/4.2.2_rollup@1.32.1:
+    resolution: {integrity: sha512-10/TsugsaQL5rdynl0lrklBngTtkRBESZdxUJy+3fN+xKqNdg5cr7JQU1OoPx4p5mhQ+nspa6EvX3qc8SsBvnA==}
+    engines: {node: '>=10'}
+    hasBin: true
+    peerDependencies:
+      rollup: '>=1.20.0'
+    dependencies:
+      nanoid: 3.3.4
+      open: 7.4.2
+      rollup: 1.32.1
+      source-map: 0.7.4
+      yargs: 16.2.0
+    dev: false
+
+  /rollup-plugin-visualizer/5.7.1_rollup@2.79.1:
     resolution: {integrity: sha512-E/IgOMnmXKlc6ICyf53ok1b6DxPeNVUs3R0kYYPuDpGfofT4bkiG+KtSMlGjMACFmfwbbqTVDZBIF7sMZVKJbA==}
     engines: {node: '>=14'}
     hasBin: true
@@ -8010,7 +8380,7 @@ packages:
     dependencies:
       nanoid: 3.3.4
       open: 8.4.0
-      rollup: 2.77.2
+      rollup: 2.79.1
       source-map: 0.7.4
       yargs: 17.5.1
     dev: false
@@ -8040,6 +8410,14 @@ packages:
 
   /rollup/2.77.2:
     resolution: {integrity: sha512-m/4YzYgLcpMQbxX3NmAqDvwLATZzxt8bIegO78FZLl+lAgKJBd1DRAOeEiZcKOIOPjxE6ewHWHNgGEalFXuz1g==}
+    engines: {node: '>=10.0.0'}
+    hasBin: true
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: false
+
+  /rollup/2.79.1:
+    resolution: {integrity: sha512-uKxbd0IhMZOhjAiD5oAFp7BqvkA4Dv47qpOCtaNvng4HBwdbWtdOh8f5nZNuk2rp51PMGk3bzfWu5oayNEuYnw==}
     engines: {node: '>=10.0.0'}
     hasBin: true
     optionalDependencies:
@@ -8812,6 +9190,37 @@ packages:
       yn: 3.1.1
     dev: false
 
+  /ts-node/10.9.1_8a48dd0e78344f824d84cc558db9572d:
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.3
+      '@types/node': 12.20.55
+      acorn: 8.8.0
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 4.2.4
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
   /ts-node/10.9.1_b5bd4a8e238709e15d0171692055b18b:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
@@ -8839,6 +9248,37 @@ packages:
       diff: 4.0.2
       make-error: 1.3.6
       typescript: 4.6.4
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
+  /ts-node/10.9.1_f73aca07a5ebb34bfc1f3abee339dfba:
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.3
+      '@types/node': 12.20.55
+      acorn: 8.8.0
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 4.8.3
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
     dev: false
@@ -8891,14 +9331,14 @@ packages:
     resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
     dev: false
 
-  /tsutils/3.21.0_typescript@4.6.4:
+  /tsutils/3.21.0_typescript@4.8.3:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
     engines: {node: '>= 6'}
     peerDependencies:
       typescript: '>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta'
     dependencies:
       tslib: 1.14.1
-      typescript: 4.6.4
+      typescript: 4.8.3
     dev: false
 
   /tunnel-agent/0.6.0:
@@ -8967,12 +9407,6 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/3.9.10:
-    resolution: {integrity: sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
-    dev: false
-
   /typescript/4.2.4:
     resolution: {integrity: sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==}
     engines: {node: '>=4.2.0'}
@@ -8997,8 +9431,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220919:
-    resolution: {integrity: sha512-W+bcsHdefNwUVjTzmimk/I3GuYjC8ubm1RKBI097N6iEBwoc/vPMAoCArc24Zc2cbuFc01TKO75240wCXNYAkA==}
+  /typescript/4.8.3:
+    resolution: {integrity: sha512-goMHfm00nWPa8UvR/CPSvykqf6dVV8x/dp0c5mFTMTIu0u0FlGWRioyy7Nn0PGAdHxpJZnuO/ut+PpQ8UiHAig==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
+
+  /typescript/4.9.0-dev.20220927:
+    resolution: {integrity: sha512-MXTYXCsE60y6eXtLu2aAgeV0LD/e5HCBPPRETcH+UMPoVusk9RjJNzj1/9gkNRryIoqeeL3w2AlxYHbiHPtQog==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9541,17 +9981,17 @@ packages:
     dev: false
 
   file:projects/abort-controller.tgz:
-    resolution: {integrity: sha512-OtbiJoaHj6TgXOZV064m2QaTT3ZL8q8p+S8nWr9jb0GONPjzttDgOwypQEqVbHScJCVh8dF8yIzo0aok8+/W+Q==, tarball: file:projects/abort-controller.tgz}
+    resolution: {integrity: sha512-vxg9bExRecQgdbaS/rH7gyagl8t8hDEEA3xIZ1nY33e+jbHaF4iX7OEh6wLPRe1HooT7spTsv/cfr28ioB9/tA==, tarball: file:projects/abort-controller.tgz}
     name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.18.11
+      '@microsoft/api-extractor': 7.31.2
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       chai: 4.3.6
       cross-env: 7.0.3
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       karma: 6.4.0
       karma-chrome-launcher: 3.1.1
@@ -9767,8 +10207,64 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/ai-language-conversations.tgz:
+    resolution: {integrity: sha512-060vIpSA1oWfoWH37LVC/Xxf/SV76wcra1q7mXaVezsJpIDJUJa9D1dV5oHABF5dF775YtmxS2DJMzGuZ3P7WQ==, tarball: file:projects/ai-language-conversations.tgz}
+    name: '@rush-temp/ai-language-conversations'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      '@types/chai-as-promised': 7.1.5
+      '@types/mocha': 7.0.2
+      '@types/node': 12.20.55
+      '@types/sinon': 9.0.11
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 8.20.0
+      karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.0
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.0
+      karma-junit-reporter: 2.0.1_karma@6.4.0
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.0
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.7.1
+      rimraf: 3.0.2
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_33537704779d09e8a7b3ae8d1134dd59
+      sinon: 9.2.4
+      source-map-support: 0.5.21
+      ts-node: 10.9.1_8a48dd0e78344f824d84cc558db9572d
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.16.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/ai-language-text.tgz:
-    resolution: {integrity: sha512-rGXTKDKpVqBRNKazoQzIpOEU0pLK7B10RP8QY20QVCpY5SxumFNDAV/cS3vE+uyaKlKh1UzBnHlsBad3bINccw==, tarball: file:projects/ai-language-text.tgz}
+    resolution: {integrity: sha512-kIeLoJk6chjoj5moHB9qcirhv5HHcwEJNDA+QLdugHmSaWyKJA9N/UnwOH6M+O5GXtG710LQgM1fNFAfEs4OMQ==, tarball: file:projects/ai-language-text.tgz}
     name: '@rush-temp/ai-language-text'
     version: 0.0.0
     dependencies:
@@ -9865,6 +10361,48 @@ packages:
       - bufferutil
       - debug
       - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/ai-personalizer.tgz:
+    resolution: {integrity: sha512-MQlXPCHUzPpCcYjDu8RgtYoMzUhhYwp5Ok/bSc7MLKIm/D3xxgJseadSJBcA6cQOyY/zjKi6aZtjxtAUTgguVQ==, tarball: file:projects/ai-personalizer.tgz}
+    name: '@rush-temp/ai-personalizer'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@types/chai': 4.3.1
+      '@types/node': 12.20.55
+      autorest: 3.6.2
+      chai: 4.3.6
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 7.32.0
+      karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.0
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.0
+      karma-junit-reporter: 2.0.1_karma@6.4.0
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.0
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.4.0
+      typescript: 4.2.4
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
       - supports-color
       - utf-8-validate
     dev: false
@@ -10015,7 +10553,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-3AY/x0wFMMb4MhbzbEiHA+NPWnHHssXoIWqhqOLwmSYPPRlLA4VQ8Gk1sEJhYFm+qLlrJMLSGc1uVFufycIqtg==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-kOkIGSYiBZ5Xrta9Iwhz788p5QSt6g8JcQ6BrMR0DijPqxSW6vNmD8qhIEplvWXu9n6RNdAXcV0R9FU9YNtl2Q==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -10091,6 +10629,33 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-agrifood.tgz:
+    resolution: {integrity: sha512-hE60+8FUOvs27D/VtrifObE8lvdK4bQlF08eOgF/ht2RHv1UKfL6WBiPVyn483gx5GNlHnaOyAhqQ8h6urO2PA==, tarball: file:projects/arm-agrifood.tgz}
+    name: '@rush-temp/arm-agrifood'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      tslib: 2.4.0
+      typescript: 4.6.4
+      uglify-js: 3.16.3
+    transitivePeerDependencies:
+      - '@types/node'
       - supports-color
     dev: false
 
@@ -10264,7 +10829,7 @@ packages:
     dev: false
 
   file:projects/arm-appplatform.tgz:
-    resolution: {integrity: sha512-7zq9QIxYf9wPf4PLHgD1sE/cdFBJOmELQJBLWbUHk/P5pvzlw4r3BdoG0jZnQTutmcyILS/xnv0Wo45r4X1Svg==, tarball: file:projects/arm-appplatform.tgz}
+    resolution: {integrity: sha512-AQtrkrBiPXPfz1pHY3z7WvLbXFjyCqJKz1FfBBRcXoqY1YXONxebd5JgHJaY9NwX8sMfg7FvpF91S6ZI2OWajg==, tarball: file:projects/arm-appplatform.tgz}
     name: '@rush-temp/arm-appplatform'
     version: 0.0.0
     dependencies:
@@ -10276,6 +10841,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.77.2
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -10283,11 +10850,10 @@ packages:
       rollup: 2.77.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -10795,6 +11361,33 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-chaos.tgz:
+    resolution: {integrity: sha512-Os8pMeUKWkeL03AHySA5scua/kJrrBFs4eHqqZJqSYnLwWMcIHI4gexC+64ARilvJ0Q6UUcmUpDWkJ2g6FHCiQ==, tarball: file:projects/arm-chaos.tgz}
+    name: '@rush-temp/arm-chaos'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      tslib: 2.4.0
+      typescript: 4.6.4
+      uglify-js: 3.16.3
+    transitivePeerDependencies:
+      - '@types/node'
+      - supports-color
+    dev: false
+
   file:projects/arm-cognitiveservices.tgz:
     resolution: {integrity: sha512-IxneKd92NTUdT3T+Jy0JpMWMWRnXNq7aec0WpBc9o6MJP8wVDw4tlRK47ZliW8/y4xr6uGQW9G4lm4Tx1G376g==, tarball: file:projects/arm-cognitiveservices.tgz}
     name: '@rush-temp/arm-cognitiveservices'
@@ -11073,7 +11666,7 @@ packages:
     dev: false
 
   file:projects/arm-consumption.tgz:
-    resolution: {integrity: sha512-NQFxrW/D3odjtPrxLs6gwb+AyosrVpjGVmISx1HvJpfEs12cYKRWGNNYGnKdiv4vjyKW8RWrBEg4SP8duHVDGQ==, tarball: file:projects/arm-consumption.tgz}
+    resolution: {integrity: sha512-SzkSELrTTgv1Zp/sAhPA8P7G+QYZJM73lP8YypxDugcUaHG2cdodi5N4NoChoeIR7HdTimpFLCS/cRTPVh2w5Q==, tarball: file:projects/arm-consumption.tgz}
     name: '@rush-temp/arm-consumption'
     version: 0.0.0
     dependencies:
@@ -11084,6 +11677,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.77.2
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11091,16 +11686,15 @@ packages:
       rollup: 2.77.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
   file:projects/arm-containerinstance.tgz:
-    resolution: {integrity: sha512-ay+mC9Jr0E2P2GJ2//mWJCC+b/QgOMwb0BeY/s5IpbGPDZRfC1jfaM/1uXVM4GesLdUEjn/zYZD8+jnmRCuuPw==, tarball: file:projects/arm-containerinstance.tgz}
+    resolution: {integrity: sha512-amF4MBdcRmOdGpVhUhYh7/Sq7z92DIcDj7RVNDrmzTge1AqR/cPxUXEAv//v5K0j4e2sXXRQcvGDVAr3JNno7g==, tarball: file:projects/arm-containerinstance.tgz}
     name: '@rush-temp/arm-containerinstance'
     version: 0.0.0
     dependencies:
@@ -11120,7 +11714,7 @@ packages:
       rollup: 2.77.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
@@ -11481,7 +12075,7 @@ packages:
     dev: false
 
   file:projects/arm-datafactory.tgz:
-    resolution: {integrity: sha512-6JJuO19aEGkVOfEXt5DxndbMTazWRESu4DiJui+9azO6V8bdhFHG+VbPs44m4upZgw+hxz7bF+b0VdVdUaZ1ow==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-G4fblHqK1dTj3H63TU3rG+q4HL1r6yHIWUywZA1YQFrK4nKn1/CEQ4WREjLXgSIt6znfy0DkSy7CvqQPB5gFFw==, tarball: file:projects/arm-datafactory.tgz}
     name: '@rush-temp/arm-datafactory'
     version: 0.0.0
     dependencies:
@@ -11501,7 +12095,7 @@ packages:
       rollup: 2.77.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
@@ -11842,7 +12436,7 @@ packages:
     dev: false
 
   file:projects/arm-dnsresolver.tgz:
-    resolution: {integrity: sha512-3SeowtGhuvPDsy0b+jVmuJ/l3SZs1claiusGUCBAj6YOmbX1qGxuYaMsGXOlzGMRsFWfVf/7+6KHLDqAWiIWGg==, tarball: file:projects/arm-dnsresolver.tgz}
+    resolution: {integrity: sha512-kSjtx6ZBrvnnceUu38GSxJ60I+SYkccnHNt43W2P7zlHFKsfbRS5v/19vpaCV2MxjSf588PIlBKhgwq7BY7usA==, tarball: file:projects/arm-dnsresolver.tgz}
     name: '@rush-temp/arm-dnsresolver'
     version: 0.0.0
     dependencies:
@@ -11854,6 +12448,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.77.2
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11865,7 +12461,6 @@ packages:
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -12544,7 +13139,7 @@ packages:
     dev: false
 
   file:projects/arm-kusto.tgz:
-    resolution: {integrity: sha512-N12uCH9ucOOQsC50eVzUFuZi8wS249uYZhEyzPx1IxBTkPwv7YAK60FN1Pz3k3Gz+HJE7o3Ey4ADTF18Q16CYw==, tarball: file:projects/arm-kusto.tgz}
+    resolution: {integrity: sha512-a6zQOr6SltBopIRpKrmwhiKwJ/B7WkZ7v5Taj2DHgGaIdcVWJzyn0jlOX4IWFt/VVkgHgyoLf2GKFQmIV7A7Aw==, tarball: file:projects/arm-kusto.tgz}
     name: '@rush-temp/arm-kusto'
     version: 0.0.0
     dependencies:
@@ -12564,7 +13159,7 @@ packages:
       rollup: 2.77.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
@@ -12572,7 +13167,7 @@ packages:
     dev: false
 
   file:projects/arm-labservices.tgz:
-    resolution: {integrity: sha512-R/6bT6KtWCO47iFKNVGEfDzqrVVSTKFXYPs6q77AeQRRbloDe/MLMjCmxjG9MpU0M/XICUCxbOcKSMWUI9zw5g==, tarball: file:projects/arm-labservices.tgz}
+    resolution: {integrity: sha512-jyCn8OVziK/MCJnD92iNVw1guKmXHt/eHlUBqljR2eHhGKxHUdXn1fb8ua71ChTMz4fO87gOULXRXeWJKJVqAA==, tarball: file:projects/arm-labservices.tgz}
     name: '@rush-temp/arm-labservices'
     version: 0.0.0
     dependencies:
@@ -12592,7 +13187,7 @@ packages:
       rollup: 2.77.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
@@ -13959,7 +14554,7 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-cgrn1Lqtga5bArhVbAmnQhf4Ox4Ik9xqruujCVvvexD1rmosYSc98pXzF6F1k5D6Gu3iI8foSYQMiMwvu0AaUA==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-V4UK6jcDyI9pIgICRtToTT8DTQztAZ13OxEAR6blVALbIbVzhrBooYnXatela+dhw2MwnDbjFweLnExbClTqlg==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
@@ -13972,6 +14567,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.77.2
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -13979,11 +14576,10 @@ packages:
       rollup: 2.77.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -14217,16 +14813,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14272,18 +14868,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14301,16 +14897,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14329,16 +14925,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14383,16 +14979,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14411,16 +15007,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14439,16 +15035,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14509,18 +15105,18 @@ packages:
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14538,16 +15134,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14592,16 +15188,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14620,16 +15216,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14647,18 +15243,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14676,16 +15272,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14703,18 +15299,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
@@ -14731,18 +15327,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
@@ -14758,18 +15354,18 @@ packages:
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14787,16 +15383,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14815,16 +15411,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14843,16 +15439,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14871,16 +15467,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14898,16 +15494,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14926,16 +15522,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14953,18 +15549,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14982,16 +15578,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -15009,16 +15605,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -15037,16 +15633,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -15064,16 +15660,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -15092,16 +15688,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -15119,16 +15715,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -15146,18 +15742,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -15175,16 +15771,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -15202,16 +15798,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -15229,18 +15825,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -15257,16 +15853,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -15277,7 +15873,7 @@ packages:
     dev: false
 
   file:projects/attestation.tgz:
-    resolution: {integrity: sha512-esk6BPXhLvX29lA+iXg7wDklhsHZkJsHogPW+tk/bi9fiquDN9N3ILwFjPL6om7U8ldAOIzA1KNYpXZF9HVriw==, tarball: file:projects/attestation.tgz}
+    resolution: {integrity: sha512-tIhdENyWaKUbTgw73ichEO5ogqVir6Au8JcwxDAocXVOltekbNuVFQ5iuJv6q8wUxJC+yxh27/kyx7r76lBjTg==, tarball: file:projects/attestation.tgz}
     name: '@rush-temp/attestation'
     version: 0.0.0
     dependencies:
@@ -15293,7 +15889,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       esm: 3.2.25
       inherits: 2.0.4
@@ -15559,6 +16155,59 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/communication-job-router.tgz:
+    resolution: {integrity: sha512-Z0gKv5fmUgPoBAfOOr0OoTC417yOWNldOoxw7JS13pa7U9djFNlq74YD93rqJRd1ZFPIoULtrRjxSSIQFyKfUw==, tarball: file:projects/communication-job-router.tgz}
+    name: '@rush-temp/communication-job-router'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@microsoft/api-extractor': 7.31.2
+      '@types/chai': 4.3.1
+      '@types/mocha': 7.0.2
+      '@types/node': 12.20.55
+      '@types/sinon': 9.0.11
+      '@types/uuid': 8.3.4
+      chai: 4.3.6
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 7.32.0
+      events: 3.3.0
+      inherits: 2.0.4
+      karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.0
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.0
+      karma-json-preprocessor: 0.3.3_karma@6.4.0
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.4.0
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.0
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
+      sinon: 9.2.4
+      tslib: 2.4.0
+      typescript: 4.2.4
+      util: 0.12.4
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/communication-network-traversal.tgz:
     resolution: {integrity: sha512-D2AzMlxeqbWjZSMHq3SizmBpxWsp0d4B1ZKQY4hVIZGPd3pF8G2gmhGhcSK2VeuZO3uzOsgrwLpz3+GqnV4M7Q==, tarball: file:projects/communication-network-traversal.tgz}
     name: '@rush-temp/communication-network-traversal'
@@ -15566,12 +16215,12 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.28.6
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
-      '@rollup/plugin-replace': 2.4.2_rollup@2.77.2
+      '@microsoft/api-extractor': 7.31.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@rollup/plugin-replace': 2.4.2_rollup@2.79.1
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
@@ -15600,11 +16249,11 @@ packages:
       nyc: 15.1.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      rollup: 2.77.2
+      rollup: 2.79.1
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.6.3_33537704779d09e8a7b3ae8d1134dd59
-      rollup-plugin-terser: 5.3.1_rollup@2.77.2
-      rollup-plugin-visualizer: 5.7.1_rollup@2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_d5cdf4085e8d861e18b050352f98f0b9
+      rollup-plugin-terser: 5.3.1_rollup@2.79.1
+      rollup-plugin-visualizer: 5.7.1_rollup@2.79.1
       sinon: 9.2.4
       tslib: 2.4.0
       typescript: 4.6.4
@@ -15616,7 +16265,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-AqQn/JWIEhONQ7DryLh99MiUsjk3zXMiDYLHSwl8xTMpbn8FvkvqZGqTiu6Ovcf5fEsy3pa+oGppyxf3hk3bbg==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-nMmCk5M62xzqtm8VvCRk8RbT9XOtajridf8FXmLu1ZNU41R0BRfKHgqr5eekE5/Iz02Tm5nSuAGhHHr1rmqMWA==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
@@ -15659,7 +16308,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -15669,7 +16317,7 @@ packages:
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.28.6
+      '@microsoft/api-extractor': 7.31.2
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/sinon': 10.0.13
@@ -15745,13 +16393,13 @@ packages:
     dev: false
 
   file:projects/communication-sms.tgz:
-    resolution: {integrity: sha512-z51rTR1TIq7HjLR2fHj6gxnzgPRuC3blZcGgvIFDzAVI/eH2VGFAWEqnUx3RomQOCJxrRtHitRJNddQDXYstfA==, tarball: file:projects/communication-sms.tgz}
+    resolution: {integrity: sha512-RMWzjZGdYlC2k8wuZmMdLTWz15eJyxFR//67ZQndAQ7k1c2uvgiGJxdTJ8nmHfiIiY+Ck515sHK/xKSmyiK6ww==, tarball: file:projects/communication-sms.tgz}
     name: '@rush-temp/communication-sms'
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.28.6
+      '@microsoft/api-extractor': 7.31.2
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
@@ -15882,7 +16530,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-w6N5F9uEnciJzc3kRqTIphHUxCbP43JL+3guB4dv+NT7jTEz7PXNK3LLYXcOEqoB3gW/WaHV0vzYLPQczs5iBQ==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-hQ7a/W0DQbiJ93BlBeEY+Z6G1nYYHhKk/cZ6feHwSvKOdzM7Z8l2+/9PeDQBMlprQwvW1vXkERfBbWMHDHliHw==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -15903,7 +16551,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       debug: 4.3.4
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       events: 3.3.0
       jssha: 3.2.0
@@ -15940,7 +16588,7 @@ packages:
     dev: false
 
   file:projects/core-auth.tgz:
-    resolution: {integrity: sha512-K7PUbW3/V7kFDdLe23arDJzoiLE0PpMpV9shJqIMCSGdI7I6srDlxtheWW2Lo2KhomAcJP54Bul+ArIUl2SU2Q==, tarball: file:projects/core-auth.tgz}
+    resolution: {integrity: sha512-HyTXFhEDe0uzHBQvGf+ucRYBK2VC6Mw/39HXM7HO3oSDoxxPDwvSE5TverYNWG1k4Od4TtzeJEQ9HDbSefXqdg==, tarball: file:projects/core-auth.tgz}
     name: '@rush-temp/core-auth'
     version: 0.0.0
     dependencies:
@@ -15950,7 +16598,7 @@ packages:
       '@types/node': 12.20.55
       chai: 4.3.6
       cross-env: 7.0.3
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       inherits: 2.0.4
       mocha: 7.2.0
@@ -15965,7 +16613,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-6PZ587NIybJLDzewczuBOSlwGt+EdWwp/NzVly2Aj95laOU2F5+dMQ6zNGW9ppWssvq2ddvcMHRtI68LP3N2vw==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-hu09NW1RHo8OtrhQjAwHu0ylaENhrlDwBMiSjAH36alOd8W5/dl79kvoxEc7uneVR2mrER3SbMkSlaBnBqlLRg==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -15976,7 +16624,7 @@ packages:
       '@types/sinon': 9.0.11
       chai: 4.3.6
       cross-env: 7.0.3
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       inherits: 2.0.4
       karma: 6.4.0
@@ -16048,13 +16696,13 @@ packages:
     dev: false
 
   file:projects/core-http-compat.tgz:
-    resolution: {integrity: sha512-xXqg640P5Tl6R5LK7vmQaVvbLNVOvLoj5Iz3G4fu+fokU+tyfLyWIvdJ0fswTl1cCB6zoNloNiKW5ZuxDCivEQ==, tarball: file:projects/core-http-compat.tgz}
+    resolution: {integrity: sha512-fiRBREggj7ifCKjKRQwZTpQbMGXIT6cqql2ztEM1GS0ApJsKyXOzArjk/wbRufEA4SszAPikvGaSEuXUP6qlbQ==, tarball: file:projects/core-http-compat.tgz}
     name: '@rush-temp/core-http-compat'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.18.11
       cross-env: 7.0.3
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -16066,7 +16714,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-m50uccM6kaloGygZXe1vnKmyIocArbLCMfWEmjyhq8ux1bKM2tf2MxlaVfEVgxk6ejsIsIYzyiAUfE5i+wh5Vw==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-N01s8G0U7FDaKX51dr+TKxoqjN/sW/9yvfa1WPb+krcdlYj/HTvhfmWzSf0IymbgYWqbBkorNyHqRanOMySLBA==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -16087,7 +16735,7 @@ packages:
       '@types/xml2js': 0.4.11
       chai: 4.3.6
       cross-env: 7.0.3
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       express: 4.18.1
       fetch-mock: 9.11.0_node-fetch@2.6.7
@@ -16131,7 +16779,7 @@ packages:
     dev: false
 
   file:projects/core-lro.tgz:
-    resolution: {integrity: sha512-Iekt5Nq7NjJhqKxKQv5GMYYjJn4Ri/D9JJNxlNYwM1UQl1rIBkWSSKiRGu/7a6tjcxGqGN2bURJUFXfKqwxVxQ==, tarball: file:projects/core-lro.tgz}
+    resolution: {integrity: sha512-0KYl8Q3FwAcxMpjqDQLMU0lfU1egH97ni5xAs4FYUCak6717aFuR2DILHaGhYjsT9oTff5xBdlN0F2fdhGRA6g==, tarball: file:projects/core-lro.tgz}
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
@@ -16173,7 +16821,7 @@ packages:
     dev: false
 
   file:projects/core-paging.tgz:
-    resolution: {integrity: sha512-UBwyM2tICq6eQcAUdF7/Om1PV/cEmDzffEFGgp36BAmoFNhAcZNZbgKtpRAYtdh0/eWeV1ey0u+QO8NH7msGHA==, tarball: file:projects/core-paging.tgz}
+    resolution: {integrity: sha512-MO/ebeXCfrMrXvfHCvbTfZ/PrrSlACm8K9NWBFvBIMHojGaEeFTgphF64v2svsxs4EB2KZkrmuXomOBUKJdkwg==, tarball: file:projects/core-paging.tgz}
     name: '@rush-temp/core-paging'
     version: 0.0.0
     dependencies:
@@ -16182,7 +16830,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       chai: 4.3.6
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       karma: 6.4.0
       karma-chrome-launcher: 3.1.1
@@ -16209,7 +16857,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-ogCKDnbP8OQA8XUr8szudiw3+MbWGrNX5uHd0a3X3EZuzFBJ2HGWCn+ohVXDw1MZxZulZx3I1bDqXKJwD4oTIQ==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-LnUhzRQ6t3pPy65pSTXa7e3dhpzj2vytYtyHRuslLDNHdNvxGmwKBT7hjnW9aX8Zym+7bKtFhgYKFxnkyhUl8w==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -16224,7 +16872,7 @@ packages:
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       form-data: 4.0.0
       http-proxy-agent: 5.0.0
@@ -16301,7 +16949,7 @@ packages:
     dev: false
 
   file:projects/core-util.tgz:
-    resolution: {integrity: sha512-u99xloPf+9d2zflGy5avvlGyJ3IvzAx5A+SiDb0LfBDm7oGY90btStYqGQu/JoJVQZV/M5OBXJG8ZQPo9CmKBg==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-RKM0GDesu6KF9ayCTbGSyTDl2ZwGPCw9AVd1y8oJNiyaBMFTicuF4El4sA3IYnJm1hPibOiM8iOcHCoB8jROBw==, tarball: file:projects/core-util.tgz}
     name: '@rush-temp/core-util'
     version: 0.0.0
     dependencies:
@@ -16312,7 +16960,7 @@ packages:
       '@types/sinon': 9.0.11
       chai: 4.3.6
       cross-env: 7.0.3
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       inherits: 2.0.4
       karma: 6.4.0
@@ -16342,7 +16990,7 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-5+zd043sDM/odtnG6BPT/QsrUgTlw6vfUQmyu3qEqC79GCGbe9m/bbXvkBlnGd7hOjJ/zfO/4CHjn50h23MhgA==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-g3aq/KaDJnZ8FWQ5jH4Znc/cQVgb1RDs1wQniKsZyFQnozBDlmb6spY/BGcTYjuTVrMficaE1wjl0LLzDe0V/g==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
@@ -16354,7 +17002,7 @@ packages:
       '@types/trusted-types': 2.0.2
       chai: 4.3.6
       cross-env: 7.0.3
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       fast-xml-parser: 4.0.9
       inherits: 2.0.4
@@ -16385,7 +17033,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-5ZHaxJL1qEYsrBVXw8iBNAPmdEFL0rDyU5EZJuBRwd4DfUywxC62z9ZAY+Z6mutvp2nw6KYp2XM+mZjdz3t2OQ==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-UVXjD7aSyN6vneHslg8k8NUhaZuJRloSxQfdBIaR4NKiQvJHxyxt9y3Cx8BnvieG/1kcb2L1tLpHAleP5etUUQ==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -16402,7 +17050,7 @@ packages:
       cross-env: 7.0.3
       debug: 4.3.4
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       esm: 3.2.25
       execa: 5.1.1
@@ -16430,7 +17078,7 @@ packages:
     dev: false
 
   file:projects/data-tables.tgz:
-    resolution: {integrity: sha512-2OgZTkw36PM0E42fQdwUcXztliZsmLxr0IphmWxPHVX9+sClvhw2luZqJpT+cqI+s5rAylZpfQxAyU9Rec+Wzw==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-ch1/y8lUo+cKs37Upz85bl808a/BMj46UaiQ9Ck2ktRGJBfLM8kbRIBSEVQx8yaLKYhWd1bpamB6xAJ7WwsGEw==, tarball: file:projects/data-tables.tgz}
     name: '@rush-temp/data-tables'
     version: 0.0.0
     dependencies:
@@ -16444,7 +17092,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       inherits: 2.0.4
       karma: 6.4.0
@@ -16479,14 +17127,14 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-iCLrGCDSmWlSbdTH5YMvDdOfs57H7EEbzkyGLlOX/0xJlkm2z8CEu9Oq+wi1pVRuz/+yliy5EFfDDRhCrdm5aA==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-h/3TBGAIs+oJtGw99+69u3khg2tjxQwCehJE69SASck2LcnQGJcc4KWckMZbK7xfhKIhTZVd8oYBoHiypfT0og==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@rollup/plugin-commonjs': 21.0.1_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.0.1_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.1
       '@types/chai-as-promised': 7.1.5
       '@types/fs-extra': 9.0.13
@@ -16506,13 +17154,13 @@ packages:
       mocha: 7.2.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-polyfill-node: 0.8.0_rollup@2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_33537704779d09e8a7b3ae8d1134dd59
-      rollup-plugin-visualizer: 5.7.1_rollup@2.77.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      rollup: 2.79.1
+      rollup-plugin-polyfill-node: 0.8.0_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_d5cdf4085e8d861e18b050352f98f0b9
+      rollup-plugin-visualizer: 5.7.1_rollup@2.79.1
+      ts-node: 10.9.1_f73aca07a5ebb34bfc1f3abee339dfba
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.8.3
       yaml: 1.10.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -16570,16 +17218,16 @@ packages:
     dev: false
 
   file:projects/dtdl-parser.tgz:
-    resolution: {integrity: sha512-auccw4Y8eEYEqUBmUJeGOcJCL/wYrMnHbE5+nE5TYZ7TMK2Brscfuwf/06BPJ9lwNwI7Kt6Gwym495KonMFPig==, tarball: file:projects/dtdl-parser.tgz}
+    resolution: {integrity: sha512-EAC3qUbk4MxjB06HLGUk60xC2JXuieo1Z/t4MjdEDlhJb5yVNsC7LhG6blokGssP34OIHVq2eV5iWSzVOBj0pQ==, tarball: file:projects/dtdl-parser.tgz}
     name: '@rush-temp/dtdl-parser'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.7.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.1
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -16607,10 +17255,10 @@ packages:
       nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_33537704779d09e8a7b3ae8d1134dd59
-      rollup-plugin-terser: 5.3.1_rollup@2.77.2
-      rollup-plugin-visualizer: 5.7.1_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_d5cdf4085e8d861e18b050352f98f0b9
+      rollup-plugin-terser: 5.3.1_rollup@2.79.1
+      rollup-plugin-visualizer: 5.7.1_rollup@2.79.1
       sinon: 9.2.4
       ts-node: 9.1.1_typescript@4.6.4
       tslib: 2.4.0
@@ -16625,7 +17273,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-1DxUDc3NVql5wLeitKgWT7rYamqWkhDqsC+vVGWjCg0L190QoknBLXVsKMsJHjf+rbIpdPEtT3gn3h/KpcpCZw==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-Ms5QdKj++z0+VQBYuNWAMKzp1tFJZikYBIiB+jreue/0AmyENrh+puOMmDkyant+NZXtQ7W5m/gRHNy8uIRy3g==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -16636,10 +17284,10 @@ packages:
       '@types/json-schema': 7.0.11
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
-      '@typescript-eslint/eslint-plugin': 5.31.0_cdc2d1a8a3264171039c48f3cb751375
-      '@typescript-eslint/experimental-utils': 5.31.0_eslint@8.20.0+typescript@4.6.4
-      '@typescript-eslint/parser': 5.31.0_eslint@8.20.0+typescript@4.6.4
-      '@typescript-eslint/typescript-estree': 5.31.0_typescript@4.6.4
+      '@typescript-eslint/eslint-plugin': 5.31.0_8aa5e4b8405bf55abee39ca125640724
+      '@typescript-eslint/experimental-utils': 5.31.0_eslint@8.20.0+typescript@4.8.3
+      '@typescript-eslint/parser': 5.31.0_eslint@8.20.0+typescript@4.8.3
+      '@typescript-eslint/typescript-estree': 5.31.0_typescript@4.8.3
       chai: 4.3.6
       eslint: 8.20.0
       eslint-config-prettier: 8.5.0_eslint@8.20.0
@@ -16656,24 +17304,24 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.8.3
     transitivePeerDependencies:
       - supports-color
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-DkUTqmVDZOR5ysHE2N/RDsIS5V+7SyJDcPMHyey377LlX7nAJsImruP6KtBaPuGPGxlhg7zBLlc3+NZUZNU1pw==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-BDfJhQgkJEpvPpim9kvPz/y8Jsk1VbG+mfrBJzLv/dY2U2JqgRqZnihNsPmOhi/f4FYQ0sLnAYvGmKXfer7Nkw==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-inject': 4.0.4_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
-      '@rollup/plugin-replace': 2.4.2_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-inject': 4.0.4_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@rollup/plugin-replace': 2.4.2_rollup@2.79.1
       '@types/async-lock': 1.1.5
       '@types/chai': 4.3.1
       '@types/chai-as-promised': 7.1.5
@@ -16694,7 +17342,7 @@ packages:
       cross-env: 7.0.3
       debug: 4.3.4
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       esm: 3.2.25
       https-proxy-agent: 5.0.1
@@ -16720,10 +17368,10 @@ packages:
       puppeteer: 14.4.1
       rhea-promise: 2.1.0
       rimraf: 3.0.2
-      rollup: 2.77.2
+      rollup: 2.79.1
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.6.3_33537704779d09e8a7b3ae8d1134dd59
-      rollup-plugin-terser: 5.3.1_rollup@2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_d5cdf4085e8d861e18b050352f98f0b9
+      rollup-plugin-terser: 5.3.1_rollup@2.79.1
       sinon: 9.2.4
       ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
       tslib: 2.4.0
@@ -17018,7 +17666,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-aCsI89Bvj/Jlilt/8fI4SluTSqTL+xPprPomF/s8wFr89sqswow7QyTCCHe/NtKoMZj64ySMjS3jOW+Yw7vY1w==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-2zccxm7yRqXeac2OyhOxJT+eqmxwMNS4fJprsu27L20MGJn8TJkKrJl9613nZnvMUOgsoL0dm6eBG7/gU44EQg==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
@@ -17029,6 +17677,7 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      '@types/uuid': 8.3.4
       chai: 4.3.6
       dotenv: 8.6.0
       eslint: 8.20.0
@@ -17054,6 +17703,7 @@ packages:
       source-map-support: 0.5.21
       tslib: 2.4.0
       typescript: 4.6.4
+      uuid: 8.3.2
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -17062,7 +17712,7 @@ packages:
     dev: false
 
   file:projects/iot-modelsrepository.tgz:
-    resolution: {integrity: sha512-daP4lVseRMbitMKqeJH7iXfj8MCYLplSbs4+05tu5sCIzVoHeRchkji0rd85E4yjOfBQxiWGlDd2K08L7GCQ3w==, tarball: file:projects/iot-modelsrepository.tgz}
+    resolution: {integrity: sha512-VpNAlcWptAswbk7W5fkKbnPOo3hlEPCWQBlAoMpQnqDLkjg0jJV1JjJBJRnggeL5pZZutRqHmjorh59EZ7s9bg==, tarball: file:projects/iot-modelsrepository.tgz}
     name: '@rush-temp/iot-modelsrepository'
     version: 0.0.0
     dependencies:
@@ -17149,7 +17799,7 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@azure/keyvault-secrets': 4.4.0
-      '@microsoft/api-extractor': 7.28.6
+      '@microsoft/api-extractor': 7.31.2
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
@@ -17210,7 +17860,7 @@ packages:
     dependencies:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.28.6
+      '@microsoft/api-extractor': 7.31.2
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
@@ -17457,7 +18107,7 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-ygrwt0/tmSjaMWOxlw6loVyQHrkd/u6t238qQk93FvYAaemzwxDfXBaK3Qjqow/I3ukxI6yerEWLe/q/Vv6E7Q==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-0SUGicIRG2NxqvZiDr31kdYfs1tDnNLPDg6TxvNFEfFYvpdX+D1gTZkkQKr8QX2rbvlLUsI8MnQK478NnxZF2Q==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
@@ -17471,7 +18121,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 7.32.0
       esm: 3.2.25
       inherits: 2.0.4
@@ -17505,21 +18155,22 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-U8b749p7jY9zxEsKEmNe+IP3FL0IotOdm97enOPuNrbAnpjsD0Cd+TAbec2gaTz1UU6x5g0C1jKHudWOqIeJgQ==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-jvonKDXTKQdb2zeqSD8vY5qwl4DL+NB8nyjXxM7G8/7ao+s1dc3fIDL16t+33qayeXy6OUB4uUtQK1gcp1bZoA==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.18.11
-      '@opentelemetry/api': 1.1.0
-      '@opentelemetry/api-metrics': 0.31.0
-      '@opentelemetry/core': 1.5.0_@opentelemetry+api@1.1.0
-      '@opentelemetry/instrumentation': 0.29.2_@opentelemetry+api@1.1.0
-      '@opentelemetry/instrumentation-http': 0.29.2_@opentelemetry+api@1.1.0
-      '@opentelemetry/resources': 1.5.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/api': 1.2.0
+      '@opentelemetry/api-metrics': 0.32.0
+      '@opentelemetry/core': 1.7.0_@opentelemetry+api@1.2.0
+      '@opentelemetry/instrumentation': 0.32.0_@opentelemetry+api@1.2.0
+      '@opentelemetry/instrumentation-http': 0.32.0_@opentelemetry+api@1.2.0
+      '@opentelemetry/resources': 1.7.0_@opentelemetry+api@1.2.0
+      '@opentelemetry/sdk-metrics': 0.32.0_@opentelemetry+api@1.2.0
       '@opentelemetry/sdk-metrics-base': 0.31.0_@opentelemetry+api@1.1.0
-      '@opentelemetry/sdk-trace-base': 1.4.0_@opentelemetry+api@1.1.0
-      '@opentelemetry/sdk-trace-node': 1.4.0_@opentelemetry+api@1.1.0
-      '@opentelemetry/semantic-conventions': 1.5.0
+      '@opentelemetry/sdk-trace-base': 1.7.0_@opentelemetry+api@1.2.0
+      '@opentelemetry/sdk-trace-node': 1.7.0_@opentelemetry+api@1.2.0
+      '@opentelemetry/semantic-conventions': 1.7.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       dotenv: 8.6.0
@@ -17541,7 +18192,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-UQ+CAknpZTVG2+I5QLPP84iW8p1nJvY9XEvQkplzyUaOH9NZjgihLOqZqoqsQDJq9+YtXHj+RaD8C5WaoyydCw==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-c2NVgKJbruEF9TxX3hPOberc2EsFlA9hSYsThewLfxGudDZfIrdCdzV/JaI22i7av55glqrsD7b+VgDnBU03aQ==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -17559,7 +18210,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       esm: 3.2.25
       inherits: 2.0.4
@@ -17590,11 +18241,11 @@ packages:
     dev: false
 
   file:projects/notification-hubs-web-push.tgz:
-    resolution: {integrity: sha512-T3HCJVmsUwXVQHP1c2QKZm8sEn2SGQAcFHiocOb+SMG9fxACBgm4rtMHgemO8xSNPKLY5F67fcq6CZYSTWn5Xw==, tarball: file:projects/notification-hubs-web-push.tgz}
+    resolution: {integrity: sha512-PQqAiOuUjdHt+tD/9cQ5pjVAaiOMegUQRL/7FMp5yAlL7hlnUaMh589z+LLyl8sR1xNPLkz6K0RFNq3HZp+DAA==, tarball: file:projects/notification-hubs-web-push.tgz}
     name: '@rush-temp/notification-hubs-web-push'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.28.6
+      '@microsoft/api-extractor': 7.31.2
       '@types/chai': 4.3.1
       '@types/mocha': 9.1.1
       '@types/node': 12.20.55
@@ -17624,7 +18275,7 @@ packages:
       rimraf: 3.0.2
       ts-node: 10.9.1_8977ea9f10e86dfb77a849a356941236
       tslib: 2.4.0
-      typescript: 4.7.4
+      typescript: 4.8.3
       util: 0.12.4
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -17635,11 +18286,11 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-l6uIJgKu3ZlOYHGibs0MyCu/6buu1Gn18k4GZrM5VxRvLsgrYrPtpIuje4OhOavTcUJHZUr9z0js9aj62LRrhQ==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-IHSdEsxUG9Gqd5maRhWOJfwMI+8q4w6VYRT0pyLFoHo1rMEWHAJsfyI6v4SmKeHkg9m3HdYalufH5DcQmvFEOA==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.28.6
+      '@microsoft/api-extractor': 7.31.2
       '@types/chai': 4.3.1
       '@types/mocha': 9.1.1
       '@types/node': 12.20.55
@@ -17661,14 +18312,15 @@ packages:
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5_karma@6.4.0
+      karma-sourcemap-loader: 0.3.8
       mocha: 10.0.0
       mocha-junit-reporter: 2.0.2_mocha@10.0.0
       nyc: 15.1.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_8977ea9f10e86dfb77a849a356941236
+      ts-node: 10.9.1_f73aca07a5ebb34bfc1f3abee339dfba
       tslib: 2.4.0
-      typescript: 4.7.4
+      typescript: 4.8.3
       util: 0.12.4
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -17681,17 +18333,17 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-0WC/DAQ/khFmvfec8e1siUTEMZ6W3/EO7x+cSeLo4KR/BvXuZl1Jb+rk+uSMoc7UVV94yCk+HFTw+JrQyY6T3w==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-s5B2qBw/uLn9MkmM9JmzoqZjUGBB3W82RwXsZ/hOn6A+9zvygnVAL90lkkOKLZMtA6GKHwzKkn+qyZD9/2zgXw==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.18.11
       '@opentelemetry/api': 1.1.0
-      '@opentelemetry/core': 1.5.0_@opentelemetry+api@1.1.0
-      '@opentelemetry/instrumentation': 0.27.0_@opentelemetry+api@1.1.0
-      '@opentelemetry/sdk-trace-base': 1.4.0_@opentelemetry+api@1.1.0
-      '@opentelemetry/sdk-trace-node': 1.4.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/core': 1.7.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/instrumentation': 0.32.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/sdk-trace-base': 1.7.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/sdk-trace-node': 1.7.0_@opentelemetry+api@1.1.0
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
@@ -17699,7 +18351,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.4.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       esm: 3.2.25
       inherits: 2.0.4
@@ -17756,7 +18408,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-language-text.tgz:
-    resolution: {integrity: sha512-a65p++C2j9ZkoAd4mfSfx02r6Mioeex551ku/IpgOFQ+irJWJp7MTmaayx4ndNcfo+gKS4U8kicVvd8AdS+/Ng==, tarball: file:projects/perf-ai-language-text.tgz}
+    resolution: {integrity: sha512-MaxUWxDFgfHZ4KJc3YLveR1SPP55q2YwOjvSwoXObze+1p2K7ZqdmeXVC95TDZbIHjCEphBvTnqmCgCJRKiIIw==, tarball: file:projects/perf-ai-language-text.tgz}
     name: '@rush-temp/perf-ai-language-text'
     version: 0.0.0
     dependencies:
@@ -18116,7 +18768,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-ACRt0wrz261MTNDcEEtDfYkqhDTiiRw20AhsdJ2nkKTQwtECihm6lxFOuC3n+/2WSWp9qgEpi8bSIHrN1n/r2w==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-YpnKzYo6JuUUrhzh2YmZJba2rxDSueRobUdxEUOAcpCzQX4lSqzQp5/4tC/6e6ZQjL+UNxoC9nLTBeGMic9ybw==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
@@ -18141,7 +18793,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-datalake.tgz:
-    resolution: {integrity: sha512-dewHjtVi92xQNZXFTBBg2mElIhlItaacuMnkQC0ow0RMJWfyBwd6nVuONNPG0SKH1653tZGysRT3a54qdiejqg==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-Ox0X3U3YxqUTmWjuhPnBzrxvEGtjVbFLu9iYrHtt3k/pYhEd3Xw1Oos/cFo0KVysPW7hqzK8mFDjHRsoAhb/uA==, tarball: file:projects/perf-storage-file-datalake.tgz}
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -18159,12 +18811,11 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
   file:projects/perf-storage-file-share.tgz:
-    resolution: {integrity: sha512-9KuLR0nT5kWloC46ScHq4HD/VJXATHFewmRU1tK6WWqeyqhlSrWLgRcZ93H1Mn7v2bK6Njb7BMl2cmvZrpb1BQ==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-yDs9WjNGJcxpAl1fEm06qafAKla/DIUw+gOt2Wp1HDM79rJUXubFJv99W0Kr+K/+3ljFE86F/qEUEOe9RSm22w==, tarball: file:projects/perf-storage-file-share.tgz}
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
@@ -18395,8 +19046,8 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-inject': 4.0.4_rollup@2.77.2
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-inject': 4.0.4_rollup@2.79.1
       '@types/chai': 4.3.1
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -18430,7 +19081,7 @@ packages:
       prettier: 2.7.1
       process: 0.11.10
       rimraf: 3.0.2
-      rollup: 2.77.2
+      rollup: 2.79.1
       rollup-plugin-shim: 1.0.0
       source-map-support: 0.5.21
       tslib: 2.4.0
@@ -18537,7 +19188,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-K0uTdDVQ8q00CaO90VH0iJxFJMlZkL2eEE+5xdBQrWU+IQCvElqNCwqO0n4XXsNfb9LmMhaO1swjnUDsGhBxOw==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-5VgwoUB3AmYKIodvL03LdVoXrd2KdciBVAoY166XP8fr8VIDjbFQcAgNNrmTZ2cZgOq/ec1EXCLL8eFOKENMYg==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
@@ -18561,7 +19212,7 @@ packages:
       cross-env: 7.0.3
       debug: 4.3.4
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       esm: 3.2.25
       events: 3.3.0
@@ -18591,7 +19242,7 @@ packages:
       puppeteer: 14.4.1
       rhea-promise: 2.1.0
       rimraf: 3.0.2
-      rollup: 2.77.2
+      rollup: 2.79.1
       sinon: 9.2.4
       ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
       tslib: 2.4.0
@@ -18608,7 +19259,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-1SUBRaUHI95F/BKGpCtojJDTRG3CCY1Xrsl5d8i1ZEsNeC/8w7ygTQ0KuNTo36HdJZG7oC2jLlGflGH8IDN6vA==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-GzOcYhzEdPibWsB/lwfEyiO2lStqMEjeQCbr9jiG2nLffI61KTU4kYrJNxmvpW4xPzkgl/yXChJ8KSmirAhjsA==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
@@ -18624,7 +19275,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       es6-promise: 4.2.8
       eslint: 8.20.0
       esm: 3.2.25
@@ -18666,7 +19317,7 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-qDo1huwNIXEJQCjUeglX8o1AWfrh1av5mCDPYF7jLkTvZzsSPu4fa0/rTvm58YpijKedX+6NZ2MON74Ef05Ahw==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-RJu7eKVpXWjwSVT0fXR6oTPLtQ5omcoo4L+yIXWqxU2uSNpkeZ+yLXCoE9h1xUDOTG3RK9IjsNxpEzUSW2GsUQ==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
@@ -18682,7 +19333,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       es6-promise: 4.2.8
       eslint: 8.20.0
       esm: 3.2.25
@@ -18723,7 +19374,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-2eExDHsqV9Bg4IBD90AfSz1g846lfKKUW/YgB7682x7NbG+KlyTJyP1bFsUp5qx0E99kPqn7XwrWGJsZtj5n3A==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-FEhViszvLpmnwBeiOwAyA95MQlxq2EmsRRLarMjSdYIwo4JdwK5Akcp5o+tQCX1yHGyEmPKmKEg6B6EPFt7ekg==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -18737,7 +19388,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       es6-promise: 4.2.8
       eslint: 8.20.0
       esm: 3.2.25
@@ -18779,7 +19430,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-KHONbu5Mlc3wwuxmAYtrlpmWkzOZHTdUOzeHuHZhokEfkKi2qDPr03PRosEcq7rJ94v2cq0L/oAFz5P9jibaFw==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-d2LKLklH/qnB362R+PG61cM3WiZI0e46hShH2VU+ncG///84DHhhikew1xh/L15lLr3p2olyqywyoObG7r46OA==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -18793,7 +19444,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       es6-promise: 4.2.8
       eslint: 8.20.0
       esm: 3.2.25
@@ -18834,7 +19485,7 @@ packages:
     dev: false
 
   file:projects/storage-internal-avro.tgz:
-    resolution: {integrity: sha512-A1mgAYsyLYPAzmEhsyHE0SvjU5c4q4RgRKJV3jkMgPohKP6H5TeOS5vRozWodAn2K1lJvpNjjpPkoDOYTKweug==, tarball: file:projects/storage-internal-avro.tgz}
+    resolution: {integrity: sha512-C2HBOVOkL6RFML/+TWUeIY+Lj24L01+m1MKbo48O/Rh3X9FAmt/meR9zw0sp1xN53e+LKjXEr5Ri8pAOI2IjFQ==, tarball: file:projects/storage-internal-avro.tgz}
     name: '@rush-temp/storage-internal-avro'
     version: 0.0.0
     dependencies:
@@ -18845,7 +19496,7 @@ packages:
       '@types/node': 12.20.55
       chai: 4.3.6
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       es6-promise: 4.2.8
       eslint: 8.20.0
       esm: 3.2.25
@@ -18885,7 +19536,7 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-U5Lnj68Di/NyPv5Q8+MgNiTHAk5tfL8wAnvTHXDWgMuwfNeEzNnptub/vghg88ylb0ZK6zygYKbjz0+cR5VKrg==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-gpO3zUeJspRswGgDjOOhpGfrtmcApT+qQui1n3nsjyhxIHKVWsmfXzdx0dDRFpy041UQiRvNTPpju6eMTazNYg==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:
@@ -18899,7 +19550,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       es6-promise: 4.2.8
       eslint: 8.20.0
       esm: 3.2.25
@@ -18993,12 +19644,12 @@ packages:
     dev: false
 
   file:projects/synapse-access-control.tgz:
-    resolution: {integrity: sha512-6IK8LEBqwXvovpG+Q90jy19fqSEBQ9FXDz70j7MX9tKTQle9FCfQNgVO5VDho35CZwBWO7x4fMa6vysiXyZnZA==, tarball: file:projects/synapse-access-control.tgz}
+    resolution: {integrity: sha512-nzZi310F+kL+75JBbLioVO1roc9E/IQFoAVxW8mr9WJSSqginxfUyFDJhIsU8XfPwJ4sLiOIT56UB6uKnTKVTA==, tarball: file:projects/synapse-access-control.tgz}
     name: '@rush-temp/synapse-access-control'
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.9
-      '@azure/core-util': 1.0.0-beta.1
+      '@azure/core-util': 1.0.0
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.1
@@ -19154,13 +19805,13 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 22.0.1_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@rollup/plugin-commonjs': 22.0.1_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       eslint: 8.20.0
       rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
@@ -19217,7 +19868,7 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-tM92b/xsz8s3l1+YA8+8BPxfhG1qesqcHjQd/RTvrriA5NtEZ8Ul0LTgM4B5TqlrDDEAmGQAaawY7afDIqISyw==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-5mewmZQbh+BCAaZ0UWDRGVki5Uam2udDdxt143/8OgzlBRTIhQLhqNPPYdRhYHPUOyO/Qe/zjhc6OCrEvUUspA==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
@@ -19229,7 +19880,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.0
       eslint: 8.20.0
       esm: 3.2.25
       inherits: 2.0.4
@@ -19323,7 +19974,7 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-u+mUCjA8iZhOm+VKGhSR5c5u1oucpg8dK0zhefLuy+ZJrWg74rECjOcCaTNM8dGIoDtAlWOM/IY/Yc3yaCVTgQ==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-YFibHfjDSpdOicnOaz8CkV/oWogh0M/nVh7fqnRBtFS6wDCcgkaBfSVR2sAc9uvOWE/rPK2pmsRnc81p+AZqdA==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
@@ -19351,13 +20002,13 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-k/GF7pMwSA1AVtLLrLc0e84elTyfVBRehGmZD/vOg7paR5GvVVMROY8ankcWqMQeC2AULSBcI5jQVlq+f3zZ2A==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-u1UYodDKJishthjcETrL5SpXRq2NxLUXwGwQv9aTbDRPbM7ZpGDdAVcH8YfcU8zmrQM3urgbAuuTD49FA7OvHw==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.18.11
-      '@opentelemetry/api': 1.1.0
+      '@opentelemetry/api': 1.2.0
       '@types/chai': 4.3.1
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -19377,7 +20028,7 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.8.3
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -19387,7 +20038,7 @@ packages:
     dev: false
 
   file:projects/testing-recorder-new.tgz:
-    resolution: {integrity: sha512-+GFQcNlnJvd/GI+6EMzrlDXtF0bxzOD9ApZ0vVa7P9wbCRnzVmJFFw0h+rjeCHUIxfOxljTk0Ssn+/7awImHJw==, tarball: file:projects/testing-recorder-new.tgz}
+    resolution: {integrity: sha512-WEDLQIZgkiGPimGbuFYGgOj0d3epX9ZbxenLYWXesEgTF4Q4qr//qJ4Pwpv46dQ+6DSWtcjzq1zRgScttSNI1A==, tarball: file:projects/testing-recorder-new.tgz}
     name: '@rush-temp/testing-recorder-new'
     version: 0.0.0
     dependencies:

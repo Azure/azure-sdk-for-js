@@ -1,26 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { JsonPatch, updateInstallation } from "./internal/updateInstallation.js";
-import { WebPushClientContext } from "../client.js";
-import { getCurrentInstallation } from "./internal/subscription.js";
+import { JsonPatch, updateAzureInstallation } from "./internal/installationHttpClient.js";
+import { WebPushClientContext } from "../publicTypes.js";
+import { getInternalInstallation } from "./internal/lifecycleClient.js";
 
 export async function addTags(
   clientContext: WebPushClientContext,
   tags: string | string[]
 ): Promise<void> {
-  const currentInstallation = await getCurrentInstallation(clientContext);
+  const currentInstallation = await getInternalInstallation(clientContext);
   const tagsToSend = Array.isArray(tags) ? tags : [tags];
 
-  const updates: JsonPatch[] = [];
-  for (const tag of tagsToSend) {
-    updates.push({
-      op: "add",
-      path: "/tags",
-      value: tag
-    });
-  }
+  const updates: JsonPatch[] = tagsToSend.map((tag) => ({
+    op: "add",
+    path: "/tags",
+    value: tag
+  }));
   
-  await updateInstallation(clientContext, currentInstallation, updates);
+  await updateAzureInstallation(clientContext, currentInstallation, updates);
   // TODO: Update installation in DB
 }

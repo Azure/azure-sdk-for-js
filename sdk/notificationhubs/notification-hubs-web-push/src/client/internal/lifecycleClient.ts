@@ -1,14 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getDBRecord, putDBRecord } from "../../utils/dataStore.js";
-import { WebPushClientContext } from "../../client.js";
-import { WebPushChannel } from "../../models/installation.js";
+import { createOrUpdateAzureInstallation, deleteAzureInstallation } from "./installationHttpClient.js";
+import { getDBRecord, putDBRecord, removeDBRecord } from "../../utils/dataStore.js";
+import { WebPushClientContext } from "../../publicTypes.js";
 import { WebPushError } from "../../errors.js";
-import { createOrUpdateInstallation } from "./createOrUpdateInstallation.js";
+import { WebPushChannel } from "../../models/installation.js";
 import { v4 as uuid } from "uuid";
 
-export async function getCurrentInstallation(clientContext: WebPushClientContext): Promise<string> {
+export async function deleteInternalInstallation(
+  clientContext: WebPushClientContext
+): Promise<boolean> {
+  const applicationUrl = new URL(clientContext.baseUrl);
+  applicationUrl.pathname += `/${clientContext.hubName}`;
+  const applicationId = applicationUrl.toString();
+
+  const installation = await getDBRecord(applicationId);
+  if (installation) {
+    await deleteAzureInstallation(clientContext, installation.installationId);
+    await removeDBRecord(applicationId);
+  }
+
+  const subscription = await clientContext.serviceWorkerRegistration!.pushManager.getSubscription();
+  if (subscription) {
+    return subscription.unsubscribe();
+  }
+
+  return true;  
+}
+
+export async function getInternalInstallation(clientContext: WebPushClientContext): Promise<string> {
   if (!clientContext.serviceWorkerRegistration) {
     throw new WebPushError("The ServiceWorker requires registration");
   }
@@ -41,7 +62,7 @@ export async function getCurrentInstallation(clientContext: WebPushClientContext
     };
 
     installation = await putDBRecord(applicationId, installation);
-    await createOrUpdateInstallation(clientContext, installation);
+    await createOrUpdateAzureInstallation(clientContext, installation);
   }
 
   // TODO: Check if installation expired and create new installation and resave

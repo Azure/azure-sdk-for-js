@@ -6,65 +6,34 @@ import {
   createTokenProviderFromConnection,
   parseNotificationHubsConnectionString,
 } from "./auth/connectionStringUtils.js";
-import { WebPushNotificationHandler } from "./publicTypes.js";
+import { WebPushClientContext } from "./publicTypes.js";
 
 const API_VERSION = "2020-06";
 
+let clientContext: WebPushClientContext | undefined;
+
 /**
- * Represents the Web Push client context.
+ * @internal
  */
-export interface WebPushClientContext {
-  /**
-   * The base URL for the Notification Hub namespace.
-   */
-  readonly baseUrl: string;
-
-  /**
-   * The Notification Hub name.
-   */
-  readonly hubName: string;
-
-  /**
-   * The ServiceWorkerRegistration for the Web Push.
-   */
-  serviceWorkerRegistration?: ServiceWorkerRegistration;
-
-  /**
-   * The VAPID public key for the Web Push instance.
-   */
-  vapidPublicKey?: string;
-
-  /**
-   * @internal
-   */
-  onForegroundMessage?: WebPushNotificationHandler;
-
-  /**
-   * @internal
-   */
-  onBackgroundMessage?: WebPushNotificationHandler;  
-
-  /**
-   * @internal
-   */
-  createHeaders(operationName: string): Promise<Headers>;
-
-  /**
-   * @internal
-   */
-  requestUrl(): URL;
+export function getClientContextInstance(): WebPushClientContext | undefined {
+  return clientContext;
 }
 
 export function createClientContext(
   connectionString: string,
   hubName: string
 ): WebPushClientContext {
+
   const parsedConnection = parseNotificationHubsConnectionString(connectionString);
   const baseUrl = parsedConnection.endpoint;
   const sasTokenProvider = createTokenProviderFromConnection(
     parsedConnection.sharedAccessKey,
     parsedConnection.sharedAccessKeyName
   );
+
+  if (clientContext && baseUrl === clientContext.baseUrl && hubName === clientContext.hubName) {
+    return clientContext;
+  }
 
   async function createHeaders(operationName: string): Promise<Headers> {
     const authorization = await sasTokenProvider.getToken(baseUrl);
@@ -92,10 +61,12 @@ export function createClientContext(
     return url;
   }
 
-  return {
+  clientContext = {
     hubName,
     baseUrl,
     createHeaders,
     requestUrl,
   };
+
+  return clientContext;
 }

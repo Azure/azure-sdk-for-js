@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/// <reference lib="dom" />
+
 import * as constants from "./constants.js";
-import { WebPushClientContext } from "../client.js";
+import { WebPushClientContext } from "../publicTypes.js";
 
 export async function createRegistration(): Promise<ServiceWorkerRegistration> {
   const registration = await navigator.serviceWorker.register(constants.SERVICE_WORKER_PATH, {

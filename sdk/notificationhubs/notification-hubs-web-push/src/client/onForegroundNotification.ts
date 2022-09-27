@@ -3,8 +3,7 @@
 
 /// <reference lib="dom" />
 
-import { WebPushClientContext } from "../client.js";
-import { WebPushNotificationHandler, WebPushUnsubscribe } from "../publicTypes.js";
+import { WebPushClientContext, WebPushNotificationHandler, WebPushUnsubscribe } from "../publicTypes.js";
 
 export function onForegroundNotification(
   clientContext: WebPushClientContext,

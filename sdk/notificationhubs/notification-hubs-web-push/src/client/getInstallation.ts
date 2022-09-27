@@ -3,17 +3,17 @@
 
 /// <reference lib="dom" />
 
-import { WebPushClientContext } from "../client.js";
-import { getCurrentInstallation } from "./internal/subscription.js";
-import { updateRegistration } from "../utils/registration.js";
+import { WebPushClientContext } from "../publicTypes.js";
+import { getInternalInstallation } from "./internal/lifecycleClient.js";
+import { updateRegistration } from "../utils/serviceWorkerRegistration.js";
 
 export interface GetInstallationOptions {
-  vapidPublicKey: string;
   serviceWorkerRegistration?: ServiceWorkerRegistration;
 }
 
 export async function getInstallation(
   clientContext: WebPushClientContext,
+  vapidPublicKey: string,
   options: GetInstallationOptions
 ): Promise<string> {
   if (!navigator) {
@@ -28,8 +28,8 @@ export async function getInstallation(
     throw new Error("Notification permission has not been granted.");
   }
 
-  clientContext.vapidPublicKey = options.vapidPublicKey;
+  clientContext.vapidPublicKey = vapidPublicKey;
   await updateRegistration(clientContext, options?.serviceWorkerRegistration);
 
-  return getCurrentInstallation(clientContext);
+  return getInternalInstallation(clientContext);
 }

@@ -26,7 +26,6 @@ import { createClientContext, onForegroundMessage } from "@azure/notification-hu
 
 const CONNECTION_STRING = "<connection-string>";
 const HUB_NAME = "<hub-name>";
-const VAPID_KEY = "<VAPID public key>";
 
 const clientContext = createClientContext(CONNECTION_STRING, HUB_NAME);
 
@@ -43,7 +42,6 @@ import { createClientContext, onBackgroundMessage } from "@azure/notification-hu
 
 const CONNECTION_STRING = "<connection-string>";
 const HUB_NAME = "<hub-name>";
-const VAPID_KEY = "<VAPID public key>";
 
 const clientContext = createClientContext(CONNECTION_STRING, HUB_NAME);
 
