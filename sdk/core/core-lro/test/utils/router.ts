@@ -10,14 +10,18 @@ import {
   createHttpHeaders,
 } from "@azure/core-rest-pipeline";
 import {
-  LroBody,
-  LroResourceLocationConfig,
-  LroResponse,
-  RawResponse,
-} from "../../src/lroEngine/models";
-import { LroEngine, PollOperationState, PollerLike } from "../../src";
-import { LroResponseSpec, RouteProcessor, createProcessor, generate } from "./utils";
-import { CoreRestPipelineLro } from "./coreRestPipelineLro";
+  ImplementationName,
+  LroResponseSpec,
+  Result,
+  RouteProcessor,
+  State,
+  createProcessor,
+  generate,
+} from "./utils";
+import { LroEngine, LroResponse, SimplePollerLike, createHttpPoller } from "../../src";
+import { LroResourceLocationConfig, RawResponse, ResponseBody } from "../../src/http/models";
+import { AbortError } from "@azure/abort-controller";
+import { createCoreRestPipelineLro } from "./coreRestPipelineLro";
 import { getYieldedValue } from "@azure/test-utils";
 
 /**
@@ -64,15 +68,29 @@ function toLroProcessors(responses: LroResponseSpec[]): RouteProcessor[] {
 function createRouteKey({ method, path }: { path: string; method: string }): string {
   return method + ":" + path;
 }
-function createClient(routes: RouteProcessor[]): HttpClient {
+function createClient(inputs: {
+  routes: RouteProcessor[];
+  throwOnNon2xxResponse?: boolean;
+}): HttpClient {
+  const { routes, throwOnNon2xxResponse = true } = inputs;
   const routesTable = new Map(routes.map((route) => [createRouteKey(route), route]));
   return {
     async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
+      if (request.abortSignal?.aborted) {
+        throw new AbortError("The operation was aborted.");
+      }
       const path = request.url;
       const method = request.method;
       const route = routesTable.get(createRouteKey({ method, path }));
       if (route !== undefined) {
-        return getYieldedValue(route.process.next())(request);
+        const response = getYieldedValue(route.process.next())(request);
+        if (response.status >= 400 && throwOnNon2xxResponse) {
+          throw new RestError(
+            `Received unexpected HTTP status code ${response.status} while polling. This may indicate a server issue.`,
+            { statusCode: response.status }
+          );
+        }
+        return response;
       }
       throw new RestError(`Route for ${method} request to ${path} was not found`, {
         statusCode: 404,
@@ -81,15 +99,13 @@ function createClient(routes: RouteProcessor[]): HttpClient {
   };
 }
 
-type Response = LroBody & { statusCode: number };
-
 function createSendOp(settings: {
   client: HttpClient;
-}): (request: PipelineRequest) => Promise<LroResponse<Response>> {
+}): (request: PipelineRequest) => Promise<LroResponse<Result>> {
   const { client } = settings;
-  return async function (request: PipelineRequest): Promise<LroResponse<Response>> {
+  return async function (request: PipelineRequest): Promise<LroResponse<Result>> {
     const response = await client.sendRequest(request);
-    const parsedBody: LroBody = response.bodyAsText
+    const parsedBody: ResponseBody = response.bodyAsText
       ? JSON.parse(response.bodyAsText)
       : response.bodyAsText;
     const headers = response.headers.toJSON();
@@ -104,50 +120,102 @@ function createSendOp(settings: {
   };
 }
 
-function throwIfUndefined<T>(input: T | undefined): T {
-  if (!input) {
-    throw new Error("input is undefined");
-  }
-  return input;
-}
-
-export function createPoller<TState>(settings: {
+export function createTestPoller(settings: {
   routes: LroResponseSpec[];
-  lroResourceLocationConfig?: LroResourceLocationConfig;
-  processResult?: (result: unknown, state: TState) => Response;
-  updateState?: (state: TState, lastResponse: RawResponse) => void;
-}): PollerLike<PollOperationState<Response>, Response> {
-  const { routes, lroResourceLocationConfig, processResult, updateState } = settings;
-  const client = createClient(toLroProcessors(routes));
-  const { method: requestMethod, path = initialPath } = routes[0];
-  const lro = new CoreRestPipelineLro(createSendOp({ client }), {
-    method: throwIfUndefined(requestMethod),
-    url: throwIfUndefined(path),
-    headers: createHttpHeaders(),
-    requestId: "",
-    timeout: 0,
-    withCredentials: false,
-  });
-  return new LroEngine<Response, TState>(lro, {
-    intervalInMs: 0,
-    lroResourceLocationConfig,
+  resourceLocationConfig?: LroResourceLocationConfig;
+  processResult?: (result: unknown, state: State) => Result;
+  updateState?: (state: State, lastResponse: LroResponse<Result>) => void;
+  implName?: ImplementationName;
+  throwOnNon2xxResponse?: boolean;
+}): Promise<SimplePollerLike<State, Result>> {
+  const {
+    routes,
+    resourceLocationConfig,
     processResult,
     updateState,
+    implName = "createPoller",
+    throwOnNon2xxResponse = true,
+  } = settings;
+  const client = createClient({ routes: toLroProcessors(routes), throwOnNon2xxResponse });
+  const { method: requestMethod, path = initialPath } = routes[0];
+  const lro = createCoreRestPipelineLro({
+    sendOperationFn: createSendOp({ client }),
+    request: {
+      method: requestMethod,
+      url: path,
+      headers: createHttpHeaders(),
+      requestId: "",
+      timeout: 0,
+      withCredentials: false,
+    },
   });
+  switch (implName) {
+    case "createPoller": {
+      return createHttpPoller(lro, {
+        intervalInMs: 0,
+        resourceLocationConfig: resourceLocationConfig,
+        processResult,
+        updateState: updateState as
+          | ((state: any, lastResponse: LroResponse<unknown>) => void)
+          | undefined,
+      });
+    }
+    case "LroEngine": {
+      return Promise.resolve(
+        new LroEngine(lro, {
+          intervalInMs: 0,
+          lroResourceLocationConfig: resourceLocationConfig,
+          processResult,
+          updateState: (state, rawResponse) =>
+            updateState?.(state, { rawResponse, flatResponse: undefined as any }),
+        })
+      );
+    }
+    default: {
+      throw new Error("Unreachable");
+    }
+  }
 }
 
-export async function runLro(settings: {
+async function runLro<TState>(settings: {
   routes: LroResponseSpec[];
-  onProgress?: (state: PollOperationState<Response>) => void;
-  lroResourceLocationConfig?: LroResourceLocationConfig;
-}): Promise<Response> {
-  const { routes, onProgress, lroResourceLocationConfig } = settings;
-  const poller = createPoller({
+  onProgress?: (state: TState) => void;
+  resourceLocationConfig?: LroResourceLocationConfig;
+  processResult?: (result: unknown, state: TState) => Result;
+  updateState?: (state: TState, lastResponse: RawResponse) => void;
+  implName?: ImplementationName;
+  throwOnNon2xxResponse?: boolean;
+}): Promise<Result> {
+  const {
     routes,
-    lroResourceLocationConfig,
+    onProgress,
+    resourceLocationConfig,
+    processResult,
+    updateState,
+    implName = "createPoller",
+    throwOnNon2xxResponse = true,
+  } = settings;
+  const poller = await createTestPoller({
+    routes,
+    resourceLocationConfig,
+    processResult,
+    updateState: (state, { rawResponse }) => updateState?.(state, rawResponse),
+    implName,
+    throwOnNon2xxResponse,
   });
   if (onProgress !== undefined) {
     poller.onProgress(onProgress);
   }
   return poller.pollUntilDone();
 }
+
+export const createRunLroWith =
+  <TState>(variables: { implName: ImplementationName; throwOnNon2xxResponse?: boolean }) =>
+  (settings: {
+    routes: LroResponseSpec[];
+    onProgress?: (state: TState) => void;
+    resourceLocationConfig?: LroResourceLocationConfig;
+    processResult?: (result: unknown, state: TState) => Result;
+    updateState?: (state: TState, lastResponse: RawResponse) => void;
+  }): Promise<Result> =>
+    runLro({ ...settings, ...variables });

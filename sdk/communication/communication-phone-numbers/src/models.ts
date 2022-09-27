@@ -47,3 +47,19 @@ export {
   PhoneNumberType,
   PhoneNumberSource,
 } from "./generated/src/models/";
+
+export { SipRoutingError, SipTrunkRoute } from "./generated/src/siprouting/models";
+
+/**
+ * Represents a SIP trunk for routing calls. See RFC 4904.
+ */
+export interface SipTrunk {
+  /**
+   * Gets or sets FQDN of the trunk.
+   */
+  fqdn: string;
+  /**
+   * Gets or sets SIP signaling port of the trunk.
+   */
+  sipSignalingPort: number;
+}

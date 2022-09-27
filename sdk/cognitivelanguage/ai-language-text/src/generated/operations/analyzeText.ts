@@ -12,9 +12,6 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { GeneratedClient } from "../generatedClient";
 import {
-  AnalyzeTextJobsInput,
-  AnalyzeTextSubmitJobOptionalParams,
-  AnalyzeTextSubmitJobResponse,
   AnalyzeTextJobStatusOptionalParams,
   AnalyzeTextJobStatusResponse,
   AnalyzeTextCancelJobOptionalParams,
@@ -31,22 +28,6 @@ export class AnalyzeTextImpl implements AnalyzeText {
    */
   constructor(client: GeneratedClient) {
     this.client = client;
-  }
-
-  /**
-   * Submit a collection of text documents for analysis. Specify one or more unique tasks to be executed
-   * as a long-running operation.
-   * @param body Collection of documents to analyze and one or more tasks to execute.
-   * @param options The options parameters.
-   */
-  submitJob(
-    body: AnalyzeTextJobsInput,
-    options?: AnalyzeTextSubmitJobOptionalParams
-  ): Promise<AnalyzeTextSubmitJobResponse> {
-    return this.client.sendOperationRequest(
-      { body, options },
-      submitJobOperationSpec
-    );
   }
 
   /**
@@ -84,24 +65,6 @@ export class AnalyzeTextImpl implements AnalyzeText {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const submitJobOperationSpec: coreClient.OperationSpec = {
-  path: "/analyze-text/jobs",
-  httpMethod: "POST",
-  responses: {
-    202: {
-      headersMapper: Mappers.AnalyzeTextSubmitJobHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
 const jobStatusOperationSpec: coreClient.OperationSpec = {
   path: "/analyze-text/jobs/{jobId}",
   httpMethod: "GET",

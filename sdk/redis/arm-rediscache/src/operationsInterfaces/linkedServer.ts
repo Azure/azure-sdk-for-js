@@ -75,7 +75,20 @@ export interface LinkedServer {
    * @param linkedServerName The name of the linked server that is being added to the Redis cache.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
+    resourceGroupName: string,
+    name: string,
+    linkedServerName: string,
+    options?: LinkedServerDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Deletes the linked server from a redis cache (requires Premium SKU).
+   * @param resourceGroupName The name of the resource group.
+   * @param name The name of the redis cache.
+   * @param linkedServerName The name of the linked server that is being added to the Redis cache.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
     resourceGroupName: string,
     name: string,
     linkedServerName: string,

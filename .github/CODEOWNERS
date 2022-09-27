@@ -28,6 +28,9 @@
 /sdk/core/core-client-rest/ @xirzec @joheredi @jeremymeng @deyaaeldeen
 
 # PRLabel: %Azure.Core
+/sdk/core/core-lro/ @deyaaeldeen @joheredi
+
+# PRLabel: %Azure.Core
 /sdk/core/core-tracing/ @xirzec @jeremymeng @joheredi
 
 # Service teams
@@ -109,6 +112,9 @@
 # PRLabel: %Purview
 /sdk/purview/ @qiaozha
 
+# PRLabel: %Personalizer
+/sdk/personalizer/ @sharathmalladi 
+
 # PRLabel: %Farmbeats
 /sdk/agrifood/ @joheredi
 
@@ -122,12 +128,15 @@
 /sdk/web-pubsub/ @vicancy @xirzec @bterlson
 
 # PRLabel: %EngSys
-/sdk/template/ @praveenkuttappan @mikeharder @weshaggard @benbp
+/sdk/template/ @ckairen @mikeharder @weshaggard @benbp
 
 /sdk/test-utils/ @HarshaNalluru @timovv
 
 # PRLabel: %Cognitive - Text Analytics
 /sdk/textanalytics/ @deyaaeldeen @witemple-msft
+
+# PRLabel: %Cognitive - Language
+/sdk/cognitivelanguage/ @deyaaeldeen
 
 # PRLabel: %Schema Registry
 /sdk/schemaregistry/ @deyaaeldeen
@@ -140,7 +149,6 @@
 
 # PRLabel: %Search
 /sdk/search/ @sarangan12 @xirzec
-
 
 # PRLabel: %Mixed Reality
 /sdk/mixedreality/ @craigktreasure
@@ -1202,7 +1210,7 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 #/<NotInRepo>/          @sunilagarwal @lfittl-msft @sr-msft @niklarin
 
 # ServiceLabel: %Recovery Services Backup %Service Attention
-#/<NotInRepo>/          @pvrk @adityabalaji-msft
+#/<NotInRepo>/          @pvrk @adityabalaji-msft @Daya-Patil
 
 # ServiceLabel: %Recovery Services Site-Recovery %Service Attention
 #/<NotInRepo>/          @Sharmistha-Rai
@@ -1416,9 +1424,9 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 ###########
 # Eng Sys
 ###########
-/eng/   @praveenkuttappan @mikeharder @weshaggard @benbp
-/**/tests.yml   @praveenkuttappan @benbp
-/**/ci.yml      @praveenkuttappan @benbp
+/eng/   @ckairen @mikeharder @weshaggard @benbp
+/**/tests.yml   @ckairen @benbp
+/**/ci.yml      @ckairen @benbp
 
 ###########
 # Config

@@ -48,6 +48,12 @@ export interface DeviceUpdateListUpdatesdefaultResponse extends HttpResponse {
   body: ErrorResponseOutput;
 }
 
+/** Import new update version. This is a long-running-operation; use Operation-Location response header value to check for operation status. */
+export interface DeviceUpdateImportUpdate200Response extends HttpResponse {
+  status: "200";
+  body: UpdateOutput;
+}
+
 export interface DeviceUpdateImportUpdate202Headers {
   /** Url to retrieve the import operation status. */
   "operation-location"?: string;
@@ -169,48 +175,48 @@ export interface DeviceUpdateGetFiledefaultResponse extends HttpResponse {
 }
 
 /** Get a list of all import update operations. Completed operations are kept for 7 days before auto-deleted. Delete operations are not returned by this API version. */
-export interface DeviceUpdateListOperations200Response extends HttpResponse {
+export interface DeviceUpdateListOperationStatuses200Response extends HttpResponse {
   status: "200";
   body: UpdateOperationsListOutput;
 }
 
 /** Get a list of all import update operations. Completed operations are kept for 7 days before auto-deleted. Delete operations are not returned by this API version. */
-export interface DeviceUpdateListOperationsdefaultResponse extends HttpResponse {
+export interface DeviceUpdateListOperationStatusesdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
-export interface DeviceUpdateGetOperation200Headers {
+export interface DeviceUpdateGetOperationStatus200Headers {
   /** Number of seconds to wait before checking the operation status again. */
   "retry-after"?: string;
 }
 
 /** Retrieve operation status. */
-export interface DeviceUpdateGetOperation200Response extends HttpResponse {
+export interface DeviceUpdateGetOperationStatus200Response extends HttpResponse {
   status: "200";
   body: UpdateOperationOutput;
-  headers: RawHttpHeaders & DeviceUpdateGetOperation200Headers;
+  headers: RawHttpHeaders & DeviceUpdateGetOperationStatus200Headers;
 }
 
 /** Retrieve operation status. */
-export interface DeviceUpdateGetOperation304Response extends HttpResponse {
+export interface DeviceUpdateGetOperationStatus304Response extends HttpResponse {
   status: "304";
   body: Record<string, unknown>;
 }
 
 /** Retrieve operation status. */
-export interface DeviceUpdateGetOperationdefaultResponse extends HttpResponse {
+export interface DeviceUpdateGetOperationStatusdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
-/** Gets a list of all device classes (unique combinations of device manufacturer and model) for all devices connected to Device Update for IoT Hub. */
+/** Gets a list of all device classes (sets of devices compatible with the same updates based on the model Id and compat properties reported in the Device Update PnP interface in IoT Hub) for all devices connected to Device Update for IoT Hub. */
 export interface DeviceManagementListDeviceClasses200Response extends HttpResponse {
   status: "200";
   body: DeviceClassesListOutput;
 }
 
-/** Gets a list of all device classes (unique combinations of device manufacturer and model) for all devices connected to Device Update for IoT Hub. */
+/** Gets a list of all device classes (sets of devices compatible with the same updates based on the model Id and compat properties reported in the Device Update PnP interface in IoT Hub) for all devices connected to Device Update for IoT Hub. */
 export interface DeviceManagementListDeviceClassesdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
@@ -452,38 +458,38 @@ export interface DeviceManagementGetDeploymentStatusdefaultResponse extends Http
   body: ErrorResponseOutput;
 }
 
-/** Get the device class subgroups for the group. */
+/** Get the device class subgroups for the group. A device class subgroup is the set of devices within the group that share the same device class. All devices within the same device class are compatible with the same updates. */
 export interface DeviceManagementListDeviceClassSubgroupsForGroup200Response extends HttpResponse {
   status: "200";
   body: DeviceClassSubgroupsListOutput;
 }
 
-/** Get the device class subgroups for the group. */
+/** Get the device class subgroups for the group. A device class subgroup is the set of devices within the group that share the same device class. All devices within the same device class are compatible with the same updates. */
 export interface DeviceManagementListDeviceClassSubgroupsForGroupdefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
-/** Gets device class subgroup details. */
+/** Gets device class subgroup details. A device class subgroup is the set of devices within the group that share the same device class. All devices within the same device class are compatible with the same updates. */
 export interface DeviceManagementGetDeviceClassSubgroup200Response extends HttpResponse {
   status: "200";
   body: DeviceClassSubgroupOutput;
 }
 
-/** Gets device class subgroup details. */
+/** Gets device class subgroup details. A device class subgroup is the set of devices within the group that share the same device class. All devices within the same device class are compatible with the same updates. */
 export interface DeviceManagementGetDeviceClassSubgroupdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
-/** Deletes a device class subgroup. */
+/** Deletes a device class subgroup. This subgroup is automatically created when a Device Update-enabled device is connected to the hub and reports its properties. Groups, subgroups, and deployments are not automatically cleaned up but are retained for history purposes. Users can call this method to delete a subgroup if they do not need to retain any of the history of the subgroup and no longer need it. If a device is ever connected again for this subgroup after the subgroup was deleted it will be automatically re-created but there will be no history. */
 export interface DeviceManagementDeleteDeviceClassSubgroup204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
-/** Deletes a device class subgroup. */
+/** Deletes a device class subgroup. This subgroup is automatically created when a Device Update-enabled device is connected to the hub and reports its properties. Groups, subgroups, and deployments are not automatically cleaned up but are retained for history purposes. Users can call this method to delete a subgroup if they do not need to retain any of the history of the subgroup and no longer need it. If a device is ever connected again for this subgroup after the subgroup was deleted it will be automatically re-created but there will be no history. */
 export interface DeviceManagementDeleteDeviceClassSubgroupdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
@@ -611,38 +617,38 @@ export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymen
   body: ErrorResponseOutput;
 }
 
-export interface DeviceManagementGetOperation200Headers {
+export interface DeviceManagementGetOperationStatus200Headers {
   /** Number of seconds to wait before checking the operation status again. */
   "retry-after"?: string;
 }
 
 /** Retrieve operation status. */
-export interface DeviceManagementGetOperation200Response extends HttpResponse {
+export interface DeviceManagementGetOperationStatus200Response extends HttpResponse {
   status: "200";
   body: DeviceOperationOutput;
-  headers: RawHttpHeaders & DeviceManagementGetOperation200Headers;
+  headers: RawHttpHeaders & DeviceManagementGetOperationStatus200Headers;
 }
 
 /** Retrieve operation status. */
-export interface DeviceManagementGetOperation304Response extends HttpResponse {
+export interface DeviceManagementGetOperationStatus304Response extends HttpResponse {
   status: "304";
   body: Record<string, unknown>;
 }
 
 /** Retrieve operation status. */
-export interface DeviceManagementGetOperationdefaultResponse extends HttpResponse {
+export interface DeviceManagementGetOperationStatusdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** Get a list of all device import operations. Completed operations are kept for 7 days before auto-deleted. */
-export interface DeviceManagementListOperations200Response extends HttpResponse {
+export interface DeviceManagementListOperationStatuses200Response extends HttpResponse {
   status: "200";
   body: DeviceOperationsListOutput;
 }
 
 /** Get a list of all device import operations. Completed operations are kept for 7 days before auto-deleted. */
-export interface DeviceManagementListOperationsdefaultResponse extends HttpResponse {
+export interface DeviceManagementListOperationStatusesdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -697,13 +703,13 @@ export interface DeviceManagementGetLogCollectionDetailedStatusdefaultResponse
 }
 
 /** Get list of device health */
-export interface DeviceManagementListDeviceHealth200Response extends HttpResponse {
+export interface DeviceManagementListHealthOfDevices200Response extends HttpResponse {
   status: "200";
   body: DeviceHealthListOutput;
 }
 
 /** Get list of device health */
-export interface DeviceManagementListDeviceHealthdefaultResponse extends HttpResponse {
+export interface DeviceManagementListHealthOfDevicesdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }

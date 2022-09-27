@@ -31,7 +31,7 @@ At the moment, tests in our repo depend on one of the two different versions of 
   - When running the tests, ensure the Docker daemon is running and you have permission to use it.
 - Rush 5.x
   - Install/update Rush globally via `npm install -g @microsoft/rush`
-- Any of [the LTS versions of Node.js](https://nodejs.org/en/about/releases/)
+- Any of [the LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - A C++ compiler toolchain and Python (for compiling machine-code modules)
   - Refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for more details
 

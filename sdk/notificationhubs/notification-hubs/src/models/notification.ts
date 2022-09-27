@@ -141,7 +141,7 @@ export function createBrowserNotification(
 /**
  * Represents a Firebase legacy HTTP push notification.
  */
-export interface FirebaseLegacyNotification extends JsonNotification {
+export interface FcmLegacyNotification extends JsonNotification {
   /**
    * The platform for the push notification.
    */
@@ -153,9 +153,9 @@ export interface FirebaseLegacyNotification extends JsonNotification {
  * @param notification - A partial message used to create a message for Firebase.
  * @returns A newly created Firebase.
  */
-export function createFirebaseLegacyNotification(
-  notification: Omit<FirebaseLegacyNotification, "platform" | "contentType">
-): FirebaseLegacyNotification {
+export function createFcmLegacyNotification(
+  notification: Omit<FcmLegacyNotification, "platform" | "contentType">
+): FcmLegacyNotification {
   return {
     ...notification,
     platform: "gcm",
@@ -308,6 +308,6 @@ export type Notification =
   | AdmNotification
   | BaiduNotification
   | BrowserNotification
-  | FirebaseLegacyNotification
+  | FcmLegacyNotification
   | WindowsNotification
   | TemplateNotification;

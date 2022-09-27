@@ -19,7 +19,8 @@ import {
   AccountsDeleteOptionalParams,
   NetAppAccountPatch,
   AccountsUpdateOptionalParams,
-  AccountsUpdateResponse
+  AccountsUpdateResponse,
+  AccountsRenewCredentialsOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -136,4 +137,30 @@ export interface Accounts {
     body: NetAppAccountPatch,
     options?: AccountsUpdateOptionalParams
   ): Promise<AccountsUpdateResponse>;
+  /**
+   * Renew identity credentials that are used to authenticate to key vault, for customer-managed key
+   * encryption. If encryption.identity.principalId does not match identity.principalId, running this
+   * operation will fix it.
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  beginRenewCredentials(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsRenewCredentialsOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Renew identity credentials that are used to authenticate to key vault, for customer-managed key
+   * encryption. If encryption.identity.principalId does not match identity.principalId, running this
+   * operation will fix it.
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  beginRenewCredentialsAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsRenewCredentialsOptionalParams
+  ): Promise<void>;
 }

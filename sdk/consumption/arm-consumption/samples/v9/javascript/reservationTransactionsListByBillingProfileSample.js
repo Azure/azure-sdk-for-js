@@ -19,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  */
 async function reservationTransactionsByBillingProfileId() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const filter = "properties/eventDate ge 2020-05-20 AND properties/eventDate le 2020-05-30";
+  const filter = "properties/eventDate+ge+2020-05-20+AND+properties/eventDate+le+2020-05-30";
   const billingAccountId =
     "fcebaabc-fced-4284-a83d-79f83dee183c:45796ba8-988f-45ad-bea9-7b71fc6c7513_2018-09-30";
   const billingProfileId = "Z76D-SGAF-BG7-TGB";

@@ -17,7 +17,7 @@ describe("Challenge based authentication tests", function () {
   let challengeCallbacks: ChallengeCallbacks;
 
   beforeEach(() => {
-    request = createPipelineRequest({ url: "https://foo.bar" });
+    request = createPipelineRequest({ url: "https://myvault.vault.azure.net" });
     challengeCallbacks = createChallengeCallbacks();
   });
 
@@ -59,7 +59,7 @@ describe("Challenge based authentication tests", function () {
         request,
         response: {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer resource="cae_scope"`,
+            "WWW-Authenticate": `Bearer resource="https://vault.azure.net"`,
           }),
           request,
           status: 200,
@@ -118,7 +118,7 @@ describe("Challenge based authentication tests", function () {
         request,
         response: {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer resource="cae_scope"`,
+            "WWW-Authenticate": `Bearer resource="https://vault.azure.net"`,
           }),
           request,
           status: 200,
@@ -126,28 +126,92 @@ describe("Challenge based authentication tests", function () {
         scopes: [],
       });
 
-      assert.sameMembers(getAccessTokenScopes, ["cae_scope/.default"]);
+      assert.sameMembers(getAccessTokenScopes, ["https://vault.azure.net/.default"]);
     });
 
-    it("prefers resource scope and adds .default to resource when provided", async () => {
-      let getAccessTokenScopes: string[] = [];
+    it("throws if the resource is not a valid URL", async () => {
+      await assert.isRejected(
+        challengeCallbacks.authorizeRequestOnChallenge!({
+          getAccessToken: () => Promise.resolve(null),
+          request,
+          response: {
+            headers: createHttpHeaders({
+              "WWW-Authenticate": `Bearer resource="invalid_scope"`,
+            }),
+            request,
+            status: 200,
+          },
+          scopes: [],
+        }),
+        `The challenge contains invalid scope 'invalid_scope/.default'`
+      );
+    });
+
+    it("throws if the resource URI host does not match the request by default", async () => {
+      await assert.isRejected(
+        challengeCallbacks.authorizeRequestOnChallenge!({
+          getAccessToken: () => Promise.resolve(null),
+          request: createPipelineRequest({ url: "https://foo.bar" }),
+          response: {
+            headers: createHttpHeaders({
+              "WWW-Authenticate": `Bearer resource="https://vault.azure.net"`,
+            }),
+            request,
+            status: 200,
+          },
+          scopes: [],
+        }),
+        "The challenge resource 'vault.azure.net' does not match the requested domain. Set disableChallengeResourceVerification to true in your client options to disable. See https://aka.ms/azsdk/blog/vault-uri for more information."
+      );
+    });
+
+    it("throws if the request host is a prefix, but not a subdomain, of the resource URI host", async () => {
+      await assert.isRejected(
+        challengeCallbacks.authorizeRequestOnChallenge!({
+          getAccessToken: () => Promise.resolve(null),
+          request: createPipelineRequest({ url: "https://myvault.azure.net" }),
+          response: {
+            headers: createHttpHeaders({
+              "WWW-Authenticate": `Bearer resource="https://vault.azure.net"`,
+            }),
+            request,
+            status: 200,
+          },
+          scopes: [],
+        }),
+        "The challenge resource 'vault.azure.net' does not match the requested domain. Set disableChallengeResourceVerification to true in your client options to disable. See https://aka.ms/azsdk/blog/vault-uri for more information."
+      );
+    });
+
+    it("does not throw if the resource URI matches the request", async () => {
       await challengeCallbacks.authorizeRequestOnChallenge!({
-        getAccessToken: (scopes) => {
-          getAccessTokenScopes = scopes;
-          return Promise.resolve(null);
-        },
-        request,
+        getAccessToken: () => Promise.resolve(null),
+        request: createPipelineRequest({ url: "https://myvault.vault.azure.net" }),
         response: {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer resource="cae_resource", scope="cae_scope"`,
+            "WWW-Authenticate": `Bearer resource="https://vault.azure.net"`,
           }),
           request,
           status: 200,
         },
         scopes: [],
       });
+    });
 
-      assert.sameMembers(getAccessTokenScopes, ["cae_resource/.default"]);
+    it("does not throw if the resource URI host does not match the request but verifyChallengeResource is false", async () => {
+      challengeCallbacks = createChallengeCallbacks({ disableChallengeResourceVerification: true });
+      await challengeCallbacks.authorizeRequestOnChallenge!({
+        getAccessToken: () => Promise.resolve(null),
+        request: createPipelineRequest({ url: "https://foo.bar" }),
+        response: {
+          headers: createHttpHeaders({
+            "WWW-Authenticate": `Bearer resource="https://vault.azure.net"`,
+          }),
+          request,
+          status: 200,
+        },
+        scopes: [],
+      });
     });
 
     it("passes the tenantId if provided", async () => {
@@ -163,7 +227,7 @@ describe("Challenge based authentication tests", function () {
         request,
         response: {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer resource="cae_scope" authorization="http://login.windows.net/${expectedTenantId}"`,
+            "WWW-Authenticate": `Bearer resource="https://vault.azure.net" authorization="http://login.windows.net/${expectedTenantId}"`,
           }),
           request,
           status: 200,
@@ -182,7 +246,7 @@ describe("Challenge based authentication tests", function () {
         request,
         response: {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer resource="cae_scope"`,
+            "WWW-Authenticate": `Bearer resource="https://vault.azure.net"`,
           }),
           request,
           status: 200,
@@ -200,7 +264,7 @@ describe("Challenge based authentication tests", function () {
         request,
         response: {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer resource="cae_scope"`,
+            "WWW-Authenticate": `Bearer resource="https://vault.azure.net"`,
           }),
           request,
           status: 200,

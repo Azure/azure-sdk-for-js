@@ -5,12 +5,12 @@ import {
   AdmNotification,
   AppleNotification,
   BaiduNotification,
-  FirebaseLegacyNotification,
+  FcmLegacyNotification,
   WindowsNotification,
   createAdmNotification,
   createAppleNotification,
   createBaiduNotification,
-  createFirebaseLegacyNotification,
+  createFcmLegacyNotification,
   createWindowsBadgeNotification,
 } from "./notification.js";
 import { isDefined, isString } from "../utils/utils.js";
@@ -454,7 +454,7 @@ export interface FirebaseLegacyWebNativePayload {
   clickAction?: string;
 }
 
-function buildFirebaseLegacyNativePayload(
+function buildFcmLegacyNativePayload(
   nativeNotification?:
     | FirebaseLegacyAppleNativePayload
     | FirebaseLegacyAndroidNativePayload
@@ -492,13 +492,13 @@ function buildFirebaseLegacyNativePayload(
 }
 
 /**
- * Creates a FirebaseLegacyNotification from a native Firebase payload.
+ * Creates a FcmLegacyNotification from a native Firebase payload.
  * @param nativeMessage - The native message payload to send to Notification Hubs.
- * @returns The FirebaseLegacyNotification to send to Notification Hubs.
+ * @returns The FcmLegacyNotification to send to Notification Hubs.
  */
 export function buildFirebaseLegacyNativeMessage(
   nativeMessage: FirebaseLegacyNativeMessage
-): FirebaseLegacyNotification {
+): FcmLegacyNotification {
   const jsonMessage: Record<string, any> = {
     to: nativeMessage.to,
     registration_ids: nativeMessage.registrationIds,
@@ -511,10 +511,10 @@ export function buildFirebaseLegacyNativeMessage(
     restricted_package_name: nativeMessage.restrictedPackageName,
     dry_run: nativeMessage.dryRun,
     data: nativeMessage.data,
-    notification: buildFirebaseLegacyNativePayload(nativeMessage.notification),
+    notification: buildFcmLegacyNativePayload(nativeMessage.notification),
   };
 
-  return createFirebaseLegacyNotification({
+  return createFcmLegacyNotification({
     body: JSON.stringify(jsonMessage),
   });
 }

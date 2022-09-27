@@ -47,7 +47,7 @@
     "eslint": "^8.0.0",
     "karma": "^6.3.20",
     "karma-env-preprocessor": "^0.1.1",
-    "@microsoft/api-extractor": "^7.18.11",
+    "@microsoft/api-extractor": "^7.31.1",
     "mkdirp": "^1.0.4",
     "mocha": "^7.1.1",
     "nyc": "^15.0.0",
