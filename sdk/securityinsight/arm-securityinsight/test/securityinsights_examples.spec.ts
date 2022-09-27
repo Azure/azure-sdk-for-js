@@ -34,7 +34,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("xxx test", () => {
+describe("securityinsight test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: SecurityInsights;
@@ -101,14 +101,6 @@ describe("xxx test", () => {
     const res = await client.sentinelOnboardingStates.delete(
       resourceGroup,
       workspaceName,
-      sentinelOnboardingStateName)
-    const result = await client.sentinelOnboardingStates.list(
-      resourceGroup,
-      workspaceName
-    );
-    for await (let item of result.value) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 0);
+      sentinelOnboardingStateName);
   });
 })
