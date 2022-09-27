@@ -12,8 +12,7 @@ import {
   getLogsIngestionEndpoint,
   loggerForTest,
 } from "./shared/testShared";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-util";
+import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 function createFailedPolicies(failedInterval: { isFailed: boolean }): AdditionalPolicyConfig[] {
@@ -39,7 +38,6 @@ describe("LogsIngestionClient live tests", function () {
   let recordedClient: RecorderAndLogsClient;
   let client: LogsIngestionClient;
   beforeEach(async function (this: Context) {
-    if (isPlaybackMode() && isNode) this.skip();
     loggerForTest.verbose(`Recorder: starting...`);
     recorder = new Recorder(this.currentTest);
     recordedClient = await createClientAndStartRecorder(recorder);
