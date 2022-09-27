@@ -132,6 +132,7 @@ specifiers:
   '@rush-temp/arm-mysql-flexible': file:./projects/arm-mysql-flexible.tgz
   '@rush-temp/arm-netapp': file:./projects/arm-netapp.tgz
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
+  '@rush-temp/arm-network-1': file:./projects/arm-network-1.tgz
   '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:./projects/arm-network-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-networkfunction': file:./projects/arm-networkfunction.tgz
   '@rush-temp/arm-nginx': file:./projects/arm-nginx.tgz
@@ -442,6 +443,7 @@ dependencies:
   '@rush-temp/arm-mysql-flexible': file:projects/arm-mysql-flexible.tgz
   '@rush-temp/arm-netapp': file:projects/arm-netapp.tgz
   '@rush-temp/arm-network': file:projects/arm-network.tgz
+  '@rush-temp/arm-network-1': file:projects/arm-network-1.tgz
   '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:projects/arm-network-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-networkfunction': file:projects/arm-networkfunction.tgz
   '@rush-temp/arm-nginx': file:projects/arm-nginx.tgz
@@ -4099,7 +4101,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220921
+      typescript: 4.9.0-dev.20220922
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9060,8 +9062,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220921:
-    resolution: {integrity: sha512-0WdiNgM0YfgPURswuah1JJfnDwa6e7Ki0DJcfAEruw17mACMCJw2F7vK/4jLcd1uIl4La3ZIPnA7dOyM7y5Skg==}
+  /typescript/4.9.0-dev.20220922:
+    resolution: {integrity: sha512-ELbWdlXaMl1//2wr2U09JIcPFFyifR8PEzVUGvQInfWVjRMalJJD28DRjp0yc4ZVdDcmQATO/pSQG0rRkr1z6A==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -13509,6 +13511,33 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-network-1.tgz:
+    resolution: {integrity: sha512-a0gb6s+Bl2Z9rN5TgkvOGagg09PwV7hxiD/ZzlDwJIMwa1TJCl+lPVB6AE8uxLIs7VvN4t/05mBzBJtg/FLeCw==, tarball: file:projects/arm-network-1.tgz}
+    name: '@rush-temp/arm-network-1'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
+      tslib: 2.4.0
+      typescript: 4.6.4
+      uglify-js: 3.16.3
+    transitivePeerDependencies:
+      - '@types/node'
+      - supports-color
+    dev: false
+
   file:projects/arm-network-profile-2020-09-01-hybrid.tgz:
     resolution: {integrity: sha512-uygS4Wcj2e327m/qhtLWv8N4kPnEYdE6ej9Y7fTkB+I+gCukD9jXR0HAuxu4ZRnbxTJ4VFEE0JwHVW6ShCPD9Q==, tarball: file:projects/arm-network-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-network-profile-2020-09-01-hybrid'
@@ -13538,10 +13567,11 @@ packages:
     dev: false
 
   file:projects/arm-network.tgz:
-    resolution: {integrity: sha512-eZYlpqpVKcLHW+51jRluEMrmNwUcMgj5O50EEmWFVlZyFMsNAO/FRkI9UqJd6Ez+gB5sR0Su/mIbOn3OCxs0IQ==, tarball: file:projects/arm-network.tgz}
+    resolution: {integrity: sha512-RRODBVG5oMCon8iVN/jbLco6QrwXNPKR/btKjzgues6KrG0bom2aZO0C4Hi2fmnWHfrb/X8Zrikjusc68mEK7A==, tarball: file:projects/arm-network.tgz}
     name: '@rush-temp/arm-network'
     version: 0.0.0
     dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.10
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
@@ -13551,19 +13581,41 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
       '@types/chai': 4.3.1
+      '@types/node': 12.20.55
+      autorest: 3.6.2
       chai: 4.3.6
       cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 8.20.0
+      karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.0
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.0
+      karma-junit-reporter: 2.0.1_karma@6.4.0
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.0
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
       mkdirp: 1.0.4
       mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
       rimraf: 3.0.2
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
+      source-map-support: 0.5.21
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
-      - '@types/node'
+      - bufferutil
+      - debug
       - supports-color
+      - utf-8-validate
     dev: false
 
   file:projects/arm-networkfunction.tgz:
