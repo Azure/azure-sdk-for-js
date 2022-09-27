@@ -4105,15 +4105,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220921
-    dev: false
-
-  /downlevel-dts/0.4.0:
-    resolution: {integrity: sha512-nh5vM3n2pRhPwZqh0iWo5gpItPAYEGEWw9yd0YpI+lO60B7A3A6iJlxDbt7kKVNbqBXKsptL+jwE/Yg5Go66WQ==}
-    hasBin: true
-    dependencies:
-      shelljs: 0.8.5
-      typescript: 3.9.10
+      typescript: 4.9.0-dev.20220926
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9109,12 +9101,6 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/3.9.10:
-    resolution: {integrity: sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
-    dev: false
-
   /typescript/4.2.4:
     resolution: {integrity: sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==}
     engines: {node: '>=4.2.0'}
@@ -9145,8 +9131,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220921:
-    resolution: {integrity: sha512-0WdiNgM0YfgPURswuah1JJfnDwa6e7Ki0DJcfAEruw17mACMCJw2F7vK/4jLcd1uIl4La3ZIPnA7dOyM7y5Skg==}
+  /typescript/4.9.0-dev.20220926:
+    resolution: {integrity: sha512-qVaJcyFDfhnHB8Yi1jVMwsgO5+cy6J/Z8tjgsyy7GIREvoGXNsuD5dRcYYB46sLjFN/ieUzlmIw3WVxYMc/nPw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -17714,7 +17700,7 @@ packages:
     dev: false
 
   file:projects/maps-common.tgz:
-    resolution: {integrity: sha512-iMCI6D5r8JGttYiLEbBJIWbzDjYzdxiwK5OBFX/YBjqb6hPgppcsSdt/Ww/pzYorzuurl3rMUOwlFwivGMaOcA==, tarball: file:projects/maps-common.tgz}
+    resolution: {integrity: sha512-PrOL5N9ghO3qv+OsK2tl7ZpfPStGIG5NPPreIttLlNOd8sUyuKbbK6xfIWaP8GaPpdYCWibXkUnq0NfURFKHZA==, tarball: file:projects/maps-common.tgz}
     name: '@rush-temp/maps-common'
     version: 0.0.0
     dependencies:
@@ -17728,7 +17714,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      downlevel-dts: 0.4.0
+      downlevel-dts: 0.8.0
       eslint: 8.20.0
       esm: 3.2.25
       inherits: 2.0.4
@@ -17752,7 +17738,7 @@ packages:
       source-map-support: 0.5.21
       tslib: 2.4.0
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.6.4
       util: 0.12.4
     transitivePeerDependencies:
       - supports-color
