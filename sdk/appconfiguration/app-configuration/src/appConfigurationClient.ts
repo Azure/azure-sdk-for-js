@@ -59,11 +59,7 @@ import {
 } from "./internal/helpers";
 import { AppConfiguration } from "./generated/src/appConfiguration";
 import { FeatureFlagValue } from "./featureFlag";
-<<<<<<< HEAD
 import { PagedAsyncIterableIterator, getPagedAsyncIterator, PagedResult} from "@azure/core-paging";
-=======
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
->>>>>>> 4dabab3cf1 (Fix eslint warnings)
 import { SecretReferenceValue } from "./secretReference";
 import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
 import { tracingClient } from "./internal/tracing";
@@ -339,6 +335,47 @@ export class AppConfigurationClient {
           HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
       }
     );
+
+    yield* this.createListConfigurationPageFromResponse(currentResponse);
+
+  private async sendRequest(
+    options: ListConfigurationSettingsOptions & PageSettings = {},
+    pageLink: string | undefined
+  ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
+    return tracingClient.withSpan(
+      "AppConfigurationClient.listConfigurationSettings",
+      options,
+      async (updatedOptions) => {
+        const response = await this.client.getKeyValues({
+          ...updatedOptions,
+          ...formatAcceptDateTime(options),
+          ...formatFiltersAndSelect(options),
+          after: pageLink,
+        });
+
+          return response as GetKeyValuesResponse &
+            HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
+        }
+      );
+
+      if (!currentResponse.items) {
+        break;
+      }
+
+      yield* this.createListConfigurationPageFromResponse(currentResponse);
+    }
+  }
+
+  private *createListConfigurationPageFromResponse(
+    currentResponse: GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>
+  ): Generator<ListConfigurationSettingPage> {
+    yield {
+      ...currentResponse,
+      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
+      continuationToken: currentResponse.nextLink
+        ? extractAfterTokenFromNextLink(currentResponse.nextLink)
+        : undefined,
+    };
   }
 
   /**
@@ -360,7 +397,6 @@ export class AppConfigurationClient {
             ? extractAfterTokenFromNextLink(response.nextLink)
             : undefined,
         }
-        // let itemList = currentResponse.items;
         return {
           page: currentResponse,
           nextPageLink: currentResponse.nextLink,
