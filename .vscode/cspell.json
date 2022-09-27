@@ -253,8 +253,8 @@
       "words": ["MSAPIM", "APIM"]
     },
     {
-      "filename": "sdk/maps/maps-route/review/maps-route.api.md",
-      "words": ["bbox", "UTURN"]
+      "filename": "sdk/maps/maps-common/review/maps-common.api.md",
+      "words": ["bbox"]
     },
     {
       "filename": "sdk/maps/maps-search/review/maps-search.api.md",
