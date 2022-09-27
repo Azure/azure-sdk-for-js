@@ -39,6 +39,9 @@ import { LockRenewer } from "../core/autoLockRenewer";
 import { receiverLogger as logger } from "../log";
 import { translateServiceBusError } from "../serviceBusError";
 import { ensureValidIdentifier } from "../util/utils";
+import { toSpanOptions, tracingClient } from "../diagnostics/tracing";
+import { extractSpanContextFromServiceBusMessage } from "../diagnostics/instrumentServiceBusMessage";
+import { TracingSpanLink } from "@azure/core-tracing";
 
 /**
  * The default time to wait for messages _after_ the first message
@@ -597,20 +600,36 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
 
-    const msgImpl = message as ServiceBusMessageImpl;
+    const tracingContext = extractSpanContextFromServiceBusMessage(message);
+    const spanLinks: TracingSpanLink[] = tracingContext ? [{ tracingContext }] : [];
 
-    let associatedLinkName: string | undefined;
-    if (msgImpl.delivery.link) {
-      const associatedReceiver = this._context.getReceiverFromCache(msgImpl.delivery.link.name);
-      associatedLinkName = associatedReceiver?.name;
-    }
-    return this._context
-      .getManagementClient(this.entityPath)
-      .renewLock(message.lockToken!, { associatedLinkName })
-      .then((lockedUntil) => {
-        message.lockedUntilUtc = lockedUntil;
-        return lockedUntil;
-      });
+    return tracingClient.withSpan(
+      "ServiceBusReceiver.renewMessageLock",
+      {},
+      () => {
+        const msgImpl = message as ServiceBusMessageImpl;
+
+        let associatedLinkName: string | undefined;
+        if (msgImpl.delivery.link) {
+          const associatedReceiver = this._context.getReceiverFromCache(msgImpl.delivery.link.name);
+          associatedLinkName = associatedReceiver?.name;
+        }
+        return this._context
+          .getManagementClient(this.entityPath)
+          .renewLock(message.lockToken!, { associatedLinkName })
+          .then((lockedUntil) => {
+            message.lockedUntilUtc = lockedUntil;
+            return lockedUntil;
+          });
+      },
+      {
+        spanLinks,
+        ...toSpanOptions(
+          { entityPath: this.entityPath, host: this._context.config.host },
+          "client"
+        ),
+      }
+    );
   }
 
   async close(): Promise<void> {
