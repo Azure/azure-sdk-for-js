@@ -188,10 +188,6 @@ describe("SchemaRegistryClient", function () {
     // NOTE: IDs may differ here as we could get a different version with same definition.
   });
 
-  it("fails to get schema by ID when given invalid ID", async () => {
-    await isRejected(client.getSchema(null!), { messagePattern: /null/ });
-  });
-
   it("fails to get schema when no schema exists with given ID", async () => {
     await isRejected(client.getSchema("ffffffffffffffffffffffffffffffff", errorOptions), {
       statusCode: 404,
@@ -215,7 +211,7 @@ describe("SchemaRegistryClient", function () {
   it("gets schema by version", async () => {
     const registered = await client.registerSchema(schema, options);
     assertIsValidSchemaProperties(registered);
-    const found = await client.getSchemaByVersion(
+    const found = await client.getSchema(
       {
         groupName: registered.groupName,
         name: registered.name,
@@ -232,7 +228,7 @@ describe("SchemaRegistryClient", function () {
   });
 
   it("schema with whitespace", async () => {
-    const schema2: SchemaDescription = {
+    const schema2 = {
       name: "azsdk_js_test2",
       groupName: assertEnvironmentVariable("SCHEMA_REGISTRY_GROUP"),
       format: "Avro",

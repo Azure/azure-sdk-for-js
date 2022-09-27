@@ -90,3 +90,43 @@ export async function assertError(
     }
   }
 }
+
+export async function assertDivergentBehavior(inputs: {
+  op: Promise<Result>;
+  throwOnNon2xxResponse: boolean;
+  throwing: {
+    statusCode?: number;
+    messagePattern?: RegExp;
+  };
+  notThrowing: {
+    result?: any;
+    statusCode?: number;
+    messagePattern?: RegExp;
+  };
+}): Promise<void> {
+  const {
+    op,
+    throwOnNon2xxResponse,
+    throwing: { messagePattern, statusCode },
+    notThrowing: {
+      messagePattern: notThrowingMessagePattern,
+      statusCode: notThrowingStatusCode,
+      result,
+    },
+  } = inputs;
+  if (throwOnNon2xxResponse) {
+    await assertError(op, {
+      statusCode,
+      messagePattern,
+    });
+  } else {
+    if (notThrowingStatusCode !== undefined || notThrowingMessagePattern !== undefined) {
+      await assertError(op, {
+        statusCode: notThrowingStatusCode,
+        messagePattern: notThrowingMessagePattern,
+      });
+    } else {
+      assert.deepEqual(await op, result);
+    }
+  }
+}

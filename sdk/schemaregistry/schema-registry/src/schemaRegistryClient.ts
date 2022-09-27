@@ -3,7 +3,6 @@
 
 import { DEFAULT_SCOPE, SDK_VERSION } from "./constants";
 import {
-  GetSchemaByVersionOptions,
   GetSchemaOptions,
   GetSchemaPropertiesOptions,
   RegisterSchemaOptions,
@@ -12,7 +11,6 @@ import {
   SchemaProperties,
   SchemaRegistry,
   SchemaRegistryClientOptions,
-  SchemaVersion,
 } from "./models";
 import {
   InternalPipelineOptions,
@@ -22,6 +20,7 @@ import { TracingClient, createTracingClient } from "@azure/core-tracing";
 import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
 import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegistryClient";
 import { TokenCredential } from "@azure/core-auth";
+import { isDefined } from "./utils";
 import { logger } from "./logger";
 
 /**
@@ -91,7 +90,12 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options: RegisterSchemaOptions = {}
   ): Promise<SchemaProperties> {
-    const { groupName, name: schemaName, definition: schemaContent, format } = schema;
+    const {
+      groupName,
+      name: schemaName,
+      definition: schemaContent,
+      format,
+    } = isDefined(schema, ["definition", "format"]);
     return this._tracing.withSpan(
       "SchemaRegistryClient.registerSchema",
       options,
@@ -119,7 +123,12 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options: GetSchemaPropertiesOptions = {}
   ): Promise<SchemaProperties> {
-    const { groupName, name: schemaName, definition: schemaContent, format } = schema;
+    const {
+      groupName,
+      name: schemaName,
+      definition: schemaContent,
+      format,
+    } = isDefined(schema, ["definition", "format"]);
     return this._tracing.withSpan(
       "SchemaRegistryClient.getSchemaProperties",
       options,
@@ -153,11 +162,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * @param schemaId - Unique schema ID.
    * @returns Schema with given ID.
    */
-  getSchema(schemaId: string, options: GetSchemaOptions = {}): Promise<Schema> {
-    return this._tracing.withSpan("SchemaRegistryClient.getSchema", options, (updatedOptions) =>
-      this._client.schema.getById(schemaId, updatedOptions).then(convertSchemaResponse)
-    );
-  }
+  getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema>;
 
   /**
    * Gets an existing schema by version. If the schema was not found, a RestError with
@@ -173,14 +178,21 @@ export class SchemaRegistryClient implements SchemaRegistry {
   }
    * ```
    *
-   * @param schemaVersion - schema version.
+   * @param schemaDescription - schema version.
    * @returns Schema with given ID.
    */
-  getSchemaByVersion(
-    schemaVersion: SchemaVersion,
-    options: GetSchemaByVersionOptions = {}
+  getSchema(schemaDescription: SchemaDescription, options?: GetSchemaOptions): Promise<Schema>;
+  // implementation
+  getSchema(
+    schemaDescription: string | SchemaDescription,
+    options: GetSchemaOptions = {}
   ): Promise<Schema> {
-    const { groupName, name, version } = schemaVersion;
+    if (typeof schemaDescription === "string") {
+      return this._tracing.withSpan("SchemaRegistryClient.getSchema", options, (updatedOptions) =>
+        this._client.schema.getById(schemaDescription, updatedOptions).then(convertSchemaResponse)
+      );
+    }
+    const { groupName, name, version } = isDefined(schemaDescription, ["version"]);
     return this._tracing.withSpan(
       "SchemaRegistryClient.getSchemaByVersion",
       options,

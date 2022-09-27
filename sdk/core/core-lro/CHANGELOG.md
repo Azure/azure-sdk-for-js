@@ -8,6 +8,9 @@
 
 ### Bugs Fixed
 
+- Precisely detect when an operation failed without relying on exceptions raised by the underlying core library.
+- Handle bad status fields.
+
 ### Other Changes
 
 ## 2.3.1 (2022-09-09)

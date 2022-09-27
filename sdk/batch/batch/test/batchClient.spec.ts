@@ -6,14 +6,13 @@ import { AccountListPoolNodeCountsResponse, TaskGetResponse } from "../src/model
 import { assert } from "chai";
 import { BatchServiceClient, BatchServiceModels } from "../src/batchServiceClient";
 import moment from "moment";
-import { createClient} from "./utils/recordedClient";
+import { createClient } from "./utils/recordedClient";
+import { fakeTestCertData, fakeTestPasswordPlaceholder1, fakeTestPasswordPlaceholder2, fakeTestPasswordPlaceholder3 } from "./fakeTestSecrets";
 
 dotenv.config();
 const wait = (timeout = 1000) => new Promise((resolve) => setTimeout(() => resolve(null), timeout));
 
-const _SUFFIX = Math.random()
-  .toString(16)
-  .substr(2, 4);
+const _SUFFIX = Math.random().toString(16).substr(2, 4);
 
 const ENDPOINT_POOL = getPoolName("endpoint");
 const BASIC_POOL = getPoolName("basic");
@@ -47,15 +46,15 @@ describe("Batch Service", () => {
   let nonAdminPoolUser: string;
   let compute_nodes: string[];
 
-  const readStreamToBuffer = function(
+  const readStreamToBuffer = function (
     strm: NodeJS.ReadableStream,
     callback: (_a: any, buf: Buffer) => void
   ) {
     const bufs: any[] = [];
-    strm.on("data", function(d) {
+    strm.on("data", function (d) {
       bufs.push(d);
     });
-    strm.on("end", function() {
+    strm.on("end", function () {
       callback(null, Buffer.concat(bufs));
     });
   };
@@ -74,22 +73,20 @@ describe("Batch Service", () => {
     it("should list supported images successfully", async () => {
       const result = await client.account.listSupportedImages();
       assert.isAtLeast(result.length, 1);
-      assert.equal(result._response.status, 200)
+      assert.equal(result._response.status, 200);
 
       const supportedImage = result[0];
       assert.isNotNull(supportedImage.nodeAgentSKUId);
       assert.isNotNull(supportedImage.osType);
-
     });
 
     it("should add new certificate successfully", async () => {
       const cert: BatchServiceModels.CertificateAddParameter = {
         thumbprint: certThumb,
         thumbprintAlgorithm: "sha1",
-        password: "nodesdk",
+        password: fakeTestPasswordPlaceholder1,
         certificateFormat: "pfx",
-        data:
-          "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"
+        data: fakeTestCertData,
       };
 
       const result = await client.certificate.add(cert);
@@ -127,9 +124,9 @@ describe("Batch Service", () => {
           {
             name: nonAdminPoolUser,
             password: uuid(),
-            elevationLevel: "nonadmin"
-          }
-        ]
+            elevationLevel: "nonadmin",
+          },
+        ],
       };
 
       const result = await client.pool.add(pool);
@@ -144,7 +141,7 @@ describe("Batch Service", () => {
         certificateReferences: [],
         applicationPackageReferences: [],
         // Ensures the start task isn't cleared
-        startTask: { commandLine: "cmd /c echo hello > hello.txt" }
+        startTask: { commandLine: "cmd /c echo hello > hello.txt" },
       };
 
       const result = await client.pool.updateProperties(BASIC_POOL, options);
@@ -156,9 +153,9 @@ describe("Batch Service", () => {
         metadata: [
           {
             name: "foo2",
-            value: "bar2"
-          }
-        ]
+            value: "bar2",
+          },
+        ],
       };
 
       const result = await client.pool.patch(BASIC_POOL, options);
@@ -205,7 +202,7 @@ describe("Batch Service", () => {
 
     it("should get a pool reference with odata successfully", async () => {
       const options: BatchServiceModels.PoolGetOptionalParams = {
-        poolGetOptions: { select: "id,state", expand: "stats" }
+        poolGetOptions: { select: "id,state", expand: "stats" },
       };
 
       const result = await client.pool.get(BASIC_POOL, options);
@@ -260,14 +257,14 @@ describe("Batch Service", () => {
         targetDedicatedNodes: 0,
         networkConfiguration: {
           subnetId:
-            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1"
-        }
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
+        },
       };
 
       try {
         await client.pool.add(pool);
         assert.fail("Expected error to be thrown");
-      } catch (error: any) {
+      } catch (error) {
         assert.equal(error.statusCode, 403);
         assert.equal(error.body.code, "Forbidden");
       }
@@ -280,17 +277,17 @@ describe("Batch Service", () => {
         virtualMachineConfiguration: {
           imageReference: {
             virtualMachineImageId:
-              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test/providers/Microsoft.Compute/images/FakeImage"
+              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test/providers/Microsoft.Compute/images/FakeImage",
           },
-          nodeAgentSKUId: "batch.node.ubuntu 16.04"
+          nodeAgentSKUId: "batch.node.ubuntu 16.04",
         },
-        targetDedicatedNodes: 0
+        targetDedicatedNodes: 0,
       };
 
       try {
         await client.pool.add(pool);
         assert.fail("Expected error to be thrown");
-      } catch (error: any) {
+      } catch (error) {
         assert.equal(error.statusCode, 400);
         assert.equal(error.body.code, "InvalidPropertyValue");
         assert.equal(error.body.values[0].value, "virtualMachineImageId");
@@ -305,17 +302,17 @@ describe("Batch Service", () => {
           imageReference: {
             publisher: "Canonical",
             offer: "UbuntuServer",
-            sku: "18.04-LTS"
+            sku: "18.04-LTS",
           },
           nodeAgentSKUId: "batch.node.ubuntu 18.04",
           dataDisks: [
             {
               lun: 1,
-              diskSizeGB: 50
-            }
-          ]
+              diskSizeGB: 50,
+            },
+          ],
         },
-        targetDedicatedNodes: 0
+        targetDedicatedNodes: 0,
       };
 
       const resultAdd = await client.pool.add(pool);
@@ -350,22 +347,22 @@ describe("Batch Service", () => {
                   {
                     priority: 150,
                     access: "allow",
-                    sourceAddressPrefix: "*"
-                  }
-                ]
-              }
-            ]
-          }
+                    sourceAddressPrefix: "*",
+                  },
+                ],
+              },
+            ],
+          },
         },
         virtualMachineConfiguration: {
           nodeAgentSKUId: "batch.node.ubuntu 18.04",
           imageReference: {
             publisher: "Canonical",
             offer: "UbuntuServer",
-            sku: "18.04-LTS"
-          }
+            sku: "18.04-LTS",
+          },
         },
-        targetDedicatedNodes: 1
+        targetDedicatedNodes: 1,
       };
 
       const result = await client.pool.add(pool);
@@ -395,8 +392,7 @@ describe("Batch Service", () => {
 
     it("should get pool node counts successfully", async () => {
       let result: AccountListPoolNodeCountsResponse;
-      while (true) 
-      {
+      while (true) {
         result = await client.account.listPoolNodeCounts();
         if (result.length > 0 && result[0].dedicated!.idle > 0) {
           break;
@@ -408,13 +404,12 @@ describe("Batch Service", () => {
       assert.lengthOf(result, 2);
       assert.equal(result._response.status, 200);
 
-      const endpointPoolObj = result.filter(pool => pool.poolId == ENDPOINT_POOL);
+      const endpointPoolObj = result.filter((pool) => pool.poolId == ENDPOINT_POOL);
 
       assert.isAbove(endpointPoolObj.length, 0, `Pool with Pool Id ${ENDPOINT_POOL} not found`);
 
       assert.equal(endpointPoolObj[0].dedicated!.idle, 1);
       assert.equal(endpointPoolObj[0].lowPriority!.total, 0);
-
     }).timeout(LONG_TEST_TIMEOUT);
   });
 
@@ -434,7 +429,7 @@ describe("Batch Service", () => {
       assert.equal(result[0].schedulingState, "enabled");
       assert.isTrue(result[0].isDedicated);
       assert.equal(result._response.status, 200);
-      compute_nodes = result.map(function(x) {
+      compute_nodes = result.map(function (x) {
         return x.id!;
       });
     }).timeout(LONG_TEST_TIMEOUT);
@@ -457,14 +452,14 @@ describe("Batch Service", () => {
     });
 
     it("should add a user to a compute node successfully", async () => {
-      const options = { name: TEST_USER, isAdmin: false, password: "kt#_gahr!@aGERDXA" };
+      const options = { name: TEST_USER, isAdmin: false, password: fakeTestPasswordPlaceholder2 };
       const result = await client.computeNode.addUser(BASIC_POOL, compute_nodes[0], options);
 
       assert.equal(result._response.status, 201);
     });
 
     it("should update a compute node user successfully", async () => {
-      const options = { password: "liilef#$DdRGSa_ewkjh" };
+      const options = { password: fakeTestPasswordPlaceholder3 };
       const result = await client.computeNode.updateUser(
         BASIC_POOL,
         compute_nodes[0],
@@ -480,7 +475,7 @@ describe("Batch Service", () => {
         .getRemoteDesktop(BASIC_POOL, compute_nodes[0])
         .then((result) => {
           assert.equal(result._response.status, 200);
-          readStreamToBuffer(result.readableStreamBody!, function(_err, buff) {
+          readStreamToBuffer(result.readableStreamBody!, function (_err, buff) {
             assert.isAtLeast(buff.length, 1);
             done();
           });
@@ -502,7 +497,7 @@ describe("Batch Service", () => {
           const result = await client.computeNode.disableScheduling(BASIC_POOL, compute_nodes[1]);
           assert.equal(result._response.status, 200);
           break;
-        } catch (e: any) {
+        } catch (e) {
           if (e.code === "NodeNotReady") {
             await wait(POLLING_INTERVAL);
           } else {
@@ -534,7 +529,7 @@ describe("Batch Service", () => {
       const container = "https://teststorage.blob.core.windows.net/fakecontainer";
       const config: BatchServiceModels.UploadBatchServiceLogsConfiguration = {
         containerUrl: container,
-        startTime: new Date("2018-02-25T00:00:00.00")
+        startTime: new Date("2018-02-25T00:00:00.00"),
       };
       const result = await client.computeNode.uploadBatchServiceLogs(
         BASIC_POOL,
@@ -551,7 +546,7 @@ describe("Batch Service", () => {
     it("should enable autoscale successfully", async () => {
       const model: BatchServiceModels.PoolEnableAutoScaleParameter = {
         autoScaleFormula: "$TargetDedicatedNodes=2",
-        autoScaleEvaluationInterval: duration({ minutes: 6 }).toISOString()
+        autoScaleEvaluationInterval: duration({ minutes: 6 }).toISOString(),
       };
 
       const result = await client.pool.enableAutoScale(BASIC_POOL, model);
@@ -591,7 +586,7 @@ describe("Batch Service", () => {
       const pool = {
         id: TEST_POOL3,
         vmSize: VMSIZE_SMALL,
-        cloudServiceConfiguration: { osFamily: "4" }
+        cloudServiceConfiguration: { osFamily: "4" },
       };
       const result = await client.pool.add(pool);
       assert.equal(result._response.status, 201);
@@ -618,7 +613,7 @@ describe("Batch Service", () => {
 
     it("should fail to list pools with invalid max", async () => {
       const options = { poolListOptions: { maxResults: -5 } };
-      client.pool.list(options, function(err) {
+      client.pool.list(options, function (err) {
         assert.equal(
           err!.message,
           '"options.poolListOptions.maxResults" with value "-5" should satisfy the constraint "InclusiveMinimum": 1.'
@@ -631,8 +626,8 @@ describe("Batch Service", () => {
         poolListOptions: {
           filter: `startswith(id,'${BASIC_POOL}')`,
           select: "id,state",
-          expand: "stats"
-        }
+          expand: "stats",
+        },
       };
       const result = await client.pool.list(options);
 
@@ -682,21 +677,20 @@ describe("Batch Service", () => {
 
   describe("Job operations (basic)", async () => {
     it("should create a job successfully", async () => {
-      const options = { id: JOB_NAME, poolInfo: { poolId: BASIC_POOL }};
+      const options = { id: JOB_NAME, poolInfo: { poolId: BASIC_POOL } };
       const result = await client.job.add(options);
 
       assert.equal(result._response.status, 201);
 
       const getResult = await client.job.get(JOB_NAME);
-      assert.equal(getResult.allowTaskPreemption, false);  
-
+      assert.equal(getResult.allowTaskPreemption, false);
     });
 
     it("should update a job successfully", async () => {
       const options = {
         priority: 500,
         constraints: { maxTaskRetryCount: 3 },
-        poolInfo: { poolId: BASIC_POOL }
+        poolInfo: { poolId: BASIC_POOL },
       };
       const result = await client.job.update(JOB_NAME, options);
 
@@ -707,7 +701,7 @@ describe("Batch Service", () => {
       const options = {
         priority: 500,
         constraints: { maxTaskRetryCount: 3 },
-        poolInfo: { poolId: BASIC_POOL }
+        poolInfo: { poolId: BASIC_POOL },
       };
       const result = await client.job.update(JOB_NAME, options);
 
@@ -719,14 +713,14 @@ describe("Batch Service", () => {
     it("should create a task with container settings successfully", async () => {
       const options = {
         id: TASK3_NAME,
-        poolInfo: { poolId: ENDPOINT_POOL }
+        poolInfo: { poolId: ENDPOINT_POOL },
       };
       const result1 = await client.job.add(options);
       assert.equal(result1._response.status, 201);
       const task = {
         id: TASK3_NAME,
         commandLine: "cat /etc/centos-release",
-        containerSettings: { imageName: "centos" }
+        containerSettings: { imageName: "centos" },
       };
       const result2 = await client.task.add(TASK3_NAME, task);
       assert.equal(result2._response.status, 201);
@@ -735,17 +729,16 @@ describe("Batch Service", () => {
     });
 
     it("should create a task with exit conditions successfully", async () => {
-      
       const jobId = "JobWithAutoComplete";
       const taskId = "TaskWithAutoComplete";
       const job: BatchServiceModels.JobAddParameter = {
         id: jobId,
         poolInfo: {
-          poolId: "dummypool"
+          poolId: "dummypool",
         },
         onAllTasksComplete: "noaction",
         onTaskFailure: "performexitoptionsjobaction",
-        usesTaskDependencies: true
+        usesTaskDependencies: true,
       };
 
       const result1 = await client.job.add(job);
@@ -758,18 +751,18 @@ describe("Batch Service", () => {
         exitConditions: {
           default: {
             jobAction: "terminate",
-            dependencyAction: "satisfy"
+            dependencyAction: "satisfy",
           },
           exitCodes: [
             {
               code: 1,
               exitOptions: {
                 jobAction: "none",
-                dependencyAction: "block"
-              }
-            }
-          ]
-        }
+                dependencyAction: "block",
+              },
+            },
+          ],
+        },
       };
 
       const result2 = await client.task.add(jobId, task);
@@ -785,13 +778,12 @@ describe("Batch Service", () => {
       assert.equal(result3.exitConditions!.exitCodes![0].exitOptions.dependencyAction, "block");
 
       await client.job.deleteMethod(jobId);
-
     });
 
     it("should create a task successfully", async () => {
       const task = {
         id: TASK1_NAME,
-        commandLine: "ping 127.0.0.1 -n 20"
+        commandLine: "ping 127.0.0.1 -n 20",
       };
       const result = await client.task.add(JOB_NAME, task);
       assert.equal(result._response.status, 201);
@@ -805,34 +797,39 @@ describe("Batch Service", () => {
 
     it("should create a second task with output files successfully", async () => {
       const container =
-      "https://teststorage.blob.core.windows.net/batch-sdk-test?se=2017-05-05T23%3A48%3A11Z&sv=2016-05-31&sig=fwsWniANVb/KSQQdok%2BbT7gR79iiZSG%2BGkw9Rsd5efY";
+        "https://teststorage.blob.core.windows.net/batch-sdk-test?se=2017-05-05T23%3A48%3A11Z&sv=2016-05-31&sig=fwsWniANVb/KSQQdok%2BbT7gR79iiZSG%2BGkw9Rsd5efY";
       const outputs = [
         {
           filePattern: "../stdout.txt",
           destination: {
-            container: { containerUrl: container, path: "taskLogs/output.txt", uploadHeaders: [{name: "x-ms-blob-content-type", value: "text/plain"}, {name: "x-ms-blob-content-language", value: "en-US"}, ] }
+            container: {
+              containerUrl: container,
+              path: "taskLogs/output.txt",
+              uploadHeaders: [
+                { name: "x-ms-blob-content-type", value: "text/plain" },
+                { name: "x-ms-blob-content-language", value: "en-US" },
+              ],
+            },
           },
-          uploadOptions: { uploadCondition: "taskCompletion" }
+          uploadOptions: { uploadCondition: "taskCompletion" },
         },
         {
           file_pattern: "../stderr.txt",
           destination: {
-            container: { containerUrl: container, path: "taskLogs/error.txt" }
+            container: { containerUrl: container, path: "taskLogs/error.txt" },
           },
-          uploadOptions: { uploadCondition: "taskFailure" }
-        }
+          uploadOptions: { uploadCondition: "taskFailure" },
+        },
       ];
       const options = {
         id: TASK2_NAME,
         commandLine: "cmd /c echo hello world",
-        output_files: outputs
+        output_files: outputs,
       };
 
       const result = await client.task.add(JOB_NAME, options);
 
       assert.equal(result._response.status, 201);
-    
-      
     });
 
     it("should reactivate a task successfully", async () => {
@@ -888,8 +885,8 @@ describe("Batch Service", () => {
         id: taskId,
         commandLine: "cmd /c echo Hello World",
         authenticationTokenSettings: {
-          access: ["job"]
-        }
+          access: ["job"],
+        },
       };
 
       const result = await client.task.add(jobId, task);
@@ -912,8 +909,8 @@ describe("Batch Service", () => {
         // This command should return a non-zero exit code for a non-admin user
         commandLine: "cmd /c net session >nul 2>&1",
         userIdentity: {
-          userName: nonAdminPoolUser
-        }
+          userName: nonAdminPoolUser,
+        },
       };
 
       const result = await client.task.add(jobId, task);
@@ -964,7 +961,7 @@ describe("Batch Service", () => {
         .getFromTask(JOB_NAME, TASK2_NAME, "stdout.txt")
         .then((result) => {
           assert.equal(result._response.status, 200);
-          readStreamToBuffer(result.readableStreamBody!, function(_err, buff) {
+          readStreamToBuffer(result.readableStreamBody!, function (_err, buff) {
             assert.isAtLeast(buff.length, 1);
             done();
           });
@@ -984,7 +981,7 @@ describe("Batch Service", () => {
       const result = await client.computeNode.list(BASIC_POOL);
 
       assert.isAtLeast(result.length, 1);
-      compute_nodes = result.map(function(x) {
+      compute_nodes = result.map(function (x) {
         return x.id!;
       });
       //wait(100000);
@@ -1020,7 +1017,7 @@ describe("Batch Service", () => {
         .getFromComputeNode(BASIC_POOL, compute_nodes[1], "startup/wd/hello.txt")
         .then((result) => {
           assert.equal(result._response.status, 200);
-          readStreamToBuffer(result.readableStreamBody!, function(_err, buff) {
+          readStreamToBuffer(result.readableStreamBody!, function (_err, buff) {
             assert.isAtLeast(buff.length, 1);
             done();
           });
@@ -1069,9 +1066,9 @@ describe("Batch Service", () => {
         commandLine: "cmd /c echo hello world",
         applicationPackageReferences: [
           {
-            applicationId: "my_application_id"
-          }
-        ]
+            applicationId: "my_application_id",
+          },
+        ],
       };
       const result1 = await client.task.add(JOB_NAME, task);
       assert.equal(result1._response.status, 201);
@@ -1107,7 +1104,7 @@ describe("Batch Service", () => {
     it("should fail to job prep+release status", async () => {
       try {
         await client.job.listPreparationAndReleaseTaskStatus(JOB_NAME);
-      } catch (error: any) {
+      } catch (error) {
         assert.equal(error.code, "JobPreparationTaskOrReleaseTaskNotSpecified");
       }
     });
@@ -1151,14 +1148,12 @@ describe("Batch Service", () => {
         id: SCHEDULE,
         jobSpecification: {
           displayName: JOB_NAME,
-          poolInfo: { poolId: BASIC_POOL }
+          poolInfo: { poolId: BASIC_POOL },
         },
         schedule: {
-          doNotRunUntil: moment()
-            .add(3, "days")
-            .toDate(),
-          startWindow: duration({ minutes: 6 }).toISOString()
-        }
+          doNotRunUntil: moment().add(3, "days").toDate(),
+          startWindow: duration({ minutes: 6 }).toISOString(),
+        },
       };
 
       const result = await client.jobSchedule.add(options);
@@ -1198,7 +1193,7 @@ describe("Batch Service", () => {
     it("should update a job schedule successfully", async () => {
       const options: BatchServiceModels.JobScheduleUpdateParameter = {
         schedule: { recurrenceInterval: duration({ hours: 6 }).toISOString() },
-        jobSpecification: { poolInfo: { poolId: TEST_POOL3 } }
+        jobSpecification: { poolInfo: { poolId: TEST_POOL3 } },
       };
 
       const result = await client.jobSchedule.update(SCHEDULE, options);
@@ -1210,8 +1205,8 @@ describe("Batch Service", () => {
       const options = {
         schedule: {
           recurrenceInterval: duration({ hours: 3 }).toISOString(),
-          startWindow: duration({ hours: 1 }).toISOString()
-        }
+          startWindow: duration({ hours: 1 }).toISOString(),
+        },
       };
 
       const result = await client.jobSchedule.patch(SCHEDULE, options);
@@ -1248,7 +1243,7 @@ describe("Batch Service", () => {
     it("should remove nodes in pool successfully", async () => {
       const options: BatchServiceModels.NodeRemoveParameter = {
         nodeList: compute_nodes,
-        nodeDeallocationOption: "terminate"
+        nodeDeallocationOption: "terminate",
       };
       const result = await client.pool.removeNodes(BASIC_POOL, options);
 
@@ -1276,7 +1271,7 @@ describe("Batch Service", () => {
     it("should fail to delete a non-existent pool", async () => {
       try {
         await client.pool.deleteMethod(BASIC_POOL);
-      } catch (error: any) {
+      } catch (error) {
         assert.equal(error.code, "PoolBeingDeleted");
       }
     });
@@ -1290,7 +1285,7 @@ describe("Batch Service", () => {
     it("should fail to cancel deleting a certificate", async () => {
       try {
         await client.certificate.cancelDeletion("sha1", certThumb);
-      } catch (error: any) {
+      } catch (error) {
         assert.equal(error.code, "CertificateBeingDeleted");
       }
     });
