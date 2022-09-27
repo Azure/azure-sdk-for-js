@@ -55,7 +55,7 @@ import {
 } from "./internal/helpers";
 import { AppConfiguration } from "./generated/src/appConfiguration";
 import { FeatureFlagValue } from "./featureFlag";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, getPagedAsyncIterator, PagedResult} from "@azure/core-paging";
 import { SecretReferenceValue } from "./secretReference";
 import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
 import { tracingClient } from "./internal/tracing";
@@ -377,6 +377,56 @@ export class AppConfigurationClient {
         ? extractAfterTokenFromNextLink(currentResponse.nextLink)
         : undefined,
     };
+  }
+
+  /**
+   * Lists settings using the core paging method for the iterator
+   * @param options - Optional parameters for the request.
+   */
+  listConfigurationSettingsWithCorePaging(
+    options: ListConfigurationSettingsOptions = {}
+  ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
+
+    const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> = {
+      firstPageLink: undefined,
+      getPage: async (pageLink: string | undefined) => {
+        const response = await (this.sendRequest(options, pageLink));
+        let currentResponse = {
+          ... response,
+          items: response.items != null ? response.items?.map(transformKeyValue): [],
+          continuationToken: response.nextLink
+            ? extractAfterTokenFromNextLink(response.nextLink)
+            : undefined,
+        }
+        return {
+          page: currentResponse,
+          nextPageLink: currentResponse.nextLink,
+        };
+      }
+      
+    }
+    return getPagedAsyncIterator(pagedResult);
+  }
+
+  private async sendRequest(
+    options: ListConfigurationSettingsOptions & PageSettings = {},
+    pageLink: string | undefined
+  ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
+    return tracingClient.withSpan(
+      "AppConfigurationClient.listConfigurationSettings",
+      options,
+      async (updatedOptions) => {
+        const response = await this.client.getKeyValues({
+          ...updatedOptions,
+          ...formatAcceptDateTime(options),
+          ...formatFiltersAndSelect(options),
+          after: pageLink,
+        });
+
+        return response as GetKeyValuesResponse &
+          HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
+      }
+    );
   }
 
   /**
