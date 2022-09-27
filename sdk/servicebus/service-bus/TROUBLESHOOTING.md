@@ -2,15 +2,39 @@
 
 This troubleshooting guide covers failure investigation techniques, common errors in the Azure Service Bus JavaScript client library, and mitigation steps to resolve these errors.
 
-## ToC
+## Table of contents
 
-
+- [Handle Service Bus Errors](#handle-service-bus-errors)
+  - [Find information about a ServiceBusError](#find-information-about-a-servicebuserror)
+  - [Other common errors](#other-common-errors)
+- [Permissions issues](#permissions-issues)
+- [Connectivity issues](#connectivity-issues)
+  - [Timeout when connecting to service](#timeout-when-connecting-to-service)
+  - [SSL handshake failures](#ssl-handshake-failures)
+  - [Socket exhaustion errors](#socket-exhaustion-errors)
+  - [Adding components to the connection string does not work](#adding-components-to-the-connection-string-does-not-work)
+    - ["TransportType=AmqpWebSockets" Alternative](#transporttypeamqpwebsockets-alternative)
+    - ["Authentication=Managed Identity" Alternative](#authenticationmanaged-identity-alternative)
+- [Logging and diagnostics](#logging-and-diagnostics)
+  - [Enable logging](#enable-logging)
+  - [Logging to a file](#logging-to-a-file)
+  - [Distributed tracing](#distributed-tracing)
+- [Troubleshoot sender issues](#troubleshoot-sender-issues)
+  - [Cannot send batch with multiple partition keys](#cannot-send-batch-with-multiple-partition-keys)
+  - [Batch fails to send](#batch-fails-to-send)
+- [Troubleshoot receiver issues](#troubleshoot-receiver-issues)
+  - [Number of messages returned does not match number requested in batch receive](#number-of-messages-returned-does-not-match-number-requested-in-batch-receive)
+  - [Message or session lock is lost before lock expiration time](#message-or-session-lock-is-lost-before-lock-expiration-time)
+  - [How to browse scheduled or deferred messages](#how-to-browse-scheduled-or-deferred-messages)
+  - [How to browse session messages across all sessions](#how-to-browse-session-messages-across-all-sessions)
+- [Troubleshoot receiver issues when streaming messages via `subscribe()` methods](#troubleshoot-receiver-issues-when-streaming-messages-via-subscribe-methods)
+  - [Autolock renewal is not working](#autolock-renewal-is-not-working)
+- [Quotas](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-quotas)
 
 ## Handle Service Bus Errors
 The Service Bus client library will surface errors when an error is encountered by a service operation or within the client. For scenarios specific to Service Bus, a [ServiceBusError][ServiceBusError] is thrown; this is the most common error type that applications will encounter.
 
 The Service Bus clients will automatically retry errors that are considered transient, following the configured [retry options][CoreAmqpRetryOptions]. When an error is surfaced to the application, either all retries were applied unsuccessfully, or the error was considered non-transient. More information on configuring retry options can be found in the [Customizing the retry options][RetryOptionsSample] sample.
-
 
 ### Find information about a ServiceBusError
 
