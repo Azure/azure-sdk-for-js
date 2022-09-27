@@ -8,29 +8,36 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { SecurityInsights } from "@azure/arm-securityinsight";
+import {
+  FileImportsListOptionalParams,
+  SecurityInsights
+} from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Gets all source controls, without source control items.
+ * This sample demonstrates how to Gets all file imports.
  *
- * @summary Gets all source controls, without source control items.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/sourcecontrols/GetSourceControls.json
+ * @summary Gets all file imports.
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/fileImports/GetFileImports.json
  */
-async function getAllSourceControls() {
+async function getAllFileImports() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = "myRg";
   const workspaceName = "myWorkspace";
+  const orderby = "properties/createdTimeUtc desc";
+  const top = 1;
+  const options: FileImportsListOptionalParams = { orderby, top };
   const credential = new DefaultAzureCredential();
   const client = new SecurityInsights(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sourceControls.list(
+  for await (let item of client.fileImports.list(
     resourceGroupName,
-    workspaceName
+    workspaceName,
+    options
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-getAllSourceControls().catch(console.error);
+getAllFileImports().catch(console.error);

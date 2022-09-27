@@ -12,24 +12,24 @@ import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Delete a threat intelligence indicator.
+ * This sample demonstrates how to Gets a file import.
  *
- * @summary Delete a threat intelligence indicator.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/threatintelligence/DeleteThreatIntelligence.json
+ * @summary Gets a file import.
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/fileImports/GetFileImportById.json
  */
-async function deleteAThreatIntelligenceIndicator() {
-  const subscriptionId = "bd794837-4d29-4647-9105-6339bfdb4e6a";
+async function getAFileImport() {
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = "myRg";
   const workspaceName = "myWorkspace";
-  const name = "d9cd6f0b-96b9-3984-17cd-a779d1e15a93";
+  const fileImportId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
   const credential = new DefaultAzureCredential();
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.threatIntelligenceIndicator.delete(
+  const result = await client.fileImports.get(
     resourceGroupName,
     workspaceName,
-    name
+    fileImportId
   );
   console.log(result);
 }
 
-deleteAThreatIntelligenceIndicator().catch(console.error);
+getAFileImport().catch(console.error);
