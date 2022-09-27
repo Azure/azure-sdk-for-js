@@ -48,7 +48,7 @@ const recorderOptions: RecorderStartOptions = {
 };
 
 export const testPollingOptions = {
-  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
+  intervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 describe("Network test", () => {
@@ -101,7 +101,7 @@ describe("Network test", () => {
       .put(option);
 
     if (isUnexpected(res)) {
-      throw "create availability set error result" + res;
+      throw "create virtualNetworks set error result" + res;
     }
 
     const poller = getLongRunningPoller(client, res, testPollingOptions);
@@ -129,7 +129,7 @@ describe("Network test", () => {
       .put(option);
 
     if (isUnexpected(res)) {
-      throw "create availability set error result" + res;
+      throw "create subnets set error result" + res;
     }
     const poller = getLongRunningPoller(client, res, testPollingOptions);
     const result = await poller.pollUntilDone();
@@ -159,7 +159,7 @@ describe("Network test", () => {
       .put(option);
 
     if (isUnexpected(res)) {
-      throw "create availability set error result" + res;
+      throw "create ipGroups set error result" + res;
     }
     const poller = getLongRunningPoller(client, res, testPollingOptions);
     const result = await poller.pollUntilDone();
@@ -180,7 +180,7 @@ describe("Network test", () => {
       .get(option);
 
     if (isUnexpected(res)) {
-      throw "create availability set error result" + res;
+      throw "get virtualNetworks set error result" + res;
     }
     assert.equal(res.body.name, virtualNetworkName);
   });
@@ -200,7 +200,7 @@ describe("Network test", () => {
       .get(option);
 
     if (isUnexpected(res)) {
-      throw "create availability set error result" + res;
+      throw "get subnets set error result" + res;
     }
     const poller = getLongRunningPoller(client, res, testPollingOptions);
     const result = await poller.pollUntilDone();
@@ -221,11 +221,11 @@ describe("Network test", () => {
       .get(option);
 
     if (isUnexpected(res)) {
-      throw "create availability set error result" + res;
+      throw "get ipGroups set error result" + res;
     }
     const poller = getLongRunningPoller(client, res, testPollingOptions);
     const result = await poller.pollUntilDone();
-    assert.equal(result.body.name, subnet_name);
+    assert.equal(result.body.name, ipGroupName);
   });
 
   it("virtualNetworks list test", async function () {
@@ -234,10 +234,9 @@ describe("Network test", () => {
     }
     const res = await client
       .path(
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks",
         subscriptionId,
         resourceGroupName,
-        virtualNetworkName
       )
       .get(option);
 
@@ -246,7 +245,7 @@ describe("Network test", () => {
     for await (const item of pageData) {
       result.push(item);
     }
-    assert.equal(result.length, 1);
+    assert.equal(result.length, 2);
   });
 
   it("subnets list test", async function () {
@@ -255,11 +254,10 @@ describe("Network test", () => {
     }
     const res = await client
       .path(
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets",
         subscriptionId,
         resourceGroupName,
         virtualNetworkName,
-        subnet_name
       )
       .get(option);
 
@@ -277,10 +275,9 @@ describe("Network test", () => {
     }
     const res = await client
       .path(
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups",
         subscriptionId,
         resourceGroupName,
-        ipGroupName
       )
       .get(option);
 
@@ -307,11 +304,11 @@ describe("Network test", () => {
       .patch(options);
 
     if (isUnexpected(res)) {
-      throw "create availability set error result" + res;
+      throw "update virtualNetworks set error result" + res;
     }
     const poller = getLongRunningPoller(client, res, testPollingOptions);
     const result = await poller.pollUntilDone();
-    assert.equal(result.body.name, subnet_name);
+    assert.equal(result.body.name, virtualNetworkName);
   });
 
   it("ipGroups beginDeleteAndWait test", async function () {
@@ -331,7 +328,7 @@ describe("Network test", () => {
     const deleteResponse = await poller.pollUntilDone();
 
     if (isUnexpected(deleteResponse)) {
-      throw "create availability set error result" + deleteResponse;
+      throw "delete ipGroups set error result" + deleteResponse;
     }
 
     const option: IpGroupsListParameters = {
@@ -339,10 +336,9 @@ describe("Network test", () => {
     }
     const res = await client
       .path(
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups",
         subscriptionId,
         resourceGroupName,
-        ipGroupName
       )
       .get(option);
 
@@ -372,7 +368,7 @@ describe("Network test", () => {
     const deleteResponse = await poller.pollUntilDone();
 
     if (isUnexpected(deleteResponse)) {
-      throw "create availability set error result" + deleteResponse;
+      throw "delete subnets set error result" + deleteResponse;
     }
 
     const option: SubnetsListParameters = {
@@ -380,11 +376,10 @@ describe("Network test", () => {
     }
     const res = await client
       .path(
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets",
         subscriptionId,
         resourceGroupName,
         virtualNetworkName,
-        subnet_name
       )
       .get(option);
 
@@ -413,7 +408,7 @@ describe("Network test", () => {
     const deleteResponse = await poller.pollUntilDone();
 
     if (isUnexpected(deleteResponse)) {
-      throw "create availability set error result" + deleteResponse;
+      throw "delete virtualNetworks set error result" + deleteResponse;
     }
 
     const option: VirtualNetworksListParameters = {
@@ -421,10 +416,9 @@ describe("Network test", () => {
     }
     const res = await client
       .path(
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks",
         subscriptionId,
         resourceGroupName,
-        virtualNetworkName
       )
       .get(option);
 
@@ -433,6 +427,6 @@ describe("Network test", () => {
     for await (const item of pageData) {
       result.push(item);
     }
-    assert.equal(result.length, 0);
+    assert.equal(result.length, 1);
   });
 });

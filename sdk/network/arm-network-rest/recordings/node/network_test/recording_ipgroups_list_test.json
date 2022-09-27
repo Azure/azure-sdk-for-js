@@ -1,0 +1,60 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/ipGroups?api-version=2022-05-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-network-rest/1.0.0-beta.1 core-rest-pipeline/1.9.0 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "28e3e25b-e0c1-48c5-93c8-89849e9ed3ec"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 27 Sep 2022 06:47:55 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "26f2322c-9a9e-4c6d-9e89-00e4c673c7fd",
+        "x-ms-ratelimit-remaining-subscription-reads": "11983",
+        "x-ms-request-id": "26f2322c-9a9e-4c6d-9e89-00e4c673c7fd",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220927T064756Z:26f2322c-9a9e-4c6d-9e89-00e4c673c7fd"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "properties": {
+              "firewalls": [],
+              "firewallPolicies": [],
+              "ipAddresses": [
+                "13.64.39.16/32",
+                "40.74.146.80/31",
+                "40.74.147.32/28"
+              ],
+              "provisioningState": "Succeeded"
+            },
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/ipGroups/ipgroupyyy",
+            "name": "ipgroupyyy",
+            "type": "Microsoft.Network/IpGroups",
+            "etag": "134523b4-2730-4019-b332-1ac8d2d730e2",
+            "location": "eastus",
+            "tags": {
+              "key1": "value1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
