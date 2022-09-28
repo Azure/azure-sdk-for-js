@@ -13,7 +13,6 @@ trigger:
       - sdk/network/arm-network
       - sdk/network/arm-network-rest
 pr:
-pr:
   branches:
     include:
       - main
