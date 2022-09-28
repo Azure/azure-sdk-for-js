@@ -1,15 +1,123 @@
 # Release History
+    
+## 1.0.0-beta.5 (2022-09-27)
+    
+**Features**
 
-## 1.0.0-beta.5 (Unreleased)
+  - Added operation group FileImports
+  - Added Interface AutomationRuleBooleanCondition
+  - Added Interface AutomationRulePropertyArrayValuesCondition
+  - Added Interface BooleanConditionProperties
+  - Added Interface FileImport
+  - Added Interface FileImportList
+  - Added Interface FileImportsCreateOptionalParams
+  - Added Interface FileImportsDeleteOptionalParams
+  - Added Interface FileImportsGetOptionalParams
+  - Added Interface FileImportsListNextOptionalParams
+  - Added Interface FileImportsListOptionalParams
+  - Added Interface FileMetadata
+  - Added Interface PropertyArrayConditionProperties
+  - Added Interface ValidationError
+  - Added Type Alias AutomationRuleBooleanConditionSupportedOperator
+  - Added Type Alias AutomationRulePropertyArrayConditionSupportedArrayConditionType
+  - Added Type Alias AutomationRulePropertyArrayConditionSupportedArrayType
+  - Added Type Alias DeleteStatus
+  - Added Type Alias FileFormat
+  - Added Type Alias FileImportContentType
+  - Added Type Alias FileImportsCreateResponse
+  - Added Type Alias FileImportsDeleteResponse
+  - Added Type Alias FileImportsGetResponse
+  - Added Type Alias FileImportsListNextResponse
+  - Added Type Alias FileImportsListResponse
+  - Added Type Alias FileImportState
+  - Added Type Alias IngestionMode
+  - Interface NrtAlertRule has a new optional parameter eventGroupingSettings
+  - Interface NrtAlertRuleTemplate has a new optional parameter eventGroupingSettings
+  - Interface QueryBasedAlertRuleTemplateProperties has a new optional parameter eventGroupingSettings
+  - Class SecurityInsights has a new parameter fileImports
+  - Added Enum KnownAutomationRuleBooleanConditionSupportedOperator
+  - Added Enum KnownAutomationRulePropertyArrayConditionSupportedArrayConditionType
+  - Added Enum KnownAutomationRulePropertyArrayConditionSupportedArrayType
+  - Added Enum KnownDeleteStatus
+  - Added Enum KnownFileFormat
+  - Added Enum KnownFileImportContentType
+  - Added Enum KnownFileImportState
+  - Added Enum KnownIngestionMode
+  - Enum KnownAutomationRulePropertyConditionSupportedProperty has a new value IncidentCustomDetailsKey
+  - Enum KnownAutomationRulePropertyConditionSupportedProperty has a new value IncidentCustomDetailsValue
+  - Enum KnownAutomationRulePropertyConditionSupportedProperty has a new value IncidentUpdatedBySource
+  - Enum KnownConditionType has a new value Boolean
+  - Enum KnownConditionType has a new value PropertyArray
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AADDataConnector has a new required parameter kind
+  - Interface AatpDataConnector has a new required parameter kind
+  - Interface AccountEntity has a new required parameter kind
+  - Interface ActivityCustomEntityQuery has a new required parameter kind
+  - Interface ActivityEntityQuery has a new required parameter kind
+  - Interface ActivityEntityQueryTemplate has a new required parameter kind
+  - Interface Anomalies has a new required parameter kind
+  - Interface AnomalySecurityMLAnalyticsSettings has a new required parameter kind
+  - Interface ASCDataConnector has a new required parameter kind
+  - Interface AwsCloudTrailDataConnector has a new required parameter kind
+  - Interface AwsS3DataConnector has a new required parameter kind
+  - Interface AzureResourceEntity has a new required parameter kind
+  - Interface CloudApplicationEntity has a new required parameter kind
+  - Interface CodelessApiPollingDataConnector has a new required parameter kind
+  - Interface CodelessUiDataConnector has a new required parameter kind
+  - Interface DnsEntity has a new required parameter kind
+  - Interface Dynamics365DataConnector has a new required parameter kind
+  - Interface EntityAnalytics has a new required parameter kind
+  - Interface ExpansionEntityQuery has a new required parameter kind
+  - Interface EyesOn has a new required parameter kind
+  - Interface FileEntity has a new required parameter kind
+  - Interface FileHashEntity has a new required parameter kind
+  - Interface FusionAlertRule has a new required parameter kind
+  - Interface FusionAlertRuleTemplate has a new required parameter kind
+  - Interface HostEntity has a new required parameter kind
+  - Interface HuntingBookmark has a new required parameter kind
+  - Interface IoTDataConnector has a new required parameter kind
+  - Interface IoTDeviceEntity has a new required parameter kind
+  - Interface IpEntity has a new required parameter kind
+  - Interface MailboxEntity has a new required parameter kind
+  - Interface MailClusterEntity has a new required parameter kind
+  - Interface MailMessageEntity has a new required parameter kind
+  - Interface MalwareEntity has a new required parameter kind
+  - Interface McasDataConnector has a new required parameter kind
+  - Interface MdatpDataConnector has a new required parameter kind
+  - Interface MicrosoftSecurityIncidentCreationAlertRule has a new required parameter kind
+  - Interface MicrosoftSecurityIncidentCreationAlertRuleTemplate has a new required parameter kind
+  - Interface MLBehaviorAnalyticsAlertRule has a new required parameter kind
+  - Interface MLBehaviorAnalyticsAlertRuleTemplate has a new required parameter kind
+  - Interface MstiDataConnector has a new required parameter kind
+  - Interface MTPDataConnector has a new required parameter kind
+  - Interface NicEntity has a new required parameter kind
+  - Interface NrtAlertRule has a new required parameter kind
+  - Interface NrtAlertRuleTemplate has a new required parameter kind
+  - Interface Office365ProjectDataConnector has a new required parameter kind
+  - Interface OfficeATPDataConnector has a new required parameter kind
+  - Interface OfficeDataConnector has a new required parameter kind
+  - Interface OfficeIRMDataConnector has a new required parameter kind
+  - Interface OfficePowerBIDataConnector has a new required parameter kind
+  - Interface ProcessEntity has a new required parameter kind
+  - Interface RegistryKeyEntity has a new required parameter kind
+  - Interface RegistryValueEntity has a new required parameter kind
+  - Interface ScheduledAlertRule has a new required parameter kind
+  - Interface ScheduledAlertRuleTemplate has a new required parameter kind
+  - Interface SecurityAlert has a new required parameter kind
+  - Interface SecurityGroupEntity has a new required parameter kind
+  - Interface SubmissionMailEntity has a new required parameter kind
+  - Interface ThreatIntelligenceAlertRule has a new required parameter kind
+  - Interface ThreatIntelligenceAlertRuleTemplate has a new required parameter kind
+  - Interface ThreatIntelligenceIndicatorModel has a new required parameter kind
+  - Interface TIDataConnector has a new required parameter kind
+  - Interface TiTaxiiDataConnector has a new required parameter kind
+  - Interface Ueba has a new required parameter kind
+  - Interface UrlEntity has a new required parameter kind
+  - Parameter logicAppsResourceId of interface ManualTriggerRequestBody is now required
+    
+    
 ## 1.0.0-beta.4 (2022-07-11)
     
 **Features**
