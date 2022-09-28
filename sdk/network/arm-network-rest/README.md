@@ -47,7 +47,7 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 Use the returned token credential to authenticate the client:
 
 ```typescript
-import ComputeManagementClient from "@azure-rest/arm-compute";
+import NetworkManagementClient from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 const credential = new DefaultAzureCredential();
 const client = NetworkManagementClient(credential);
