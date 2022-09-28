@@ -17,7 +17,7 @@ import {
   BatchPollerProxy,
   createAzureMapsKeyCredentialPolicy,
   createMapsClientIdPolicy,
-} from "../../maps-common/src";
+} from "@azure/maps-common";
 import {
   BatchResult,
   EntityGeometry,

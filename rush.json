@@ -619,7 +619,7 @@
     {
       "packageName": "@azure/maps-common",
       "projectFolder": "sdk/maps/maps-common",
-      "versionPolicyName": "utility"
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/maps-search",
@@ -1870,6 +1870,11 @@
       "packageName": "@azure/arm-chaos",
       "projectFolder": "sdk/chaos/arm-chaos",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/functions-authentication-events",
+      "projectFolder": "sdk/entra/functions-authentication-events",
+      "versionPolicyName": "client"
     }
   ]
 }

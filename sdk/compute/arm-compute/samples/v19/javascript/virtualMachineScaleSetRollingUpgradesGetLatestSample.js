@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets the status of the latest virtual machine scale set rolling upgrade.
  *
  * @summary Gets the status of the latest virtual machine scale set rolling upgrade.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrades_GetLatest_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrades_GetLatest_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetRollingUpgradesGetLatestMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -36,7 +36,7 @@ virtualMachineScaleSetRollingUpgradesGetLatestMaximumSetGen().catch(console.erro
  * This sample demonstrates how to Gets the status of the latest virtual machine scale set rolling upgrade.
  *
  * @summary Gets the status of the latest virtual machine scale set rolling upgrade.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrades_GetLatest_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrades_GetLatest_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetRollingUpgradesGetLatestMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

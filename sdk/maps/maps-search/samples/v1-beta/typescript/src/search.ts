@@ -7,15 +7,17 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 // import { DefaultAzureCredential } from "@azure/identity";
-import { GeoJsonLineString, GeoJsonPolygon, LatLon } from "../../maps-common/src";
 import {
   MapsSearchClient,
   StructuredAddress,
   SearchAddressRequest,
   ReverseSearchAddressRequest,
   FuzzySearchRequest,
-  GeoJsonPolygonCollection,
   GeoJsonCircleOrPolygonFeatureCollection,
+  GeoJsonLineString,
+  GeoJsonPolygon,
+  GeoJsonPolygonCollection,
+  LatLon,
 } from "@azure/maps-search";
 import * as dotenv from "dotenv";
 dotenv.config();

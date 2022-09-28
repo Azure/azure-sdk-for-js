@@ -1,39 +1,56 @@
 {
   "name": "@azure/maps-common",
   "version": "1.0.0-beta.1",
-  "description": "A client library for Azure Maps maps-common",
+  "description": "An internal shared package for Azure Maps TypeScript SDK",
   "sdk-type": "client",
-  "main": "./src/index.js",
+  "main": "dist/index.js",
   "module": "dist-esm/index.js",
+  "types": "types/maps-common.d.ts",
+  "typesVersions": {
+    "<3.6": {
+      "*": [
+        "types/3.1/index.d.ts"
+      ]
+    }
+  },
   "browser": {},
-  "types": "./types/index.d.ts",
   "scripts": {
-    "audit": "echo skipped",
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:browser": "tsc -p . && dev-tool run bundle",
+    "build:node": "tsc -p . && dev-tool run bundle",
+    "build:nodebrowser": "dev-tool run bundle",
     "build:samples": "echo skipped",
     "build:test": "echo skipped",
-    "build": "npm run clean && npm run extract-api && tsc -p tsconfig.json",
-    "build:types": "downlevel-dts types types/3.1",
+    "build:types": "downlevel-dts types/latest types/3.1",
+    "build": "tsc -p . && npm run build:nodebrowser && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-* temp types *.tgz *.log",
-    "docs": "echo skipped",
+    "clean": "rimraf dist dist-* temp types *.tgz *.log coverage coverage-browser",
     "execute:samples": "echo skipped",
-    "extract-api": "echo skipped",
+    "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "autorest --typescript --v3 swagger",
+    "generate:client": "echo skipped",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json src README.md --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json src README.md --ext .ts",
+    "lint:fix": "eslint package.json api-extractor.json README.md src --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json README.md src --ext .ts,.javascript,.js",
     "pack": "npm pack 2>&1",
-    "prebuild": "npm run clean",
-    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
-    "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
-    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "ci": "npm run build && npm run check-format && npm run lint",
+    "test:browser": "echo skipped",
+    "test:node": "echo skipped",
+    "test": "echo skipped",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "echo skipped"
   },
+  "files": [
+    "dist/",
+    "dist-esm/",
+    "types/latest/",
+    "types/3.1/",
+    "README.md",
+    "LICENSE"
+  ],
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
     "node": ">=12.0.0"
@@ -56,19 +73,18 @@
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-auth": "^1.3.0",
-    "@azure/core-client": "^1.0.0",
-    "@azure/core-http": "^2.0.0",
     "@azure/core-lro": "^2.2.0",
-    "@azure/core-rest-pipeline": "^1.1.0",
-    "@azure/core-tracing": "^1.0.0",
-    "tslib": "^2.2.0"
+    "@azure/core-rest-pipeline": "^1.1.0"
   },
   "devDependencies": {
     "@azure/test-utils": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/dev-tool": "^1.0.0",
+    "@microsoft/api-extractor": "7.18.11",
+    "downlevel-dts": "^0.8.0",
     "eslint": "^8.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "typescript": "~4.2.0"
+    "typescript": "~4.6.0"
   }
 }

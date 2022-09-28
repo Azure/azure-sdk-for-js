@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to The operation to get the extension.
  *
  * @summary The operation to get the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Get_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionsGetMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -41,7 +41,7 @@ virtualMachineScaleSetExtensionsGetMaximumSetGen().catch(console.error);
  * This sample demonstrates how to The operation to get the extension.
  *
  * @summary The operation to get the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Get_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionsGetMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

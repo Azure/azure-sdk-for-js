@@ -7,6 +7,7 @@ import { HttpHeaders } from "../../src/httpHeaders";
 import { ProxySettings } from "../../src/serviceClient";
 import { RequestPolicyOptions } from "../../src/policies/requestPolicy";
 import { WebResource } from "../../src/webResource";
+import { fakeTestSecretPlaceholder } from "@azure/test-utils";
 import { should } from "chai";
 
 describe("ProxyPolicy (browser)", function () {
@@ -14,7 +15,7 @@ describe("ProxyPolicy (browser)", function () {
     host: "https://example.com",
     port: 3030,
     username: "admin",
-    password: "SecretPlaceholder",
+    password: fakeTestSecretPlaceholder,
   };
 
   const emptyRequestPolicy = {

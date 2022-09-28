@@ -62,7 +62,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/test-utils": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
-    "@microsoft/api-extractor": "7.18.11",
+    "@microsoft/api-extractor": "^7.31.1",
     "mocha-junit-reporter": "^2.0.0",
     "mocha": "^7.1.1",
     "eslint": "^8.0.0",

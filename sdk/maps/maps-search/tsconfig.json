@@ -2,13 +2,11 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "outDir": "./dist-esm",
-    "declarationDir": "./types",
-    "lib": ["dom"],
-    "resolveJsonModule": true,
+    "declarationDir": "./types/latest",
     "baseUrl": "./",
     "paths": {
       "@azure/maps-search": ["./src/index"]
     }
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "../maps-common/**/*.ts", "samples-dev/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }
