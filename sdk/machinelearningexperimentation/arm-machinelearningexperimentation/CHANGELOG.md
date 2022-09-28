@@ -1,5 +1,12 @@
 # Release History
     
+## 2.0.0-beta.4 (2022-09-28)
+
+**Bugs Fixed**
+
+  -  fix better user experience of credential scopes in government cloud
+
+
 ## 2.0.0-beta.3 (2022-06-22)
 
 The package of @azure/arm-machinelearningexperimentation is using our next generation design principles since version 2.0.0-beta.3, which contains breaking changes.
