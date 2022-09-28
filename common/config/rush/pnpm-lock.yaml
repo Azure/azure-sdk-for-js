@@ -3895,7 +3895,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220926
+      typescript: 4.9.0-dev.20220927
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8827,8 +8827,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220926:
-    resolution: {integrity: sha512-qVaJcyFDfhnHB8Yi1jVMwsgO5+cy6J/Z8tjgsyy7GIREvoGXNsuD5dRcYYB46sLjFN/ieUzlmIw3WVxYMc/nPw==}
+  /typescript/4.9.0-dev.20220927:
+    resolution: {integrity: sha512-MXTYXCsE60y6eXtLu2aAgeV0LD/e5HCBPPRETcH+UMPoVusk9RjJNzj1/9gkNRryIoqeeL3w2AlxYHbiHPtQog==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14264,7 +14264,7 @@ packages:
     dev: false
 
   file:projects/arm-securityinsight.tgz:
-    resolution: {integrity: sha512-JDOzHkmbkYBEPX3sWO83Z6k39RBTdeASQcFJP/oeH4qzOk0oX1OBsq47R1dK9lHS2lY+YCIPOwskb9YyfUlnXQ==, tarball: file:projects/arm-securityinsight.tgz}
+    resolution: {integrity: sha512-d8udKrcyGW4OyfXv0psVKzVXVerBuD302uh5OHItbwtda6rWaVw7cyzSJKKnz2tAUeGy5UDqpWJoJ6Ai2ivexw==, tarball: file:projects/arm-securityinsight.tgz}
     name: '@rush-temp/arm-securityinsight'
     version: 0.0.0
     dependencies:
@@ -14283,7 +14283,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.2
     transitivePeerDependencies:
       - '@types/node'
