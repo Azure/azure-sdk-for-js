@@ -81,14 +81,11 @@ async function executeTypedoc({
   include,
   exclude,
   clientOnly,
-  docGenOutput,
 }: {
   clientOnly: boolean;
-  docGenOutput: "dg" | "local";
   include: string[];
   exclude: string[];
 }) {
-  let docOutputFolder = "./dist/docs";
   console.log("process.cwd = " + process.cwd());
   const workingDir = path.join(process.cwd(), "sdk");
   const serviceFolders = await readDir(workingDir);
@@ -132,13 +129,12 @@ async function executeTypedoc({
         continue;
       } else if (!clientOnly || (clientOnly && checks.isClient)) {
         const artifactName = checks.packageName.replace("@", "").replace("/", "-");
-        if (docGenOutput === "dg") {
-          docOutputFolder = `../../../docGen/${artifactName}/${checks.version}`;
-        }
+
+        const outputFolder = `../../../docGen/${artifactName}/${checks.version}`;
 
         await runTypeDoc({
           cwd: eachPackagePath,
-          outputFolder: docOutputFolder,
+          outputFolder,
           hasTypeDocConfig: checks.typedocPresent,
         });
       }
@@ -149,13 +145,6 @@ async function executeTypedoc({
 async function main() {
   const argv = yargs
     .options({
-      docGenOutput: {
-        alias: "dgOp",
-        choices: ["dg", "local"] as const,
-        describe:
-          "If value = dg, generate the docs in root/docGen folder, else generated under dist/docs/ of local package",
-        demandOption: true,
-      },
       include: {
         alias: "inc",
         conflicts: "exc",
@@ -183,18 +172,10 @@ async function main() {
   const exclude: string[] = argv.include?.map((x) => String(x)) ?? [];
   const include: string[] = argv.exclude?.map((x) => String(x)) ?? [];
 
-  if (argv.docGenOutput === "local" && (argv.include || argv.exclude)) {
-    console.error(
-      `--include and --exclude are supported only when the docGenOutput is set to "dg"`
-    );
-    process.exit(1);
-  }
-
   await executeTypedoc({
     include,
     exclude,
     clientOnly: argv.clientOnly,
-    docGenOutput: argv.docGenOutput,
   });
 
   console.log("All done!");
