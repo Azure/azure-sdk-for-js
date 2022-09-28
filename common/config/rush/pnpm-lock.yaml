@@ -13241,13 +13241,13 @@ packages:
     dev: false
 
   file:projects/arm-network.tgz:
-    resolution: {integrity: sha512-RRODBVG5oMCon8iVN/jbLco6QrwXNPKR/btKjzgues6KrG0bom2aZO0C4Hi2fmnWHfrb/X8Zrikjusc68mEK7A==, tarball: file:projects/arm-network.tgz}
+    resolution: {integrity: sha512-H+VurgsOPOD/bGzSd3eqbkhXhqsTkG2i9j0ynsPP7GRIihg5pzdrx/lVbBEO7qlo0zYd+tqXC6vleYYwRUvPTg==, tarball: file:projects/arm-network.tgz}
     name: '@rush-temp/arm-network'
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.10
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.18.11
+      '@microsoft/api-extractor': 7.31.2
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
