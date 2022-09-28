@@ -8,7 +8,7 @@ steps:
     displayName: "Install tool dependencies"
 
   - pwsh: |
-      node $(Build.SourcesDirectory)/eng/tools/generate-doc/index.js --inc "${{parameters.ServiceDirectory}}"
+      node $(Build.SourcesDirectory)/eng/tools/generate-doc/index.js --serviceDir "${{parameters.ServiceDirectory}}"
     displayName: "Run Typedoc Docs"
 
   - pwsh: |

@@ -75,55 +75,41 @@ async function getChecks(dir: string) {
   return checks;
 }
 
-async function executeTypedoc({ include }: { include: string[] }) {
+async function executeTypedoc(serviceDir: string) {
   console.log("process.cwd = " + process.cwd());
-  const workingDir = path.join(process.cwd(), "sdk");
-  const serviceFolders = await readDir(workingDir);
-  const includeSome = Boolean(include.length);
-  const includeAll = Boolean(includeSome && include[0] === "*");
-  let filteredFolders: string[] = [];
+  const serviceDirPath = path.join(process.cwd(), "sdk", serviceDir);
+  const stat = await statFile(serviceDirPath);
 
-  if (includeAll) {
-    filteredFolders = serviceFolders;
-  } else if (includeSome) {
-    filteredFolders = serviceFolders.filter((x) => include.includes(x));
+  if (!stat.isDirectory()) {
+    return;
   }
 
-  for (const eachService of filteredFolders) {
-    const eachServicePath = path.join(workingDir, eachService);
-    const stat = await statFile(eachServicePath);
+  const packageList = await readDir(serviceDirPath, { withFileTypes: true });
 
-    if (!stat.isDirectory()) {
+  for (const eachPackage of packageList) {
+    if (!eachPackage.isDirectory()) {
       continue;
     }
+    const eachPackagePath = path.join(serviceDirPath, eachPackage.name);
+    console.log(`Path: ${eachPackagePath}`);
+    const checks = await getChecks(eachPackagePath);
+    console.log(`checks after walk: ${JSON.stringify(checks, null, 2)}`);
 
-    const packageList = await readDir(eachServicePath, { withFileTypes: true });
+    if (checks.isPrivate) {
+      console.log("...SKIPPING Since package marked as private...");
+      continue;
+    } else if (!checks.srcPresent) {
+      console.log("...SKIPPING Since src folder could not be found.....");
+      continue;
+    } else {
+      const artifactName = checks.packageName.replace("@", "").replace("/", "-");
+      const outputFolder = `../../../docGen/${artifactName}/${checks.version}`;
 
-    for (const eachPackage of packageList) {
-      if (!eachPackage.isDirectory()) {
-        continue;
-      }
-      const eachPackagePath = path.join(eachServicePath, eachPackage.name);
-      console.log("Path: " + eachPackagePath);
-      const checks = await getChecks(eachPackagePath);
-      console.log(`checks after walk: ${JSON.stringify(checks, null, 2)}`);
-
-      if (checks.isPrivate) {
-        console.log("...SKIPPING Since package marked as private...");
-        continue;
-      } else if (!checks.srcPresent) {
-        console.log("...SKIPPING Since src folder could not be found.....");
-        continue;
-      } else {
-        const artifactName = checks.packageName.replace("@", "").replace("/", "-");
-        const outputFolder = `../../../docGen/${artifactName}/${checks.version}`;
-
-        await runTypeDoc({
-          cwd: eachPackagePath,
-          outputFolder,
-          hasTypeDocConfig: checks.typedocPresent,
-        });
-      }
+      await runTypeDoc({
+        cwd: eachPackagePath,
+        outputFolder,
+        hasTypeDocConfig: checks.typedocPresent,
+      });
     }
   }
 }
@@ -131,26 +117,21 @@ async function executeTypedoc({ include }: { include: string[] }) {
 async function main() {
   const argv = yargs
     .options({
-      include: {
-        alias: "inc",
-        type: "array",
-        describe: "inclusion list of packages for which the docs should be generated.",
+      serviceDir: {
+        type: "string",
+        describe: "service directory to generate packages for",
         demandOption: true,
       },
     })
     .help()
     .parseSync();
 
-  const include: string[] = argv.include.map((x) => String(x));
-
-  if (include.includes("not-specified") || include.length === 0) {
+  if (argv.serviceDir === "not-specified") {
     console.error(`Service directory not specified.`);
     process.exit(1);
   }
 
-  await executeTypedoc({
-    include,
-  });
+  await executeTypedoc(argv.serviceDir);
 
   console.log("All done!");
 }
