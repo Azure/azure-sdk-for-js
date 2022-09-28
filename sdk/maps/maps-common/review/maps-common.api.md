@@ -110,7 +110,6 @@ export interface GeoJsonGeometryCollection extends GeoJsonObject {
 
 // @public
 export interface GeoJsonLineString extends GeoJsonObject {
-    // (undocumented)
     coordinates: Position[];
     // (undocumented)
     type: "LineString";
@@ -118,7 +117,6 @@ export interface GeoJsonLineString extends GeoJsonObject {
 
 // @public
 export interface GeoJsonMultiLineString extends GeoJsonObject {
-    // (undocumented)
     coordinates: Position[][];
     // (undocumented)
     type: "MultiLineString";
@@ -126,7 +124,6 @@ export interface GeoJsonMultiLineString extends GeoJsonObject {
 
 // @public
 export interface GeoJsonMultiPoint extends GeoJsonObject {
-    // (undocumented)
     coordinates: Position[];
     // (undocumented)
     type: "MultiPoint";
@@ -134,7 +131,6 @@ export interface GeoJsonMultiPoint extends GeoJsonObject {
 
 // @public
 export interface GeoJsonMultiPolygon extends GeoJsonObject {
-    // (undocumented)
     coordinates: Position[][][];
     // (undocumented)
     type: "MultiPolygon";
@@ -142,15 +138,12 @@ export interface GeoJsonMultiPolygon extends GeoJsonObject {
 
 // @public
 export interface GeoJsonObject {
-    // (undocumented)
     bbox?: BBox;
-    // (undocumented)
     type: GeoJsonType;
 }
 
 // @public
 export interface GeoJsonPoint extends GeoJsonObject {
-    // (undocumented)
     coordinates: Position;
     // (undocumented)
     type: "Point";
@@ -158,7 +151,6 @@ export interface GeoJsonPoint extends GeoJsonObject {
 
 // @public
 export interface GeoJsonPolygon extends GeoJsonObject {
-    // (undocumented)
     coordinates: Position[][];
     // (undocumented)
     type: "Polygon";
