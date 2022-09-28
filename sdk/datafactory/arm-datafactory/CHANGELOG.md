@@ -1,14 +1,10 @@
 # Release History
 
-## 10.8.1 (Unreleased)
+## 10.8.1 (2022-09-28)
 
-### Features Added
+**Bugs Fixed**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  -  fix better user experience of credential scopes in government cloud
 
 ## 10.8.0 (2022-09-07)
     

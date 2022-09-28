@@ -48,9 +48,7 @@ export class AuthorizationManagementClientContext extends coreClient.ServiceClie
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
+
     const optionsWithDefaults = {
       ...defaults,
       ...options,
