@@ -141,7 +141,12 @@ async function main() {
     .help()
     .parseSync();
 
-  const include: string[] = argv.include?.map((x) => String(x)) ?? [];
+  const include: string[] = argv.include.map((x) => String(x));
+
+  if (include.includes("not-specified") || include.length === 0) {
+    console.error(`Service directory not specified.`);
+    process.exit(1);
+  }
 
   await executeTypedoc({
     include,
