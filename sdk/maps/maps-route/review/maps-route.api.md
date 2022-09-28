@@ -5,10 +5,27 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
+import { BatchPoller } from '@azure/maps-common';
+import { BBox } from '@azure/maps-common';
+import { BBox2D } from '@azure/maps-common';
+import { BBox3D } from '@azure/maps-common';
 import { CommonClientOptions } from '@azure/core-client';
+import { GeoJsonGeometry } from '@azure/maps-common';
+import { GeoJsonGeometryCollection } from '@azure/maps-common';
+import { GeoJsonLineString } from '@azure/maps-common';
+import { GeoJsonMultiLineString } from '@azure/maps-common';
+import { GeoJsonMultiPoint } from '@azure/maps-common';
+import { GeoJsonMultiPolygon } from '@azure/maps-common';
+import { GeoJsonObject } from '@azure/maps-common';
+import { GeoJsonPoint } from '@azure/maps-common';
+import { GeoJsonPolygon } from '@azure/maps-common';
+import { GeoJsonType } from '@azure/maps-common';
+import { GeometryType } from '@azure/maps-common';
+import { LatLon } from '@azure/maps-common';
 import { OperationOptions } from '@azure/core-client';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { Position } from '@azure/maps-common';
+import { Position2D } from '@azure/maps-common';
+import { Position3D } from '@azure/maps-common';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -22,9 +39,7 @@ export interface BatchItem<TResult> {
     readonly statusCode: number;
 }
 
-// @public
-export interface BatchPoller<TBatchResult> extends PollerLike<PollOperationState<TBatchResult>, TBatchResult> {
-}
+export { BatchPoller }
 
 // @public
 export interface BatchPollerOptions {
@@ -38,26 +53,11 @@ export interface BatchResult<TResult> {
     readonly totalSuccessfulRequests: number;
 }
 
-// @public
-export type BBox = BBox2D | BBox3D;
+export { BBox }
 
-// @public
-export type BBox2D = [
-southWestLongitude: number,
-southWestLatitude: number,
-northEastLongitude: number,
-northEastLatitude: number
-];
+export { BBox2D }
 
-// @public
-export type BBox3D = [
-southWestLongitude: number,
-southWestLatitude: number,
-southWestElevation: number,
-northEastLongitude: number,
-northEastLatitude: number,
-northEastElevation: number
-];
+export { BBox3D }
 
 // @public
 export type ComputeTravelTime = string;
@@ -85,78 +85,27 @@ export interface ErrorResponse {
     error?: ErrorDetail;
 }
 
-// @public
-export type GeoJsonGeometry = GeoJsonPoint | GeoJsonMultiPoint | GeoJsonLineString | GeoJsonMultiLineString | GeoJsonPolygon | GeoJsonMultiPolygon;
+export { GeoJsonGeometry }
 
-// @public
-export interface GeoJsonGeometryCollection extends GeoJsonObject {
-    // (undocumented)
-    geometries: GeoJsonGeometry[];
-    // (undocumented)
-    type: "GeometryCollection";
-}
+export { GeoJsonGeometryCollection }
 
-// @public
-export interface GeoJsonLineString extends GeoJsonObject {
-    // (undocumented)
-    coordinates: Position[];
-    // (undocumented)
-    type: "LineString";
-}
+export { GeoJsonLineString }
 
-// @public
-export interface GeoJsonMultiLineString extends GeoJsonObject {
-    // (undocumented)
-    coordinates: Position[][];
-    // (undocumented)
-    type: "MultiLineString";
-}
+export { GeoJsonMultiLineString }
 
-// @public
-export interface GeoJsonMultiPoint extends GeoJsonObject {
-    // (undocumented)
-    coordinates: Position[];
-    // (undocumented)
-    type: "MultiPoint";
-}
+export { GeoJsonMultiPoint }
 
-// @public
-export interface GeoJsonMultiPolygon extends GeoJsonObject {
-    // (undocumented)
-    coordinates: Position[][][];
-    // (undocumented)
-    type: "MultiPolygon";
-}
+export { GeoJsonMultiPolygon }
 
-// @public
-export interface GeoJsonObject {
-    // (undocumented)
-    bbox?: BBox;
-    // (undocumented)
-    type: GeoJsonType;
-}
+export { GeoJsonObject }
 
-// @public
-export interface GeoJsonPoint extends GeoJsonObject {
-    // (undocumented)
-    coordinates: Position;
-    // (undocumented)
-    type: "Point";
-}
+export { GeoJsonPoint }
 
-// @public
-export interface GeoJsonPolygon extends GeoJsonObject {
-    // (undocumented)
-    coordinates: Position[][];
-    // (undocumented)
-    type: "Polygon";
-}
+export { GeoJsonPolygon }
 
-// @public
-export type GeoJsonType = GeometryType | "Feature" | "FeatureCollection";
+export { GeoJsonType }
 
-// @public
-export type GeometryType = "Point" | "MultiPoint" | "LineString" | "MultiLineString" | "Polygon" | "MultiPolygon" | "GeometryCollection";
+export { GeometryType }
 
 // @public
 export type GuidanceInstructionType = string;
@@ -384,8 +333,7 @@ export enum KnownWindingnessLevel {
     Normal = "normal"
 }
 
-// @public
-export type LatLon = [latitude: number, longitude: number];
+export { LatLon }
 
 // @public
 export class MapsRouteClient {
@@ -405,14 +353,11 @@ export type MapsRouteClientOptions = CommonClientOptions & {
     endpoint?: string;
 };
 
-// @public
-export type Position = Position2D | Position3D;
+export { Position }
 
-// @public
-export type Position2D = [longitude: number, latitude: number];
+export { Position2D }
 
-// @public
-export type Position3D = [longitude: number, latitude: number, elevation: number];
+export { Position3D }
 
 // @public
 export type Report = string;

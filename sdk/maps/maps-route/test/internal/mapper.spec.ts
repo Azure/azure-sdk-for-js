@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { toColonDelimitedLatLonString } from "../../src/models/mappers";
+import { LatLon } from "@azure/maps-common";
 import { assert } from "chai";
-import { LatLon } from "../../../maps-common/src";
+import { toColonDelimitedLatLonString } from "../../src/models/mappers";
 
 describe("LatLon mappers", () => {
   describe("toColonDelimitedLatLonString", () => {

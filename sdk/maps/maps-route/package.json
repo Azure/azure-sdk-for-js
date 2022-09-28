@@ -4,13 +4,13 @@
   "description": "A client library for Azure Maps maps-route",
   "sdk-type": "client",
   "main": "dist/index.js",
-  "module": "dist-esm/maps-route/src/index.js",
+  "module": "dist-esm/src/index.js",
   "browser": {},
   "types": "types/latest/maps-route.d.ts",
   "typesVersions": {
     "<3.6": {
       "*": [
-        "types/3.1/maps-route.d.ts"
+        "types/3.1/src/maps-route.d.ts"
       ]
     }
   },
@@ -71,8 +71,7 @@
   },
   "files": [
     "dist/",
-    "dist-esm/maps-common/src/",
-    "dist-esm/maps-route/src/",
+    "dist-esm/src/",
     "types/latest/",
     "types/3.1/",
     "README.md",
@@ -105,6 +104,7 @@
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
+    "@azure/maps-common": "^1.0.0-beta",
     "tslib": "^2.2.0"
   },
   "devDependencies": {

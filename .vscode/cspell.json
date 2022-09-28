@@ -261,6 +261,10 @@
       "words": ["bbox", "Neighbourhood", "Xstr"]
     },
     {
+      "filename": "sdk/maps/maps-route/review/maps-route.api.md",
+      "words": ["bbox", "UTURN"]
+    },
+    {
       "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/api-management-custom-widgets-scaffolder.api.md",
       "words": ["scaffolder", "APIM"]
     }
