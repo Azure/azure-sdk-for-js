@@ -49,7 +49,6 @@ async function getChecks(dir: string) {
     isPrivate: false,
     srcPresent: false,
     typedocPresent: false,
-    isClient: false,
     version: "0",
     packageName: "",
   };
@@ -66,7 +65,6 @@ async function getChecks(dir: string) {
       let data = await readFile(filePath, "utf8");
       let settings = JSON.parse(data);
       checks.isPrivate = settings["private"] === true;
-      checks.isClient = settings["sdk-type"] === "client";
       checks.version = settings["version"];
       checks.packageName = settings["name"];
     }
@@ -77,7 +75,7 @@ async function getChecks(dir: string) {
   return checks;
 }
 
-async function executeTypedoc({ include, clientOnly }: { clientOnly: boolean; include: string[] }) {
+async function executeTypedoc({ include }: { include: string[] }) {
   console.log("process.cwd = " + process.cwd());
   const workingDir = path.join(process.cwd(), "sdk");
   const serviceFolders = await readDir(workingDir);
@@ -116,9 +114,8 @@ async function executeTypedoc({ include, clientOnly }: { clientOnly: boolean; in
       } else if (!checks.srcPresent) {
         console.log("...SKIPPING Since src folder could not be found.....");
         continue;
-      } else if (!clientOnly || (clientOnly && checks.isClient)) {
+      } else {
         const artifactName = checks.packageName.replace("@", "").replace("/", "-");
-
         const outputFolder = `../../../docGen/${artifactName}/${checks.version}`;
 
         await runTypeDoc({
@@ -140,21 +137,14 @@ async function main() {
         describe: "inclusion list of packages for which the docs should be generated.",
         demandOption: true,
       },
-      clientOnly: {
-        type: "boolean",
-        default: false,
-      },
     })
     .help()
     .parseSync();
-
-  console.log("Argv.clientOnly = " + argv.clientOnly);
 
   const include: string[] = argv.include?.map((x) => String(x)) ?? [];
 
   await executeTypedoc({
     include,
-    clientOnly: argv.clientOnly,
   });
 
   console.log("All done!");
