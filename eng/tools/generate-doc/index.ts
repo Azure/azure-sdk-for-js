@@ -4,34 +4,17 @@ const readDir = fsPromises.readdir;
 const statFile = fsPromises.stat;
 import * as path from "path";
 import yargs from "yargs";
-import { Application as TypeDocApplication, TypeDocReader, TypeDocOptions } from "typedoc";
+import { Application as TypeDocApplication } from "typedoc";
 
-// need to pass ./src as entry?
-async function runTypeDoc({
-  outputFolder,
-  cwd,
-  hasTypeDocConfig,
-}: {
-  outputFolder: string;
-  cwd: string;
-  hasTypeDocConfig: boolean;
-}) {
+async function runTypeDoc({ outputFolder, cwd }: { outputFolder: string; cwd: string }) {
   const app = new TypeDocApplication();
-  //app.options.addReader(new TSConfigReader());
-  app.options.addReader(new TypeDocReader());
+  // app.options.addReader(new TypeDocReader());
 
-  const noTypeDocConfig: Partial<TypeDocOptions> = {
-    excludePrivate: true,
+  app.bootstrap({
+    entryPoints: [path.join(cwd, "src")],
     excludeInternal: true,
-  };
-  app.bootstrap({});
-
-  // "--excludePrivate",
-  // "--excludeNotExported",
-  // '--exclude "node_modules/**/*"',
-  // "--ignoreCompilerErrors",
-  // "--stripInternal",
-  // "--mode file",
+    excludePrivate: true,
+  });
 
   const project = app.convert();
 
@@ -48,7 +31,6 @@ async function getChecks(dir: string) {
   const checks = {
     isPrivate: false,
     srcPresent: false,
-    typedocPresent: false,
     version: "0",
     packageName: "",
   };
@@ -68,16 +50,14 @@ async function getChecks(dir: string) {
       checks.version = settings["version"];
       checks.packageName = settings["name"];
     }
-    if (fileName === "typedoc.json") {
-      checks.typedocPresent = true;
-    }
   }
   return checks;
 }
 
 async function executeTypedoc(serviceDir: string) {
-  console.log("process.cwd = " + process.cwd());
-  const serviceDirPath = path.join(process.cwd(), "sdk", serviceDir);
+  const CWD = process.cwd();
+  console.log(`process.cwd = ${CWD}`);
+  const serviceDirPath = path.join(CWD, "sdk", serviceDir);
   const stat = await statFile(serviceDirPath);
 
   if (!stat.isDirectory()) {
@@ -103,12 +83,11 @@ async function executeTypedoc(serviceDir: string) {
       continue;
     } else {
       const artifactName = checks.packageName.replace("@", "").replace("/", "-");
-      const outputFolder = `../../../docGen/${artifactName}/${checks.version}`;
+      const outputFolder = path.join(CWD, "docGen", artifactName, checks.version);
 
       await runTypeDoc({
         cwd: eachPackagePath,
         outputFolder,
-        hasTypeDocConfig: checks.typedocPresent,
       });
     }
   }
