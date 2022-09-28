@@ -24,9 +24,7 @@ export interface ApplicationGatewayPropertiesFormat {
   /** Subnets of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
   gatewayIPConfigurations?: Array<ApplicationGatewayIPConfiguration>;
   /** Authentication certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
-  authenticationCertificates?: Array<
-    ApplicationGatewayAuthenticationCertificate
-  >;
+  authenticationCertificates?: Array<ApplicationGatewayAuthenticationCertificate>;
   /** Trusted Root certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
   trustedRootCertificates?: Array<ApplicationGatewayTrustedRootCertificate>;
   /** Trusted client certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
@@ -74,9 +72,7 @@ export interface ApplicationGatewayPropertiesFormat {
   /** PrivateLink configurations on application gateway. */
   privateLinkConfigurations?: Array<ApplicationGatewayPrivateLinkConfiguration>;
   /** Private Endpoint connections on application gateway. */
-  privateEndpointConnections?: Array<
-    ApplicationGatewayPrivateEndpointConnection
-  >;
+  privateEndpointConnections?: Array<ApplicationGatewayPrivateEndpointConnection>;
   /** The resource GUID property of the application gateway resource. */
   resourceGuid?: string;
   /** The provisioning state of the application gateway resource. */
@@ -183,8 +179,7 @@ export interface SubResource {
 }
 
 /** Authentication certificates of an application gateway. */
-export interface ApplicationGatewayAuthenticationCertificate
-  extends SubResource {
+export interface ApplicationGatewayAuthenticationCertificate extends SubResource {
   /** Properties of the application gateway authentication certificate. */
   properties?: ApplicationGatewayAuthenticationCertificatePropertiesFormat;
   /** Name of the authentication certificate that is unique within an Application Gateway. */
@@ -226,8 +221,7 @@ export interface ApplicationGatewayTrustedRootCertificatePropertiesFormat {
 }
 
 /** Trusted client certificates of an application gateway. */
-export interface ApplicationGatewayTrustedClientCertificate
-  extends SubResource {
+export interface ApplicationGatewayTrustedClientCertificate extends SubResource {
   /** Properties of the application gateway trusted client certificate. */
   properties?: ApplicationGatewayTrustedClientCertificatePropertiesFormat;
   /** Name of the trusted client certificate that is unique within an Application Gateway. */
@@ -413,9 +407,7 @@ export interface NetworkInterfaceIPConfigurationPropertiesFormat {
   /** The reference to Virtual Network Taps. */
   virtualNetworkTaps?: Array<VirtualNetworkTap>;
   /** The reference to ApplicationGatewayBackendAddressPool resource. */
-  applicationGatewayBackendAddressPools?: Array<
-    ApplicationGatewayBackendAddressPool
-  >;
+  applicationGatewayBackendAddressPools?: Array<ApplicationGatewayBackendAddressPool>;
   /** The reference to LoadBalancerBackendAddressPool resource. */
   loadBalancerBackendAddressPools?: Array<BackendAddressPool>;
   /** A list of references of LoadBalancerInboundNatRules. */
@@ -1063,12 +1055,7 @@ export interface RoutePropertiesFormat {
   /** The destination CIDR to which the route applies. */
   addressPrefix?: string;
   /** The type of Azure hop the packet should be sent to. */
-  nextHopType:
-    | "VirtualNetworkGateway"
-    | "VnetLocal"
-    | "Internet"
-    | "VirtualAppliance"
-    | "None";
+  nextHopType: "VirtualNetworkGateway" | "VnetLocal" | "Internet" | "VirtualAppliance" | "None";
   /** The IP address packets should be forwarded to. Next hop values are only allowed in routes where the next hop type is VirtualAppliance. */
   nextHopIpAddress?: string;
   /** The provisioning state of the route resource. */
@@ -1980,8 +1967,7 @@ export interface ApplicationGatewayAutoscaleConfiguration {
 }
 
 /** Private Link Configuration on an application gateway. */
-export interface ApplicationGatewayPrivateLinkConfiguration
-  extends SubResource {
+export interface ApplicationGatewayPrivateLinkConfiguration extends SubResource {
   /** Properties of the application gateway private link configuration. */
   properties?: ApplicationGatewayPrivateLinkConfigurationProperties;
   /** Name of the private link configuration that is unique within an Application Gateway. */
@@ -2001,8 +1987,7 @@ export interface ApplicationGatewayPrivateLinkConfigurationProperties {
 }
 
 /** The application gateway private link ip configuration. */
-export interface ApplicationGatewayPrivateLinkIpConfiguration
-  extends SubResource {
+export interface ApplicationGatewayPrivateLinkIpConfiguration extends SubResource {
   /** Properties of an application gateway private link ip configuration. */
   properties?: ApplicationGatewayPrivateLinkIpConfigurationProperties;
   /** The name of application gateway private link ip configuration. */
@@ -2028,8 +2013,7 @@ export interface ApplicationGatewayPrivateLinkIpConfigurationProperties {
 }
 
 /** Private Endpoint connection on an application gateway. */
-export interface ApplicationGatewayPrivateEndpointConnection
-  extends SubResource {
+export interface ApplicationGatewayPrivateEndpointConnection extends SubResource {
   /** Properties of the application gateway private endpoint connection. */
   properties?: ApplicationGatewayPrivateEndpointConnectionProperties;
   /** Name of the private endpoint connection on an application gateway. */
@@ -2108,11 +2092,7 @@ export interface ManagedServiceIdentity {
   /** The tenant id of the system assigned identity. This property will only be provided for a system assigned identity. */
   tenantId?: string;
   /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
-  type?:
-    | "SystemAssigned"
-    | "UserAssigned"
-    | "SystemAssigned, UserAssigned"
-    | "None";
+  type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
   /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
   userAssignedIdentities?: Record<
     string,
@@ -2712,16 +2692,7 @@ export interface CustomIpPrefixPropertiesFormat {
   /** Whether to do express route advertise. */
   expressRouteAdvertise?: boolean;
   /** The Geo for CIDR advertising. Should be an Geo code. */
-  geo?:
-    | "GLOBAL"
-    | "AFRI"
-    | "APAC"
-    | "EURO"
-    | "LATAM"
-    | "NAM"
-    | "ME"
-    | "OCEANIA"
-    | "AQ";
+  geo?: "GLOBAL" | "AFRI" | "APAC" | "EURO" | "LATAM" | "NAM" | "ME" | "OCEANIA" | "AQ";
   /** Whether to Advertise the range to Internet. */
   noInternetAdvertise?: boolean;
   /** Type of custom IP prefix. Should be Singular, Parent, or Child. */
@@ -2803,16 +2774,7 @@ export interface DscpConfigurationPropertiesFormat {
   /** Destination port ranges. */
   destinationPortRanges?: Array<QosPortRange>;
   /** RNM supported protocol types. */
-  protocol?:
-    | "DoNotUse"
-    | "Icmp"
-    | "Tcp"
-    | "Udp"
-    | "Gre"
-    | "Esp"
-    | "Ah"
-    | "Vxlan"
-    | "All";
+  protocol?: "DoNotUse" | "Icmp" | "Tcp" | "Udp" | "Gre" | "Esp" | "Ah" | "Vxlan" | "All";
   /** QoS object definitions */
   qosDefinitionCollection?: Array<QosDefinition>;
   /** Qos Collection ID generated by RNM. */
@@ -2854,16 +2816,7 @@ export interface QosDefinition {
   /** Destination port ranges. */
   destinationPortRanges?: Array<QosPortRange>;
   /** RNM supported protocol types. */
-  protocol?:
-    | "DoNotUse"
-    | "Icmp"
-    | "Tcp"
-    | "Udp"
-    | "Gre"
-    | "Esp"
-    | "Ah"
-    | "Vxlan"
-    | "All";
+  protocol?: "DoNotUse" | "Icmp" | "Tcp" | "Udp" | "Gre" | "Esp" | "Ah" | "Vxlan" | "All";
 }
 
 /** Endpoint service. */
@@ -2911,10 +2864,7 @@ export interface ExpressRouteCircuitPeering extends SubResource {
 /** Properties of the express route circuit peering. */
 export interface ExpressRouteCircuitPeeringPropertiesFormat {
   /** The peering type. */
-  peeringType?:
-    | "AzurePublicPeering"
-    | "AzurePrivatePeering"
-    | "MicrosoftPeering";
+  peeringType?: "AzurePublicPeering" | "AzurePrivatePeering" | "MicrosoftPeering";
   /** The peering state. */
   state?: "Disabled" | "Enabled";
   /** The Azure ASN. */
@@ -3222,10 +3172,7 @@ export interface ExpressRouteCrossConnectionPeering extends SubResource {
 /** Properties of express route cross connection peering. */
 export interface ExpressRouteCrossConnectionPeeringProperties {
   /** The peering type. */
-  peeringType?:
-    | "AzurePublicPeering"
-    | "AzurePrivatePeering"
-    | "MicrosoftPeering";
+  peeringType?: "AzurePublicPeering" | "AzurePrivatePeering" | "MicrosoftPeering";
   /** The peering state. */
   state?: "Disabled" | "Enabled";
   /** The Azure ASN. */
@@ -3551,13 +3498,9 @@ export interface FirewallPolicyIntrusionDetection {
 /** The operation for configuring intrusion detection. */
 export interface FirewallPolicyIntrusionDetectionConfiguration {
   /** List of specific signatures states. */
-  signatureOverrides?: Array<
-    FirewallPolicyIntrusionDetectionSignatureSpecification
-  >;
+  signatureOverrides?: Array<FirewallPolicyIntrusionDetectionSignatureSpecification>;
   /** List of rules for traffic to bypass. */
-  bypassTrafficSettings?: Array<
-    FirewallPolicyIntrusionDetectionBypassTrafficSpecifications
-  >;
+  bypassTrafficSettings?: Array<FirewallPolicyIntrusionDetectionBypassTrafficSpecifications>;
   /** IDPS Private IP address ranges are used to identify traffic direction (i.e. inbound, outbound, etc.). By default, only ranges defined by IANA RFC 1918 are considered private IP addresses. To modify default ranges, specify your Private IP address ranges with this property */
   privateRanges?: Array<string>;
 }
@@ -3929,9 +3872,7 @@ export interface OutboundRulePropertiesFormat {
 /** The request for a VIP swap. */
 export interface LoadBalancerVipSwapRequest {
   /** A list of frontend IP configuration resources that should swap VIPs. */
-  frontendIPConfigurations?: Array<
-    LoadBalancerVipSwapRequestFrontendIPConfiguration
-  >;
+  frontendIPConfigurations?: Array<LoadBalancerVipSwapRequestFrontendIPConfiguration>;
 }
 
 /** VIP swap request's frontend IP configuration object. */
@@ -4115,12 +4056,7 @@ export interface NetworkManagerConnectionProperties {
   /** Network Manager Id. */
   networkManagerId?: string;
   /** Connection state. */
-  connectionState?:
-    | "Connected"
-    | "Pending"
-    | "Conflict"
-    | "Revoked"
-    | "Rejected";
+  connectionState?: "Connected" | "Pending" | "Conflict" | "Revoked" | "Rejected";
   /** A description of the network manager connection. */
   description?: string;
 }
@@ -4192,12 +4128,7 @@ export interface ScopeConnectionProperties {
   /** Resource ID. */
   resourceId?: string;
   /** Connection State */
-  connectionState?:
-    | "Connected"
-    | "Pending"
-    | "Conflict"
-    | "Revoked"
-    | "Rejected";
+  connectionState?: "Connected" | "Pending" | "Conflict" | "Revoked" | "Rejected";
   /** A description of the scope connection. */
   description?: string;
 }
@@ -4215,9 +4146,7 @@ export interface SecurityAdminConfigurationPropertiesFormat {
   /** A description of the security configuration. */
   description?: string;
   /** Enum list of network intent policy based services. */
-  applyOnNetworkIntentPolicyBasedServices?: Array<
-    "None" | "All" | "AllowRulesOnly"
-  >;
+  applyOnNetworkIntentPolicyBasedServices?: Array<"None" | "All" | "AllowRulesOnly">;
   /** The provisioning state of the resource. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
@@ -4260,9 +4189,7 @@ export interface NetworkProfilePropertiesFormat {
   /** List of child container network interfaces. */
   containerNetworkInterfaces?: Array<ContainerNetworkInterface>;
   /** List of chid container network interface configurations. */
-  containerNetworkInterfaceConfigurations?: Array<
-    ContainerNetworkInterfaceConfiguration
-  >;
+  containerNetworkInterfaceConfigurations?: Array<ContainerNetworkInterfaceConfiguration>;
   /** The resource GUID property of the network profile resource. */
   resourceGuid?: string;
   /** The provisioning state of the network profile resource. */
@@ -4853,13 +4780,7 @@ export interface ConnectionMonitorEndpoint {
   /** Endpoint scope. */
   scope?: ConnectionMonitorEndpointScope;
   /** Test coverage for the endpoint. */
-  coverageLevel?:
-    | "Default"
-    | "Low"
-    | "BelowAverage"
-    | "Average"
-    | "AboveAverage"
-    | "Full";
+  coverageLevel?: "Default" | "Low" | "BelowAverage" | "Average" | "AboveAverage" | "Full";
 }
 
 /** Describes the connection monitor endpoint filter. */
@@ -4981,8 +4902,7 @@ export interface ConnectionMonitorWorkspaceSettings {
 }
 
 /** Describes the properties of a connection monitor. */
-export interface ConnectionMonitorResultProperties
-  extends ConnectionMonitorParameters {
+export interface ConnectionMonitorResultProperties extends ConnectionMonitorParameters {
   /** The provisioning state of the connection monitor. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The date and time when the connection monitor was started. */
@@ -5160,11 +5080,7 @@ export interface SecurityPartnerProviderPropertiesFormat {
   /** The security provider name. */
   securityProviderName?: "ZScaler" | "IBoss" | "Checkpoint";
   /** The connection status with the Security Partner Provider. */
-  connectionStatus?:
-    | "Unknown"
-    | "PartiallyConnected"
-    | "Connected"
-    | "NotConnected";
+  connectionStatus?: "Unknown" | "PartiallyConnected" | "Connected" | "NotConnected";
   /** The virtualHub to which the Security Partner Provider belongs. */
   virtualHub?: SubResource;
 }
@@ -5551,30 +5467,11 @@ export interface IpsecPolicy {
     | "GCMAES192"
     | "GCMAES256";
   /** The IPSec integrity algorithm (IKE phase 1). */
-  ipsecIntegrity:
-    | "MD5"
-    | "SHA1"
-    | "SHA256"
-    | "GCMAES128"
-    | "GCMAES192"
-    | "GCMAES256";
+  ipsecIntegrity: "MD5" | "SHA1" | "SHA256" | "GCMAES128" | "GCMAES192" | "GCMAES256";
   /** The IKE encryption algorithm (IKE phase 2). */
-  ikeEncryption:
-    | "DES"
-    | "DES3"
-    | "AES128"
-    | "AES192"
-    | "AES256"
-    | "GCMAES256"
-    | "GCMAES128";
+  ikeEncryption: "DES" | "DES3" | "AES128" | "AES192" | "AES256" | "GCMAES256" | "GCMAES128";
   /** The IKE integrity algorithm (IKE phase 2). */
-  ikeIntegrity:
-    | "MD5"
-    | "SHA1"
-    | "SHA256"
-    | "SHA384"
-    | "GCMAES256"
-    | "GCMAES128";
+  ikeIntegrity: "MD5" | "SHA1" | "SHA256" | "SHA384" | "GCMAES256" | "GCMAES128";
   /** The DH Group used in IKE Phase 1 for initial SA. */
   dhGroup:
     | "None"
@@ -5846,30 +5743,11 @@ export interface VpnClientIPsecParameters {
     | "GCMAES192"
     | "GCMAES256";
   /** The IPSec integrity algorithm (IKE phase 1). */
-  ipsecIntegrity:
-    | "MD5"
-    | "SHA1"
-    | "SHA256"
-    | "GCMAES128"
-    | "GCMAES192"
-    | "GCMAES256";
+  ipsecIntegrity: "MD5" | "SHA1" | "SHA256" | "GCMAES128" | "GCMAES192" | "GCMAES256";
   /** The IKE encryption algorithm (IKE phase 2). */
-  ikeEncryption:
-    | "DES"
-    | "DES3"
-    | "AES128"
-    | "AES192"
-    | "AES256"
-    | "GCMAES256"
-    | "GCMAES128";
+  ikeEncryption: "DES" | "DES3" | "AES128" | "AES192" | "AES256" | "GCMAES256" | "GCMAES128";
   /** The IKE integrity algorithm (IKE phase 2). */
-  ikeIntegrity:
-    | "MD5"
-    | "SHA1"
-    | "SHA256"
-    | "SHA384"
-    | "GCMAES256"
-    | "GCMAES128";
+  ikeIntegrity: "MD5" | "SHA1" | "SHA256" | "SHA384" | "GCMAES256" | "GCMAES128";
   /** The DH Group used in IKE Phase 1 for initial SA. */
   dhGroup:
     | "None"
@@ -6090,11 +5968,7 @@ export interface VirtualWanProperties {
   /** True if Vnet to Vnet traffic is allowed. */
   allowVnetToVnetTraffic?: boolean;
   /** The office local breakout category. */
-  office365LocalBreakoutCategory?:
-    | "Optimize"
-    | "OptimizeAndAllow"
-    | "All"
-    | "None";
+  office365LocalBreakoutCategory?: "Optimize" | "OptimizeAndAllow" | "All" | "None";
   /** The provisioning state of the virtual WAN resource. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The type of the VirtualWAN. */
@@ -6228,17 +6102,11 @@ export interface VpnServerConfigurationProperties {
   /** VPN client root certificate of VpnServerConfiguration. */
   vpnClientRootCertificates?: Array<VpnServerConfigVpnClientRootCertificate>;
   /** VPN client revoked certificate of VpnServerConfiguration. */
-  vpnClientRevokedCertificates?: Array<
-    VpnServerConfigVpnClientRevokedCertificate
-  >;
+  vpnClientRevokedCertificates?: Array<VpnServerConfigVpnClientRevokedCertificate>;
   /** Radius Server root certificate of VpnServerConfiguration. */
-  radiusServerRootCertificates?: Array<
-    VpnServerConfigRadiusServerRootCertificate
-  >;
+  radiusServerRootCertificates?: Array<VpnServerConfigRadiusServerRootCertificate>;
   /** Radius client root certificate of VpnServerConfiguration. */
-  radiusClientRootCertificates?: Array<
-    VpnServerConfigRadiusClientRootCertificate
-  >;
+  radiusClientRootCertificates?: Array<VpnServerConfigRadiusClientRootCertificate>;
   /** VpnClientIpsecPolicies for VpnServerConfiguration. */
   vpnClientIpsecPolicies?: Array<IpsecPolicy>;
   /** The radius server address property of the VpnServerConfiguration resource for point to site client connection. */
@@ -6350,9 +6218,7 @@ export interface P2SConnectionConfigurationProperties {
   /** List of Configuration Policy Groups that this P2SConnectionConfiguration is attached to. */
   configurationPolicyGroupAssociations?: Array<SubResource>;
   /** List of previous Configuration Policy Groups that this P2SConnectionConfiguration was attached to. */
-  previousConfigurationPolicyGroupAssociations?: Array<
-    VpnServerConfigurationPolicyGroup
-  >;
+  previousConfigurationPolicyGroupAssociations?: Array<VpnServerConfigurationPolicyGroup>;
   /** The provisioning state of the P2SConnectionConfiguration resource. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
@@ -6610,12 +6476,7 @@ export interface Criterion {
   /** List of AS paths which this criteria matches. */
   asPath?: Array<string>;
   /** Match condition to apply RouteMap rules. */
-  matchCondition?:
-    | "Unknown"
-    | "Contains"
-    | "Equals"
-    | "NotContains"
-    | "NotEquals";
+  matchCondition?: "Unknown" | "Contains" | "Equals" | "NotContains" | "NotEquals";
 }
 
 /** Action to be taken on a route matching a RouteMap criterion. */
@@ -6779,9 +6640,7 @@ export interface VpnSiteLinkConnectionProperties {
   /** EnableBgp flag. */
   enableBgp?: boolean;
   /** vpnGatewayCustomBgpAddresses used by this connection. */
-  vpnGatewayCustomBgpAddresses?: Array<
-    GatewayCustomBgpIpAddressIpConfiguration
-  >;
+  vpnGatewayCustomBgpAddresses?: Array<GatewayCustomBgpIpAddressIpConfiguration>;
   /** Enable policy-based traffic selectors. */
   usePolicyBasedTrafficSelectors?: boolean;
   /** The IPSec Policies to be considered by this connection. */
@@ -7129,13 +6988,7 @@ export interface WebApplicationFirewallPolicyPropertiesFormat {
   /** The provisioning state of the web application firewall policy resource. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** Resource status of the policy. */
-  resourceState?:
-    | "Creating"
-    | "Enabling"
-    | "Enabled"
-    | "Disabling"
-    | "Disabled"
-    | "Deleting";
+  resourceState?: "Creating" | "Enabling" | "Enabled" | "Disabling" | "Disabled" | "Deleting";
   /** Describes the managedRules structure. */
   managedRules: ManagedRulesDefinition;
   /** A collection of references to application gateway http listeners. */
@@ -7246,12 +7099,7 @@ export interface OwaspCrsExclusionEntry {
     | "RequestArgKeys"
     | "RequestArgValues";
   /** When matchVariable is a collection, operate on the selector to specify which elements in the collection this exclusion applies to. */
-  selectorMatchOperator:
-    | "Equals"
-    | "Contains"
-    | "StartsWith"
-    | "EndsWith"
-    | "EqualsAny";
+  selectorMatchOperator: "Equals" | "Contains" | "StartsWith" | "EndsWith" | "EqualsAny";
   /** When matchVariable is a collection, operator used to specify which elements in the collection this exclusion applies to. */
   selector: string;
   /** The managed rule sets that are associated with the exclusion. */
@@ -7329,8 +7177,7 @@ export interface SwapResourceProperties {
 }
 
 /** Firewall Policy NAT Rule Collection. */
-export interface FirewallPolicyNatRuleCollection
-  extends FirewallPolicyRuleCollectionParent {
+export interface FirewallPolicyNatRuleCollection extends FirewallPolicyRuleCollectionParent {
   /** The action type of a Nat rule collection. */
   action?: FirewallPolicyNatRuleCollectionAction;
   /** List of rules included in a rule collection. */
@@ -7350,16 +7197,11 @@ export interface FirewallPolicyRuleParent {
   name?: string;
   /** Description of the rule. */
   description?: string;
-  ruleType:
-    | "FirewallPolicyRule"
-    | "ApplicationRule"
-    | "NatRule"
-    | "NetworkRule";
+  ruleType: "FirewallPolicyRule" | "ApplicationRule" | "NatRule" | "NetworkRule";
 }
 
 /** Firewall Policy Filter Rule Collection. */
-export interface FirewallPolicyFilterRuleCollection
-  extends FirewallPolicyRuleCollectionParent {
+export interface FirewallPolicyFilterRuleCollection extends FirewallPolicyRuleCollectionParent {
   /** The action type of a Filter rule collection. */
   action?: FirewallPolicyFilterRuleCollectionAction;
   /** List of rules included in a rule collection. */

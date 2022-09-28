@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function listCloudServiceRoleInstanceNetworkInterfaces() {
   const cloudServiceName = "cs1";
   const roleInstanceName = "TestVMRole_IN_0";
   const options: NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

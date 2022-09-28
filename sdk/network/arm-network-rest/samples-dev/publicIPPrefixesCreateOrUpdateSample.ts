@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   PublicIPPrefixesCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -28,9 +28,9 @@ async function createPublicIPPrefixAllocationMethod() {
     body: {
       location: "westus",
       properties: { prefixLength: 30, publicIPAddressVersion: "IPv4" },
-      sku: { name: "Standard", tier: "Regional" }
+      sku: { name: "Standard", tier: "Regional" },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -62,9 +62,9 @@ async function createPublicIPPrefixDefaults() {
     body: {
       location: "westus",
       properties: { prefixLength: 30 },
-      sku: { name: "Standard" }
+      sku: { name: "Standard" },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

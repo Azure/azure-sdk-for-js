@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VpnGatewaysCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -33,14 +33,14 @@ async function vpnGatewayPut() {
           bgpPeeringAddresses: [
             {
               customBgpIpAddresses: ["169.254.21.5"],
-              ipconfigurationId: "Instance0"
+              ipconfigurationId: "Instance0",
             },
             {
               customBgpIpAddresses: ["169.254.21.10"],
-              ipconfigurationId: "Instance1"
-            }
+              ipconfigurationId: "Instance1",
+            },
           ],
-          peerWeight: 0
+          peerWeight: 0,
         },
         connections: [
           {
@@ -48,7 +48,7 @@ async function vpnGatewayPut() {
             properties: {
               remoteVpnSite: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1",
               },
               vpnLinkConnections: [
                 {
@@ -58,20 +58,20 @@ async function vpnGatewayPut() {
                     egressNatRules: [
                       {
                         id:
-                          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/natRules/nat03"
-                      }
+                          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/natRules/nat03",
+                      },
                     ],
                     sharedKey: "key",
                     vpnConnectionProtocolType: "IKEv2",
                     vpnSiteLink: {
                       id:
-                        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1/vpnSiteLinks/siteLink1"
-                    }
-                  }
-                }
-              ]
-            }
-          }
+                        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1/vpnSiteLinks/siteLink1",
+                    },
+                  },
+                },
+              ],
+            },
+          },
         ],
         enableBgpRouteTranslationForNat: false,
         isRoutingPreferenceInternet: false,
@@ -83,18 +83,18 @@ async function vpnGatewayPut() {
               externalMappings: [{ addressSpace: "192.168.0.0/26" }],
               internalMappings: [{ addressSpace: "0.0.0.0/26" }],
               ipConfigurationId: "",
-              mode: "EgressSnat"
-            }
-          }
+              mode: "EgressSnat",
+            },
+          },
         ],
         virtualHub: {
           id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1"
-        }
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1",
+        },
       },
-      tags: { key1: "value1" }
+      tags: { key1: "value1" },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkGatewayConnectionsResetSharedKeyParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function resetVirtualNetworkGatewayConnectionSharedKey() {
   const virtualNetworkGatewayConnectionName = "conn1";
   const options: VirtualNetworkGatewayConnectionsResetSharedKeyParameters = {
     body: { keyLength: 128 },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

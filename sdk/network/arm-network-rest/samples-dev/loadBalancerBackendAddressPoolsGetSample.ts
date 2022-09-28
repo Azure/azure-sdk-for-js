@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  LoadBalancerBackendAddressPoolsGetParameters
+  LoadBalancerBackendAddressPoolsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,7 +25,7 @@ async function loadBalancerWithBackendAddressPoolWithBackendAddresses() {
   const loadBalancerName = "lb";
   const backendAddressPoolName = "backend";
   const options: LoadBalancerBackendAddressPoolsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -54,7 +54,7 @@ async function loadBalancerBackendAddressPoolGet() {
   const loadBalancerName = "lb";
   const backendAddressPoolName = "backend";
   const options: LoadBalancerBackendAddressPoolsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(

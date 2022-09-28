@@ -614,7 +614,7 @@ import {
   WebApplicationFirewallPoliciesListAllParameters,
   WebApplicationFirewallPoliciesListParameters,
   WebCategoriesGetParameters,
-  WebCategoriesListBySubscriptionParameters
+  WebCategoriesListBySubscriptionParameters,
 } from "./parameters";
 import {
   AdminRuleCollectionsCreateOrUpdate200Response,
@@ -2181,7 +2181,7 @@ import {
   WebCategoriesGet200Response,
   WebCategoriesGetDefaultResponse,
   WebCategoriesListBySubscription200Response,
-  WebCategoriesListBySubscriptionDefaultResponse
+  WebCategoriesListBySubscriptionDefaultResponse,
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -2198,9 +2198,7 @@ export interface ApplicationGatewaysDelete {
   /** Gets the specified application gateway. */
   get(
     options: ApplicationGatewaysGetParameters
-  ): StreamableMethod<
-    ApplicationGatewaysGet200Response | ApplicationGatewaysGetDefaultResponse
-  >;
+  ): StreamableMethod<ApplicationGatewaysGet200Response | ApplicationGatewaysGetDefaultResponse>;
   /** Creates or updates the specified application gateway. */
   put(
     options: ApplicationGatewaysCreateOrUpdateParameters
@@ -2213,8 +2211,7 @@ export interface ApplicationGatewaysDelete {
   patch(
     options: ApplicationGatewaysUpdateTagsParameters
   ): StreamableMethod<
-    | ApplicationGatewaysUpdateTags200Response
-    | ApplicationGatewaysUpdateTagsDefaultResponse
+    ApplicationGatewaysUpdateTags200Response | ApplicationGatewaysUpdateTagsDefaultResponse
   >;
 }
 
@@ -2222,9 +2219,7 @@ export interface ApplicationGatewaysList {
   /** Lists all application gateways in a resource group. */
   get(
     options: ApplicationGatewaysListParameters
-  ): StreamableMethod<
-    ApplicationGatewaysList200Response | ApplicationGatewaysListDefaultResponse
-  >;
+  ): StreamableMethod<ApplicationGatewaysList200Response | ApplicationGatewaysListDefaultResponse>;
 }
 
 export interface ApplicationGatewaysListAll {
@@ -2232,8 +2227,7 @@ export interface ApplicationGatewaysListAll {
   get(
     options: ApplicationGatewaysListAllParameters
   ): StreamableMethod<
-    | ApplicationGatewaysListAll200Response
-    | ApplicationGatewaysListAllDefaultResponse
+    ApplicationGatewaysListAll200Response | ApplicationGatewaysListAllDefaultResponse
   >;
 }
 
@@ -2432,8 +2426,7 @@ export interface ApplicationSecurityGroupsDelete {
   get(
     options: ApplicationSecurityGroupsGetParameters
   ): StreamableMethod<
-    | ApplicationSecurityGroupsGet200Response
-    | ApplicationSecurityGroupsGetDefaultResponse
+    ApplicationSecurityGroupsGet200Response | ApplicationSecurityGroupsGetDefaultResponse
   >;
   /** Creates or updates an application security group. */
   put(
@@ -2457,8 +2450,7 @@ export interface ApplicationSecurityGroupsListAll {
   get(
     options: ApplicationSecurityGroupsListAllParameters
   ): StreamableMethod<
-    | ApplicationSecurityGroupsListAll200Response
-    | ApplicationSecurityGroupsListAllDefaultResponse
+    ApplicationSecurityGroupsListAll200Response | ApplicationSecurityGroupsListAllDefaultResponse
   >;
 }
 
@@ -2467,8 +2459,7 @@ export interface ApplicationSecurityGroupsList {
   get(
     options: ApplicationSecurityGroupsListParameters
   ): StreamableMethod<
-    | ApplicationSecurityGroupsList200Response
-    | ApplicationSecurityGroupsListDefaultResponse
+    ApplicationSecurityGroupsList200Response | ApplicationSecurityGroupsListDefaultResponse
   >;
 }
 
@@ -2477,8 +2468,7 @@ export interface AvailableDelegationsList {
   get(
     options: AvailableDelegationsListParameters
   ): StreamableMethod<
-    | AvailableDelegationsList200Response
-    | AvailableDelegationsListDefaultResponse
+    AvailableDelegationsList200Response | AvailableDelegationsListDefaultResponse
   >;
 }
 
@@ -2497,8 +2487,7 @@ export interface AvailableServiceAliasesList {
   get(
     options: AvailableServiceAliasesListParameters
   ): StreamableMethod<
-    | AvailableServiceAliasesList200Response
-    | AvailableServiceAliasesListDefaultResponse
+    AvailableServiceAliasesList200Response | AvailableServiceAliasesListDefaultResponse
   >;
 }
 
@@ -2525,9 +2514,7 @@ export interface AzureFirewallsDelete {
   /** Gets the specified Azure Firewall. */
   get(
     options: AzureFirewallsGetParameters
-  ): StreamableMethod<
-    AzureFirewallsGet200Response | AzureFirewallsGetDefaultResponse
-  >;
+  ): StreamableMethod<AzureFirewallsGet200Response | AzureFirewallsGetDefaultResponse>;
   /** Creates or updates the specified Azure Firewall. */
   put(
     options: AzureFirewallsCreateOrUpdateParameters
@@ -2550,18 +2537,14 @@ export interface AzureFirewallsList {
   /** Lists all Azure Firewalls in a resource group. */
   get(
     options: AzureFirewallsListParameters
-  ): StreamableMethod<
-    AzureFirewallsList200Response | AzureFirewallsListDefaultResponse
-  >;
+  ): StreamableMethod<AzureFirewallsList200Response | AzureFirewallsListDefaultResponse>;
 }
 
 export interface AzureFirewallsListAll {
   /** Gets all the Azure Firewalls in a subscription. */
   get(
     options: AzureFirewallsListAllParameters
-  ): StreamableMethod<
-    AzureFirewallsListAll200Response | AzureFirewallsListAllDefaultResponse
-  >;
+  ): StreamableMethod<AzureFirewallsListAll200Response | AzureFirewallsListAllDefaultResponse>;
 }
 
 export interface AzureFirewallsListLearnedPrefixes {
@@ -2580,8 +2563,7 @@ export interface AzureFirewallFqdnTagsListAll {
   get(
     options: AzureFirewallFqdnTagsListAllParameters
   ): StreamableMethod<
-    | AzureFirewallFqdnTagsListAll200Response
-    | AzureFirewallFqdnTagsListAllDefaultResponse
+    AzureFirewallFqdnTagsListAll200Response | AzureFirewallFqdnTagsListAllDefaultResponse
   >;
 }
 
@@ -2589,9 +2571,7 @@ export interface WebCategoriesGet {
   /** Gets the specified Azure Web Category. */
   get(
     options: WebCategoriesGetParameters
-  ): StreamableMethod<
-    WebCategoriesGet200Response | WebCategoriesGetDefaultResponse
-  >;
+  ): StreamableMethod<WebCategoriesGet200Response | WebCategoriesGetDefaultResponse>;
 }
 
 export interface WebCategoriesListBySubscription {
@@ -2599,8 +2579,7 @@ export interface WebCategoriesListBySubscription {
   get(
     options: WebCategoriesListBySubscriptionParameters
   ): StreamableMethod<
-    | WebCategoriesListBySubscription200Response
-    | WebCategoriesListBySubscriptionDefaultResponse
+    WebCategoriesListBySubscription200Response | WebCategoriesListBySubscriptionDefaultResponse
   >;
 }
 
@@ -2617,9 +2596,7 @@ export interface BastionHostsDelete {
   /** Gets the specified Bastion Host. */
   get(
     options: BastionHostsGetParameters
-  ): StreamableMethod<
-    BastionHostsGet200Response | BastionHostsGetDefaultResponse
-  >;
+  ): StreamableMethod<BastionHostsGet200Response | BastionHostsGetDefaultResponse>;
   /** Creates or updates the specified Bastion Host. */
   put(
     options: BastionHostsCreateOrUpdateParameters
@@ -2642,9 +2619,7 @@ export interface BastionHostsList {
   /** Lists all Bastion Hosts in a subscription. */
   get(
     options: BastionHostsListParameters
-  ): StreamableMethod<
-    BastionHostsList200Response | BastionHostsListDefaultResponse
-  >;
+  ): StreamableMethod<BastionHostsList200Response | BastionHostsListDefaultResponse>;
 }
 
 export interface BastionHostsListByResourceGroup {
@@ -2652,8 +2627,7 @@ export interface BastionHostsListByResourceGroup {
   get(
     options: BastionHostsListByResourceGroupParameters
   ): StreamableMethod<
-    | BastionHostsListByResourceGroup200Response
-    | BastionHostsListByResourceGroupDefaultResponse
+    BastionHostsListByResourceGroup200Response | BastionHostsListByResourceGroupDefaultResponse
   >;
 }
 
@@ -2683,9 +2657,7 @@ export interface GetBastionShareableLink {
   /** Return the Bastion Shareable Links for all the VMs specified in the request. */
   post(
     options: GetBastionShareableLinkParameters
-  ): StreamableMethod<
-    GetBastionShareableLink200Response | GetBastionShareableLinkDefaultResponse
-  >;
+  ): StreamableMethod<GetBastionShareableLink200Response | GetBastionShareableLinkDefaultResponse>;
 }
 
 export interface GetActiveSessions {
@@ -2693,9 +2665,7 @@ export interface GetActiveSessions {
   post(
     options: GetActiveSessionsParameters
   ): StreamableMethod<
-    | GetActiveSessions200Response
-    | GetActiveSessions202Response
-    | GetActiveSessionsDefaultResponse
+    GetActiveSessions200Response | GetActiveSessions202Response | GetActiveSessionsDefaultResponse
   >;
 }
 
@@ -2704,8 +2674,7 @@ export interface DisconnectActiveSessions {
   post(
     options: DisconnectActiveSessionsParameters
   ): StreamableMethod<
-    | DisconnectActiveSessions200Response
-    | DisconnectActiveSessionsDefaultResponse
+    DisconnectActiveSessions200Response | DisconnectActiveSessionsDefaultResponse
   >;
 }
 
@@ -2714,8 +2683,7 @@ export interface CheckDnsNameAvailability {
   get(
     options: CheckDnsNameAvailabilityParameters
   ): StreamableMethod<
-    | CheckDnsNameAvailability200Response
-    | CheckDnsNameAvailabilityDefaultResponse
+    CheckDnsNameAvailability200Response | CheckDnsNameAvailabilityDefaultResponse
   >;
 }
 
@@ -2734,8 +2702,7 @@ export interface ListActiveSecurityAdminRules {
   post(
     options: ListActiveSecurityAdminRulesParameters
   ): StreamableMethod<
-    | ListActiveSecurityAdminRules200Response
-    | ListActiveSecurityAdminRulesDefaultResponse
+    ListActiveSecurityAdminRules200Response | ListActiveSecurityAdminRulesDefaultResponse
   >;
 }
 
@@ -2764,8 +2731,7 @@ export interface SupportedSecurityProviders {
   get(
     options: SupportedSecurityProvidersParameters
   ): StreamableMethod<
-    | SupportedSecurityProviders200Response
-    | SupportedSecurityProvidersDefaultResponse
+    SupportedSecurityProviders200Response | SupportedSecurityProvidersDefaultResponse
   >;
 }
 
@@ -2823,9 +2789,7 @@ export interface NetworkInterfacesDelete {
   /** Gets information about the specified network interface. */
   get(
     options: NetworkInterfacesGetParameters
-  ): StreamableMethod<
-    NetworkInterfacesGet200Response | NetworkInterfacesGetDefaultResponse
-  >;
+  ): StreamableMethod<NetworkInterfacesGet200Response | NetworkInterfacesGetDefaultResponse>;
   /** Creates or updates a network interface. */
   put(
     options: NetworkInterfacesCreateOrUpdateParameters
@@ -2838,8 +2802,7 @@ export interface NetworkInterfacesDelete {
   patch(
     options: NetworkInterfacesUpdateTagsParameters
   ): StreamableMethod<
-    | NetworkInterfacesUpdateTags200Response
-    | NetworkInterfacesUpdateTagsDefaultResponse
+    NetworkInterfacesUpdateTags200Response | NetworkInterfacesUpdateTagsDefaultResponse
   >;
 }
 
@@ -2848,8 +2811,7 @@ export interface NetworkInterfacesListAll {
   get(
     options: NetworkInterfacesListAllParameters
   ): StreamableMethod<
-    | NetworkInterfacesListAll200Response
-    | NetworkInterfacesListAllDefaultResponse
+    NetworkInterfacesListAll200Response | NetworkInterfacesListAllDefaultResponse
   >;
 }
 
@@ -2857,9 +2819,7 @@ export interface NetworkInterfacesList {
   /** Gets all network interfaces in a resource group. */
   get(
     options: NetworkInterfacesListParameters
-  ): StreamableMethod<
-    NetworkInterfacesList200Response | NetworkInterfacesListDefaultResponse
-  >;
+  ): StreamableMethod<NetworkInterfacesList200Response | NetworkInterfacesListDefaultResponse>;
 }
 
 export interface NetworkInterfacesGetEffectiveRouteTable {
@@ -2977,9 +2937,7 @@ export interface PublicIPAddressesDelete {
   /** Gets the specified public IP address in a specified resource group. */
   get(
     options: PublicIPAddressesGetParameters
-  ): StreamableMethod<
-    PublicIPAddressesGet200Response | PublicIPAddressesGetDefaultResponse
-  >;
+  ): StreamableMethod<PublicIPAddressesGet200Response | PublicIPAddressesGetDefaultResponse>;
   /** Creates or updates a static or dynamic public IP address. */
   put(
     options: PublicIPAddressesCreateOrUpdateParameters
@@ -2992,8 +2950,7 @@ export interface PublicIPAddressesDelete {
   patch(
     options: PublicIPAddressesUpdateTagsParameters
   ): StreamableMethod<
-    | PublicIPAddressesUpdateTags200Response
-    | PublicIPAddressesUpdateTagsDefaultResponse
+    PublicIPAddressesUpdateTags200Response | PublicIPAddressesUpdateTagsDefaultResponse
   >;
 }
 
@@ -3002,8 +2959,7 @@ export interface PublicIPAddressesListAll {
   get(
     options: PublicIPAddressesListAllParameters
   ): StreamableMethod<
-    | PublicIPAddressesListAll200Response
-    | PublicIPAddressesListAllDefaultResponse
+    PublicIPAddressesListAll200Response | PublicIPAddressesListAllDefaultResponse
   >;
 }
 
@@ -3011,9 +2967,7 @@ export interface PublicIPAddressesList {
   /** Gets all public IP addresses in a resource group. */
   get(
     options: PublicIPAddressesListParameters
-  ): StreamableMethod<
-    PublicIPAddressesList200Response | PublicIPAddressesListDefaultResponse
-  >;
+  ): StreamableMethod<PublicIPAddressesList200Response | PublicIPAddressesListDefaultResponse>;
 }
 
 export interface PublicIPAddressesDdosProtectionStatus {
@@ -3070,9 +3024,7 @@ export interface CustomIPPrefixesDelete {
   /** Gets the specified custom IP prefix in a specified resource group. */
   get(
     options: CustomIPPrefixesGetParameters
-  ): StreamableMethod<
-    CustomIPPrefixesGet200Response | CustomIPPrefixesGetDefaultResponse
-  >;
+  ): StreamableMethod<CustomIPPrefixesGet200Response | CustomIPPrefixesGetDefaultResponse>;
   /** Creates or updates a custom IP prefix. */
   put(
     options: CustomIPPrefixesCreateOrUpdateParameters
@@ -3085,8 +3037,7 @@ export interface CustomIPPrefixesDelete {
   patch(
     options: CustomIPPrefixesUpdateTagsParameters
   ): StreamableMethod<
-    | CustomIPPrefixesUpdateTags200Response
-    | CustomIPPrefixesUpdateTagsDefaultResponse
+    CustomIPPrefixesUpdateTags200Response | CustomIPPrefixesUpdateTagsDefaultResponse
   >;
 }
 
@@ -3094,18 +3045,14 @@ export interface CustomIPPrefixesListAll {
   /** Gets all the custom IP prefixes in a subscription. */
   get(
     options: CustomIPPrefixesListAllParameters
-  ): StreamableMethod<
-    CustomIPPrefixesListAll200Response | CustomIPPrefixesListAllDefaultResponse
-  >;
+  ): StreamableMethod<CustomIPPrefixesListAll200Response | CustomIPPrefixesListAllDefaultResponse>;
 }
 
 export interface CustomIPPrefixesList {
   /** Gets all custom IP prefixes in a resource group. */
   get(
     options: CustomIPPrefixesListParameters
-  ): StreamableMethod<
-    CustomIPPrefixesList200Response | CustomIPPrefixesListDefaultResponse
-  >;
+  ): StreamableMethod<CustomIPPrefixesList200Response | CustomIPPrefixesListDefaultResponse>;
 }
 
 export interface DdosCustomPoliciesDelete {
@@ -3121,9 +3068,7 @@ export interface DdosCustomPoliciesDelete {
   /** Gets information about the specified DDoS custom policy. */
   get(
     options: DdosCustomPoliciesGetParameters
-  ): StreamableMethod<
-    DdosCustomPoliciesGet200Response | DdosCustomPoliciesGetDefaultResponse
-  >;
+  ): StreamableMethod<DdosCustomPoliciesGet200Response | DdosCustomPoliciesGetDefaultResponse>;
   /** Creates or updates a DDoS custom policy. */
   put(
     options: DdosCustomPoliciesCreateOrUpdateParameters
@@ -3136,8 +3081,7 @@ export interface DdosCustomPoliciesDelete {
   patch(
     options: DdosCustomPoliciesUpdateTagsParameters
   ): StreamableMethod<
-    | DdosCustomPoliciesUpdateTags200Response
-    | DdosCustomPoliciesUpdateTagsDefaultResponse
+    DdosCustomPoliciesUpdateTags200Response | DdosCustomPoliciesUpdateTagsDefaultResponse
   >;
 }
 
@@ -3154,9 +3098,7 @@ export interface DdosProtectionPlansDelete {
   /** Gets information about the specified DDoS protection plan. */
   get(
     options: DdosProtectionPlansGetParameters
-  ): StreamableMethod<
-    DdosProtectionPlansGet200Response | DdosProtectionPlansGetDefaultResponse
-  >;
+  ): StreamableMethod<DdosProtectionPlansGet200Response | DdosProtectionPlansGetDefaultResponse>;
   /** Creates or updates a DDoS protection plan. */
   put(
     options: DdosProtectionPlansCreateOrUpdateParameters
@@ -3169,8 +3111,7 @@ export interface DdosProtectionPlansDelete {
   patch(
     options: DdosProtectionPlansUpdateTagsParameters
   ): StreamableMethod<
-    | DdosProtectionPlansUpdateTags200Response
-    | DdosProtectionPlansUpdateTagsDefaultResponse
+    DdosProtectionPlansUpdateTags200Response | DdosProtectionPlansUpdateTagsDefaultResponse
   >;
 }
 
@@ -3178,9 +3119,7 @@ export interface DdosProtectionPlansList {
   /** Gets all DDoS protection plans in a subscription. */
   get(
     options: DdosProtectionPlansListParameters
-  ): StreamableMethod<
-    DdosProtectionPlansList200Response | DdosProtectionPlansListDefaultResponse
-  >;
+  ): StreamableMethod<DdosProtectionPlansList200Response | DdosProtectionPlansListDefaultResponse>;
 }
 
 export interface DdosProtectionPlansListByResourceGroup {
@@ -3214,18 +3153,14 @@ export interface DscpConfigurationCreateOrUpdate {
   /** Gets a DSCP Configuration. */
   get(
     options: DscpConfigurationGetParameters
-  ): StreamableMethod<
-    DscpConfigurationGet200Response | DscpConfigurationGetDefaultResponse
-  >;
+  ): StreamableMethod<DscpConfigurationGet200Response | DscpConfigurationGetDefaultResponse>;
 }
 
 export interface DscpConfigurationList {
   /** Gets a DSCP Configuration. */
   get(
     options: DscpConfigurationListParameters
-  ): StreamableMethod<
-    DscpConfigurationList200Response | DscpConfigurationListDefaultResponse
-  >;
+  ): StreamableMethod<DscpConfigurationList200Response | DscpConfigurationListDefaultResponse>;
 }
 
 export interface DscpConfigurationListAll {
@@ -3233,8 +3168,7 @@ export interface DscpConfigurationListAll {
   get(
     options: DscpConfigurationListAllParameters
   ): StreamableMethod<
-    | DscpConfigurationListAll200Response
-    | DscpConfigurationListAllDefaultResponse
+    DscpConfigurationListAll200Response | DscpConfigurationListAllDefaultResponse
   >;
 }
 
@@ -3243,8 +3177,7 @@ export interface AvailableEndpointServicesList {
   get(
     options: AvailableEndpointServicesListParameters
   ): StreamableMethod<
-    | AvailableEndpointServicesList200Response
-    | AvailableEndpointServicesListDefaultResponse
+    AvailableEndpointServicesList200Response | AvailableEndpointServicesListDefaultResponse
   >;
 }
 
@@ -3299,8 +3232,7 @@ export interface ExpressRouteCircuitPeeringsDelete {
   get(
     options: ExpressRouteCircuitPeeringsGetParameters
   ): StreamableMethod<
-    | ExpressRouteCircuitPeeringsGet200Response
-    | ExpressRouteCircuitPeeringsGetDefaultResponse
+    ExpressRouteCircuitPeeringsGet200Response | ExpressRouteCircuitPeeringsGetDefaultResponse
   >;
   /** Creates or updates a peering in the specified express route circuits. */
   put(
@@ -3317,8 +3249,7 @@ export interface ExpressRouteCircuitPeeringsList {
   get(
     options: ExpressRouteCircuitPeeringsListParameters
   ): StreamableMethod<
-    | ExpressRouteCircuitPeeringsList200Response
-    | ExpressRouteCircuitPeeringsListDefaultResponse
+    ExpressRouteCircuitPeeringsList200Response | ExpressRouteCircuitPeeringsListDefaultResponse
   >;
 }
 
@@ -3336,8 +3267,7 @@ export interface ExpressRouteCircuitConnectionsDelete {
   get(
     options: ExpressRouteCircuitConnectionsGetParameters
   ): StreamableMethod<
-    | ExpressRouteCircuitConnectionsGet200Response
-    | ExpressRouteCircuitConnectionsGetDefaultResponse
+    ExpressRouteCircuitConnectionsGet200Response | ExpressRouteCircuitConnectionsGetDefaultResponse
   >;
   /** Creates or updates a Express Route Circuit Connection in the specified express route circuits. */
   put(
@@ -3392,9 +3322,7 @@ export interface ExpressRouteCircuitsDelete {
   /** Gets information about the specified express route circuit. */
   get(
     options: ExpressRouteCircuitsGetParameters
-  ): StreamableMethod<
-    ExpressRouteCircuitsGet200Response | ExpressRouteCircuitsGetDefaultResponse
-  >;
+  ): StreamableMethod<ExpressRouteCircuitsGet200Response | ExpressRouteCircuitsGetDefaultResponse>;
   /** Creates or updates an express route circuit. */
   put(
     options: ExpressRouteCircuitsCreateOrUpdateParameters
@@ -3407,8 +3335,7 @@ export interface ExpressRouteCircuitsDelete {
   patch(
     options: ExpressRouteCircuitsUpdateTagsParameters
   ): StreamableMethod<
-    | ExpressRouteCircuitsUpdateTags200Response
-    | ExpressRouteCircuitsUpdateTagsDefaultResponse
+    ExpressRouteCircuitsUpdateTags200Response | ExpressRouteCircuitsUpdateTagsDefaultResponse
   >;
 }
 
@@ -3450,8 +3377,7 @@ export interface ExpressRouteCircuitsGetStats {
   get(
     options: ExpressRouteCircuitsGetStatsParameters
   ): StreamableMethod<
-    | ExpressRouteCircuitsGetStats200Response
-    | ExpressRouteCircuitsGetStatsDefaultResponse
+    ExpressRouteCircuitsGetStats200Response | ExpressRouteCircuitsGetStatsDefaultResponse
   >;
 }
 
@@ -3470,8 +3396,7 @@ export interface ExpressRouteCircuitsList {
   get(
     options: ExpressRouteCircuitsListParameters
   ): StreamableMethod<
-    | ExpressRouteCircuitsList200Response
-    | ExpressRouteCircuitsListDefaultResponse
+    ExpressRouteCircuitsList200Response | ExpressRouteCircuitsListDefaultResponse
   >;
 }
 
@@ -3480,8 +3405,7 @@ export interface ExpressRouteCircuitsListAll {
   get(
     options: ExpressRouteCircuitsListAllParameters
   ): StreamableMethod<
-    | ExpressRouteCircuitsListAll200Response
-    | ExpressRouteCircuitsListAllDefaultResponse
+    ExpressRouteCircuitsListAll200Response | ExpressRouteCircuitsListAllDefaultResponse
   >;
 }
 
@@ -3490,8 +3414,7 @@ export interface ExpressRouteServiceProvidersList {
   get(
     options: ExpressRouteServiceProvidersListParameters
   ): StreamableMethod<
-    | ExpressRouteServiceProvidersList200Response
-    | ExpressRouteServiceProvidersListDefaultResponse
+    ExpressRouteServiceProvidersList200Response | ExpressRouteServiceProvidersListDefaultResponse
   >;
 }
 
@@ -3500,8 +3423,7 @@ export interface ExpressRouteCrossConnectionsList {
   get(
     options: ExpressRouteCrossConnectionsListParameters
   ): StreamableMethod<
-    | ExpressRouteCrossConnectionsList200Response
-    | ExpressRouteCrossConnectionsListDefaultResponse
+    ExpressRouteCrossConnectionsList200Response | ExpressRouteCrossConnectionsListDefaultResponse
   >;
 }
 
@@ -3520,8 +3442,7 @@ export interface ExpressRouteCrossConnectionsGet {
   get(
     options: ExpressRouteCrossConnectionsGetParameters
   ): StreamableMethod<
-    | ExpressRouteCrossConnectionsGet200Response
-    | ExpressRouteCrossConnectionsGetDefaultResponse
+    ExpressRouteCrossConnectionsGet200Response | ExpressRouteCrossConnectionsGetDefaultResponse
   >;
   /** Update the specified ExpressRouteCrossConnection. */
   put(
@@ -3614,8 +3535,7 @@ export interface ExpressRoutePortsLocationsList {
   get(
     options: ExpressRoutePortsLocationsListParameters
   ): StreamableMethod<
-    | ExpressRoutePortsLocationsList200Response
-    | ExpressRoutePortsLocationsListDefaultResponse
+    ExpressRoutePortsLocationsList200Response | ExpressRoutePortsLocationsListDefaultResponse
   >;
 }
 
@@ -3624,8 +3544,7 @@ export interface ExpressRoutePortsLocationsGet {
   get(
     options: ExpressRoutePortsLocationsGetParameters
   ): StreamableMethod<
-    | ExpressRoutePortsLocationsGet200Response
-    | ExpressRoutePortsLocationsGetDefaultResponse
+    ExpressRoutePortsLocationsGet200Response | ExpressRoutePortsLocationsGetDefaultResponse
   >;
 }
 
@@ -3642,9 +3561,7 @@ export interface ExpressRoutePortsDelete {
   /** Retrieves the requested ExpressRoutePort resource. */
   get(
     options: ExpressRoutePortsGetParameters
-  ): StreamableMethod<
-    ExpressRoutePortsGet200Response | ExpressRoutePortsGetDefaultResponse
-  >;
+  ): StreamableMethod<ExpressRoutePortsGet200Response | ExpressRoutePortsGetDefaultResponse>;
   /** Creates or updates the specified ExpressRoutePort resource. */
   put(
     options: ExpressRoutePortsCreateOrUpdateParameters
@@ -3657,8 +3574,7 @@ export interface ExpressRoutePortsDelete {
   patch(
     options: ExpressRoutePortsUpdateTagsParameters
   ): StreamableMethod<
-    | ExpressRoutePortsUpdateTags200Response
-    | ExpressRoutePortsUpdateTagsDefaultResponse
+    ExpressRoutePortsUpdateTags200Response | ExpressRoutePortsUpdateTagsDefaultResponse
   >;
 }
 
@@ -3676,9 +3592,7 @@ export interface ExpressRoutePortsList {
   /** List all the ExpressRoutePort resources in the specified subscription. */
   get(
     options: ExpressRoutePortsListParameters
-  ): StreamableMethod<
-    ExpressRoutePortsList200Response | ExpressRoutePortsListDefaultResponse
-  >;
+  ): StreamableMethod<ExpressRoutePortsList200Response | ExpressRoutePortsListDefaultResponse>;
 }
 
 export interface ExpressRoutePortsGenerateLOA {
@@ -3686,8 +3600,7 @@ export interface ExpressRoutePortsGenerateLOA {
   post(
     options: ExpressRoutePortsGenerateLOAParameters
   ): StreamableMethod<
-    | ExpressRoutePortsGenerateLOA200Response
-    | ExpressRoutePortsGenerateLOADefaultResponse
+    ExpressRoutePortsGenerateLOA200Response | ExpressRoutePortsGenerateLOADefaultResponse
   >;
 }
 
@@ -3695,18 +3608,14 @@ export interface ExpressRouteLinksGet {
   /** Retrieves the specified ExpressRouteLink resource. */
   get(
     options: ExpressRouteLinksGetParameters
-  ): StreamableMethod<
-    ExpressRouteLinksGet200Response | ExpressRouteLinksGetDefaultResponse
-  >;
+  ): StreamableMethod<ExpressRouteLinksGet200Response | ExpressRouteLinksGetDefaultResponse>;
 }
 
 export interface ExpressRouteLinksList {
   /** Retrieve the ExpressRouteLink sub-resources of the specified ExpressRoutePort resource. */
   get(
     options: ExpressRouteLinksListParameters
-  ): StreamableMethod<
-    ExpressRouteLinksList200Response | ExpressRouteLinksListDefaultResponse
-  >;
+  ): StreamableMethod<ExpressRouteLinksList200Response | ExpressRouteLinksListDefaultResponse>;
 }
 
 export interface ExpressRoutePortAuthorizationsDelete {
@@ -3723,8 +3632,7 @@ export interface ExpressRoutePortAuthorizationsDelete {
   get(
     options: ExpressRoutePortAuthorizationsGetParameters
   ): StreamableMethod<
-    | ExpressRoutePortAuthorizationsGet200Response
-    | ExpressRoutePortAuthorizationsGetDefaultResponse
+    ExpressRoutePortAuthorizationsGet200Response | ExpressRoutePortAuthorizationsGetDefaultResponse
   >;
   /** Creates or updates an authorization in the specified express route port. */
   put(
@@ -3761,8 +3669,7 @@ export interface ExpressRouteProviderPortsGet {
   get(
     options: ExpressRouteProviderPortsGetParameters
   ): StreamableMethod<
-    | ExpressRouteProviderPortsGet200Response
-    | ExpressRouteProviderPortsGetDefaultResponse
+    ExpressRouteProviderPortsGet200Response | ExpressRouteProviderPortsGetDefaultResponse
   >;
 }
 
@@ -3779,9 +3686,7 @@ export interface FirewallPoliciesDelete {
   /** Gets the specified Firewall Policy. */
   get(
     options: FirewallPoliciesGetParameters
-  ): StreamableMethod<
-    FirewallPoliciesGet200Response | FirewallPoliciesGetDefaultResponse
-  >;
+  ): StreamableMethod<FirewallPoliciesGet200Response | FirewallPoliciesGetDefaultResponse>;
   /** Creates or updates the specified Firewall Policy. */
   put(
     options: FirewallPoliciesCreateOrUpdateParameters
@@ -3794,8 +3699,7 @@ export interface FirewallPoliciesDelete {
   patch(
     options: FirewallPoliciesUpdateTagsParameters
   ): StreamableMethod<
-    | FirewallPoliciesUpdateTags200Response
-    | FirewallPoliciesUpdateTagsDefaultResponse
+    FirewallPoliciesUpdateTags200Response | FirewallPoliciesUpdateTagsDefaultResponse
   >;
 }
 
@@ -3803,18 +3707,14 @@ export interface FirewallPoliciesList {
   /** Lists all Firewall Policies in a resource group. */
   get(
     options: FirewallPoliciesListParameters
-  ): StreamableMethod<
-    FirewallPoliciesList200Response | FirewallPoliciesListDefaultResponse
-  >;
+  ): StreamableMethod<FirewallPoliciesList200Response | FirewallPoliciesListDefaultResponse>;
 }
 
 export interface FirewallPoliciesListAll {
   /** Gets all the Firewall Policies in a subscription. */
   get(
     options: FirewallPoliciesListAllParameters
-  ): StreamableMethod<
-    FirewallPoliciesListAll200Response | FirewallPoliciesListAllDefaultResponse
-  >;
+  ): StreamableMethod<FirewallPoliciesListAll200Response | FirewallPoliciesListAllDefaultResponse>;
 }
 
 export interface FirewallPolicyRuleCollectionGroupsDelete {
@@ -3859,8 +3759,7 @@ export interface FirewallPolicyIdpsSignaturesList {
   post(
     options: FirewallPolicyIdpsSignaturesListParameters
   ): StreamableMethod<
-    | FirewallPolicyIdpsSignaturesList200Response
-    | FirewallPolicyIdpsSignaturesListDefaultResponse
+    FirewallPolicyIdpsSignaturesList200Response | FirewallPolicyIdpsSignaturesListDefaultResponse
   >;
 }
 
@@ -3921,9 +3820,7 @@ export interface IpAllocationsDelete {
   /** Gets the specified IpAllocation by resource group. */
   get(
     options: IpAllocationsGetParameters
-  ): StreamableMethod<
-    IpAllocationsGet200Response | IpAllocationsGetDefaultResponse
-  >;
+  ): StreamableMethod<IpAllocationsGet200Response | IpAllocationsGetDefaultResponse>;
   /** Creates or updates an IpAllocation in the specified resource group. */
   put(
     options: IpAllocationsCreateOrUpdateParameters
@@ -3935,18 +3832,14 @@ export interface IpAllocationsDelete {
   /** Updates a IpAllocation tags. */
   patch(
     options: IpAllocationsUpdateTagsParameters
-  ): StreamableMethod<
-    IpAllocationsUpdateTags200Response | IpAllocationsUpdateTagsDefaultResponse
-  >;
+  ): StreamableMethod<IpAllocationsUpdateTags200Response | IpAllocationsUpdateTagsDefaultResponse>;
 }
 
 export interface IpAllocationsList {
   /** Gets all IpAllocations in a subscription. */
   get(
     options: IpAllocationsListParameters
-  ): StreamableMethod<
-    IpAllocationsList200Response | IpAllocationsListDefaultResponse
-  >;
+  ): StreamableMethod<IpAllocationsList200Response | IpAllocationsListDefaultResponse>;
 }
 
 export interface IpAllocationsListByResourceGroup {
@@ -3954,8 +3847,7 @@ export interface IpAllocationsListByResourceGroup {
   get(
     options: IpAllocationsListByResourceGroupParameters
   ): StreamableMethod<
-    | IpAllocationsListByResourceGroup200Response
-    | IpAllocationsListByResourceGroupDefaultResponse
+    IpAllocationsListByResourceGroup200Response | IpAllocationsListByResourceGroupDefaultResponse
   >;
 }
 
@@ -3975,9 +3867,7 @@ export interface IpGroupsGet {
   /** Updates tags of an IpGroups resource. */
   patch(
     options: IpGroupsUpdateGroupsParameters
-  ): StreamableMethod<
-    IpGroupsUpdateGroups200Response | IpGroupsUpdateGroupsDefaultResponse
-  >;
+  ): StreamableMethod<IpGroupsUpdateGroups200Response | IpGroupsUpdateGroupsDefaultResponse>;
   /** Deletes the specified ipGroups. */
   delete(
     options: IpGroupsDeleteParameters
@@ -3994,8 +3884,7 @@ export interface IpGroupsListByResourceGroup {
   get(
     options: IpGroupsListByResourceGroupParameters
   ): StreamableMethod<
-    | IpGroupsListByResourceGroup200Response
-    | IpGroupsListByResourceGroupDefaultResponse
+    IpGroupsListByResourceGroup200Response | IpGroupsListByResourceGroupDefaultResponse
   >;
 }
 
@@ -4019,9 +3908,7 @@ export interface LoadBalancersDelete {
   /** Gets the specified load balancer. */
   get(
     options: LoadBalancersGetParameters
-  ): StreamableMethod<
-    LoadBalancersGet200Response | LoadBalancersGetDefaultResponse
-  >;
+  ): StreamableMethod<LoadBalancersGet200Response | LoadBalancersGetDefaultResponse>;
   /** Creates or updates a load balancer. */
   put(
     options: LoadBalancersCreateOrUpdateParameters
@@ -4033,27 +3920,21 @@ export interface LoadBalancersDelete {
   /** Updates a load balancer tags. */
   patch(
     options: LoadBalancersUpdateTagsParameters
-  ): StreamableMethod<
-    LoadBalancersUpdateTags200Response | LoadBalancersUpdateTagsDefaultResponse
-  >;
+  ): StreamableMethod<LoadBalancersUpdateTags200Response | LoadBalancersUpdateTagsDefaultResponse>;
 }
 
 export interface LoadBalancersListAll {
   /** Gets all the load balancers in a subscription. */
   get(
     options: LoadBalancersListAllParameters
-  ): StreamableMethod<
-    LoadBalancersListAll200Response | LoadBalancersListAllDefaultResponse
-  >;
+  ): StreamableMethod<LoadBalancersListAll200Response | LoadBalancersListAllDefaultResponse>;
 }
 
 export interface LoadBalancersList {
   /** Gets all the load balancers in a resource group. */
   get(
     options: LoadBalancersListParameters
-  ): StreamableMethod<
-    LoadBalancersList200Response | LoadBalancersListDefaultResponse
-  >;
+  ): StreamableMethod<LoadBalancersList200Response | LoadBalancersListDefaultResponse>;
 }
 
 export interface LoadBalancersSwapPublicIpAddresses {
@@ -4139,9 +4020,7 @@ export interface InboundNatRulesList {
   /** Gets all the inbound NAT rules in a load balancer. */
   get(
     options: InboundNatRulesListParameters
-  ): StreamableMethod<
-    InboundNatRulesList200Response | InboundNatRulesListDefaultResponse
-  >;
+  ): StreamableMethod<InboundNatRulesList200Response | InboundNatRulesListDefaultResponse>;
 }
 
 export interface InboundNatRulesDelete {
@@ -4157,9 +4036,7 @@ export interface InboundNatRulesDelete {
   /** Gets the specified load balancer inbound NAT rule. */
   get(
     options: InboundNatRulesGetParameters
-  ): StreamableMethod<
-    InboundNatRulesGet200Response | InboundNatRulesGetDefaultResponse
-  >;
+  ): StreamableMethod<InboundNatRulesGet200Response | InboundNatRulesGetDefaultResponse>;
   /** Creates or updates a load balancer inbound NAT rule. */
   put(
     options: InboundNatRulesCreateOrUpdateParameters
@@ -4185,8 +4062,7 @@ export interface LoadBalancerLoadBalancingRulesGet {
   get(
     options: LoadBalancerLoadBalancingRulesGetParameters
   ): StreamableMethod<
-    | LoadBalancerLoadBalancingRulesGet200Response
-    | LoadBalancerLoadBalancingRulesGetDefaultResponse
+    LoadBalancerLoadBalancingRulesGet200Response | LoadBalancerLoadBalancingRulesGetDefaultResponse
   >;
 }
 
@@ -4195,8 +4071,7 @@ export interface LoadBalancerOutboundRulesList {
   get(
     options: LoadBalancerOutboundRulesListParameters
   ): StreamableMethod<
-    | LoadBalancerOutboundRulesList200Response
-    | LoadBalancerOutboundRulesListDefaultResponse
+    LoadBalancerOutboundRulesList200Response | LoadBalancerOutboundRulesListDefaultResponse
   >;
 }
 
@@ -4205,8 +4080,7 @@ export interface LoadBalancerOutboundRulesGet {
   get(
     options: LoadBalancerOutboundRulesGetParameters
   ): StreamableMethod<
-    | LoadBalancerOutboundRulesGet200Response
-    | LoadBalancerOutboundRulesGetDefaultResponse
+    LoadBalancerOutboundRulesGet200Response | LoadBalancerOutboundRulesGetDefaultResponse
   >;
 }
 
@@ -4215,8 +4089,7 @@ export interface LoadBalancerNetworkInterfacesList {
   get(
     options: LoadBalancerNetworkInterfacesListParameters
   ): StreamableMethod<
-    | LoadBalancerNetworkInterfacesList200Response
-    | LoadBalancerNetworkInterfacesListDefaultResponse
+    LoadBalancerNetworkInterfacesList200Response | LoadBalancerNetworkInterfacesListDefaultResponse
   >;
 }
 
@@ -4224,18 +4097,14 @@ export interface LoadBalancerProbesList {
   /** Gets all the load balancer probes. */
   get(
     options: LoadBalancerProbesListParameters
-  ): StreamableMethod<
-    LoadBalancerProbesList200Response | LoadBalancerProbesListDefaultResponse
-  >;
+  ): StreamableMethod<LoadBalancerProbesList200Response | LoadBalancerProbesListDefaultResponse>;
 }
 
 export interface LoadBalancerProbesGet {
   /** Gets load balancer probe. */
   get(
     options: LoadBalancerProbesGetParameters
-  ): StreamableMethod<
-    LoadBalancerProbesGet200Response | LoadBalancerProbesGetDefaultResponse
-  >;
+  ): StreamableMethod<LoadBalancerProbesGet200Response | LoadBalancerProbesGetDefaultResponse>;
 }
 
 export interface NatGatewaysDelete {
@@ -4251,9 +4120,7 @@ export interface NatGatewaysDelete {
   /** Gets the specified nat gateway in a specified resource group. */
   get(
     options: NatGatewaysGetParameters
-  ): StreamableMethod<
-    NatGatewaysGet200Response | NatGatewaysGetDefaultResponse
-  >;
+  ): StreamableMethod<NatGatewaysGet200Response | NatGatewaysGetDefaultResponse>;
   /** Creates or updates a nat gateway. */
   put(
     options: NatGatewaysCreateOrUpdateParameters
@@ -4266,27 +4133,21 @@ export interface NatGatewaysDelete {
   /** Updates nat gateway tags. */
   patch(
     options: NatGatewaysUpdateTagsParameters
-  ): StreamableMethod<
-    NatGatewaysUpdateTags200Response | NatGatewaysUpdateTagsDefaultResponse
-  >;
+  ): StreamableMethod<NatGatewaysUpdateTags200Response | NatGatewaysUpdateTagsDefaultResponse>;
 }
 
 export interface NatGatewaysListAll {
   /** Gets all the Nat Gateways in a subscription. */
   get(
     options: NatGatewaysListAllParameters
-  ): StreamableMethod<
-    NatGatewaysListAll200Response | NatGatewaysListAllDefaultResponse
-  >;
+  ): StreamableMethod<NatGatewaysListAll200Response | NatGatewaysListAllDefaultResponse>;
 }
 
 export interface NatGatewaysList {
   /** Gets all nat gateways in a resource group. */
   get(
     options: NatGatewaysListParameters
-  ): StreamableMethod<
-    NatGatewaysList200Response | NatGatewaysListDefaultResponse
-  >;
+  ): StreamableMethod<NatGatewaysList200Response | NatGatewaysListDefaultResponse>;
 }
 
 export interface NetworkInterfaceIPConfigurationsList {
@@ -4314,8 +4175,7 @@ export interface NetworkInterfaceLoadBalancersList {
   get(
     options: NetworkInterfaceLoadBalancersListParameters
   ): StreamableMethod<
-    | NetworkInterfaceLoadBalancersList200Response
-    | NetworkInterfaceLoadBalancersListDefaultResponse
+    NetworkInterfaceLoadBalancersList200Response | NetworkInterfaceLoadBalancersListDefaultResponse
   >;
 }
 
@@ -4360,9 +4220,7 @@ export interface NetworkManagersGet {
   /** Gets the specified Network Manager. */
   get(
     options: NetworkManagersGetParameters
-  ): StreamableMethod<
-    NetworkManagersGet200Response | NetworkManagersGetDefaultResponse
-  >;
+  ): StreamableMethod<NetworkManagersGet200Response | NetworkManagersGetDefaultResponse>;
   /** Creates or updates a Network Manager. */
   put(
     options: NetworkManagersCreateOrUpdateParameters
@@ -4383,9 +4241,7 @@ export interface NetworkManagersGet {
   /** Patch NetworkManager. */
   patch(
     options: NetworkManagersPatchParameters
-  ): StreamableMethod<
-    NetworkManagersPatch200Response | NetworkManagersPatchDefaultResponse
-  >;
+  ): StreamableMethod<NetworkManagersPatch200Response | NetworkManagersPatchDefaultResponse>;
 }
 
 export interface NetworkManagersListBySubscription {
@@ -4393,8 +4249,7 @@ export interface NetworkManagersListBySubscription {
   get(
     options: NetworkManagersListBySubscriptionParameters
   ): StreamableMethod<
-    | NetworkManagersListBySubscription200Response
-    | NetworkManagersListBySubscriptionDefaultResponse
+    NetworkManagersListBySubscription200Response | NetworkManagersListBySubscriptionDefaultResponse
   >;
 }
 
@@ -4402,9 +4257,7 @@ export interface NetworkManagersList {
   /** List network managers in a resource group. */
   get(
     options: NetworkManagersListParameters
-  ): StreamableMethod<
-    NetworkManagersList200Response | NetworkManagersListDefaultResponse
-  >;
+  ): StreamableMethod<NetworkManagersList200Response | NetworkManagersListDefaultResponse>;
 }
 
 export interface NetworkManagerCommitsPost {
@@ -4505,8 +4358,7 @@ export interface ConnectivityConfigurationsGet {
   get(
     options: ConnectivityConfigurationsGetParameters
   ): StreamableMethod<
-    | ConnectivityConfigurationsGet200Response
-    | ConnectivityConfigurationsGetDefaultResponse
+    ConnectivityConfigurationsGet200Response | ConnectivityConfigurationsGetDefaultResponse
   >;
   /** Creates/Updates a new network manager connectivity configuration */
   put(
@@ -4532,8 +4384,7 @@ export interface ConnectivityConfigurationsList {
   get(
     options: ConnectivityConfigurationsListParameters
   ): StreamableMethod<
-    | ConnectivityConfigurationsList200Response
-    | ConnectivityConfigurationsListDefaultResponse
+    ConnectivityConfigurationsList200Response | ConnectivityConfigurationsListDefaultResponse
   >;
 }
 
@@ -4541,9 +4392,7 @@ export interface NetworkGroupsGet {
   /** Gets the specified network group. */
   get(
     options: NetworkGroupsGetParameters
-  ): StreamableMethod<
-    NetworkGroupsGet200Response | NetworkGroupsGetDefaultResponse
-  >;
+  ): StreamableMethod<NetworkGroupsGet200Response | NetworkGroupsGetDefaultResponse>;
   /** Creates or updates a network group. */
   put(
     options: NetworkGroupsCreateOrUpdateParameters
@@ -4567,18 +4416,14 @@ export interface NetworkGroupsList {
   /** Lists the specified network group. */
   get(
     options: NetworkGroupsListParameters
-  ): StreamableMethod<
-    NetworkGroupsList200Response | NetworkGroupsListDefaultResponse
-  >;
+  ): StreamableMethod<NetworkGroupsList200Response | NetworkGroupsListDefaultResponse>;
 }
 
 export interface StaticMembersGet {
   /** Gets the specified static member. */
   get(
     options: StaticMembersGetParameters
-  ): StreamableMethod<
-    StaticMembersGet200Response | StaticMembersGetDefaultResponse
-  >;
+  ): StreamableMethod<StaticMembersGet200Response | StaticMembersGetDefaultResponse>;
   /** Creates or updates a static member. */
   put(
     options: StaticMembersCreateOrUpdateParameters
@@ -4601,9 +4446,7 @@ export interface StaticMembersList {
   /** Lists the specified static member. */
   get(
     options: StaticMembersListParameters
-  ): StreamableMethod<
-    StaticMembersList200Response | StaticMembersListDefaultResponse
-  >;
+  ): StreamableMethod<StaticMembersList200Response | StaticMembersListDefaultResponse>;
 }
 
 export interface ScopeConnectionsCreateOrUpdate {
@@ -4618,9 +4461,7 @@ export interface ScopeConnectionsCreateOrUpdate {
   /** Get specified scope connection created by this Network Manager. */
   get(
     options: ScopeConnectionsGetParameters
-  ): StreamableMethod<
-    ScopeConnectionsGet200Response | ScopeConnectionsGetDefaultResponse
-  >;
+  ): StreamableMethod<ScopeConnectionsGet200Response | ScopeConnectionsGetDefaultResponse>;
   /** Delete the pending scope connection created by this network manager. */
   delete(
     options: ScopeConnectionsDeleteParameters
@@ -4635,9 +4476,7 @@ export interface ScopeConnectionsList {
   /** List all scope connections created by this network manager. */
   get(
     options: ScopeConnectionsListParameters
-  ): StreamableMethod<
-    ScopeConnectionsList200Response | ScopeConnectionsListDefaultResponse
-  >;
+  ): StreamableMethod<ScopeConnectionsList200Response | ScopeConnectionsListDefaultResponse>;
 }
 
 export interface SecurityAdminConfigurationsList {
@@ -4645,8 +4484,7 @@ export interface SecurityAdminConfigurationsList {
   get(
     options: SecurityAdminConfigurationsListParameters
   ): StreamableMethod<
-    | SecurityAdminConfigurationsList200Response
-    | SecurityAdminConfigurationsListDefaultResponse
+    SecurityAdminConfigurationsList200Response | SecurityAdminConfigurationsListDefaultResponse
   >;
 }
 
@@ -4655,8 +4493,7 @@ export interface SecurityAdminConfigurationsGet {
   get(
     options: SecurityAdminConfigurationsGetParameters
   ): StreamableMethod<
-    | SecurityAdminConfigurationsGet200Response
-    | SecurityAdminConfigurationsGetDefaultResponse
+    SecurityAdminConfigurationsGet200Response | SecurityAdminConfigurationsGetDefaultResponse
   >;
   /** Creates or updates a network manager security admin configuration. */
   put(
@@ -4682,8 +4519,7 @@ export interface AdminRuleCollectionsList {
   get(
     options: AdminRuleCollectionsListParameters
   ): StreamableMethod<
-    | AdminRuleCollectionsList200Response
-    | AdminRuleCollectionsListDefaultResponse
+    AdminRuleCollectionsList200Response | AdminRuleCollectionsListDefaultResponse
   >;
 }
 
@@ -4691,9 +4527,7 @@ export interface AdminRuleCollectionsGet {
   /** Gets a network manager security admin configuration rule collection. */
   get(
     options: AdminRuleCollectionsGetParameters
-  ): StreamableMethod<
-    AdminRuleCollectionsGet200Response | AdminRuleCollectionsGetDefaultResponse
-  >;
+  ): StreamableMethod<AdminRuleCollectionsGet200Response | AdminRuleCollectionsGetDefaultResponse>;
   /** Creates or updates an admin rule collection. */
   put(
     options: AdminRuleCollectionsCreateOrUpdateParameters
@@ -4717,9 +4551,7 @@ export interface AdminRulesList {
   /** List all network manager security configuration admin rules. */
   get(
     options: AdminRulesListParameters
-  ): StreamableMethod<
-    AdminRulesList200Response | AdminRulesListDefaultResponse
-  >;
+  ): StreamableMethod<AdminRulesList200Response | AdminRulesListDefaultResponse>;
 }
 
 export interface AdminRulesGet {
@@ -4759,9 +4591,7 @@ export interface NetworkProfilesDelete {
   /** Gets the specified network profile in a specified resource group. */
   get(
     options: NetworkProfilesGetParameters
-  ): StreamableMethod<
-    NetworkProfilesGet200Response | NetworkProfilesGetDefaultResponse
-  >;
+  ): StreamableMethod<NetworkProfilesGet200Response | NetworkProfilesGetDefaultResponse>;
   /** Creates or updates a network profile. */
   put(
     options: NetworkProfilesCreateOrUpdateParameters
@@ -4774,8 +4604,7 @@ export interface NetworkProfilesDelete {
   patch(
     options: NetworkProfilesUpdateTagsParameters
   ): StreamableMethod<
-    | NetworkProfilesUpdateTags200Response
-    | NetworkProfilesUpdateTagsDefaultResponse
+    NetworkProfilesUpdateTags200Response | NetworkProfilesUpdateTagsDefaultResponse
   >;
 }
 
@@ -4783,18 +4612,14 @@ export interface NetworkProfilesListAll {
   /** Gets all the network profiles in a subscription. */
   get(
     options: NetworkProfilesListAllParameters
-  ): StreamableMethod<
-    NetworkProfilesListAll200Response | NetworkProfilesListAllDefaultResponse
-  >;
+  ): StreamableMethod<NetworkProfilesListAll200Response | NetworkProfilesListAllDefaultResponse>;
 }
 
 export interface NetworkProfilesList {
   /** Gets all network profiles in a resource group. */
   get(
     options: NetworkProfilesListParameters
-  ): StreamableMethod<
-    NetworkProfilesList200Response | NetworkProfilesListDefaultResponse
-  >;
+  ): StreamableMethod<NetworkProfilesList200Response | NetworkProfilesListDefaultResponse>;
 }
 
 export interface NetworkSecurityGroupsDelete {
@@ -4811,8 +4636,7 @@ export interface NetworkSecurityGroupsDelete {
   get(
     options: NetworkSecurityGroupsGetParameters
   ): StreamableMethod<
-    | NetworkSecurityGroupsGet200Response
-    | NetworkSecurityGroupsGetDefaultResponse
+    NetworkSecurityGroupsGet200Response | NetworkSecurityGroupsGetDefaultResponse
   >;
   /** Creates or updates a network security group in the specified resource group. */
   put(
@@ -4826,8 +4650,7 @@ export interface NetworkSecurityGroupsDelete {
   patch(
     options: NetworkSecurityGroupsUpdateTagsParameters
   ): StreamableMethod<
-    | NetworkSecurityGroupsUpdateTags200Response
-    | NetworkSecurityGroupsUpdateTagsDefaultResponse
+    NetworkSecurityGroupsUpdateTags200Response | NetworkSecurityGroupsUpdateTagsDefaultResponse
   >;
 }
 
@@ -4836,8 +4659,7 @@ export interface NetworkSecurityGroupsListAll {
   get(
     options: NetworkSecurityGroupsListAllParameters
   ): StreamableMethod<
-    | NetworkSecurityGroupsListAll200Response
-    | NetworkSecurityGroupsListAllDefaultResponse
+    NetworkSecurityGroupsListAll200Response | NetworkSecurityGroupsListAllDefaultResponse
   >;
 }
 
@@ -4846,8 +4668,7 @@ export interface NetworkSecurityGroupsList {
   get(
     options: NetworkSecurityGroupsListParameters
   ): StreamableMethod<
-    | NetworkSecurityGroupsList200Response
-    | NetworkSecurityGroupsListDefaultResponse
+    NetworkSecurityGroupsList200Response | NetworkSecurityGroupsListDefaultResponse
   >;
 }
 
@@ -4864,9 +4685,7 @@ export interface SecurityRulesDelete {
   /** Get the specified network security rule. */
   get(
     options: SecurityRulesGetParameters
-  ): StreamableMethod<
-    SecurityRulesGet200Response | SecurityRulesGetDefaultResponse
-  >;
+  ): StreamableMethod<SecurityRulesGet200Response | SecurityRulesGetDefaultResponse>;
   /** Creates or updates a security rule in the specified network security group. */
   put(
     options: SecurityRulesCreateOrUpdateParameters
@@ -4881,9 +4700,7 @@ export interface SecurityRulesList {
   /** Gets all security rules in a network security group. */
   get(
     options: SecurityRulesListParameters
-  ): StreamableMethod<
-    SecurityRulesList200Response | SecurityRulesListDefaultResponse
-  >;
+  ): StreamableMethod<SecurityRulesList200Response | SecurityRulesListDefaultResponse>;
 }
 
 export interface DefaultSecurityRulesList {
@@ -4891,8 +4708,7 @@ export interface DefaultSecurityRulesList {
   get(
     options: DefaultSecurityRulesListParameters
   ): StreamableMethod<
-    | DefaultSecurityRulesList200Response
-    | DefaultSecurityRulesListDefaultResponse
+    DefaultSecurityRulesList200Response | DefaultSecurityRulesListDefaultResponse
   >;
 }
 
@@ -4900,9 +4716,7 @@ export interface DefaultSecurityRulesGet {
   /** Get the specified default network security rule. */
   get(
     options: DefaultSecurityRulesGetParameters
-  ): StreamableMethod<
-    DefaultSecurityRulesGet200Response | DefaultSecurityRulesGetDefaultResponse
-  >;
+  ): StreamableMethod<DefaultSecurityRulesGet200Response | DefaultSecurityRulesGetDefaultResponse>;
 }
 
 export interface NetworkVirtualAppliancesDelete {
@@ -4919,8 +4733,7 @@ export interface NetworkVirtualAppliancesDelete {
   get(
     options: NetworkVirtualAppliancesGetParameters
   ): StreamableMethod<
-    | NetworkVirtualAppliancesGet200Response
-    | NetworkVirtualAppliancesGetDefaultResponse
+    NetworkVirtualAppliancesGet200Response | NetworkVirtualAppliancesGetDefaultResponse
   >;
   /** Updates a Network Virtual Appliance. */
   patch(
@@ -4954,8 +4767,7 @@ export interface NetworkVirtualAppliancesList {
   get(
     options: NetworkVirtualAppliancesListParameters
   ): StreamableMethod<
-    | NetworkVirtualAppliancesList200Response
-    | NetworkVirtualAppliancesListDefaultResponse
+    NetworkVirtualAppliancesList200Response | NetworkVirtualAppliancesListDefaultResponse
   >;
 }
 
@@ -4973,8 +4785,7 @@ export interface VirtualApplianceSitesDelete {
   get(
     options: VirtualApplianceSitesGetParameters
   ): StreamableMethod<
-    | VirtualApplianceSitesGet200Response
-    | VirtualApplianceSitesGetDefaultResponse
+    VirtualApplianceSitesGet200Response | VirtualApplianceSitesGetDefaultResponse
   >;
   /** Creates or updates the specified Network Virtual Appliance Site. */
   put(
@@ -4991,8 +4802,7 @@ export interface VirtualApplianceSitesList {
   get(
     options: VirtualApplianceSitesListParameters
   ): StreamableMethod<
-    | VirtualApplianceSitesList200Response
-    | VirtualApplianceSitesListDefaultResponse
+    VirtualApplianceSitesList200Response | VirtualApplianceSitesListDefaultResponse
   >;
 }
 
@@ -5001,8 +4811,7 @@ export interface VirtualApplianceSkusList {
   get(
     options: VirtualApplianceSkusListParameters
   ): StreamableMethod<
-    | VirtualApplianceSkusList200Response
-    | VirtualApplianceSkusListDefaultResponse
+    VirtualApplianceSkusList200Response | VirtualApplianceSkusListDefaultResponse
   >;
 }
 
@@ -5010,9 +4819,7 @@ export interface VirtualApplianceSkusGet {
   /** Retrieves a single available sku for network virtual appliance. */
   get(
     options: VirtualApplianceSkusGetParameters
-  ): StreamableMethod<
-    VirtualApplianceSkusGet200Response | VirtualApplianceSkusGetDefaultResponse
-  >;
+  ): StreamableMethod<VirtualApplianceSkusGet200Response | VirtualApplianceSkusGetDefaultResponse>;
 }
 
 export interface InboundSecurityRuleCreateOrUpdate {
@@ -5038,9 +4845,7 @@ export interface NetworkWatchersCreateOrUpdate {
   /** Gets the specified network watcher by resource group. */
   get(
     options: NetworkWatchersGetParameters
-  ): StreamableMethod<
-    NetworkWatchersGet200Response | NetworkWatchersGetDefaultResponse
-  >;
+  ): StreamableMethod<NetworkWatchersGet200Response | NetworkWatchersGetDefaultResponse>;
   /** Deletes the specified network watcher resource. */
   delete(
     options: NetworkWatchersDeleteParameters
@@ -5053,8 +4858,7 @@ export interface NetworkWatchersCreateOrUpdate {
   patch(
     options: NetworkWatchersUpdateTagsParameters
   ): StreamableMethod<
-    | NetworkWatchersUpdateTags200Response
-    | NetworkWatchersUpdateTagsDefaultResponse
+    NetworkWatchersUpdateTags200Response | NetworkWatchersUpdateTagsDefaultResponse
   >;
 }
 
@@ -5062,18 +4866,14 @@ export interface NetworkWatchersList {
   /** Gets all network watchers by resource group. */
   get(
     options: NetworkWatchersListParameters
-  ): StreamableMethod<
-    NetworkWatchersList200Response | NetworkWatchersListDefaultResponse
-  >;
+  ): StreamableMethod<NetworkWatchersList200Response | NetworkWatchersListDefaultResponse>;
 }
 
 export interface NetworkWatchersListAll {
   /** Gets all network watchers by subscription. */
   get(
     options: NetworkWatchersListAllParameters
-  ): StreamableMethod<
-    NetworkWatchersListAll200Response | NetworkWatchersListAllDefaultResponse
-  >;
+  ): StreamableMethod<NetworkWatchersListAll200Response | NetworkWatchersListAllDefaultResponse>;
 }
 
 export interface NetworkWatchersGetTopology {
@@ -5081,8 +4881,7 @@ export interface NetworkWatchersGetTopology {
   post(
     options: NetworkWatchersGetTopologyParameters
   ): StreamableMethod<
-    | NetworkWatchersGetTopology200Response
-    | NetworkWatchersGetTopologyDefaultResponse
+    NetworkWatchersGetTopology200Response | NetworkWatchersGetTopologyDefaultResponse
   >;
 }
 
@@ -5211,15 +5010,11 @@ export interface PacketCapturesCreate {
   /** Create and start a packet capture on the specified VM. */
   put(
     options: PacketCapturesCreateParameters
-  ): StreamableMethod<
-    PacketCapturesCreate201Response | PacketCapturesCreateDefaultResponse
-  >;
+  ): StreamableMethod<PacketCapturesCreate201Response | PacketCapturesCreateDefaultResponse>;
   /** Gets a packet capture session by name. */
   get(
     options: PacketCapturesGetParameters
-  ): StreamableMethod<
-    PacketCapturesGet200Response | PacketCapturesGetDefaultResponse
-  >;
+  ): StreamableMethod<PacketCapturesGet200Response | PacketCapturesGetDefaultResponse>;
   /** Deletes the specified packet capture session. */
   delete(
     options: PacketCapturesDeleteParameters
@@ -5256,9 +5051,7 @@ export interface PacketCapturesList {
   /** Lists all packet capture sessions within the specified resource group. */
   get(
     options: PacketCapturesListParameters
-  ): StreamableMethod<
-    PacketCapturesList200Response | PacketCapturesListDefaultResponse
-  >;
+  ): StreamableMethod<PacketCapturesList200Response | PacketCapturesListDefaultResponse>;
 }
 
 export interface ConnectionMonitorsCreateOrUpdate {
@@ -5273,9 +5066,7 @@ export interface ConnectionMonitorsCreateOrUpdate {
   /** Gets a connection monitor by name. */
   get(
     options: ConnectionMonitorsGetParameters
-  ): StreamableMethod<
-    ConnectionMonitorsGet200Response | ConnectionMonitorsGetDefaultResponse
-  >;
+  ): StreamableMethod<ConnectionMonitorsGet200Response | ConnectionMonitorsGetDefaultResponse>;
   /** Deletes the specified connection monitor. */
   delete(
     options: ConnectionMonitorsDeleteParameters
@@ -5288,8 +5079,7 @@ export interface ConnectionMonitorsCreateOrUpdate {
   patch(
     options: ConnectionMonitorsUpdateTagsParameters
   ): StreamableMethod<
-    | ConnectionMonitorsUpdateTags200Response
-    | ConnectionMonitorsUpdateTagsDefaultResponse
+    ConnectionMonitorsUpdateTags200Response | ConnectionMonitorsUpdateTagsDefaultResponse
   >;
 }
 
@@ -5330,9 +5120,7 @@ export interface ConnectionMonitorsList {
   /** Lists all connection monitors for the specified Network Watcher. */
   get(
     options: ConnectionMonitorsListParameters
-  ): StreamableMethod<
-    ConnectionMonitorsList200Response | ConnectionMonitorsListDefaultResponse
-  >;
+  ): StreamableMethod<ConnectionMonitorsList200Response | ConnectionMonitorsListDefaultResponse>;
 }
 
 export interface FlowLogsCreateOrUpdate {
@@ -5347,9 +5135,7 @@ export interface FlowLogsCreateOrUpdate {
   /** Update tags of the specified flow log. */
   patch(
     options: FlowLogsUpdateTagsParameters
-  ): StreamableMethod<
-    FlowLogsUpdateTags200Response | FlowLogsUpdateTagsDefaultResponse
-  >;
+  ): StreamableMethod<FlowLogsUpdateTags200Response | FlowLogsUpdateTagsDefaultResponse>;
   /** Gets a flow log resource by name. */
   get(
     options: FlowLogsGetParameters
@@ -5358,9 +5144,7 @@ export interface FlowLogsCreateOrUpdate {
   delete(
     options: FlowLogsDeleteParameters
   ): StreamableMethod<
-    | FlowLogsDelete202Response
-    | FlowLogsDelete204Response
-    | FlowLogsDeleteDefaultResponse
+    FlowLogsDelete202Response | FlowLogsDelete204Response | FlowLogsDeleteDefaultResponse
   >;
 }
 
@@ -5375,9 +5159,7 @@ export interface OperationsList {
   /** Lists all of the available Network Rest API operations. */
   get(
     options: OperationsListParameters
-  ): StreamableMethod<
-    OperationsList200Response | OperationsListDefaultResponse
-  >;
+  ): StreamableMethod<OperationsList200Response | OperationsListDefaultResponse>;
 }
 
 export interface PrivateEndpointsDelete {
@@ -5393,9 +5175,7 @@ export interface PrivateEndpointsDelete {
   /** Gets the specified private endpoint by resource group. */
   get(
     options: PrivateEndpointsGetParameters
-  ): StreamableMethod<
-    PrivateEndpointsGet200Response | PrivateEndpointsGetDefaultResponse
-  >;
+  ): StreamableMethod<PrivateEndpointsGet200Response | PrivateEndpointsGetDefaultResponse>;
   /** Creates or updates an private endpoint in the specified resource group. */
   put(
     options: PrivateEndpointsCreateOrUpdateParameters
@@ -5410,9 +5190,7 @@ export interface PrivateEndpointsList {
   /** Gets all private endpoints in a resource group. */
   get(
     options: PrivateEndpointsListParameters
-  ): StreamableMethod<
-    PrivateEndpointsList200Response | PrivateEndpointsListDefaultResponse
-  >;
+  ): StreamableMethod<PrivateEndpointsList200Response | PrivateEndpointsListDefaultResponse>;
 }
 
 export interface PrivateEndpointsListBySubscription {
@@ -5430,8 +5208,7 @@ export interface AvailablePrivateEndpointTypesList {
   get(
     options: AvailablePrivateEndpointTypesListParameters
   ): StreamableMethod<
-    | AvailablePrivateEndpointTypesList200Response
-    | AvailablePrivateEndpointTypesListDefaultResponse
+    AvailablePrivateEndpointTypesList200Response | AvailablePrivateEndpointTypesListDefaultResponse
   >;
 }
 
@@ -5458,9 +5235,7 @@ export interface PrivateDnsZoneGroupsDelete {
   /** Gets the private dns zone group resource by specified private dns zone group name. */
   get(
     options: PrivateDnsZoneGroupsGetParameters
-  ): StreamableMethod<
-    PrivateDnsZoneGroupsGet200Response | PrivateDnsZoneGroupsGetDefaultResponse
-  >;
+  ): StreamableMethod<PrivateDnsZoneGroupsGet200Response | PrivateDnsZoneGroupsGetDefaultResponse>;
   /** Creates or updates a private dns zone group in the specified private endpoint. */
   put(
     options: PrivateDnsZoneGroupsCreateOrUpdateParameters
@@ -5476,8 +5251,7 @@ export interface PrivateDnsZoneGroupsList {
   get(
     options: PrivateDnsZoneGroupsListParameters
   ): StreamableMethod<
-    | PrivateDnsZoneGroupsList200Response
-    | PrivateDnsZoneGroupsListDefaultResponse
+    PrivateDnsZoneGroupsList200Response | PrivateDnsZoneGroupsListDefaultResponse
   >;
 }
 
@@ -5494,9 +5268,7 @@ export interface PrivateLinkServicesDelete {
   /** Gets the specified private link service by resource group. */
   get(
     options: PrivateLinkServicesGetParameters
-  ): StreamableMethod<
-    PrivateLinkServicesGet200Response | PrivateLinkServicesGetDefaultResponse
-  >;
+  ): StreamableMethod<PrivateLinkServicesGet200Response | PrivateLinkServicesGetDefaultResponse>;
   /** Creates or updates an private link service in the specified resource group. */
   put(
     options: PrivateLinkServicesCreateOrUpdateParameters
@@ -5511,9 +5283,7 @@ export interface PrivateLinkServicesList {
   /** Gets all private link services in a resource group. */
   get(
     options: PrivateLinkServicesListParameters
-  ): StreamableMethod<
-    PrivateLinkServicesList200Response | PrivateLinkServicesListDefaultResponse
-  >;
+  ): StreamableMethod<PrivateLinkServicesList200Response | PrivateLinkServicesListDefaultResponse>;
 }
 
 export interface PrivateLinkServicesListBySubscription {
@@ -5617,9 +5387,7 @@ export interface PublicIPPrefixesDelete {
   /** Gets the specified public IP prefix in a specified resource group. */
   get(
     options: PublicIPPrefixesGetParameters
-  ): StreamableMethod<
-    PublicIPPrefixesGet200Response | PublicIPPrefixesGetDefaultResponse
-  >;
+  ): StreamableMethod<PublicIPPrefixesGet200Response | PublicIPPrefixesGetDefaultResponse>;
   /** Creates or updates a static or dynamic public IP prefix. */
   put(
     options: PublicIPPrefixesCreateOrUpdateParameters
@@ -5632,8 +5400,7 @@ export interface PublicIPPrefixesDelete {
   patch(
     options: PublicIPPrefixesUpdateTagsParameters
   ): StreamableMethod<
-    | PublicIPPrefixesUpdateTags200Response
-    | PublicIPPrefixesUpdateTagsDefaultResponse
+    PublicIPPrefixesUpdateTags200Response | PublicIPPrefixesUpdateTagsDefaultResponse
   >;
 }
 
@@ -5641,18 +5408,14 @@ export interface PublicIPPrefixesListAll {
   /** Gets all the public IP prefixes in a subscription. */
   get(
     options: PublicIPPrefixesListAllParameters
-  ): StreamableMethod<
-    PublicIPPrefixesListAll200Response | PublicIPPrefixesListAllDefaultResponse
-  >;
+  ): StreamableMethod<PublicIPPrefixesListAll200Response | PublicIPPrefixesListAllDefaultResponse>;
 }
 
 export interface PublicIPPrefixesList {
   /** Gets all public IP prefixes in a resource group. */
   get(
     options: PublicIPPrefixesListParameters
-  ): StreamableMethod<
-    PublicIPPrefixesList200Response | PublicIPPrefixesListDefaultResponse
-  >;
+  ): StreamableMethod<PublicIPPrefixesList200Response | PublicIPPrefixesListDefaultResponse>;
 }
 
 export interface RouteFiltersDelete {
@@ -5668,9 +5431,7 @@ export interface RouteFiltersDelete {
   /** Gets the specified route filter. */
   get(
     options: RouteFiltersGetParameters
-  ): StreamableMethod<
-    RouteFiltersGet200Response | RouteFiltersGetDefaultResponse
-  >;
+  ): StreamableMethod<RouteFiltersGet200Response | RouteFiltersGetDefaultResponse>;
   /** Creates or updates a route filter in a specified resource group. */
   put(
     options: RouteFiltersCreateOrUpdateParameters
@@ -5682,9 +5443,7 @@ export interface RouteFiltersDelete {
   /** Updates tags of a route filter. */
   patch(
     options: RouteFiltersUpdateTagsParameters
-  ): StreamableMethod<
-    RouteFiltersUpdateTags200Response | RouteFiltersUpdateTagsDefaultResponse
-  >;
+  ): StreamableMethod<RouteFiltersUpdateTags200Response | RouteFiltersUpdateTagsDefaultResponse>;
 }
 
 export interface RouteFiltersListByResourceGroup {
@@ -5692,8 +5451,7 @@ export interface RouteFiltersListByResourceGroup {
   get(
     options: RouteFiltersListByResourceGroupParameters
   ): StreamableMethod<
-    | RouteFiltersListByResourceGroup200Response
-    | RouteFiltersListByResourceGroupDefaultResponse
+    RouteFiltersListByResourceGroup200Response | RouteFiltersListByResourceGroupDefaultResponse
   >;
 }
 
@@ -5701,9 +5459,7 @@ export interface RouteFiltersList {
   /** Gets all route filters in a subscription. */
   get(
     options: RouteFiltersListParameters
-  ): StreamableMethod<
-    RouteFiltersList200Response | RouteFiltersListDefaultResponse
-  >;
+  ): StreamableMethod<RouteFiltersList200Response | RouteFiltersListDefaultResponse>;
 }
 
 export interface RouteFilterRulesDelete {
@@ -5719,9 +5475,7 @@ export interface RouteFilterRulesDelete {
   /** Gets the specified rule from a route filter. */
   get(
     options: RouteFilterRulesGetParameters
-  ): StreamableMethod<
-    RouteFilterRulesGet200Response | RouteFilterRulesGetDefaultResponse
-  >;
+  ): StreamableMethod<RouteFilterRulesGet200Response | RouteFilterRulesGetDefaultResponse>;
   /** Creates or updates a route in the specified route filter. */
   put(
     options: RouteFilterRulesCreateOrUpdateParameters
@@ -5737,8 +5491,7 @@ export interface RouteFilterRulesListByRouteFilter {
   get(
     options: RouteFilterRulesListByRouteFilterParameters
   ): StreamableMethod<
-    | RouteFilterRulesListByRouteFilter200Response
-    | RouteFilterRulesListByRouteFilterDefaultResponse
+    RouteFilterRulesListByRouteFilter200Response | RouteFilterRulesListByRouteFilterDefaultResponse
   >;
 }
 
@@ -5755,9 +5508,7 @@ export interface RouteTablesDelete {
   /** Gets the specified route table. */
   get(
     options: RouteTablesGetParameters
-  ): StreamableMethod<
-    RouteTablesGet200Response | RouteTablesGetDefaultResponse
-  >;
+  ): StreamableMethod<RouteTablesGet200Response | RouteTablesGetDefaultResponse>;
   /** Create or updates a route table in a specified resource group. */
   put(
     options: RouteTablesCreateOrUpdateParameters
@@ -5769,27 +5520,21 @@ export interface RouteTablesDelete {
   /** Updates a route table tags. */
   patch(
     options: RouteTablesUpdateTagsParameters
-  ): StreamableMethod<
-    RouteTablesUpdateTags200Response | RouteTablesUpdateTagsDefaultResponse
-  >;
+  ): StreamableMethod<RouteTablesUpdateTags200Response | RouteTablesUpdateTagsDefaultResponse>;
 }
 
 export interface RouteTablesList {
   /** Gets all route tables in a resource group. */
   get(
     options: RouteTablesListParameters
-  ): StreamableMethod<
-    RouteTablesList200Response | RouteTablesListDefaultResponse
-  >;
+  ): StreamableMethod<RouteTablesList200Response | RouteTablesListDefaultResponse>;
 }
 
 export interface RouteTablesListAll {
   /** Gets all route tables in a subscription. */
   get(
     options: RouteTablesListAllParameters
-  ): StreamableMethod<
-    RouteTablesListAll200Response | RouteTablesListAllDefaultResponse
-  >;
+  ): StreamableMethod<RouteTablesListAll200Response | RouteTablesListAllDefaultResponse>;
 }
 
 export interface RoutesDelete {
@@ -5837,8 +5582,7 @@ export interface SecurityPartnerProvidersDelete {
   get(
     options: SecurityPartnerProvidersGetParameters
   ): StreamableMethod<
-    | SecurityPartnerProvidersGet200Response
-    | SecurityPartnerProvidersGetDefaultResponse
+    SecurityPartnerProvidersGet200Response | SecurityPartnerProvidersGetDefaultResponse
   >;
   /** Creates or updates the specified Security Partner Provider. */
   put(
@@ -5872,8 +5616,7 @@ export interface SecurityPartnerProvidersList {
   get(
     options: SecurityPartnerProvidersListParameters
   ): StreamableMethod<
-    | SecurityPartnerProvidersList200Response
-    | SecurityPartnerProvidersListDefaultResponse
+    SecurityPartnerProvidersList200Response | SecurityPartnerProvidersListDefaultResponse
   >;
 }
 
@@ -5882,8 +5625,7 @@ export interface BgpServiceCommunitiesList {
   get(
     options: BgpServiceCommunitiesListParameters
   ): StreamableMethod<
-    | BgpServiceCommunitiesList200Response
-    | BgpServiceCommunitiesListDefaultResponse
+    BgpServiceCommunitiesList200Response | BgpServiceCommunitiesListDefaultResponse
   >;
 }
 
@@ -5901,8 +5643,7 @@ export interface ServiceEndpointPoliciesDelete {
   get(
     options: ServiceEndpointPoliciesGetParameters
   ): StreamableMethod<
-    | ServiceEndpointPoliciesGet200Response
-    | ServiceEndpointPoliciesGetDefaultResponse
+    ServiceEndpointPoliciesGet200Response | ServiceEndpointPoliciesGetDefaultResponse
   >;
   /** Creates or updates a service Endpoint Policies. */
   put(
@@ -5916,8 +5657,7 @@ export interface ServiceEndpointPoliciesDelete {
   patch(
     options: ServiceEndpointPoliciesUpdateTagsParameters
   ): StreamableMethod<
-    | ServiceEndpointPoliciesUpdateTags200Response
-    | ServiceEndpointPoliciesUpdateTagsDefaultResponse
+    ServiceEndpointPoliciesUpdateTags200Response | ServiceEndpointPoliciesUpdateTagsDefaultResponse
   >;
 }
 
@@ -5926,8 +5666,7 @@ export interface ServiceEndpointPoliciesList {
   get(
     options: ServiceEndpointPoliciesListParameters
   ): StreamableMethod<
-    | ServiceEndpointPoliciesList200Response
-    | ServiceEndpointPoliciesListDefaultResponse
+    ServiceEndpointPoliciesList200Response | ServiceEndpointPoliciesListDefaultResponse
   >;
 }
 
@@ -5982,9 +5721,7 @@ export interface ServiceTagsList {
   /** Gets a list of service tag information resources. */
   get(
     options: ServiceTagsListParameters
-  ): StreamableMethod<
-    ServiceTagsList200Response | ServiceTagsListDefaultResponse
-  >;
+  ): StreamableMethod<ServiceTagsList200Response | ServiceTagsListDefaultResponse>;
 }
 
 export interface ServiceTagInformationList {
@@ -5992,8 +5729,7 @@ export interface ServiceTagInformationList {
   get(
     options: ServiceTagInformationListParameters
   ): StreamableMethod<
-    | ServiceTagInformationList200Response
-    | ServiceTagInformationListDefaultResponse
+    ServiceTagInformationList200Response | ServiceTagInformationListDefaultResponse
   >;
 }
 
@@ -6017,9 +5753,7 @@ export interface VirtualNetworksDelete {
   /** Gets the specified virtual network by resource group. */
   get(
     options: VirtualNetworksGetParameters
-  ): StreamableMethod<
-    VirtualNetworksGet200Response | VirtualNetworksGetDefaultResponse
-  >;
+  ): StreamableMethod<VirtualNetworksGet200Response | VirtualNetworksGetDefaultResponse>;
   /** Creates or updates a virtual network in the specified resource group. */
   put(
     options: VirtualNetworksCreateOrUpdateParameters
@@ -6032,8 +5766,7 @@ export interface VirtualNetworksDelete {
   patch(
     options: VirtualNetworksUpdateTagsParameters
   ): StreamableMethod<
-    | VirtualNetworksUpdateTags200Response
-    | VirtualNetworksUpdateTagsDefaultResponse
+    VirtualNetworksUpdateTags200Response | VirtualNetworksUpdateTagsDefaultResponse
   >;
 }
 
@@ -6041,18 +5774,14 @@ export interface VirtualNetworksListAll {
   /** Gets all virtual networks in a subscription. */
   get(
     options: VirtualNetworksListAllParameters
-  ): StreamableMethod<
-    VirtualNetworksListAll200Response | VirtualNetworksListAllDefaultResponse
-  >;
+  ): StreamableMethod<VirtualNetworksListAll200Response | VirtualNetworksListAllDefaultResponse>;
 }
 
 export interface VirtualNetworksList {
   /** Gets all virtual networks in a resource group. */
   get(
     options: VirtualNetworksListParameters
-  ): StreamableMethod<
-    VirtualNetworksList200Response | VirtualNetworksListDefaultResponse
-  >;
+  ): StreamableMethod<VirtualNetworksList200Response | VirtualNetworksListDefaultResponse>;
 }
 
 export interface VirtualNetworksCheckIPAddressAvailability {
@@ -6070,8 +5799,7 @@ export interface VirtualNetworksListUsage {
   get(
     options: VirtualNetworksListUsageParameters
   ): StreamableMethod<
-    | VirtualNetworksListUsage200Response
-    | VirtualNetworksListUsageDefaultResponse
+    VirtualNetworksListUsage200Response | VirtualNetworksListUsageDefaultResponse
   >;
 }
 
@@ -6144,8 +5872,7 @@ export interface ResourceNavigationLinksList {
   get(
     options: ResourceNavigationLinksListParameters
   ): StreamableMethod<
-    | ResourceNavigationLinksList200Response
-    | ResourceNavigationLinksListDefaultResponse
+    ResourceNavigationLinksList200Response | ResourceNavigationLinksListDefaultResponse
   >;
 }
 
@@ -6154,8 +5881,7 @@ export interface ServiceAssociationLinksList {
   get(
     options: ServiceAssociationLinksListParameters
   ): StreamableMethod<
-    | ServiceAssociationLinksList200Response
-    | ServiceAssociationLinksListDefaultResponse
+    ServiceAssociationLinksList200Response | ServiceAssociationLinksListDefaultResponse
   >;
 }
 
@@ -6173,8 +5899,7 @@ export interface VirtualNetworkPeeringsDelete {
   get(
     options: VirtualNetworkPeeringsGetParameters
   ): StreamableMethod<
-    | VirtualNetworkPeeringsGet200Response
-    | VirtualNetworkPeeringsGetDefaultResponse
+    VirtualNetworkPeeringsGet200Response | VirtualNetworkPeeringsGetDefaultResponse
   >;
   /** Creates or updates a peering in the specified virtual network. */
   put(
@@ -6191,8 +5916,7 @@ export interface VirtualNetworkPeeringsList {
   get(
     options: VirtualNetworkPeeringsListParameters
   ): StreamableMethod<
-    | VirtualNetworkPeeringsList200Response
-    | VirtualNetworkPeeringsListDefaultResponse
+    VirtualNetworkPeeringsList200Response | VirtualNetworkPeeringsListDefaultResponse
   >;
 }
 
@@ -6209,8 +5933,7 @@ export interface VirtualNetworkGatewaysCreateOrUpdate {
   get(
     options: VirtualNetworkGatewaysGetParameters
   ): StreamableMethod<
-    | VirtualNetworkGatewaysGet200Response
-    | VirtualNetworkGatewaysGetDefaultResponse
+    VirtualNetworkGatewaysGet200Response | VirtualNetworkGatewaysGetDefaultResponse
   >;
   /** Deletes the specified virtual network gateway. */
   delete(
@@ -6236,8 +5959,7 @@ export interface VirtualNetworkGatewaysList {
   get(
     options: VirtualNetworkGatewaysListParameters
   ): StreamableMethod<
-    | VirtualNetworkGatewaysList200Response
-    | VirtualNetworkGatewaysListDefaultResponse
+    VirtualNetworkGatewaysList200Response | VirtualNetworkGatewaysListDefaultResponse
   >;
 }
 
@@ -6553,9 +6275,7 @@ export interface LocalNetworkGatewaysCreateOrUpdate {
   /** Gets the specified local network gateway in a resource group. */
   get(
     options: LocalNetworkGatewaysGetParameters
-  ): StreamableMethod<
-    LocalNetworkGatewaysGet200Response | LocalNetworkGatewaysGetDefaultResponse
-  >;
+  ): StreamableMethod<LocalNetworkGatewaysGet200Response | LocalNetworkGatewaysGetDefaultResponse>;
   /** Deletes the specified local network gateway. */
   delete(
     options: LocalNetworkGatewaysDeleteParameters
@@ -6569,8 +6289,7 @@ export interface LocalNetworkGatewaysCreateOrUpdate {
   patch(
     options: LocalNetworkGatewaysUpdateTagsParameters
   ): StreamableMethod<
-    | LocalNetworkGatewaysUpdateTags200Response
-    | LocalNetworkGatewaysUpdateTagsDefaultResponse
+    LocalNetworkGatewaysUpdateTags200Response | LocalNetworkGatewaysUpdateTagsDefaultResponse
   >;
 }
 
@@ -6579,8 +6298,7 @@ export interface LocalNetworkGatewaysList {
   get(
     options: LocalNetworkGatewaysListParameters
   ): StreamableMethod<
-    | LocalNetworkGatewaysList200Response
-    | LocalNetworkGatewaysListDefaultResponse
+    LocalNetworkGatewaysList200Response | LocalNetworkGatewaysListDefaultResponse
   >;
 }
 
@@ -6589,8 +6307,7 @@ export interface VirtualNetworkGatewayNatRulesGet {
   get(
     options: VirtualNetworkGatewayNatRulesGetParameters
   ): StreamableMethod<
-    | VirtualNetworkGatewayNatRulesGet200Response
-    | VirtualNetworkGatewayNatRulesGetDefaultResponse
+    VirtualNetworkGatewayNatRulesGet200Response | VirtualNetworkGatewayNatRulesGetDefaultResponse
   >;
   /** Creates a nat rule to a scalable virtual network gateway if it doesn't exist else updates the existing nat rules. */
   put(
@@ -6634,9 +6351,7 @@ export interface VirtualNetworkTapsDelete {
   /** Gets information about the specified virtual network tap. */
   get(
     options: VirtualNetworkTapsGetParameters
-  ): StreamableMethod<
-    VirtualNetworkTapsGet200Response | VirtualNetworkTapsGetDefaultResponse
-  >;
+  ): StreamableMethod<VirtualNetworkTapsGet200Response | VirtualNetworkTapsGetDefaultResponse>;
   /** Creates or updates a Virtual Network Tap. */
   put(
     options: VirtualNetworkTapsCreateOrUpdateParameters
@@ -6649,8 +6364,7 @@ export interface VirtualNetworkTapsDelete {
   patch(
     options: VirtualNetworkTapsUpdateTagsParameters
   ): StreamableMethod<
-    | VirtualNetworkTapsUpdateTags200Response
-    | VirtualNetworkTapsUpdateTagsDefaultResponse
+    VirtualNetworkTapsUpdateTags200Response | VirtualNetworkTapsUpdateTagsDefaultResponse
   >;
 }
 
@@ -6659,8 +6373,7 @@ export interface VirtualNetworkTapsListAll {
   get(
     options: VirtualNetworkTapsListAllParameters
   ): StreamableMethod<
-    | VirtualNetworkTapsListAll200Response
-    | VirtualNetworkTapsListAllDefaultResponse
+    VirtualNetworkTapsListAll200Response | VirtualNetworkTapsListAllDefaultResponse
   >;
 }
 
@@ -6687,9 +6400,7 @@ export interface VirtualRoutersDelete {
   /** Gets the specified Virtual Router. */
   get(
     options: VirtualRoutersGetParameters
-  ): StreamableMethod<
-    VirtualRoutersGet200Response | VirtualRoutersGetDefaultResponse
-  >;
+  ): StreamableMethod<VirtualRoutersGet200Response | VirtualRoutersGetDefaultResponse>;
   /** Creates or updates the specified Virtual Router. */
   put(
     options: VirtualRoutersCreateOrUpdateParameters
@@ -6705,8 +6416,7 @@ export interface VirtualRoutersListByResourceGroup {
   get(
     options: VirtualRoutersListByResourceGroupParameters
   ): StreamableMethod<
-    | VirtualRoutersListByResourceGroup200Response
-    | VirtualRoutersListByResourceGroupDefaultResponse
+    VirtualRoutersListByResourceGroup200Response | VirtualRoutersListByResourceGroupDefaultResponse
   >;
 }
 
@@ -6714,9 +6424,7 @@ export interface VirtualRoutersList {
   /** Gets all the Virtual Routers in a subscription. */
   get(
     options: VirtualRoutersListParameters
-  ): StreamableMethod<
-    VirtualRoutersList200Response | VirtualRoutersListDefaultResponse
-  >;
+  ): StreamableMethod<VirtualRoutersList200Response | VirtualRoutersListDefaultResponse>;
 }
 
 export interface VirtualRouterPeeringsDelete {
@@ -6733,8 +6441,7 @@ export interface VirtualRouterPeeringsDelete {
   get(
     options: VirtualRouterPeeringsGetParameters
   ): StreamableMethod<
-    | VirtualRouterPeeringsGet200Response
-    | VirtualRouterPeeringsGetDefaultResponse
+    VirtualRouterPeeringsGet200Response | VirtualRouterPeeringsGetDefaultResponse
   >;
   /** Creates or updates the specified Virtual Router Peering. */
   put(
@@ -6751,8 +6458,7 @@ export interface VirtualRouterPeeringsList {
   get(
     options: VirtualRouterPeeringsListParameters
   ): StreamableMethod<
-    | VirtualRouterPeeringsList200Response
-    | VirtualRouterPeeringsListDefaultResponse
+    VirtualRouterPeeringsList200Response | VirtualRouterPeeringsListDefaultResponse
   >;
 }
 
@@ -6760,9 +6466,7 @@ export interface VirtualWansGet {
   /** Retrieves the details of a VirtualWAN. */
   get(
     options: VirtualWansGetParameters
-  ): StreamableMethod<
-    VirtualWansGet200Response | VirtualWansGetDefaultResponse
-  >;
+  ): StreamableMethod<VirtualWansGet200Response | VirtualWansGetDefaultResponse>;
   /** Creates a VirtualWAN resource if it doesn't exist else updates the existing VirtualWAN. */
   put(
     options: VirtualWansCreateOrUpdateParameters
@@ -6774,9 +6478,7 @@ export interface VirtualWansGet {
   /** Updates a VirtualWAN tags. */
   patch(
     options: VirtualWansUpdateTagsParameters
-  ): StreamableMethod<
-    VirtualWansUpdateTags200Response | VirtualWansUpdateTagsDefaultResponse
-  >;
+  ): StreamableMethod<VirtualWansUpdateTags200Response | VirtualWansUpdateTagsDefaultResponse>;
   /** Deletes a VirtualWAN. */
   delete(
     options: VirtualWansDeleteParameters
@@ -6793,8 +6495,7 @@ export interface VirtualWansListByResourceGroup {
   get(
     options: VirtualWansListByResourceGroupParameters
   ): StreamableMethod<
-    | VirtualWansListByResourceGroup200Response
-    | VirtualWansListByResourceGroupDefaultResponse
+    VirtualWansListByResourceGroup200Response | VirtualWansListByResourceGroupDefaultResponse
   >;
 }
 
@@ -6802,9 +6503,7 @@ export interface VirtualWansList {
   /** Lists all the VirtualWANs in a subscription. */
   get(
     options: VirtualWansListParameters
-  ): StreamableMethod<
-    VirtualWansList200Response | VirtualWansListDefaultResponse
-  >;
+  ): StreamableMethod<VirtualWansList200Response | VirtualWansListDefaultResponse>;
 }
 
 export interface VpnSitesGet {
@@ -6823,9 +6522,7 @@ export interface VpnSitesGet {
   /** Updates VpnSite tags. */
   patch(
     options: VpnSitesUpdateTagsParameters
-  ): StreamableMethod<
-    VpnSitesUpdateTags200Response | VpnSitesUpdateTagsDefaultResponse
-  >;
+  ): StreamableMethod<VpnSitesUpdateTags200Response | VpnSitesUpdateTagsDefaultResponse>;
   /** Deletes a VpnSite. */
   delete(
     options: VpnSitesDeleteParameters
@@ -6842,8 +6539,7 @@ export interface VpnSitesListByResourceGroup {
   get(
     options: VpnSitesListByResourceGroupParameters
   ): StreamableMethod<
-    | VpnSitesListByResourceGroup200Response
-    | VpnSitesListByResourceGroupDefaultResponse
+    VpnSitesListByResourceGroup200Response | VpnSitesListByResourceGroupDefaultResponse
   >;
 }
 
@@ -6858,9 +6554,7 @@ export interface VpnSiteLinksGet {
   /** Retrieves the details of a VPN site link. */
   get(
     options: VpnSiteLinksGetParameters
-  ): StreamableMethod<
-    VpnSiteLinksGet200Response | VpnSiteLinksGetDefaultResponse
-  >;
+  ): StreamableMethod<VpnSiteLinksGet200Response | VpnSiteLinksGetDefaultResponse>;
 }
 
 export interface VpnSiteLinksListByVpnSite {
@@ -6868,8 +6562,7 @@ export interface VpnSiteLinksListByVpnSite {
   get(
     options: VpnSiteLinksListByVpnSiteParameters
   ): StreamableMethod<
-    | VpnSiteLinksListByVpnSite200Response
-    | VpnSiteLinksListByVpnSiteDefaultResponse
+    VpnSiteLinksListByVpnSite200Response | VpnSiteLinksListByVpnSiteDefaultResponse
   >;
 }
 
@@ -6889,8 +6582,7 @@ export interface VpnServerConfigurationsGet {
   get(
     options: VpnServerConfigurationsGetParameters
   ): StreamableMethod<
-    | VpnServerConfigurationsGet200Response
-    | VpnServerConfigurationsGetDefaultResponse
+    VpnServerConfigurationsGet200Response | VpnServerConfigurationsGetDefaultResponse
   >;
   /** Creates a VpnServerConfiguration resource if it doesn't exist else updates the existing VpnServerConfiguration. */
   put(
@@ -6904,8 +6596,7 @@ export interface VpnServerConfigurationsGet {
   patch(
     options: VpnServerConfigurationsUpdateTagsParameters
   ): StreamableMethod<
-    | VpnServerConfigurationsUpdateTags200Response
-    | VpnServerConfigurationsUpdateTagsDefaultResponse
+    VpnServerConfigurationsUpdateTags200Response | VpnServerConfigurationsUpdateTagsDefaultResponse
   >;
   /** Deletes a VpnServerConfiguration. */
   delete(
@@ -6933,8 +6624,7 @@ export interface VpnServerConfigurationsList {
   get(
     options: VpnServerConfigurationsListParameters
   ): StreamableMethod<
-    | VpnServerConfigurationsList200Response
-    | VpnServerConfigurationsListDefaultResponse
+    VpnServerConfigurationsList200Response | VpnServerConfigurationsListDefaultResponse
   >;
 }
 
@@ -6960,8 +6650,7 @@ export interface ConfigurationPolicyGroupsCreateOrUpdate {
   get(
     options: ConfigurationPolicyGroupsGetParameters
   ): StreamableMethod<
-    | ConfigurationPolicyGroupsGet200Response
-    | ConfigurationPolicyGroupsGetDefaultResponse
+    ConfigurationPolicyGroupsGet200Response | ConfigurationPolicyGroupsGetDefaultResponse
   >;
 }
 
@@ -6979,9 +6668,7 @@ export interface VirtualHubsGet {
   /** Retrieves the details of a VirtualHub. */
   get(
     options: VirtualHubsGetParameters
-  ): StreamableMethod<
-    VirtualHubsGet200Response | VirtualHubsGetDefaultResponse
-  >;
+  ): StreamableMethod<VirtualHubsGet200Response | VirtualHubsGetDefaultResponse>;
   /** Creates a VirtualHub resource if it doesn't exist else updates the existing VirtualHub. */
   put(
     options: VirtualHubsCreateOrUpdateParameters
@@ -6993,9 +6680,7 @@ export interface VirtualHubsGet {
   /** Updates VirtualHub tags. */
   patch(
     options: VirtualHubsUpdateTagsParameters
-  ): StreamableMethod<
-    VirtualHubsUpdateTags200Response | VirtualHubsUpdateTagsDefaultResponse
-  >;
+  ): StreamableMethod<VirtualHubsUpdateTags200Response | VirtualHubsUpdateTagsDefaultResponse>;
   /** Deletes a VirtualHub. */
   delete(
     options: VirtualHubsDeleteParameters
@@ -7012,8 +6697,7 @@ export interface VirtualHubsListByResourceGroup {
   get(
     options: VirtualHubsListByResourceGroupParameters
   ): StreamableMethod<
-    | VirtualHubsListByResourceGroup200Response
-    | VirtualHubsListByResourceGroupDefaultResponse
+    VirtualHubsListByResourceGroup200Response | VirtualHubsListByResourceGroupDefaultResponse
   >;
 }
 
@@ -7021,9 +6705,7 @@ export interface VirtualHubsList {
   /** Lists all the VirtualHubs in a subscription. */
   get(
     options: VirtualHubsListParameters
-  ): StreamableMethod<
-    VirtualHubsList200Response | VirtualHubsListDefaultResponse
-  >;
+  ): StreamableMethod<VirtualHubsList200Response | VirtualHubsListDefaultResponse>;
 }
 
 export interface VirtualHubsGetEffectiveVirtualHubRoutes {
@@ -7112,8 +6794,7 @@ export interface HubVirtualNetworkConnectionsCreateOrUpdate {
   get(
     options: HubVirtualNetworkConnectionsGetParameters
   ): StreamableMethod<
-    | HubVirtualNetworkConnectionsGet200Response
-    | HubVirtualNetworkConnectionsGetDefaultResponse
+    HubVirtualNetworkConnectionsGet200Response | HubVirtualNetworkConnectionsGetDefaultResponse
   >;
 }
 
@@ -7122,8 +6803,7 @@ export interface HubVirtualNetworkConnectionsList {
   get(
     options: HubVirtualNetworkConnectionsListParameters
   ): StreamableMethod<
-    | HubVirtualNetworkConnectionsList200Response
-    | HubVirtualNetworkConnectionsListDefaultResponse
+    HubVirtualNetworkConnectionsList200Response | HubVirtualNetworkConnectionsListDefaultResponse
   >;
 }
 
@@ -7131,9 +6811,7 @@ export interface VpnGatewaysGet {
   /** Retrieves the details of a virtual wan vpn gateway. */
   get(
     options: VpnGatewaysGetParameters
-  ): StreamableMethod<
-    VpnGatewaysGet200Response | VpnGatewaysGetDefaultResponse
-  >;
+  ): StreamableMethod<VpnGatewaysGet200Response | VpnGatewaysGetDefaultResponse>;
   /** Creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway. */
   put(
     options: VpnGatewaysCreateOrUpdateParameters
@@ -7166,9 +6844,7 @@ export interface VpnGatewaysReset {
   post(
     options: VpnGatewaysResetParameters
   ): StreamableMethod<
-    | VpnGatewaysReset200Response
-    | VpnGatewaysReset202Response
-    | VpnGatewaysResetDefaultResponse
+    VpnGatewaysReset200Response | VpnGatewaysReset202Response | VpnGatewaysResetDefaultResponse
   >;
 }
 
@@ -7199,8 +6875,7 @@ export interface VpnGatewaysListByResourceGroup {
   get(
     options: VpnGatewaysListByResourceGroupParameters
   ): StreamableMethod<
-    | VpnGatewaysListByResourceGroup200Response
-    | VpnGatewaysListByResourceGroupDefaultResponse
+    VpnGatewaysListByResourceGroup200Response | VpnGatewaysListByResourceGroupDefaultResponse
   >;
 }
 
@@ -7208,9 +6883,7 @@ export interface VpnGatewaysList {
   /** Lists all the VpnGateways in a subscription. */
   get(
     options: VpnGatewaysListParameters
-  ): StreamableMethod<
-    VpnGatewaysList200Response | VpnGatewaysListDefaultResponse
-  >;
+  ): StreamableMethod<VpnGatewaysList200Response | VpnGatewaysListDefaultResponse>;
 }
 
 export interface VpnLinkConnectionsResetConnection {
@@ -7218,8 +6891,7 @@ export interface VpnLinkConnectionsResetConnection {
   post(
     options: VpnLinkConnectionsResetConnectionParameters
   ): StreamableMethod<
-    | VpnLinkConnectionsResetConnection202Response
-    | VpnLinkConnectionsResetConnectionDefaultResponse
+    VpnLinkConnectionsResetConnection202Response | VpnLinkConnectionsResetConnectionDefaultResponse
   >;
 }
 
@@ -7248,9 +6920,7 @@ export interface VpnConnectionsGet {
   /** Retrieves the details of a vpn connection. */
   get(
     options: VpnConnectionsGetParameters
-  ): StreamableMethod<
-    VpnConnectionsGet200Response | VpnConnectionsGetDefaultResponse
-  >;
+  ): StreamableMethod<VpnConnectionsGet200Response | VpnConnectionsGetDefaultResponse>;
   /** Creates a vpn connection to a scalable vpn gateway if it doesn't exist else updates the existing connection. */
   put(
     options: VpnConnectionsCreateOrUpdateParameters
@@ -7297,8 +6967,7 @@ export interface VpnConnectionsListByVpnGateway {
   get(
     options: VpnConnectionsListByVpnGatewayParameters
   ): StreamableMethod<
-    | VpnConnectionsListByVpnGateway200Response
-    | VpnConnectionsListByVpnGatewayDefaultResponse
+    VpnConnectionsListByVpnGateway200Response | VpnConnectionsListByVpnGatewayDefaultResponse
   >;
 }
 
@@ -7307,8 +6976,7 @@ export interface VpnSiteLinkConnectionsGet {
   get(
     options: VpnSiteLinkConnectionsGetParameters
   ): StreamableMethod<
-    | VpnSiteLinkConnectionsGet200Response
-    | VpnSiteLinkConnectionsGetDefaultResponse
+    VpnSiteLinkConnectionsGet200Response | VpnSiteLinkConnectionsGetDefaultResponse
   >;
 }
 
@@ -7341,8 +7009,7 @@ export interface NatRulesListByVpnGateway {
   get(
     options: NatRulesListByVpnGatewayParameters
   ): StreamableMethod<
-    | NatRulesListByVpnGateway200Response
-    | NatRulesListByVpnGatewayDefaultResponse
+    NatRulesListByVpnGateway200Response | NatRulesListByVpnGatewayDefaultResponse
   >;
 }
 
@@ -7350,9 +7017,7 @@ export interface P2SVpnGatewaysGet {
   /** Retrieves the details of a virtual wan p2s vpn gateway. */
   get(
     options: P2SVpnGatewaysGetParameters
-  ): StreamableMethod<
-    P2SVpnGatewaysGet200Response | P2SVpnGatewaysGetDefaultResponse
-  >;
+  ): StreamableMethod<P2SVpnGatewaysGet200Response | P2SVpnGatewaysGetDefaultResponse>;
   /** Creates a virtual wan p2s vpn gateway if it doesn't exist else updates the existing gateway. */
   put(
     options: P2SVpnGatewaysCreateOrUpdateParameters
@@ -7385,8 +7050,7 @@ export interface P2SVpnGatewaysListByResourceGroup {
   get(
     options: P2SVpnGatewaysListByResourceGroupParameters
   ): StreamableMethod<
-    | P2SVpnGatewaysListByResourceGroup200Response
-    | P2SVpnGatewaysListByResourceGroupDefaultResponse
+    P2SVpnGatewaysListByResourceGroup200Response | P2SVpnGatewaysListByResourceGroupDefaultResponse
   >;
 }
 
@@ -7394,9 +7058,7 @@ export interface P2SVpnGatewaysList {
   /** Lists all the P2SVpnGateways in a subscription. */
   get(
     options: P2SVpnGatewaysListParameters
-  ): StreamableMethod<
-    P2SVpnGatewaysList200Response | P2SVpnGatewaysListDefaultResponse
-  >;
+  ): StreamableMethod<P2SVpnGatewaysList200Response | P2SVpnGatewaysListDefaultResponse>;
 }
 
 export interface P2SVpnGatewaysReset {
@@ -7470,8 +7132,7 @@ export interface VirtualHubRouteTableV2SGet {
   get(
     options: VirtualHubRouteTableV2SGetParameters
   ): StreamableMethod<
-    | VirtualHubRouteTableV2SGet200Response
-    | VirtualHubRouteTableV2SGetDefaultResponse
+    VirtualHubRouteTableV2SGet200Response | VirtualHubRouteTableV2SGetDefaultResponse
   >;
   /** Creates a VirtualHubRouteTableV2 resource if it doesn't exist else updates the existing VirtualHubRouteTableV2. */
   put(
@@ -7497,8 +7158,7 @@ export interface VirtualHubRouteTableV2SList {
   get(
     options: VirtualHubRouteTableV2SListParameters
   ): StreamableMethod<
-    | VirtualHubRouteTableV2SList200Response
-    | VirtualHubRouteTableV2SListDefaultResponse
+    VirtualHubRouteTableV2SList200Response | VirtualHubRouteTableV2SListDefaultResponse
   >;
 }
 
@@ -7542,9 +7202,7 @@ export interface ExpressRouteGatewaysCreateOrUpdate {
   /** Fetches the details of a ExpressRoute gateway in a resource group. */
   get(
     options: ExpressRouteGatewaysGetParameters
-  ): StreamableMethod<
-    ExpressRouteGatewaysGet200Response | ExpressRouteGatewaysGetDefaultResponse
-  >;
+  ): StreamableMethod<ExpressRouteGatewaysGet200Response | ExpressRouteGatewaysGetDefaultResponse>;
   /** Deletes the specified ExpressRoute gateway in a resource group. An ExpressRoute gateway resource can only be deleted when there are no connection subresources. */
   delete(
     options: ExpressRouteGatewaysDeleteParameters
@@ -7569,8 +7227,7 @@ export interface ExpressRouteConnectionsCreateOrUpdate {
   get(
     options: ExpressRouteConnectionsGetParameters
   ): StreamableMethod<
-    | ExpressRouteConnectionsGet200Response
-    | ExpressRouteConnectionsGetDefaultResponse
+    ExpressRouteConnectionsGet200Response | ExpressRouteConnectionsGetDefaultResponse
   >;
   /** Deletes a connection to a ExpressRoute circuit. */
   delete(
@@ -7588,8 +7245,7 @@ export interface ExpressRouteConnectionsList {
   get(
     options: ExpressRouteConnectionsListParameters
   ): StreamableMethod<
-    | ExpressRouteConnectionsList200Response
-    | ExpressRouteConnectionsListDefaultResponse
+    ExpressRouteConnectionsList200Response | ExpressRouteConnectionsListDefaultResponse
   >;
 }
 
@@ -7598,8 +7254,7 @@ export interface VirtualHubBgpConnectionGet {
   get(
     options: VirtualHubBgpConnectionGetParameters
   ): StreamableMethod<
-    | VirtualHubBgpConnectionGet200Response
-    | VirtualHubBgpConnectionGetDefaultResponse
+    VirtualHubBgpConnectionGet200Response | VirtualHubBgpConnectionGetDefaultResponse
   >;
   /** Creates a VirtualHubBgpConnection resource if it doesn't exist else updates the existing VirtualHubBgpConnection. */
   put(
@@ -7625,8 +7280,7 @@ export interface VirtualHubBgpConnectionsList {
   get(
     options: VirtualHubBgpConnectionsListParameters
   ): StreamableMethod<
-    | VirtualHubBgpConnectionsList200Response
-    | VirtualHubBgpConnectionsListDefaultResponse
+    VirtualHubBgpConnectionsList200Response | VirtualHubBgpConnectionsListDefaultResponse
   >;
 }
 
@@ -7657,8 +7311,7 @@ export interface VirtualHubIpConfigurationGet {
   get(
     options: VirtualHubIpConfigurationGetParameters
   ): StreamableMethod<
-    | VirtualHubIpConfigurationGet200Response
-    | VirtualHubIpConfigurationGetDefaultResponse
+    VirtualHubIpConfigurationGet200Response | VirtualHubIpConfigurationGetDefaultResponse
   >;
   /** Creates a VirtualHubIpConfiguration resource if it doesn't exist else updates the existing VirtualHubIpConfiguration. */
   put(
@@ -7684,8 +7337,7 @@ export interface VirtualHubIpConfigurationList {
   get(
     options: VirtualHubIpConfigurationListParameters
   ): StreamableMethod<
-    | VirtualHubIpConfigurationList200Response
-    | VirtualHubIpConfigurationListDefaultResponse
+    VirtualHubIpConfigurationList200Response | VirtualHubIpConfigurationListDefaultResponse
   >;
 }
 
@@ -7701,9 +7353,7 @@ export interface HubRouteTablesCreateOrUpdate {
   /** Retrieves the details of a RouteTable. */
   get(
     options: HubRouteTablesGetParameters
-  ): StreamableMethod<
-    HubRouteTablesGet200Response | HubRouteTablesGetDefaultResponse
-  >;
+  ): StreamableMethod<HubRouteTablesGet200Response | HubRouteTablesGetDefaultResponse>;
   /** Deletes a RouteTable. */
   delete(
     options: HubRouteTablesDeleteParameters
@@ -7719,9 +7369,7 @@ export interface HubRouteTablesList {
   /** Retrieves the details of all RouteTables. */
   get(
     options: HubRouteTablesListParameters
-  ): StreamableMethod<
-    HubRouteTablesList200Response | HubRouteTablesListDefaultResponse
-  >;
+  ): StreamableMethod<HubRouteTablesList200Response | HubRouteTablesListDefaultResponse>;
 }
 
 export interface RoutingIntentCreateOrUpdate {
@@ -7736,9 +7384,7 @@ export interface RoutingIntentCreateOrUpdate {
   /** Retrieves the details of a RoutingIntent. */
   get(
     options: RoutingIntentGetParameters
-  ): StreamableMethod<
-    RoutingIntentGet200Response | RoutingIntentGetDefaultResponse
-  >;
+  ): StreamableMethod<RoutingIntentGet200Response | RoutingIntentGetDefaultResponse>;
   /** Deletes a RoutingIntent. */
   delete(
     options: RoutingIntentDeleteParameters
@@ -7754,9 +7400,7 @@ export interface RoutingIntentList {
   /** Retrieves the details of all RoutingIntent child resources of the VirtualHub. */
   get(
     options: RoutingIntentListParameters
-  ): StreamableMethod<
-    RoutingIntentList200Response | RoutingIntentListDefaultResponse
-  >;
+  ): StreamableMethod<RoutingIntentList200Response | RoutingIntentListDefaultResponse>;
 }
 
 export interface WebApplicationFirewallPoliciesList {
@@ -7784,8 +7428,7 @@ export interface WebApplicationFirewallPoliciesGet {
   get(
     options: WebApplicationFirewallPoliciesGetParameters
   ): StreamableMethod<
-    | WebApplicationFirewallPoliciesGet200Response
-    | WebApplicationFirewallPoliciesGetDefaultResponse
+    WebApplicationFirewallPoliciesGet200Response | WebApplicationFirewallPoliciesGetDefaultResponse
   >;
   /** Creates or update policy with specified rule set name within a resource group. */
   put(
@@ -7815,9 +7458,7 @@ export interface VipSwapGet {
   put(
     options: VipSwapCreateParameters
   ): StreamableMethod<
-    | VipSwapCreate200Response
-    | VipSwapCreate202Response
-    | VipSwapCreateDefaultResponse
+    VipSwapCreate200Response | VipSwapCreate202Response | VipSwapCreateDefaultResponse
   >;
 }
 

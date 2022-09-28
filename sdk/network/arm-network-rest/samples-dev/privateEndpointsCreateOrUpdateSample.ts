@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   PrivateEndpointsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -35,9 +35,9 @@ async function createPrivateEndpoint() {
             properties: {
               groupId: "file",
               memberName: "file",
-              privateIPAddress: "192.168.0.6"
-            }
-          }
+              privateIPAddress: "192.168.0.6",
+            },
+          },
         ],
         privateLinkServiceConnections: [
           {
@@ -45,17 +45,17 @@ async function createPrivateEndpoint() {
               groupIds: ["groupIdFromResource"],
               privateLinkServiceId:
                 "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
-              requestMessage: "Please approve my connection."
-            }
-          }
+              requestMessage: "Please approve my connection.",
+            },
+          },
         ],
         subnet: {
           id:
-            "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet"
-        }
-      }
+            "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -90,8 +90,8 @@ async function createPrivateEndpointWithApplicationSecurityGroups() {
         applicationSecurityGroups: [
           {
             id:
-              "/subscriptions/subId/resourceGroups/rg1/provders/Microsoft.Network/applicationSecurityGroup/asg1"
-          }
+              "/subscriptions/subId/resourceGroups/rg1/provders/Microsoft.Network/applicationSecurityGroup/asg1",
+          },
         ],
         privateLinkServiceConnections: [
           {
@@ -99,17 +99,17 @@ async function createPrivateEndpointWithApplicationSecurityGroups() {
               groupIds: ["groupIdFromResource"],
               privateLinkServiceId:
                 "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
-              requestMessage: "Please approve my connection."
-            }
-          }
+              requestMessage: "Please approve my connection.",
+            },
+          },
         ],
         subnet: {
           id:
-            "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet"
-        }
-      }
+            "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -148,9 +148,9 @@ async function createPrivateEndpointWithManualApprovalConnection() {
             properties: {
               groupId: "file",
               memberName: "file",
-              privateIPAddress: "192.168.0.5"
-            }
-          }
+              privateIPAddress: "192.168.0.5",
+            },
+          },
         ],
         manualPrivateLinkServiceConnections: [
           {
@@ -158,17 +158,17 @@ async function createPrivateEndpointWithManualApprovalConnection() {
               groupIds: ["groupIdFromResource"],
               privateLinkServiceId:
                 "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
-              requestMessage: "Please manually approve my connection."
-            }
-          }
+              requestMessage: "Please manually approve my connection.",
+            },
+          },
         ],
         subnet: {
           id:
-            "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet"
-        }
-      }
+            "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   LoadBalancersListInboundNatRulePortMappingsParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -27,7 +27,7 @@ async function queryInboundNatRulePortMapping() {
   const backendPoolName = "bp1";
   const options: LoadBalancersListInboundNatRulePortMappingsParameters = {
     body: { ipAddress: "10.0.0.4" },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

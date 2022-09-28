@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  FirewallPolicyIdpsSignaturesListParameters
+  FirewallPolicyIdpsSignaturesListParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -29,9 +29,9 @@ async function querySignatureOverrides() {
       orderBy: { field: "severity", order: "Ascending" },
       resultsPerPage: 20,
       search: "",
-      skip: 0
+      skip: 0,
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(

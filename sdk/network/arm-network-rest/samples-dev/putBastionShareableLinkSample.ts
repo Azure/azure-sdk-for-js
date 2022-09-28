@@ -6,7 +6,7 @@
 import createNetworkManagementClient, {
   PutBastionShareableLinkParameters,
   // getLongRunningPoller,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -31,18 +31,18 @@ async function createBastionShareableLinksForTheRequestVMS() {
         {
           vm: {
             id:
-              "/subscriptions/subid/resourceGroups/rgx/providers/Microsoft.Compute/virtualMachines/vm1"
-          }
+              "/subscriptions/subid/resourceGroups/rgx/providers/Microsoft.Compute/virtualMachines/vm1",
+          },
         },
         {
           vm: {
             id:
-              "/subscriptions/subid/resourceGroups/rgx/providers/Microsoft.Compute/virtualMachines/vm2"
-          }
-        }
-      ]
+              "/subscriptions/subid/resourceGroups/rgx/providers/Microsoft.Compute/virtualMachines/vm2",
+          },
+        },
+      ],
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

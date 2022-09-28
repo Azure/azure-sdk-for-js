@@ -6,7 +6,7 @@
 import createNetworkManagementClient, {
   VirtualNetworksListDdosProtectionStatusParameters,
   // getLongRunningPoller,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function getDdosProtectionStatusOfAVirtualNetwork() {
   const resourceGroupName = "rg1";
   const virtualNetworkName = "test-vnet";
   const options: VirtualNetworksListDdosProtectionStatusParameters = {
-    queryParameters: { top: 75, "api-version": "2022-05-01" }
+    queryParameters: { top: 75, "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

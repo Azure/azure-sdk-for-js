@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   FirewallPoliciesCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -31,7 +31,7 @@ async function createFirewallPolicy() {
         dnsSettings: {
           enableProxy: true,
           requireProxyForNetworkRules: false,
-          servers: ["30.3.4.5"]
+          servers: ["30.3.4.5"],
         },
         explicitProxy: {
           enableExplicitProxy: true,
@@ -40,33 +40,33 @@ async function createFirewallPolicy() {
           httpsPort: 8087,
           pacFile:
             "https://tinawstorage.file.core.windows.net/?sv=2020-02-10&ss=bfqt&srt=sco&sp=rwdlacuptfx&se=2021-06-04T07:01:12Z&st=2021-06-03T23:01:12Z&sip=68.65.171.11&spr=https&sig=Plsa0RRVpGbY0IETZZOT6znOHcSro71LLTTbzquYPgs%3D",
-          pacFilePort: 8087
+          pacFilePort: 8087,
         },
         insights: {
           isEnabled: true,
           logAnalyticsResources: {
             defaultWorkspaceId: {
               id:
-                "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/defaultWorkspace"
+                "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/defaultWorkspace",
             },
             workspaces: [
               {
                 region: "westus",
                 workspaceId: {
                   id:
-                    "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace1"
-                }
+                    "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace1",
+                },
               },
               {
                 region: "eastus",
                 workspaceId: {
                   id:
-                    "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace2"
-                }
-              }
-            ]
+                    "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace2",
+                },
+              },
+            ],
           },
-          retentionDays: 100
+          retentionDays: 100,
         },
         intrusionDetection: {
           configuration: {
@@ -77,12 +77,12 @@ async function createFirewallPolicy() {
                 destinationAddresses: ["5.6.7.8"],
                 destinationPorts: ["*"],
                 sourceAddresses: ["1.2.3.4"],
-                protocol: "TCP"
-              }
+                protocol: "TCP",
+              },
             ],
-            signatureOverrides: [{ id: "2525004", mode: "Deny" }]
+            signatureOverrides: [{ id: "2525004", mode: "Deny" }],
           },
-          mode: "Alert"
+          mode: "Alert",
         },
         sku: { tier: "Premium" },
         snat: { privateRanges: ["IANAPrivateRanges"] },
@@ -90,18 +90,18 @@ async function createFirewallPolicy() {
         threatIntelMode: "Alert",
         threatIntelWhitelist: {
           fqdns: ["*.microsoft.com"],
-          ipAddresses: ["20.3.4.5"]
+          ipAddresses: ["20.3.4.5"],
         },
         transportSecurity: {
           certificateAuthority: {
             name: "clientcert",
-            keyVaultSecretId: "https://kv/secret"
-          }
-        }
+            keyVaultSecretId: "https://kv/secret",
+          },
+        },
       },
-      tags: { key1: "value1" }
+      tags: { key1: "value1" },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

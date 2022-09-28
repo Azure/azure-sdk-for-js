@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  WebApplicationFirewallPoliciesCreateOrUpdateParameters
+  WebApplicationFirewallPoliciesCreateOrUpdateParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -34,14 +34,12 @@ async function createsOrUpdatesAWafPolicyWithinAResourceGroup() {
             matchConditions: [
               {
                 matchValues: ["192.168.1.0/24", "10.0.0.0/24"],
-                matchVariables: [
-                  { selector: undefined, variableName: "RemoteAddr" }
-                ],
-                operator: "IPMatch"
-              }
+                matchVariables: [{ selector: undefined, variableName: "RemoteAddr" }],
+                operator: "IPMatch",
+              },
             ],
             priority: 1,
-            ruleType: "MatchRule"
+            ruleType: "MatchRule",
           },
           {
             name: "Rule2",
@@ -49,22 +47,18 @@ async function createsOrUpdatesAWafPolicyWithinAResourceGroup() {
             matchConditions: [
               {
                 matchValues: ["192.168.1.0/24"],
-                matchVariables: [
-                  { selector: undefined, variableName: "RemoteAddr" }
-                ],
-                operator: "IPMatch"
+                matchVariables: [{ selector: undefined, variableName: "RemoteAddr" }],
+                operator: "IPMatch",
               },
               {
                 matchValues: ["Windows"],
-                matchVariables: [
-                  { selector: "UserAgent", variableName: "RequestHeaders" }
-                ],
-                operator: "Contains"
-              }
+                matchVariables: [{ selector: "UserAgent", variableName: "RequestHeaders" }],
+                operator: "Contains",
+              },
             ],
             priority: 2,
-            ruleType: "MatchRule"
-          }
+            ruleType: "MatchRule",
+          },
         ],
         managedRules: {
           exclusions: [
@@ -74,36 +68,36 @@ async function createsOrUpdatesAWafPolicyWithinAResourceGroup() {
                   ruleGroups: [
                     {
                       ruleGroupName: "REQUEST-930-APPLICATION-ATTACK-LFI",
-                      rules: [{ ruleId: "930120" }]
+                      rules: [{ ruleId: "930120" }],
                     },
-                    { ruleGroupName: "REQUEST-932-APPLICATION-ATTACK-RCE" }
+                    { ruleGroupName: "REQUEST-932-APPLICATION-ATTACK-RCE" },
                   ],
                   ruleSetType: "OWASP",
-                  ruleSetVersion: "3.2"
-                }
+                  ruleSetVersion: "3.2",
+                },
               ],
               matchVariable: "RequestArgNames",
               selector: "hello",
-              selectorMatchOperator: "StartsWith"
+              selectorMatchOperator: "StartsWith",
             },
             {
               exclusionManagedRuleSets: [
-                { ruleGroups: [], ruleSetType: "OWASP", ruleSetVersion: "3.1" }
+                { ruleGroups: [], ruleSetType: "OWASP", ruleSetVersion: "3.1" },
               ],
               matchVariable: "RequestArgNames",
               selector: "hello",
-              selectorMatchOperator: "EndsWith"
+              selectorMatchOperator: "EndsWith",
             },
             {
               matchVariable: "RequestArgNames",
               selector: "test",
-              selectorMatchOperator: "StartsWith"
+              selectorMatchOperator: "StartsWith",
             },
             {
               matchVariable: "RequestArgValues",
               selector: "test",
-              selectorMatchOperator: "StartsWith"
-            }
+              selectorMatchOperator: "StartsWith",
+            },
           ],
           managedRuleSets: [
             {
@@ -115,19 +109,19 @@ async function createsOrUpdatesAWafPolicyWithinAResourceGroup() {
                     {
                       action: "AnomalyScoring",
                       ruleId: "931130",
-                      state: "Disabled"
-                    }
-                  ]
-                }
+                      state: "Disabled",
+                    },
+                  ],
+                },
               ],
               ruleSetType: "OWASP",
-              ruleSetVersion: "3.2"
-            }
-          ]
-        }
-      }
+              ruleSetVersion: "3.2",
+            },
+          ],
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(

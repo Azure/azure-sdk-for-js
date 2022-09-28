@@ -3,9 +3,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  VpnSiteLinksGetParameters
-} from "@azure-rest/arm-network";
+import createNetworkManagementClient, { VpnSiteLinksGetParameters } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -25,7 +23,7 @@ async function vpnSiteGet() {
   const vpnSiteName = "vpnSite1";
   const vpnSiteLinkName = "vpnSiteLink1";
   const options: VpnSiteLinksGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(

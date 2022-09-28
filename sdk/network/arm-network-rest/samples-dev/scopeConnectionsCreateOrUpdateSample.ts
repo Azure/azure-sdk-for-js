@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ScopeConnectionsCreateOrUpdateParameters
+  ScopeConnectionsCreateOrUpdateParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -27,13 +27,12 @@ async function createOrUpdateNetworkManagerScopeConnection() {
   const options: ScopeConnectionsCreateOrUpdateParameters = {
     body: {
       properties: {
-        description:
-          "This is a scope connection to a cross tenant subscription.",
+        description: "This is a scope connection to a cross tenant subscription.",
         resourceId: "subscriptions/f0dc2b34-dfad-40e4-83e0-2309fed8d00b",
-        tenantId: "6babcaad-604b-40ac-a9d7-9fd97c0b779f"
-      }
+        tenantId: "6babcaad-604b-40ac-a9d7-9fd97c0b779f",
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(

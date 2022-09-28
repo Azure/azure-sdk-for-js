@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   PacketCapturesCreateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -29,23 +29,20 @@ async function createPacketCapture() {
     body: {
       properties: {
         bytesToCapturePerPacket: 10000,
-        filters: [
-          { localIPAddress: "10.0.0.4", localPort: "80", protocol: "TCP" }
-        ],
+        filters: [{ localIPAddress: "10.0.0.4", localPort: "80", protocol: "TCP" }],
         storageLocation: {
           filePath: "D:capturepc1.cap",
           storageId:
             "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Storage/storageAccounts/pcstore",
-          storagePath:
-            "https://mytestaccountname.blob.core.windows.net/capture/pc1.cap"
+          storagePath: "https://mytestaccountname.blob.core.windows.net/capture/pc1.cap",
         },
         target:
           "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
         timeLimitInSeconds: 100,
-        totalBytesPerSession: 100000
-      }
+        totalBytesPerSession: 100000,
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

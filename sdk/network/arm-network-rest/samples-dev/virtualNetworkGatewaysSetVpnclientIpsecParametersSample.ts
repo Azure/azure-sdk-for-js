@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkGatewaysSetVpnclientIpsecParametersParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -33,9 +33,9 @@ async function setVirtualNetworkGatewayVpnClientIpsecParameters() {
       ipsecIntegrity: "SHA256",
       pfsGroup: "PFS2",
       saDataSizeKilobytes: 429497,
-      saLifeTimeSeconds: 86473
+      saLifeTimeSeconds: 86473,
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

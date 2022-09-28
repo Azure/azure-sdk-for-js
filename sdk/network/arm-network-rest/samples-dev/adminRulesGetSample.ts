@@ -3,9 +3,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  AdminRulesGetParameters
-} from "@azure-rest/arm-network";
+import createNetworkManagementClient, { AdminRulesGetParameters } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -27,7 +25,7 @@ async function getsSecurityAdminRule() {
   const ruleCollectionName = "testRuleCollection";
   const ruleName = "SampleAdminRule";
   const options: AdminRulesGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -60,7 +58,7 @@ async function getsSecurityDefaultAdminRule() {
   const ruleCollectionName = "testRuleCollection";
   const ruleName = "SampleDefaultAdminRule";
   const options: AdminRulesGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(

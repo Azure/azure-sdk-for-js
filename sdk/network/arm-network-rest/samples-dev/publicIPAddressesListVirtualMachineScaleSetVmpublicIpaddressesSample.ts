@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -28,7 +28,7 @@ async function listVmssvmPublicIP() {
   const networkInterfaceName = "nic1";
   const ipConfigurationName = "ip1";
   const options: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesParameters = {
-    queryParameters: { "api-version": "2018-10-01" }
+    queryParameters: { "api-version": "2018-10-01" },
   };
   const initialResponse = await client
     .path(

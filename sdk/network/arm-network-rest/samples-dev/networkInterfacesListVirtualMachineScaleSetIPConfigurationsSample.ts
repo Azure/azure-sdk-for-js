@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -27,7 +27,7 @@ async function listVirtualMachineScaleSetNetworkInterfaceIPConfigurations() {
   const virtualmachineIndex = "2";
   const networkInterfaceName = "nic1";
   const options: NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsParameters = {
-    queryParameters: { "api-version": "2018-10-01" }
+    queryParameters: { "api-version": "2018-10-01" },
   };
   const initialResponse = await client
     .path(
@@ -47,6 +47,4 @@ async function listVirtualMachineScaleSetNetworkInterfaceIPConfigurations() {
   console.log(result);
 }
 
-listVirtualMachineScaleSetNetworkInterfaceIPConfigurations().catch(
-  console.error
-);
+listVirtualMachineScaleSetNetworkInterfaceIPConfigurations().catch(console.error);

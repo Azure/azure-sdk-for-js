@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  PrivateLinkServicesUpdatePrivateEndpointConnectionParameters
+  PrivateLinkServicesUpdatePrivateEndpointConnectionParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -30,15 +30,15 @@ async function approveOrRejectPrivateEndPointConnectionForAPrivateLinkService() 
       properties: {
         privateEndpoint: {
           id:
-            "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe"
+            "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe",
         },
         privateLinkServiceConnectionState: {
           description: "approved it for some reason.",
-          status: "Approved"
-        }
-      }
+          status: "Approved",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -52,6 +52,4 @@ async function approveOrRejectPrivateEndPointConnectionForAPrivateLinkService() 
   console.log(result);
 }
 
-approveOrRejectPrivateEndPointConnectionForAPrivateLinkService().catch(
-  console.error
-);
+approveOrRejectPrivateEndPointConnectionForAPrivateLinkService().catch(console.error);

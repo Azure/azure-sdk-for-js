@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  FirewallPolicyRuleCollectionGroupsGetParameters
+  FirewallPolicyRuleCollectionGroupsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,7 +25,7 @@ async function getFirewallPolicyNatRuleCollectionGroup() {
   const firewallPolicyName = "firewallPolicy";
   const ruleCollectionGroupName = "ruleCollectionGroup1";
   const options: FirewallPolicyRuleCollectionGroupsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -54,7 +54,7 @@ async function getFirewallPolicyRuleCollectionGroup() {
   const firewallPolicyName = "firewallPolicy";
   const ruleCollectionGroupName = "ruleCollectionGroup1";
   const options: FirewallPolicyRuleCollectionGroupsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -83,7 +83,7 @@ async function getFirewallPolicyRuleCollectionGroupWithIPGroups() {
   const firewallPolicyName = "firewallPolicy";
   const ruleCollectionGroupName = "ruleGroup1";
   const options: FirewallPolicyRuleCollectionGroupsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -112,7 +112,7 @@ async function getFirewallPolicyRuleCollectionGroupWithWebCategories() {
   const firewallPolicyName = "firewallPolicy";
   const ruleCollectionGroupName = "ruleCollectionGroup1";
   const options: FirewallPolicyRuleCollectionGroupsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(

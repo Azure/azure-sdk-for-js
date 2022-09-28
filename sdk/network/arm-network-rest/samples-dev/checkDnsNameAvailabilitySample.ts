@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  CheckDnsNameAvailabilityParameters
+  CheckDnsNameAvailabilityParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -23,7 +23,7 @@ async function checkDnsNameAvailability() {
   const subscriptionId = "";
   const location = "westus";
   const options: CheckDnsNameAvailabilityParameters = {
-    queryParameters: { domainNameLabel: "testdns", "api-version": "2022-05-01" }
+    queryParameters: { domainNameLabel: "testdns", "api-version": "2022-05-01" },
   };
   const result = await client
     .path(

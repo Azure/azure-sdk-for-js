@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   NetworkWatchersGetAzureReachabilityReportParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -30,9 +30,9 @@ async function getAzureReachabilityReport() {
       endTime: new Date("2017-09-10T00:00:00Z"),
       providerLocation: { country: "United States", state: "washington" },
       providers: ["Frontier Communications of America, Inc. - ASN 5650"],
-      startTime: new Date("2017-09-07T00:00:00Z")
+      startTime: new Date("2017-09-07T00:00:00Z"),
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

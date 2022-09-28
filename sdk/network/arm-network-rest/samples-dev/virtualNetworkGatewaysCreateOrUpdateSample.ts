@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkGatewaysCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -32,7 +32,7 @@ async function updateVirtualNetworkGateway() {
         bgpSettings: {
           asn: 65515,
           bgpPeeringAddress: "10.0.1.30",
-          peerWeight: 0
+          peerWeight: 0,
         },
         customRoutes: { addressPrefixes: ["101.168.0.6/32"] },
         disableIPSecReplayProtection: false,
@@ -47,14 +47,14 @@ async function updateVirtualNetworkGateway() {
               privateIPAllocationMethod: "Dynamic",
               publicIPAddress: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/gwpip"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/gwpip",
               },
               subnet: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/GatewaySubnet"
-              }
-            }
-          }
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/GatewaySubnet",
+              },
+            },
+          },
         ],
         natRules: [
           {
@@ -66,8 +66,8 @@ async function updateVirtualNetworkGateway() {
               externalMappings: [{ addressSpace: "50.0.0.0/24" }],
               internalMappings: [{ addressSpace: "10.10.0.0/24" }],
               ipConfigurationId: "",
-              mode: "EgressSnat"
-            }
+              mode: "EgressSnat",
+            },
           },
           {
             name: "natRule2",
@@ -78,9 +78,9 @@ async function updateVirtualNetworkGateway() {
               externalMappings: [{ addressSpace: "30.0.0.0/24" }],
               internalMappings: [{ addressSpace: "20.10.0.0/24" }],
               ipConfigurationId: "",
-              mode: "IngressSnat"
-            }
-          }
+              mode: "IngressSnat",
+            },
+          },
         ],
         sku: { name: "VpnGw1", tier: "VpnGw1" },
         vpnClientConfiguration: {
@@ -88,17 +88,17 @@ async function updateVirtualNetworkGateway() {
             {
               radiusServerAddress: "10.2.0.0",
               radiusServerScore: 20,
-              radiusServerSecret: "radiusServerSecret"
-            }
+              radiusServerSecret: "radiusServerSecret",
+            },
           ],
           vpnClientProtocols: ["OpenVPN"],
           vpnClientRevokedCertificates: [],
-          vpnClientRootCertificates: []
+          vpnClientRootCertificates: [],
         },
-        vpnType: "RouteBased"
-      }
+        vpnType: "RouteBased",
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

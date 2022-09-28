@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkGatewayNatRulesCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -29,18 +29,14 @@ async function virtualNetworkGatewayNatRulePut() {
     body: {
       properties: {
         type: "Static",
-        externalMappings: [
-          { addressSpace: "192.168.21.0/24", portRange: "300-400" }
-        ],
-        internalMappings: [
-          { addressSpace: "10.4.0.0/24", portRange: "200-300" }
-        ],
+        externalMappings: [{ addressSpace: "192.168.21.0/24", portRange: "300-400" }],
+        internalMappings: [{ addressSpace: "10.4.0.0/24", portRange: "200-300" }],
         ipConfigurationId:
           "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/gateway1/ipConfigurations/default",
-        mode: "EgressSnat"
-      }
+        mode: "EgressSnat",
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

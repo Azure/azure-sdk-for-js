@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ManagementGroupNetworkManagerConnectionsListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -23,7 +23,7 @@ async function listManagementGroupNetworkManagerConnection() {
   const client = createNetworkManagementClient(credential);
   const managementGroupId = "managementGroupA";
   const options: ManagementGroupNetworkManagerConnectionsListParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

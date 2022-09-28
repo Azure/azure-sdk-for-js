@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   RoutesCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -29,10 +29,10 @@ async function createRoute() {
     body: {
       properties: {
         addressPrefix: "10.0.3.0/24",
-        nextHopType: "VirtualNetworkGateway"
-      }
+        nextHopType: "VirtualNetworkGateway",
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkPeeringsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -33,12 +33,12 @@ async function createPeering() {
         allowVirtualNetworkAccess: true,
         remoteVirtualNetwork: {
           id:
-            "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2"
+            "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2",
         },
-        useRemoteGateways: false
-      }
+        useRemoteGateways: false,
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -76,12 +76,12 @@ async function createPeeringWithRemoteVirtualNetworkEncryption() {
         allowVirtualNetworkAccess: true,
         remoteVirtualNetwork: {
           id:
-            "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2"
+            "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2",
         },
-        useRemoteGateways: false
-      }
+        useRemoteGateways: false,
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -119,15 +119,15 @@ async function syncPeering() {
         allowVirtualNetworkAccess: true,
         remoteVirtualNetwork: {
           id:
-            "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2"
+            "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2",
         },
-        useRemoteGateways: false
-      }
+        useRemoteGateways: false,
+      },
     },
     queryParameters: {
       syncRemoteAddressSpace: "true",
-      "api-version": "2022-05-01"
-    }
+      "api-version": "2022-05-01",
+    },
   };
   const initialResponse = await client
     .path(

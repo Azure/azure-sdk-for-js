@@ -3,9 +3,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  VipSwapListParameters
-} from "@azure-rest/arm-network";
+import createNetworkManagementClient, { VipSwapListParameters } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -24,7 +22,7 @@ async function getSwapResourceList() {
   const groupName = "rg1";
   const resourceName = "testCloudService";
   const options: VipSwapListParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(

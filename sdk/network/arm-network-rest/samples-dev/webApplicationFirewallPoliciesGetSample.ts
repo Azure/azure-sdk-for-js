@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  WebApplicationFirewallPoliciesGetParameters
+  WebApplicationFirewallPoliciesGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -24,7 +24,7 @@ async function getsAWafPolicyWithinAResourceGroup() {
   const resourceGroupName = "rg1";
   const policyName = "Policy1";
   const options: WebApplicationFirewallPoliciesGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(

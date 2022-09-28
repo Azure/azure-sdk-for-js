@@ -9,12 +9,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  Recorder,
-  RecorderStartOptions,
-  env,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
@@ -35,7 +30,7 @@ import {
   VirtualNetworksUpdateTagsParameters,
   getLongRunningPoller,
   isUnexpected,
-  paginate
+  paginate,
 } from "../../src";
 import { createTestNetworkManagementClient } from "./utils/recordedClient";
 
@@ -43,11 +38,11 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
 };
 
 export const testPollingOptions = {
@@ -88,12 +83,12 @@ describe("Network test", () => {
         properties: {
           addressSpace: {
             addressPrefixes: ["10.0.0.0/16"],
-          }
+          },
         },
         location: location,
       },
       queryParameters: { "api-version": "2022-05-01" },
-    }
+    };
     const res = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
@@ -117,10 +112,10 @@ describe("Network test", () => {
       body: {
         properties: {
           addressPrefix: "10.0.0.0/24",
-        }
+        },
       },
       queryParameters: { "api-version": "2022-05-01" },
-    }
+    };
     const res = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}",
@@ -137,7 +132,7 @@ describe("Network test", () => {
     const poller = getLongRunningPoller(client, res, testPollingOptions);
     const result = await poller.pollUntilDone();
     assert.equal(result.body.name, subnet_name);
-  })
+  });
 
   it("ipGroups create test", async function () {
     const option: IpGroupsCreateOrUpdateParameters = {
@@ -148,10 +143,10 @@ describe("Network test", () => {
         location: "eastus",
         properties: {
           ipAddresses: ["13.64.39.16/32", "40.74.146.80/31", "40.74.147.32/28"],
-        }
+        },
       },
       queryParameters: { "api-version": "2022-05-01" },
-    }
+    };
     const res = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
@@ -172,7 +167,7 @@ describe("Network test", () => {
   it("virtualNetworks get test", async function () {
     const option: VirtualNetworksGetParameters = {
       queryParameters: { "api-version": "2022-05-01" },
-    }
+    };
     const res = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
@@ -191,7 +186,7 @@ describe("Network test", () => {
   it("subnets get test", async function () {
     const option: SubnetsGetParameters = {
       queryParameters: { "api-version": "2022-05-01" },
-    }
+    };
     const res = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}",
@@ -213,7 +208,7 @@ describe("Network test", () => {
   it("ipGroups get test", async function () {
     const option: IpGroupsGetParameters = {
       queryParameters: { "api-version": "2022-05-01" },
-    }
+    };
     const res = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
@@ -234,12 +229,12 @@ describe("Network test", () => {
   it("virtualNetworks list test", async function () {
     const option: VirtualNetworksListParameters = {
       queryParameters: { "api-version": "2022-05-01" },
-    }
+    };
     const res = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks",
         subscriptionId,
-        resourceGroupName,
+        resourceGroupName
       )
       .get(option);
 
@@ -254,13 +249,13 @@ describe("Network test", () => {
   it("subnets list test", async function () {
     const option: SubnetsListParameters = {
       queryParameters: { "api-version": "2022-05-01" },
-    }
+    };
     const res = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets",
         subscriptionId,
         resourceGroupName,
-        virtualNetworkName,
+        virtualNetworkName
       )
       .get(option);
 
@@ -275,12 +270,12 @@ describe("Network test", () => {
   it("ipGroups list test", async function () {
     const option: IpGroupsListParameters = {
       queryParameters: { "api-version": "2022-05-01" },
-    }
+    };
     const res = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups",
         subscriptionId,
-        resourceGroupName,
+        resourceGroupName
       )
       .get(option);
 
@@ -295,7 +290,7 @@ describe("Network test", () => {
   it("virtualNetworks updatetags test", async function () {
     const options: VirtualNetworksUpdateTagsParameters = {
       body: { tags: { tag1: "value1", tag2: "value2" } },
-      queryParameters: { "api-version": "2022-05-01" }
+      queryParameters: { "api-version": "2022-05-01" },
     };
     const res = await client
       .path(
@@ -316,7 +311,7 @@ describe("Network test", () => {
 
   it("ipGroups beginDeleteAndWait test", async function () {
     const options: IpGroupsDeleteParameters = {
-      queryParameters: { "api-version": "2022-05-01" }
+      queryParameters: { "api-version": "2022-05-01" },
     };
     const deleteInitialResponse = await client
       .path(
@@ -336,12 +331,12 @@ describe("Network test", () => {
 
     const option: IpGroupsListParameters = {
       queryParameters: { "api-version": "2022-05-01" },
-    }
+    };
     const res = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups",
         subscriptionId,
-        resourceGroupName,
+        resourceGroupName
       )
       .get(option);
 
@@ -355,7 +350,7 @@ describe("Network test", () => {
 
   it("subnets beginDeleteAndWait test", async function () {
     const options: SubnetsDeleteParameters = {
-      queryParameters: { "api-version": "2022-05-01" }
+      queryParameters: { "api-version": "2022-05-01" },
     };
     const deleteInitialResponse = await client
       .path(
@@ -376,13 +371,13 @@ describe("Network test", () => {
 
     const option: SubnetsListParameters = {
       queryParameters: { "api-version": "2022-05-01" },
-    }
+    };
     const res = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets",
         subscriptionId,
         resourceGroupName,
-        virtualNetworkName,
+        virtualNetworkName
       )
       .get(option);
 
@@ -396,7 +391,7 @@ describe("Network test", () => {
 
   it("virtualNetworks beginDeleteAndWait test", async function () {
     const options: VirtualNetworksDeleteParameters = {
-      queryParameters: { "api-version": "2022-05-01" }
+      queryParameters: { "api-version": "2022-05-01" },
     };
     const deleteInitialResponse = await client
       .path(
@@ -416,12 +411,12 @@ describe("Network test", () => {
 
     const option: VirtualNetworksListParameters = {
       queryParameters: { "api-version": "2022-05-01" },
-    }
+    };
     const res = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks",
         subscriptionId,
-        resourceGroupName,
+        resourceGroupName
       )
       .get(option);
 

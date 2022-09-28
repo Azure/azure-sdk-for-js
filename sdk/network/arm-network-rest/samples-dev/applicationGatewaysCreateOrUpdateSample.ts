@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ApplicationGatewaysCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -29,8 +29,8 @@ async function createApplicationGateway() {
       identity: {
         type: "UserAssigned",
         userAssignedIdentities: {
-          "/subscriptions/subid/resourceGroups/rg1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1": {}
-        }
+          "/subscriptions/subid/resourceGroups/rg1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1": {},
+        },
       },
       location: "eastus",
       properties: {
@@ -38,18 +38,15 @@ async function createApplicationGateway() {
           {
             name: "appgwpool",
             properties: {
-              backendAddresses: [
-                { ipAddress: "10.0.1.1" },
-                { ipAddress: "10.0.1.2" }
-              ]
-            }
+              backendAddresses: [{ ipAddress: "10.0.1.1" }, { ipAddress: "10.0.1.2" }],
+            },
           },
           {
             name: "appgwpool1",
             id:
               "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool1",
-            properties: { backendAddresses: [{}, {}] }
-          }
+            properties: { backendAddresses: [{}, {}] },
+          },
         ],
         backendHttpSettingsCollection: [
           {
@@ -58,9 +55,9 @@ async function createApplicationGateway() {
               cookieBasedAffinity: "Disabled",
               port: 80,
               requestTimeout: 30,
-              protocol: "Http"
-            }
-          }
+              protocol: "Http",
+            },
+          },
         ],
         frontendIPConfigurations: [
           {
@@ -68,14 +65,14 @@ async function createApplicationGateway() {
             properties: {
               publicIPAddress: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/appgwpip"
-              }
-            }
-          }
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/appgwpip",
+              },
+            },
+          },
         ],
         frontendPorts: [
           { name: "appgwfp", properties: { port: 443 } },
-          { name: "appgwfp80", properties: { port: 80 } }
+          { name: "appgwfp80", properties: { port: 80 } },
         ],
         gatewayIPConfigurations: [
           {
@@ -83,14 +80,14 @@ async function createApplicationGateway() {
             properties: {
               subnet: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet/subnets/appgwsubnet"
-              }
-            }
-          }
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet/subnets/appgwsubnet",
+              },
+            },
+          },
         ],
         globalConfiguration: {
           enableRequestBuffering: true,
-          enableResponseBuffering: true
+          enableResponseBuffering: true,
         },
         httpListeners: [
           {
@@ -98,38 +95,38 @@ async function createApplicationGateway() {
             properties: {
               frontendIPConfiguration: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendIPConfigurations/appgwfip"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendIPConfigurations/appgwfip",
               },
               frontendPort: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendPorts/appgwfp"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendPorts/appgwfp",
               },
               requireServerNameIndication: false,
               sslCertificate: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/sslCertificates/sslcert"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/sslCertificates/sslcert",
               },
               sslProfile: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/sslProfiles/sslProfile1"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/sslProfiles/sslProfile1",
               },
-              protocol: "Https"
-            }
+              protocol: "Https",
+            },
           },
           {
             name: "appgwhttplistener",
             properties: {
               frontendIPConfiguration: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendIPConfigurations/appgwfip"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendIPConfigurations/appgwfip",
               },
               frontendPort: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendPorts/appgwfp80"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendPorts/appgwfp80",
               },
-              protocol: "Http"
-            }
-          }
+              protocol: "Http",
+            },
+          },
         ],
         loadDistributionPolicies: [
           {
@@ -142,24 +139,24 @@ async function createApplicationGateway() {
                   properties: {
                     backendAddressPool: {
                       id:
-                        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool"
+                        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool",
                     },
-                    weightPerServer: 40
-                  }
+                    weightPerServer: 40,
+                  },
                 },
                 {
                   name: "ld11",
                   properties: {
                     backendAddressPool: {
                       id:
-                        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool1"
+                        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool1",
                     },
-                    weightPerServer: 60
-                  }
-                }
-              ]
-            }
-          }
+                    weightPerServer: 60,
+                  },
+                },
+              ],
+            },
+          },
         ],
         requestRoutingRules: [
           {
@@ -167,43 +164,43 @@ async function createApplicationGateway() {
             properties: {
               backendAddressPool: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool",
               },
               backendHttpSettings: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/appgwbhs"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/appgwbhs",
               },
               httpListener: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/httpListeners/appgwhl"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/httpListeners/appgwhl",
               },
               loadDistributionPolicy: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/loadDistributionPolicies/ldp1"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/loadDistributionPolicies/ldp1",
               },
               priority: 10,
               rewriteRuleSet: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/rewriteRuleSets/rewriteRuleSet1"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/rewriteRuleSets/rewriteRuleSet1",
               },
-              ruleType: "Basic"
-            }
+              ruleType: "Basic",
+            },
           },
           {
             name: "appgwPathBasedRule",
             properties: {
               httpListener: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/httpListeners/appgwhttplistener"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/httpListeners/appgwhttplistener",
               },
               priority: 20,
               ruleType: "PathBasedRouting",
               urlPathMap: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/urlPathMaps/pathMap1"
-              }
-            }
-          }
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/urlPathMaps/pathMap1",
+              },
+            },
+          },
         ],
         rewriteRuleSets: [
           {
@@ -216,38 +213,38 @@ async function createApplicationGateway() {
                     requestHeaderConfigurations: [
                       {
                         headerName: "X-Forwarded-For",
-                        headerValue: "{var_add_x_forwarded_for_proxy}"
-                      }
+                        headerValue: "{var_add_x_forwarded_for_proxy}",
+                      },
                     ],
                     responseHeaderConfigurations: [
                       {
                         headerName: "Strict-Transport-Security",
-                        headerValue: "max-age=31536000"
-                      }
+                        headerValue: "max-age=31536000",
+                      },
                     ],
-                    urlConfiguration: { modifiedPath: "/abc" }
+                    urlConfiguration: { modifiedPath: "/abc" },
                   },
                   conditions: [
                     {
                       ignoreCase: true,
                       negate: false,
                       pattern: "^Bearer",
-                      variable: "http_req_Authorization"
-                    }
+                      variable: "http_req_Authorization",
+                    },
                   ],
-                  ruleSequence: 102
-                }
-              ]
-            }
-          }
+                  ruleSequence: 102,
+                },
+              ],
+            },
+          },
         ],
         sku: { name: "Standard_v2", capacity: 3, tier: "Standard_v2" },
         sslCertificates: [
           { name: "sslcert", properties: { data: "****", password: "****" } },
           {
             name: "sslcert2",
-            properties: { keyVaultSecretId: "https://kv/secret" }
-          }
+            properties: { keyVaultSecretId: "https://kv/secret" },
+          },
         ],
         sslProfiles: [
           {
@@ -257,26 +254,24 @@ async function createApplicationGateway() {
               sslPolicy: {
                 cipherSuites: ["TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256"],
                 minProtocolVersion: "TLSv1_1",
-                policyType: "Custom"
+                policyType: "Custom",
               },
               trustedClientCertificates: [
                 {
                   id:
-                    "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/trustedClientCertificates/clientcert"
-                }
-              ]
-            }
-          }
+                    "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/trustedClientCertificates/clientcert",
+                },
+              ],
+            },
+          },
         ],
-        trustedClientCertificates: [
-          { name: "clientcert", properties: { data: "****" } }
-        ],
+        trustedClientCertificates: [{ name: "clientcert", properties: { data: "****" } }],
         trustedRootCertificates: [
           { name: "rootcert", properties: { data: "****" } },
           {
             name: "rootcert1",
-            properties: { keyVaultSecretId: "https://kv/secret" }
-          }
+            properties: { keyVaultSecretId: "https://kv/secret" },
+          },
         ],
         urlPathMaps: [
           {
@@ -284,19 +279,19 @@ async function createApplicationGateway() {
             properties: {
               defaultBackendAddressPool: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool",
               },
               defaultBackendHttpSettings: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/appgwbhs"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/appgwbhs",
               },
               defaultLoadDistributionPolicy: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/loadDistributionPolicies/ldp1"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/loadDistributionPolicies/ldp1",
               },
               defaultRewriteRuleSet: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/rewriteRuleSets/rewriteRuleSet1"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/rewriteRuleSets/rewriteRuleSet1",
               },
               pathRules: [
                 {
@@ -304,30 +299,30 @@ async function createApplicationGateway() {
                   properties: {
                     backendAddressPool: {
                       id:
-                        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool"
+                        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool",
                     },
                     backendHttpSettings: {
                       id:
-                        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/appgwbhs"
+                        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/appgwbhs",
                     },
                     loadDistributionPolicy: {
                       id:
-                        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/loadDistributionPolicies/ldp1"
+                        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/loadDistributionPolicies/ldp1",
                     },
                     paths: ["/api", "/v1/api"],
                     rewriteRuleSet: {
                       id:
-                        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/rewriteRuleSets/rewriteRuleSet1"
-                    }
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      }
+                        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/rewriteRuleSets/rewriteRuleSet1",
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

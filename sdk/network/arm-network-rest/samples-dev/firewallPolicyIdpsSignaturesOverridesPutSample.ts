@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  FirewallPolicyIdpsSignaturesOverridesPutParameters
+  FirewallPolicyIdpsSignaturesOverridesPutParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -29,9 +29,9 @@ async function putSignatureOverrides() {
       type: "Microsoft.Network/firewallPolicies/signatureOverrides",
       id:
         "/subscriptions/e747cc13-97d4-4a79-b463-42d7f4e558f2/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/signatureOverrides/default",
-      properties: { signatures: { "2000105": "Off", "2000106": "Deny" } }
+      properties: { signatures: { "2000105": "Off", "2000106": "Deny" } },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(

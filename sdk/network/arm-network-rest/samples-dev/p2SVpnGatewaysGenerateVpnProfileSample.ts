@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   P2SVpnGatewaysGenerateVpnProfileParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function generateP2SVpnGatewayVpnprofile() {
   const gatewayName = "p2sVpnGateway1";
   const options: P2SVpnGatewaysGenerateVpnProfileParameters = {
     body: { authenticationMethod: "EAPTLS" },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

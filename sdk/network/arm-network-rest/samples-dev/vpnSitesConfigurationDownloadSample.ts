@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VpnSitesConfigurationDownloadParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -29,10 +29,10 @@ async function vpnSitesConfigurationDownload() {
       outputBlobSasUrl:
         "https://blobcortextesturl.blob.core.windows.net/folderforconfig/vpnFile?sp=rw&se=2018-01-10T03%3A42%3A04Z&sv=2017-04-17&sig=WvXrT5bDmDFfgHs%2Brz%2BjAu123eRCNE9BO0eQYcPDT7pY%3D&sr=b",
       vpnSites: [
-        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/abc"
-      ]
+        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/abc",
+      ],
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

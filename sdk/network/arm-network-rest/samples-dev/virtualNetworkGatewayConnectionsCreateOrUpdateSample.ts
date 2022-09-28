@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkGatewayConnectionsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -35,27 +35,27 @@ async function createVirtualNetworkGatewayConnectionS2S() {
         egressNatRules: [
           {
             id:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule2"
-          }
+              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule2",
+          },
         ],
         enableBgp: false,
         gatewayCustomBgpIpAddresses: [
           {
             customBgpIpAddress: "169.254.21.1",
             ipConfigurationId:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/default"
+              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/default",
           },
           {
             customBgpIpAddress: "169.254.21.3",
             ipConfigurationId:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/ActiveActive"
-          }
+              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/ActiveActive",
+          },
         ],
         ingressNatRules: [
           {
             id:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule1"
-          }
+              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule1",
+          },
         ],
         ipsecPolicies: [],
         localNetworkGateway2: {
@@ -64,9 +64,9 @@ async function createVirtualNetworkGatewayConnectionS2S() {
           location: "centralus",
           properties: {
             gatewayIpAddress: "x.x.x.x",
-            localNetworkAddressSpace: { addressPrefixes: ["10.1.0.0/16"] }
+            localNetworkAddressSpace: { addressPrefixes: ["10.1.0.0/16"] },
           },
-          tags: {}
+          tags: {},
         },
         routingWeight: 0,
         sharedKey: "Abc123",
@@ -81,7 +81,7 @@ async function createVirtualNetworkGatewayConnectionS2S() {
             bgpSettings: {
               asn: 65514,
               bgpPeeringAddress: "10.0.1.30",
-              peerWeight: 0
+              peerWeight: 0,
             },
             enableBgp: false,
             gatewayType: "Vpn",
@@ -94,23 +94,23 @@ async function createVirtualNetworkGatewayConnectionS2S() {
                   privateIPAllocationMethod: "Dynamic",
                   publicIPAddress: {
                     id:
-                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/gwpip"
+                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/gwpip",
                   },
                   subnet: {
                     id:
-                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/GatewaySubnet"
-                  }
-                }
-              }
+                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/GatewaySubnet",
+                  },
+                },
+              },
             ],
             sku: { name: "VpnGw1", tier: "VpnGw1" },
-            vpnType: "RouteBased"
+            vpnType: "RouteBased",
           },
-          tags: {}
-        }
-      }
+          tags: {},
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

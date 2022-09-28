@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ExpressRouteCircuitConnectionsGetParameters
+  ExpressRouteCircuitConnectionsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function expressRouteCircuitConnectionGet() {
   const peeringName = "AzurePrivatePeering";
   const connectionName = "circuitConnectionUSAUS";
   const options: ExpressRouteCircuitConnectionsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(

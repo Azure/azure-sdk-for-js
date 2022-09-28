@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   LocalNetworkGatewaysCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -30,10 +30,10 @@ async function createLocalNetworkGateway() {
       properties: {
         fqdn: "site1.contoso.com",
         gatewayIpAddress: "11.12.13.14",
-        localNetworkAddressSpace: { addressPrefixes: ["10.1.0.0/16"] }
-      }
+        localNetworkAddressSpace: { addressPrefixes: ["10.1.0.0/16"] },
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

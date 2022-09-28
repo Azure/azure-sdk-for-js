@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ExpressRouteCircuitPeeringsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -31,10 +31,10 @@ async function createExpressRouteCircuitPeerings() {
         peerASN: 200,
         primaryPeerAddressPrefix: "192.168.16.252/30",
         secondaryPeerAddressPrefix: "192.168.18.252/30",
-        vlanId: 200
-      }
+        vlanId: 200,
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

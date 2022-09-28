@@ -42,23 +42,15 @@ export interface ApplicationGatewayPropertiesFormatOutput {
   /** Subnets of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
   gatewayIPConfigurations?: Array<ApplicationGatewayIPConfigurationOutput>;
   /** Authentication certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
-  authenticationCertificates?: Array<
-    ApplicationGatewayAuthenticationCertificateOutput
-  >;
+  authenticationCertificates?: Array<ApplicationGatewayAuthenticationCertificateOutput>;
   /** Trusted Root certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
-  trustedRootCertificates?: Array<
-    ApplicationGatewayTrustedRootCertificateOutput
-  >;
+  trustedRootCertificates?: Array<ApplicationGatewayTrustedRootCertificateOutput>;
   /** Trusted client certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
-  trustedClientCertificates?: Array<
-    ApplicationGatewayTrustedClientCertificateOutput
-  >;
+  trustedClientCertificates?: Array<ApplicationGatewayTrustedClientCertificateOutput>;
   /** SSL certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
   sslCertificates?: Array<ApplicationGatewaySslCertificateOutput>;
   /** Frontend IP addresses of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
-  frontendIPConfigurations?: Array<
-    ApplicationGatewayFrontendIPConfigurationOutput
-  >;
+  frontendIPConfigurations?: Array<ApplicationGatewayFrontendIPConfigurationOutput>;
   /** Frontend ports of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
   frontendPorts?: Array<ApplicationGatewayFrontendPortOutput>;
   /** Probes of the application gateway resource. */
@@ -66,9 +58,7 @@ export interface ApplicationGatewayPropertiesFormatOutput {
   /** Backend address pool of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
   backendAddressPools?: Array<ApplicationGatewayBackendAddressPoolOutput>;
   /** Backend http settings of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
-  backendHttpSettingsCollection?: Array<
-    ApplicationGatewayBackendHttpSettingsOutput
-  >;
+  backendHttpSettingsCollection?: Array<ApplicationGatewayBackendHttpSettingsOutput>;
   /** Backend settings of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
   backendSettingsCollection?: Array<ApplicationGatewayBackendSettingsOutput>;
   /** Http listeners of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
@@ -98,13 +88,9 @@ export interface ApplicationGatewayPropertiesFormatOutput {
   /** Autoscale Configuration. */
   autoscaleConfiguration?: ApplicationGatewayAutoscaleConfigurationOutput;
   /** PrivateLink configurations on application gateway. */
-  privateLinkConfigurations?: Array<
-    ApplicationGatewayPrivateLinkConfigurationOutput
-  >;
+  privateLinkConfigurations?: Array<ApplicationGatewayPrivateLinkConfigurationOutput>;
   /** Private Endpoint connections on application gateway. */
-  privateEndpointConnections?: Array<
-    ApplicationGatewayPrivateEndpointConnectionOutput
-  >;
+  privateEndpointConnections?: Array<ApplicationGatewayPrivateEndpointConnectionOutput>;
   /** The resource GUID property of the application gateway resource. */
   resourceGuid?: string;
   /** The provisioning state of the application gateway resource. */
@@ -114,9 +100,7 @@ export interface ApplicationGatewayPropertiesFormatOutput {
   /** If true, associates a firewall policy with an application gateway regardless whether the policy differs from the WAF Config. */
   forceFirewallPolicyAssociation?: boolean;
   /** Load distribution policies of the application gateway resource. */
-  loadDistributionPolicies?: Array<
-    ApplicationGatewayLoadDistributionPolicyOutput
-  >;
+  loadDistributionPolicies?: Array<ApplicationGatewayLoadDistributionPolicyOutput>;
   /** Global Configuration. */
   globalConfiguration?: ApplicationGatewayGlobalConfigurationOutput;
 }
@@ -187,8 +171,7 @@ export interface ApplicationGatewaySslPolicyOutput {
 }
 
 /** IP configuration of an application gateway. Currently 1 public and 1 private IP configuration is allowed. */
-export interface ApplicationGatewayIPConfigurationOutput
-  extends SubResourceOutput {
+export interface ApplicationGatewayIPConfigurationOutput extends SubResourceOutput {
   /** Properties of the application gateway IP configuration. */
   properties?: ApplicationGatewayIPConfigurationPropertiesFormatOutput;
   /** Name of the IP configuration that is unique within an Application Gateway. */
@@ -214,8 +197,7 @@ export interface SubResourceOutput {
 }
 
 /** Authentication certificates of an application gateway. */
-export interface ApplicationGatewayAuthenticationCertificateOutput
-  extends SubResourceOutput {
+export interface ApplicationGatewayAuthenticationCertificateOutput extends SubResourceOutput {
   /** Properties of the application gateway authentication certificate. */
   properties?: ApplicationGatewayAuthenticationCertificatePropertiesFormatOutput;
   /** Name of the authentication certificate that is unique within an Application Gateway. */
@@ -235,8 +217,7 @@ export interface ApplicationGatewayAuthenticationCertificatePropertiesFormatOutp
 }
 
 /** Trusted Root certificates of an application gateway. */
-export interface ApplicationGatewayTrustedRootCertificateOutput
-  extends SubResourceOutput {
+export interface ApplicationGatewayTrustedRootCertificateOutput extends SubResourceOutput {
   /** Properties of the application gateway trusted root certificate. */
   properties?: ApplicationGatewayTrustedRootCertificatePropertiesFormatOutput;
   /** Name of the trusted root certificate that is unique within an Application Gateway. */
@@ -258,8 +239,7 @@ export interface ApplicationGatewayTrustedRootCertificatePropertiesFormatOutput 
 }
 
 /** Trusted client certificates of an application gateway. */
-export interface ApplicationGatewayTrustedClientCertificateOutput
-  extends SubResourceOutput {
+export interface ApplicationGatewayTrustedClientCertificateOutput extends SubResourceOutput {
   /** Properties of the application gateway trusted client certificate. */
   properties?: ApplicationGatewayTrustedClientCertificatePropertiesFormatOutput;
   /** Name of the trusted client certificate that is unique within an Application Gateway. */
@@ -283,8 +263,7 @@ export interface ApplicationGatewayTrustedClientCertificatePropertiesFormatOutpu
 }
 
 /** SSL certificates of an application gateway. */
-export interface ApplicationGatewaySslCertificateOutput
-  extends SubResourceOutput {
+export interface ApplicationGatewaySslCertificateOutput extends SubResourceOutput {
   /** Properties of the application gateway SSL certificate. */
   properties?: ApplicationGatewaySslCertificatePropertiesFormatOutput;
   /** Name of the SSL certificate that is unique within an Application Gateway. */
@@ -310,8 +289,7 @@ export interface ApplicationGatewaySslCertificatePropertiesFormatOutput {
 }
 
 /** Frontend IP configuration of an application gateway. */
-export interface ApplicationGatewayFrontendIPConfigurationOutput
-  extends SubResourceOutput {
+export interface ApplicationGatewayFrontendIPConfigurationOutput extends SubResourceOutput {
   /** Properties of the application gateway frontend IP configuration. */
   properties?: ApplicationGatewayFrontendIPConfigurationPropertiesFormatOutput;
   /** Name of the frontend IP configuration that is unique within an Application Gateway. */
@@ -339,8 +317,7 @@ export interface ApplicationGatewayFrontendIPConfigurationPropertiesFormatOutput
 }
 
 /** Frontend port of an application gateway. */
-export interface ApplicationGatewayFrontendPortOutput
-  extends SubResourceOutput {
+export interface ApplicationGatewayFrontendPortOutput extends SubResourceOutput {
   /** Properties of the application gateway frontend port. */
   properties?: ApplicationGatewayFrontendPortPropertiesFormatOutput;
   /** Name of the frontend port that is unique within an Application Gateway. */
@@ -408,8 +385,7 @@ export interface ApplicationGatewayProbeHealthResponseMatchOutput {
 }
 
 /** Backend Address Pool of an application gateway. */
-export interface ApplicationGatewayBackendAddressPoolOutput
-  extends SubResourceOutput {
+export interface ApplicationGatewayBackendAddressPoolOutput extends SubResourceOutput {
   /** Properties of the application gateway backend address pool. */
   properties?: ApplicationGatewayBackendAddressPoolPropertiesFormatOutput;
   /** Name of the backend address pool that is unique within an Application Gateway. */
@@ -431,8 +407,7 @@ export interface ApplicationGatewayBackendAddressPoolPropertiesFormatOutput {
 }
 
 /** IPConfiguration in a network interface. */
-export interface NetworkInterfaceIPConfigurationOutput
-  extends SubResourceOutput {
+export interface NetworkInterfaceIPConfigurationOutput extends SubResourceOutput {
   /** Network interface IP configuration properties. */
   properties?: NetworkInterfaceIPConfigurationPropertiesFormatOutput;
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
@@ -450,9 +425,7 @@ export interface NetworkInterfaceIPConfigurationPropertiesFormatOutput {
   /** The reference to Virtual Network Taps. */
   virtualNetworkTaps?: Array<VirtualNetworkTapOutput>;
   /** The reference to ApplicationGatewayBackendAddressPool resource. */
-  applicationGatewayBackendAddressPools?: Array<
-    ApplicationGatewayBackendAddressPoolOutput
-  >;
+  applicationGatewayBackendAddressPools?: Array<ApplicationGatewayBackendAddressPoolOutput>;
   /** The reference to LoadBalancerBackendAddressPool resource. */
   loadBalancerBackendAddressPools?: Array<BackendAddressPoolOutput>;
   /** A list of references of LoadBalancerInboundNatRules. */
@@ -488,9 +461,7 @@ export interface VirtualNetworkTapOutput extends ResourceOutput {
 /** Virtual Network Tap properties. */
 export interface VirtualNetworkTapPropertiesFormatOutput {
   /** Specifies the list of resource IDs for the network interface IP configuration that needs to be tapped. */
-  networkInterfaceTapConfigurations?: Array<
-    NetworkInterfaceTapConfigurationOutput
-  >;
+  networkInterfaceTapConfigurations?: Array<NetworkInterfaceTapConfigurationOutput>;
   /** The resource GUID property of the virtual network tap resource. */
   resourceGuid?: string;
   /** The provisioning state of the virtual network tap resource. */
@@ -504,8 +475,7 @@ export interface VirtualNetworkTapPropertiesFormatOutput {
 }
 
 /** Tap configuration in a Network Interface. */
-export interface NetworkInterfaceTapConfigurationOutput
-  extends SubResourceOutput {
+export interface NetworkInterfaceTapConfigurationOutput extends SubResourceOutput {
   /** Properties of the Virtual Network Tap configuration. */
   properties?: NetworkInterfaceTapConfigurationPropertiesFormatOutput;
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
@@ -617,9 +587,7 @@ export interface SubnetPropertiesFormatOutput {
   /** Enable or Disable apply network policies on private link service in the subnet. */
   privateLinkServiceNetworkPolicies?: "Enabled" | "Disabled";
   /** Application gateway IP configurations of virtual network resource. */
-  applicationGatewayIpConfigurations?: Array<
-    ApplicationGatewayIPConfigurationOutput
-  >;
+  applicationGatewayIpConfigurations?: Array<ApplicationGatewayIPConfigurationOutput>;
 }
 
 /** NetworkSecurityGroup resource. */
@@ -813,9 +781,7 @@ export interface PrivateEndpointPropertiesOutput {
   /** A grouping of information about the connection to the remote resource. */
   privateLinkServiceConnections?: Array<PrivateLinkServiceConnectionOutput>;
   /** A grouping of information about the connection to the remote resource. Used when the network admin does not have access to approve connections to the remote resource. */
-  manualPrivateLinkServiceConnections?: Array<
-    PrivateLinkServiceConnectionOutput
-  >;
+  manualPrivateLinkServiceConnections?: Array<PrivateLinkServiceConnectionOutput>;
   /** An array of custom dns configurations. */
   customDnsConfigs?: Array<CustomDnsConfigPropertiesFormatOutput>;
   /** Application security groups in which the private endpoint IP configuration is included. */
@@ -941,8 +907,7 @@ export interface PrivateLinkServicePropertiesOutput {
 }
 
 /** The private link service ip configuration. */
-export interface PrivateLinkServiceIpConfigurationOutput
-  extends SubResourceOutput {
+export interface PrivateLinkServiceIpConfigurationOutput extends SubResourceOutput {
   /** Properties of the private link service ip configuration. */
   properties?: PrivateLinkServiceIpConfigurationPropertiesOutput;
   /** The name of private link service ip configuration. */
@@ -994,8 +959,7 @@ export interface PrivateEndpointConnectionPropertiesOutput {
 }
 
 /** The visibility list of the private link service. */
-export interface PrivateLinkServicePropertiesVisibilityOutput
-  extends ResourceSetOutput {}
+export interface PrivateLinkServicePropertiesVisibilityOutput extends ResourceSetOutput {}
 
 /** The base resource set for visibility and auto-approval. */
 export interface ResourceSetOutput {
@@ -1004,8 +968,7 @@ export interface ResourceSetOutput {
 }
 
 /** The auto-approval list of the private link service. */
-export interface PrivateLinkServicePropertiesAutoApprovalOutput
-  extends ResourceSetOutput {}
+export interface PrivateLinkServicePropertiesAutoApprovalOutput extends ResourceSetOutput {}
 
 /** A flow log resource. */
 export interface FlowLogOutput extends ResourceOutput {
@@ -1110,12 +1073,7 @@ export interface RoutePropertiesFormatOutput {
   /** The destination CIDR to which the route applies. */
   addressPrefix?: string;
   /** The type of Azure hop the packet should be sent to. */
-  nextHopType:
-    | "VirtualNetworkGateway"
-    | "VnetLocal"
-    | "Internet"
-    | "VirtualAppliance"
-    | "None";
+  nextHopType: "VirtualNetworkGateway" | "VnetLocal" | "Internet" | "VirtualAppliance" | "None";
   /** The IP address packets should be forwarded to. Next hop values are only allowed in routes where the next hop type is VirtualAppliance. */
   nextHopIpAddress?: string;
   /** The provisioning state of the route resource. */
@@ -1147,9 +1105,7 @@ export interface ServiceEndpointPolicyOutput extends ResourceOutput {
 /** Service Endpoint Policy resource. */
 export interface ServiceEndpointPolicyPropertiesFormatOutput {
   /** A collection of service endpoint policy definitions of the service endpoint policy. */
-  serviceEndpointPolicyDefinitions?: Array<
-    ServiceEndpointPolicyDefinitionOutput
-  >;
+  serviceEndpointPolicyDefinitions?: Array<ServiceEndpointPolicyDefinitionOutput>;
   /** A collection of references to subnets. */
   subnets?: Array<SubnetOutput>;
   /** The resource GUID property of the service endpoint policy resource. */
@@ -1163,8 +1119,7 @@ export interface ServiceEndpointPolicyPropertiesFormatOutput {
 }
 
 /** Service Endpoint policy definitions. */
-export interface ServiceEndpointPolicyDefinitionOutput
-  extends SubResourceOutput {
+export interface ServiceEndpointPolicyDefinitionOutput extends SubResourceOutput {
   /** Properties of the service endpoint policy definition. */
   properties?: ServiceEndpointPolicyDefinitionPropertiesFormatOutput;
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
@@ -1562,8 +1517,7 @@ export interface ApplicationGatewayBackendAddressOutput {
 }
 
 /** Backend address pool settings of an application gateway. */
-export interface ApplicationGatewayBackendHttpSettingsOutput
-  extends SubResourceOutput {
+export interface ApplicationGatewayBackendHttpSettingsOutput extends SubResourceOutput {
   /** Properties of the application gateway backend HTTP settings. */
   properties?: ApplicationGatewayBackendHttpSettingsPropertiesFormatOutput;
   /** Name of the backend http settings that is unique within an Application Gateway. */
@@ -1615,8 +1569,7 @@ export interface ApplicationGatewayConnectionDrainingOutput {
 }
 
 /** Backend address pool settings of an application gateway. */
-export interface ApplicationGatewayBackendSettingsOutput
-  extends SubResourceOutput {
+export interface ApplicationGatewayBackendSettingsOutput extends SubResourceOutput {
   /** Properties of the application gateway backend settings. */
   properties?: ApplicationGatewayBackendSettingsPropertiesFormatOutput;
   /** Name of the backend settings that is unique within an Application Gateway. */
@@ -1648,8 +1601,7 @@ export interface ApplicationGatewayBackendSettingsPropertiesFormatOutput {
 }
 
 /** Http listener of an application gateway. */
-export interface ApplicationGatewayHttpListenerOutput
-  extends SubResourceOutput {
+export interface ApplicationGatewayHttpListenerOutput extends SubResourceOutput {
   /** Properties of the application gateway HTTP listener. */
   properties?: ApplicationGatewayHttpListenerPropertiesFormatOutput;
   /** Name of the HTTP listener that is unique within an Application Gateway. */
@@ -1817,8 +1769,7 @@ export interface ApplicationGatewayPathRulePropertiesFormatOutput {
 }
 
 /** Request routing rule of an application gateway. */
-export interface ApplicationGatewayRequestRoutingRuleOutput
-  extends SubResourceOutput {
+export interface ApplicationGatewayRequestRoutingRuleOutput extends SubResourceOutput {
   /** Properties of the application gateway request routing rule. */
   properties?: ApplicationGatewayRequestRoutingRulePropertiesFormatOutput;
   /** Name of the request routing rule that is unique within an Application Gateway. */
@@ -1882,8 +1833,7 @@ export interface ApplicationGatewayRoutingRulePropertiesFormatOutput {
 }
 
 /** Rewrite rule set of an application gateway. */
-export interface ApplicationGatewayRewriteRuleSetOutput
-  extends SubResourceOutput {
+export interface ApplicationGatewayRewriteRuleSetOutput extends SubResourceOutput {
   /** Properties of the application gateway rewrite rule set. */
   properties?: ApplicationGatewayRewriteRuleSetPropertiesFormatOutput;
   /** Name of the rewrite rule set that is unique within an Application Gateway. */
@@ -1927,13 +1877,9 @@ export interface ApplicationGatewayRewriteRuleConditionOutput {
 /** Set of actions in the Rewrite Rule in Application Gateway. */
 export interface ApplicationGatewayRewriteRuleActionSetOutput {
   /** Request Header Actions in the Action Set. */
-  requestHeaderConfigurations?: Array<
-    ApplicationGatewayHeaderConfigurationOutput
-  >;
+  requestHeaderConfigurations?: Array<ApplicationGatewayHeaderConfigurationOutput>;
   /** Response Header Actions in the Action Set. */
-  responseHeaderConfigurations?: Array<
-    ApplicationGatewayHeaderConfigurationOutput
-  >;
+  responseHeaderConfigurations?: Array<ApplicationGatewayHeaderConfigurationOutput>;
   /** Url Configuration Action in the Action Set. */
   urlConfiguration?: ApplicationGatewayUrlConfigurationOutput;
 }
@@ -1957,8 +1903,7 @@ export interface ApplicationGatewayUrlConfigurationOutput {
 }
 
 /** Redirect configuration of an application gateway. */
-export interface ApplicationGatewayRedirectConfigurationOutput
-  extends SubResourceOutput {
+export interface ApplicationGatewayRedirectConfigurationOutput extends SubResourceOutput {
   /** Properties of the application gateway redirect configuration. */
   properties?: ApplicationGatewayRedirectConfigurationPropertiesFormatOutput;
   /** Name of the redirect configuration that is unique within an Application Gateway. */
@@ -2040,8 +1985,7 @@ export interface ApplicationGatewayAutoscaleConfigurationOutput {
 }
 
 /** Private Link Configuration on an application gateway. */
-export interface ApplicationGatewayPrivateLinkConfigurationOutput
-  extends SubResourceOutput {
+export interface ApplicationGatewayPrivateLinkConfigurationOutput extends SubResourceOutput {
   /** Properties of the application gateway private link configuration. */
   properties?: ApplicationGatewayPrivateLinkConfigurationPropertiesOutput;
   /** Name of the private link configuration that is unique within an Application Gateway. */
@@ -2061,8 +2005,7 @@ export interface ApplicationGatewayPrivateLinkConfigurationPropertiesOutput {
 }
 
 /** The application gateway private link ip configuration. */
-export interface ApplicationGatewayPrivateLinkIpConfigurationOutput
-  extends SubResourceOutput {
+export interface ApplicationGatewayPrivateLinkIpConfigurationOutput extends SubResourceOutput {
   /** Properties of an application gateway private link ip configuration. */
   properties?: ApplicationGatewayPrivateLinkIpConfigurationPropertiesOutput;
   /** The name of application gateway private link ip configuration. */
@@ -2088,8 +2031,7 @@ export interface ApplicationGatewayPrivateLinkIpConfigurationPropertiesOutput {
 }
 
 /** Private Endpoint connection on an application gateway. */
-export interface ApplicationGatewayPrivateEndpointConnectionOutput
-  extends SubResourceOutput {
+export interface ApplicationGatewayPrivateEndpointConnectionOutput extends SubResourceOutput {
   /** Properties of the application gateway private endpoint connection. */
   properties?: ApplicationGatewayPrivateEndpointConnectionPropertiesOutput;
   /** Name of the private endpoint connection on an application gateway. */
@@ -2113,8 +2055,7 @@ export interface ApplicationGatewayPrivateEndpointConnectionPropertiesOutput {
 }
 
 /** Load Distribution Policy of an application gateway. */
-export interface ApplicationGatewayLoadDistributionPolicyOutput
-  extends SubResourceOutput {
+export interface ApplicationGatewayLoadDistributionPolicyOutput extends SubResourceOutput {
   /** Properties of the application gateway load distribution policy. */
   properties?: ApplicationGatewayLoadDistributionPolicyPropertiesFormatOutput;
   /** Name of the load distribution policy that is unique within an Application Gateway. */
@@ -2128,9 +2069,7 @@ export interface ApplicationGatewayLoadDistributionPolicyOutput
 /** Properties of Load Distribution Policy of an application gateway. */
 export interface ApplicationGatewayLoadDistributionPolicyPropertiesFormatOutput {
   /** Load Distribution Targets resource of an application gateway. */
-  loadDistributionTargets?: Array<
-    ApplicationGatewayLoadDistributionTargetOutput
-  >;
+  loadDistributionTargets?: Array<ApplicationGatewayLoadDistributionTargetOutput>;
   /** Load Distribution Targets resource of an application gateway. */
   loadDistributionAlgorithm?: "RoundRobin" | "LeastConnections" | "IpHash";
   /** The provisioning state of the Load Distribution Policy resource. */
@@ -2138,8 +2077,7 @@ export interface ApplicationGatewayLoadDistributionPolicyPropertiesFormatOutput 
 }
 
 /** Load Distribution Target of an application gateway. */
-export interface ApplicationGatewayLoadDistributionTargetOutput
-  extends SubResourceOutput {
+export interface ApplicationGatewayLoadDistributionTargetOutput extends SubResourceOutput {
   /** Properties of the application gateway load distribution target. */
   properties?: ApplicationGatewayLoadDistributionTargetPropertiesFormatOutput;
   /** Name of the load distribution policy that is unique within an Application Gateway. */
@@ -2172,11 +2110,7 @@ export interface ManagedServiceIdentityOutput {
   /** The tenant id of the system assigned identity. This property will only be provided for a system assigned identity. */
   tenantId?: string;
   /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
-  type?:
-    | "SystemAssigned"
-    | "UserAssigned"
-    | "SystemAssigned, UserAssigned"
-    | "None";
+  type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
   /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
   userAssignedIdentities?: Record<
     string,
@@ -2210,9 +2144,7 @@ export interface ApplicationGatewayBackendHealthPoolOutput {
   /** Reference to an ApplicationGatewayBackendAddressPool resource. */
   backendAddressPool?: ApplicationGatewayBackendAddressPoolOutput;
   /** List of ApplicationGatewayBackendHealthHttpSettings resources. */
-  backendHttpSettingsCollection?: Array<
-    ApplicationGatewayBackendHealthHttpSettingsOutput
-  >;
+  backendHttpSettingsCollection?: Array<ApplicationGatewayBackendHealthHttpSettingsOutput>;
 }
 
 /** Application gateway BackendHealthHttp settings. */
@@ -2252,8 +2184,7 @@ export interface ApplicationGatewayPrivateLinkResourceListResultOutput {
 }
 
 /** PrivateLink Resource of an application gateway. */
-export interface ApplicationGatewayPrivateLinkResourceOutput
-  extends SubResourceOutput {
+export interface ApplicationGatewayPrivateLinkResourceOutput extends SubResourceOutput {
   /** Properties of the application gateway private link resource. */
   properties?: ApplicationGatewayPrivateLinkResourcePropertiesOutput;
   /** Name of the private link resource that is unique within an Application Gateway. */
@@ -2313,8 +2244,7 @@ export interface ApplicationGatewayAvailableWafRuleSetsResultOutput {
 }
 
 /** A web application firewall rule set. */
-export interface ApplicationGatewayFirewallRuleSetOutput
-  extends ResourceOutput {
+export interface ApplicationGatewayFirewallRuleSetOutput extends ResourceOutput {
   /** Properties of the application gateway firewall rule set. */
   properties?: ApplicationGatewayFirewallRuleSetPropertiesFormatOutput;
 }
@@ -2358,8 +2288,7 @@ export interface ApplicationGatewayFirewallRuleOutput {
 }
 
 /** Response for ApplicationGatewayAvailableSslOptions API service call. */
-export interface ApplicationGatewayAvailableSslOptionsOutput
-  extends ResourceOutput {
+export interface ApplicationGatewayAvailableSslOptionsOutput extends ResourceOutput {
   /** Properties of the application gateway available SSL options. */
   properties?: ApplicationGatewayAvailableSslOptionsPropertiesFormatOutput;
 }
@@ -2419,8 +2348,7 @@ export interface ApplicationGatewayAvailableSslPredefinedPoliciesOutput {
 }
 
 /** An Ssl predefined policy. */
-export interface ApplicationGatewaySslPredefinedPolicyOutput
-  extends SubResourceOutput {
+export interface ApplicationGatewaySslPredefinedPolicyOutput extends SubResourceOutput {
   /** Name of the Ssl predefined policy. */
   name?: string;
   /** Properties of the application gateway SSL predefined policy. */
@@ -2577,9 +2505,7 @@ export interface AzureFirewallOutput extends ResourceOutput {
 /** Properties of the Azure Firewall. */
 export interface AzureFirewallPropertiesFormatOutput {
   /** Collection of application rule collections used by Azure Firewall. */
-  applicationRuleCollections?: Array<
-    AzureFirewallApplicationRuleCollectionOutput
-  >;
+  applicationRuleCollections?: Array<AzureFirewallApplicationRuleCollectionOutput>;
   /** Collection of NAT rule collections used by Azure Firewall. */
   natRuleCollections?: Array<AzureFirewallNatRuleCollectionOutput>;
   /** Collection of network rule collections used by Azure Firewall. */
@@ -2607,8 +2533,7 @@ export interface AzureFirewallPropertiesFormatOutput {
 }
 
 /** Application rule collection resource. */
-export interface AzureFirewallApplicationRuleCollectionOutput
-  extends SubResourceOutput {
+export interface AzureFirewallApplicationRuleCollectionOutput extends SubResourceOutput {
   /** Properties of the azure firewall application rule collection. */
   properties?: AzureFirewallApplicationRuleCollectionPropertiesFormatOutput;
   /** The name of the resource that is unique within the Azure firewall. This name can be used to access the resource. */
@@ -2662,8 +2587,7 @@ export interface AzureFirewallApplicationRuleProtocolOutput {
 }
 
 /** NAT rule collection resource. */
-export interface AzureFirewallNatRuleCollectionOutput
-  extends SubResourceOutput {
+export interface AzureFirewallNatRuleCollectionOutput extends SubResourceOutput {
   /** Properties of the azure firewall NAT rule collection. */
   properties?: AzureFirewallNatRuleCollectionPropertiesOutput;
   /** The name of the resource that is unique within the Azure firewall. This name can be used to access the resource. */
@@ -2715,8 +2639,7 @@ export interface AzureFirewallNatRuleOutput {
 }
 
 /** Network rule collection resource. */
-export interface AzureFirewallNetworkRuleCollectionOutput
-  extends SubResourceOutput {
+export interface AzureFirewallNetworkRuleCollectionOutput extends SubResourceOutput {
   /** Properties of the azure firewall network rule collection. */
   properties?: AzureFirewallNetworkRuleCollectionPropertiesFormatOutput;
   /** The name of the resource that is unique within the Azure firewall. This name can be used to access the resource. */
@@ -3093,16 +3016,7 @@ export interface CustomIpPrefixPropertiesFormatOutput {
   /** Whether to do express route advertise. */
   expressRouteAdvertise?: boolean;
   /** The Geo for CIDR advertising. Should be an Geo code. */
-  geo?:
-    | "GLOBAL"
-    | "AFRI"
-    | "APAC"
-    | "EURO"
-    | "LATAM"
-    | "NAM"
-    | "ME"
-    | "OCEANIA"
-    | "AQ";
+  geo?: "GLOBAL" | "AFRI" | "APAC" | "EURO" | "LATAM" | "NAM" | "ME" | "OCEANIA" | "AQ";
   /** Whether to Advertise the range to Internet. */
   noInternetAdvertise?: boolean;
   /** Type of custom IP prefix. Should be Singular, Parent, or Child. */
@@ -3200,16 +3114,7 @@ export interface DscpConfigurationPropertiesFormatOutput {
   /** Destination port ranges. */
   destinationPortRanges?: Array<QosPortRangeOutput>;
   /** RNM supported protocol types. */
-  protocol?:
-    | "DoNotUse"
-    | "Icmp"
-    | "Tcp"
-    | "Udp"
-    | "Gre"
-    | "Esp"
-    | "Ah"
-    | "Vxlan"
-    | "All";
+  protocol?: "DoNotUse" | "Icmp" | "Tcp" | "Udp" | "Gre" | "Esp" | "Ah" | "Vxlan" | "All";
   /** QoS object definitions */
   qosDefinitionCollection?: Array<QosDefinitionOutput>;
   /** Qos Collection ID generated by RNM. */
@@ -3251,16 +3156,7 @@ export interface QosDefinitionOutput {
   /** Destination port ranges. */
   destinationPortRanges?: Array<QosPortRangeOutput>;
   /** RNM supported protocol types. */
-  protocol?:
-    | "DoNotUse"
-    | "Icmp"
-    | "Tcp"
-    | "Udp"
-    | "Gre"
-    | "Esp"
-    | "Ah"
-    | "Vxlan"
-    | "All";
+  protocol?: "DoNotUse" | "Icmp" | "Tcp" | "Udp" | "Gre" | "Esp" | "Ah" | "Vxlan" | "All";
 }
 
 /** Response for the DscpConfigurationList API service call. */
@@ -3288,8 +3184,7 @@ export interface EndpointServiceResultOutput extends SubResourceOutput {
 }
 
 /** Authorization in an ExpressRouteCircuit resource. */
-export interface ExpressRouteCircuitAuthorizationOutput
-  extends SubResourceOutput {
+export interface ExpressRouteCircuitAuthorizationOutput extends SubResourceOutput {
   /** Properties of the express route circuit authorization. */
   properties?: AuthorizationPropertiesFormatOutput;
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
@@ -3333,10 +3228,7 @@ export interface ExpressRouteCircuitPeeringOutput extends SubResourceOutput {
 /** Properties of the express route circuit peering. */
 export interface ExpressRouteCircuitPeeringPropertiesFormatOutput {
   /** The peering type. */
-  peeringType?:
-    | "AzurePublicPeering"
-    | "AzurePrivatePeering"
-    | "MicrosoftPeering";
+  peeringType?: "AzurePublicPeering" | "AzurePrivatePeering" | "MicrosoftPeering";
   /** The peering state. */
   state?: "Disabled" | "Enabled";
   /** The Azure ASN. */
@@ -3468,8 +3360,7 @@ export interface Ipv6CircuitConnectionConfigOutput {
 }
 
 /** Peer Express Route Circuit Connection in an ExpressRouteCircuitPeering resource. */
-export interface PeerExpressRouteCircuitConnectionOutput
-  extends SubResourceOutput {
+export interface PeerExpressRouteCircuitConnectionOutput extends SubResourceOutput {
   /** Properties of the peer express route circuit connection. */
   properties?: PeerExpressRouteCircuitConnectionPropertiesFormatOutput;
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
@@ -3745,8 +3636,7 @@ export interface ExpressRouteCircuitReferenceOutput {
 }
 
 /** Peering in an ExpressRoute Cross Connection resource. */
-export interface ExpressRouteCrossConnectionPeeringOutput
-  extends SubResourceOutput {
+export interface ExpressRouteCrossConnectionPeeringOutput extends SubResourceOutput {
   /** Properties of the express route cross connection peering. */
   properties?: ExpressRouteCrossConnectionPeeringPropertiesOutput;
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
@@ -3758,10 +3648,7 @@ export interface ExpressRouteCrossConnectionPeeringOutput
 /** Properties of express route cross connection peering. */
 export interface ExpressRouteCrossConnectionPeeringPropertiesOutput {
   /** The peering type. */
-  peeringType?:
-    | "AzurePublicPeering"
-    | "AzurePrivatePeering"
-    | "MicrosoftPeering";
+  peeringType?: "AzurePublicPeering" | "AzurePrivatePeering" | "MicrosoftPeering";
   /** The peering state. */
   state?: "Disabled" | "Enabled";
   /** The Azure ASN. */
@@ -4155,13 +4042,9 @@ export interface FirewallPolicyIntrusionDetectionOutput {
 /** The operation for configuring intrusion detection. */
 export interface FirewallPolicyIntrusionDetectionConfigurationOutput {
   /** List of specific signatures states. */
-  signatureOverrides?: Array<
-    FirewallPolicyIntrusionDetectionSignatureSpecificationOutput
-  >;
+  signatureOverrides?: Array<FirewallPolicyIntrusionDetectionSignatureSpecificationOutput>;
   /** List of rules for traffic to bypass. */
-  bypassTrafficSettings?: Array<
-    FirewallPolicyIntrusionDetectionBypassTrafficSpecificationsOutput
-  >;
+  bypassTrafficSettings?: Array<FirewallPolicyIntrusionDetectionBypassTrafficSpecificationsOutput>;
   /** IDPS Private IP address ranges are used to identify traffic direction (i.e. inbound, outbound, etc.). By default, only ranges defined by IANA RFC 1918 are considered private IP addresses. To modify default ranges, specify your Private IP address ranges with this property */
   privateRanges?: Array<string>;
 }
@@ -4223,8 +4106,7 @@ export interface FirewallPolicyListResultOutput {
 }
 
 /** Rule Collection Group resource. */
-export interface FirewallPolicyRuleCollectionGroupOutput
-  extends SubResourceOutput {
+export interface FirewallPolicyRuleCollectionGroupOutput extends SubResourceOutput {
   /** The properties of the firewall policy rule collection group. */
   properties?: FirewallPolicyRuleCollectionGroupPropertiesOutput;
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
@@ -4677,12 +4559,7 @@ export interface EffectiveRouteOutput {
   /** The IP address of the next hop of the effective route. */
   nextHopIpAddress?: Array<string>;
   /** The type of Azure hop the packet should be sent to. */
-  nextHopType?:
-    | "VirtualNetworkGateway"
-    | "VnetLocal"
-    | "Internet"
-    | "VirtualAppliance"
-    | "None";
+  nextHopType?: "VirtualNetworkGateway" | "VnetLocal" | "Internet" | "VirtualAppliance" | "None";
 }
 
 /** Response for list effective network security groups API service call. */
@@ -5002,12 +4879,7 @@ export interface NetworkManagerConnectionPropertiesOutput {
   /** Network Manager Id. */
   networkManagerId?: string;
   /** Connection state. */
-  connectionState?:
-    | "Connected"
-    | "Pending"
-    | "Conflict"
-    | "Revoked"
-    | "Rejected";
+  connectionState?: "Connected" | "Pending" | "Conflict" | "Revoked" | "Rejected";
   /** A description of the network manager connection. */
   description?: string;
 }
@@ -5136,12 +5008,7 @@ export interface ScopeConnectionPropertiesOutput {
   /** Resource ID. */
   resourceId?: string;
   /** Connection State */
-  connectionState?:
-    | "Connected"
-    | "Pending"
-    | "Conflict"
-    | "Revoked"
-    | "Rejected";
+  connectionState?: "Connected" | "Pending" | "Conflict" | "Revoked" | "Rejected";
   /** A description of the scope connection. */
   description?: string;
 }
@@ -5175,9 +5042,7 @@ export interface SecurityAdminConfigurationPropertiesFormatOutput {
   /** A description of the security configuration. */
   description?: string;
   /** Enum list of network intent policy based services. */
-  applyOnNetworkIntentPolicyBasedServices?: Array<
-    "None" | "All" | "AllowRulesOnly"
-  >;
+  applyOnNetworkIntentPolicyBasedServices?: Array<"None" | "All" | "AllowRulesOnly">;
   /** The provisioning state of the resource. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
@@ -5236,9 +5101,7 @@ export interface NetworkProfilePropertiesFormatOutput {
   /** List of child container network interfaces. */
   containerNetworkInterfaces?: Array<ContainerNetworkInterfaceOutput>;
   /** List of chid container network interface configurations. */
-  containerNetworkInterfaceConfigurations?: Array<
-    ContainerNetworkInterfaceConfigurationOutput
-  >;
+  containerNetworkInterfaceConfigurations?: Array<ContainerNetworkInterfaceConfigurationOutput>;
   /** The resource GUID property of the network profile resource. */
   resourceGuid?: string;
   /** The provisioning state of the network profile resource. */
@@ -5270,8 +5133,7 @@ export interface ContainerNetworkInterfacePropertiesFormatOutput {
 }
 
 /** Container network interface configuration child resource. */
-export interface ContainerNetworkInterfaceConfigurationOutput
-  extends SubResourceOutput {
+export interface ContainerNetworkInterfaceConfigurationOutput extends SubResourceOutput {
   /** Container network interface configuration properties. */
   properties?: ContainerNetworkInterfaceConfigurationPropertiesFormatOutput;
   /** The name of the resource. This name can be used to access the resource. */
@@ -5704,8 +5566,7 @@ export interface PacketCaptureResultOutput {
 }
 
 /** The properties of a packet capture session. */
-export interface PacketCaptureResultPropertiesOutput
-  extends PacketCaptureParametersOutput {
+export interface PacketCaptureResultPropertiesOutput extends PacketCaptureParametersOutput {
   /** The provisioning state of the packet capture session. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
@@ -5719,21 +5580,12 @@ export interface PacketCaptureQueryStatusResultOutput {
   /** The start time of the packet capture session. */
   captureStartTime?: string;
   /** The status of the packet capture session. */
-  packetCaptureStatus?:
-    | "NotStarted"
-    | "Running"
-    | "Stopped"
-    | "Error"
-    | "Unknown";
+  packetCaptureStatus?: "NotStarted" | "Running" | "Stopped" | "Error" | "Unknown";
   /** The reason the current packet capture session was stopped. */
   stopReason?: string;
   /** List of errors of packet capture session. */
   packetCaptureError?: Array<
-    | "InternalError"
-    | "AgentStopped"
-    | "CaptureFailed"
-    | "LocalFileFailed"
-    | "StorageFailed"
+    "InternalError" | "AgentStopped" | "CaptureFailed" | "LocalFileFailed" | "StorageFailed"
   >;
 }
 
@@ -6105,13 +5957,7 @@ export interface ConnectionMonitorEndpointOutput {
   /** Endpoint scope. */
   scope?: ConnectionMonitorEndpointScopeOutput;
   /** Test coverage for the endpoint. */
-  coverageLevel?:
-    | "Default"
-    | "Low"
-    | "BelowAverage"
-    | "Average"
-    | "AboveAverage"
-    | "Full";
+  coverageLevel?: "Default" | "Low" | "BelowAverage" | "Average" | "AboveAverage" | "Full";
 }
 
 /** Describes the connection monitor endpoint filter. */
@@ -6251,8 +6097,7 @@ export interface ConnectionMonitorResultOutput {
 }
 
 /** Describes the properties of a connection monitor. */
-export interface ConnectionMonitorResultPropertiesOutput
-  extends ConnectionMonitorParametersOutput {
+export interface ConnectionMonitorResultPropertiesOutput extends ConnectionMonitorParametersOutput {
   /** The provisioning state of the connection monitor. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The date and time when the connection monitor was started. */
@@ -6704,11 +6549,7 @@ export interface SecurityPartnerProviderPropertiesFormatOutput {
   /** The security provider name. */
   securityProviderName?: "ZScaler" | "IBoss" | "Checkpoint";
   /** The connection status with the Security Partner Provider. */
-  connectionStatus?:
-    | "Unknown"
-    | "PartiallyConnected"
-    | "Connected"
-    | "NotConnected";
+  connectionStatus?: "Unknown" | "PartiallyConnected" | "Connected" | "NotConnected";
   /** The virtualHub to which the Security Partner Provider belongs. */
   virtualHub?: SubResourceOutput;
 }
@@ -7102,9 +6943,7 @@ export interface VirtualNetworkGatewayPropertiesFormatOutput {
   /** The reference to the VpnClientConfiguration resource which represents the P2S VpnClient configurations. */
   vpnClientConfiguration?: VpnClientConfigurationOutput;
   /** The reference to the VirtualNetworkGatewayPolicyGroup resource which represents the available VirtualNetworkGatewayPolicyGroup for the gateway. */
-  virtualNetworkGatewayPolicyGroups?: Array<
-    VirtualNetworkGatewayPolicyGroupOutput
-  >;
+  virtualNetworkGatewayPolicyGroups?: Array<VirtualNetworkGatewayPolicyGroupOutput>;
   /** Virtual network gateway's BGP speaker settings. */
   bgpSettings?: BgpSettingsOutput;
   /** The reference to the address space resource which represents the custom routes address space specified by the customer for virtual network gateway and VpnClient. */
@@ -7126,8 +6965,7 @@ export interface VirtualNetworkGatewayPropertiesFormatOutput {
 }
 
 /** IP configuration for virtual network gateway. */
-export interface VirtualNetworkGatewayIPConfigurationOutput
-  extends SubResourceOutput {
+export interface VirtualNetworkGatewayIPConfigurationOutput extends SubResourceOutput {
   /** Properties of the virtual network gateway ip configuration. */
   properties?: VirtualNetworkGatewayIPConfigurationPropertiesFormatOutput;
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
@@ -7221,9 +7059,7 @@ export interface VpnClientConfigurationOutput {
   /** The AADIssuer property of the VirtualNetworkGateway resource for vpn client connection used for AAD authentication. */
   aadIssuer?: string;
   /** per ip address pool connection policy for virtual network gateway P2S client. */
-  vngClientConnectionConfigurations?: Array<
-    VngClientConnectionConfigurationOutput
-  >;
+  vngClientConnectionConfigurations?: Array<VngClientConnectionConfigurationOutput>;
 }
 
 /** VPN client root certificate of virtual network gateway. */
@@ -7280,30 +7116,11 @@ export interface IpsecPolicyOutput {
     | "GCMAES192"
     | "GCMAES256";
   /** The IPSec integrity algorithm (IKE phase 1). */
-  ipsecIntegrity:
-    | "MD5"
-    | "SHA1"
-    | "SHA256"
-    | "GCMAES128"
-    | "GCMAES192"
-    | "GCMAES256";
+  ipsecIntegrity: "MD5" | "SHA1" | "SHA256" | "GCMAES128" | "GCMAES192" | "GCMAES256";
   /** The IKE encryption algorithm (IKE phase 2). */
-  ikeEncryption:
-    | "DES"
-    | "DES3"
-    | "AES128"
-    | "AES192"
-    | "AES256"
-    | "GCMAES256"
-    | "GCMAES128";
+  ikeEncryption: "DES" | "DES3" | "AES128" | "AES192" | "AES256" | "GCMAES256" | "GCMAES128";
   /** The IKE integrity algorithm (IKE phase 2). */
-  ikeIntegrity:
-    | "MD5"
-    | "SHA1"
-    | "SHA256"
-    | "SHA384"
-    | "GCMAES256"
-    | "GCMAES128";
+  ikeIntegrity: "MD5" | "SHA1" | "SHA256" | "SHA384" | "GCMAES256" | "GCMAES128";
   /** The DH Group used in IKE Phase 1 for initial SA. */
   dhGroup:
     | "None"
@@ -7338,8 +7155,7 @@ export interface RadiusServerOutput {
 }
 
 /** A vpn client connection configuration for client connection configuration. */
-export interface VngClientConnectionConfigurationOutput
-  extends SubResourceOutput {
+export interface VngClientConnectionConfigurationOutput extends SubResourceOutput {
   /** Properties of the vpn client root certificate. */
   properties?: VngClientConnectionConfigurationPropertiesOutput;
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
@@ -7359,8 +7175,7 @@ export interface VngClientConnectionConfigurationPropertiesOutput {
 }
 
 /** Parameters for VirtualNetworkGatewayPolicyGroup. */
-export interface VirtualNetworkGatewayPolicyGroupOutput
-  extends SubResourceOutput {
+export interface VirtualNetworkGatewayPolicyGroupOutput extends SubResourceOutput {
   /** Properties of tVirtualNetworkGatewayPolicyGroup. */
   properties?: VirtualNetworkGatewayPolicyGroupPropertiesOutput;
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
@@ -7470,8 +7285,7 @@ export interface VirtualNetworkGatewayListConnectionsResultOutput {
 }
 
 /** A common class for general resource information. */
-export interface VirtualNetworkGatewayConnectionListEntityOutput
-  extends ResourceOutput {
+export interface VirtualNetworkGatewayConnectionListEntityOutput extends ResourceOutput {
   /** Properties of the virtual network gateway connection. */
   properties: VirtualNetworkGatewayConnectionListEntityPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -7511,9 +7325,7 @@ export interface VirtualNetworkGatewayConnectionListEntityPropertiesFormatOutput
   /** EnableBgp flag. */
   enableBgp?: boolean;
   /** GatewayCustomBgpIpAddresses to be used for virtual network gateway Connection. */
-  gatewayCustomBgpIpAddresses?: Array<
-    GatewayCustomBgpIpAddressIpConfigurationOutput
-  >;
+  gatewayCustomBgpIpAddresses?: Array<GatewayCustomBgpIpAddressIpConfigurationOutput>;
   /** Enable policy-based traffic selectors. */
   usePolicyBasedTrafficSelectors?: boolean;
   /** The IPSec Policies to be considered by this connection. */
@@ -7634,30 +7446,11 @@ export interface VpnClientIPsecParametersOutput {
     | "GCMAES192"
     | "GCMAES256";
   /** The IPSec integrity algorithm (IKE phase 1). */
-  ipsecIntegrity:
-    | "MD5"
-    | "SHA1"
-    | "SHA256"
-    | "GCMAES128"
-    | "GCMAES192"
-    | "GCMAES256";
+  ipsecIntegrity: "MD5" | "SHA1" | "SHA256" | "GCMAES128" | "GCMAES192" | "GCMAES256";
   /** The IKE encryption algorithm (IKE phase 2). */
-  ikeEncryption:
-    | "DES"
-    | "DES3"
-    | "AES128"
-    | "AES192"
-    | "AES256"
-    | "GCMAES256"
-    | "GCMAES128";
+  ikeEncryption: "DES" | "DES3" | "AES128" | "AES192" | "AES256" | "GCMAES256" | "GCMAES128";
   /** The IKE integrity algorithm (IKE phase 2). */
-  ikeIntegrity:
-    | "MD5"
-    | "SHA1"
-    | "SHA256"
-    | "SHA384"
-    | "GCMAES256"
-    | "GCMAES128";
+  ikeIntegrity: "MD5" | "SHA1" | "SHA256" | "SHA384" | "GCMAES256" | "GCMAES128";
   /** The DH Group used in IKE Phase 1 for initial SA. */
   dhGroup:
     | "None"
@@ -7728,9 +7521,7 @@ export interface VirtualNetworkGatewayConnectionPropertiesFormatOutput {
   /** EnableBgp flag. */
   enableBgp?: boolean;
   /** GatewayCustomBgpIpAddresses to be used for virtual network gateway Connection. */
-  gatewayCustomBgpIpAddresses?: Array<
-    GatewayCustomBgpIpAddressIpConfigurationOutput
-  >;
+  gatewayCustomBgpIpAddresses?: Array<GatewayCustomBgpIpAddressIpConfigurationOutput>;
   /** Use private local Azure IP for the connection. */
   useLocalAzureIpAddress?: boolean;
   /** Enable policy-based traffic selectors. */
@@ -7934,11 +7725,7 @@ export interface VirtualWanPropertiesOutput {
   /** True if Vnet to Vnet traffic is allowed. */
   allowVnetToVnetTraffic?: boolean;
   /** The office local breakout category. */
-  office365LocalBreakoutCategory?:
-    | "Optimize"
-    | "OptimizeAndAllow"
-    | "All"
-    | "None";
+  office365LocalBreakoutCategory?: "Optimize" | "OptimizeAndAllow" | "All" | "None";
   /** The provisioning state of the virtual WAN resource. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The type of the VirtualWAN. */
@@ -8102,21 +7889,13 @@ export interface VpnServerConfigurationPropertiesOutput {
   /** VPN authentication types for the VpnServerConfiguration. */
   vpnAuthenticationTypes?: Array<"Certificate" | "Radius" | "AAD">;
   /** VPN client root certificate of VpnServerConfiguration. */
-  vpnClientRootCertificates?: Array<
-    VpnServerConfigVpnClientRootCertificateOutput
-  >;
+  vpnClientRootCertificates?: Array<VpnServerConfigVpnClientRootCertificateOutput>;
   /** VPN client revoked certificate of VpnServerConfiguration. */
-  vpnClientRevokedCertificates?: Array<
-    VpnServerConfigVpnClientRevokedCertificateOutput
-  >;
+  vpnClientRevokedCertificates?: Array<VpnServerConfigVpnClientRevokedCertificateOutput>;
   /** Radius Server root certificate of VpnServerConfiguration. */
-  radiusServerRootCertificates?: Array<
-    VpnServerConfigRadiusServerRootCertificateOutput
-  >;
+  radiusServerRootCertificates?: Array<VpnServerConfigRadiusServerRootCertificateOutput>;
   /** Radius client root certificate of VpnServerConfiguration. */
-  radiusClientRootCertificates?: Array<
-    VpnServerConfigRadiusClientRootCertificateOutput
-  >;
+  radiusClientRootCertificates?: Array<VpnServerConfigRadiusClientRootCertificateOutput>;
   /** VpnClientIpsecPolicies for VpnServerConfiguration. */
   vpnClientIpsecPolicies?: Array<IpsecPolicyOutput>;
   /** The radius server address property of the VpnServerConfiguration resource for point to site client connection. */
@@ -8228,9 +8007,7 @@ export interface P2SConnectionConfigurationPropertiesOutput {
   /** List of Configuration Policy Groups that this P2SConnectionConfiguration is attached to. */
   configurationPolicyGroupAssociations?: Array<SubResourceOutput>;
   /** List of previous Configuration Policy Groups that this P2SConnectionConfiguration was attached to. */
-  previousConfigurationPolicyGroupAssociations?: Array<
-    VpnServerConfigurationPolicyGroupOutput
-  >;
+  previousConfigurationPolicyGroupAssociations?: Array<VpnServerConfigurationPolicyGroupOutput>;
   /** The provisioning state of the P2SConnectionConfiguration resource. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
@@ -8286,8 +8063,7 @@ export interface StaticRouteOutput {
 }
 
 /** VpnServerConfigurationPolicyGroup Resource. */
-export interface VpnServerConfigurationPolicyGroupOutput
-  extends SubResourceOutput {
+export interface VpnServerConfigurationPolicyGroupOutput extends SubResourceOutput {
   /** Properties of the VpnServerConfigurationPolicyGroup. */
   properties?: VpnServerConfigurationPolicyGroupPropertiesOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -8513,12 +8289,7 @@ export interface CriterionOutput {
   /** List of AS paths which this criteria matches. */
   asPath?: Array<string>;
   /** Match condition to apply RouteMap rules. */
-  matchCondition?:
-    | "Unknown"
-    | "Contains"
-    | "Equals"
-    | "NotContains"
-    | "NotEquals";
+  matchCondition?: "Unknown" | "Contains" | "Equals" | "NotContains" | "NotEquals";
 }
 
 /** Action to be taken on a route matching a RouteMap criterion. */
@@ -8698,9 +8469,7 @@ export interface VpnSiteLinkConnectionPropertiesOutput {
   /** EnableBgp flag. */
   enableBgp?: boolean;
   /** vpnGatewayCustomBgpAddresses used by this connection. */
-  vpnGatewayCustomBgpAddresses?: Array<
-    GatewayCustomBgpIpAddressIpConfigurationOutput
-  >;
+  vpnGatewayCustomBgpAddresses?: Array<GatewayCustomBgpIpAddressIpConfigurationOutput>;
   /** Enable policy-based traffic selectors. */
   usePolicyBasedTrafficSelectors?: boolean;
   /** The IPSec Policies to be considered by this connection. */
@@ -9116,13 +8885,7 @@ export interface WebApplicationFirewallPolicyPropertiesFormatOutput {
   /** The provisioning state of the web application firewall policy resource. */
   provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** Resource status of the policy. */
-  resourceState?:
-    | "Creating"
-    | "Enabling"
-    | "Enabled"
-    | "Disabling"
-    | "Disabled"
-    | "Deleting";
+  resourceState?: "Creating" | "Enabling" | "Enabled" | "Disabling" | "Disabled" | "Deleting";
   /** Describes the managedRules structure. */
   managedRules: ManagedRulesDefinitionOutput;
   /** A collection of references to application gateway http listeners. */
@@ -9233,12 +8996,7 @@ export interface OwaspCrsExclusionEntryOutput {
     | "RequestArgKeys"
     | "RequestArgValues";
   /** When matchVariable is a collection, operate on the selector to specify which elements in the collection this exclusion applies to. */
-  selectorMatchOperator:
-    | "Equals"
-    | "Contains"
-    | "StartsWith"
-    | "EndsWith"
-    | "EqualsAny";
+  selectorMatchOperator: "Equals" | "Contains" | "StartsWith" | "EndsWith" | "EqualsAny";
   /** When matchVariable is a collection, operator used to specify which elements in the collection this exclusion applies to. */
   selector: string;
   /** The managed rule sets that are associated with the exclusion. */
@@ -9342,11 +9100,7 @@ export interface FirewallPolicyRuleOutputParent {
   name?: string;
   /** Description of the rule. */
   description?: string;
-  ruleType:
-    | "FirewallPolicyRule"
-    | "ApplicationRule"
-    | "NatRule"
-    | "NetworkRule";
+  ruleType: "FirewallPolicyRule" | "ApplicationRule" | "NatRule" | "NetworkRule";
 }
 
 /** Firewall Policy Filter Rule Collection. */
@@ -9437,8 +9191,7 @@ export interface NetworkRuleOutput extends FirewallPolicyRuleOutputParent {
 }
 
 /** Network admin rule. */
-export interface ActiveSecurityAdminRuleOutput
-  extends ActiveBaseSecurityAdminRuleOutputParent {
+export interface ActiveSecurityAdminRuleOutput extends ActiveBaseSecurityAdminRuleOutputParent {
   /** Indicates the properties of the security admin rule */
   properties?: AdminPropertiesFormatOutput;
   kind: "Custom";
@@ -9579,7 +9332,4 @@ export type EffectiveBaseSecurityAdminRuleOutput =
 /** Network base admin rule. */
 export type BaseAdminRuleOutput = AdminRuleOutput | DefaultAdminRuleOutput;
 /** Properties of a rule. */
-export type FirewallPolicyRuleOutput =
-  | ApplicationRuleOutput
-  | NatRuleOutput
-  | NetworkRuleOutput;
+export type FirewallPolicyRuleOutput = ApplicationRuleOutput | NatRuleOutput | NetworkRuleOutput;

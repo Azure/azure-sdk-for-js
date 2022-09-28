@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  PrivateDnsZoneGroupsGetParameters
+  PrivateDnsZoneGroupsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,7 +25,7 @@ async function getPrivateDnsZoneGroup() {
   const privateEndpointName = "testPe";
   const privateDnsZoneGroupName = "testPdnsgroup";
   const options: PrivateDnsZoneGroupsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(

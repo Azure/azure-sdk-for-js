@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   InboundSecurityRuleCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -32,12 +32,12 @@ async function createNetworkVirtualApplianceInboundSecurityRules() {
           {
             destinationPortRange: 22,
             sourceAddressPrefix: "50.20.121.5/32",
-            protocol: "TCP"
-          }
-        ]
-      }
+            protocol: "TCP",
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

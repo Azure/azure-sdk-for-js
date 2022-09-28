@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualApplianceSitesCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -30,11 +30,11 @@ async function createNetworkVirtualApplianceSite() {
       properties: {
         addressPrefix: "192.168.1.0/24",
         o365Policy: {
-          breakOutCategories: { default: true, allow: true, optimize: true }
-        }
-      }
+          breakOutCategories: { default: true, allow: true, optimize: true },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

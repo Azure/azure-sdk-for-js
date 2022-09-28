@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  VirtualNetworkGatewayConnectionsGetParameters
+  VirtualNetworkGatewayConnectionsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -24,7 +24,7 @@ async function getVirtualNetworkGatewayConnection() {
   const resourceGroupName = "rg1";
   const virtualNetworkGatewayConnectionName = "connS2S";
   const options: VirtualNetworkGatewayConnectionsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(

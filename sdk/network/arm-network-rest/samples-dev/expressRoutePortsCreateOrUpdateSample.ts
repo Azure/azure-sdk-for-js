@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ExpressRoutePortsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -31,10 +31,10 @@ async function expressRoutePortCreate() {
         bandwidthInGbps: 100,
         billingType: "UnlimitedData",
         encapsulation: "QinQ",
-        peeringLocation: "peeringLocationName"
-      }
+        peeringLocation: "peeringLocationName",
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -70,10 +70,10 @@ async function expressRoutePortUpdateLink() {
         billingType: "UnlimitedData",
         encapsulation: "QinQ",
         links: [{ name: "link1", properties: { adminState: "Enabled" } }],
-        peeringLocation: "peeringLocationName"
-      }
+        peeringLocation: "peeringLocationName",
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

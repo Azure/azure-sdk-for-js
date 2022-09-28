@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   LoadBalancersCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -35,10 +35,10 @@ async function createLoadBalancer() {
             properties: {
               subnet: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
-              }
-            }
-          }
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb",
+              },
+            },
+          },
         ],
         inboundNatPools: [],
         inboundNatRules: [
@@ -50,13 +50,13 @@ async function createLoadBalancer() {
               enableTcpReset: false,
               frontendIPConfiguration: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
               },
               frontendPort: 3389,
               idleTimeoutInMinutes: 15,
-              protocol: "Tcp"
-            }
-          }
+              protocol: "Tcp",
+            },
+          },
         ],
         loadBalancingRules: [
           {
@@ -64,25 +64,25 @@ async function createLoadBalancer() {
             properties: {
               backendAddressPool: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
               },
               backendPort: 80,
               enableFloatingIP: true,
               enableTcpReset: false,
               frontendIPConfiguration: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
               },
               frontendPort: 80,
               idleTimeoutInMinutes: 15,
               loadDistribution: "Default",
               probe: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
               },
-              protocol: "Tcp"
-            }
-          }
+              protocol: "Tcp",
+            },
+          },
         ],
         probes: [
           {
@@ -93,13 +93,13 @@ async function createLoadBalancer() {
               port: 80,
               probeThreshold: 1,
               requestPath: "healthcheck.aspx",
-              protocol: "Http"
-            }
-          }
-        ]
-      }
+              protocol: "Http",
+            },
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -138,11 +138,11 @@ async function createLoadBalancerWithFrontendIPInZone1() {
             properties: {
               subnet: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
-              }
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb",
+              },
             },
-            zones: ["1"]
-          }
+            zones: ["1"],
+          },
         ],
         inboundNatPools: [],
         inboundNatRules: [
@@ -153,13 +153,13 @@ async function createLoadBalancerWithFrontendIPInZone1() {
               enableFloatingIP: true,
               frontendIPConfiguration: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
               },
               frontendPort: 3389,
               idleTimeoutInMinutes: 15,
-              protocol: "Tcp"
-            }
-          }
+              protocol: "Tcp",
+            },
+          },
         ],
         loadBalancingRules: [
           {
@@ -167,24 +167,24 @@ async function createLoadBalancerWithFrontendIPInZone1() {
             properties: {
               backendAddressPool: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
               },
               backendPort: 80,
               enableFloatingIP: true,
               frontendIPConfiguration: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
               },
               frontendPort: 80,
               idleTimeoutInMinutes: 15,
               loadDistribution: "Default",
               probe: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
               },
-              protocol: "Tcp"
-            }
-          }
+              protocol: "Tcp",
+            },
+          },
         ],
         outboundRules: [],
         probes: [
@@ -196,14 +196,14 @@ async function createLoadBalancerWithFrontendIPInZone1() {
               port: 80,
               probeThreshold: 1,
               requestPath: "healthcheck.aspx",
-              protocol: "Http"
-            }
-          }
-        ]
+              protocol: "Http",
+            },
+          },
+        ],
       },
-      sku: { name: "Standard" }
+      sku: { name: "Standard" },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -242,14 +242,14 @@ async function createLoadBalancerWithGatewayLoadBalancerConsumerConfigured() {
             properties: {
               gatewayLoadBalancer: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb-provider"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb-provider",
               },
               subnet: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
-              }
-            }
-          }
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb",
+              },
+            },
+          },
         ],
         inboundNatPools: [],
         inboundNatRules: [
@@ -260,13 +260,13 @@ async function createLoadBalancerWithGatewayLoadBalancerConsumerConfigured() {
               enableFloatingIP: true,
               frontendIPConfiguration: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
               },
               frontendPort: 3389,
               idleTimeoutInMinutes: 15,
-              protocol: "Tcp"
-            }
-          }
+              protocol: "Tcp",
+            },
+          },
         ],
         loadBalancingRules: [
           {
@@ -274,24 +274,24 @@ async function createLoadBalancerWithGatewayLoadBalancerConsumerConfigured() {
             properties: {
               backendAddressPool: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
               },
               backendPort: 80,
               enableFloatingIP: true,
               frontendIPConfiguration: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
               },
               frontendPort: 80,
               idleTimeoutInMinutes: 15,
               loadDistribution: "Default",
               probe: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
               },
-              protocol: "Tcp"
-            }
-          }
+              protocol: "Tcp",
+            },
+          },
         ],
         outboundRules: [],
         probes: [
@@ -303,14 +303,14 @@ async function createLoadBalancerWithGatewayLoadBalancerConsumerConfigured() {
               port: 80,
               probeThreshold: 1,
               requestPath: "healthcheck.aspx",
-              protocol: "Http"
-            }
-          }
-        ]
+              protocol: "Http",
+            },
+          },
+        ],
       },
-      sku: { name: "Standard" }
+      sku: { name: "Standard" },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -325,9 +325,7 @@ async function createLoadBalancerWithGatewayLoadBalancerConsumerConfigured() {
   console.log(result);
 }
 
-createLoadBalancerWithGatewayLoadBalancerConsumerConfigured().catch(
-  console.error
-);
+createLoadBalancerWithGatewayLoadBalancerConsumerConfigured().catch(console.error);
 /**
  * This sample demonstrates how to Creates or updates a load balancer.
  *
@@ -353,17 +351,17 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOn
                   type: "Internal",
                   identifier: 900,
                   port: 15000,
-                  protocol: "VXLAN"
+                  protocol: "VXLAN",
                 },
                 {
                   type: "Internal",
                   identifier: 901,
                   port: 15001,
-                  protocol: "VXLAN"
-                }
-              ]
-            }
-          }
+                  protocol: "VXLAN",
+                },
+              ],
+            },
+          },
         ],
         frontendIPConfigurations: [
           {
@@ -371,10 +369,10 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOn
             properties: {
               subnet: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
-              }
-            }
-          }
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb",
+              },
+            },
+          },
         ],
         inboundNatPools: [],
         loadBalancingRules: [
@@ -384,25 +382,25 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOn
               backendAddressPools: [
                 {
                   id:
-                    "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
-                }
+                    "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
+                },
               ],
               backendPort: 0,
               enableFloatingIP: true,
               frontendIPConfiguration: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
               },
               frontendPort: 0,
               idleTimeoutInMinutes: 15,
               loadDistribution: "Default",
               probe: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
               },
-              protocol: "All"
-            }
-          }
+              protocol: "All",
+            },
+          },
         ],
         outboundRules: [],
         probes: [
@@ -414,14 +412,14 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOn
               port: 80,
               probeThreshold: 1,
               requestPath: "healthcheck.aspx",
-              protocol: "Http"
-            }
-          }
-        ]
+              protocol: "Http",
+            },
+          },
+        ],
       },
-      sku: { name: "Standard" }
+      sku: { name: "Standard" },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -457,7 +455,7 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTw
       properties: {
         backendAddressPools: [
           { name: "be-lb1", properties: {} },
-          { name: "be-lb2", properties: {} }
+          { name: "be-lb2", properties: {} },
         ],
         frontendIPConfigurations: [
           {
@@ -465,10 +463,10 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTw
             properties: {
               subnet: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
-              }
-            }
-          }
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb",
+              },
+            },
+          },
         ],
         inboundNatPools: [],
         loadBalancingRules: [
@@ -479,29 +477,29 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTw
               backendAddressPools: [
                 {
                   id:
-                    "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb1"
+                    "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb1",
                 },
                 {
                   id:
-                    "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb2"
-                }
+                    "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb2",
+                },
               ],
               backendPort: 0,
               enableFloatingIP: true,
               frontendIPConfiguration: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
               },
               frontendPort: 0,
               idleTimeoutInMinutes: 15,
               loadDistribution: "Default",
               probe: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
               },
-              protocol: "All"
-            }
-          }
+              protocol: "All",
+            },
+          },
         ],
         outboundRules: [],
         probes: [
@@ -513,14 +511,14 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTw
               port: 80,
               probeThreshold: 1,
               requestPath: "healthcheck.aspx",
-              protocol: "Http"
-            }
-          }
-        ]
+              protocol: "Http",
+            },
+          },
+        ],
       },
-      sku: { name: "Standard" }
+      sku: { name: "Standard" },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -564,13 +562,13 @@ async function createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBa
                   properties: {
                     loadBalancerFrontendIPConfiguration: {
                       id:
-                        "/subscriptions/subid/resourceGroups/regional-lb-rg1/providers/Microsoft.Network/loadBalancers/regional-lb/frontendIPConfigurations/fe-rlb"
-                    }
-                  }
-                }
-              ]
-            }
-          }
+                        "/subscriptions/subid/resourceGroups/regional-lb-rg1/providers/Microsoft.Network/loadBalancers/regional-lb/frontendIPConfigurations/fe-rlb",
+                    },
+                  },
+                },
+              ],
+            },
+          },
         ],
         frontendIPConfigurations: [
           {
@@ -578,10 +576,10 @@ async function createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBa
             properties: {
               subnet: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
-              }
-            }
-          }
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb",
+              },
+            },
+          },
         ],
         loadBalancingRules: [
           {
@@ -589,24 +587,24 @@ async function createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBa
             properties: {
               backendAddressPool: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
               },
               backendPort: 80,
               enableFloatingIP: false,
               frontendIPConfiguration: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
               },
               frontendPort: 80,
               idleTimeoutInMinutes: 15,
               loadDistribution: "Default",
               probe: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
               },
-              protocol: "Tcp"
-            }
-          }
+              protocol: "Tcp",
+            },
+          },
         ],
         probes: [
           {
@@ -617,14 +615,14 @@ async function createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBa
               port: 80,
               probeThreshold: 1,
               requestPath: "healthcheck.aspx",
-              protocol: "Http"
-            }
-          }
-        ]
+              protocol: "Http",
+            },
+          },
+        ],
       },
-      sku: { name: "Standard", tier: "Global" }
+      sku: { name: "Standard", tier: "Global" },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -639,9 +637,7 @@ async function createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBa
   console.log(result);
 }
 
-createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBackendPool().catch(
-  console.error
-);
+createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBackendPool().catch(console.error);
 /**
  * This sample demonstrates how to Creates or updates a load balancer.
  *
@@ -665,10 +661,10 @@ async function createLoadBalancerWithStandardSku() {
             properties: {
               subnet: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
-              }
-            }
-          }
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb",
+              },
+            },
+          },
         ],
         inboundNatPools: [],
         inboundNatRules: [
@@ -679,13 +675,13 @@ async function createLoadBalancerWithStandardSku() {
               enableFloatingIP: true,
               frontendIPConfiguration: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
               },
               frontendPort: 3389,
               idleTimeoutInMinutes: 15,
-              protocol: "Tcp"
-            }
-          }
+              protocol: "Tcp",
+            },
+          },
         ],
         loadBalancingRules: [
           {
@@ -693,24 +689,24 @@ async function createLoadBalancerWithStandardSku() {
             properties: {
               backendAddressPool: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
               },
               backendPort: 80,
               enableFloatingIP: true,
               frontendIPConfiguration: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
               },
               frontendPort: 80,
               idleTimeoutInMinutes: 15,
               loadDistribution: "Default",
               probe: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
               },
-              protocol: "Tcp"
-            }
-          }
+              protocol: "Tcp",
+            },
+          },
         ],
         outboundRules: [],
         probes: [
@@ -722,14 +718,14 @@ async function createLoadBalancerWithStandardSku() {
               port: 80,
               probeThreshold: 1,
               requestPath: "healthcheck.aspx",
-              protocol: "Http"
-            }
-          }
-        ]
+              protocol: "Http",
+            },
+          },
+        ],
       },
-      sku: { name: "Standard" }
+      sku: { name: "Standard" },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -771,11 +767,11 @@ async function createLoadBalancerWithInboundNatPool() {
               privateIPAllocationMethod: "Dynamic",
               subnet: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/lbvnet/subnets/lbsubnet"
-              }
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/lbvnet/subnets/lbsubnet",
+              },
             },
-            zones: []
-          }
+            zones: [],
+          },
         ],
         inboundNatPools: [
           {
@@ -788,23 +784,23 @@ async function createLoadBalancerWithInboundNatPool() {
               enableTcpReset: true,
               frontendIPConfiguration: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/test"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/test",
               },
               frontendPortRangeEnd: 8085,
               frontendPortRangeStart: 8080,
               idleTimeoutInMinutes: 10,
-              protocol: "Tcp"
-            }
-          }
+              protocol: "Tcp",
+            },
+          },
         ],
         inboundNatRules: [],
         loadBalancingRules: [],
         outboundRules: [],
-        probes: []
+        probes: [],
       },
-      sku: { name: "Standard" }
+      sku: { name: "Standard" },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -843,10 +839,10 @@ async function createLoadBalancerWithOutboundRules() {
             properties: {
               publicIPAddress: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pip"
-              }
-            }
-          }
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pip",
+              },
+            },
+          },
         ],
         inboundNatPools: [],
         inboundNatRules: [
@@ -857,13 +853,13 @@ async function createLoadBalancerWithOutboundRules() {
               enableFloatingIP: true,
               frontendIPConfiguration: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
               },
               frontendPort: 3389,
               idleTimeoutInMinutes: 15,
-              protocol: "Tcp"
-            }
-          }
+              protocol: "Tcp",
+            },
+          },
         ],
         loadBalancingRules: [
           {
@@ -871,25 +867,25 @@ async function createLoadBalancerWithOutboundRules() {
             properties: {
               backendAddressPool: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
               },
               backendPort: 80,
               disableOutboundSnat: true,
               enableFloatingIP: true,
               frontendIPConfiguration: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
               },
               frontendPort: 80,
               idleTimeoutInMinutes: 15,
               loadDistribution: "Default",
               probe: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
               },
-              protocol: "Tcp"
-            }
-          }
+              protocol: "Tcp",
+            },
+          },
         ],
         outboundRules: [
           {
@@ -897,17 +893,17 @@ async function createLoadBalancerWithOutboundRules() {
             properties: {
               backendAddressPool: {
                 id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
               },
               frontendIPConfigurations: [
                 {
                   id:
-                    "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
-                }
+                    "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+                },
               ],
-              protocol: "All"
-            }
-          }
+              protocol: "All",
+            },
+          },
         ],
         probes: [
           {
@@ -918,14 +914,14 @@ async function createLoadBalancerWithOutboundRules() {
               port: 80,
               probeThreshold: 1,
               requestPath: "healthcheck.aspx",
-              protocol: "Http"
-            }
-          }
-        ]
+              protocol: "Http",
+            },
+          },
+        ],
       },
-      sku: { name: "Standard" }
+      sku: { name: "Standard" },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

@@ -1566,2507 +1566,2435 @@ import {
   WebCategoriesGet200Response,
   WebCategoriesGetDefaultResponse,
   WebCategoriesListBySubscription200Response,
-  WebCategoriesListBySubscriptionDefaultResponse
+  WebCategoriesListBySubscriptionDefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGateways": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGateways": ["200"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/start": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/start": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/stop": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/stop": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/backendhealth": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/backendhealth": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/getBackendHealthOnDemand": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/getBackendHealthOnDemand": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableServerVariables": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableRequestHeaders": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableResponseHeaders": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableWafRuleSets": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default/predefinedPolicies": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default/predefinedPolicies/{predefinedPolicyName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateLinkResources": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections/{connectionName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections/{connectionName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections/{connectionName}": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/applicationGatewayWafDynamicManifests/dafault": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/applicationGatewayWafDynamicManifests": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationSecurityGroups": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availableDelegations": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availableDelegations": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availableServiceAliases": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availableServiceAliases": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewalls": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewalls": ["200"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}/learnedIPPrefixes": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}/learnedIPPrefixes": [
     "200",
-    "202"
+    "202",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewallFqdnTags": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewallFqdnTags": ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/azureWebCategories/{name}": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/azureWebCategories": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/azureWebCategories": ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}": [
     "200",
-    "202"
+    "202",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/bastionHosts": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/bastionHosts": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/createShareableLinks": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/createShareableLinks": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/deleteShareableLinks": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/deleteShareableLinks": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/getShareableLinks": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/getActiveSessions": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/getActiveSessions": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/disconnectActiveSessions": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/CheckDnsNameAvailability": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveConnectivityConfigurations": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveSecurityAdminRules": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/listNetworkManagerEffectiveConnectivityConfigurations": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/listNetworkManagerEffectiveSecurityAdminRules": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/supportedSecurityProviders": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/GenerateVpnProfile": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/GenerateVpnProfile": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/networkInterfaces": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces/{networkInterfaceName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkInterfaces": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkInterfaces": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveRouteTable": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveRouteTable": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveNetworkSecurityGroups": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveNetworkSecurityGroups": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/networkInterfaces": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipConfigurations": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipConfigurations/{ipConfigurationName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/publicipaddresses": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses/{publicIpAddressName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPAddresses": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPAddresses": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}/ddosProtectionStatus": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}/ddosProtectionStatus": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/publicipaddresses": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses/{publicIpAddressName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/customIpPrefixes": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/customIpPrefixes": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ddosProtectionPlans": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ddosProtectionPlans": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations/{dscpConfigurationName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations/{dscpConfigurationName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations/{dscpConfigurationName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/dscpConfigurations": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/dscpConfigurations": ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/virtualNetworkAvailableEndpointServices": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections/{connectionName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections/{connectionName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections/{connectionName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/peerConnections/{connectionName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/peerConnections": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/arpTables/{devicePath}": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/arpTables/{devicePath}": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTables/{devicePath}": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTables/{devicePath}": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTablesSummary/{devicePath}": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTablesSummary/{devicePath}": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/stats": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/stats": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCircuits": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCircuits": ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteServiceProviders": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCrossConnections": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/arpTables/{devicePath}": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/arpTables/{devicePath}": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTablesSummary/{devicePath}": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTablesSummary/{devicePath}": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTables/{devicePath}": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTables/{devicePath}": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePortsLocations": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePortsLocations/{locationName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePorts": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePorts": ["200"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/generateLoa": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}/links/{linkName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}/links": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts/{providerport}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/firewallPolicies": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/firewallPolicies": ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/listIdpsSignatures": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides/default": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides/default": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides/default": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/listIdpsFilterOptions": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/IpAllocations": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/IpAllocations": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ipGroups": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ipGroups": ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/loadBalancers": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/loadBalancers": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/setLoadBalancerFrontendPublicIpAddresses": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/setLoadBalancerFrontendPublicIpAddresses": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendPoolName}/queryInboundNatRulePortMapping": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendPoolName}/queryInboundNatRulePortMapping": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}": [
     "200",
-    "201"
+    "201",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/frontendIPConfigurations": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/frontendIPConfigurations/{frontendIPConfigurationName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/loadBalancingRules": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/loadBalancingRules/{loadBalancingRuleName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/outboundRules": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/outboundRules/{outboundRuleName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/networkInterfaces": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}": [
     "200",
     "201",
-    "202"
+    "202",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/natGateways": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/natGateways": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/ipConfigurations": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/ipConfigurations/{ipConfigurationName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/loadBalancers": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}": [
     "200",
-    "201"
+    "201",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagers": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagers": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/commit": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/commit": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listDeploymentStatus": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}": [
     "200",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections": [
-    "200"
+    "200",
   ],
   "PUT /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}": [
-    "200"
+    "200",
   ],
   "DELETE /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}": [
     "200",
-    "204"
+    "204",
   ],
   "GET /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}": [
     "200",
-    "201"
+    "201",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}": [
     "200",
-    "201"
+    "201",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers/{staticMemberName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers/{staticMemberName}": [
     "200",
-    "201"
+    "201",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers/{staticMemberName}": [
     "200",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections/{scopeConnectionName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections/{scopeConnectionName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections/{scopeConnectionName}": [
     "200",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}": [
     "200",
-    "201"
+    "201",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}": [
     "200",
-    "201"
+    "201",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}": [
     "200",
-    "201"
+    "201",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkProfiles": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkProfiles": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkSecurityGroups": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkSecurityGroups": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/defaultSecurityRules": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/defaultSecurityRules/{defaultSecurityRuleName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualAppliances": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/virtualApplianceSites/{siteName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/virtualApplianceSites/{siteName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/virtualApplianceSites/{siteName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/virtualApplianceSites": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus/{skuName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/inboundSecurityRules/{ruleCollectionName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/inboundSecurityRules/{ruleCollectionName}": [
     "200",
-    "201"
+    "201",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}": [
     "202",
-    "204"
+    "204",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkWatchers": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkWatchers": ["200"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/topology": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/ipFlowVerify": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/ipFlowVerify": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/nextHop": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/nextHop": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/securityGroupView": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/securityGroupView": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/troubleshoot": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/troubleshoot": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/queryTroubleshootResult": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/queryTroubleshootResult": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/configureFlowLog": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/configureFlowLog": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/queryFlowLogStatus": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/queryFlowLogStatus": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectivityCheck": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectivityCheck": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/azureReachabilityReport": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/azureReachabilityReport": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/availableProvidersList": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/availableProvidersList": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/networkConfigurationDiagnostic": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/networkConfigurationDiagnostic": [
     "200",
-    "202"
+    "202",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}": [
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}": [
     "202",
-    "204"
+    "204",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/stop": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/stop": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/queryStatus": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/queryStatus": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}": [
     "202",
-    "204"
+    "204",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/stop": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/stop": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/start": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/start": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/query": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/query": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}": [
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs": [
-    "200"
+    "200",
   ],
   "GET /providers/Microsoft.Network/operations": ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/privateEndpoints": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/privateEndpoints": ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availablePrivateEndpointTypes": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availablePrivateEndpointTypes": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/privateLinkServices": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/privateLinkServices": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/autoApprovedPrivateLinkServices": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/autoApprovedPrivateLinkServices": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPPrefixes": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPPrefixes": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/routeFilters": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/routeFilters": ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/routeTables": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/routeTables": ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/securityPartnerProviders": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/bgpServiceCommunities": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/bgpServiceCommunities": ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ServiceEndpointPolicies": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions/{serviceEndpointPolicyDefinitionName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions/{serviceEndpointPolicyDefinitionName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions/{serviceEndpointPolicyDefinitionName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTags": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTagDetails": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/usages": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworks": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworks": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/CheckIPAddressAvailability": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/usages": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/ddosProtectionStatus": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/ddosProtectionStatus": [
     "200",
-    "202"
+    "202",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}": [
     "200",
-    "201"
+    "201",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/PrepareNetworkPolicies": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/PrepareNetworkPolicies": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/UnprepareNetworkPolicies": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/UnprepareNetworkPolicies": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/ResourceNavigationLinks": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/ServiceAssociationLinks": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/connections": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/reset": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/reset": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/resetvpnclientsharedkey": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/resetvpnclientsharedkey": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/generatevpnclientpackage": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/generatevpnclientpackage": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/generatevpnprofile": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/generatevpnprofile": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getvpnprofilepackageurl": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getvpnprofilepackageurl": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getBgpPeerStatus": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getBgpPeerStatus": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/supportedvpndevices": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getLearnedRoutes": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getLearnedRoutes": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getAdvertisedRoutes": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getAdvertisedRoutes": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/setvpnclientipsecparameters": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/setvpnclientipsecparameters": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getvpnclientipsecparameters": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getvpnclientipsecparameters": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/vpndeviceconfigurationscript": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/startPacketCapture": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/startPacketCapture": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/stopPacketCapture": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/stopPacketCapture": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getVpnClientConnectionHealth": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getVpnClientConnectionHealth": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/disconnectVirtualNetworkGatewayVpnConnections": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/disconnectVirtualNetworkGatewayVpnConnections": [
     "200",
-    "202"
+    "202",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}": [
     "200",
-    "202"
+    "202",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey/reset": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey/reset": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/startPacketCapture": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/startPacketCapture": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/stopPacketCapture": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/stopPacketCapture": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/getikesas": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/getikesas": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/resetconnection": [
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/resetconnection": [
-    "202"
+    "202",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules/{natRuleName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules/{natRuleName}": [
     "200",
-    "201"
+    "201",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules/{natRuleName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworkTaps": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworkTaps": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualRouters": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualRouters": ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings/{peeringName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings/{peeringName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings/{peeringName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualWans": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualWans": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnSites": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnSites": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}/vpnSiteLinks/{vpnSiteLinkName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}/vpnSiteLinks": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/vpnConfiguration": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/vpnConfiguration": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnServerConfigurations": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups/{configurationPolicyGroupName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups/{configurationPolicyGroupName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups/{configurationPolicyGroupName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualHubs": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualHubs": ["200"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/effectiveRoutes": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/effectiveRoutes": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/inboundRoutes": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/inboundRoutes": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/outboundRoutes": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/outboundRoutes": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps/{routeMapName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps/{routeMapName}": [
     "200",
-    "201"
+    "201",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps/{routeMapName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}": [
     "200",
-    "202"
+    "202",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/reset": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/reset": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/startpacketcapture": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/startpacketcapture": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/stoppacketcapture": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/stoppacketcapture": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnGateways": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnGateways": ["200"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}/resetconnection": [
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}/resetconnection": [
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}/getikesas": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}/getikesas": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}": [
     "200",
-    "201"
+    "201",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{vpnConnectionName}/startpacketcapture": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{vpnConnectionName}/startpacketcapture": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{vpnConnectionName}/stoppacketcapture": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{vpnConnectionName}/stoppacketcapture": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules/{natRuleName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules/{natRuleName}": [
     "200",
-    "201"
+    "201",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules/{natRuleName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}": [
     "200",
-    "202"
+    "202",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/p2svpnGateways": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/p2svpnGateways": ["200"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/reset": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/reset": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/generatevpnprofile": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/generatevpnprofile": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealth": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealth": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealthDetailed": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealthDetailed": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{p2sVpnGatewayName}/disconnectP2sVpnConnections": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{p2sVpnGatewayName}/disconnectP2sVpnConnections": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/vpnServerConfigurations": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/vpnServerConfigurations": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables/{routeTableName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables/{routeTableName}": [
     "200",
-    "201"
+    "201",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables/{routeTableName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteGateways": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteGateways": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}": [
-    "200"
+    "200",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}": [
     "200",
-    "202"
+    "202",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/expressRouteConnections/{connectionName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/expressRouteConnections/{connectionName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/expressRouteConnections/{connectionName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/expressRouteConnections": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections/{connectionName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections/{connectionName}": [
     "200",
-    "201"
+    "201",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections/{connectionName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{hubName}/bgpConnections/{connectionName}/learnedRoutes": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{hubName}/bgpConnections/{connectionName}/learnedRoutes": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{hubName}/bgpConnections/{connectionName}/advertisedRoutes": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{hubName}/bgpConnections/{connectionName}/advertisedRoutes": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/ipConfigurations/{ipConfigName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/ipConfigurations/{ipConfigName}": [
     "200",
-    "201"
+    "201",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/ipConfigurations/{ipConfigName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/ipConfigurations": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent/{routingIntentName}": [
     "200",
-    "201"
+    "201",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent/{routingIntentName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent/{routingIntentName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}": [
     "200",
-    "201"
+    "201",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots/{singletonResource}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots/{singletonResource}": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots": [
-    "200"
-  ]
+    "200",
+  ],
 };
 
 export function isUnexpected(
@@ -4077,9 +4005,7 @@ export function isUnexpected(
     | ApplicationGatewaysDeleteDefaultResponse
 ): response is ApplicationGatewaysDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ApplicationGatewaysGet200Response
-    | ApplicationGatewaysGetDefaultResponse
+  response: ApplicationGatewaysGet200Response | ApplicationGatewaysGetDefaultResponse
 ): response is ApplicationGatewaysGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4088,19 +4014,13 @@ export function isUnexpected(
     | ApplicationGatewaysCreateOrUpdateDefaultResponse
 ): response is ApplicationGatewaysCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | ApplicationGatewaysUpdateTags200Response
-    | ApplicationGatewaysUpdateTagsDefaultResponse
+  response: ApplicationGatewaysUpdateTags200Response | ApplicationGatewaysUpdateTagsDefaultResponse
 ): response is ApplicationGatewaysUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | ApplicationGatewaysList200Response
-    | ApplicationGatewaysListDefaultResponse
+  response: ApplicationGatewaysList200Response | ApplicationGatewaysListDefaultResponse
 ): response is ApplicationGatewaysListDefaultResponse;
 export function isUnexpected(
-  response:
-    | ApplicationGatewaysListAll200Response
-    | ApplicationGatewaysListAllDefaultResponse
+  response: ApplicationGatewaysListAll200Response | ApplicationGatewaysListAllDefaultResponse
 ): response is ApplicationGatewaysListAllDefaultResponse;
 export function isUnexpected(
   response:
@@ -4207,9 +4127,7 @@ export function isUnexpected(
     | ApplicationSecurityGroupsDeleteDefaultResponse
 ): response is ApplicationSecurityGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ApplicationSecurityGroupsGet200Response
-    | ApplicationSecurityGroupsGetDefaultResponse
+  response: ApplicationSecurityGroupsGet200Response | ApplicationSecurityGroupsGetDefaultResponse
 ): response is ApplicationSecurityGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4228,14 +4146,10 @@ export function isUnexpected(
     | ApplicationSecurityGroupsListAllDefaultResponse
 ): response is ApplicationSecurityGroupsListAllDefaultResponse;
 export function isUnexpected(
-  response:
-    | ApplicationSecurityGroupsList200Response
-    | ApplicationSecurityGroupsListDefaultResponse
+  response: ApplicationSecurityGroupsList200Response | ApplicationSecurityGroupsListDefaultResponse
 ): response is ApplicationSecurityGroupsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | AvailableDelegationsList200Response
-    | AvailableDelegationsListDefaultResponse
+  response: AvailableDelegationsList200Response | AvailableDelegationsListDefaultResponse
 ): response is AvailableDelegationsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -4243,9 +4157,7 @@ export function isUnexpected(
     | AvailableResourceGroupDelegationsListDefaultResponse
 ): response is AvailableResourceGroupDelegationsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | AvailableServiceAliasesList200Response
-    | AvailableServiceAliasesListDefaultResponse
+  response: AvailableServiceAliasesList200Response | AvailableServiceAliasesListDefaultResponse
 ): response is AvailableServiceAliasesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -4278,9 +4190,7 @@ export function isUnexpected(
   response: AzureFirewallsList200Response | AzureFirewallsListDefaultResponse
 ): response is AzureFirewallsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | AzureFirewallsListAll200Response
-    | AzureFirewallsListAllDefaultResponse
+  response: AzureFirewallsListAll200Response | AzureFirewallsListAllDefaultResponse
 ): response is AzureFirewallsListAllDefaultResponse;
 export function isUnexpected(
   response:
@@ -4289,9 +4199,7 @@ export function isUnexpected(
     | AzureFirewallsListLearnedPrefixesDefaultResponse
 ): response is AzureFirewallsListLearnedPrefixesDefaultResponse;
 export function isUnexpected(
-  response:
-    | AzureFirewallFqdnTagsListAll200Response
-    | AzureFirewallFqdnTagsListAllDefaultResponse
+  response: AzureFirewallFqdnTagsListAll200Response | AzureFirewallFqdnTagsListAllDefaultResponse
 ): response is AzureFirewallFqdnTagsListAllDefaultResponse;
 export function isUnexpected(
   response: WebCategoriesGet200Response | WebCategoriesGetDefaultResponse
@@ -4344,9 +4252,7 @@ export function isUnexpected(
     | DeleteBastionShareableLinkDefaultResponse
 ): response is DeleteBastionShareableLinkDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetBastionShareableLink200Response
-    | GetBastionShareableLinkDefaultResponse
+  response: GetBastionShareableLink200Response | GetBastionShareableLinkDefaultResponse
 ): response is GetBastionShareableLinkDefaultResponse;
 export function isUnexpected(
   response:
@@ -4355,14 +4261,10 @@ export function isUnexpected(
     | GetActiveSessionsDefaultResponse
 ): response is GetActiveSessionsDefaultResponse;
 export function isUnexpected(
-  response:
-    | DisconnectActiveSessions200Response
-    | DisconnectActiveSessionsDefaultResponse
+  response: DisconnectActiveSessions200Response | DisconnectActiveSessionsDefaultResponse
 ): response is DisconnectActiveSessionsDefaultResponse;
 export function isUnexpected(
-  response:
-    | CheckDnsNameAvailability200Response
-    | CheckDnsNameAvailabilityDefaultResponse
+  response: CheckDnsNameAvailability200Response | CheckDnsNameAvailabilityDefaultResponse
 ): response is CheckDnsNameAvailabilityDefaultResponse;
 export function isUnexpected(
   response:
@@ -4370,9 +4272,7 @@ export function isUnexpected(
     | ListActiveConnectivityConfigurationsDefaultResponse
 ): response is ListActiveConnectivityConfigurationsDefaultResponse;
 export function isUnexpected(
-  response:
-    | ListActiveSecurityAdminRules200Response
-    | ListActiveSecurityAdminRulesDefaultResponse
+  response: ListActiveSecurityAdminRules200Response | ListActiveSecurityAdminRulesDefaultResponse
 ): response is ListActiveSecurityAdminRulesDefaultResponse;
 export function isUnexpected(
   response:
@@ -4385,9 +4285,7 @@ export function isUnexpected(
     | ListNetworkManagerEffectiveSecurityAdminRulesDefaultResponse
 ): response is ListNetworkManagerEffectiveSecurityAdminRulesDefaultResponse;
 export function isUnexpected(
-  response:
-    | SupportedSecurityProviders200Response
-    | SupportedSecurityProvidersDefaultResponse
+  response: SupportedSecurityProviders200Response | SupportedSecurityProvidersDefaultResponse
 ): response is SupportedSecurityProvidersDefaultResponse;
 export function isUnexpected(
   response:
@@ -4418,9 +4316,7 @@ export function isUnexpected(
     | NetworkInterfacesDeleteDefaultResponse
 ): response is NetworkInterfacesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkInterfacesGet200Response
-    | NetworkInterfacesGetDefaultResponse
+  response: NetworkInterfacesGet200Response | NetworkInterfacesGetDefaultResponse
 ): response is NetworkInterfacesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4429,19 +4325,13 @@ export function isUnexpected(
     | NetworkInterfacesCreateOrUpdateDefaultResponse
 ): response is NetworkInterfacesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkInterfacesUpdateTags200Response
-    | NetworkInterfacesUpdateTagsDefaultResponse
+  response: NetworkInterfacesUpdateTags200Response | NetworkInterfacesUpdateTagsDefaultResponse
 ): response is NetworkInterfacesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkInterfacesListAll200Response
-    | NetworkInterfacesListAllDefaultResponse
+  response: NetworkInterfacesListAll200Response | NetworkInterfacesListAllDefaultResponse
 ): response is NetworkInterfacesListAllDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkInterfacesList200Response
-    | NetworkInterfacesListDefaultResponse
+  response: NetworkInterfacesList200Response | NetworkInterfacesListDefaultResponse
 ): response is NetworkInterfacesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -4503,9 +4393,7 @@ export function isUnexpected(
     | PublicIPAddressesDeleteDefaultResponse
 ): response is PublicIPAddressesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | PublicIPAddressesGet200Response
-    | PublicIPAddressesGetDefaultResponse
+  response: PublicIPAddressesGet200Response | PublicIPAddressesGetDefaultResponse
 ): response is PublicIPAddressesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4514,19 +4402,13 @@ export function isUnexpected(
     | PublicIPAddressesCreateOrUpdateDefaultResponse
 ): response is PublicIPAddressesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | PublicIPAddressesUpdateTags200Response
-    | PublicIPAddressesUpdateTagsDefaultResponse
+  response: PublicIPAddressesUpdateTags200Response | PublicIPAddressesUpdateTagsDefaultResponse
 ): response is PublicIPAddressesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | PublicIPAddressesListAll200Response
-    | PublicIPAddressesListAllDefaultResponse
+  response: PublicIPAddressesListAll200Response | PublicIPAddressesListAllDefaultResponse
 ): response is PublicIPAddressesListAllDefaultResponse;
 export function isUnexpected(
-  response:
-    | PublicIPAddressesList200Response
-    | PublicIPAddressesListDefaultResponse
+  response: PublicIPAddressesList200Response | PublicIPAddressesListDefaultResponse
 ): response is PublicIPAddressesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -4566,19 +4448,13 @@ export function isUnexpected(
     | CustomIPPrefixesCreateOrUpdateDefaultResponse
 ): response is CustomIPPrefixesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | CustomIPPrefixesUpdateTags200Response
-    | CustomIPPrefixesUpdateTagsDefaultResponse
+  response: CustomIPPrefixesUpdateTags200Response | CustomIPPrefixesUpdateTagsDefaultResponse
 ): response is CustomIPPrefixesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | CustomIPPrefixesListAll200Response
-    | CustomIPPrefixesListAllDefaultResponse
+  response: CustomIPPrefixesListAll200Response | CustomIPPrefixesListAllDefaultResponse
 ): response is CustomIPPrefixesListAllDefaultResponse;
 export function isUnexpected(
-  response:
-    | CustomIPPrefixesList200Response
-    | CustomIPPrefixesListDefaultResponse
+  response: CustomIPPrefixesList200Response | CustomIPPrefixesListDefaultResponse
 ): response is CustomIPPrefixesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -4588,9 +4464,7 @@ export function isUnexpected(
     | DdosCustomPoliciesDeleteDefaultResponse
 ): response is DdosCustomPoliciesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | DdosCustomPoliciesGet200Response
-    | DdosCustomPoliciesGetDefaultResponse
+  response: DdosCustomPoliciesGet200Response | DdosCustomPoliciesGetDefaultResponse
 ): response is DdosCustomPoliciesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4599,9 +4473,7 @@ export function isUnexpected(
     | DdosCustomPoliciesCreateOrUpdateDefaultResponse
 ): response is DdosCustomPoliciesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | DdosCustomPoliciesUpdateTags200Response
-    | DdosCustomPoliciesUpdateTagsDefaultResponse
+  response: DdosCustomPoliciesUpdateTags200Response | DdosCustomPoliciesUpdateTagsDefaultResponse
 ): response is DdosCustomPoliciesUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
@@ -4611,9 +4483,7 @@ export function isUnexpected(
     | DdosProtectionPlansDeleteDefaultResponse
 ): response is DdosProtectionPlansDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | DdosProtectionPlansGet200Response
-    | DdosProtectionPlansGetDefaultResponse
+  response: DdosProtectionPlansGet200Response | DdosProtectionPlansGetDefaultResponse
 ): response is DdosProtectionPlansGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4622,14 +4492,10 @@ export function isUnexpected(
     | DdosProtectionPlansCreateOrUpdateDefaultResponse
 ): response is DdosProtectionPlansCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | DdosProtectionPlansUpdateTags200Response
-    | DdosProtectionPlansUpdateTagsDefaultResponse
+  response: DdosProtectionPlansUpdateTags200Response | DdosProtectionPlansUpdateTagsDefaultResponse
 ): response is DdosProtectionPlansUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | DdosProtectionPlansList200Response
-    | DdosProtectionPlansListDefaultResponse
+  response: DdosProtectionPlansList200Response | DdosProtectionPlansListDefaultResponse
 ): response is DdosProtectionPlansListDefaultResponse;
 export function isUnexpected(
   response:
@@ -4650,24 +4516,16 @@ export function isUnexpected(
     | DscpConfigurationDeleteDefaultResponse
 ): response is DscpConfigurationDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | DscpConfigurationGet200Response
-    | DscpConfigurationGetDefaultResponse
+  response: DscpConfigurationGet200Response | DscpConfigurationGetDefaultResponse
 ): response is DscpConfigurationGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | DscpConfigurationList200Response
-    | DscpConfigurationListDefaultResponse
+  response: DscpConfigurationList200Response | DscpConfigurationListDefaultResponse
 ): response is DscpConfigurationListDefaultResponse;
 export function isUnexpected(
-  response:
-    | DscpConfigurationListAll200Response
-    | DscpConfigurationListAllDefaultResponse
+  response: DscpConfigurationListAll200Response | DscpConfigurationListAllDefaultResponse
 ): response is DscpConfigurationListAllDefaultResponse;
 export function isUnexpected(
-  response:
-    | AvailableEndpointServicesList200Response
-    | AvailableEndpointServicesListDefaultResponse
+  response: AvailableEndpointServicesList200Response | AvailableEndpointServicesListDefaultResponse
 ): response is AvailableEndpointServicesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -4756,9 +4614,7 @@ export function isUnexpected(
     | ExpressRouteCircuitsDeleteDefaultResponse
 ): response is ExpressRouteCircuitsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRouteCircuitsGet200Response
-    | ExpressRouteCircuitsGetDefaultResponse
+  response: ExpressRouteCircuitsGet200Response | ExpressRouteCircuitsGetDefaultResponse
 ): response is ExpressRouteCircuitsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4790,9 +4646,7 @@ export function isUnexpected(
     | ExpressRouteCircuitsListRoutesTableSummaryDefaultResponse
 ): response is ExpressRouteCircuitsListRoutesTableSummaryDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRouteCircuitsGetStats200Response
-    | ExpressRouteCircuitsGetStatsDefaultResponse
+  response: ExpressRouteCircuitsGetStats200Response | ExpressRouteCircuitsGetStatsDefaultResponse
 ): response is ExpressRouteCircuitsGetStatsDefaultResponse;
 export function isUnexpected(
   response:
@@ -4800,14 +4654,10 @@ export function isUnexpected(
     | ExpressRouteCircuitsGetPeeringStatsDefaultResponse
 ): response is ExpressRouteCircuitsGetPeeringStatsDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRouteCircuitsList200Response
-    | ExpressRouteCircuitsListDefaultResponse
+  response: ExpressRouteCircuitsList200Response | ExpressRouteCircuitsListDefaultResponse
 ): response is ExpressRouteCircuitsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRouteCircuitsListAll200Response
-    | ExpressRouteCircuitsListAllDefaultResponse
+  response: ExpressRouteCircuitsListAll200Response | ExpressRouteCircuitsListAllDefaultResponse
 ): response is ExpressRouteCircuitsListAllDefaultResponse;
 export function isUnexpected(
   response:
@@ -4886,9 +4736,7 @@ export function isUnexpected(
     | ExpressRoutePortsLocationsListDefaultResponse
 ): response is ExpressRoutePortsLocationsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRoutePortsLocationsGet200Response
-    | ExpressRoutePortsLocationsGetDefaultResponse
+  response: ExpressRoutePortsLocationsGet200Response | ExpressRoutePortsLocationsGetDefaultResponse
 ): response is ExpressRoutePortsLocationsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4898,9 +4746,7 @@ export function isUnexpected(
     | ExpressRoutePortsDeleteDefaultResponse
 ): response is ExpressRoutePortsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRoutePortsGet200Response
-    | ExpressRoutePortsGetDefaultResponse
+  response: ExpressRoutePortsGet200Response | ExpressRoutePortsGetDefaultResponse
 ): response is ExpressRoutePortsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4909,9 +4755,7 @@ export function isUnexpected(
     | ExpressRoutePortsCreateOrUpdateDefaultResponse
 ): response is ExpressRoutePortsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRoutePortsUpdateTags200Response
-    | ExpressRoutePortsUpdateTagsDefaultResponse
+  response: ExpressRoutePortsUpdateTags200Response | ExpressRoutePortsUpdateTagsDefaultResponse
 ): response is ExpressRoutePortsUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
@@ -4919,24 +4763,16 @@ export function isUnexpected(
     | ExpressRoutePortsListByResourceGroupDefaultResponse
 ): response is ExpressRoutePortsListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRoutePortsList200Response
-    | ExpressRoutePortsListDefaultResponse
+  response: ExpressRoutePortsList200Response | ExpressRoutePortsListDefaultResponse
 ): response is ExpressRoutePortsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRoutePortsGenerateLOA200Response
-    | ExpressRoutePortsGenerateLOADefaultResponse
+  response: ExpressRoutePortsGenerateLOA200Response | ExpressRoutePortsGenerateLOADefaultResponse
 ): response is ExpressRoutePortsGenerateLOADefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRouteLinksGet200Response
-    | ExpressRouteLinksGetDefaultResponse
+  response: ExpressRouteLinksGet200Response | ExpressRouteLinksGetDefaultResponse
 ): response is ExpressRouteLinksGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRouteLinksList200Response
-    | ExpressRouteLinksListDefaultResponse
+  response: ExpressRouteLinksList200Response | ExpressRouteLinksListDefaultResponse
 ): response is ExpressRouteLinksListDefaultResponse;
 export function isUnexpected(
   response:
@@ -4967,9 +4803,7 @@ export function isUnexpected(
     | ExpressRouteProviderPortsLocationListDefaultResponse
 ): response is ExpressRouteProviderPortsLocationListDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRouteProviderPortsGet200Response
-    | ExpressRouteProviderPortsGetDefaultResponse
+  response: ExpressRouteProviderPortsGet200Response | ExpressRouteProviderPortsGetDefaultResponse
 ): response is ExpressRouteProviderPortsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4988,19 +4822,13 @@ export function isUnexpected(
     | FirewallPoliciesCreateOrUpdateDefaultResponse
 ): response is FirewallPoliciesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | FirewallPoliciesUpdateTags200Response
-    | FirewallPoliciesUpdateTagsDefaultResponse
+  response: FirewallPoliciesUpdateTags200Response | FirewallPoliciesUpdateTagsDefaultResponse
 ): response is FirewallPoliciesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | FirewallPoliciesList200Response
-    | FirewallPoliciesListDefaultResponse
+  response: FirewallPoliciesList200Response | FirewallPoliciesListDefaultResponse
 ): response is FirewallPoliciesListDefaultResponse;
 export function isUnexpected(
-  response:
-    | FirewallPoliciesListAll200Response
-    | FirewallPoliciesListAllDefaultResponse
+  response: FirewallPoliciesListAll200Response | FirewallPoliciesListAllDefaultResponse
 ): response is FirewallPoliciesListAllDefaultResponse;
 export function isUnexpected(
   response:
@@ -5072,9 +4900,7 @@ export function isUnexpected(
     | IpAllocationsCreateOrUpdateDefaultResponse
 ): response is IpAllocationsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | IpAllocationsUpdateTags200Response
-    | IpAllocationsUpdateTagsDefaultResponse
+  response: IpAllocationsUpdateTags200Response | IpAllocationsUpdateTagsDefaultResponse
 ): response is IpAllocationsUpdateTagsDefaultResponse;
 export function isUnexpected(
   response: IpAllocationsList200Response | IpAllocationsListDefaultResponse
@@ -5094,9 +4920,7 @@ export function isUnexpected(
     | IpGroupsCreateOrUpdateDefaultResponse
 ): response is IpGroupsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | IpGroupsUpdateGroups200Response
-    | IpGroupsUpdateGroupsDefaultResponse
+  response: IpGroupsUpdateGroups200Response | IpGroupsUpdateGroupsDefaultResponse
 ): response is IpGroupsUpdateGroupsDefaultResponse;
 export function isUnexpected(
   response:
@@ -5106,9 +4930,7 @@ export function isUnexpected(
     | IpGroupsDeleteDefaultResponse
 ): response is IpGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | IpGroupsListByResourceGroup200Response
-    | IpGroupsListByResourceGroupDefaultResponse
+  response: IpGroupsListByResourceGroup200Response | IpGroupsListByResourceGroupDefaultResponse
 ): response is IpGroupsListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response: IpGroupsList200Response | IpGroupsListDefaultResponse
@@ -5130,14 +4952,10 @@ export function isUnexpected(
     | LoadBalancersCreateOrUpdateDefaultResponse
 ): response is LoadBalancersCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | LoadBalancersUpdateTags200Response
-    | LoadBalancersUpdateTagsDefaultResponse
+  response: LoadBalancersUpdateTags200Response | LoadBalancersUpdateTagsDefaultResponse
 ): response is LoadBalancersUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | LoadBalancersListAll200Response
-    | LoadBalancersListAllDefaultResponse
+  response: LoadBalancersListAll200Response | LoadBalancersListAllDefaultResponse
 ): response is LoadBalancersListAllDefaultResponse;
 export function isUnexpected(
   response: LoadBalancersList200Response | LoadBalancersListDefaultResponse
@@ -5217,14 +5035,10 @@ export function isUnexpected(
     | LoadBalancerLoadBalancingRulesGetDefaultResponse
 ): response is LoadBalancerLoadBalancingRulesGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | LoadBalancerOutboundRulesList200Response
-    | LoadBalancerOutboundRulesListDefaultResponse
+  response: LoadBalancerOutboundRulesList200Response | LoadBalancerOutboundRulesListDefaultResponse
 ): response is LoadBalancerOutboundRulesListDefaultResponse;
 export function isUnexpected(
-  response:
-    | LoadBalancerOutboundRulesGet200Response
-    | LoadBalancerOutboundRulesGetDefaultResponse
+  response: LoadBalancerOutboundRulesGet200Response | LoadBalancerOutboundRulesGetDefaultResponse
 ): response is LoadBalancerOutboundRulesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -5232,14 +5046,10 @@ export function isUnexpected(
     | LoadBalancerNetworkInterfacesListDefaultResponse
 ): response is LoadBalancerNetworkInterfacesListDefaultResponse;
 export function isUnexpected(
-  response:
-    | LoadBalancerProbesList200Response
-    | LoadBalancerProbesListDefaultResponse
+  response: LoadBalancerProbesList200Response | LoadBalancerProbesListDefaultResponse
 ): response is LoadBalancerProbesListDefaultResponse;
 export function isUnexpected(
-  response:
-    | LoadBalancerProbesGet200Response
-    | LoadBalancerProbesGetDefaultResponse
+  response: LoadBalancerProbesGet200Response | LoadBalancerProbesGetDefaultResponse
 ): response is LoadBalancerProbesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -5259,9 +5069,7 @@ export function isUnexpected(
     | NatGatewaysCreateOrUpdateDefaultResponse
 ): response is NatGatewaysCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | NatGatewaysUpdateTags200Response
-    | NatGatewaysUpdateTagsDefaultResponse
+  response: NatGatewaysUpdateTags200Response | NatGatewaysUpdateTagsDefaultResponse
 ): response is NatGatewaysUpdateTagsDefaultResponse;
 export function isUnexpected(
   response: NatGatewaysListAll200Response | NatGatewaysListAllDefaultResponse
@@ -5324,9 +5132,7 @@ export function isUnexpected(
     | NetworkManagersDeleteDefaultResponse
 ): response is NetworkManagersDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkManagersPatch200Response
-    | NetworkManagersPatchDefaultResponse
+  response: NetworkManagersPatch200Response | NetworkManagersPatchDefaultResponse
 ): response is NetworkManagersPatchDefaultResponse;
 export function isUnexpected(
   response:
@@ -5392,9 +5198,7 @@ export function isUnexpected(
     | ManagementGroupNetworkManagerConnectionsListDefaultResponse
 ): response is ManagementGroupNetworkManagerConnectionsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | ConnectivityConfigurationsGet200Response
-    | ConnectivityConfigurationsGetDefaultResponse
+  response: ConnectivityConfigurationsGet200Response | ConnectivityConfigurationsGetDefaultResponse
 ): response is ConnectivityConfigurationsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -5467,9 +5271,7 @@ export function isUnexpected(
     | ScopeConnectionsDeleteDefaultResponse
 ): response is ScopeConnectionsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ScopeConnectionsList200Response
-    | ScopeConnectionsListDefaultResponse
+  response: ScopeConnectionsList200Response | ScopeConnectionsListDefaultResponse
 ): response is ScopeConnectionsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -5495,14 +5297,10 @@ export function isUnexpected(
     | SecurityAdminConfigurationsDeleteDefaultResponse
 ): response is SecurityAdminConfigurationsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | AdminRuleCollectionsList200Response
-    | AdminRuleCollectionsListDefaultResponse
+  response: AdminRuleCollectionsList200Response | AdminRuleCollectionsListDefaultResponse
 ): response is AdminRuleCollectionsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | AdminRuleCollectionsGet200Response
-    | AdminRuleCollectionsGetDefaultResponse
+  response: AdminRuleCollectionsGet200Response | AdminRuleCollectionsGetDefaultResponse
 ): response is AdminRuleCollectionsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -5553,14 +5351,10 @@ export function isUnexpected(
     | NetworkProfilesCreateOrUpdateDefaultResponse
 ): response is NetworkProfilesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkProfilesUpdateTags200Response
-    | NetworkProfilesUpdateTagsDefaultResponse
+  response: NetworkProfilesUpdateTags200Response | NetworkProfilesUpdateTagsDefaultResponse
 ): response is NetworkProfilesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkProfilesListAll200Response
-    | NetworkProfilesListAllDefaultResponse
+  response: NetworkProfilesListAll200Response | NetworkProfilesListAllDefaultResponse
 ): response is NetworkProfilesListAllDefaultResponse;
 export function isUnexpected(
   response: NetworkProfilesList200Response | NetworkProfilesListDefaultResponse
@@ -5573,9 +5367,7 @@ export function isUnexpected(
     | NetworkSecurityGroupsDeleteDefaultResponse
 ): response is NetworkSecurityGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkSecurityGroupsGet200Response
-    | NetworkSecurityGroupsGetDefaultResponse
+  response: NetworkSecurityGroupsGet200Response | NetworkSecurityGroupsGetDefaultResponse
 ): response is NetworkSecurityGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -5589,14 +5381,10 @@ export function isUnexpected(
     | NetworkSecurityGroupsUpdateTagsDefaultResponse
 ): response is NetworkSecurityGroupsUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkSecurityGroupsListAll200Response
-    | NetworkSecurityGroupsListAllDefaultResponse
+  response: NetworkSecurityGroupsListAll200Response | NetworkSecurityGroupsListAllDefaultResponse
 ): response is NetworkSecurityGroupsListAllDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkSecurityGroupsList200Response
-    | NetworkSecurityGroupsListDefaultResponse
+  response: NetworkSecurityGroupsList200Response | NetworkSecurityGroupsListDefaultResponse
 ): response is NetworkSecurityGroupsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -5618,14 +5406,10 @@ export function isUnexpected(
   response: SecurityRulesList200Response | SecurityRulesListDefaultResponse
 ): response is SecurityRulesListDefaultResponse;
 export function isUnexpected(
-  response:
-    | DefaultSecurityRulesList200Response
-    | DefaultSecurityRulesListDefaultResponse
+  response: DefaultSecurityRulesList200Response | DefaultSecurityRulesListDefaultResponse
 ): response is DefaultSecurityRulesListDefaultResponse;
 export function isUnexpected(
-  response:
-    | DefaultSecurityRulesGet200Response
-    | DefaultSecurityRulesGetDefaultResponse
+  response: DefaultSecurityRulesGet200Response | DefaultSecurityRulesGetDefaultResponse
 ): response is DefaultSecurityRulesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -5635,9 +5419,7 @@ export function isUnexpected(
     | NetworkVirtualAppliancesDeleteDefaultResponse
 ): response is NetworkVirtualAppliancesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkVirtualAppliancesGet200Response
-    | NetworkVirtualAppliancesGetDefaultResponse
+  response: NetworkVirtualAppliancesGet200Response | NetworkVirtualAppliancesGetDefaultResponse
 ): response is NetworkVirtualAppliancesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -5656,9 +5438,7 @@ export function isUnexpected(
     | NetworkVirtualAppliancesListByResourceGroupDefaultResponse
 ): response is NetworkVirtualAppliancesListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkVirtualAppliancesList200Response
-    | NetworkVirtualAppliancesListDefaultResponse
+  response: NetworkVirtualAppliancesList200Response | NetworkVirtualAppliancesListDefaultResponse
 ): response is NetworkVirtualAppliancesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -5668,9 +5448,7 @@ export function isUnexpected(
     | VirtualApplianceSitesDeleteDefaultResponse
 ): response is VirtualApplianceSitesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualApplianceSitesGet200Response
-    | VirtualApplianceSitesGetDefaultResponse
+  response: VirtualApplianceSitesGet200Response | VirtualApplianceSitesGetDefaultResponse
 ): response is VirtualApplianceSitesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -5679,19 +5457,13 @@ export function isUnexpected(
     | VirtualApplianceSitesCreateOrUpdateDefaultResponse
 ): response is VirtualApplianceSitesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualApplianceSitesList200Response
-    | VirtualApplianceSitesListDefaultResponse
+  response: VirtualApplianceSitesList200Response | VirtualApplianceSitesListDefaultResponse
 ): response is VirtualApplianceSitesListDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualApplianceSkusList200Response
-    | VirtualApplianceSkusListDefaultResponse
+  response: VirtualApplianceSkusList200Response | VirtualApplianceSkusListDefaultResponse
 ): response is VirtualApplianceSkusListDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualApplianceSkusGet200Response
-    | VirtualApplianceSkusGetDefaultResponse
+  response: VirtualApplianceSkusGet200Response | VirtualApplianceSkusGetDefaultResponse
 ): response is VirtualApplianceSkusGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -5715,22 +5487,16 @@ export function isUnexpected(
     | NetworkWatchersDeleteDefaultResponse
 ): response is NetworkWatchersDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkWatchersUpdateTags200Response
-    | NetworkWatchersUpdateTagsDefaultResponse
+  response: NetworkWatchersUpdateTags200Response | NetworkWatchersUpdateTagsDefaultResponse
 ): response is NetworkWatchersUpdateTagsDefaultResponse;
 export function isUnexpected(
   response: NetworkWatchersList200Response | NetworkWatchersListDefaultResponse
 ): response is NetworkWatchersListDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkWatchersListAll200Response
-    | NetworkWatchersListAllDefaultResponse
+  response: NetworkWatchersListAll200Response | NetworkWatchersListAllDefaultResponse
 ): response is NetworkWatchersListAllDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkWatchersGetTopology200Response
-    | NetworkWatchersGetTopologyDefaultResponse
+  response: NetworkWatchersGetTopology200Response | NetworkWatchersGetTopologyDefaultResponse
 ): response is NetworkWatchersGetTopologyDefaultResponse;
 export function isUnexpected(
   response:
@@ -5799,9 +5565,7 @@ export function isUnexpected(
     | NetworkWatchersGetNetworkConfigurationDiagnosticDefaultResponse
 ): response is NetworkWatchersGetNetworkConfigurationDiagnosticDefaultResponse;
 export function isUnexpected(
-  response:
-    | PacketCapturesCreate201Response
-    | PacketCapturesCreateDefaultResponse
+  response: PacketCapturesCreate201Response | PacketCapturesCreateDefaultResponse
 ): response is PacketCapturesCreateDefaultResponse;
 export function isUnexpected(
   response: PacketCapturesGet200Response | PacketCapturesGetDefaultResponse
@@ -5834,9 +5598,7 @@ export function isUnexpected(
     | ConnectionMonitorsCreateOrUpdateDefaultResponse
 ): response is ConnectionMonitorsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | ConnectionMonitorsGet200Response
-    | ConnectionMonitorsGetDefaultResponse
+  response: ConnectionMonitorsGet200Response | ConnectionMonitorsGetDefaultResponse
 ): response is ConnectionMonitorsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -5845,9 +5607,7 @@ export function isUnexpected(
     | ConnectionMonitorsDeleteDefaultResponse
 ): response is ConnectionMonitorsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ConnectionMonitorsUpdateTags200Response
-    | ConnectionMonitorsUpdateTagsDefaultResponse
+  response: ConnectionMonitorsUpdateTags200Response | ConnectionMonitorsUpdateTagsDefaultResponse
 ): response is ConnectionMonitorsUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
@@ -5868,9 +5628,7 @@ export function isUnexpected(
     | ConnectionMonitorsQueryDefaultResponse
 ): response is ConnectionMonitorsQueryDefaultResponse;
 export function isUnexpected(
-  response:
-    | ConnectionMonitorsList200Response
-    | ConnectionMonitorsListDefaultResponse
+  response: ConnectionMonitorsList200Response | ConnectionMonitorsListDefaultResponse
 ): response is ConnectionMonitorsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -5885,10 +5643,7 @@ export function isUnexpected(
   response: FlowLogsGet200Response | FlowLogsGetDefaultResponse
 ): response is FlowLogsGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | FlowLogsDelete202Response
-    | FlowLogsDelete204Response
-    | FlowLogsDeleteDefaultResponse
+  response: FlowLogsDelete202Response | FlowLogsDelete204Response | FlowLogsDeleteDefaultResponse
 ): response is FlowLogsDeleteDefaultResponse;
 export function isUnexpected(
   response: FlowLogsList200Response | FlowLogsListDefaultResponse
@@ -5913,9 +5668,7 @@ export function isUnexpected(
     | PrivateEndpointsCreateOrUpdateDefaultResponse
 ): response is PrivateEndpointsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | PrivateEndpointsList200Response
-    | PrivateEndpointsListDefaultResponse
+  response: PrivateEndpointsList200Response | PrivateEndpointsListDefaultResponse
 ): response is PrivateEndpointsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -5940,9 +5693,7 @@ export function isUnexpected(
     | PrivateDnsZoneGroupsDeleteDefaultResponse
 ): response is PrivateDnsZoneGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | PrivateDnsZoneGroupsGet200Response
-    | PrivateDnsZoneGroupsGetDefaultResponse
+  response: PrivateDnsZoneGroupsGet200Response | PrivateDnsZoneGroupsGetDefaultResponse
 ): response is PrivateDnsZoneGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -5951,9 +5702,7 @@ export function isUnexpected(
     | PrivateDnsZoneGroupsCreateOrUpdateDefaultResponse
 ): response is PrivateDnsZoneGroupsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | PrivateDnsZoneGroupsList200Response
-    | PrivateDnsZoneGroupsListDefaultResponse
+  response: PrivateDnsZoneGroupsList200Response | PrivateDnsZoneGroupsListDefaultResponse
 ): response is PrivateDnsZoneGroupsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -5963,9 +5712,7 @@ export function isUnexpected(
     | PrivateLinkServicesDeleteDefaultResponse
 ): response is PrivateLinkServicesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | PrivateLinkServicesGet200Response
-    | PrivateLinkServicesGetDefaultResponse
+  response: PrivateLinkServicesGet200Response | PrivateLinkServicesGetDefaultResponse
 ): response is PrivateLinkServicesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -5974,9 +5721,7 @@ export function isUnexpected(
     | PrivateLinkServicesCreateOrUpdateDefaultResponse
 ): response is PrivateLinkServicesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | PrivateLinkServicesList200Response
-    | PrivateLinkServicesListDefaultResponse
+  response: PrivateLinkServicesList200Response | PrivateLinkServicesListDefaultResponse
 ): response is PrivateLinkServicesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -6044,19 +5789,13 @@ export function isUnexpected(
     | PublicIPPrefixesCreateOrUpdateDefaultResponse
 ): response is PublicIPPrefixesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | PublicIPPrefixesUpdateTags200Response
-    | PublicIPPrefixesUpdateTagsDefaultResponse
+  response: PublicIPPrefixesUpdateTags200Response | PublicIPPrefixesUpdateTagsDefaultResponse
 ): response is PublicIPPrefixesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | PublicIPPrefixesListAll200Response
-    | PublicIPPrefixesListAllDefaultResponse
+  response: PublicIPPrefixesListAll200Response | PublicIPPrefixesListAllDefaultResponse
 ): response is PublicIPPrefixesListAllDefaultResponse;
 export function isUnexpected(
-  response:
-    | PublicIPPrefixesList200Response
-    | PublicIPPrefixesListDefaultResponse
+  response: PublicIPPrefixesList200Response | PublicIPPrefixesListDefaultResponse
 ): response is PublicIPPrefixesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -6075,9 +5814,7 @@ export function isUnexpected(
     | RouteFiltersCreateOrUpdateDefaultResponse
 ): response is RouteFiltersCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | RouteFiltersUpdateTags200Response
-    | RouteFiltersUpdateTagsDefaultResponse
+  response: RouteFiltersUpdateTags200Response | RouteFiltersUpdateTagsDefaultResponse
 ): response is RouteFiltersUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
@@ -6125,9 +5862,7 @@ export function isUnexpected(
     | RouteTablesCreateOrUpdateDefaultResponse
 ): response is RouteTablesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | RouteTablesUpdateTags200Response
-    | RouteTablesUpdateTagsDefaultResponse
+  response: RouteTablesUpdateTags200Response | RouteTablesUpdateTagsDefaultResponse
 ): response is RouteTablesUpdateTagsDefaultResponse;
 export function isUnexpected(
   response: RouteTablesList200Response | RouteTablesListDefaultResponse
@@ -6162,9 +5897,7 @@ export function isUnexpected(
     | SecurityPartnerProvidersDeleteDefaultResponse
 ): response is SecurityPartnerProvidersDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | SecurityPartnerProvidersGet200Response
-    | SecurityPartnerProvidersGetDefaultResponse
+  response: SecurityPartnerProvidersGet200Response | SecurityPartnerProvidersGetDefaultResponse
 ): response is SecurityPartnerProvidersGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -6183,14 +5916,10 @@ export function isUnexpected(
     | SecurityPartnerProvidersListByResourceGroupDefaultResponse
 ): response is SecurityPartnerProvidersListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response:
-    | SecurityPartnerProvidersList200Response
-    | SecurityPartnerProvidersListDefaultResponse
+  response: SecurityPartnerProvidersList200Response | SecurityPartnerProvidersListDefaultResponse
 ): response is SecurityPartnerProvidersListDefaultResponse;
 export function isUnexpected(
-  response:
-    | BgpServiceCommunitiesList200Response
-    | BgpServiceCommunitiesListDefaultResponse
+  response: BgpServiceCommunitiesList200Response | BgpServiceCommunitiesListDefaultResponse
 ): response is BgpServiceCommunitiesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -6200,9 +5929,7 @@ export function isUnexpected(
     | ServiceEndpointPoliciesDeleteDefaultResponse
 ): response is ServiceEndpointPoliciesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ServiceEndpointPoliciesGet200Response
-    | ServiceEndpointPoliciesGetDefaultResponse
+  response: ServiceEndpointPoliciesGet200Response | ServiceEndpointPoliciesGetDefaultResponse
 ): response is ServiceEndpointPoliciesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -6216,9 +5943,7 @@ export function isUnexpected(
     | ServiceEndpointPoliciesUpdateTagsDefaultResponse
 ): response is ServiceEndpointPoliciesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | ServiceEndpointPoliciesList200Response
-    | ServiceEndpointPoliciesListDefaultResponse
+  response: ServiceEndpointPoliciesList200Response | ServiceEndpointPoliciesListDefaultResponse
 ): response is ServiceEndpointPoliciesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -6252,9 +5977,7 @@ export function isUnexpected(
   response: ServiceTagsList200Response | ServiceTagsListDefaultResponse
 ): response is ServiceTagsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | ServiceTagInformationList200Response
-    | ServiceTagInformationListDefaultResponse
+  response: ServiceTagInformationList200Response | ServiceTagInformationListDefaultResponse
 ): response is ServiceTagInformationListDefaultResponse;
 export function isUnexpected(
   response: UsagesList200Response | UsagesListDefaultResponse
@@ -6276,14 +5999,10 @@ export function isUnexpected(
     | VirtualNetworksCreateOrUpdateDefaultResponse
 ): response is VirtualNetworksCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualNetworksUpdateTags200Response
-    | VirtualNetworksUpdateTagsDefaultResponse
+  response: VirtualNetworksUpdateTags200Response | VirtualNetworksUpdateTagsDefaultResponse
 ): response is VirtualNetworksUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualNetworksListAll200Response
-    | VirtualNetworksListAllDefaultResponse
+  response: VirtualNetworksListAll200Response | VirtualNetworksListAllDefaultResponse
 ): response is VirtualNetworksListAllDefaultResponse;
 export function isUnexpected(
   response: VirtualNetworksList200Response | VirtualNetworksListDefaultResponse
@@ -6294,9 +6013,7 @@ export function isUnexpected(
     | VirtualNetworksCheckIPAddressAvailabilityDefaultResponse
 ): response is VirtualNetworksCheckIPAddressAvailabilityDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualNetworksListUsage200Response
-    | VirtualNetworksListUsageDefaultResponse
+  response: VirtualNetworksListUsage200Response | VirtualNetworksListUsageDefaultResponse
 ): response is VirtualNetworksListUsageDefaultResponse;
 export function isUnexpected(
   response:
@@ -6336,14 +6053,10 @@ export function isUnexpected(
   response: SubnetsList200Response | SubnetsListDefaultResponse
 ): response is SubnetsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | ResourceNavigationLinksList200Response
-    | ResourceNavigationLinksListDefaultResponse
+  response: ResourceNavigationLinksList200Response | ResourceNavigationLinksListDefaultResponse
 ): response is ResourceNavigationLinksListDefaultResponse;
 export function isUnexpected(
-  response:
-    | ServiceAssociationLinksList200Response
-    | ServiceAssociationLinksListDefaultResponse
+  response: ServiceAssociationLinksList200Response | ServiceAssociationLinksListDefaultResponse
 ): response is ServiceAssociationLinksListDefaultResponse;
 export function isUnexpected(
   response:
@@ -6353,9 +6066,7 @@ export function isUnexpected(
     | VirtualNetworkPeeringsDeleteDefaultResponse
 ): response is VirtualNetworkPeeringsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualNetworkPeeringsGet200Response
-    | VirtualNetworkPeeringsGetDefaultResponse
+  response: VirtualNetworkPeeringsGet200Response | VirtualNetworkPeeringsGetDefaultResponse
 ): response is VirtualNetworkPeeringsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -6364,9 +6075,7 @@ export function isUnexpected(
     | VirtualNetworkPeeringsCreateOrUpdateDefaultResponse
 ): response is VirtualNetworkPeeringsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualNetworkPeeringsList200Response
-    | VirtualNetworkPeeringsListDefaultResponse
+  response: VirtualNetworkPeeringsList200Response | VirtualNetworkPeeringsListDefaultResponse
 ): response is VirtualNetworkPeeringsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -6375,9 +6084,7 @@ export function isUnexpected(
     | VirtualNetworkGatewaysCreateOrUpdateDefaultResponse
 ): response is VirtualNetworkGatewaysCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualNetworkGatewaysGet200Response
-    | VirtualNetworkGatewaysGetDefaultResponse
+  response: VirtualNetworkGatewaysGet200Response | VirtualNetworkGatewaysGetDefaultResponse
 ): response is VirtualNetworkGatewaysGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -6393,9 +6100,7 @@ export function isUnexpected(
     | VirtualNetworkGatewaysUpdateTagsDefaultResponse
 ): response is VirtualNetworkGatewaysUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualNetworkGatewaysList200Response
-    | VirtualNetworkGatewaysListDefaultResponse
+  response: VirtualNetworkGatewaysList200Response | VirtualNetworkGatewaysListDefaultResponse
 ): response is VirtualNetworkGatewaysListDefaultResponse;
 export function isUnexpected(
   response:
@@ -6571,9 +6276,7 @@ export function isUnexpected(
     | LocalNetworkGatewaysCreateOrUpdateDefaultResponse
 ): response is LocalNetworkGatewaysCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | LocalNetworkGatewaysGet200Response
-    | LocalNetworkGatewaysGetDefaultResponse
+  response: LocalNetworkGatewaysGet200Response | LocalNetworkGatewaysGetDefaultResponse
 ): response is LocalNetworkGatewaysGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -6588,9 +6291,7 @@ export function isUnexpected(
     | LocalNetworkGatewaysUpdateTagsDefaultResponse
 ): response is LocalNetworkGatewaysUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | LocalNetworkGatewaysList200Response
-    | LocalNetworkGatewaysListDefaultResponse
+  response: LocalNetworkGatewaysList200Response | LocalNetworkGatewaysListDefaultResponse
 ): response is LocalNetworkGatewaysListDefaultResponse;
 export function isUnexpected(
   response:
@@ -6623,9 +6324,7 @@ export function isUnexpected(
     | VirtualNetworkTapsDeleteDefaultResponse
 ): response is VirtualNetworkTapsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualNetworkTapsGet200Response
-    | VirtualNetworkTapsGetDefaultResponse
+  response: VirtualNetworkTapsGet200Response | VirtualNetworkTapsGetDefaultResponse
 ): response is VirtualNetworkTapsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -6634,14 +6333,10 @@ export function isUnexpected(
     | VirtualNetworkTapsCreateOrUpdateDefaultResponse
 ): response is VirtualNetworkTapsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualNetworkTapsUpdateTags200Response
-    | VirtualNetworkTapsUpdateTagsDefaultResponse
+  response: VirtualNetworkTapsUpdateTags200Response | VirtualNetworkTapsUpdateTagsDefaultResponse
 ): response is VirtualNetworkTapsUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualNetworkTapsListAll200Response
-    | VirtualNetworkTapsListAllDefaultResponse
+  response: VirtualNetworkTapsListAll200Response | VirtualNetworkTapsListAllDefaultResponse
 ): response is VirtualNetworkTapsListAllDefaultResponse;
 export function isUnexpected(
   response:
@@ -6680,9 +6375,7 @@ export function isUnexpected(
     | VirtualRouterPeeringsDeleteDefaultResponse
 ): response is VirtualRouterPeeringsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualRouterPeeringsGet200Response
-    | VirtualRouterPeeringsGetDefaultResponse
+  response: VirtualRouterPeeringsGet200Response | VirtualRouterPeeringsGetDefaultResponse
 ): response is VirtualRouterPeeringsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -6691,9 +6384,7 @@ export function isUnexpected(
     | VirtualRouterPeeringsCreateOrUpdateDefaultResponse
 ): response is VirtualRouterPeeringsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualRouterPeeringsList200Response
-    | VirtualRouterPeeringsListDefaultResponse
+  response: VirtualRouterPeeringsList200Response | VirtualRouterPeeringsListDefaultResponse
 ): response is VirtualRouterPeeringsListDefaultResponse;
 export function isUnexpected(
   response: VirtualWansGet200Response | VirtualWansGetDefaultResponse
@@ -6705,9 +6396,7 @@ export function isUnexpected(
     | VirtualWansCreateOrUpdateDefaultResponse
 ): response is VirtualWansCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualWansUpdateTags200Response
-    | VirtualWansUpdateTagsDefaultResponse
+  response: VirtualWansUpdateTags200Response | VirtualWansUpdateTagsDefaultResponse
 ): response is VirtualWansUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
@@ -6744,9 +6433,7 @@ export function isUnexpected(
     | VpnSitesDeleteDefaultResponse
 ): response is VpnSitesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | VpnSitesListByResourceGroup200Response
-    | VpnSitesListByResourceGroupDefaultResponse
+  response: VpnSitesListByResourceGroup200Response | VpnSitesListByResourceGroupDefaultResponse
 ): response is VpnSitesListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response: VpnSitesList200Response | VpnSitesListDefaultResponse
@@ -6755,9 +6442,7 @@ export function isUnexpected(
   response: VpnSiteLinksGet200Response | VpnSiteLinksGetDefaultResponse
 ): response is VpnSiteLinksGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | VpnSiteLinksListByVpnSite200Response
-    | VpnSiteLinksListByVpnSiteDefaultResponse
+  response: VpnSiteLinksListByVpnSite200Response | VpnSiteLinksListByVpnSiteDefaultResponse
 ): response is VpnSiteLinksListByVpnSiteDefaultResponse;
 export function isUnexpected(
   response:
@@ -6766,9 +6451,7 @@ export function isUnexpected(
     | VpnSitesConfigurationDownloadDefaultResponse
 ): response is VpnSitesConfigurationDownloadDefaultResponse;
 export function isUnexpected(
-  response:
-    | VpnServerConfigurationsGet200Response
-    | VpnServerConfigurationsGetDefaultResponse
+  response: VpnServerConfigurationsGet200Response | VpnServerConfigurationsGetDefaultResponse
 ): response is VpnServerConfigurationsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -6794,9 +6477,7 @@ export function isUnexpected(
     | VpnServerConfigurationsListByResourceGroupDefaultResponse
 ): response is VpnServerConfigurationsListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response:
-    | VpnServerConfigurationsList200Response
-    | VpnServerConfigurationsListDefaultResponse
+  response: VpnServerConfigurationsList200Response | VpnServerConfigurationsListDefaultResponse
 ): response is VpnServerConfigurationsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -6812,9 +6493,7 @@ export function isUnexpected(
     | ConfigurationPolicyGroupsDeleteDefaultResponse
 ): response is ConfigurationPolicyGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ConfigurationPolicyGroupsGet200Response
-    | ConfigurationPolicyGroupsGetDefaultResponse
+  response: ConfigurationPolicyGroupsGet200Response | ConfigurationPolicyGroupsGetDefaultResponse
 ): response is ConfigurationPolicyGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -6831,9 +6510,7 @@ export function isUnexpected(
     | VirtualHubsCreateOrUpdateDefaultResponse
 ): response is VirtualHubsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualHubsUpdateTags200Response
-    | VirtualHubsUpdateTagsDefaultResponse
+  response: VirtualHubsUpdateTags200Response | VirtualHubsUpdateTagsDefaultResponse
 ): response is VirtualHubsUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
@@ -7008,9 +6685,7 @@ export function isUnexpected(
     | VpnConnectionsListByVpnGatewayDefaultResponse
 ): response is VpnConnectionsListByVpnGatewayDefaultResponse;
 export function isUnexpected(
-  response:
-    | VpnSiteLinkConnectionsGet200Response
-    | VpnSiteLinkConnectionsGetDefaultResponse
+  response: VpnSiteLinkConnectionsGet200Response | VpnSiteLinkConnectionsGetDefaultResponse
 ): response is VpnSiteLinkConnectionsGetDefaultResponse;
 export function isUnexpected(
   response: NatRulesGet200Response | NatRulesGetDefaultResponse
@@ -7029,9 +6704,7 @@ export function isUnexpected(
     | NatRulesDeleteDefaultResponse
 ): response is NatRulesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | NatRulesListByVpnGateway200Response
-    | NatRulesListByVpnGatewayDefaultResponse
+  response: NatRulesListByVpnGateway200Response | NatRulesListByVpnGatewayDefaultResponse
 ): response is NatRulesListByVpnGatewayDefaultResponse;
 export function isUnexpected(
   response: P2SVpnGatewaysGet200Response | P2SVpnGatewaysGetDefaultResponse
@@ -7100,9 +6773,7 @@ export function isUnexpected(
     | VpnServerConfigurationsAssociatedWithVirtualWanListDefaultResponse
 ): response is VpnServerConfigurationsAssociatedWithVirtualWanListDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualHubRouteTableV2SGet200Response
-    | VirtualHubRouteTableV2SGetDefaultResponse
+  response: VirtualHubRouteTableV2SGet200Response | VirtualHubRouteTableV2SGetDefaultResponse
 ): response is VirtualHubRouteTableV2SGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -7118,9 +6789,7 @@ export function isUnexpected(
     | VirtualHubRouteTableV2SDeleteDefaultResponse
 ): response is VirtualHubRouteTableV2SDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualHubRouteTableV2SList200Response
-    | VirtualHubRouteTableV2SListDefaultResponse
+  response: VirtualHubRouteTableV2SList200Response | VirtualHubRouteTableV2SListDefaultResponse
 ): response is VirtualHubRouteTableV2SListDefaultResponse;
 export function isUnexpected(
   response:
@@ -7145,9 +6814,7 @@ export function isUnexpected(
     | ExpressRouteGatewaysUpdateTagsDefaultResponse
 ): response is ExpressRouteGatewaysUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRouteGatewaysGet200Response
-    | ExpressRouteGatewaysGetDefaultResponse
+  response: ExpressRouteGatewaysGet200Response | ExpressRouteGatewaysGetDefaultResponse
 ): response is ExpressRouteGatewaysGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -7163,9 +6830,7 @@ export function isUnexpected(
     | ExpressRouteConnectionsCreateOrUpdateDefaultResponse
 ): response is ExpressRouteConnectionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRouteConnectionsGet200Response
-    | ExpressRouteConnectionsGetDefaultResponse
+  response: ExpressRouteConnectionsGet200Response | ExpressRouteConnectionsGetDefaultResponse
 ): response is ExpressRouteConnectionsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -7175,14 +6840,10 @@ export function isUnexpected(
     | ExpressRouteConnectionsDeleteDefaultResponse
 ): response is ExpressRouteConnectionsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRouteConnectionsList200Response
-    | ExpressRouteConnectionsListDefaultResponse
+  response: ExpressRouteConnectionsList200Response | ExpressRouteConnectionsListDefaultResponse
 ): response is ExpressRouteConnectionsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualHubBgpConnectionGet200Response
-    | VirtualHubBgpConnectionGetDefaultResponse
+  response: VirtualHubBgpConnectionGet200Response | VirtualHubBgpConnectionGetDefaultResponse
 ): response is VirtualHubBgpConnectionGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -7198,9 +6859,7 @@ export function isUnexpected(
     | VirtualHubBgpConnectionDeleteDefaultResponse
 ): response is VirtualHubBgpConnectionDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualHubBgpConnectionsList200Response
-    | VirtualHubBgpConnectionsListDefaultResponse
+  response: VirtualHubBgpConnectionsList200Response | VirtualHubBgpConnectionsListDefaultResponse
 ): response is VirtualHubBgpConnectionsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -7215,9 +6874,7 @@ export function isUnexpected(
     | VirtualHubBgpConnectionsListAdvertisedRoutesDefaultResponse
 ): response is VirtualHubBgpConnectionsListAdvertisedRoutesDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualHubIpConfigurationGet200Response
-    | VirtualHubIpConfigurationGetDefaultResponse
+  response: VirtualHubIpConfigurationGet200Response | VirtualHubIpConfigurationGetDefaultResponse
 ): response is VirtualHubIpConfigurationGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -7233,9 +6890,7 @@ export function isUnexpected(
     | VirtualHubIpConfigurationDeleteDefaultResponse
 ): response is VirtualHubIpConfigurationDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualHubIpConfigurationList200Response
-    | VirtualHubIpConfigurationListDefaultResponse
+  response: VirtualHubIpConfigurationList200Response | VirtualHubIpConfigurationListDefaultResponse
 ): response is VirtualHubIpConfigurationListDefaultResponse;
 export function isUnexpected(
   response:
@@ -7307,10 +6962,7 @@ export function isUnexpected(
   response: VipSwapGet200Response | VipSwapGetDefaultResponse
 ): response is VipSwapGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | VipSwapCreate200Response
-    | VipSwapCreate202Response
-    | VipSwapCreateDefaultResponse
+  response: VipSwapCreate200Response | VipSwapCreate202Response | VipSwapCreateDefaultResponse
 ): response is VipSwapCreateDefaultResponse;
 export function isUnexpected(
   response: VipSwapList200Response | VipSwapListDefaultResponse
@@ -9522,17 +9174,11 @@ function geParametrizedPathSuccess(method: string, path: string): string[] {
 
     // If the candidate and actual paths don't match in size
     // we move on to the next candidate path
-    if (
-      candidateParts.length === pathParts.length &&
-      hasParametrizedPath(key)
-    ) {
+    if (candidateParts.length === pathParts.length && hasParametrizedPath(key)) {
       // track if we have found a match to return the values found.
       let found = true;
       for (let i = 0; i < candidateParts.length; i++) {
-        if (
-          candidateParts[i]?.startsWith("{") &&
-          candidateParts[i]?.endsWith("}")
-        ) {
+        if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.endsWith("}")) {
           // If the current part of the candidate is a "template" part
           // it is a match with the actual path part on hand
           // skip as the parameterized part can match anything

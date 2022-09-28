@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   SubnetsUnprepareNetworkPoliciesParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -27,7 +27,7 @@ async function unprepareNetworkPolicies() {
   const subnetName = "subnet1";
   const options: SubnetsUnprepareNetworkPoliciesParameters = {
     body: { serviceName: "Microsoft.Sql/managedInstances" },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

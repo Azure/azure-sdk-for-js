@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   OperationsListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,11 +22,9 @@ async function getAListOfOperationsForAResourceProvider() {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const options: OperationsListParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
-  const initialResponse = await client
-    .path("/providers/Microsoft.Network/operations")
-    .get(options);
+  const initialResponse = await client.path("/providers/Microsoft.Network/operations").get(options);
   const pageData = paginate(client, initialResponse);
   const result = [];
   for await (const item of pageData) {

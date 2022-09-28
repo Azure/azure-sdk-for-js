@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ConfigurationPolicyGroupsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -33,18 +33,18 @@ async function configurationPolicyGroupPut() {
           {
             name: "policy1",
             attributeType: "RadiusAzureGroupId",
-            attributeValue: "6ad1bd08"
+            attributeValue: "6ad1bd08",
           },
           {
             name: "policy2",
             attributeType: "CertificateGroupId",
-            attributeValue: "red.com"
-          }
+            attributeValue: "red.com",
+          },
         ],
-        priority: 0
-      }
+        priority: 0,
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

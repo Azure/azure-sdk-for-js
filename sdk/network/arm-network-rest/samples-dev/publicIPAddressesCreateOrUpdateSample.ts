@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   PublicIPAddressesCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -27,9 +27,9 @@ async function createPublicIPAddressDns() {
   const options: PublicIPAddressesCreateOrUpdateParameters = {
     body: {
       location: "eastus",
-      properties: { dnsSettings: { domainNameLabel: "dnslbl" } }
+      properties: { dnsSettings: { domainNameLabel: "dnslbl" } },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -63,11 +63,11 @@ async function createPublicIPAddressAllocationMethod() {
       properties: {
         idleTimeoutInMinutes: 10,
         publicIPAddressVersion: "IPv4",
-        publicIPAllocationMethod: "Static"
+        publicIPAllocationMethod: "Static",
       },
-      sku: { name: "Standard", tier: "Global" }
+      sku: { name: "Standard", tier: "Global" },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -97,7 +97,7 @@ async function createPublicIPAddressDefaults() {
   const publicIpAddressName = "test-ip";
   const options: PublicIPAddressesCreateOrUpdateParameters = {
     body: { location: "eastus" },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ConnectionMonitorsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -33,29 +33,29 @@ async function createConnectionMonitorV1() {
           {
             name: "source",
             resourceId:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/ct1"
+              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/ct1",
           },
-          { name: "destination", address: "bing.com" }
+          { name: "destination", address: "bing.com" },
         ],
         testConfigurations: [
           {
             name: "tcp",
             tcpConfiguration: { port: 80 },
             testFrequencySec: 60,
-            protocol: "Tcp"
-          }
+            protocol: "Tcp",
+          },
         ],
         testGroups: [
           {
             name: "tg",
             destinations: ["destination"],
             sources: ["source"],
-            testConfigurations: ["tcp"]
-          }
-        ]
-      }
+            testConfigurations: ["tcp"],
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -92,19 +92,19 @@ async function createConnectionMonitorV2() {
           {
             name: "vm1",
             resourceId:
-              "/subscriptions/96e68903-0a56-4819-9987-8d08ad6a1f99/resourceGroups/NwRgIrinaCentralUSEUAP/providers/Microsoft.Compute/virtualMachines/vm1"
+              "/subscriptions/96e68903-0a56-4819-9987-8d08ad6a1f99/resourceGroups/NwRgIrinaCentralUSEUAP/providers/Microsoft.Compute/virtualMachines/vm1",
           },
           {
             name: "CanaryWorkspaceVamshi",
             filter: {
               type: "Include",
-              items: [{ type: "AgentAddress", address: "npmuser" }]
+              items: [{ type: "AgentAddress", address: "npmuser" }],
             },
             resourceId:
-              "/subscriptions/96e68903-0a56-4819-9987-8d08ad6a1f99/resourceGroups/vasamudrRG/providers/Microsoft.OperationalInsights/workspaces/vasamudrWorkspace"
+              "/subscriptions/96e68903-0a56-4819-9987-8d08ad6a1f99/resourceGroups/vasamudrRG/providers/Microsoft.OperationalInsights/workspaces/vasamudrWorkspace",
           },
           { name: "bing", address: "bing.com" },
-          { name: "google", address: "google.com" }
+          { name: "google", address: "google.com" },
         ],
         outputs: [],
         testConfigurations: [
@@ -112,8 +112,8 @@ async function createConnectionMonitorV2() {
             name: "testConfig1",
             tcpConfiguration: { disableTraceRoute: false, port: 80 },
             testFrequencySec: 60,
-            protocol: "Tcp"
-          }
+            protocol: "Tcp",
+          },
         ],
         testGroups: [
           {
@@ -121,12 +121,12 @@ async function createConnectionMonitorV2() {
             destinations: ["bing", "google"],
             disable: false,
             sources: ["vm1", "CanaryWorkspaceVamshi"],
-            testConfigurations: ["testConfig1"]
-          }
-        ]
-      }
+            testConfigurations: ["testConfig1"],
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

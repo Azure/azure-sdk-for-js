@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   P2SVpnGatewaysDisconnectP2SVpnConnectionsParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function disconnectVpnConnectionsFromP2SVpnGateway() {
   const p2sVpnGatewayName = "p2svpngateway";
   const options: P2SVpnGatewaysDisconnectP2SVpnConnectionsParameters = {
     body: { vpnConnectionIds: ["vpnconnId1", "vpnconnId2"] },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

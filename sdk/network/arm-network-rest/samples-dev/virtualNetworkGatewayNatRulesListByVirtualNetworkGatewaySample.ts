@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,7 +25,7 @@ async function virtualNetworkGatewayNatRuleList() {
   const resourceGroupName = "rg1";
   const virtualNetworkGatewayName = "gateway1";
   const options: VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

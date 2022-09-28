@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   RouteMapsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -29,7 +29,7 @@ async function routeMapPut() {
     body: {
       properties: {
         associatedInboundConnections: [
-          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteGateways/exrGateway1/expressRouteConnections/exrConn1"
+          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteGateways/exrGateway1/expressRouteConnections/exrConn1",
         ],
         associatedOutboundConnections: [],
         rules: [
@@ -38,25 +38,23 @@ async function routeMapPut() {
             actions: [
               {
                 type: "Add",
-                parameters: [
-                  { asPath: ["22334"], community: [], routePrefix: [] }
-                ]
-              }
+                parameters: [{ asPath: ["22334"], community: [], routePrefix: [] }],
+              },
             ],
             matchCriteria: [
               {
                 asPath: [],
                 community: [],
                 matchCondition: "Contains",
-                routePrefix: ["10.0.0.0/8"]
-              }
+                routePrefix: ["10.0.0.0/8"],
+              },
             ],
-            nextStepIfMatched: "Continue"
-          }
-        ]
-      }
+            nextStepIfMatched: "Continue",
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

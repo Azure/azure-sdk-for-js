@@ -3,9 +3,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  VirtualHubsGetParameters
-} from "@azure-rest/arm-network";
+import createNetworkManagementClient, { VirtualHubsGetParameters } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -24,7 +22,7 @@ async function virtualHubGet() {
   const resourceGroupName = "rg1";
   const virtualHubName = "virtualHub1";
   const options: VirtualHubsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(

@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualHubRouteTableV2SCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -34,18 +34,18 @@ async function virtualHubRouteTableV2Put() {
             destinationType: "CIDR",
             destinations: ["20.10.0.0/16", "20.20.0.0/16"],
             nextHopType: "IPAddress",
-            nextHops: ["10.0.0.68"]
+            nextHops: ["10.0.0.68"],
           },
           {
             destinationType: "CIDR",
             destinations: ["0.0.0.0/0"],
             nextHopType: "IPAddress",
-            nextHops: ["10.0.0.68"]
-          }
-        ]
-      }
+            nextHops: ["10.0.0.68"],
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

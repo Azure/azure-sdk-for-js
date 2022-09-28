@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ExpressRouteCircuitsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -34,16 +34,16 @@ async function createExpressRouteCircuit() {
         serviceProviderProperties: {
           bandwidthInMbps: 200,
           peeringLocation: "Silicon Valley",
-          serviceProviderName: "Equinix"
-        }
+          serviceProviderName: "Equinix",
+        },
       },
       sku: {
         name: "Standard_MeteredData",
         family: "MeteredData",
-        tier: "Standard"
-      }
+        tier: "Standard",
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -79,16 +79,16 @@ async function createExpressRouteCircuitOnExpressRoutePort() {
         bandwidthInGbps: 10,
         expressRoutePort: {
           id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRoutePorts/portName"
-        }
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRoutePorts/portName",
+        },
       },
       sku: {
         name: "Premium_MeteredData",
         family: "MeteredData",
-        tier: "Premium"
-      }
+        tier: "Premium",
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

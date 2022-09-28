@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ExpressRouteCrossConnectionPeeringsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -30,15 +30,15 @@ async function expressRouteCrossConnectionBgpPeeringCreate() {
       properties: {
         ipv6PeeringConfig: {
           primaryPeerAddressPrefix: "3FFE:FFFF:0:CD30::/126",
-          secondaryPeerAddressPrefix: "3FFE:FFFF:0:CD30::4/126"
+          secondaryPeerAddressPrefix: "3FFE:FFFF:0:CD30::4/126",
         },
         peerASN: 200,
         primaryPeerAddressPrefix: "192.168.16.252/30",
         secondaryPeerAddressPrefix: "192.168.18.252/30",
-        vlanId: 200
-      }
+        vlanId: 200,
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

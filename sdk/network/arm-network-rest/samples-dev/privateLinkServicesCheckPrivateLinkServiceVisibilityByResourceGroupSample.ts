@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -27,9 +27,9 @@ async function checkPrivateLinkServiceVisibility() {
   const options: PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupParameters = {
     body: {
       privateLinkServiceAlias:
-        "mypls.00000000-0000-0000-0000-000000000000.azure.privatelinkservice"
+        "mypls.00000000-0000-0000-0000-000000000000.azure.privatelinkservice",
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(

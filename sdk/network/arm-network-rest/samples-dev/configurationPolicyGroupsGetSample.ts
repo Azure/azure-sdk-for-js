@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ConfigurationPolicyGroupsGetParameters
+  ConfigurationPolicyGroupsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,7 +25,7 @@ async function configurationPolicyGroupGet() {
   const vpnServerConfigurationName = "vpnServerConfiguration1";
   const configurationPolicyGroupName = "policyGroup1";
   const options: ConfigurationPolicyGroupsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(

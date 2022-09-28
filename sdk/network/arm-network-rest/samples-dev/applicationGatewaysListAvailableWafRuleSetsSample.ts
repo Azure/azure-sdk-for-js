@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ApplicationGatewaysListAvailableWafRuleSetsParameters
+  ApplicationGatewaysListAvailableWafRuleSetsParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ async function getAvailableWafRuleSets() {
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
   const options: ApplicationGatewaysListAvailableWafRuleSetsParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
