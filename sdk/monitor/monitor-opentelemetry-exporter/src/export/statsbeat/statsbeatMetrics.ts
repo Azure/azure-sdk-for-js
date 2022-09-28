@@ -21,7 +21,7 @@ export interface IVirtualMachineInfo {
     osType?: string;
 }
 
-class StatsbeatMetrics {
+export class StatsbeatMetrics {
   public static NON_EU_CONNECTION_STRING = "InstrumentationKey=c4a29126-a7cb-47e5-b348-11414998b11e;IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com";
   public static EU_CONNECTION_STRING = "InstrumentationKey=7dc56bab-3c0c-4e9f-9ebb-d1acadee8d0f;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com";
   public static STATS_COLLECTION_SHORT_INTERVAL: number = 900000; // 15 minutes
@@ -54,9 +54,8 @@ class StatsbeatMetrics {
   private _endpoint: string;
   private _host: string;
 
-  constructor(meterProvider: MeterProvider, instrumentationKey: string, endpoint: string) {
-    // TODO: Determine what value should be passed as the name parameter.
-    this._meter = meterProvider.getMeter("new name");
+  constructor(meter: Meter, instrumentationKey: string, endpoint: string) {
+    this._meter = meter;
 
     this._runtimeVersion = process.version;
     this._language = STATSBEAT_LANGUAGE;
