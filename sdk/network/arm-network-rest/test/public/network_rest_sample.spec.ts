@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -7,23 +10,20 @@
  */
 
 import {
-  env,
   Recorder,
   RecorderStartOptions,
+  env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import {
-  getLongRunningPoller,
   IpGroupsCreateOrUpdateParameters,
   IpGroupsDeleteParameters,
   IpGroupsGetParameters,
   IpGroupsListParameters,
-  isUnexpected,
   NetworkManagementClient,
-  paginate,
   SubnetsCreateOrUpdateParameters,
   SubnetsDeleteParameters,
   SubnetsGetParameters,
@@ -32,7 +32,10 @@ import {
   VirtualNetworksDeleteParameters,
   VirtualNetworksGetParameters,
   VirtualNetworksListParameters,
-  VirtualNetworksUpdateTagsParameters
+  VirtualNetworksUpdateTagsParameters,
+  getLongRunningPoller,
+  isUnexpected,
+  paginate
 } from "../../src";
 import { createTestNetworkManagementClient } from "./utils/recordedClient";
 

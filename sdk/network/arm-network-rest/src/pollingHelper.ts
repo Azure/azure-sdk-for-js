@@ -7,8 +7,8 @@ import {
   LroEngine,
   LroEngineOptions,
   LroResponse,
-  PollerLike,
-  PollOperationState
+  PollOperationState,
+  PollerLike
 } from "@azure/core-lro";
 
 /**

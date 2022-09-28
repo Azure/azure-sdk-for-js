@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import {
-  getPagedAsyncIterator,
   PagedAsyncIterableIterator,
-  PagedResult
+  PagedResult,
+  getPagedAsyncIterator
 } from "@azure/core-paging";
 import {
   Client,
-  createRestError,
-  PathUncheckedResponse
+  PathUncheckedResponse,
+  createRestError
 } from "@azure-rest/core-client";
 
 /**
