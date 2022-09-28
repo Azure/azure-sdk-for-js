@@ -77,29 +77,18 @@ async function getChecks(dir: string) {
   return checks;
 }
 
-async function executeTypedoc({
-  include,
-  exclude,
-  clientOnly,
-}: {
-  clientOnly: boolean;
-  include: string[];
-  exclude: string[];
-}) {
+async function executeTypedoc({ include, clientOnly }: { clientOnly: boolean; include: string[] }) {
   console.log("process.cwd = " + process.cwd());
   const workingDir = path.join(process.cwd(), "sdk");
   const serviceFolders = await readDir(workingDir);
   const includeSome = Boolean(include.length);
   const includeAll = Boolean(includeSome && include[0] === "*");
-  const excludeSome = Boolean(exclude.length);
   let filteredFolders: string[] = [];
 
   if (includeAll) {
     filteredFolders = serviceFolders;
   } else if (includeSome) {
     filteredFolders = serviceFolders.filter((x) => include.includes(x));
-  } else if (excludeSome) {
-    filteredFolders = serviceFolders.filter((x) => !exclude.includes(x));
   }
 
   for (const eachService of filteredFolders) {
@@ -147,17 +136,9 @@ async function main() {
     .options({
       include: {
         alias: "inc",
-        conflicts: "exc",
         type: "array",
-        describe:
-          "inclusion list of packages for which the docs should be generated. The index template html is not created in this mode.",
-      },
-      exclude: {
-        alias: "exc",
-        conflicts: "inc",
-        type: "array",
-        describe:
-          "exclusion list for packages for which the docs should be NOT generated.These packages will be added to index template html generated.",
+        describe: "inclusion list of packages for which the docs should be generated.",
+        demandOption: true,
       },
       clientOnly: {
         type: "boolean",
@@ -169,12 +150,10 @@ async function main() {
 
   console.log("Argv.clientOnly = " + argv.clientOnly);
 
-  const exclude: string[] = argv.include?.map((x) => String(x)) ?? [];
-  const include: string[] = argv.exclude?.map((x) => String(x)) ?? [];
+  const include: string[] = argv.include?.map((x) => String(x)) ?? [];
 
   await executeTypedoc({
     include,
-    exclude,
     clientOnly: argv.clientOnly,
   });
 
