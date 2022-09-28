@@ -7,7 +7,7 @@ require("dotenv").config();
 const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
 process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "./",
@@ -54,6 +54,7 @@ module.exports = function(config) {
     },
 
     envPreprocessor: [
+      "RECORDINGS_RELATIVE_PATH",
       "TEST_MODE",
       "ENDPOINT",
       "AZURE_CLIENT_SECRET",

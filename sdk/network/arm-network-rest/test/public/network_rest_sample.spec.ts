@@ -163,7 +163,7 @@ describe("Network test", () => {
     }
     const poller = getLongRunningPoller(client, res, testPollingOptions);
     const result = await poller.pollUntilDone();
-    assert.equal(result.body.name, subnet_name);
+    assert.equal(result.body.name, ipGroupName);
   });
 
   it("virtualNetworks get test", async function () {

@@ -2,23 +2,39 @@
   "Entries": [
     {
       "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz?api-version=2022-05-01",
-      "RequestMethod": "GET",
+      "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-network-rest/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "9bb0605f-32a0-4a39-b552-2c45ca8aab04"
+        "Content-Length": "42",
+        "Content-Type": "application/json; charset=UTF-8",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "7cc08ef1-b0db-4fbd-8d7f-1d7aa51ca371",
+        "x-ms-useragent": "azsdk-js-arm-network-rest/1.0.0-beta.1 core-rest-pipeline/1.9.2 OS/Win32"
       },
-      "RequestBody": null,
+      "RequestBody": {
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        }
+      },
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Azure-AsyncNotification": "Enabled",
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 28 Sep 2022 02:35:14 GMT",
-        "ETag": "W/\u0022132cd587-bc2f-43cb-aabf-89f9f589f7a3\u0022",
+        "Date": "Wed, 28 Sep 2022 02:36:24 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": [
@@ -29,21 +45,25 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-arm-service-request-id": "e709c958-7b85-4db3-9870-76e156d04134",
-        "x-ms-correlation-request-id": "bfdf12a7-7ce9-416e-b0a3-7f11e6e6e059",
-        "x-ms-ratelimit-remaining-subscription-reads": "11993",
-        "x-ms-request-id": "5801727c-8bd9-43e7-8747-f6ca78f1ffff",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220928T023515Z:bfdf12a7-7ce9-416e-b0a3-7f11e6e6e059"
+        "x-ms-arm-service-request-id": "67898295-4e9d-4384-941f-84e8392f02e8",
+        "x-ms-correlation-request-id": "7a60d072-be83-4903-9194-c7a316c10430",
+        "x-ms-ratelimit-remaining-subscription-writes": "1196",
+        "x-ms-request-id": "bec9181d-bc17-4d52-8189-085a8fc6af57",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220928T023624Z:7a60d072-be83-4903-9194-c7a316c10430"
       },
       "ResponseBody": {
         "name": "virtualnetworkzzz",
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz",
-        "etag": "W/\u0022132cd587-bc2f-43cb-aabf-89f9f589f7a3\u0022",
+        "etag": "W/\u00226db5450c-984c-4ce5-ba5e-84cc83d1fe52\u0022",
         "type": "Microsoft.Network/virtualNetworks",
         "location": "eastus",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
         "properties": {
           "provisioningState": "Succeeded",
-          "resourceGuid": "6aebd40b-2927-453d-9616-5595755dac69",
+          "resourceGuid": "7183a383-d8c1-481c-9022-dc40568d4c9b",
           "addressSpace": {
             "addressPrefixes": [
               "10.0.0.0/16"
@@ -53,7 +73,7 @@
             {
               "name": "subnetnamexx",
               "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz/subnets/subnetnamexx",
-              "etag": "W/\u0022132cd587-bc2f-43cb-aabf-89f9f589f7a3\u0022",
+              "etag": "W/\u00226db5450c-984c-4ce5-ba5e-84cc83d1fe52\u0022",
               "properties": {
                 "provisioningState": "Succeeded",
                 "addressPrefix": "10.0.0.0/24",

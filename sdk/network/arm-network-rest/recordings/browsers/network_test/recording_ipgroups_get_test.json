@@ -5,11 +5,20 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-network-rest/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "612bbb3b-51c0-4b9f-8de1-07f199e5863f"
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "f319b21b-430c-4113-9082-50efecc65775",
+        "x-ms-useragent": "azsdk-js-arm-network-rest/1.0.0-beta.1 core-rest-pipeline/1.9.2 OS/Win32"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,8 +26,8 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 28 Sep 2022 02:35:17 GMT",
-        "ETag": "\u002270cfb647-9f31-451b-bc63-c93434acbc45\u0022",
+        "Date": "Wed, 28 Sep 2022 02:36:17 GMT",
+        "ETag": "\u00224966f3f1-c619-41fe-ab1b-77739f587c17\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
@@ -26,10 +35,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "a9a66ac8-d229-4dec-9f15-cdb837f75374",
-        "x-ms-ratelimit-remaining-subscription-reads": "11991",
-        "x-ms-request-id": "a9a66ac8-d229-4dec-9f15-cdb837f75374",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220928T023517Z:a9a66ac8-d229-4dec-9f15-cdb837f75374"
+        "x-ms-correlation-request-id": "de9c0d4b-5256-4f9b-b146-4c8531aa4274",
+        "x-ms-ratelimit-remaining-subscription-reads": "11990",
+        "x-ms-request-id": "de9c0d4b-5256-4f9b-b146-4c8531aa4274",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220928T023618Z:de9c0d4b-5256-4f9b-b146-4c8531aa4274"
       },
       "ResponseBody": {
         "properties": {
@@ -45,7 +54,7 @@
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/ipGroups/ipgroupyyy",
         "name": "ipgroupyyy",
         "type": "Microsoft.Network/IpGroups",
-        "etag": "70cfb647-9f31-451b-bc63-c93434acbc45",
+        "etag": "4966f3f1-c619-41fe-ab1b-77739f587c17",
         "location": "eastus",
         "tags": {
           "key1": "value1"

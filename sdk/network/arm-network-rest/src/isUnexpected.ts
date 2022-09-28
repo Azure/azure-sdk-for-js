@@ -9501,18 +9501,21 @@ export function isUnexpected(
   const method = response.request.method;
   let pathDetails = responseMap[`${method} ${url.pathname}`];
   if (!pathDetails) {
-    pathDetails = geParametrizedPathSuccess(url.pathname);
+    pathDetails = geParametrizedPathSuccess(method, url.pathname);
   }
   return !pathDetails.includes(response.status);
 }
 
-function geParametrizedPathSuccess(path: string): string[] {
+function geParametrizedPathSuccess(method: string, path: string): string[] {
   const pathParts = path.split("/");
 
   // Iterate the responseMap to find a match
   for (const [key, value] of Object.entries(responseMap)) {
     // Extracting the path from the map key which is in format
     // GET /path/foo
+    if (!key.startsWith(method)) {
+      continue;
+    }
     const candidatePath = getPathFromMapKey(key);
     // Get each part of the url path
     const candidateParts = candidatePath.split("/");
