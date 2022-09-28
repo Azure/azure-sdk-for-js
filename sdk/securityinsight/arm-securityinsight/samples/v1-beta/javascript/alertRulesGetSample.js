@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets the alert rule.
  *
  * @summary Gets the alert rule.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/alertRules/GetFusionAlertRule.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/alertRules/GetFusionAlertRule.json
  */
 async function getAFusionAlertRule() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -34,7 +34,7 @@ getAFusionAlertRule().catch(console.error);
  * This sample demonstrates how to Gets the alert rule.
  *
  * @summary Gets the alert rule.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/alertRules/GetMicrosoftSecurityIncidentCreationAlertRule.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/alertRules/GetMicrosoftSecurityIncidentCreationAlertRule.json
  */
 async function getAMicrosoftSecurityIncidentCreationRule() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -53,7 +53,7 @@ getAMicrosoftSecurityIncidentCreationRule().catch(console.error);
  * This sample demonstrates how to Gets the alert rule.
  *
  * @summary Gets the alert rule.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/alertRules/GetScheduledAlertRule.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/alertRules/GetScheduledAlertRule.json
  */
 async function getAScheduledAlertRule() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -72,7 +72,7 @@ getAScheduledAlertRule().catch(console.error);
  * This sample demonstrates how to Gets the alert rule.
  *
  * @summary Gets the alert rule.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/alertRules/GetNrtAlertRule.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/alertRules/GetNrtAlertRule.json
  */
 async function getAnNrtAlertRule() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
