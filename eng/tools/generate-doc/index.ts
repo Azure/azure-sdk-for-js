@@ -6,6 +6,7 @@ import * as path from "path";
 import yargs from "yargs";
 import { Application as TypeDocApplication, TypeDocReader, TypeDocOptions } from "typedoc";
 
+// need to pass ./src as entry?
 async function runTypeDoc({
   outputFolder,
   cwd,
@@ -16,7 +17,7 @@ async function runTypeDoc({
   hasTypeDocConfig: boolean;
 }) {
   const app = new TypeDocApplication();
-  //app.options.addReader(new typedoc.TSConfigReader());
+  //app.options.addReader(new TSConfigReader());
   app.options.addReader(new TypeDocReader());
 
   const noTypeDocConfig: Partial<TypeDocOptions> = {
@@ -87,58 +88,62 @@ async function executeTypedoc({
   include: string[];
   exclude: string[];
 }) {
-  let docOutputFolder = "--out ./dist/docs ./src";
+  let docOutputFolder = "./dist/docs";
   console.log("process.cwd = " + process.cwd());
   const workingDir = path.join(process.cwd(), "sdk");
   const serviceFolders = await readDir(workingDir);
+  const includeSome = Boolean(include.length);
+  const includeAll = Boolean(includeSome && include[0] === "*");
+  const excludeSome = Boolean(exclude.length);
+  let filteredFolders: string[] = [];
 
-  for (const eachService of serviceFolders) {
-    if (
-      (include.length && include.includes(eachService)) ||
-      (exclude.length && !exclude.includes(eachService)) ||
-      (include.length && include[0] === "*")
-    ) {
-      const eachServicePath = path.join(workingDir, eachService);
-      const stat = await statFile(eachServicePath);
+  if (includeAll) {
+    filteredFolders = serviceFolders;
+  } else if (includeSome) {
+    filteredFolders = serviceFolders.filter((x) => include.includes(x));
+  } else if (excludeSome) {
+    filteredFolders = serviceFolders.filter((x) => !exclude.includes(x));
+  }
 
-      if (stat && stat.isDirectory()) {
-        const packageList = await readDir(eachServicePath);
+  for (const eachService of filteredFolders) {
+    const eachServicePath = path.join(workingDir, eachService);
+    const stat = await statFile(eachServicePath);
 
-        for (const eachPackage of packageList) {
-          const eachPackagePath = path.join(eachServicePath, eachPackage);
-          const packageStat = await statFile(eachPackagePath);
-          if (packageStat && packageStat.isDirectory()) {
-            const checks = await getChecks(eachPackagePath);
+    if (!stat.isDirectory()) {
+      continue;
+    }
 
-            console.log(`checks after walk: ${JSON.stringify(checks, null, 2)}`);
-            console.log("Path: " + eachPackagePath);
-            if (!checks.isPrivate) {
-              if ((clientOnly && checks.isClient) || !clientOnly) {
-                if (checks.srcPresent) {
-                  var artifactName = checks.packageName.replace("@", "").replace("/", "-");
-                  if (docGenOutput === "dg") {
-                    docOutputFolder =
-                      "--out ../../../docGen/" + artifactName + "/" + checks.version + " ./src";
-                  }
+    const packageList = await readDir(eachServicePath, { withFileTypes: true });
 
-                  await runTypeDoc({
-                    cwd: eachPackagePath,
-                    outputFolder: docOutputFolder,
-                    hasTypeDocConfig: checks.typedocPresent,
-                  });
-                } else {
-                  console.log("...SKIPPING Since src folder could not be found.....");
-                }
-              }
-            } else {
-              console.log("...SKIPPING Since package marked as private...");
-            }
-          }
-        } //end-for each-package
+    for (const eachPackage of packageList) {
+      if (!eachPackage.isDirectory()) {
+        continue;
+      }
+      const eachPackagePath = path.join(eachServicePath, eachPackage.name);
+      console.log("Path: " + eachPackagePath);
+      const checks = await getChecks(eachPackagePath);
+      console.log(`checks after walk: ${JSON.stringify(checks, null, 2)}`);
+
+      if (checks.isPrivate) {
+        console.log("...SKIPPING Since package marked as private...");
+        continue;
+      } else if (!checks.srcPresent) {
+        console.log("...SKIPPING Since src folder could not be found.....");
+        continue;
+      } else if (!clientOnly || (clientOnly && checks.isClient)) {
+        const artifactName = checks.packageName.replace("@", "").replace("/", "-");
+        if (docGenOutput === "dg") {
+          docOutputFolder = `../../../docGen/${artifactName}/${checks.version}`;
+        }
+
+        await runTypeDoc({
+          cwd: eachPackagePath,
+          outputFolder: docOutputFolder,
+          hasTypeDocConfig: checks.typedocPresent,
+        });
       }
     }
-  } // end-for ServiceFolders
-  console.log("All done!");
+  }
 }
 
 async function main() {
@@ -191,6 +196,8 @@ async function main() {
     clientOnly: argv.clientOnly,
     docGenOutput: argv.docGenOutput,
   });
+
+  console.log("All done!");
 }
 
 main().catch((err) => {
