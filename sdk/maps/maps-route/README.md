@@ -97,8 +97,8 @@ By default, the Route service will return an array of coordinates. The response 
 
 ```javascript
 const routeDirectionsResult = await client.getRouteDirections([
-  { latitude: 51.368752, longitude: -0.118332 },
-  { latitude: 41.385426, longitude: -0.128929 },
+  [51.368752, -0.118332],
+  [41.385426, -0.128929],
 ]);
 ```
 
@@ -109,12 +109,12 @@ The service supports commercial vehicle routing, covering commercial trucks rout
 ```javascript
 const routeDirectionsResult = await client.getRouteDirections(
   [
-    { latitude: 51.368752, longitude: -0.118332 },
-    { latitude: 41.385426, longitude: -0.128929 },
+    [51.368752, -0.118332],
+    [41.385426, -0.128929],
   ],
   {
-    vehicleWidth: 2,
-    vehicleHeight: 2,
+    vehicleWidthInMeters: 2,
+    vehicleHeightInMeters: 2,
     isCommercialVehicle: true,
     vehicleLoadType: KnownVehicleLoadType.USHazmatClass1,
     travelMode: "truck",
@@ -136,10 +136,10 @@ If you want to optimize the best order to visit the given waypoints, then you ne
 ```javascript
 const routeDirectionsResult = await client.getRouteDirections(
   [
-    { latitude: 47.606544, longitude: -122.336502 },
-    { latitude: 47.759892, longitude: -122.204821 },
-    { latitude: 47.670682, longitude: -122.120415 },
-    { latitude: 47.480133, longitude: -122.213369 },
+    [47.606544, -122.336502],
+    [47.759892, -122.204821],
+    [47.670682, -122.120415],
+    [47.480133, -122.213369],
   ],
   {
     computeBestWaypointOrder: true,

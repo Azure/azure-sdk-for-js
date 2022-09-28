@@ -49,8 +49,8 @@ async function main() {
       [41.385426, -0.128929],
     ],
     {
-      vehicleWidth: 2,
-      vehicleHeight: 2,
+      vehicleWidthInMeters: 2,
+      vehicleHeightInMeters: 2,
       isCommercialVehicle: true,
       vehicleLoadType: KnownVehicleLoadType.USHazmatClass1,
       travelMode: "truck",

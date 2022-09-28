@@ -460,14 +460,14 @@ export interface RouteBaseOptions {
     travelMode?: TravelMode;
     uphillEfficiency?: number;
     useTrafficData?: boolean;
-    vehicleAxleWeight?: number;
+    vehicleAxleWeightInKg?: number;
     vehicleEngineType?: VehicleEngineType;
-    vehicleHeight?: number;
-    vehicleLength?: number;
+    vehicleHeightInMeters?: number;
+    vehicleLengthInMeters?: number;
     vehicleLoadType?: VehicleLoadType;
-    vehicleMaxSpeed?: number;
-    vehicleWeight?: number;
-    vehicleWidth?: number;
+    vehicleMaxSpeedInKmPerHour?: number;
+    vehicleWeightInKg?: number;
+    vehicleWidthInMeters?: number;
     windingness?: WindingnessLevel;
 }
 
