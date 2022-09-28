@@ -55,7 +55,7 @@ const client = NetworkManagementClient(credential);
 
 ## Examples
 
-The following section shows you how to initialize and authenticate your client, then list all of your Virtual Machines within a resource group.
+The following section shows you how to initialize and authenticate your client, then list all of your Virtual Networks within a resource group.
 ### List virtual networks within a resource group
 
 ```typescript
