@@ -213,12 +213,24 @@ export function deadLetterMessage(
     retryOptions,
   };
 
-  return settleMessage(
-    message,
-    DispositionType.deadletter,
-    context,
-    entityPath,
-    dispositionStatusOptions
+  const tracingContext = extractSpanContextFromServiceBusMessage(message);
+  const spanLinks: TracingSpanLink[] = tracingContext ? [{ tracingContext }] : [];
+
+  return tracingClient.withSpan(
+    "ServiceBusReceiver.deadLetter",
+    {},
+    () =>
+      settleMessage(
+        message,
+        DispositionType.deadletter,
+        context,
+        entityPath,
+        dispositionStatusOptions
+      ),
+    {
+      spanLinks,
+      ...toSpanOptions({ entityPath, host: context.config.host }, "client"),
+    }
   );
 }
 
