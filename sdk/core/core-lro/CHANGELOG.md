@@ -1,8 +1,10 @@
 # Release History
 
-## 2.3.2 (Unreleased)
+## 2.4.0 (Unreleased)
 
 ### Features Added
+
+- Add `resolveOnUnsuccessful` to `CreatePollerOptions` and `LroEngineOptions` to control whether to throw an error if the operation failed or was canceled.
 
 ### Breaking Changes
 
