@@ -22,6 +22,7 @@ export * from "./entitiesRelations";
 export * from "./entityRelations";
 export * from "./entityQueries";
 export * from "./entityQueryTemplates";
+export * from "./fileImports";
 export * from "./incidentComments";
 export * from "./incidentRelations";
 export * from "./metadata";
