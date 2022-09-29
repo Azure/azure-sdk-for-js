@@ -1,5 +1,11 @@
 # Release History
     
+## 4.0.1 (2022-09-29)
+
+**Bugs Fixed**
+
+  -  fix better user experience of credential scopes in government cloud
+
 ## 4.0.0 (2022-01-20)
 
 The package of @azure/arm-recoveryservices-siterecovery is using our next generation design principles since version 4.0.0, which contains breaking changes.
