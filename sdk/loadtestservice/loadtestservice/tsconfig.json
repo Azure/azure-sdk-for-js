@@ -1,0 +1,4 @@
+{
+  "compilerOptions": { "outDir": "./dist-esm", "esModuleInterop": true },
+  "include": ["src/**/*.ts", "./test/**/*.ts"]
+}
