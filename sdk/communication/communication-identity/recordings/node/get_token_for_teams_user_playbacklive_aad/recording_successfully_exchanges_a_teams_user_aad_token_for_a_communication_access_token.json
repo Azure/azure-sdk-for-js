@@ -23,18 +23,18 @@
         "api-supported-versions": "2021-10-31-preview, 2022-06-01, 2022-10-01",
         "Content-Length": "69",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 11 Sep 2022 15:33:59 GMT",
-        "MS-CV": "qcW5E5tivUK6gRIYrr\u002ByRA.0",
+        "Date": "Thu, 29 Sep 2022 15:07:14 GMT",
+        "MS-CV": "j1PfrLm8KUC9aHiovUE47Q.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "05/8dYwAAAACrSKoKoxaQRIzUBAWyNTJ\u002BUFJHMDFFREdFMDkxOQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0orQ1YwAAAAAC0Nqrili7Rq9bx/CEjA99UFJHMDFFREdFMDkwOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "562ms"
+        "X-Processing-Time": "470ms"
       },
       "ResponseBody": {
         "token": "sanitized",
-        "expiresOn": "2022-09-11T16:39:57.7804718\u002B00:00"
+        "expiresOn": "2022-09-29T16:33:56.6662225\u002B00:00"
       }
     }
   ],

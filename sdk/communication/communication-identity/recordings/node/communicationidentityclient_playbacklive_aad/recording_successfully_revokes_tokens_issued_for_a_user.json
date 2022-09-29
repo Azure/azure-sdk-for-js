@@ -24,14 +24,14 @@
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01",
         "Content-Length": "115",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 11 Sep 2022 15:33:43 GMT",
-        "MS-CV": "ABwB3zY0HE\u002BWn/mXpvx\u002Bbg.0",
+        "Date": "Thu, 29 Sep 2022 15:07:02 GMT",
+        "MS-CV": "bQEI0KD0QkSoHLLwwdIiEg.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "01/8dYwAAAAACate9Kx4fT69My6IEUa/QUFJHMDFFREdFMDkxOQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0lrQ1YwAAAACQqggKvNUfQ5vyf93TF440UFJHMDFFREdFMDkwOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "50ms"
+        "X-Processing-Time": "55ms"
       },
       "ResponseBody": {
         "identity": {
@@ -39,7 +39,7 @@
         },
         "accessToken": {
           "token": "sanitized",
-          "expiresOn": "2022-09-12T15:33:43.7518614\u002B00:00"
+          "expiresOn": "2022-09-30T15:07:03.0622612\u002B00:00"
         }
       }
     },
@@ -59,14 +59,14 @@
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01",
-        "Date": "Sun, 11 Sep 2022 15:33:43 GMT",
-        "MS-CV": "pggMDIe870yIyJg4llxPOw.0",
+        "Date": "Thu, 29 Sep 2022 15:07:03 GMT",
+        "MS-CV": "NRHpoEQV7U\u002Byo0Pvhw4gGw.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "01/8dYwAAAADWKtXFp019SKcB8NGuam2\u002BUFJHMDFFREdFMDkxOQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0l7Q1YwAAAADJuulSOZ\u002BsQLG\u002BlO6FiJoYUFJHMDFFREdFMDkwOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "299ms"
+        "X-Processing-Time": "400ms"
       },
       "ResponseBody": null
     }

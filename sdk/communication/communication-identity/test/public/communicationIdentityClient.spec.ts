@@ -10,7 +10,7 @@ import {
   createRecordedCommunicationIdentityClient,
   createRecordedCommunicationIdentityClientWithToken,
 } from "./utils/recordedClient";
-import { CommunicationIdentityClient, GetTokenOptions } from "../../src";
+import { CommunicationIdentityClient } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { matrix } from "@azure/test-utils";
@@ -100,17 +100,6 @@ matrix([[true, false]], async function (useAad: boolean) {
           assert.fail("Should have thrown an error");
         } catch (e: any) {
           assert.equal(e.statusCode, 401);
-        }
-      });
-
-      it("throws an error when attempting to issue a token with max invalid expiration", async function () {
-        const user: CommunicationUserIdentifier = await client.createUser();
-        const tokenOptions: GetTokenOptions = { tokenExpiresInMinutes: 59 };
-        try {
-          await client.getToken(user, ["chat"], tokenOptions);
-          assert.fail("Should have thrown an error");
-        } catch (e: any) {
-          assert.equal(e.statusCode, 400);
         }
       });
 

@@ -8,37 +8,37 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "56",
+        "Content-Length": "58",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-communication-identity/1.2.0 core-rest-pipeline/1.9.1 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-content-sha256": "\u002BV2OezsK1ka979ElBh42mmFB1HRO3wjS331RY/kvJ5c=",
-        "x-ms-date": "Thu, 29 Sep 2022 13:39:05 GMT"
+        "x-ms-content-sha256": "Zr7vVWM5WChejqS3ZI4DoxQV3TMApnDB7thSFzq7N9c=",
+        "x-ms-date": "Thu, 29 Sep 2022 15:07:36 GMT"
       },
       "RequestBody": {
         "createTokenWithScopes": [
           "chat"
         ],
-        "expiresInMinutes": 59
+        "expiresInMinutes": 1441
       },
       "StatusCode": 400,
       "ResponseHeaders": {
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01",
         "Content-Type": "application/json",
-        "Date": "Thu, 29 Sep 2022 13:39:05 GMT",
-        "MS-CV": "fxS6yWee9kS8PFgPJbrnFA.0",
+        "Date": "Thu, 29 Sep 2022 15:07:35 GMT",
+        "MS-CV": "Bv87n6YS7USaFOemOs\u002BLUg.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0\u002BZ81YwAAAACRxtDgCV4OQL5bAskxkrBSUFJHMDFFREdFMDkwNgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0uLQ1YwAAAADIV8vn2N92Ta1rnWcO4MG8UFJHMDFFREdFMDkwOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "29ms"
+        "X-Processing-Time": "27ms"
       },
       "ResponseBody": {
         "error": {
           "code": "ValidationError",
-          "message": "ExpiresInMinutes value 59 is invalid. Value must be within the [60, 1440] interval.",
+          "message": "ExpiresInMinutes value 1441 is invalid. Value must be within the [60, 1440] interval.",
           "target": "ExpiresInMinutes"
         }
       }
