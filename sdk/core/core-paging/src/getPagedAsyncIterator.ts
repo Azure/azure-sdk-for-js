@@ -17,7 +17,7 @@ export function getPagedAsyncIterator<
   TPageSettings = PageSettings,
   TLink = string
 >(
-  pagedResult: PagedResult<TPage, TPageSettings, TLink>
+  pagedResult: PagedResult<TPage, TPageSettings, TLink, TElement>
 ): PagedAsyncIterableIterator<TElement, TPage, TPageSettings> {
   const iter = getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(pagedResult);
   return {
@@ -40,7 +40,7 @@ export function getPagedAsyncIterator<
 }
 
 async function* getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(
-  pagedResult: PagedResult<TPage, TPageSettings, TLink>
+  pagedResult: PagedResult<TPage, TPageSettings, TLink, TElement>
 ): AsyncIterableIterator<TElement> {
   const pages = getPageAsyncIterator(pagedResult);
   const firstVal = await pages.next();
@@ -68,8 +68,8 @@ async function* getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(
   }
 }
 
-async function* getPageAsyncIterator<TPage, TLink, TPageSettings>(
-  pagedResult: PagedResult<TPage, TPageSettings, TLink>,
+async function* getPageAsyncIterator<TPage, TLink, TPageSettings, TElement>(
+  pagedResult: PagedResult<TPage, TPageSettings, TLink, TElement>,
   options: {
     maxPageSize?: number;
     pageLink?: TLink;

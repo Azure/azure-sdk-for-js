@@ -415,6 +415,7 @@ export class AppConfigurationClient {
             ? extractAfterTokenFromNextLink(response.nextLink)
             : undefined,
         }
+        // let itemList = currentResponse.items;
         return {
           page: currentResponse,
           nextPageLink: currentResponse.nextLink,

@@ -39,7 +39,7 @@ export interface PagedAsyncIterableIterator<
 /**
  * An interface that describes how to communicate with the service.
  */
-export interface PagedResult<TPage, TPageSettings = PageSettings, TLink = string> {
+export interface PagedResult<TPage, TPageSettings = PageSettings, TLink = string, T = TPage> {
   /**
    * Link to the first page of results.
    */
