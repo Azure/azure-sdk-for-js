@@ -353,6 +353,7 @@ export class AppConfigurationClient {
             ? extractAfterTokenFromNextLink(response.nextLink)
             : undefined,
         }
+        
         return {
           page: currentResponse,
           nextPageLink: currentResponse.nextLink,
