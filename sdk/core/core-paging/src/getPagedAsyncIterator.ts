@@ -16,7 +16,7 @@ export function getPagedAsyncIterator<
   TPageSettings = PageSettings,
   TLink = string
 >(
-  pagedResult: PagedResult<TPage, TPageSettings, TLink>
+  pagedResult: PagedResult<TPage, TPageSettings, TLink, TElement>
 ): PagedAsyncIterableIterator<TElement, TPage, TPageSettings> {
   const iter = getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(pagedResult);
   return {
@@ -30,7 +30,7 @@ export function getPagedAsyncIterator<
       pagedResult?.byPage ??
       ((settings?: PageSettings) => {
         const { continuationToken, maxPageSize } = settings ?? {};
-        return getPageAsyncIterator(pagedResult as PagedResult<TPage, PageSettings, TLink>, {
+        return getPageAsyncIterator(pagedResult as PagedResult<TPage, PageSettings, TLink, TElement>, {
           pageLink: continuationToken as unknown as TLink | undefined,
           maxPageSize,
         });
@@ -39,15 +39,23 @@ export function getPagedAsyncIterator<
 }
 
 async function* getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(
-  pagedResult: PagedResult<TPage, TPageSettings, TLink>
+  pagedResult: PagedResult<TPage, TPageSettings, TLink, TElement>
 ): AsyncIterableIterator<TElement> {
   const pages = getPageAsyncIterator(pagedResult);
   const firstVal = await pages.next();
   // if the result does not have an array shape, i.e. TPage = TElement, then we return it as is
   if (!Array.isArray(firstVal.value)) {
-    yield firstVal.value;
-    // `pages` is of type `AsyncIterableIterator<TPage>` but TPage = TElement in this case
-    yield* pages as unknown as AsyncIterableIterator<TElement>;
+    const toElements = pagedResult.toElements;
+    if (toElements !== undefined){
+      yield* toElements(firstVal.value);
+      for await (const page of pages) {
+        yield* toElements(page);
+      }
+    } else{
+      yield firstVal.value;
+      // `pages` is of type `AsyncIterableIterator<TPage>` but TPage = TElement in this case
+      yield* pages as unknown as AsyncIterableIterator<TElement>;
+    }
   } else {
     yield* firstVal.value;
     for await (const page of pages) {
@@ -58,8 +66,8 @@ async function* getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(
   }
 }
 
-async function* getPageAsyncIterator<TPage, TLink, TPageSettings>(
-  pagedResult: PagedResult<TPage, TPageSettings, TLink>,
+async function* getPageAsyncIterator<TPage, TLink, TPageSettings, TElement>(
+  pagedResult: PagedResult<TPage, TPageSettings, TLink, TElement>,
   options: {
     maxPageSize?: number;
     pageLink?: TLink;
