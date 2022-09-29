@@ -902,6 +902,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure-rest/arm-network",
+      "projectFolder": "sdk/network/arm-network-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-compute",
       "projectFolder": "sdk/compute/arm-compute",
       "versionPolicyName": "management"
