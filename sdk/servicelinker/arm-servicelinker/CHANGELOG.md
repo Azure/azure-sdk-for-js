@@ -1,14 +1,10 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.0.1 (2022-09-29)
 
-### Features Added
+**Bugs Fixed**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  -  fix better user experience of credential scopes in government cloud
 
 ## 2.0.0 (2022-05-16)
     

@@ -1,14 +1,10 @@
 # Release History
 
-## 5.0.0-beta.7 (Unreleased)
+## 5.0.0-beta.7 (2022-09-29)
 
-### Features Added
+**Bugs Fixed**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  -  fix better user experience of credential scopes in government cloud
 
 ## 5.0.0-beta.6 (2022-09-21)
 

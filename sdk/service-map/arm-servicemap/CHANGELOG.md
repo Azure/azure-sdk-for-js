@@ -1,5 +1,11 @@
 # Release History
     
+## 3.0.0-beta.2 (2022-09-29)
+
+**Bugs Fixed**
+
+  -  fix better user experience of credential scopes in government cloud
+
 ## 3.0.0-beta.1 (2022-01-21)
 
 The package of @azure/arm-servicemap is using our next generation design principles since version 3.0.0-beta.1, which contains breaking changes.

@@ -1,5 +1,11 @@
 # Release History
     
+## 4.0.0-beta.3 (2022-09-29)
+
+**Bugs Fixed**
+
+  -  fix better user experience of credential scopes in government cloud
+
 ## 4.0.0-beta.2 (2022-05-05)
 
 The package of @azure/arm-visualstudio is using our next generation design principles since version 4.0.0-beta.2, which contains breaking changes.

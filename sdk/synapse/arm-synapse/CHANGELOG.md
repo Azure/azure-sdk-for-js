@@ -1,14 +1,10 @@
 # Release History
 
-## 8.1.0-beta.2 (Unreleased)
+## 8.1.0-beta.2 (2022-09-29)
 
-### Features Added
+**Bugs Fixed**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  -  fix better user experience of credential scopes in government cloud
 
 ## 8.1.0-beta.1 (2022-04-20)
     
