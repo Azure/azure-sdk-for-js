@@ -76,7 +76,7 @@ export const maxPageSize: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-11-30",
+    defaultValue: "2022-12-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -106,8 +106,8 @@ export const administrativeDivision: OperationQueryParameter = {
   }
 };
 
-export const phoneNumberType: OperationQueryParameter = {
-  parameterPath: ["options", "phoneNumberType"],
+export const numberType: OperationQueryParameter = {
+  parameterPath: ["options", "numberType"],
   mapper: {
     serializedName: "phoneNumberType",
     type: {
@@ -150,7 +150,7 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const phoneNumberType1: OperationParameter = {
+export const phoneNumberType: OperationParameter = {
   parameterPath: "phoneNumberType",
   mapper: PhoneNumberSearchRequestMapper
 };

@@ -99,7 +99,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
     options?: PhoneNumbersListAvailableCountriesOptionalParams
   ): AsyncIterableIterator<PhoneNumberCountry[]> {
     let result = await this._listAvailableCountries(options);
-    yield result.phoneNumberCountries || [];
+    yield result.countries || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listAvailableCountriesNext(
@@ -107,7 +107,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
         options
       );
       continuationToken = result.nextLink;
-      yield result.phoneNumberCountries || [];
+      yield result.countries || [];
     }
   }
 
@@ -147,7 +147,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
     options?: PhoneNumbersListAvailableLocalitiesOptionalParams
   ): AsyncIterableIterator<PhoneNumberLocality[]> {
     let result = await this._listAvailableLocalities(countryCode, options);
-    yield result.phoneNumberLocalities || [];
+    yield result.localities || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listAvailableLocalitiesNext(
@@ -156,7 +156,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
         options
       );
       continuationToken = result.nextLink;
-      yield result.phoneNumberLocalities || [];
+      yield result.localities || [];
     }
   }
 
@@ -253,7 +253,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
     options?: PhoneNumbersListOfferingsOptionalParams
   ): AsyncIterableIterator<PhoneNumberOffering[]> {
     let result = await this._listOfferings(countryCode, options);
-    yield result.phoneNumberOfferings || [];
+    yield result.offerings || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listOfferingsNext(
@@ -262,7 +262,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
         options
       );
       continuationToken = result.nextLink;
-      yield result.phoneNumberOfferings || [];
+      yield result.offerings || [];
     }
   }
 
@@ -1023,8 +1023,8 @@ const listAvailableLocalitiesOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.skip,
     Parameters.maxPageSize,
-    Parameters.administrativeDivision,
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.administrativeDivision
   ],
   urlParameters: [Parameters.endpoint, Parameters.countryCode],
   headerParameters: [Parameters.accept, Parameters.acceptLanguage],
@@ -1046,7 +1046,7 @@ const listAreaCodesOperationSpec: coreClient.OperationSpec = {
     Parameters.maxPageSize,
     Parameters.apiVersion,
     Parameters.administrativeDivision,
-    Parameters.phoneNumberType,
+    Parameters.numberType,
     Parameters.assignmentType,
     Parameters.locality
   ],
@@ -1069,7 +1069,7 @@ const listOfferingsOperationSpec: coreClient.OperationSpec = {
     Parameters.skip,
     Parameters.maxPageSize,
     Parameters.apiVersion,
-    Parameters.phoneNumberType,
+    Parameters.numberType,
     Parameters.assignmentType
   ],
   urlParameters: [Parameters.endpoint, Parameters.countryCode],
@@ -1320,6 +1320,7 @@ const listAvailableLocalitiesNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.skip,
     Parameters.maxPageSize,
+    Parameters.apiVersion,
     Parameters.administrativeDivision
   ],
   urlParameters: [
@@ -1346,7 +1347,7 @@ const listAreaCodesNextOperationSpec: coreClient.OperationSpec = {
     Parameters.maxPageSize,
     Parameters.apiVersion,
     Parameters.administrativeDivision,
-    Parameters.phoneNumberType,
+    Parameters.numberType,
     Parameters.assignmentType,
     Parameters.locality
   ],
@@ -1373,7 +1374,7 @@ const listOfferingsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.skip,
     Parameters.maxPageSize,
     Parameters.apiVersion,
-    Parameters.phoneNumberType,
+    Parameters.numberType,
     Parameters.assignmentType
   ],
   urlParameters: [

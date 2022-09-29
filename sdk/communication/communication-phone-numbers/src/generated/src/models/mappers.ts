@@ -13,7 +13,7 @@ export const PhoneNumberCountries: coreClient.CompositeMapper = {
     name: "Composite",
     className: "PhoneNumberCountries",
     modelProperties: {
-      phoneNumberCountries: {
+      countries: {
         serializedName: "phoneNumberCountries",
         type: {
           name: "Sequence",
@@ -129,7 +129,7 @@ export const PhoneNumberLocalities: coreClient.CompositeMapper = {
     name: "Composite",
     className: "PhoneNumberLocalities",
     modelProperties: {
-      phoneNumberLocalities: {
+      localities: {
         serializedName: "phoneNumberLocalities",
         type: {
           name: "Sequence",
@@ -245,7 +245,7 @@ export const PhoneNumberOfferings: coreClient.CompositeMapper = {
     name: "Composite",
     className: "PhoneNumberOfferings",
     modelProperties: {
-      phoneNumberOfferings: {
+      offerings: {
         serializedName: "phoneNumberOfferings",
         type: {
           name: "Sequence",

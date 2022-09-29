@@ -11,7 +11,7 @@ import * as coreClient from "@azure/core-client";
 /** Represents a wrapper around a list of countries. */
 export interface PhoneNumberCountries {
   /** Represents the underlying list of countries. */
-  phoneNumberCountries?: PhoneNumberCountry[];
+  countries?: PhoneNumberCountry[];
   /** Represents the URL link to the next page */
   nextLink?: string;
 }
@@ -56,7 +56,7 @@ export interface CommunicationError {
 /** Represents a wrapper around a list of cities or towns. */
 export interface PhoneNumberLocalities {
   /** Represents the underlying list of localities, e.g. cities or town. */
-  phoneNumberLocalities?: PhoneNumberLocality[];
+  localities?: PhoneNumberLocality[];
   /** Represents the URL link to the next page */
   nextLink?: string;
 }
@@ -93,7 +93,7 @@ export interface AreaCodeItem {
 
 export interface PhoneNumberOfferings {
   /** Represents the underlying list of offerings. */
-  phoneNumberOfferings?: PhoneNumberOffering[];
+  offerings?: PhoneNumberOffering[];
   /** Represents the URL link to the next page. */
   nextLink?: string;
 }
@@ -340,7 +340,7 @@ export interface PhoneNumbersListAreaCodesOptionalParams
   /** The name of the state or province in which to search for the area code. e.g. California. */
   administrativeDivision?: string;
   /** Filter by numberType, e.g. geographic, tollFree. */
-  phoneNumberType?: PhoneNumberType;
+  numberType?: PhoneNumberType;
   /** Filter by assignmentType, e.g. user, application. */
   assignmentType?: PhoneNumberAssignmentType;
   /** The name of locality in which to search for the area code. e.g. Seattle. This is required if the phone number type is Geographic. */
@@ -358,7 +358,7 @@ export interface PhoneNumbersListOfferingsOptionalParams
   /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
   maxPageSize?: number;
   /** Filter by phoneNumberType, e.g. Geographic, TollFree. */
-  phoneNumberType?: PhoneNumberType;
+  numberType?: PhoneNumberType;
   /** Filter by assignmentType, e.g. User, Application. */
   assignmentType?: PhoneNumberAssignmentType;
 }
@@ -513,7 +513,7 @@ export interface PhoneNumbersListAreaCodesNextOptionalParams
   /** The name of the state or province in which to search for the area code. e.g. California. */
   administrativeDivision?: string;
   /** Filter by numberType, e.g. geographic, tollFree. */
-  phoneNumberType?: PhoneNumberType;
+  numberType?: PhoneNumberType;
   /** Filter by assignmentType, e.g. user, application. */
   assignmentType?: PhoneNumberAssignmentType;
   /** The name of locality in which to search for the area code. e.g. Seattle. This is required if the phone number type is Geographic. */
@@ -531,7 +531,7 @@ export interface PhoneNumbersListOfferingsNextOptionalParams
   /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
   maxPageSize?: number;
   /** Filter by phoneNumberType, e.g. Geographic, TollFree. */
-  phoneNumberType?: PhoneNumberType;
+  numberType?: PhoneNumberType;
   /** Filter by assignmentType, e.g. User, Application. */
   assignmentType?: PhoneNumberAssignmentType;
 }

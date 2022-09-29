@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import { PhoneNumberAssignmentType, PhoneNumberSearchRequest, PhoneNumberType } from "./generated/src/models/";
+import {
+  PhoneNumberAssignmentType,
+  PhoneNumberSearchRequest,
+  PhoneNumberType,
+} from "./generated/src/models/";
 
 /**
  * The result of the phone numbers purchase operation.
@@ -62,7 +66,7 @@ export interface ListLocalitiesOptions extends OperationOptions {
  */
 export interface ListOfferingsOptions extends OperationOptions {
   phoneNumberType?: PhoneNumberType;
-   assignmentType?: PhoneNumberAssignmentType;
+  assignmentType?: PhoneNumberAssignmentType;
 }
 
 export {
@@ -74,6 +78,7 @@ export {
   PhoneNumberCapabilityType,
   PhoneNumberCost,
   PhoneNumberCountry,
+  PhoneNumbersListAreaCodesOptionalParams,
   PhoneNumberLocality,
   PhoneNumberOffering,
   PhoneNumberSearchRequest,
