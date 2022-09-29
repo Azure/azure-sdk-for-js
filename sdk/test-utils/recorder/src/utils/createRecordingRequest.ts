@@ -12,15 +12,14 @@ export function createRecordingRequest(
   sessionFile?: string,
   recordingId?: string,
   method: HttpMethods = "POST",
-  assetsJson?: string
+  assetsJson: string = ""
 ) {
   const req = createPipelineRequest({ url: url, method });
-
 
   if (sessionFile !== undefined) {
     let body: any = { "x-recording-file": sessionFile };
 
-    if (assetsJson !== undefined) {
+    if (assetsJson.length > 0) {
       body["x-recording-assets-file"] = sessionFile;
     }
 

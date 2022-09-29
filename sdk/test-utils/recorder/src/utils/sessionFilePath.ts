@@ -9,6 +9,7 @@ import { RecorderError } from "./utils";
 
 export function sessionFilePath(testContext: Mocha.Test): string {
   let recordingsFolder: string;
+
   if (isNode) {
     recordingsFolder = relativeRecordingsPath(); // sdk/service/project/recordings
   } else if (env.RECORDINGS_RELATIVE_PATH) {

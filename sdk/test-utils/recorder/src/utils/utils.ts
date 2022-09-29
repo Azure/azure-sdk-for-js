@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
+import path from "path";
+import fs from "fs";
 import { env } from "./env";
 /**
  * A custom error type for failed pipeline requests.
@@ -336,6 +337,59 @@ export function isLiveMode() {
 
 export function isPlaybackMode() {
   return !isRecordMode() && !isLiveMode();
+}
+
+export function resolveAssetsJson(testPath: string): string {
+  if (!(typeof testPath === 'undefined' || testPath == null)){
+    const currentPath = process.cwd();
+
+    let rootPath = undefined;
+
+    if (fs.existsSync(path.join(currentPath, "package.json"))) {
+      // <root>/sdk/service/project/package.json
+      if (fs.existsSync(path.join(currentPath, "package.json"))) {
+        const expectedRootPath = path.join(currentPath, "..", "..", ".."); // <root>/
+        if (
+          fs.existsSync(path.join(expectedRootPath, "sdk/")) && // <root>/sdk
+          fs.existsSync(path.join(expectedRootPath, "rush.json")) // <root>/rush.json
+        ) {
+          // reached root path
+          rootPath = expectedRootPath;
+        }
+      }
+    } else {
+      throw new RecorderError(`'package.json' is not found at ${currentPath}`);
+    }
+
+    if (rootPath === undefined) {
+      throw new RecorderError(
+        "rootPath or expectedProjectPath could not be calculated properly from process.cwd()"
+      );
+    }
+
+    let targetPath: string = testPath;
+    if (!fs.statSync(testPath).isDirectory()){
+      targetPath = path.dirname(targetPath)
+    }
+
+    while(true){
+      let prospectiveAssetsPath = path.join(targetPath, "assets.json");
+
+      let isGitRoot: boolean = fs.existsSync(path.join(targetPath, '.git'));
+      let isSysRoot: boolean = path.dirname(targetPath) === targetPath;
+      let isAssetsFolder: boolean = fs.existsSync(prospectiveAssetsPath)
+
+      if(isAssetsFolder){
+        return prospectiveAssetsPath;
+      }
+
+      if(isGitRoot || isSysRoot){
+        return "";
+      }
+    }
+  }
+
+  return "";
 }
 
 /**
