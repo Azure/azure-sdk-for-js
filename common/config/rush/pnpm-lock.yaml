@@ -3897,7 +3897,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220927
+      typescript: 4.9.0-dev.20220928
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8829,8 +8829,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220927:
-    resolution: {integrity: sha512-MXTYXCsE60y6eXtLu2aAgeV0LD/e5HCBPPRETcH+UMPoVusk9RjJNzj1/9gkNRryIoqeeL3w2AlxYHbiHPtQog==}
+  /typescript/4.9.0-dev.20220928:
+    resolution: {integrity: sha512-6hidLWDJy4HwPovwzGe0tGhTosozmSRNmu4BXuzaWSS1Qt39XiWvND8KYhOl/C27BnMw4DlTSzUh/LDTpqNklg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11166,12 +11166,12 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-7fYeKt2889vI53Zu2G6zkdujfeh4GBPMKEtQk+TIoV5tFEPRhhMujL6+ToJ+AJUKDTwO1jfDmc2QblcvOGAfnQ==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-4rGEnPtnnvd6qO0J7GeggMeF9J4egZJXHQETtgzbj6rOZHNs0dTicn7Mj8QEAYM572CmGeh4D53ESDWzspHXFw==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.31.2
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
