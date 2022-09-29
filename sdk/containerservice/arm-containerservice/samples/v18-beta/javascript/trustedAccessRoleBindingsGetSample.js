@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Get a trusted access role binding.
  *
  * @summary Get a trusted access role binding.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-08-02-preview/examples/TrustedAccessRoleBindings_Get.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-08-03-preview/examples/TrustedAccessRoleBindings_Get.json
  */
 async function getATrustedAccessRoleBinding() {
   const subscriptionId = "subid1";

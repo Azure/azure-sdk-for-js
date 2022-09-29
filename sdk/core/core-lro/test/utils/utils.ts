@@ -100,6 +100,7 @@ export async function assertDivergentBehavior(inputs: {
   };
   notThrowing: {
     result?: any;
+    partResult?: any;
     statusCode?: number;
     messagePattern?: RegExp;
   };
@@ -112,6 +113,7 @@ export async function assertDivergentBehavior(inputs: {
       messagePattern: notThrowingMessagePattern,
       statusCode: notThrowingStatusCode,
       result,
+      partResult,
     },
   } = inputs;
   if (throwOnNon2xxResponse) {
@@ -125,6 +127,8 @@ export async function assertDivergentBehavior(inputs: {
         statusCode: notThrowingStatusCode,
         messagePattern: notThrowingMessagePattern,
       });
+    } else if (partResult !== undefined) {
+      assert.deepInclude(await op, partResult);
     } else {
       assert.deepEqual(await op, result);
     }
