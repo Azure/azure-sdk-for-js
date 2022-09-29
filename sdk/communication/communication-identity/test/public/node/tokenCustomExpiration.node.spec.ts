@@ -85,7 +85,7 @@ matrix([[true, false]], async function (useAad: boolean) {
     given([
       { tokenExpiresInMinutes: 60, description: "min valid" },
       { tokenExpiresInMinutes: 1440, description: "max valid" },
-    ]).it("successfully gets a valid custom expiration token", async function (input) {
+    ]).it("successfully gets user and valid custom expiration token", async function (input) {
       const tokenOptions: CreateUserAndTokenOptions = {
         tokenExpiresInMinutes: input.tokenExpiresInMinutes,
       };
@@ -135,7 +135,7 @@ matrix([[true, false]], async function (useAad: boolean) {
       { tokenExpiresInMinutes: 59, description: "low invalid" },
       { tokenExpiresInMinutes: 1441, description: "high invalid" },
     ]).it(
-      "throws an error when attempting to issue an invalid expiration token",
+      "throws an error when attempting to issue user and invalid expiration token",
       async function (input) {
         const tokenOptions: CreateUserAndTokenOptions = {
           tokenExpiresInMinutes: input.tokenExpiresInMinutes,

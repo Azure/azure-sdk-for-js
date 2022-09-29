@@ -28,14 +28,14 @@
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01",
         "Content-Length": "31",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 29 Sep 2022 15:07:44 GMT",
-        "MS-CV": "ARCTs/kbq0ij5ypDIefWDQ.0",
+        "Date": "Thu, 29 Sep 2022 18:39:11 GMT",
+        "MS-CV": "YEzdLMHn3USoWgLxnPbH/g.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0wLQ1YwAAAAAAXjfXzlPNT6vSoZvKAOEfUFJHMDFFREdFMDkxNQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0UOY1YwAAAAAc6im2l6CZSIBPn/Q70PHrUFJHMDFFREdFMDkxOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "32ms"
+        "X-Processing-Time": "31ms"
       },
       "ResponseBody": {
         "identity": {
@@ -76,18 +76,18 @@
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01",
         "Content-Length": "69",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 29 Sep 2022 15:07:44 GMT",
-        "MS-CV": "/zZe/8jmQ0Ojdt3X2tjg2w.0",
+        "Date": "Thu, 29 Sep 2022 18:39:12 GMT",
+        "MS-CV": "/yXBGuHnh0WfxnJDg24kVw.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0wbQ1YwAAAABkkSVlIqgNTJCkJDqj4Kw9UFJHMDFFREdFMDkxNQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0UOY1YwAAAAAFOgvgGuHMT7vtlNHuR8SkUFJHMDFFREdFMDkxOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "38ms"
+        "X-Processing-Time": "40ms"
       },
       "ResponseBody": {
         "token": "sanitized",
-        "expiresOn": "2022-09-30T15:07:45.1902061\u002B00:00"
+        "expiresOn": "2022-09-30T18:39:12.6974687\u002B00:00"
       }
     }
   ],

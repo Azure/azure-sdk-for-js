@@ -1,44 +1,43 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/teamsUser/:exchangeAccessToken?api-version=2022-10-01",
+      "RequestUri": "https://endpoint/identities?api-version=2022-10-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "62",
+        "Content-Length": "58",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-communication-identity/1.2.0 core-rest-pipeline/1.9.1 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized",
-        "x-ms-content-sha256": "yqEu8QN1kyJscODkezpCq1wAbmzq8NvlU9MvcrWlAU8=",
-        "x-ms-date": "Thu, 29 Sep 2022 18:38:46 GMT"
+        "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": {
-        "token": "sanitized",
-        "appId": "sanitized",
-        "userId": "sanitized"
+        "createTokenWithScopes": [
+          "chat"
+        ],
+        "expiresInMinutes": 1441
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-10-31-preview, 2022-06-01, 2022-10-01",
+        "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01",
         "Content-Type": "application/json",
-        "Date": "Thu, 29 Sep 2022 18:38:45 GMT",
-        "MS-CV": "c2wvdMkz9E25Szjr26Yi3w.0",
+        "Date": "Thu, 29 Sep 2022 18:38:54 GMT",
+        "MS-CV": "JpORvbhLHkyyAXBjBPSG/Q.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0NuY1YwAAAABLt79858WXTrTiw\u002BBLwi\u002BuUFJHMDFFREdFMDkwNgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0PeY1YwAAAAC6hGDKmIBpRLYt/BkWAj/yUFJHMDFFREdFMDkwNgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "40ms"
+        "X-Processing-Time": "34ms"
       },
       "ResponseBody": {
         "error": {
           "code": "ValidationError",
-          "message": "Provided AppId has invalid format.",
-          "target": "appId"
+          "message": "ExpiresInMinutes value 1441 is invalid. Value must be within the [60, 1440] interval.",
+          "target": "ExpiresInMinutes"
         }
       }
     }
