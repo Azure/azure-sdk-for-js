@@ -12,7 +12,7 @@ package-version: 1.1.1
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-2022-06
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/5b0818f55339dbff370a967e3f068e180c6ad5a1/specification/communication/data-plane/Identity/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/f0343961168af6b19ea86dd3aa2429e2ca453db4/specification/communication/data-plane/Identity/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
