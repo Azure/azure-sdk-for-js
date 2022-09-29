@@ -340,7 +340,7 @@ export function isPlaybackMode() {
 }
 
 export function resolveAssetsJson(testPath: string): string {
-  if (!(typeof testPath === 'undefined' || testPath == null)){
+  if (!(typeof testPath === "undefined" || testPath == null)) {
     const currentPath = process.cwd();
 
     let rootPath = undefined;
@@ -368,22 +368,22 @@ export function resolveAssetsJson(testPath: string): string {
     }
 
     let targetPath: string = testPath;
-    if (!fs.statSync(testPath).isDirectory()){
-      targetPath = path.dirname(targetPath)
+    if (!fs.statSync(testPath).isDirectory()) {
+      targetPath = path.dirname(targetPath);
     }
 
-    while(true){
+    while (true) {
       let prospectiveAssetsPath = path.join(targetPath, "assets.json");
 
-      let isGitRoot: boolean = fs.existsSync(path.join(targetPath, '.git'));
+      let isGitRoot: boolean = fs.existsSync(path.join(targetPath, ".git"));
       let isSysRoot: boolean = path.dirname(targetPath) === targetPath;
-      let isAssetsFolder: boolean = fs.existsSync(prospectiveAssetsPath)
+      let isAssetsFolder: boolean = fs.existsSync(prospectiveAssetsPath);
 
-      if(isAssetsFolder){
+      if (isAssetsFolder) {
         return prospectiveAssetsPath;
       }
 
-      if(isGitRoot || isSysRoot){
+      if (isGitRoot || isSysRoot) {
         return "";
       }
     }

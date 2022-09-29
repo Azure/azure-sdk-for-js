@@ -218,7 +218,13 @@ export class Recorder {
         paths.start
       }`;
 
-      const req = createRecordingRequest(startUri, this.sessionFile, this.recordingId, "POST", this.assetsJson);
+      const req = createRecordingRequest(
+        startUri,
+        this.sessionFile,
+        this.recordingId,
+        "POST",
+        this.assetsJson
+      );
 
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
         logger.verbose("[Recorder#start] Setting redirect mode");
