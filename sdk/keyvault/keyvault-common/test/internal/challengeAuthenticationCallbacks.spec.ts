@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import { createChallengeCallbacks } from "../../../keyvault-common/src/";
+import { createChallengeCallbacks } from "../../src";
 import {
   AuthorizeRequestOptions,
   ChallengeCallbacks,
@@ -10,7 +10,7 @@ import {
   createPipelineRequest,
   PipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { parseWWWAuthenticate } from "../../../keyvault-common/src";
+import { parseWWWAuthenticate } from "../../src";
 
 describe("Challenge based authentication tests", function () {
   let request: PipelineRequest;
