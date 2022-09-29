@@ -9,7 +9,7 @@
     "generate-doc": "node index.js"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "typedoc": "^0.23.15",
     "yargs": "^17.5.1"

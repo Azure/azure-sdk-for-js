@@ -4,14 +4,17 @@ const readDir = fsPromises.readdir;
 const statFile = fsPromises.stat;
 import * as path from "path";
 import yargs from "yargs";
-import { Application as TypeDocApplication } from "typedoc";
+import { hideBin } from "yargs/helpers";
+import { Application as TypeDocApplication, TSConfigReader, TypeDocReader } from "typedoc";
 
 async function runTypeDoc({ outputFolder, cwd }: { outputFolder: string; cwd: string }) {
   const app = new TypeDocApplication();
-  // app.options.addReader(new TypeDocReader());
+  app.options.addReader(new TSConfigReader());
+  app.options.addReader(new TypeDocReader());
 
   app.bootstrap({
-    entryPoints: [path.join(cwd, "src")],
+    entryPointStrategy: "packages",
+    entryPoints: [cwd],
     excludeInternal: true,
     excludePrivate: true,
   });
@@ -26,6 +29,15 @@ async function runTypeDoc({ outputFolder, cwd }: { outputFolder: string; cwd: st
   }
 }
 
+async function fileExists(filePath: string) {
+  try {
+    await statFile(filePath);
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
 /* Traversing the directory */
 async function getChecks(dir: string) {
   const checks = {
@@ -34,23 +46,17 @@ async function getChecks(dir: string) {
     version: "0",
     packageName: "",
   };
-  const list = await readDir(dir);
-  for (const fileName of list) {
-    const filePath = path.join(dir, fileName);
-    if (fileName == "node_modules") {
-      continue;
-    }
-    if (fileName === "src") {
-      checks.srcPresent = true;
-    }
-    if (fileName === "package.json") {
-      let data = await readFile(filePath, "utf8");
-      let settings = JSON.parse(data);
-      checks.isPrivate = settings["private"] === true;
-      checks.version = settings["version"];
-      checks.packageName = settings["name"];
-    }
+
+  checks.srcPresent = await fileExists(path.join(dir, "src"));
+  try {
+    const packageJson = JSON.parse(await readFile(path.join(dir, "package.json"), "utf8"));
+    checks.isPrivate = packageJson.private === true;
+    checks.version = packageJson.version;
+    checks.packageName = packageJson.name;
+  } catch (e) {
+    // ignore missing package.json
   }
+
   return checks;
 }
 
@@ -94,7 +100,8 @@ async function executeTypedoc(serviceDir: string) {
 }
 
 async function main() {
-  const argv = yargs
+  const argv = yargs(hideBin(process.argv))
+    .strict()
     .options({
       serviceDir: {
         type: "string",
