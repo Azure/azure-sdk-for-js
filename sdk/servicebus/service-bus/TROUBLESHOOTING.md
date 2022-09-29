@@ -200,6 +200,14 @@ The library creates the following spans:
 `StreamReceiver.process`
 `BatchingReceiverLite.process`
 `SessionReceiver.process`
+`ServiceBusReceiver.renewMessageLock`
+`ServiceBusReceiver.complete`
+`ServiceBusReceiver.abandon`
+`ServiceBusReceiver.defer`
+`ServiceBusReceiver.deadLetter`
+`ServiceBusSessionReceiver.renewSessionLock`
+`ServiceBusSessionReceiver.setSessionState`
+`ServiceBusSessionReceiver.getSessionState`
 `ServiceBusRuleManager.createRule`
 `ServiceBusRuleManager.deleteRule`
 `ServiceBusRuleManager.getRules`
