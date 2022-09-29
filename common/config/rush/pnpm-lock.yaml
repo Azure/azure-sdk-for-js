@@ -4045,7 +4045,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220923
+      typescript: 4.9.0-dev.20220929
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8989,8 +8989,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220923:
-    resolution: {integrity: sha512-BaTN9dPBZugYsJFXtoEFz85E7WsalhCrJT3IcrGj+d3LVrwVCOqiFxY/uNfhWkvJ4apXqjQrgiXiYxtPL/TKSw==}
+  /typescript/4.9.0-dev.20220929:
+    resolution: {integrity: sha512-D4q6Fx3w/u1eZH22OgSEn2WZReEEUNXtEUWwpKi9sxvS6db58EHUAnUSz/uFD/RSlyPpgUNM5Wg/Rb4oqUiMvw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -17442,17 +17442,43 @@ packages:
     dev: false
 
   file:projects/keyvault-common.tgz:
-    resolution: {integrity: sha512-hZAm0bQoRO+7kRxQpO6U5Sraze0Y7MiXOQTGj3y+goLkry41BZpV7ephTj1Z47LW1hg3hU93RX+RcNZxA3D5BQ==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-OMo18j5XAbAgF6kyIdLGQQSETiBySnYxtAn1lAwQBJs1cO/NxkI3hOS7tD/I4sgy81EULVIqTQ/lT+BcDIyz9A==, tarball: file:projects/keyvault-common.tgz}
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.31.1
+      cross-env: 7.0.3
       eslint: 8.20.0
+      esm: 3.2.25
+      karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.0
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.0
+      karma-json-preprocessor: 0.3.3_karma@6.4.0
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.4.0
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.0
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 2.7.1
+      puppeteer: 14.4.1
       rimraf: 3.0.2
+      sinon: 9.2.4
+      source-map-support: 0.5.21
       tslib: 2.4.0
       typescript: 4.6.4
     transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - encoding
       - supports-color
+      - utf-8-validate
     dev: false
 
   file:projects/keyvault-keys.tgz:
