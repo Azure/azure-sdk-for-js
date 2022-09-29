@@ -271,6 +271,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
   hostGroupID?: string;
   /** The Windows agent pool's specific profile. */
   windowsProfile?: AgentPoolWindowsProfile;
+  /** Network-related settings of an agent pool. */
+  networkProfile?: AgentPoolNetworkProfile;
 }
 
 /** Settings for upgrading an agentpool */
@@ -381,6 +383,20 @@ export interface SysctlConfig {
 export interface AgentPoolWindowsProfile {
   /** The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled. */
   disableOutboundNat?: boolean;
+}
+
+/** Network settings of an agent pool. */
+export interface AgentPoolNetworkProfile {
+  /** IPTags of instance-level public IPs. */
+  nodePublicIPTags?: IPTag[];
+}
+
+/** Contains the IPTag associated with the object. */
+export interface IPTag {
+  /** The IP tag type. Example: RoutingPreference. */
+  ipTagType?: string;
+  /** The value of the IP tag associated with the public IP. Example: Internet. */
+  tag?: string;
 }
 
 /** Profile for Linux VMs in the container service cluster. */
@@ -1749,6 +1765,8 @@ export interface AgentPool extends SubResource {
   hostGroupID?: string;
   /** The Windows agent pool's specific profile. */
   windowsProfile?: AgentPoolWindowsProfile;
+  /** Network-related settings of an agent pool. */
+  networkProfile?: AgentPoolNetworkProfile;
 }
 
 /** Managed cluster. */

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Updates tags on a snapshot.
  *
  * @summary Updates tags on a snapshot.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-08-02-preview/examples/SnapshotsUpdateTags.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-08-03-preview/examples/SnapshotsUpdateTags.json
  */
 async function updateSnapshotTags() {
   const subscriptionId = "subid1";
