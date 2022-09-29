@@ -113,10 +113,10 @@ matrix([[true, false]], async function (useAad: boolean) {
     });
 
     given([
-      { tokenExpiresInMinutes: 59, description: "low invalid" },
-      { tokenExpiresInMinutes: 1441, description: "high invalid" },
+      { tokenExpiresInMinutes: 59, description: "lo inval" },
+      { tokenExpiresInMinutes: 1441, description: "hi inval" },
     ]).it(
-      "throws an error when attempting to issue an invalid expiration token",
+      "throws error when attempting to issue an invalid expiration token",
       async function (input) {
         const user: CommunicationUserIdentifier = await client.createUser();
         const tokenOptions: GetTokenOptions = {
@@ -132,10 +132,10 @@ matrix([[true, false]], async function (useAad: boolean) {
     );
 
     given([
-      { tokenExpiresInMinutes: 59, description: "low invalid" },
-      { tokenExpiresInMinutes: 1441, description: "high invalid" },
+      { tokenExpiresInMinutes: 59, description: "lo inval" },
+      { tokenExpiresInMinutes: 1441, description: "hi inval" },
     ]).it(
-      "throws an error when attempting to issue user and invalid expiration token",
+      "throws error when attempting to issue user and invalid expiration token",
       async function (input) {
         const tokenOptions: CreateUserAndTokenOptions = {
           tokenExpiresInMinutes: input.tokenExpiresInMinutes,

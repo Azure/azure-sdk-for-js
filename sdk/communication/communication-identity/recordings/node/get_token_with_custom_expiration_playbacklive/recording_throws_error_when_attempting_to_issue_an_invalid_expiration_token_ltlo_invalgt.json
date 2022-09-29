@@ -11,7 +11,9 @@
         "Content-Length": "0",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-communication-identity/1.2.0 core-rest-pipeline/1.9.1 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Thu, 29 Sep 2022 19:11:33 GMT"
       },
       "RequestBody": null,
       "StatusCode": 201,
@@ -19,14 +21,14 @@
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01",
         "Content-Length": "31",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 29 Sep 2022 18:38:52 GMT",
-        "MS-CV": "K9LZkDDpJ0apHEHSwqu75Q.0",
+        "Date": "Thu, 29 Sep 2022 19:11:32 GMT",
+        "MS-CV": "782ymR10X06VaOQS1F//qw.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0POY1YwAAAAA8PCSFZ4EvTrMv04y0Q8T6UFJHMDFFREdFMDkwNgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "05e01YwAAAADluZGnRXtcRIJRdB2NMK3kUFJHMDFFREdFMDkwOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "36ms"
+        "X-Processing-Time": "38ms"
       },
       "ResponseBody": {
         "identity": {
@@ -42,35 +44,37 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "43",
+        "Content-Length": "41",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-communication-identity/1.2.0 core-rest-pipeline/1.9.1 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "6LjWRqhjoUIvVrmmwpKqqQwxW\u002BwgfGWr4DiSv67puKk=",
+        "x-ms-date": "Thu, 29 Sep 2022 19:11:33 GMT"
       },
       "RequestBody": {
         "scopes": [
           "chat"
         ],
-        "expiresInMinutes": 1441
+        "expiresInMinutes": 59
       },
       "StatusCode": 400,
       "ResponseHeaders": {
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01",
         "Content-Type": "application/json",
-        "Date": "Thu, 29 Sep 2022 18:38:52 GMT",
-        "MS-CV": "Xv/0PyDA4ES1icoBUIxeoQ.0",
+        "Date": "Thu, 29 Sep 2022 19:11:33 GMT",
+        "MS-CV": "JidS\u002BOXUq0KIpTFYYSEHUA.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0POY1YwAAAABNchTnm4JlT4cHwv933yBHUFJHMDFFREdFMDkwNgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "05e01YwAAAAB54dMPDf2QQJuJ7pqiPOTlUFJHMDFFREdFMDkwOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "51ms"
+        "X-Processing-Time": "39ms"
       },
       "ResponseBody": {
         "error": {
           "code": "ValidationError",
-          "message": "ExpiresInMinutes value 1441 is invalid. Value must be within the [60, 1440] interval.",
+          "message": "ExpiresInMinutes value 59 is invalid. Value must be within the [60, 1440] interval.",
           "target": "ExpiresInMinutes"
         }
       }
