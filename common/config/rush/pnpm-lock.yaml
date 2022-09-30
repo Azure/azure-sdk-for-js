@@ -13614,17 +13614,19 @@ packages:
     dev: false
 
   file:projects/arm-policyinsights.tgz:
-    resolution: {integrity: sha512-dByhV2Yd60m158bMSEktDcv2/O9EdnO8cfbP3vii8iuys8lOU6zAK8epOtWsV0n/40gProVOSCAiVnn1AeGG0A==, tarball: file:projects/arm-policyinsights.tgz}
+    resolution: {integrity: sha512-myOe3SC48EHvXAbWiZa2wafS8gZIbdLkqO2OJHesosmUm6+tEacXbBWhiD4djXjibdIxQa3AZW3qGpxfE0NuQg==, tarball: file:projects/arm-policyinsights.tgz}
     name: '@rush-temp/arm-policyinsights'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.31.2
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -13636,7 +13638,6 @@ packages:
       uglify-js: 3.17.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
