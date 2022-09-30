@@ -1,0 +1,54 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://atlas.microsoft.com/search/polygon/json?api-version=1.0\u0026geometries=invalid-geometry-id",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "subscription-key": "azure_maps_subscription_key",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "5e9d6c30-8d35-4377-9702-0504a66e03de",
+        "x-ms-useragent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "127",
+        "Content-Type": "application/json",
+        "Date": "Fri, 16 Sep 2022 10:56:02 GMT",
+        "ETag": "A1AB213F4CE178C14F459CC09F1D7AFC",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": [
+          "accept-encoding",
+          "origin",
+          "access-control-request-headers",
+          "access-control-request-method",
+          "accept-encoding"
+        ],
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-azuremaps-region": "West Europe",
+        "X-MSEdge-Ref": "Ref A: B28390A245CA4FCE834311F918CD84AD Ref B: SG1EDGE0112 Ref C: 2022-09-16T10:56:02Z"
+      },
+      "ResponseBody": {
+        "additionalData": [
+          {
+            "providerID": "invalid-geometry-id",
+            "error": "Wrong geometry id format. Supported format: UUID (RFC 4122)"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
