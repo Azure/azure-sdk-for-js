@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets a list of managed cluster snapshots in the specified subscription.
  *
  * @summary Gets a list of managed cluster snapshots in the specified subscription.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-08-02-preview/examples/ManagedClusterSnapshotsList.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-08-03-preview/examples/ManagedClusterSnapshotsList.json
  */
 async function listManagedClusterSnapshots() {
   const subscriptionId = "subid1";

@@ -25,3 +25,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-agrifood?view=azure-node-pr
 https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/personalizer/ai-personalizer-rest/samples
 https://docs.microsoft.com/javascript/api/@azure/arm-chaos?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure-rest/arm-compute?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure-rest/arm-network?view=azure-node-preview

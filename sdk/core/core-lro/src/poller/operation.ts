@@ -30,12 +30,16 @@ function setStateError<TState, TResult>(inputs: {
   };
 }
 
-function processOperationStatus<TState, TResult>(result: {
+function processOperationStatus<TState, TResult, TResponse>(result: {
   status: OperationStatus;
+  response: TResponse;
   state: RestorableOperationState<TState>;
   stateProxy: StateProxy<TState, TResult>;
+  processResult?: (result: TResponse, state: TState) => TResult;
+  isDone?: (lastResponse: TResponse, state: TState) => boolean;
+  setErrorAsResult: boolean;
 }): void {
-  const { state, stateProxy, status } = result;
+  const { state, stateProxy, status, isDone, processResult, response, setErrorAsResult } = result;
   switch (status) {
     case "succeeded": {
       stateProxy.setSucceeded(state);
@@ -50,6 +54,20 @@ function processOperationStatus<TState, TResult>(result: {
       stateProxy.setCanceled(state);
       break;
     }
+  }
+  if (
+    isDone?.(response, state) ||
+    (isDone === undefined &&
+      ["succeeded", "canceled"].concat(setErrorAsResult ? [] : ["failed"]).includes(status))
+  ) {
+    stateProxy.setResult(
+      state,
+      buildResult({
+        response,
+        state,
+        processResult,
+      })
+    );
   }
 }
 
@@ -75,8 +93,16 @@ export async function initOperation<TResponse, TResult, TState>(inputs: {
   }) => OperationStatus;
   processResult?: (result: TResponse, state: TState) => TResult;
   withOperationLocation?: (operationLocation: string, isUpdated: boolean) => void;
+  setErrorAsResult: boolean;
 }): Promise<RestorableOperationState<TState>> {
-  const { init, stateProxy, processResult, getOperationStatus, withOperationLocation } = inputs;
+  const {
+    init,
+    stateProxy,
+    processResult,
+    getOperationStatus,
+    withOperationLocation,
+    setErrorAsResult,
+  } = inputs;
   const { operationLocation, resourceLocation, metadata, response } = await init();
   if (operationLocation) withOperationLocation?.(operationLocation, false);
   const config = {
@@ -87,17 +113,7 @@ export async function initOperation<TResponse, TResult, TState>(inputs: {
   logger.verbose(`LRO: Operation description:`, config);
   const state = stateProxy.initState(config);
   const status = getOperationStatus({ response, state, operationLocation });
-  processOperationStatus({ state, status, stateProxy });
-  if (status === "succeeded") {
-    stateProxy.setResult(
-      state,
-      buildResult({
-        response,
-        state,
-        processResult,
-      })
-    );
-  }
+  processOperationStatus({ state, status, stateProxy, response, setErrorAsResult, processResult });
   return state;
 }
 
@@ -142,11 +158,6 @@ async function pollOperationHelper<TResponse, TState, TResult, TOptions>(inputs:
       terminalStates.includes(status) ? "Stopped" : "Running"
     }`
   );
-  processOperationStatus({
-    status,
-    state,
-    stateProxy,
-  });
   if (status === "succeeded") {
     const resourceLocation = getResourceLocation(response, state);
     if (resourceLocation !== undefined) {
@@ -182,6 +193,7 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
   processResult?: (result: TResponse, state: TState) => TResult;
   updateState?: (state: TState, lastResponse: TResponse) => void;
   isDone?: (lastResponse: TResponse, state: TState) => boolean;
+  setErrorAsResult: boolean;
   options?: TOptions;
 }): Promise<void> {
   const {
@@ -198,6 +210,7 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
     updateState,
     setDelay,
     isDone,
+    setErrorAsResult,
   } = inputs;
   const { operationLocation } = state.config;
   if (operationLocation !== undefined) {
@@ -210,19 +223,17 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
       getResourceLocation,
       options,
     });
-    if (
-      isDone?.(response, state) ||
-      (isDone === undefined && ["succeeded", "canceled"].includes(status))
-    ) {
-      stateProxy.setResult(
-        state,
-        buildResult({
-          response,
-          state,
-          processResult,
-        })
-      );
-    } else {
+    processOperationStatus({
+      status,
+      response,
+      state,
+      stateProxy,
+      isDone,
+      processResult,
+      setErrorAsResult,
+    });
+
+    if (!terminalStates.includes(status)) {
       const intervalInMs = getPollingInterval?.(response);
       if (intervalInMs) setDelay(intervalInMs);
       const location = getOperationLocation?.(response, state);
