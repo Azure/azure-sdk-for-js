@@ -6,8 +6,6 @@
 
 - #23349 Fixed endpoint resolution to allow endpoints from sovereign clouds
 
-### Other Changes
-
 ## 1.0.2 (2022-06-07)
 
 ### Bugs Fixed
