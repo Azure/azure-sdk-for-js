@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-network/30.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "7044a501-2bca-4a91-b50d-185a9c47e278"
+        "x-ms-client-request-id": "8ac8fdfa-a0a6-4965-a700-b60743d36feb"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 29 Sep 2022 08:26:24 GMT",
+        "Date": "Fri, 30 Sep 2022 02:02:27 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": [
@@ -28,59 +28,23 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-arm-service-request-id": "14131421-b3a6-4c9c-80ba-13c6b64e5a0a",
-        "x-ms-correlation-request-id": "b1b405f7-394a-4c32-bdcb-69fa513d2896",
-        "x-ms-ratelimit-remaining-subscription-reads": "11973",
-        "x-ms-request-id": "89ed042d-6ac5-438b-8a1d-b286e150b8fa",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220929T082625Z:b1b405f7-394a-4c32-bdcb-69fa513d2896"
+        "x-ms-arm-service-request-id": "c68be8a5-bfa5-4ba8-a285-a5ddc4cd0491",
+        "x-ms-correlation-request-id": "26b6669d-312f-4c90-b8a9-1267e8226051",
+        "x-ms-ratelimit-remaining-subscription-reads": "11990",
+        "x-ms-request-id": "1b9b787a-3e72-447a-bc72-b09d6e3a2d43",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220930T020228Z:26b6669d-312f-4c90-b8a9-1267e8226051"
       },
       "ResponseBody": {
         "value": [
           {
-            "name": "networknamexx22",
-            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/networknamexx22",
-            "etag": "W/\u002209bf24a9-cbce-43b3-8563-9a0925b2a76f\u0022",
-            "type": "Microsoft.Network/virtualNetworks",
-            "location": "eastus",
-            "properties": {
-              "provisioningState": "Succeeded",
-              "resourceGuid": "bd3b98b2-c595-45fa-9082-9a63f5c2a29b",
-              "addressSpace": {
-                "addressPrefixes": [
-                  "10.0.0.0/16"
-                ]
-              },
-              "subnets": [
-                {
-                  "name": "subnetnamexx11",
-                  "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/networknamexx22/subnets/subnetnamexx11",
-                  "etag": "W/\u002209bf24a9-cbce-43b3-8563-9a0925b2a76f\u0022",
-                  "properties": {
-                    "provisioningState": "Succeeded",
-                    "addressPrefix": "10.0.0.0/24",
-                    "networkSecurityGroup": {
-                      "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/networkSecurityGroups/NRMS-r6bfxtjgahq52networknamexx22"
-                    },
-                    "delegations": [],
-                    "privateEndpointNetworkPolicies": "Disabled",
-                    "privateLinkServiceNetworkPolicies": "Enabled"
-                  },
-                  "type": "Microsoft.Network/virtualNetworks/subnets"
-                }
-              ],
-              "virtualNetworkPeerings": [],
-              "enableDdosProtection": false
-            }
-          },
-          {
             "name": "virtualnetworkzzz",
             "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz",
-            "etag": "W/\u0022c9e089e6-f0a9-4202-a59f-2e171d6ab498\u0022",
+            "etag": "W/\u0022ba526257-5fe3-4c30-bf63-2c0ebbd90d11\u0022",
             "type": "Microsoft.Network/virtualNetworks",
             "location": "eastus",
             "properties": {
               "provisioningState": "Succeeded",
-              "resourceGuid": "35f4832e-59ae-4031-a7da-ca1a0139044a",
+              "resourceGuid": "c62ed6bf-0bd6-488a-9088-70c066fb9b82",
               "addressSpace": {
                 "addressPrefixes": [
                   "10.0.0.0/16"
@@ -90,7 +54,7 @@
                 {
                   "name": "subnetzzz",
                   "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz/subnets/subnetzzz",
-                  "etag": "W/\u0022c9e089e6-f0a9-4202-a59f-2e171d6ab498\u0022",
+                  "etag": "W/\u0022ba526257-5fe3-4c30-bf63-2c0ebbd90d11\u0022",
                   "properties": {
                     "provisioningState": "Succeeded",
                     "addressPrefix": "10.0.0.0/24",

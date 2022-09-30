@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-network/30.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "5dc069d5-5d7f-4220-8638-77880ce32637"
+        "x-ms-client-request-id": "69dad481-c7de-4326-b327-5a7a8078cd18"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,8 +17,8 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 29 Sep 2022 08:26:23 GMT",
-        "ETag": "\u00224f560f07-c942-4312-b1dc-c794d08d5e71\u0022",
+        "Date": "Fri, 30 Sep 2022 02:02:26 GMT",
+        "ETag": "\u0022741ca6e0-5b7a-46fd-961d-ecfb7490e4cd\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
@@ -26,10 +26,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "6f012cd9-7c2c-479f-b06b-cb87b826ef65",
-        "x-ms-ratelimit-remaining-subscription-reads": "11974",
-        "x-ms-request-id": "6f012cd9-7c2c-479f-b06b-cb87b826ef65",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220929T082624Z:6f012cd9-7c2c-479f-b06b-cb87b826ef65"
+        "x-ms-correlation-request-id": "e391fdfa-127b-4a0f-9912-1ee00a6d2d29",
+        "x-ms-ratelimit-remaining-subscription-reads": "11991",
+        "x-ms-request-id": "e391fdfa-127b-4a0f-9912-1ee00a6d2d29",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220930T020227Z:e391fdfa-127b-4a0f-9912-1ee00a6d2d29"
       },
       "ResponseBody": {
         "properties": {
@@ -45,7 +45,7 @@
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/ipGroups/virtualnetworkzzz",
         "name": "virtualnetworkzzz",
         "type": "Microsoft.Network/IpGroups",
-        "etag": "4f560f07-c942-4312-b1dc-c794d08d5e71",
+        "etag": "741ca6e0-5b7a-46fd-961d-ecfb7490e4cd",
         "location": "eastus",
         "tags": {
           "key1": "value1"
