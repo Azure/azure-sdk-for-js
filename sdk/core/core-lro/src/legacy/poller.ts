@@ -102,6 +102,8 @@ export class PollerCancelledError extends Error {
 export abstract class Poller<TState extends PollOperationState<TResult>, TResult>
   implements PollerLike<TState, TResult>
 {
+  /** controls whether to throw an error if the operation failed or was canceled. */
+  protected resolveOnUnsuccessful: boolean = false;
   private stopped: boolean = true;
   private resolve?: (value: TResult) => void;
   private reject?: (error: PollerStoppedError | PollerCancelledError | Error) => void;
@@ -247,14 +249,10 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    */
   private async pollOnce(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
     if (!this.isDone()) {
-      try {
-        this.operation = await this.operation.update({
-          abortSignal: options.abortSignal,
-          fireProgress: this.fireProgress.bind(this),
-        });
-      } catch (e: any) {
-        this.operation.state.error = e;
-      }
+      this.operation = await this.operation.update({
+        abortSignal: options.abortSignal,
+        fireProgress: this.fireProgress.bind(this),
+      });
     }
     this.processUpdatedState();
   }
@@ -302,21 +300,26 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   private processUpdatedState(): void {
     if (this.operation.state.error) {
       this.stopped = true;
-      this.reject!(this.operation.state.error);
-      throw this.operation.state.error;
+      if (!this.resolveOnUnsuccessful) {
+        this.reject!(this.operation.state.error);
+        throw this.operation.state.error;
+      }
     }
     if (this.operation.state.isCancelled) {
       this.stopped = true;
-      const error = new PollerCancelledError("Operation was canceled");
-      this.reject!(error);
-      throw error;
-    } else if (this.isDone() && this.resolve) {
+      if (!this.resolveOnUnsuccessful) {
+        const error = new PollerCancelledError("Operation was canceled");
+        this.reject!(error);
+        throw error;
+      }
+    }
+    if (this.isDone() && this.resolve) {
       // If the poller has finished polling, this means we now have a result.
       // However, it can be the case that TResult is instantiated to void, so
       // we are not expecting a result anyway. To assert that we might not
       // have a result eventually after finishing polling, we cast the result
       // to TResult.
-      this.resolve(this.operation.state.result as TResult);
+      this.resolve(this.getResult() as TResult);
     }
   }
 

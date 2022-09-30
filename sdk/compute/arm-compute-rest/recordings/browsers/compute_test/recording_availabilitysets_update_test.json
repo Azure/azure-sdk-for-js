@@ -1,0 +1,69 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/availabilitySets/availabilitySets123?api-version=2022-08-01",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "76",
+        "Content-Type": "application/json; charset=UTF-8",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "f214c11b-e43c-4933-a4bf-d536386f4401",
+        "x-ms-useragent": "azsdk-js-arm-compute-rest/1.0.0-beta.1 core-rest-pipeline/1.9.2 OS/Win32"
+      },
+      "RequestBody": {
+        "properties": {
+          "platformFaultDomainCount": 2,
+          "platformUpdateDomainCount": 20
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 22 Sep 2022 07:12:07 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": [
+          "Microsoft-HTTPAPI/2.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "7c96e459-bc7a-46df-8674-c7c7be6faab9",
+        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/PutVM3Min;238,Microsoft.Compute/PutVM30Min;1190",
+        "x-ms-ratelimit-remaining-subscription-writes": "1191",
+        "x-ms-request-id": "96529fc4-62d3-439c-8dab-3f58515848fe",
+        "x-ms-routing-request-id": "KOREASOUTH:20220922T071207Z:7c96e459-bc7a-46df-8674-c7c7be6faab9"
+      },
+      "ResponseBody": {
+        "name": "availabilitySets123",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/availabilitySets/availabilitySets123",
+        "type": "Microsoft.Compute/availabilitySets",
+        "location": "westus",
+        "properties": {
+          "platformUpdateDomainCount": 20,
+          "platformFaultDomainCount": 2
+        },
+        "sku": {
+          "name": "Classic"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
