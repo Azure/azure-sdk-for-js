@@ -21,11 +21,7 @@
         "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "true"
       }
     },
-    "NodeTestVersion": [
-      "14.x",
-      "16.x",
-      "18.x"
-    ],
+    "NodeTestVersion": ["14.x", "16.x", "18.x"],
     "TestType": "node",
     "TestResultsFiles": "**/test-results.xml"
   },
@@ -68,10 +64,7 @@
       },
       "TestType": "node",
       "NodeTestVersion": "14.x",
-      "DependencyVersion": [
-        "max",
-        "min"
-      ],
+      "DependencyVersion": ["max", "min"],
       "TestResultsFiles": "**/test-results.xml",
       "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "true"
     }

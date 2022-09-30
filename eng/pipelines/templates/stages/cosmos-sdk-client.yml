@@ -1,19 +1,19 @@
 parameters:
-  - name: Artifacts
-    type: object
-    default: []
-  - name: ServiceDirectory
-    type: string
-    default: not-specified
-  - name: RunUnitTests
-    type: boolean
-    default: false
-  - name: TargetDocRepoOwner
-    type: string
-    default: MicrosoftDocs
-  - name: TargetDocRepoName
-    type: string
-    default: azure-docs-sdk-node
+- name: Artifacts
+  type: object
+  default: []
+- name: ServiceDirectory
+  type: string
+  default: not-specified
+- name: RunUnitTests
+  type: boolean
+  default: false
+- name: TargetDocRepoOwner
+  type: string
+  default: MicrosoftDocs
+- name: TargetDocRepoName
+  type: string
+  default: azure-docs-sdk-node
 
 stages:
   - stage: Build
@@ -24,10 +24,10 @@ stages:
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
           RunUnitTests: ${{ parameters.RunUnitTests }}
           MatrixConfigs:
-            - Name: Javascript_ci_test_base
-              Path: eng/pipelines/templates/stages/platform-matrix.json
-              Selection: sparse
-              GenerateVMJobs: true
+          - Name: Javascript_ci_test_base
+            Path: eng/pipelines/templates/stages/platform-matrix.json
+            Selection: sparse
+            GenerateVMJobs: true
 
   - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
@@ -47,11 +47,11 @@ stages:
 
   # The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
   - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'))}}:
-      - template: archetype-js-release.yml
-        parameters:
-          DependsOn: Build
-          ServiceDirectory: ${{parameters.ServiceDirectory}}
-          Artifacts: ${{parameters.Artifacts}}
-          ArtifactName: packages
-          TargetDocRepoOwner: ${{ parameters.TargetDocRepoOwner }}
-          TargetDocRepoName: ${{ parameters.TargetDocRepoName }}
+    - template: archetype-js-release.yml
+      parameters:
+        DependsOn: Build
+        ServiceDirectory: ${{parameters.ServiceDirectory}}
+        Artifacts: ${{parameters.Artifacts}}
+        ArtifactName: packages
+        TargetDocRepoOwner: ${{ parameters.TargetDocRepoOwner }}
+        TargetDocRepoName: ${{ parameters.TargetDocRepoName }}
