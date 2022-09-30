@@ -11,7 +11,7 @@
         "Content-Length": "547",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-eventhub/5.1.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "671a7a41-bf2c-4aa6-a00c-54fbe3efc3b0"
+        "x-ms-client-request-id": "170ee584-0a63-46e6-9fc3-37b3f3161465"
       },
       "RequestBody": {
         "properties": {
@@ -39,7 +39,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 30 Sep 2022 07:56:31 GMT",
+        "Date": "Fri, 30 Sep 2022 08:21:24 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
@@ -47,10 +47,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "2379bd3c-b41f-4625-b992-ce38288899a3",
+        "x-ms-correlation-request-id": "a41cf319-38aa-4d3d-a23d-2cf19dc524a9",
         "x-ms-ratelimit-remaining-subscription-writes": "1196",
-        "x-ms-request-id": "2379bd3c-b41f-4625-b992-ce38288899a3",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220930T075632Z:2379bd3c-b41f-4625-b992-ce38288899a3"
+        "x-ms-request-id": "a41cf319-38aa-4d3d-a23d-2cf19dc524a9",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220930T082125Z:a41cf319-38aa-4d3d-a23d-2cf19dc524a9"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/eventhubs/myeventhubxxx",
@@ -61,8 +61,8 @@
           "messageRetentionInDays": 4,
           "partitionCount": 4,
           "status": "Active",
-          "createdAt": "2022-09-30T07:56:31.82Z",
-          "updatedAt": "2022-09-30T07:56:32.133Z",
+          "createdAt": "2022-09-30T08:21:24.3Z",
+          "updatedAt": "2022-09-30T08:21:24.633Z",
           "partitionIds": [
             "0",
             "1",

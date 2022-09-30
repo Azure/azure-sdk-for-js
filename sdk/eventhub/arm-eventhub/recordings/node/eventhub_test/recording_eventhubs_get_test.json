@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-eventhub/5.1.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "aed52ab2-8a21-47cf-8e8d-ea679fd8c906"
+        "x-ms-client-request-id": "78b339a2-3a54-4ccd-b90f-44b2100dce38"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 30 Sep 2022 07:56:32 GMT",
+        "Date": "Fri, 30 Sep 2022 08:21:27 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
@@ -25,10 +25,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "44a02550-7165-43bc-a26a-f47c143f953b",
-        "x-ms-ratelimit-remaining-subscription-reads": "11971",
-        "x-ms-request-id": "44a02550-7165-43bc-a26a-f47c143f953b",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220930T075633Z:44a02550-7165-43bc-a26a-f47c143f953b"
+        "x-ms-correlation-request-id": "1aed2717-c0b5-4ab7-87ea-01e148b341b8",
+        "x-ms-ratelimit-remaining-subscription-reads": "11979",
+        "x-ms-request-id": "1aed2717-c0b5-4ab7-87ea-01e148b341b8",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220930T082127Z:1aed2717-c0b5-4ab7-87ea-01e148b341b8"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/eventhubs/myeventhubxxx",
@@ -39,8 +39,8 @@
           "messageRetentionInDays": 4,
           "partitionCount": 4,
           "status": "Active",
-          "createdAt": "2022-09-30T07:56:31.82",
-          "updatedAt": "2022-09-30T07:56:32.133",
+          "createdAt": "2022-09-30T08:21:24.3",
+          "updatedAt": "2022-09-30T08:21:24.633",
           "partitionIds": [
             "0",
             "1",

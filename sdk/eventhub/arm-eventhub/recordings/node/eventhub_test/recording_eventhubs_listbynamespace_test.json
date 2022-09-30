@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-eventhub/5.1.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "bbb81314-ae8d-4ad6-b780-7806732b3f99"
+        "x-ms-client-request-id": "4bd1a680-44ab-4cda-adaf-208440e57e41"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 30 Sep 2022 07:56:34 GMT",
+        "Date": "Fri, 30 Sep 2022 08:21:28 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
@@ -25,11 +25,11 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "1de8edf2-39a5-4267-8103-f4063f441305",
+        "x-ms-correlation-request-id": "d5d6aa4b-4a8d-4809-b11d-9d6d76b3fe5f",
         "x-ms-inline-count": "",
-        "x-ms-ratelimit-remaining-subscription-reads": "11970",
-        "x-ms-request-id": "1de8edf2-39a5-4267-8103-f4063f441305",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220930T075635Z:1de8edf2-39a5-4267-8103-f4063f441305"
+        "x-ms-ratelimit-remaining-subscription-reads": "11978",
+        "x-ms-request-id": "d5d6aa4b-4a8d-4809-b11d-9d6d76b3fe5f",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220930T082129Z:d5d6aa4b-4a8d-4809-b11d-9d6d76b3fe5f"
       },
       "ResponseBody": {
         "value": [
@@ -42,8 +42,8 @@
               "messageRetentionInDays": 4,
               "partitionCount": 4,
               "status": "Active",
-              "createdAt": "2022-09-30T07:56:31.82",
-              "updatedAt": "2022-09-30T07:56:32.133",
+              "createdAt": "2022-09-30T08:21:24.3",
+              "updatedAt": "2022-09-30T08:21:24.633",
               "partitionIds": [
                 "0",
                 "1",
