@@ -6,7 +6,7 @@ import { getLogQueryEndpoint } from "../../../src/internal/logQueryOptionUtils";
 
 describe("logQueryOptionsUtils", () => {
   describe("getLogQueryEndpoint", () => {
-    it.only("should return the endpoint with the version", () => {
+    it("should return the endpoint with the version", () => {
       const expected = "http://microsoft.com/v1";
 
       const endpoint1 = "http://microsoft.com/";
