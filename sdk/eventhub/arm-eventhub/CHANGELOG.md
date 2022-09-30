@@ -14,6 +14,10 @@
   - Added Interface PrivateEndpointConnection
   - Added Interface SchemaGroup
   - Added Interface TrackedResource
+
+**Bugs Fixed**
+
+ -  fix better user experience of credential scopes in government cloud
     
 ## 5.0.1 (2022-04-18)
 
