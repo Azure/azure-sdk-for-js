@@ -1,12 +1,10 @@
 # Release History
 
-## 1.0.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.0.3 (2022-09-30)
 
 ### Bugs Fixed
+
+- #23349 Fixed endpoint resolution to allow endpoints from sovereign clouds
 
 ### Other Changes
 
