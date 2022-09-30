@@ -5,11 +5,13 @@
  * This sample demonstrates how to analyze a conversation for PII (personally identifiable information).
  *
  * @summary PII conversational analysis
+ * @azsdk-weight 50
  */
 
-const { AzureKeyCredential } = require("@azure/core-auth");
-const { ConversationAnalysisClient } = require("@azure/ai-language-conversations");
-require("dotenv").config();
+import { AzureKeyCredential } from "@azure/core-auth";
+import { ConversationAnalysisClient } from "@azure/ai-language-conversations";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 //Get secrets
 //You will have to set these environment variables for the sample to work
@@ -17,9 +19,12 @@ const cluEndpoint =
   process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
 const cluKey = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
 
-const service = new ConversationAnalysisClient(cluEndpoint, new AzureKeyCredential(cluKey));
+const service: ConversationAnalysisClient = new ConversationAnalysisClient(
+  cluEndpoint,
+  new AzureKeyCredential(cluKey)
+);
 
-async function main() {
+export async function main() {
   //Analyze query
   const poller = await service.beginConversationAnalysis({
     displayName: "Analyze PII in conversation",
@@ -74,26 +79,26 @@ async function main() {
   const actionResult = await poller.pollUntilDone();
   if (actionResult.tasks.items === undefined) return;
 
-  const task_result = actionResult.tasks.items[0];
-  if (task_result.kind == "conversationalPIIResults") {
+  const taskResult = actionResult.tasks.items[0];
+  if (taskResult.kind == "conversationalPIIResults") {
     console.log("... view task status ...");
-    console.log("status: ", task_result.status);
-    const conv_pii_result = task_result.results;
-    if (conv_pii_result.errors && conv_pii_result.errors.length != 0) {
+    console.log("status: ", taskResult.status);
+    const convPiiResult = taskResult.results;
+    if (convPiiResult.errors && convPiiResult.errors.length != 0) {
       console.log("... errors occured ...");
-      for (const error of conv_pii_result.errors) {
+      for (const error of convPiiResult.errors) {
         console.log(error);
       }
     } else {
-      const conversation_result = conv_pii_result.conversations[0];
-      if (conversation_result.warnings && conversation_result.warnings.length != 0) {
+      const conversationResult = convPiiResult.conversations[0];
+      if (conversationResult.warnings && conversationResult.warnings.length != 0) {
         console.log("... view warnings ...");
-        for (const warning of conversation_result.warnings) {
+        for (const warning of conversationResult.warnings) {
           console.log(warning);
         }
       } else {
         console.log("... view task result ...");
-        for (const conversation of conversation_result.conversationItems) {
+        for (const conversation of conversationResult.conversationItems) {
           console.log("conversation id: ", conversation.id);
           console.log("... entities ...");
           for (const entity of conversation.entities) {
@@ -112,5 +117,3 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
-
-module.exports = { main };

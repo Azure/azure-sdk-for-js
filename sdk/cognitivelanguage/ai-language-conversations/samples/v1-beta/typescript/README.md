@@ -13,16 +13,16 @@ urlFragment: ai-language-conversations-typescript-beta
 
 These sample programs show how to use the TypeScript client libraries for Azure Cognitive Language Service in some common scenarios.
 
-| **File Name**                                                                                       | **Description**                                                   |
-| --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| [sample_analyze_conversation_app.ts][sample_analyze_conversation_app]                               | Conversational query analysis for intents and entities extraction |
-| [sample_analyze_orchestration_app_conv_response.ts][sample_analyze_orchestration_app_conv_response] | Orchestration project with conversational response                |
-| [sample_analyze_orchestration_app_luis_response.ts][sample_analyze_orchestration_app_luis_response] | Orchestration project with LUIS response                          |
-| [sample_analyze_orchestration_app_qna_response.ts][sample_analyze_orchestration_app_qna_response]   | Orchestration project with QnA response                           |
-| [sample_analyze_orchestration_direct_target.ts][sample_analyze_orchestration_direct_target]         | Orchestration project with direct target                          |
-| [sample_conv_pii_transcript_input.ts][sample_conv_pii_transcript_input]                             | PII conversational analysis                                       |
-| [sample_conv_summarization.ts][sample_conv_summarization]                                           | Conversation Summarization                                        |
-| [sample_authentication.ts][sample_authentication]                                                   | authenticates a service client using an API key                   |
+| **File Name**                                                                 | **Description**                                                   |
+| ----------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| [analyzeConversationApp.ts][analyzeconversationapp]                           | Conversational query analysis for intents and entities extraction |
+| [analyzeOrchestrationAppConvResponse.ts][analyzeorchestrationappconvresponse] | Orchestration project with conversational response                |
+| [analyzeOrchestrationAppLuisResponse.ts][analyzeorchestrationappluisresponse] | Orchestration project with LUIS response                          |
+| [analyzeOrchestrationAppQnaResponse.ts][analyzeorchestrationappqnaresponse]   | Orchestration project with QnA response                           |
+| [analyzeOrchestrationDirectTarget.ts][analyzeorchestrationdirecttarget]       | Orchestration project with direct target                          |
+| [convPiiTranscriptInput.ts][convpiitranscriptinput]                           | PII conversational analysis                                       |
+| [convSummarization.ts][convsummarization]                                     | Conversation Summarization                                        |
+| [authentication.ts][authentication]                                           | authenticates a service client using an API key                   |
 
 ## Prerequisites
 
@@ -63,27 +63,27 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/sample_analyze_conversation_app.js
+node dist/analyzeConversationApp.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env AZURE_CONVERSATIONS_ENDPOINT="<azure conversations endpoint>" AZURE_CONVERSATIONS_KEY="<azure conversations key>" AZURE_CONVERSATIONS_PROJECT_NAME="<azure conversations project name>" AZURE_CONVERSATIONS_DEPLOYMENT_NAME="<azure conversations deployment name>" node dist/sample_analyze_conversation_app.js
+npx cross-env AZURE_CONVERSATIONS_ENDPOINT="<azure conversations endpoint>" AZURE_CONVERSATIONS_KEY="<azure conversations key>" AZURE_CONVERSATIONS_PROJECT_NAME="<azure conversations project name>" AZURE_CONVERSATIONS_DEPLOYMENT_NAME="<azure conversations deployment name>" node dist/analyzeConversationApp.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sample_analyze_conversation_app]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/typescript/src/sample_analyze_conversation_app.ts
-[sample_analyze_orchestration_app_conv_response]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/typescript/src/sample_analyze_orchestration_app_conv_response.ts
-[sample_analyze_orchestration_app_luis_response]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/typescript/src/sample_analyze_orchestration_app_luis_response.ts
-[sample_analyze_orchestration_app_qna_response]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/typescript/src/sample_analyze_orchestration_app_qna_response.ts
-[sample_analyze_orchestration_direct_target]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/typescript/src/sample_analyze_orchestration_direct_target.ts
-[sample_conv_pii_transcript_input]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/typescript/src/sample_conv_pii_transcript_input.ts
-[sample_conv_summarization]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/typescript/src/sample_conv_summarization.ts
-[sample_authentication]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/typescript/src/sample_authentication.ts
+[analyzeconversationapp]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/typescript/src/analyzeConversationApp.ts
+[analyzeorchestrationappconvresponse]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/typescript/src/analyzeOrchestrationAppConvResponse.ts
+[analyzeorchestrationappluisresponse]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/typescript/src/analyzeOrchestrationAppLuisResponse.ts
+[analyzeorchestrationappqnaresponse]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/typescript/src/analyzeOrchestrationAppQnaResponse.ts
+[analyzeorchestrationdirecttarget]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/typescript/src/analyzeOrchestrationDirectTarget.ts
+[convpiitranscriptinput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/typescript/src/convPiiTranscriptInput.ts
+[convsummarization]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/typescript/src/convSummarization.ts
+[authentication]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/typescript/src/authentication.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-language-conversations
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account

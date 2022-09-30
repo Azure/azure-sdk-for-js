@@ -3,9 +3,9 @@
 
 /**
  * This sample demonstrates how to analyze user query using an orchestration project.
- * In this sample, orchestration project's top intent will map to a Qna project.
+ * In this sample, orchestration project's top intent will map to a LUIS project
  *
- * @summary Orchestration project with direct target
+ * @summary Orchestration project with LUIS response
  */
 
 import { ConversationAnalysisClient, ConversationalTask } from "@azure/ai-language-conversations";
@@ -27,9 +27,6 @@ const service: ConversationAnalysisClient = new ConversationAnalysisClient(
   new AzureKeyCredential(cluKey)
 );
 
-const query = "How are you?";
-const qna_app = "ChitChat-QnA";
-
 const body: ConversationalTask = {
   kind: "Conversation",
   analysisInput: {
@@ -38,22 +35,14 @@ const body: ConversationalTask = {
       id: "1",
       modality: "text",
       language: "en",
-      text: query,
+      text: "Reserve a table for 2 at the Italian restaurant",
     },
   },
   parameters: {
     projectName: projectName,
     deploymentName: deploymentName,
+    verbose: true,
     isLoggingEnabled: false,
-    directTarget: qna_app,
-    targetProjectParameters: {
-      "ChitChat-QnA": {
-        targetProjectKind: "QuestionAnswering",
-        callingOptions: {
-          question: query,
-        },
-      },
-    },
   },
 };
 
@@ -63,24 +52,23 @@ export async function main() {
   console.log("query: ", result.query);
   console.log("project kind: ", result.prediction.projectKind);
 
-  const top_intent = result.prediction.topIntent || "None";
-  console.log("\ntop intent: ", top_intent);
+  const topIntent = result.prediction.topIntent || "None";
+  console.log("top intent: ", topIntent);
 
   const prediction = result.prediction;
   if (prediction.projectKind == "Orchestration") {
-    const top_intent_object = prediction.intents[top_intent];
-    console.log("confidence score: ", top_intent_object.confidence);
-    console.log("project kind: ", top_intent_object.targetProjectKind);
+    const topIntentObject = prediction.intents[topIntent];
+    console.log("confidence score: ", topIntentObject.confidence);
+    console.log("project kind: ", topIntentObject.targetProjectKind);
 
-    if (top_intent_object.targetProjectKind == "QuestionAnswering") {
-      console.log("\nqna response:");
+    if (topIntentObject.targetProjectKind == "Luis" && topIntentObject.result) {
+      console.log("\nluis response:");
 
-      const qna_response = top_intent_object.result;
-      if (qna_response && qna_response.answers) {
-        for (const answer of qna_response.answers) {
-          console.log("\nanswer: ", answer.answer);
-          console.log("confidence score: ", answer.confidence);
-        }
+      const luisResponse = topIntentObject.result.prediction;
+      console.log("top intent: ", luisResponse.topIntent);
+      console.log("\nentities:");
+      for (const entity of luisResponse.entities) {
+        console.log("\n", entity);
       }
     }
   }

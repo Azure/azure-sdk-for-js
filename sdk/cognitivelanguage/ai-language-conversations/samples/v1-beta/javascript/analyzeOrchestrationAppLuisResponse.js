@@ -48,22 +48,22 @@ async function main() {
   console.log("query: ", result.query);
   console.log("project kind: ", result.prediction.projectKind);
 
-  const top_intent = result.prediction.topIntent || "None";
-  console.log("top intent: ", top_intent);
+  const topIntent = result.prediction.topIntent || "None";
+  console.log("top intent: ", topIntent);
 
   const prediction = result.prediction;
   if (prediction.projectKind == "Orchestration") {
-    const top_intent_object = prediction.intents[top_intent];
-    console.log("confidence score: ", top_intent_object.confidence);
-    console.log("project kind: ", top_intent_object.targetProjectKind);
+    const topIntentObject = prediction.intents[topIntent];
+    console.log("confidence score: ", topIntentObject.confidence);
+    console.log("project kind: ", topIntentObject.targetProjectKind);
 
-    if (top_intent_object.targetProjectKind == "Luis" && top_intent_object.result) {
+    if (topIntentObject.targetProjectKind == "Luis" && topIntentObject.result) {
       console.log("\nluis response:");
 
-      const luis_response = top_intent_object.result.prediction;
-      console.log("top intent: ", luis_response.topIntent);
+      const luisResponse = topIntentObject.result.prediction;
+      console.log("top intent: ", luisResponse.topIntent);
       console.log("\nentities:");
-      for (const entity of luis_response.entities) {
+      for (const entity of luisResponse.entities) {
         console.log("\n", entity);
       }
     }

@@ -7,9 +7,10 @@
  * @summary Conversation Summarization
  */
 
-const { AzureKeyCredential } = require("@azure/core-auth");
-const { ConversationAnalysisClient } = require("@azure/ai-language-conversations");
-require("dotenv").config();
+import { AzureKeyCredential } from "@azure/core-auth";
+import { ConversationAnalysisClient } from "@azure/ai-language-conversations";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 //Get secrets
 //You will have to set these environment variables for the sample to work
@@ -17,9 +18,12 @@ const cluEndpoint =
   process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
 const cluKey = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
 
-const service = new ConversationAnalysisClient(cluEndpoint, new AzureKeyCredential(cluKey));
+const service: ConversationAnalysisClient = new ConversationAnalysisClient(
+  cluEndpoint,
+  new AzureKeyCredential(cluKey)
+);
 
-async function main() {
+export async function main() {
   //Analyze query
   const poller = await service.beginConversationAnalysis({
     displayName: "Analyze conversations from xxx",
@@ -66,25 +70,25 @@ async function main() {
   const actionResult = await poller.pollUntilDone();
   if (actionResult.tasks.items === undefined) return;
 
-  const task_result = actionResult.tasks.items[0];
-  if (task_result.kind == "conversationalSummarizationResults") {
+  const taskResult = actionResult.tasks.items[0];
+  if (taskResult.kind == "conversationalSummarizationResults") {
     console.log("... view task status ...");
-    console.log("status: %s", task_result.status);
-    const resolution_result = task_result.results;
-    if (resolution_result.errors && resolution_result.errors.length != 0) {
+    console.log("status: %s", taskResult.status);
+    const resolutionResult = taskResult.results;
+    if (resolutionResult.errors && resolutionResult.errors.length != 0) {
       console.log("... errors occured ...");
-      for (const error of resolution_result.errors) {
+      for (const error of resolutionResult.errors) {
         console.log(error);
       }
     } else {
-      const conversation_result = resolution_result.conversations[0];
-      if (conversation_result.warnings && conversation_result.warnings.length != 0) {
+      const conversationResult = resolutionResult.conversations[0];
+      if (conversationResult.warnings && conversationResult.warnings.length != 0) {
         console.log("... view warnings ...");
-        for (const warning of conversation_result.warnings) {
+        for (const warning of conversationResult.warnings) {
           console.log(warning);
         }
       } else {
-        const summaries = conversation_result.summaries;
+        const summaries = conversationResult.summaries;
         console.log("... view task result ...");
         console.log("issue: %s", summaries[0].text);
         console.log("resolution: %s", summaries[1].text);
@@ -96,5 +100,3 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
-
-module.exports = { main };

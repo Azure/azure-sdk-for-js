@@ -6,7 +6,6 @@
  * In this sample, orchestration project's top intent will map to a conversation project.
  *
  * @summary Orchestration project with conversational response
- * @azsdk-weight 50
  */
 
 import { ConversationAnalysisClient, ConversationalTask } from "@azure/ai-language-conversations";
@@ -54,27 +53,27 @@ export async function main() {
   console.log("query: ", result.query);
   console.log("project kind: ", result.prediction.projectKind);
 
-  const top_intent = result.prediction.topIntent || "None";
-  console.log("top intent: ", top_intent);
+  const topIntent = result.prediction.topIntent || "None";
+  console.log("top intent: ", topIntent);
 
   const prediction = result.prediction;
   if (prediction.projectKind == "Orchestration") {
-    const top_intent_object = prediction.intents[top_intent];
-    console.log("confidence score: ", top_intent_object.confidence);
-    console.log("project kind: ", top_intent_object.targetProjectKind);
+    const topIntentObject = prediction.intents[topIntent];
+    console.log("confidence score: ", topIntentObject.confidence);
+    console.log("project kind: ", topIntentObject.targetProjectKind);
 
-    if (top_intent_object.targetProjectKind == "Conversation") {
+    if (topIntentObject.targetProjectKind == "Conversation") {
       console.log("\nview conversation result:");
 
-      if (top_intent_object.result && top_intent_object.result.prediction) {
-        console.log("\ntop intent: ", top_intent_object.result.prediction.topIntent);
+      if (topIntentObject.result && topIntentObject.result.prediction) {
+        console.log("\ntop intent: ", topIntentObject.result.prediction.topIntent);
 
-        const intent = top_intent_object.result.prediction.intents[0];
+        const intent = topIntentObject.result.prediction.intents[0];
         console.log("category: ", intent.category);
         console.log("confidence score: ", intent.confidence);
 
         console.log("\nview entities:");
-        top_intent_object.result.prediction.entities.forEach((entity) => {
+        topIntentObject.result.prediction.entities.forEach((entity) => {
           console.log("\ncategory: ", entity.category);
           console.log("text: ", entity.text);
           console.log("confidence score: %f", entity.confidence);
