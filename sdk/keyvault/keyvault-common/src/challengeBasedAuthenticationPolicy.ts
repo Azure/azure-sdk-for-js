@@ -64,8 +64,6 @@ function verifyChallengeResource(scope: string, request: PipelineRequest): void 
 }
 
 /**
- * @internal
- *
  * Creates challenge callback handlers to manage CAE lifecycle in Azure Key Vault.
  *
  * Key Vault supports other authentication schemes, but we ensure challenge authentication

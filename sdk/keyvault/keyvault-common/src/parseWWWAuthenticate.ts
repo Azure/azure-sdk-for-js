@@ -15,15 +15,11 @@ const validParsedWWWAuthenticateProperties = [
 ] as const;
 
 /**
- * @internal
- *
  * A union type representing all valid key names in WWW-Authenticate header.
  */
 type ValidParsedWWWAuthenticateProperties = typeof validParsedWWWAuthenticateProperties[number];
 
 /**
- * @internal
- *
  * Holds the known WWWAuthenticate keys and their values as a result of
  * parsing a WWW-Authenticate header.
  */

@@ -6,9 +6,7 @@
 
 import { ChallengeCallbacks } from '@azure/core-rest-pipeline';
 
-// Warning: (ae-internal-missing-underscore) The name "createChallengeCallbacks" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
+// @public
 export function createChallengeCallbacks({ disableChallengeResourceVerification, }?: CreateChallengeCallbacksOptions): ChallengeCallbacks;
 
 // @public (undocumented)
@@ -24,9 +22,8 @@ export interface ParsedKeyVaultEntityIdentifier {
 }
 
 // Warning: (ae-forgotten-export) The symbol "ValidParsedWWWAuthenticateProperties" needs to be exported by the entry point index.d.ts
-// Warning: (ae-internal-missing-underscore) The name "ParsedWWWAuthenticate" should be prefixed with an underscore because the declaration is marked as @internal
 //
-// @internal
+// @public
 export type ParsedWWWAuthenticate = {
     [Key in ValidParsedWWWAuthenticateProperties]?: string;
 };
@@ -34,8 +31,6 @@ export type ParsedWWWAuthenticate = {
 // @public (undocumented)
 export function parseKeyvaultIdentifier(collection: string, identifier: string | undefined): ParsedKeyVaultEntityIdentifier;
 
-// Warning: (ae-incompatible-release-tags) The symbol "parseWWWAuthenticate" is marked as @public, but its signature references "ParsedWWWAuthenticate" which is marked as @internal
-//
 // @public
 export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate;
 
