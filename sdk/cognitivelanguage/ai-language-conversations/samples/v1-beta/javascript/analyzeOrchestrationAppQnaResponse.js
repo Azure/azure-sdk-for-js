@@ -6,13 +6,11 @@
  *  In this sample, orchestration project's top intent will map to a Qna project.
  *
  * @summary Orchestration project with QnA response
- * @azsdk-weight 50
  */
 
-import { ConversationAnalysisClient, ConversationalTask } from "@azure/ai-language-conversations";
-import { AzureKeyCredential } from "@azure/core-auth";
-import * as dotenv from "dotenv";
-dotenv.config();
+const { ConversationAnalysisClient } = require("@azure/ai-language-conversations");
+const { AzureKeyCredential } = require("@azure/core-auth");
+require("dotenv").config();
 
 //Get secrets
 //You will have to set these environment variables for the sample to work
@@ -23,12 +21,9 @@ const projectName = process.env.AZURE_CONVERSATIONS_WORKFLOW_PROJECT_NAME || "<p
 const deploymentName =
   process.env.AZURE_CONVERSATIONS_WORKFLOW_DEPLOYMENT_NAME || "<deployment-name>";
 
-const service: ConversationAnalysisClient = new ConversationAnalysisClient(
-  cluEndpoint,
-  new AzureKeyCredential(cluKey)
-);
+const service = new ConversationAnalysisClient(cluEndpoint, new AzureKeyCredential(cluKey));
 
-const body: ConversationalTask = {
+const body = {
   kind: "Conversation",
   analysisInput: {
     conversationItem: {
@@ -47,26 +42,26 @@ const body: ConversationalTask = {
   },
 };
 
-export async function main() {
+async function main() {
   //Analyze query
   const { result } = await service.analyzeConversation(body);
   console.log("query: ", result.query);
   console.log("project kind: ", result.prediction.projectKind);
 
-  const top_intent = result.prediction.topIntent || "None";
-  console.log("\ntop intent: ", top_intent);
+  const topIntent = result.prediction.topIntent || "None";
+  console.log("\ntop intent: ", topIntent);
 
   const prediction = result.prediction;
   if (prediction.projectKind == "Orchestration") {
-    const top_intent_object = prediction.intents[top_intent];
-    console.log("confidence score: ", top_intent_object.confidence);
-    console.log("project kind: ", top_intent_object.targetProjectKind);
+    const topIntentObject = prediction.intents[topIntent];
+    console.log("confidence score: ", topIntentObject.confidence);
+    console.log("project kind: ", topIntentObject.targetProjectKind);
 
-    if (top_intent_object.targetProjectKind == "QuestionAnswering") {
+    if (topIntentObject.targetProjectKind == "QuestionAnswering") {
       console.log("\nqna response:");
-      const qna_response = top_intent_object.result;
-      if (qna_response && qna_response.answers) {
-        for (const answer of qna_response.answers) {
+      const qnaResponse = topIntentObject.result;
+      if (qnaResponse && qnaResponse.answers) {
+        for (const answer of qnaResponse.answers) {
           console.log("\nanswer: ", answer.answer);
           console.log("confidence score: ", answer.confidence);
         }
@@ -78,3 +73,5 @@ export async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

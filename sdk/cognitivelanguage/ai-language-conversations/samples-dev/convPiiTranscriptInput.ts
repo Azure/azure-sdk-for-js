@@ -79,26 +79,26 @@ export async function main() {
   const actionResult = await poller.pollUntilDone();
   if (actionResult.tasks.items === undefined) return;
 
-  const task_result = actionResult.tasks.items[0];
-  if (task_result.kind == "conversationalPIIResults") {
+  const taskResult = actionResult.tasks.items[0];
+  if (taskResult.kind == "conversationalPIIResults") {
     console.log("... view task status ...");
-    console.log("status: ", task_result.status);
-    const conv_pii_result = task_result.results;
-    if (conv_pii_result.errors && conv_pii_result.errors.length != 0) {
+    console.log("status: ", taskResult.status);
+    const convPiiResult = taskResult.results;
+    if (convPiiResult.errors && convPiiResult.errors.length != 0) {
       console.log("... errors occured ...");
-      for (const error of conv_pii_result.errors) {
+      for (const error of convPiiResult.errors) {
         console.log(error);
       }
     } else {
-      const conversation_result = conv_pii_result.conversations[0];
-      if (conversation_result.warnings && conversation_result.warnings.length != 0) {
+      const conversationResult = convPiiResult.conversations[0];
+      if (conversationResult.warnings && conversationResult.warnings.length != 0) {
         console.log("... view warnings ...");
-        for (const warning of conversation_result.warnings) {
+        for (const warning of conversationResult.warnings) {
           console.log(warning);
         }
       } else {
         console.log("... view task result ...");
-        for (const conversation of conversation_result.conversationItems) {
+        for (const conversation of conversationResult.conversationItems) {
           console.log("conversation id: ", conversation.id);
           console.log("... entities ...");
           for (const entity of conversation.entities) {
