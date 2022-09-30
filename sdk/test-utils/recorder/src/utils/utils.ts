@@ -367,8 +367,9 @@ export function resolveAssetsJson(testPath: string): string {
       );
     }
 
-    let targetPath: string = testPath;
-    if (!fs.statSync(testPath).isDirectory()) {
+    let targetPath: string = path.join(rootPath, testPath);
+
+    if (!fs.statSync(targetPath).isDirectory()) {
       targetPath = path.dirname(targetPath);
     }
 
@@ -386,6 +387,8 @@ export function resolveAssetsJson(testPath: string): string {
       if (isGitRoot || isSysRoot) {
         return "";
       }
+
+      targetPath = path.dirname(targetPath);
     }
   }
 
