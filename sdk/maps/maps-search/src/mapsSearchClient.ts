@@ -1,7 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as Mappers from "./generated/models/mappers";
+import * as Parameters from "./generated/models/parameters";
 import { AzureKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { OperationOptions, OperationSpec, createSerializer } from "@azure/core-client";
+import {
+  createAzureMapsKeyCredentialPolicy,
+  createMapsClientIdPolicy,
+  createSendPollRequest,
+  getRawResponse,
+} from "@azure/maps-common";
+import {
+  EntityGeometry,
+  ReverseSearchAddressResult,
+  ReverseSearchCrossStreetAddressResult,
+  SearchAddressResult,
+} from "./models/results";
+import {
+  FuzzySearchBatchPoller,
+  ReverseSearchAddressBatchPoller,
+  SearchAddressBatchPoller,
+} from "./models/poller";
 import {
   GeoJsonCircleOrPolygonFeature,
   GeoJsonCircleOrPolygonFeatureCollection,
@@ -12,19 +32,6 @@ import {
   SearchGeometry,
   StructuredAddress,
 } from "./models/models";
-import {
-  BatchPoller,
-  BatchPollerProxy,
-  createAzureMapsKeyCredentialPolicy,
-  createMapsClientIdPolicy,
-} from "@azure/maps-common";
-import {
-  BatchResult,
-  EntityGeometry,
-  ReverseSearchAddressResult,
-  ReverseSearchCrossStreetAddressResult,
-  SearchAddressResult,
-} from "./models/results";
 import {
   FuzzySearchBatchOptions,
   FuzzySearchOptions,
@@ -56,11 +63,8 @@ import {
   SearchReverseSearchCrossStreetAddressOptionalParams as ReverseSearchCrossStreetAddressOptionalParams,
   SearchAddressBatchResult,
   SearchSearchAlongRouteOptionalParams as SearchAlongRouteOptionalParams,
-  SearchFuzzySearchBatchOptionalParams,
   SearchSearchInsideGeometryOptionalParams as SearchInsideGeometryOptionalParams,
   SearchSearchNearbyPointOfInterestOptionalParams as SearchNearbyPointOfInterestOptionalParams,
-  SearchReverseSearchAddressBatchOptionalParams,
-  SearchSearchAddressBatchOptionalParams,
   SearchSearchStructuredAddressOptionalParams as SearchStructuredAddressOptionalParams,
 } from "./generated/models";
 import {
@@ -71,10 +75,10 @@ import {
   createFuzzySearchBatchRequest,
   createReverseSearchAddressBatchRequest,
   createSearchAddressBatchRequest,
+  mapReverseSearchAddressBatchResult,
 } from "./models/mappers";
 import {
   mapFuzzySearchOptions,
-  mapReverseSearchAddressBatchResult,
   mapReverseSearchAddressResult,
   mapReverseSearchCrossStreetAddressResult,
   mapSearchAddressBatchResult,
@@ -82,11 +86,58 @@ import {
   mapSearchAddressResult,
   mapSearchPointOfInterestOptions,
 } from "./models/mappers";
+import { createHttpPoller } from "@azure/core-lro";
 import { GeneratedClient } from "./generated";
-import { OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./utils/tracing";
 import { logger } from "./utils/logger";
+
+const serializer = createSerializer(Mappers, false);
+
+const getFuzzySearchBatchOperationSpec: OperationSpec = {
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SearchAddressBatchResult,
+    },
+    202: {
+      headersMapper: Mappers.SearchGetFuzzySearchBatchHeaders,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.accept, Parameters.clientId],
+  serializer,
+};
+
+const getSearchAddressBatchOperationSpec: OperationSpec = {
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SearchAddressBatchResult,
+    },
+    202: {
+      headersMapper: Mappers.SearchGetSearchAddressBatchHeaders,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.accept, Parameters.clientId],
+  serializer,
+};
+
+const getReverseSearchAddressBatchOperationSpec: OperationSpec = {
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReverseSearchAddressBatchResult,
+    },
+    202: {
+      headersMapper: Mappers.SearchGetReverseSearchAddressBatchHeaders,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.accept, Parameters.clientId],
+  serializer,
+};
 
 const isMapsSearchClientOptions = (
   clientIdOrOptions: any
@@ -649,7 +700,7 @@ export class MapsSearchClient {
   public async beginFuzzySearchBatch(
     requests: FuzzySearchRequest[],
     options: FuzzySearchBatchOptions = {}
-  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
+  ): Promise<FuzzySearchBatchPoller> {
     return this.createFuzzySearchBatchPoller(requests, options);
   }
 
@@ -663,33 +714,48 @@ export class MapsSearchClient {
    * rehydratedPoller.poll()
    * ```
    *
-   * @param resumeFrom - The serialized state from the previous poller.
+   * @param restoreFrom - The serialized state from the previous poller.
    * @param options - Optional parameters for the operation.
    *
    */
   public async resumeFuzzySearchBatch(
-    resumeFrom: string,
+    restoreFrom: string,
     options: FuzzySearchBatchOptions = {}
-  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
-    return this.createFuzzySearchBatchPoller(undefined, { ...options, resumeFrom });
+  ): Promise<FuzzySearchBatchPoller> {
+    return this.createFuzzySearchBatchPoller(restoreFrom, options);
   }
 
   private async createFuzzySearchBatchPoller(
-    requests: FuzzySearchRequest[] = [],
-    options: SearchFuzzySearchBatchOptionalParams = {}
-  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
+    requestsOrRestoreFrom: FuzzySearchRequest[] | string,
+    options: FuzzySearchBatchOptions = {}
+  ): Promise<FuzzySearchBatchPoller> {
     const { span, updatedOptions } = createSpan("MapsSearchClient-beginFuzzySearchBatch", options);
+    const requests = Array.isArray(requestsOrRestoreFrom) ? requestsOrRestoreFrom : [];
+    const restoreFrom = typeof requestsOrRestoreFrom === "string" ? requestsOrRestoreFrom : "";
     const batchRequest = createFuzzySearchBatchRequest(requests);
     try {
-      const internalPoller = await this.client.search.beginFuzzySearchBatch(
-        this.defaultFormat,
-        batchRequest,
-        updatedOptions
+      const poller = await createHttpPoller(
+        {
+          sendInitialRequest: async () => {
+            return getRawResponse(
+              async (paramOptions) =>
+                this.client.search.fuzzySearchBatch(this.defaultFormat, batchRequest, paramOptions),
+              updatedOptions
+            );
+          },
+          sendPollRequest: createSendPollRequest({
+            client: this.client,
+            options: updatedOptions,
+            spec: getFuzzySearchBatchOperationSpec,
+          }),
+        },
+        {
+          intervalInMs: options.updateIntervalInMs,
+          processResult: (internalResult) =>
+            mapSearchAddressBatchResult(internalResult as SearchAddressBatchResult),
+          ...(restoreFrom && { restoreFrom }),
+        }
       );
-      const poller = new BatchPollerProxy<
-        BatchResult<SearchAddressResult>,
-        SearchAddressBatchResult
-      >(internalPoller, mapSearchAddressBatchResult);
 
       await poller.poll();
       return poller;
@@ -714,7 +780,7 @@ export class MapsSearchClient {
   public async beginSearchAddressBatch(
     requests: SearchAddressRequest[],
     options: SearchAddressBatchOptions = {}
-  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
+  ): Promise<SearchAddressBatchPoller> {
     return this.createSearchAddressBatchPoller(requests, options);
   }
 
@@ -728,36 +794,55 @@ export class MapsSearchClient {
    * rehydratedPoller.poll()
    * ```
    *
-   * @param resumeFrom - The serialized state from the previous poller.
+   * @param restoreFrom - The serialized state from the previous poller.
    * @param options - Optional parameters for the operation.
    *
    */
   public async resumeSearchAddressBatch(
-    resumeFrom: string,
+    restoreFrom: string,
     options: SearchAddressBatchOptions = {}
-  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
-    return this.createSearchAddressBatchPoller(undefined, { ...options, resumeFrom });
+  ): Promise<SearchAddressBatchPoller> {
+    return this.createSearchAddressBatchPoller(restoreFrom, options);
   }
 
   private async createSearchAddressBatchPoller(
-    requests: SearchAddressRequest[] = [],
-    options: SearchSearchAddressBatchOptionalParams = {}
-  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
+    requestsOrRestoreFrom: SearchAddressRequest[] | string,
+    options: SearchAddressBatchOptions = {}
+  ): Promise<SearchAddressBatchPoller> {
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginSearchAddressBatch",
       options
     );
+    const requests = Array.isArray(requestsOrRestoreFrom) ? requestsOrRestoreFrom : [];
+    const restoreFrom = typeof requestsOrRestoreFrom === "string" ? requestsOrRestoreFrom : "";
     const batchRequest = createSearchAddressBatchRequest(requests);
     try {
-      const internalPoller = await this.client.search.beginSearchAddressBatch(
-        this.defaultFormat,
-        batchRequest,
-        updatedOptions
+      const poller = await createHttpPoller(
+        {
+          sendInitialRequest: async () => {
+            return getRawResponse(
+              async (paramOptions) =>
+                this.client.search.searchAddressBatch(
+                  this.defaultFormat,
+                  batchRequest,
+                  paramOptions
+                ),
+              updatedOptions
+            );
+          },
+          sendPollRequest: createSendPollRequest({
+            client: this.client,
+            options: updatedOptions,
+            spec: getSearchAddressBatchOperationSpec,
+          }),
+        },
+        {
+          intervalInMs: options.updateIntervalInMs,
+          processResult: (internalResult) =>
+            mapSearchAddressBatchResult(internalResult as SearchAddressBatchResult),
+          ...(restoreFrom && { restoreFrom }),
+        }
       );
-      const poller = new BatchPollerProxy<
-        BatchResult<SearchAddressResult>,
-        SearchAddressBatchResult
-      >(internalPoller, mapSearchAddressBatchResult);
 
       await poller.poll();
       return poller;
@@ -782,7 +867,7 @@ export class MapsSearchClient {
   public async beginReverseSearchAddressBatch(
     requests: ReverseSearchAddressRequest[],
     options: ReverseSearchAddressBatchOptions = {}
-  ): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>> {
+  ): Promise<ReverseSearchAddressBatchPoller> {
     return this.createReverseSearchAddressBatchPoller(requests, options);
   }
 
@@ -796,37 +881,55 @@ export class MapsSearchClient {
    * rehydratedPoller.poll()
    * ```
    *
-   * @param resumeFrom - The serialized state from the previous poller.
+   * @param restoreFrom - The serialized state from the previous poller.
    * @param options - Optional parameters for the operation.
    *
    */
   public async resumeReverseSearchAddressBatch(
-    resumeFrom: string,
+    restoreFrom: string,
     options: ReverseSearchAddressBatchOptions = {}
-  ): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>> {
-    return this.createReverseSearchAddressBatchPoller(undefined, { ...options, resumeFrom });
+  ): Promise<ReverseSearchAddressBatchPoller> {
+    return this.createReverseSearchAddressBatchPoller(restoreFrom, options);
   }
 
   private async createReverseSearchAddressBatchPoller(
-    requests: ReverseSearchAddressRequest[] = [],
-    options: SearchReverseSearchAddressBatchOptionalParams = {}
-  ): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>> {
+    requestsOrRestoreFrom: ReverseSearchAddressRequest[] | string,
+    options: ReverseSearchAddressBatchOptions = {}
+  ): Promise<ReverseSearchAddressBatchPoller> {
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginReverseSearchAddressBatch",
       options
     );
+    const requests = Array.isArray(requestsOrRestoreFrom) ? requestsOrRestoreFrom : [];
+    const restoreFrom = typeof requestsOrRestoreFrom === "string" ? requestsOrRestoreFrom : "";
     const batchRequest = createReverseSearchAddressBatchRequest(requests);
     try {
-      const internalPoller = await this.client.search.beginReverseSearchAddressBatch(
-        this.defaultFormat,
-        batchRequest,
-        updatedOptions
+      const poller = await createHttpPoller(
+        {
+          sendInitialRequest: async () => {
+            return getRawResponse(
+              async (paramOptions) =>
+                this.client.search.reverseSearchAddressBatch(
+                  this.defaultFormat,
+                  batchRequest,
+                  paramOptions
+                ),
+              updatedOptions
+            );
+          },
+          sendPollRequest: createSendPollRequest({
+            client: this.client,
+            options: updatedOptions,
+            spec: getReverseSearchAddressBatchOperationSpec,
+          }),
+        },
+        {
+          intervalInMs: options.updateIntervalInMs,
+          processResult: (internalResult) =>
+            mapReverseSearchAddressBatchResult(internalResult as ReverseSearchAddressBatchResult),
+          ...(restoreFrom && { restoreFrom }),
+        }
       );
-
-      const poller = new BatchPollerProxy<
-        BatchResult<ReverseSearchAddressResult>,
-        ReverseSearchAddressBatchResult
-      >(internalPoller, mapReverseSearchAddressBatchResult);
 
       await poller.poll();
       return poller;

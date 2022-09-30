@@ -292,3 +292,19 @@ directive:
         }
       };
 ```
+
+### Disable LRO
+
+For data-plane sdk, we don't use the generated LRO so we can use the `processResult` to map the API result and hide the deprecated `cancelOperation`.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["paths"][*]
+    transform: >
+      for (var op of Object.values($)) {
+        if (op["x-ms-long-running-operation"]) {
+          delete op["x-ms-long-running-operation"];
+        }
+      }
+```
