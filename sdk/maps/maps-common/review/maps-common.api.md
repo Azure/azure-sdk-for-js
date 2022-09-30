@@ -12,16 +12,12 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export interface BatchPoller<TBatchResult> extends PollerLike<PollOperationState<TBatchResult>, TBatchResult> {
+export interface BatchPoller<TBatchResult> extends Omit<PollerLike<PollOperationState<TBatchResult>, TBatchResult>, "cancelOperation"> {
 }
 
 // @public
 export class BatchPollerProxy<TBatchResult, TInternalBatchResult> implements BatchPoller<TBatchResult> {
     constructor(internalPoller: PollerLike<PollOperationState<TInternalBatchResult>, TInternalBatchResult>, mapper: (res: TInternalBatchResult) => TBatchResult);
-    // (undocumented)
-    cancelOperation(options?: {
-        abortSignal?: AbortSignalLike;
-    }): Promise<void>;
     // (undocumented)
     getOperationState(): PollOperationState<TBatchResult>;
     // (undocumented)

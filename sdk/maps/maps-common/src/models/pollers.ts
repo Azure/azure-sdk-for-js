@@ -6,7 +6,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 
 /** Batch operation poller interface */
 export interface BatchPoller<TBatchResult>
-  extends PollerLike<PollOperationState<TBatchResult>, TBatchResult> {}
+  extends Omit<PollerLike<PollOperationState<TBatchResult>, TBatchResult>, "cancelOperation"> {}
 
 /**
  * Batch operation poller proxy
@@ -24,10 +24,6 @@ export class BatchPollerProxy<TBatchResult, TInternalBatchResult>
 
   public async poll(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
     await this.internalPoller.poll(options);
-  }
-
-  public async cancelOperation(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
-    await this.internalPoller.cancelOperation(options);
   }
 
   public async pollUntilDone(): Promise<TBatchResult> {
