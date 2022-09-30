@@ -21,7 +21,11 @@
         "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "true"
       }
     },
-    "NodeTestVersion": ["12.x", "14.x", "16.x", "17.x"],
+    "NodeTestVersion": [
+      "14.x",
+      "16.x",
+      "18.x"
+    ],
     "TestType": "node",
     "TestResultsFiles": "**/test-results.xml"
   },
@@ -38,7 +42,7 @@
           "TestType": "node",
           "TestResultsFiles": "**/test-results.xml",
           "PublishCodeCoverage": "true",
-          "AZURE_TEST_AGENT": "WINDOWS_2019_NODE12",
+          "AZURE_TEST_AGENT": "WINDOWS_2019_NODE14",
           "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "false"
         },
         "sample": {
@@ -53,7 +57,7 @@
           "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "false"
         }
       },
-      "NodeTestVersion": "12.x"
+      "NodeTestVersion": "14.x"
     },
     {
       "Agent": {
@@ -63,8 +67,11 @@
         }
       },
       "TestType": "node",
-      "NodeTestVersion": "12.x",
-      "DependencyVersion": ["max", "min"],
+      "NodeTestVersion": "14.x",
+      "DependencyVersion": [
+        "max",
+        "min"
+      ],
       "TestResultsFiles": "**/test-results.xml",
       "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "true"
     }
