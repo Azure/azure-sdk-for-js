@@ -9,7 +9,7 @@ export function getLogQueryEndpoint(options: LogsQueryClientOptions): string {
   }
 
   const url = new URL(options.endpoint);
-  url.pathname += "v1";
+  url.pathname = "/v1";
 
   return url.toString();
 }
