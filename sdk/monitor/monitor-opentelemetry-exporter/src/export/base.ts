@@ -15,6 +15,7 @@ import { PersistentStorage, Sender } from "../types";
 import { isRetriable, BreezeResponse } from "../utils/breezeUtils";
 import { ENV_CONNECTION_STRING } from "../Declarations/Constants";
 import { TelemetryItem as Envelope } from "../generated";
+import { StatsbeatMetrics } from "./statsbeat/statsbeatMetrics";
 
 /**
  * Azure Monitor OpenTelemetry Trace Exporter.
@@ -28,6 +29,8 @@ export abstract class AzureMonitorBaseExporter {
   private readonly _sender: Sender;
   private _numConsecutiveRedirects: number;
   private _retryTimer: NodeJS.Timer | null;
+  private _statsbeatMetrics: StatsbeatMetrics;
+  private _isStatsbeatExporter: boolean = false;
   /**
    * Exporter internal configuration
    */
@@ -60,10 +63,12 @@ export abstract class AzureMonitorBaseExporter {
       diag.error(message);
       throw new Error(message);
     }
-
     this._instrumentationKey = this._options.instrumentationKey;
     this._sender = new HttpSender(this._options);
     this._persister = new FileSystemPersist(this._options);
+
+    // TODO: Determine what to do if aadTokenCredential is not defined
+    this._statsbeatMetrics = new StatsbeatMetrics(this._instrumentationKey, this._options.endpointUrl, this._options.aadTokenCredential!);
     this._retryTimer = null;
     diag.debug("AzureMonitorTraceExporter was successfully setup");
   }
@@ -99,6 +104,7 @@ export abstract class AzureMonitorBaseExporter {
     diag.info(`Exporting ${envelopes.length} envelope(s)`);
 
     // TODO: Implement a special case for if we're managing a network StatsBeat
+    // TODO: Add places to increment the count for each kind of statsbeat measurement.
     try {
       const { result, statusCode } = await this._sender.send(envelopes);
       this._numConsecutiveRedirects = 0;

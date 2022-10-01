@@ -25,6 +25,8 @@ export class NetworkStatsbeat {
 
   public lastIntervalRequestExecutionTime: number;
 
+  public averageRequestExecutionTime: number;
+
   constructor(endpoint: string, host: string) {
       this.endpoint = endpoint;
       this.host = host;
@@ -38,5 +40,6 @@ export class NetworkStatsbeat {
       this.lastIntervalRequestExecutionTime = 0;
       this.lastTime = +new Date();
       this.lastRequestCount = 0;
+      this.averageRequestExecutionTime = 0;
   }
 }

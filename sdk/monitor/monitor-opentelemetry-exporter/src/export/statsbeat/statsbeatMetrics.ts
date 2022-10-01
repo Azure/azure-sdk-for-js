@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { TokenCredential } from "@azure/core-auth";
 import { ServiceClient } from "@azure/core-client";
 import { createHttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
+import { AzureExporterConfig, AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
 import { ObservableGauge, ObservableResult } from "@opentelemetry/api-metrics";
 import { Meter } from "@opentelemetry/api-metrics/build/src/types/Meter";
-import { MeterProvider } from "@opentelemetry/sdk-metrics-base";
+import { MeterProvider, MeterProviderOptions, PeriodicExportingMetricReader, PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics-base";
 import { SDK_VERSION } from "../../../../../../sdk/template/template/src/constants";
 import { StatsbeatCounter, StatsbeatResourceProvider, STATSBEAT_LANGUAGE } from "../constants";
 import { NetworkStatsbeat } from "./types";
@@ -13,6 +15,21 @@ var os = require("os");
 const AIMS_URI = "http://169.254.169.254/metadata/instance/compute";
 const AIMS_API_VERSION = "api-version=2017-12-01";
 const AIMS_FORMAT = "format=json";
+const NON_EU_CONNECTION_STRING = "InstrumentationKey=c4a29126-a7cb-47e5-b348-11414998b11e;IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com";
+const EU_CONNECTION_STRING = "InstrumentationKey=7dc56bab-3c0c-4e9f-9ebb-d1acadee8d0f;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com";
+const STATS_COLLECTION_SHORT_INTERVAL: number = 900000; // 15 minutes
+const EU_ENDPOINTS = [
+  "westeurope",
+  "northeurope",
+  "francecentral",
+  "francesouth",
+  "germanywestcentral",
+  "norwayeast",
+  "norwaywest",
+  "swedencentral",
+  "switzerlandnorth",
+  "switzerlandwest"
+];
 
 export interface IVirtualMachineInfo {
     isVM?: boolean;
@@ -22,16 +39,17 @@ export interface IVirtualMachineInfo {
 }
 
 export class StatsbeatMetrics {
-  public static NON_EU_CONNECTION_STRING = "InstrumentationKey=c4a29126-a7cb-47e5-b348-11414998b11e;IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com";
-  public static EU_CONNECTION_STRING = "InstrumentationKey=7dc56bab-3c0c-4e9f-9ebb-d1acadee8d0f;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com";
-  public static STATS_COLLECTION_SHORT_INTERVAL: number = 900000; // 15 minutes
-
   private _commonProperties = {};
   private _meter: Meter;
   private _isEnabled: boolean = false;
   private _isInitialized: boolean = false;
   private _isVm: boolean = false;
   private _networkStatsbeatCollection: Array<NetworkStatsbeat> = [];
+  private _meterProvider: MeterProvider;
+  private _connectionString: string;
+  private _aadTokenCredential: TokenCredential;
+  private _azureExporter: AzureMonitorMetricExporter;
+  private _metricReader: PeriodicExportingMetricReader;
 
   // Custom dimensions
   private _resourceProvider: string = StatsbeatResourceProvider.unknown;
@@ -40,7 +58,7 @@ export class StatsbeatMetrics {
   private _runtimeVersion: string;
   private _language: string;
   private _version: string;
-  private _attach: string = "sdk"; // Python verison lists "attach" as TODO
+  private _attach: string = "sdk";
 
   // Observable Gauges
   private _successCountGauge: ObservableGauge;
@@ -54,8 +72,31 @@ export class StatsbeatMetrics {
   private _endpoint: string;
   private _host: string;
 
-  constructor(meter: Meter, instrumentationKey: string, endpoint: string) {
-    this._meter = meter;
+  constructor(instrumentationKey: string, endpoint: string, aadTokenCredential: TokenCredential) {
+    this._connectionString = this._getConnectionString(endpoint);
+    this._aadTokenCredential = aadTokenCredential;
+
+    const meterProviderConfig: MeterProviderOptions = {
+      // TODO: Figure out what to pass to create the MeterProvider as the ResourceManager class is not defined here.
+    }
+    this._meterProvider = new MeterProvider(meterProviderConfig);
+
+    const exporterConfig: AzureExporterConfig = {
+      connectionString: this._connectionString,
+      aadTokenCredential: this._aadTokenCredential
+    };
+
+    this._azureExporter = new AzureMonitorMetricExporter(exporterConfig);
+    
+    const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
+      exporter: this._azureExporter as any,
+      exportIntervalMillis: 900000 // 15 minutes
+    };
+
+    // Exports Network Statsbeat every 15 minutes
+    this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
+    this._meterProvider.addMetricReader(this._metricReader);
+    this._meter = this._meterProvider.getMeter("NetworkStatsbeat");
 
     this._runtimeVersion = process.version;
     this._language = STATSBEAT_LANGUAGE;
@@ -88,7 +129,6 @@ export class StatsbeatMetrics {
       }
   }
 
-  // TOOD: Revisit this logic to ensure it's correct
   private _getAzureComputeMetadata(): boolean {
       const serviceClient = new ServiceClient;
       const headers = createHttpHeaders({"MetaData": "True"});
@@ -128,6 +168,10 @@ export class StatsbeatMetrics {
     return this._isEnabled;
   }
 
+  public shutdown() {
+    this._meterProvider.shutdown();
+  }
+
   // Start instance of metrics.
   public enable(isEnabled: boolean): void {
     this._isEnabled = isEnabled;
@@ -152,8 +196,8 @@ export class StatsbeatMetrics {
       };
 
       // Add observable callbacks
-      this._successCountGauge.addCallback(this._getSuccessCount.bind(this));
-      this._failureCountGauge.addCallback(this._getFailureCount.bind(this));
+      this._successCountGauge.addCallback(this._countSuccess.bind(this));
+      this._failureCountGauge.addCallback(this._countFailure.bind(this));
       this._retryCountGauge.addCallback(this._getRetryCount.bind(this));
       this._throttleCountGauge.addCallback(this._getThrottleCount.bind(this));
       this._exceptionCountGauge.addCallback(this._getExceptionCount.bind(this));
@@ -163,15 +207,17 @@ export class StatsbeatMetrics {
     }
   }
 
-  private _getSuccessCount(observableResult: ObservableResult) {
+  private _countSuccess(observableResult: ObservableResult) {
     // TODO: Track duration here?
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpoint, this._host);
+    counter.totalRequestCount++;
     counter.totalSuccesfulRequestCount++;
     observableResult.observe(counter.totalSuccesfulRequestCount, this._commonProperties);
   }
 
-  private _getFailureCount(observableResult: ObservableResult) {
+  private _countFailure(observableResult: ObservableResult) {
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpoint, this._host);
+    counter.totalRequestCount++;
     counter.totalFailedRequestCount++;
     observableResult.observe(counter.totalFailedRequestCount, this._commonProperties);
   }
@@ -183,7 +229,7 @@ export class StatsbeatMetrics {
       let currentCounter = this._networkStatsbeatCollection[i];
       currentCounter.time = Number(new Date);
       let intervalRequests = currentCounter.totalRequestCount - currentCounter.lastRequestCount || 0;
-      let averageRequestExecutionTime = 
+      currentCounter.averageRequestExecutionTime = 
         (currentCounter.intervalRequestExecutionTime -
           currentCounter.lastIntervalRequestExecutionTime) /
         intervalRequests || 0;
@@ -192,6 +238,8 @@ export class StatsbeatMetrics {
       currentCounter.lastRequestCount = currentCounter.totalRequestCount;
       currentCounter.lastTime = currentCounter.time;
     }
+    // Since the averageRequestExecutionTime is the same for all counters, just return the first one
+    observableResult.observe(this._networkStatsbeatCollection[0].averageRequestExecutionTime, this._commonProperties);
   }
 
   private _getRetryCount(observableResult: ObservableResult) {
@@ -243,5 +291,10 @@ export class StatsbeatMetrics {
         // Ignore error
     }
     return shortHost;
+  }
+
+  // TODO: This should return the EU connection string vs. non-EU depending on the endpoint value.
+  private _getConnectionString(endpoint: string) {
+    return "";
   }
 }
