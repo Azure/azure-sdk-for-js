@@ -43,7 +43,7 @@ export class GeneratedSchemaRegistryClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-schema-registry/1.1.0`;
+    const packageDetails = `azsdk-js-schema-registry/1.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
