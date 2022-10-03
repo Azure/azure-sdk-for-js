@@ -60,8 +60,6 @@ export function sendNotification(
         endpoint.searchParams.append("direct", "true");
         contentType = `multipart/mixed; boundary = "nh-batch-multipart-boundary"`;
         body = createMultipartDirectNotification(notification, options.deviceHandle);
-
-        console.log(body);
       } else if (isDirectSendNotificationOptions(options)) {
         endpoint.searchParams.append("direct", "true");
 
