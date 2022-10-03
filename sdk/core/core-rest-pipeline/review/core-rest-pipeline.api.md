@@ -89,7 +89,7 @@ export function decompressResponsePolicy(): PipelinePolicy;
 // @public
 export const decompressResponsePolicyName = "decompressResponsePolicy";
 
-// @public (undocumented)
+// @public
 export function defaultFailoverHostGenerator(readHosts?: string[], writeHosts?: string[]): FailoverHostGenerator;
 
 // @public
@@ -112,10 +112,15 @@ export interface ExponentialRetryPolicyOptions {
     retryDelayInMs?: number;
 }
 
-// Warning: (ae-forgotten-export) The symbol "FailoverHostState" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export type FailoverHostGenerator = (retryState: RetryInformation, options: DefaultRetryPolicyOptions) => Generator<FailoverHostState, void, RetryInformation>;
+// @public
+export type FailoverHostGenerator = (retryState: RetryInformation, options: DefaultRetryPolicyOptions) => Generator<FailoverHostState | undefined, void, RetryInformation>;
+
+// @public
+export interface FailoverHostState {
+    host: string;
+    retryAt?: Date;
+    retryCount: number;
+}
 
 // @public
 export type FormDataMap = {

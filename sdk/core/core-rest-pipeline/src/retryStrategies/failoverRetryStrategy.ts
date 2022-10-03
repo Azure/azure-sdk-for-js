@@ -18,7 +18,13 @@ export type FailoverHostGenerator = (
  * A host for failover and its associated state.
  */
 export declare interface FailoverHostState {
+  /**
+   * The host which this policy will try next.
+   */
   host: string;
+  /**
+   * How many times this host has been tried.
+   */
   retryCount: number;
   /**
    * The policy should wait until `retryAt` has elapsed to try this host.
