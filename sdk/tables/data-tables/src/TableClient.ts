@@ -42,7 +42,7 @@ import {
   isSASCredential,
   isTokenCredential,
 } from "@azure/core-auth";
-import { Pipeline, defaultFailoverHostGenerator } from "@azure/core-rest-pipeline";
+import { Pipeline, readWriteFailoverHostGenerator } from "@azure/core-rest-pipeline";
 import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { decodeContinuationToken, encodeContinuationToken } from "./utils/continuationToken";
 import {
@@ -252,7 +252,9 @@ export class TableClient {
     if (this.clientOptions.secondaryEndpoint) {
       internalPipelineOptions.retryOptions = {
         ...internalPipelineOptions.retryOptions,
-        failoverHostGenerator: defaultFailoverHostGenerator([this.clientOptions.secondaryEndpoint]),
+        failoverHostGenerator: readWriteFailoverHostGenerator([
+          this.clientOptions.secondaryEndpoint,
+        ]),
       };
     }
 

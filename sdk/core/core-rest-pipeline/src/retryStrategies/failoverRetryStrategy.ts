@@ -41,20 +41,21 @@ declare interface FailoverHosts {
  *
  * If the request method is GET, HEAD, or OPTIONS, it cycles through `readHosts`. Otherwise, it cycles through `writeHosts`.
  */
-export function defaultFailoverHostGenerator(
-  readHosts: string[] = [],
-  writeHosts: string[] = []
-): FailoverHostGenerator {
+export function readWriteFailoverHostGenerator(options: {
+  readHosts?: string[];
+  writeHosts?: string[];
+}): FailoverHostGenerator {
+  const { readHosts, writeHosts } = options;
   const readHostStateList: FailoverHosts = {
     index: 0,
-    hostStates: readHosts.map((url) => {
+    hostStates: (readHosts ?? []).map((url) => {
       const host = new URL(url).host;
       return { host, retryCount: 0 };
     }),
   };
   const writeHostStateList: FailoverHosts = {
     index: 0,
-    hostStates: writeHosts.map((url) => {
+    hostStates: (writeHosts ?? []).map((url) => {
       const host = new URL(url).host;
       return { host, retryCount: 0 };
     }),

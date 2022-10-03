@@ -5,7 +5,7 @@ import { PipelineRequest, PipelineResponse } from "../src/interfaces";
 import { createHttpHeaders } from "../src/httpHeaders";
 import { assert } from "chai";
 import {
-  defaultFailoverHostGenerator,
+  readWriteFailoverHostGenerator,
   failoverRetryStrategy,
 } from "../src/retryStrategies/failoverRetryStrategy";
 import { DefaultRetryPolicyOptions } from "../src/policies/defaultRetryPolicy";
@@ -20,7 +20,7 @@ describe(`failoverRetryStrategy`, () => {
     maxRetries,
     maxRetryDelayInMs: 1600,
     retryDelayInMs: 100,
-    failoverHostGenerator: defaultFailoverHostGenerator(readHosts, writeHosts),
+    failoverHostGenerator: readWriteFailoverHostGenerator({ readHosts, writeHosts }),
   };
 
   const strategy = failoverRetryStrategy(options);
