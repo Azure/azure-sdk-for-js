@@ -126,6 +126,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       auth: {
         clientId: this.clientId ?? DeveloperSignOnClientId,
         clientSecret: "dummy-secret",
+        authorityMetadata: `{"tenant_discovery_endpoint":"https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration","api-version":"1.1","metadata":[{"preferred_network":"login.microsoftonline.com","preferred_cache":"login.windows.net","aliases":["login.microsoftonline.com","login.windows.net","login.microsoft.com","sts.windows.net"]}]}`
       },
     });
   }
@@ -251,6 +252,7 @@ export class ManagedIdentityCredential implements TokenCredential {
 
             if (resultToken) {
               logger.info(`SetAppTokenProvider has saved the token in cache`);
+              logger.info(`token = ${resultToken.token}`);
               return {
                 accessToken: resultToken?.token,
                 expiresInSeconds: resultToken?.expiresOnTimestamp,
@@ -272,7 +274,9 @@ export class ManagedIdentityCredential implements TokenCredential {
         const authenticationResult = await this.confidentialApp.acquireTokenByClientCredential({
           ...appTokenParameters,
         });
+        logger.info(`authenticationResult= ${authenticationResult?.accessToken}`);
         result = this.handleResult(scopes, authenticationResult || undefined);
+        logger.info(`result is returned ${result}`)
         console.log("result is returned", result);
         if (result === null) {
           // If authenticateManagedIdentity returns null,
@@ -402,6 +406,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     msalToken?: MsalToken,
     getTokenOptions?: GetTokenOptions
   ): void {
+    logger.info(`msalToken = ${msalToken}`);
     const error = (message: string): Error => {
       logger.getToken.info(message);
       return new AuthenticationRequiredError({

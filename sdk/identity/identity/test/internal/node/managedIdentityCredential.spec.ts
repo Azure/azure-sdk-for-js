@@ -25,7 +25,7 @@ import { join } from "path";
 import { logger } from "../../../src/credentials/managedIdentityCredential/cloudShellMsi";
 import { tmpdir } from "os";
 
-describe.only("ManagedIdentityCredential", function () {
+describe("ManagedIdentityCredential", function () {
   let testContext: IdentityTestContextInterface;
   let envCopy: string = "";
 
@@ -55,7 +55,7 @@ describe.only("ManagedIdentityCredential", function () {
     await testContext.restore();
   });
 
-  it.only("sends an authorization request with a modified resource name", async function () {
+  it("sends an authorization request with a modified resource name", async function () {
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client",{authorityHost:"https://login.microsoftonline.com"}),
@@ -259,10 +259,11 @@ describe.only("ManagedIdentityCredential", function () {
     assert.ok(error!.message!.indexOf("No managed identity endpoint found.") > -1);
   });
 
+  //TODO:needs-to-fix
   it("IMDS MSI retries and succeeds on 404", async function () {
     const { result, error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
-      credential: new ManagedIdentityCredential("errclient"),
+      credential: new ManagedIdentityCredential("errclient", {authorityHost:"https://login.microsoftonline.com"}),
       insecureResponses: [
         createResponse(200),
         createResponse(404),
@@ -557,6 +558,7 @@ describe.only("ManagedIdentityCredential", function () {
       authRequest.url.indexOf(`api-version=2017-09-01`) > -1,
       "URL does not have expected version"
     );
+    console.log(authDetails)
     if (authDetails.result?.token) {
       assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000);
     } else {
