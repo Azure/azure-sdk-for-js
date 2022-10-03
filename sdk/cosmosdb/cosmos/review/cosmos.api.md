@@ -543,7 +543,7 @@ export interface CosmosClientOptions {
     agent?: Agent;
     connectionPolicy?: ConnectionPolicy;
     consistencyLevel?: keyof typeof ConsistencyLevel;
-    // Warning: (ae-forgotten-export) The symbol "CosmosHeaders" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "CosmosHeaders_2" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
     defaultHeaders?: CosmosHeaders_2;

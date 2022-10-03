@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Changes ServiceState property for a given service
  *
  * @summary Changes ServiceState property for a given service
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_SetOrchestrationServiceState_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_SetOrchestrationServiceState_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsSetOrchestrationServiceStateMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -41,7 +41,7 @@ virtualMachineScaleSetsSetOrchestrationServiceStateMaximumSetGen().catch(console
  * This sample demonstrates how to Changes ServiceState property for a given service
  *
  * @summary Changes ServiceState property for a given service
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_SetOrchestrationServiceState_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_SetOrchestrationServiceState_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsSetOrchestrationServiceStateMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update a gallery Application Definition.
  *
  * @summary Create or update a gallery Application Definition.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryApplication_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryApplication_Create.json
  */
 async function createOrUpdateASimpleGalleryApplication() {
   const subscriptionId = "{subscription-id}";

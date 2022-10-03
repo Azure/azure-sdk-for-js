@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to The operation to create or update an extension.
  *
  * @summary The operation to create or update an extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionsCreateOrUpdateMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -52,7 +52,7 @@ virtualMachineScaleSetExtensionsCreateOrUpdateMaximumSetGen().catch(console.erro
  * This sample demonstrates how to The operation to create or update an extension.
  *
  * @summary The operation to create or update an extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionsCreateOrUpdateMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

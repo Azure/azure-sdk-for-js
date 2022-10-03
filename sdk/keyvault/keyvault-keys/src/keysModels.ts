@@ -28,6 +28,12 @@ export interface KeyClientOptions extends ExtendedCommonClientOptions {
    * The version of the KeyVault's service API to make calls against.
    */
   serviceVersion?: string;
+
+  /**
+   * Whether to disable verification that the authentication challenge resource matches the Key Vault or Managed HSM domain.
+   * Defaults to false.
+   */
+  disableChallengeResourceVerification?: boolean;
 }
 
 /**

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Deletes a private endpoint connection under a disk access resource.
  *
  * @summary Deletes a private endpoint connection under a disk access resource.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-02/DiskRP/examples/diskAccessExamples/DiskAccessPrivateEndpointConnection_Delete.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskAccessExamples/DiskAccessPrivateEndpointConnection_Delete.json
  */
 async function deleteAPrivateEndpointConnectionUnderADiskAccessResource() {
   const subscriptionId = "{subscription-id}";
