@@ -39,6 +39,7 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
   constructor(
     public state: RestorableOperationState<TState>,
     private lro: LongRunningOperation,
+    private setErrorAsResult: boolean,
     private lroResourceLocationConfig?: LroResourceLocationConfig,
     private processResult?: (result: unknown, state: TState) => TResult,
     private updateState?: (state: TState, lastResponse: RawResponse) => void,
@@ -62,6 +63,7 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
           stateProxy,
           resourceLocationConfig: this.lroResourceLocationConfig,
           processResult: this.processResult,
+          setErrorAsResult: this.setErrorAsResult,
         })),
       };
     }
@@ -84,6 +86,7 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
         setDelay: (intervalInMs) => {
           this.pollerConfig!.intervalInMs = intervalInMs;
         },
+        setErrorAsResult: this.setErrorAsResult,
       });
     }
     options?.fireProgress?.(this.state);

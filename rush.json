@@ -617,6 +617,16 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/maps-common",
+      "projectFolder": "sdk/maps/maps-common",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/maps-search",
+      "projectFolder": "sdk/maps/maps-search",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/notification-hubs",
       "projectFolder": "sdk/notificationhubs/notification-hubs",
       "versionPolicyName": "client"
@@ -900,6 +910,11 @@
       "packageName": "@azure/arm-network",
       "projectFolder": "sdk/network/arm-network",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/arm-network",
+      "projectFolder": "sdk/network/arm-network-rest",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/arm-compute",
