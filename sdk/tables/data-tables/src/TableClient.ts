@@ -42,6 +42,7 @@ import {
   isSASCredential,
   isTokenCredential,
 } from "@azure/core-auth";
+import { Pipeline, retryPolicy, throttlingRetryStrategy } from "@azure/core-rest-pipeline";
 import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { decodeContinuationToken, encodeContinuationToken } from "./utils/continuationToken";
 import {
@@ -57,13 +58,13 @@ import { parseXML, stringifyXML } from "@azure/core-xml";
 import { InternalTableTransaction } from "./TableTransaction";
 import { ListEntitiesResponse } from "./utils/internalModels";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import { Table } from "./generated/operationsInterfaces";
 import { TableQueryEntitiesOptionalParams } from "./generated/models";
 import { Uuid } from "./utils/uuid";
 import { apiVersionPolicy } from "./utils/apiVersionPolicy";
 import { cosmosPatchPolicy } from "./cosmosPathPolicy";
 import { escapeQuotes } from "./odata";
+import { georedundantRetryStrategy } from "./policies/georedundantRetryStrategy";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import { handleTableAlreadyExists } from "./utils/errorHelpers";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
@@ -266,6 +267,25 @@ export class TableClient {
 
     if (options.version) {
       generatedClient.pipeline.addPolicy(apiVersionPolicy(options.version));
+    }
+
+    if (options.georedundantRetryOptions) {
+      const maxRetries =
+        (options.georedundantRetryOptions.maxRetries ?? 3) *
+        Math.max(
+          options.georedundantRetryOptions.readHosts?.length ?? 1,
+          options.georedundantRetryOptions.writeHosts?.length ?? 1
+        );
+      generatedClient.pipeline.removePolicy({ phase: "Retry" });
+      generatedClient.pipeline.addPolicy(
+        retryPolicy(
+          [throttlingRetryStrategy(), georedundantRetryStrategy(options.georedundantRetryOptions)],
+          {
+            maxRetries,
+          }
+        ),
+        { phase: "Retry" }
+      );
     }
 
     this.generatedClient = generatedClient;

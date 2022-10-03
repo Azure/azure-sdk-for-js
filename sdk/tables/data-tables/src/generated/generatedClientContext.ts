@@ -30,10 +30,10 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
       options = {};
     }
     const defaults: GeneratedClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-data-tables/13.2.1`;
+    const packageDetails = `azsdk-js-data-tables/13.3.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -43,9 +43,9 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      baseUri: options.endpoint || "{url}"
+      baseUri: options.endpoint || "{url}",
     };
     super(optionsWithDefaults);
     // Parameter assignments

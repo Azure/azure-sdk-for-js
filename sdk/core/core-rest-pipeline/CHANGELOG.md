@@ -1,14 +1,17 @@
 # Release History
 
-## 1.9.3 (Unreleased)
+## 1.10.0 (Unreleased)
 
 ### Features Added
+
+- Export `throttlingRetryStrategy`. [#23269](https://github.com/Azure/azure-sdk-for-js/pull/23269)
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 - Fixed an issue where policies added to a cloned Pipeline would also be added to the original (and vice versa) until policies were removed from either. [#23316](https://github.com/Azure/azure-sdk-for-js/pull/23316)
+- Allow `RetryStrategy`s to specify a delay and redirect URI at the same time. [#23269](https://github.com/Azure/azure-sdk-for-js/pull/23269)
 
 ### Other Changes
 

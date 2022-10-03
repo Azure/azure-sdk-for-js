@@ -116,20 +116,20 @@ export function retryPolicy(
             );
             throw errorToThrow;
           }
+          if (redirectTo || retryAfterInMs || retryAfterInMs === 0) {
+            if (retryAfterInMs || retryAfterInMs === 0) {
+              strategyLogger.info(
+                `Retry ${retryCount}: Retry strategy ${strategy.name} retries after ${retryAfterInMs}`
+              );
+              await delay(retryAfterInMs, undefined, { abortSignal: request.abortSignal });
+            }
 
-          if (retryAfterInMs || retryAfterInMs === 0) {
-            strategyLogger.info(
-              `Retry ${retryCount}: Retry strategy ${strategy.name} retries after ${retryAfterInMs}`
-            );
-            await delay(retryAfterInMs, undefined, { abortSignal: request.abortSignal });
-            continue retryRequest;
-          }
-
-          if (redirectTo) {
-            strategyLogger.info(
-              `Retry ${retryCount}: Retry strategy ${strategy.name} redirects to ${redirectTo}`
-            );
-            request.url = redirectTo;
+            if (redirectTo) {
+              strategyLogger.info(
+                `Retry ${retryCount}: Retry strategy ${strategy.name} redirects to ${redirectTo}`
+              );
+              request.url = redirectTo;
+            }
             continue retryRequest;
           }
         }

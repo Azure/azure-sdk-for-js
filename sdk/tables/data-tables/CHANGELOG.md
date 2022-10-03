@@ -1,8 +1,10 @@
 # Release History
 
-## 13.2.1 (Unreleased)
+## 13.3.0 (Unreleased)
 
 ### Features Added
+
+- Add georedundant retry option to `TableClient`. [#23269](https://github.com/Azure/azure-sdk-for-js/pull/23269)
 
 ### Breaking Changes
 
