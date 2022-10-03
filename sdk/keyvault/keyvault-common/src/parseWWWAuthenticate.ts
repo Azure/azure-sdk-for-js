@@ -2,11 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * @internal
- *
  * Valid key names in WWW-Authenticate header.
  */
-const validParsedWWWAuthenticateProperties = [
+export const validParsedWWWAuthenticateProperties = [
   "authorization",
   "authorization_url",
   "resource",
@@ -17,7 +15,8 @@ const validParsedWWWAuthenticateProperties = [
 /**
  * A union type representing all valid key names in WWW-Authenticate header.
  */
-type ValidParsedWWWAuthenticateProperties = typeof validParsedWWWAuthenticateProperties[number];
+export type ValidParsedWWWAuthenticateProperties =
+  typeof validParsedWWWAuthenticateProperties[number];
 
 /**
  * Holds the known WWWAuthenticate keys and their values as a result of

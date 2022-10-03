@@ -21,8 +21,6 @@ export interface ParsedKeyVaultEntityIdentifier {
     version?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ValidParsedWWWAuthenticateProperties" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type ParsedWWWAuthenticate = {
     [Key in ValidParsedWWWAuthenticateProperties]?: string;
@@ -33,6 +31,12 @@ export function parseKeyvaultIdentifier(collection: string, identifier: string |
 
 // @public
 export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate;
+
+// @public
+export type ValidParsedWWWAuthenticateProperties = typeof validParsedWWWAuthenticateProperties[number];
+
+// @public
+export const validParsedWWWAuthenticateProperties: readonly ["authorization", "authorization_url", "resource", "scope", "tenantId"];
 
 // (No @packageDocumentation comment for this package)
 
