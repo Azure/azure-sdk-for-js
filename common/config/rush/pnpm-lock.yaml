@@ -4063,7 +4063,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220929
+      typescript: 4.9.0-dev.20221002
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9078,8 +9078,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220929:
-    resolution: {integrity: sha512-D4q6Fx3w/u1eZH22OgSEn2WZReEEUNXtEUWwpKi9sxvS6db58EHUAnUSz/uFD/RSlyPpgUNM5Wg/Rb4oqUiMvw==}
+  /typescript/4.9.0-dev.20221002:
+    resolution: {integrity: sha512-WX8aiDOo1NqR6/xssEOmMeFQAWuaRFQJsxFadQhAmctWXzQG0Z2WU9UEAa7heI9wjraOiJaLUTM1Ti8+WwJb/w==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -13283,12 +13283,12 @@ packages:
     dev: false
 
   file:projects/arm-marketplaceordering.tgz:
-    resolution: {integrity: sha512-+XBkxsU65zviFVH/0il8eG28nkOGHQzXESlYztdu9v1CsOF2GKerV2Z1ZuBKz9G5BfvEIOiauB53v7yGQpt/wg==, tarball: file:projects/arm-marketplaceordering.tgz}
+    resolution: {integrity: sha512-C+3yh+95qlmslModiXGmKdFr9pNRMWmWQffvSQ+JuG8dkW0PJJaVH+uWww1KtIAi8c1o+dOy6E1WXsy4sD7xkw==, tarball: file:projects/arm-marketplaceordering.tgz}
     name: '@rush-temp/arm-marketplaceordering'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.31.1
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.0
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
