@@ -259,7 +259,7 @@ describe("ManagedIdentityCredential", function () {
     assert.ok(error!.message!.indexOf("No managed identity endpoint found.") > -1);
   });
 
-  //TODO:needs-to-fix
+  // TODO:needs-to-fix
   it("IMDS MSI retries and succeeds on 404", async function () {
     const { result, error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
