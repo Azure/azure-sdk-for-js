@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import {
+  PipelineRequestOptions,
   createHttpHeaders,
   createPipelineRequest,
-  PipelineRequestOptions,
 } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { readFile } from "fs";
@@ -98,7 +98,7 @@ async function filePathRequest(
   const authHeader = response.headers.get("www-authenticate") || "";
   try {
     return authHeader.split("=").slice(1)[0];
-  } catch (e) {
+  } catch (e: any) {
     throw Error(`Invalid www-authenticate header format: ${authHeader}`);
   }
 }

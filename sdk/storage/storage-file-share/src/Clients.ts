@@ -53,6 +53,7 @@ import {
   ShareRootSquash,
   FileRenameResponse,
   DirectoryRenameResponse,
+  FileLastWrittenMode,
 } from "./generatedModels";
 import { Share, Directory, File } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
@@ -62,6 +63,8 @@ import {
   FILE_MAX_SIZE_BYTES,
   FILE_RANGE_MAX_SIZE_BYTES,
   URLConstants,
+  FileAttributesPreserve,
+  FileAttributesNone,
 } from "./utils/constants";
 import {
   appendToURLPath,
@@ -99,6 +102,7 @@ import {
   toShareProtocolsString,
   toShareProtocols,
   HttpAuthorization,
+  fileChangeTimeToString,
 } from "./models";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
@@ -665,7 +669,7 @@ export class ShareClient extends StorageClient {
         enabledProtocols: toShareProtocolsString(options.protocols),
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -693,7 +697,7 @@ export class ShareClient extends StorageClient {
         succeeded: true,
         ...res,
       };
-    } catch (e) {
+    } catch (e: any) {
       if (e.details?.errorCode === "ShareAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
@@ -766,7 +770,7 @@ export class ShareClient extends StorageClient {
         directoryClient,
         directoryCreateResponse,
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -794,7 +798,7 @@ export class ShareClient extends StorageClient {
     try {
       const directoryClient = this.getDirectoryClient(directoryName);
       return await directoryClient.delete(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -829,7 +833,7 @@ export class ShareClient extends StorageClient {
         fileClient,
         fileCreateResponse,
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -869,7 +873,7 @@ export class ShareClient extends StorageClient {
       const directoryClient = this.rootDirectoryClient;
       const fileClient = directoryClient.getFileClient(fileName);
       return await fileClient.delete(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -894,7 +898,7 @@ export class ShareClient extends StorageClient {
     try {
       await this.getProperties(updatedOptions);
       return true;
-    } catch (e) {
+    } catch (e: any) {
       if (e.statusCode === 404) {
         span.setStatus({
           code: SpanStatusCode.ERROR,
@@ -938,7 +942,7 @@ export class ShareClient extends StorageClient {
       const protocols = toShareProtocols(res.enabledProtocols);
       (res as any).protocols = protocols;
       return res;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -964,7 +968,7 @@ export class ShareClient extends StorageClient {
         ...options,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -992,7 +996,7 @@ export class ShareClient extends StorageClient {
         succeeded: true,
         ...res,
       };
-    } catch (e) {
+    } catch (e: any) {
       if (e.details?.errorCode === "ShareNotFound") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
@@ -1036,7 +1040,7 @@ export class ShareClient extends StorageClient {
         metadata,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1102,7 +1106,7 @@ export class ShareClient extends StorageClient {
       }
 
       return res;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1157,7 +1161,7 @@ export class ShareClient extends StorageClient {
         shareAcl: acl,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1184,7 +1188,7 @@ export class ShareClient extends StorageClient {
         ...options,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1215,7 +1219,7 @@ export class ShareClient extends StorageClient {
         quota: quotaInGB,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1242,7 +1246,7 @@ export class ShareClient extends StorageClient {
         quota: options.quotaInGB,
         tracingOptions: updatedOptions.tracingOptions,
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1271,7 +1275,7 @@ export class ShareClient extends StorageClient {
 
       const GBBytes = 1024 * 1024 * 1024;
       return { ...response, shareUsage: Math.ceil(response.shareUsageBytes / GBBytes) };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1305,7 +1309,7 @@ export class ShareClient extends StorageClient {
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1334,7 +1338,7 @@ export class ShareClient extends StorageClient {
         abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1761,18 +1765,21 @@ export class ShareDirectoryClient extends StorageClient {
       }
 
       return await this.context.create(
-        fileAttributesToString(options.fileAttributes!),
-        fileCreationTimeToString(options.creationTime!),
-        fileLastWriteTimeToString(options.lastWriteTime!),
+        options.fileAttributes
+          ? fileAttributesToString(options.fileAttributes!)
+          : FileAttributesNone,
         {
           abortSignal: options.abortSignal,
           metadata: options.metadata,
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
+          fileChangeOn: fileChangeTimeToString(options.changeTime),
+          fileCreatedOn: fileCreationTimeToString(options.creationTime),
+          fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1800,7 +1807,7 @@ export class ShareDirectoryClient extends StorageClient {
         succeeded: true,
         ...res,
       };
-    } catch (e) {
+    } catch (e: any) {
       if (e.details?.errorCode === "ResourceAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
@@ -1838,17 +1845,20 @@ export class ShareDirectoryClient extends StorageClient {
       properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
 
       return await this.context.setProperties(
-        fileAttributesToString(properties.fileAttributes!),
-        fileCreationTimeToString(properties.creationTime!),
-        fileLastWriteTimeToString(properties.lastWriteTime!),
+        properties.fileAttributes
+          ? fileAttributesToString(properties.fileAttributes!)
+          : FileAttributesPreserve,
         {
           abortSignal: properties.abortSignal,
           filePermission: properties.filePermission,
           filePermissionKey: properties.filePermissionKey,
+          fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+          fileCreatedOn: fileCreationTimeToString(properties.creationTime),
+          fileLastWriteOn: fileLastWriteTimeToString(properties.lastWriteTime),
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1903,7 +1913,7 @@ export class ShareDirectoryClient extends StorageClient {
         directoryClient,
         directoryCreateResponse,
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1931,7 +1941,7 @@ export class ShareDirectoryClient extends StorageClient {
     try {
       const directoryClient = this.getDirectoryClient(directoryName);
       return await directoryClient.delete(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1964,7 +1974,7 @@ export class ShareDirectoryClient extends StorageClient {
         fileClient,
         fileCreateResponse,
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2001,7 +2011,7 @@ export class ShareDirectoryClient extends StorageClient {
     try {
       const fileClient = this.getFileClient(fileName);
       return await fileClient.delete(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2061,7 +2071,7 @@ export class ShareDirectoryClient extends StorageClient {
         },
       });
       return true;
-    } catch (e) {
+    } catch (e: any) {
       if (e.statusCode === 404) {
         span.setStatus({
           code: SpanStatusCode.ERROR,
@@ -2097,7 +2107,7 @@ export class ShareDirectoryClient extends StorageClient {
         abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2123,7 +2133,7 @@ export class ShareDirectoryClient extends StorageClient {
         abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2151,7 +2161,7 @@ export class ShareDirectoryClient extends StorageClient {
         succeeded: true,
         ...res,
       };
-    } catch (e) {
+    } catch (e: any) {
       if (
         e.details?.errorCode === "ResourceNotFound" ||
         e.details?.errorCode === "ParentNotFound"
@@ -2195,7 +2205,7 @@ export class ShareDirectoryClient extends StorageClient {
         metadata,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2435,7 +2445,7 @@ export class ShareDirectoryClient extends StorageClient {
         ...options,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2624,7 +2634,7 @@ export class ShareDirectoryClient extends StorageClient {
         response.handleList = undefined;
       }
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2665,7 +2675,7 @@ export class ShareDirectoryClient extends StorageClient {
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
       response.closeFailureCount = rawResponse.numberOfHandlesFailedToClose || 0;
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2709,7 +2719,7 @@ export class ShareDirectoryClient extends StorageClient {
       } while (marker);
 
       return { closedHandlesCount: handlesClosed, closeFailureCount: numberOfHandlesFailedToClose };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2750,7 +2760,7 @@ export class ShareDirectoryClient extends StorageClient {
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
       response.closeFailureCount = rawResponse.numberOfHandlesFailedToClose || 0;
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2822,7 +2832,7 @@ export class ShareDirectoryClient extends StorageClient {
         destinationDirectoryClient: destDirectory,
         directoryRenameResponse: response,
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2962,6 +2972,14 @@ export interface FileUploadRangeOptions extends CommonOptions {
    * Lease access conditions.
    */
   leaseAccessConditions?: LeaseAccessConditions;
+
+  /**
+   * The last write time for the file.
+   * A value of Preserve may be passed to keep an existing value unchanged.
+   * A value of Now may be used to indicate the time of the request.
+   * By default, the value will be set as Now.
+   */
+  fileLastWrittenMode?: FileLastWrittenMode;
 }
 
 /**
@@ -2995,6 +3013,13 @@ export interface FileUploadRangeFromURLOptions extends CommonOptions {
    * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
    */
   sourceAuthorization?: HttpAuthorization;
+  /**
+   * The last write time for the file.
+   * A value of preserve may be passed to keep an existing value unchanged.
+   * A value of now may be used to indicate the time of the request.
+   * By default, the value will be set as now.
+   */
+  fileLastWrittenMode?: FileLastWrittenMode;
 }
 
 /**
@@ -3206,6 +3231,13 @@ export interface FileClearRangeOptions extends CommonOptions {
    * Lease access conditions.
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * The last write time for the file.
+   * A value of preserve may be passed to keep an existing value unchanged.
+   * A value of now may be used to indicate the time of the request.
+   * By default, the value will be set as now.
+   */
+  fileLastWrittenMode?: FileLastWrittenMode;
 }
 
 /**
@@ -3496,6 +3528,12 @@ export interface FileRenameOptions extends CommonOptions {
    * A boolean value that specifies whether the ReadOnly attribute on a preexisting destination file should be respected. If true, the rename will succeed, otherwise, a previous file at the destination with the ReadOnly attribute set will cause the rename to fail.
    */
   ignoreReadOnly?: boolean;
+
+  /**
+   * Optional.
+   * Content type to set on the File.
+   */
+  contentType?: string;
 }
 
 /**
@@ -3701,31 +3739,27 @@ export class ShareFileClient extends StorageClient {
       }
       options = validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(options);
 
-      if (!options.fileAttributes) {
-        // Note: It would be Archive in service side if None is set.
-        const attributes: FileSystemAttributes = new FileSystemAttributes();
-        attributes.none = true;
-        options.fileAttributes = attributes;
-      }
-
       options.fileHttpHeaders = options.fileHttpHeaders || {};
 
       return await this.context.create(
         size,
-        fileAttributesToString(options.fileAttributes!),
-        fileCreationTimeToString(options.creationTime!),
-        fileLastWriteTimeToString(options.lastWriteTime!),
+        options.fileAttributes
+          ? fileAttributesToString(options.fileAttributes!)
+          : FileAttributesNone,
         {
           abortSignal: options.abortSignal,
           fileHttpHeaders: options.fileHttpHeaders,
           metadata: options.metadata,
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
+          fileChangeOn: fileChangeTimeToString(options.changeTime),
+          fileCreatedOn: fileCreationTimeToString(options.creationTime),
+          fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
           leaseAccessConditions: options.leaseAccessConditions,
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -3876,7 +3910,7 @@ export class ShareFileClient extends StorageClient {
           onProgress: options.onProgress,
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -3907,7 +3941,7 @@ export class ShareFileClient extends StorageClient {
         },
       });
       return true;
-    } catch (e) {
+    } catch (e: any) {
       if (e.statusCode === 404) {
         span.setStatus({
           code: SpanStatusCode.ERROR,
@@ -3943,7 +3977,7 @@ export class ShareFileClient extends StorageClient {
         leaseAccessConditions: options.leaseAccessConditions,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -3971,19 +4005,22 @@ export class ShareFileClient extends StorageClient {
       properties.fileHttpHeaders = properties.fileHttpHeaders || {};
 
       return await this.context.setHttpHeaders(
-        fileAttributesToString(properties.fileAttributes!),
-        fileCreationTimeToString(properties.creationTime!),
-        fileLastWriteTimeToString(properties.lastWriteTime!),
+        properties.fileAttributes
+          ? fileAttributesToString(properties.fileAttributes!)
+          : FileAttributesPreserve,
         {
           abortSignal: properties.abortSignal,
           fileHttpHeaders: properties.fileHttpHeaders,
           filePermission: properties.filePermission,
           filePermissionKey: properties.filePermissionKey,
           leaseAccessConditions: properties.leaseAccessConditions,
+          fileChangeOn: fileChangeTimeToString(properties.changeTime),
+          fileCreatedOn: fileCreationTimeToString(properties.creationTime),
+          fileLastWriteOn: fileLastWriteTimeToString(properties.lastWriteTime),
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4019,7 +4056,7 @@ export class ShareFileClient extends StorageClient {
         leaseAccessConditions: options.leaseAccessConditions,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4056,7 +4093,7 @@ export class ShareFileClient extends StorageClient {
         succeeded: true,
         ...res,
       };
-    } catch (e) {
+    } catch (e: any) {
       if (
         e.details?.errorCode === "ResourceNotFound" ||
         e.details?.errorCode === "ParentNotFound"
@@ -4102,19 +4139,22 @@ export class ShareFileClient extends StorageClient {
       // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved
       options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
       return await this.context.setHttpHeaders(
-        fileAttributesToString(options.fileAttributes!),
-        fileCreationTimeToString(options.creationTime!),
-        fileLastWriteTimeToString(options.lastWriteTime!),
+        options.fileAttributes
+          ? fileAttributesToString(options.fileAttributes!)
+          : FileAttributesPreserve,
         {
           abortSignal: options.abortSignal,
           fileHttpHeaders,
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
           leaseAccessConditions: options.leaseAccessConditions,
+          fileCreatedOn: fileCreationTimeToString(options.creationTime),
+          fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
+          fileChangeOn: fileChangeTimeToString(options.changeTime),
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4148,20 +4188,18 @@ export class ShareFileClient extends StorageClient {
       // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved.
       options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
 
-      return await this.context.setHttpHeaders(
-        fileAttributesToString(options.fileAttributes!),
-        fileCreationTimeToString(options.creationTime!),
-        fileLastWriteTimeToString(options.lastWriteTime!),
-        {
-          abortSignal: options.abortSignal,
-          fileContentLength: length,
-          filePermission: options.filePermission,
-          filePermissionKey: options.filePermissionKey,
-          leaseAccessConditions: options.leaseAccessConditions,
-          ...convertTracingToRequestOptionsBase(updatedOptions),
-        }
-      );
-    } catch (e) {
+      return await this.context.setHttpHeaders(fileAttributesToString(options.fileAttributes!), {
+        abortSignal: options.abortSignal,
+        fileContentLength: length,
+        filePermission: options.filePermission,
+        filePermissionKey: options.filePermissionKey,
+        leaseAccessConditions: options.leaseAccessConditions,
+        fileChangeOn: fileChangeTimeToString(options.changeTime),
+        fileCreatedOn: fileCreationTimeToString(options.creationTime),
+        fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
+        ...convertTracingToRequestOptionsBase(updatedOptions),
+      });
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4195,7 +4233,7 @@ export class ShareFileClient extends StorageClient {
         leaseAccessConditions: options.leaseAccessConditions,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4266,9 +4304,10 @@ export class ShareFileClient extends StorageClient {
           body: body,
           ...convertTracingToRequestOptionsBase(updatedOptions),
           leaseAccessConditions: options.leaseAccessConditions,
+          fileLastWrittenMode: options.fileLastWrittenMode,
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4315,11 +4354,12 @@ export class ShareFileClient extends StorageClient {
           sourceRange: rangeToString({ offset: sourceOffset, count }),
           sourceModifiedAccessConditions: options.sourceConditions,
           copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
+          fileLastWrittenMode: options.fileLastWrittenMode,
           ...options,
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4356,9 +4396,10 @@ export class ShareFileClient extends StorageClient {
           abortSignal: options.abortSignal,
           ...convertTracingToRequestOptionsBase(updatedOptions),
           leaseAccessConditions: options.leaseAccessConditions,
+          fileLastWrittenMode: options.fileLastWrittenMode,
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4395,7 +4436,7 @@ export class ShareFileClient extends StorageClient {
         _response: { ...originalResponse._response, parsedBody },
         rangeList: originalResponse.ranges ? originalResponse.ranges : [],
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4424,7 +4465,7 @@ export class ShareFileClient extends StorageClient {
         range: options.range ? rangeToString(options.range) : undefined,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4462,7 +4503,7 @@ export class ShareFileClient extends StorageClient {
         copyFileSmbInfo: options.copyFileSmbInfo,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4492,7 +4533,7 @@ export class ShareFileClient extends StorageClient {
         leaseAccessConditions: options.leaseAccessConditions,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4541,7 +4582,7 @@ export class ShareFileClient extends StorageClient {
           updatedOptions
         );
       }
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4570,7 +4611,7 @@ export class ShareFileClient extends StorageClient {
     const { span, updatedOptions } = createSpan("ShareFileClient-UploadSeekableBlob", options);
     try {
       return this.uploadSeekableInternal(blobFactory, size, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4609,7 +4650,7 @@ export class ShareFileClient extends StorageClient {
         size,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4647,7 +4688,7 @@ export class ShareFileClient extends StorageClient {
         size,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4721,7 +4762,7 @@ export class ShareFileClient extends StorageClient {
         });
       }
       return await batch.do();
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4838,7 +4879,7 @@ export class ShareFileClient extends StorageClient {
       if (!buffer) {
         try {
           buffer = Buffer.alloc(count);
-        } catch (error) {
+        } catch (error: any) {
           throw new Error(
             `Unable to allocate a buffer of size: ${count} bytes. Please try passing your own Buffer to ` +
               'the "downloadToBuffer method or try using other methods like "download" or "downloadToFile".' +
@@ -4881,7 +4922,7 @@ export class ShareFileClient extends StorageClient {
       }
       await batch.do();
       return buffer;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4975,7 +5016,7 @@ export class ShareFileClient extends StorageClient {
         Math.ceil((maxBuffers / 4) * 3)
       );
       return await scheduler.do();
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5018,7 +5059,7 @@ export class ShareFileClient extends StorageClient {
       // The stream is no longer accessible so setting it to undefined.
       (response as any).fileDownloadStream = undefined;
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5060,7 +5101,7 @@ export class ShareFileClient extends StorageClient {
         response.handleList = undefined;
       }
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5183,7 +5224,7 @@ export class ShareFileClient extends StorageClient {
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
       response.closeFailureCount = rawResponse.numberOfHandlesFailedToClose || 0;
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5227,7 +5268,7 @@ export class ShareFileClient extends StorageClient {
         closedHandlesCount: handlesClosed,
         closeFailureCount: numberOfHandlesFailedToClose,
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5266,7 +5307,7 @@ export class ShareFileClient extends StorageClient {
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
       response.closeFailureCount = rawResponse.numberOfHandlesFailedToClose || 0;
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5372,13 +5413,18 @@ export class ShareFileClient extends StorageClient {
               destinationLeaseId: updatedOptions.destinationLeaseAccessConditions.leaseId,
             }
           : undefined,
+        fileHttpHeaders: options.contentType
+          ? {
+              fileContentType: options.contentType,
+            }
+          : undefined,
       });
 
       return {
         destinationFileClient: destFile,
         fileRenameResponse: response,
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5533,7 +5579,7 @@ export class ShareLeaseClient {
         proposedLeaseId: this._leaseId,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5564,7 +5610,7 @@ export class ShareLeaseClient {
       });
       this._leaseId = proposedLeaseId;
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5589,7 +5635,7 @@ export class ShareLeaseClient {
         abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5613,7 +5659,7 @@ export class ShareLeaseClient {
         abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5644,7 +5690,7 @@ export class ShareLeaseClient {
         abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

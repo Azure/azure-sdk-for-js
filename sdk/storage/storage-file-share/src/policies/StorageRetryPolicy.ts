@@ -162,7 +162,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
       }
 
       secondaryHas404 = secondaryHas404 || (!isPrimaryRetry && response.status === 404);
-    } catch (err) {
+    } catch (err: any) {
       logger.error(`RetryPolicy: Caught error, message: ${err.message}, code: ${err.code}`);
       if (!this.shouldRetry(isPrimaryRetry, attempt, response, err)) {
         throw err;

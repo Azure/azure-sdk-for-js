@@ -8,6 +8,317 @@
 
 import * as coreClient from "@azure/core-client";
 
+export const AccountFilterCollection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccountFilterCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AccountFilter"
+            }
+          }
+        }
+      },
+      odataNextLink: {
+        serializedName: "@odata\\.nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PresentationTimeRange: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PresentationTimeRange",
+    modelProperties: {
+      startTimestamp: {
+        serializedName: "startTimestamp",
+        type: {
+          name: "Number"
+        }
+      },
+      endTimestamp: {
+        serializedName: "endTimestamp",
+        type: {
+          name: "Number"
+        }
+      },
+      presentationWindowDuration: {
+        serializedName: "presentationWindowDuration",
+        type: {
+          name: "Number"
+        }
+      },
+      liveBackoffDuration: {
+        serializedName: "liveBackoffDuration",
+        type: {
+          name: "Number"
+        }
+      },
+      timescale: {
+        serializedName: "timescale",
+        type: {
+          name: "Number"
+        }
+      },
+      forceEndTimestamp: {
+        serializedName: "forceEndTimestamp",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const FirstQuality: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FirstQuality",
+    modelProperties: {
+      bitrate: {
+        serializedName: "bitrate",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const FilterTrackSelection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FilterTrackSelection",
+    modelProperties: {
+      trackSelections: {
+        serializedName: "trackSelections",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FilterTrackPropertyCondition"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const FilterTrackPropertyCondition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FilterTrackPropertyCondition",
+    modelProperties: {
+      property: {
+        serializedName: "property",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      operation: {
+        serializedName: "operation",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
 export const OperationCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -236,6 +547,7 @@ export const MetricSpecification: coreClient.CompositeMapper = {
       lockAggregationType: {
         serializedName: "lockAggregationType",
         readOnly: true,
+        nullable: true,
         type: {
           name: "String"
         }
@@ -325,102 +637,6 @@ export const MetricDimension: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorResponse",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorDetail: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorDetail",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        serializedName: "details",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
-        }
-      },
-      additionalInfo: {
-        serializedName: "additionalInfo",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorAdditionalInfo",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      info: {
-        serializedName: "info",
-        readOnly: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
         }
       }
     }
@@ -613,6 +829,49 @@ export const AccessControl: coreClient.CompositeMapper = {
   }
 };
 
+export const PrivateEndpoint: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpoint",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkServiceConnectionState: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateLinkServiceConnectionState",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      actionsRequired: {
+        serializedName: "actionsRequired",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const MediaServiceIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -676,81 +935,6 @@ export const UserAssignedManagedIdentity: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "Uuid"
-        }
-      }
-    }
-  }
-};
-
-export const SystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const Resource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -821,6 +1005,26 @@ export const MediaServiceUpdate: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      privateEndpointConnections: {
+        serializedName: "properties.privateEndpointConnections",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection"
+            }
+          }
         }
       }
     }
@@ -976,49 +1180,6 @@ export const PrivateEndpointConnectionListResult: coreClient.CompositeMapper = {
   }
 };
 
-export const PrivateEndpoint: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PrivateEndpoint",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PrivateLinkServiceConnectionState: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PrivateLinkServiceConnectionState",
-    modelProperties: {
-      status: {
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      actionsRequired: {
-        serializedName: "actionsRequired",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const CheckNameAvailabilityInput: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1068,140 +1229,48 @@ export const EntityNameAvailabilityCheckOutput: coreClient.CompositeMapper = {
   }
 };
 
-export const AccountFilterCollection: coreClient.CompositeMapper = {
+export const MediaServiceOperationStatus: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AccountFilterCollection",
+    className: "MediaServiceOperationStatus",
     modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AccountFilter"
-            }
-          }
-        }
-      },
-      odataNextLink: {
-        serializedName: "@odata\\.nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PresentationTimeRange: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PresentationTimeRange",
-    modelProperties: {
-      startTimestamp: {
-        serializedName: "startTimestamp",
-        type: {
-          name: "Number"
-        }
-      },
-      endTimestamp: {
-        serializedName: "endTimestamp",
-        type: {
-          name: "Number"
-        }
-      },
-      presentationWindowDuration: {
-        serializedName: "presentationWindowDuration",
-        type: {
-          name: "Number"
-        }
-      },
-      liveBackoffDuration: {
-        serializedName: "liveBackoffDuration",
-        type: {
-          name: "Number"
-        }
-      },
-      timescale: {
-        serializedName: "timescale",
-        type: {
-          name: "Number"
-        }
-      },
-      forceEndTimestamp: {
-        serializedName: "forceEndTimestamp",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const FirstQuality: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FirstQuality",
-    modelProperties: {
-      bitrate: {
-        serializedName: "bitrate",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const FilterTrackSelection: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FilterTrackSelection",
-    modelProperties: {
-      trackSelections: {
-        serializedName: "trackSelections",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "FilterTrackPropertyCondition"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const FilterTrackPropertyCondition: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FilterTrackPropertyCondition",
-    modelProperties: {
-      property: {
-        serializedName: "property",
+      name: {
+        serializedName: "name",
         required: true,
         type: {
           name: "String"
         }
       },
-      value: {
-        serializedName: "value",
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      status: {
+        serializedName: "status",
         required: true,
         type: {
           name: "String"
         }
       },
-      operation: {
-        serializedName: "operation",
-        required: true,
+      error: {
+        serializedName: "error",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "ErrorDetail"
         }
       }
     }
@@ -1439,6 +1508,96 @@ export const AssetFilterCollection: coreClient.CompositeMapper = {
         serializedName: "@odata\\.nextLink",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AssetTrackCollection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AssetTrackCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AssetTrack"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TrackBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrackBase",
+    uberParent: "TrackBase",
+    polymorphicDiscriminator: {
+      serializedName: "@odata\\.type",
+      clientName: "odataType"
+    },
+    modelProperties: {
+      odataType: {
+        serializedName: "@odata\\.type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AssetTrackOperationStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AssetTrackOperationStatus",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
         }
       }
     }
@@ -2141,6 +2300,13 @@ export const CommonEncryptionCenc: coreClient.CompositeMapper = {
           name: "Composite",
           className: "CencDrmConfiguration"
         }
+      },
+      clearKeyEncryptionConfiguration: {
+        serializedName: "clearKeyEncryptionConfiguration",
+        type: {
+          name: "Composite",
+          className: "ClearKeyEncryptionConfiguration"
+        }
       }
     }
   }
@@ -2205,6 +2371,21 @@ export const StreamingPolicyWidevineConfiguration: coreClient.CompositeMapper = 
   }
 };
 
+export const ClearKeyEncryptionConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClearKeyEncryptionConfiguration",
+    modelProperties: {
+      customKeysAcquisitionUrlTemplate: {
+        serializedName: "customKeysAcquisitionUrlTemplate",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CommonEncryptionCbcs: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2241,6 +2422,13 @@ export const CommonEncryptionCbcs: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CbcsDrmConfiguration"
+        }
+      },
+      clearKeyEncryptionConfiguration: {
+        serializedName: "clearKeyEncryptionConfiguration",
+        type: {
+          name: "Composite",
+          className: "ClearKeyEncryptionConfiguration"
         }
       }
     }
@@ -2857,6 +3045,34 @@ export const LiveEventActionInput: coreClient.CompositeMapper = {
   }
 };
 
+export const AsyncOperationResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AsyncOperationResult",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const LiveOutputListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3009,6 +3225,128 @@ export const AkamaiSignatureHeaderAuthenticationKey: coreClient.CompositeMapper 
   }
 };
 
+export const ArmStreamingEndpointCurrentSku: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ArmStreamingEndpointCurrentSku",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      capacity: {
+        serializedName: "capacity",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const StreamingEndpointSkuInfoListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StreamingEndpointSkuInfoListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ArmStreamingEndpointSkuInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ArmStreamingEndpointSkuInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ArmStreamingEndpointSkuInfo",
+    modelProperties: {
+      resourceType: {
+        serializedName: "resourceType",
+        type: {
+          name: "String"
+        }
+      },
+      capacity: {
+        serializedName: "capacity",
+        type: {
+          name: "Composite",
+          className: "ArmStreamingEndpointCapacity"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "ArmStreamingEndpointSku"
+        }
+      }
+    }
+  }
+};
+
+export const ArmStreamingEndpointCapacity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ArmStreamingEndpointCapacity",
+    modelProperties: {
+      scaleType: {
+        serializedName: "scaleType",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      default: {
+        serializedName: "default",
+        type: {
+          name: "Number"
+        }
+      },
+      minimum: {
+        serializedName: "minimum",
+        type: {
+          name: "Number"
+        }
+      },
+      maximum: {
+        serializedName: "maximum",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ArmStreamingEndpointSku: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ArmStreamingEndpointSku",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const StreamingEntityScaleUnit: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3018,6 +3356,48 @@ export const StreamingEntityScaleUnit: coreClient.CompositeMapper = {
         serializedName: "scaleUnit",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const HlsSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HlsSettings",
+    modelProperties: {
+      default: {
+        serializedName: "default",
+        type: {
+          name: "Boolean"
+        }
+      },
+      forced: {
+        serializedName: "forced",
+        type: {
+          name: "Boolean"
+        }
+      },
+      characteristics: {
+        serializedName: "characteristics",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DashSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DashSettings",
+    modelProperties: {
+      role: {
+        serializedName: "role",
+        type: {
+          name: "String"
         }
       }
     }
@@ -3194,6 +3574,12 @@ export const ContentKeyPolicyPlayReadyLicense: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
+      securityLevel: {
+        serializedName: "securityLevel",
+        type: {
+          name: "String"
+        }
+      },
       beginDate: {
         serializedName: "beginDate",
         type: {
@@ -3331,19 +3717,7 @@ export const Layer: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Layer",
-    uberParent: "Layer",
-    polymorphicDiscriminator: {
-      serializedName: "@odata\\.type",
-      clientName: "odataType"
-    },
     modelProperties: {
-      odataType: {
-        serializedName: "@odata\\.type",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
       width: {
         serializedName: "width",
         type: {
@@ -3700,6 +4074,47 @@ export const ClipTime: coreClient.CompositeMapper = {
   }
 };
 
+export const ProxyResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProxyResource",
+    modelProperties: {
+      ...Resource.type.modelProperties
+    }
+  }
+};
+
+export const PrivateEndpointConnection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnection",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      privateEndpoint: {
+        serializedName: "properties.privateEndpoint",
+        type: {
+          name: "Composite",
+          className: "PrivateEndpoint"
+        }
+      },
+      privateLinkServiceConnectionState: {
+        serializedName: "properties.privateLinkServiceConnectionState",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkServiceConnectionState"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const TrackedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3764,43 +4179,119 @@ export const PrivateLinkResource: coreClient.CompositeMapper = {
   }
 };
 
-export const PrivateEndpointConnection: coreClient.CompositeMapper = {
+export const AudioTrack: coreClient.CompositeMapper = {
+  serializedName: "#Microsoft.Media.AudioTrack",
   type: {
     name: "Composite",
-    className: "PrivateEndpointConnection",
+    className: "AudioTrack",
+    uberParent: "TrackBase",
+    polymorphicDiscriminator: TrackBase.type.polymorphicDiscriminator,
     modelProperties: {
-      ...Resource.type.modelProperties,
-      privateEndpoint: {
-        serializedName: "properties.privateEndpoint",
-        type: {
-          name: "Composite",
-          className: "PrivateEndpoint"
-        }
-      },
-      privateLinkServiceConnectionState: {
-        serializedName: "properties.privateLinkServiceConnectionState",
-        type: {
-          name: "Composite",
-          className: "PrivateLinkServiceConnectionState"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
+      ...TrackBase.type.modelProperties,
+      fileName: {
+        serializedName: "fileName",
         type: {
           name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      languageCode: {
+        serializedName: "languageCode",
+        type: {
+          name: "String"
+        }
+      },
+      hlsSettings: {
+        serializedName: "hlsSettings",
+        type: {
+          name: "Composite",
+          className: "HlsSettings"
+        }
+      },
+      dashSettings: {
+        serializedName: "dashSettings",
+        type: {
+          name: "Composite",
+          className: "DashSettings"
+        }
+      },
+      mpeg4TrackId: {
+        serializedName: "mpeg4TrackId",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      bitRate: {
+        serializedName: "bitRate",
+        readOnly: true,
+        type: {
+          name: "Number"
         }
       }
     }
   }
 };
 
-export const ProxyResource: coreClient.CompositeMapper = {
+export const VideoTrack: coreClient.CompositeMapper = {
+  serializedName: "#Microsoft.Media.VideoTrack",
   type: {
     name: "Composite",
-    className: "ProxyResource",
+    className: "VideoTrack",
+    uberParent: "TrackBase",
+    polymorphicDiscriminator: TrackBase.type.polymorphicDiscriminator,
     modelProperties: {
-      ...Resource.type.modelProperties
+      ...TrackBase.type.modelProperties
+    }
+  }
+};
+
+export const TextTrack: coreClient.CompositeMapper = {
+  serializedName: "#Microsoft.Media.TextTrack",
+  type: {
+    name: "Composite",
+    className: "TextTrack",
+    uberParent: "TrackBase",
+    polymorphicDiscriminator: TrackBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...TrackBase.type.modelProperties,
+      fileName: {
+        serializedName: "fileName",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      languageCode: {
+        serializedName: "languageCode",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      playerVisibility: {
+        serializedName: "playerVisibility",
+        type: {
+          name: "String"
+        }
+      },
+      hlsSettings: {
+        serializedName: "hlsSettings",
+        type: {
+          name: "Composite",
+          className: "HlsSettings"
+        }
+      }
     }
   }
 };
@@ -4528,15 +5019,9 @@ export const CopyAudio: coreClient.CompositeMapper = {
 };
 
 export const H265VideoLayer: coreClient.CompositeMapper = {
-  serializedName: "#Microsoft.Media.H265VideoLayer",
   type: {
     name: "Composite",
     className: "H265VideoLayer",
-    uberParent: "Layer",
-    polymorphicDiscriminator: {
-      serializedName: "@odata\\.type",
-      clientName: "odataType"
-    },
     modelProperties: {
       ...Layer.type.modelProperties,
       bitrate: {
@@ -4581,15 +5066,9 @@ export const H265VideoLayer: coreClient.CompositeMapper = {
 };
 
 export const VideoLayer: coreClient.CompositeMapper = {
-  serializedName: "#Microsoft.Media.VideoLayer",
   type: {
     name: "Composite",
     className: "VideoLayer",
-    uberParent: "Layer",
-    polymorphicDiscriminator: {
-      serializedName: "@odata\\.type",
-      clientName: "odataType"
-    },
     modelProperties: {
       ...Layer.type.modelProperties,
       bitrate: {
@@ -4634,12 +5113,9 @@ export const VideoLayer: coreClient.CompositeMapper = {
 };
 
 export const JpgLayer: coreClient.CompositeMapper = {
-  serializedName: "#Microsoft.Media.JpgLayer",
   type: {
     name: "Composite",
     className: "JpgLayer",
-    uberParent: "Layer",
-    polymorphicDiscriminator: Layer.type.polymorphicDiscriminator,
     modelProperties: {
       ...Layer.type.modelProperties,
       quality: {
@@ -4653,12 +5129,9 @@ export const JpgLayer: coreClient.CompositeMapper = {
 };
 
 export const PngLayer: coreClient.CompositeMapper = {
-  serializedName: "#Microsoft.Media.PngLayer",
   type: {
     name: "Composite",
     className: "PngLayer",
-    uberParent: "Layer",
-    polymorphicDiscriminator: Layer.type.polymorphicDiscriminator,
     modelProperties: {
       ...Layer.type.modelProperties
     }
@@ -4878,317 +5351,6 @@ export const UtcClipTime: coreClient.CompositeMapper = {
   }
 };
 
-export const MediaService: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MediaService",
-    modelProperties: {
-      ...TrackedResource.type.modelProperties,
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "MediaServiceIdentity"
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
-      mediaServiceId: {
-        serializedName: "properties.mediaServiceId",
-        readOnly: true,
-        type: {
-          name: "Uuid"
-        }
-      },
-      storageAccounts: {
-        serializedName: "properties.storageAccounts",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "StorageAccount"
-            }
-          }
-        }
-      },
-      storageAuthentication: {
-        serializedName: "properties.storageAuthentication",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      encryption: {
-        serializedName: "properties.encryption",
-        type: {
-          name: "Composite",
-          className: "AccountEncryption"
-        }
-      },
-      keyDelivery: {
-        serializedName: "properties.keyDelivery",
-        type: {
-          name: "Composite",
-          className: "KeyDelivery"
-        }
-      },
-      publicNetworkAccess: {
-        serializedName: "properties.publicNetworkAccess",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const LiveEvent: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LiveEvent",
-    modelProperties: {
-      ...TrackedResource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
-      description: {
-        serializedName: "properties.description",
-        type: {
-          name: "String"
-        }
-      },
-      input: {
-        serializedName: "properties.input",
-        type: {
-          name: "Composite",
-          className: "LiveEventInput"
-        }
-      },
-      preview: {
-        serializedName: "properties.preview",
-        type: {
-          name: "Composite",
-          className: "LiveEventPreview"
-        }
-      },
-      encoding: {
-        serializedName: "properties.encoding",
-        type: {
-          name: "Composite",
-          className: "LiveEventEncoding"
-        }
-      },
-      transcriptions: {
-        serializedName: "properties.transcriptions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "LiveEventTranscription"
-            }
-          }
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      resourceState: {
-        serializedName: "properties.resourceState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      crossSiteAccessPolicies: {
-        serializedName: "properties.crossSiteAccessPolicies",
-        type: {
-          name: "Composite",
-          className: "CrossSiteAccessPolicies"
-        }
-      },
-      useStaticHostname: {
-        serializedName: "properties.useStaticHostname",
-        type: {
-          name: "Boolean"
-        }
-      },
-      hostnamePrefix: {
-        serializedName: "properties.hostnamePrefix",
-        type: {
-          name: "String"
-        }
-      },
-      streamOptions: {
-        serializedName: "properties.streamOptions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      created: {
-        serializedName: "properties.created",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModified: {
-        serializedName: "properties.lastModified",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const StreamingEndpoint: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StreamingEndpoint",
-    modelProperties: {
-      ...TrackedResource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
-      description: {
-        serializedName: "properties.description",
-        type: {
-          name: "String"
-        }
-      },
-      scaleUnits: {
-        serializedName: "properties.scaleUnits",
-        type: {
-          name: "Number"
-        }
-      },
-      availabilitySetName: {
-        serializedName: "properties.availabilitySetName",
-        type: {
-          name: "String"
-        }
-      },
-      accessControl: {
-        serializedName: "properties.accessControl",
-        type: {
-          name: "Composite",
-          className: "StreamingEndpointAccessControl"
-        }
-      },
-      maxCacheAge: {
-        serializedName: "properties.maxCacheAge",
-        type: {
-          name: "Number"
-        }
-      },
-      customHostNames: {
-        serializedName: "properties.customHostNames",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      hostName: {
-        serializedName: "properties.hostName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      cdnEnabled: {
-        serializedName: "properties.cdnEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      cdnProvider: {
-        serializedName: "properties.cdnProvider",
-        type: {
-          name: "String"
-        }
-      },
-      cdnProfile: {
-        serializedName: "properties.cdnProfile",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      resourceState: {
-        serializedName: "properties.resourceState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      crossSiteAccessPolicies: {
-        serializedName: "properties.crossSiteAccessPolicies",
-        type: {
-          name: "Composite",
-          className: "CrossSiteAccessPolicies"
-        }
-      },
-      freeTrialEndTime: {
-        serializedName: "properties.freeTrialEndTime",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      created: {
-        serializedName: "properties.created",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModified: {
-        serializedName: "properties.lastModified",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
 export const AccountFilter: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5338,6 +5500,30 @@ export const AssetFilter: coreClient.CompositeMapper = {
               className: "FilterTrackSelection"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const AssetTrack: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AssetTrack",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      track: {
+        serializedName: "properties.track",
+        type: {
+          name: "Composite",
+          className: "TrackBase"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -5719,6 +5905,12 @@ export const LiveOutput: coreClient.CompositeMapper = {
           name: "TimeSpan"
         }
       },
+      rewindWindowLength: {
+        serializedName: "properties.rewindWindowLength",
+        type: {
+          name: "TimeSpan"
+        }
+      },
       manifestName: {
         serializedName: "properties.manifestName",
         type: {
@@ -5770,13 +5962,351 @@ export const LiveOutput: coreClient.CompositeMapper = {
   }
 };
 
+export const MediaService: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MediaService",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "MediaServiceIdentity"
+        }
+      },
+      mediaServiceId: {
+        serializedName: "properties.mediaServiceId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      storageAccounts: {
+        serializedName: "properties.storageAccounts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StorageAccount"
+            }
+          }
+        }
+      },
+      storageAuthentication: {
+        serializedName: "properties.storageAuthentication",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      encryption: {
+        serializedName: "properties.encryption",
+        type: {
+          name: "Composite",
+          className: "AccountEncryption"
+        }
+      },
+      keyDelivery: {
+        serializedName: "properties.keyDelivery",
+        type: {
+          name: "Composite",
+          className: "KeyDelivery"
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      privateEndpointConnections: {
+        serializedName: "properties.privateEndpointConnections",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const LiveEvent: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LiveEvent",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      input: {
+        serializedName: "properties.input",
+        type: {
+          name: "Composite",
+          className: "LiveEventInput"
+        }
+      },
+      preview: {
+        serializedName: "properties.preview",
+        type: {
+          name: "Composite",
+          className: "LiveEventPreview"
+        }
+      },
+      encoding: {
+        serializedName: "properties.encoding",
+        type: {
+          name: "Composite",
+          className: "LiveEventEncoding"
+        }
+      },
+      transcriptions: {
+        serializedName: "properties.transcriptions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LiveEventTranscription"
+            }
+          }
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceState: {
+        serializedName: "properties.resourceState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      crossSiteAccessPolicies: {
+        serializedName: "properties.crossSiteAccessPolicies",
+        type: {
+          name: "Composite",
+          className: "CrossSiteAccessPolicies"
+        }
+      },
+      useStaticHostname: {
+        serializedName: "properties.useStaticHostname",
+        type: {
+          name: "Boolean"
+        }
+      },
+      hostnamePrefix: {
+        serializedName: "properties.hostnamePrefix",
+        type: {
+          name: "String"
+        }
+      },
+      streamOptions: {
+        serializedName: "properties.streamOptions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      created: {
+        serializedName: "properties.created",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModified: {
+        serializedName: "properties.lastModified",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const StreamingEndpoint: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StreamingEndpoint",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "ArmStreamingEndpointCurrentSku"
+        }
+      },
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      scaleUnits: {
+        serializedName: "properties.scaleUnits",
+        type: {
+          name: "Number"
+        }
+      },
+      availabilitySetName: {
+        serializedName: "properties.availabilitySetName",
+        type: {
+          name: "String"
+        }
+      },
+      accessControl: {
+        serializedName: "properties.accessControl",
+        type: {
+          name: "Composite",
+          className: "StreamingEndpointAccessControl"
+        }
+      },
+      maxCacheAge: {
+        serializedName: "properties.maxCacheAge",
+        type: {
+          name: "Number"
+        }
+      },
+      customHostNames: {
+        serializedName: "properties.customHostNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      hostName: {
+        serializedName: "properties.hostName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      cdnEnabled: {
+        serializedName: "properties.cdnEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      cdnProvider: {
+        serializedName: "properties.cdnProvider",
+        type: {
+          name: "String"
+        }
+      },
+      cdnProfile: {
+        serializedName: "properties.cdnProfile",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceState: {
+        serializedName: "properties.resourceState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      crossSiteAccessPolicies: {
+        serializedName: "properties.crossSiteAccessPolicies",
+        type: {
+          name: "Composite",
+          className: "CrossSiteAccessPolicies"
+        }
+      },
+      freeTrialEndTime: {
+        serializedName: "properties.freeTrialEndTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      created: {
+        serializedName: "properties.created",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModified: {
+        serializedName: "properties.lastModified",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const VideoAnalyzerPreset: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Media.VideoAnalyzerPreset",
   type: {
     name: "Composite",
     className: "VideoAnalyzerPreset",
-    uberParent: "Preset",
-    polymorphicDiscriminator: Preset.type.polymorphicDiscriminator,
+    uberParent: "AudioAnalyzerPreset",
+    polymorphicDiscriminator: AudioAnalyzerPreset.type.polymorphicDiscriminator,
     modelProperties: {
       ...AudioAnalyzerPreset.type.modelProperties,
       insightsToExtract: {
@@ -5794,8 +6324,8 @@ export const JobInputAsset: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobInputAsset",
-    uberParent: "JobInput",
-    polymorphicDiscriminator: JobInput.type.polymorphicDiscriminator,
+    uberParent: "JobInputClip",
+    polymorphicDiscriminator: JobInputClip.type.polymorphicDiscriminator,
     modelProperties: {
       ...JobInputClip.type.modelProperties,
       assetName: {
@@ -5814,8 +6344,8 @@ export const JobInputHttp: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobInputHttp",
-    uberParent: "JobInput",
-    polymorphicDiscriminator: JobInput.type.polymorphicDiscriminator,
+    uberParent: "JobInputClip",
+    polymorphicDiscriminator: JobInputClip.type.polymorphicDiscriminator,
     modelProperties: {
       ...JobInputClip.type.modelProperties,
       baseUri: {
@@ -5833,8 +6363,8 @@ export const AacAudio: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AacAudio",
-    uberParent: "Codec",
-    polymorphicDiscriminator: Codec.type.polymorphicDiscriminator,
+    uberParent: "Audio",
+    polymorphicDiscriminator: Audio.type.polymorphicDiscriminator,
     modelProperties: {
       ...Audio.type.modelProperties,
       profile: {
@@ -5852,8 +6382,8 @@ export const H265Video: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "H265Video",
-    uberParent: "Codec",
-    polymorphicDiscriminator: Codec.type.polymorphicDiscriminator,
+    uberParent: "Video",
+    polymorphicDiscriminator: Video.type.polymorphicDiscriminator,
     modelProperties: {
       ...Video.type.modelProperties,
       sceneChangeDetection: {
@@ -5889,7 +6419,7 @@ export const Image: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Image",
-    uberParent: "Codec",
+    uberParent: "Video",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
       clientName: "odataType"
@@ -5924,16 +6454,10 @@ export const H264Video: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "H264Video",
-    uberParent: "Codec",
-    polymorphicDiscriminator: Codec.type.polymorphicDiscriminator,
+    uberParent: "Video",
+    polymorphicDiscriminator: Video.type.polymorphicDiscriminator,
     modelProperties: {
       ...Video.type.modelProperties,
-      sceneChangeDetection: {
-        serializedName: "sceneChangeDetection",
-        type: {
-          name: "Boolean"
-        }
-      },
       complexity: {
         serializedName: "complexity",
         type: {
@@ -5951,18 +6475,27 @@ export const H264Video: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      rateControlMode: {
+        serializedName: "rateControlMode",
+        type: {
+          name: "String"
+        }
+      },
+      sceneChangeDetection: {
+        serializedName: "sceneChangeDetection",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
 };
 
 export const H265Layer: coreClient.CompositeMapper = {
-  serializedName: "#Microsoft.Media.H265Layer",
   type: {
     name: "Composite",
     className: "H265Layer",
-    uberParent: "Layer",
-    polymorphicDiscriminator: Layer.type.polymorphicDiscriminator,
     modelProperties: {
       ...H265VideoLayer.type.modelProperties,
       profile: {
@@ -5983,6 +6516,12 @@ export const H265Layer: coreClient.CompositeMapper = {
           name: "TimeSpan"
         }
       },
+      crf: {
+        serializedName: "crf",
+        type: {
+          name: "Number"
+        }
+      },
       referenceFrames: {
         serializedName: "referenceFrames",
         type: {
@@ -5994,12 +6533,9 @@ export const H265Layer: coreClient.CompositeMapper = {
 };
 
 export const H264Layer: coreClient.CompositeMapper = {
-  serializedName: "#Microsoft.Media.H264Layer",
   type: {
     name: "Composite",
     className: "H264Layer",
-    uberParent: "Layer",
-    polymorphicDiscriminator: Layer.type.polymorphicDiscriminator,
     modelProperties: {
       ...VideoLayer.type.modelProperties,
       profile: {
@@ -6018,6 +6554,12 @@ export const H264Layer: coreClient.CompositeMapper = {
         serializedName: "bufferWindow",
         type: {
           name: "TimeSpan"
+        }
+      },
+      crf: {
+        serializedName: "crf",
+        type: {
+          name: "Number"
         }
       },
       referenceFrames: {
@@ -6041,8 +6583,9 @@ export const SelectAudioTrackByAttribute: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SelectAudioTrackByAttribute",
-    uberParent: "TrackDescriptor",
-    polymorphicDiscriminator: TrackDescriptor.type.polymorphicDiscriminator,
+    uberParent: "AudioTrackDescriptor",
+    polymorphicDiscriminator:
+      AudioTrackDescriptor.type.polymorphicDiscriminator,
     modelProperties: {
       ...AudioTrackDescriptor.type.modelProperties,
       attribute: {
@@ -6074,8 +6617,9 @@ export const SelectAudioTrackById: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SelectAudioTrackById",
-    uberParent: "TrackDescriptor",
-    polymorphicDiscriminator: TrackDescriptor.type.polymorphicDiscriminator,
+    uberParent: "AudioTrackDescriptor",
+    polymorphicDiscriminator:
+      AudioTrackDescriptor.type.polymorphicDiscriminator,
     modelProperties: {
       ...AudioTrackDescriptor.type.modelProperties,
       trackId: {
@@ -6094,8 +6638,9 @@ export const SelectVideoTrackByAttribute: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SelectVideoTrackByAttribute",
-    uberParent: "TrackDescriptor",
-    polymorphicDiscriminator: TrackDescriptor.type.polymorphicDiscriminator,
+    uberParent: "VideoTrackDescriptor",
+    polymorphicDiscriminator:
+      VideoTrackDescriptor.type.polymorphicDiscriminator,
     modelProperties: {
       ...VideoTrackDescriptor.type.modelProperties,
       attribute: {
@@ -6127,8 +6672,9 @@ export const SelectVideoTrackById: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SelectVideoTrackById",
-    uberParent: "TrackDescriptor",
-    polymorphicDiscriminator: TrackDescriptor.type.polymorphicDiscriminator,
+    uberParent: "VideoTrackDescriptor",
+    polymorphicDiscriminator:
+      VideoTrackDescriptor.type.polymorphicDiscriminator,
     modelProperties: {
       ...VideoTrackDescriptor.type.modelProperties,
       trackId: {
@@ -6147,8 +6693,8 @@ export const JpgFormat: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JpgFormat",
-    uberParent: "Format",
-    polymorphicDiscriminator: Format.type.polymorphicDiscriminator,
+    uberParent: "ImageFormat",
+    polymorphicDiscriminator: ImageFormat.type.polymorphicDiscriminator,
     modelProperties: {
       ...ImageFormat.type.modelProperties
     }
@@ -6160,8 +6706,8 @@ export const PngFormat: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PngFormat",
-    uberParent: "Format",
-    polymorphicDiscriminator: Format.type.polymorphicDiscriminator,
+    uberParent: "ImageFormat",
+    polymorphicDiscriminator: ImageFormat.type.polymorphicDiscriminator,
     modelProperties: {
       ...ImageFormat.type.modelProperties
     }
@@ -6173,8 +6719,8 @@ export const Mp4Format: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Mp4Format",
-    uberParent: "Format",
-    polymorphicDiscriminator: Format.type.polymorphicDiscriminator,
+    uberParent: "MultiBitrateFormat",
+    polymorphicDiscriminator: MultiBitrateFormat.type.polymorphicDiscriminator,
     modelProperties: {
       ...MultiBitrateFormat.type.modelProperties
     }
@@ -6186,8 +6732,8 @@ export const TransportStreamFormat: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TransportStreamFormat",
-    uberParent: "Format",
-    polymorphicDiscriminator: Format.type.polymorphicDiscriminator,
+    uberParent: "MultiBitrateFormat",
+    polymorphicDiscriminator: MultiBitrateFormat.type.polymorphicDiscriminator,
     modelProperties: {
       ...MultiBitrateFormat.type.modelProperties
     }
@@ -6199,8 +6745,8 @@ export const JpgImage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JpgImage",
-    uberParent: "Codec",
-    polymorphicDiscriminator: Codec.type.polymorphicDiscriminator,
+    uberParent: "Image",
+    polymorphicDiscriminator: Image.type.polymorphicDiscriminator,
     modelProperties: {
       ...Image.type.modelProperties,
       layers: {
@@ -6230,8 +6776,8 @@ export const PngImage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PngImage",
-    uberParent: "Codec",
-    polymorphicDiscriminator: Codec.type.polymorphicDiscriminator,
+    uberParent: "Image",
+    polymorphicDiscriminator: Image.type.polymorphicDiscriminator,
     modelProperties: {
       ...Image.type.modelProperties,
       layers: {
@@ -6250,7 +6796,224 @@ export const PngImage: coreClient.CompositeMapper = {
   }
 };
 
+export const MediaservicesCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MediaservicesCreateOrUpdateHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MediaservicesUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MediaservicesUpdateHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MediaServicesOperationResultsGetHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MediaServicesOperationResultsGetHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TracksCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TracksCreateOrUpdateHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TracksDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TracksDeleteHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TracksUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TracksUpdateHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TracksUpdateTrackDataHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TracksUpdateTrackDataHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OperationResultsGetHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationResultsGetHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export let discriminators = {
+  TrackBase: TrackBase,
   ContentKeyPolicyConfiguration: ContentKeyPolicyConfiguration,
   ContentKeyPolicyRestriction: ContentKeyPolicyRestriction,
   Preset: Preset,
@@ -6259,12 +7022,14 @@ export let discriminators = {
   ContentKeyPolicyPlayReadyContentKeyLocation: ContentKeyPolicyPlayReadyContentKeyLocation,
   ContentKeyPolicyRestrictionTokenKey: ContentKeyPolicyRestrictionTokenKey,
   Codec: Codec,
-  Layer: Layer,
   TrackDescriptor: TrackDescriptor,
   InputDefinition: InputDefinition,
   Overlay: Overlay,
   Format: Format,
   ClipTime: ClipTime,
+  "TrackBase.#Microsoft.Media.AudioTrack": AudioTrack,
+  "TrackBase.#Microsoft.Media.VideoTrack": VideoTrack,
+  "TrackBase.#Microsoft.Media.TextTrack": TextTrack,
   "ContentKeyPolicyConfiguration.#Microsoft.Media.ContentKeyPolicyClearKeyConfiguration": ContentKeyPolicyClearKeyConfiguration,
   "ContentKeyPolicyConfiguration.#Microsoft.Media.ContentKeyPolicyUnknownConfiguration": ContentKeyPolicyUnknownConfiguration,
   "ContentKeyPolicyConfiguration.#Microsoft.Media.ContentKeyPolicyWidevineConfiguration": ContentKeyPolicyWidevineConfiguration,
@@ -6290,10 +7055,6 @@ export let discriminators = {
   "Codec.#Microsoft.Media.Video": Video,
   "Codec.#Microsoft.Media.CopyVideo": CopyVideo,
   "Codec.#Microsoft.Media.CopyAudio": CopyAudio,
-  "Layer.#Microsoft.Media.H265VideoLayer": H265VideoLayer,
-  "Layer.#Microsoft.Media.VideoLayer": VideoLayer,
-  "Layer.#Microsoft.Media.JpgLayer": JpgLayer,
-  "Layer.#Microsoft.Media.PngLayer": PngLayer,
   "TrackDescriptor.#Microsoft.Media.AudioTrackDescriptor": AudioTrackDescriptor,
   "TrackDescriptor.#Microsoft.Media.VideoTrackDescriptor": VideoTrackDescriptor,
   "InputDefinition.#Microsoft.Media.FromAllInputFile": FromAllInputFile,
@@ -6305,23 +7066,21 @@ export let discriminators = {
   "Format.#Microsoft.Media.MultiBitrateFormat": MultiBitrateFormat,
   "ClipTime.#Microsoft.Media.AbsoluteClipTime": AbsoluteClipTime,
   "ClipTime.#Microsoft.Media.UtcClipTime": UtcClipTime,
-  "Preset.#Microsoft.Media.VideoAnalyzerPreset": VideoAnalyzerPreset,
-  "JobInput.#Microsoft.Media.JobInputAsset": JobInputAsset,
-  "JobInput.#Microsoft.Media.JobInputHttp": JobInputHttp,
-  "Codec.#Microsoft.Media.AacAudio": AacAudio,
-  "Codec.#Microsoft.Media.H265Video": H265Video,
-  "Codec.#Microsoft.Media.Image": Image,
-  "Codec.#Microsoft.Media.H264Video": H264Video,
-  "Layer.#Microsoft.Media.H265Layer": H265Layer,
-  "Layer.#Microsoft.Media.H264Layer": H264Layer,
-  "TrackDescriptor.#Microsoft.Media.SelectAudioTrackByAttribute": SelectAudioTrackByAttribute,
-  "TrackDescriptor.#Microsoft.Media.SelectAudioTrackById": SelectAudioTrackById,
-  "TrackDescriptor.#Microsoft.Media.SelectVideoTrackByAttribute": SelectVideoTrackByAttribute,
-  "TrackDescriptor.#Microsoft.Media.SelectVideoTrackById": SelectVideoTrackById,
-  "Format.#Microsoft.Media.JpgFormat": JpgFormat,
-  "Format.#Microsoft.Media.PngFormat": PngFormat,
-  "Format.#Microsoft.Media.Mp4Format": Mp4Format,
-  "Format.#Microsoft.Media.TransportStreamFormat": TransportStreamFormat,
-  "Codec.#Microsoft.Media.JpgImage": JpgImage,
-  "Codec.#Microsoft.Media.PngImage": PngImage
+  "AudioAnalyzerPreset.#Microsoft.Media.VideoAnalyzerPreset": VideoAnalyzerPreset,
+  "JobInputClip.#Microsoft.Media.JobInputAsset": JobInputAsset,
+  "JobInputClip.#Microsoft.Media.JobInputHttp": JobInputHttp,
+  "Audio.#Microsoft.Media.AacAudio": AacAudio,
+  "Video.#Microsoft.Media.H265Video": H265Video,
+  "Video.#Microsoft.Media.Image": Image,
+  "Video.#Microsoft.Media.H264Video": H264Video,
+  "AudioTrackDescriptor.#Microsoft.Media.SelectAudioTrackByAttribute": SelectAudioTrackByAttribute,
+  "AudioTrackDescriptor.#Microsoft.Media.SelectAudioTrackById": SelectAudioTrackById,
+  "VideoTrackDescriptor.#Microsoft.Media.SelectVideoTrackByAttribute": SelectVideoTrackByAttribute,
+  "VideoTrackDescriptor.#Microsoft.Media.SelectVideoTrackById": SelectVideoTrackById,
+  "ImageFormat.#Microsoft.Media.JpgFormat": JpgFormat,
+  "ImageFormat.#Microsoft.Media.PngFormat": PngFormat,
+  "MultiBitrateFormat.#Microsoft.Media.Mp4Format": Mp4Format,
+  "MultiBitrateFormat.#Microsoft.Media.TransportStreamFormat": TransportStreamFormat,
+  "Image.#Microsoft.Media.JpgImage": JpgImage,
+  "Image.#Microsoft.Media.PngImage": PngImage
 };

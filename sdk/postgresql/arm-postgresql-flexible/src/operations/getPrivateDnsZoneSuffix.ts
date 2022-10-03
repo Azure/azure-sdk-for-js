@@ -10,7 +10,7 @@ import { GetPrivateDnsZoneSuffix } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { PostgreSQLManagementClient } from "../postgreSQLManagementClient";
+import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient";
 import {
   GetPrivateDnsZoneSuffixExecuteOptionalParams,
   GetPrivateDnsZoneSuffixExecuteResponse
@@ -18,13 +18,13 @@ import {
 
 /** Class containing GetPrivateDnsZoneSuffix operations. */
 export class GetPrivateDnsZoneSuffixImpl implements GetPrivateDnsZoneSuffix {
-  private readonly client: PostgreSQLManagementClient;
+  private readonly client: PostgreSQLManagementFlexibleServerClient;
 
   /**
    * Initialize a new instance of the class GetPrivateDnsZoneSuffix class.
    * @param client Reference to the service client
    */
-  constructor(client: PostgreSQLManagementClient) {
+  constructor(client: PostgreSQLManagementFlexibleServerClient) {
     this.client = client;
   }
 

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createRecordedClient, recorderOptions } from "./utils/recordedClient";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { assert, use as chaiUse } from "chai";
-import chaiPromises from "chai-as-promised";
-chaiUse(chaiPromises);
-import { ClientSecretCredential } from "@azure/identity";
-import { HttpHeaders } from "@azure/core-rest-pipeline";
-
 import { Schema, SchemaDescription, SchemaProperties, SchemaRegistryClient } from "../../src";
+import { assert, use as chaiUse } from "chai";
+import { createRecordedClient, recorderOptions } from "./utils/recordedClient";
+import { ClientSecretCredential } from "@azure/identity";
 import { Context } from "mocha";
+import { HttpHeaders } from "@azure/core-rest-pipeline";
+import chaiPromises from "chai-as-promised";
+
+chaiUse(chaiPromises);
 
 const options = {
   onResponse: (rawResponse: { status: number }) => {
@@ -35,6 +35,9 @@ function assertIsValidSchemaProperties(
 ): asserts schemaProperties {
   assert.isNotEmpty(schemaProperties.id);
   assert.equal(schemaProperties.format, expectedSerializationType);
+  assert.isNotEmpty(schemaProperties.groupName);
+  assert.isNotEmpty(schemaProperties.name);
+  assert.isAtLeast(schemaProperties.version, 1);
 }
 
 function assertIsValidSchema(schema: Schema, expectedSerializationType = "Avro"): asserts schema {
@@ -52,7 +55,7 @@ async function isRejected<T>(
 ): Promise<void> {
   try {
     await promise;
-  } catch (e) {
+  } catch (e: any) {
     const { messagePattern, errorCode, statusCode } = expectations;
     if (messagePattern !== undefined) {
       assert.match(e.message, messagePattern);
@@ -205,6 +208,25 @@ describe("SchemaRegistryClient", function () {
         assert.equal(rawResponse.status, 200);
       },
     });
+    assertIsValidSchema(found);
+    assert.equal(found.definition, schema.definition);
+  });
+
+  it("gets schema by version", async () => {
+    const registered = await client.registerSchema(schema, options);
+    assertIsValidSchemaProperties(registered);
+    const found = await client.getSchemaByVersion(
+      {
+        groupName: registered.groupName,
+        name: registered.name,
+        version: registered.version,
+      },
+      {
+        onResponse: (rawResponse: { status: number }) => {
+          assert.equal(rawResponse.status, 200);
+        },
+      }
+    );
     assertIsValidSchema(found);
     assert.equal(found.definition, schema.definition);
   });

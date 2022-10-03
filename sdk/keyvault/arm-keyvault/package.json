@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for KeyVaultManagementClient.",
-  "version": "2.0.1",
+  "version": "2.1.0-beta.1",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -11,9 +11,9 @@
     "@azure/core-lro": "^2.2.0",
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-paging": "^1.2.0",
-    "@azure/core-client": "^1.0.0",
+    "@azure/core-client": "^1.5.0",
     "@azure/core-auth": "^1.3.0",
-    "@azure/core-rest-pipeline": "^1.1.0",
+    "@azure/core-rest-pipeline": "^1.8.0",
     "tslib": "^2.2.0"
   },
   "keywords": [
@@ -28,14 +28,14 @@
   "module": "./dist-esm/src/index.js",
   "types": "./types/arm-keyvault.d.ts",
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.18.11",
+    "@microsoft/api-extractor": "7.18.11",
     "@rollup/plugin-commonjs": "^21.0.1",
-    "@rollup/plugin-json": "^4.0.0",
-    "@rollup/plugin-multi-entry": "^3.0.0",
-    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-multi-entry": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.1.3",
     "mkdirp": "^1.0.4",
-    "rollup": "^2.0.0",
-    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup": "^2.66.1",
+    "rollup-plugin-sourcemaps": "^0.6.3",
     "typescript": "~4.2.0",
     "uglify-js": "^3.4.9",
     "rimraf": "^3.0.0",
@@ -98,5 +98,21 @@
     "docs": "echo skipped"
   },
   "sideEffects": false,
-  "autoPublish": true
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/keyVaultManagementClient.ts",
+        "prefix": "packageDetails"
+      }
+    ]
+  },
+  "autoPublish": true,
+  "//sampleConfiguration": {
+    "productName": "",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-keyvault?view=azure-node-preview"
+  }
 }

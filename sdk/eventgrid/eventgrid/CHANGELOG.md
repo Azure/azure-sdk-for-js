@@ -1,6 +1,6 @@
 # Release History
 
-## 4.8.1 (Unreleased)
+## 4.10.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,38 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.10.0 (2022-07-11)
+
+### Bugs Fixed
+
+- Fixed an issue where `generateSharedAccessSignature` would generate an invalid signature if the experation time was between 12:00pm and 1:00pm.  Thank you to @donut87 for discovering the issue and providing the fix.
+
+### Other Changes
+
+- The channel name feature added in 4.10.0-beta.1 is now stable. There were no changes in this feature between 4.10.0-beta.1 and 4.10.0
+
+## 4.10.0-beta.1 (2022-04-14)
+
+### Features Added
+
+- Add support for specifiying a channel to send to in a specific Partner Topic via the `channelName` property of `SendOptions`.
+
+### Other Changes
+
+- Updated our `@azure/core-tracing` dependency to the latest version (1.0.0).
+  - Notable changes include Removal of `@opentelemetry/api` as a transitive dependency and ensuring that the active context is properly propagated.
+  - Customers who would like to continue using OpenTelemetry driven tracing should visit our [OpenTelemetry Instrumentation](https://www.npmjs.com/package/@azure/opentelemetry-instrumentation-azure-sdk) package for instructions.
+
+## 4.9.0 (2022-04-07)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.HealthcareApis.FhirResourceCreated`
+  - `Microsoft.HealthcareApis.FhirUpdatedCreated`
+  - `Microsoft.HealthcareApis.FhirDeletedCreated`
 
 ## 4.8.0 (2022-03-08)
 

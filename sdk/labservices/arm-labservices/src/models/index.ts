@@ -196,6 +196,22 @@ export interface SupportInfo {
   instructions?: string;
 }
 
+/** Identity for the resource. */
+export interface Identity {
+  /**
+   * The principal ID of resource identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The identity type. */
+  type?: "SystemAssigned";
+}
+
 /** Base tracked resource type for all PATCH updates. */
 export interface TrackedResourceUpdate {
   /** Resource tags. */
@@ -493,135 +509,6 @@ export interface ScheduleUpdate {
   notes?: string;
 }
 
-/** Paged list of users. */
-export interface PagedUsers {
-  /**
-   * The array page of user results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: User[];
-  /**
-   * The link to get the next page of image results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** User resource properties used for updates. */
-export interface UserUpdateProperties {
-  /** The amount of usage quota time the user gets in addition to the lab usage quota. */
-  additionalUsageQuota?: string;
-}
-
-/** User of a lab that can register for and use virtual machines within the lab. Used for updates. */
-export interface UserUpdate {
-  /** The amount of usage quota time the user gets in addition to the lab usage quota. */
-  additionalUsageQuota?: string;
-}
-
-/** Body for a user invite request */
-export interface InviteBody {
-  /** Custom text for the invite email. */
-  text?: string;
-}
-
-/** Paged list of lab services virtual machines. */
-export interface PagedVirtualMachines {
-  /**
-   * The array page of virtual machine results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: VirtualMachine[];
-  /**
-   * The link to get the next page of virtual machine results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The connection information for the virtual machine */
-export interface VirtualMachineConnectionProfile {
-  /**
-   * The private IP address of the virtual machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateIpAddress?: string;
-  /**
-   * Port and host name separated by semicolon for connecting via SSH protocol to the virtual machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sshAuthority?: string;
-  /**
-   * URL for connecting via SSH protocol to the virtual machine in browser.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sshInBrowserUrl?: string;
-  /**
-   * Port and host name separated by semicolon for connecting via RDP protocol to the virtual machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rdpAuthority?: string;
-  /**
-   * URL for connecting via RDP protocol to the virtual machine in browser.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rdpInBrowserUrl?: string;
-  /**
-   * The username used to log on to the virtual machine as admin.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly adminUsername?: string;
-  /**
-   * The username used to log on to the virtual machine as non-admin, if one exists.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nonAdminUsername?: string;
-}
-
-/** Body of a reset password request. */
-export interface ResetPasswordBody {
-  /** The user whose password is being reset */
-  username: string;
-  /** The password */
-  password: string;
-}
-
-/** List of Core Usages. */
-export interface ListUsagesResult {
-  /**
-   * The array page of Usages.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Usage[];
-  /**
-   * The link to get the next page of Usage result.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The core usage details. */
-export interface Usage {
-  /** The current usage. */
-  currentValue?: number;
-  /** The limit integer. */
-  limit?: number;
-  /** The unit details. */
-  unit?: UsageUnit;
-  /** The name. */
-  name?: UsageName;
-  /** The fully qualified arm resource id. */
-  id?: string;
-}
-
-/** The Usage Names. */
-export interface UsageName {
-  /** The localized name of the resource. */
-  localizedValue?: string;
-  /** The name of the resource. */
-  value?: string;
-}
-
 /** Paged list of lab services skus. */
 export interface PagedLabServicesSkus {
   /**
@@ -763,8 +650,136 @@ export interface LabServicesSkuRestrictions {
   readonly reasonCode?: RestrictionReasonCode;
 }
 
+/** List of Core Usages. */
+export interface ListUsagesResult {
+  /** The array page of Usages. */
+  value?: Usage[];
+  /**
+   * The link to get the next page of Usage result.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The core usage details. */
+export interface Usage {
+  /** The current usage. */
+  currentValue?: number;
+  /** The limit integer. */
+  limit?: number;
+  /** The unit details. */
+  unit?: UsageUnit;
+  /** The name. */
+  name?: UsageName;
+  /** The fully qualified arm resource id. */
+  id?: string;
+}
+
+/** The Usage Names. */
+export interface UsageName {
+  /** The localized name of the resource. */
+  localizedValue?: string;
+  /** The instances of the resource. */
+  skuInstances?: string[];
+  /** The name of the resource. */
+  value?: string;
+}
+
+/** Paged list of users. */
+export interface PagedUsers {
+  /**
+   * The array page of user results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: User[];
+  /**
+   * The link to get the next page of image results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** User resource properties used for updates. */
+export interface UserUpdateProperties {
+  /** The amount of usage quota time the user gets in addition to the lab usage quota. */
+  additionalUsageQuota?: string;
+}
+
+/** User of a lab that can register for and use virtual machines within the lab. Used for updates. */
+export interface UserUpdate {
+  /** The amount of usage quota time the user gets in addition to the lab usage quota. */
+  additionalUsageQuota?: string;
+}
+
+/** Body for a user invite request */
+export interface InviteBody {
+  /** Custom text for the invite email. */
+  text?: string;
+}
+
+/** Paged list of lab services virtual machines. */
+export interface PagedVirtualMachines {
+  /**
+   * The array page of virtual machine results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: VirtualMachine[];
+  /**
+   * The link to get the next page of virtual machine results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The connection information for the virtual machine */
+export interface VirtualMachineConnectionProfile {
+  /**
+   * The private IP address of the virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateIpAddress?: string;
+  /**
+   * Port and host name separated by semicolon for connecting via SSH protocol to the virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sshAuthority?: string;
+  /**
+   * URL for connecting via SSH protocol to the virtual machine in browser.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sshInBrowserUrl?: string;
+  /**
+   * Port and host name separated by semicolon for connecting via RDP protocol to the virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rdpAuthority?: string;
+  /**
+   * URL for connecting via RDP protocol to the virtual machine in browser.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rdpInBrowserUrl?: string;
+  /**
+   * The username used to log on to the virtual machine as admin.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly adminUsername?: string;
+  /**
+   * The username used to log on to the virtual machine as non-admin, if one exists.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nonAdminUsername?: string;
+}
+
+/** Body of a reset password request. */
+export interface ResetPasswordBody {
+  /** The user whose password is being reset */
+  username: string;
+  /** The password */
+  password: string;
+}
+
 /** Properties of an image resource. */
-export type ImageProperties = ImageUpdateProperties & {
+export interface ImageProperties extends ImageUpdateProperties {
   /**
    * Current provisioning state of the image.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -837,30 +852,32 @@ export type ImageProperties = ImageUpdateProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly osState?: OsState;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** Lab plan resource properties */
-export type LabPlanProperties = LabPlanUpdateProperties & {
+export interface LabPlanProperties extends LabPlanUpdateProperties {
   /**
    * Current provisioning state of the lab plan.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** Contains lab configuration and default settings. This variant is used for PATCH. */
-export type LabPlanUpdate = TrackedResourceUpdate & {
+export interface LabPlanUpdate extends TrackedResourceUpdate {
+  /** Managed Identity Information */
+  identity?: Identity;
   /** The default lab connection profile. This can be changed on a lab resource and only provides a default profile. */
   defaultConnectionProfile?: ConnectionProfile;
   /** The default lab shutdown profile. This can be changed on a lab resource and only provides a default profile. */
@@ -875,10 +892,10 @@ export type LabPlanUpdate = TrackedResourceUpdate & {
   supportInfo?: SupportInfo;
   /** Base Url of the lms instance this lab plan can link lab rosters against. */
   linkedLmsInstance?: string;
-};
+}
 
 /** The lab resource for updates. */
-export type LabUpdate = TrackedResourceUpdate & {
+export interface LabUpdate extends TrackedResourceUpdate {
   /** The resource auto shutdown configuration for the lab. This controls whether actions are taken on resources that are sitting idle. */
   autoShutdownProfile?: AutoShutdownProfile;
   /** The connection profile for the lab. This controls settings such as web access to lab resources or whether RDP or SSH ports are open. */
@@ -895,10 +912,10 @@ export type LabUpdate = TrackedResourceUpdate & {
   title?: string;
   /** The description of the lab. */
   description?: string;
-};
+}
 
 /** Properties of a lab resource. */
-export type LabProperties = LabUpdateProperties & {
+export interface LabProperties extends LabUpdateProperties {
   /**
    * Current provisioning state of the lab.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -911,19 +928,19 @@ export type LabProperties = LabUpdateProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly state?: LabState;
-};
+}
 
 /** Schedule resource properties */
-export type ScheduleProperties = ScheduleUpdateProperties & {
+export interface ScheduleProperties extends ScheduleUpdateProperties {
   /**
    * Current provisioning state of the schedule.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** User resource properties */
-export type UserProperties = UserUpdateProperties & {
+export interface UserProperties extends UserUpdateProperties {
   /**
    * Current provisioning state of the user resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -956,10 +973,10 @@ export type UserProperties = UserUpdateProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly totalUsage?: string;
-};
+}
 
 /** Lab services virtual machine image */
-export type Image = ProxyResource & {
+export interface Image extends ProxyResource {
   /**
    * Metadata pertaining to creation and last modification of the image.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1039,10 +1056,10 @@ export type Image = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly osState?: OsState;
-};
+}
 
 /** Schedule for automatically turning virtual machines in a lab on and off at specified times. */
-export type Schedule = ProxyResource & {
+export interface Schedule extends ProxyResource {
   /**
    * Metadata pertaining to creation and last modification of the schedule.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1063,10 +1080,10 @@ export type Schedule = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** User of a lab that can register for and use virtual machines within the lab. */
-export type User = ProxyResource & {
+export interface User extends ProxyResource {
   /**
    * Metadata pertaining to creation and last modification of the user resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1106,10 +1123,10 @@ export type User = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly totalUsage?: string;
-};
+}
 
 /** A lab virtual machine resource. */
-export type VirtualMachine = ProxyResource & {
+export interface VirtualMachine extends ProxyResource {
   /**
    * System data of the Lab virtual machine.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1140,15 +1157,17 @@ export type VirtualMachine = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vmType?: VirtualMachineType;
-};
+}
 
 /** Lab Plans act as a permission container for creating labs via labs.azure.com. Additionally, they can provide a set of default configurations that will apply at the time of creating a lab, but these defaults can still be overwritten. */
-export type LabPlan = TrackedResource & {
+export interface LabPlan extends TrackedResource {
   /**
    * Metadata pertaining to creation and last modification of the lab plan.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
+  /** Managed Identity Information */
+  identity?: Identity;
   /** The default lab connection profile. This can be changed on a lab resource and only provides a default profile. */
   defaultConnectionProfile?: ConnectionProfile;
   /** The default lab shutdown profile. This can be changed on a lab resource and only provides a default profile. */
@@ -1168,10 +1187,10 @@ export type LabPlan = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** The lab resource. */
-export type Lab = TrackedResource & {
+export interface Lab extends TrackedResource {
   /**
    * Metadata pertaining to creation and last modification of the lab.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1205,13 +1224,17 @@ export type Lab = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly state?: LabState;
-};
+}
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -1229,8 +1252,11 @@ export type CreatedByType = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
+  /** User */
   User = "user",
+  /** System */
   System = "system",
+  /** UserSystem */
   UserSystem = "user,system"
 }
 
@@ -1247,6 +1273,7 @@ export type Origin = string;
 
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
+  /** Internal */
   Internal = "Internal"
 }
 
@@ -1259,23 +1286,11 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
-/** Known values of {@link UsageUnit} that the service accepts. */
-export enum KnownUsageUnit {
-  Count = "Count"
-}
-
-/**
- * Defines values for UsageUnit. \
- * {@link KnownUsageUnit} can be used interchangeably with UsageUnit,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Count**
- */
-export type UsageUnit = string;
-
 /** Known values of {@link LabServicesSkuTier} that the service accepts. */
 export enum KnownLabServicesSkuTier {
+  /** Standard */
   Standard = "Standard",
+  /** Premium */
   Premium = "Premium"
 }
 
@@ -1312,6 +1327,7 @@ export type ScaleType = string;
 
 /** Known values of {@link RestrictionType} that the service accepts. */
 export enum KnownRestrictionType {
+  /** Location */
   Location = "Location"
 }
 
@@ -1326,7 +1342,9 @@ export type RestrictionType = string;
 
 /** Known values of {@link RestrictionReasonCode} that the service accepts. */
 export enum KnownRestrictionReasonCode {
+  /** QuotaId */
   QuotaId = "QuotaId",
+  /** NotAvailableForSubscription */
   NotAvailableForSubscription = "NotAvailableForSubscription"
 }
 
@@ -1339,6 +1357,21 @@ export enum KnownRestrictionReasonCode {
  * **NotAvailableForSubscription**
  */
 export type RestrictionReasonCode = string;
+
+/** Known values of {@link UsageUnit} that the service accepts. */
+export enum KnownUsageUnit {
+  /** Count */
+  Count = "Count"
+}
+
+/**
+ * Defines values for UsageUnit. \
+ * {@link KnownUsageUnit} can be used interchangeably with UsageUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Count**
+ */
+export type UsageUnit = string;
 /** Defines values for ProvisioningState. */
 export type ProvisioningState =
   | "Creating"
@@ -1685,6 +1718,45 @@ export interface SchedulesListByLabNextOptionalParams
 export type SchedulesListByLabNextResponse = PagedSchedules;
 
 /** Optional parameters. */
+export interface SkusListOptionalParams extends coreClient.OperationOptions {
+  /** The filter to apply to the operation. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type SkusListResponse = PagedLabServicesSkus;
+
+/** Optional parameters. */
+export interface SkusListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply to the operation. */
+  filter?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type SkusListNextResponse = PagedLabServicesSkus;
+
+/** Optional parameters. */
+export interface UsagesListByLocationOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply to the operation. */
+  filter?: string;
+}
+
+/** Contains response data for the listByLocation operation. */
+export type UsagesListByLocationResponse = ListUsagesResult;
+
+/** Optional parameters. */
+export interface UsagesListByLocationNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply to the operation. */
+  filter?: string;
+}
+
+/** Contains response data for the listByLocationNext operation. */
+export type UsagesListByLocationNextResponse = ListUsagesResult;
+
+/** Optional parameters. */
 export interface UsersListByLabOptionalParams
   extends coreClient.OperationOptions {
   /** The filter to apply to the operation. */
@@ -1820,45 +1892,6 @@ export interface VirtualMachinesListByLabNextOptionalParams
 
 /** Contains response data for the listByLabNext operation. */
 export type VirtualMachinesListByLabNextResponse = PagedVirtualMachines;
-
-/** Optional parameters. */
-export interface UsagesListByLocationOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply to the operation. */
-  filter?: string;
-}
-
-/** Contains response data for the listByLocation operation. */
-export type UsagesListByLocationResponse = ListUsagesResult;
-
-/** Optional parameters. */
-export interface UsagesListByLocationNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply to the operation. */
-  filter?: string;
-}
-
-/** Contains response data for the listByLocationNext operation. */
-export type UsagesListByLocationNextResponse = ListUsagesResult;
-
-/** Optional parameters. */
-export interface SkusListOptionalParams extends coreClient.OperationOptions {
-  /** The filter to apply to the operation. */
-  filter?: string;
-}
-
-/** Contains response data for the list operation. */
-export type SkusListResponse = PagedLabServicesSkus;
-
-/** Optional parameters. */
-export interface SkusListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply to the operation. */
-  filter?: string;
-}
-
-/** Contains response data for the listNext operation. */
-export type SkusListNextResponse = PagedLabServicesSkus;
 
 /** Optional parameters. */
 export interface LabServicesClientOptionalParams

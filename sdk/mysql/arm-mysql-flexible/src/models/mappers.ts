@@ -8,46 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const Identity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Identity",
-    modelProperties: {
-      principalId: {
-        serializedName: "principalId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      tenantId: {
-        serializedName: "tenantId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        defaultValue: "UserAssigned",
-        isConstant: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      userAssignedIdentities: {
-        serializedName: "userAssignedIdentities",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const Sku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -65,46 +25,6 @@ export const Sku: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DataEncryption: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DataEncryption",
-    modelProperties: {
-      primaryUserAssignedIdentityId: {
-        serializedName: "primaryUserAssignedIdentityId",
-        type: {
-          name: "String"
-        }
-      },
-      primaryKeyUri: {
-        serializedName: "primaryKeyUri",
-        type: {
-          name: "String"
-        }
-      },
-      geoBackupUserAssignedIdentityId: {
-        serializedName: "geoBackupUserAssignedIdentityId",
-        type: {
-          name: "String"
-        }
-      },
-      geoBackupKeyUri: {
-        serializedName: "geoBackupKeyUri",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "Enum",
-          allowedValues: ["AzureKeyVault", "SystemManaged"]
         }
       }
     }
@@ -438,13 +358,6 @@ export const ServerForUpdate: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ServerForUpdate",
     modelProperties: {
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "Identity"
-        }
-      },
       sku: {
         serializedName: "sku",
         type: {
@@ -497,13 +410,6 @@ export const ServerForUpdate: coreClient.CompositeMapper = {
         serializedName: "properties.replicationRole",
         type: {
           name: "String"
-        }
-      },
-      dataEncryption: {
-        serializedName: "properties.dataEncryption",
-        type: {
-          name: "Composite",
-          className: "DataEncryption"
         }
       }
     }
@@ -1169,29 +1075,6 @@ export const OperationDisplay: coreClient.CompositeMapper = {
   }
 };
 
-export const UserAssignedIdentity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "UserAssignedIdentity",
-    modelProperties: {
-      principalId: {
-        serializedName: "principalId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      clientId: {
-        serializedName: "clientId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const TrackedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1232,13 +1115,6 @@ export const Server: coreClient.CompositeMapper = {
     className: "Server",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "Identity"
-        }
-      },
       sku: {
         serializedName: "sku",
         type: {
@@ -1309,13 +1185,6 @@ export const Server: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number"
-        }
-      },
-      dataEncryption: {
-        serializedName: "properties.dataEncryption",
-        type: {
-          name: "Composite",
-          className: "DataEncryption"
         }
       },
       state: {

@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import {
-  makeTextAnalyticsSuccessResult,
-  TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
+  TextAnalyticsSuccessResult,
   makeTextAnalyticsErrorResult,
+  makeTextAnalyticsSuccessResult,
 } from "./textAnalyticsResult";
-import { TextAnalyticsError, DocumentKeyPhrases } from "./generated/models";
+import { DocumentKeyPhrases, TextAnalyticsError } from "./generated/models";
 
 /**
  * The result of the extract key phrases operation on a single document.

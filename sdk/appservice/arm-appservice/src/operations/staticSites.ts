@@ -42,6 +42,11 @@ import {
   StaticSitesGetPrivateEndpointConnectionListOptionalParams,
   StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextOptionalParams,
   StaticSitesGetUserProvidedFunctionAppsForStaticSiteOptionalParams,
+  StaticSiteLinkedBackendARMResource,
+  StaticSitesGetLinkedBackendsNextOptionalParams,
+  StaticSitesGetLinkedBackendsOptionalParams,
+  StaticSitesGetLinkedBackendsForBuildNextOptionalParams,
+  StaticSitesGetLinkedBackendsForBuildOptionalParams,
   StaticSitesWorkflowPreviewRequest,
   StaticSitesPreviewWorkflowOptionalParams,
   StaticSitesPreviewWorkflowResponse,
@@ -125,6 +130,20 @@ import {
   StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteResponse,
   StaticSitesDetachUserProvidedFunctionAppFromStaticSiteOptionalParams,
   StaticSitesCreateZipDeploymentForStaticSiteOptionalParams,
+  StaticSitesValidateBackendOptionalParams,
+  StaticSitesValidateBackendForBuildOptionalParams,
+  StaticSitesGetLinkedBackendsResponse,
+  StaticSitesGetLinkedBackendsForBuildResponse,
+  StaticSitesGetLinkedBackendOptionalParams,
+  StaticSitesGetLinkedBackendResponse,
+  StaticSitesLinkBackendOptionalParams,
+  StaticSitesLinkBackendResponse,
+  StaticSitesUnlinkBackendOptionalParams,
+  StaticSitesGetLinkedBackendForBuildOptionalParams,
+  StaticSitesGetLinkedBackendForBuildResponse,
+  StaticSitesLinkBackendToBuildOptionalParams,
+  StaticSitesLinkBackendToBuildResponse,
+  StaticSitesUnlinkBackendFromBuildOptionalParams,
   StaticSitesListNextResponse,
   StaticSitesGetStaticSitesByResourceGroupNextResponse,
   StaticSitesListStaticSiteUsersNextResponse,
@@ -134,7 +153,9 @@ import {
   StaticSitesListStaticSiteCustomDomainsNextResponse,
   StaticSitesListStaticSiteFunctionsNextResponse,
   StaticSitesGetPrivateEndpointConnectionListNextResponse,
-  StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextResponse
+  StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextResponse,
+  StaticSitesGetLinkedBackendsNextResponse,
+  StaticSitesGetLinkedBackendsForBuildNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -851,6 +872,157 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
+   * Returns details of all backends linked to a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param options The options parameters.
+   */
+  public listLinkedBackends(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesGetLinkedBackendsOptionalParams
+  ): PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource> {
+    const iter = this.getLinkedBackendsPagingAll(
+      resourceGroupName,
+      name,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.getLinkedBackendsPagingPage(
+          resourceGroupName,
+          name,
+          options
+        );
+      }
+    };
+  }
+
+  private async *getLinkedBackendsPagingPage(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesGetLinkedBackendsOptionalParams
+  ): AsyncIterableIterator<StaticSiteLinkedBackendARMResource[]> {
+    let result = await this._getLinkedBackends(
+      resourceGroupName,
+      name,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._getLinkedBackendsNext(
+        resourceGroupName,
+        name,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *getLinkedBackendsPagingAll(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesGetLinkedBackendsOptionalParams
+  ): AsyncIterableIterator<StaticSiteLinkedBackendARMResource> {
+    for await (const page of this.getLinkedBackendsPagingPage(
+      resourceGroupName,
+      name,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Returns details of all backends linked to a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier
+   * @param options The options parameters.
+   */
+  public listLinkedBackendsForBuild(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesGetLinkedBackendsForBuildOptionalParams
+  ): PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource> {
+    const iter = this.getLinkedBackendsForBuildPagingAll(
+      resourceGroupName,
+      name,
+      environmentName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.getLinkedBackendsForBuildPagingPage(
+          resourceGroupName,
+          name,
+          environmentName,
+          options
+        );
+      }
+    };
+  }
+
+  private async *getLinkedBackendsForBuildPagingPage(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesGetLinkedBackendsForBuildOptionalParams
+  ): AsyncIterableIterator<StaticSiteLinkedBackendARMResource[]> {
+    let result = await this._getLinkedBackendsForBuild(
+      resourceGroupName,
+      name,
+      environmentName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._getLinkedBackendsForBuildNext(
+        resourceGroupName,
+        name,
+        environmentName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *getLinkedBackendsForBuildPagingAll(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesGetLinkedBackendsForBuildOptionalParams
+  ): AsyncIterableIterator<StaticSiteLinkedBackendARMResource> {
+    for await (const page of this.getLinkedBackendsForBuildPagingPage(
+      resourceGroupName,
+      name,
+      environmentName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
    * Description for Generates a preview workflow file for the static site
    * @param location Location where you plan to create the static site.
    * @param staticSitesWorkflowPreviewRequest A JSON representation of the
@@ -973,10 +1145,12 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, staticSiteEnvelope, options },
       createOrUpdateStaticSiteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1057,10 +1231,12 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, options },
       deleteStaticSiteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1265,10 +1441,12 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, environmentName, options },
       deleteStaticSiteBuildOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1512,10 +1690,12 @@ export class StaticSitesImpl implements StaticSites {
       },
       registerUserProvidedFunctionAppWithStaticSiteBuildOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1636,10 +1816,12 @@ export class StaticSitesImpl implements StaticSites {
       },
       createZipDeploymentForStaticSiteBuildOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1840,10 +2022,12 @@ export class StaticSitesImpl implements StaticSites {
       },
       createOrUpdateStaticSiteCustomDomainOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1930,10 +2114,12 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, domainName, options },
       deleteStaticSiteCustomDomainOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2024,10 +2210,12 @@ export class StaticSitesImpl implements StaticSites {
       },
       validateCustomDomainCanBeAddedToStaticSiteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2111,10 +2299,12 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, options },
       detachStaticSiteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2329,10 +2519,12 @@ export class StaticSitesImpl implements StaticSites {
       },
       approveOrRejectPrivateEndpointConnectionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2422,10 +2614,12 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, privateEndpointConnectionName, options },
       deletePrivateEndpointConnectionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2595,10 +2789,12 @@ export class StaticSitesImpl implements StaticSites {
       },
       registerUserProvidedFunctionAppWithStaticSiteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2704,10 +2900,12 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, staticSiteZipDeploymentEnvelope, options },
       createZipDeploymentForStaticSiteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2731,6 +2929,544 @@ export class StaticSitesImpl implements StaticSites {
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Validates that a backend can be linked to a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param linkedBackendName Name of the linked backend that should be retrieved
+   * @param staticSiteLinkedBackendEnvelope A JSON representation of the linked backend request
+   *                                        properties
+   * @param options The options parameters.
+   */
+  async beginValidateBackend(
+    resourceGroupName: string,
+    name: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesValidateBackendOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        name,
+        linkedBackendName,
+        staticSiteLinkedBackendEnvelope,
+        options
+      },
+      validateBackendOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Validates that a backend can be linked to a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param linkedBackendName Name of the linked backend that should be retrieved
+   * @param staticSiteLinkedBackendEnvelope A JSON representation of the linked backend request
+   *                                        properties
+   * @param options The options parameters.
+   */
+  async beginValidateBackendAndWait(
+    resourceGroupName: string,
+    name: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesValidateBackendOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginValidateBackend(
+      resourceGroupName,
+      name,
+      linkedBackendName,
+      staticSiteLinkedBackendEnvelope,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Validates that a backend can be linked to a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier
+   * @param linkedBackendName Name of the linked backend that should be retrieved
+   * @param staticSiteLinkedBackendEnvelope A JSON representation of the linked backend request
+   *                                        properties
+   * @param options The options parameters.
+   */
+  async beginValidateBackendForBuild(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesValidateBackendForBuildOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        name,
+        environmentName,
+        linkedBackendName,
+        staticSiteLinkedBackendEnvelope,
+        options
+      },
+      validateBackendForBuildOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Validates that a backend can be linked to a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier
+   * @param linkedBackendName Name of the linked backend that should be retrieved
+   * @param staticSiteLinkedBackendEnvelope A JSON representation of the linked backend request
+   *                                        properties
+   * @param options The options parameters.
+   */
+  async beginValidateBackendForBuildAndWait(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesValidateBackendForBuildOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginValidateBackendForBuild(
+      resourceGroupName,
+      name,
+      environmentName,
+      linkedBackendName,
+      staticSiteLinkedBackendEnvelope,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Returns details of all backends linked to a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param options The options parameters.
+   */
+  private _getLinkedBackends(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesGetLinkedBackendsOptionalParams
+  ): Promise<StaticSitesGetLinkedBackendsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      getLinkedBackendsOperationSpec
+    );
+  }
+
+  /**
+   * Returns details of all backends linked to a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier
+   * @param options The options parameters.
+   */
+  private _getLinkedBackendsForBuild(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesGetLinkedBackendsForBuildOptionalParams
+  ): Promise<StaticSitesGetLinkedBackendsForBuildResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, environmentName, options },
+      getLinkedBackendsForBuildOperationSpec
+    );
+  }
+
+  /**
+   * Returns the details of a linked backend linked to a static site by name
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param linkedBackendName Name of the linked backend that should be retrieved
+   * @param options The options parameters.
+   */
+  getLinkedBackend(
+    resourceGroupName: string,
+    name: string,
+    linkedBackendName: string,
+    options?: StaticSitesGetLinkedBackendOptionalParams
+  ): Promise<StaticSitesGetLinkedBackendResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, linkedBackendName, options },
+      getLinkedBackendOperationSpec
+    );
+  }
+
+  /**
+   * Link backend to a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param linkedBackendName Name of the backend to link to the static site
+   * @param staticSiteLinkedBackendEnvelope A JSON representation of the linked backend request
+   *                                        properties
+   * @param options The options parameters.
+   */
+  async beginLinkBackend(
+    resourceGroupName: string,
+    name: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesLinkBackendOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<StaticSitesLinkBackendResponse>,
+      StaticSitesLinkBackendResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<StaticSitesLinkBackendResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        name,
+        linkedBackendName,
+        staticSiteLinkedBackendEnvelope,
+        options
+      },
+      linkBackendOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Link backend to a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param linkedBackendName Name of the backend to link to the static site
+   * @param staticSiteLinkedBackendEnvelope A JSON representation of the linked backend request
+   *                                        properties
+   * @param options The options parameters.
+   */
+  async beginLinkBackendAndWait(
+    resourceGroupName: string,
+    name: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesLinkBackendOptionalParams
+  ): Promise<StaticSitesLinkBackendResponse> {
+    const poller = await this.beginLinkBackend(
+      resourceGroupName,
+      name,
+      linkedBackendName,
+      staticSiteLinkedBackendEnvelope,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Unlink a backend from a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param linkedBackendName Name of the backend linked to the static site
+   * @param options The options parameters.
+   */
+  unlinkBackend(
+    resourceGroupName: string,
+    name: string,
+    linkedBackendName: string,
+    options?: StaticSitesUnlinkBackendOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, linkedBackendName, options },
+      unlinkBackendOperationSpec
+    );
+  }
+
+  /**
+   * Returns the details of a linked backend linked to a static site build by name
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier
+   * @param linkedBackendName Name of the linked backend that should be retrieved
+   * @param options The options parameters.
+   */
+  getLinkedBackendForBuild(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    linkedBackendName: string,
+    options?: StaticSitesGetLinkedBackendForBuildOptionalParams
+  ): Promise<StaticSitesGetLinkedBackendForBuildResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, environmentName, linkedBackendName, options },
+      getLinkedBackendForBuildOperationSpec
+    );
+  }
+
+  /**
+   * Link backend to a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier
+   * @param linkedBackendName Name of the backend to link to the static site
+   * @param staticSiteLinkedBackendEnvelope A JSON representation of the linked backend request
+   *                                        properties
+   * @param options The options parameters.
+   */
+  async beginLinkBackendToBuild(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesLinkBackendToBuildOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<StaticSitesLinkBackendToBuildResponse>,
+      StaticSitesLinkBackendToBuildResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<StaticSitesLinkBackendToBuildResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        name,
+        environmentName,
+        linkedBackendName,
+        staticSiteLinkedBackendEnvelope,
+        options
+      },
+      linkBackendToBuildOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Link backend to a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier
+   * @param linkedBackendName Name of the backend to link to the static site
+   * @param staticSiteLinkedBackendEnvelope A JSON representation of the linked backend request
+   *                                        properties
+   * @param options The options parameters.
+   */
+  async beginLinkBackendToBuildAndWait(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesLinkBackendToBuildOptionalParams
+  ): Promise<StaticSitesLinkBackendToBuildResponse> {
+    const poller = await this.beginLinkBackendToBuild(
+      resourceGroupName,
+      name,
+      environmentName,
+      linkedBackendName,
+      staticSiteLinkedBackendEnvelope,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Unlink a backend from a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier
+   * @param linkedBackendName Name of the backend linked to the static site
+   * @param options The options parameters.
+   */
+  unlinkBackendFromBuild(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    linkedBackendName: string,
+    options?: StaticSitesUnlinkBackendFromBuildOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, environmentName, linkedBackendName, options },
+      unlinkBackendFromBuildOperationSpec
+    );
   }
 
   /**
@@ -2929,6 +3665,47 @@ export class StaticSitesImpl implements StaticSites {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, nextLink, options },
       getUserProvidedFunctionAppsForStaticSiteNextOperationSpec
+    );
+  }
+
+  /**
+   * GetLinkedBackendsNext
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param nextLink The nextLink from the previous successful call to the GetLinkedBackends method.
+   * @param options The options parameters.
+   */
+  private _getLinkedBackendsNext(
+    resourceGroupName: string,
+    name: string,
+    nextLink: string,
+    options?: StaticSitesGetLinkedBackendsNextOptionalParams
+  ): Promise<StaticSitesGetLinkedBackendsNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, nextLink, options },
+      getLinkedBackendsNextOperationSpec
+    );
+  }
+
+  /**
+   * GetLinkedBackendsForBuildNext
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier
+   * @param nextLink The nextLink from the previous successful call to the GetLinkedBackendsForBuild
+   *                 method.
+   * @param options The options parameters.
+   */
+  private _getLinkedBackendsForBuildNext(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    nextLink: string,
+    options?: StaticSitesGetLinkedBackendsForBuildNextOptionalParams
+  ): Promise<StaticSitesGetLinkedBackendsForBuildNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, environmentName, nextLink, options },
+      getLinkedBackendsForBuildNextOperationSpec
     );
   }
 }
@@ -4113,6 +4890,265 @@ const createZipDeploymentForStaticSiteOperationSpec: coreClient.OperationSpec = 
   mediaType: "json",
   serializer
 };
+const validateBackendOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/linkedBackends/{linkedBackendName}/validate",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.staticSiteLinkedBackendEnvelope,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.linkedBackendName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const validateBackendForBuildOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/linkedBackends/{linkedBackendName}/validate",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.staticSiteLinkedBackendEnvelope,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName1,
+    Parameters.linkedBackendName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getLinkedBackendsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/linkedBackends",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteLinkedBackendsCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getLinkedBackendsForBuildOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/linkedBackends",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteLinkedBackendsCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getLinkedBackendOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/linkedBackends/{linkedBackendName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteLinkedBackendARMResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.linkedBackendName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const linkBackendOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/linkedBackends/{linkedBackendName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteLinkedBackendARMResource
+    },
+    201: {
+      bodyMapper: Mappers.StaticSiteLinkedBackendARMResource
+    },
+    202: {
+      bodyMapper: Mappers.StaticSiteLinkedBackendARMResource
+    },
+    204: {
+      bodyMapper: Mappers.StaticSiteLinkedBackendARMResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.staticSiteLinkedBackendEnvelope,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.linkedBackendName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const unlinkBackendOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/linkedBackends/{linkedBackendName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.isCleaningAuthConfig],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.linkedBackendName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getLinkedBackendForBuildOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/linkedBackends/{linkedBackendName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteLinkedBackendARMResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName1,
+    Parameters.linkedBackendName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const linkBackendToBuildOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/linkedBackends/{linkedBackendName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteLinkedBackendARMResource
+    },
+    201: {
+      bodyMapper: Mappers.StaticSiteLinkedBackendARMResource
+    },
+    202: {
+      bodyMapper: Mappers.StaticSiteLinkedBackendARMResource
+    },
+    204: {
+      bodyMapper: Mappers.StaticSiteLinkedBackendARMResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.staticSiteLinkedBackendEnvelope,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName1,
+    Parameters.linkedBackendName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const unlinkBackendFromBuildOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/linkedBackends/{linkedBackendName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.isCleaningAuthConfig],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName1,
+    Parameters.linkedBackendName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -4329,6 +5365,51 @@ const getUserProvidedFunctionAppsForStaticSiteNextOperationSpec: coreClient.Oper
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getLinkedBackendsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteLinkedBackendsCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getLinkedBackendsForBuildNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteLinkedBackendsCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+    Parameters.environmentName1
   ],
   headerParameters: [Parameters.accept],
   serializer

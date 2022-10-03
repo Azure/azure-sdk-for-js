@@ -46,15 +46,10 @@ export interface JobManifestTasks {
   keyPhraseExtractionTasks?: KeyPhrasesTask[];
   entityLinkingTasks?: EntityLinkingTask[];
   sentimentAnalysisTasks?: SentimentAnalysisTask[];
-  extractiveSummarizationTasks?: ExtractiveSummarizationTask[];
-  customEntityRecognitionTasks?: CustomEntitiesTask[];
-  customSingleClassificationTasks?: CustomSingleClassificationTask[];
-  customMultiClassificationTasks?: CustomMultiClassificationTask[];
 }
 
 export interface EntitiesTask {
   parameters?: EntitiesTaskParameters;
-  taskName?: string;
 }
 
 export interface EntitiesTaskParameters {
@@ -65,7 +60,6 @@ export interface EntitiesTaskParameters {
 
 export interface PiiTask {
   parameters?: PiiTaskParameters;
-  taskName?: string;
 }
 
 export interface PiiTaskParameters {
@@ -79,7 +73,6 @@ export interface PiiTaskParameters {
 
 export interface KeyPhrasesTask {
   parameters?: KeyPhrasesTaskParameters;
-  taskName?: string;
 }
 
 export interface KeyPhrasesTaskParameters {
@@ -89,7 +82,6 @@ export interface KeyPhrasesTaskParameters {
 
 export interface EntityLinkingTask {
   parameters?: EntityLinkingTaskParameters;
-  taskName?: string;
 }
 
 export interface EntityLinkingTaskParameters {
@@ -100,7 +92,6 @@ export interface EntityLinkingTaskParameters {
 
 export interface SentimentAnalysisTask {
   parameters?: SentimentAnalysisTaskParameters;
-  taskName?: string;
 }
 
 export interface SentimentAnalysisTaskParameters {
@@ -108,53 +99,6 @@ export interface SentimentAnalysisTaskParameters {
   loggingOptOut?: boolean;
   opinionMining?: boolean;
   stringIndexType?: StringIndexType;
-}
-
-export interface ExtractiveSummarizationTask {
-  parameters?: ExtractiveSummarizationTaskParameters;
-  taskName?: string;
-}
-
-export interface ExtractiveSummarizationTaskParameters {
-  modelVersion?: string;
-  loggingOptOut?: boolean;
-  stringIndexType?: StringIndexType;
-  sentenceCount?: number;
-  sortBy?: ExtractiveSummarizationTaskParametersSortBy;
-}
-
-export interface CustomEntitiesTask {
-  parameters?: CustomEntitiesTaskParameters;
-  taskName?: string;
-}
-
-export interface CustomEntitiesTaskParameters {
-  projectName: string;
-  deploymentName: string;
-  loggingOptOut?: boolean;
-  stringIndexType?: StringIndexType;
-}
-
-export interface CustomSingleClassificationTask {
-  parameters?: CustomSingleClassificationTaskParameters;
-  taskName?: string;
-}
-
-export interface CustomSingleClassificationTaskParameters {
-  projectName: string;
-  deploymentName: string;
-  loggingOptOut?: boolean;
-}
-
-export interface CustomMultiClassificationTask {
-  parameters?: CustomMultiClassificationTaskParameters;
-  taskName?: string;
-}
-
-export interface CustomMultiClassificationTaskParameters {
-  projectName: string;
-  deploymentName: string;
-  loggingOptOut?: boolean;
 }
 
 export interface ErrorResponse {
@@ -214,15 +158,10 @@ export interface TasksStateTasks {
   keyPhraseExtractionTasks?: TasksStateTasksKeyPhraseExtractionTasksItem[];
   entityLinkingTasks?: TasksStateTasksEntityLinkingTasksItem[];
   sentimentAnalysisTasks?: TasksStateTasksSentimentAnalysisTasksItem[];
-  extractiveSummarizationTasks?: TasksStateTasksExtractiveSummarizationTasksItem[];
-  customEntityRecognitionTasks?: TasksStateTasksCustomEntityRecognitionTasksItem[];
-  customSingleClassificationTasks?: TasksStateTasksCustomSingleClassificationTasksItem[];
-  customMultiClassificationTasks?: TasksStateTasksCustomMultiClassificationTasksItem[];
 }
 
 export interface TaskState {
   lastUpdateDateTime: Date;
-  taskName: string;
   status: State;
 }
 
@@ -511,122 +450,6 @@ export interface SentenceAssessment {
   isNegated: boolean;
 }
 
-export interface ExtractiveSummarizationTaskResult {
-  results?: ExtractiveSummarizationResult;
-}
-
-export interface ExtractiveSummarizationResult {
-  /** Response by document */
-  documents: ExtractedDocumentSummary[];
-  /** Errors by document id. */
-  errors: DocumentError[];
-  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
-  statistics?: TextDocumentBatchStatistics;
-  /** This field indicates which model is used for scoring. */
-  modelVersion: string;
-}
-
-export interface ExtractedDocumentSummary {
-  /** Unique, non-empty document identifier. */
-  id: string;
-  /** A ranked list of sentences representing the extracted summary. */
-  sentences: ExtractedSummarySentence[];
-  /** Warnings encountered while processing document. */
-  warnings: TextAnalyticsWarning[];
-  /** if showStats=true was specified in the request this field will contain information about the document payload. */
-  statistics?: TextDocumentStatistics;
-}
-
-export interface ExtractedSummarySentence {
-  /** The extracted sentence text. */
-  text: string;
-  /** A double value representing the relevance of the sentence within the summary. Higher values indicate higher importance. */
-  rankScore: number;
-  /** The sentence offset from the start of the document, based on the value of the parameter StringIndexType. */
-  offset: number;
-  /** The length of the sentence. */
-  length: number;
-}
-
-export interface CustomEntitiesTaskResult {
-  results?: CustomEntitiesResult;
-}
-
-export interface CustomEntitiesResult {
-  /** Response by document */
-  documents: DocumentEntities[];
-  /** Errors by document id. */
-  errors: DocumentError[];
-  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
-  statistics?: TextDocumentBatchStatistics;
-  /** This field indicates the project name for the model. */
-  projectName: string;
-  /** This field indicates the deployment name for the model. */
-  deploymentName: string;
-}
-
-export interface CustomSingleClassificationTaskResult {
-  results?: CustomSingleClassificationResult;
-}
-
-export interface CustomSingleClassificationResult {
-  /** Response by document */
-  documents: SingleClassificationDocument[];
-  /** Errors by document id. */
-  errors: DocumentError[];
-  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
-  statistics?: TextDocumentBatchStatistics;
-  /** This field indicates the project name for the model. */
-  projectName: string;
-  /** This field indicates the deployment name for the model. */
-  deploymentName: string;
-}
-
-export interface SingleClassificationDocument {
-  /** Unique, non-empty document identifier. */
-  id: string;
-  classification: ClassificationResult;
-  /** Warnings encountered while processing document. */
-  warnings: TextAnalyticsWarning[];
-  /** if showStats=true was specified in the request this field will contain information about the document payload. */
-  statistics?: TextDocumentStatistics;
-}
-
-export interface ClassificationResult {
-  /** Classification type. */
-  category: string;
-  /** Confidence score between 0 and 1 of the recognized classification. */
-  confidenceScore: number;
-}
-
-export interface CustomMultiClassificationTaskResult {
-  results?: CustomMultiClassificationResult;
-}
-
-export interface CustomMultiClassificationResult {
-  /** Response by document */
-  documents: MultiClassificationDocument[];
-  /** Errors by document id. */
-  errors: DocumentError[];
-  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
-  statistics?: TextDocumentBatchStatistics;
-  /** This field indicates the project name for the model. */
-  projectName: string;
-  /** This field indicates the deployment name for the model. */
-  deploymentName: string;
-}
-
-export interface MultiClassificationDocument {
-  /** Unique, non-empty document identifier. */
-  id: string;
-  /** Recognized classification results in the document. */
-  classifications: ClassificationResult[];
-  /** Warnings encountered while processing document. */
-  warnings: TextAnalyticsWarning[];
-  /** if showStats=true was specified in the request this field will contain information about the document payload. */
-  statistics?: TextDocumentStatistics;
-}
-
 export interface AnalyzeJobErrorsAndStatistics {
   errors?: TextAnalyticsError[];
   /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
@@ -764,50 +587,49 @@ export interface DetectedLanguage {
   confidenceScore: number;
 }
 
-export type AnalyzeBatchInput = JobDescriptor &
-  AnalysisInput &
-  JobManifest & {};
+export interface AnalyzeBatchInput
+  extends JobDescriptor,
+    AnalysisInput,
+    JobManifest {}
 
-export type AnalyzeJobMetadata = JobMetadata & AnalyzeJobDisplayName & {};
+export interface AnalyzeJobMetadata
+  extends JobMetadata,
+    AnalyzeJobDisplayName {}
 
-export type HealthcareJobState = JobMetadata &
-  HealthcareTaskResult &
-  Pagination & {};
+export interface HealthcareJobState
+  extends JobMetadata,
+    HealthcareTaskResult,
+    Pagination {}
 
-export type AnalyzeJobState = AnalyzeJobMetadata &
-  TasksState &
-  AnalyzeJobErrorsAndStatistics &
-  Pagination & {};
+export interface AnalyzeJobState
+  extends AnalyzeJobMetadata,
+    TasksState,
+    AnalyzeJobErrorsAndStatistics,
+    Pagination {}
 
-export type TasksStateTasksEntityRecognitionTasksItem = TaskState &
-  EntitiesTaskResult & {};
+export interface TasksStateTasksEntityRecognitionTasksItem
+  extends TaskState,
+    EntitiesTaskResult {}
 
-export type TasksStateTasksEntityRecognitionPiiTasksItem = TaskState &
-  PiiTaskResult & {};
+export interface TasksStateTasksEntityRecognitionPiiTasksItem
+  extends TaskState,
+    PiiTaskResult {}
 
-export type TasksStateTasksKeyPhraseExtractionTasksItem = TaskState &
-  KeyPhraseTaskResult & {};
+export interface TasksStateTasksKeyPhraseExtractionTasksItem
+  extends TaskState,
+    KeyPhraseTaskResult {}
 
-export type TasksStateTasksEntityLinkingTasksItem = TaskState &
-  EntityLinkingTaskResult & {};
+export interface TasksStateTasksEntityLinkingTasksItem
+  extends TaskState,
+    EntityLinkingTaskResult {}
 
-export type TasksStateTasksSentimentAnalysisTasksItem = TaskState &
-  SentimentTaskResult & {};
+export interface TasksStateTasksSentimentAnalysisTasksItem
+  extends TaskState,
+    SentimentTaskResult {}
 
-export type TasksStateTasksExtractiveSummarizationTasksItem = TaskState &
-  ExtractiveSummarizationTaskResult & {};
-
-export type TasksStateTasksCustomEntityRecognitionTasksItem = TaskState &
-  CustomEntitiesTaskResult & {};
-
-export type TasksStateTasksCustomSingleClassificationTasksItem = TaskState &
-  CustomSingleClassificationTaskResult & {};
-
-export type TasksStateTasksCustomMultiClassificationTasksItem = TaskState &
-  CustomMultiClassificationTaskResult & {};
-
-export type HealthcareEntity = HealthcareEntityProperties &
-  HealthcareLinkingProperties & {};
+export interface HealthcareEntity
+  extends HealthcareEntityProperties,
+    HealthcareLinkingProperties {}
 
 /** Defines headers for GeneratedClient_analyze operation. */
 export interface GeneratedClientAnalyzeHeaders {
@@ -847,7 +669,9 @@ export type StringIndexType = string;
 
 /** Known values of {@link PiiTaskParametersDomain} that the service accepts. */
 export enum KnownPiiTaskParametersDomain {
+  /** Phi */
   Phi = "phi",
+  /** None */
   None = "none"
 }
 
@@ -863,178 +687,351 @@ export type PiiTaskParametersDomain = string;
 
 /** Known values of {@link PiiCategory} that the service accepts. */
 export enum KnownPiiCategory {
+  /** ABARoutingNumber */
   ABARoutingNumber = "ABARoutingNumber",
+  /** ARNationalIdentityNumber */
   ARNationalIdentityNumber = "ARNationalIdentityNumber",
+  /** AUBankAccountNumber */
   AUBankAccountNumber = "AUBankAccountNumber",
+  /** AUDriversLicenseNumber */
   AUDriversLicenseNumber = "AUDriversLicenseNumber",
+  /** AUMedicalAccountNumber */
   AUMedicalAccountNumber = "AUMedicalAccountNumber",
+  /** AUPassportNumber */
   AUPassportNumber = "AUPassportNumber",
+  /** AUTaxFileNumber */
   AUTaxFileNumber = "AUTaxFileNumber",
+  /** AUBusinessNumber */
   AUBusinessNumber = "AUBusinessNumber",
+  /** AUCompanyNumber */
   AUCompanyNumber = "AUCompanyNumber",
+  /** ATIdentityCard */
   ATIdentityCard = "ATIdentityCard",
+  /** ATTaxIdentificationNumber */
   ATTaxIdentificationNumber = "ATTaxIdentificationNumber",
+  /** ATValueAddedTaxNumber */
   ATValueAddedTaxNumber = "ATValueAddedTaxNumber",
+  /** AzureDocumentDBAuthKey */
   AzureDocumentDBAuthKey = "AzureDocumentDBAuthKey",
+  /** AzureIaasDatabaseConnectionAndSQLString */
   AzureIaasDatabaseConnectionAndSQLString = "AzureIAASDatabaseConnectionAndSQLString",
+  /** AzureIoTConnectionString */
   AzureIoTConnectionString = "AzureIoTConnectionString",
+  /** AzurePublishSettingPassword */
   AzurePublishSettingPassword = "AzurePublishSettingPassword",
+  /** AzureRedisCacheString */
   AzureRedisCacheString = "AzureRedisCacheString",
+  /** AzureSAS */
   AzureSAS = "AzureSAS",
+  /** AzureServiceBusString */
   AzureServiceBusString = "AzureServiceBusString",
+  /** AzureStorageAccountKey */
   AzureStorageAccountKey = "AzureStorageAccountKey",
+  /** AzureStorageAccountGeneric */
   AzureStorageAccountGeneric = "AzureStorageAccountGeneric",
+  /** BENationalNumber */
   BENationalNumber = "BENationalNumber",
+  /** BENationalNumberV2 */
   BENationalNumberV2 = "BENationalNumberV2",
+  /** BEValueAddedTaxNumber */
   BEValueAddedTaxNumber = "BEValueAddedTaxNumber",
+  /** BrcpfNumber */
   BrcpfNumber = "BRCPFNumber",
+  /** BRLegalEntityNumber */
   BRLegalEntityNumber = "BRLegalEntityNumber",
+  /** BRNationalIdrg */
   BRNationalIdrg = "BRNationalIDRG",
+  /** BGUniformCivilNumber */
   BGUniformCivilNumber = "BGUniformCivilNumber",
+  /** CABankAccountNumber */
   CABankAccountNumber = "CABankAccountNumber",
+  /** CADriversLicenseNumber */
   CADriversLicenseNumber = "CADriversLicenseNumber",
+  /** CAHealthServiceNumber */
   CAHealthServiceNumber = "CAHealthServiceNumber",
+  /** CAPassportNumber */
   CAPassportNumber = "CAPassportNumber",
+  /** CAPersonalHealthIdentification */
   CAPersonalHealthIdentification = "CAPersonalHealthIdentification",
+  /** CASocialInsuranceNumber */
   CASocialInsuranceNumber = "CASocialInsuranceNumber",
+  /** CLIdentityCardNumber */
   CLIdentityCardNumber = "CLIdentityCardNumber",
+  /** CNResidentIdentityCardNumber */
   CNResidentIdentityCardNumber = "CNResidentIdentityCardNumber",
+  /** CreditCardNumber */
   CreditCardNumber = "CreditCardNumber",
+  /** HRIdentityCardNumber */
   HRIdentityCardNumber = "HRIdentityCardNumber",
+  /** HRNationalIDNumber */
   HRNationalIDNumber = "HRNationalIDNumber",
+  /** HRPersonalIdentificationNumber */
   HRPersonalIdentificationNumber = "HRPersonalIdentificationNumber",
+  /** HRPersonalIdentificationOIBNumberV2 */
   HRPersonalIdentificationOIBNumberV2 = "HRPersonalIdentificationOIBNumberV2",
+  /** CYIdentityCard */
   CYIdentityCard = "CYIdentityCard",
+  /** CYTaxIdentificationNumber */
   CYTaxIdentificationNumber = "CYTaxIdentificationNumber",
+  /** CZPersonalIdentityNumber */
   CZPersonalIdentityNumber = "CZPersonalIdentityNumber",
+  /** CZPersonalIdentityV2 */
   CZPersonalIdentityV2 = "CZPersonalIdentityV2",
+  /** DKPersonalIdentificationNumber */
   DKPersonalIdentificationNumber = "DKPersonalIdentificationNumber",
+  /** DKPersonalIdentificationV2 */
   DKPersonalIdentificationV2 = "DKPersonalIdentificationV2",
+  /** DrugEnforcementAgencyNumber */
   DrugEnforcementAgencyNumber = "DrugEnforcementAgencyNumber",
+  /** EEPersonalIdentificationCode */
   EEPersonalIdentificationCode = "EEPersonalIdentificationCode",
+  /** EUDebitCardNumber */
   EUDebitCardNumber = "EUDebitCardNumber",
+  /** EUDriversLicenseNumber */
   EUDriversLicenseNumber = "EUDriversLicenseNumber",
+  /** EugpsCoordinates */
   EugpsCoordinates = "EUGPSCoordinates",
+  /** EUNationalIdentificationNumber */
   EUNationalIdentificationNumber = "EUNationalIdentificationNumber",
+  /** EUPassportNumber */
   EUPassportNumber = "EUPassportNumber",
+  /** EUSocialSecurityNumber */
   EUSocialSecurityNumber = "EUSocialSecurityNumber",
+  /** EUTaxIdentificationNumber */
   EUTaxIdentificationNumber = "EUTaxIdentificationNumber",
+  /** FIEuropeanHealthNumber */
   FIEuropeanHealthNumber = "FIEuropeanHealthNumber",
+  /** FINationalID */
   FINationalID = "FINationalID",
+  /** FINationalIDV2 */
   FINationalIDV2 = "FINationalIDV2",
+  /** FIPassportNumber */
   FIPassportNumber = "FIPassportNumber",
+  /** FRDriversLicenseNumber */
   FRDriversLicenseNumber = "FRDriversLicenseNumber",
+  /** FRHealthInsuranceNumber */
   FRHealthInsuranceNumber = "FRHealthInsuranceNumber",
+  /** FRNationalID */
   FRNationalID = "FRNationalID",
+  /** FRPassportNumber */
   FRPassportNumber = "FRPassportNumber",
+  /** FRSocialSecurityNumber */
   FRSocialSecurityNumber = "FRSocialSecurityNumber",
+  /** FRTaxIdentificationNumber */
   FRTaxIdentificationNumber = "FRTaxIdentificationNumber",
+  /** FRValueAddedTaxNumber */
   FRValueAddedTaxNumber = "FRValueAddedTaxNumber",
+  /** DEDriversLicenseNumber */
   DEDriversLicenseNumber = "DEDriversLicenseNumber",
+  /** DEPassportNumber */
   DEPassportNumber = "DEPassportNumber",
+  /** DEIdentityCardNumber */
   DEIdentityCardNumber = "DEIdentityCardNumber",
+  /** DETaxIdentificationNumber */
   DETaxIdentificationNumber = "DETaxIdentificationNumber",
+  /** DEValueAddedNumber */
   DEValueAddedNumber = "DEValueAddedNumber",
+  /** GRNationalIDCard */
   GRNationalIDCard = "GRNationalIDCard",
+  /** GRNationalIDV2 */
   GRNationalIDV2 = "GRNationalIDV2",
+  /** GRTaxIdentificationNumber */
   GRTaxIdentificationNumber = "GRTaxIdentificationNumber",
+  /** HKIdentityCardNumber */
   HKIdentityCardNumber = "HKIdentityCardNumber",
+  /** HUValueAddedNumber */
   HUValueAddedNumber = "HUValueAddedNumber",
+  /** HUPersonalIdentificationNumber */
   HUPersonalIdentificationNumber = "HUPersonalIdentificationNumber",
+  /** HUTaxIdentificationNumber */
   HUTaxIdentificationNumber = "HUTaxIdentificationNumber",
+  /** INPermanentAccount */
   INPermanentAccount = "INPermanentAccount",
+  /** INUniqueIdentificationNumber */
   INUniqueIdentificationNumber = "INUniqueIdentificationNumber",
+  /** IDIdentityCardNumber */
   IDIdentityCardNumber = "IDIdentityCardNumber",
+  /** InternationalBankingAccountNumber */
   InternationalBankingAccountNumber = "InternationalBankingAccountNumber",
+  /** IEPersonalPublicServiceNumber */
   IEPersonalPublicServiceNumber = "IEPersonalPublicServiceNumber",
+  /** IEPersonalPublicServiceNumberV2 */
   IEPersonalPublicServiceNumberV2 = "IEPersonalPublicServiceNumberV2",
+  /** ILBankAccountNumber */
   ILBankAccountNumber = "ILBankAccountNumber",
+  /** ILNationalID */
   ILNationalID = "ILNationalID",
+  /** ITDriversLicenseNumber */
   ITDriversLicenseNumber = "ITDriversLicenseNumber",
+  /** ITFiscalCode */
   ITFiscalCode = "ITFiscalCode",
+  /** ITValueAddedTaxNumber */
   ITValueAddedTaxNumber = "ITValueAddedTaxNumber",
+  /** JPBankAccountNumber */
   JPBankAccountNumber = "JPBankAccountNumber",
+  /** JPDriversLicenseNumber */
   JPDriversLicenseNumber = "JPDriversLicenseNumber",
+  /** JPPassportNumber */
   JPPassportNumber = "JPPassportNumber",
+  /** JPResidentRegistrationNumber */
   JPResidentRegistrationNumber = "JPResidentRegistrationNumber",
+  /** JPSocialInsuranceNumber */
   JPSocialInsuranceNumber = "JPSocialInsuranceNumber",
+  /** JPMyNumberCorporate */
   JPMyNumberCorporate = "JPMyNumberCorporate",
+  /** JPMyNumberPersonal */
   JPMyNumberPersonal = "JPMyNumberPersonal",
+  /** JPResidenceCardNumber */
   JPResidenceCardNumber = "JPResidenceCardNumber",
+  /** LVPersonalCode */
   LVPersonalCode = "LVPersonalCode",
+  /** LTPersonalCode */
   LTPersonalCode = "LTPersonalCode",
+  /** LUNationalIdentificationNumberNatural */
   LUNationalIdentificationNumberNatural = "LUNationalIdentificationNumberNatural",
+  /** LUNationalIdentificationNumberNonNatural */
   LUNationalIdentificationNumberNonNatural = "LUNationalIdentificationNumberNonNatural",
+  /** MYIdentityCardNumber */
   MYIdentityCardNumber = "MYIdentityCardNumber",
+  /** MTIdentityCardNumber */
   MTIdentityCardNumber = "MTIdentityCardNumber",
+  /** MTTaxIDNumber */
   MTTaxIDNumber = "MTTaxIDNumber",
+  /** NLCitizensServiceNumber */
   NLCitizensServiceNumber = "NLCitizensServiceNumber",
+  /** NLCitizensServiceNumberV2 */
   NLCitizensServiceNumberV2 = "NLCitizensServiceNumberV2",
+  /** NLTaxIdentificationNumber */
   NLTaxIdentificationNumber = "NLTaxIdentificationNumber",
+  /** NLValueAddedTaxNumber */
   NLValueAddedTaxNumber = "NLValueAddedTaxNumber",
+  /** NZBankAccountNumber */
   NZBankAccountNumber = "NZBankAccountNumber",
+  /** NZDriversLicenseNumber */
   NZDriversLicenseNumber = "NZDriversLicenseNumber",
+  /** NZInlandRevenueNumber */
   NZInlandRevenueNumber = "NZInlandRevenueNumber",
+  /** NZMinistryOfHealthNumber */
   NZMinistryOfHealthNumber = "NZMinistryOfHealthNumber",
+  /** NZSocialWelfareNumber */
   NZSocialWelfareNumber = "NZSocialWelfareNumber",
+  /** NOIdentityNumber */
   NOIdentityNumber = "NOIdentityNumber",
+  /** PHUnifiedMultiPurposeIDNumber */
   PHUnifiedMultiPurposeIDNumber = "PHUnifiedMultiPurposeIDNumber",
+  /** PLIdentityCard */
   PLIdentityCard = "PLIdentityCard",
+  /** PLNationalID */
   PLNationalID = "PLNationalID",
+  /** PLNationalIDV2 */
   PLNationalIDV2 = "PLNationalIDV2",
+  /** PLPassportNumber */
   PLPassportNumber = "PLPassportNumber",
+  /** PLTaxIdentificationNumber */
   PLTaxIdentificationNumber = "PLTaxIdentificationNumber",
+  /** PlregonNumber */
   PlregonNumber = "PLREGONNumber",
+  /** PTCitizenCardNumber */
   PTCitizenCardNumber = "PTCitizenCardNumber",
+  /** PTCitizenCardNumberV2 */
   PTCitizenCardNumberV2 = "PTCitizenCardNumberV2",
+  /** PTTaxIdentificationNumber */
   PTTaxIdentificationNumber = "PTTaxIdentificationNumber",
+  /** ROPersonalNumericalCode */
   ROPersonalNumericalCode = "ROPersonalNumericalCode",
+  /** RUPassportNumberDomestic */
   RUPassportNumberDomestic = "RUPassportNumberDomestic",
+  /** RUPassportNumberInternational */
   RUPassportNumberInternational = "RUPassportNumberInternational",
+  /** SANationalID */
   SANationalID = "SANationalID",
+  /** SGNationalRegistrationIdentityCardNumber */
   SGNationalRegistrationIdentityCardNumber = "SGNationalRegistrationIdentityCardNumber",
+  /** SKPersonalNumber */
   SKPersonalNumber = "SKPersonalNumber",
+  /** SITaxIdentificationNumber */
   SITaxIdentificationNumber = "SITaxIdentificationNumber",
+  /** SIUniqueMasterCitizenNumber */
   SIUniqueMasterCitizenNumber = "SIUniqueMasterCitizenNumber",
+  /** ZAIdentificationNumber */
   ZAIdentificationNumber = "ZAIdentificationNumber",
+  /** KRResidentRegistrationNumber */
   KRResidentRegistrationNumber = "KRResidentRegistrationNumber",
+  /** Esdni */
   Esdni = "ESDNI",
+  /** ESSocialSecurityNumber */
   ESSocialSecurityNumber = "ESSocialSecurityNumber",
+  /** ESTaxIdentificationNumber */
   ESTaxIdentificationNumber = "ESTaxIdentificationNumber",
+  /** SQLServerConnectionString */
   SQLServerConnectionString = "SQLServerConnectionString",
+  /** SENationalID */
   SENationalID = "SENationalID",
+  /** SENationalIDV2 */
   SENationalIDV2 = "SENationalIDV2",
+  /** SEPassportNumber */
   SEPassportNumber = "SEPassportNumber",
+  /** SETaxIdentificationNumber */
   SETaxIdentificationNumber = "SETaxIdentificationNumber",
+  /** SwiftCode */
   SwiftCode = "SWIFTCode",
+  /** CHSocialSecurityNumber */
   CHSocialSecurityNumber = "CHSocialSecurityNumber",
+  /** TWNationalID */
   TWNationalID = "TWNationalID",
+  /** TWPassportNumber */
   TWPassportNumber = "TWPassportNumber",
+  /** TWResidentCertificate */
   TWResidentCertificate = "TWResidentCertificate",
+  /** THPopulationIdentificationCode */
   THPopulationIdentificationCode = "THPopulationIdentificationCode",
+  /** TRNationalIdentificationNumber */
   TRNationalIdentificationNumber = "TRNationalIdentificationNumber",
+  /** UKDriversLicenseNumber */
   UKDriversLicenseNumber = "UKDriversLicenseNumber",
+  /** UKElectoralRollNumber */
   UKElectoralRollNumber = "UKElectoralRollNumber",
+  /** UKNationalHealthNumber */
   UKNationalHealthNumber = "UKNationalHealthNumber",
+  /** UKNationalInsuranceNumber */
   UKNationalInsuranceNumber = "UKNationalInsuranceNumber",
+  /** UKUniqueTaxpayerNumber */
   UKUniqueTaxpayerNumber = "UKUniqueTaxpayerNumber",
+  /** UsukPassportNumber */
   UsukPassportNumber = "USUKPassportNumber",
+  /** USBankAccountNumber */
   USBankAccountNumber = "USBankAccountNumber",
+  /** USDriversLicenseNumber */
   USDriversLicenseNumber = "USDriversLicenseNumber",
+  /** USIndividualTaxpayerIdentification */
   USIndividualTaxpayerIdentification = "USIndividualTaxpayerIdentification",
+  /** USSocialSecurityNumber */
   USSocialSecurityNumber = "USSocialSecurityNumber",
+  /** UAPassportNumberDomestic */
   UAPassportNumberDomestic = "UAPassportNumberDomestic",
+  /** UAPassportNumberInternational */
   UAPassportNumberInternational = "UAPassportNumberInternational",
+  /** Organization */
   Organization = "Organization",
+  /** Email */
   Email = "Email",
+  /** URL */
   URL = "URL",
+  /** Age */
   Age = "Age",
+  /** PhoneNumber */
   PhoneNumber = "PhoneNumber",
+  /** IPAddress */
   IPAddress = "IPAddress",
+  /** Date */
   Date = "Date",
+  /** Person */
   Person = "Person",
+  /** Address */
   Address = "Address",
+  /** All */
   All = "All",
+  /** Default */
   Default = "Default"
 }
 
@@ -1219,28 +1216,17 @@ export enum KnownPiiCategory {
  */
 export type PiiCategory = string;
 
-/** Known values of {@link ExtractiveSummarizationTaskParametersSortBy} that the service accepts. */
-export enum KnownExtractiveSummarizationTaskParametersSortBy {
-  Offset = "Offset",
-  Rank = "Rank"
-}
-
-/**
- * Defines values for ExtractiveSummarizationTaskParametersSortBy. \
- * {@link KnownExtractiveSummarizationTaskParametersSortBy} can be used interchangeably with ExtractiveSummarizationTaskParametersSortBy,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Offset** \
- * **Rank**
- */
-export type ExtractiveSummarizationTaskParametersSortBy = string;
-
 /** Known values of {@link ErrorCodeValue} that the service accepts. */
 export enum KnownErrorCodeValue {
+  /** InvalidRequest */
   InvalidRequest = "InvalidRequest",
+  /** InvalidArgument */
   InvalidArgument = "InvalidArgument",
+  /** InternalServerError */
   InternalServerError = "InternalServerError",
+  /** ServiceUnavailable */
   ServiceUnavailable = "ServiceUnavailable",
+  /** NotFound */
   NotFound = "NotFound"
 }
 
@@ -1259,14 +1245,23 @@ export type ErrorCodeValue = string;
 
 /** Known values of {@link InnerErrorCodeValue} that the service accepts. */
 export enum KnownInnerErrorCodeValue {
+  /** InvalidParameterValue */
   InvalidParameterValue = "InvalidParameterValue",
+  /** InvalidRequestBodyFormat */
   InvalidRequestBodyFormat = "InvalidRequestBodyFormat",
+  /** EmptyRequest */
   EmptyRequest = "EmptyRequest",
+  /** MissingInputRecords */
   MissingInputRecords = "MissingInputRecords",
+  /** InvalidDocument */
   InvalidDocument = "InvalidDocument",
+  /** ModelVersionIncorrect */
   ModelVersionIncorrect = "ModelVersionIncorrect",
+  /** InvalidDocumentBatch */
   InvalidDocumentBatch = "InvalidDocumentBatch",
+  /** UnsupportedLanguageCode */
   UnsupportedLanguageCode = "UnsupportedLanguageCode",
+  /** InvalidCountryHint */
   InvalidCountryHint = "InvalidCountryHint"
 }
 
@@ -1289,7 +1284,9 @@ export type InnerErrorCodeValue = string;
 
 /** Known values of {@link WarningCode} that the service accepts. */
 export enum KnownWarningCode {
+  /** LongWordsInDocument */
   LongWordsInDocument = "LongWordsInDocument",
+  /** DocumentTruncated */
   DocumentTruncated = "DocumentTruncated"
 }
 
@@ -1305,31 +1302,57 @@ export type WarningCode = string;
 
 /** Known values of {@link HealthcareEntityCategory} that the service accepts. */
 export enum KnownHealthcareEntityCategory {
+  /** BodyStructure */
   BodyStructure = "BODY_STRUCTURE",
+  /** AGE */
   AGE = "AGE",
+  /** Gender */
   Gender = "GENDER",
+  /** ExaminationName */
   ExaminationName = "EXAMINATION_NAME",
+  /** Date */
   Date = "DATE",
+  /** Direction */
   Direction = "DIRECTION",
+  /** Frequency */
   Frequency = "FREQUENCY",
+  /** MeasurementValue */
   MeasurementValue = "MEASUREMENT_VALUE",
+  /** MeasurementUnit */
   MeasurementUnit = "MEASUREMENT_UNIT",
+  /** RelationalOperator */
   RelationalOperator = "RELATIONAL_OPERATOR",
+  /** Time */
   Time = "TIME",
+  /** GeneORProtein */
   GeneORProtein = "GENE_OR_PROTEIN",
+  /** Variant */
   Variant = "VARIANT",
+  /** AdministrativeEvent */
   AdministrativeEvent = "ADMINISTRATIVE_EVENT",
+  /** CareEnvironment */
   CareEnvironment = "CARE_ENVIRONMENT",
+  /** HealthcareProfession */
   HealthcareProfession = "HEALTHCARE_PROFESSION",
+  /** Diagnosis */
   Diagnosis = "DIAGNOSIS",
+  /** SymptomORSign */
   SymptomORSign = "SYMPTOM_OR_SIGN",
+  /** ConditionQualifier */
   ConditionQualifier = "CONDITION_QUALIFIER",
+  /** MedicationClass */
   MedicationClass = "MEDICATION_CLASS",
+  /** MedicationName */
   MedicationName = "MEDICATION_NAME",
+  /** Dosage */
   Dosage = "DOSAGE",
+  /** MedicationForm */
   MedicationForm = "MEDICATION_FORM",
+  /** MedicationRoute */
   MedicationRoute = "MEDICATION_ROUTE",
+  /** FamilyRelation */
   FamilyRelation = "FAMILY_RELATION",
+  /** TreatmentName */
   TreatmentName = "TREATMENT_NAME"
 }
 
@@ -1369,26 +1392,47 @@ export type HealthcareEntityCategory = string;
 
 /** Known values of {@link RelationType} that the service accepts. */
 export enum KnownRelationType {
+  /** Abbreviation */
   Abbreviation = "Abbreviation",
+  /** DirectionOfBodyStructure */
   DirectionOfBodyStructure = "DirectionOfBodyStructure",
+  /** DirectionOfCondition */
   DirectionOfCondition = "DirectionOfCondition",
+  /** DirectionOfExamination */
   DirectionOfExamination = "DirectionOfExamination",
+  /** DirectionOfTreatment */
   DirectionOfTreatment = "DirectionOfTreatment",
+  /** DosageOfMedication */
   DosageOfMedication = "DosageOfMedication",
+  /** FormOfMedication */
   FormOfMedication = "FormOfMedication",
+  /** FrequencyOfMedication */
   FrequencyOfMedication = "FrequencyOfMedication",
+  /** FrequencyOfTreatment */
   FrequencyOfTreatment = "FrequencyOfTreatment",
+  /** QualifierOfCondition */
   QualifierOfCondition = "QualifierOfCondition",
+  /** RelationOfExamination */
   RelationOfExamination = "RelationOfExamination",
+  /** RouteOfMedication */
   RouteOfMedication = "RouteOfMedication",
+  /** TimeOfCondition */
   TimeOfCondition = "TimeOfCondition",
+  /** TimeOfEvent */
   TimeOfEvent = "TimeOfEvent",
+  /** TimeOfExamination */
   TimeOfExamination = "TimeOfExamination",
+  /** TimeOfMedication */
   TimeOfMedication = "TimeOfMedication",
+  /** TimeOfTreatment */
   TimeOfTreatment = "TimeOfTreatment",
+  /** UnitOfCondition */
   UnitOfCondition = "UnitOfCondition",
+  /** UnitOfExamination */
   UnitOfExamination = "UnitOfExamination",
+  /** ValueOfCondition */
   ValueOfCondition = "ValueOfCondition",
+  /** ValueOfExamination */
   ValueOfExamination = "ValueOfExamination"
 }
 
@@ -1454,17 +1498,16 @@ export type Certainty =
 export type Association = "subject" | "other";
 
 /** Optional parameters. */
-export interface GeneratedClientAnalyzeOptionalParams
-  extends coreClient.OperationOptions {
+export interface AnalyzeOptionalParams extends coreClient.OperationOptions {
   /** Collection of documents to analyze and tasks to execute. */
   body?: AnalyzeBatchInput;
 }
 
 /** Contains response data for the analyze operation. */
-export type GeneratedClientAnalyzeResponse = GeneratedClientAnalyzeHeaders;
+export type AnalyzeResponse = GeneratedClientAnalyzeHeaders;
 
 /** Optional parameters. */
-export interface GeneratedClientAnalyzeStatusOptionalParams
+export interface AnalyzeStatusOptionalParams
   extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
@@ -1475,10 +1518,10 @@ export interface GeneratedClientAnalyzeStatusOptionalParams
 }
 
 /** Contains response data for the analyzeStatus operation. */
-export type GeneratedClientAnalyzeStatusResponse = AnalyzeJobState;
+export type AnalyzeStatusResponse = AnalyzeJobState;
 
 /** Optional parameters. */
-export interface GeneratedClientHealthStatusOptionalParams
+export interface HealthStatusOptionalParams
   extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
@@ -1489,18 +1532,17 @@ export interface GeneratedClientHealthStatusOptionalParams
 }
 
 /** Contains response data for the healthStatus operation. */
-export type GeneratedClientHealthStatusResponse = HealthcareJobState;
+export type HealthStatusResponse = HealthcareJobState;
 
 /** Optional parameters. */
-export interface GeneratedClientCancelHealthJobOptionalParams
+export interface CancelHealthJobOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the cancelHealthJob operation. */
-export type GeneratedClientCancelHealthJobResponse = GeneratedClientCancelHealthJobHeaders;
+export type CancelHealthJobResponse = GeneratedClientCancelHealthJobHeaders;
 
 /** Optional parameters. */
-export interface GeneratedClientHealthOptionalParams
-  extends coreClient.OperationOptions {
+export interface HealthOptionalParams extends coreClient.OperationOptions {
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
   modelVersion?: string;
   /** (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets */
@@ -1510,10 +1552,10 @@ export interface GeneratedClientHealthOptionalParams
 }
 
 /** Contains response data for the health operation. */
-export type GeneratedClientHealthResponse = GeneratedClientHealthHeaders;
+export type HealthResponse = GeneratedClientHealthHeaders;
 
 /** Optional parameters. */
-export interface GeneratedClientEntitiesRecognitionGeneralOptionalParams
+export interface EntitiesRecognitionGeneralOptionalParams
   extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
@@ -1526,10 +1568,10 @@ export interface GeneratedClientEntitiesRecognitionGeneralOptionalParams
 }
 
 /** Contains response data for the entitiesRecognitionGeneral operation. */
-export type GeneratedClientEntitiesRecognitionGeneralResponse = EntitiesResult;
+export type EntitiesRecognitionGeneralResponse = EntitiesResult;
 
 /** Optional parameters. */
-export interface GeneratedClientEntitiesRecognitionPiiOptionalParams
+export interface EntitiesRecognitionPiiOptionalParams
   extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
@@ -1546,10 +1588,10 @@ export interface GeneratedClientEntitiesRecognitionPiiOptionalParams
 }
 
 /** Contains response data for the entitiesRecognitionPii operation. */
-export type GeneratedClientEntitiesRecognitionPiiResponse = PiiResult;
+export type EntitiesRecognitionPiiResponse = PiiResult;
 
 /** Optional parameters. */
-export interface GeneratedClientEntitiesLinkingOptionalParams
+export interface EntitiesLinkingOptionalParams
   extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
@@ -1562,11 +1604,10 @@ export interface GeneratedClientEntitiesLinkingOptionalParams
 }
 
 /** Contains response data for the entitiesLinking operation. */
-export type GeneratedClientEntitiesLinkingResponse = EntityLinkingResult;
+export type EntitiesLinkingResponse = EntityLinkingResult;
 
 /** Optional parameters. */
-export interface GeneratedClientKeyPhrasesOptionalParams
-  extends coreClient.OperationOptions {
+export interface KeyPhrasesOptionalParams extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
@@ -1576,11 +1617,10 @@ export interface GeneratedClientKeyPhrasesOptionalParams
 }
 
 /** Contains response data for the keyPhrases operation. */
-export type GeneratedClientKeyPhrasesResponse = KeyPhraseResult;
+export type KeyPhrasesResponse = KeyPhraseResult;
 
 /** Optional parameters. */
-export interface GeneratedClientLanguagesOptionalParams
-  extends coreClient.OperationOptions {
+export interface LanguagesOptionalParams extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
@@ -1590,11 +1630,10 @@ export interface GeneratedClientLanguagesOptionalParams
 }
 
 /** Contains response data for the languages operation. */
-export type GeneratedClientLanguagesResponse = LanguageResult;
+export type LanguagesResponse = LanguageResult;
 
 /** Optional parameters. */
-export interface GeneratedClientSentimentOptionalParams
-  extends coreClient.OperationOptions {
+export interface SentimentOptionalParams extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
@@ -1608,7 +1647,7 @@ export interface GeneratedClientSentimentOptionalParams
 }
 
 /** Contains response data for the sentiment operation. */
-export type GeneratedClientSentimentResponse = SentimentResponse;
+export type SentimentOperationResponse = SentimentResponse;
 
 /** Optional parameters. */
 export interface GeneratedClientOptionalParams

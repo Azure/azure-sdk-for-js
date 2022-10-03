@@ -21,6 +21,11 @@ export interface AccessPolicyEntry {
 // @public
 export type AccessPolicyUpdateKind = "add" | "replace" | "remove";
 
+// @public (undocumented)
+export interface Action {
+    type?: KeyRotationPolicyActionType;
+}
+
 // @public
 export type ActionsRequired = string;
 
@@ -152,6 +157,8 @@ export type Key = Resource & {
     curveName?: JsonWebKeyCurveName;
     readonly keyUri?: string;
     readonly keyUriWithVersion?: string;
+    rotationPolicy?: RotationPolicy;
+    releasePolicy?: KeyReleasePolicy;
 };
 
 // @public
@@ -192,6 +199,24 @@ export interface KeyProperties {
     readonly keyUri?: string;
     readonly keyUriWithVersion?: string;
     kty?: JsonWebKeyType;
+    releasePolicy?: KeyReleasePolicy;
+    rotationPolicy?: RotationPolicy;
+}
+
+// @public (undocumented)
+export interface KeyReleasePolicy {
+    contentType?: string;
+    data?: Uint8Array;
+}
+
+// @public
+export type KeyRotationPolicyActionType = "rotate" | "notify";
+
+// @public (undocumented)
+export interface KeyRotationPolicyAttributes {
+    readonly created?: number;
+    expiryTime?: string;
+    readonly updated?: number;
 }
 
 // @public
@@ -377,6 +402,8 @@ export enum KnownJsonWebKeyOperation {
     // (undocumented)
     Import = "import",
     // (undocumented)
+    Release = "release",
+    // (undocumented)
     Sign = "sign",
     // (undocumented)
     UnwrapKey = "unwrapKey",
@@ -415,6 +442,8 @@ export enum KnownKeyPermissions {
     // (undocumented)
     Get = "get",
     // (undocumented)
+    Getrotationpolicy = "getrotationpolicy",
+    // (undocumented)
     Import = "import",
     // (undocumented)
     List = "list",
@@ -423,7 +452,13 @@ export enum KnownKeyPermissions {
     // (undocumented)
     Recover = "recover",
     // (undocumented)
+    Release = "release",
+    // (undocumented)
     Restore = "restore",
+    // (undocumented)
+    Rotate = "rotate",
+    // (undocumented)
+    Setrotationpolicy = "setrotationpolicy",
     // (undocumented)
     Sign = "sign",
     // (undocumented)
@@ -574,6 +609,12 @@ export enum KnownVaultProvisioningState {
     RegisteringDns = "RegisteringDns",
     // (undocumented)
     Succeeded = "Succeeded"
+}
+
+// @public (undocumented)
+export interface LifetimeAction {
+    action?: Action;
+    trigger?: Trigger;
 }
 
 // @public
@@ -1110,6 +1151,12 @@ export interface ResourceListResult {
     value?: Resource[];
 }
 
+// @public (undocumented)
+export interface RotationPolicy {
+    attributes?: KeyRotationPolicyAttributes;
+    lifetimeActions?: LifetimeAction[];
+}
+
 // @public
 export type Secret = Resource & {
     properties: SecretProperties;
@@ -1233,6 +1280,12 @@ export interface SystemData {
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: IdentityType;
+}
+
+// @public (undocumented)
+export interface Trigger {
+    timeAfterCreate?: string;
+    timeBeforeExpiry?: string;
 }
 
 // @public

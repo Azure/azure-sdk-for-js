@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Creates a Microsoft team to investigate the incident by sharing information and insights between participants.
  *
  * @summary Creates a Microsoft team to investigate the incident by sharing information and insights between participants.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/incidents/CreateTeam.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/incidents/CreateTeam.json
  */
 async function createsIncidentTeamsGroup() {
   const subscriptionId = "9023f5b5-df22-4313-8fbf-b4b75af8a6d9";

@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/recognition/general?stringIndexType=Utf16CodeUnit",
+      "RequestUri": "https://endpoint/text/analytics/v3.1/entities/recognition/general?stringIndexType=Utf16CodeUnit",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
@@ -10,9 +10,8 @@
         "Content-Length": "630",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "traceparent": "00-00000000000000000000000000000020-0000000000000040-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "bd66b60c-ee23-4c74-9aaf-0c777e55db9a"
+        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.9.1 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "dbcb13f3-8fdd-4c1d-ac2d-42092a3a42b8"
       },
       "RequestBody": {
         "documents": [
@@ -45,14 +44,14 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "d722031a-5f60-484d-a0f9-510a506c9308",
+        "apim-request-id": "c46ffa2a-8e59-46db-9cb6-8269685a96de",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=5,CognitiveServices.TextAnalytics.TextRecords=5",
-        "Date": "Fri, 18 Feb 2022 18:59:09 GMT",
+        "Date": "Fri, 22 Jul 2022 02:35:51 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "37"
+        "x-envoy-upstream-service-time": "32"
       },
       "ResponseBody": {
         "documents": [

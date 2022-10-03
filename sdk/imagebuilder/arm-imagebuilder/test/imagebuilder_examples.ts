@@ -8,33 +8,27 @@
 
 import {
   env,
-  record,
-  RecorderEnvironmentSetup,
   Recorder,
   delay,
-  isPlaybackMode
+  isPlaybackMode,
+  RecorderStartOptions,
 } from "@azure-tools/test-recorder";
-import * as assert from "assert";
-import { ClientSecretCredential } from "@azure/identity";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { assert } from "chai";
+import { Context } from "mocha";
 import { ImageBuilderClient } from "../src/imageBuilderClient";
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { ManagedServiceIdentityClient } from "@azure/arm-msi";
 
-const recorderEnvSetup: RecorderEnvironmentSetup = {
-  replaceableVariables: {
-    AZURE_CLIENT_ID: "azure_client_id",
-    AZURE_CLIENT_SECRET: "azure_client_secret",
-    AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-    SUBSCRIPTION_ID: "azure_subscription_id"
-  },
-  customizationsOnRecordings: [
-    (recording: any): any =>
-      recording.replace(
-        /"access_token":"[^"]*"/g,
-        `"access_token":"access_token"`
-      )
-  ],
-  queryParametersToSkip: []
+const replaceableVariables: Record<string, string> = {
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+  SUBSCRIPTION_ID: "azure_subscription_id"
+};
+
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback: replaceableVariables
 };
 
 export const testPollingOptions = {
@@ -55,18 +49,15 @@ describe("ImageBuilder test", () => {
   let imagesName: string;
   let msiName: string;
 
-  beforeEach(async function() {
-    recorder = record(this, recorderEnvSetup);
-    subscriptionId = env.SUBSCRIPTION_ID;
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
-    const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
-    );
-    client = new ImageBuilderClient(credential, subscriptionId);
-    compute_client = new ComputeManagementClient(credential,subscriptionId);
-    msi_client = new ManagedServiceIdentityClient(credential,subscriptionId);
+    const credential = createTestCredential();
+    client = new ImageBuilderClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    compute_client = new ComputeManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    msi_client = new ManagedServiceIdentityClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
     imageTemplateName = "myimageTemplatexxxz";
@@ -76,114 +67,115 @@ describe("ImageBuilder test", () => {
     msiName = "mymsiaaa";
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
-  it("create parameter for virtualMachineImageTemplates test", async function() {
+  it("create parameter for virtualMachineImageTemplates test", async function () {
     //create a userAssignedIdentities
-    const msiCreate = await msi_client.userAssignedIdentities.createOrUpdate(resourceGroup,msiName,{location: location});
+    const msiCreate = await msi_client.userAssignedIdentities.createOrUpdate(resourceGroup, msiName, { location: location });
     //create a disk
-    const diskCreate = await compute_client.disks.beginCreateOrUpdateAndWait(resourceGroup,diskName,{
+    const diskCreate = await compute_client.disks.beginCreateOrUpdateAndWait(resourceGroup, diskName, {
       location: location,
       creationData: {
-          createOption: "Empty"
+        createOption: "Empty"
       },
       diskSizeGB: 200
     })
     //create a snapshots
-    const snapshotsCreate = await compute_client.snapshots.beginCreateOrUpdateAndWait(resourceGroup,snapshotName,{
+    const snapshotsCreate = await compute_client.snapshots.beginCreateOrUpdateAndWait(resourceGroup, snapshotName, {
       location: location,
       creationData: {
-          createOption: "Copy",
-          sourceUri: "/subscriptions/" +subscriptionId +"/resourceGroups/" +resourceGroup +"/providers/Microsoft.Compute/disks/mydiskaaa",
+        createOption: "Copy",
+        sourceUri: "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Compute/disks/mydiskaaa",
       }
     })
     //create a images
-    const imagesCreate = await compute_client.images.beginCreateOrUpdateAndWait(resourceGroup,imagesName,{
+    const imagesCreate = await compute_client.images.beginCreateOrUpdateAndWait(resourceGroup, imagesName, {
       location: location,
       storageProfile: {
-          osDisk: {
-              osType: "Linux",
-              osState: "Generalized",
-              snapshot: {
-                  id: "subscriptions/" +subscriptionId +"/resourceGroups/" +resourceGroup +"/providers/Microsoft.Compute/snapshots/mysnapshotaaa",
-              }
+        osDisk: {
+          osType: "Linux",
+          osState: "Generalized",
+          snapshot: {
+            id: "subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Compute/snapshots/mysnapshotaaa",
           }
+        }
       },
       hyperVGeneration: "V1"
     })
   });
 
-  it("virtualMachineImageTemplates create test", async function() {
+  it("virtualMachineImageTemplates create test", async function () {
 
-    if(isPlaybackMode()) { 
-      this.skip(); 
+    if (isPlaybackMode()) {
+      this.skip();
     }
     //before create ,we need add msi owner authority for images in portal
-    const res = await client.virtualMachineImageTemplates.beginCreateOrUpdateAndWait(resourceGroup,imageTemplateName,{
-      location: location,
-      tags: {
+    const res = await client.virtualMachineImageTemplates.beginCreateOrUpdateAndWait(resourceGroup, imageTemplateName,
+      {
+        location: location,
+        tags: {
           tag1: "IT_T1",
           tag2: "IT2_T2"
-      },
-      identity: {
+        },
+        identity: {
           type: "UserAssigned",
           userAssignedIdentities: {
-              "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourcegroups/myjstest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mymsiaaa": {}
+            "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourcegroups/myjstest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mymsiaaa": {}
           }
-      },
-      source: {
+        },
+        source: {
           type: "ManagedImage",
-          imageId: "/subscriptions/"+subscriptionId+"/resourceGroups/"+resourceGroup+"/providers/Microsoft.Compute/images/myimageaaa"
-      },
-      customize: [
+          imageId: "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Compute/images/myimagesaaa"
+        },
+        customize: [
           {
-              type: "Shell",
-              name: "Shell Customizer Example",
-              scriptUri: "https://github.com/Azure/azure-quickstart-templates/blob/master/quickstarts/microsoft.compute/vm-msi/scripts/install-and-run-cli-2.sh"
+            type: "Shell",
+            name: "Shell Customizer Example",
+            scriptUri: "https://github.com/Azure/azure-quickstart-templates/blob/master/quickstarts/microsoft.compute/vm-msi/scripts/install-and-run-cli-2.sh"
           }
-      ],
-      distribute: [
+        ],
+        distribute: [
           {
-              type: "ManagedImage",
-              location: location,
-              runOutputName: "image_it_pir_1",
-              imageId: "/subscriptions/"+subscriptionId+"/resourceGroups/"+resourceGroup+"/providers/Microsoft.Compute/images/myimageaaa",
-              artifactTags: {
-                  tagName: "value"
-              }
+            type: "ManagedImage",
+            location: location,
+            runOutputName: "image_it_pir_1",
+            imageId: "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Compute/images/myimagesaaa",
+            artifactTags: {
+              tagName: "value"
+            }
           }
-      ]
-    })
+        ]
+      }, testPollingOptions)
+  }).timeout(3600000);;
+
+  it("virtualMachineImageTemplates get test", async function () {
+    const res = await client.virtualMachineImageTemplates.get(resourceGroup, imageTemplateName);
+    assert.equal(res.name, imageTemplateName);
   });
 
-  it("virtualMachineImageTemplates get test", async function() {
-    const res = await client.virtualMachineImageTemplates.get(resourceGroup,imageTemplateName);
-    assert.equal(res.name,imageTemplateName);
-  });
-
-  it("virtualMachineImageTemplates list test", async function() {
+  it("virtualMachineImageTemplates list test", async function () {
     const resArray = new Array();
-    for await (let item of client.virtualMachineImageTemplates.list()){
+    for await (let item of client.virtualMachineImageTemplates.list()) {
       resArray.push(item);
     }
-    assert.equal(resArray.length,1);
+    assert.equal(resArray.length, 1);
   });
 
-  it("virtualMachineImageTemplates delete test", async function() {
-    const res = await client.virtualMachineImageTemplates.beginDeleteAndWait(resourceGroup,imageTemplateName);
+  it("virtualMachineImageTemplates delete test", async function () {
+    const res = await client.virtualMachineImageTemplates.beginDeleteAndWait(resourceGroup, imageTemplateName);
     const resArray = new Array();
-    for await (let item of client.virtualMachineImageTemplates.list()){
+    for await (let item of client.virtualMachineImageTemplates.list()) {
       resArray.push(item);
     }
-    assert.equal(resArray.length,0);
+    assert.equal(resArray.length, 0);
   });
 
-  it("delete parameter for virtualMachineImageTemplates test", async function() {
-    const imagesDelete = await compute_client.images.beginDeleteAndWait(resourceGroup,imagesName)
-    const snapshotsDelete = await compute_client.snapshots.beginDeleteAndWait(resourceGroup,snapshotName)
-    const diskDelete = await compute_client.disks.beginDeleteAndWait(resourceGroup,diskName)
-    const msiDelete = await msi_client.userAssignedIdentities.delete(resourceGroup,msiName);
+  it("delete parameter for virtualMachineImageTemplates test", async function () {
+    const imagesDelete = await compute_client.images.beginDeleteAndWait(resourceGroup, imagesName);
+    const snapshotsDelete = await compute_client.snapshots.beginDeleteAndWait(resourceGroup, snapshotName);
+    const diskDelete = await compute_client.disks.beginDeleteAndWait(resourceGroup, diskName);
+    const msiDelete = await msi_client.userAssignedIdentities.delete(resourceGroup, msiName);
   });
 });

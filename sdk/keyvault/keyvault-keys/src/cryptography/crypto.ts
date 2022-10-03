@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import {
+  Verify,
   createHash as cryptoCreateHash,
   createVerify as cryptoCreateVerify,
-  Verify,
   randomBytes as cryptoRandomBytes,
 } from "crypto";
 

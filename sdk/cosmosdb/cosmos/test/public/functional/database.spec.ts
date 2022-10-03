@@ -63,7 +63,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         // read database after deletion
         await client.database(db.id).read();
         assert.fail("Read database on non-existent database should fail");
-      } catch (err) {
+      } catch (err: any) {
         const notFoundErrorCode = 404;
         assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
       }
@@ -101,7 +101,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       try {
         await client.databases.create({ id: "id_ends_with_space " });
         assert.fail("Must throw if id ends with a space");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal("Id ends with a space.", err.message);
       }
     });
@@ -111,7 +111,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       try {
         await client.databases.create({ id: "id_with_illegal/_char" });
         assert.fail("Must throw if id has illegal characters");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal("Id contains illegal chars.", err.message);
       }
     });
@@ -121,7 +121,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       try {
         await client.databases.create({ id: "id_with_illegal\\_char" });
         assert.fail("Must throw if id contains illegal characters");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal("Id contains illegal chars.", err.message);
       }
     });
@@ -131,7 +131,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       try {
         await client.databases.create({ id: "id_with_illegal?_?char" });
         assert.fail("Must throw if id contains illegal characters");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal("Id contains illegal chars.", err.message);
       }
     });
@@ -141,7 +141,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       try {
         await client.databases.create({ id: "id_with_illegal#_char" });
         assert.fail("Must throw if id contains illegal characters");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal("Id contains illegal chars.", err.message);
       }
     });

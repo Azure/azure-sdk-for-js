@@ -10,7 +10,7 @@ import { ClientOptions } from "@azure-rest/core-client";
 import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 
 const replaceableVariables: { [k: string]: string } = {
-  ENDPOINT: "https://endpoint",
+  ENDPOINT: "https://endpoint/",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",

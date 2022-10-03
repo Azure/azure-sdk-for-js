@@ -2,7 +2,7 @@
   "name": "@azure/app-configuration",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure App Configuration service.",
-  "version": "1.3.2",
+  "version": "1.4.0-beta.2",
   "sdk-type": "client",
   "keywords": [
     "node",
@@ -20,9 +20,6 @@
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "browser": {
-    "./dist-esm/src/internal/cryptoHelpers.js": "./dist-esm/src/internal/cryptoHelpers.browser.js"
   },
   "react-native": {
     "./dist/index.js": "./dist-esm/src/index.js"
@@ -42,11 +39,9 @@
   ],
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:node": "tsc -p . && dev-tool run bundle --browser-test=false",
-    "build:browser": "tsc -p . && dev-tool run bundle --browser-test=false",
-    "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
+    "build:test": "tsc -p . && dev-tool run bundle",
     "build:samples": "echo Obsolete.",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle --browser-test=false && api-extractor run --local",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log",
     "coverage": "nyc --reporter=lcov --exclude-after-remap=false mocha -t 120000 dist-test/index.js --reporter ../../../common/tools/mocha-multi-reporter.js",
@@ -54,8 +49,8 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript swagger/swagger.md",
-    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts",
+    "lint:fix": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js --fix",
+    "lint": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js",
     "pack": "npm pack 2>&1",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "npm run build:test && cross-env TEST_MODE=live karma start --single-run",
@@ -75,44 +70,43 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/appConfigurationClient.ts",
+        "path": "src/internal/constants.ts",
         "prefix": "packageVersion"
       },
       {
-        "path": "src/generated/src/appConfigurationContext.ts",
-        "prefix": "packageVersion"
+        "path": "swagger/swagger.md",
+        "prefix": "package-version"
       }
     ]
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-asynciterator-polyfill": "^1.0.0",
-    "@azure/core-http": "^2.0.0",
+    "@azure/core-client": "^1.5.0",
+    "@azure/core-http-compat": "^1.2.0",
     "@azure/core-paging": "^1.1.1",
-    "@azure/core-tracing": "1.0.0-preview.13",
+    "@azure/core-rest-pipeline": "^1.6.0",
+    "@azure/core-tracing": "^1.0.0",
     "@azure/core-auth": "^1.3.0",
+    "@azure/core-util": "^1.1.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/eventgrid": "4.9.0",
     "@azure/identity": "^2.0.1",
     "@azure/keyvault-secrets": "^4.2.0",
     "@azure-tools/test-recorder": "^1.0.0",
-    "@microsoft/api-extractor": "^7.18.11",
-    "@rollup/plugin-commonjs": "^21.0.1",
-    "@rollup/plugin-inject": "^4.0.0",
-    "@rollup/plugin-json": "^4.0.0",
-    "@rollup/plugin-multi-entry": "^3.0.0",
-    "@rollup/plugin-node-resolve": "^8.0.0",
-    "@rollup/plugin-replace": "^2.2.0",
+    "@azure/test-utils": "^1.0.0",
+    "@microsoft/api-extractor": "7.18.11",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
     "@types/sinon": "^9.0.4",
+    "@types/uuid": "^8.3.4",
     "chai": "^4.2.0",
     "dotenv": "^8.2.0",
-    "eslint": "^7.15.0",
+    "eslint": "^8.0.0",
     "esm": "^3.2.18",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
@@ -131,14 +125,11 @@
     "nyc": "^15.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "rollup": "^2.0.0",
-    "rollup-plugin-shim": "^1.0.0",
-    "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~4.2.0",
+    "typescript": "~4.6.0",
     "uglify-js": "^3.4.9",
+    "uuid": "^8.3.0",
     "cross-env": "^7.0.2"
   },
   "//sampleConfiguration": {
@@ -151,7 +142,8 @@
       "Azure App Configuration account": "https://docs.microsoft.com/azure/azure-app-configuration/quickstart-aspnet-core-app?tabs=core5x#create-an-app-configuration-store"
     },
     "skip": [
-      "secretReference.js"
+      "secretReference.js",
+      "updateSyncTokenSample.js"
     ]
   }
 }

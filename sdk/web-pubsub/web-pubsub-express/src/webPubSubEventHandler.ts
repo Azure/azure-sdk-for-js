@@ -75,7 +75,7 @@ export class WebPubSubEventHandler {
             if (await this._cloudEventsHandler.handleRequest(req, res)) {
               return;
             }
-          } catch (err) {
+          } catch (err: any) {
             next(err);
             return;
           }

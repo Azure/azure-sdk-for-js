@@ -24,6 +24,7 @@ import {
   recorderEnvSetup,
   getDataLakeFileSystemClientWithSASCredential,
 } from "../utils";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 
 describe("DataLakePathClient Node.js only", () => {
   let fileSystemName: string;
@@ -51,6 +52,338 @@ describe("DataLakePathClient Node.js only", () => {
   afterEach(async function () {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
+  });
+
+  it("DataLakeFileClient create with owner", async () => {
+    const testFileName = recorder.getUniqueName("testfile");
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const owner = "25fb43dd-e251-48a8-903b-e924f405299a";
+
+    await testFileClient.create({ owner: owner });
+    const result = await testFileClient.getAccessControl();
+    assert.equal(result.owner, owner);
+  });
+
+  it("DataLakeFileClient create with group", async () => {
+    const testFileName = recorder.getUniqueName("testfile");
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const group = "67089e35-dc13-458b-b06e-d873b8406284";
+
+    await testFileClient.create({ group: group });
+    const result = await testFileClient.getAccessControl();
+    assert.equal(result.group, group);
+  });
+
+  it("DataLakeFileClient create with acl", async () => {
+    const testFileName = recorder.getUniqueName("testfile");
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const acl: PathAccessControlItem[] = [
+      {
+        accessControlType: "user",
+        entityId: "",
+        defaultScope: false,
+        permissions: {
+          read: true,
+          write: true,
+          execute: true,
+        },
+      },
+      {
+        accessControlType: "group",
+        entityId: "",
+        defaultScope: false,
+        permissions: {
+          read: true,
+          write: false,
+          execute: true,
+        },
+      },
+      {
+        accessControlType: "other",
+        entityId: "",
+        defaultScope: false,
+        permissions: {
+          read: false,
+          write: true,
+          execute: false,
+        },
+      },
+    ];
+    await testFileClient.create({ acl: acl });
+
+    const permissions = await testFileClient.getAccessControl();
+
+    assert.deepStrictEqual(permissions.owner, "$superuser");
+    assert.deepStrictEqual(permissions.group, "$superuser");
+    assert.deepStrictEqual(permissions.permissions, {
+      extendedAcls: false,
+      stickyBit: false,
+      owner: {
+        read: true,
+        write: true,
+        execute: true,
+      },
+      group: {
+        read: true,
+        write: false,
+        execute: true,
+      },
+      other: {
+        read: false,
+        write: true,
+        execute: false,
+      },
+    });
+    assert.deepStrictEqual(permissions.acl, acl);
+  });
+
+  it("DataLakeFileClient createIfNotExists with owner", async () => {
+    const testFileName = recorder.getUniqueName("testfile");
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const owner = "25fb43dd-e251-48a8-903b-e924f405299a";
+
+    await testFileClient.createIfNotExists({ owner: owner });
+    const result = await testFileClient.getAccessControl();
+    assert.equal(result.owner, owner);
+  });
+
+  it("DataLakeFileClient createIfNotExists with group", async () => {
+    const testFileName = recorder.getUniqueName("testfile");
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const group = "67089e35-dc13-458b-b06e-d873b8406284";
+
+    await testFileClient.createIfNotExists({ group: group });
+    const result = await testFileClient.getAccessControl();
+    assert.equal(result.group, group);
+  });
+
+  it("DataLakeFileClient createIfNotExists with acl", async () => {
+    const testFileName = recorder.getUniqueName("testfile");
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const acl: PathAccessControlItem[] = [
+      {
+        accessControlType: "user",
+        entityId: "",
+        defaultScope: false,
+        permissions: {
+          read: true,
+          write: true,
+          execute: true,
+        },
+      },
+      {
+        accessControlType: "group",
+        entityId: "",
+        defaultScope: false,
+        permissions: {
+          read: true,
+          write: false,
+          execute: true,
+        },
+      },
+      {
+        accessControlType: "other",
+        entityId: "",
+        defaultScope: false,
+        permissions: {
+          read: false,
+          write: true,
+          execute: false,
+        },
+      },
+    ];
+    await testFileClient.createIfNotExists({ acl: acl });
+
+    const permissions = await testFileClient.getAccessControl();
+
+    assert.deepStrictEqual(permissions.owner, "$superuser");
+    assert.deepStrictEqual(permissions.group, "$superuser");
+    assert.deepStrictEqual(permissions.permissions, {
+      extendedAcls: false,
+      stickyBit: false,
+      owner: {
+        read: true,
+        write: true,
+        execute: true,
+      },
+      group: {
+        read: true,
+        write: false,
+        execute: true,
+      },
+      other: {
+        read: false,
+        write: true,
+        execute: false,
+      },
+    });
+    assert.deepStrictEqual(permissions.acl, acl);
+  });
+
+  it("DataLakeDirectoryClient create with owner", async () => {
+    const testDirName = recorder.getUniqueName("testdir");
+    const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
+    const owner = "25fb43dd-e251-48a8-903b-e924f405299a";
+
+    await testDirClient.create({ owner: owner });
+    const result = await testDirClient.getAccessControl();
+    assert.equal(result.owner, owner);
+  });
+
+  it("DataLakeDirectoryClient create with group", async () => {
+    const testDirName = recorder.getUniqueName("testdir");
+    const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
+    const group = "67089e35-dc13-458b-b06e-d873b8406284";
+
+    await testDirClient.create({ group: group });
+    const result = await testDirClient.getAccessControl();
+    assert.equal(result.group, group);
+  });
+
+  it("DataLakeDirectoryClient create with acl", async () => {
+    const testDirName = recorder.getUniqueName("testdir");
+    const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
+    const acl: PathAccessControlItem[] = [
+      {
+        accessControlType: "user",
+        entityId: "",
+        defaultScope: false,
+        permissions: {
+          read: true,
+          write: true,
+          execute: true,
+        },
+      },
+      {
+        accessControlType: "group",
+        entityId: "",
+        defaultScope: false,
+        permissions: {
+          read: true,
+          write: false,
+          execute: true,
+        },
+      },
+      {
+        accessControlType: "other",
+        entityId: "",
+        defaultScope: false,
+        permissions: {
+          read: false,
+          write: true,
+          execute: false,
+        },
+      },
+    ];
+    await testDirClient.create({ acl: acl });
+
+    const permissions = await testDirClient.getAccessControl();
+
+    assert.deepStrictEqual(permissions.owner, "$superuser");
+    assert.deepStrictEqual(permissions.group, "$superuser");
+    assert.deepStrictEqual(permissions.permissions, {
+      extendedAcls: false,
+      stickyBit: false,
+      owner: {
+        read: true,
+        write: true,
+        execute: true,
+      },
+      group: {
+        read: true,
+        write: false,
+        execute: true,
+      },
+      other: {
+        read: false,
+        write: true,
+        execute: false,
+      },
+    });
+    assert.deepStrictEqual(permissions.acl, acl);
+  });
+
+  it("DataLakeDirectoryClient createIfNotExists with owner", async () => {
+    const testDirName = recorder.getUniqueName("testdir");
+    const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
+    const owner = "25fb43dd-e251-48a8-903b-e924f405299a";
+
+    await testDirClient.createIfNotExists({ owner: owner });
+    const result = await testDirClient.getAccessControl();
+    assert.equal(result.owner, owner);
+  });
+
+  it("DataLakeDirectoryClient createIfNotExists with group", async () => {
+    const testDirName = recorder.getUniqueName("testdir");
+    const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
+    const group = "67089e35-dc13-458b-b06e-d873b8406284";
+
+    await testDirClient.createIfNotExists({ group: group });
+    const result = await testDirClient.getAccessControl();
+    assert.equal(result.group, group);
+  });
+
+  it("DataLakeDirectoryClient createIfNotExists with acl", async () => {
+    const testDirName = recorder.getUniqueName("testdir");
+    const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
+    const acl: PathAccessControlItem[] = [
+      {
+        accessControlType: "user",
+        entityId: "",
+        defaultScope: false,
+        permissions: {
+          read: true,
+          write: true,
+          execute: true,
+        },
+      },
+      {
+        accessControlType: "group",
+        entityId: "",
+        defaultScope: false,
+        permissions: {
+          read: true,
+          write: false,
+          execute: true,
+        },
+      },
+      {
+        accessControlType: "other",
+        entityId: "",
+        defaultScope: false,
+        permissions: {
+          read: false,
+          write: true,
+          execute: false,
+        },
+      },
+    ];
+    await testDirClient.createIfNotExists({ acl: acl });
+
+    const permissions = await testDirClient.getAccessControl();
+
+    assert.deepStrictEqual(permissions.owner, "$superuser");
+    assert.deepStrictEqual(permissions.group, "$superuser");
+    assert.deepStrictEqual(permissions.permissions, {
+      extendedAcls: false,
+      stickyBit: false,
+      owner: {
+        read: true,
+        write: true,
+        execute: true,
+      },
+      group: {
+        read: true,
+        write: false,
+        execute: true,
+      },
+      other: {
+        read: false,
+        write: true,
+        execute: false,
+      },
+    });
+    assert.deepStrictEqual(permissions.acl, acl);
   });
 
   it("setAccessControl", async () => {
@@ -207,7 +540,7 @@ describe("DataLakePathClient Node.js only", () => {
         permissions: {
           read: false,
           write: true,
-          execute: true,
+          execute: false,
         },
       },
     ];
@@ -238,10 +571,7 @@ describe("DataLakePathClient Node.js only", () => {
 
     assert.deepStrictEqual(response.owner, "$superuser");
     assert.deepStrictEqual(response.group, "$superuser");
-    assert.deepStrictEqual(response.permissions, {
-      ...permissions,
-      other: { ...permissions.other, execute: true },
-    });
+    assert.deepStrictEqual(response.permissions, permissions);
     assert.deepStrictEqual(response.acl, acl);
   });
 
@@ -295,7 +625,7 @@ describe("DataLakePathClient Node.js only", () => {
       other: {
         read: false,
         write: true,
-        execute: false,
+        execute: true,
       },
     };
 
@@ -442,6 +772,25 @@ describe("DataLakePathClient Node.js only", () => {
     });
 
     assert.deepStrictEqual(await bodyToString(response), "0,mdifjt55.ea3,mdifjt55.ea3\n");
+  });
+
+  it("quick query with CPK", async () => {
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    const fileClient2 = fileSystemClient.getFileClient(fileName + "2");
+    await fileClient2.create({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    await fileClient2.append(csvContent, 0, csvContent.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    await fileClient2.flush(csvContent.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const response = await fileClient2.query("select * from BlobStorage", {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    assert.deepStrictEqual(await bodyToString(response), csvContent);
   });
 });
 
@@ -677,7 +1026,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
           abortSignal: aborter.signal,
         }
       );
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "DataLakeAclChangeFailedError");
       assert.equal(err.innerError.name, "AbortError");
       assert.equal(

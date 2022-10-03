@@ -12,6 +12,9 @@ import {
   Spacecraft,
   SpacecraftsListBySubscriptionOptionalParams,
   SpacecraftsListOptionalParams,
+  AvailableContacts,
+  ContactParametersContactProfile,
+  SpacecraftsListAvailableContactsOptionalParams,
   SpacecraftsGetOptionalParams,
   SpacecraftsGetResponse,
   SpacecraftsCreateOrUpdateOptionalParams,
@@ -19,10 +22,7 @@ import {
   SpacecraftsDeleteOptionalParams,
   TagsObject,
   SpacecraftsUpdateTagsOptionalParams,
-  SpacecraftsUpdateTagsResponse,
-  ResourceReference,
-  SpacecraftsListAvailableContactsOptionalParams,
-  SpacecraftsListAvailableContactsResponse
+  SpacecraftsUpdateTagsResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,6 +44,25 @@ export interface Spacecrafts {
     resourceGroupName: string,
     options?: SpacecraftsListOptionalParams
   ): PagedAsyncIterableIterator<Spacecraft>;
+  /**
+   * Return list of available contacts
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param spacecraftName Spacecraft ID
+   * @param contactProfile The reference to the contact profile resource.
+   * @param groundStationName Name of Azure Ground Station.
+   * @param startTime Start time of a contact.
+   * @param endTime End time of a contact.
+   * @param options The options parameters.
+   */
+  beginListAvailableContactsAndWait(
+    resourceGroupName: string,
+    spacecraftName: string,
+    contactProfile: ContactParametersContactProfile,
+    groundStationName: string,
+    startTime: Date,
+    endTime: Date,
+    options?: SpacecraftsListAvailableContactsOptionalParams
+  ): PagedAsyncIterableIterator<AvailableContacts>;
   /**
    * Gets the specified spacecraft in a specified resource group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -115,53 +134,28 @@ export interface Spacecrafts {
    * @param parameters Parameters supplied to update spacecraft tags.
    * @param options The options parameters.
    */
-  updateTags(
+  beginUpdateTags(
+    resourceGroupName: string,
+    spacecraftName: string,
+    parameters: TagsObject,
+    options?: SpacecraftsUpdateTagsOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SpacecraftsUpdateTagsResponse>,
+      SpacecraftsUpdateTagsResponse
+    >
+  >;
+  /**
+   * Updates the specified spacecraft tags.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param spacecraftName Spacecraft ID
+   * @param parameters Parameters supplied to update spacecraft tags.
+   * @param options The options parameters.
+   */
+  beginUpdateTagsAndWait(
     resourceGroupName: string,
     spacecraftName: string,
     parameters: TagsObject,
     options?: SpacecraftsUpdateTagsOptionalParams
   ): Promise<SpacecraftsUpdateTagsResponse>;
-  /**
-   * Return list of available contacts
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
-   * @param contactProfile The reference to the contact profile resource.
-   * @param groundStationName Name of Azure Ground Station.
-   * @param startTime Start time of a contact.
-   * @param endTime End time of a contact.
-   * @param options The options parameters.
-   */
-  beginListAvailableContacts(
-    resourceGroupName: string,
-    spacecraftName: string,
-    contactProfile: ResourceReference,
-    groundStationName: string,
-    startTime: Date,
-    endTime: Date,
-    options?: SpacecraftsListAvailableContactsOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<SpacecraftsListAvailableContactsResponse>,
-      SpacecraftsListAvailableContactsResponse
-    >
-  >;
-  /**
-   * Return list of available contacts
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
-   * @param contactProfile The reference to the contact profile resource.
-   * @param groundStationName Name of Azure Ground Station.
-   * @param startTime Start time of a contact.
-   * @param endTime End time of a contact.
-   * @param options The options parameters.
-   */
-  beginListAvailableContactsAndWait(
-    resourceGroupName: string,
-    spacecraftName: string,
-    contactProfile: ResourceReference,
-    groundStationName: string,
-    startTime: Date,
-    endTime: Date,
-    options?: SpacecraftsListAvailableContactsOptionalParams
-  ): Promise<SpacecraftsListAvailableContactsResponse>;
 }

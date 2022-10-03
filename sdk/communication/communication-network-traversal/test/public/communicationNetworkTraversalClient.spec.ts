@@ -1,29 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   createRecordedCommunicationRelayClient,
   createRecordedCommunicationRelayClientWithToken,
 } from "./utils/recordedClient";
-import { CommunicationUserIdentifier } from "@azure/communication-common";
-import { assert } from "chai";
-import { env, Recorder } from "@azure-tools/test-recorder";
-import { CommunicationRelayClient } from "../../src";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
+import { CommunicationRelayClient } from "../../src";
+import { CommunicationUserIdentifier } from "@azure/communication-common";
 import { Context } from "mocha";
-import { matrix } from "@azure/test-utils";
 import { GetRelayConfigurationOptions } from "../../src/models";
+import { assert } from "chai";
+import { matrix } from "@azure/test-utils";
 
-matrix([[true, false]], async function (useAad) {
+matrix([[true, false]], async function (useAad: boolean) {
   describe(`CommunicationNetworkingClient [Playback/Live]${useAad ? " [AAD]" : ""}`, function () {
     let recorder: Recorder;
-    let client: CommunicationRelayClient;
+    let relayClient: CommunicationRelayClient;
+    let identityClient: CommunicationIdentityClient;
 
-    beforeEach(function (this: Context) {
+    beforeEach(async function (this: Context) {
       if (useAad) {
-        ({ client, recorder } = createRecordedCommunicationRelayClientWithToken(this));
+        ({ identityClient, relayClient, recorder } =
+          await createRecordedCommunicationRelayClientWithToken(this));
       } else {
-        ({ client, recorder } = createRecordedCommunicationRelayClient(this));
+        ({ identityClient, relayClient, recorder } = await createRecordedCommunicationRelayClient(
+          this
+        ));
       }
     });
 
@@ -34,12 +38,10 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("successfully gets a turn credential with user identity", async function () {
-      const connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING;
-      const identityClient = new CommunicationIdentityClient(connectionString);
       const user: CommunicationUserIdentifier = await identityClient.createUser();
       const options: GetRelayConfigurationOptions = { id: user.communicationUserId };
 
-      const turnCredentialResponse = await client.getRelayConfiguration(options);
+      const turnCredentialResponse = await relayClient.getRelayConfiguration(options);
       assert.isNotNull(turnCredentialResponse);
 
       const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
@@ -61,7 +63,7 @@ matrix([[true, false]], async function (useAad) {
     }).timeout(5000);
 
     it("successfully gets a turn credential without providing a user identity", async function () {
-      const turnCredentialResponse = await client.getRelayConfiguration();
+      const turnCredentialResponse = await relayClient.getRelayConfiguration();
       assert.isNotNull(turnCredentialResponse);
 
       const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
@@ -82,7 +84,7 @@ matrix([[true, false]], async function (useAad) {
 
     it("successfully gets a turn credential providing roteType nearest", async function () {
       const options: GetRelayConfigurationOptions = { routeType: "nearest" };
-      const turnCredentialResponse = await client.getRelayConfiguration(options);
+      const turnCredentialResponse = await relayClient.getRelayConfiguration(options);
       assert.isNotNull(turnCredentialResponse);
 
       const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
@@ -104,7 +106,7 @@ matrix([[true, false]], async function (useAad) {
 
     it("successfully gets a turn credential providing roteType any", async function () {
       const options: GetRelayConfigurationOptions = { routeType: "any" };
-      const turnCredentialResponse = await client.getRelayConfiguration(options);
+      const turnCredentialResponse = await relayClient.getRelayConfiguration(options);
       assert.isNotNull(turnCredentialResponse);
 
       const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
@@ -125,20 +127,26 @@ matrix([[true, false]], async function (useAad) {
     }).timeout(5000);
 
     it("successfully gets a turn credential providing ttl", async function () {
-      const ttl = 4000;
-      const options: GetRelayConfigurationOptions = { ttl: ttl };
-
       const requestedTime = new Date();
-      const turnCredentialResponse = await client.getRelayConfiguration(options);
-      const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
+      const ttl = 4000;
 
-      // Token should expire a few milliseconds earlier
-      const expectedExpirationTime = requestedTime;
-      expectedExpirationTime.setSeconds(expectedExpirationTime.getSeconds() + ttl);
+      // Token should expire a few milliseconds earlier than the given 1000 ms margin
+      const expectedExpirationTime = new Date();
+      expectedExpirationTime.setSeconds(expectedExpirationTime.getSeconds() + ttl + 1000);
+
+      const options: GetRelayConfigurationOptions = { ttl: ttl };
+      const turnCredentialResponse = await relayClient.getRelayConfiguration(options);
+      const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
 
       assert.isNotNull(turnCredentialResponse);
       assert.isNotNull(turnTokenExpiresOn);
-      assert.isTrue(expectedExpirationTime <= turnTokenExpiresOn);
+
+      if (!isPlaybackMode()) {
+        // The token should expire between the requestedTime and the expectedExpirationTime
+        assert.isTrue(
+          requestedTime <= turnTokenExpiresOn && turnTokenExpiresOn <= expectedExpirationTime
+        );
+      }
 
       const turnServers = turnCredentialResponse.iceServers;
       // Should return both ANY and NEAREST routeType iceServers
@@ -155,8 +163,6 @@ matrix([[true, false]], async function (useAad) {
     }).timeout(5000);
 
     it("successfully gets a turn credential with all options", async function () {
-      const connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING;
-      const identityClient = new CommunicationIdentityClient(connectionString);
       const user: CommunicationUserIdentifier = await identityClient.createUser();
       const options: GetRelayConfigurationOptions = {
         id: user.communicationUserId,
@@ -164,7 +170,7 @@ matrix([[true, false]], async function (useAad) {
         ttl: 4000,
       };
 
-      const turnCredentialResponse = await client.getRelayConfiguration(options);
+      const turnCredentialResponse = await relayClient.getRelayConfiguration(options);
       assert.isNotNull(turnCredentialResponse);
 
       const turnTokenExpiresOn = turnCredentialResponse.expiresOn;

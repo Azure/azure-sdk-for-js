@@ -80,7 +80,7 @@ describe("Highlevel browser only", () => {
         singleUploadThreshold: 8 * MB,
       });
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
   });
@@ -103,7 +103,7 @@ describe("Highlevel browser only", () => {
           aborter.abort();
         },
       });
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
     assert.ok(eventTriggered);
@@ -128,7 +128,7 @@ describe("Highlevel browser only", () => {
         },
         singleUploadThreshold: 8 * MB,
       });
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
     assert.ok(eventTriggered);

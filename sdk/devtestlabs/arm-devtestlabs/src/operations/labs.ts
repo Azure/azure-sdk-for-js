@@ -323,10 +323,12 @@ export class LabsImpl implements Labs {
       { resourceGroupName, name, lab, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -406,10 +408,12 @@ export class LabsImpl implements Labs {
       { resourceGroupName, name, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -501,10 +505,12 @@ export class LabsImpl implements Labs {
       { resourceGroupName, name, options },
       claimAnyVmOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -579,10 +585,12 @@ export class LabsImpl implements Labs {
       { resourceGroupName, name, labVirtualMachineCreationParameter, options },
       createEnvironmentOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -664,10 +672,12 @@ export class LabsImpl implements Labs {
       { resourceGroupName, name, exportResourceUsageParameters, options },
       exportResourceUsageOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -769,10 +779,12 @@ export class LabsImpl implements Labs {
       { resourceGroupName, name, importLabVirtualMachineRequest, options },
       importVirtualMachineOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

@@ -168,11 +168,13 @@ export class VirtualRouterPeeringsImpl implements VirtualRouterPeerings {
       { resourceGroupName, virtualRouterName, peeringName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -286,11 +288,13 @@ export class VirtualRouterPeeringsImpl implements VirtualRouterPeerings {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -425,7 +429,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  requestBody: Parameters.parameters69,
+  requestBody: Parameters.parameters79,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

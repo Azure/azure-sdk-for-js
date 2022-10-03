@@ -34,6 +34,7 @@ import {
   PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentNextOptionalParams,
   PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
   PolicyStatesListQueryResultsForManagementGroupResponse,
+  PolicyStatesSummaryResourceType,
   PolicyStatesSummarizeForManagementGroupOptionalParams,
   PolicyStatesSummarizeForManagementGroupResponse,
   PolicyStatesListQueryResultsForSubscriptionResponse,
@@ -741,15 +742,19 @@ export class PolicyStatesImpl implements PolicyStates {
 
   /**
    * Summarizes policy states for the resources under the management group.
+   * @param policyStatesSummaryResource The virtual resource under PolicyStates resource type for
+   *                                    summarize action. In a given time range, 'latest' represents the latest policy state(s) and is the
+   *                                    only allowed value.
    * @param managementGroupName Management group name.
    * @param options The options parameters.
    */
   summarizeForManagementGroup(
+    policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     managementGroupName: string,
     options?: PolicyStatesSummarizeForManagementGroupOptionalParams
   ): Promise<PolicyStatesSummarizeForManagementGroupResponse> {
     return this.client.sendOperationRequest(
-      { managementGroupName, options },
+      { policyStatesSummaryResource, managementGroupName, options },
       summarizeForManagementGroupOperationSpec
     );
   }
@@ -775,15 +780,19 @@ export class PolicyStatesImpl implements PolicyStates {
 
   /**
    * Summarizes policy states for the resources under the subscription.
+   * @param policyStatesSummaryResource The virtual resource under PolicyStates resource type for
+   *                                    summarize action. In a given time range, 'latest' represents the latest policy state(s) and is the
+   *                                    only allowed value.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param options The options parameters.
    */
   summarizeForSubscription(
+    policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     subscriptionId: string,
     options?: PolicyStatesSummarizeForSubscriptionOptionalParams
   ): Promise<PolicyStatesSummarizeForSubscriptionResponse> {
     return this.client.sendOperationRequest(
-      { subscriptionId, options },
+      { policyStatesSummaryResource, subscriptionId, options },
       summarizeForSubscriptionOperationSpec
     );
   }
@@ -811,17 +820,26 @@ export class PolicyStatesImpl implements PolicyStates {
 
   /**
    * Summarizes policy states for the resources under the resource group.
+   * @param policyStatesSummaryResource The virtual resource under PolicyStates resource type for
+   *                                    summarize action. In a given time range, 'latest' represents the latest policy state(s) and is the
+   *                                    only allowed value.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param resourceGroupName Resource group name.
    * @param options The options parameters.
    */
   summarizeForResourceGroup(
+    policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     subscriptionId: string,
     resourceGroupName: string,
     options?: PolicyStatesSummarizeForResourceGroupOptionalParams
   ): Promise<PolicyStatesSummarizeForResourceGroupResponse> {
     return this.client.sendOperationRequest(
-      { subscriptionId, resourceGroupName, options },
+      {
+        policyStatesSummaryResource,
+        subscriptionId,
+        resourceGroupName,
+        options
+      },
       summarizeForResourceGroupOperationSpec
     );
   }
@@ -847,15 +865,19 @@ export class PolicyStatesImpl implements PolicyStates {
 
   /**
    * Summarizes policy states for the resource.
+   * @param policyStatesSummaryResource The virtual resource under PolicyStates resource type for
+   *                                    summarize action. In a given time range, 'latest' represents the latest policy state(s) and is the
+   *                                    only allowed value.
    * @param resourceId Resource ID.
    * @param options The options parameters.
    */
   summarizeForResource(
+    policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     resourceId: string,
     options?: PolicyStatesSummarizeForResourceOptionalParams
   ): Promise<PolicyStatesSummarizeForResourceResponse> {
     return this.client.sendOperationRequest(
-      { resourceId, options },
+      { policyStatesSummaryResource, resourceId, options },
       summarizeForResourceOperationSpec
     );
   }
@@ -913,11 +935,13 @@ export class PolicyStatesImpl implements PolicyStates {
       { subscriptionId, options },
       triggerSubscriptionEvaluationOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -991,11 +1015,13 @@ export class PolicyStatesImpl implements PolicyStates {
       { subscriptionId, resourceGroupName, options },
       triggerResourceGroupEvaluationOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1045,17 +1071,26 @@ export class PolicyStatesImpl implements PolicyStates {
 
   /**
    * Summarizes policy states for the subscription level policy set definition.
+   * @param policyStatesSummaryResource The virtual resource under PolicyStates resource type for
+   *                                    summarize action. In a given time range, 'latest' represents the latest policy state(s) and is the
+   *                                    only allowed value.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policySetDefinitionName Policy set definition name.
    * @param options The options parameters.
    */
   summarizeForPolicySetDefinition(
+    policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     subscriptionId: string,
     policySetDefinitionName: string,
     options?: PolicyStatesSummarizeForPolicySetDefinitionOptionalParams
   ): Promise<PolicyStatesSummarizeForPolicySetDefinitionResponse> {
     return this.client.sendOperationRequest(
-      { subscriptionId, policySetDefinitionName, options },
+      {
+        policyStatesSummaryResource,
+        subscriptionId,
+        policySetDefinitionName,
+        options
+      },
       summarizeForPolicySetDefinitionOperationSpec
     );
   }
@@ -1083,17 +1118,26 @@ export class PolicyStatesImpl implements PolicyStates {
 
   /**
    * Summarizes policy states for the subscription level policy definition.
+   * @param policyStatesSummaryResource The virtual resource under PolicyStates resource type for
+   *                                    summarize action. In a given time range, 'latest' represents the latest policy state(s) and is the
+   *                                    only allowed value.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policyDefinitionName Policy definition name.
    * @param options The options parameters.
    */
   summarizeForPolicyDefinition(
+    policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     subscriptionId: string,
     policyDefinitionName: string,
     options?: PolicyStatesSummarizeForPolicyDefinitionOptionalParams
   ): Promise<PolicyStatesSummarizeForPolicyDefinitionResponse> {
     return this.client.sendOperationRequest(
-      { subscriptionId, policyDefinitionName, options },
+      {
+        policyStatesSummaryResource,
+        subscriptionId,
+        policyDefinitionName,
+        options
+      },
       summarizeForPolicyDefinitionOperationSpec
     );
   }
@@ -1123,11 +1167,15 @@ export class PolicyStatesImpl implements PolicyStates {
 
   /**
    * Summarizes policy states for the subscription level policy assignment.
+   * @param policyStatesSummaryResource The virtual resource under PolicyStates resource type for
+   *                                    summarize action. In a given time range, 'latest' represents the latest policy state(s) and is the
+   *                                    only allowed value.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policyAssignmentName Policy assignment name.
    * @param options The options parameters.
    */
   summarizeForSubscriptionLevelPolicyAssignment(
+    policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     subscriptionId: string,
     policyAssignmentName: string,
     options?: PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams
@@ -1135,7 +1183,12 @@ export class PolicyStatesImpl implements PolicyStates {
     PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse
   > {
     return this.client.sendOperationRequest(
-      { subscriptionId, policyAssignmentName, options },
+      {
+        policyStatesSummaryResource,
+        subscriptionId,
+        policyAssignmentName,
+        options
+      },
       summarizeForSubscriptionLevelPolicyAssignmentOperationSpec
     );
   }
@@ -1173,12 +1226,16 @@ export class PolicyStatesImpl implements PolicyStates {
 
   /**
    * Summarizes policy states for the resource group level policy assignment.
+   * @param policyStatesSummaryResource The virtual resource under PolicyStates resource type for
+   *                                    summarize action. In a given time range, 'latest' represents the latest policy state(s) and is the
+   *                                    only allowed value.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param resourceGroupName Resource group name.
    * @param policyAssignmentName Policy assignment name.
    * @param options The options parameters.
    */
   summarizeForResourceGroupLevelPolicyAssignment(
+    policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     subscriptionId: string,
     resourceGroupName: string,
     policyAssignmentName: string,
@@ -1187,7 +1244,13 @@ export class PolicyStatesImpl implements PolicyStates {
     PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse
   > {
     return this.client.sendOperationRequest(
-      { subscriptionId, resourceGroupName, policyAssignmentName, options },
+      {
+        policyStatesSummaryResource,
+        subscriptionId,
+        resourceGroupName,
+        policyAssignmentName,
+        options
+      },
       summarizeForResourceGroupLevelPolicyAssignmentOperationSpec
     );
   }

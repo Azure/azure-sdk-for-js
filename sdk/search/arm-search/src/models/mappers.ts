@@ -696,7 +696,7 @@ export const CheckNameAvailabilityInput: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      type: {
+      typeParam: {
         defaultValue: "searchServices",
         isConstant: true,
         serializedName: "type",

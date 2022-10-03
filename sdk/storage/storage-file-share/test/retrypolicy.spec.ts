@@ -84,7 +84,7 @@ describe("RetryPolicy", () => {
       await injectShareClient.setMetadata(metadata, {
         abortSignal: AbortController.timeout(2 * 1000),
       });
-    } catch (err) {
+    } catch (err: any) {
       hasError = true;
     }
     assert.ok(hasError);
@@ -113,7 +113,7 @@ describe("RetryPolicy", () => {
         keyb: "valb",
       };
       await injectShareClient.setMetadata(metadata);
-    } catch (err) {
+    } catch (err: any) {
       hasError = true;
     }
     assert.ok(hasError);

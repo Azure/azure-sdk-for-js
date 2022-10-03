@@ -85,7 +85,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       try {
         await container.scripts.storedProcedure(replacedSproc.id).read();
         assert.fail("Must fail to read sproc after deletion");
-      } catch (err) {
+      } catch (err: any) {
         const notFoundErrorCode = 404;
         assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
       }
@@ -229,7 +229,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         try {
           console.log("The value of %s is %s.", mytext, myval);
           getContext().getResponse().setBody("Success!");
-        } catch (err) {
+        } catch (err: any) {
           getContext()
             .getResponse()
             .setBody("inline err: [" + err.number + "] " + err);

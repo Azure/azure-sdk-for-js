@@ -130,7 +130,7 @@ To setup Application Insights tracking for your application follow the [Start Mo
 
 Client libraries have preliminary support for [OpenTelemetry](https://opentelemetry.io/). This functionality is mostly managed by [@azure/core-tracing](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-tracing)
 
-Each client library internally does the work to create a new OpenTelemetry `Span` for each service operation, making sure to end the `Span` after the result is returned back to the consumer. Many clients use a helper method called [createSpan](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/textanalytics/ai-text-analytics/src/tracing.ts) to create the new `Span`.
+Each client library internally does the work to create a new OpenTelemetry `Span` for each service operation, making sure to end the `Span` after the result is returned back to the consumer. Many clients use a helper method called [withSpan](https://github.com/Azure/azure-sdk-for-js/blob/b697907427cb2332bf362742ace450524019dc96/sdk/textanalytics/ai-text-analytics/src/textAnalysisClient.ts#L495) to manage the new `Span` and automatically handle closing it.
 
 When `tracingOptions.tracingContext` is set on an operation, a default request policy will automatically create a span for each HTTP request that is issued.
 

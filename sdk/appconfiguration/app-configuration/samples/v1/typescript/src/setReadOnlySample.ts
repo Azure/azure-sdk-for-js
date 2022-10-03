@@ -39,7 +39,7 @@ export async function main() {
       label: "a label",
       value: "new value"
     });
-  } catch (err) {
+  } catch (err: any) {
     console.log(`Error gets thrown - can't modify a read-only setting`);
   }
 

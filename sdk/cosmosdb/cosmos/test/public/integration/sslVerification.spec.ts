@@ -19,7 +19,7 @@ describe("Validate SSL verification check for emulator #nosignoff", function () 
       });
       // create database
       await getTestDatabase("ssl verification", client);
-    } catch (err) {
+    } catch (err: any) {
       // connecting to emulator should throw SSL verification error,
       assert.equal(err.code, "DEPTH_ZERO_SELF_SIGNED_CERT", "client should throw exception");
     }

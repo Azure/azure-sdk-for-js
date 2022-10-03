@@ -52,7 +52,7 @@ class KeyVaultSecrets {
     try {
       await KeyVaultSecrets.setSecret();
       await KeyVaultSecrets.getSecret();
-    } catch (err) {
+    } catch (err: any) {
       throw err;
     } finally {
       await KeyVaultSecrets.deleteSecret();

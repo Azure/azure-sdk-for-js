@@ -45,6 +45,10 @@ export interface Path {
   owner?: string;
   group?: string;
   permissions?: string;
+  /** The name of the encryption scope under which the blob is encrypted. */
+  encryptionScope?: string;
+  creationTime?: string;
+  expiryTime?: string;
 }
 
 /** An enumeration of blobs */
@@ -285,6 +289,10 @@ export interface PathCreateHeaders {
   continuation?: string;
   /** The size of the resource in bytes. */
   contentLength?: number;
+  /** The value of this header is set to true if the contents of the request are successfully encrypted using the specified algorithm, and false otherwise. */
+  isServerEncrypted?: boolean;
+  /** The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned when the blob was encrypted with a customer-provided key. */
+  encryptionKeySha256?: string;
   /** Error Code */
   errorCode?: string;
 }
@@ -398,6 +406,10 @@ export interface PathReadHeaders {
   leaseState?: string;
   /** The lease status of the resource. */
   leaseStatus?: string;
+  /** The value of this header is set to true if the contents of the request are successfully encrypted using the specified algorithm, and false otherwise. */
+  isServerEncrypted?: boolean;
+  /** The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned when the blob was encrypted with a customer-provided key. */
+  encryptionKeySha256?: string;
 }
 
 /** Defines headers for Path_read operation. */
@@ -549,6 +561,10 @@ export interface PathFlushDataHeaders {
   requestId?: string;
   /** The version of the REST protocol used to process the request. */
   version?: string;
+  /** The value of this header is set to true if the contents of the request are successfully encrypted using the specified algorithm, and false otherwise. */
+  isServerEncrypted?: boolean;
+  /** The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned when the blob was encrypted with a customer-provided key. */
+  encryptionKeySha256?: string;
 }
 
 /** Defines headers for Path_flushData operation. */
@@ -579,6 +595,8 @@ export interface PathAppendDataHeaders {
   xMsContentCrc64?: Uint8Array;
   /** The value of this header is set to true if the contents of the request are successfully encrypted using the specified algorithm, and false otherwise. */
   isServerEncrypted?: boolean;
+  /** The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned when the blob was encrypted with a customer-provided key. */
+  encryptionKeySha256?: string;
 }
 
 /** Defines headers for Path_appendData operation. */
@@ -681,6 +699,31 @@ export interface SourceModifiedAccessConditions {
   sourceIfUnmodifiedSince?: Date;
 }
 
+/** Parameter group */
+export interface CpkInfo {
+  /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key.  For more information, see Encryption at Rest for Azure Storage Services. */
+  encryptionKey?: string;
+  /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
+  encryptionKeySha256?: string;
+  /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
+  encryptionAlgorithm?: EncryptionAlgorithmType;
+}
+
+/** Known values of {@link EncryptionAlgorithmType} that the service accepts. */
+export const enum KnownEncryptionAlgorithmType {
+  None = "None",
+  AES256 = "AES256"
+}
+
+/**
+ * Defines values for EncryptionAlgorithmType. \
+ * {@link KnownEncryptionAlgorithmType} can be used interchangeably with EncryptionAlgorithmType,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **None** \
+ * **AES256**
+ */
+export type EncryptionAlgorithmType = string;
 /** Defines values for ListBlobsIncludeItem. */
 export type ListBlobsIncludeItem =
   | "copy"
@@ -694,6 +737,12 @@ export type ListBlobsIncludeItem =
 export type PathResourceType = "directory" | "file";
 /** Defines values for PathRenameMode. */
 export type PathRenameMode = "legacy" | "posix";
+/** Defines values for PathExpiryOptions. */
+export type PathExpiryOptions =
+  | "NeverExpire"
+  | "RelativeToCreation"
+  | "RelativeToNow"
+  | "Absolute";
 /** Defines values for PathUpdateAction. */
 export type PathUpdateAction =
   | "append"
@@ -712,12 +761,6 @@ export type PathLeaseAction =
   | "release";
 /** Defines values for PathGetPropertiesAction. */
 export type PathGetPropertiesAction = "getAccessControl" | "getStatus";
-/** Defines values for PathExpiryOptions. */
-export type PathExpiryOptions =
-  | "NeverExpire"
-  | "RelativeToCreation"
-  | "RelativeToNow"
-  | "Absolute";
 
 /** Optional parameters. */
 export interface ServiceListFileSystemsOptionalParams
@@ -905,6 +948,8 @@ export interface PathCreateOptionalParams extends coreHttp.OperationOptions {
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
+  /** Parameter group */
+  cpkInfo?: CpkInfo;
   /** Optional.  When deleting a directory, the number of paths that are deleted with each invocation is limited.  If the number of paths to be deleted exceeds this limit, a continuation token is returned in this response header.  When a continuation token is returned in the response, it must be specified in a subsequent invocation of the delete operation to continue deleting the directory. */
   continuation?: string;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -925,6 +970,20 @@ export interface PathCreateOptionalParams extends coreHttp.OperationOptions {
   permissions?: string;
   /** Optional and only valid if Hierarchical Namespace is enabled for the account. When creating a file or directory and the parent folder does not have a default ACL, the umask restricts the permissions of the file or directory to be created.  The resulting permission is given by p bitwise and not u, where p is the permission and u is the umask.  For example, if p is 0777 and u is 0057, then the resulting permission is 0720.  The default permission is 0777 for a directory and 0666 for a file.  The default umask is 0027.  The umask must be specified in 4-digit octal notation (e.g. 0766). */
   umask?: string;
+  /** Optional. The owner of the blob or directory. */
+  owner?: string;
+  /** Optional. The owning group of the blob or directory. */
+  group?: string;
+  /** Sets POSIX access control rights on files and directories. The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]". */
+  acl?: string;
+  /** Proposed lease ID, in a GUID string format. The Blob service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats. */
+  proposedLeaseId?: string;
+  /** The lease duration is required to acquire a lease, and specifies the duration of the lease in seconds.  The lease duration must be between 15 and 60 seconds or -1 for infinite lease. */
+  leaseDuration?: number;
+  /** Required. Indicates mode of the expiry time */
+  expiryOptions?: PathExpiryOptions;
+  /** The time to set the blob to expiry */
+  expiresOn?: string;
 }
 
 /** Contains response data for the create operation. */
@@ -954,6 +1013,12 @@ export interface PathUpdateOptionalParams extends coreHttp.OperationOptions {
   properties?: string;
   /** Optional and only valid if Hierarchical Namespace is enabled for the account. Sets POSIX access permissions for the file owner, the file owning group, and others. Each class may be granted read, write, or execute permission.  The sticky bit is also supported.  Both symbolic (rwxrw-rw-) and 4-digit octal notation (e.g. 0766) are supported. */
   permissions?: string;
+  /** Optional. The owner of the blob or directory. */
+  owner?: string;
+  /** Optional. The owning group of the blob or directory. */
+  group?: string;
+  /** Sets POSIX access control rights on files and directories. The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]". */
+  acl?: string;
   /** Optional. Valid for "SetAccessControlRecursive" operation. It specifies the maximum number of files or directories on which the acl change will be applied. If omitted or greater than 2,000, the request will process up to 2,000 items */
   maxRecords?: number;
   /** Optional. Valid for "SetAccessControlRecursive" operation. If set to false, the operation will terminate quickly on encountering user errors (4XX). If true, the operation will ignore user errors and proceed with the operation on other sub-entities of the directory. Continuation token will only be returned when forceFlag is true in case of user errors. If not set the default value is false for this. */
@@ -966,12 +1031,6 @@ export interface PathUpdateOptionalParams extends coreHttp.OperationOptions {
   close?: boolean;
   /** Required for "Append Data" and "Flush Data".  Must be 0 for "Flush Data".  Must be the length of the request content in bytes for "Append Data". */
   contentLength?: number;
-  /** Optional. The owner of the blob or directory. */
-  owner?: string;
-  /** Optional. The owning group of the blob or directory. */
-  group?: string;
-  /** Sets POSIX access control rights on files and directories. The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]". */
-  acl?: string;
 }
 
 /** Contains response data for the update operation. */
@@ -999,12 +1058,10 @@ export interface PathLeaseOptionalParams extends coreHttp.OperationOptions {
   requestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
-  /** The lease duration is required to acquire a lease, and specifies the duration of the lease in seconds.  The lease duration must be between 15 and 60 seconds or -1 for infinite lease. */
-  xMsLeaseDuration?: number;
-  /** The lease break period duration is optional to break a lease, and  specifies the break period of the lease in seconds.  The lease break  duration must be between 0 and 60 seconds. */
-  xMsLeaseBreakPeriod?: number;
   /** Proposed lease ID, in a GUID string format. The Blob service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats. */
   proposedLeaseId?: string;
+  /** The lease break period duration is optional to break a lease, and  specifies the break period of the lease in seconds.  The lease break  duration must be between 0 and 60 seconds. */
+  xMsLeaseBreakPeriod?: number;
 }
 
 /** Contains response data for the lease operation. */
@@ -1022,6 +1079,8 @@ export interface PathReadOptionalParams extends coreHttp.OperationOptions {
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
+  /** Parameter group */
+  cpkInfo?: CpkInfo;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -1146,12 +1205,12 @@ export interface PathSetAccessControlRecursiveOptionalParams
   requestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
+  /** Sets POSIX access control rights on files and directories. The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]". */
+  acl?: string;
   /** Optional. It specifies the maximum number of files or directories on which the acl change will be applied. If omitted or greater than 2,000, the request will process up to 2,000 items */
   maxRecords?: number;
   /** Optional. Valid for "SetAccessControlRecursive" operation. If set to false, the operation will terminate quickly on encountering user errors (4XX). If true, the operation will ignore user errors and proceed with the operation on other sub-entities of the directory. Continuation token will only be returned when forceFlag is true in case of user errors. If not set the default value is false for this. */
   forceFlag?: boolean;
-  /** Sets POSIX access control rights on files and directories. The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]". */
-  acl?: string;
 }
 
 /** Contains response data for the setAccessControlRecursive operation. */
@@ -1177,6 +1236,8 @@ export interface PathFlushDataOptionalParams extends coreHttp.OperationOptions {
   pathHttpHeaders?: PathHttpHeaders;
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
+  /** Parameter group */
+  cpkInfo?: CpkInfo;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -1206,6 +1267,8 @@ export interface PathAppendDataOptionalParams
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
+  cpkInfo?: CpkInfo;
+  /** Parameter group */
   pathHttpHeaders?: PathHttpHeaders;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -1217,6 +1280,8 @@ export interface PathAppendDataOptionalParams
   contentLength?: number;
   /** Specify the transactional crc64 for the body, to be validated by the service. */
   transactionalContentCrc64?: Uint8Array;
+  /** If file should be flushed after the append */
+  flush?: boolean;
 }
 
 /** Contains response data for the appendData operation. */
@@ -1273,6 +1338,8 @@ export interface StorageClientOptionalParams
   version?: string;
   /** The value must be "filesystem" for all filesystem operations. */
   resource?: string;
+  /** The lease duration is required to acquire a lease, and specifies the duration of the lease in seconds.  The lease duration must be between 15 and 60 seconds or -1 for infinite lease. */
+  xMsLeaseDuration?: number;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

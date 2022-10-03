@@ -352,7 +352,7 @@ describe("Sender Tests", () => {
     compareSequenceNumbers(sequenceNumbers[0], sequenceNumbers[2]);
     compareSequenceNumbers(sequenceNumbers[1], sequenceNumbers[2]);
 
-    function compareSequenceNumbers(sequenceNumber1: Long.Long, sequenceNumber2: Long.Long): void {
+    function compareSequenceNumbers(sequenceNumber1: Long, sequenceNumber2: Long): void {
       should.equal(
         sequenceNumber1.compare(sequenceNumber2) !== 0,
         true,
@@ -405,7 +405,7 @@ describe("Sender Tests", () => {
           abortSignal: controller.signal,
         });
         throw new Error(`Test failure`);
-      } catch (err) {
+      } catch (err: any) {
         err.message.should.equal(StandardAbortMessage);
       }
     }
@@ -420,7 +420,7 @@ describe("Sender Tests", () => {
       try {
         await sender.cancelScheduledMessages([Long.ZERO], { abortSignal: controller.signal });
         throw new Error(`Test failure`);
-      } catch (err) {
+      } catch (err: any) {
         err.message.should.equal(StandardAbortMessage);
       }
     }

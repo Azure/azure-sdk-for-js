@@ -3,9 +3,9 @@
 
 import { AppConfigurationClient } from "../../src";
 import {
-  startRecorder,
-  getTokenAuthenticationCredential,
   CredsAndEndpoint,
+  getTokenAuthenticationCredential,
+  startRecorder,
 } from "./utils/testHelpers";
 import { assert } from "chai";
 import { Recorder } from "@azure-tools/test-recorder";

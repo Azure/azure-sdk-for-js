@@ -122,7 +122,7 @@ describe("Serializer", function () {
       };
       try {
         Serializer.serialize(mapper, invalid_uuid, "uuidBody");
-      } catch (error) {
+      } catch (error: any) {
         assert.match(error.message, /.*with value.*must be of type string and a valid uuid/gi);
       }
     });
@@ -165,7 +165,7 @@ describe("Serializer", function () {
       };
       try {
         Serializer.serialize(mapper, 6, "enumBody");
-      } catch (error) {
+      } catch (error: any) {
         assert.match(
           error.message,
           /6 is not a valid value for enumBody\. The valid values are: \[1,2,3,4\]/gi
@@ -348,7 +348,7 @@ describe("Serializer", function () {
       const array = [[1], ["2"], [undefined], [1, "2", {}, true, []]];
       try {
         Serializer.serialize(mapper, array, mapper.serializedName);
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, "arrayObj cannot be null or undefined.");
       }
     });
@@ -538,7 +538,7 @@ describe("Serializer", function () {
 
     it("should correctly serialize object version of polymorphic discriminator", function () {
       const serializer = createSerializer(Mappers);
-      const mapper = Mappers.SawShark;
+      const mapper = Mappers.Shark;
       const sawshark = {
         fishtype: "sawshark",
         age: 22,

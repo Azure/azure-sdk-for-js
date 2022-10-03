@@ -10,7 +10,7 @@ import { Service } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedClientContext } from "../generatedClientContext";
+import { GeneratedClient } from "../generatedClient";
 import {
   TableServiceProperties,
   ServiceSetPropertiesOptionalParams,
@@ -21,15 +21,15 @@ import {
   ServiceGetStatisticsResponse
 } from "../models";
 
-/** Class representing a Service. */
+/** Class containing Service operations. */
 export class ServiceImpl implements Service {
-  private readonly client: GeneratedClientContext;
+  private readonly client: GeneratedClient;
 
   /**
    * Initialize a new instance of the class Service class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedClientContext) {
+  constructor(client: GeneratedClient) {
     this.client = client;
   }
 

@@ -60,11 +60,14 @@ async function main() {
     `Created queue ${queueClient.name} successfully, service assigned request ID: ${createQueueResponse.requestId}`
   );
 
-  // Send a message into the queue using the sendMessage method.
-  const enqueueQueueResponse = await queueClient.sendMessage("Hello World!");
-  console.log(
-    `Sent message successfully, service assigned message ID: ${enqueueQueueResponse.messageId}, service assigned request ID: ${enqueueQueueResponse.requestId}`
-  );
+  // Send three messages into the queue using the sendMessage method.
+  const messages = ["First message", "Second Message", "Third Message"];
+  for (let i = 0; i < messages.length; i++) {
+    const enqueueQueueResponse = await queueClient.sendMessage(messages[i]);
+    console.log(
+      `Sent message successfully, service assigned message ID: ${enqueueQueueResponse.messageId}, service assigned request ID: ${enqueueQueueResponse.requestId}`
+    );
+  }
 
   // Peek a message using peekMessages method.
   const peekQueueResponse = await queueClient.peekMessages();
@@ -85,6 +88,22 @@ async function main() {
     console.log(
       `Deleted message successfully, service assigned request ID: ${deleteMessageResponse.requestId}`
     );
+  }
+
+  // You can also receive a batch of messages (up to 32) in one call by specifying options.numberOfMessages.
+  const batchDequeueResponse = await queueClient.receiveMessages({ numberOfMessages: 2 });
+  if (batchDequeueResponse.receivedMessageItems.length == 2) {
+    for (let i = 0; i < batchDequeueResponse.receivedMessageItems.length; i++) {
+      const dequeueMessageItem = batchDequeueResponse.receivedMessageItems[i];
+      console.log(`Processing & deleting message with content: ${dequeueMessageItem.messageText}`);
+      const deleteMessageResponse = await queueClient.deleteMessage(
+        dequeueMessageItem.messageId,
+        dequeueMessageItem.popReceipt
+      );
+      console.log(
+        `Deleted message successfully, service assigned request ID: ${deleteMessageResponse.requestId}`
+      );
+    }
   }
 
   // Delete the queue.

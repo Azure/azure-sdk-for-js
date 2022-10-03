@@ -12,9 +12,6 @@ import {
   DisasterRecoveryConfigsListOptionalParams,
   SBAuthorizationRule,
   DisasterRecoveryConfigsListAuthorizationRulesOptionalParams,
-  CheckNameAvailability,
-  DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams,
-  DisasterRecoveryConfigsCheckNameAvailabilityResponse,
   DisasterRecoveryConfigsCreateOrUpdateOptionalParams,
   DisasterRecoveryConfigsCreateOrUpdateResponse,
   DisasterRecoveryConfigsDeleteOptionalParams,
@@ -25,7 +22,10 @@ import {
   DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams,
   DisasterRecoveryConfigsGetAuthorizationRuleResponse,
   DisasterRecoveryConfigsListKeysOptionalParams,
-  DisasterRecoveryConfigsListKeysResponse
+  DisasterRecoveryConfigsListKeysResponse,
+  CheckNameAvailability,
+  DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams,
+  DisasterRecoveryConfigsCheckNameAvailabilityResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -55,19 +55,6 @@ export interface DisasterRecoveryConfigs {
     alias: string,
     options?: DisasterRecoveryConfigsListAuthorizationRulesOptionalParams
   ): PagedAsyncIterableIterator<SBAuthorizationRule>;
-  /**
-   * Check the give namespace name availability.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param parameters Parameters to check availability of the given namespace name
-   * @param options The options parameters.
-   */
-  checkNameAvailability(
-    resourceGroupName: string,
-    namespaceName: string,
-    parameters: CheckNameAvailability,
-    options?: DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams
-  ): Promise<DisasterRecoveryConfigsCheckNameAvailabilityResponse>;
   /**
    * Creates or updates a new Alias(Disaster Recovery configuration)
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -166,4 +153,17 @@ export interface DisasterRecoveryConfigs {
     authorizationRuleName: string,
     options?: DisasterRecoveryConfigsListKeysOptionalParams
   ): Promise<DisasterRecoveryConfigsListKeysResponse>;
+  /**
+   * Check the give namespace name availability.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param parameters Parameters to check availability of the given namespace name
+   * @param options The options parameters.
+   */
+  checkNameAvailability(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: CheckNameAvailability,
+    options?: DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams
+  ): Promise<DisasterRecoveryConfigsCheckNameAvailabilityResponse>;
 }

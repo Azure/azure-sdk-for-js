@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ReadableSpan, SpanExporter, SpanProcessor } from "@opentelemetry/tracing";
+import { ReadableSpan, SpanExporter, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 
 /**
  * Span Processor that only exports spans on flush

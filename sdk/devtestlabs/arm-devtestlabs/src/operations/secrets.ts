@@ -229,10 +229,12 @@ export class SecretsImpl implements Secrets {
       { resourceGroupName, labName, userName, name, secret, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

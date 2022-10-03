@@ -17,8 +17,6 @@ import { LroImpl } from "../lroImpl";
 import {
   SqlDatabaseGetResults,
   SqlResourcesListSqlDatabasesOptionalParams,
-  ClientEncryptionKeyGetResults,
-  SqlResourcesListClientEncryptionKeysOptionalParams,
   SqlContainerGetResults,
   SqlResourcesListSqlContainersOptionalParams,
   SqlStoredProcedureGetResults,
@@ -47,12 +45,6 @@ import {
   SqlResourcesMigrateSqlDatabaseToAutoscaleResponse,
   SqlResourcesMigrateSqlDatabaseToManualThroughputOptionalParams,
   SqlResourcesMigrateSqlDatabaseToManualThroughputResponse,
-  SqlResourcesListClientEncryptionKeysResponse,
-  SqlResourcesGetClientEncryptionKeyOptionalParams,
-  SqlResourcesGetClientEncryptionKeyResponse,
-  ClientEncryptionKeyCreateUpdateParameters,
-  SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams,
-  SqlResourcesCreateUpdateClientEncryptionKeyResponse,
   SqlResourcesListSqlContainersResponse,
   SqlResourcesGetSqlContainerOptionalParams,
   SqlResourcesGetSqlContainerResponse,
@@ -175,74 +167,6 @@ export class SqlResourcesImpl implements SqlResources {
     for await (const page of this.listSqlDatabasesPagingPage(
       resourceGroupName,
       accountName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Lists the ClientEncryptionKeys under an existing Azure Cosmos DB SQL database.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param options The options parameters.
-   */
-  public listClientEncryptionKeys(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options?: SqlResourcesListClientEncryptionKeysOptionalParams
-  ): PagedAsyncIterableIterator<ClientEncryptionKeyGetResults> {
-    const iter = this.listClientEncryptionKeysPagingAll(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listClientEncryptionKeysPagingPage(
-          resourceGroupName,
-          accountName,
-          databaseName,
-          options
-        );
-      }
-    };
-  }
-
-  private async *listClientEncryptionKeysPagingPage(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options?: SqlResourcesListClientEncryptionKeysOptionalParams
-  ): AsyncIterableIterator<ClientEncryptionKeyGetResults[]> {
-    let result = await this._listClientEncryptionKeys(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      options
-    );
-    yield result.value || [];
-  }
-
-  private async *listClientEncryptionKeysPagingAll(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options?: SqlResourcesListClientEncryptionKeysOptionalParams
-  ): AsyncIterableIterator<ClientEncryptionKeyGetResults> {
-    for await (const page of this.listClientEncryptionKeysPagingPage(
-      resourceGroupName,
-      accountName,
-      databaseName,
       options
     )) {
       yield* page;
@@ -771,10 +695,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateSqlDatabaseOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -859,10 +785,12 @@ export class SqlResourcesImpl implements SqlResources {
       { resourceGroupName, accountName, databaseName, options },
       deleteSqlDatabaseOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -978,10 +906,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       updateSqlDatabaseThroughputOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1072,10 +1002,12 @@ export class SqlResourcesImpl implements SqlResources {
       { resourceGroupName, accountName, databaseName, options },
       migrateSqlDatabaseToAutoscaleOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1164,10 +1096,12 @@ export class SqlResourcesImpl implements SqlResources {
       { resourceGroupName, accountName, databaseName, options },
       migrateSqlDatabaseToManualThroughputOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1187,163 +1121,6 @@ export class SqlResourcesImpl implements SqlResources {
       resourceGroupName,
       accountName,
       databaseName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Lists the ClientEncryptionKeys under an existing Azure Cosmos DB SQL database.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param options The options parameters.
-   */
-  private _listClientEncryptionKeys(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options?: SqlResourcesListClientEncryptionKeysOptionalParams
-  ): Promise<SqlResourcesListClientEncryptionKeysResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, databaseName, options },
-      listClientEncryptionKeysOperationSpec
-    );
-  }
-
-  /**
-   * Gets the ClientEncryptionKey under an existing Azure Cosmos DB SQL database.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param clientEncryptionKeyName Cosmos DB ClientEncryptionKey name.
-   * @param options The options parameters.
-   */
-  getClientEncryptionKey(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    clientEncryptionKeyName: string,
-    options?: SqlResourcesGetClientEncryptionKeyOptionalParams
-  ): Promise<SqlResourcesGetClientEncryptionKeyResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        accountName,
-        databaseName,
-        clientEncryptionKeyName,
-        options
-      },
-      getClientEncryptionKeyOperationSpec
-    );
-  }
-
-  /**
-   * Create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure
-   * Powershell (instead of directly).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param clientEncryptionKeyName Cosmos DB ClientEncryptionKey name.
-   * @param createUpdateClientEncryptionKeyParameters The parameters to provide for the client encryption
-   *                                                  key.
-   * @param options The options parameters.
-   */
-  async beginCreateUpdateClientEncryptionKey(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    clientEncryptionKeyName: string,
-    createUpdateClientEncryptionKeyParameters: ClientEncryptionKeyCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<SqlResourcesCreateUpdateClientEncryptionKeyResponse>,
-      SqlResourcesCreateUpdateClientEncryptionKeyResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<SqlResourcesCreateUpdateClientEncryptionKeyResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        accountName,
-        databaseName,
-        clientEncryptionKeyName,
-        createUpdateClientEncryptionKeyParameters,
-        options
-      },
-      createUpdateClientEncryptionKeyOperationSpec
-    );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-  }
-
-  /**
-   * Create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure
-   * Powershell (instead of directly).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param clientEncryptionKeyName Cosmos DB ClientEncryptionKey name.
-   * @param createUpdateClientEncryptionKeyParameters The parameters to provide for the client encryption
-   *                                                  key.
-   * @param options The options parameters.
-   */
-  async beginCreateUpdateClientEncryptionKeyAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    clientEncryptionKeyName: string,
-    createUpdateClientEncryptionKeyParameters: ClientEncryptionKeyCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
-  ): Promise<SqlResourcesCreateUpdateClientEncryptionKeyResponse> {
-    const poller = await this.beginCreateUpdateClientEncryptionKey(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      clientEncryptionKeyName,
-      createUpdateClientEncryptionKeyParameters,
       options
     );
     return poller.pollUntilDone();
@@ -1462,10 +1239,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateSqlContainerOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1555,10 +1334,12 @@ export class SqlResourcesImpl implements SqlResources {
       { resourceGroupName, accountName, databaseName, containerName, options },
       deleteSqlContainerOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1681,10 +1462,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       updateSqlContainerThroughputOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1780,10 +1563,12 @@ export class SqlResourcesImpl implements SqlResources {
       { resourceGroupName, accountName, databaseName, containerName, options },
       migrateSqlContainerToAutoscaleOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1877,10 +1662,12 @@ export class SqlResourcesImpl implements SqlResources {
       { resourceGroupName, accountName, databaseName, containerName, options },
       migrateSqlContainerToManualThroughputOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2036,10 +1823,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateSqlStoredProcedureOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2142,10 +1931,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       deleteSqlStoredProcedureOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2306,10 +2097,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateSqlUserDefinedFunctionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2412,10 +2205,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       deleteSqlUserDefinedFunctionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2573,10 +2368,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateSqlTriggerOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2678,10 +2475,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       deleteSqlTriggerOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2802,10 +2601,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateSqlRoleDefinitionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2891,10 +2692,12 @@ export class SqlResourcesImpl implements SqlResources {
       { roleDefinitionId, resourceGroupName, accountName, options },
       deleteSqlRoleDefinitionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -3026,10 +2829,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateSqlRoleAssignmentOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -3115,10 +2920,12 @@ export class SqlResourcesImpl implements SqlResources {
       { roleAssignmentId, resourceGroupName, accountName, options },
       deleteSqlRoleAssignmentOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -3235,11 +3042,13 @@ export class SqlResourcesImpl implements SqlResources {
       },
       retrieveContinuousBackupInformationOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -3471,79 +3280,6 @@ const migrateSqlDatabaseToManualThroughputOperationSpec: coreClient.OperationSpe
     Parameters.databaseName
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const listClientEncryptionKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/clientEncryptionKeys",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ClientEncryptionKeysListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getClientEncryptionKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/clientEncryptionKeys/{clientEncryptionKeyName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ClientEncryptionKeyGetResults
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.databaseName,
-    Parameters.clientEncryptionKeyName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createUpdateClientEncryptionKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/clientEncryptionKeys/{clientEncryptionKeyName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ClientEncryptionKeyGetResults
-    },
-    201: {
-      bodyMapper: Mappers.ClientEncryptionKeyGetResults
-    },
-    202: {
-      bodyMapper: Mappers.ClientEncryptionKeyGetResults
-    },
-    204: {
-      bodyMapper: Mappers.ClientEncryptionKeyGetResults
-    }
-  },
-  requestBody: Parameters.createUpdateClientEncryptionKeyParameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.databaseName,
-    Parameters.clientEncryptionKeyName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };
 const listSqlContainersOperationSpec: coreClient.OperationSpec = {

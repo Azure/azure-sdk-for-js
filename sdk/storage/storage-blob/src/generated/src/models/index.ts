@@ -318,7 +318,6 @@ export interface ListBlobsHierarchySegmentResponse {
 }
 
 export interface BlobHierarchyListSegment {
-  [x: string]: any;
   blobPrefixes?: BlobPrefix[];
   blobItems: BlobItemInternal[];
 }
@@ -350,6 +349,7 @@ export interface Block {
 export interface PageList {
   pageRange?: PageRange[];
   clearRange?: ClearRange[];
+  continuationToken?: string;
 }
 
 export interface PageRange {
@@ -2332,8 +2332,8 @@ export interface CpkInfo {
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key.  For more information, see Encryption at Rest for Azure Storage Services. */
   encryptionKey?: string;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
-  encryptionKeySha256?: string;  
-  /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is \"AES256\". Must be provided if the x-ms-encryption-key header is provided. */
+  encryptionKeySha256?: string;
+  /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
   encryptionAlgorithm?: EncryptionAlgorithmType;
 }
 
@@ -2715,6 +2715,8 @@ export type RehydratePriority = "High" | "Standard";
 export type BlobImmutabilityPolicyMode = "Mutable" | "Unlocked" | "Locked";
 /** Defines values for DeleteSnapshotsOptionType. */
 export type DeleteSnapshotsOptionType = "include" | "only";
+/** Defines values for BlobCopySourceTags. */
+export type BlobCopySourceTags = "REPLACE" | "COPY";
 /** Defines values for BlockListType. */
 export type BlockListType = "committed" | "uncommitted" | "all";
 /** Defines values for SequenceNumberActionType. */
@@ -3804,6 +3806,8 @@ export interface BlobCopyFromURLOptionalParams
   sourceContentMD5?: Uint8Array;
   /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
   copySourceAuthorization?: string;
+  /** Optional, default 'replace'.  Indicates if source tags should be copied or replaced with the tags specified by x-ms-tags. */
+  copySourceTags?: BlobCopySourceTags;
 }
 
 /** Contains response data for the copyFromURL operation. */
@@ -4126,6 +4130,10 @@ export interface PageBlobGetPageRangesOptionalParams
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
+  /** A string value that identifies the portion of the list of containers to be returned with the next listing operation. The operation returns the ContinuationToken value within the response body if the listing operation did not return all containers remaining to be listed with the current page. The NextMarker value can be used as the value for the marker parameter in a subsequent call to request the next page of list items. The marker value is opaque to the client. */
+  marker?: string;
+  /** Specifies the maximum number of containers to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. Note that if the listing operation crosses a partition boundary, then the service will return a continuation token for retrieving the remainder of the results. For this reason, it is possible that the service will return fewer results than specified by maxresults, or than the default of 5000. */
+  maxPageSize?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
   snapshot?: string;
   /** Return only the bytes of the blob in the specified range. */
@@ -4158,6 +4166,10 @@ export interface PageBlobGetPageRangesDiffOptionalParams
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
+  /** A string value that identifies the portion of the list of containers to be returned with the next listing operation. The operation returns the ContinuationToken value within the response body if the listing operation did not return all containers remaining to be listed with the current page. The NextMarker value can be used as the value for the marker parameter in a subsequent call to request the next page of list items. The marker value is opaque to the client. */
+  marker?: string;
+  /** Specifies the maximum number of containers to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. Note that if the listing operation crosses a partition boundary, then the service will return a continuation token for retrieving the remainder of the results. For this reason, it is possible that the service will return fewer results than specified by maxresults, or than the default of 5000. */
+  maxPageSize?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
   snapshot?: string;
   /** Return only the bytes of the blob in the specified range. */
@@ -4458,6 +4470,8 @@ export interface BlockBlobPutBlobFromUrlOptionalParams
   sourceContentMD5?: Uint8Array;
   /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
   copySourceAuthorization?: string;
+  /** Optional, default 'replace'.  Indicates if source tags should be copied or replaced with the tags specified by x-ms-tags. */
+  copySourceTags?: BlobCopySourceTags;
   /** Specify the transactional md5 for the body, to be validated by the service. */
   transactionalContentMD5?: Uint8Array;
   /** Optional, default is true.  Indicates if properties from the source blob should be copied. */

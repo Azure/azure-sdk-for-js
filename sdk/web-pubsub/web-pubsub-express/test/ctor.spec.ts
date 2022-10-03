@@ -21,7 +21,7 @@ describe("Can creat event handler", function () {
     try {
       new WebPubSubEventHandler("hub", { allowedEndpoints: ["b.com"] });
       assert.fail("Should have thrown ERROR_INVALID_URL");
-    } catch (err) {
+    } catch (err: any) {
       assert.isTrue((err as any).message.startsWith("Invalid URL"));
     }
   });

@@ -18,7 +18,7 @@ export type AllocationPolicy = string;
 
 // @public
 export interface AsyncOperationResult {
-    error?: ErrorMesssage;
+    error?: ErrorMessage;
     status?: string;
 }
 
@@ -35,10 +35,10 @@ export interface CertificateListDescription {
 
 // @public
 export interface CertificateProperties {
-    readonly certificate?: Uint8Array;
+    certificate?: Uint8Array;
     readonly created?: Date;
     readonly expiry?: Date;
-    readonly isVerified?: boolean;
+    isVerified?: boolean;
     readonly subject?: string;
     readonly thumbprint?: string;
     readonly updated?: Date;
@@ -62,7 +62,7 @@ export type CreatedByType = string;
 
 // @public
 export interface DpsCertificate {
-    createOrUpdate(resourceGroupName: string, provisioningServiceName: string, certificateName: string, certificateDescription: CertificateBodyDescription, options?: DpsCertificateCreateOrUpdateOptionalParams): Promise<DpsCertificateCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, provisioningServiceName: string, certificateName: string, certificateDescription: CertificateResponse, options?: DpsCertificateCreateOrUpdateOptionalParams): Promise<DpsCertificateCreateOrUpdateResponse>;
     delete(resourceGroupName: string, ifMatch: string, provisioningServiceName: string, certificateName: string, options?: DpsCertificateDeleteOptionalParams): Promise<void>;
     generateVerificationCode(certificateName: string, ifMatch: string, resourceGroupName: string, provisioningServiceName: string, options?: DpsCertificateGenerateVerificationCodeOptionalParams): Promise<DpsCertificateGenerateVerificationCodeResponse>;
     get(certificateName: string, resourceGroupName: string, provisioningServiceName: string, options?: DpsCertificateGetOptionalParams): Promise<DpsCertificateGetResponse>;
@@ -144,7 +144,7 @@ export interface ErrorDetails {
 }
 
 // @public
-export interface ErrorMesssage {
+export interface ErrorMessage {
     code?: string;
     details?: string;
     message?: string;
@@ -260,6 +260,13 @@ export type IotDpsResourceCreateOrUpdateResponse = ProvisioningServiceDescriptio
 export interface IotDpsResourceDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface IotDpsResourceDeletePrivateEndpointConnectionHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: string;
 }
 
 // @public

@@ -27,7 +27,7 @@
   "dependencies": {
     "@azure/communication-sms": "latest",
     "dotenv": "latest",
-    "@azure/communication-common": "^1.1.0",
+    "@azure/communication-common": "^2.1.0",
     "@azure/core-http": "^2.0.0",
     "@azure/identity": "^2.0.1"
   }

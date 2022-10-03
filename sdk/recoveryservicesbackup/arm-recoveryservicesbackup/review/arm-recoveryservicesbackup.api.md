@@ -1670,7 +1670,7 @@ export type IaasVMBackupRequest = BackupRequest & {
 
 // @public
 export type IaaSVMContainer = ProtectionContainer & {
-    containerType: "IaaSVMContainer" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines";
+    containerType: "IaasVMContainer" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines";
     virtualMachineId?: string;
     virtualMachineVersion?: string;
     resourceGroup?: string;
@@ -3350,7 +3350,7 @@ export type ProtectedItemUnion = ProtectedItem | AzureFileshareProtectedItem | A
 // @public
 export interface ProtectionContainer {
     backupManagementType?: BackupManagementType;
-    containerType: "DPMContainer" | "AzureBackupServerContainer" | "IaaSVMContainer" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureWorkloadContainer" | "SQLAGWorkLoadContainer" | "AzureSqlContainer" | "StorageContainer" | "VMAppContainer" | "GenericContainer" | "Windows";
+    containerType: "DPMContainer" | "AzureBackupServerContainer" | "IaasVMContainer" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureWorkloadContainer" | "SQLAGWorkLoadContainer" | "AzureSqlContainer" | "StorageContainer" | "VMAppContainer" | "GenericContainer" | "Windows";
     friendlyName?: string;
     healthStatus?: string;
     protectableObjectType?: string;

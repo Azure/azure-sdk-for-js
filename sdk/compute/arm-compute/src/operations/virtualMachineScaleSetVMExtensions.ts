@@ -115,10 +115,12 @@ export class VirtualMachineScaleSetVMExtensionsImpl
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -222,10 +224,12 @@ export class VirtualMachineScaleSetVMExtensionsImpl
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -321,10 +325,12 @@ export class VirtualMachineScaleSetVMExtensionsImpl
       },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -422,15 +428,15 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.extensionParameters4,
+  requestBody: Parameters.extensionParameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.vmExtensionName,
+    Parameters.resourceGroupName,
     Parameters.vmScaleSetName,
-    Parameters.instanceId
+    Parameters.instanceId,
+    Parameters.vmExtensionName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -457,15 +463,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.extensionParameters5,
+  requestBody: Parameters.extensionParameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.vmExtensionName,
+    Parameters.resourceGroupName,
     Parameters.vmScaleSetName,
-    Parameters.instanceId
+    Parameters.instanceId,
+    Parameters.vmExtensionName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -487,11 +493,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.vmExtensionName,
+    Parameters.resourceGroupName,
     Parameters.vmScaleSetName,
-    Parameters.instanceId
+    Parameters.instanceId,
+    Parameters.vmExtensionName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -508,14 +514,14 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  queryParameters: [Parameters.apiVersion, Parameters.expand1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.vmExtensionName,
+    Parameters.resourceGroupName,
     Parameters.vmScaleSetName,
-    Parameters.instanceId
+    Parameters.instanceId,
+    Parameters.vmExtensionName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -532,11 +538,11 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  queryParameters: [Parameters.apiVersion, Parameters.expand1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.vmScaleSetName,
     Parameters.instanceId
   ],

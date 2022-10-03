@@ -4,7 +4,7 @@
 import { AccessToken } from "@azure/core-auth";
 import { credentialLogger } from "../../util/logging";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
+import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 
 /**
  * Options that can be passed to configure MSAL to handle authentication through opening a browser window.
@@ -37,7 +37,7 @@ export class MsalAuthorizationCode extends MsalNode {
 
   async getAuthCodeUrl(options: { scopes: string[]; redirectUri: string }): Promise<string> {
     await this.init();
-    return this.confidentialApp!.getAuthCodeUrl(options);
+    return (this.confidentialApp || this.publicApp)!.getAuthCodeUrl(options);
   }
 
   protected async doGetToken(
@@ -45,7 +45,7 @@ export class MsalAuthorizationCode extends MsalNode {
     options?: CredentialFlowGetTokenOptions
   ): Promise<AccessToken> {
     try {
-      const result = await this.confidentialApp?.acquireTokenByCode({
+      const result = await (this.confidentialApp || this.publicApp)?.acquireTokenByCode({
         scopes,
         redirectUri: this.redirectUri,
         code: this.authorizationCode,
@@ -56,7 +56,7 @@ export class MsalAuthorizationCode extends MsalNode {
       // The Client Credential flow does not return an account,
       // so each time getToken gets called, we will have to acquire a new token through the service.
       return this.handleResult(scopes, this.clientId, result || undefined);
-    } catch (err) {
+    } catch (err: any) {
       throw this.handleError(scopes, err, options);
     }
   }

@@ -1,0 +1,80 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem164864744336800249",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DA12526C4B0CD3\"",
+    "last-modified": "Wed, 30 Mar 2022 13:37:23 GMT",
+    "x-ms-client-request-id": "e33f82ef-20d2-4bdb-9716-afec036bf345",
+    "x-ms-request-id": "67d94575-a01e-0005-063b-44f0c9000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem164864744336800249/file164864744387500174",
+   "query": {
+    "resource": "file"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Wed, 30 Mar 2022 13:37:24 GMT",
+    "etag": "\"0x8DA12526C9BE1B5\"",
+    "last-modified": "Wed, 30 Mar 2022 13:37:24 GMT",
+    "x-ms-client-request-id": "fe35650e-cc1c-406b-953d-e08f57dc5e71",
+    "x-ms-encryption-key-sha256": "3QFFFpRA5+XANHqwwbT4yXDmrT/2JaLt/FKHjzhOdoE=",
+    "x-ms-request-id": "db8a1f7f-701f-0008-2e3b-44c247000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2021-06-08"
+   }
+  },
+  {
+   "method": "HEAD",
+   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem164864744336800249/file164864744387500174",
+   "query": {},
+   "requestBody": null,
+   "status": 409,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-client-request-id": "3dfd1c5f-d50f-45b7-8017-3f8da7f615ab",
+    "x-ms-error-code": "BlobUsesCustomerSpecifiedEncryption",
+    "x-ms-request-id": "67d94578-a01e-0005-083b-44f0c9000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem164864744336800249",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-client-request-id": "2f56a26c-8e65-4be4-8634-c53bd6fa6d7e",
+    "x-ms-request-id": "67d9457a-a01e-0005-0a3b-44f0c9000000",
+    "x-ms-version": "2021-04-10"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "filesystem": "filesystem164864744336800249",
+   "file": "file164864744387500174",
+   "dir": "dir164864744387607607"
+  },
+  "newDate": {}
+ },
+ "hash": "1fd63fa51499ea917fb629b1236b086f"
+}

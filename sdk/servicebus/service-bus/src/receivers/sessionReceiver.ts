@@ -36,10 +36,10 @@ import {
   retry,
   ErrorNameConditionMapper,
 } from "@azure/core-amqp";
-import { OperationOptionsBase, trace } from "../modelsToBeSharedWithEventHubs";
-import "@azure/core-asynciterator-polyfill";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { AmqpError } from "rhea-promise";
-import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
+import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMessage";
+import { tracingClient } from "../diagnostics/tracing";
 import { receiverLogger as logger } from "../log";
 import { translateServiceBusError } from "../serviceBusError";
 
@@ -112,13 +112,12 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
  */
 export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver {
   public sessionId: string;
+  public identifier: string;
 
   /**
    * Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
-
-  private _createProcessingSpan: typeof createProcessingSpan;
 
   private get logPrefix(): string {
     return `[${this._context.connectionId}|session:${this.entityPath}]`;
@@ -138,7 +137,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   ) {
     throwErrorIfConnectionClosed(_context);
     this.sessionId = _messageSession.sessionId;
-    this._createProcessingSpan = createProcessingSpan;
+    this.identifier = _messageSession.identifier;
   }
 
   private _throwIfReceiverOrConnectionClosed(): void {
@@ -304,19 +303,25 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       timeoutInMs: this._retryOptions?.timeoutInMs,
     };
     const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
-      if (options.fromSequenceNumber) {
+      if (options.fromSequenceNumber !== undefined) {
         return this._context
           .getManagementClient(this.entityPath)
           .peekBySequenceNumber(
             options.fromSequenceNumber,
             maxMessageCount,
             this.sessionId,
+            options.omitMessageBody,
             managementRequestOptions
           );
       } else {
         return this._context
           .getManagementClient(this.entityPath)
-          .peekMessagesBySession(this.sessionId, maxMessageCount, managementRequestOptions);
+          .peekMessagesBySession(
+            this.sessionId,
+            maxMessageCount,
+            options.omitMessageBody,
+            managementRequestOptions
+          );
       }
     };
 
@@ -431,8 +436,12 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
 
     this._registerMessageHandler(
       async (message: ServiceBusMessageImpl) => {
-        const span = this._createProcessingSpan(message, this, this._context.config, options);
-        return trace(() => handlers.processMessage(message), span);
+        return tracingClient.withSpan(
+          "SessionReceiver.process",
+          options ?? {},
+          () => handlers.processMessage(message),
+          toProcessingSpanOptions(message, this, this._context.config)
+        );
       },
       processError,
       options
@@ -485,12 +494,13 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
 
     try {
       this._messageSession.subscribe(onMessage, onError, options);
-    } catch (err) {
+    } catch (err: any) {
       onError({
         error: err,
         errorSource: "receive",
         entityPath: this.entityPath,
         fullyQualifiedNamespace: this._context.config.host,
+        identifier: this.identifier,
       });
     }
   }
@@ -557,7 +567,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   async close(): Promise<void> {
     try {
       await this._messageSession.close();
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(
         err,
         "%s An error occurred while closing the SessionReceiver for session %s",

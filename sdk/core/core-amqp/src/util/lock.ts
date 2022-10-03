@@ -189,7 +189,7 @@ export class CancellableAsyncLockImpl {
         cleanupTaskDetails(taskDetails);
         const value = await taskDetails.task();
         taskDetails.resolve(value);
-      } catch (err) {
+      } catch (err: any) {
         taskDetails.reject(err);
       }
       logger.verbose(

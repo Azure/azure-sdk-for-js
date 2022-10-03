@@ -1,4 +1,4 @@
-## Azure DataLakeStorageClient SDK for JavaScript
+# Azure DataLakeStorageClient SDK for JavaScript
 
 This package contains an isomorphic SDK for DataLakeStorageClient.
 
@@ -18,8 +18,8 @@ npm install @azure/storage-datalake
 #### nodejs - Authentication, client creation and list filesystem as an example written in TypeScript.
 
 ##### Sample code
-This sample lists the file systems in your storage account.  To know more, refer to the [Azure Documentation on Storage DataLake](https://docs.microsoft.com/azure/storage/blobs/data-lake-storage-introduction)
 
+This sample lists the file systems in your storage account. To know more, refer to the [Azure Documentation on Storage DataLake](https://docs.microsoft.com/azure/storage/blobs/data-lake-storage-introduction)
 
 ```typescript
 import * as msRest from "@azure/ms-rest-js";
@@ -32,13 +32,13 @@ const accountName = "YOUR_STORAGE_ACCOUNTNAME";
 const client = new DataLakeStorageClient(credentials, accountName);
 client.filesystem
   .list()
-  .then(results => {
-    results.forEach(result => {
+  .then((results) => {
+    results.forEach((result) => {
       console.log(`Name: ${result.name}`);
       console.log(`Last Modified: ${result.lastModified}`);
     });
   })
-  .catch(ex => {
+  .catch((ex) => {
     console.log(ex);
   });
 ```
@@ -48,6 +48,7 @@ client.filesystem
 ##### Sample code
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -61,20 +62,17 @@ client.filesystem
       const credentials = new msRest.TokenCredentials(token);
       const accountName = "YOUR_STORAGE_ACCOUNTNAME";
 
-      const client = new Azure.StorageDatalake.DataLakeStorageClient(
-        credentials,
-        accountName
-      );
+      const client = new Azure.StorageDatalake.DataLakeStorageClient(credentials, accountName);
 
       client.filesystem
         .list()
-        .then(results => {
-          results.forEach(result => {
+        .then((results) => {
+          results.forEach((result) => {
             console.log(`Name: ${result.name}`);
             console.log(`Last Modified: ${result.lastModified}`);
           });
         })
-        .catch(ex => {
+        .catch((ex) => {
           console.log(ex);
         });
     </script>

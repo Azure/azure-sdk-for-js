@@ -204,10 +204,12 @@ export class FailoverGroupsImpl implements FailoverGroups {
       { resourceGroupName, serverName, failoverGroupName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -294,10 +296,12 @@ export class FailoverGroupsImpl implements FailoverGroups {
       { resourceGroupName, serverName, failoverGroupName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -388,10 +392,12 @@ export class FailoverGroupsImpl implements FailoverGroups {
       { resourceGroupName, serverName, failoverGroupName, parameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -501,10 +507,12 @@ export class FailoverGroupsImpl implements FailoverGroups {
       { resourceGroupName, serverName, failoverGroupName, options },
       failoverOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -593,10 +601,12 @@ export class FailoverGroupsImpl implements FailoverGroups {
       { resourceGroupName, serverName, failoverGroupName, options },
       forceFailoverAllowDataLossOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

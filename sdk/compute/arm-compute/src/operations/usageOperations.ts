@@ -131,8 +131,8 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location1
+    Parameters.location,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -151,9 +151,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.location,
     Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.location1
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

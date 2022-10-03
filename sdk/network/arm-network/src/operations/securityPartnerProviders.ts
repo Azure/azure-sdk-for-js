@@ -197,11 +197,13 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
       { resourceGroupName, securityPartnerProviderName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -302,11 +304,13 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
       { resourceGroupName, securityPartnerProviderName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -476,7 +480,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters55,
+  requestBody: Parameters.parameters65,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

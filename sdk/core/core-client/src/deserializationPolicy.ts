@@ -184,7 +184,7 @@ async function deserializeResponseBody(
           valueToDeserialize,
           "operationRes.parsedBody"
         );
-      } catch (deserializeError) {
+      } catch (deserializeError: any) {
         const restError = new RestError(
           `Error ${deserializeError} occurred in deserializing the responseBody - ${parsedResponse.bodyAsText}`,
           {
@@ -306,7 +306,7 @@ function handleErrorResponse(
           "operationRes.parsedHeaders"
         );
     }
-  } catch (defaultError) {
+  } catch (defaultError: any) {
     error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody - "${parsedResponse.bodyAsText}" for the default response.`;
   }
 
@@ -345,7 +345,7 @@ async function parse(
         operationResponse.parsedBody = body;
         return operationResponse;
       }
-    } catch (err) {
+    } catch (err: any) {
       const msg = `Error "${err}" occurred while parsing the response body - ${operationResponse.bodyAsText}.`;
       const errCode = err.code || RestError.PARSE_ERROR;
       const e = new RestError(msg, {

@@ -4,12 +4,11 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { OperationOptions } from "@azure/core-client";
-import { SpanStatusCode } from "@azure/core-tracing";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { GeneratedClient, RepositoryWriteableProperties } from "./generated";
-import { createSpan } from "./tracing";
+import { tracingClient } from "./tracing";
 import {
   ArtifactManifestOrder,
   ContainerRepositoryProperties,
@@ -184,16 +183,13 @@ export class ContainerRepositoryImpl {
    * @param options - optional configuration for the operation
    */
   public async delete(options: DeleteRepositoryOptions = {}): Promise<void> {
-    const { span, updatedOptions } = createSpan("ContainerRepository-delete", options);
-
-    try {
-      await this.client.containerRegistry.deleteRepository(this.name, updatedOptions);
-    } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ContainerRepositoryImpl.delete",
+      options,
+      async (updatedOptions) => {
+        await this.client.containerRegistry.deleteRepository(this.name, updatedOptions);
+      }
+    );
   }
 
   /**
@@ -214,16 +210,13 @@ export class ContainerRepositoryImpl {
   public async getProperties(
     options: GetRepositoryPropertiesOptions = {}
   ): Promise<ContainerRepositoryProperties> {
-    const { span, updatedOptions } = createSpan("ContainerRepository-getProperties", options);
-
-    try {
-      return await this.client.containerRegistry.getProperties(this.name, updatedOptions);
-    } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ContainerRepositoryImpl.getProperties",
+      options,
+      (updatedOptions) => {
+        return this.client.containerRegistry.getProperties(this.name, updatedOptions);
+      }
+    );
   }
 
   /**
@@ -252,19 +245,14 @@ export class ContainerRepositoryImpl {
       canList: options.canList,
       canRead: options.canRead,
     };
-    const { span, updatedOptions } = createSpan("ContainerRepository-updateProperties", {
-      ...options,
-      value,
-    });
 
-    try {
-      return await this.client.containerRegistry.updateProperties(this.name, updatedOptions);
-    } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ContainerRepositoryImpl.updateProperties",
+      { ...options, value },
+      (updatedOptions) => {
+        return this.client.containerRegistry.updateProperties(this.name, updatedOptions);
+      }
+    );
   }
 
   /**

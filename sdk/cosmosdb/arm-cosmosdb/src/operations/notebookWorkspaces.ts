@@ -211,10 +211,12 @@ export class NotebookWorkspacesImpl implements NotebookWorkspaces {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -300,10 +302,12 @@ export class NotebookWorkspacesImpl implements NotebookWorkspaces {
       { resourceGroupName, accountName, notebookWorkspaceName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -404,10 +408,12 @@ export class NotebookWorkspacesImpl implements NotebookWorkspaces {
       { resourceGroupName, accountName, notebookWorkspaceName, options },
       regenerateAuthTokenOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -489,10 +495,12 @@ export class NotebookWorkspacesImpl implements NotebookWorkspaces {
       { resourceGroupName, accountName, notebookWorkspaceName, options },
       startOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

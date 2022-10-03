@@ -28,7 +28,7 @@
   "module": "./dist-esm/src/index.js",
   "types": "./types/arm-logic.d.ts",
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.18.11",
+    "@microsoft/api-extractor": "7.18.11",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",

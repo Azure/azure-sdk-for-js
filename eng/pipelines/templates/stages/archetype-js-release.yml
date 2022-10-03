@@ -127,7 +127,6 @@ stages:
                     steps:
                       - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
                         parameters:
-                          SkipDefaultCheckout: true
                           Paths:
                             - sdk/**/*.md
                             - .github/CODEOWNERS
@@ -153,7 +152,7 @@ stages:
                             - ci-configs/packages-latest.json
                             - ci-configs/packages-preview.json
                           DocValidationImageId: "$(DocValidationImageId)"
-                          
+
           - ${{if ne(artifact.skipPublishDocGithubIo, 'true')}}:
             - deployment: PublishDocsGitHubIO
               displayName: Publish Docs to GitHubIO Blob Storage
@@ -289,7 +288,7 @@ stages:
                 arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "dev" -registry "$(Registry)" -npmToken "$(NpmToken)"'
 
     - job: PublishDocsToNightlyBranch
-      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
+      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'),  ne(variables['Skip.PublishDocs'], 'true')))
       dependsOn: PublishPackages
       pool:
         name: azsdk-pool-mms-ubuntu-2004-general
@@ -299,7 +298,6 @@ stages:
       steps:
         - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
           parameters:
-            SkipDefaultCheckout: true
             Paths:
               - sdk/**/*.md
               - .github/CODEOWNERS

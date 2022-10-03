@@ -195,10 +195,12 @@ export class PrivateLinkScopedResourcesImpl
       { resourceGroupName, scopeName, name, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -283,10 +285,12 @@ export class PrivateLinkScopedResourcesImpl
       { resourceGroupName, scopeName, name, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -357,9 +361,12 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ScopedResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -386,10 +393,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       bodyMapper: Mappers.ScopedResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   requestBody: Parameters.parameters9,
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -405,8 +415,16 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/privateLinkScopes/{scopeName}/scopedResources/{name}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion10],
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -414,6 +432,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.name,
     Parameters.scopeName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listByPrivateLinkScopeOperationSpec: coreClient.OperationSpec = {
@@ -423,9 +442,12 @@ const listByPrivateLinkScopeOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ScopedResourceListResult
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -441,9 +463,12 @@ const listByPrivateLinkScopeNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ScopedResourceListResult
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

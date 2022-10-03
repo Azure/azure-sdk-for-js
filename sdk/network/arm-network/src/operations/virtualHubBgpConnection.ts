@@ -124,11 +124,13 @@ export class VirtualHubBgpConnectionImpl implements VirtualHubBgpConnection {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -214,11 +216,13 @@ export class VirtualHubBgpConnectionImpl implements VirtualHubBgpConnection {
       { resourceGroupName, virtualHubName, connectionName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -290,7 +294,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters75,
+  requestBody: Parameters.parameters85,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

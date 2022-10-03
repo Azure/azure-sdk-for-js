@@ -102,12 +102,12 @@ describe("ServiceClient", function () {
 
         await client.sendOperationRequest(testOperationArgs, testOperationSpec);
         assert.fail();
-      } catch (error) {
+      } catch (error: any) {
         assert.include(error.message, `Invalid URL`);
       }
     });
 
-    it("should throw is no scope or baseUri are defined", async function () {
+    it("should throw is no scope or endpoint are defined", async function () {
       const credential: TokenCredential = {
         getToken: async (_scopes) => {
           return { token: "testToken", expiresOnTimestamp: 11111 };
@@ -127,10 +127,10 @@ describe("ServiceClient", function () {
 
         await client.sendOperationRequest(testOperationArgs, testOperationSpec);
         assert.fail();
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(
           error.message,
-          `When using credentials, the ServiceClientOptions must contain either a baseUri or a credentialScopes. Unable to create a bearerTokenAuthenticationPolicy`
+          `When using credentials, the ServiceClientOptions must contain either a endpoint or a credentialScopes. Unable to create a bearerTokenAuthenticationPolicy`
         );
       }
     });
@@ -154,6 +154,33 @@ describe("ServiceClient", function () {
         },
         credential,
         baseUri,
+      });
+
+      await client.sendOperationRequest(testOperationArgs, testOperationSpec);
+
+      assert(request!);
+      assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
+    });
+
+    it("should use endpoint to build scope", async function () {
+      const endpoint = "https://microsoft.com/baseuri";
+      const credential: TokenCredential = {
+        getToken: async (scopes) => {
+          assert.equal(scopes, `${endpoint}/.default`);
+          return { token: "testToken", expiresOnTimestamp: 11111 };
+        },
+      };
+
+      let request: OperationRequest;
+      const client = new ServiceClient({
+        httpClient: {
+          sendRequest: (req) => {
+            request = req;
+            return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+          },
+        },
+        credential,
+        endpoint,
       });
 
       await client.sendOperationRequest(testOperationArgs, testOperationSpec);
@@ -1074,7 +1101,7 @@ describe("ServiceClient", function () {
     try {
       await client.sendOperationRequest({}, operationSpec);
       assert.fail();
-    } catch (ex) {
+    } catch (ex: any) {
       assert.strictEqual(ex.details.errorCode, "InvalidResourceNameHeader");
       assert.strictEqual(ex.details.message, "InvalidResourceNameBody");
     }
@@ -1154,7 +1181,7 @@ describe("ServiceClient", function () {
     try {
       await client.sendOperationRequest({}, operationSpec);
       assert.fail();
-    } catch (ex) {
+    } catch (ex: any) {
       assert.strictEqual(ex.code, "BlobNotFound");
       assert.strictEqual(ex.message, "The specified blob does not exist.");
     }
@@ -1338,7 +1365,7 @@ describe("ServiceClient", function () {
         operationSpec
       );
       assert.fail("Expected client to throw");
-    } catch (error) {
+    } catch (error: any) {
       assert.include(error.message, "cannot be null or undefined");
     }
   });
@@ -1422,7 +1449,7 @@ describe("ServiceClient", function () {
         operationSpec
       );
       assert.fail("Expected client to throw");
-    } catch (error) {
+    } catch (error: any) {
       assert.include(error.message, "cannot be null or undefined");
     }
   });

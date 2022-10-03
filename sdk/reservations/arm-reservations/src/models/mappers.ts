@@ -854,6 +854,12 @@ export const ReservationOrderResponse: coreClient.CompositeMapper = {
           name: "Date"
         }
       },
+      benefitStartTime: {
+        serializedName: "properties.benefitStartTime",
+        type: {
+          name: "DateTime"
+        }
+      },
       originalQuantity: {
         serializedName: "properties.originalQuantity",
         type: {
@@ -1078,6 +1084,12 @@ export const ReservationsProperties: coreClient.CompositeMapper = {
       },
       effectiveDateTime: {
         serializedName: "effectiveDateTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      benefitStartTime: {
+        serializedName: "benefitStartTime",
         type: {
           name: "DateTime"
         }
@@ -2319,6 +2331,13 @@ export const ReservationSummary: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      processingCount: {
+        serializedName: "processingCount",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -2451,6 +2470,27 @@ export const CurrentQuotaLimitBase: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CurrentQuotaLimitBase",
     modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       properties: {
         serializedName: "properties",
         type: {
@@ -2606,64 +2646,6 @@ export const ServiceErrorDetail: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const QuotaRequestOneResourceSubmitResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "QuotaRequestOneResourceSubmitResponse",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "properties.message",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      requestSubmitTime: {
-        serializedName: "properties.requestSubmitTime",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      properties: {
-        serializedName: "properties.properties.properties",
-        type: {
-          name: "Composite",
-          className: "QuotaProperties"
         }
       }
     }
@@ -2946,6 +2928,27 @@ export const CurrentQuotaLimit: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      id: {
+        serializedName: "quotaInformation.id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "quotaInformation.name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "quotaInformation.type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       properties: {
         serializedName: "quotaInformation.properties",
         type: {
@@ -2999,6 +3002,85 @@ export const CreateGenericQuotaRequestParameters: coreClient.CompositeMapper = {
               className: "CurrentQuotaLimitBase"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const QuotaRequestOneResourceSubmitResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QuotaRequestOneResourceSubmitResponse",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "properties.message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      requestSubmitTime: {
+        serializedName: "properties.requestSubmitTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      idPropertiesId: {
+        serializedName: "properties.properties.id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      namePropertiesName: {
+        serializedName: "properties.properties.name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      typePropertiesType: {
+        serializedName: "properties.properties.type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties.properties.properties",
+        type: {
+          name: "Composite",
+          className: "QuotaProperties"
         }
       }
     }

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions, HttpResponse } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import { FeatureFlagValue } from "./featureFlag";
 import { SecretReferenceValue } from "./secretReference";
-
+import { CompatResponse } from "@azure/core-http-compat";
 /**
  * Fields that uniquely identify a configuration setting
  */
@@ -85,7 +85,25 @@ export interface HttpResponseFields {
    */
   statusCode: number;
 }
+/**
+ * HTTP response related information - headers and raw body.
+ */
+export interface HttpResponseField<HeadersT> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: CompatResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: HeadersT;
 
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+  };
+}
 /**
  * Parameters for adding a new configuration setting
  */
@@ -106,26 +124,6 @@ export type SetConfigurationSettingParam<
 export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting &
   HttpResponseField<HeadersT> &
   Pick<HeadersT, Exclude<keyof HeadersT, "eTag">>;
-
-/**
- * HTTP response related information - headers and raw body.
- */
-export interface HttpResponseField<HeadersT> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: HeadersT;
-
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-  };
-}
 
 /**
  * Options used to provide if-none-match for an HTTP request

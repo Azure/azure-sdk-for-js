@@ -28,7 +28,7 @@ export async function getConversionInternal(
   try {
     const conversion = await operations.getConversion(accountId, conversionId, updatedOptions);
     return assetConversionFromConversion(conversion);
-  } catch (e) {
+  } catch (e: any) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
       message: e.message,
@@ -59,7 +59,7 @@ export async function getSessionInternal(
   try {
     const sessionProperties = await operations.getSession(accountId, sessionId, updatedOptions);
     return renderingSessionFromSessionProperties(sessionProperties);
-  } catch (e) {
+  } catch (e: any) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
       message: e.message,
@@ -89,7 +89,7 @@ export async function endSessionInternal(
 
   try {
     await operations.stopSession(accountId, sessionId, updatedOptions);
-  } catch (e) {
+  } catch (e: any) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
       message: e.message,

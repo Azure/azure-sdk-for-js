@@ -279,7 +279,7 @@ export interface AutoBackupSettings {
   /** Frequency of full backups. In both cases, full backups begin during the next scheduled time window. */
   fullBackupFrequency?: FullBackupFrequencyType;
   /** Days of the week for the backups when FullBackupFrequency is set to Weekly. */
-  daysOfWeek?: DaysOfWeek[];
+  daysOfWeek?: AutoBackupDaysOfWeek[];
   /** Start time of a given day during which full backups can take place. 0-23 hours. */
   fullBackupStartTime?: number;
   /** Duration of the time window of a given day during which full backups can take place. 1-23 hours. */
@@ -423,7 +423,7 @@ export interface Schedule {
   /** Occurrence of the DayOfWeek day within a month to schedule assessment. Takes values: 1,2,3,4 and -1. Use -1 for last DayOfWeek day of the month */
   monthlyOccurrence?: number;
   /** Day of the week to run assessment. */
-  dayOfWeek?: DayOfWeek;
+  dayOfWeek?: AssessmentDayOfWeek;
   /** Time of the day in HH:mm format. Eg. 17:30 */
   startTime?: string;
 }
@@ -435,7 +435,7 @@ export interface SqlVirtualMachineUpdate {
 }
 
 /** ARM proxy resource. */
-export type ProxyResource = Resource & {};
+export type ProxyResource = Resource;
 
 /** ARM tracked top level resource. */
 export type TrackedResource = Resource & {
@@ -812,8 +812,8 @@ export enum KnownFullBackupFrequencyType {
  */
 export type FullBackupFrequencyType = string;
 
-/** Known values of {@link DaysOfWeek} that the service accepts. */
-export enum KnownDaysOfWeek {
+/** Known values of {@link AutoBackupDaysOfWeek} that the service accepts. */
+export enum KnownAutoBackupDaysOfWeek {
   Monday = "Monday",
   Tuesday = "Tuesday",
   Wednesday = "Wednesday",
@@ -824,8 +824,8 @@ export enum KnownDaysOfWeek {
 }
 
 /**
- * Defines values for DaysOfWeek. \
- * {@link KnownDaysOfWeek} can be used interchangeably with DaysOfWeek,
+ * Defines values for AutoBackupDaysOfWeek. \
+ * {@link KnownAutoBackupDaysOfWeek} can be used interchangeably with AutoBackupDaysOfWeek,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Monday** \
@@ -836,7 +836,7 @@ export enum KnownDaysOfWeek {
  * **Saturday** \
  * **Sunday**
  */
-export type DaysOfWeek = string;
+export type AutoBackupDaysOfWeek = string;
 
 /** Known values of {@link ConnectivityType} that the service accepts. */
 export enum KnownConnectivityType {
@@ -911,6 +911,16 @@ export enum KnownStorageWorkloadType {
 export type StorageWorkloadType = string;
 /** Defines values for DayOfWeek. */
 export type DayOfWeek =
+  | "Everyday"
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday"
+  | "Sunday";
+/** Defines values for AssessmentDayOfWeek. */
+export type AssessmentDayOfWeek =
   | "Monday"
   | "Tuesday"
   | "Wednesday"

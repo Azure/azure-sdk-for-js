@@ -164,10 +164,12 @@ export class LinkedServerImpl implements LinkedServer {
       { resourceGroupName, name, linkedServerName, parameters, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -202,16 +204,84 @@ export class LinkedServerImpl implements LinkedServer {
    * @param linkedServerName The name of the linked server that is being added to the Redis cache.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
+    resourceGroupName: string,
+    name: string,
+    linkedServerName: string,
+    options?: LinkedServerDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, name, linkedServerName, options },
+      deleteOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes the linked server from a redis cache (requires Premium SKU).
+   * @param resourceGroupName The name of the resource group.
+   * @param name The name of the redis cache.
+   * @param linkedServerName The name of the linked server that is being added to the Redis cache.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
     resourceGroupName: string,
     name: string,
     linkedServerName: string,
     options?: LinkedServerDeleteOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, name, linkedServerName, options },
-      deleteOperationSpec
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      name,
+      linkedServerName,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -312,6 +382,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
+    201: {},
+    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse

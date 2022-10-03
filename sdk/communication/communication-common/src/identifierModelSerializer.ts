@@ -5,6 +5,7 @@ import {
   CommunicationIdentifier,
   CommunicationIdentifierKind,
   getIdentifierKind,
+  getIdentifierRawId,
 } from "./identifierModels";
 
 /**
@@ -77,13 +78,6 @@ export interface SerializedMicrosoftTeamsUserIdentifier {
  */
 export type SerializedCommunicationCloudEnvironment = "public" | "dod" | "gcch";
 
-const addRawIdIfExisting = <T>(
-  identifier: T,
-  rawId: string | undefined
-): T & { rawId?: string } => {
-  return rawId === undefined ? identifier : { ...identifier, rawId: rawId };
-};
-
 const assertNotNullOrUndefined = <
   T extends Record<string, unknown>,
   P extends keyof T,
@@ -101,10 +95,20 @@ const assertNotNullOrUndefined = <
 };
 
 const assertMaximumOneNestedModel = (identifier: SerializedCommunicationIdentifier): void => {
-  const { rawId: _rawId, ...props } = identifier;
-  const keys = Object.keys(props);
-  if (keys.length > 1) {
-    throw new Error(`Only one of the properties in ${JSON.stringify(keys)} should be present.`);
+  const presentProperties: string[] = [];
+  if (identifier.communicationUser !== undefined) {
+    presentProperties.push("communicationUser");
+  }
+  if (identifier.microsoftTeamsUser !== undefined) {
+    presentProperties.push("microsoftTeamsUser");
+  }
+  if (identifier.phoneNumber !== undefined) {
+    presentProperties.push("phoneNumber");
+  }
+  if (presentProperties.length > 1) {
+    throw new Error(
+      `Only one of the properties in ${JSON.stringify(presentProperties)} should be present.`
+    );
   }
 };
 
@@ -119,23 +123,26 @@ export const serializeCommunicationIdentifier = (
   const identifierKind = getIdentifierKind(identifier);
   switch (identifierKind.kind) {
     case "communicationUser":
-      return { communicationUser: { id: identifierKind.communicationUserId } };
+      return {
+        rawId: getIdentifierRawId(identifierKind),
+        communicationUser: { id: identifierKind.communicationUserId },
+      };
     case "phoneNumber":
-      return addRawIdIfExisting(
-        { phoneNumber: { value: identifierKind.phoneNumber } },
-        identifierKind.rawId
-      );
-    case "microsoftTeamsUser":
-      return addRawIdIfExisting(
-        {
-          microsoftTeamsUser: {
-            userId: identifierKind.microsoftTeamsUserId,
-            isAnonymous: identifierKind.isAnonymous ?? false,
-            cloud: identifierKind.cloud ?? "public",
-          },
+      return {
+        rawId: identifierKind.rawId ?? getIdentifierRawId(identifierKind),
+        phoneNumber: {
+          value: identifierKind.phoneNumber,
         },
-        identifierKind.rawId
-      );
+      };
+    case "microsoftTeamsUser":
+      return {
+        rawId: identifierKind.rawId ?? getIdentifierRawId(identifierKind),
+        microsoftTeamsUser: {
+          userId: identifierKind.microsoftTeamsUserId,
+          isAnonymous: identifierKind.isAnonymous ?? false,
+          cloud: identifierKind.cloud ?? "public",
+        },
+      };
     case "unknown":
       return { rawId: identifierKind.id };
     default:

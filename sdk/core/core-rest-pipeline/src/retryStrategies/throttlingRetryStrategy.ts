@@ -50,7 +50,7 @@ function getRetryAfterInMs(response?: PipelineResponse): number | undefined {
     const diff = date - Date.now();
     // negative diff would mean a date in the past, so retry asap with 0 milliseconds
     return Number.isFinite(diff) ? Math.max(0, diff) : undefined;
-  } catch (e) {
+  } catch (e: any) {
     return undefined;
   }
 }

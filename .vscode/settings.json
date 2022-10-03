@@ -1,5 +1,5 @@
 {
-  "editor.autoIndent": true,
+  "editor.autoIndent": "full",
   "editor.detectIndentation": false,
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,

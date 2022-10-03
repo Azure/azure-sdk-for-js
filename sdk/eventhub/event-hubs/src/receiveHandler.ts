@@ -58,7 +58,7 @@ export class ReceiveHandler {
     if (this._receiver) {
       try {
         await this._receiver.close();
-      } catch (err) {
+      } catch (err: any) {
         logger.warning(
           "An error occurred while stopping the receiver '%s' with address '%s': %s",
           this._receiver.name,

@@ -206,6 +206,13 @@ export const SpacecraftLink: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SpacecraftLink",
     modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
       centerFrequencyMHz: {
         serializedName: "centerFrequencyMHz",
         required: true,
@@ -232,6 +239,40 @@ export const SpacecraftLink: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      },
+      authorizations: {
+        serializedName: "authorizations",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AuthorizedGroundstation"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AuthorizedGroundstation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AuthorizedGroundstation",
+    modelProperties: {
+      groundStation: {
+        serializedName: "groundStation",
+        type: {
+          name: "String"
+        }
+      },
+      expirationDate: {
+        serializedName: "expirationDate",
+        type: {
+          name: "Date"
         }
       }
     }
@@ -364,6 +405,32 @@ export const ContactListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const ContactsPropertiesAntennaConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContactsPropertiesAntennaConfiguration",
+    modelProperties: {
+      destinationIp: {
+        serializedName: "destinationIp",
+        type: {
+          name: "String"
+        }
+      },
+      sourceIps: {
+        serializedName: "sourceIps",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ResourceReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -388,7 +455,7 @@ export const ContactParameters: coreClient.CompositeMapper = {
         serializedName: "contactProfile",
         type: {
           name: "Composite",
-          className: "ResourceReference"
+          className: "ContactParametersContactProfile"
         }
       },
       groundStationName: {
@@ -453,7 +520,7 @@ export const AvailableContacts: coreClient.CompositeMapper = {
         serializedName: "spacecraft",
         type: {
           name: "Composite",
-          className: "ResourceReference"
+          className: "AvailableContactsSpacecraft"
         }
       },
       groundStationName: {
@@ -530,11 +597,166 @@ export const AvailableContacts: coreClient.CompositeMapper = {
   }
 };
 
+export const ContactInstanceProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContactInstanceProperties",
+    modelProperties: {
+      maximumElevationDegrees: {
+        serializedName: "maximumElevationDegrees",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      txStartTime: {
+        serializedName: "txStartTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      txEndTime: {
+        serializedName: "txEndTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      rxStartTime: {
+        serializedName: "rxStartTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      rxEndTime: {
+        serializedName: "rxEndTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      startAzimuthDegrees: {
+        serializedName: "startAzimuthDegrees",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      endAzimuthDegrees: {
+        serializedName: "endAzimuthDegrees",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      startElevationDegrees: {
+        serializedName: "startElevationDegrees",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      endElevationDegrees: {
+        serializedName: "endElevationDegrees",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ContactProfilesProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContactProfilesProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      minimumViableContactDuration: {
+        serializedName: "minimumViableContactDuration",
+        type: {
+          name: "String"
+        }
+      },
+      minimumElevationDegrees: {
+        serializedName: "minimumElevationDegrees",
+        type: {
+          name: "Number"
+        }
+      },
+      autoTrackingConfiguration: {
+        serializedName: "autoTrackingConfiguration",
+        type: {
+          name: "Enum",
+          allowedValues: ["disabled", "xBand", "sBand"]
+        }
+      },
+      eventHubUri: {
+        serializedName: "eventHubUri",
+        type: {
+          name: "String"
+        }
+      },
+      networkConfiguration: {
+        serializedName: "networkConfiguration",
+        type: {
+          name: "Composite",
+          className: "ContactProfilesPropertiesNetworkConfiguration"
+        }
+      },
+      links: {
+        serializedName: "links",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ContactProfileLink"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ContactProfilesPropertiesNetworkConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContactProfilesPropertiesNetworkConfiguration",
+    modelProperties: {
+      subnetId: {
+        serializedName: "subnetId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ContactProfileLink: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContactProfileLink",
     modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
       polarization: {
         serializedName: "polarization",
         required: true,
@@ -583,6 +805,13 @@ export const ContactProfileLinkChannel: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ContactProfileLinkChannel",
     modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
       centerFrequencyMHz: {
         serializedName: "centerFrequencyMHz",
         required: true,
@@ -786,6 +1015,159 @@ export const AvailableGroundStation: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      releaseMode: {
+        serializedName: "properties.releaseMode",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AvailableGroundStationPropertiesAutoGenerated: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvailableGroundStationPropertiesAutoGenerated",
+    modelProperties: {
+      city: {
+        serializedName: "city",
+        type: {
+          name: "String"
+        }
+      },
+      providerName: {
+        serializedName: "providerName",
+        type: {
+          name: "String"
+        }
+      },
+      longitudeDegrees: {
+        serializedName: "longitudeDegrees",
+        type: {
+          name: "Number"
+        }
+      },
+      latitudeDegrees: {
+        serializedName: "latitudeDegrees",
+        type: {
+          name: "Number"
+        }
+      },
+      altitudeMeters: {
+        serializedName: "altitudeMeters",
+        type: {
+          name: "Number"
+        }
+      },
+      releaseMode: {
+        serializedName: "releaseMode",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OperationResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationResult",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "scheduled",
+            "cancelled",
+            "succeeded",
+            "failed",
+            "providerCancelled",
+            "Succeeded",
+            "Canceled",
+            "Failed",
+            "Running"
+          ]
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        serializedName: "endTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      percentComplete: {
+        constraints: {
+          InclusiveMaximum: 100,
+          InclusiveMinimum: 0
+        },
+        serializedName: "percentComplete",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "OperationResultErrorProperties"
+        }
+      }
+    }
+  }
+};
+
+export const OperationResultErrorProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationResultErrorProperties",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -868,6 +1250,66 @@ export const ProxyResource: coreClient.CompositeMapper = {
   }
 };
 
+export const ContactsPropertiesContactProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContactsPropertiesContactProfile",
+    modelProperties: {
+      ...ResourceReference.type.modelProperties
+    }
+  }
+};
+
+export const ContactParametersContactProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContactParametersContactProfile",
+    modelProperties: {
+      ...ResourceReference.type.modelProperties
+    }
+  }
+};
+
+export const AvailableContactsSpacecraft: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvailableContactsSpacecraft",
+    modelProperties: {
+      ...ResourceReference.type.modelProperties
+    }
+  }
+};
+
+export const AvailableContactsProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvailableContactsProperties",
+    modelProperties: {
+      ...ContactInstanceProperties.type.modelProperties
+    }
+  }
+};
+
+export const ContactProfileProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContactProfileProperties",
+    modelProperties: {
+      ...ContactProfilesProperties.type.modelProperties
+    }
+  }
+};
+
+export const AvailableGroundStationProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvailableGroundStationProperties",
+    modelProperties: {
+      ...AvailableGroundStationPropertiesAutoGenerated.type.modelProperties
+    }
+  }
+};
+
 export const Spacecraft: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -881,23 +1323,14 @@ export const Spacecraft: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      noradId: {
-        serializedName: "properties.noradId",
+      provisioningState: {
+        serializedName: "properties.provisioningState",
         type: {
           name: "String"
         }
       },
-      authorizationStatus: {
-        serializedName: "properties.authorizationStatus",
-        readOnly: true,
-        type: {
-          name: "Enum",
-          allowedValues: ["Allowed", "Pending", "Denied"]
-        }
-      },
-      authorizationStatusExtended: {
-        serializedName: "properties.authorizationStatusExtended",
-        readOnly: true,
+      noradId: {
+        serializedName: "properties.noradId",
         type: {
           name: "String"
         }
@@ -949,6 +1382,12 @@ export const ContactProfile: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
       minimumViableContactDuration: {
         serializedName: "properties.minimumViableContactDuration",
         type: {
@@ -972,6 +1411,13 @@ export const ContactProfile: coreClient.CompositeMapper = {
         serializedName: "properties.eventHubUri",
         type: {
           name: "String"
+        }
+      },
+      networkConfiguration: {
+        serializedName: "properties.networkConfiguration",
+        type: {
+          name: "Composite",
+          className: "ContactProfilesPropertiesNetworkConfiguration"
         }
       },
       links: {
@@ -1003,6 +1449,12 @@ export const Contact: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
       status: {
         serializedName: "properties.status",
         readOnly: true,
@@ -1013,7 +1465,11 @@ export const Contact: coreClient.CompositeMapper = {
             "cancelled",
             "succeeded",
             "failed",
-            "providerCancelled"
+            "providerCancelled",
+            "Succeeded",
+            "Canceled",
+            "Failed",
+            "Running"
           ]
         }
       },
@@ -1105,11 +1561,183 @@ export const Contact: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
+      antennaConfiguration: {
+        serializedName: "properties.antennaConfiguration",
+        type: {
+          name: "Composite",
+          className: "ContactsPropertiesAntennaConfiguration"
+        }
+      },
       contactProfile: {
         serializedName: "properties.contactProfile",
         type: {
           name: "Composite",
-          className: "ResourceReference"
+          className: "ContactsPropertiesContactProfile"
+        }
+      }
+    }
+  }
+};
+
+export const SpacecraftsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SpacecraftsCreateOrUpdateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SpacecraftsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SpacecraftsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SpacecraftsUpdateTagsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SpacecraftsUpdateTagsHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SpacecraftsListAvailableContactsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SpacecraftsListAvailableContactsHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SpacecraftsListAvailableContactsNextHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SpacecraftsListAvailableContactsNextHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContactsCreateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContactsCreateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContactsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContactsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContactProfilesCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContactProfilesCreateOrUpdateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContactProfilesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContactProfilesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContactProfilesUpdateTagsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContactProfilesUpdateTagsHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OperationsResultsGetHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationsResultsGetHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
         }
       }
     }

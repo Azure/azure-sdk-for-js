@@ -169,7 +169,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     let error: Error | undefined;
     try {
       await policy.sendRequest(request, next);
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error?.message, "Failed to retrieve the token");
@@ -235,7 +235,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     let error: Error | undefined;
     try {
       await policy.sendRequest(request, next);
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
 

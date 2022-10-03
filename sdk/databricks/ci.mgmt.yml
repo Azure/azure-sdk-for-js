@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -9,7 +9,7 @@ trigger:
   paths:
     include:
       - sdk/databricks/ci.mgmt.yml
-      - sdk/databricks/arm-databricks/
+      - sdk/databricks/arm-databricks
 pr:
   branches:
     include:
@@ -22,12 +22,11 @@ pr:
   paths:
     include:
       - sdk/databricks/ci.mgmt.yml
-      - sdk/databricks/arm-databricks/
-
+      - sdk/databricks/arm-databricks
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: databricks
     Artifacts:
       - name: azure-arm-databricks
-        safeName: azurearmdatabricks       
+        safeName: azurearmdatabricks

@@ -16,8 +16,6 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   FluxConfiguration,
-  Enum0,
-  Enum1,
   FluxConfigurationsListNextOptionalParams,
   FluxConfigurationsListOptionalParams,
   FluxConfigurationsGetOptionalParams,
@@ -48,17 +46,17 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
   /**
    * List all Flux Configurations.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     options?: FluxConfigurationsListOptionalParams
   ): PagedAsyncIterableIterator<FluxConfiguration> {
@@ -90,8 +88,8 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
 
   private async *listPagingPage(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     options?: FluxConfigurationsListOptionalParams
   ): AsyncIterableIterator<FluxConfiguration[]> {
@@ -120,8 +118,8 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     options?: FluxConfigurationsListOptionalParams
   ): AsyncIterableIterator<FluxConfiguration> {
@@ -139,18 +137,18 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
   /**
    * Gets details of the Flux Configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param fluxConfigurationName Name of the Flux Configuration.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     fluxConfigurationName: string,
     options?: FluxConfigurationsGetOptionalParams
@@ -171,10 +169,10 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
   /**
    * Create a new Kubernetes Flux Configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param fluxConfigurationName Name of the Flux Configuration.
    * @param fluxConfiguration Properties necessary to Create a FluxConfiguration.
@@ -182,8 +180,8 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     fluxConfigurationName: string,
     fluxConfiguration: FluxConfiguration,
@@ -246,20 +244,22 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Create a new Kubernetes Flux Configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param fluxConfigurationName Name of the Flux Configuration.
    * @param fluxConfiguration Properties necessary to Create a FluxConfiguration.
@@ -267,8 +267,8 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     fluxConfigurationName: string,
     fluxConfiguration: FluxConfiguration,
@@ -289,10 +289,10 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
   /**
    * Update an existing Kubernetes Flux Configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param fluxConfigurationName Name of the Flux Configuration.
    * @param fluxConfigurationPatch Properties to Patch in an existing Flux Configuration.
@@ -300,8 +300,8 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
    */
   async beginUpdate(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     fluxConfigurationName: string,
     fluxConfigurationPatch: FluxConfigurationPatch,
@@ -364,20 +364,22 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Update an existing Kubernetes Flux Configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param fluxConfigurationName Name of the Flux Configuration.
    * @param fluxConfigurationPatch Properties to Patch in an existing Flux Configuration.
@@ -385,8 +387,8 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     fluxConfigurationName: string,
     fluxConfigurationPatch: FluxConfigurationPatch,
@@ -408,18 +410,18 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
    * This will delete the YAML file used to set up the Flux Configuration, thus stopping future sync from
    * the source repo.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param fluxConfigurationName Name of the Flux Configuration.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     fluxConfigurationName: string,
     options?: FluxConfigurationsDeleteOptionalParams
@@ -475,29 +477,31 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
       },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * This will delete the YAML file used to set up the Flux Configuration, thus stopping future sync from
    * the source repo.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param fluxConfigurationName Name of the Flux Configuration.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     fluxConfigurationName: string,
     options?: FluxConfigurationsDeleteOptionalParams
@@ -516,17 +520,17 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
   /**
    * List all Flux Configurations.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     options?: FluxConfigurationsListOptionalParams
   ): Promise<FluxConfigurationsListResponse> {
@@ -545,18 +549,18 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     nextLink: string,
     options?: FluxConfigurationsListNextOptionalParams
@@ -634,7 +638,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterName,
     Parameters.fluxConfigurationName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -670,7 +674,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterName,
     Parameters.fluxConfigurationName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

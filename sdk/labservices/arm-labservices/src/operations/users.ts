@@ -48,8 +48,8 @@ export class UsersImpl implements Users {
   /**
    * Returns a list of all users for a lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   public listByLab(
@@ -108,8 +108,8 @@ export class UsersImpl implements Users {
   /**
    * Returns a list of all users for a lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   private _listByLab(
@@ -126,8 +126,8 @@ export class UsersImpl implements Users {
   /**
    * Returns the properties of a lab user.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param options The options parameters.
@@ -147,8 +147,8 @@ export class UsersImpl implements Users {
   /**
    * Operation to create or update a lab user.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param body The request body.
@@ -210,18 +210,20 @@ export class UsersImpl implements Users {
       { resourceGroupName, labName, userName, body, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "original-uri"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Operation to create or update a lab user.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param body The request body.
@@ -247,8 +249,8 @@ export class UsersImpl implements Users {
   /**
    * Operation to update a lab user.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param body The request body.
@@ -307,18 +309,20 @@ export class UsersImpl implements Users {
       { resourceGroupName, labName, userName, body, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Operation to update a lab user.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param body The request body.
@@ -344,8 +348,8 @@ export class UsersImpl implements Users {
   /**
    * Operation to delete a user resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param options The options parameters.
@@ -400,18 +404,20 @@ export class UsersImpl implements Users {
       { resourceGroupName, labName, userName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Operation to delete a user resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param options The options parameters.
@@ -434,8 +440,8 @@ export class UsersImpl implements Users {
   /**
    * Operation to invite a user to a lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param body The request body.
@@ -492,18 +498,20 @@ export class UsersImpl implements Users {
       { resourceGroupName, labName, userName, body, options },
       inviteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Operation to invite a user to a lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param body The request body.
@@ -529,8 +537,8 @@ export class UsersImpl implements Users {
   /**
    * ListByLabNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param nextLink The nextLink from the previous successful call to the ListByLab method.
    * @param options The options parameters.
    */

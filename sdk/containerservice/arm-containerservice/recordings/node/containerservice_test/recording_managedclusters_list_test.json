@@ -1,0 +1,133 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters?api-version=2022-07-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-containerservice/17.1.0 core-rest-pipeline/1.9.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "4e14b853-7c2f-41e1-b470-add092833653"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Thu, 25 Aug 2022 05:58:09 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "nginx",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "38fa4483-134f-4964-8c42-9abf3823a094",
+        "x-ms-ratelimit-remaining-subscription-reads": "11665",
+        "x-ms-request-id": "8920006d-2dff-4ec3-a7cf-e8b7d3c09ca2",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220825T055809Z:38fa4483-134f-4964-8c42-9abf3823a094"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
+            "location": "eastus",
+            "name": "myreourcexyz",
+            "type": "Microsoft.ContainerService/ManagedClusters",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "powerState": {
+                "code": "Running"
+              },
+              "kubernetesVersion": "1.23.8",
+              "currentKubernetesVersion": "1.23.8",
+              "dnsPrefix": "aksjssdk",
+              "fqdn": "aksjssdk-c6e0e310.hcp.eastus.azmk8s.io",
+              "azurePortalFQDN": "aksjssdk-c6e0e310.portal.hcp.eastus.azmk8s.io",
+              "agentPoolProfiles": [
+                {
+                  "name": "aksagent",
+                  "count": 1,
+                  "vmSize": "Standard_DS2_v2",
+                  "osDiskSizeGB": 128,
+                  "osDiskType": "Managed",
+                  "kubeletDiskType": "OS",
+                  "maxPods": 110,
+                  "type": "VirtualMachineScaleSets",
+                  "maxCount": 100,
+                  "minCount": 1,
+                  "enableAutoScaling": true,
+                  "provisioningState": "Succeeded",
+                  "powerState": {
+                    "code": "Running"
+                  },
+                  "orchestratorVersion": "1.23.8",
+                  "currentOrchestratorVersion": "1.23.8",
+                  "mode": "System",
+                  "osType": "Linux",
+                  "osSKU": "Ubuntu",
+                  "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.08.10",
+                  "enableFIPS": false
+                }
+              ],
+              "servicePrincipalProfile": {
+                "clientId": "azure_client_id"
+              },
+              "nodeResourceGroup": "MC_myjstest_myreourcexyz_eastus",
+              "enableRBAC": true,
+              "networkProfile": {
+                "networkPlugin": "kubenet",
+                "loadBalancerSku": "Standard",
+                "loadBalancerProfile": {
+                  "managedOutboundIPs": {
+                    "count": 1
+                  },
+                  "effectiveOutboundIPs": [
+                    {
+                      "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/fbc48e2a-76cc-4a8e-acbb-c813a0486042"
+                    }
+                  ]
+                },
+                "podCidr": "10.244.0.0/16",
+                "serviceCidr": "10.0.0.0/16",
+                "dnsServiceIP": "10.0.0.10",
+                "dockerBridgeCidr": "172.17.0.1/16",
+                "outboundType": "loadBalancer",
+                "podCidrs": [
+                  "10.244.0.0/16"
+                ],
+                "serviceCidrs": [
+                  "10.0.0.0/16"
+                ],
+                "ipFamilies": [
+                  "IPv4"
+                ]
+              },
+              "maxAgentPools": 100,
+              "securityProfile": {},
+              "storageProfile": {
+                "diskCSIDriver": {
+                  "enabled": true
+                },
+                "fileCSIDriver": {
+                  "enabled": true
+                },
+                "snapshotController": {
+                  "enabled": true
+                }
+              }
+            },
+            "sku": {
+              "name": "Basic",
+              "tier": "Free"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

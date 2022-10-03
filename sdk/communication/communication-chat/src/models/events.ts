@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 import {
-  ChatMessageReceivedEvent,
-  ChatMessageEditedEvent,
   ChatMessageDeletedEvent,
-  ReadReceiptReceivedEvent,
-  TypingIndicatorReceivedEvent,
+  ChatMessageEditedEvent,
+  ChatMessageReceivedEvent,
   ChatThreadCreatedEvent,
   ChatThreadDeletedEvent,
   ChatThreadPropertiesUpdatedEvent,
   ParticipantsAddedEvent,
   ParticipantsRemovedEvent,
+  ReadReceiptReceivedEvent,
+  TypingIndicatorReceivedEvent,
 } from "@azure/communication-signaling";
 
 type ChatEventId =

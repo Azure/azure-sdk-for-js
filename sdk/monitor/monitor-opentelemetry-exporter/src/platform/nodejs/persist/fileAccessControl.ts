@@ -32,7 +32,7 @@ export class FileAccessControl {
           FileAccessControl.OS_PROVIDES_FILE_PROTECTION = fs.existsSync(
             FileAccessControl.ICACLS_PATH
           );
-        } catch (e) {
+        } catch (e: any) {
           // Ignore error
         }
         if (!FileAccessControl.OS_PROVIDES_FILE_PROTECTION) {
@@ -59,7 +59,7 @@ export class FileAccessControl {
           let identity = await this._getACLIdentity();
           await this._runICACLS(this._getACLArguments(directory, identity));
           FileAccessControl.ACLED_DIRECTORIES[directory] = true;
-        } catch (ex) {
+        } catch (ex: any) {
           FileAccessControl.ACLED_DIRECTORIES[directory] = false; // false is used to cache failed (vs undefined which is "not yet tried")
           throw ex;
         }

@@ -9,8 +9,8 @@ trigger:
   paths:
     include:
       - sdk/network/ci.mgmt.yml
-      - sdk/network/arm-network/
       - sdk/network/arm-network-profile-2020-09-01-hybrid
+      - sdk/network/arm-network
 pr:
   branches:
     include:
@@ -23,8 +23,8 @@ pr:
   paths:
     include:
       - sdk/network/ci.mgmt.yml
-      - sdk/network/arm-network/
       - sdk/network/arm-network-profile-2020-09-01-hybrid
+      - sdk/network/arm-network
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

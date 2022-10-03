@@ -22,11 +22,31 @@ import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionRec
 import { MessageSession } from "../../../src/session/messageSession";
 import sinon from "sinon";
 import { assertThrows } from "../../public/utils/testUtils";
+import { Constants } from "@azure/core-amqp";
 
 describe("Receiver unit tests", () => {
+  it("Receiver should set target in created receiver options", () => {
+    const batchingReceiver = new BatchingReceiver(
+      "serviceBusClientId",
+      createConnectionContextForTests(),
+      "fakeEntityPath",
+      {
+        lockRenewer: undefined,
+        receiveMode: "peekLock",
+        skipParsingBodyAsJson: false,
+      }
+    );
+    const options = batchingReceiver["_createReceiverOptions"](false, {});
+    assert.equal(options.target, "serviceBusClientId");
+    assert.deepStrictEqual(options.properties, {
+      [Constants.receiverIdentifierName]: "serviceBusClientId",
+    });
+  });
+
   describe("init() and close() interactions", () => {
     it("close() called just after init() but before the next step", async () => {
       const batchingReceiver = new BatchingReceiver(
+        "serviceBusClientId",
         createConnectionContextForTests(),
         "fakeEntityPath",
         {
@@ -55,6 +75,7 @@ describe("Receiver unit tests", () => {
 
     it("message receiver init() bails out early if object is closed()", async () => {
       const messageReceiver2 = new StreamingReceiver(
+        "serviceBusClientId",
         createConnectionContextForTests(),
         "fakeEntityPath",
         {
@@ -81,7 +102,7 @@ describe("Receiver unit tests", () => {
       try {
         await messageReceiver2["_init"]({} as ReceiverOptions);
         assert.fail("Should throw");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal("Link has been permanently closed. Not reopening.", err.message);
         assert.equal(err.name, "AbortError");
         assert.isFalse(negotiateClaimWasCalled);
@@ -110,7 +131,7 @@ describe("Receiver unit tests", () => {
       try {
         await subscribeAndWaitForInitialize(receiverImpl);
         assert.fail("Should throw since we have an active subscriber");
-      } catch (err) {
+      } catch (err: any) {
         assert.deepEqual(
           {
             name: err.name,
@@ -229,7 +250,7 @@ describe("Receiver unit tests", () => {
 
         await iter.next();
         assert.fail("Should have thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "AbortError");
       }
 
@@ -239,6 +260,7 @@ describe("Receiver unit tests", () => {
     it("abortSignal is passed through (session receiver)", async () => {
       const connectionContext = createConnectionContextForTestsWithSessionId();
       const messageSession = await MessageSession.create(
+        "serviceBusClientId",
         connectionContext,
         "entity path",
         undefined,
@@ -265,7 +287,7 @@ describe("Receiver unit tests", () => {
 
         await iter.next();
         assert.fail("Should have thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal("AbortError", err.name);
       }
 

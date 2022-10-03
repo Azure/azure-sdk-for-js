@@ -9,8 +9,8 @@ trigger:
   paths:
     include:
       - sdk/mysql/ci.mgmt.yml
-      - sdk/mysql/arm-mysql/
       - sdk/mysql/arm-mysql-flexible
+      - sdk/mysql/arm-mysql
 pr:
   branches:
     include:
@@ -23,8 +23,8 @@ pr:
   paths:
     include:
       - sdk/mysql/ci.mgmt.yml
-      - sdk/mysql/arm-mysql/
       - sdk/mysql/arm-mysql-flexible
+      - sdk/mysql/arm-mysql
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

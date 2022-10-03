@@ -55,7 +55,7 @@ async function main() {
   }
 
   // Create a file system
-  const fileSystemName = `newFileSystem${new Date().getTime()}`;
+  const fileSystemName = `newfilesystem${new Date().getTime()}`;
   const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
 
   const fileSystemResponse = await fileSystemClient.create();

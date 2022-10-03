@@ -5,8 +5,8 @@ import { HttpResponse } from "@azure/core-http";
 import {
   PageBlobGetPageRangesHeaders,
   PageBlobGetPageRangesDiffHeaders,
-  PageBlobGetPageRangesResponse as PageBlobGetPageRangesResponseModel,
-  PageBlobGetPageRangesDiffResponse as PageBlobGetPageRangesDiffResponseModel,
+  PageBlobGetPageRangesResponseModel,
+  PageBlobGetPageRangesDiffResponseModel,
 } from "./generatedModels";
 import { Range } from "./Range";
 

@@ -205,7 +205,7 @@ export function deserializeResponseBody(
               "operationRes.parsedBody",
               options
             );
-          } catch (innerError) {
+          } catch (innerError: any) {
             const restError = new RestError(
               `Error ${innerError} occurred in deserializing the responseBody - ${parsedResponse.bodyAsText}`,
               undefined,
@@ -223,7 +223,7 @@ export function deserializeResponseBody(
         if (responseSpec.headersMapper) {
           parsedResponse.parsedHeaders = operationSpec.serializer.deserialize(
             responseSpec.headersMapper,
-            parsedResponse.headers.rawHeaders(),
+            parsedResponse.headers.toJson(),
             "operationRes.parsedHeaders",
             options
           );
@@ -322,11 +322,11 @@ function handleErrorResponse(
     if (parsedResponse.headers && defaultHeadersMapper) {
       error.response!.parsedHeaders = operationSpec.serializer.deserialize(
         defaultHeadersMapper,
-        parsedResponse.headers.rawHeaders(),
+        parsedResponse.headers.toJson(),
         "operationRes.parsedHeaders"
       );
     }
-  } catch (defaultError) {
+  } catch (defaultError: any) {
     error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody - "${parsedResponse.bodyAsText}" for the default response.`;
   }
 

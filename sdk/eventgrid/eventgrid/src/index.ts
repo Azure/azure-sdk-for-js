@@ -9,8 +9,10 @@ export {
   EventGridPublisherClient,
   EventGridPublisherClientOptions,
   SendOptions,
+  CloudEventSendOptions,
   InputSchema,
   InputSchemaToInputTypeMap,
+  InputSchemaToOptionsTypeMap,
 } from "./eventGridClient";
 
 export {
@@ -85,6 +87,10 @@ export {
   DeviceTwinInfo,
   DeviceTwinInfoProperties,
   DeviceTwinInfoX509Thumbprint,
+  HealthcareFhirResourceCreatedEventData,
+  HealthcareFhirResourceUpdatedEventData,
+  HealthcareFhirResourceDeletedEventData,
+  HealthcareFhirResourceType,
   IotHubDeviceCreatedEventData,
   IotHubDeviceDeletedEventData,
   IotHubDeviceConnectedEventData,

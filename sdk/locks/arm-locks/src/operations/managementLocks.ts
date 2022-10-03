@@ -780,6 +780,9 @@ const createOrUpdateAtResourceGroupLevelOperationSpec: coreClient.OperationSpec 
     },
     201: {
       bodyMapper: Mappers.ManagementLockObject
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters,
@@ -798,7 +801,13 @@ const deleteAtResourceGroupLevelOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/locks/{lockName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 204: {} },
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -806,6 +815,7 @@ const deleteAtResourceGroupLevelOperationSpec: coreClient.OperationSpec = {
     Parameters.lockName,
     Parameters.subscriptionId
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const getAtResourceGroupLevelOperationSpec: coreClient.OperationSpec = {
@@ -815,6 +825,9 @@ const getAtResourceGroupLevelOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockObject
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -836,6 +849,9 @@ const createOrUpdateByScopeOperationSpec: coreClient.OperationSpec = {
     },
     201: {
       bodyMapper: Mappers.ManagementLockObject
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters,
@@ -848,9 +864,16 @@ const createOrUpdateByScopeOperationSpec: coreClient.OperationSpec = {
 const deleteByScopeOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Authorization/locks/{lockName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 204: {} },
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.lockName, Parameters.scope],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const getByScopeOperationSpec: coreClient.OperationSpec = {
@@ -859,6 +882,9 @@ const getByScopeOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockObject
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -876,6 +902,9 @@ const createOrUpdateAtResourceLevelOperationSpec: coreClient.OperationSpec = {
     },
     201: {
       bodyMapper: Mappers.ManagementLockObject
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters,
@@ -898,7 +927,13 @@ const deleteAtResourceLevelOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/locks/{lockName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 204: {} },
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -910,6 +945,7 @@ const deleteAtResourceLevelOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceType,
     Parameters.resourceName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const getAtResourceLevelOperationSpec: coreClient.OperationSpec = {
@@ -919,6 +955,9 @@ const getAtResourceLevelOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockObject
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -945,6 +984,9 @@ const createOrUpdateAtSubscriptionLevelOperationSpec: coreClient.OperationSpec =
     },
     201: {
       bodyMapper: Mappers.ManagementLockObject
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters,
@@ -962,13 +1004,20 @@ const deleteAtSubscriptionLevelOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/locks/{lockName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 204: {} },
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.lockName,
     Parameters.subscriptionId
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const getAtSubscriptionLevelOperationSpec: coreClient.OperationSpec = {
@@ -978,6 +1027,9 @@ const getAtSubscriptionLevelOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockObject
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -996,6 +1048,9 @@ const listAtResourceGroupLevelOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
@@ -1014,6 +1069,9 @@ const listAtResourceLevelOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
@@ -1036,6 +1094,9 @@ const listAtSubscriptionLevelOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
@@ -1049,6 +1110,9 @@ const listByScopeOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
@@ -1062,6 +1126,9 @@ const listAtResourceGroupLevelNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
@@ -1080,6 +1147,9 @@ const listAtResourceLevelNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
@@ -1102,6 +1172,9 @@ const listAtSubscriptionLevelNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
@@ -1119,6 +1192,9 @@ const listByScopeNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],

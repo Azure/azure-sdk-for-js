@@ -3,7 +3,7 @@
 
 import { logErrorStackTrace, logger } from "../log";
 import { ConnectionContext } from "../connectionContext";
-import { isDefined } from "./typeGuards";
+import { isDefined } from "@azure/core-util";
 import { AmqpError, isAmqpError } from "rhea-promise";
 import { isMessagingError, MessagingError, translate } from "@azure/core-amqp";
 
@@ -115,17 +115,17 @@ export const idempotentSomeAlreadyPublished =
  * @internal
  */
 export function validateProducerPartitionSettings({
-  enableIdempotentPartitions,
+  enableIdempotentRetries,
   partitionId,
   partitionKey,
 }: {
-  enableIdempotentPartitions?: boolean;
+  enableIdempotentRetries?: boolean;
   partitionId?: string;
   partitionKey?: string;
 }): void {
-  if (enableIdempotentPartitions && (isDefined(partitionKey) || !isDefined(partitionId))) {
+  if (enableIdempotentRetries && (isDefined(partitionKey) || !isDefined(partitionId))) {
     throw new Error(
-      `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+      `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true.`
     );
   }
 

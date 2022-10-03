@@ -1436,7 +1436,7 @@ export class MetricsAdvisorClient {
       return {
         rootCauses: transformed,
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1472,7 +1472,7 @@ export class MetricsAdvisorClient {
       const lastSlashIndex = result.location.lastIndexOf("/");
       const feedbackId = result.location.substring(lastSlashIndex + 1);
       return this.getFeedback(feedbackId);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1500,7 +1500,7 @@ export class MetricsAdvisorClient {
     try {
       const result = await this.client.getMetricFeedback(id, finalOptions);
       return fromServiceMetricFeedbackUnion(result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

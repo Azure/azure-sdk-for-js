@@ -3,20 +3,19 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { Context } from "mocha";
-
-import {
-  env,
-  Recorder,
-  record,
-  RecorderEnvironmentSetup,
-  isLiveMode,
-} from "@azure-tools/test-recorder";
-import ConfidentialLedger, { ConfidentialLedgerRestClient } from "../../../src";
-import { ClientSecretCredential } from "@azure/identity";
-import { isNode, createXhrHttpClient } from "@azure/test-utils";
-
 import "./env";
+
+import ConfidentialLedger, { ConfidentialLedgerClient, getLedgerIdentity } from "../../../src";
+import {
+  Recorder,
+  RecorderEnvironmentSetup,
+  env,
+  isLiveMode,
+  record,
+} from "@azure-tools/test-recorder";
+import { createXhrHttpClient, isNode } from "@azure/test-utils";
+
+import { Context } from "mocha";
 
 const replaceableVariables: { [k: string]: string } = {
   ENDPOINT: "https://endpoint",
@@ -24,6 +23,8 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   LEDGER_IDENTITY: "FAKE_CERT",
+  IDENTITY_SERVICE_URL: "https://identity.confidential-ledger.core.azure.com/",
+  USER_ID: "00000000-0000-0000-0000-000000000000",
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -44,15 +45,34 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: [],
 };
 
-export function createClient(): ConfidentialLedgerRestClient {
+export async function createClient(): Promise<ConfidentialLedgerClient> {
   const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
-  const credential = new ClientSecretCredential(
-    env["AZURE_TENANT_ID"],
-    env["AZURE_CLIENT_ID"],
-    env["AZURE_CLIENT_SECRET"],
-    { httpClient }
+
+  /*
+  const clientCredential = new ClientSecretCredential(
+    env.AZURE_TENANT_ID,
+    env.AZURE_CLIENT_ID,
+    env.AZURE_CLIENT_SECRET
   );
-  return ConfidentialLedger(env.ENDPOINT, env.LEDGER_IDENTITY, credential, { httpClient });
+  */
+  // const clientCredential = new DefaultAzureCredential();
+
+  // const credential = new DefaultAzureCredential({ httpClient });
+  const { ledgerIdentityCertificate } = await getLedgerIdentity(
+    env.LEDGER_IDENTITY,
+    env.IDENTITY_SERVICE_URL
+  );
+
+  const cert = env.PUBLIC_KEY;
+  const key = env.PRIVATE_KEY;
+
+  return ConfidentialLedger(env.ENDPOINT, ledgerIdentityCertificate, {
+    httpClient,
+    tlsOptions: {
+      cert,
+      key,
+    },
+  });
 }
 
 /**

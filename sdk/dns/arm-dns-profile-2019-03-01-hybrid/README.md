@@ -2,6 +2,8 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for DnsManagementClient.
 
+> Please note, this package is deprecated and not functional as it uses an older version of the Javascript SDK generator. As of April 2022, you can instead use [@azure/arm-dns-profile-2020-09-01-hybrid](https://www.npmjs.com/package/@azure/arm-dns-profile-2020-09-01-hybrid).
+
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)

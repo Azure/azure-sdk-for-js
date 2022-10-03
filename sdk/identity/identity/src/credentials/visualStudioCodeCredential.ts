@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
 import fs from "fs";
 import os from "os";
@@ -79,7 +79,7 @@ export function getPropertyFromVSCode(property: string): string | undefined {
       default:
         return;
     }
-  } catch (e) {
+  } catch (e: any) {
     logger.info(`Failed to load the Visual Studio Code configuration file. Error: ${e.message}`);
     return;
   }
@@ -188,6 +188,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
           "You must install the identity-vscode plugin package (`npm install --save-dev @azure/identity-vscode`)",
           "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
           "`useIdentityPlugin(vsCodePlugin)` before creating a `VisualStudioCodeCredential`.",
+          "To troubleshoot, visit https://aka.ms/azsdk/js/identity/vscodecredential/troubleshoot.",
         ].join(" ")
       );
     }

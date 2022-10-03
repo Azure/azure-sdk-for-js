@@ -1,6 +1,6 @@
 # Release History
 
-## 1.5.1 (Unreleased)
+## 1.6.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,25 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.6.1 (2022-08-04)
+
+
+### Bugs Fixed
+
+- Fix serializer to find the correct discriminator index. Please refer to [#22523](https://github.com/Azure/azure-sdk-for-js/pull/22523) for further details.  
+
+### Other Changes
+
+- Removed the constraints check during serialization. Please refer [#21839](https://github.com/Azure/azure-sdk-for-js/issues/21839) for further details.
+
+## 1.6.0 (2022-05-05)
+
+### Features Added
+
+- Added a new property endpoint in ServiceClientOptions and mark the baseUri as deprecated to encourage people to use endpoint. See issue link [here](https://github.com/Azure/autorest.typescript/issues/1337)
+- Upgraded our `@azure/core-tracing` dependency to version 1.0
+- Add callbacks to support Storage challenge authentication [PR#21678](https://github.com/Azure/azure-sdk-for-js/pull/21678)
 
 ## 1.5.0 (2022-02-03)
 

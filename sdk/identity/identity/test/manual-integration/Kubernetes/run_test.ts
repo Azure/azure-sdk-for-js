@@ -61,7 +61,7 @@ function runCommand(command: string[], exitOnError = true): string | null {
       console.log(child);
     }
     return child;
-  } catch (e) {
+  } catch (e: any) {
     console.log("Error: " + e);
     if (exitOnError) {
       console.log("Error: " + e);

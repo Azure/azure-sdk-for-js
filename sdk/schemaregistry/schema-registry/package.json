@@ -1,6 +1,6 @@
 {
   "name": "@azure/schema-registry",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Schema Registry Library with typescript type definitions for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -22,8 +22,8 @@
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts",
+    "lint:fix": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js",
     "pack": "npm pack 2>&1",
     "test:browser": "npm run build:test && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run integration-test:node",
@@ -42,12 +42,16 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/generatedSchemaRegistryClientContext.ts",
+        "path": "src/generated/generatedSchemaRegistryClient.ts",
         "prefix": "packageDetails"
       },
       {
         "path": "swagger/README.md",
         "prefix": "package-version"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
       }
     ]
   },
@@ -83,7 +87,7 @@
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/core-client": "^1.0.0",
     "@azure/core-auth": "^1.3.0",
-    "@azure/core-tracing": "1.0.0-preview.13",
+    "@azure/core-tracing": "^1.0.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"
   },
@@ -93,7 +97,7 @@
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^2.0.0",
     "@azure/identity": "^2.0.1",
-    "@microsoft/api-extractor": "^7.18.11",
+    "@microsoft/api-extractor": "7.18.11",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^7.0.2",
@@ -102,7 +106,7 @@
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
-    "eslint": "^7.15.0",
+    "eslint": "^8.0.0",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
@@ -122,6 +126,6 @@
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~4.2.0"
+    "typescript": "~4.6.0"
   }
 }

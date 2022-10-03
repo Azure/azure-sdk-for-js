@@ -1713,7 +1713,7 @@ export interface PrivateLinkServiceConnectionStateProperty {
 export type ProvisioningState = string;
 
 // @public
-export type ProxyResource = Resource & {};
+export type ProxyResource = Resource;
 
 // @public
 export type PublicIPType = string;

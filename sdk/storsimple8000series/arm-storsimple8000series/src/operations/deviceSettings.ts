@@ -132,10 +132,12 @@ export class DeviceSettingsImpl implements DeviceSettings {
       { deviceName, resourceGroupName, managerName, parameters, options },
       createOrUpdateAlertSettingsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -246,10 +248,12 @@ export class DeviceSettingsImpl implements DeviceSettings {
       { deviceName, resourceGroupName, managerName, parameters, options },
       updateNetworkSettingsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -360,10 +364,12 @@ export class DeviceSettingsImpl implements DeviceSettings {
       { deviceName, resourceGroupName, managerName, parameters, options },
       updateSecuritySettingsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -448,10 +454,12 @@ export class DeviceSettingsImpl implements DeviceSettings {
       { deviceName, resourceGroupName, managerName, options },
       syncRemotemanagementCertificateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -559,10 +567,12 @@ export class DeviceSettingsImpl implements DeviceSettings {
       { deviceName, resourceGroupName, managerName, parameters, options },
       createOrUpdateTimeSettingsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

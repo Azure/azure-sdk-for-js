@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.1 (Unreleased)
+## 3.1.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,18 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 3.1.0 (2022-07-14)
+    
+**Features**
+
+  - Added Interface EmergingIssuesGetResult
+    
+## 3.0.1 (2022-04-29)
+
+**Features**
+
+  - Bug fix
 
 ## 3.0.0 (2021-12-22)
 

@@ -16,6 +16,7 @@ import {
 } from "../src";
 import {
   getDataLakeServiceClient,
+  getEncryptionScope,
   getGenericDataLakeServiceClient,
   recorderEnvSetup,
 } from "./utils";
@@ -130,6 +131,46 @@ describe("DataLakeFileSystemClient", () => {
     assert.deepEqual(result.metadata, metadata);
   });
 
+  it("create with encryption scope", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const cClient = serviceClient.getFileSystemClient(recorder.getUniqueName(fileSystemName));
+    await cClient.create({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+    const result = await cClient.getProperties();
+    assert.equal(result.defaultEncryptionScope, encryptionScopeName);
+    await cClient.delete();
+  });
+
+  it("create with encryption scope - preventEncryptionScopeOverride : false", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const cClient = serviceClient.getFileSystemClient(recorder.getUniqueName(fileSystemName));
+    await cClient.create({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: false,
+      },
+    });
+    const result = await cClient.getProperties();
+    assert.equal(result.defaultEncryptionScope, encryptionScopeName);
+    await cClient.delete();
+  });
+
   it("createIfNotExists", async () => {
     const cClient = serviceClient.getFileSystemClient(recorder.getUniqueName(fileSystemName));
     const metadata = { key: "value" };
@@ -160,6 +201,8 @@ describe("DataLakeFileSystemClient", () => {
   });
 
   it("listPaths with default parameters", async () => {
+    const recordedNow = recorder.newDate("now"); // Flaky workaround for the recording to work.
+
     const fileClients = [];
     for (let i = 0; i < 3; i++) {
       const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`file${i}`));
@@ -174,9 +217,145 @@ describe("DataLakeFileSystemClient", () => {
     assert.deepStrictEqual(result.pathItems!.length, fileClients.length);
     assert.ok(fileClients[0].url.indexOf(result.pathItems![0].name!));
 
+    // The path is created just now, createdOn should be around but may not be the same to current time.
+    assert.equal(result.pathItems![0].createdOn?.getUTCFullYear(), recordedNow.getUTCFullYear());
+    assert.equal(result.pathItems![0].createdOn?.getUTCMonth(), recordedNow.getUTCMonth());
+    assert.equal(result.pathItems![0].createdOn?.getUTCDate(), recordedNow.getUTCDate());
+    assert.equal(result.pathItems![0].createdOn?.getUTCHours(), recordedNow.getUTCHours());
+
     for (const file of fileClients) {
       await file.delete();
     }
+  });
+
+  it("listPaths - Encryption Scope", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const cClient = serviceClient.getFileSystemClient(recorder.getUniqueName(fileSystemName));
+    await cClient.create({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+
+    const fileClient = cClient.getFileClient(recorder.getUniqueName(`file`));
+    await fileClient.create();
+
+    const dirClient = cClient.getFileClient(recorder.getUniqueName(`dir`));
+    await dirClient.create();
+
+    const result = (await cClient.listPaths().byPage().next()).value as FileSystemListPathsResponse;
+
+    assert.equal(result.pathItems!.length, 2);
+    assert.equal(result.pathItems![0].encryptionScope, encryptionScopeName);
+    assert.equal(result.pathItems![1].encryptionScope, encryptionScopeName);
+
+    await fileClient.delete();
+    await dirClient.delete();
+  });
+
+  it("listPaths - PagedAsyncIterableIterator with Encryption Scope", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const cClient = serviceClient.getFileSystemClient(recorder.getUniqueName(fileSystemName));
+    await cClient.create({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+
+    const fileClient = cClient.getFileClient(recorder.getUniqueName(`file`));
+    await fileClient.create();
+    const dirClient = cClient.getFileClient(recorder.getUniqueName(`dir`));
+    await dirClient.create();
+
+    for await (const listedFile of cClient.listPaths()) {
+      assert.equal(listedFile.encryptionScope, encryptionScopeName);
+    }
+
+    await fileClient.delete();
+    await dirClient.delete();
+  });
+
+  it("listPaths - ExpiryTime, NeverExpire", async () => {
+    const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`file`));
+    await fileClient.create();
+    await fileClient.setExpiry("NeverExpire");
+    const result = (await fileSystemClient.listPaths().byPage().next())
+      .value as FileSystemListPathsResponse;
+
+    assert.equal(result.pathItems![0].expiresOn, undefined);
+    await fileClient.delete();
+  });
+
+  it("listPaths - ExpiryTime, Absolute", async () => {
+    const now = new Date();
+    const recordedNow = recorder.newDate("now"); // Flaky workaround for the recording to work.
+    const delta = 30 * 1000;
+    const expiresOn = new Date(now.getTime() + delta);
+    const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`file`));
+
+    const content = "Hello, World";
+    await fileClient.create();
+    await fileClient.append(content, 0, content.length);
+    await fileClient.flush(content.length);
+    await fileClient.setExpiry("Absolute", { expiresOn });
+
+    const result = (await fileSystemClient.listPaths().byPage().next())
+      .value as FileSystemListPathsResponse;
+
+    const recordedExpiresOn = new Date(recordedNow.getTime() + delta);
+    recordedExpiresOn.setMilliseconds(0); // milliseconds dropped
+    assert.equal(result.pathItems![0].expiresOn?.getTime(), recordedExpiresOn.getTime());
+    await fileClient.delete();
+  });
+
+  it("listPaths - ExpiryTime, RelativeToNow", async () => {
+    const delta = 30 * 1000;
+    const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`file`));
+
+    const content = "Hello, World";
+    await fileClient.create();
+    await fileClient.append(content, 0, content.length);
+    await fileClient.flush(content.length);
+    await fileClient.setExpiry("RelativeToNow", { timeToExpireInMs: delta });
+
+    const result = (await fileSystemClient.listPaths().byPage().next())
+      .value as FileSystemListPathsResponse;
+
+    assert.ok(result.pathItems![0].expiresOn);
+    await fileClient.delete();
+  });
+
+  it("listPaths - ExpiryTime, RelativeToCreation", async () => {
+    const delta = 1000 * 3600 + 0.12;
+    const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`file`));
+
+    const content = "Hello, World";
+    await fileClient.create();
+    await fileClient.append(content, 0, content.length);
+    await fileClient.flush(content.length);
+    await fileClient.setExpiry("RelativeToCreation", { timeToExpireInMs: delta });
+
+    const result = (await fileSystemClient.listPaths().byPage().next())
+      .value as FileSystemListPathsResponse;
+    assert.equal(
+      result.pathItems![0].expiresOn?.getTime(),
+      result.pathItems![0].createdOn!.getTime() + Math.round(delta)
+    );
+    await fileClient.delete();
   });
 
   it("listPaths with default parameters - null path shouldn't throw error", async () => {
@@ -444,7 +623,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
 
     try {
       serviceClient = getGenericDataLakeServiceClient("DFS_SOFT_DELETE_");
-    } catch (err) {
+    } catch (err: any) {
       this.skip();
     }
 
@@ -861,7 +1040,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     try {
       await fileSystemClient.undeletePath(fileName, firstDeleteResponse.deletionId ?? "");
       assert.fail("Second undeletion should fail");
-    } catch (err) {
+    } catch (err: any) {
       /* empty */
       // The test case here expects an expection, so the exception should not fail the case.
     }

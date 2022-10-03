@@ -46,6 +46,7 @@ import {
   RenderingSessionPoller,
   RenderingSessionOperationState,
   RenderingSessionPollerOptions,
+  PollerLikeWithCancellation,
 } from "./lro/renderingSessionPoller";
 
 import {
@@ -102,6 +103,7 @@ export {
   RemoteRenderingClientOptions,
   AssetConversionPollerOptions,
   RenderingSessionPollerOptions,
+  PollerLikeWithCancellation,
 };
 
 import {
@@ -163,7 +165,7 @@ export type EndSessionOptions = OperationOptions;
 export type ListSessionsOptions = OperationOptions;
 
 /** The poller returned by the beginSession operation. */
-export type RenderingSessionPollerLike = PollerLike<
+export type RenderingSessionPollerLike = PollerLikeWithCancellation<
   RenderingSessionOperationState,
   RenderingSession
 >;
@@ -387,7 +389,7 @@ export class RemoteRenderingClient {
       await poller.poll();
 
       return poller;
-    } catch (e) {
+    } catch (e: any) {
       // There are different standard codes available for different errors:
       // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
       span.setStatus({
@@ -469,7 +471,7 @@ export class RemoteRenderingClient {
           return this.getAllConversionsPagingPage(updatedOptions);
         },
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -550,7 +552,7 @@ export class RemoteRenderingClient {
       await poller.poll();
 
       return poller;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -607,7 +609,7 @@ export class RemoteRenderingClient {
         updatedOptions
       );
       return renderingSessionFromSessionProperties(sessionProperties);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -679,7 +681,7 @@ export class RemoteRenderingClient {
           return this.getAllSessionsPagingPage(updatedOptions);
         },
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

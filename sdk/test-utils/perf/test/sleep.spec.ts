@@ -1,27 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfTest } from "../src";
+import { PerfTest, PerfOptionDictionary } from "../src";
 import { delay } from "@azure/core-http";
+
+interface SleepOptions {
+  "initial-delay-ms": number;
+  "instance-growth-factor": number;
+  "iteration-growth-factor": number;
+}
 
 // Used for verifying the perf framework correctly computes average throughput across parallel tests of different speed
 export class SleepTest extends PerfTest {
-  private static instanceCount = 0;
-  private secondsPerOperation = 0;
+  private delayInMs = 0;
+  private iterationGrowthFactor = 0;
 
-  public options = {};
+  public options: PerfOptionDictionary<SleepOptions> = {
+    "initial-delay-ms": {
+      description: "Initial delay (in milliseconds)",
+      defaultValue: 1000,
+    },
+    "instance-growth-factor": {
+      description:
+        "Instance growth factor.  The delay of instance N will be (InitialDelayMS * (InstanceGrowthFactor ^ InstanceCount)).",
+      defaultValue: 1,
+    },
+    "iteration-growth-factor": {
+      description:
+        "Iteration growth factor.  The delay of iteration N will be (InitialDelayMS * (IterationGrowthFactor ^ IterationCount)).",
+      defaultValue: 1,
+    },
+  };
 
   constructor() {
     super();
 
-    // Each instance of this test completes operations at a different rate, to allow for testing scenarios where
-    // some instances are still waiting when time expires.  The first instance completes in 2 seconds per operation,
-    // the second instance in 4 seconds, the third instance in 8 seconds, and so on.
-    SleepTest.instanceCount++;
-    this.secondsPerOperation = Math.pow(2, SleepTest.instanceCount);
+    const initialDelayMs = this.parsedOptions["initial-delay-ms"].value as number;
+    const instanceGrowthFactor = this.parsedOptions["instance-growth-factor"].value as number;
+    this.iterationGrowthFactor = this.parsedOptions["iteration-growth-factor"].value as number;
+
+    this.delayInMs = initialDelayMs * Math.pow(instanceGrowthFactor, this.parallelIndex);
   }
 
   async run(): Promise<void> {
-    await delay(this.secondsPerOperation * 1000);
+    await delay(this.delayInMs);
+    this.delayInMs *= this.iterationGrowthFactor;
   }
 }

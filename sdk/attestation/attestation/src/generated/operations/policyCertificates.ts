@@ -6,11 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { tracingClient } from "../tracing";
 import { PolicyCertificates } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedClientContext } from "../generatedClientContext";
+import { GeneratedClient } from "../generatedClient";
 import {
   PolicyCertificatesGetOptionalParams,
   PolicyCertificatesGetResponse,
@@ -20,15 +21,15 @@ import {
   PolicyCertificatesRemoveResponse
 } from "../models";
 
-/** Class representing a PolicyCertificates. */
+/** Class containing PolicyCertificates operations. */
 export class PolicyCertificatesImpl implements PolicyCertificates {
-  private readonly client: GeneratedClientContext;
+  private readonly client: GeneratedClient;
 
   /**
    * Initialize a new instance of the class PolicyCertificates class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedClientContext) {
+  constructor(client: GeneratedClient) {
     this.client = client;
   }
 
@@ -36,10 +37,19 @@ export class PolicyCertificatesImpl implements PolicyCertificates {
    * Retrieves the set of certificates used to express policy for the current tenant.
    * @param options The options parameters.
    */
-  get(
+  async get(
     options?: PolicyCertificatesGetOptionalParams
   ): Promise<PolicyCertificatesGetResponse> {
-    return this.client.sendOperationRequest({ options }, getOperationSpec);
+    return tracingClient.withSpan(
+      "GeneratedClient.get",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getOperationSpec
+        ) as Promise<PolicyCertificatesGetResponse>;
+      }
+    );
   }
 
   /**
@@ -48,13 +58,19 @@ export class PolicyCertificatesImpl implements PolicyCertificates {
    *                               object. The RFC7519 JWT must be signed with one of the existing signing certificates
    * @param options The options parameters.
    */
-  add(
+  async add(
     policyCertificateToAdd: string,
     options?: PolicyCertificatesAddOptionalParams
   ): Promise<PolicyCertificatesAddResponse> {
-    return this.client.sendOperationRequest(
-      { policyCertificateToAdd, options },
-      addOperationSpec
+    return tracingClient.withSpan(
+      "GeneratedClient.add",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { policyCertificateToAdd, options },
+          addOperationSpec
+        ) as Promise<PolicyCertificatesAddResponse>;
+      }
     );
   }
 
@@ -66,13 +82,19 @@ export class PolicyCertificatesImpl implements PolicyCertificates {
    *                                  signing certificates
    * @param options The options parameters.
    */
-  remove(
+  async remove(
     policyCertificateToRemove: string,
     options?: PolicyCertificatesRemoveOptionalParams
   ): Promise<PolicyCertificatesRemoveResponse> {
-    return this.client.sendOperationRequest(
-      { policyCertificateToRemove, options },
-      removeOperationSpec
+    return tracingClient.withSpan(
+      "GeneratedClient.remove",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { policyCertificateToRemove, options },
+          removeOperationSpec
+        ) as Promise<PolicyCertificatesRemoveResponse>;
+      }
     );
   }
 }

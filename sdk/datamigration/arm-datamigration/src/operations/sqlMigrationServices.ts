@@ -311,10 +311,12 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
       { resourceGroupName, sqlMigrationServiceName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -396,10 +398,12 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
       { resourceGroupName, sqlMigrationServiceName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -485,10 +489,12 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
       { resourceGroupName, sqlMigrationServiceName, parameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

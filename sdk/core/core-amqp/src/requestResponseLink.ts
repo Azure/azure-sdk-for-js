@@ -18,7 +18,7 @@ import {
 } from "rhea-promise";
 import { Constants, StandardAbortMessage } from "./util/constants";
 import { logErrorStackTrace, logger } from "./log";
-import { isDefined } from "./util/typeGuards";
+import { isDefined } from "@azure/core-util";
 
 /**
  * Describes the options that can be specified while sending a request.
@@ -155,7 +155,7 @@ export class RequestResponseLink implements ReqResLink {
         if (aborter) {
           aborter.removeEventListener("abort", onAbort);
         }
-        const address = this.receiver.address || "address";
+        const address = this.receiver?.address || "address";
         const desc: string =
           `The request with message_id "${request.message_id}" to "${address}" ` +
           `endpoint timed out. Please try again later.`;

@@ -6,10 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
+import { tracingClient } from "../tracing";
 import { BigDataPools } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
@@ -39,22 +38,16 @@ export class BigDataPoolsImpl implements BigDataPools {
   async list(
     options?: BigDataPoolsListOptionalParams
   ): Promise<BigDataPoolsListResponse> {
-    const { span } = createSpan("ArtifactsClient-list", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        listOperationSpec
-      );
-      return result as BigDataPoolsListResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient.list",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          listOperationSpec
+        ) as Promise<BigDataPoolsListResponse>;
+      }
+    );
   }
 
   /**
@@ -66,22 +59,16 @@ export class BigDataPoolsImpl implements BigDataPools {
     bigDataPoolName: string,
     options?: BigDataPoolsGetOptionalParams
   ): Promise<BigDataPoolsGetResponse> {
-    const { span } = createSpan("ArtifactsClient-get", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { bigDataPoolName, options },
-        getOperationSpec
-      );
-      return result as BigDataPoolsGetResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient.get",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { bigDataPoolName, options },
+          getOperationSpec
+        ) as Promise<BigDataPoolsGetResponse>;
+      }
+    );
   }
 }
 // Operation Specifications
@@ -98,7 +85,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -114,7 +101,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.bigDataPoolName],
   headerParameters: [Parameters.accept],
   serializer

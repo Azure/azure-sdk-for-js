@@ -10,7 +10,7 @@ import { Table } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedClientContext } from "../generatedClientContext";
+import { GeneratedClient } from "../generatedClient";
 import {
   TableQueryOptionalParams,
   TableQueryOperationResponse,
@@ -37,15 +37,15 @@ import {
   TableSetAccessPolicyResponse
 } from "../models";
 
-/** Class representing a Table. */
+/** Class containing Table operations. */
 export class TableImpl implements Table {
-  private readonly client: GeneratedClientContext;
+  private readonly client: GeneratedClient;
 
   /**
    * Initialize a new instance of the class Table class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedClientContext) {
+  constructor(client: GeneratedClient) {
     this.client = client;
   }
 

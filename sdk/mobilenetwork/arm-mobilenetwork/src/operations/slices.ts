@@ -115,10 +115,10 @@ export class SlicesImpl implements Slices {
   }
 
   /**
-   * Deletes the specified mobile network slice.
+   * Deletes the specified network slice.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the mobile network slice.
+   * @param sliceName The name of the network slice.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -181,10 +181,10 @@ export class SlicesImpl implements Slices {
   }
 
   /**
-   * Deletes the specified mobile network slice.
+   * Deletes the specified network slice.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the mobile network slice.
+   * @param sliceName The name of the network slice.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -203,10 +203,10 @@ export class SlicesImpl implements Slices {
   }
 
   /**
-   * Gets information about the specified mobile network slice.
+   * Gets information about the specified network slice.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the mobile network slice.
+   * @param sliceName The name of the network slice.
    * @param options The options parameters.
    */
   get(
@@ -222,11 +222,11 @@ export class SlicesImpl implements Slices {
   }
 
   /**
-   * Creates or updates a mobile network slice.
+   * Creates or updates a network slice.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the mobile network slice.
-   * @param parameters Parameters supplied to the create or update mobile network slice operation.
+   * @param sliceName The name of the network slice.
+   * @param parameters Parameters supplied to the create or update network slice operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
@@ -295,11 +295,11 @@ export class SlicesImpl implements Slices {
   }
 
   /**
-   * Creates or updates a mobile network slice.
+   * Creates or updates a network slice.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the mobile network slice.
-   * @param parameters Parameters supplied to the create or update mobile network slice operation.
+   * @param sliceName The name of the network slice.
+   * @param parameters Parameters supplied to the create or update network slice operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
@@ -320,11 +320,11 @@ export class SlicesImpl implements Slices {
   }
 
   /**
-   * Update slice tags.
+   * Updates slice tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the mobile network slice.
-   * @param parameters Parameters supplied to update mobile network slice tags.
+   * @param sliceName The name of the network slice.
+   * @param parameters Parameters supplied to update network slice tags.
    * @param options The options parameters.
    */
   updateTags(
@@ -447,7 +447,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

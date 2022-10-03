@@ -42,7 +42,7 @@ describe("Change Feed Iterator", function (this: Suite) {
 
       try {
         await iterator.fetchNext();
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(
           err.message,
           "Container is partitioned, but no partition key or partition key range id was specified."

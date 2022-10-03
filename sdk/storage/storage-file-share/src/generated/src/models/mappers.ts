@@ -4643,6 +4643,13 @@ export const FileUploadRangeHeaders: coreHttp.CompositeMapper = {
           name: "Boolean"
         }
       },
+      fileLastWriteTime: {
+        serializedName: "x-ms-file-last-write-time",
+        xmlName: "x-ms-file-last-write-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -4724,6 +4731,13 @@ export const FileUploadRangeFromURLHeaders: coreHttp.CompositeMapper = {
         xmlName: "x-ms-request-server-encrypted",
         type: {
           name: "Boolean"
+        }
+      },
+      fileLastWriteTime: {
+        serializedName: "x-ms-file-last-write-time",
+        xmlName: "x-ms-file-last-write-time",
+        type: {
+          name: "DateTimeRfc1123"
         }
       },
       errorCode: {

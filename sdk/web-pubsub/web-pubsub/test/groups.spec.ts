@@ -45,7 +45,7 @@ describe("Group client working with a group", function () {
     let error: RestError | undefined;
     try {
       await client.addConnection("xxxx");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
 
@@ -54,7 +54,7 @@ describe("Group client working with a group", function () {
 
     try {
       await client.removeConnection("xxxx", { onResponse });
-    } catch (e) {
+    } catch (e: any) {
       assert.exists(error);
       assert.strictEqual(error?.name, "RestError");
     }

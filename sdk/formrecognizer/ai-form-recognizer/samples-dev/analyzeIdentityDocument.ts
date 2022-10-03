@@ -11,13 +11,12 @@
  * https://aka.ms/azsdk/formrecognizer/iddocumentfieldschema
  *
  * @summary extract data from an identity document
+ * @azsdk-skip-javascript
  */
 
-import {
-  AzureKeyCredential,
-  DocumentAnalysisClient,
-  PrebuiltModels,
-} from "@azure/ai-form-recognizer";
+import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+
+import { PrebuiltIdDocumentModel } from "./prebuilt/prebuilt-idDocument";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -28,22 +27,23 @@ async function main() {
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
-  const poller = await client.beginAnalyzeDocument(
-    PrebuiltModels.IdentityDocument,
+  const poller = await client.beginAnalyzeDocumentFromUrl(
+    PrebuiltIdDocumentModel,
     // The form recognizer service will access the following URL to a driver license image and extract data from it
-    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/identityDocument/license.jpg"
+    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/identityDocument/license.png"
   );
 
   const {
-    documents: [result],
+    documents: [document],
   } = await poller.pollUntilDone();
 
   // Use of PrebuiltModels.Receipt above (rather than the raw model ID), adds strong typing of the model's output
-  if (result) {
+  if (document) {
     // The identity document model has multiple document types, so we need to know which document type was actually
     // extracted.
-    if (result.docType === "idDocument.driverLicense") {
-      const { firstName, lastName, documentNumber, dateOfBirth, dateOfExpiration } = result.fields;
+    if (document.docType === "idDocument.driverLicense") {
+      const { firstName, lastName, documentNumber, dateOfBirth, dateOfExpiration } =
+        document.fields;
 
       // For the sake of the example, we'll only show a few of the fields that are produced.
       console.log("Extracted a Driver License:");
@@ -51,9 +51,9 @@ async function main() {
       console.log("  License No.:", documentNumber && documentNumber.value);
       console.log("  Date of Birth:", dateOfBirth && dateOfBirth.value);
       console.log("  Expiration:", dateOfExpiration && dateOfExpiration.value);
-    } else if (result.docType === "idDocument.passport") {
+    } else if (document.docType === "idDocument.passport") {
       // The passport document type extracts and parses the Passport's machine-readable zone
-      if (!result.fields.machineReadableZone) {
+      if (!document.fields.machineReadableZone) {
         throw new Error("No Machine Readable Zone extracted from passport.");
       }
 
@@ -65,7 +65,7 @@ async function main() {
         documentNumber,
         countryRegion,
         dateOfExpiration,
-      } = result.fields.machineReadableZone.properties;
+      } = document.fields.machineReadableZone.properties;
 
       console.log("Extracted a Passport:");
       console.log("  Name:", firstName && firstName.value, lastName && lastName.value);
@@ -77,7 +77,7 @@ async function main() {
     } else {
       // The only reason this would happen is if the client library's schema for the prebuilt identity document model is
       // out of date, and a new document type has been introduced.
-      console.error("Unknown document type in result:", result);
+      console.error("Unknown document type in result:", document);
     }
   } else {
     throw new Error("Expected at least one receipt in the result.");

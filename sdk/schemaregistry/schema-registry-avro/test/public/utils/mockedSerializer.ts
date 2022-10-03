@@ -21,7 +21,7 @@ export async function createTestSerializer<T>(
   if (!serializerOptions.autoRegisterSchemas) {
     await registerTestSchema(registry);
   }
-  return new AvroSerializer(registry, serializerOptions);
+  return new AvroSerializer(registry as any, serializerOptions);
 }
 
 export async function registerTestSchema(registry: SchemaRegistry): Promise<string> {

@@ -1,5 +1,21 @@
 # Release History
-    
+
+## 6.0.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 6.0.1 (2022-05-05)
+
+**Features**
+
+  - Bug fix
+ 
 ## 6.0.0 (2022-01-21)
 
 The package of @azure/arm-trafficmanager is using our next generation design principles since version 6.0.0, which contains breaking changes.

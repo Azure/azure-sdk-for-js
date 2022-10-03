@@ -34,7 +34,7 @@ describe("ManagementClient unit tests", () => {
       });
 
       chai.assert.fail("_makeManagementRequest should have failed");
-    } catch (error) {
+    } catch (error: any) {
       chai.assert.equal(
         error.message,
         `The request with message_id "${fakeRequest.message_id}" timed out. Please try again later.`

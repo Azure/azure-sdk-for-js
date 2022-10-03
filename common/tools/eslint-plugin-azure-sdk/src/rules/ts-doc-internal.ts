@@ -88,7 +88,7 @@ try {
       );
     });
   }
-} catch (err) {
+} catch (err: any) {
   exclude = [];
 }
 

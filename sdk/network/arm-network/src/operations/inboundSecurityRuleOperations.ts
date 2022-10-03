@@ -103,11 +103,13 @@ export class InboundSecurityRuleOperationsImpl
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -160,14 +162,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters31,
+  requestBody: Parameters.parameters41,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkVirtualApplianceName,
-    Parameters.ruleCollectionName
+    Parameters.ruleCollectionName,
+    Parameters.networkVirtualApplianceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { assert } from "chai";
 import { Context } from "mocha";
 import { ShortCodesClient } from "../../src";
+import { assert } from "chai";
 import { createMockToken } from "./utils/recordedClient";
 
 describe("ShortCodesClient - constructor", function () {

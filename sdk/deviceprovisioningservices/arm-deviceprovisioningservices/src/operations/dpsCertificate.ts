@@ -14,7 +14,7 @@ import { IotDpsClient } from "../iotDpsClient";
 import {
   DpsCertificateGetOptionalParams,
   DpsCertificateGetResponse,
-  CertificateBodyDescription,
+  CertificateResponse,
   DpsCertificateCreateOrUpdateOptionalParams,
   DpsCertificateCreateOrUpdateResponse,
   DpsCertificateDeleteOptionalParams,
@@ -70,7 +70,7 @@ export class DpsCertificateImpl implements DpsCertificate {
     resourceGroupName: string,
     provisioningServiceName: string,
     certificateName: string,
-    certificateDescription: CertificateBodyDescription,
+    certificateDescription: CertificateResponse,
     options?: DpsCertificateCreateOrUpdateOptionalParams
   ): Promise<DpsCertificateCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(

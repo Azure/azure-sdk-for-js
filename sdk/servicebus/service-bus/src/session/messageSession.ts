@@ -37,7 +37,7 @@ import {
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/receiverCommon";
-import { isDefined } from "../util/typeGuards";
+import { isDefined } from "@azure/core-util";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
@@ -229,7 +229,7 @@ export class MessageSession extends LinkEntity<Receiver> {
             this.sessionId
           );
           this._ensureSessionLockRenewal();
-        } catch (err) {
+        } catch (err: any) {
           logger.logError(
             err,
             "%s An error occurred while renewing the session lock for MessageSession '%s'",
@@ -260,7 +260,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    */
   private async _init(abortSignal?: AbortSignalLike): Promise<void> {
     try {
-      const options = this._createMessageSessionOptions();
+      const options = this._createMessageSessionOptions(this.identifier);
       await this.initLink(options, abortSignal);
 
       if (this.link == null) {
@@ -308,7 +308,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       }
       this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
       this._ensureSessionLockRenewal();
-    } catch (err) {
+    } catch (err: any) {
       const errObj = translateServiceBusError(err);
       logger.logError(errObj, "%s An error occured while creating the receiver", this.logPrefix);
 
@@ -327,7 +327,7 @@ export class MessageSession extends LinkEntity<Receiver> {
   /**
    * Creates the options that need to be specified while creating an AMQP receiver link.
    */
-  private _createMessageSessionOptions(): ReceiverOptions {
+  private _createMessageSessionOptions(clientId: string): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = createReceiverOptions(
       this.name,
       this.receiveMode,
@@ -335,6 +335,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         address: this.address,
         filter: { [Constants.sessionFilterName]: this.sessionId },
       },
+      clientId,
       {
         onClose: (context) =>
           this._onAmqpClose(context).catch(() => {
@@ -364,6 +365,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    * to indicate we want the next unlocked non-empty session.
    */
   constructor(
+    public identifier: string,
     connectionContext: ConnectionContext,
     entityPath: string,
     private _providedSessionId: string | undefined,
@@ -430,6 +432,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           errorSource: "receive",
           entityPath: this.entityPath,
           fullyQualifiedNamespace: this._context.config.host,
+          identifier: this.identifier,
         });
       }
     };
@@ -451,6 +454,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           errorSource: "receive",
           entityPath: this.entityPath,
           fullyQualifiedNamespace: this._context.config.host,
+          identifier: this.identifier,
         });
       }
     };
@@ -482,7 +486,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         );
         try {
           await this.close();
-        } catch (err) {
+        } catch (err: any) {
           logger.logError(
             err,
             "%s An error occurred while closing the receiver for sessionId '%s'.",
@@ -525,7 +529,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         );
         try {
           await this.close();
-        } catch (err) {
+        } catch (err: any) {
           logger.logError(
             err,
             "%s An error occurred while closing the receiver for sessionId '%s'",
@@ -560,7 +564,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       await super.close();
 
       this._batchingReceiverLite.terminate(error);
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(
         err,
         "%s An error occurred while closing the message session with id '%s'",
@@ -642,7 +646,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
         try {
           await this._onMessage(bMessage);
-        } catch (err) {
+        } catch (err: any) {
           logger.logError(
             err,
             "%s An error occurred while running user's message handler for the message " +
@@ -655,6 +659,7 @@ export class MessageSession extends LinkEntity<Receiver> {
             errorSource: "processMessageCallback",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host,
+            identifier: this.identifier,
           });
 
           const error = translateServiceBusError(err);
@@ -678,7 +683,7 @@ export class MessageSession extends LinkEntity<Receiver> {
                 undefined,
                 this._retryOptions
               );
-            } catch (abandonError) {
+            } catch (abandonError: any) {
               const translatedError = translateServiceBusError(abandonError);
               logger.logError(
                 translatedError,
@@ -693,6 +698,7 @@ export class MessageSession extends LinkEntity<Receiver> {
                 errorSource: "abandon",
                 entityPath: this.entityPath,
                 fullyQualifiedNamespace: this._context.config.host,
+                identifier: this.identifier,
               });
             }
           }
@@ -700,7 +706,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         } finally {
           try {
             this.receiverHelper.addCredit(1);
-          } catch (err) {
+          } catch (err: any) {
             // this isn't something we expect in normal operation - we'd only get here
             // because of a bug in our code.
             this.processCreditError(err);
@@ -721,7 +727,7 @@ export class MessageSession extends LinkEntity<Receiver> {
               bMessage.messageId
             );
             await completeMessage(bMessage, this._context, this.entityPath, this._retryOptions);
-          } catch (completeError) {
+          } catch (completeError: any) {
             const translatedError = translateServiceBusError(completeError);
             logger.logError(
               translatedError,
@@ -734,6 +740,7 @@ export class MessageSession extends LinkEntity<Receiver> {
               errorSource: "complete",
               entityPath: this.entityPath,
               fullyQualifiedNamespace: this._context.config.host,
+              identifier: this.identifier,
             });
           }
         }
@@ -743,7 +750,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
       try {
         this.receiverHelper.addCredit(this.maxConcurrentCalls);
-      } catch (err) {
+      } catch (err: any) {
         // this isn't something we expect in normal operation - we'd only get here
         // because of a bug in our code.
         this.processCreditError(err);
@@ -767,6 +774,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         errorSource: "receive",
         entityPath: this.entityPath,
         fullyQualifiedNamespace: this._context.config.host,
+        identifier: this.identifier,
       });
     }
   }
@@ -790,6 +798,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       errorSource: "processMessageCallback",
       entityPath: this.entityPath,
       fullyQualifiedNamespace: this._context.config.host,
+      identifier: this.identifier,
     });
   }
 
@@ -815,7 +824,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         maxTimeAfterFirstMessageInMs,
         ...options,
       });
-    } catch (error) {
+    } catch (error: any) {
       logger.logError(error, `${this.logPrefix} Rejecting receiveMessages() with error`);
       throw error;
     }
@@ -837,8 +846,9 @@ export class MessageSession extends LinkEntity<Receiver> {
         fullyQualifiedNamespace: this._context.config.host,
         error: translateServiceBusError(connectionError),
         errorSource: "receive",
+        identifier: this.identifier,
       });
-    } catch (error) {
+    } catch (error: any) {
       logger.error(
         translateServiceBusError(error),
         `${
@@ -920,17 +930,19 @@ export class MessageSession extends LinkEntity<Receiver> {
 
   /**
    * Creates a new instance of the MessageSession based on the provided parameters.
+   * @param identifier - name to identify the message session
    * @param context - The client entity context
    * @param options - Options that can be provided while creating the MessageSession.
    */
   static async create(
+    identifier: string,
     context: ConnectionContext,
     entityPath: string,
     sessionId: string | undefined,
     options: MessageSessionOptions
   ): Promise<MessageSession> {
     throwErrorIfConnectionClosed(context);
-    const messageSession = new MessageSession(context, entityPath, sessionId, options);
+    const messageSession = new MessageSession(identifier, context, entityPath, sessionId, options);
     await messageSession._init(options?.abortSignal);
     return messageSession;
   }

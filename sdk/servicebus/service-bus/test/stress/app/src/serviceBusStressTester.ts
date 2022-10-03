@@ -154,7 +154,7 @@ export class ServiceBusStressTester {
         } else {
           await sender.sendMessages(messages);
         }
-      } catch (error) {
+      } catch (error: any) {
         this.sendInfo.numberOfFailures++;
         this.trackError("send", error);
         console.error("Error in sending: ", error);
@@ -188,7 +188,7 @@ export class ServiceBusStressTester {
         );
       }
       return messages;
-    } catch (error) {
+    } catch (error: any) {
       this.receiveInfo.numberOfFailures++;
       this.trackError("receive", error);
       console.error("Error in receiving: ", error);
@@ -220,7 +220,7 @@ export class ServiceBusStressTester {
       this.messagesReceived = this.messagesReceived.concat(messages as ServiceBusReceivedMessage[]);
       this.receiveInfo.numberOfSuccesses++;
       return messages;
-    } catch (error) {
+    } catch (error: any) {
       this.receiveInfo.numberOfFailures++;
       this.trackError("receive", error);
       console.error("Error in peeking: ", error);
@@ -358,7 +358,7 @@ export class ServiceBusStressTester {
             this.messageLockRenewalInfo.renewalCount[message.messageId as string];
           this.messageLockRenewalInfo.renewalCount[message.messageId as string] =
             currentRenewalCount === undefined ? 1 : currentRenewalCount + 1;
-        } catch (error) {
+        } catch (error: any) {
           this.messageLockRenewalInfo.numberOfFailures++;
           this.trackError("lockrenewal", error);
           console.error("Error in message lock renewal: ", error);
@@ -388,7 +388,7 @@ export class ServiceBusStressTester {
     try {
       await receiver.completeMessage(message);
       this.trackedMessageIds[message.messageId! as string].settledCount++;
-    } catch (error) {
+    } catch (error: any) {
       console.error(`Error in message completion with id: ${message.messageId} `, error);
       this.trackError("complete", error);
     }
@@ -414,7 +414,7 @@ export class ServiceBusStressTester {
           // Code reaches here only after the duration given has passed by
           // TODO: Close the receiver maybe?
         }
-      } catch (error) {
+      } catch (error: any) {
         this.sessionLockRenewalInfo.numberOfFailures++;
         this.trackError("sessionlockrenewal", error);
         console.error("Error in session lock renewal: ", error);
@@ -429,7 +429,7 @@ export class ServiceBusStressTester {
     try {
       await object.close();
       this.closeInfo[type].numberOfSuccesses++;
-    } catch (error) {
+    } catch (error: any) {
       const logError = `Error occurred on closing ${type}: ${error}`;
       console.error(logError);
       this.closeInfo[type].numberOfFailures++;
@@ -544,7 +544,7 @@ export class ServiceBusStressTester {
         // Define connection string and related Service Bus entity names here
         serviceBusClient = createServiceBusClient();
         await this._init(initOptions);
-      } catch (err) {
+      } catch (err: any) {
         console.log(`ERROR: error thrown by init`, err);
 
         this.trackError("init", err);
@@ -555,7 +555,7 @@ export class ServiceBusStressTester {
       try {
         console.log(`[BEGIN]: stressTest function...`);
         await stressTest(serviceBusClient);
-      } catch (err) {
+      } catch (err: any) {
         console.log(`ERROR: error thrown by test`, err);
 
         this.trackError("test", err);
@@ -566,7 +566,7 @@ export class ServiceBusStressTester {
       try {
         await this._endTest();
         await serviceBusClient?.close();
-      } catch (err) {
+      } catch (err: any) {
         defaultClient.trackException({
           exception: err instanceof Error ? err : new Error(`Unknown error\n ${err}`),
           properties: {

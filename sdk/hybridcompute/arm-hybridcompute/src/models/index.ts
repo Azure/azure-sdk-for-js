@@ -61,11 +61,8 @@ export interface ErrorAdditionalInfo {
 export interface MachineProperties {
   /** Metadata pertaining to the geographic location of the resource. */
   locationData?: LocationData;
-  /**
-   * Specifies the operating system settings for the hybrid machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly osProfile?: OSProfile;
+  /** Specifies the operating system settings for the hybrid machine. */
+  osProfile?: OSProfile;
   /**
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -115,6 +112,8 @@ export interface MachineProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly osVersion?: string;
+  /** The type of Operating System (windows/linux). */
+  osType?: string;
   /**
    * Specifies the Arc Machine's unique SMBIOS ID
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -146,6 +145,8 @@ export interface MachineProperties {
   privateLinkScopeResourceId?: string;
   /** The resource id of the parent cluster (Azure HCI) this machine is assigned to, if any. */
   parentClusterResourceId?: string;
+  /** Specifies whether any MS SQL instance is discovered on the machine. */
+  mssqlDiscovered?: string;
   /**
    * Detected properties from the machine.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -172,6 +173,22 @@ export interface OSProfile {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly computerName?: string;
+  /** Specifies the windows configuration for update management. */
+  windowsConfiguration?: OSProfileWindowsConfiguration;
+  /** Specifies the linux configuration for update management. */
+  linuxConfiguration?: OSProfileLinuxConfiguration;
+}
+
+/** Specifies the windows configuration for update management. */
+export interface OSProfileWindowsConfiguration {
+  /** Specifies the assessment mode. */
+  assessmentMode?: string;
+}
+
+/** Specifies the linux configuration for update management. */
+export interface OSProfileLinuxConfiguration {
+  /** Specifies the assessment mode. */
+  assessmentMode?: string;
 }
 
 /** Describes the Machine Extension Instance View. */
@@ -399,6 +416,64 @@ export interface HybridComputePrivateLinkScopeProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateLinkScopeId?: string;
+  /**
+   * The collection of associated Private Endpoint Connections.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnectionDataModel[];
+}
+
+/** The Data Model for a Private Endpoint Connection associated with a Private Link Scope */
+export interface PrivateEndpointConnectionDataModel {
+  /**
+   * The ARM Resource Id of the Private Endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The Name of the Private Endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Azure resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The Private Endpoint Connection properties. */
+  properties?: PrivateEndpointConnectionProperties;
+}
+
+/** Properties of a private endpoint connection. */
+export interface PrivateEndpointConnectionProperties {
+  /** Private endpoint which the connection belongs to. */
+  privateEndpoint?: PrivateEndpointProperty;
+  /** Connection state of the private endpoint connection. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
+  /**
+   * State of the private endpoint connection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+}
+
+/** Private endpoint which the connection belongs to. */
+export interface PrivateEndpointProperty {
+  /** Resource id of the private endpoint. */
+  id?: string;
+}
+
+/** State of the private endpoint connection. */
+export interface PrivateLinkServiceConnectionStateProperty {
+  /** The private link service connection status. */
+  status: string;
+  /** The private link service connection description. */
+  description: string;
+  /**
+   * The actions required for private link service connection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionsRequired?: string;
 }
 
 /** An azure resource object */
@@ -463,38 +538,6 @@ export interface PrivateLinkResourceProperties {
   readonly requiredZoneNames?: string[];
 }
 
-/** Properties of a private endpoint connection. */
-export interface PrivateEndpointConnectionProperties {
-  /** Private endpoint which the connection belongs to. */
-  privateEndpoint?: PrivateEndpointProperty;
-  /** Connection state of the private endpoint connection. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
-  /**
-   * State of the private endpoint connection.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-}
-
-/** Private endpoint which the connection belongs to. */
-export interface PrivateEndpointProperty {
-  /** Resource id of the private endpoint. */
-  id?: string;
-}
-
-/** State of the private endpoint connection. */
-export interface PrivateLinkServiceConnectionStateProperty {
-  /** The private link service connection status. */
-  status: string;
-  /** The private link service connection description. */
-  description: string;
-  /**
-   * The actions required for private link service connection.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly actionsRequired?: string;
-}
-
 /** A list of private endpoint connections. */
 export interface PrivateEndpointConnectionListResult {
   /**
@@ -553,6 +596,8 @@ export interface ConnectionDetail {
 export interface MachineUpdateProperties {
   /** Metadata pertaining to the geographic location of the resource. */
   locationData?: LocationData;
+  /** Specifies the operating system settings for the hybrid machine. */
+  osProfile?: OSProfile;
   /** The resource id of the parent cluster (Azure HCI) this machine is assigned to, if any. */
   parentClusterResourceId?: string;
   /** The resource id of the private link scope this machine is assigned to, if any. */

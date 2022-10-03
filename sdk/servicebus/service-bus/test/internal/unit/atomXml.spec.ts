@@ -109,7 +109,7 @@ describe("ATOM Serializers", () => {
           {}
         );
         assert.fail("Error must be thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(
           err.message.startsWith(
             "Error occurred while parsing the response body - expected the service to return valid xml content."
@@ -178,7 +178,7 @@ describe("ATOM Serializers", () => {
       try {
         await deserializeAtomXmlResponse(["QueueName"], _response);
         assert.fail("Error must be thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(
           err.message,
           "Error occurred while parsing the response body - expected the service to return atom xml content with either feed or entry elements.",
@@ -202,7 +202,7 @@ describe("ATOM Serializers", () => {
       try {
         await deserializeAtomXmlResponse(["QueueName"], _response);
         assert.fail("Error must be thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(
           err.message,
           "Service returned an error response with an unrecognized HTTP status code - 666",
@@ -586,7 +586,7 @@ describe("ATOM Serializers", () => {
             testCase.input as any // casting because invalid input won't satisfy type requirement
           );
           assert.fail("Error must be thrown");
-        } catch (err) {
+        } catch (err: any) {
           assert.equal(
             err.message,
             testCase.output.testErrorMessage,
@@ -731,7 +731,7 @@ describe("ATOM Serializers", () => {
             testCase.input as any // invalid input won't satisfy type requirement so need cast
           );
           assert.fail("Error must be thrown");
-        } catch (err) {
+        } catch (err: any) {
           assert.equal(
             err.message,
             testCase.output.testErrorMessage,
@@ -787,7 +787,7 @@ describe("ATOM Serializers", () => {
             ...(testCase.input as any),
           });
           assert.fail("Error must be thrown");
-        } catch (err) {
+        } catch (err: any) {
           assert.equal(
             err.message,
             testCase.output.testErrorMessage,
@@ -949,7 +949,7 @@ describe("ATOM Serializers", () => {
             ...(testCase.input as any),
           });
           assert.fail("Error must be thrown");
-        } catch (err) {
+        } catch (err: any) {
           assert.equal(err.code, testCase.output.errorCode, `Unexpected error code found.`);
 
           if (testCase.output.errorMessage) {
@@ -1092,7 +1092,7 @@ describe("ATOM Serializers", () => {
             ...(testCase as any),
           });
           assert.fail("Error must be thrown");
-        } catch (err) {
+        } catch (err: any) {
           assert.equal(err.code, testCase.errorCode, `Unexpected error code found.`);
         }
       });
@@ -1360,7 +1360,7 @@ describe("ATOM Serializers", () => {
         try {
           const xmlnsPrefix = getXMLNSPrefix(testCase.input);
           chai.assert.equal(xmlnsPrefix, testCase.output.value);
-        } catch (error) {
+        } catch (error: any) {
           chai.assert.equal(error, testCase.output.error, "Unexpected error thrown");
         }
       });

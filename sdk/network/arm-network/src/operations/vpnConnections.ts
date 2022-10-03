@@ -205,11 +205,13 @@ export class VpnConnectionsImpl implements VpnConnections {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -295,11 +297,13 @@ export class VpnConnectionsImpl implements VpnConnections {
       { resourceGroupName, gatewayName, connectionName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -386,11 +390,13 @@ export class VpnConnectionsImpl implements VpnConnections {
       { resourceGroupName, gatewayName, vpnConnectionName, options },
       startPacketCaptureOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -477,11 +483,13 @@ export class VpnConnectionsImpl implements VpnConnections {
       { resourceGroupName, gatewayName, vpnConnectionName, options },
       stopPacketCaptureOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -647,7 +655,7 @@ const startPacketCaptureOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters72,
+  requestBody: Parameters.parameters82,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -681,7 +689,7 @@ const stopPacketCaptureOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters73,
+  requestBody: Parameters.parameters83,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

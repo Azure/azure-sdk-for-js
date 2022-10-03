@@ -5,15 +5,15 @@ import { assert } from "@azure/test-utils";
 import {
   DeletedKeyBundle,
   DeletedKeyItem,
-  KeyBundle,
   KeyRotationPolicy as GeneratedKeyRotationPolicy,
+  KeyBundle,
 } from "../../src/generated";
 import {
   DeletedKey,
   KeyProperties,
-  KeyVaultKey,
   KeyRotationPolicy,
   KeyRotationPolicyProperties,
+  KeyVaultKey,
 } from "../../src/keysModels";
 import {
   getDeletedKeyFromDeletedKeyItem,

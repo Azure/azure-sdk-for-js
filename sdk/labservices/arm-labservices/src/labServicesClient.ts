@@ -7,6 +7,12 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   ImagesImpl,
@@ -15,10 +21,10 @@ import {
   LabsImpl,
   OperationResultsImpl,
   SchedulesImpl,
-  UsersImpl,
-  VirtualMachinesImpl,
+  SkusImpl,
   UsagesImpl,
-  SkusImpl
+  UsersImpl,
+  VirtualMachinesImpl
 } from "./operations";
 import {
   Images,
@@ -27,10 +33,10 @@ import {
   Labs,
   OperationResults,
   Schedules,
-  Users,
-  VirtualMachines,
+  Skus,
   Usages,
-  Skus
+  Users,
+  VirtualMachines
 } from "./operationsInterfaces";
 import { LabServicesClientOptionalParams } from "./models";
 
@@ -66,7 +72,7 @@ export class LabServicesClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-labservices/3.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-labservices/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -81,25 +87,85 @@ export class LabServicesClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint || "https://management.azure.com"
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
+
+    let bearerTokenAuthenticationPolicyFound: boolean = false;
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+    }
+    if (
+      !options ||
+      !options.pipeline ||
+      options.pipeline.getOrderedPolicies().length == 0 ||
+      !bearerTokenAuthenticationPolicyFound
+    ) {
+      this.pipeline.removePolicy({
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+      });
+      this.pipeline.addPolicy(
+        coreRestPipeline.bearerTokenAuthenticationPolicy({
+          credential: credentials,
+          scopes: `${optionsWithDefaults.credentialScopes}`,
+          challengeCallbacks: {
+            authorizeRequestOnChallenge:
+              coreClient.authorizeRequestOnClaimChallenge
+          }
+        })
+      );
+    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-11-15-preview";
+    this.apiVersion = options.apiVersion || "2022-08-01";
     this.images = new ImagesImpl(this);
     this.labPlans = new LabPlansImpl(this);
     this.operations = new OperationsImpl(this);
     this.labs = new LabsImpl(this);
     this.operationResults = new OperationResultsImpl(this);
     this.schedules = new SchedulesImpl(this);
+    this.skus = new SkusImpl(this);
+    this.usages = new UsagesImpl(this);
     this.users = new UsersImpl(this);
     this.virtualMachines = new VirtualMachinesImpl(this);
-    this.usages = new UsagesImpl(this);
-    this.skus = new SkusImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   images: Images;
@@ -108,8 +174,8 @@ export class LabServicesClient extends coreClient.ServiceClient {
   labs: Labs;
   operationResults: OperationResults;
   schedules: Schedules;
+  skus: Skus;
+  usages: Usages;
   users: Users;
   virtualMachines: VirtualMachines;
-  usages: Usages;
-  skus: Skus;
 }

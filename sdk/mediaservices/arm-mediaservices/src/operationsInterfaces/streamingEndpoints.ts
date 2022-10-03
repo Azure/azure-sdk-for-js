@@ -18,10 +18,16 @@ import {
   StreamingEndpointsUpdateOptionalParams,
   StreamingEndpointsUpdateResponse,
   StreamingEndpointsDeleteOptionalParams,
+  StreamingEndpointsSkusOptionalParams,
+  StreamingEndpointsSkusResponse,
   StreamingEndpointsStartOptionalParams,
   StreamingEndpointsStopOptionalParams,
   StreamingEntityScaleUnit,
-  StreamingEndpointsScaleOptionalParams
+  StreamingEndpointsScaleOptionalParams,
+  StreamingEndpointsAsyncOperationOptionalParams,
+  StreamingEndpointsAsyncOperationResponse,
+  StreamingEndpointsOperationLocationOptionalParams,
+  StreamingEndpointsOperationLocationResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -148,6 +154,19 @@ export interface StreamingEndpoints {
     options?: StreamingEndpointsDeleteOptionalParams
   ): Promise<void>;
   /**
+   * List streaming endpoint supported skus.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param streamingEndpointName The name of the streaming endpoint, maximum length is 24.
+   * @param options The options parameters.
+   */
+  skus(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    options?: StreamingEndpointsSkusOptionalParams
+  ): Promise<StreamingEndpointsSkusResponse>;
+  /**
    * Starts an existing streaming endpoint.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -229,4 +248,32 @@ export interface StreamingEndpoints {
     parameters: StreamingEntityScaleUnit,
     options?: StreamingEndpointsScaleOptionalParams
   ): Promise<void>;
+  /**
+   * Get a streaming endpoint operation status.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param operationId The ID of an ongoing async operation.
+   * @param options The options parameters.
+   */
+  asyncOperation(
+    resourceGroupName: string,
+    accountName: string,
+    operationId: string,
+    options?: StreamingEndpointsAsyncOperationOptionalParams
+  ): Promise<StreamingEndpointsAsyncOperationResponse>;
+  /**
+   * Get a streaming endpoint operation status.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param streamingEndpointName The name of the streaming endpoint, maximum length is 24.
+   * @param operationId The ID of an ongoing async operation.
+   * @param options The options parameters.
+   */
+  operationLocation(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    operationId: string,
+    options?: StreamingEndpointsOperationLocationOptionalParams
+  ): Promise<StreamingEndpointsOperationLocationResponse>;
 }

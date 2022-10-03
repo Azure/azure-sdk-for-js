@@ -5,20 +5,20 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   DocumentHealthcareEntities,
   Entity,
-  HealthcareRelation,
-  TextDocumentBatchStatistics,
   HealthcareEntity as GeneratedHealthcareEntity,
-  TextAnalyticsError,
   HealthcareAssertion,
-  RelationType,
-  HealthcareRelationEntity,
   HealthcareEntityCategory,
+  HealthcareRelation,
+  HealthcareRelationEntity,
+  RelationType,
+  TextAnalyticsError,
+  TextDocumentBatchStatistics,
 } from "./generated/models";
 import {
-  makeTextAnalyticsErrorResult,
-  makeTextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
   TextAnalyticsSuccessResult,
+  makeTextAnalyticsErrorResult,
+  makeTextAnalyticsSuccessResult,
 } from "./textAnalyticsResult";
 import { parseHealthcareEntityIndex } from "./util";
 

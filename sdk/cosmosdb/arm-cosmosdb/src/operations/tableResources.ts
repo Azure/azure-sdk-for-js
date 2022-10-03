@@ -32,10 +32,7 @@ import {
   TableResourcesMigrateTableToAutoscaleOptionalParams,
   TableResourcesMigrateTableToAutoscaleResponse,
   TableResourcesMigrateTableToManualThroughputOptionalParams,
-  TableResourcesMigrateTableToManualThroughputResponse,
-  ContinuousBackupRestoreLocation,
-  TableResourcesRetrieveContinuousBackupInformationOptionalParams,
-  TableResourcesRetrieveContinuousBackupInformationResponse
+  TableResourcesMigrateTableToManualThroughputResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -217,10 +214,12 @@ export class TableResourcesImpl implements TableResources {
       },
       createUpdateTableOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -305,10 +304,12 @@ export class TableResourcesImpl implements TableResources {
       { resourceGroupName, accountName, tableName, options },
       deleteTableOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -424,10 +425,12 @@ export class TableResourcesImpl implements TableResources {
       },
       updateTableThroughputOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -518,10 +521,12 @@ export class TableResourcesImpl implements TableResources {
       { resourceGroupName, accountName, tableName, options },
       migrateTableToAutoscaleOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -608,10 +613,12 @@ export class TableResourcesImpl implements TableResources {
       { resourceGroupName, accountName, tableName, options },
       migrateTableToManualThroughputOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -631,104 +638,6 @@ export class TableResourcesImpl implements TableResources {
       resourceGroupName,
       accountName,
       tableName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Retrieves continuous backup information for a table.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param tableName Cosmos DB table name.
-   * @param location The name of the continuous backup restore location.
-   * @param options The options parameters.
-   */
-  async beginRetrieveContinuousBackupInformation(
-    resourceGroupName: string,
-    accountName: string,
-    tableName: string,
-    location: ContinuousBackupRestoreLocation,
-    options?: TableResourcesRetrieveContinuousBackupInformationOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<
-        TableResourcesRetrieveContinuousBackupInformationResponse
-      >,
-      TableResourcesRetrieveContinuousBackupInformationResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<TableResourcesRetrieveContinuousBackupInformationResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, tableName, location, options },
-      retrieveContinuousBackupInformationOperationSpec
-    );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
-    });
-  }
-
-  /**
-   * Retrieves continuous backup information for a table.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param tableName Cosmos DB table name.
-   * @param location The name of the continuous backup restore location.
-   * @param options The options parameters.
-   */
-  async beginRetrieveContinuousBackupInformationAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    tableName: string,
-    location: ContinuousBackupRestoreLocation,
-    options?: TableResourcesRetrieveContinuousBackupInformationOptionalParams
-  ): Promise<TableResourcesRetrieveContinuousBackupInformationResponse> {
-    const poller = await this.beginRetrieveContinuousBackupInformation(
-      resourceGroupName,
-      accountName,
-      tableName,
-      location,
       options
     );
     return poller.pollUntilDone();
@@ -935,39 +844,5 @@ const migrateTableToManualThroughputOperationSpec: coreClient.OperationSpec = {
     Parameters.tableName
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const retrieveContinuousBackupInformationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/retrieveContinuousBackupInformation",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BackupInformation
-    },
-    201: {
-      bodyMapper: Mappers.BackupInformation
-    },
-    202: {
-      bodyMapper: Mappers.BackupInformation
-    },
-    204: {
-      bodyMapper: Mappers.BackupInformation
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.location,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.tableName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };

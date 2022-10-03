@@ -6,7 +6,6 @@ import * as sinon from "sinon";
 import {
   ProxySettings,
   SendRequest,
-  createHttpHeaders,
   createPipelineRequest,
   getDefaultProxySettings,
   proxyPolicy,
@@ -182,7 +181,10 @@ describe("proxyPolicy (node)", function () {
       username: "user",
       password: "pass",
     };
-    const options = getProxyAgentOptions(proxySettings, createHttpHeaders());
+    const options = getProxyAgentOptions(
+      proxySettings,
+      createPipelineRequest({ url: "https://example.org" })
+    );
     assert.strictEqual(options.auth, "user:pass");
   });
 
@@ -192,7 +194,10 @@ describe("proxyPolicy (node)", function () {
       port: 8080,
       username: "user",
     };
-    const options = getProxyAgentOptions(proxySettings, createHttpHeaders());
+    const options = getProxyAgentOptions(
+      proxySettings,
+      createPipelineRequest({ url: "https://example.org" })
+    );
     assert.strictEqual(options.auth, "user");
   });
 

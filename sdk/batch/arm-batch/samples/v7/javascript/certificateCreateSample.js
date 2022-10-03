@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Creates a new certificate inside the specified account.
  *
  * @summary Creates a new certificate inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/CertificateCreate_Full.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/CertificateCreate_Full.json
  */
 async function createCertificateFull() {
   const subscriptionId = "subid";
@@ -46,7 +46,7 @@ createCertificateFull().catch(console.error);
  * This sample demonstrates how to Creates a new certificate inside the specified account.
  *
  * @summary Creates a new certificate inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/CertificateCreate_MinimalCer.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/CertificateCreate_MinimalCer.json
  */
 async function createCertificateMinimalCer() {
   const subscriptionId = "subid";
@@ -74,7 +74,7 @@ createCertificateMinimalCer().catch(console.error);
  * This sample demonstrates how to Creates a new certificate inside the specified account.
  *
  * @summary Creates a new certificate inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/CertificateCreate_Minimal.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/CertificateCreate_Minimal.json
  */
 async function createCertificateMinimalPfx() {
   const subscriptionId = "subid";

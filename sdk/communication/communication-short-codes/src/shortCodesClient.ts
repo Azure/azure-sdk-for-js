@@ -2,27 +2,33 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { isKeyCredential, parseClientArguments } from "@azure/communication-common";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { createSpan, logger } from "./utils";
-import { ShortCodesClient as ShortCodesGeneratedClient } from "./generated/src";
 import {
+  AttachmentType,
+  DeleteUSProgramBriefOptions,
+  FileType,
+  GetUSProgramBriefOptions,
+  ListShortCodesOptions,
+  ListUSProgramBriefsOptions,
+  ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams,
+  ShortCodesDeleteUSProgramBriefAttachmentOptionalParams,
+  ShortCodesGetUSProgramBriefAttachmentOptionalParams,
+  ShortCodesGetUSProgramBriefAttachmentsOptionalParams,
+  SubmitUSProgramBriefOptions,
+} from "./models";
+import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import {
+  ProgramBriefAttachment,
   ShortCode,
   ShortCodesUpsertUSProgramBriefOptionalParams,
   USProgramBrief,
 } from "./generated/src/models/";
-import { SpanStatusCode } from "@azure/core-tracing";
-import {
-  DeleteUSProgramBriefOptions,
-  GetUSProgramBriefOptions,
-  ListShortCodesOptions,
-  ListUSProgramBriefsOptions,
-  SubmitUSProgramBriefOptions,
-} from "./models";
+import { isKeyCredential, parseClientArguments } from "@azure/communication-common";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { ShortCodesClient as ShortCodesGeneratedClient } from "./generated/src";
 import { createCommunicationAuthPolicy } from "@azure/communication-common";
-
+import { logger } from "./utils";
+import { tracingClient } from "./generated/src/tracing";
 /**
  * Client options used to configure the ShortCodesClient API requests.
  */
@@ -78,13 +84,16 @@ export class ShortCodesClient {
   public listShortCodes(
     options: ListShortCodesOptions = {}
   ): PagedAsyncIterableIterator<ShortCode> {
-    const { span, updatedOptions } = createSpan("ShortCodesClient-listShortCodes", options);
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "ShortCodesClient-listShortCodes",
+      options
+    );
     try {
       return this.client.shortCodesOperations.listShortCodes(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e,
       });
       throw e;
     } finally {
@@ -92,79 +101,64 @@ export class ShortCodesClient {
     }
   }
 
-  public async upsertUSProgramBrief(
+  public upsertUSProgramBrief(
     programBriefId: string,
     options: ShortCodesUpsertUSProgramBriefOptionalParams = {}
   ): Promise<USProgramBrief> {
-    const { span, updatedOptions } = createSpan("ShortCodesClient-upsertUSProgramBrief", options);
-    try {
-      return await this.client.shortCodesOperations.upsertUSProgramBrief(
-        programBriefId,
-        updatedOptions
-      );
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ShortCodesClient-upsertUSProgramBrief",
+      options,
+      (updatedOptions) => {
+        return this.client.shortCodesOperations.upsertUSProgramBrief(
+          programBriefId,
+          updatedOptions
+        );
+      }
+    );
   }
 
-  public async deleteUSProgramBrief(
+  public deleteUSProgramBrief(
     programBriefId: string,
-    options?: DeleteUSProgramBriefOptions
+    options: DeleteUSProgramBriefOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("ShortCodesClient-deleteUSProgramBrief", options);
-    try {
-      return await this.client.shortCodesOperations.deleteUSProgramBrief(
-        programBriefId,
-        updatedOptions
-      );
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ShortCodesClient-deleteUSProgramBrief",
+      options,
+      (updatedOptions) => {
+        return this.client.shortCodesOperations.deleteUSProgramBrief(
+          programBriefId,
+          updatedOptions
+        );
+      }
+    );
   }
 
-  public async getUSProgramBrief(
+  public getUSProgramBrief(
     programBriefId: string,
-    options?: GetUSProgramBriefOptions
+    options: GetUSProgramBriefOptions = {}
   ): Promise<USProgramBrief> {
-    const { span, updatedOptions } = createSpan("ShortCodesClient-getUSProgramBrief", options);
-    try {
-      return await this.client.shortCodesOperations.getUSProgramBrief(
-        programBriefId,
-        updatedOptions
-      );
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ShortCodesClient-getUSProgramBrief",
+      options,
+      (updatedOptions) => {
+        return this.client.shortCodesOperations.getUSProgramBrief(programBriefId, updatedOptions);
+      }
+    );
   }
 
   public listUSProgramBriefs(
     options: ListUSProgramBriefsOptions = {}
   ): PagedAsyncIterableIterator<USProgramBrief> {
-    const { span, updatedOptions } = createSpan("ShortCodesClient-listUSProgramBriefs", options);
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "ShortCodesClient-listUSProgramBriefs",
+      options
+    );
     try {
       return this.client.shortCodesOperations.listUSProgramBriefs(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e,
       });
       throw e;
     } finally {
@@ -172,24 +166,106 @@ export class ShortCodesClient {
     }
   }
 
-  public async submitUSProgramBrief(
+  public submitUSProgramBrief(
     programBriefId: string,
-    options?: SubmitUSProgramBriefOptions
+    options: SubmitUSProgramBriefOptions = {}
   ): Promise<USProgramBrief> {
-    const { span, updatedOptions } = createSpan("ShortCodesClient-submitUSProgramBrief", options);
+    return tracingClient.withSpan(
+      "ShortCodesClient-submitUSProgramBrief",
+      options,
+      (updatedOptions) => {
+        return this.client.shortCodesOperations.submitUSProgramBrief(
+          programBriefId,
+          updatedOptions
+        );
+      }
+    );
+  }
+
+  public getUSProgramBriefAttachment(
+    programBriefId: string,
+    attachmentId: string,
+    options: ShortCodesGetUSProgramBriefAttachmentOptionalParams = {}
+  ): Promise<ProgramBriefAttachment> {
+    return tracingClient.withSpan(
+      "ShortCodesClient-getUSProgramBriefAttachment",
+      options,
+      (updatedOptions) => {
+        return this.client.shortCodesOperations.getUSProgramBriefAttachment(
+          programBriefId,
+          attachmentId,
+          updatedOptions
+        );
+      }
+    );
+  }
+
+  public listUSProgramBriefAttachments(
+    programBriefId: string,
+    options: ShortCodesGetUSProgramBriefAttachmentsOptionalParams = {}
+  ): PagedAsyncIterableIterator<ProgramBriefAttachment> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "ShortCodesClient-listUSProgramBriefAttachments",
+      options
+    );
     try {
-      return await this.client.shortCodesOperations.submitUSProgramBrief(
+      return this.client.shortCodesOperations.listUSProgramBriefAttachments(
         programBriefId,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e,
       });
       throw e;
     } finally {
       span.end();
     }
+  }
+
+  public deleteUSProgramBriefAttachment(
+    programBriefId: string,
+    attachmentId: string,
+    options: ShortCodesDeleteUSProgramBriefAttachmentOptionalParams = {}
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "ShortCodesClient-deleteUSProgramBriefAttachment",
+      options,
+      (updatedOptions) => {
+        return this.client.shortCodesOperations.deleteUSProgramBriefAttachment(
+          programBriefId,
+          attachmentId,
+          updatedOptions
+        );
+      }
+    );
+  }
+
+  public createOrReplaceUSProgramBriefAttachment(
+    programBriefId: string,
+    attachmentId: string,
+    fileName: string,
+    fileType: FileType,
+    fileContent: string,
+    attachmentType: AttachmentType,
+    options: ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams = {}
+  ): Promise<ProgramBriefAttachment> {
+    return tracingClient.withSpan(
+      "ShortCodesClient-createOrReplaceUSProgramBriefAttachment",
+      options,
+      (updatedOptions) => {
+        return this.client.shortCodesOperations.createOrReplaceUSProgramBriefAttachment(
+          programBriefId,
+          attachmentId,
+          attachmentId,
+          fileName,
+          fileType,
+          fileContent,
+          attachmentType,
+          updatedOptions
+        );
+      }
+    );
   }
 }

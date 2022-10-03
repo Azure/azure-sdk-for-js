@@ -1,6 +1,6 @@
 {
   "name": "@azure/data-tables",
-  "version": "13.1.0",
+  "version": "13.2.1",
   "description": "An isomorphic client library for the Azure Tables service.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -8,11 +8,13 @@
   "browser": {
     "./dist-esm/src/tablesNamedCredentialPolicy.js": "./dist-esm/src/tablesNamedCredentialPolicy.browser.js",
     "./dist-esm/src/utils/accountConnectionString.js": "./dist-esm/src/utils/accountConnectionString.browser.js",
-    "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
     "./dist-esm/src/utils/computeHMACSHA256.js": "./dist-esm/src/utils/computeHMACSHA256.browser.js",
     "./dist-esm/src/utils/bufferSerializer.js": "./dist-esm/src/utils/bufferSerializer.browser.js",
     "./dist-esm/src/utils/transactionHeaders.js": "./dist-esm/src/utils/transactionHeaders.browser.js",
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
+  },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/src/index.js"
   },
   "types": "types/latest/data-tables.d.ts",
   "typesVersions": {
@@ -39,8 +41,8 @@
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 --exclude 'dist-esm/test/**/browser/*.spec.js' 'dist-esm/test/**/*.spec.js'",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts",
+    "lint:fix": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js",
     "pack": "npm pack 2>&1",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
@@ -88,7 +90,7 @@
   "devDependencies": {
     "@azure/identity": "^2.0.1",
     "@azure/dev-tool": "^1.0.0",
-    "@microsoft/api-extractor": "^7.18.11",
+    "@microsoft/api-extractor": "7.18.11",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
@@ -97,8 +99,8 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
-    "downlevel-dts": "^0.8.0",
-    "eslint": "^7.15.0",
+    "downlevel-dts": "^0.10.0",
+    "eslint": "^8.0.0",
     "inherits": "^2.0.3",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
@@ -117,7 +119,7 @@
     "nyc": "^15.0.0",
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
-    "typescript": "~4.2.0",
+    "typescript": "~4.6.0",
     "util": "^0.12.1",
     "dotenv": "^8.2.0",
     "@azure-tools/test-recorder": "^2.0.0",

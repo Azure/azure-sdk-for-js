@@ -74,8 +74,8 @@ export class DatabaseAccount {
     this.mediaLink = "/media/";
     this.maxMediaStorageUsageInMB = headers[Constants.HttpHeaders.MaxMediaStorageUsageInMB];
     this.currentMediaStorageUsageInMB = headers[Constants.HttpHeaders.CurrentMediaStorageUsageInMB];
-    this.consistencyPolicy = body.UserConsistencyPolicy
-      ? (body.UserConsistencyPolicy.defaultConsistencyLevel as ConsistencyLevel)
+    this.consistencyPolicy = body.userConsistencyPolicy
+      ? (body.userConsistencyPolicy.defaultConsistencyLevel as ConsistencyLevel)
       : ConsistencyLevel.Session;
     if (body[Constants.WritableLocations] && body.id !== "localhost") {
       this.writableLocations = body[Constants.WritableLocations] as Location[];

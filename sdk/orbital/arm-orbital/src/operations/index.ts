@@ -11,3 +11,4 @@ export * from "./spacecrafts";
 export * from "./contacts";
 export * from "./contactProfiles";
 export * from "./availableGroundStations";
+export * from "./operationsResults";

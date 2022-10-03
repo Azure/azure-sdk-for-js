@@ -101,6 +101,7 @@ describe("FileClient", () => {
       },
       creationTime: now,
       lastWriteTime: now,
+      changeTime: now,
       filePermissionKey: defaultDirCreateResp.filePermissionKey,
       fileAttributes: fullFileAttributes,
     };
@@ -119,6 +120,7 @@ describe("FileClient", () => {
     assert.ok(respFileAttributesFromDownload.temporary);
     assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
     assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileChangeOn!), truncatedISO8061Date(now));
     assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
     assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
@@ -144,6 +146,7 @@ describe("FileClient", () => {
     assert.ok(respFileAttributes.temporary);
     assert.equal(truncatedISO8061Date(properties.fileCreatedOn!), truncatedISO8061Date(now));
     assert.equal(truncatedISO8061Date(properties.fileLastWriteOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileChangeOn!), truncatedISO8061Date(now));
     assert.equal(properties.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
     assert.ok(properties.fileChangeOn!);
     assert.ok(properties.fileId!);
@@ -206,6 +209,7 @@ describe("FileClient", () => {
       },
       creationTime: now,
       lastWriteTime: now,
+      changeTime: now,
       filePermission: getPermissionResp.permission,
       fileAttributes: fullFileAttributes,
     };
@@ -226,6 +230,7 @@ describe("FileClient", () => {
     assert.ok(respFileAttributes.temporary);
     assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
     assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileChangeOn!), truncatedISO8061Date(now));
     assert.ok(result.filePermissionKey!);
     assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
@@ -394,6 +399,8 @@ describe("FileClient", () => {
 
     const fileCreationDate = new Date("05 October 2011 14:48 UTC");
     const fileCreationTime = truncatedISO8061Date(fileCreationDate);
+    const fileChangeDate = new Date("05 October 2011 14:48 UTC");
+    const fileChangeTime = truncatedISO8061Date(fileChangeDate);
     const options: FileStartCopyOptions = {
       filePermission: filePermissionInSDDL,
       copyFileSmbInfo: {
@@ -402,6 +409,7 @@ describe("FileClient", () => {
         fileAttributes,
         fileCreationTime,
         fileLastWriteTime: "source",
+        fileChangeTime,
         setArchiveAttribute: false,
       },
     };
@@ -417,6 +425,7 @@ describe("FileClient", () => {
     );
     assert.deepStrictEqual(targetProperties.fileLastWriteOn, sourceProperties.fileLastWriteOn);
     assert.deepStrictEqual(targetProperties.fileCreatedOn, fileCreationDate);
+    assert.deepStrictEqual(targetProperties.fileChangeOn, fileChangeDate);
   });
 
   it("startCopyFromURL with smb options: filePermissionKey", async () => {
@@ -469,7 +478,7 @@ describe("FileClient", () => {
       assert.fail(
         "AbortCopyFromURL should be failed and throw exception for an completed copy operation."
       );
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(true);
     }
   });
@@ -482,6 +491,48 @@ describe("FileClient", () => {
     await fileClient.resize(1);
     const updatedProperties = await fileClient.getProperties();
     assert.deepStrictEqual(updatedProperties.contentLength, 1);
+  });
+
+  it("resize with all parameters", async () => {
+    await fileClient.create(content.length);
+    const properties = await fileClient.getProperties();
+    assert.deepStrictEqual(properties.contentLength, content.length);
+
+    const creationDate = new Date("05 October 2019 14:48 UTC");
+    const lastwriteTime = new Date("15 October 2019 14:48 UTC");
+    const changedTime = new Date("25 October 2019 14:48 UTC");
+
+    const options = {
+      creationTime: creationDate,
+      lastWriteTime: lastwriteTime,
+      changeTime: changedTime,
+      fileAttributes: fullFileAttributes,
+    };
+
+    await fileClient.resize(1, options);
+    const updatedProperties = await fileClient.getProperties();
+    assert.deepStrictEqual(updatedProperties.contentLength, 1);
+    const respFileAttributes = FileSystemAttributes.parse(updatedProperties.fileAttributes!);
+    assert.ok(respFileAttributes.readonly);
+    assert.ok(respFileAttributes.hidden);
+    assert.ok(respFileAttributes.system);
+    assert.ok(respFileAttributes.archive);
+    assert.ok(respFileAttributes.offline);
+    assert.ok(respFileAttributes.notContentIndexed);
+    assert.ok(respFileAttributes.noScrubData);
+    assert.ok(respFileAttributes.temporary);
+    assert.equal(
+      truncatedISO8061Date(updatedProperties.fileCreatedOn!),
+      truncatedISO8061Date(creationDate)
+    );
+    assert.equal(
+      truncatedISO8061Date(updatedProperties.fileLastWriteOn!),
+      truncatedISO8061Date(lastwriteTime)
+    );
+    assert.equal(
+      truncatedISO8061Date(updatedProperties.fileChangeOn!),
+      truncatedISO8061Date(changedTime)
+    );
   });
 
   it("uploadData", async () => {
@@ -558,6 +609,25 @@ describe("FileClient", () => {
     assert.deepStrictEqual(await bodyToString(response), "HelloWorld");
   });
 
+  it("uploadRange with lastWriteTime", async () => {
+    const createResult = await fileClient.create(10);
+
+    const uploadRangeResult = await fileClient.uploadRange("Hello", 0, 5, {
+      fileLastWrittenMode: "Preserve",
+    });
+    assert.deepStrictEqual(
+      uploadRangeResult.fileLastWriteTime,
+      createResult.fileLastWriteOn,
+      "Last write time should be expected"
+    );
+
+    await fileClient.uploadRange("World", 5, 5, {
+      fileLastWrittenMode: "Now",
+    });
+    const response = await fileClient.download(0, 8);
+    assert.deepStrictEqual(await bodyToString(response, 8), "HelloWor");
+  });
+
   it("clearRange", async () => {
     await fileClient.create(10);
     await fileClient.uploadRange("Hello", 0, 5);
@@ -566,6 +636,28 @@ describe("FileClient", () => {
 
     const result = await fileClient.download();
     assert.deepStrictEqual(await bodyToString(result, 10), "H" + "\u0000".repeat(8) + "d");
+  });
+
+  it("clearRange with lastWriteTime", async () => {
+    await fileClient.create(10);
+    await fileClient.uploadRange("Hello", 0, 5);
+    const uploadRangeResult = await fileClient.uploadRange("World", 5, 5);
+    const clearRangeResult = await fileClient.clearRange(1, 4, {
+      fileLastWrittenMode: "Preserve",
+    });
+    assert.deepStrictEqual(
+      uploadRangeResult.fileLastWriteTime,
+      clearRangeResult.fileLastWriteTime,
+      "File last write time should be expected"
+    );
+    const result = await fileClient.download();
+    assert.deepStrictEqual(await bodyToString(result, 10), "H" + "\u0000".repeat(4) + "World");
+
+    await fileClient.clearRange(5, 4, {
+      fileLastWrittenMode: "Now",
+    });
+    const downloadResult2 = await fileClient.download();
+    assert.deepStrictEqual(await bodyToString(downloadResult2, 10), "H" + "\u0000".repeat(8) + "d");
   });
 
   it("getRangeList", async () => {
@@ -734,7 +826,7 @@ describe("FileClient", () => {
       });
 
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
     assert.ok(eventTriggered);
@@ -880,7 +972,7 @@ describe("FileClient", () => {
 
     try {
       await fileClient.getProperties();
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
     }
   });
@@ -907,7 +999,7 @@ describe("FileClient", () => {
 
     try {
       await fileClient.getProperties();
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
     }
   });
@@ -940,7 +1032,7 @@ describe("FileClient", () => {
     try {
       await sourceFile.getProperties();
       assert.fail("Source file should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
     }
   });
@@ -968,7 +1060,7 @@ describe("FileClient", () => {
     try {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
     }
   });
@@ -985,7 +1077,7 @@ describe("FileClient", () => {
     try {
       await sourceFileClient.rename(destFileName);
       assert.fail("Should got conflict error when trying to overwrite an exiting file");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(
         (err.statusCode as number) === 409,
         "Should got conflict error when trying to overwrite an exiting file"
@@ -1019,7 +1111,7 @@ describe("FileClient", () => {
     try {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });
@@ -1041,7 +1133,7 @@ describe("FileClient", () => {
         replaceIfExists: true,
       });
       assert.fail("Should got conflict error when trying to overwrite an exiting file");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(
         (err.statusCode as number) === 409,
         "Should got conflict error when trying to overwrite an exiting file"
@@ -1079,7 +1171,7 @@ describe("FileClient", () => {
     try {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });
@@ -1103,7 +1195,7 @@ describe("FileClient", () => {
       });
 
       assert.fail("Should got conflict error when trying to overwrite an exiting file");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(
         (err.statusCode as number) === 412,
         "Should got conflict error when trying to overwrite an exiting file"
@@ -1142,7 +1234,7 @@ describe("FileClient", () => {
     try {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
     }
   });
@@ -1160,7 +1252,7 @@ describe("FileClient", () => {
     try {
       await sourceFileClient.rename(destFileName);
       assert.fail("Should got conflict error when trying to overwrite an exiting file");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(
         (err.statusCode as number) === 412,
         "Should got conflict error when trying to overwrite an exiting file"
@@ -1188,7 +1280,7 @@ describe("FileClient", () => {
     try {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
     }
   });
@@ -1217,7 +1309,7 @@ describe("FileClient", () => {
     try {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
     }
   });
@@ -1234,11 +1326,13 @@ describe("FileClient", () => {
 
     const creationDate = new Date("05 October 2019 14:48 UTC");
     const lastwriteTime = new Date("15 October 2019 14:48 UTC");
+    const changeTime = new Date("25 October 2019 14:48 UTC");
 
     const copyFileSMBInfo = {
       fileAttributes: fileAttributesInstance.toString(),
       fileCreationTime: truncatedISO8061Date(creationDate),
       fileLastWriteTime: truncatedISO8061Date(lastwriteTime),
+      fileChangeTime: truncatedISO8061Date(changeTime),
     };
 
     const sourceFileName = recorder.getUniqueName("sourcefile");
@@ -1265,6 +1359,10 @@ describe("FileClient", () => {
       truncatedISO8061Date(properties.fileLastWriteOn!) === truncatedISO8061Date(lastwriteTime),
       "Last write time should be expected"
     );
+    assert.ok(
+      truncatedISO8061Date(properties.fileChangeOn!) === truncatedISO8061Date(changeTime),
+      "File changed time should be expected"
+    );
     const fileSystemAttributes = FileSystemAttributes.parse(properties.fileAttributes!);
     assert.ok(
       fileSystemAttributes.readonly && fileSystemAttributes.hidden,
@@ -1274,7 +1372,35 @@ describe("FileClient", () => {
     try {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
+      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+    }
+  });
+
+  it("rename - Content type", async () => {
+    const destFileName = recorder.getUniqueName("destfile");
+
+    const sourceFileName = recorder.getUniqueName("sourcefile");
+    const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
+    await sourceFileClient.create(2048);
+
+    const contentType = "contenttype/subtype";
+    const result = await sourceFileClient.rename(destFileName, {
+      contentType: contentType,
+    });
+
+    assert.ok(
+      result.destinationFileClient.name === destFileName,
+      "Destination name should be expected"
+    );
+
+    const properties = await result.destinationFileClient.getProperties();
+    assert.equal(properties.contentType, contentType);
+
+    try {
+      await sourceFileClient.getProperties();
+      assert.fail("Source file should not exist anymore");
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
     }
   });

@@ -3,7 +3,7 @@
   "info": {
     "title": "Form Recognizer Client",
     "description": "Extracts content, layout, and structured data from documents.",
-    "version": "2022-01-30-preview"
+    "version": "2022-08-31"
   },
   "securityDefinitions": {
     "apim_key": {
@@ -31,7 +31,7 @@
     "/documentModels/{modelId}:analyze": {
       "post": {
         "summary": "Analyze document",
-        "description": "Analyzes document with model.",
+        "description": "Analyzes document with document model.",
         "operationId": "AnalyzeDocument",
         "tags": ["Analysis"],
         "consumes": [
@@ -41,12 +41,13 @@
           "image/jpeg",
           "image/png",
           "image/tiff",
-          "image/bmp"
+          "image/bmp",
+          "image/heif"
         ],
         "produces": ["application/json"],
         "parameters": [
           {
-            "$ref": "#/parameters/PathModelId"
+            "$ref": "#/parameters/PathDocumentModelId"
           },
           {
             "$ref": "#/parameters/QueryPages"
@@ -108,7 +109,7 @@
         "produces": ["application/json"],
         "parameters": [
           {
-            "$ref": "#/parameters/PathModelId"
+            "$ref": "#/parameters/PathDocumentModelId"
           },
           {
             "$ref": "#/parameters/PathResultId"
@@ -140,7 +141,7 @@
     },
     "/documentModels:build": {
       "post": {
-        "summary": "Build model",
+        "summary": "Build document model",
         "description": "Builds a custom document analysis model.",
         "operationId": "BuildDocumentModel",
         "tags": ["Creation"],
@@ -187,8 +188,8 @@
     },
     "/documentModels:compose": {
       "post": {
-        "summary": "Compose model",
-        "description": "Creates a new model from document types of existing models.",
+        "summary": "Compose document model",
+        "description": "Creates a new document model from document types of existing document models.",
         "operationId": "ComposeDocumentModel",
         "tags": ["Creation"],
         "consumes": ["application/json"],
@@ -235,7 +236,7 @@
     "/documentModels:authorizeCopy": {
       "post": {
         "summary": "Generate copy authorization",
-        "description": "Generates authorization to copy a model to this location with specified modelId and optional description.",
+        "description": "Generates authorization to copy a document model to this location with specified modelId and optional description.",
         "operationId": "AuthorizeCopyDocumentModel",
         "tags": ["Creation"],
         "consumes": ["application/json"],
@@ -277,15 +278,15 @@
     },
     "/documentModels/{modelId}:copyTo": {
       "post": {
-        "summary": "Copy model",
-        "description": "Copies model to the target resource, region, and modelId.",
+        "summary": "Copy document model",
+        "description": "Copies document model to the target resource, region, and modelId.",
         "operationId": "CopyDocumentModelTo",
         "tags": ["Creation"],
         "consumes": ["application/json"],
         "produces": ["application/json"],
         "parameters": [
           {
-            "$ref": "#/parameters/PathModelId"
+            "$ref": "#/parameters/PathDocumentModelId"
           },
           {
             "$ref": "#/parameters/QueryApiVersion"
@@ -383,7 +384,7 @@
           "200": {
             "description": "OK.",
             "schema": {
-              "$ref": "#/definitions/GetOperationResponse"
+              "$ref": "#/definitions/OperationDetails"
             }
           },
           "default": {
@@ -402,9 +403,9 @@
     },
     "/documentModels": {
       "get": {
-        "summary": "List models",
-        "description": "List all models",
-        "operationId": "GetModels",
+        "summary": "List document models",
+        "description": "List all document models",
+        "operationId": "GetDocumentModels",
         "tags": ["Management"],
         "consumes": [],
         "produces": ["application/json"],
@@ -417,7 +418,7 @@
           "200": {
             "description": "OK.",
             "schema": {
-              "$ref": "#/definitions/GetModelsResponse"
+              "$ref": "#/definitions/GetDocumentModelsResponse"
             }
           },
           "default": {
@@ -432,23 +433,23 @@
           "itemName": "value"
         },
         "x-ms-examples": {
-          "GetModels": {
-            "$ref": "./examples/GetModels.json"
+          "GetDocumentModels": {
+            "$ref": "./examples/GetDocumentModels.json"
           }
         }
       }
     },
     "/documentModels/{modelId}": {
       "get": {
-        "summary": "Get model",
-        "description": "Gets detailed model information.",
-        "operationId": "GetModel",
+        "summary": "Get document model",
+        "description": "Gets detailed document model information.",
+        "operationId": "GetDocumentModel",
         "tags": ["Management"],
         "consumes": [],
         "produces": ["application/json"],
         "parameters": [
           {
-            "$ref": "#/parameters/PathModelId"
+            "$ref": "#/parameters/PathDocumentModelId"
           },
           {
             "$ref": "#/parameters/QueryApiVersion"
@@ -458,7 +459,7 @@
           "200": {
             "description": "OK.",
             "schema": {
-              "$ref": "#/definitions/ModelInfo"
+              "$ref": "#/definitions/DocumentModelDetails"
             }
           },
           "default": {
@@ -469,24 +470,24 @@
           }
         },
         "x-ms-examples": {
-          "GetModel_Prebuilt": {
-            "$ref": "./examples/GetModel_Prebuilt.json"
+          "GetDocumentModel_Prebuilt": {
+            "$ref": "./examples/GetDocumentModel_Prebuilt.json"
           },
-          "GetModel_Custom": {
-            "$ref": "./examples/GetModel_Custom.json"
+          "GetDocumentModel_Custom": {
+            "$ref": "./examples/GetDocumentModel_Custom.json"
           }
         }
       },
       "delete": {
-        "summary": "Delete model",
-        "description": "Deletes model.",
-        "operationId": "DeleteModel",
+        "summary": "Delete document model",
+        "description": "Deletes document model.",
+        "operationId": "DeleteDocumentModel",
         "tags": ["Management"],
         "consumes": [],
         "produces": ["application/json"],
         "parameters": [
           {
-            "$ref": "#/parameters/PathModelId"
+            "$ref": "#/parameters/PathDocumentModelId"
           },
           {
             "$ref": "#/parameters/QueryApiVersion"
@@ -494,7 +495,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Deleting model."
+            "description": "Deleting document model."
           },
           "default": {
             "description": "Error encountered.",
@@ -504,17 +505,17 @@
           }
         },
         "x-ms-examples": {
-          "DeleteModel": {
-            "$ref": "./examples/DeleteModel.json"
+          "DeleteDocumentModel": {
+            "$ref": "./examples/DeleteDocumentModel.json"
           }
         }
       }
     },
     "/info": {
       "get": {
-        "summary": "Get info",
-        "description": "Return basic info about the current resource.",
-        "operationId": "GetInfo",
+        "summary": "Get resource info",
+        "description": "Return information about the current resource.",
+        "operationId": "GetResourceDetails",
         "tags": ["Management"],
         "consumes": [],
         "produces": ["application/json"],
@@ -527,7 +528,7 @@
           "200": {
             "description": "OK.",
             "schema": {
-              "$ref": "#/definitions/GetInfoResponse"
+              "$ref": "#/definitions/ResourceDetails"
             }
           },
           "default": {
@@ -538,8 +539,8 @@
           }
         },
         "x-ms-examples": {
-          "GetInfo": {
-            "$ref": "./examples/GetInfo.json"
+          "GetResourceDetails": {
+            "$ref": "./examples/GetResourceDetails.json"
           }
         }
       }
@@ -561,15 +562,15 @@
       }
     },
     "BuildDocumentModelRequest": {
-      "description": "Request body to build a new custom model.",
+      "description": "Request body to build a new custom document model.",
       "type": "object",
       "required": ["modelId", "buildMode"],
       "properties": {
         "modelId": {
-          "$ref": "#/definitions/ModelId"
+          "$ref": "#/definitions/DocumentModelId"
         },
         "description": {
-          "$ref": "#/definitions/ModelDescription"
+          "$ref": "#/definitions/DocumentModelDescription"
         },
         "buildMode": {
           "$ref": "#/definitions/DocumentBuildMode"
@@ -579,7 +580,7 @@
           "$ref": "#/definitions/AzureBlobContentSource"
         },
         "tags": {
-          "description": "List of key-value tag attributes associated with the model.",
+          "description": "List of key-value tag attributes associated with the document model.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
@@ -588,26 +589,26 @@
       }
     },
     "ComposeDocumentModelRequest": {
-      "description": "Request body to create a composed model from component models.",
+      "description": "Request body to create a composed document model from component document models.",
       "type": "object",
       "required": ["modelId", "componentModels"],
       "properties": {
         "modelId": {
-          "$ref": "#/definitions/ModelId"
+          "$ref": "#/definitions/DocumentModelId"
         },
         "description": {
-          "$ref": "#/definitions/ModelDescription"
+          "$ref": "#/definitions/DocumentModelDescription"
         },
         "componentModels": {
-          "description": "List of component models to compose.",
+          "description": "List of component document models to compose.",
           "type": "array",
           "uniqueItems": true,
           "items": {
-            "$ref": "#/definitions/ComponentModelInfo"
+            "$ref": "#/definitions/ComponentDocumentModelDetails"
           }
         },
         "tags": {
-          "description": "List of key-value tag attributes associated with the model.",
+          "description": "List of key-value tag attributes associated with the document model.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
@@ -615,29 +616,29 @@
         }
       }
     },
-    "ComponentModelInfo": {
-      "description": "A component of a composed model.",
+    "ComponentDocumentModelDetails": {
+      "description": "A component of a composed document model.",
       "type": "object",
       "required": ["modelId"],
       "properties": {
         "modelId": {
-          "$ref": "#/definitions/ModelId"
+          "$ref": "#/definitions/DocumentModelId"
         }
       }
     },
     "AuthorizeCopyRequest": {
-      "description": "Request body to authorize model copy.",
+      "description": "Request body to authorize document model copy.",
       "type": "object",
       "required": ["modelId"],
       "properties": {
         "modelId": {
-          "$ref": "#/definitions/ModelId"
+          "$ref": "#/definitions/DocumentModelId"
         },
         "description": {
-          "$ref": "#/definitions/ModelDescription"
+          "$ref": "#/definitions/DocumentModelDescription"
         },
         "tags": {
-          "description": "List of key-value tag attributes associated with the model.",
+          "description": "List of key-value tag attributes associated with the document model.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
@@ -654,7 +655,7 @@
           "description": "List of operations.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/OperationInfo"
+            "$ref": "#/definitions/OperationSummary"
           }
         },
         "nextLink": {
@@ -663,65 +664,167 @@
         }
       }
     },
-    "GetOperationResponse": {
+    "OperationDetails": {
       "description": "Get Operation response object.",
       "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/OperationInfo"
-        }
+      "discriminator": "kind",
+      "required": [
+        "operationId",
+        "status",
+        "createdDateTime",
+        "lastUpdatedDateTime",
+        "kind",
+        "resourceLocation"
       ],
       "properties": {
+        "operationId": {
+          "description": "Operation ID",
+          "type": "string"
+        },
+        "status": {
+          "description": "Operation status.",
+          "type": "string",
+          "enum": ["notStarted", "running", "failed", "succeeded", "canceled"],
+          "x-ms-enum": {
+            "name": "OperationStatus",
+            "modelAsString": false
+          }
+        },
+        "percentCompleted": {
+          "description": "Operation progress (0-100).",
+          "type": "integer",
+          "format": "int32",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "createdDateTime": {
+          "description": "Date and time (UTC) when the operation was created.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastUpdatedDateTime": {
+          "description": "Date and time (UTC) when the status was last updated.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "kind": {
+          "description": "Type of operation.",
+          "type": "string",
+          "enum": ["documentModelBuild", "documentModelCompose", "documentModelCopyTo"],
+          "x-ms-enum": {
+            "name": "OperationKind",
+            "modelAsString": true
+          }
+        },
+        "resourceLocation": {
+          "description": "URL of the resource targeted by this operation.",
+          "type": "string"
+        },
+        "apiVersion": {
+          "description": "API version used to create this operation.",
+          "type": "string"
+        },
+        "tags": {
+          "description": "List of key-value tag attributes associated with the document model.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "error": {
           "description": "Encountered error.",
           "$ref": "#/definitions/Error"
-        },
-        "result": {
-          "description": "Operation result upon success.",
-          "type": "object"
         }
       }
     },
-    "GetModelsResponse": {
-      "description": "List Models response object.",
+    "DocumentModelBuildOperationDetails": {
+      "description": "Get Operation response object.",
+      "x-ms-discriminator-value": "documentModelBuild",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/OperationDetails"
+        }
+      ],
+      "properties": {
+        "result": {
+          "description": "Operation result upon success.",
+          "$ref": "#/definitions/DocumentModelDetails"
+        }
+      }
+    },
+    "DocumentModelComposeOperationDetails": {
+      "description": "Get Operation response object.",
+      "x-ms-discriminator-value": "documentModelCompose",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/OperationDetails"
+        }
+      ],
+      "properties": {
+        "result": {
+          "description": "Operation result upon success.",
+          "$ref": "#/definitions/DocumentModelDetails"
+        }
+      }
+    },
+    "DocumentModelCopyToOperationDetails": {
+      "description": "Get Operation response object.",
+      "x-ms-discriminator-value": "documentModelCopyTo",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/OperationDetails"
+        }
+      ],
+      "properties": {
+        "result": {
+          "description": "Operation result upon success.",
+          "$ref": "#/definitions/DocumentModelDetails"
+        }
+      }
+    },
+    "GetDocumentModelsResponse": {
+      "description": "List document models response object.",
       "type": "object",
       "required": ["value"],
       "properties": {
         "value": {
-          "description": "List of models.",
+          "description": "List of document models.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ModelSummary"
+            "$ref": "#/definitions/DocumentModelSummary"
           }
         },
         "nextLink": {
-          "description": "Link to the next page of models.",
+          "description": "Link to the next page of document models.",
           "type": "string"
         }
       }
     },
-    "GetInfoResponse": {
+    "ResourceDetails": {
       "description": "General information regarding the current resource.",
       "type": "object",
       "required": ["customDocumentModels"],
       "properties": {
         "customDocumentModels": {
-          "$ref": "#/definitions/CustomDocumentModelsInfo"
+          "$ref": "#/definitions/CustomDocumentModelsDetails"
         }
       }
     },
-    "CustomDocumentModelsInfo": {
-      "description": "Info regarding custom document models.",
+    "CustomDocumentModelsDetails": {
+      "description": "Details regarding custom document models.",
       "type": "object",
       "required": ["count", "limit"],
       "properties": {
         "count": {
-          "description": "Number of custom models in the current resource.",
+          "description": "Number of custom document models in the current resource.",
           "type": "integer",
           "format": "int32"
         },
         "limit": {
-          "description": "Maximum number of custom models supported in the current resource.",
+          "description": "Maximum number of custom document models supported in the current resource.",
           "type": "integer",
           "format": "int32"
         }
@@ -730,7 +833,7 @@
     "ApiVersion": {
       "description": "API version.",
       "type": "string",
-      "enum": ["2022-01-30-preview"],
+      "enum": ["2022-08-31"],
       "x-ms-enum": {
         "name": "ApiVersion",
         "modelAsString": true
@@ -820,7 +923,7 @@
       }
     },
     "CopyAuthorization": {
-      "description": "Authorization to copy a model to the specified target resource and modelId.",
+      "description": "Authorization to copy a document model to the specified target resource and modelId.",
       "type": "object",
       "required": [
         "targetResourceId",
@@ -832,20 +935,20 @@
       ],
       "properties": {
         "targetResourceId": {
-          "description": "ID of the target Azure resource where the model should be copied to.",
+          "description": "ID of the target Azure resource where the document model should be copied to.",
           "type": "string",
           "x-ms-azure-resource": true
         },
         "targetResourceRegion": {
-          "description": "Location of the target Azure resource where the model should be copied to.",
+          "description": "Location of the target Azure resource where the document model should be copied to.",
           "type": "string"
         },
         "targetModelId": {
-          "description": "Identifier of the target model.",
-          "$ref": "#/definitions/ModelId"
+          "description": "Identifier of the target document model.",
+          "$ref": "#/definitions/DocumentModelId"
         },
         "targetModelLocation": {
-          "description": "URL of the copied model in the target account.",
+          "description": "URL of the copied document model in the target account.",
           "type": "string"
         },
         "accessToken": {
@@ -859,7 +962,7 @@
         }
       }
     },
-    "OperationInfo": {
+    "OperationSummary": {
       "description": "Operation info.",
       "type": "object",
       "required": [
@@ -919,7 +1022,7 @@
           "type": "string"
         },
         "tags": {
-          "description": "List of key-value tag attributes associated with the model.",
+          "description": "List of key-value tag attributes associated with the document model.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
@@ -927,28 +1030,28 @@
         }
       }
     },
-    "ModelSummary": {
-      "description": "Model summary.",
+    "DocumentModelSummary": {
+      "description": "Document model summary.",
       "type": "object",
       "required": ["modelId", "createdDateTime"],
       "properties": {
         "modelId": {
-          "$ref": "#/definitions/ModelId"
+          "$ref": "#/definitions/DocumentModelId"
         },
         "description": {
-          "$ref": "#/definitions/ModelDescription"
+          "$ref": "#/definitions/DocumentModelDescription"
         },
         "createdDateTime": {
-          "description": "Date and time (UTC) when the model was created.",
+          "description": "Date and time (UTC) when the document model was created.",
           "type": "string",
           "format": "date-time"
         },
         "apiVersion": {
-          "description": "API version used to create this model.",
+          "description": "API version used to create this document model.",
           "type": "string"
         },
         "tags": {
-          "description": "List of key-value tag attributes associated with the model.",
+          "description": "List of key-value tag attributes associated with the document model.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
@@ -956,31 +1059,49 @@
         }
       }
     },
-    "ModelInfo": {
-      "description": "Model info.",
+    "DocumentModelDetails": {
+      "description": "Document model info.",
       "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/ModelSummary"
-        }
-      ],
+      "required": ["modelId", "createdDateTime"],
       "properties": {
+        "modelId": {
+          "$ref": "#/definitions/DocumentModelId"
+        },
+        "description": {
+          "$ref": "#/definitions/DocumentModelDescription"
+        },
+        "createdDateTime": {
+          "description": "Date and time (UTC) when the document model was created.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "apiVersion": {
+          "description": "API version used to create this document model.",
+          "type": "string"
+        },
+        "tags": {
+          "description": "List of key-value tag attributes associated with the document model.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "docTypes": {
           "description": "Supported document types.",
           "type": "object",
           "additionalProperties": {
-            "$ref": "#/definitions/DocTypeInfo"
+            "$ref": "#/definitions/DocumentTypeDetails"
           }
         }
       }
     },
-    "DocTypeInfo": {
+    "DocumentTypeDetails": {
       "description": "Document type info.",
       "type": "object",
       "required": ["fieldSchema"],
       "properties": {
         "description": {
-          "$ref": "#/definitions/ModelDescription"
+          "$ref": "#/definitions/DocumentModelDescription"
         },
         "buildMode": {
           "$ref": "#/definitions/DocumentBuildMode"
@@ -1078,8 +1199,8 @@
           "$ref": "#/definitions/ApiVersion"
         },
         "modelId": {
-          "description": "Model ID used to produce this result.",
-          "$ref": "#/definitions/ModelId"
+          "description": "Document model ID used to produce this result.",
+          "$ref": "#/definitions/DocumentModelId"
         },
         "stringIndexType": {
           "description": "Method used to compute string offset and length.",
@@ -1096,6 +1217,13 @@
             "$ref": "#/definitions/DocumentPage"
           }
         },
+        "paragraphs": {
+          "description": "Extracted paragraphs.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DocumentParagraph"
+          }
+        },
         "tables": {
           "description": "Extracted tables.",
           "type": "array",
@@ -1108,13 +1236,6 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/DocumentKeyValuePair"
-          }
-        },
-        "entities": {
-          "description": "Extracted entities.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DocumentEntity"
           }
         },
         "styles": {
@@ -1143,7 +1264,7 @@
     "DocumentPage": {
       "description": "Content and layout elements extracted from a page from the input.",
       "type": "object",
-      "required": ["pageNumber", "angle", "width", "height", "unit", "words", "lines", "spans"],
+      "required": ["pageNumber", "spans"],
       "properties": {
         "pageNumber": {
           "description": "1-based page number in the input document.",
@@ -1169,7 +1290,7 @@
           "minimum": 0
         },
         "unit": {
-          "description": "The unit used by the width, height, and boundingBox properties. For images, the unit is \"pixel\". For PDF, the unit is \"inch\".",
+          "description": "The unit used by the width, height, and polygon properties. For images, the unit is \"pixel\". For PDF, the unit is \"inch\".",
           "type": "string",
           "enum": ["pixel", "inch"],
           "x-ms-enum": {
@@ -1216,9 +1337,9 @@
           "description": "Text content of the word.",
           "type": "string"
         },
-        "boundingBox": {
-          "description": "Bounding box of the word.",
-          "$ref": "#/definitions/BoundingBox"
+        "polygon": {
+          "description": "Bounding polygon of the word.",
+          "$ref": "#/definitions/BoundingPolygon"
         },
         "span": {
           "description": "Location of the word in the reading order concatenated content.",
@@ -1239,9 +1360,9 @@
           "description": "State of the selection mark.",
           "$ref": "#/definitions/DocumentSelectionMarkState"
         },
-        "boundingBox": {
-          "description": "Bounding box of the selection mark.",
-          "$ref": "#/definitions/BoundingBox"
+        "polygon": {
+          "description": "Bounding polygon of the selection mark.",
+          "$ref": "#/definitions/BoundingPolygon"
         },
         "span": {
           "description": "Location of the selection mark in the reading order concatenated content.",
@@ -1271,12 +1392,46 @@
           "description": "Concatenated content of the contained elements in reading order.",
           "type": "string"
         },
-        "boundingBox": {
-          "description": "Bounding box of the line.",
-          "$ref": "#/definitions/BoundingBox"
+        "polygon": {
+          "description": "Bounding polygon of the line.",
+          "$ref": "#/definitions/BoundingPolygon"
         },
         "spans": {
           "description": "Location of the line in the reading order concatenated content.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DocumentSpan"
+          }
+        }
+      }
+    },
+    "DocumentParagraph": {
+      "description": "A paragraph object consisting with contiguous lines generally with common alignment and spacing.",
+      "type": "object",
+      "required": ["content", "spans"],
+      "properties": {
+        "role": {
+          "description": "Semantic role of the paragraph.",
+          "type": "string",
+          "enum": ["pageHeader", "pageFooter", "pageNumber", "title", "sectionHeading", "footnote"],
+          "x-ms-enum": {
+            "name": "ParagraphRole",
+            "modelAsString": true
+          }
+        },
+        "content": {
+          "description": "Concatenated content of the paragraph in reading order.",
+          "type": "string"
+        },
+        "boundingRegions": {
+          "description": "Bounding regions covering the paragraph.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BoundingRegion"
+          }
+        },
+        "spans": {
+          "description": "Location of the paragraph in the reading order concatenated content.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/DocumentSpan"
@@ -1427,43 +1582,6 @@
         }
       }
     },
-    "DocumentEntity": {
-      "description": "An object representing various categories of entities.",
-      "type": "object",
-      "required": ["category", "content", "spans", "confidence"],
-      "properties": {
-        "category": {
-          "description": "Entity type.",
-          "type": "string"
-        },
-        "subCategory": {
-          "description": "Entity sub type.",
-          "type": "string"
-        },
-        "content": {
-          "description": "Entity content.",
-          "type": "string"
-        },
-        "boundingRegions": {
-          "description": "Bounding regions covering the entity.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/BoundingRegion"
-          }
-        },
-        "spans": {
-          "description": "Location of the entity in the reading order concatenated content.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DocumentSpan"
-          }
-        },
-        "confidence": {
-          "description": "Confidence of correctly extracting the entity.",
-          "$ref": "#/definitions/Confidence"
-        }
-      }
-    },
     "DocumentStyle": {
       "description": "An object representing observed text styles.",
       "type": "object",
@@ -1489,9 +1607,9 @@
     "DocumentLanguage": {
       "description": "An object representing the detected language for a given text span.",
       "type": "object",
-      "required": ["languageCode", "spans", "confidence"],
+      "required": ["locale", "spans", "confidence"],
       "properties": {
-        "languageCode": {
+        "locale": {
           "description": "Detected language.  Value may an ISO 639-1 language code (ex. \"en\", \"fr\") or BCP 47 language tag (ex. \"zh-Hans\").",
           "type": "string"
         },
@@ -1511,7 +1629,7 @@
     "Document": {
       "description": "An object describing the location and semantic content of a document.",
       "type": "object",
-      "required": ["docType", "fields", "spans", "confidence"],
+      "required": ["docType", "spans", "confidence"],
       "properties": {
         "docType": {
           "description": "Document type.",
@@ -1615,6 +1733,10 @@
           "description": "Currency value.",
           "$ref": "#/definitions/CurrencyValue"
         },
+        "valueAddress": {
+          "description": "Address value.",
+          "$ref": "#/definitions/AddressValue"
+        },
         "content": {
           "description": "Field content.",
           "type": "string"
@@ -1654,7 +1776,8 @@
         "signature",
         "array",
         "object",
-        "currency"
+        "currency",
+        "address"
       ],
       "x-ms-enum": {
         "name": "DocumentFieldType",
@@ -1677,18 +1800,56 @@
         }
       }
     },
-    "ModelId": {
-      "description": "Unique model name.",
+    "AddressValue": {
+      "description": "Address field value.",
+      "type": "object",
+      "properties": {
+        "houseNumber": {
+          "description": "House or building number.",
+          "type": "string"
+        },
+        "poBox": {
+          "description": "Post office box number.",
+          "type": "string"
+        },
+        "road": {
+          "description": "Street name.",
+          "type": "string"
+        },
+        "city": {
+          "description": "Name of city, town, village, etc.",
+          "type": "string"
+        },
+        "state": {
+          "description": "First-level administrative division.",
+          "type": "string"
+        },
+        "postalCode": {
+          "description": "Postal code used for mail sorting.",
+          "type": "string"
+        },
+        "countryRegion": {
+          "description": "Country/region.",
+          "type": "string"
+        },
+        "streetAddress": {
+          "description": "Street-level address, excluding city, state, countryRegion, and postalCode.",
+          "type": "string"
+        }
+      }
+    },
+    "DocumentModelId": {
+      "description": "Unique document model name.",
       "type": "string",
       "pattern": "[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}"
     },
-    "ModelDescription": {
-      "description": "Model description.",
+    "DocumentModelDescription": {
+      "description": "Document model description.",
       "type": "string",
       "maxLength": 4096
     },
     "DocumentBuildMode": {
-      "description": "Custom model build mode.",
+      "description": "Custom document model build mode.",
       "type": "string",
       "enum": ["template", "neural"],
       "x-ms-enum": {
@@ -1702,20 +1863,18 @@
       "minLength": 2,
       "maxLength": 64
     },
-    "BoundingBox": {
-      "description": "Quadrangle bounding box, with coordinates specified relative to the top-left of the page. The eight numbers represent the four points, clockwise from the top-left corner relative to the text orientation.",
+    "BoundingPolygon": {
+      "description": "Bounding polygon, with coordinates specified relative to the top-left of the page. The numbers represent the x, y values of the polygon vertices, clockwise from the left (-180 degrees inclusive) relative to the element orientation.",
       "type": "array",
-      "minItems": 8,
-      "maxItems": 8,
       "items": {
         "type": "number",
         "minimum": 0
       }
     },
     "BoundingRegion": {
-      "description": "Bounding box on a specific page of the input.",
+      "description": "Bounding polygon on a specific page of the input.",
       "type": "object",
-      "required": ["pageNumber", "boundingBox"],
+      "required": ["pageNumber", "polygon"],
       "properties": {
         "pageNumber": {
           "description": "1-based page number of page containing the bounding region.",
@@ -1723,9 +1882,9 @@
           "format": "int32",
           "minimum": 1
         },
-        "boundingBox": {
-          "description": "Bounding box on the page, or the entire page if not specified.",
-          "$ref": "#/definitions/BoundingBox"
+        "polygon": {
+          "description": "Bounding polygon on the page, or the entire page if not specified.",
+          "$ref": "#/definitions/BoundingPolygon"
         }
       }
     },
@@ -1781,16 +1940,16 @@
       "required": true,
       "type": "string",
       "in": "query",
-      "enum": ["2022-01-30-preview"],
+      "enum": ["2022-08-31"],
       "x-ms-enum": {
         "name": "ApiVersion",
         "modelAsString": true
       },
       "x-ms-parameter-location": "client"
     },
-    "PathModelId": {
+    "PathDocumentModelId": {
       "name": "modelId",
-      "description": "Unique model name.",
+      "description": "Unique document model name.",
       "required": true,
       "type": "string",
       "pattern": "[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}",

@@ -3,7 +3,7 @@
 
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { PerfTestBase } from "./perfTestBase";
-import { isDefined } from "./utils";
+import { isDefined } from "@azure/core-util";
 
 /**
  * Extends PerfTestBase, enables writing perf tests for the APIs that receive events as a stream
@@ -43,7 +43,7 @@ export abstract class EventPerfTest<
     this.abortController = abortController;
     try {
       await delay(this.testDuration, this.abortController.signal);
-    } catch (error) {
+    } catch (error: any) {
       console.warn(error);
     }
   }

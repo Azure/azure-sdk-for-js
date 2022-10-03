@@ -7,10 +7,10 @@ import {
   AddConfigurationSettingResponse,
   AppConfigurationClient,
   ConfigurationSetting,
+  SecretReferenceValue,
   isSecretReference,
   parseSecretReference,
   secretReferenceContentType,
-  SecretReferenceValue,
 } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";

@@ -194,11 +194,13 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
       { resourceGroupName, networkSecurityGroupName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -299,11 +301,13 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
       { resourceGroupName, networkSecurityGroupName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -473,7 +477,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters28,
+  requestBody: Parameters.parameters38,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

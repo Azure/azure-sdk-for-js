@@ -1,10 +1,48 @@
 # Release History
 
-## 13.1.0 (Unreleased)
+## 13.2.1 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 13.2.0 (2022-09-07)
+
+### Features Added
+
+- Add option to `transaction.updateEntity()` [#22562](https://github.com/Azure/azure-sdk-for-js/pull/22562). (A community contribution, courtesy of _[tmcgannon](https://github.com/tmcgannon))_
+  - Add overloads to `TableTransaction.updateEntity` so `undefined` doesn't need to be passed explicitly for an optional argument. [#23132](https://github.com/Azure/azure-sdk-for-js/pull/23132)
+
+### Bugs Fixed
+
+- Fix encoding for Date objects when filtering on a DateTime field [#23058](https://github.com/Azure/azure-sdk-for-js/pull/23058)
+
+## 13.1.2 (2022-06-07)
+
+### Features Added
+
+- Support cross tenant authentication [#21678](https://github.com/Azure/azure-sdk-for-js/pull/21678)
+
+### Bugs Fixed
+
+- fix react native bundling issue by adding a `react-native` mapping to ESM
+  entry point so that dependencies can be loaded asynchronously.
+
+### Other Changes
+
+- Export NamedKeyCredential [#20935](https://github.com/Azure/azure-sdk-for-js/pull/20935). (A community contribution, courtesy of _[dhensby](https://github.com/dhensby))_
+
+## 13.1.1 (2022-04-14)
+
+### Bugs Fixed
+
+- Fixed issue where `deleteTable()` doesn't throw any errors [21408](https://github.com/Azure/azure-sdk-for-js/pull/21408).
+
+## 13.1.0 (2022-04-07)
 
 ### Bugs Fixed
 

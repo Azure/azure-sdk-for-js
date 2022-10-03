@@ -4,11 +4,11 @@
 import { Test } from "mocha";
 
 import {
-  env,
   Recorder,
-  isPlaybackMode,
   RecorderStartOptions,
   assertEnvironmentVariable,
+  env,
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
 
 import { AzureKeyCredential, PollerOptions } from "../../src";

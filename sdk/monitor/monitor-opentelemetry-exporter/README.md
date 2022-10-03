@@ -28,8 +28,8 @@ Add the exporter to your existing OpenTelemetry tracer provider (`NodeTracerProv
 
 ```js
 const { AzureMonitorTraceExporter } = require("@azure/monitor-opentelemetry-exporter");
-const { NodeTracerProvider } = require("@opentelemetry/node");
-const { BatchSpanProcessor } = require("@opentelemetry/tracing");
+const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
+const { BatchSpanProcessor } = require("@opentelemetry/sdk-trace-base");
 
 // Use your existing provider
 const provider = new NodeTracerProvider({
@@ -59,7 +59,27 @@ provider.addSpanProcessor(
 
 ### Metrics
 
-Coming Soon
+Add the exporter to your existing OpenTelemetry tracer provider (`NodeTracerProvider` / `BasicTracerProvider`)
+
+```js
+const { MeterProvider, PeriodicExportingMetricReader } = require("@opentelemetry/sdk-metrics-base");
+const { Resource } = require("@opentelemetry/resources");
+const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions");
+const { AzureMonitorMetricExporter } = require("@azure/monitor-opentelemetry-exporter");
+
+// Add the exporter into the MetricReader and register it with the MeterProvider
+const provider = new MeterProvider();
+const exporter = new AzureMonitorMetricExporter({
+  connectionString:
+    process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
+});
+const metricReaderOptions = {
+  exporter: exporter,
+};
+const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
+provider.addMetricReader(metricReader);
+);
+```
 
 ### Logs
 

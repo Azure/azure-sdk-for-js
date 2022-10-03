@@ -63,7 +63,7 @@ describe("Blob Checkpoint Store", function (): void {
           }
         );
         throw new Error(TEST_FAILURE);
-      } catch (err) {
+      } catch (err: any) {
         should.equal(err.name, "AbortError");
         should.not.equal(err.message, TEST_FAILURE);
       }
@@ -87,7 +87,7 @@ describe("Blob Checkpoint Store", function (): void {
           }
         );
         throw new Error(TEST_FAILURE);
-      } catch (err) {
+      } catch (err: any) {
         should.equal(err.name, "AbortError");
         should.not.equal(err.message, TEST_FAILURE);
       }
@@ -129,7 +129,7 @@ describe("Blob Checkpoint Store", function (): void {
           }
         );
         throw new Error(TEST_FAILURE);
-      } catch (err) {
+      } catch (err: any) {
         should.equal(err.name, "AbortError");
         should.not.equal(err.message, TEST_FAILURE);
       }
@@ -159,7 +159,7 @@ describe("Blob Checkpoint Store", function (): void {
           }
         );
         throw new Error(TEST_FAILURE);
-      } catch (err) {
+      } catch (err: any) {
         should.equal(err.name, "AbortError");
         should.not.equal(err.message, TEST_FAILURE);
       }
@@ -222,7 +222,7 @@ describe("Blob Checkpoint Store", function (): void {
         },
       ]);
       fail("Should have thrown an error - this isn't a normal claim collision issue");
-    } catch (err) {
+    } catch (err: any) {
       should.equal(err instanceof RestError, true, "Error is unexpected type.");
       // 404 because the container is missing (since we deleted it up above)
       (err as RestError).statusCode!.should.equal(404);
@@ -435,7 +435,7 @@ describe("Blob Checkpoint Store", function (): void {
           }
         );
         throw new Error(TEST_FAILURE);
-      } catch (err) {
+      } catch (err: any) {
         should.equal(err.name, "AbortError");
         should.not.equal(err.message, TEST_FAILURE);
       }
@@ -459,7 +459,7 @@ describe("Blob Checkpoint Store", function (): void {
           }
         );
         throw new Error(TEST_FAILURE);
-      } catch (err) {
+      } catch (err: any) {
         should.equal(err.name, "AbortError");
         should.not.equal(err.message, TEST_FAILURE);
       }
@@ -597,7 +597,7 @@ describe("Blob Checkpoint Store", function (): void {
       try {
         await checkpointStore.updateCheckpoint(checkpoint);
         throw new Error("Test failure");
-      } catch (err) {
+      } catch (err: any) {
         err.message.should.not.equal("Test failure");
       }
     });
@@ -623,7 +623,7 @@ describe("Blob Checkpoint Store", function (): void {
       try {
         await checkpointStore.updateCheckpoint(checkpoint, { abortSignal: signal });
         throw new Error(TEST_FAILURE);
-      } catch (err) {
+      } catch (err: any) {
         should.equal(err.name, "AbortError");
         should.not.equal(err.message, TEST_FAILURE);
       }
@@ -650,7 +650,7 @@ describe("Blob Checkpoint Store", function (): void {
       try {
         await checkpointStore.updateCheckpoint(checkpoint, { abortSignal: signal });
         throw new Error(TEST_FAILURE);
-      } catch (err) {
+      } catch (err: any) {
         should.equal(err.name, "AbortError");
         should.not.equal(err.message, TEST_FAILURE);
       }

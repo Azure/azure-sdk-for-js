@@ -93,7 +93,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let error;
     try {
       await queueServiceClientwithSAS.getProperties();
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
 
@@ -127,7 +127,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let error;
     try {
       await queueServiceClientwithSAS.getProperties();
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
 
@@ -164,7 +164,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let error;
     try {
       await queueServiceClientwithSAS.getProperties();
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
 

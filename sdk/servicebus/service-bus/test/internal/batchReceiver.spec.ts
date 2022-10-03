@@ -350,25 +350,25 @@ describe("Batching Receiver", () => {
       try {
         await receiver.completeMessage(peekedMsg);
         assert.fail("completeMessage should have failed");
-      } catch (error) {
+      } catch (error: any) {
         should.equal(error.message, expectedErrorMsg);
       }
       try {
         await receiver.abandonMessage(peekedMsg);
         assert.fail("abandonMessage should have failed");
-      } catch (error) {
+      } catch (error: any) {
         should.equal(error.message, expectedErrorMsg);
       }
       try {
         await receiver.deferMessage(peekedMsg);
         assert.fail("deferMessage should have failed");
-      } catch (error) {
+      } catch (error: any) {
         should.equal(error.message, expectedErrorMsg);
       }
       try {
         await receiver.deadLetterMessage(peekedMsg);
         assert.fail("deadLetterMessage should have failed");
-      } catch (error) {
+      } catch (error: any) {
         should.equal(error.message, expectedErrorMsg);
       }
 
@@ -793,7 +793,7 @@ describe("Batching Receiver", () => {
             abortSignal: controller.signal,
           });
           throw new Error(`Test failure`);
-        } catch (err) {
+        } catch (err: any) {
           err.message.should.equal(StandardAbortMessage);
         }
       }
@@ -810,7 +810,7 @@ describe("Batching Receiver", () => {
             abortSignal: controller.signal,
           });
           throw new Error(`Test failure`);
-        } catch (err) {
+        } catch (err: any) {
           err.message.should.equal(StandardAbortMessage);
         }
       }
@@ -973,7 +973,7 @@ describe("Batching Receiver", () => {
         try {
           await receiver.receiveMessages(10);
           throw new Error(testFailureMessage);
-        } catch (err) {
+        } catch (err: any) {
           assert.deepNestedInclude(err, {
             name: "Error",
             message: "Test: fake connection failure",
@@ -1057,7 +1057,7 @@ describe("Batching Receiver", () => {
           const msgs = await receiver.receiveMessages(10, { maxWaitTimeInMs: 10000 });
           console.log(msgs.length);
           throw new Error(testFailureMessage);
-        } catch (err) {
+        } catch (err: any) {
           if (err.message) {
             err.message.should.not.equal(testFailureMessage);
           }
@@ -1145,7 +1145,7 @@ describe("Batching Receiver", () => {
         try {
           await sessionReceiver.receiveMessages(1);
           assert.fail("receiveMessages should have failed");
-        } catch (error) {
+        } catch (error: any) {
           should.equal(
             error.message,
             `The session lock has expired on the session with id ${message.sessionId}`
@@ -1194,7 +1194,7 @@ describe("Batching Receiver", () => {
           // New receiveMessages should fail because the session lock would be lost due to the disconnection
           await sessionReceiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
           assert.fail("Receive messages call should have failed since the lock was lost");
-        } catch (error) {
+        } catch (error: any) {
           should.equal(
             error.message,
             `The session lock has expired on the session with id ${TestMessage.sessionId}`,
@@ -1244,7 +1244,7 @@ describe("Batching Receiver", () => {
         try {
           await sessionReceiver.receiveMessages(10);
           throw new Error(testFailureMessage);
-        } catch (err) {
+        } catch (err: any) {
           assert.deepNestedInclude(err, {
             name: "Error",
             message: "Test: fake connection failure",
@@ -1299,7 +1299,7 @@ describe("Batching Receiver", () => {
           // New receiveMessages should fail because the session lock would be lost due to the disconnection
           await sessionReceiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
           assert.fail("Receive messages call should have failed since the lock was lost");
-        } catch (error) {
+        } catch (error: any) {
           should.equal(
             error.message,
             `The session lock has expired on the session with id ${TestMessage.sessionId}`,
@@ -1355,7 +1355,7 @@ describe("Batching Receiver", () => {
         try {
           await sessionReceiver.receiveMessages(10);
           throw new Error(testFailureMessage);
-        } catch (err) {
+        } catch (err: any) {
           assert.deepNestedInclude(err, {
             name: "ServiceBusError",
             code: "SessionLockLost",

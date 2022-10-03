@@ -71,45 +71,52 @@ export interface ErrorResponse {
 }
 
 // @public
-type Image_2 = ProxyResource & {
-    readonly systemData?: SystemData;
-    enabledState?: EnableState;
-    readonly provisioningState?: ProvisioningState;
-    readonly displayName?: string;
-    readonly description?: string;
-    readonly iconUrl?: string;
+export interface Identity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type?: "SystemAssigned";
+}
+
+// @public
+interface Image_2 extends ProxyResource {
     readonly author?: string;
+    availableRegions?: string[];
+    readonly description?: string;
+    readonly displayName?: string;
+    enabledState?: EnableState;
+    readonly iconUrl?: string;
+    readonly offer?: string;
+    readonly osState?: OsState;
     readonly osType?: OsType;
     readonly plan?: string;
-    readonly termsStatus?: EnableState;
-    readonly offer?: string;
+    readonly provisioningState?: ProvisioningState;
     readonly publisher?: string;
-    readonly sku?: string;
-    readonly version?: string;
     readonly sharedGalleryId?: string;
-    availableRegions?: string[];
-    readonly osState?: OsState;
-};
+    readonly sku?: string;
+    readonly systemData?: SystemData;
+    readonly termsStatus?: EnableState;
+    readonly version?: string;
+}
 export { Image_2 as Image }
 
 // @public
-export type ImageProperties = ImageUpdateProperties & {
-    readonly provisioningState?: ProvisioningState;
-    readonly displayName?: string;
-    readonly description?: string;
-    readonly iconUrl?: string;
+export interface ImageProperties extends ImageUpdateProperties {
     readonly author?: string;
+    availableRegions?: string[];
+    readonly description?: string;
+    readonly displayName?: string;
+    readonly iconUrl?: string;
+    readonly offer?: string;
+    readonly osState?: OsState;
     readonly osType?: OsType;
     readonly plan?: string;
-    readonly termsStatus?: EnableState;
-    readonly offer?: string;
+    readonly provisioningState?: ProvisioningState;
     readonly publisher?: string;
-    readonly sku?: string;
-    readonly version?: string;
     readonly sharedGalleryId?: string;
-    availableRegions?: string[];
-    readonly osState?: OsState;
-};
+    readonly sku?: string;
+    readonly termsStatus?: EnableState;
+    readonly version?: string;
+}
 
 // @public
 export interface ImageReference {
@@ -186,51 +193,38 @@ export interface InviteBody {
 
 // @public
 export enum KnownActionType {
-    // (undocumented)
     Internal = "Internal"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownLabServicesSkuTier {
-    // (undocumented)
     Premium = "Premium",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownOrigin {
-    // (undocumented)
     System = "system",
-    // (undocumented)
     User = "user",
-    // (undocumented)
     UserSystem = "user,system"
 }
 
 // @public
 export enum KnownRestrictionReasonCode {
-    // (undocumented)
     NotAvailableForSubscription = "NotAvailableForSubscription",
-    // (undocumented)
     QuotaId = "QuotaId"
 }
 
 // @public
 export enum KnownRestrictionType {
-    // (undocumented)
     Location = "Location"
 }
 
@@ -243,25 +237,24 @@ export enum KnownScaleType {
 
 // @public
 export enum KnownUsageUnit {
-    // (undocumented)
     Count = "Count"
 }
 
 // @public
-export type Lab = TrackedResource & {
-    readonly systemData?: SystemData;
+export interface Lab extends TrackedResource {
     autoShutdownProfile?: AutoShutdownProfile;
     connectionProfile?: ConnectionProfile;
-    virtualMachineProfile?: VirtualMachineProfile;
-    securityProfile?: SecurityProfile;
-    rosterProfile?: RosterProfile;
-    labPlanId?: string;
-    title?: string;
     description?: string;
-    readonly provisioningState?: ProvisioningState;
+    labPlanId?: string;
     networkProfile?: LabNetworkProfile;
+    readonly provisioningState?: ProvisioningState;
+    rosterProfile?: RosterProfile;
+    securityProfile?: SecurityProfile;
     readonly state?: LabState;
-};
+    readonly systemData?: SystemData;
+    title?: string;
+    virtualMachineProfile?: VirtualMachineProfile;
+}
 
 // @public
 export interface LabNetworkProfile {
@@ -271,17 +264,18 @@ export interface LabNetworkProfile {
 }
 
 // @public
-export type LabPlan = TrackedResource & {
-    readonly systemData?: SystemData;
-    defaultConnectionProfile?: ConnectionProfile;
-    defaultAutoShutdownProfile?: AutoShutdownProfile;
-    defaultNetworkProfile?: LabPlanNetworkProfile;
+export interface LabPlan extends TrackedResource {
     allowedRegions?: string[];
-    sharedGalleryId?: string;
-    supportInfo?: SupportInfo;
+    defaultAutoShutdownProfile?: AutoShutdownProfile;
+    defaultConnectionProfile?: ConnectionProfile;
+    defaultNetworkProfile?: LabPlanNetworkProfile;
+    identity?: Identity;
     linkedLmsInstance?: string;
     readonly provisioningState?: ProvisioningState;
-};
+    sharedGalleryId?: string;
+    supportInfo?: SupportInfo;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface LabPlanNetworkProfile {
@@ -289,9 +283,9 @@ export interface LabPlanNetworkProfile {
 }
 
 // @public
-export type LabPlanProperties = LabPlanUpdateProperties & {
+export interface LabPlanProperties extends LabPlanUpdateProperties {
     readonly provisioningState?: ProvisioningState;
-};
+}
 
 // @public
 export interface LabPlans {
@@ -376,15 +370,16 @@ export interface LabPlansUpdateOptionalParams extends coreClient.OperationOption
 export type LabPlansUpdateResponse = LabPlan;
 
 // @public
-export type LabPlanUpdate = TrackedResourceUpdate & {
-    defaultConnectionProfile?: ConnectionProfile;
-    defaultAutoShutdownProfile?: AutoShutdownProfile;
-    defaultNetworkProfile?: LabPlanNetworkProfile;
+export interface LabPlanUpdate extends TrackedResourceUpdate {
     allowedRegions?: string[];
+    defaultAutoShutdownProfile?: AutoShutdownProfile;
+    defaultConnectionProfile?: ConnectionProfile;
+    defaultNetworkProfile?: LabPlanNetworkProfile;
+    identity?: Identity;
+    linkedLmsInstance?: string;
     sharedGalleryId?: string;
     supportInfo?: SupportInfo;
-    linkedLmsInstance?: string;
-};
+}
 
 // @public
 export interface LabPlanUpdateProperties {
@@ -398,11 +393,11 @@ export interface LabPlanUpdateProperties {
 }
 
 // @public
-export type LabProperties = LabUpdateProperties & {
-    readonly provisioningState?: ProvisioningState;
+export interface LabProperties extends LabUpdateProperties {
     networkProfile?: LabNetworkProfile;
+    readonly provisioningState?: ProvisioningState;
     readonly state?: LabState;
-};
+}
 
 // @public
 export interface Labs {
@@ -581,16 +576,16 @@ export interface LabsUpdateOptionalParams extends coreClient.OperationOptions {
 export type LabsUpdateResponse = Lab;
 
 // @public
-export type LabUpdate = TrackedResourceUpdate & {
+export interface LabUpdate extends TrackedResourceUpdate {
     autoShutdownProfile?: AutoShutdownProfile;
     connectionProfile?: ConnectionProfile;
-    virtualMachineProfile?: VirtualMachineProfile;
-    securityProfile?: SecurityProfile;
-    rosterProfile?: RosterProfile;
-    labPlanId?: string;
-    title?: string;
     description?: string;
-};
+    labPlanId?: string;
+    rosterProfile?: RosterProfile;
+    securityProfile?: SecurityProfile;
+    title?: string;
+    virtualMachineProfile?: VirtualMachineProfile;
+}
 
 // @public
 export interface LabUpdateProperties {
@@ -607,7 +602,7 @@ export interface LabUpdateProperties {
 // @public
 export interface ListUsagesResult {
     readonly nextLink?: string;
-    readonly value?: Usage[];
+    value?: Usage[];
 }
 
 // @public
@@ -733,7 +728,8 @@ export interface PagedVirtualMachines {
 export type ProvisioningState = "Creating" | "Updating" | "Deleting" | "Succeeded" | "Failed" | "Locked";
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type RecurrenceFrequency = "Daily" | "Weekly";
@@ -787,20 +783,20 @@ export interface SaveImageBody {
 export type ScaleType = string;
 
 // @public
-export type Schedule = ProxyResource & {
-    readonly systemData?: SystemData;
-    startAt?: Date;
-    stopAt?: Date;
-    recurrencePattern?: RecurrencePattern;
-    timeZoneId?: string;
+export interface Schedule extends ProxyResource {
     notes?: string;
     readonly provisioningState?: ProvisioningState;
-};
+    recurrencePattern?: RecurrencePattern;
+    startAt?: Date;
+    stopAt?: Date;
+    readonly systemData?: SystemData;
+    timeZoneId?: string;
+}
 
 // @public
-export type ScheduleProperties = ScheduleUpdateProperties & {
+export interface ScheduleProperties extends ScheduleUpdateProperties {
     readonly provisioningState?: ProvisioningState;
-};
+}
 
 // @public
 export interface Schedules {
@@ -934,12 +930,12 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface TrackedResourceUpdate {
@@ -958,6 +954,7 @@ export interface Usage {
 // @public
 export interface UsageName {
     localizedValue?: string;
+    skuInstances?: string[];
     value?: string;
 }
 
@@ -986,28 +983,28 @@ export type UsagesListByLocationResponse = ListUsagesResult;
 export type UsageUnit = string;
 
 // @public
-export type User = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface User extends ProxyResource {
     additionalUsageQuota?: string;
-    readonly provisioningState?: ProvisioningState;
     readonly displayName?: string;
     email: string;
-    readonly registrationState?: RegistrationState;
-    readonly invitationState?: InvitationState;
     readonly invitationSent?: Date;
+    readonly invitationState?: InvitationState;
+    readonly provisioningState?: ProvisioningState;
+    readonly registrationState?: RegistrationState;
+    readonly systemData?: SystemData;
     readonly totalUsage?: string;
-};
+}
 
 // @public
-export type UserProperties = UserUpdateProperties & {
-    readonly provisioningState?: ProvisioningState;
+export interface UserProperties extends UserUpdateProperties {
     readonly displayName?: string;
     email: string;
-    readonly registrationState?: RegistrationState;
-    readonly invitationState?: InvitationState;
     readonly invitationSent?: Date;
+    readonly invitationState?: InvitationState;
+    readonly provisioningState?: ProvisioningState;
+    readonly registrationState?: RegistrationState;
     readonly totalUsage?: string;
-};
+}
 
 // @public
 export interface Users {
@@ -1087,14 +1084,14 @@ export interface UserUpdateProperties {
 }
 
 // @public
-export type VirtualMachine = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface VirtualMachine extends ProxyResource {
+    readonly claimedByUserId?: string;
+    readonly connectionProfile?: VirtualMachineConnectionProfile;
     readonly provisioningState?: ProvisioningState;
     readonly state?: VirtualMachineState;
-    readonly connectionProfile?: VirtualMachineConnectionProfile;
-    readonly claimedByUserId?: string;
+    readonly systemData?: SystemData;
     readonly vmType?: VirtualMachineType;
-};
+}
 
 // @public
 export interface VirtualMachineAdditionalCapabilities {

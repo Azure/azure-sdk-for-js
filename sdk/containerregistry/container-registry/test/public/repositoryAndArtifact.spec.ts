@@ -192,7 +192,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       try {
         await artifact.getTagProperties("test-delete");
         assert.fail("Expecting an error but didn't get one.");
-      } catch (err) {
+      } catch (err: any) {
         assert.isTrue((err as RestError).message.includes("TAG_UNKNOWN"));
       }
     });

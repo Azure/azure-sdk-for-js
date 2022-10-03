@@ -73,7 +73,7 @@ describe("DisableResponseDecompressionPolicy (browser)", function () {
           }
         );
         throw new Error("Error should have been thrown already.");
-      } catch (err) {
+      } catch (err: any) {
         err.should.be.an("Error");
         (err as Error).message.should.equal(
           "DisableResponseDecompressionPolicy is not supported in browser environment"

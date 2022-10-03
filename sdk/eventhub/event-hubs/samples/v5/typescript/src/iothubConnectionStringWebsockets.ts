@@ -100,14 +100,14 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
     webSocketOptions: {
       webSocket: WebSocket,
       protocol: ["AMQPWSB10"],
-      url: `wss://${HostName}:${443}/$servicebus/websocket`
-    }
+      url: `wss://${HostName}:${443}/$servicebus/websocket`,
+    },
   });
   await connection.open();
 
   // Create the receiver that will trigger a redirect error.
   const receiver = await connection.createReceiver({
-    source: { address: `amqps://${HostName}/messages/events/$management` }
+    source: { address: `amqps://${HostName}/messages/events/$management` },
   });
 
   return new Promise((resolve, reject) => {
@@ -153,7 +153,7 @@ export async function main() {
       },
       processError: async (err, context) => {
         console.log(`Error on partition "${context.partitionId}" : ${err}`);
-      }
+      },
     },
     { startPosition: earliestEventPosition }
   );

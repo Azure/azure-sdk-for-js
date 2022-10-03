@@ -13,7 +13,7 @@ import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 import { EventDataInternal } from "../../src/eventData";
 import { EventDataBatchImpl } from "../../src/eventDataBatch";
 
-// _enableIdempotentPartitions and _partitionOptions are private properties in
+// _enableIdempotentRetries and _partitionOptions are private properties in
 // EventHubProducerClient. They are intended to used internally by
 // EventHubBufferedProducerClient. Thus, this test is kept as an internal one,
 // where we would set these two properties via cast-to-any workaround.
@@ -83,9 +83,9 @@ testWithServiceTypes((serviceVersion, onVersions) => {
           }
         });
 
-        it("retrieves partition publishing properties (enableIdempotentPartitions)", async function () {
+        it("retrieves partition publishing properties (enableIdempotentRetries)", async function () {
           producerClient = new EventHubProducerClient(service.connectionString, service.path);
-          (producerClient as any)._enableIdempotentPartitions = true;
+          (producerClient as any)._enableIdempotentRetries = true;
 
           const partitionIds = await producerClient.getPartitionIds();
 
@@ -114,7 +114,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
           try {
             await (producerClient as any).getPartitionPublishingProperties(undefined as any);
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.name, "TypeError");
             should.equal(
               err.message,
@@ -128,30 +128,30 @@ testWithServiceTypes((serviceVersion, onVersions) => {
         describe("does not allow partitionKey to be set", function () {
           it("createBatch", async function () {
             producerClient = new EventHubProducerClient(service.connectionString, service.path);
-            (producerClient as any)._enableIdempotentPartitions = true;
+            (producerClient as any)._enableIdempotentRetries = true;
 
             try {
               await producerClient.createBatch({ partitionKey: "foo" });
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.equal(
                 err.message,
-                `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+                `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true.`
               );
             }
           });
 
           it("sendBatch", async function () {
             producerClient = new EventHubProducerClient(service.connectionString, service.path);
-            (producerClient as any)._enableIdempotentPartitions = true;
+            (producerClient as any)._enableIdempotentRetries = true;
 
             try {
               await producerClient.sendBatch([{ body: "test" }], { partitionKey: "foo" });
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.equal(
                 err.message,
-                `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+                `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true.`
               );
             }
           });
@@ -160,7 +160,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
         describe("only allows sending directly to partitions", function () {
           it("supports partitionId set by createBatch", async function () {
             producerClient = new EventHubProducerClient(service.connectionString, service.path);
-            (producerClient as any)._enableIdempotentPartitions = true;
+            (producerClient as any)._enableIdempotentRetries = true;
 
             // Setting partitionId on the batch to send.
             const batch = await producerClient.createBatch({ partitionId: "0" });
@@ -172,7 +172,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
 
           it("supports partitionId set by sendBatch", async function () {
             producerClient = new EventHubProducerClient(service.connectionString, service.path);
-            (producerClient as any)._enableIdempotentPartitions = true;
+            (producerClient as any)._enableIdempotentRetries = true;
 
             // Setting partitionId on the sendBatch call.
             await producerClient.sendBatch([{ body: "test" }], { partitionId: "0" });
@@ -180,32 +180,32 @@ testWithServiceTypes((serviceVersion, onVersions) => {
 
           it("throws an error if partitionId not set by createBatch", async function () {
             producerClient = new EventHubProducerClient(service.connectionString, service.path);
-            (producerClient as any)._enableIdempotentPartitions = true;
+            (producerClient as any)._enableIdempotentRetries = true;
 
             try {
               // Don't set partitionId, this should trigger the error.
               await producerClient.createBatch();
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.equal(
                 err.message,
-                `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+                `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true.`
               );
             }
           });
 
           it("throws an error if partitionId not set by sendBatch when passing EventData[]", async function () {
             producerClient = new EventHubProducerClient(service.connectionString, service.path);
-            (producerClient as any)._enableIdempotentPartitions = true;
+            (producerClient as any)._enableIdempotentRetries = true;
 
             try {
               // Don't set partitionId on the sendBatch call.
               await producerClient.sendBatch([{ body: "test" }]);
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.equal(
                 err.message,
-                `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+                `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true.`
               );
             }
           });
@@ -214,7 +214,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
         describe("concurrent sends", function () {
           it("are limited to one per partition", async function () {
             producerClient = new EventHubProducerClient(service.connectionString, service.path);
-            (producerClient as any)._enableIdempotentPartitions = true;
+            (producerClient as any)._enableIdempotentRetries = true;
 
             try {
               const batch1 = await producerClient.createBatch({ partitionId: "0" });
@@ -227,10 +227,10 @@ testWithServiceTypes((serviceVersion, onVersions) => {
                 producerClient.sendBatch([{ body: "two" }], { partitionId: "0" }),
               ]);
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.equal(
                 err.message,
-                `There can only be 1 "sendBatch" call in-flight per partition while "enableIdempotentPartitions" is set to true.`
+                `There can only be 1 "sendBatch" call in-flight per partition while "enableIdempotentRetries" is set to true.`
               );
             }
 
@@ -241,7 +241,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
 
           it("has no impact on serial sends", async function () {
             producerClient = new EventHubProducerClient(service.connectionString, service.path);
-            (producerClient as any)._enableIdempotentPartitions = true;
+            (producerClient as any)._enableIdempotentRetries = true;
 
             const batch1 = await producerClient.createBatch({ partitionId: "0" });
             batch1.tryAdd({ body: "one" });
@@ -252,7 +252,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
 
           it("are isolated per partition", async function () {
             producerClient = new EventHubProducerClient(service.connectionString, service.path);
-            (producerClient as any)._enableIdempotentPartitions = true;
+            (producerClient as any)._enableIdempotentRetries = true;
 
             await Promise.all([
               producerClient.sendBatch([{ body: "one" }], { partitionId: "0" }),
@@ -267,7 +267,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               service.connectionString,
               service.path
             );
-            (producerClient1 as any)._enableIdempotentPartitions = true;
+            (producerClient1 as any)._enableIdempotentRetries = true;
 
             // Send an item so we have some state to carry over to the next producerClient
             await producerClient1.sendBatch([{ body: "one" }], { partitionId: "0" });
@@ -280,7 +280,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               service.connectionString,
               service.path
             );
-            (producerClient2 as any)._enableIdempotentPartitions = true;
+            (producerClient2 as any)._enableIdempotentRetries = true;
             (producerClient2 as any)._partitionOptions = {
               "0": {
                 ownerLevel: partitionPublishingProps1.ownerLevel! + 1,
@@ -315,7 +315,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
 
           it("can use partial state", async function () {
             producerClient = new EventHubProducerClient(service.connectionString, service.path);
-            (producerClient as any)._enableIdempotentPartitions = true;
+            (producerClient as any)._enableIdempotentRetries = true;
             (producerClient as any)._partitionOptions = {
               "0": {
                 ownerLevel: 1,
@@ -343,7 +343,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               service.connectionString,
               service.path
             );
-            (producerClient1 as any)._enableIdempotentPartitions = true;
+            (producerClient1 as any)._enableIdempotentRetries = true;
 
             // Send an item so we have some state to carry over to the next producerClient
             await producerClient1.sendBatch([{ body: "one" }], { partitionId: "0" });
@@ -356,7 +356,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               service.connectionString,
               service.path
             );
-            (producerClient2 as any)._enableIdempotentPartitions = true;
+            (producerClient2 as any)._enableIdempotentRetries = true;
             (producerClient2 as any)._partitionOptions = {
               "0": {
                 ownerLevel: partitionPublishingProps1.ownerLevel! + 1,
@@ -372,7 +372,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               // Calling sendBatch with producerClient1 (lower ownerLevel) should fail.
               await producerClient1.sendBatch([{ body: "should fail" }], { partitionId: "0" });
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.equal(err.name, "MessagingError");
               should.equal(err.code, "ProducerDisconnectedError");
               should.not.equal(err.message, TEST_FAILURE);
@@ -382,7 +382,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
 
           it("fails with invalid state", async function () {
             producerClient = new EventHubProducerClient(service.connectionString, service.path);
-            (producerClient as any)._enableIdempotentPartitions = true;
+            (producerClient as any)._enableIdempotentRetries = true;
             (producerClient as any)._partitionOptions = {
               "0": {
                 ownerLevel: -1,
@@ -393,7 +393,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             try {
               await producerClient.sendBatch([{ body: "one" }], { partitionId: "0" });
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.equal(err.name, "MessagingError");
               should.equal(err.code, "ArgumentOutOfRangeError");
               should.not.equal(err.message, TEST_FAILURE);
@@ -405,7 +405,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               service.connectionString,
               service.path
             );
-            (producerClient1 as any)._enableIdempotentPartitions = true;
+            (producerClient1 as any)._enableIdempotentRetries = true;
 
             // Send an item so we have some state to carry over to the next producerClient
             await producerClient1.sendBatch(
@@ -431,7 +431,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               service.connectionString,
               service.path
             );
-            (producerClient2 as any)._enableIdempotentPartitions = true;
+            (producerClient2 as any)._enableIdempotentRetries = true;
             (producerClient2 as any)._partitionOptions = {
               "0": {
                 producerGroupId: partitionPublishingProps1.producerGroupId,
@@ -444,7 +444,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               // Calling sendBatch with producerClient1 (lower ownerLevel) should fail.
               await producerClient2.sendBatch([{ body: "six as two" }], { partitionId: "0" });
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.equal(err.name, "MessagingError");
               should.equal(err.code, "SequenceOutOfOrderError");
               should.not.equal(err.message, TEST_FAILURE);
@@ -461,7 +461,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               retryDelayInMs: 100,
             },
           });
-          (producerClient as any)._enableIdempotentPartitions = true;
+          (producerClient as any)._enableIdempotentRetries = true;
 
           const beforePublishingProps = await (
             producerClient as any
@@ -504,7 +504,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
         describe("sendBatch", function () {
           it("commits published sequence number on sent EventDataBatch", async function () {
             producerClient = new EventHubProducerClient(service.connectionString, service.path);
-            (producerClient as any)._enableIdempotentPartitions = true;
+            (producerClient as any)._enableIdempotentRetries = true;
 
             const batch = await producerClient.createBatch({ partitionId: "0" });
             batch.tryAdd({ body: 1 });
@@ -528,7 +528,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
 
           it("does not commit published sequence number on failed EventDataBatch send", async function () {
             producerClient = new EventHubProducerClient(service.connectionString, service.path);
-            (producerClient as any)._enableIdempotentPartitions = true;
+            (producerClient as any)._enableIdempotentRetries = true;
 
             const batch = await producerClient.createBatch({
               partitionId: "0",
@@ -553,7 +553,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             try {
               await producerClient.sendBatch(batch, { abortSignal: abortController.signal });
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.not.equal(err.message, TEST_FAILURE);
               should.not.exist(
                 (batch as EventDataBatchImpl).startingPublishedSequenceNumber,
@@ -564,7 +564,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
 
           it("commits published sequence number on sent EventData", async function () {
             producerClient = new EventHubProducerClient(service.connectionString, service.path);
-            (producerClient as any)._enableIdempotentPartitions = true;
+            (producerClient as any)._enableIdempotentRetries = true;
 
             const events: EventData[] = [{ body: 1 }, { body: 2 }];
             for (const event of events) {
@@ -596,7 +596,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
 
           it("does not commit published sequence number on failed EventData send", async function () {
             producerClient = new EventHubProducerClient(service.connectionString, service.path);
-            (producerClient as any)._enableIdempotentPartitions = true;
+            (producerClient as any)._enableIdempotentRetries = true;
 
             const events: EventData[] = [
               {
@@ -625,7 +625,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
                 abortSignal: abortController.signal,
               });
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.not.equal(err.message, TEST_FAILURE);
               for (const event of events) {
                 should.not.exist(
@@ -642,7 +642,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
 
           it("does not allow sending already published EventData", async function () {
             producerClient = new EventHubProducerClient(service.connectionString, service.path);
-            (producerClient as any)._enableIdempotentPartitions = true;
+            (producerClient as any)._enableIdempotentRetries = true;
 
             const events: EventData[] = [{ body: 1 }, { body: 2 }];
             // Send the events. Afterwards they should be considered 'published.'
@@ -651,7 +651,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             try {
               await producerClient.sendBatch(events, { partitionId: "0" });
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.equal(
                 err.message,
                 "1 or more of these events have already been successfully published. When idempotent publishing is enabled, events that were acknowledged by the Event Hubs service may not be published again."
@@ -661,7 +661,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
 
           it("does not allow sending already published EventDataBatch", async function () {
             producerClient = new EventHubProducerClient(service.connectionString, service.path);
-            (producerClient as any)._enableIdempotentPartitions = true;
+            (producerClient as any)._enableIdempotentRetries = true;
 
             const batch = await producerClient.createBatch({ partitionId: "0" });
             batch.tryAdd({ body: 1 });
@@ -672,7 +672,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             try {
               await producerClient.sendBatch(batch);
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.equal(
                 err.message,
                 "These events have already been successfully published. When idempotent publishing is enabled, events that were acknowledged by the Event Hubs service may not be published again."

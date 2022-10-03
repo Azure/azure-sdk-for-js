@@ -1,4 +1,24 @@
 # Release History
+
+## 3.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 3.0.0 (2022-04-25)
+    
+**Breaking Changes**
+
+  - Interface ServerForUpdate no longer has parameter dataEncryption
+  - Interface ServerForUpdate no longer has parameter identity
+  - Type Alias Server no longer has parameter identity
+  - Type Alias Server no longer has parameter dataEncryption
+    
     
 ## 2.0.0 (2022-03-07)
 

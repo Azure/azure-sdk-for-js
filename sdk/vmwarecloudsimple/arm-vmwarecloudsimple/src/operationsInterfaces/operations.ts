@@ -27,11 +27,13 @@ export interface Operations {
   /**
    * Return an async operation
    * @param regionId The region Id (westus, eastus)
+   * @param referer referer url
    * @param operationId operation id
    * @param options The options parameters.
    */
   get(
     regionId: string,
+    referer: string,
     operationId: string,
     options?: OperationsGetOptionalParams
   ): Promise<OperationsGetResponse>;

@@ -7,13 +7,13 @@ import * as http from "http";
 import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import { PassThrough } from "stream";
 import { RestError } from "@azure/core-rest-pipeline";
-import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
+import { AzureLogLevel, AzureLogger, getLogLevel, setLogLevel } from "@azure/logger";
 import { getError } from "./authTestUtils";
 import {
-  createResponse,
   IdentityTestContextInterface,
   RawTestResponse,
   TestResponse,
+  createResponse,
 } from "./httpRequestsCommon";
 import { AccessToken, GetTokenOptions, TokenCredential } from "../src";
 import { openIdConfigurationResponse } from "./msalTestUtils";
@@ -187,7 +187,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
       };
       this.sandbox.replace(providerObject, "request", fakeRequest);
       this.sandbox.replace(providerObject.Agent.prototype as any, "request", fakeRequest);
-    } catch (e) {
+    } catch (e: any) {
       console.debug(
         "Failed to replace the request. This might be expected if you're running multiple sendCredentialRequests() calls."
       );
@@ -278,7 +278,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
       // All the errors will be safely be caught by the try surrounding the getToken request.
       this.clock.runAllAsync();
       result = await credential.getToken(scopes, getTokenOptions);
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
 

@@ -42,7 +42,7 @@ describe("Cdn test", () => {
   let profileName: string;
   let endpointName: string;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
     subscriptionId = env.SUBSCRIPTION_ID;
     // This is an example of how the environment variables are used
@@ -58,104 +58,109 @@ describe("Cdn test", () => {
     endpointName = "myendpointxxx";
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
-  it("profiles create test", async function() {
-    const res = await client.profiles.beginCreateAndWait(resourceGroup,profileName,{
+  it("profiles create test", async function () {
+    const res = await client.profiles.beginCreateAndWait(resourceGroup, profileName, {
       location: location,
-        sku: {
-            name: "Standard_Verizon"
-        }
+      sku: {
+        name: "Standard_Verizon"
+      }
     });
-    assert.equal(res.name,profileName);
+    assert.equal(res.name, profileName);
   });
 
-  it("endpoints create test", async function() {
-    const res = await client.endpoints.beginCreateAndWait(resourceGroup,profileName,endpointName,{
+  it("endpoints create test", async function () {
+    const res = await client.endpoints.beginCreateAndWait(resourceGroup, profileName, endpointName, {
       originHostHeader: "www.bing.com",
-        originPath: "/image",
-        contentTypesToCompress: [
-            "text/html",
-            "application/octet-stream"
-        ],
-        isCompressionEnabled: true,
-        isHttpAllowed: true,
-        isHttpsAllowed: true,
-        queryStringCachingBehavior: "BypassCaching",
-        origins: [
-            {
-                name: "origin1",
-                hostName: "host1.hello.com"
-            }
-        ],
-        location: "westus",
-        tags: {
-            key1: "value1"
+      originPath: "/image",
+      contentTypesToCompress: [
+        "text/html",
+        "application/octet-stream"
+      ],
+      isCompressionEnabled: true,
+      isHttpAllowed: true,
+      isHttpsAllowed: true,
+      queryStringCachingBehavior: "BypassCaching",
+      origins: [
+        {
+          name: "origin1",
+          hostName: "host1.hello.com"
         }
+      ],
+      location: "westus",
+      tags: {
+        key1: "value1"
+      }
     });
-    assert.equal(res.name,endpointName);
+    assert.equal(res.name, endpointName);
   });
 
-  it("profiles get test", async function() {
-    const res = await client.profiles.get(resourceGroup,profileName);
-    assert.equal(res.name,profileName);
+  it("profiles get test", async function () {
+    const res = await client.profiles.get(resourceGroup, profileName);
+    assert.equal(res.name, profileName);
   });
 
-  it("endpoints get test", async function() {
-    const res = await client.endpoints.get(resourceGroup,profileName,endpointName);
-    assert.equal(res.name,endpointName);
+  it("endpoints get test", async function () {
+    const res = await client.endpoints.get(resourceGroup, profileName, endpointName);
+    assert.equal(res.name, endpointName);
   });
 
-  it("profiles list test", async function() {
+  it("profiles list test", async function () {
     const resArray = new Array();
-    for await (let item of client.profiles.listByResourceGroup(resourceGroup)){
-        resArray.push(item);
+    for await (let item of client.profiles.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
     }
-    assert.equal(resArray.length,1);
+    assert.equal(resArray.length, 1);
   });
 
-  it("profiles listResourceUsage test", async function() {
+  it("profiles listResourceUsage test", async function () {
     const resArray = new Array();
-    for await (let item of client.profiles.listResourceUsage(resourceGroup,profileName)){
-        resArray.push(item);
+    for await (let item of client.profiles.listResourceUsage(resourceGroup, profileName)) {
+      resArray.push(item);
     }
-    assert.equal(resArray.length,1);
+    assert.equal(resArray.length, 1);
   });
 
-  it("profiles upeate test", async function() {
-    const res = await client.profiles.beginUpdateAndWait(resourceGroup,profileName,{tags:{additional_properties: "Tag1"}});
+  it("profiles upeate test", async function () {
+    const res = await client.profiles.beginUpdateAndWait(resourceGroup, profileName, { tags: { additional_properties: "Tag1" } });
   });
 
-  it("endpoints list test", async function() {
+  it("endpoints list test", async function () {
     const resArray = new Array();
-    for await (let item of client.endpoints.listByProfile(resourceGroup,profileName)){
-        resArray.push(item);
+    for await (let item of client.endpoints.listByProfile(resourceGroup, profileName)) {
+      resArray.push(item);
     }
-    assert.equal(resArray.length,1);
+    assert.equal(resArray.length, 1);
   });
 
-  it("endpoints upeate test", async function() {
-    const res = await client.endpoints.beginUpdateAndWait(resourceGroup,profileName,endpointName,{tags: {additional_properties: "Tag1"}});
-    assert.equal(res.type,"Microsoft.Cdn/profiles/endpoints");
+  it("endpoints upeate test", async function () {
+    const res = await client.endpoints.beginUpdateAndWait(resourceGroup, profileName, endpointName, { tags: { additional_properties: "Tag1" } });
+    assert.equal(res.type, "Microsoft.Cdn/profiles/endpoints");
   });
 
-  it("endpoints delete test", async function() {
-    const res = await client.endpoints.beginDeleteAndWait(resourceGroup,profileName,endpointName);
+  it("endpoints delete test", async function () {
+    const res = await client.endpoints.beginDeleteAndWait(resourceGroup, profileName, endpointName);
     const resArray = new Array();
-    for await (let item of client.endpoints.listByProfile(resourceGroup,profileName)){
-        resArray.push(item);
+    for await (let item of client.endpoints.listByProfile(resourceGroup, profileName)) {
+      resArray.push(item);
     }
-    assert.equal(resArray.length,0);
+    assert.equal(resArray.length, 0);
   });
 
-  it("profiles delete test", async function() {
-    const res = await client.profiles.beginDeleteAndWait(resourceGroup,profileName);
+  it("profiles delete test", async function () {
+    const res = await client.profiles.beginDeleteAndWait(resourceGroup, profileName);
     const resArray = new Array();
-    for await (let item of client.profiles.listByResourceGroup(resourceGroup)){
-        resArray.push(item);
+    for await (let item of client.profiles.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
     }
-    assert.equal(resArray.length,0);
+    assert.equal(resArray.length, 0);
+  });
+
+  it("customDomains enable test", async function () {
+    const res = await client.customDomains.enableCustomHttps(resourceGroup, profileName, endpointName, "www-qiaozha-xyz");
+    assert.equal(res.name, "www-qiaozha-xyz");
   });
 });

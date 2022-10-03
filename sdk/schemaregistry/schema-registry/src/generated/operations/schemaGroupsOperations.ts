@@ -10,7 +10,7 @@ import { SchemaGroupsOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedSchemaRegistryClientContext } from "../generatedSchemaRegistryClientContext";
+import { GeneratedSchemaRegistryClient } from "../generatedSchemaRegistryClient";
 import {
   SchemaGroupsListOptionalParams,
   SchemaGroupsListResponse
@@ -18,13 +18,13 @@ import {
 
 /** Class containing SchemaGroupsOperations operations. */
 export class SchemaGroupsOperationsImpl implements SchemaGroupsOperations {
-  private readonly client: GeneratedSchemaRegistryClientContext;
+  private readonly client: GeneratedSchemaRegistryClient;
 
   /**
    * Initialize a new instance of the class SchemaGroupsOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedSchemaRegistryClientContext) {
+  constructor(client: GeneratedSchemaRegistryClient) {
     this.client = client;
   }
 

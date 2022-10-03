@@ -11,3 +11,5 @@ export * from "./environments";
 export * from "./eventSources";
 export * from "./referenceDataSets";
 export * from "./accessPolicies";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";

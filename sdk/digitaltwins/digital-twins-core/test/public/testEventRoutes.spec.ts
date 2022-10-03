@@ -32,7 +32,7 @@ describe("DigitalTwins EventRoutes - create, read, list and delete operations", 
     let errorWasThrown = false;
     try {
       await client.upsertEventRoute(eventRouteId, endpointId, eventFilter);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `The endpoint provided does not exist or is not active`);
     }
@@ -45,7 +45,7 @@ describe("DigitalTwins EventRoutes - create, read, list and delete operations", 
     let errorWasThrown = false;
     try {
       await client.getEventRoute(eventRouteId);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `There is no route available that matches the provided input`);
     }
@@ -65,7 +65,7 @@ describe("DigitalTwins EventRoutes - create, read, list and delete operations", 
     let errorWasThrown = false;
     try {
       await client.deleteEventRoute(eventRouteId);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `There is no route available that matches the provided input`);
     }

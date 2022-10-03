@@ -3,12 +3,12 @@
 
 import { OperationOptions } from "@azure/core-client";
 import {
-  MetricValue,
-  ResultType,
-  MetricUnit,
-  MetricClass,
   AggregationType,
+  MetricClass,
+  MetricUnit,
+  MetricValue,
   NamespaceClassification,
+  ResultType,
 } from "..";
 import { QueryTimeInterval } from "./timeInterval";
 
@@ -137,7 +137,7 @@ export interface ListMetricDefinitionsOptions extends OperationOptions {
 /**
  * Options used when getting metric namespaces.
  */
-export interface ListMetricNamespacesOptions {
+export interface ListMetricNamespacesOptions extends OperationOptions {
   // track 2 copy of `MetricNamespacesListOptionalParams`
 
   /** The ISO 8601 conform Date start time from which to query for metric namespaces. */

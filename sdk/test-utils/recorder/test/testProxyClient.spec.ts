@@ -10,7 +10,8 @@ import {
 import { expect } from "chai";
 import { env, Recorder } from "../src";
 import { createRecordingRequest } from "../src/utils/createRecordingRequest";
-import { getTestMode, isLiveMode, RecorderError, RecordingStateManager } from "../src/utils/utils";
+import { paths } from "../src/utils/paths";
+import { getTestMode, isLiveMode, isRecordMode, RecorderError } from "../src/utils/utils";
 
 const testRedirectedRequest = (
   client: Recorder,
@@ -47,27 +48,24 @@ describe("TestProxyClient functions", () => {
   };
 
   describe("redirectRequest method", () => {
-    it("request unchanged if not playback or record modes", function () {
-      env.TEST_MODE = "live";
-      testRedirectedRequest(
-        client,
-        () => initialRequest,
-        (req) => req
-      );
-    });
-
     ["record", "playback"].forEach((testMode) => {
-      it(`${testMode} mode: ` + "request unchanged if `x-recording-id` in headers", function () {
-        env.TEST_MODE = testMode;
-        testRedirectedRequest(
-          client,
-          () => ({
-            ...initialRequest,
-            headers: createHttpHeaders({ "x-recording-id": "dummy-recording-id" }),
-          }),
-          (req) => req
-        );
-      });
+      it(
+        `${testMode} mode: ` + "request unchanged if request URL already points to test proxy",
+        function () {
+          env.TEST_MODE = testMode;
+          testRedirectedRequest(
+            client,
+            () => ({
+              ...initialRequest,
+              url: "http://localhost:5000/dummy_path?sas=sas",
+              headers: createHttpHeaders({
+                "x-recording-upstream-uri": "https://dummy_url.windows.net/dummy_path?sas=sas",
+              }),
+            }),
+            (req) => req
+          );
+        }
+      );
 
       it(
         `${testMode} mode: ` + "url and headers get updated if no `x-recording-id` in headers",
@@ -134,17 +132,25 @@ describe("TestProxyClient functions", () => {
       it("throws if not received a 200 status code", async function () {
         env.TEST_MODE = testMode;
         const recordingId = "dummy-recording-id";
-        clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
-          return Promise.resolve({
-            status: 404,
-            headers: createHttpHeaders({ "x-recording-id": recordingId }),
-            request: initialRequest,
-          });
+        clientHttpClient.sendRequest = (req): Promise<PipelineResponse> => {
+          if (req.url.endsWith(paths.setRecordingOptions)) {
+            return Promise.resolve({
+              headers: createHttpHeaders(),
+              status: 200,
+              request: initialRequest,
+            });
+          } else {
+            return Promise.resolve({
+              status: 404,
+              headers: createHttpHeaders({ "x-recording-id": recordingId }),
+              request: initialRequest,
+            });
+          }
         };
         try {
           await client.start({ envSetupForPlayback: {} });
           throw new Error("should not have reached here, start() call should have failed");
-        } catch (error) {
+        } catch (error: any) {
           expect((error as RecorderError).name).to.equal("RecorderError");
           expect((error as RecorderError).message).to.equal("Start request failed.");
         }
@@ -162,7 +168,7 @@ describe("TestProxyClient functions", () => {
         try {
           await client.start({ envSetupForPlayback: {} });
           throw new Error("should not have reached here, start() call should have failed");
-        } catch (error) {
+        } catch (error: any) {
           expect((error as RecorderError).name).to.equal("RecorderError");
           expect((error as RecorderError).message).to.equal(
             "No recording ID returned for a successful start request."
@@ -197,7 +203,7 @@ describe("TestProxyClient functions", () => {
           try {
             await client.stop();
             throw new Error("should not have reached here, stop() call should have failed");
-          } catch (error) {
+          } catch (error: any) {
             expect((error as RecorderError).name).to.equal("RecorderError");
             expect((error as RecorderError).message).to.equal(
               "Bad state, recordingId is not defined when called stop."
@@ -220,7 +226,7 @@ describe("TestProxyClient functions", () => {
         try {
           await client.stop();
           throw new Error("should not have reached here, stop() call should have failed");
-        } catch (error) {
+        } catch (error: any) {
           expect((error as RecorderError).name).to.equal("RecorderError");
           expect((error as RecorderError).message).to.equal("Stop request failed.");
         }
@@ -290,33 +296,25 @@ describe("TestProxyClient functions", () => {
       expect(returnedRequest.url).to.equal(initialRequest.url);
     });
   });
-});
 
-describe("State Manager", function () {
-  it("throws error if started twice", function () {
-    const manager = new RecordingStateManager();
-    manager.state = "started";
-    try {
-      manager.state = "started";
-      throw new Error("should not have reached here, previous assignment should have failed");
-    } catch (error) {
-      expect((error as RecorderError).name).to.equal("RecorderError");
-      expect((error as RecorderError).message).to.equal(
-        "Already started, should not have called start again."
-      );
-    }
-  });
-
-  it("throws error if stopped twice", function () {
-    const manager = new RecordingStateManager();
-    try {
-      manager.state = "stopped";
-      throw new Error("should not have reached here, previous assignment should have failed");
-    } catch (error) {
-      expect((error as RecorderError).name).to.equal("RecorderError");
-      expect((error as RecorderError).message).to.equal(
-        "Already stopped, should not have called stop again."
-      );
-    }
+  describe("getTestMode", () => {
+    it("treats the TEST_MODE environment variable case-insensitively", () => {
+      [
+        "record",
+        "RECORD",
+        "Record",
+        "playback",
+        "PLAYBACK",
+        "Playback",
+        "live",
+        "LIVE",
+        "Live",
+      ].forEach((testMode) => {
+        env.TEST_MODE = testMode;
+        expect(getTestMode()).to.equal(testMode.toLowerCase());
+        expect(isRecordMode()).to.equal(testMode.toLowerCase() === "record");
+        expect(isLiveMode()).to.equal(testMode.toLowerCase() === "live");
+      });
+    });
   });
 });

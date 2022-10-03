@@ -127,10 +127,12 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -225,10 +227,12 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
       },
       cancelOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -323,10 +327,12 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
       },
       cutoverOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

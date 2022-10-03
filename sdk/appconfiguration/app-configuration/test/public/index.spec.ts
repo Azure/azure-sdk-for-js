@@ -3,16 +3,16 @@
 
 import { assert } from "chai";
 import {
+  assertEqualSettings,
+  assertThrowsAbortError,
+  assertThrowsRestError,
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
-  toSortedArray,
-  assertEqualSettings,
-  assertThrowsRestError,
-  assertThrowsAbortError,
   startRecorder,
+  toSortedArray,
 } from "./utils/testHelpers";
 import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam } from "../../src";
-import { Recorder, delay, isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder, delay, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 describe("AppConfigurationClient", () => {
@@ -135,8 +135,8 @@ describe("AppConfigurationClient", () => {
       try {
         await client.addConfigurationSetting({ key, label, value });
         throw new Error("Test failure");
-      } catch (err) {
-        assert.notEqual(err.message, "Test failure");
+      } catch (err: any) {
+        assert.notEqual((err as { message: string }).message, "Test failure");
       }
 
       await client.deleteConfigurationSetting({ key, label });
@@ -182,14 +182,14 @@ describe("AppConfigurationClient", () => {
 
       // delete configuration
       const deletedSetting = await client.deleteConfigurationSetting(result);
-      assert.equal(200, deletedSetting._response.status);
+      assert.equal(200, deletedSetting.statusCode);
 
       // confirm setting no longer exists
       try {
         await client.getConfigurationSetting({ key, label });
         throw new Error("Test failure");
-      } catch (err) {
-        assert.notEqual(err.message, "Test failure");
+      } catch (err: any) {
+        assert.notEqual((err as { message: string }).message, "Test failure");
       }
     });
 
@@ -226,8 +226,8 @@ describe("AppConfigurationClient", () => {
       try {
         await client.getConfigurationSetting({ key, label });
         throw new Error("Test failure");
-      } catch (err) {
-        assert.notEqual(err.message, "Test failure");
+      } catch (err: any) {
+        assert.notEqual((err as { message: string }).message, "Test failure");
       }
     });
 
@@ -242,7 +242,6 @@ describe("AppConfigurationClient", () => {
       // delete actually happened (status code: 200) or if the setting wasn't
       // found which results in the same state but might matter to
       // the user(status code: 204)
-      assert.equal(response._response.status, response.statusCode);
       assert.equal(204, response.statusCode);
     });
 
@@ -279,7 +278,10 @@ describe("AppConfigurationClient", () => {
       await client.deleteConfigurationSetting({ key, label });
     });
 
-    it("accepts operation options", async () => {
+    it("accepts operation options", async function () {
+      // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
+      // eslint-disable-next-line @typescript-eslint/no-invalid-this
+      if (isPlaybackMode()) this.skip();
       const key = recorder.getUniqueName("deleteConfigTest");
       const label = "MyLabel";
       const value = "MyValue";
@@ -391,12 +393,15 @@ describe("AppConfigurationClient", () => {
       try {
         await client.getConfigurationSetting({ key, label });
         throw new Error("Test failure");
-      } catch (err) {
-        assert.notEqual(err.message, "Test failure");
+      } catch (err: any) {
+        assert.notEqual((err as { message: string }).message, "Test failure");
       }
     });
 
-    it("accepts operation options", async () => {
+    it("accepts operation options", async function () {
+      // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
+      // eslint-disable-next-line @typescript-eslint/no-invalid-this
+      if (isPlaybackMode()) this.skip();
       const key = recorder.getUniqueName("getConfigTest");
       const label = "test";
       const value = "foo";
@@ -537,7 +542,7 @@ describe("AppConfigurationClient", () => {
     after(async () => {
       try {
         await deleteKeyCompletely([keys.listConfigSettingA, keys.listConfigSettingB], client);
-      } catch (e) {
+      } catch (e: any) {
         /** empty */
       }
     });
@@ -776,7 +781,10 @@ describe("AppConfigurationClient", () => {
       }
     });
 
-    it("accepts operation options", async () => {
+    it("accepts operation options", async function () {
+      // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
+      // eslint-disable-next-line @typescript-eslint/no-invalid-this
+      if (isPlaybackMode()) this.skip();
       await assertThrowsAbortError(async () => {
         const settingsIterator = client.listConfigurationSettings({
           requestOptions: { timeout: 1 },
@@ -870,7 +878,10 @@ describe("AppConfigurationClient", () => {
       );
     });
 
-    it("accepts operation options", async () => {
+    it("accepts operation options", async function () {
+      // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
+      // eslint-disable-next-line @typescript-eslint/no-invalid-this
+      if (isPlaybackMode()) this.skip();
       await assertThrowsAbortError(async () => {
         const iter = client.listRevisions({ labelFilter: labelA, requestOptions: { timeout: 1 } });
         await iter.next();

@@ -291,6 +291,12 @@ export const AccountProperties: coreClient.CompositeMapper = {
           className: "CallRateLimit"
         }
       },
+      dynamicThrottlingEnabled: {
+        serializedName: "dynamicThrottlingEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
       quotaLimit: {
         serializedName: "quotaLimit",
         type: {
@@ -333,6 +339,20 @@ export const AccountProperties: coreClient.CompositeMapper = {
         serializedName: "restore",
         type: {
           name: "Boolean"
+        }
+      },
+      deletionDate: {
+        serializedName: "deletionDate",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      scheduledPurgeDate: {
+        serializedName: "scheduledPurgeDate",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -1347,6 +1367,81 @@ export const MetricName: coreClient.CompositeMapper = {
   }
 };
 
+export const AccountModelListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccountModelListResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AccountModel"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DeploymentModel: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeploymentModel",
+    modelProperties: {
+      format: {
+        serializedName: "format",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ModelDeprecationInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ModelDeprecationInfo",
+    modelProperties: {
+      fineTune: {
+        serializedName: "fineTune",
+        type: {
+          name: "String"
+        }
+      },
+      inference: {
+        serializedName: "inference",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const OperationListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1481,7 +1576,7 @@ export const CheckSkuAvailabilityParameter: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      type: {
+      typeParam: {
         serializedName: "type",
         required: true,
         type: {
@@ -1699,7 +1794,7 @@ export const CheckDomainAvailabilityParameter: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      type: {
+      typeParam: {
         serializedName: "type",
         required: true,
         type: {
@@ -1901,33 +1996,6 @@ export const DeploymentProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const DeploymentModel: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DeploymentModel",
-    modelProperties: {
-      format: {
-        serializedName: "format",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      version: {
-        serializedName: "version",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const DeploymentScaleSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1941,6 +2009,13 @@ export const DeploymentScaleSettings: coreClient.CompositeMapper = {
       },
       capacity: {
         serializedName: "capacity",
+        type: {
+          name: "Number"
+        }
+      },
+      activeCapacity: {
+        serializedName: "activeCapacity",
+        readOnly: true,
         type: {
           name: "Number"
         }
@@ -2107,6 +2182,50 @@ export const ProxyResource: coreClient.CompositeMapper = {
     className: "ProxyResource",
     modelProperties: {
       ...Resource.type.modelProperties
+    }
+  }
+};
+
+export const AccountModel: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccountModel",
+    modelProperties: {
+      ...DeploymentModel.type.modelProperties,
+      baseModel: {
+        serializedName: "baseModel",
+        type: {
+          name: "Composite",
+          className: "DeploymentModel"
+        }
+      },
+      maxCapacity: {
+        serializedName: "maxCapacity",
+        type: {
+          name: "Number"
+        }
+      },
+      capabilities: {
+        serializedName: "capabilities",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      deprecation: {
+        serializedName: "deprecation",
+        type: {
+          name: "Composite",
+          className: "ModelDeprecationInfo"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
     }
   }
 };

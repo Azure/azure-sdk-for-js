@@ -83,7 +83,7 @@ describe("RetryPolicy", () => {
       await injectqueueClient.setMetadata(metadata, {
         abortSignal: AbortController.timeout(2 * 1000),
       });
-    } catch (err) {
+    } catch (err: any) {
       hasError = true;
     }
     assert.ok(hasError);
@@ -112,7 +112,7 @@ describe("RetryPolicy", () => {
         keyb: "valb",
       };
       await injectqueueClient.setMetadata(metadata);
-    } catch (err) {
+    } catch (err: any) {
       hasError = true;
     }
     assert.ok(hasError);
@@ -149,7 +149,7 @@ describe("RetryPolicy", () => {
     try {
       const response = await injectqueueClient.getProperties();
       finalRequestURL = response._response.request.url;
-    } catch (err) {
+    } catch (err: any) {
       finalRequestURL = err.request ? err.request.url : "";
     }
 

@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 import { AzureKeyCredential } from "@azure/core-auth";
+import { Context } from "mocha";
+import { PipelineRequest } from "@azure/core-rest-pipeline";
+import { SDK_VERSION } from "../../src/utils/constants";
+import { ShortCodesClient } from "../../src/shortCodesClient";
 import { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
-import { PipelineRequest } from "@azure/core-rest-pipeline";
-import sinon from "sinon";
-import { ShortCodesClient } from "../../src/shortCodesClient";
-import { getUSProgramBriefHttpClient } from "../public/utils/mockHttpClients";
-import { SDK_VERSION } from "../../src/utils/constants";
-import { Context } from "mocha";
 import { createMockToken } from "../public/utils/recordedClient";
+import { getUSProgramBriefHttpClient } from "../public/utils/mockHttpClients";
 import { isNode } from "@azure/test-utils";
+import sinon from "sinon";
 
 describe("ShortCodesClient - headers", function () {
   const endpoint = "https://contoso.spool.azure.local";

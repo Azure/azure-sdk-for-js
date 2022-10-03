@@ -47,7 +47,8 @@ describe("CancellableAsyncLock", function () {
         );
         throw new Error(TEST_FAILURE);
       } catch (err) {
-        should.equal(err.message, "I break things!");
+        should.equal(true, err instanceof Error);
+        should.equal((err as Error).message, "I break things!");
       }
     });
 

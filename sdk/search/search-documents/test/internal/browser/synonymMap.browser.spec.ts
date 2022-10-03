@@ -9,7 +9,7 @@ describe("synonymmap", () => {
     let errorThrown = false;
     try {
       await createSynonymMapFromFile("my-synonym-map-1", "./test/internal/synonymMap.txt");
-    } catch (ex) {
+    } catch (ex: any) {
       errorThrown = true;
     }
     assert.isTrue(errorThrown, "Expected createSynonymMapFromFile to fail with an exception");

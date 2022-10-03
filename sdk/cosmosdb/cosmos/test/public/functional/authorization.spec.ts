@@ -139,7 +139,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         const badclient = new CosmosClient({ endpoint });
         await badclient.databases.readAll().fetchAll();
         assert.fail("Must fail");
-      } catch (err) {
+      } catch (err: any) {
         assert(err !== undefined, "error should not be undefined");
         const unauthorizedErrorCode = 401;
         assert.equal(err.code, unauthorizedErrorCode, "error code should be equal to 401");
@@ -169,7 +169,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       try {
         await col1Client.database(entities.database.id).container(entities.coll1.id).delete();
         assert.fail("must fail if no permission");
-      } catch (err) {
+      } catch (err: any) {
         assert(err !== undefined, "expected to fail, no permission to delete");
         assert.equal(err.code, 403, "Must return a code for not authorized");
       }
@@ -258,7 +258,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
           .container(container.id)
           .items.create({ id: "document2", key: 2 });
         assert.fail("Must throw unauthorized on read");
-      } catch (err) {
+      } catch (err: any) {
         const unauthorizedErrorCode = 403;
         assert.equal(err.code, unauthorizedErrorCode);
       }

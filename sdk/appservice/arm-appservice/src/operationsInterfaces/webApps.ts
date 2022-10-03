@@ -25,6 +25,8 @@ import {
   WebAppsListConfigurationSnapshotInfoOptionalParams,
   ContinuousWebJob,
   WebAppsListContinuousWebJobsOptionalParams,
+  CsmDeploymentStatus,
+  WebAppsListProductionSiteDeploymentStatusesOptionalParams,
   Deployment,
   WebAppsListDeploymentsOptionalParams,
   Identifier,
@@ -61,6 +63,7 @@ import {
   WebAppsGetSiteConnectionStringKeyVaultReferencesSlotOptionalParams,
   WebAppsListConfigurationSnapshotInfoSlotOptionalParams,
   WebAppsListContinuousWebJobsSlotOptionalParams,
+  WebAppsListSlotSiteDeploymentStatusesSlotOptionalParams,
   WebAppsListDeploymentsSlotOptionalParams,
   WebAppsListDomainOwnershipIdentifiersSlotOptionalParams,
   WebAppsListInstanceFunctionsSlotOptionalParams,
@@ -202,6 +205,8 @@ import {
   WebAppsDeleteContinuousWebJobOptionalParams,
   WebAppsStartContinuousWebJobOptionalParams,
   WebAppsStopContinuousWebJobOptionalParams,
+  WebAppsGetProductionSiteDeploymentStatusOptionalParams,
+  WebAppsGetProductionSiteDeploymentStatusResponse,
   WebAppsGetDeploymentOptionalParams,
   WebAppsGetDeploymentResponse,
   WebAppsCreateDeploymentOptionalParams,
@@ -225,6 +230,10 @@ import {
   WebAppsCreateMSDeployOperationResponse,
   WebAppsGetMSDeployLogOptionalParams,
   WebAppsGetMSDeployLogResponse,
+  WebAppsGetOneDeployStatusOptionalParams,
+  WebAppsGetOneDeployStatusResponse,
+  WebAppsCreateOneDeployOperationOptionalParams,
+  WebAppsCreateOneDeployOperationResponse,
   WebAppsGetFunctionsAdminTokenOptionalParams,
   WebAppsGetFunctionsAdminTokenResponse,
   WebAppsGetFunctionOptionalParams,
@@ -411,6 +420,8 @@ import {
   WebAppsUpdateAuthSettingsSlotResponse,
   WebAppsGetAuthSettingsSlotOptionalParams,
   WebAppsGetAuthSettingsSlotResponse,
+  WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams,
+  WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse,
   WebAppsUpdateAuthSettingsV2SlotOptionalParams,
   WebAppsUpdateAuthSettingsV2SlotResponse,
   WebAppsGetAuthSettingsV2SlotOptionalParams,
@@ -464,6 +475,8 @@ import {
   WebAppsDeleteContinuousWebJobSlotOptionalParams,
   WebAppsStartContinuousWebJobSlotOptionalParams,
   WebAppsStopContinuousWebJobSlotOptionalParams,
+  WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams,
+  WebAppsGetSlotSiteDeploymentStatusSlotResponse,
   WebAppsGetDeploymentSlotOptionalParams,
   WebAppsGetDeploymentSlotResponse,
   WebAppsCreateDeploymentSlotOptionalParams,
@@ -799,6 +812,17 @@ export interface WebApps {
     options?: WebAppsListContinuousWebJobsOptionalParams
   ): PagedAsyncIterableIterator<ContinuousWebJob>;
   /**
+   * List deployment statuses for an app (or deployment slot, if specified).
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param options The options parameters.
+   */
+  listProductionSiteDeploymentStatuses(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsListProductionSiteDeploymentStatusesOptionalParams
+  ): PagedAsyncIterableIterator<CsmDeploymentStatus>;
+  /**
    * Description for List deployments for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
@@ -1105,6 +1129,20 @@ export interface WebApps {
     slot: string,
     options?: WebAppsListContinuousWebJobsSlotOptionalParams
   ): PagedAsyncIterableIterator<ContinuousWebJob>;
+  /**
+   * List deployment statuses for an app (or deployment slot, if specified).
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get the deployment
+   *             status for the production slot.
+   * @param options The options parameters.
+   */
+  listSlotSiteDeploymentStatusesSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsListSlotSiteDeploymentStatusesSlotOptionalParams
+  ): PagedAsyncIterableIterator<CsmDeploymentStatus>;
   /**
    * Description for List deployments for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -2218,6 +2256,37 @@ export interface WebApps {
     options?: WebAppsStopContinuousWebJobOptionalParams
   ): Promise<void>;
   /**
+   * Gets the deployment status for an app (or deployment slot, if specified).
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param deploymentStatusId GUID of the deployment operation.
+   * @param options The options parameters.
+   */
+  beginGetProductionSiteDeploymentStatus(
+    resourceGroupName: string,
+    name: string,
+    deploymentStatusId: string,
+    options?: WebAppsGetProductionSiteDeploymentStatusOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<WebAppsGetProductionSiteDeploymentStatusResponse>,
+      WebAppsGetProductionSiteDeploymentStatusResponse
+    >
+  >;
+  /**
+   * Gets the deployment status for an app (or deployment slot, if specified).
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param deploymentStatusId GUID of the deployment operation.
+   * @param options The options parameters.
+   */
+  beginGetProductionSiteDeploymentStatusAndWait(
+    resourceGroupName: string,
+    name: string,
+    deploymentStatusId: string,
+    options?: WebAppsGetProductionSiteDeploymentStatusOptionalParams
+  ): Promise<WebAppsGetProductionSiteDeploymentStatusResponse>;
+  /**
    * Description for Get a deployment by its ID for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
@@ -2398,6 +2467,29 @@ export interface WebApps {
     name: string,
     options?: WebAppsGetMSDeployLogOptionalParams
   ): Promise<WebAppsGetMSDeployLogResponse>;
+  /**
+   * Description for Invoke onedeploy status API /api/deployments and gets the deployment status for the
+   * site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of web app.
+   * @param options The options parameters.
+   */
+  getOneDeployStatus(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsGetOneDeployStatusOptionalParams
+  ): Promise<WebAppsGetOneDeployStatusResponse>;
+  /**
+   * Description for Invoke the OneDeploy publish web app extension.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of web app.
+   * @param options The options parameters.
+   */
+  createOneDeployOperation(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsCreateOneDeployOperationOptionalParams
+  ): Promise<WebAppsCreateOneDeployOperationResponse>;
   /**
    * Description for Fetch a short lived token that can be exchanged for a master key.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -4007,6 +4099,20 @@ export interface WebApps {
     options?: WebAppsGetAuthSettingsSlotOptionalParams
   ): Promise<WebAppsGetAuthSettingsSlotResponse>;
   /**
+   * Gets site's Authentication / Authorization settings for apps via the V2 format
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get the settings
+   *             for the production slot.
+   * @param options The options parameters.
+   */
+  getAuthSettingsV2WithoutSecretsSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams
+  ): Promise<WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse>;
+  /**
    * Description for Updates site's Authentication / Authorization settings for apps via the V2 format
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
@@ -4460,6 +4566,43 @@ export interface WebApps {
     slot: string,
     options?: WebAppsStopContinuousWebJobSlotOptionalParams
   ): Promise<void>;
+  /**
+   * Gets the deployment status for an app (or deployment slot, if specified).
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get the deployment
+   *             status for the production slot.
+   * @param deploymentStatusId GUID of the deployment operation.
+   * @param options The options parameters.
+   */
+  beginGetSlotSiteDeploymentStatusSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    deploymentStatusId: string,
+    options?: WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<WebAppsGetSlotSiteDeploymentStatusSlotResponse>,
+      WebAppsGetSlotSiteDeploymentStatusSlotResponse
+    >
+  >;
+  /**
+   * Gets the deployment status for an app (or deployment slot, if specified).
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get the deployment
+   *             status for the production slot.
+   * @param deploymentStatusId GUID of the deployment operation.
+   * @param options The options parameters.
+   */
+  beginGetSlotSiteDeploymentStatusSlotAndWait(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    deploymentStatusId: string,
+    options?: WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams
+  ): Promise<WebAppsGetSlotSiteDeploymentStatusSlotResponse>;
   /**
    * Description for Get a deployment by its ID for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.

@@ -3,9 +3,9 @@
 
 import { AppConfigurationClient, ConfigurationSetting } from "../../src";
 import {
+  assertThrowsRestError,
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
-  assertThrowsRestError,
   startRecorder,
 } from "./utils/testHelpers";
 import { assert } from "chai";

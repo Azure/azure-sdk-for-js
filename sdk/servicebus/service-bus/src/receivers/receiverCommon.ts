@@ -17,7 +17,6 @@ import { ConnectionContext } from "../connectionContext";
 import {
   Constants,
   ErrorNameConditionMapper,
-  delay,
   retry,
   RetryConfig,
   RetryMode,
@@ -25,7 +24,7 @@ import {
   RetryOptions,
 } from "@azure/core-amqp";
 import { MessageAlreadySettled } from "../util/errors";
-import { isDefined } from "../util/typeGuards";
+import { delay, isDefined } from "@azure/core-util";
 
 /**
  * @internal
@@ -74,7 +73,7 @@ export function wrapProcessErrorHandler(
     try {
       args.error = translateServiceBusError(args.error);
       await handlers.processError(args);
-    } catch (err) {
+    } catch (err: any) {
       loggerParam.logError(err, `An error was thrown from the user's processError handler`);
     }
   };
@@ -346,7 +345,7 @@ export async function retryForever<T>(
 
     try {
       return await retryFn(args.retryConfig);
-    } catch (err) {
+    } catch (err: any) {
       // if the user aborts the operation we're immediately done.
       // AbortError is also thrown by linkEntity.init() if the connection has been
       // permanently closed.
@@ -359,7 +358,7 @@ export async function retryForever<T>(
       // redundant reports of errors while still providing them incremental status on failures.
       try {
         args.onError(err);
-      } catch (error) {
+      } catch (error: any) {
         logger.error("args.onerror has thrown", error);
       }
 
@@ -381,11 +380,10 @@ export async function retryForever<T>(
         delayInMs,
         config.operationType
       );
-      await delay<void>(
-        delayInMs,
-        config.abortSignal,
-        "Retry cycle has been cancelled by the user."
-      );
+      await delay(delayInMs, {
+        abortSignal: config.abortSignal,
+        abortErrorMsg: "Retry cycle has been cancelled by the user.",
+      });
 
       continue;
     }

@@ -4,7 +4,7 @@
 import { ClientSecretCredential } from "../../../src";
 import { assertClientCredentials } from "../../authTestUtils";
 import { IdentityTestContext } from "../../httpRequests";
-import { createResponse, IdentityTestContextInterface } from "../../httpRequestsCommon";
+import { IdentityTestContextInterface, createResponse } from "../../httpRequestsCommon";
 
 describe("ClientSecretCredential", function () {
   let testContext: IdentityTestContextInterface;

@@ -212,49 +212,33 @@ export type JobsUpdateResponse = JobResponse;
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDriveState {
-    // (undocumented)
     Completed = "Completed",
-    // (undocumented)
     CompletedMoreInfo = "CompletedMoreInfo",
-    // (undocumented)
     NeverReceived = "NeverReceived",
-    // (undocumented)
     Received = "Received",
-    // (undocumented)
     ShippedBack = "ShippedBack",
-    // (undocumented)
     Specified = "Specified",
-    // (undocumented)
     Transferring = "Transferring"
 }
 
 // @public
 export enum KnownEncryptionKekType {
-    // (undocumented)
     CustomerManaged = "CustomerManaged",
-    // (undocumented)
     MicrosoftManaged = "MicrosoftManaged"
 }
 
 // @public
 export enum KnownIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 

@@ -8,5 +8,4 @@
 
 export * from "./models";
 export { IdentityRestClient } from "./identityRestClient";
-export { IdentityRestClientContext } from "./identityRestClientContext";
 export * from "./operationsInterfaces";

@@ -114,7 +114,7 @@ export class ClientContext {
       const response = await executePlugins(request, executeRequest, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Read, response.headers);
       return response;
-    } catch (err) {
+    } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
       throw err;
     }
@@ -297,7 +297,7 @@ export class ClientContext {
         this.clearSessionToken(path);
       }
       return response;
-    } catch (err) {
+    } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
       throw err;
     }
@@ -346,7 +346,7 @@ export class ClientContext {
       const response = await executePlugins(request, executeRequest, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Patch, response.headers);
       return response;
-    } catch (err) {
+    } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
       throw err;
     }
@@ -396,7 +396,7 @@ export class ClientContext {
       const response = await executePlugins(request, executeRequest, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Create, response.headers);
       return response;
-    } catch (err) {
+    } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
       throw err;
     }
@@ -485,7 +485,7 @@ export class ClientContext {
       const response = await executePlugins(request, executeRequest, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Replace, response.headers);
       return response;
-    } catch (err) {
+    } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
       throw err;
     }
@@ -536,7 +536,7 @@ export class ClientContext {
       const response = await executePlugins(request, executeRequest, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Upsert, response.headers);
       return response;
-    } catch (err) {
+    } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
       throw err;
     }
@@ -680,7 +680,7 @@ export class ClientContext {
       const response = await executePlugins(request, executeRequest, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Batch, response.headers);
       return response;
-    } catch (err) {
+    } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
       throw err;
     }
@@ -734,7 +734,7 @@ export class ClientContext {
       const response = await executePlugins(request, executeRequest, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Batch, response.headers);
       return response;
-    } catch (err) {
+    } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
       throw err;
     }

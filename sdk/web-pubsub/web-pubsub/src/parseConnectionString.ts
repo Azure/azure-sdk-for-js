@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { URL } from "./util/url";
 
 interface ParsedConnectionString {
   credential: AzureKeyCredential;

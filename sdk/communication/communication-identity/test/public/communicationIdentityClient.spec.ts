@@ -88,7 +88,7 @@ matrix([[true, false]], async function (useAad: boolean) {
           const user: CommunicationUserIdentifier = await client.createUser();
           await client.getToken(user, []);
           assert.fail("Should have thrown an error");
-        } catch (e) {
+        } catch (e: any) {
           assert.equal(e.statusCode, 400);
           assert.equal(e.message, "Invalid scopes - Scopes field is required.");
         }
@@ -98,7 +98,7 @@ matrix([[true, false]], async function (useAad: boolean) {
         try {
           await client.getToken(fakeUser, ["chat", "voip"]);
           assert.fail("Should have thrown an error");
-        } catch (e) {
+        } catch (e: any) {
           assert.equal(e.statusCode, 401);
         }
       });
@@ -107,7 +107,7 @@ matrix([[true, false]], async function (useAad: boolean) {
         try {
           await client.revokeTokens(fakeUser);
           assert.fail("Should have thrown an error");
-        } catch (e) {
+        } catch (e: any) {
           assert.equal(e.statusCode, 401);
         }
       });
@@ -116,7 +116,7 @@ matrix([[true, false]], async function (useAad: boolean) {
         try {
           await client.deleteUser(fakeUser);
           assert.fail("Should have thrown an error");
-        } catch (e) {
+        } catch (e: any) {
           assert.equal(e.statusCode, 401);
         }
       });

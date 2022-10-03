@@ -378,6 +378,7 @@ it("error handler wrapper", () => {
             entityPath: args.entityPath,
             errorSource: args.errorSource,
             code: sbe.code,
+            identifier: args.identifier,
           },
           {
             name: "ServiceBusError",
@@ -386,6 +387,7 @@ it("error handler wrapper", () => {
             entityPath: "entity path",
             errorSource: "renewLock",
             code: "ServiceCommunicationProblem",
+            identifier: "identifier",
           }
         );
 
@@ -411,6 +413,7 @@ it("error handler wrapper", () => {
     entityPath: "entity path",
     errorSource: "renewLock",
     fullyQualifiedNamespace: "fully qualified namespace",
+    identifier: "identifier",
   });
 
   assert.isTrue(logErrorCalled, "log error should have been called");
@@ -449,7 +452,7 @@ it("getMessageIterator doesn't yield empty responses", async () => {
       allReceivedMessages.push(m);
     }
     assert.fail("Should throw");
-  } catch (err) {
+  } catch (err: any) {
     assert.equal("We're okay to end it now", err.message);
     assert.deepEqual(
       [

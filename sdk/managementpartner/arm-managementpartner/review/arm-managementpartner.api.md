@@ -32,22 +32,28 @@ export interface ACEProvisioningManagementPartnerAPIOptionalParams extends coreC
 
 // @public
 export interface ErrorModel {
-    code?: string;
     error?: ExtendedErrorInfo;
+}
+
+// @public
+export type ErrorResponseCode = string;
+
+// @public
+export interface ExtendedErrorInfo {
+    code?: ErrorResponseCode;
     message?: string;
 }
 
 // @public
-export interface ExtendedErrorInfo {
-    code?: string;
-    message?: string;
+export enum KnownErrorResponseCode {
+    BadRequest = "BadRequest",
+    Conflict = "Conflict",
+    NotFound = "NotFound"
 }
 
 // @public
 export enum KnownManagementPartnerState {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Deleted = "Deleted"
 }
 

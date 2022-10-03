@@ -168,11 +168,13 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
       { resourceGroupName, routeFilterName, ruleName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -287,11 +289,13 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -377,8 +381,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.routeFilterName,
-    Parameters.ruleName
+    Parameters.ruleName,
+    Parameters.routeFilterName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -400,8 +404,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.routeFilterName,
-    Parameters.ruleName
+    Parameters.ruleName,
+    Parameters.routeFilterName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -433,8 +437,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.routeFilterName,
-    Parameters.ruleName
+    Parameters.ruleName,
+    Parameters.routeFilterName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

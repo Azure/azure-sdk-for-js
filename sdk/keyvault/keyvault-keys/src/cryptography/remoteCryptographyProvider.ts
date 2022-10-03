@@ -1,27 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { TokenCredential } from "@azure/core-auth";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+
 import {
-  createPipelineFromOptions,
-  isTokenCredential,
-  TokenCredential,
-  signingPolicy,
-} from "@azure/core-http";
-import {
-  EncryptParameters,
+  DecryptOptions,
+  DecryptParameters,
+  DecryptResult,
   EncryptOptions,
+  EncryptParameters,
   EncryptResult,
   KeyWrapAlgorithm,
-  WrapKeyOptions,
-  WrapResult,
-  VerifyOptions,
-  VerifyResult,
-  DecryptParameters,
-  DecryptOptions,
-  DecryptResult,
-  UnwrapKeyOptions,
   SignOptions,
   SignResult,
+  UnwrapKeyOptions,
+  VerifyOptions,
+  VerifyResult,
+  WrapKeyOptions,
+  WrapResult,
 } from "../cryptographyClientModels";
 import { SDK_VERSION } from "../constants";
 import { UnwrapResult } from "../cryptographyClientModels";
@@ -37,7 +34,7 @@ import { getKeyFromKeyBundle } from "../transformations";
 import { createHash } from "./crypto";
 import { CryptographyProvider, CryptographyProviderOperation } from "./models";
 import { logger } from "../log";
-import { challengeBasedAuthenticationPolicy } from "../../../keyvault-common/src";
+import { createChallengeCallbacks } from "../../../keyvault-common/src";
 import { tracingClient } from "../tracing";
 
 /**
@@ -74,7 +71,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
       this.vaultUrl = parsed.vaultUrl;
       this.name = parsed.name;
       this.version = parsed.version ?? "";
-    } catch (err) {
+    } catch (err: any) {
       logger.error(err);
 
       throw new Error(`${keyId} is not a valid Key Vault key ID`);
@@ -385,9 +382,11 @@ function getOrInitializeClient(
         : libInfo,
   };
 
-  const authPolicy = isTokenCredential(credential)
-    ? challengeBasedAuthenticationPolicy(credential)
-    : signingPolicy(credential);
+  const authPolicy = bearerTokenAuthenticationPolicy({
+    credential,
+    scopes: [], // Scopes are going to be defined by the challenge callbacks.
+    challengeCallbacks: createChallengeCallbacks(),
+  });
 
   const internalPipelineOptions = {
     ...options,
@@ -401,8 +400,11 @@ function getOrInitializeClient(
     },
   };
 
-  return new KeyVaultClient(
+  const client = new KeyVaultClient(
     options.serviceVersion || LATEST_API_VERSION,
-    createPipelineFromOptions(internalPipelineOptions, authPolicy)
+    internalPipelineOptions
   );
+  client.pipeline.addPolicy(authPolicy);
+
+  return client;
 }

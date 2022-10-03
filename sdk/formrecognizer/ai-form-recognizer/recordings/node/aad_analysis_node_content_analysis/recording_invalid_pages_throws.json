@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-layout:analyze?pages=2\u0026api-version=2022-01-30-preview",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-layout:analyze?pages=2\u0026api-version=2022-08-31",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,21 +10,21 @@
         "Connection": "keep-alive",
         "Content-Length": "73",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.3 core-rest-pipeline/1.5.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "50f74076-c408-4c7a-80d5-5a184da0bd8e"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
+        "x-ms-client-request-id": "91e612a5-3f26-4745-ac2a-9d723a911403"
       },
       "RequestBody": {
         "urlSource": "https://storageaccount/testingdata/Invoice_1.pdf?sastoken"
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "apim-request-id": "4a0a7367-aa40-4c40-ac9d-416a0186184c",
+        "apim-request-id": "259e8444-5440-4fec-9ffc-7ea3f23a1abe",
+        "Content-Length": "211",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 08 Feb 2022 23:03:31 GMT",
+        "Date": "Thu, 08 Sep 2022 00:26:16 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "600"
+        "x-envoy-upstream-service-time": "273"
       },
       "ResponseBody": {
         "error": {

@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -9,7 +9,7 @@ trigger:
   paths:
     include:
       - sdk/mixedreality/ci.mgmt.yml
-      - sdk/mixedreality/arm-mixedreality/
+      - sdk/mixedreality/arm-mixedreality
 pr:
   branches:
     include:
@@ -22,8 +22,7 @@ pr:
   paths:
     include:
       - sdk/mixedreality/ci.mgmt.yml
-      - sdk/mixedreality/arm-mixedreality/
-
+      - sdk/mixedreality/arm-mixedreality
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

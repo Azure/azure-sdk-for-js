@@ -1,0 +1,346 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164933943007103297",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DA189D94844BDC\"",
+    "last-modified": "Thu, 07 Apr 2022 13:50:30 GMT",
+    "x-ms-client-request-id": "729ef507-71fb-47eb-8fc0-d465121999f9",
+    "x-ms-request-id": "c01c76c8-a01e-0003-3686-4a1608000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164933943007103297/blob164933943055406575",
+   "query": {},
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DA189D94CE72C0\"",
+    "last-modified": "Thu, 07 Apr 2022 13:50:31 GMT",
+    "x-ms-client-request-id": "cac96c1e-8de0-4800-9dcf-0a41c8a85d7a",
+    "x-ms-request-id": "c01c76cb-a01e-0003-3886-4a1608000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164933943007103297/blob164933943055406575",
+   "query": {
+    "comp": "page"
+   },
+   "requestBody": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DA189D951715FD\"",
+    "last-modified": "Thu, 07 Apr 2022 13:50:31 GMT",
+    "x-ms-blob-sequence-number": "0",
+    "x-ms-client-request-id": "b1395841-5635-41ef-b406-9a01e1ae7fea",
+    "x-ms-content-crc64": "hZKj+vsuWCQ=",
+    "x-ms-request-id": "c01c76cd-a01e-0003-3a86-4a1608000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164933943007103297/blob164933943055406575",
+   "query": {
+    "comp": "snapshot"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DA189D951715FD\"",
+    "last-modified": "Thu, 07 Apr 2022 13:50:31 GMT",
+    "x-ms-client-request-id": "bdcc7fdb-61db-4fe4-8452-4e1d93eba986",
+    "x-ms-request-id": "c01c76d1-a01e-0003-3e86-4a1608000000",
+    "x-ms-request-server-encrypted": "false",
+    "x-ms-snapshot": "2022-04-07T13:50:32.1406974Z",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164933943007103297/blob164933943055406575",
+   "query": {
+    "comp": "page"
+   },
+   "requestBody": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DA189D958605EB\"",
+    "last-modified": "Thu, 07 Apr 2022 13:50:32 GMT",
+    "x-ms-blob-sequence-number": "0",
+    "x-ms-client-request-id": "a3c40c27-c91b-4950-8baa-05539a711052",
+    "x-ms-content-crc64": "u661BimQ84c=",
+    "x-ms-request-id": "c01c76d2-a01e-0003-3f86-4a1608000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164933943007103297/blob164933943055406575",
+   "query": {
+    "comp": "page"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DA189D95AB41EB\"",
+    "last-modified": "Thu, 07 Apr 2022 13:50:32 GMT",
+    "x-ms-blob-sequence-number": "0",
+    "x-ms-client-request-id": "77b42893-ea63-4dd7-a57c-cfef08870833",
+    "x-ms-request-id": "c01c76d3-a01e-0003-4086-4a1608000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164933943007103297/blob164933943055406575",
+   "query": {
+    "comp": "page"
+   },
+   "requestBody": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DA189D95D07DBF\"",
+    "last-modified": "Thu, 07 Apr 2022 13:50:32 GMT",
+    "x-ms-blob-sequence-number": "0",
+    "x-ms-client-request-id": "a1d4202d-25f1-4297-88a7-147ad9d8c05b",
+    "x-ms-content-crc64": "u661BimQ84c=",
+    "x-ms-request-id": "c01c76d4-a01e-0003-4186-4a1608000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164933943007103297/blob164933943055406575",
+   "query": {
+    "comp": "page"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DA189D95F6079A\"",
+    "last-modified": "Thu, 07 Apr 2022 13:50:33 GMT",
+    "x-ms-blob-sequence-number": "0",
+    "x-ms-client-request-id": "a74da9d2-dff2-4989-8373-89f37b0834c7",
+    "x-ms-request-id": "c01c76d5-a01e-0003-4286-4a1608000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164933943007103297/blob164933943055406575",
+   "query": {
+    "comp": "page"
+   },
+   "requestBody": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DA189D961BB8D4\"",
+    "last-modified": "Thu, 07 Apr 2022 13:50:33 GMT",
+    "x-ms-blob-sequence-number": "0",
+    "x-ms-client-request-id": "0ccc99e2-8d29-47a9-ab35-0898ea13295b",
+    "x-ms-content-crc64": "u661BimQ84c=",
+    "x-ms-request-id": "c01c76d6-a01e-0003-4386-4a1608000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164933943007103297/blob164933943055406575",
+   "query": {
+    "comp": "page"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DA189D9640CD96\"",
+    "last-modified": "Thu, 07 Apr 2022 13:50:33 GMT",
+    "x-ms-blob-sequence-number": "0",
+    "x-ms-client-request-id": "1d37a309-1f1d-4207-9bb2-d6aa3247c2bf",
+    "x-ms-request-id": "c01c76d7-a01e-0003-4486-4a1608000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164933943007103297/blob164933943055406575",
+   "query": {
+    "comp": "page"
+   },
+   "requestBody": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DA189D96667E71\"",
+    "last-modified": "Thu, 07 Apr 2022 13:50:33 GMT",
+    "x-ms-blob-sequence-number": "0",
+    "x-ms-client-request-id": "084eb582-32e9-40ab-a0f6-949d4e555bb4",
+    "x-ms-content-crc64": "u661BimQ84c=",
+    "x-ms-request-id": "c01c76d8-a01e-0003-4586-4a1608000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164933943007103297/blob164933943055406575",
+   "query": {
+    "comp": "page"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DA189D968BBA72\"",
+    "last-modified": "Thu, 07 Apr 2022 13:50:34 GMT",
+    "x-ms-blob-sequence-number": "0",
+    "x-ms-client-request-id": "4bd4bdac-7bc3-4b50-904c-1c8151b87882",
+    "x-ms-request-id": "c01c76d9-a01e-0003-4686-4a1608000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164933943007103297/blob164933943055406575",
+   "query": {
+    "maxresults": "2",
+    "comp": "pagelist",
+    "prevsnapshot": "2022-04-07T13:50:32.1406974Z"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<PageList><PageRange><Start>0</Start><End>511</End></PageRange><ClearRange><Start>512</Start><End>1023</End></ClearRange><NextMarker>2!16!MDAwMDA0ITEwMjQh</NextMarker></PageList>",
+   "responseHeaders": {
+    "content-type": "application/xml",
+    "date": "Thu, 07 Apr 2022 13:50:34 GMT",
+    "etag": "\"0x8DA189D968BBA72\"",
+    "last-modified": "Thu, 07 Apr 2022 13:50:34 GMT",
+    "transfer-encoding": "chunked",
+    "x-ms-blob-content-length": "4096",
+    "x-ms-client-request-id": "32876ea2-b50c-45c2-a397-73fff565500c",
+    "x-ms-request-id": "c01c76db-a01e-0003-4886-4a1608000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164933943007103297/blob164933943055406575",
+   "query": {
+    "marker": "2!16!MDAwMDA0ITEwMjQh",
+    "maxresults": "2",
+    "comp": "pagelist",
+    "prevsnapshot": "2022-04-07T13:50:32.1406974Z"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<PageList><PageRange><Start>1024</Start><End>1535</End></PageRange><ClearRange><Start>1536</Start><End>2047</End></ClearRange><NextMarker>2!16!MDAwMDA0ITIwNDgh</NextMarker></PageList>",
+   "responseHeaders": {
+    "content-type": "application/xml",
+    "date": "Thu, 07 Apr 2022 13:50:34 GMT",
+    "etag": "\"0x8DA189D968BBA72\"",
+    "last-modified": "Thu, 07 Apr 2022 13:50:34 GMT",
+    "transfer-encoding": "chunked",
+    "x-ms-blob-content-length": "4096",
+    "x-ms-client-request-id": "6a564df9-62bd-4f11-80aa-a754b1fa64f5",
+    "x-ms-request-id": "c01c76dd-a01e-0003-4a86-4a1608000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164933943007103297/blob164933943055406575",
+   "query": {
+    "marker": "2!16!MDAwMDA0ITIwNDgh",
+    "maxresults": "2",
+    "comp": "pagelist",
+    "prevsnapshot": "2022-04-07T13:50:32.1406974Z"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<PageList><PageRange><Start>2048</Start><End>2559</End></PageRange><ClearRange><Start>2560</Start><End>3071</End></ClearRange><NextMarker>2!16!MDAwMDA0ITMwNzIh</NextMarker></PageList>",
+   "responseHeaders": {
+    "content-type": "application/xml",
+    "date": "Thu, 07 Apr 2022 13:50:35 GMT",
+    "etag": "\"0x8DA189D968BBA72\"",
+    "last-modified": "Thu, 07 Apr 2022 13:50:34 GMT",
+    "transfer-encoding": "chunked",
+    "x-ms-blob-content-length": "4096",
+    "x-ms-client-request-id": "2457f105-a56d-4ff4-962d-f77660606aed",
+    "x-ms-request-id": "c01c76df-a01e-0003-4c86-4a1608000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164933943007103297/blob164933943055406575",
+   "query": {
+    "marker": "2!16!MDAwMDA0ITMwNzIh",
+    "maxresults": "2",
+    "comp": "pagelist",
+    "prevsnapshot": "2022-04-07T13:50:32.1406974Z"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<PageList><PageRange><Start>3072</Start><End>3583</End></PageRange><ClearRange><Start>3584</Start><End>4095</End></ClearRange><NextMarker/></PageList>",
+   "responseHeaders": {
+    "content-type": "application/xml",
+    "date": "Thu, 07 Apr 2022 13:50:35 GMT",
+    "etag": "\"0x8DA189D968BBA72\"",
+    "last-modified": "Thu, 07 Apr 2022 13:50:34 GMT",
+    "transfer-encoding": "chunked",
+    "x-ms-blob-content-length": "4096",
+    "x-ms-client-request-id": "658b02c3-ba16-4d7b-9048-22afd9401a75",
+    "x-ms-request-id": "c01c76e1-a01e-0003-4e86-4a1608000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164933943007103297",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-client-request-id": "7c92740d-048c-47a6-8c12-52d0f7941c56",
+    "x-ms-request-id": "c01c76e3-a01e-0003-5086-4a1608000000",
+    "x-ms-version": "2021-04-10"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "container": "container164933943007103297",
+   "blob": "blob164933943055406575"
+  },
+  "newDate": {}
+ },
+ "hash": "f3257a84b1fda7ce42852a324f6f0eec"
+}

@@ -93,7 +93,7 @@ describe("Encryption Scope", function () {
       await blockBlobClient.upload(content, content.length, {
         encryptionScope: encryptionScopeName2,
       });
-    } catch (err) {
+    } catch (err: any) {
       operationFailed = true;
       assert.equal(err.details.errorCode, "RequestForbiddenByContainerEncryptionPolicy");
     }
@@ -108,7 +108,7 @@ describe("Encryption Scope", function () {
         customerProvidedKey: Test_CPK_INFO,
         encryptionScope: encryptionScopeName1,
       });
-    } catch (err) {
+    } catch (err: any) {
       operationFailed = true;
     }
     assert.ok(operationFailed, "Providing both CPK and CPK-N should fail.");
@@ -137,7 +137,7 @@ describe("Encryption Scope", function () {
       await blobClient.createSnapshot({
         encryptionScope: encryptionScopeName2,
       });
-    } catch (err) {
+    } catch (err: any) {
       operationFailed = true;
       assert.strictEqual(err.details.errorCode, "BlobCustomerSpecifiedEncryptionMismatch");
     }

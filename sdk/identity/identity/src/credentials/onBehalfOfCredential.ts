@@ -5,7 +5,7 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 
 import { MsalOnBehalfOf } from "../msal/nodeFlows/msalOnBehalfOf";
 import { credentialLogger } from "../util/logging";
-import { trace } from "../util/tracing";
+import { tracingClient } from "../util/tracing";
 import { MsalFlow } from "../msal/flows";
 import {
   OnBehalfOfCredentialCertificateOptions,
@@ -100,7 +100,7 @@ export class OnBehalfOfCredential implements TokenCredential {
    * @param options - The options used to configure the underlying network requests.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    return trace(`${credentialName}.getToken`, options, async (newOptions) => {
+    return tracingClient.withSpan(`${credentialName}.getToken`, options, async (newOptions) => {
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       return this.msalFlow!.getToken(arrayScopes, newOptions);
     });

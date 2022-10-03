@@ -3,9 +3,9 @@
 
 import { CommunicationTokenCredential } from "@azure/communication-common";
 import {
-  bearerTokenAuthenticationPolicy,
   BearerTokenAuthenticationPolicyOptions,
   PipelinePolicy,
+  bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
 
 /**

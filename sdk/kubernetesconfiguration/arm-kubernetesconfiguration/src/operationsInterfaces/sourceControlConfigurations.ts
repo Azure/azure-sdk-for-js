@@ -10,8 +10,6 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   SourceControlConfiguration,
-  Enum0,
-  Enum1,
   SourceControlConfigurationsListOptionalParams,
   SourceControlConfigurationsGetOptionalParams,
   SourceControlConfigurationsGetResponse,
@@ -26,35 +24,35 @@ export interface SourceControlConfigurations {
   /**
    * List all Source Control Configurations.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     options?: SourceControlConfigurationsListOptionalParams
   ): PagedAsyncIterableIterator<SourceControlConfiguration>;
   /**
    * Gets details of the Source Control Configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param sourceControlConfigurationName Name of the Source Control Configuration.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     sourceControlConfigurationName: string,
     options?: SourceControlConfigurationsGetOptionalParams
@@ -62,10 +60,10 @@ export interface SourceControlConfigurations {
   /**
    * Create a new Kubernetes Source Control Configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param sourceControlConfigurationName Name of the Source Control Configuration.
    * @param sourceControlConfiguration Properties necessary to Create KubernetesConfiguration.
@@ -73,8 +71,8 @@ export interface SourceControlConfigurations {
    */
   createOrUpdate(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     sourceControlConfigurationName: string,
     sourceControlConfiguration: SourceControlConfiguration,
@@ -84,18 +82,18 @@ export interface SourceControlConfigurations {
    * This will delete the YAML file used to set up the Source control configuration, thus stopping future
    * sync from the source repo.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param sourceControlConfigurationName Name of the Source Control Configuration.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     sourceControlConfigurationName: string,
     options?: SourceControlConfigurationsDeleteOptionalParams
@@ -104,18 +102,18 @@ export interface SourceControlConfigurations {
    * This will delete the YAML file used to set up the Source control configuration, thus stopping future
    * sync from the source repo.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param sourceControlConfigurationName Name of the Source Control Configuration.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     sourceControlConfigurationName: string,
     options?: SourceControlConfigurationsDeleteOptionalParams

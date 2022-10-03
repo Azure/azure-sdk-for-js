@@ -2,6 +2,11 @@
 // Licensed under the MIT license.
 
 /**
+ * Current version of the `@azure/identity` package.
+ */
+export const SDK_VERSION = `3.0.0-beta.1`;
+
+/**
  * The default client ID for authentication
  * @internal
  */

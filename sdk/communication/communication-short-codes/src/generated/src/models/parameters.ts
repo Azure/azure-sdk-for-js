@@ -11,7 +11,10 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import { USProgramBrief as USProgramBriefMapper } from "../models/mappers";
+import {
+  USProgramBrief as USProgramBriefMapper,
+  ProgramBriefAttachment as ProgramBriefAttachmentMapper
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -62,7 +65,7 @@ export const top: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-10-25-preview",
+    defaultValue: "2022-09-06",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -92,6 +95,59 @@ export const programBriefId: OperationURLParameter = {
   parameterPath: "programBriefId",
   mapper: {
     serializedName: "programBriefId",
+    required: true,
+    type: {
+      name: "Uuid"
+    }
+  }
+};
+
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const id: OperationParameter = {
+  parameterPath: "id",
+  mapper: ProgramBriefAttachmentMapper
+};
+
+export const type: OperationParameter = {
+  parameterPath: "type",
+  mapper: ProgramBriefAttachmentMapper
+};
+
+export const fileName: OperationParameter = {
+  parameterPath: "fileName",
+  mapper: ProgramBriefAttachmentMapper
+};
+
+export const fileSizeInBytes: OperationParameter = {
+  parameterPath: ["options", "fileSizeInBytes"],
+  mapper: ProgramBriefAttachmentMapper
+};
+
+export const fileType: OperationParameter = {
+  parameterPath: "fileType",
+  mapper: ProgramBriefAttachmentMapper
+};
+
+export const fileContentBase64: OperationParameter = {
+  parameterPath: "fileContentBase64",
+  mapper: ProgramBriefAttachmentMapper
+};
+
+export const attachmentId: OperationURLParameter = {
+  parameterPath: "attachmentId",
+  mapper: {
+    serializedName: "attachmentId",
     required: true,
     type: {
       name: "Uuid"

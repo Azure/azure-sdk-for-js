@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { UnknownObject, isObject } from "./helpers";
-import { URL } from "./url";
+import { UnknownObject, isObject } from "@azure/core-util";
 
 /**
  * @internal
@@ -25,6 +24,7 @@ export interface SanitizerOptions {
 
 const RedactedString = "REDACTED";
 
+// Make sure this list is up-to-date with the one under core/logger/Readme#Keyconcepts
 const defaultAllowedHeaderNames = [
   "x-ms-client-request-id",
   "x-ms-return-client-request-id",

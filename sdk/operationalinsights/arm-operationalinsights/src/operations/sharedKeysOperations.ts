@@ -77,7 +77,7 @@ const getSharedKeysOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SharedKeys
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -96,7 +96,7 @@ const regenerateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SharedKeys
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

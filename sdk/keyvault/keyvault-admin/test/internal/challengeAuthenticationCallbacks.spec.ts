@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import { createChallengeCallbacks } from "../../src/challengeAuthenticationCallbacks";
+import { createChallengeCallbacks } from "../../../keyvault-common/src/";
 import {
   AuthorizeRequestOptions,
   ChallengeCallbacks,
@@ -59,7 +59,7 @@ describe("Challenge based authentication tests", function () {
         request,
         response: {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer scope="cae_scope"`,
+            "WWW-Authenticate": `Bearer resource="cae_scope"`,
           }),
           request,
           status: 200,
@@ -118,7 +118,7 @@ describe("Challenge based authentication tests", function () {
         request,
         response: {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer scope="cae_scope"`,
+            "WWW-Authenticate": `Bearer resource="cae_scope"`,
           }),
           request,
           status: 200,
@@ -126,7 +126,28 @@ describe("Challenge based authentication tests", function () {
         scopes: [],
       });
 
-      assert.sameMembers(getAccessTokenScopes, ["cae_scope"]);
+      assert.sameMembers(getAccessTokenScopes, ["cae_scope/.default"]);
+    });
+
+    it("prefers resource scope and adds .default to resource when provided", async () => {
+      let getAccessTokenScopes: string[] = [];
+      await challengeCallbacks.authorizeRequestOnChallenge!({
+        getAccessToken: (scopes) => {
+          getAccessTokenScopes = scopes;
+          return Promise.resolve(null);
+        },
+        request,
+        response: {
+          headers: createHttpHeaders({
+            "WWW-Authenticate": `Bearer resource="cae_resource", scope="cae_scope"`,
+          }),
+          request,
+          status: 200,
+        },
+        scopes: [],
+      });
+
+      assert.sameMembers(getAccessTokenScopes, ["cae_resource/.default"]);
     });
 
     it("passes the tenantId if provided", async () => {
@@ -142,7 +163,7 @@ describe("Challenge based authentication tests", function () {
         request,
         response: {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer scope="cae_scope" authorization="http://login.windows.net/${expectedTenantId}"`,
+            "WWW-Authenticate": `Bearer resource="cae_scope" authorization="http://login.windows.net/${expectedTenantId}"`,
           }),
           request,
           status: 200,
@@ -161,7 +182,7 @@ describe("Challenge based authentication tests", function () {
         request,
         response: {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer scope="cae_scope"`,
+            "WWW-Authenticate": `Bearer resource="cae_scope"`,
           }),
           request,
           status: 200,
@@ -179,7 +200,7 @@ describe("Challenge based authentication tests", function () {
         request,
         response: {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer scope="cae_scope"`,
+            "WWW-Authenticate": `Bearer resource="cae_scope"`,
           }),
           request,
           status: 200,

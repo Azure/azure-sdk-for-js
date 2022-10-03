@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 import {
-  createHttpHeaders,
-  createPipelineRequest,
   FormDataMap,
   HttpClient,
   HttpMethods,
@@ -13,10 +11,13 @@ import {
   RawHttpHeaders,
   RequestBodyType,
   RestError,
+  createHttpHeaders,
+  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { getCachedDefaultHttpsClient } from "./clientHelpers";
+import { isReadableStream } from "./helpers/isReadableStream";
 import { HttpResponse, RequestParameters } from "./common";
-import { binaryArrayToString, stringToBinaryArray } from "./helpers/getBinaryBody";
+import { binaryArrayToString } from "./helpers/getBinaryBody";
 
 /**
  * Helper function to send request used by the client
@@ -39,7 +40,7 @@ export async function sendRequest(
   const response = await pipeline.sendRequest(httpClient, request);
   const rawHeaders: RawHttpHeaders = response.headers.toJSON();
 
-  const parsedBody: RequestBodyType | undefined = getResponseBody(response, options);
+  const parsedBody: RequestBodyType | undefined = getResponseBody(response);
 
   return {
     request,
@@ -47,6 +48,41 @@ export async function sendRequest(
     status: `${response.status}`,
     body: parsedBody,
   };
+}
+
+/**
+ * Helper function to send request used by the client
+ * @param method - method to use to send the request
+ * @param url - url to send the request to
+ * @param pipeline - pipeline with the policies to run when sending the request
+ * @param options - request options
+ * @param customHttpClient - a custom HttpClient to use when making the request
+ * @returns returns and HttpResponse
+ */
+export async function sendRequestAsStream<
+  TResponse extends HttpResponse & {
+    body: NodeJS.ReadableStream | ReadableStream<Uint8Array> | undefined;
+  }
+>(
+  method: HttpMethods,
+  url: string,
+  pipeline: Pipeline,
+  options: RequestParameters = {},
+  customHttpClient?: HttpClient
+): Promise<TResponse> {
+  const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
+  const request = buildPipelineRequest(method, url, { ...options, responseAsStream: true });
+  const response = await pipeline.sendRequest(httpClient, request);
+  const rawHeaders: RawHttpHeaders = response.headers.toJSON();
+
+  const parsedBody = response.browserStreamBody ?? response.readableStreamBody;
+
+  return {
+    request,
+    headers: rawHeaders,
+    status: `${response.status}`,
+    body: parsedBody,
+  } as TResponse;
 }
 
 /**
@@ -91,6 +127,10 @@ function buildPipelineRequest(
     formData,
     headers,
     allowInsecureConnection: options.allowInsecureConnection,
+    enableBrowserStreams: true,
+    streamResponseStatusCodes: options.responseAsStream
+      ? new Set([Number.POSITIVE_INFINITY])
+      : undefined,
   });
 }
 
@@ -105,6 +145,10 @@ interface RequestBody {
 function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   if (body === undefined) {
     return { body: undefined };
+  }
+
+  if (isReadableStream(body)) {
+    return { body };
   }
 
   if (!contentType && typeof body === "string") {
@@ -133,6 +177,9 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
     case "text/plain":
       return { body: String(body) };
     default:
+      if (typeof body === "string") {
+        return { body };
+      }
       return { body: JSON.stringify(body) };
   }
 }
@@ -167,10 +214,7 @@ function processFormData(formData?: FormDataMap) {
 /**
  * Prepares the response body
  */
-function getResponseBody(
-  response: PipelineResponse,
-  requestOptions: RequestParameters
-): RequestBodyType | undefined {
+function getResponseBody(response: PipelineResponse): RequestBodyType | undefined {
   // Set the default response type
   const contentType = response.headers.get("content-type") ?? "";
   const firstType = contentType.split(";")[0];
@@ -179,19 +223,10 @@ function getResponseBody(
   if (firstType === "text/plain") {
     return String(bodyToParse);
   }
-
-  /**
-   * If we know from options or from the content type that we are receiving binary content,
-   * encode it into a UInt8Array
-   */
-  if (requestOptions.binaryResponse || isBinaryContentType(firstType)) {
-    return stringToBinaryArray(bodyToParse);
-  }
-
   // Default to "application/json" and fallback to string;
   try {
     return bodyToParse ? JSON.parse(bodyToParse) : undefined;
-  } catch (error) {
+  } catch (error: any) {
     // If we were supposed to get a JSON object and failed to
     // parse, throw a parse error
     if (firstType === "application/json") {
@@ -213,17 +248,4 @@ function createParseError(response: PipelineResponse, err: any): RestError {
     request: response.request,
     response: response,
   });
-}
-
-function isBinaryContentType(contentType: string) {
-  return [
-    "application/octet-stream",
-    "application/x-rdp",
-    "image/bmp",
-    "image/gif",
-    "image/jpeg",
-    "image/png",
-    "application/pdf",
-    "application/zip",
-  ].includes(contentType);
 }

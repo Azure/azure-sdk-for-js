@@ -164,7 +164,7 @@ async function main() {
       console.log(`Success - all messages accounted for with no duplicates.`);
       process.exit(0);
     }
-  } catch (err) {
+  } catch (err: any) {
     console.log(`Exception thrown: `, err);
 
     appInsightsClient.trackException({
@@ -334,7 +334,7 @@ async function sendTestMessages(
     }
 
     console.log(`Done sending messages to ${queueName}`);
-  } catch (err) {
+  } catch (err: any) {
     console.log(`Exception thrown: `, err);
 
     appInsightsClient.trackException({

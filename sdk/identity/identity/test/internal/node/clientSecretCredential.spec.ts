@@ -7,7 +7,7 @@ import Sinon from "sinon";
 import { assert } from "chai";
 import { GetTokenOptions } from "@azure/core-auth";
 import { AbortController } from "@azure/abort-controller";
-import { env, delay, isPlaybackMode, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, delay, env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { ClientSecretCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
@@ -44,22 +44,22 @@ describe("ClientSecretCredential (internal)", function () {
     const errors: Error[] = [];
     try {
       new ClientSecretCredential(undefined as any, env.AZURE_CLIENT_ID!, env.AZURE_CLIENT_SECRET!);
-    } catch (e) {
+    } catch (e: any) {
       errors.push(e);
     }
     try {
       new ClientSecretCredential(env.AZURE_TENANT_ID!, undefined as any, env.AZURE_CLIENT_SECRET!);
-    } catch (e) {
+    } catch (e: any) {
       errors.push(e);
     }
     try {
       new ClientSecretCredential(env.AZURE_TENANT_ID!, env.AZURE_CLIENT_ID!, undefined as any);
-    } catch (e) {
+    } catch (e: any) {
       errors.push(e);
     }
     try {
       new ClientSecretCredential(undefined as any, undefined as any, undefined as any);
-    } catch (e) {
+    } catch (e: any) {
       errors.push(e);
     }
     assert.equal(errors.length, 4);
@@ -130,7 +130,7 @@ describe("ClientSecretCredential (internal)", function () {
     controller.abort();
     try {
       await getTokenPromise;
-    } catch (e) {
+    } catch (e: any) {
       // Nothing to do here.
     }
 

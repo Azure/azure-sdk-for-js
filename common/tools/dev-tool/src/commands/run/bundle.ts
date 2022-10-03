@@ -77,7 +77,7 @@ export default leafCommand(commandInfo, async (options) => {
         sourcemap: true,
         exports: "named",
       });
-    } catch (error) {
+    } catch (error: any) {
       log.error(error);
       return false;
     }
@@ -135,7 +135,7 @@ export default leafCommand(commandInfo, async (options) => {
         format: "umd",
         sourcemap: true,
       });
-    } catch (error) {
+    } catch (error: any) {
       log.error(error);
       return false;
     }

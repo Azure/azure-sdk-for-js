@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -11,7 +11,7 @@ trigger:
       - sdk/synapse/
     exclude:
       - sdk/synapse/ci.mgmt.yml
-      - sdk/synapse/arm-synapse/
+      - sdk/synapse/arm-synapse
 pr:
   branches:
     include:
@@ -26,7 +26,7 @@ pr:
       - sdk/synapse/
     exclude:
       - sdk/synapse/ci.mgmt.yml
-      - sdk/synapse/arm-synapse/
+      - sdk/synapse/arm-synapse
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

@@ -116,7 +116,7 @@ describe("Partition Splits", () => {
         .items.query("SELECT * FROM root r", { maxItemCount: 2, maxDegreeOfParallelism: 1 })
         .fetchAll();
       assert.fail("Expected query to fail");
-    } catch (e) {
+    } catch (e: any) {
       assert.strictEqual(e.code, 503);
     }
 
@@ -128,7 +128,7 @@ describe("Partition Splits", () => {
         .items.query("SELECT * FROM root r", { maxItemCount: 2, maxDegreeOfParallelism: 1 })
         .fetchNext();
       assert.fail("Expected query to fail");
-    } catch (e) {
+    } catch (e: any) {
       assert.strictEqual(e.code, 503);
     }
 
@@ -144,7 +144,7 @@ describe("Partition Splits", () => {
         results.push(result);
       }
       assert.fail("Expected query to fail");
-    } catch (e) {
+    } catch (e: any) {
       assert.strictEqual(e.code, 503);
     }
   });

@@ -8,4 +8,3 @@
 
 export * from "./models";
 export { MixedRealityStsRestClient } from "./mixedRealityStsRestClient";
-export { MixedRealityStsRestClientContext } from "./mixedRealityStsRestClientContext";

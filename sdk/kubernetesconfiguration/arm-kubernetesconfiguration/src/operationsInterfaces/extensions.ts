@@ -10,8 +10,6 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   Extension,
-  Enum0,
-  Enum1,
   ExtensionsListOptionalParams,
   ExtensionsCreateOptionalParams,
   ExtensionsCreateResponse,
@@ -29,27 +27,27 @@ export interface Extensions {
   /**
    * List all Extensions in the cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     options?: ExtensionsListOptionalParams
   ): PagedAsyncIterableIterator<Extension>;
   /**
    * Create a new Kubernetes Cluster Extension.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param extensionName Name of the Extension.
    * @param extension Properties necessary to Create an Extension.
@@ -57,8 +55,8 @@ export interface Extensions {
    */
   beginCreate(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     extensionName: string,
     extension: Extension,
@@ -72,10 +70,10 @@ export interface Extensions {
   /**
    * Create a new Kubernetes Cluster Extension.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param extensionName Name of the Extension.
    * @param extension Properties necessary to Create an Extension.
@@ -83,8 +81,8 @@ export interface Extensions {
    */
   beginCreateAndWait(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     extensionName: string,
     extension: Extension,
@@ -93,18 +91,18 @@ export interface Extensions {
   /**
    * Gets Kubernetes Cluster Extension.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param extensionName Name of the Extension.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     extensionName: string,
     options?: ExtensionsGetOptionalParams
@@ -113,18 +111,18 @@ export interface Extensions {
    * Delete a Kubernetes Cluster Extension. This will cause the Agent to Uninstall the extension from the
    * cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param extensionName Name of the Extension.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     extensionName: string,
     options?: ExtensionsDeleteOptionalParams
@@ -133,18 +131,18 @@ export interface Extensions {
    * Delete a Kubernetes Cluster Extension. This will cause the Agent to Uninstall the extension from the
    * cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param extensionName Name of the Extension.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     extensionName: string,
     options?: ExtensionsDeleteOptionalParams
@@ -152,10 +150,10 @@ export interface Extensions {
   /**
    * Patch an existing Kubernetes Cluster Extension.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param extensionName Name of the Extension.
    * @param patchExtension Properties to Patch in an existing Extension.
@@ -163,8 +161,8 @@ export interface Extensions {
    */
   beginUpdate(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     extensionName: string,
     patchExtension: PatchExtension,
@@ -178,10 +176,10 @@ export interface Extensions {
   /**
    * Patch an existing Kubernetes Cluster Extension.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param extensionName Name of the Extension.
    * @param patchExtension Properties to Patch in an existing Extension.
@@ -189,8 +187,8 @@ export interface Extensions {
    */
   beginUpdateAndWait(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     extensionName: string,
     patchExtension: PatchExtension,

@@ -4,7 +4,9 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
 import { AzureKeyCredential } from '@azure/core-auth';
+import { CancelOnProgress } from '@azure/core-lro';
 import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
@@ -36,20 +38,16 @@ export type AnalyzeActionsPollerLike = PollerLike<AnalyzeActionsOperationState, 
 export interface AnalyzeActionsResult {
     analyzeSentimentResults: AnalyzeSentimentActionResult[];
     extractKeyPhrasesResults: ExtractKeyPhrasesActionResult[];
-    extractSummaryResults: ExtractSummaryActionResult[];
-    multiCategoryClassifyResults: MultiCategoryClassifyActionResult[];
-    recognizeCustomEntitiesResults: RecognizeCustomEntitiesActionResult[];
     recognizeEntitiesResults: RecognizeCategorizedEntitiesActionResult[];
     recognizeLinkedEntitiesResults: RecognizeLinkedEntitiesActionResult[];
     recognizePiiEntitiesResults: RecognizePiiEntitiesActionResult[];
-    singleCategoryClassifyResults: SingleCategoryClassifyActionResult[];
 }
 
 // @public
 export type AnalyzeHealthcareEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export type AnalyzeHealthcareEntitiesPollerLike = PollerLike<AnalyzeHealthcareOperationState, PagedAnalyzeHealthcareEntitiesResult>;
+export type AnalyzeHealthcareEntitiesPollerLike = PollerLikeWithCancellation<AnalyzeHealthcareOperationState, PagedAnalyzeHealthcareEntitiesResult>;
 
 // @public
 export type AnalyzeHealthcareEntitiesResult = AnalyzeHealthcareEntitiesSuccessResult | AnalyzeHealthcareEntitiesErrorResult;
@@ -134,23 +132,6 @@ export interface BeginAnalyzeHealthcareEntitiesOptions extends TextAnalyticsOper
 
 // @public
 export interface CategorizedEntity extends Entity {
-}
-
-// @public
-export interface ClassificationCategory extends ClassificationResult {
-}
-
-// @public (undocumented)
-export interface ClassificationResult {
-    category: string;
-    confidenceScore: number;
-}
-
-// @public
-export interface CustomTextAnalyticsAction {
-    actionName?: string;
-    deploymentName: string;
-    projectName: string;
 }
 
 // @public
@@ -269,42 +250,6 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 }
 
 // @public
-export interface ExtractSummaryAction extends TextAnalyticsAction {
-    disableServiceLogs?: boolean;
-    maxSentenceCount?: number;
-    orderBy?: string;
-    stringIndexType?: StringIndexType;
-}
-
-// @public
-export type ExtractSummaryActionErrorResult = TextAnalyticsActionErrorResult;
-
-// @public
-export type ExtractSummaryActionResult = ExtractSummaryActionSuccessResult | ExtractSummaryActionErrorResult;
-
-// @public
-export interface ExtractSummaryActionSuccessResult extends TextAnalyticsActionSuccessState {
-    results: ExtractSummaryResultArray;
-}
-
-// @public
-export type ExtractSummaryErrorResult = TextAnalyticsErrorResult;
-
-// @public
-export type ExtractSummaryResult = ExtractSummarySuccessResult | ExtractSummaryErrorResult;
-
-// @public
-export interface ExtractSummaryResultArray extends Array<ExtractSummaryResult> {
-    modelVersion: string;
-    statistics?: TextDocumentBatchStatistics;
-}
-
-// @public
-export interface ExtractSummarySuccessResult extends TextAnalyticsSuccessResult {
-    sentences: SummarySentence[];
-}
-
-// @public
 export interface HealthcareEntity extends Entity {
     assertion?: EntityAssertion;
     category: HealthcareEntityCategory;
@@ -338,90 +283,50 @@ export type InnerErrorCodeValue = string;
 
 // @public
 export enum KnownHealthcareEntityCategory {
-    // (undocumented)
     AdministrativeEvent = "ADMINISTRATIVE_EVENT",
-    // (undocumented)
     AGE = "AGE",
-    // (undocumented)
     BodyStructure = "BODY_STRUCTURE",
-    // (undocumented)
     CareEnvironment = "CARE_ENVIRONMENT",
-    // (undocumented)
     ConditionQualifier = "CONDITION_QUALIFIER",
-    // (undocumented)
     Date = "DATE",
-    // (undocumented)
     Diagnosis = "DIAGNOSIS",
-    // (undocumented)
     Direction = "DIRECTION",
-    // (undocumented)
     Dosage = "DOSAGE",
-    // (undocumented)
     ExaminationName = "EXAMINATION_NAME",
-    // (undocumented)
     FamilyRelation = "FAMILY_RELATION",
-    // (undocumented)
     Frequency = "FREQUENCY",
-    // (undocumented)
     Gender = "GENDER",
-    // (undocumented)
     GeneORProtein = "GENE_OR_PROTEIN",
-    // (undocumented)
     HealthcareProfession = "HEALTHCARE_PROFESSION",
-    // (undocumented)
     MeasurementUnit = "MEASUREMENT_UNIT",
-    // (undocumented)
     MeasurementValue = "MEASUREMENT_VALUE",
-    // (undocumented)
     MedicationClass = "MEDICATION_CLASS",
-    // (undocumented)
     MedicationForm = "MEDICATION_FORM",
-    // (undocumented)
     MedicationName = "MEDICATION_NAME",
-    // (undocumented)
     MedicationRoute = "MEDICATION_ROUTE",
-    // (undocumented)
     RelationalOperator = "RELATIONAL_OPERATOR",
-    // (undocumented)
     SymptomORSign = "SYMPTOM_OR_SIGN",
-    // (undocumented)
     Time = "TIME",
-    // (undocumented)
     TreatmentName = "TREATMENT_NAME",
-    // (undocumented)
     Variant = "VARIANT"
 }
 
 // @public
 export enum KnownInnerErrorCodeValue {
-    // (undocumented)
     EmptyRequest = "EmptyRequest",
-    // (undocumented)
     InvalidCountryHint = "InvalidCountryHint",
-    // (undocumented)
     InvalidDocument = "InvalidDocument",
-    // (undocumented)
     InvalidDocumentBatch = "InvalidDocumentBatch",
-    // (undocumented)
     InvalidParameterValue = "InvalidParameterValue",
-    // (undocumented)
     InvalidRequestBodyFormat = "InvalidRequestBodyFormat",
-    // (undocumented)
     MissingInputRecords = "MissingInputRecords",
-    // (undocumented)
     ModelVersionIncorrect = "ModelVersionIncorrect",
-    // (undocumented)
     UnsupportedLanguageCode = "UnsupportedLanguageCode"
 }
 
 // @public
-export type KnownSummarySentencesOrderBy = "Offset" | "Rank";
-
-// @public
 export enum KnownWarningCode {
-    // (undocumented)
     DocumentTruncated = "DocumentTruncated",
-    // (undocumented)
     LongWordsInDocument = "LongWordsInDocument"
 }
 
@@ -442,40 +347,6 @@ export interface Match {
     length: number;
     offset: number;
     text: string;
-}
-
-// @public
-export interface MultiCategoryClassifyAction extends CustomTextAnalyticsAction {
-    disableServiceLogs?: boolean;
-}
-
-// @public
-export type MultiCategoryClassifyActionErrorResult = TextAnalyticsActionErrorResult;
-
-// @public
-export type MultiCategoryClassifyActionResult = MultiCategoryClassifyActionSuccessResult | MultiCategoryClassifyActionErrorResult;
-
-// @public
-export interface MultiCategoryClassifyActionSuccessResult extends TextAnalyticsActionSuccessState {
-    results: MultiCategoryClassifyResultArray;
-}
-
-// @public
-export type MultiCategoryClassifyErrorResult = TextAnalyticsErrorResult;
-
-// @public
-export type MultiCategoryClassifyResult = MultiCategoryClassifySuccessResult | MultiCategoryClassifyErrorResult;
-
-// @public
-export interface MultiCategoryClassifyResultArray extends Array<MultiCategoryClassifyResult> {
-    deploymentName: string;
-    projectName: string;
-    statistics?: TextDocumentBatchStatistics;
-}
-
-// @public
-export interface MultiCategoryClassifySuccessResult extends TextAnalyticsSuccessResult {
-    classifications: ClassificationCategory[];
 }
 
 // @public
@@ -523,6 +394,24 @@ export enum PiiEntityDomain {
 }
 
 // @public
+export interface PollerLikeWithCancellation<TState extends PollOperationState<TResult>, TResult> {
+    cancelOperation(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<void>;
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<void>;
+    pollUntilDone(): Promise<TResult>;
+    stopPolling(): void;
+    toString(): string;
+}
+
+// @public
 export interface RecognizeCategorizedEntitiesAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
     stringIndexType?: StringIndexType;
@@ -559,33 +448,6 @@ export interface RecognizeCategorizedEntitiesResultArray extends Array<Recognize
 // @public
 export interface RecognizeCategorizedEntitiesSuccessResult extends TextAnalyticsSuccessResult {
     readonly entities: CategorizedEntity[];
-}
-
-// @public
-export interface RecognizeCustomEntitiesAction extends CustomTextAnalyticsAction {
-    disableServiceLogs?: boolean;
-    stringIndexType?: StringIndexType;
-}
-
-// @public
-export type RecognizeCustomEntitiesActionResult = RecongizeCustomEntitiesActionSuccessResult | RecongizeCustomEntitiesActionErrorResult;
-
-// @public
-export type RecognizeCustomEntitiesErrorResult = TextAnalyticsErrorResult;
-
-// @public
-export type RecognizeCustomEntitiesResult = RecognizeCustomEntitiesSuccessResult | RecognizeCustomEntitiesErrorResult;
-
-// @public
-export interface RecognizeCustomEntitiesResultArray extends Array<RecognizeCustomEntitiesResult> {
-    deploymentName: string;
-    projectName: string;
-    statistics?: TextDocumentBatchStatistics;
-}
-
-// @public
-export interface RecognizeCustomEntitiesSuccessResult extends TextAnalyticsSuccessResult {
-    entities: CategorizedEntity[];
 }
 
 // @public
@@ -671,14 +533,6 @@ export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessR
     redactedText: string;
 }
 
-// @public
-export type RecongizeCustomEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
-
-// @public
-export interface RecongizeCustomEntitiesActionSuccessResult extends TextAnalyticsActionSuccessState {
-    results: RecognizeCustomEntitiesResultArray;
-}
-
 // @public (undocumented)
 export interface SentenceAssessment {
     confidenceScores: TargetConfidenceScoreLabel;
@@ -713,49 +567,7 @@ export interface SentimentConfidenceScores {
 }
 
 // @public
-export interface SingleCategoryClassifyAction extends CustomTextAnalyticsAction {
-    disableServiceLogs?: boolean;
-}
-
-// @public
-export type SingleCategoryClassifyActionErrorResult = TextAnalyticsActionErrorResult;
-
-// @public
-export type SingleCategoryClassifyActionResult = SingleCategoryClassifyActionSuccessResult | SingleCategoryClassifyActionErrorResult;
-
-// @public
-export interface SingleCategoryClassifyActionSuccessResult extends TextAnalyticsActionSuccessState {
-    results: SingleCategoryClassifyResultArray;
-}
-
-// @public
-export type SingleCategoryClassifyErrorResult = TextAnalyticsErrorResult;
-
-// @public
-export type SingleCategoryClassifyResult = SingleCategoryClassifySuccessResult | SingleCategoryClassifyErrorResult;
-
-// @public
-export interface SingleCategoryClassifyResultArray extends Array<SingleCategoryClassifyResult> {
-    deploymentName: string;
-    projectName: string;
-    statistics?: TextDocumentBatchStatistics;
-}
-
-// @public
-export interface SingleCategoryClassifySuccessResult extends TextAnalyticsSuccessResult {
-    classification: ClassificationCategory;
-}
-
-// @public
 export type StringIndexType = "TextElement_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
-
-// @public
-export interface SummarySentence {
-    length: number;
-    offset: number;
-    rankScore: number;
-    text: string;
-}
 
 // @public
 export interface TargetConfidenceScoreLabel {
@@ -781,7 +593,7 @@ export interface TextAnalyticsAction {
 }
 
 // @public
-export interface TextAnalyticsActionErrorResult extends TextAnalyticsActionState {
+export interface TextAnalyticsActionErrorResult {
     readonly error: TextAnalyticsError;
     readonly failedOn: Date;
 }
@@ -790,22 +602,13 @@ export interface TextAnalyticsActionErrorResult extends TextAnalyticsActionState
 export interface TextAnalyticsActions {
     analyzeSentimentActions?: AnalyzeSentimentAction[];
     extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
-    extractSummaryActions?: ExtractSummaryAction[];
-    multiCategoryClassifyActions?: MultiCategoryClassifyAction[];
-    recognizeCustomEntitiesActions?: RecognizeCustomEntitiesAction[];
     recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
     recognizeLinkedEntitiesActions?: RecognizeLinkedEntitiesAction[];
     recognizePiiEntitiesActions?: RecognizePiiEntitiesAction[];
-    singleCategoryClassifyActions?: SingleCategoryClassifyAction[];
 }
 
 // @public
-export interface TextAnalyticsActionState {
-    actionName?: string;
-}
-
-// @public
-export interface TextAnalyticsActionSuccessState extends TextAnalyticsActionState {
+export interface TextAnalyticsActionSuccessState {
     readonly completedOn: Date;
     readonly error?: undefined;
 }

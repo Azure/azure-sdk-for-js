@@ -136,7 +136,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 Add an `index.spec.ts` at `sdk/<service>/perf-tests/<service-sdk>/test/`.
 
 ```js
-import { PerfProgram, selectPerfTest } from "@azure/test-utils-perf";
+import { createPerfProgram } from "@azure/test-utils-perf";
 import { `ServiceNameAPI1Name`Test } from "./api1-name.spec";
 import { `ServiceNameAPI2Name`Test } from "./api2-name.spec";
 
@@ -146,7 +146,7 @@ dotenv.config();
 
 console.log("=== Starting the perf test ===");
 
-const perfProgram = new PerfProgram(selectPerfTest([`ServiceNameAPIName`Test, `ServiceNameAPIName2`Test]));
+const perfProgram = createPerfProgram([`ServiceNameAPIName`Test, `ServiceNameAPIName2`Test]);
 
 perfProgram.run();
 ```

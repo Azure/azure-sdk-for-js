@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -9,7 +9,7 @@ trigger:
   paths:
     include:
       - sdk/attestation/ci.mgmt.yml
-      - sdk/attestation/arm-attestation/
+      - sdk/attestation/arm-attestation
 pr:
   branches:
     include:
@@ -22,12 +22,11 @@ pr:
   paths:
     include:
       - sdk/attestation/ci.mgmt.yml
-      - sdk/attestation/arm-attestation/
-
+      - sdk/attestation/arm-attestation
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: attestation
     Artifacts:
       - name: azure-arm-attestation
-        safeName: azurearmattestation       
+        safeName: azurearmattestation

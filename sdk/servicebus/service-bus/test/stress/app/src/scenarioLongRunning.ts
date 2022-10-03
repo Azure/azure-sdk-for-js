@@ -43,7 +43,7 @@ async function sendMessagesForever(
 
         stressTest.trackSentMessages(messagesToSend);
         await sender.sendMessages(messagesToSend);
-      } catch (err) {
+      } catch (err: any) {
         console.log(`Sending message failed: `, err);
         stressTest.trackError("send", err as Error);
       }

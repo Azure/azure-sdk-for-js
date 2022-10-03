@@ -193,6 +193,95 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
   }
 };
 
+export const ArcSettingsPatch: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ArcSettingsPatch",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      connectivityProperties: {
+        serializedName: "properties.connectivityProperties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const PasswordCredential: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PasswordCredential",
+    modelProperties: {
+      secretText: {
+        serializedName: "secretText",
+        type: {
+          name: "String"
+        }
+      },
+      keyId: {
+        serializedName: "keyId",
+        type: {
+          name: "String"
+        }
+      },
+      startDateTime: {
+        serializedName: "startDateTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endDateTime: {
+        serializedName: "endDateTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const ArcIdentityResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ArcIdentityResponse",
+    modelProperties: {
+      arcApplicationClientId: {
+        serializedName: "properties.arcApplicationClientId",
+        type: {
+          name: "String"
+        }
+      },
+      arcApplicationTenantId: {
+        serializedName: "properties.arcApplicationTenantId",
+        type: {
+          name: "String"
+        }
+      },
+      arcServicePrincipalObjectId: {
+        serializedName: "properties.arcServicePrincipalObjectId",
+        type: {
+          name: "String"
+        }
+      },
+      arcApplicationObjectId: {
+        serializedName: "properties.arcApplicationObjectId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ClusterList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -425,6 +514,75 @@ export const ClusterPatch: coreClient.CompositeMapper = {
   }
 };
 
+export const UploadCertificateRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UploadCertificateRequest",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "RawCertificateData"
+        }
+      }
+    }
+  }
+};
+
+export const RawCertificateData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RawCertificateData",
+    modelProperties: {
+      certificates: {
+        serializedName: "certificates",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ClusterIdentityResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterIdentityResponse",
+    modelProperties: {
+      aadClientId: {
+        serializedName: "properties.aadClientId",
+        type: {
+          name: "String"
+        }
+      },
+      aadTenantId: {
+        serializedName: "properties.aadTenantId",
+        type: {
+          name: "String"
+        }
+      },
+      aadServicePrincipalObjectId: {
+        serializedName: "properties.aadServicePrincipalObjectId",
+        type: {
+          name: "String"
+        }
+      },
+      aadApplicationObjectId: {
+        serializedName: "properties.aadApplicationObjectId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ExtensionList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -594,6 +752,21 @@ export const OperationDisplay: coreClient.CompositeMapper = {
   }
 };
 
+export const ArcConnectivityProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ArcConnectivityProperties",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const ProxyResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -647,6 +820,30 @@ export const ArcSetting: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      arcApplicationClientId: {
+        serializedName: "properties.arcApplicationClientId",
+        type: {
+          name: "String"
+        }
+      },
+      arcApplicationTenantId: {
+        serializedName: "properties.arcApplicationTenantId",
+        type: {
+          name: "String"
+        }
+      },
+      arcServicePrincipalObjectId: {
+        serializedName: "properties.arcServicePrincipalObjectId",
+        type: {
+          name: "String"
+        }
+      },
+      arcApplicationObjectId: {
+        serializedName: "properties.arcApplicationObjectId",
+        type: {
+          name: "String"
+        }
+      },
       aggregateState: {
         serializedName: "properties.aggregateState",
         readOnly: true,
@@ -665,6 +862,13 @@ export const ArcSetting: coreClient.CompositeMapper = {
               className: "PerNodeState"
             }
           }
+        }
+      },
+      connectivityProperties: {
+        serializedName: "properties.connectivityProperties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       createdBy: {
@@ -870,6 +1074,18 @@ export const Cluster: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      aadApplicationObjectId: {
+        serializedName: "properties.aadApplicationObjectId",
+        type: {
+          name: "String"
+        }
+      },
+      aadServicePrincipalObjectId: {
+        serializedName: "properties.aadServicePrincipalObjectId",
+        type: {
+          name: "String"
+        }
+      },
       desiredProperties: {
         serializedName: "properties.desiredProperties",
         type: {
@@ -917,6 +1133,13 @@ export const Cluster: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "DateTime"
+        }
+      },
+      serviceEndpoint: {
+        serializedName: "properties.serviceEndpoint",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       },
       createdBy: {

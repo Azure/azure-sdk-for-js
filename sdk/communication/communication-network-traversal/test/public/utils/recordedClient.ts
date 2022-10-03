@@ -1,149 +1,147 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as dotenv from "dotenv";
-import { Context } from "mocha";
-
+import { Context, Test } from "mocha";
 import {
+  Recorder,
+  RecorderStartOptions,
+  SanitizerOptions,
   env,
   isPlaybackMode,
-  Recorder,
-  record,
-  RecorderEnvironmentSetup,
 } from "@azure-tools/test-recorder";
-import {
-  DefaultHttpClient,
-  HttpClient,
-  HttpOperationResponse,
-  isNode,
-  TokenCredential,
-  WebResourceLike,
-} from "@azure/core-http";
-import { CommunicationRelayClient, CommunicationRelayClientOptions } from "../../../src";
-import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
+import { CommunicationIdentityClient } from "@azure/communication-identity";
+import { CommunicationRelayClient } from "../../../src";
+import { TokenCredential } from "@azure/core-auth";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { parseConnectionString } from "@azure/communication-common";
 
-if (isNode) {
-  dotenv.config();
-}
-
-export interface RecordedClient<T> {
-  client: T;
+export interface RecordedClient {
+  identityClient: CommunicationIdentityClient;
+  relayClient: CommunicationRelayClient;
   recorder: Recorder;
 }
 
-const replaceableVariables: { [k: string]: string } = {
+const envSetupForPlayback: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
+  INCLUDE_PHONENUMBER_LIVE_TESTS: "false",
+  COMMUNICATION_ENDPOINT: "https://endpoint/",
+  SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST: "false",
 };
 
-export const environmentSetup: RecorderEnvironmentSetup = {
-  replaceableVariables,
-  customizationsOnRecordings: [
-    (recording: string): string =>
-      recording.replace(/"token"\s?:\s?"[^"]*"/g, `"token":"sanitized"`),
-    (recording: string): string =>
-      recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"sanitized"`),
-    (recording: string): string =>
-      recording.replace(/"urls"\s?:\s?\[.*?\]/g, `"urls":["turn.skype.com"]`),
-    (recording: string): string =>
-      recording.replace(/"username"\s?:\s?"[^"]*"/g, `"username":"sanitized_username"`),
-    (recording: string): string =>
-      recording.replace(/"credential"\s?:\s?"[^"]*"/g, `"credential":"sanitized_credential"`),
-    (recording: string): string =>
-      recording.replace(/"expiresOn"\s?:\s?"[^"]*"/g, `"expiresOn":"2022-05-18T12:00:00.00+00:00"`),
-    (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),
-    (recording: string): string => recording.replace(/"id"\s?:\s?"[^"]*"/g, `"id":"sanitized"`),
-    (recording: string): string => {
-      return recording.replace(
-        /(https:\/\/[^/',]*\/identities\/)[^/',]*(\/token)/,
-        "$1sanitized$2"
-      );
+const sanitizerOptions: SanitizerOptions = {
+  connectionStringSanitizers: [
+    {
+      actualConnString: env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING,
+      fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"],
     },
-    (recording: string): string => recording.replace(/\/turn\/[^/'",]*/, "/turn/sanitized"),
-    (recording: string): string => recording.replace(/\+\d{1}\d{3}\d{3}\d{4}/g, "+18005551234"),
-    (recording: string): string =>
-      recording.replace(/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}/gi, "sanitized"),
   ],
-  queryParametersToSkip: [],
+  uriSanitizers: [
+    {
+      regex: true,
+      target: `(.*)/identities/(?<secret_content>.*?)[/|?](.*)`,
+      value: "sanitized",
+      groupForReplace: "secret_content",
+    },
+  ],
+  generalSanitizers: [
+    { regex: true, target: `"token"\\s?:\\s?"[^"]*"`, value: `"token":"sanitized"` },
+    { regex: true, target: `"id"\\s?:\\s?"[^"]*"`, value: `"id":"sanitized"` },
+    { regex: true, target: `(https://)([^/',]*)`, value: "$1endpoint" },
+    {
+      regex: true,
+      target: `"expiresOn"\\s?:\\s?"[^"]*"`,
+      value: `"expiresOn":"2022-05-18T12:00:00.00+00:00"`,
+    },
+    { regex: true, target: `"(turn|stun):[^"]*"`, value: `"turn.skype.com"` },
+    { regex: true, target: `"username"\\s?:\\s?"[^"]*"`, value: `"username":"sanitized_username"` },
+    {
+      regex: true,
+      target: `"credential"\\s?:\\s?"[^"]*"`,
+      value: `"credential":"sanitized_credential"`,
+    },
+    {
+      regex: true,
+      target: `[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}`,
+      value: `sanitized`,
+    },
+  ],
 };
 
-export function createRecordedCommunicationRelayClient(
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback,
+  sanitizerOptions: sanitizerOptions,
+};
+
+export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+  const recorder = new Recorder(context);
+  await recorder.start(recorderOptions);
+  await recorder.setMatcher("CustomDefaultMatcher", {
+    excludedHeaders: [
+      "Accept-Language", // This is env-dependent
+      "x-ms-content-sha256", // This is dependent on the current datetime
+    ],
+  });
+  return recorder;
+}
+
+export async function createRecordedCommunicationRelayClient(
   context: Context
-): RecordedClient<CommunicationRelayClient> {
-  const recorder = record(context, environmentSetup);
+): Promise<RecordedClient> {
+  const recorder = await createRecorder(context.currentTest);
+
+  const identityClient = new CommunicationIdentityClient(
+    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? "",
+    recorder.configureClientOptions({})
+  );
+  const client = new CommunicationRelayClient(
+    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? "",
+    recorder.configureClientOptions({})
+  );
 
   // casting is a workaround to enable min-max testing
   return {
-    client: new CommunicationRelayClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING, {
-      httpClient: createTestHttpClient(),
-    } as CommunicationRelayClientOptions),
+    identityClient,
+    relayClient: client,
     recorder,
   };
 }
 
-export function createRecordedCommunicationRelayClientWithToken(
+export async function createRecordedCommunicationRelayClientWithToken(
   context: Context
-): RecordedClient<CommunicationRelayClient> {
-  const recorder = record(context, environmentSetup);
+): Promise<RecordedClient> {
+  const recorder = await createRecorder(context.currentTest);
+
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
-    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING
+    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? ""
   ).endpoint;
   if (isPlaybackMode()) {
     credential = {
-      getToken: async (_scopes) => {
+      getToken: async (_scopes: any) => {
         return { token: "testToken", expiresOnTimestamp: 11111 };
       },
     };
-
-    // casting is a workaround to enable min-max testing
-    return {
-      client: new CommunicationRelayClient(endpoint, credential, {
-        httpClient: createTestHttpClient(),
-      } as CommunicationRelayClientOptions),
-      recorder,
-    };
-  }
-
-  if (isNode) {
-    credential = new DefaultAzureCredential();
   } else {
-    credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
-    );
+    credential = createTestCredential();
   }
+  const identityClient = new CommunicationIdentityClient(
+    endpoint,
+    credential,
+    recorder.configureClientOptions({})
+  );
 
-  // casting is a workaround to enable min-max testing
+  const client = new CommunicationRelayClient(
+    endpoint,
+    credential,
+    recorder.configureClientOptions({})
+  );
+
   return {
-    client: new CommunicationRelayClient(endpoint, credential, {
-      httpClient: createTestHttpClient(),
-    } as CommunicationRelayClientOptions),
+    identityClient,
+    relayClient: client,
     recorder,
   };
-}
-
-function createTestHttpClient(): HttpClient {
-  const customHttpClient = new DefaultHttpClient();
-
-  const originalSendRequest = customHttpClient.sendRequest;
-  customHttpClient.sendRequest = async function (
-    httpRequest: WebResourceLike
-  ): Promise<HttpOperationResponse> {
-    const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
-
-    console.log(
-      `MS-CV header for request: ${httpRequest.url} (${
-        requestResponse.status
-      } - ${requestResponse.headers.get("ms-cv")})`
-    );
-
-    return requestResponse;
-  };
-
-  return customHttpClient;
 }

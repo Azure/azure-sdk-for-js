@@ -140,7 +140,7 @@ export interface BotProperties {
         [propertyName: string]: string;
     };
     appPasswordHint?: string;
-    cmekEncryptionStatus?: string;
+    readonly cmekEncryptionStatus?: string;
     cmekKeyVaultUrl?: string;
     readonly configuredChannels?: string[];
     description?: string;
@@ -154,7 +154,7 @@ export interface BotProperties {
     readonly endpointVersion?: string;
     iconUrl?: string;
     isCmekEnabled?: boolean;
-    isDeveloperAppInsightsApiKeySet?: boolean;
+    readonly isDeveloperAppInsightsApiKeySet?: boolean;
     isStreamingSupported?: boolean;
     luisAppIds?: string[];
     luisKey?: string;
@@ -270,7 +270,7 @@ export interface Channel {
 }
 
 // @public
-export type ChannelName = "AlexaChannel" | "FacebookChannel" | "EmailChannel" | "KikChannel" | "TelegramChannel" | "SlackChannel" | "MsTeamsChannel" | "SkypeChannel" | "WebChatChannel" | "DirectLineChannel" | "SmsChannel" | "LineChannel" | "DirectLineSpeechChannel";
+export type ChannelName = "AlexaChannel" | "FacebookChannel" | "EmailChannel" | "KikChannel" | "TelegramChannel" | "SlackChannel" | "MsTeamsChannel" | "SkypeChannel" | "WebChatChannel" | "DirectLineChannel" | "SmsChannel" | "LineChannel" | "DirectLineSpeechChannel" | "OutlookChannel";
 
 // @public
 export interface ChannelResponseList {
@@ -658,6 +658,9 @@ export interface LineRegistration {
 export type ListChannelWithKeysResponse = BotChannel & {
     resource?: ChannelUnion;
     setting?: ChannelSettings;
+    provisioningState?: string;
+    entityTag?: string;
+    changedTime?: string;
 };
 
 // @public

@@ -31,7 +31,7 @@ async function kustoClustersCreateOrUpdate() {
     location: "westus",
     publicIPType: "DualStack",
     publicNetworkAccess: "Enabled",
-    sku: { name: "Standard_L8s", capacity: 2, tier: "Standard" },
+    sku: { name: "Standard_L8s_v2", capacity: 2, tier: "Standard" },
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);

@@ -12,11 +12,11 @@ import {
   CommunicationUserIdentifier,
 } from "@azure/communication-common";
 import {
-  mockThread,
-  generateHttpClient,
   createChatClient,
-  mockThreadItem,
+  generateHttpClient,
   mockCreateThreadResult,
+  mockThread,
+  mockThreadItem,
 } from "./utils/mockClient";
 
 const API_VERSION = apiVersion.mapper.defaultValue;

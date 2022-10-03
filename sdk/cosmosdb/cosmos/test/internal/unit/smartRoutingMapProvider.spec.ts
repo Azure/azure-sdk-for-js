@@ -44,12 +44,12 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
     err1 = err2 = null;
     try {
       results1 = await smartRoutingMapProvider.getOverlappingRanges(containerLink, queryRanges);
-    } catch (err) {
+    } catch (err: any) {
       err1 = err;
     }
     try {
       results2 = await partitionKeyRangeCache.getOverlappingRanges(containerLink, queryRanges);
-    } catch (err) {
+    } catch (err: any) {
       err2 = err;
     }
     assert.equal(err1, err2);
@@ -68,7 +68,7 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
     try {
       const results = await provider.getOverlappingRanges(containerLink, queryRanges);
       assert.deepEqual(results, expectedResults);
-    } catch (err) {
+    } catch (err: any) {
       if (errorExpected) {
         assert.notEqual(err, undefined);
         return;
@@ -138,12 +138,12 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
     let err2: any;
     try {
       results1 = await provider.getOverlappingRanges(containerLink, queryRanges1);
-    } catch (err) {
+    } catch (err: any) {
       err1 = err;
     }
     try {
       results2 = await provider.getOverlappingRanges(containerLink, queryRanges2);
-    } catch (err) {
+    } catch (err: any) {
       err2 = err;
     }
     assert.equal(err1, err2);

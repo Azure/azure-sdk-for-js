@@ -222,7 +222,7 @@ async function run(): Promise<void> {
       .fetchAll();
     console.log(result.resources);
     throw new Error("Should've produced an error");
-  } catch (err) {
+  } catch (err: any) {
     if (err instanceof Error) {
       if (err && err.message !== undefined) {
         console.log("Threw, as expected");

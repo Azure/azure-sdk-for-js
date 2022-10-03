@@ -3,7 +3,6 @@
 
 import * as avro from "avsc";
 import {
-  AvroError,
   AvroSerializerOptions,
   DeserializeOptions,
   MessageAdapter,
@@ -70,17 +69,14 @@ export class AvroSerializer<MessageT = MessageContent> {
    * @param schema - The Avro schema to use.
    * @returns A new message with the serialized value. The structure of message is
    * constrolled by the message factory option.
-   * @throws {@link AvroError}
+   * @throws {@link Error}
    * Thrown if the schema can not be parsed or the value does not match the schema.
    */
   async serialize(value: unknown, schema: string): Promise<MessageT> {
     const entry = await this.getSchemaByDefinition(schema);
     const buffer = wrapError(
       () => entry.serializer.toBuffer(value),
-      "Avro serialization failed. See innerError for more details.",
-      {
-        schemaId: entry.id,
-      }
+      `Avro serialization failed. See 'cause' for more details. Schema ID: ${entry.id}`
     );
     const data = new Uint8Array(
       buffer.buffer,
@@ -111,7 +107,7 @@ export class AvroSerializer<MessageT = MessageContent> {
    * @param message - The message with the payload to be deserialized.
    * @param options - Decoding options.
    * @returns The deserialized value.
-   * @throws {@link AvroError}
+   * @throws {@link Error}
    * Thrown if the deserialization failed, e.g. because reader and writer schemas are incompatible.
    */
   async deserialize(message: MessageT, options: DeserializeOptions = {}): Promise<unknown> {
@@ -121,30 +117,19 @@ export class AvroSerializer<MessageT = MessageContent> {
     const writerSchemaId = getSchemaId(contentType);
     const writerSchemaSerializer = await this.getSchemaById(writerSchemaId);
     if (readerSchema) {
-      const readerSchemaSerializer = getSerializerForSchema(readerSchema, {
-        schemaId: writerSchemaId,
-      });
+      const readerSchemaSerializer = getSerializerForSchema(readerSchema);
       const resolver = wrapError(
         () => readerSchemaSerializer.createResolver(writerSchemaSerializer),
-        `Avro reader schema is incompatible with the writer schema (schema ID: (${writerSchemaId})):\n\n\treader schema: ${readerSchema}\n\nSee innerError for more details.`,
-        {
-          schemaId: writerSchemaId,
-        }
+        `Avro reader schema is incompatible with the writer schema (schema ID: (${writerSchemaId})):\n\n\treader schema: ${readerSchema}\n\nSee 'cause' for more details.`
       );
       return wrapError(
         () => readerSchemaSerializer.fromBuffer(buffer, resolver, true),
-        `Avro deserialization with reader schema failed: \n\treader schema: ${readerSchema}\nSee innerError for more details.`,
-        {
-          schemaId: writerSchemaId,
-        }
+        `Avro deserialization with reader schema failed: \n\treader schema: ${readerSchema}\nSee 'cause' for more details. Writer schema ID: ${writerSchemaId}`
       );
     } else {
       return wrapError(
         () => writerSchemaSerializer.fromBuffer(buffer),
-        `Avro deserialization failed with schema ID (${writerSchemaId}). See innerError for more details.`,
-        {
-          schemaId: writerSchemaId,
-        }
+        `Avro deserialization failed with schema ID (${writerSchemaId}). See 'cause' for more details.`
       );
     }
   }
@@ -157,18 +142,16 @@ export class AvroSerializer<MessageT = MessageContent> {
 
     const schemaResponse = await this.registry.getSchema(schemaId);
     if (!schemaResponse) {
-      throw new AvroError(`Schema with ID '${schemaId}' not found.`);
+      throw new Error(`Schema with ID '${schemaId}' not found.`);
     }
 
     if (!schemaResponse.properties.format.match(/^avro$/i)) {
-      throw new AvroError(
+      throw new Error(
         `Schema with ID '${schemaResponse.properties.id}' has format '${schemaResponse.properties.format}', not 'avro'.`
       );
     }
 
-    const avroType = getSerializerForSchema(schemaResponse.definition, {
-      schemaId: schemaResponse.properties.id,
-    });
+    const avroType = getSerializerForSchema(schemaResponse.definition);
     return this.cache(schemaId, schemaResponse.definition, avroType).serializer;
   }
 
@@ -180,11 +163,11 @@ export class AvroSerializer<MessageT = MessageContent> {
 
     const avroType = getSerializerForSchema(schema);
     if (!avroType.name) {
-      throw new AvroError("Schema must have a name.");
+      throw new Error("Schema must have a name.");
     }
 
     if (!this.schemaGroup) {
-      throw new AvroError(
+      throw new Error(
         "Schema group must have been specified in the constructor options when the client was created in order to serialize."
       );
     }
@@ -203,9 +186,10 @@ export class AvroSerializer<MessageT = MessageContent> {
       try {
         id = (await this.registry.getSchemaProperties(description)).id;
       } catch (e) {
-        if (e.statusCode === 404) {
-          throw new AvroError(
-            `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching definition.`
+        if ((e as any).statusCode === 404) {
+          throw errorWithCause(
+            `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching definition.`,
+            e as Error
           );
         } else {
           throw e;
@@ -230,32 +214,14 @@ export class AvroSerializer<MessageT = MessageContent> {
 function getSchemaId(contentType: string): string {
   const contentTypeParts = contentType.split("+");
   if (contentTypeParts.length !== 2) {
-    throw new AvroError("Content type was not in the expected format of MIME type + schema ID");
+    throw new Error("Content type was not in the expected format of MIME type + schema ID");
   }
   if (contentTypeParts[0] !== avroMimeType) {
-    throw new AvroError(
+    throw new Error(
       `Received content of type ${contentTypeParts[0]} but an avro serializer may only be used on content that is of '${avroMimeType}' type`
     );
   }
   return contentTypeParts[1];
-}
-
-/**
- * Tries to deserialize data in the preamble format. If that does not succeed, it
- * returns it as is.
- * @param data - The message content
- * @param contentType - The message content type
- * @returns a message
- */
-function convertPayload(data: Uint8Array, contentType: string): MessageContent {
-  try {
-    return tryReadingPreambleFormat(Buffer.from(data));
-  } catch (_e: unknown) {
-    return {
-      data,
-      contentType,
-    };
-  }
 }
 
 function convertMessage<MessageT>(
@@ -264,72 +230,40 @@ function convertMessage<MessageT>(
 ): MessageContent {
   const messageConsumer = adapter?.consume;
   if (messageConsumer) {
-    const { data, contentType } = messageConsumer(message);
-    return convertPayload(data, contentType);
+    return messageConsumer(message);
   } else if (isMessageContent(message)) {
-    return convertPayload(message.data, message.contentType);
+    return message;
   } else {
-    throw new AvroError(
+    throw new Error(
       `Expected either a message adapter to be provided to the serializer or the input message to have data and contentType fields`
     );
   }
 }
 
-/**
- * Maintains backward compatability by supporting the serialized value format created
- * by earlier beta serializers
- * @param buffer - The input buffer
- * @returns a message that contains the data and content type with the schema ID
- */
-function tryReadingPreambleFormat(buffer: Buffer): MessageContent {
-  const FORMAT_INDICATOR = 0;
-  const SCHEMA_ID_OFFSET = 4;
-  const PAYLOAD_OFFSET = 36;
-  if (buffer.length < PAYLOAD_OFFSET) {
-    throw new RangeError("Buffer is too small to have the correct format.");
-  }
-  const format = buffer.readUInt32BE(0);
-  if (format !== FORMAT_INDICATOR) {
-    throw new TypeError(`Buffer has unknown format indicator.`);
-  }
-  const schemaIdBuffer = buffer.slice(SCHEMA_ID_OFFSET, PAYLOAD_OFFSET);
-  const schemaId = schemaIdBuffer.toString("utf-8");
-  const payloadBuffer = buffer.slice(PAYLOAD_OFFSET);
-  return {
-    data: payloadBuffer,
-    contentType: `${avroMimeType}+${schemaId}`,
-  };
-}
-
-function getSerializerForSchema(
-  schema: string,
-  options: {
-    schemaId?: string;
-  } = {}
-): AVSCSerializer {
+function getSerializerForSchema(schema: string): AVSCSerializer {
   return wrapError(
     () => avro.Type.forSchema(JSON.parse(schema), { omitRecordMethods: true }),
-    `Parsing Avro schema failed:\n\n\t${schema}\n\nSee innerError for more details.`,
-    options
+    `Parsing Avro schema failed:\n\n\t${schema}\n\nSee 'cause' for more details.`
   );
 }
 
-function wrapError<T>(
-  f: () => T,
-  message: string,
-  options: {
-    schemaId?: string;
-  } = {}
-): T {
+function wrapError<T>(f: () => T, message: string): T {
   let result: T;
   try {
     result = f();
-  } catch (innerError) {
-    const { schemaId } = options;
-    throw new AvroError(message, {
-      innerError,
-      schemaId,
-    });
+  } catch (cause) {
+    throw errorWithCause(message, cause as Error);
   }
   return result;
+}
+
+function errorWithCause(message: string, cause: Error): Error {
+  return new Error(
+    message,
+    // TS v4.6 and below do not yet recognize the cause option in the Error constructor
+    // see https://medium.com/ovrsea/power-up-your-node-js-debugging-and-error-handling-with-the-new-error-cause-feature-4136c563126a
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    { cause }
+  );
 }

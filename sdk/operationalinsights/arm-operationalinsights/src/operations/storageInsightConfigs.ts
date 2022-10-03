@@ -226,7 +226,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters4,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -247,7 +247,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.StorageInsight
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -263,7 +263,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/storageInsightConfigs/{storageInsightName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -282,7 +282,7 @@ const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.StorageInsightListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -300,13 +300,13 @@ const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.StorageInsightListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.workspaceName
   ],
   headerParameters: [Parameters.accept],
   serializer

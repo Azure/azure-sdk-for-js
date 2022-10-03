@@ -77,7 +77,7 @@ export async function execute({
     response.headers[Constants.ThrottleRetryWaitTimeInMs] =
       retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMs;
     return response;
-  } catch (err) {
+  } catch (err: any) {
     // TODO: any error
     let retryPolicy: RetryPolicy = null;
     const headers = err.headers || {};

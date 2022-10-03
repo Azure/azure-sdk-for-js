@@ -206,14 +206,12 @@ export const CertificateProperties: coreClient.CompositeMapper = {
       },
       isVerified: {
         serializedName: "isVerified",
-        readOnly: true,
         type: {
           name: "Boolean"
         }
       },
       certificate: {
         serializedName: "certificate",
-        readOnly: true,
         type: {
           name: "ByteArray"
         }
@@ -275,27 +273,6 @@ export const SystemData: coreClient.CompositeMapper = {
         serializedName: "lastModifiedAt",
         type: {
           name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const CertificateBodyDescription: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CertificateBodyDescription",
-    modelProperties: {
-      certificate: {
-        serializedName: "certificate",
-        type: {
-          name: "String"
-        }
-      },
-      isVerified: {
-        serializedName: "isVerified",
-        type: {
-          name: "Boolean"
         }
       }
     }
@@ -796,17 +773,17 @@ export const AsyncOperationResult: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorMesssage"
+          className: "ErrorMessage"
         }
       }
     }
   }
 };
 
-export const ErrorMesssage: coreClient.CompositeMapper = {
+export const ErrorMessage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ErrorMesssage",
+    className: "ErrorMessage",
     modelProperties: {
       code: {
         serializedName: "code",
@@ -1159,6 +1136,27 @@ export const GroupIdInformationProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const CertificateBodyDescription: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CertificateBodyDescription",
+    modelProperties: {
+      certificate: {
+        serializedName: "certificate",
+        type: {
+          name: "String"
+        }
+      },
+      isVerified: {
+        serializedName: "isVerified",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const ProvisioningServiceDescription: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1190,6 +1188,33 @@ export const ProvisioningServiceDescription: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
+export const IotDpsResourceDeletePrivateEndpointConnectionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IotDpsResourceDeletePrivateEndpointConnectionHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "String"
         }
       }
     }

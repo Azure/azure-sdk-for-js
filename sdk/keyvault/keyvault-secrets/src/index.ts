@@ -1,54 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/* eslint @typescript-eslint/member-ordering: 0 */
 /// <reference lib="esnext.asynciterable" />
 
-import {
-  TokenCredential,
-  isTokenCredential,
-  signingPolicy,
-  PipelineOptions,
-  createPipelineFromOptions,
-} from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
+
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 import { logger } from "./log";
 
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { PollOperationState, PollerLike } from "@azure/core-lro";
 import {
-  DeletionRecoveryLevel,
-  KnownDeletionRecoveryLevel,
-  GetSecretsOptionalParams,
-  SecretBundle,
   DeletedSecretBundle,
+  DeletionRecoveryLevel,
+  GetSecretsOptionalParams,
+  KnownDeletionRecoveryLevel,
+  SecretBundle,
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import { SDK_VERSION } from "./constants";
-import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
+import { createChallengeCallbacks } from "../../keyvault-common/src";
 
 import { DeleteSecretPoller } from "./lro/delete/poller";
 import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
 
 import {
-  KeyVaultSecret,
-  DeletedSecret,
-  SecretPollerOptions,
+  BackupSecretOptions,
   BeginDeleteSecretOptions,
   BeginRecoverDeletedSecretOptions,
-  SetSecretOptions,
-  UpdateSecretPropertiesOptions,
-  GetSecretOptions,
+  DeletedSecret,
   GetDeletedSecretOptions,
-  PurgeDeletedSecretOptions,
-  BackupSecretOptions,
-  RestoreSecretBackupOptions,
+  GetSecretOptions,
+  KeyVaultSecret,
+  LATEST_API_VERSION,
+  ListDeletedSecretsOptions,
   ListPropertiesOfSecretVersionsOptions,
   ListPropertiesOfSecretsOptions,
-  ListDeletedSecretsOptions,
-  SecretProperties,
+  PurgeDeletedSecretOptions,
+  RestoreSecretBackupOptions,
   SecretClientOptions,
-  LATEST_API_VERSION,
+  SecretPollerOptions,
+  SecretProperties,
+  SetSecretOptions,
+  UpdateSecretPropertiesOptions,
 } from "./secretsModels";
 import { KeyVaultSecretIdentifier, parseKeyVaultSecretIdentifier } from "./identifier";
 import { getSecretFromSecretBundle } from "./transformations";
@@ -60,7 +54,6 @@ export {
   DeletionRecoveryLevel,
   KnownDeletionRecoveryLevel,
   GetSecretOptions,
-  PipelineOptions,
   GetDeletedSecretOptions,
   PurgeDeletedSecretOptions,
   BackupSecretOptions,
@@ -127,20 +120,11 @@ export class SecretClient {
   ) {
     this.vaultUrl = vaultUrl;
 
-    const libInfo = `azsdk-js-keyvault-secrets/${SDK_VERSION}`;
-
-    const userAgentOptions = pipelineOptions.userAgentOptions;
-
-    pipelineOptions.userAgentOptions = {
-      userAgentPrefix:
-        userAgentOptions && userAgentOptions.userAgentPrefix
-          ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
-          : libInfo,
-    };
-
-    const authPolicy = isTokenCredential(credential)
-      ? challengeBasedAuthenticationPolicy(credential)
-      : signingPolicy(credential);
+    const authPolicy = bearerTokenAuthenticationPolicy({
+      credential,
+      scopes: [],
+      challengeCallbacks: createChallengeCallbacks(),
+    });
 
     const internalPipelineOptions = {
       ...pipelineOptions,
@@ -156,8 +140,9 @@ export class SecretClient {
 
     this.client = new KeyVaultClient(
       pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      createPipelineFromOptions(internalPipelineOptions, authPolicy)
+      internalPipelineOptions
     );
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**
@@ -524,9 +509,10 @@ export class SecretClient {
         "SecretClient.listPropertiesOfSecretVersionsPage",
         options,
         (updatedOptions) =>
-          this.client.getSecretVersions(
-            continuationState.continuationToken!,
+          this.client.getSecretVersionsNext(
+            this.vaultUrl,
             secretName,
+            continuationState.continuationToken!,
             updatedOptions
           )
       );
@@ -625,7 +611,11 @@ export class SecretClient {
         "SecretClient.listPropertiesOfSecretsPage",
         options,
         (updatedOptions) =>
-          this.client.getSecrets(continuationState.continuationToken!, updatedOptions)
+          this.client.getSecretsNext(
+            this.vaultUrl,
+            continuationState.continuationToken!,
+            updatedOptions
+          )
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -717,7 +707,11 @@ export class SecretClient {
         "SecretClient.lisDeletedSecretsPage",
         options,
         (updatedOptions) =>
-          this.client.getDeletedSecrets(continuationState.continuationToken!, updatedOptions)
+          this.client.getDeletedSecretsNext(
+            this.vaultUrl,
+            continuationState.continuationToken!,
+            updatedOptions
+          )
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {

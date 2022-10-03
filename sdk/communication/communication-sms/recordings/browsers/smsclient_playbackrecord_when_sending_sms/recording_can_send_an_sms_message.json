@@ -1,29 +1,67 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://endpoint/sms",
-   "query": {
-    "api-version": "2021-03-07"
-   },
-   "requestBody": "{\"from\":\"+14255550123\",\"smsRecipients\":[{\"to\":\"+14255550123\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":false}}",
-   "status": 202,
-   "response": "{\"value\":[{\"to\":\"+14255550123\",\"messageId\":\"Outgoing_20210424015251c05b9140-7557-4913-a30c-23c8ed2d2f2a_noam\",\"httpStatusCode\":202,\"repeatabilityResult\":\"accepted\",\"successful\":true}]}",
-   "responseHeaders": {
-    "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 24 Apr 2021 01:52:51 GMT",
-    "ms-cv": "GZmfpT+VGk+fm00Kb6s/vw.0",
-    "request-context": "appId=",
-    "status": "202",
-    "x-azure-ref": "083mDYAAAAACcyAjrCafIRZ03l9iuawYZWVZSMzBFREdFMDMxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
-    "x-processing-time": "351ms"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "6d39c9c57e9160d4a3a0e376be58c39d"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/sms?api-version=2021-03-07",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "230",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "a0ac65ef-16dd-4182-b2de-20f89b004162",
+        "x-ms-content-sha256": "lTECQyl3hsT2E/BH9vz0M3zqvmRTNaYzbo\u002BgCGgvoNA=",
+        "x-ms-date": "Mon, 25 Apr 2022 01:04:22 GMT",
+        "x-ms-useragent": "azsdk-js-communication-sms/1.2.0-beta.1 core-rest-pipeline/1.8.0 OS/Win32"
+      },
+      "RequestBody": {
+        "from": "\u002B14255550123",
+        "smsRecipients": [
+          {
+            "to": "\u002B14255550123",
+            "repeatabilityRequestId": "sanitized",
+            "repeatabilityFirstSent": "Thu, 01 Jan 1970 00:00:00 GMT"
+          }
+        ],
+        "message": "test message",
+        "smsSendOptions": {
+          "enableDeliveryReport": false
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 25 Apr 2022 01:04:22 GMT",
+        "MS-CV": "p2JgSANgiUCqzvhdKWjb4Q.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0lvNlYgAAAACUcmDbaqbPSLXWrXQ0vWcOV1NURURHRTA4MTUAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "375ms"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "to": "\u002B14255550123",
+            "messageId": "Outgoing_202204250104224cf2fc46-f5c1-4363-bf31-93cabfb20088_noam",
+            "httpStatusCode": 202,
+            "repeatabilityResult": "accepted",
+            "successful": true
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
 }

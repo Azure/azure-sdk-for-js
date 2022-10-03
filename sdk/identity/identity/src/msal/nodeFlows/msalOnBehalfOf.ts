@@ -6,7 +6,7 @@ import { AccessToken } from "@azure/core-auth";
 import { formatError } from "../../util/logging";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { parseCertificate } from "./msalClientCertificate";
-import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
+import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 
 /**
  * Options that can be passed to configure MSAL to handle On-Behalf-Of authentication requests.
@@ -65,7 +65,7 @@ export class MsalOnBehalfOf extends MsalNode {
           privateKey: parts.certificateContents,
           x5c: parts.x5c,
         };
-      } catch (error) {
+      } catch (error: any) {
         this.logger.info(formatError("", error));
         throw error;
       }
@@ -88,7 +88,7 @@ export class MsalOnBehalfOf extends MsalNode {
         oboAssertion: this.userAssertionToken,
       });
       return this.handleResult(scopes, this.clientId, result || undefined);
-    } catch (err) {
+    } catch (err: any) {
       throw this.handleError(scopes, err, options);
     }
   }

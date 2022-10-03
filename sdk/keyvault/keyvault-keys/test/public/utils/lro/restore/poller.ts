@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, RequestOptionsBase } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
+import { delay } from "@azure/core-util";
 import { Poller } from "@azure/core-lro";
 import {
   RestoreKeyBackupPollOperationState,
-  makeRestoreKeyBackupPollOperation,
   TestKeyClientInterface,
+  makeRestoreKeyBackupPollOperation,
 } from "./operation";
 import { KeyVaultKey } from "../../../../../src";
 
 export interface RestoreKeyBackupPollerOptions {
   client: TestKeyClientInterface;
   backup: Uint8Array;
-  requestOptions?: RequestOptionsBase;
+  requestOptions?: OperationOptions;
   intervalInMs?: number;
   resumeFrom?: string;
 }

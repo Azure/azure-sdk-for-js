@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { URL } from "./url";
-
 export function isCosmosEndpoint(url: string): boolean {
   const parsedURL = new URL(url);
   if (parsedURL.hostname.indexOf(".table.cosmosdb.") !== -1) {

@@ -11,8 +11,8 @@ trigger:
       - sdk/eventhub/
     exclude:
       - sdk/eventhub/ci.mgmt.yml
-      - sdk/eventhub/arm-eventhub/
       - sdk/eventhub/arm-eventhub-profile-2020-09-01-hybrid
+      - sdk/eventhub/arm-eventhub
 pr:
   branches:
     include:
@@ -27,8 +27,8 @@ pr:
       - sdk/eventhub/
     exclude:
       - sdk/eventhub/ci.mgmt.yml
-      - sdk/eventhub/arm-eventhub/
       - sdk/eventhub/arm-eventhub-profile-2020-09-01-hybrid
+      - sdk/eventhub/arm-eventhub
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

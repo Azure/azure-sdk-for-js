@@ -712,10 +712,12 @@ export class IotHubResourceImpl implements IotHubResource {
       { resourceGroupName, resourceName, iotHubDescription, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -805,10 +807,12 @@ export class IotHubResourceImpl implements IotHubResource {
       { resourceGroupName, resourceName, iotHubTags, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -893,10 +897,12 @@ export class IotHubResourceImpl implements IotHubResource {
       { resourceGroupName, resourceName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

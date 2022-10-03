@@ -267,7 +267,7 @@ describe("Batch Service", () => {
       try {
         await client.pool.add(pool);
         assert.fail("Expected error to be thrown");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 403);
         assert.equal(error.body.code, "Forbidden");
       }
@@ -290,7 +290,7 @@ describe("Batch Service", () => {
       try {
         await client.pool.add(pool);
         assert.fail("Expected error to be thrown");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 400);
         assert.equal(error.body.code, "InvalidPropertyValue");
         assert.equal(error.body.values[0].value, "virtualMachineImageId");
@@ -502,7 +502,7 @@ describe("Batch Service", () => {
           const result = await client.computeNode.disableScheduling(BASIC_POOL, compute_nodes[1]);
           assert.equal(result._response.status, 200);
           break;
-        } catch (e) {
+        } catch (e: any) {
           if (e.code === "NodeNotReady") {
             await wait(POLLING_INTERVAL);
           } else {
@@ -1107,7 +1107,7 @@ describe("Batch Service", () => {
     it("should fail to job prep+release status", async () => {
       try {
         await client.job.listPreparationAndReleaseTaskStatus(JOB_NAME);
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.code, "JobPreparationTaskOrReleaseTaskNotSpecified");
       }
     });
@@ -1276,7 +1276,7 @@ describe("Batch Service", () => {
     it("should fail to delete a non-existent pool", async () => {
       try {
         await client.pool.deleteMethod(BASIC_POOL);
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.code, "PoolBeingDeleted");
       }
     });
@@ -1290,7 +1290,7 @@ describe("Batch Service", () => {
     it("should fail to cancel deleting a certificate", async () => {
       try {
         await client.certificate.cancelDeletion("sha1", certThumb);
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.code, "CertificateBeingDeleted");
       }
     });

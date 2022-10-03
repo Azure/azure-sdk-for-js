@@ -3,7 +3,7 @@
 
 import fs from "fs";
 import path from "path";
-import { Span, BasicTracerProvider, TracerConfig } from "@opentelemetry/tracing";
+import { Span, BasicTracerProvider, TracerConfig } from "@opentelemetry/sdk-trace-base";
 import { SpanKind, SpanStatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
 import * as assert from "assert";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";

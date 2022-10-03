@@ -397,7 +397,7 @@ export class EventHubReceiver extends LinkEntity {
       const receiverLink = this._receiver;
       this._deleteFromCache();
       await this._closeLink(receiverLink);
-    } catch (err) {
+    } catch (err: any) {
       const msg = `[${this._context.connectionId}] An error occurred while closing receiver ${this.name}: ${err?.name}: ${err?.message}`;
       logger.warning(msg);
       logErrorStackTrace(err);
@@ -461,7 +461,7 @@ export class EventHubReceiver extends LinkEntity {
               abortSignal,
               timeoutInMs: getRetryAttemptTimeoutInMs(this.options.retryOptions),
             });
-          } catch (err) {
+          } catch (err: any) {
             if (this._onError === onError) {
               onError(err);
             }
@@ -601,7 +601,7 @@ export class EventHubReceiver extends LinkEntity {
           this.isConnecting
         );
       }
-    } catch (err) {
+    } catch (err: any) {
       this.isConnecting = false;
       const error = translate(err);
       logger.warning(
@@ -822,7 +822,7 @@ export class EventHubReceiver extends LinkEntity {
           },
         },
       }
-    );
+    ) as RetryConfig<ReceivedEventData[]>;
     return retry<ReceivedEventData[]>(config);
   }
 }

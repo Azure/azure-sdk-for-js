@@ -10,10 +10,13 @@
 
 ### Fixed
 
+### Other Changes
+
+- Updated our `@azure/core-tracing` dependency to the latest version (1.0.0).
 
 ## 1.0.0-beta.2 (2021-05-28)
 
-With [#15455](https://github.com/Azure/azure-sdk-for-js/pull/15455), this is a hotfix for a bug released in the first beta where getModels fails on remote. 
+With [#15455](https://github.com/Azure/azure-sdk-for-js/pull/15455), this is a hotfix for a bug released in the first beta where getModels fails on remote.
 
 ## 1.0.0-beta.1 (2021-05-27)
 

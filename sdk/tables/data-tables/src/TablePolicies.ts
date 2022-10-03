@@ -14,7 +14,6 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { URL } from "./utils/url";
 import { getChangeSetBoundary } from "./utils/transactionHelpers";
 
 export const transactionRequestAssemblePolicyName = "transactionRequestAssemblePolicy";

@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SchemaProperties, Schema } from "./models";
+import { Schema, SchemaProperties } from "./models";
 
 import {
   SchemaGetByIdResponse,
-  SchemaRegisterResponse,
   SchemaQueryIdByContentResponse as SchemaQueryIdByDefinitionResponse,
+  SchemaRegisterResponse,
 } from "./generated/models";
 import { getSchemaDefinition } from "./getSchemaDefinition";
 
@@ -32,6 +32,9 @@ export async function convertSchemaResponse(response: GeneratedSchemaResponse): 
     properties: {
       id: response.schemaId!,
       format: mapContentTypeToFormat(response.contentType!),
+      groupName: response.schemaGroupName!,
+      name: response.schemaName!,
+      version: response.schemaVersion!,
     },
   };
 }
@@ -50,6 +53,9 @@ export function convertSchemaIdResponse(
       // is not modeled by the generated client.
       id: response.schemaId!,
       format: schemaFormat,
+      groupName: response.schemaGroupName!,
+      name: response.schemaName!,
+      version: response.schemaVersion!,
     };
   };
 }

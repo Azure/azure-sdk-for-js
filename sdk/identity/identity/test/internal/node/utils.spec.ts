@@ -27,7 +27,7 @@ describe("Identity utilities (Node.js only)", function () {
         processMultiTenantRequest("credential-options-tenant-id", {
           tenantId: "get-token-options-tenant-id",
         });
-      } catch (e) {
+      } catch (e: any) {
         error = e;
       }
       assert.ok(

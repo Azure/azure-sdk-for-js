@@ -96,7 +96,7 @@ export async function main(): Promise<void> {
     if (numEventsSent !== eventsToSend.length) {
       throw new Error(`Not all messages were sent (${numEventsSent}/${eventsToSend.length})`);
     }
-  } catch (err) {
+  } catch (err: any) {
     console.log("Error when creating & sending a batch of events: ", err);
   }
 

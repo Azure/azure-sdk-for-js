@@ -9,8 +9,8 @@ trigger:
   paths:
     include:
       - sdk/locks/ci.mgmt.yml
-      - sdk/locks/arm-locks/
       - sdk/locks/arm-locks-profile-2020-09-01-hybrid
+      - sdk/locks/arm-locks
 pr:
   branches:
     include:
@@ -23,8 +23,8 @@ pr:
   paths:
     include:
       - sdk/locks/ci.mgmt.yml
-      - sdk/locks/arm-locks/
       - sdk/locks/arm-locks-profile-2020-09-01-hybrid
+      - sdk/locks/arm-locks
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

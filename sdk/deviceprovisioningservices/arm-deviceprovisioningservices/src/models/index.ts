@@ -124,16 +124,10 @@ export interface CertificateProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly thumbprint?: string;
-  /**
-   * Determines whether certificate has been verified.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isVerified?: boolean;
-  /**
-   * base-64 representation of X509 certificate .cer file or just .pem file content.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly certificate?: Uint8Array;
+  /** Determines whether certificate has been verified. */
+  isVerified?: boolean;
+  /** base-64 representation of X509 certificate .cer file or just .pem file content. */
+  certificate?: Uint8Array;
   /**
    * The certificate's creation date and time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -160,14 +154,6 @@ export interface SystemData {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
-}
-
-/** The JSON-serialized X509 Certificate. */
-export interface CertificateBodyDescription {
-  /** Base-64 representation of the X509 leaf certificate .cer file or just .pem file content. */
-  certificate?: string;
-  /** True indicates that the certificate will be created in verified state and proof of possession will not be required. */
-  isVerified?: boolean;
 }
 
 /** the service specific properties of a provisioning service, including keys, linked iot hubs, current state, and system generated properties such as hostname and idScope */
@@ -368,11 +354,11 @@ export interface AsyncOperationResult {
   /** current status of a long running operation. */
   status?: string;
   /** Error message containing code, description and details */
-  error?: ErrorMesssage;
+  error?: ErrorMessage;
 }
 
 /** Error response containing message and code. */
-export interface ErrorMesssage {
+export interface ErrorMessage {
   /** standard error code */
   code?: string;
   /** standard error description */
@@ -512,6 +498,14 @@ export interface GroupIdInformationProperties {
   requiredZoneNames?: string[];
 }
 
+/** The JSON-serialized X509 Certificate. */
+export interface CertificateBodyDescription {
+  /** Base-64 representation of the X509 leaf certificate .cer file or just .pem file content. */
+  certificate?: string;
+  /** True indicates that the certificate will be created in verified state and proof of possession will not be required. */
+  isVerified?: boolean;
+}
+
 /** The description of the provisioning service. */
 export type ProvisioningServiceDescription = Resource & {
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
@@ -526,6 +520,16 @@ export type ProvisioningServiceDescription = Resource & {
    */
   readonly systemData?: SystemData;
 };
+
+/** Defines headers for IotDpsResource_deletePrivateEndpointConnection operation. */
+export interface IotDpsResourceDeletePrivateEndpointConnectionHeaders {
+  /** Operation Status Location URI */
+  azureAsyncOperation?: string;
+  /** Operation Status Location URI */
+  location?: string;
+  /** Retry After */
+  retryAfter?: string;
+}
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {

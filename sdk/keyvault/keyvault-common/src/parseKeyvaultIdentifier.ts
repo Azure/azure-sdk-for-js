@@ -32,7 +32,7 @@ export function parseKeyvaultIdentifier(
   let baseUri;
   try {
     baseUri = url.parse(identifier, true, true);
-  } catch (e) {
+  } catch (e: any) {
     throw new Error(`Invalid ${collection} identifier: ${identifier}. Not a valid URI`);
   }
 

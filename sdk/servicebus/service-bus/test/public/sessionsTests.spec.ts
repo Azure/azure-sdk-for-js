@@ -82,7 +82,7 @@ describe("session tests", () => {
       let expectedErrorThrown = false;
       try {
         await beforeEachTest();
-      } catch (error) {
+      } catch (error: any) {
         // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why we get two different errors.
         if (
           isServiceBusError(error) &&
@@ -109,7 +109,7 @@ describe("session tests", () => {
           { queue: receiver.entityPath, usesSessions: true },
           "boo"
         );
-      } catch (error) {
+      } catch (error: any) {
         if (isServiceBusError(error) && error.code === "SessionCannotBeLocked") {
           expectedErrorThrown = true;
         } else {
@@ -266,7 +266,7 @@ describe("session tests", () => {
       try {
         await receiver.getSessionState({ abortSignal: controller.signal });
         throw new Error(`Test failure`);
-      } catch (err) {
+      } catch (err: any) {
         err.message.should.equal("The operation was aborted.");
         err.name.should.equal("AbortError");
       }
@@ -279,7 +279,7 @@ describe("session tests", () => {
       try {
         await receiver.setSessionState("why", { abortSignal: controller.signal });
         throw new Error(`Test failure`);
-      } catch (err) {
+      } catch (err: any) {
         err.message.should.equal("The operation was aborted.");
         err.name.should.equal("AbortError");
       }
@@ -292,7 +292,7 @@ describe("session tests", () => {
       try {
         await receiver.renewSessionLock({ abortSignal: controller.signal });
         throw new Error(`Test failure`);
-      } catch (err) {
+      } catch (err: any) {
         err.message.should.equal("The operation was aborted.");
         err.name.should.equal("AbortError");
       }
@@ -305,7 +305,7 @@ describe("session tests", () => {
       try {
         await receiver.receiveDeferredMessages([Long.ZERO], { abortSignal: controller.signal });
         throw new Error(`Test failure`);
-      } catch (err) {
+      } catch (err: any) {
         err.message.should.equal("The operation was aborted.");
         err.name.should.equal("AbortError");
       }
@@ -364,7 +364,7 @@ describe.skip("SessionReceiver - disconnects - (if recovery is supported in futu
         try {
           await receiver.completeMessage(message);
           settledMessageCount++;
-        } catch (err) {
+        } catch (err: any) {
           receivedErrors.push(err);
         }
         if (messageHandlerCount === 1) {

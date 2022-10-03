@@ -3,10 +3,10 @@
 
 import { AppConfigurationClient } from "../../src";
 import {
-  startRecorder,
+  assertThrowsRestError,
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
-  assertThrowsRestError,
+  startRecorder,
 } from "./utils/testHelpers";
 import { assert } from "chai";
 import { Recorder } from "@azure-tools/test-recorder";
@@ -104,7 +104,6 @@ describe("etags", () => {
 
     // to keep 'key' a required field we fill this out (but set all the other properties to undefined)
     assert.equal(response.key, key);
-    assert.equal(response._response.status, 304);
     assert.equal(response.statusCode, 304);
 
     assert.ok(!response.contentType);

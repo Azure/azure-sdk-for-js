@@ -113,7 +113,7 @@ export {
 } from "./util/utils";
 export { URLBuilder, URLQuery } from "./url";
 export { AbortSignalLike } from "@azure/abort-controller";
-export { delay } from "./util/delay";
+export { delay } from "@azure/core-util";
 // legacy exports. Use core-tracing instead (and remove on next major version update of core-http).
 export { createSpanFunction, SpanConfig } from "./createSpanLegacy";
 
@@ -129,4 +129,3 @@ export { Authenticator } from "./credentials/credentials";
 
 export { parseXML, stringifyXML } from "./util/xml";
 export { XML_ATTRKEY, XML_CHARKEY, SerializerOptions } from "./util/serializer.common";
-import "@azure/core-asynciterator-polyfill";

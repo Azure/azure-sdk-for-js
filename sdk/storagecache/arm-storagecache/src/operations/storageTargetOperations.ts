@@ -91,11 +91,13 @@ export class StorageTargetOperationsImpl implements StorageTargetOperations {
       { resourceGroupName, cacheName, storageTargetName, options },
       flushOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -180,11 +182,13 @@ export class StorageTargetOperationsImpl implements StorageTargetOperations {
       { resourceGroupName, cacheName, storageTargetName, options },
       suspendOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -268,11 +272,13 @@ export class StorageTargetOperationsImpl implements StorageTargetOperations {
       { resourceGroupName, cacheName, storageTargetName, options },
       resumeOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -357,11 +363,13 @@ export class StorageTargetOperationsImpl implements StorageTargetOperations {
       { resourceGroupName, cacheName, storageTargetName, options },
       invalidateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { HttpClient } from '@azure/core-rest-pipeline';
 import { KeyCredential } from '@azure/core-auth';
 import { Pipeline } from '@azure/core-rest-pipeline';
@@ -19,12 +21,6 @@ import { TokenCredential } from '@azure/core-auth';
 export interface AdditionalPolicyConfig {
     policy: PipelinePolicy;
     position: "perCall" | "perRetry";
-}
-
-// @public
-export interface CertificateCredential {
-    cert: string;
-    certKey: string;
 }
 
 // @public
@@ -57,15 +53,22 @@ export function getClient(baseUrl: string, options?: ClientOptions): Client;
 export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
 
 // @public
+export type HttpBrowserStreamResponse = HttpResponse & {
+    body?: ReadableStream<Uint8Array>;
+};
+
+// @public
+export type HttpNodeStreamResponse = HttpResponse & {
+    body?: NodeJS.ReadableStream;
+};
+
+// @public
 export type HttpResponse = {
     request: PipelineRequest;
     headers: RawHttpHeaders;
     body: unknown;
     status: string;
 };
-
-// @public
-export function isCertificateCredential(credential: unknown): credential is CertificateCredential;
 
 // @public
 export type PathParameters<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
@@ -75,7 +78,7 @@ pathParameter: string,
 ];
 
 // @public
-export type PathUnchecked = <TPath extends string>(path: TPath, ...args: PathParameters<TPath>) => ResourceMethods;
+export type PathUnchecked = <TPath extends string>(path: TPath, ...args: PathParameters<TPath>) => ResourceMethods<StreamableMethod>;
 
 // @public
 export type PathUncheckedResponse = HttpResponse & {
@@ -91,20 +94,25 @@ export type RequestParameters = {
     contentType?: string;
     allowInsecureConnection?: boolean;
     skipUrlEncoding?: boolean;
-    binaryResponse?: boolean;
     pathParameters?: Record<string, any>;
 };
 
 // @public
-export interface ResourceMethods {
-    delete: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    get: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    head: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    options: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    patch: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    post: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    put: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    trace: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+export interface ResourceMethods<TResponse = PromiseLike<PathUncheckedResponse>> {
+    delete: (options?: RequestParameters) => TResponse;
+    get: (options?: RequestParameters) => TResponse;
+    head: (options?: RequestParameters) => TResponse;
+    options: (options?: RequestParameters) => TResponse;
+    patch: (options?: RequestParameters) => TResponse;
+    post: (options?: RequestParameters) => TResponse;
+    put: (options?: RequestParameters) => TResponse;
+    trace: (options?: RequestParameters) => TResponse;
 }
+
+// @public
+export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TResponse> & {
+    asNodeStream: () => Promise<HttpNodeStreamResponse>;
+    asBrowserStream: () => Promise<HttpBrowserStreamResponse>;
+};
 
 ```

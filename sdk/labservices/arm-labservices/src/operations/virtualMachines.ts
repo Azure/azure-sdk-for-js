@@ -46,8 +46,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Returns a list of all virtual machines for a lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   public listByLab(
@@ -106,8 +106,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Returns a list of all virtual machines for a lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   private _listByLab(
@@ -124,8 +124,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Returns the properties for a lab virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -145,8 +145,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Action to start a lab virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -201,18 +201,20 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, labName, virtualMachineName, options },
       startOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Action to start a lab virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -235,8 +237,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Action to stop a lab virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -291,18 +293,20 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, labName, virtualMachineName, options },
       stopOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Action to stop a lab virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -326,8 +330,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
    * Re-image a lab virtual machine. The virtual machine will be deleted and recreated using the latest
    * published snapshot of the reference environment of the lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -382,19 +386,21 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, labName, virtualMachineName, options },
       reimageOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Re-image a lab virtual machine. The virtual machine will be deleted and recreated using the latest
    * published snapshot of the reference environment of the lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -418,8 +424,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
    * Action to redeploy a lab virtual machine to a different compute node. For troubleshooting
    * connectivity.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -474,19 +480,21 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, labName, virtualMachineName, options },
       redeployOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Action to redeploy a lab virtual machine to a different compute node. For troubleshooting
    * connectivity.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -509,8 +517,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Resets a lab virtual machine password.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param body The request body.
@@ -567,18 +575,20 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, labName, virtualMachineName, body, options },
       resetPasswordOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Resets a lab virtual machine password.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param body The request body.
@@ -604,8 +614,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * ListByLabNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param nextLink The nextLink from the previous successful call to the ListByLab method.
    * @param options The options parameters.
    */

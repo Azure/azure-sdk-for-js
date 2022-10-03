@@ -135,7 +135,7 @@ describe("TableCheckpointStore", function (): void {
         try {
           await checkpointStore.updateCheckpoint(checkpoint);
           throw new Error("Test failure");
-        } catch (err) {
+        } catch (err: any) {
           err.message.should.not.equal("Test failure");
         }
       });

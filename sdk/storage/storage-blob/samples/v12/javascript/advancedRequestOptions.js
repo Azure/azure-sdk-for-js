@@ -48,7 +48,7 @@ async function main() {
     await containerClient.create();
   } catch (err) {
     console.log(
-      `Creating a container failed, requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `Creating a container failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
     );
   }
 
@@ -67,7 +67,7 @@ async function main() {
     console.log("Successfully uploaded file:", blockBlobClient.name);
   } catch (err) {
     console.log(
-      `uploadFile failed, requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `uploadFile failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
     );
   }
 
@@ -81,7 +81,7 @@ async function main() {
     console.log("uploadStream succeeds");
   } catch (err) {
     console.log(
-      `uploadStream failed, requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `uploadStream failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
     );
   }
 
@@ -110,7 +110,7 @@ async function main() {
     console.log("downloadToBuffer succeeds");
   } catch (err) {
     console.log(
-      `downloadToBuffer failed, requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `downloadToBuffer failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
     );
   }
 
@@ -123,7 +123,7 @@ async function main() {
   } catch (err) {
     // BlobArchived	Conflict (409)	This operation is not permitted on an archived blob.
     console.log(
-      `requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
     );
     console.log(`error message - ${err.details.message}\n`);
   }

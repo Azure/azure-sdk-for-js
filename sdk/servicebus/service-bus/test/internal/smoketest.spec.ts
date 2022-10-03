@@ -117,7 +117,7 @@ describe("Smoke tests", () => {
           await receiver.completeMessage(message);
           receivedBodies.push(message.body);
           break;
-        } catch (err) {
+        } catch (err: any) {
           await receiver.abandonMessage(message);
           throw err;
         }
@@ -279,7 +279,7 @@ describe("Smoke tests", () => {
           await receiver.completeMessage(message);
           receivedBodies.push(message.body);
           break;
-        } catch (err) {
+        } catch (err: any) {
           await receiver.abandonMessage(message);
           throw err;
         }

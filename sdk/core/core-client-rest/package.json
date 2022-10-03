@@ -1,12 +1,12 @@
 {
   "name": "@azure-rest/core-client",
-  "version": "1.0.0-beta.9",
-  "description": "Core library for interfacing with AutoRest rest level generated code",
+  "version": "1.0.0",
+  "description": "Core library for interfacing with Azure Rest Clients",
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/url.js": "./dist-esm/src/url.browser.js"
+    "./dist-esm/src/helpers/isReadableStream.js": "./dist-esm/src/helpers/isReadableStream.browser.js"
   },
   "types": "types/latest/core-client-rest.d.ts",
   "scripts": {
@@ -58,20 +58,20 @@
   "dependencies": {
     "@azure/core-auth": "^1.3.0",
     "@azure/core-rest-pipeline": "^1.5.0",
-    "@azure/core-util": "^1.0.0-beta.1",
+    "@azure/core-util": "^1.0.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@microsoft/api-extractor": "^7.18.11",
+    "@microsoft/api-extractor": "7.18.11",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
     "@types/sinon": "^9.0.4",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
-    "eslint": "^7.15.0",
+    "eslint": "^8.0.0",
     "inherits": "^2.0.3",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
@@ -89,6 +89,6 @@
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
-    "typescript": "~4.2.0"
+    "typescript": "~4.6.0"
   }
 }

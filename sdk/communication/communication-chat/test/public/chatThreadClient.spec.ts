@@ -4,8 +4,8 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { ChatClient, ChatThreadClient, ChatMessage } from "../../src";
-import { createTestUser, createRecorder, createChatClient } from "./utils/recordedClient";
+import { ChatClient, ChatMessage, ChatThreadClient } from "../../src";
+import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient";
 import { CommunicationIdentifier, getIdentifierKind } from "@azure/communication-common";
 import { Context } from "mocha";
 import { CommunicationUserToken } from "@azure/communication-identity";

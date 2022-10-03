@@ -2090,6 +2090,35 @@ export const RecoverableSqlPoolListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const DedicatedSQLminimalTlsSettingsListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DedicatedSQLminimalTlsSettingsListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DedicatedSQLminimalTlsSettings"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const WorkspaceInfoListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4665,6 +4694,21 @@ export const TopQueriesListResult: coreClient.CompositeMapper = {
               className: "TopQueries"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const DedicatedSQLminimalTlsSettingsPatchInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DedicatedSQLminimalTlsSettingsPatchInfo",
+    modelProperties: {
+      minimalTlsVersion: {
+        serializedName: "minimalTlsVersion",
+        type: {
+          name: "String"
         }
       }
     }
@@ -7934,6 +7978,29 @@ export const RecoverableSqlPool: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const DedicatedSQLminimalTlsSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DedicatedSQLminimalTlsSettings",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      location: {
+        serializedName: "location",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      minimalTlsVersion: {
+        serializedName: "properties.minimalTlsVersion",
+        type: {
+          name: "String"
         }
       }
     }

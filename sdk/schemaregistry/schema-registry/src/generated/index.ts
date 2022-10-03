@@ -8,5 +8,4 @@
 
 export * from "./models";
 export { GeneratedSchemaRegistryClient } from "./generatedSchemaRegistryClient";
-export { GeneratedSchemaRegistryClientContext } from "./generatedSchemaRegistryClientContext";
 export * from "./operationsInterfaces";

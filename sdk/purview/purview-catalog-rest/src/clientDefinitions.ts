@@ -24,6 +24,18 @@ import {
   EntitySetClassificationsParameters,
   EntityGetEntitiesByUniqueAttributesParameters,
   EntityGetHeaderParameters,
+  EntityDeleteBusinessMetadataParameters,
+  EntityAddOrUpdateBusinessMetadataParameters,
+  EntityDeleteBusinessMetadataAttributesParameters,
+  EntityAddOrUpdateBusinessMetadataAttributesParameters,
+  EntityGetSampleBusinessMetadataTemplateParameters,
+  EntityImportBusinessMetadataParameters,
+  EntityDeleteLabelsParameters,
+  EntitySetLabelsParameters,
+  EntityAddLabelParameters,
+  EntityDeleteLabelsByUniqueAttributeParameters,
+  EntitySetLabelsByUniqueAttributeParameters,
+  EntityAddLabelsByUniqueAttributeParameters,
   GlossaryListGlossariesParameters,
   GlossaryCreateGlossaryParameters,
   GlossaryCreateGlossaryCategoriesParameters,
@@ -65,10 +77,13 @@ import {
   DiscoveryAutoCompleteParameters,
   LineageGetLineageGraphParameters,
   LineageNextPageLineageParameters,
+  LineageGetLineageByUniqueAttributeParameters,
   RelationshipCreateParameters,
   RelationshipUpdateParameters,
   RelationshipGetParameters,
   RelationshipDeleteParameters,
+  TypesGetBusinessMetadataDefByGuidParameters,
+  TypesGetBusinessMetadataDefByNameParameters,
   TypesGetClassificationDefByGuidParameters,
   TypesGetClassificationDefByNameParameters,
   TypesGetEntityDefinitionByGuidParameters,
@@ -138,6 +153,21 @@ import {
   EntityGetEntitiesByUniqueAttributesdefaultResponse,
   EntityGetHeader200Response,
   EntityGetHeaderdefaultResponse,
+  EntityDeleteBusinessMetadata204Response,
+  EntityAddOrUpdateBusinessMetadata204Response,
+  EntityDeleteBusinessMetadataAttributes204Response,
+  EntityAddOrUpdateBusinessMetadataAttributes204Response,
+  EntityGetSampleBusinessMetadataTemplate200Response,
+  EntityGetSampleBusinessMetadataTemplate400Response,
+  EntityImportBusinessMetadata200Response,
+  EntityImportBusinessMetadata400Response,
+  EntityImportBusinessMetadata409Response,
+  EntityDeleteLabels204Response,
+  EntitySetLabels204Response,
+  EntityAddLabel204Response,
+  EntityDeleteLabelsByUniqueAttribute204Response,
+  EntitySetLabelsByUniqueAttribute204Response,
+  EntityAddLabelsByUniqueAttribute204Response,
   GlossaryListGlossaries200Response,
   GlossaryListGlossariesdefaultResponse,
   GlossaryCreateGlossary200Response,
@@ -220,6 +250,9 @@ import {
   LineageGetLineageGraphdefaultResponse,
   LineageNextPageLineage200Response,
   LineageNextPageLineagedefaultResponse,
+  LineageGetLineageByUniqueAttribute200Response,
+  LineageGetLineageByUniqueAttribute400Response,
+  LineageGetLineageByUniqueAttribute404Response,
   RelationshipCreate200Response,
   RelationshipCreatedefaultResponse,
   RelationshipUpdate200Response,
@@ -228,6 +261,10 @@ import {
   RelationshipGetdefaultResponse,
   RelationshipDelete204Response,
   RelationshipDeletedefaultResponse,
+  TypesGetBusinessMetadataDefByGuid200Response,
+  TypesGetBusinessMetadataDefByGuid404Response,
+  TypesGetBusinessMetadataDefByName200Response,
+  TypesGetBusinessMetadataDefByName404Response,
   TypesGetClassificationDefByGuid200Response,
   TypesGetClassificationDefByGuiddefaultResponse,
   TypesGetClassificationDefByName200Response,
@@ -467,6 +504,73 @@ export interface EntityGetHeader {
   get(
     options?: EntityGetHeaderParameters
   ): Promise<EntityGetHeader200Response | EntityGetHeaderdefaultResponse>;
+}
+
+export interface EntityDeleteBusinessMetadata {
+  /** Remove business metadata from an entity. */
+  delete(
+    options?: EntityDeleteBusinessMetadataParameters
+  ): Promise<EntityDeleteBusinessMetadata204Response>;
+  /** Add business metadata to an entity. */
+  post(
+    options?: EntityAddOrUpdateBusinessMetadataParameters
+  ): Promise<EntityAddOrUpdateBusinessMetadata204Response>;
+}
+
+export interface EntityDeleteBusinessMetadataAttributes {
+  /** Delete business metadata attributes from an entity. */
+  delete(
+    options?: EntityDeleteBusinessMetadataAttributesParameters
+  ): Promise<EntityDeleteBusinessMetadataAttributes204Response>;
+  /** Add or update business metadata attributes */
+  post(
+    options?: EntityAddOrUpdateBusinessMetadataAttributesParameters
+  ): Promise<EntityAddOrUpdateBusinessMetadataAttributes204Response>;
+}
+
+export interface EntityGetSampleBusinessMetadataTemplate {
+  /** Get the sample Template for uploading/creating bulk BusinessMetaData */
+  get(
+    options?: EntityGetSampleBusinessMetadataTemplateParameters
+  ): Promise<
+    | EntityGetSampleBusinessMetadataTemplate200Response
+    | EntityGetSampleBusinessMetadataTemplate400Response
+  >;
+}
+
+export interface EntityImportBusinessMetadata {
+  /** Upload the file for creating Business Metadata in BULK */
+  post(
+    options?: EntityImportBusinessMetadataParameters
+  ): Promise<
+    | EntityImportBusinessMetadata200Response
+    | EntityImportBusinessMetadata400Response
+    | EntityImportBusinessMetadata409Response
+  >;
+}
+
+export interface EntityDeleteLabels {
+  /** delete given labels to a given entity */
+  delete(options?: EntityDeleteLabelsParameters): Promise<EntityDeleteLabels204Response>;
+  /** Set labels to a given entity */
+  post(options?: EntitySetLabelsParameters): Promise<EntitySetLabels204Response>;
+  /** add given labels to a given entity */
+  put(options?: EntityAddLabelParameters): Promise<EntityAddLabel204Response>;
+}
+
+export interface EntityDeleteLabelsByUniqueAttribute {
+  /** Delete given labels to a given entity identified by its type and unique attributes, if labels is null/empty, no labels will be removed. If any labels in labels set are non-existing labels, they will be ignored, only existing labels will be removed. In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format: attr:<attrName>=<attrValue>. NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName. The REST request would look something like this: DELETE /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue. */
+  delete(
+    options?: EntityDeleteLabelsByUniqueAttributeParameters
+  ): Promise<EntityDeleteLabelsByUniqueAttribute204Response>;
+  /** Set labels to a given entity identified by its type and unique attributes, if labels is null/empty, existing labels will all be removed. In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format: attr:<attrName>=<attrValue>. NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName. The REST request would look something like this: POST /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue. */
+  post(
+    options?: EntitySetLabelsByUniqueAttributeParameters
+  ): Promise<EntitySetLabelsByUniqueAttribute204Response>;
+  /** Add given labels to a given entity identified by its type and unique attributes, if labels is null/empty, no labels will be added. In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format: attr:<attrName>=<attrValue>. NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName. The REST request would look something like this: PUT /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue. */
+  put(
+    options?: EntityAddLabelsByUniqueAttributeParameters
+  ): Promise<EntityAddLabelsByUniqueAttribute204Response>;
 }
 
 export interface GlossaryListGlossaries {
@@ -771,6 +875,25 @@ export interface LineageNextPageLineage {
   ): Promise<LineageNextPageLineage200Response | LineageNextPageLineagedefaultResponse>;
 }
 
+export interface LineageGetLineageByUniqueAttribute {
+  /**
+   * Returns lineage info about entity.
+   *
+   * In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format
+   *
+   * attr:[attrName]=[attrValue]
+   *
+   * NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName
+   */
+  get(
+    options: LineageGetLineageByUniqueAttributeParameters
+  ): Promise<
+    | LineageGetLineageByUniqueAttribute200Response
+    | LineageGetLineageByUniqueAttribute400Response
+    | LineageGetLineageByUniqueAttribute404Response
+  >;
+}
+
 export interface RelationshipCreate {
   /** Create a new relationship between entities. */
   post(
@@ -791,6 +914,24 @@ export interface RelationshipGet {
   delete(
     options?: RelationshipDeleteParameters
   ): Promise<RelationshipDelete204Response | RelationshipDeletedefaultResponse>;
+}
+
+export interface TypesGetBusinessMetadataDefByGuid {
+  /** Get the businessMetadata definition for the given guid */
+  get(
+    options?: TypesGetBusinessMetadataDefByGuidParameters
+  ): Promise<
+    TypesGetBusinessMetadataDefByGuid200Response | TypesGetBusinessMetadataDefByGuid404Response
+  >;
+}
+
+export interface TypesGetBusinessMetadataDefByName {
+  /** Get the businessMetadata definition by it's name (unique) */
+  get(
+    options?: TypesGetBusinessMetadataDefByNameParameters
+  ): Promise<
+    TypesGetBusinessMetadataDefByName200Response | TypesGetBusinessMetadataDefByName404Response
+  >;
 }
 
 export interface TypesGetClassificationDefByGuid {
@@ -1018,6 +1159,30 @@ export interface Routes {
   ): EntityGetEntitiesByUniqueAttributes;
   /** Resource for '/atlas/v2/entity/guid/\{guid\}/header' has methods for the following verbs: get */
   (path: "/atlas/v2/entity/guid/{guid}/header", guid: string): EntityGetHeader;
+  /** Resource for '/atlas/v2/entity/guid/\{guid\}/businessmetadata' has methods for the following verbs: delete, post */
+  (
+    path: "/atlas/v2/entity/guid/{guid}/businessmetadata",
+    guid: string
+  ): EntityDeleteBusinessMetadata;
+  /** Resource for '/atlas/v2/entity/guid/\{guid\}/businessmetadata/\{bmName\}' has methods for the following verbs: delete, post */
+  (
+    path: "/atlas/v2/entity/guid/{guid}/businessmetadata/{bmName}",
+    guid: string,
+    bmName: string
+  ): EntityDeleteBusinessMetadataAttributes;
+  /** Resource for '/atlas/v2/entity/businessmetadata/import/template' has methods for the following verbs: get */
+  (
+    path: "/atlas/v2/entity/businessmetadata/import/template"
+  ): EntityGetSampleBusinessMetadataTemplate;
+  /** Resource for '/atlas/v2/entity/businessmetadata/import' has methods for the following verbs: post */
+  (path: "/atlas/v2/entity/businessmetadata/import"): EntityImportBusinessMetadata;
+  /** Resource for '/atlas/v2/entity/guid/\{guid\}/labels' has methods for the following verbs: delete, post, put */
+  (path: "/atlas/v2/entity/guid/{guid}/labels", guid: string): EntityDeleteLabels;
+  /** Resource for '/atlas/v2/entity/uniqueAttribute/type/\{typeName\}/labels' has methods for the following verbs: delete, post, put */
+  (
+    path: "/atlas/v2/entity/uniqueAttribute/type/{typeName}/labels",
+    typeName: string
+  ): EntityDeleteLabelsByUniqueAttribute;
   /** Resource for '/atlas/v2/glossary' has methods for the following verbs: get, post */
   (path: "/atlas/v2/glossary"): GlossaryListGlossaries;
   /** Resource for '/atlas/v2/glossary/categories' has methods for the following verbs: post */
@@ -1131,10 +1296,25 @@ export interface Routes {
   (path: "/atlas/v2/lineage/{guid}", guid: string): LineageGetLineageGraph;
   /** Resource for '/lineage/\{guid\}/next/' has methods for the following verbs: get */
   (path: "/lineage/{guid}/next/", guid: string): LineageNextPageLineage;
+  /** Resource for '/atlas/v2/lineage/uniqueAttribute/type/\{typeName\}' has methods for the following verbs: get */
+  (
+    path: "/atlas/v2/lineage/uniqueAttribute/type/{typeName}",
+    typeName: string
+  ): LineageGetLineageByUniqueAttribute;
   /** Resource for '/atlas/v2/relationship' has methods for the following verbs: post, put */
   (path: "/atlas/v2/relationship"): RelationshipCreate;
   /** Resource for '/atlas/v2/relationship/guid/\{guid\}' has methods for the following verbs: get, delete */
   (path: "/atlas/v2/relationship/guid/{guid}", guid: string): RelationshipGet;
+  /** Resource for '/atlas/v2/types/businessmetadatadef/guid/\{guid\}' has methods for the following verbs: get */
+  (
+    path: "/atlas/v2/types/businessmetadatadef/guid/{guid}",
+    guid: string
+  ): TypesGetBusinessMetadataDefByGuid;
+  /** Resource for '/atlas/v2/types/businessmetadatadef/name/\{name\}' has methods for the following verbs: get */
+  (
+    path: "/atlas/v2/types/businessmetadatadef/name/{name}",
+    name: string
+  ): TypesGetBusinessMetadataDefByName;
   /** Resource for '/atlas/v2/types/classificationdef/guid/\{guid\}' has methods for the following verbs: get */
   (
     path: "/atlas/v2/types/classificationdef/guid/{guid}",

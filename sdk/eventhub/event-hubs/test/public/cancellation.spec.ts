@@ -85,7 +85,7 @@ testWithServiceTypes((serviceVersion) => {
           try {
             await consumerClient.getEventHubProperties({ abortSignal });
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.name, "AbortError");
             should.equal(err.message, "The operation was aborted.");
           }
@@ -96,7 +96,7 @@ testWithServiceTypes((serviceVersion) => {
           try {
             await consumerClient.getPartitionIds({ abortSignal });
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.name, "AbortError");
             should.equal(err.message, "The operation was aborted.");
           }
@@ -107,7 +107,7 @@ testWithServiceTypes((serviceVersion) => {
           try {
             await consumerClient.getPartitionProperties("0", { abortSignal });
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.name, "AbortError");
             should.equal(err.message, "The operation was aborted.");
           }
@@ -131,7 +131,7 @@ testWithServiceTypes((serviceVersion) => {
           try {
             await producerClient.getEventHubProperties({ abortSignal });
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.name, "AbortError");
             should.equal(err.message, "The operation was aborted.");
           }
@@ -142,7 +142,7 @@ testWithServiceTypes((serviceVersion) => {
           try {
             await producerClient.getPartitionIds({ abortSignal });
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.name, "AbortError");
             should.equal(err.message, "The operation was aborted.");
           }
@@ -153,7 +153,7 @@ testWithServiceTypes((serviceVersion) => {
           try {
             await producerClient.getPartitionProperties("0", { abortSignal });
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.name, "AbortError");
             should.equal(err.message, "The operation was aborted.");
           }
@@ -164,7 +164,7 @@ testWithServiceTypes((serviceVersion) => {
           try {
             await producerClient.createBatch({ abortSignal });
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.name, "AbortError");
             should.equal(err.message, "The operation was aborted.");
           }
@@ -175,7 +175,7 @@ testWithServiceTypes((serviceVersion) => {
           try {
             await producerClient.sendBatch([{ body: "unsung hero" }], { abortSignal });
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.name, "AbortError");
             should.equal(err.message, "The operation was aborted.");
           }

@@ -212,10 +212,12 @@ export class SystemTopicEventSubscriptionsImpl
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -247,7 +249,7 @@ export class SystemTopicEventSubscriptionsImpl
   }
 
   /**
-   * Delete an event subscription of a system topic.
+   * Delete an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
@@ -304,14 +306,16 @@ export class SystemTopicEventSubscriptionsImpl
       { resourceGroupName, systemTopicName, eventSubscriptionName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Delete an event subscription of a system topic.
+   * Delete an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
@@ -334,7 +338,7 @@ export class SystemTopicEventSubscriptionsImpl
   }
 
   /**
-   * Update event subscription of a system topic.
+   * Update an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
@@ -404,14 +408,16 @@ export class SystemTopicEventSubscriptionsImpl
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Update event subscription of a system topic.
+   * Update an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names

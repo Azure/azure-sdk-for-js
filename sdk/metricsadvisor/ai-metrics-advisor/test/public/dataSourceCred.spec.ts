@@ -297,7 +297,7 @@ export async function verifyDataSourceCredentialDeletion(
   try {
     await client.getDataSourceCredential(createdDataSourceCredentialId);
     assert.fail("Expecting error getting dataSource credential");
-  } catch (error) {
+  } catch (error: any) {
     assert.equal((error as any).code, "404 NOT_FOUND");
     assert.equal((error as any).message, "credentialId is invalid.");
   }

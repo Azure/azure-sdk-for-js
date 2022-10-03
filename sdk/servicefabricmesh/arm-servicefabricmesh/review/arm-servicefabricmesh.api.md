@@ -105,7 +105,7 @@ export interface ApplicationResourceDescriptionList {
 }
 
 // @public
-export type ApplicationResourceProperties = ProvisionedResourceProperties & ApplicationProperties & {};
+export type ApplicationResourceProperties = ProvisionedResourceProperties & ApplicationProperties;
 
 // @public
 export type ApplicationScopedVolume = VolumeReference & {
@@ -435,7 +435,7 @@ export interface GatewayResourceDescriptionList {
 }
 
 // @public
-export type GatewayResourceProperties = ProvisionedResourceProperties & GatewayProperties & {};
+export type GatewayResourceProperties = ProvisionedResourceProperties & GatewayProperties;
 
 // @public
 export type HeaderMatchType = string;
@@ -491,7 +491,7 @@ export interface ImageRegistryCredential {
 }
 
 // @public
-export type InlinedValueSecretResourceProperties = SecretResourceProperties & {};
+export type InlinedValueSecretResourceProperties = SecretResourceProperties;
 
 // @public
 export enum KnownApplicationScopedVolumeKind {
@@ -737,7 +737,7 @@ export interface ProvisionedResourceProperties {
 }
 
 // @public
-export type ProxyResource = Resource & {};
+export type ProxyResource = Resource;
 
 // @public
 export interface ReliableCollectionsRef {
@@ -932,7 +932,7 @@ export interface SecretValueResourceDescriptionList {
 }
 
 // @public
-export type SecretValueResourceProperties = ProvisionedResourceProperties & SecretValueProperties & {};
+export type SecretValueResourceProperties = ProvisionedResourceProperties & SecretValueProperties;
 
 // @public
 export interface Service {
@@ -1079,7 +1079,7 @@ export interface ServiceResourceDescriptionList {
 }
 
 // @public
-export type ServiceResourceProperties = ProvisionedResourceProperties & ServiceReplicaProperties & ServiceProperties & {};
+export type ServiceResourceProperties = ProvisionedResourceProperties & ServiceReplicaProperties & ServiceProperties;
 
 // @public
 export interface Setting {
@@ -1203,7 +1203,7 @@ export interface VolumeResourceDescriptionList {
 }
 
 // @public
-export type VolumeResourceProperties = ProvisionedResourceProperties & VolumeProperties & {};
+export type VolumeResourceProperties = ProvisionedResourceProperties & VolumeProperties;
 
 // (No @packageDocumentation comment for this package)
 

@@ -107,6 +107,13 @@ export interface FileAndDirectoryCreateCommonOptions {
    * By default, the value will be set as now.
    */
   lastWriteTime?: Date | TimeNowType;
+
+  /**
+   * The Coordinated Universal Time (UTC) change time property for the directory.
+   * A value of now may be used to indicate the time of the request.
+   * By default, the value will be set to the time of the request.
+   */
+  changeTime?: Date | TimeNowType;
 }
 
 export interface FileAndDirectorySetPropertiesCommonOptions {
@@ -148,6 +155,13 @@ export interface FileAndDirectorySetPropertiesCommonOptions {
    * By default, the value will be set as preserve.
    */
   lastWriteTime?: Date | TimeNowType | TimePreserveType;
+
+  /**
+   * The Coordinated Universal Time (UTC) change time property for the directory.
+   * A value of now may be used to indicate the time of the request.
+   * By default, the value will be set to the time of the request.
+   */
+  changeTime?: Date | TimeNowType;
 }
 
 /**
@@ -290,11 +304,21 @@ export function fileAttributesToString(
     : fileAttributes;
 }
 
-export function fileCreationTimeToString(time: Date | TimeNowType | TimePreserveType): string {
+export function fileCreationTimeToString(
+  time: Date | TimeNowType | TimePreserveType | undefined
+): string | undefined {
   return time instanceof Date ? truncatedISO8061Date(time) : time;
 }
 
-export function fileLastWriteTimeToString(time: Date | TimeNowType | TimePreserveType): string {
+export function fileLastWriteTimeToString(
+  time: Date | TimeNowType | TimePreserveType | undefined
+): string | undefined {
+  return time instanceof Date ? truncatedISO8061Date(time) : time;
+}
+
+export function fileChangeTimeToString(
+  time: Date | TimeNowType | TimePreserveType | undefined
+): string | undefined {
   return time instanceof Date ? truncatedISO8061Date(time) : time;
 }
 

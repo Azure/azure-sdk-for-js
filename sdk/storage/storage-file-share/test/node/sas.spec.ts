@@ -95,7 +95,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let error;
     try {
       await serviceClientWithSAS.getProperties();
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
 
@@ -126,7 +126,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let error;
     try {
       await serviceClientWithSAS.getProperties();
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
 
@@ -160,7 +160,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let error;
     try {
       await serviceClientWithSAS.getProperties();
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
 
@@ -441,7 +441,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let exceptionCaught = false;
     try {
       await serviceClientWithSAS.generateAccountSasUrl();
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(err instanceof RangeError);
       exceptionCaught = true;
     }
@@ -494,7 +494,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let exceptionCaught = false;
     try {
       shareClient.generateSasUrl({});
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(err instanceof RangeError);
       exceptionCaught = true;
     }
@@ -574,7 +574,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let exceptionCaught = false;
     try {
       fileClient.generateSasUrl({});
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(err instanceof RangeError);
       exceptionCaught = true;
     }
@@ -628,7 +628,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     try {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
     }
   });

@@ -22,11 +22,10 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 async function dpsCheckName() {
   const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
-  const arguments: OperationInputs = { name: "test213123" };
   const credential = new DefaultAzureCredential();
   const client = new IotDpsClient(credential, subscriptionId);
   const result = await client.iotDpsResource.checkProvisioningServiceNameAvailability(
-    arguments
+    { name: "test213123" }
   );
   console.log(result);
 }

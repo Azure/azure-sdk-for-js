@@ -1,6 +1,6 @@
 # Release History
 
-## 16.0.0-beta.2 (Unreleased)
+## 15.2.1 (Unreleased)
 
 ### Features Added
 
@@ -10,35 +10,10 @@
 
 ### Other Changes
 
-## 16.0.0-beta.1 (2022-02-21)
+## 15.2.0 (2022-09-05)
     
 **Features**
 
-  - Added operation group DataTransferJobs
-  - Added operation group GraphResources
-  - Added operation group RestorableGremlinDatabases
-  - Added operation group RestorableGremlinGraphs
-  - Added operation group RestorableGremlinResources
-  - Added operation group RestorableTableResources
-  - Added operation group RestorableTables
-  - Added operation group Service
-  - Added operation CassandraClusters.getBackup
-  - Added operation CassandraClusters.listBackups
-  - Added operation CassandraResources.beginCreateUpdateCassandraView
-  - Added operation CassandraResources.beginCreateUpdateCassandraViewAndWait
-  - Added operation CassandraResources.beginDeleteCassandraView
-  - Added operation CassandraResources.beginDeleteCassandraViewAndWait
-  - Added operation CassandraResources.beginMigrateCassandraViewToAutoscale
-  - Added operation CassandraResources.beginMigrateCassandraViewToAutoscaleAndWait
-  - Added operation CassandraResources.beginMigrateCassandraViewToManualThroughput
-  - Added operation CassandraResources.beginMigrateCassandraViewToManualThroughputAndWait
-  - Added operation CassandraResources.beginUpdateCassandraViewThroughput
-  - Added operation CassandraResources.beginUpdateCassandraViewThroughputAndWait
-  - Added operation CassandraResources.getCassandraView
-  - Added operation CassandraResources.getCassandraViewThroughput
-  - Added operation CassandraResources.listCassandraViews
-  - Added operation GremlinResources.beginRetrieveContinuousBackupInformation
-  - Added operation GremlinResources.beginRetrieveContinuousBackupInformationAndWait
   - Added operation MongoDBResources.beginCreateUpdateMongoRoleDefinition
   - Added operation MongoDBResources.beginCreateUpdateMongoRoleDefinitionAndWait
   - Added operation MongoDBResources.beginCreateUpdateMongoUserDefinition
@@ -51,50 +26,8 @@
   - Added operation MongoDBResources.getMongoUserDefinition
   - Added operation MongoDBResources.listMongoRoleDefinitions
   - Added operation MongoDBResources.listMongoUserDefinitions
-  - Added operation SqlResources.beginCreateUpdateClientEncryptionKey
-  - Added operation SqlResources.beginCreateUpdateClientEncryptionKeyAndWait
-  - Added operation SqlResources.getClientEncryptionKey
-  - Added operation SqlResources.listClientEncryptionKeys
-  - Added operation TableResources.beginRetrieveContinuousBackupInformation
-  - Added operation TableResources.beginRetrieveContinuousBackupInformationAndWait
-  - Added Interface AuthenticationMethodLdapProperties
-  - Added Interface BackupResourceProperties
-  - Added Interface CassandraClustersGetBackupOptionalParams
-  - Added Interface CassandraClustersListBackupsOptionalParams
-  - Added Interface CassandraResourcesCreateUpdateCassandraViewOptionalParams
-  - Added Interface CassandraResourcesDeleteCassandraViewOptionalParams
-  - Added Interface CassandraResourcesGetCassandraViewOptionalParams
-  - Added Interface CassandraResourcesGetCassandraViewThroughputOptionalParams
-  - Added Interface CassandraResourcesListCassandraViewsOptionalParams
-  - Added Interface CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams
-  - Added Interface CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams
-  - Added Interface CassandraResourcesUpdateCassandraViewThroughputOptionalParams
-  - Added Interface CassandraViewListResult
-  - Added Interface CassandraViewResource
-  - Added Interface ClientEncryptionKeyCreateUpdateParameters
-  - Added Interface ClientEncryptionKeyResource
-  - Added Interface ClientEncryptionKeysListResult
-  - Added Interface DataTransferDataSourceSink
-  - Added Interface DataTransferJobFeedResults
-  - Added Interface DataTransferJobProperties
-  - Added Interface DataTransferJobsCreateOptionalParams
-  - Added Interface DataTransferJobsGetOptionalParams
-  - Added Interface DataTransferJobsListByDatabaseAccountNextOptionalParams
-  - Added Interface DataTransferJobsListByDatabaseAccountOptionalParams
-  - Added Interface DataTransferServiceResource
-  - Added Interface DiagnosticLogSettings
-  - Added Interface GraphAPIComputeServiceResource
-  - Added Interface GraphResource
-  - Added Interface GraphResourcesCreateUpdateGraphOptionalParams
-  - Added Interface GraphResourcesDeleteGraphResourceOptionalParams
-  - Added Interface GraphResourcesGetGraphOptionalParams
-  - Added Interface GraphResourcesListGraphsOptionalParams
-  - Added Interface GraphResourcesListResult
-  - Added Interface GremlinDatabaseRestoreResource
-  - Added Interface GremlinResourcesRetrieveContinuousBackupInformationOptionalParams
-  - Added Interface KeyWrapMetadata
-  - Added Interface ListBackups
-  - Added Interface MaterializedViewsBuilderServiceResource
+  - Added Interface AccountKeyMetadata
+  - Added Interface DatabaseAccountKeysMetadata
   - Added Interface MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams
   - Added Interface MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams
   - Added Interface MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams
@@ -104,142 +37,138 @@
   - Added Interface MongoDBResourcesListMongoRoleDefinitionsOptionalParams
   - Added Interface MongoDBResourcesListMongoUserDefinitionsOptionalParams
   - Added Interface MongoRoleDefinitionCreateUpdateParameters
+  - Added Interface MongoRoleDefinitionGetResults
   - Added Interface MongoRoleDefinitionListResult
   - Added Interface MongoUserDefinitionCreateUpdateParameters
+  - Added Interface MongoUserDefinitionGetResults
   - Added Interface MongoUserDefinitionListResult
   - Added Interface Privilege
   - Added Interface PrivilegeResource
-  - Added Interface RegionalServiceResource
-  - Added Interface RestorableGremlinDatabaseGetResult
-  - Added Interface RestorableGremlinDatabasePropertiesResource
-  - Added Interface RestorableGremlinDatabasesListOptionalParams
-  - Added Interface RestorableGremlinDatabasesListResult
-  - Added Interface RestorableGremlinGraphGetResult
-  - Added Interface RestorableGremlinGraphPropertiesResource
-  - Added Interface RestorableGremlinGraphsListOptionalParams
-  - Added Interface RestorableGremlinGraphsListResult
-  - Added Interface RestorableGremlinResourcesListOptionalParams
-  - Added Interface RestorableGremlinResourcesListResult
-  - Added Interface RestorableTableGetResult
-  - Added Interface RestorableTablePropertiesResource
-  - Added Interface RestorableTableResourcesListOptionalParams
-  - Added Interface RestorableTableResourcesListResult
-  - Added Interface RestorableTablesListOptionalParams
-  - Added Interface RestorableTablesListResult
   - Added Interface Role
-  - Added Interface ServiceCreateOptionalParams
-  - Added Interface ServiceDeleteOptionalParams
-  - Added Interface ServiceGetOptionalParams
-  - Added Interface ServiceListOptionalParams
-  - Added Interface ServiceResourceCreateUpdateParameters
-  - Added Interface ServiceResourceListResult
-  - Added Interface ServiceResourceProperties
-  - Added Interface SqlDedicatedGatewayServiceResource
-  - Added Interface SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
-  - Added Interface SqlResourcesGetClientEncryptionKeyOptionalParams
-  - Added Interface SqlResourcesListClientEncryptionKeysOptionalParams
-  - Added Interface TableResourcesRetrieveContinuousBackupInformationOptionalParams
-  - Added Type Alias AzureBlobDataTransferDataSourceSink
-  - Added Type Alias BackupResource
-  - Added Type Alias CassandraClustersGetBackupResponse
-  - Added Type Alias CassandraClustersListBackupsResponse
-  - Added Type Alias CassandraResourcesCreateUpdateCassandraViewResponse
-  - Added Type Alias CassandraResourcesGetCassandraViewResponse
-  - Added Type Alias CassandraResourcesGetCassandraViewThroughputResponse
-  - Added Type Alias CassandraResourcesListCassandraViewsResponse
-  - Added Type Alias CassandraResourcesMigrateCassandraViewToAutoscaleResponse
-  - Added Type Alias CassandraResourcesMigrateCassandraViewToManualThroughputResponse
-  - Added Type Alias CassandraResourcesUpdateCassandraViewThroughputResponse
-  - Added Type Alias CassandraViewCreateUpdateParameters
-  - Added Type Alias CassandraViewGetPropertiesOptions
-  - Added Type Alias CassandraViewGetPropertiesResource
-  - Added Type Alias CassandraViewGetResults
-  - Added Type Alias ClientEncryptionKeyGetPropertiesResource
-  - Added Type Alias ClientEncryptionKeyGetResults
-  - Added Type Alias CosmosCassandraDataTransferDataSourceSink
-  - Added Type Alias CosmosSqlDataTransferDataSourceSink
-  - Added Type Alias CreateJobRequest
-  - Added Type Alias DataTransferComponent
-  - Added Type Alias DataTransferDataSourceSinkUnion
-  - Added Type Alias DataTransferJobGetResults
-  - Added Type Alias DataTransferJobsCreateResponse
-  - Added Type Alias DataTransferJobsGetResponse
-  - Added Type Alias DataTransferJobsListByDatabaseAccountNextResponse
-  - Added Type Alias DataTransferJobsListByDatabaseAccountResponse
-  - Added Type Alias DataTransferRegionalServiceResource
-  - Added Type Alias DataTransferServiceResourceProperties
-  - Added Type Alias EnableFullTextQuery
-  - Added Type Alias GraphAPIComputeRegionalServiceResource
-  - Added Type Alias GraphAPIComputeServiceResourceProperties
-  - Added Type Alias GraphResourceCreateUpdateParameters
-  - Added Type Alias GraphResourceGetPropertiesOptions
-  - Added Type Alias GraphResourceGetPropertiesResource
-  - Added Type Alias GraphResourceGetResults
-  - Added Type Alias GraphResourcesCreateUpdateGraphResponse
-  - Added Type Alias GraphResourcesGetGraphResponse
-  - Added Type Alias GraphResourcesListGraphsResponse
-  - Added Type Alias GremlinResourcesRetrieveContinuousBackupInformationResponse
-  - Added Type Alias MaterializedViewsBuilderRegionalServiceResource
-  - Added Type Alias MaterializedViewsBuilderServiceResourceProperties
   - Added Type Alias MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse
   - Added Type Alias MongoDBResourcesCreateUpdateMongoUserDefinitionResponse
   - Added Type Alias MongoDBResourcesGetMongoRoleDefinitionResponse
   - Added Type Alias MongoDBResourcesGetMongoUserDefinitionResponse
   - Added Type Alias MongoDBResourcesListMongoRoleDefinitionsResponse
   - Added Type Alias MongoDBResourcesListMongoUserDefinitionsResponse
-  - Added Type Alias MongoRoleDefinitionGetResults
   - Added Type Alias MongoRoleDefinitionType
-  - Added Type Alias MongoUserDefinitionGetResults
-  - Added Type Alias RestorableGremlinDatabasesListResponse
-  - Added Type Alias RestorableGremlinGraphsListResponse
-  - Added Type Alias RestorableGremlinResourcesListResponse
-  - Added Type Alias RestorableTableResourcesListResponse
-  - Added Type Alias RestorableTablesListResponse
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enablePartitionMerge
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter keysMetadata
+  - Interface DatabaseAccountGetResults has a new optional parameter enablePartitionMerge
+  - Interface DatabaseAccountGetResults has a new optional parameter keysMetadata
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter enablePartitionMerge
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter keysMetadata
+    
+    
+## 15.1.0 (2022-07-18)
+    
+**Features**
+
+  - Added operation group Service
+  - Added Interface CassandraKeyspaceCreateUpdateParameters
+  - Added Interface CassandraKeyspaceGetPropertiesOptions
+  - Added Interface CassandraKeyspaceGetPropertiesResource
+  - Added Interface CassandraKeyspaceGetResults
+  - Added Interface CassandraTableCreateUpdateParameters
+  - Added Interface CassandraTableGetPropertiesOptions
+  - Added Interface CassandraTableGetPropertiesResource
+  - Added Interface CassandraTableGetResults
+  - Added Interface ClusterResource
+  - Added Interface ContinuousModeBackupPolicy
+  - Added Interface DatabaseAccountCreateUpdateParameters
+  - Added Interface DatabaseAccountGetResults
+  - Added Interface DatabaseAccountListKeysResult
+  - Added Interface DataCenterResource
+  - Added Interface DataTransferRegionalServiceResource
+  - Added Interface DataTransferServiceResource
+  - Added Interface DataTransferServiceResourceProperties
+  - Added Interface GraphAPIComputeRegionalServiceResource
+  - Added Interface GraphAPIComputeServiceResource
+  - Added Interface GraphAPIComputeServiceResourceProperties
+  - Added Interface GremlinDatabaseCreateUpdateParameters
+  - Added Interface GremlinDatabaseGetPropertiesOptions
+  - Added Interface GremlinDatabaseGetPropertiesResource
+  - Added Interface GremlinDatabaseGetResults
+  - Added Interface GremlinGraphCreateUpdateParameters
+  - Added Interface GremlinGraphGetPropertiesOptions
+  - Added Interface GremlinGraphGetPropertiesResource
+  - Added Interface GremlinGraphGetResults
+  - Added Interface LocationGetResult
+  - Added Interface MaterializedViewsBuilderRegionalServiceResource
+  - Added Interface MaterializedViewsBuilderServiceResource
+  - Added Interface MaterializedViewsBuilderServiceResourceProperties
+  - Added Interface MongoDBCollectionCreateUpdateParameters
+  - Added Interface MongoDBCollectionGetPropertiesOptions
+  - Added Interface MongoDBCollectionGetPropertiesResource
+  - Added Interface MongoDBCollectionGetResults
+  - Added Interface MongoDBDatabaseCreateUpdateParameters
+  - Added Interface MongoDBDatabaseGetPropertiesOptions
+  - Added Interface MongoDBDatabaseGetPropertiesResource
+  - Added Interface MongoDBDatabaseGetResults
+  - Added Interface NotebookWorkspace
+  - Added Interface NotebookWorkspaceCreateUpdateParameters
+  - Added Interface PartitionMetric
+  - Added Interface PartitionUsage
+  - Added Interface PercentileMetricValue
+  - Added Interface PeriodicModeBackupPolicy
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface ProxyResource
+  - Added Interface RegionalServiceResource
+  - Added Interface RestorableMongodbResourcesGetResult
+  - Added Interface RestorableSqlContainerPropertiesResourceContainer
+  - Added Interface RestorableSqlDatabasePropertiesResourceDatabase
+  - Added Interface RestorableSqlResourcesGetResult
+  - Added Interface ServiceCreateOptionalParams
+  - Added Interface ServiceDeleteOptionalParams
+  - Added Interface ServiceGetOptionalParams
+  - Added Interface ServiceListOptionalParams
+  - Added Interface ServiceResource
+  - Added Interface ServiceResourceCreateUpdateParameters
+  - Added Interface ServiceResourceListResult
+  - Added Interface ServiceResourceProperties
+  - Added Interface SqlContainerCreateUpdateParameters
+  - Added Interface SqlContainerGetPropertiesOptions
+  - Added Interface SqlContainerGetPropertiesResource
+  - Added Interface SqlContainerGetResults
+  - Added Interface SqlDatabaseCreateUpdateParameters
+  - Added Interface SqlDatabaseGetPropertiesOptions
+  - Added Interface SqlDatabaseGetPropertiesResource
+  - Added Interface SqlDatabaseGetResults
+  - Added Interface SqlDedicatedGatewayRegionalServiceResource
+  - Added Interface SqlDedicatedGatewayServiceResource
+  - Added Interface SqlDedicatedGatewayServiceResourceProperties
+  - Added Interface SqlRoleAssignmentGetResults
+  - Added Interface SqlRoleDefinitionGetResults
+  - Added Interface SqlStoredProcedureCreateUpdateParameters
+  - Added Interface SqlStoredProcedureGetPropertiesResource
+  - Added Interface SqlStoredProcedureGetResults
+  - Added Interface SqlTriggerCreateUpdateParameters
+  - Added Interface SqlTriggerGetPropertiesResource
+  - Added Interface SqlTriggerGetResults
+  - Added Interface SqlUserDefinedFunctionCreateUpdateParameters
+  - Added Interface SqlUserDefinedFunctionGetPropertiesResource
+  - Added Interface SqlUserDefinedFunctionGetResults
+  - Added Interface TableCreateUpdateParameters
+  - Added Interface TableGetPropertiesOptions
+  - Added Interface TableGetPropertiesResource
+  - Added Interface TableGetResults
+  - Added Interface ThroughputSettingsGetPropertiesResource
+  - Added Interface ThroughputSettingsGetResults
+  - Added Interface ThroughputSettingsUpdateParameters
   - Added Type Alias ServiceCreateResponse
   - Added Type Alias ServiceGetResponse
   - Added Type Alias ServiceListResponse
-  - Added Type Alias ServiceResource
   - Added Type Alias ServiceResourcePropertiesUnion
   - Added Type Alias ServiceSize
   - Added Type Alias ServiceStatus
   - Added Type Alias ServiceType
-  - Added Type Alias SqlDedicatedGatewayRegionalServiceResource
-  - Added Type Alias SqlDedicatedGatewayServiceResourceProperties
-  - Added Type Alias SqlResourcesCreateUpdateClientEncryptionKeyResponse
-  - Added Type Alias SqlResourcesGetClientEncryptionKeyResponse
-  - Added Type Alias SqlResourcesListClientEncryptionKeysResponse
-  - Added Type Alias TableResourcesRetrieveContinuousBackupInformationResponse
-  - Interface ARMResourceProperties has a new optional parameter identity
-  - Interface DatabaseAccountUpdateParameters has a new optional parameter diagnosticLogSettings
-  - Interface DatabaseAccountUpdateParameters has a new optional parameter enableMaterializedViews
-  - Interface DataCenterResourceProperties has a new optional parameter authenticationMethodLdapProperties
-  - Interface LocationProperties has a new optional parameter status
-  - Interface RestorableMongodbCollectionsListOptionalParams has a new optional parameter endTime
-  - Interface RestorableMongodbCollectionsListOptionalParams has a new optional parameter startTime
-  - Interface RestoreParameters has a new optional parameter gremlinDatabasesToRestore
-  - Interface RestoreParameters has a new optional parameter tablesToRestore
-  - Class CosmosDBManagementClient has a new parameter dataTransferJobs
-  - Class CosmosDBManagementClient has a new parameter graphResources
-  - Class CosmosDBManagementClient has a new parameter restorableGremlinDatabases
-  - Class CosmosDBManagementClient has a new parameter restorableGremlinGraphs
-  - Class CosmosDBManagementClient has a new parameter restorableGremlinResources
-  - Class CosmosDBManagementClient has a new parameter restorableTableResources
-  - Class CosmosDBManagementClient has a new parameter restorableTables
+  - Interface GremlinGraphResource has a new optional parameter analyticalStorageTtl
   - Class CosmosDBManagementClient has a new parameter service
-  - Type Alias DatabaseAccountCreateUpdateParameters has a new parameter diagnosticLogSettings
-  - Type Alias DatabaseAccountCreateUpdateParameters has a new parameter enableMaterializedViews
-  - Type Alias DatabaseAccountGetResults has a new parameter diagnosticLogSettings
-  - Type Alias DatabaseAccountGetResults has a new parameter enableMaterializedViews
-  - Added Enum KnownDataTransferComponent
   - Added Enum KnownServiceSize
   - Added Enum KnownServiceStatus
   - Added Enum KnownServiceType
-  - Enum KnownAuthenticationMethod has a new value Ldap
-
-**Breaking Changes**
-
-  - Type Alias DatabaseAccountCreateUpdateParameters no longer has parameter identity
-  - Type Alias DatabaseAccountGetResults no longer has parameter identity
+  - Enum KnownServerVersion has a new value Four2
     
     
 ## 15.0.0 (2021-12-09)

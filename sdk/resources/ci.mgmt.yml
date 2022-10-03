@@ -9,8 +9,8 @@ trigger:
   paths:
     include:
       - sdk/resources/ci.mgmt.yml
-      - sdk/resources/arm-resources/
       - sdk/resources/arm-resources-profile-2020-09-01-hybrid
+      - sdk/resources/arm-resources
 pr:
   branches:
     include:
@@ -23,8 +23,8 @@ pr:
   paths:
     include:
       - sdk/resources/ci.mgmt.yml
-      - sdk/resources/arm-resources/
       - sdk/resources/arm-resources-profile-2020-09-01-hybrid
+      - sdk/resources/arm-resources
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

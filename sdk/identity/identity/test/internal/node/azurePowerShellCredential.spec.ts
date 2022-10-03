@@ -51,7 +51,7 @@ describe("AzurePowerShellCredential", function () {
     let error: Error | null = null;
     try {
       await credential.getToken(scope);
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
 
@@ -74,7 +74,7 @@ describe("AzurePowerShellCredential", function () {
     let error: Error | null = null;
     try {
       await credential.getToken(scope);
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
 
@@ -101,7 +101,7 @@ describe("AzurePowerShellCredential", function () {
     let error: Error | null = null;
     try {
       await credential.getToken(scope);
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
 
@@ -129,7 +129,7 @@ describe("AzurePowerShellCredential", function () {
     let error: Error | null = null;
     try {
       await credential.getToken(scope);
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
 
@@ -159,7 +159,7 @@ describe("AzurePowerShellCredential", function () {
       let error: Error | null = null;
       try {
         await credential.getToken(scope);
-      } catch (e) {
+      } catch (e: any) {
         error = e;
       }
 

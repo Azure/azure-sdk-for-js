@@ -256,13 +256,32 @@ export interface Persistence {
 export interface Module {
   /** The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries' */
   name: string;
-  /** Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'. */
+  /** Configuration options for the module, e.g. 'ERROR_RATE 0.01 INITIAL_SIZE 400'. */
   args?: string;
   /**
    * The version of the module, e.g. '1.0'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly version?: string;
+}
+
+/** Optional set of properties to configure geo replication for this database. */
+export interface DatabasePropertiesGeoReplication {
+  /** Name for the group of linked database resources */
+  groupNickname?: string;
+  /** List of database resources to link with this database */
+  linkedDatabases?: LinkedDatabase[];
+}
+
+/** Specifies details of a linked database resource. */
+export interface LinkedDatabase {
+  /** Resource ID of a database resource to link with this database. */
+  id?: string;
+  /**
+   * State of the link between the database resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: LinkState;
 }
 
 /** A partial update to the RedisEnterprise database */
@@ -289,6 +308,8 @@ export interface DatabaseUpdate {
   persistence?: Persistence;
   /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
   modules?: Module[];
+  /** Optional set of properties to configure geo replication for this database. */
+  geoReplication?: DatabasePropertiesGeoReplication;
 }
 
 /** The secret access keys used for authenticating connections to redis */
@@ -333,6 +354,12 @@ export interface PrivateEndpointConnectionListResult {
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
   value?: PrivateLinkResource[];
+}
+
+/** Parameters for a Redis Enterprise Active Geo Replication Force Unlink operation. */
+export interface ForceUnlinkParameters {
+  /** The resource IDs of the database resources to be unlinked. */
+  ids: string[];
 }
 
 /** The Private Endpoint Connection resource. */
@@ -434,6 +461,8 @@ export type Database = ProxyResource & {
   persistence?: Persistence;
   /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
   modules?: Module[];
+  /** Optional set of properties to configure geo replication for this database. */
+  geoReplication?: DatabasePropertiesGeoReplication;
 };
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -703,6 +732,28 @@ export enum KnownRdbFrequency {
  * **12h**
  */
 export type RdbFrequency = string;
+
+/** Known values of {@link LinkState} that the service accepts. */
+export enum KnownLinkState {
+  Linked = "Linked",
+  Linking = "Linking",
+  Unlinking = "Unlinking",
+  LinkFailed = "LinkFailed",
+  UnlinkFailed = "UnlinkFailed"
+}
+
+/**
+ * Defines values for LinkState. \
+ * {@link KnownLinkState} can be used interchangeably with LinkState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Linked** \
+ * **Linking** \
+ * **Unlinking** \
+ * **LinkFailed** \
+ * **UnlinkFailed**
+ */
+export type LinkState = string;
 /** Defines values for AccessKeyType. */
 export type AccessKeyType = "Primary" | "Secondary";
 
@@ -872,6 +923,15 @@ export interface DatabasesImportOptionalParams
 
 /** Optional parameters. */
 export interface DatabasesExportOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DatabasesForceUnlinkOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;

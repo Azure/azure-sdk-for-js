@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze",
+      "RequestUri": "https://endpoint/text/analytics/v3.1/analyze",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
@@ -10,9 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "190",
         "Content-Type": "application/json",
-        "traceparent": "00-00000000000000000000000000000566-0000000000001223-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "402a6f07-c21f-4bee-bd79-d95180d099b1"
+        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.9.1 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "a6920b9e-257b-43eb-a1bf-c8c37f433dca"
       },
       "RequestBody": {
         "analysisInput": {
@@ -36,9 +35,9 @@
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "apim-request-id": "3069d2fd-cff1-4779-bc05-f88591d9db87",
+        "apim-request-id": "2ba5aceb-4220-438a-8bc6-6a1362f55d53",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Feb 2022 19:08:18 GMT",
+        "Date": "Fri, 22 Jul 2022 02:34:29 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
@@ -47,10 +46,11 @@
       "ResponseBody": {
         "error": {
           "code": "InvalidRequest",
-          "message": "Invalid parameter in request",
+          "details": [],
+          "message": "Invalid Request.",
           "innererror": {
             "code": "InvalidParameterValue",
-            "message": "Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15."
+            "message": "Job task: \u0027PersonallyIdentifiableInformation\u0027 failed with validation errors: [\u0027Invalid parameter in request\u0027]"
           }
         }
       }

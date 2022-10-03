@@ -1,6 +1,6 @@
 # Release History
 
-## 3.1.1 (Unreleased)
+## 3.1.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 3.1.1 (2022-09-01)
+
+### Bugs Fixed
+
+- Fix an issue of accessing `undefined` receiver in timeout handler of `RequestResponseLink.sendRequest`. [PR 21866](https://github.com/Azure/azure-sdk-for-js/pull/21866)
 
 ## 3.1.0 (2022-02-03)
 

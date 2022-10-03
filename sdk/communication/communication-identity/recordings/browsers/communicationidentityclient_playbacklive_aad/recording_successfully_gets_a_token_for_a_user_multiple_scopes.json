@@ -1,12 +1,12 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/identities?api-version=2021-10-31-preview",
+      "RequestUri": "https://endpoint/identities?api-version=2022-06-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "cs",
+        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "0",
@@ -18,24 +18,24 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-identity/1.1.0-beta.2 core-rest-pipeline/1.5.1 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-identity/1.1.0 core-rest-pipeline/1.8.1 OS/MacIntel"
       },
       "RequestBody": null,
       "StatusCode": 201,
       "ResponseHeaders": {
-        "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
+        "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01",
         "Content-Length": "31",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 14 Mar 2022 08:16:30 GMT",
-        "MS-CV": "YjgRVQ7LmUuNUxq1t\u002B\u002BjtQ.0",
+        "Date": "Wed, 18 May 2022 11:33:53 GMT",
+        "MS-CV": "M5IUjBEBM0afBP6idyzC3g.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "03/kuYgAAAAAw0mZ9mz6SRryB7veq\u002BCEhUFJHMDFFREdFMDcxNQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0odmEYgAAAAB\u002B3oJN/2HQTIii2JkNTLHeTE9OMjFFREdFMDIyMABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "25ms"
+        "X-Processing-Time": "24ms"
       },
       "ResponseBody": {
         "identity": {
@@ -44,12 +44,12 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/identities/sanitized/:issueAccessToken?api-version=2021-10-31-preview",
+      "RequestUri": "https://endpoint/identities/sanitized/:issueAccessToken?api-version=2022-06-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "cs",
+        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "26",
@@ -61,9 +61,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-identity/1.1.0-beta.2 core-rest-pipeline/1.5.1 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-identity/1.1.0 core-rest-pipeline/1.8.1 OS/MacIntel"
       },
       "RequestBody": {
         "scopes": [
@@ -73,21 +73,21 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
+        "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01",
         "Content-Length": "69",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 14 Mar 2022 08:16:30 GMT",
-        "MS-CV": "fInQFnIja0eTBJGPm9l2rA.0",
+        "Date": "Wed, 18 May 2022 11:33:53 GMT",
+        "MS-CV": "OU\u002BBZoNK3USuTkpdsSH2Kw.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "03/kuYgAAAABLo7NyE0VwSaTJyNIySVH7UFJHMDFFREdFMDcxNQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0odmEYgAAAAAewBd0epyERafgNdKeG2q6TE9OMjFFREdFMDIyMABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "32ms"
+        "X-Processing-Time": "33ms"
       },
       "ResponseBody": {
         "token": "sanitized",
-        "expiresOn": "2022-03-15T08:16:31.7309507\u002B00:00"
+        "expiresOn": "2022-05-19T11:33:53.8640035\u002B00:00"
       }
     }
   ],

@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/keyPhrases",
+      "RequestUri": "https://endpoint/text/analytics/v3.1/keyPhrases",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
@@ -10,9 +10,8 @@
         "Content-Length": "709",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "traceparent": "00-00000000000000000000000000000025-0000000000000050-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "ecc92ef5-aeb0-4c43-84dd-890af9308c7e"
+        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.9.1 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "9762ed52-97f2-45f6-87fa-d13090063c21"
       },
       "RequestBody": {
         "documents": [
@@ -50,14 +49,14 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "53ff0376-963d-434d-a738-3d133996071c",
+        "apim-request-id": "d6016d29-5f04-4818-a715-0cb0263dffb8",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6,CognitiveServices.TextAnalytics.TextRecords=6",
-        "Date": "Fri, 18 Feb 2022 18:59:13 GMT",
+        "Date": "Fri, 22 Jul 2022 02:35:52 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "16"
+        "x-envoy-upstream-service-time": "27"
       },
       "ResponseBody": {
         "documents": [
@@ -114,7 +113,7 @@
           }
         ],
         "errors": [],
-        "modelVersion": "2021-06-01"
+        "modelVersion": "2022-07-01"
       }
     }
   ],

@@ -31,7 +31,7 @@ export default leafCommand(commandInfo, async (options) => {
     console.log(chalk.blueBright(`  Name/Version:\t${packageInfo.name}@${packageInfo.version}`));
     console.log(chalk.blueBright(`  Location:\t${packageInfo.path}`));
     console.log();
-  } catch (error) {
+  } catch (error: any) {
     log.error("Could not locate dev-tool package.");
     log.error("Unable to display dev-tool version information.");
   }

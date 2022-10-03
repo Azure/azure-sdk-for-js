@@ -49,7 +49,7 @@ export default leafCommand(commandInfo, async (options) => {
 
     // This is where the actual magic of creating the output from the template happens
     await factory(basePath);
-  } catch (ex) {
+  } catch (ex: any) {
     log.error((ex as Error).message);
     return false;
   }

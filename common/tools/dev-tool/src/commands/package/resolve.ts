@@ -41,7 +41,7 @@ export default leafCommand(commandInfo, async (options) => {
         log.info(`Version specifier: ${currentPackage.name}@${currentPackage.version}`);
         log.info(`Location: ${path.resolve(dir, currentPackage.path)}`);
       }
-    } catch (error) {
+    } catch (error: any) {
       log.error("Could not find package starting from", dir);
       log.error(error);
     }

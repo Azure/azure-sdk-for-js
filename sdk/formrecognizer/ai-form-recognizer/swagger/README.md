@@ -17,7 +17,9 @@ input-file: ./FormRecognizer.json
 override-client-name: GeneratedClient
 add-credentials: false
 typescript: true
-package-version: "4.0.0-beta.4"
+package-version: "4.0.0"
+use-extension:
+  "@autorest/typescript": "6.0.0-alpha.20.20220622.1"
 ```
 
 ## Customizations for Track 2 Generator
@@ -46,4 +48,26 @@ directive:
   - from: swagger-document
     where: $.parameters.QueryStringIndexType
     transform: $["x-ms-parameter-location"] = "client";
+```
+
+### Suffix `DateTime` -> `On`
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions[*].properties
+    transform: >
+      for (const p of Object.keys($).filter((k) => k.endsWith("DateTime"))) {
+        $[p]["x-ms-client-name"] = p.replace(/DateTime$/, "On");
+      }
+```
+
+But we'll opt-out for `CopyAuthorization#expirationDateTime`.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.CopyAuthorization.properties.expirationDateTime
+    transform: >
+      delete $["x-ms-client-name"];
 ```

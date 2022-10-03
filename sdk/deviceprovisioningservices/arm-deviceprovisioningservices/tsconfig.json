@@ -15,12 +15,7 @@
     ],
     "declaration": true,
     "outDir": "./dist-esm",
-    "importHelpers": true,
-    "paths": {
-      "@azure/arm-deviceprovisioningservices": [
-        "./src/index"
-      ]
-    }
+    "importHelpers": true
   },
   "include": [
     "./src/**/*.ts",

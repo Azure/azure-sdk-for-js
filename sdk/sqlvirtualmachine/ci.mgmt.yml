@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/sqlvirtualmachine/ci.mgmt.yml
-      - sdk/sqlvirtualmachine/arm-sqlvirtualmachine/
       - sdk/sqlvirtualmachine/arm-sqlvirtualmachine
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/sqlvirtualmachine/ci.mgmt.yml
-      - sdk/sqlvirtualmachine/arm-sqlvirtualmachine/
       - sdk/sqlvirtualmachine/arm-sqlvirtualmachine
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml

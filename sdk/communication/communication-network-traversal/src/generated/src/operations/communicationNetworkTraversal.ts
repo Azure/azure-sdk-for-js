@@ -6,7 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { tracingClient } from "../tracing";
+import { CommunicationNetworkTraversal } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkRelayRestClient } from "../networkRelayRestClient";
@@ -15,10 +17,9 @@ import {
   CommunicationNetworkTraversalIssueRelayConfigurationResponse
 } from "../models";
 
-/**
- * Class representing a CommunicationNetworkTraversal.
- */
-export class CommunicationNetworkTraversal {
+/** Class containing CommunicationNetworkTraversal operations. */
+export class CommunicationNetworkTraversalImpl
+  implements CommunicationNetworkTraversal {
   private readonly client: NetworkRelayRestClient;
 
   /**
@@ -33,23 +34,27 @@ export class CommunicationNetworkTraversal {
    * Issue a configuration for an STUN/TURN server.
    * @param options The options parameters.
    */
-  issueRelayConfiguration(
+  async issueRelayConfiguration(
     options?: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams
   ): Promise<CommunicationNetworkTraversalIssueRelayConfigurationResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
+    return tracingClient.withSpan(
+      "NetworkRelayRestClient.issueRelayConfiguration",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          issueRelayConfigurationOperationSpec
+        ) as Promise<
+          CommunicationNetworkTraversalIssueRelayConfigurationResponse
+        >;
+      }
     );
-    return this.client.sendOperationRequest(
-      { options: operationOptions },
-      issueRelayConfigurationOperationSpec
-    ) as Promise<CommunicationNetworkTraversalIssueRelayConfigurationResponse>;
   }
 }
 // Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const issueRelayConfigurationOperationSpec: coreHttp.OperationSpec = {
+const issueRelayConfigurationOperationSpec: coreClient.OperationSpec = {
   path: "/networkTraversal/:issueRelayConfiguration",
   httpMethod: "POST",
   responses: {
@@ -60,10 +65,17 @@ const issueRelayConfigurationOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.body,
+  requestBody: {
+    parameterPath: {
+      id: ["options", "id"],
+      routeType: ["options", "routeType"],
+      ttl: ["options", "ttl"]
+    },
+    mapper: Mappers.CommunicationRelayConfigurationRequest
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

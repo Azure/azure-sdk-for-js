@@ -1,707 +1,425 @@
 {
-  "recordings": [
+  "Entries": [
     {
-      "method": "POST",
-      "url": "https://keyvault_name.vault.azure.net/keys/backupRestoreKeyName-cangenerateabackupofakey-/create",
-      "query": {
-        "api-version": "7.3"
+      "RequestUri": "https://keyvault_name.vault.azure.net/keys/backupRestoreKeyName-cangenerateabackupofakey-/create?api-version=7.3",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9329/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "88f8c740-0719-45c5-a444-63626c74a506",
+        "x-ms-useragent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 OS/Win32"
       },
-      "requestBody": "",
-      "status": 401,
-      "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "87",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:24:45 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "401",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "www-authenticate": "Bearer authorization=\"https://login.windows.net/12345678-1234-1234-1234-123456789012\", resource=\"https://vault.azure.net\"",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "b8bdd786-8269-4326-99e1-2f9e5c19a06f",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "23f64cfe-3aee-4530-b302-48445da9539a",
-        "x-powered-by": "ASP.NET"
+      "RequestBody": null,
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "97",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 27 May 2022 22:51:44 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
+        "WWW-Authenticate": "Bearer authorization=\u0022https://login.windows.net/12345678-1234-1234-1234-123456789012\u0022, resource=\u0022https://vault.azure.net\u0022",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "88f8c740-0719-45c5-a444-63626c74a506",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.159.44;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "northcentralus",
+        "x-ms-keyvault-service-version": "1.9.395.1",
+        "x-ms-request-id": "cc582729-fd2c-414b-bb72-9b4ec37bd9f1"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "Unauthorized",
+          "message": "AKV10000: Request is missing a Bearer or PoP token."
+        }
       }
     },
     {
-      "method": "POST",
-      "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
-      "query": {},
-      "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
-      "status": 200,
-      "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-      "responseHeaders": {
-        "cache-control": "no-store, no-cache",
-        "content-length": "1315",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:24:45 GMT",
-        "expires": "-1",
-        "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-        "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-        "pragma": "no-cache",
-        "referrer-policy": "strict-origin-when-cross-origin",
-        "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
-        "strict-transport-security": "max-age=31536000; includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-ests-server": "2.1.11654.16 - EUS ProdSlices",
-        "x-ms-request-id": "af904c7c-1ddd-44a0-b636-d8b32f227001"
+      "RequestUri": "https://keyvault_name.vault.azure.net/keys/backupRestoreKeyName-cangenerateabackupofakey-/create?api-version=7.3",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "13",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9329/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "88f8c740-0719-45c5-a444-63626c74a506",
+        "x-ms-useragent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 OS/Win32"
+      },
+      "RequestBody": {
+        "kty": "RSA"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "724",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 27 May 2022 22:51:44 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "88f8c740-0719-45c5-a444-63626c74a506",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.159.44;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "bcec85b9-f9c6-5289-888e-6f6ce533c6a2",
+        "x-ms-keyvault-rbac-cache": "ra_age=6825;da_age=6825;rd_age=6825;brd_age=27054;ra_notif_age=7880;dec_lev=1;",
+        "x-ms-keyvault-region": "northcentralus",
+        "x-ms-keyvault-service-version": "1.9.395.1",
+        "x-ms-request-id": "f42cab9d-b5a0-47ee-9357-2f1b0457acb6"
+      },
+      "ResponseBody": {
+        "key": {
+          "kid": "https://keyvault_name.vault.azure.net/keys/backupRestoreKeyName-cangenerateabackupofakey-/fdddf19f8f5c49e0b1a5cd726ce7af25",
+          "kty": "RSA",
+          "key_ops": [
+            "encrypt",
+            "decrypt",
+            "sign",
+            "verify",
+            "wrapKey",
+            "unwrapKey"
+          ],
+          "n": "2fEm272ZwfIDyZw91h0VJrgCZn2116HPU5XD4qAW-_-Eo2V03AUC3yWzqVi9ukHO5LBnSDjmCZQRYEPxp-NRFC5jSlyNc2ilcQMBkm8OmTXi4W55zpMgQGquyG8cMOJfbUJEcK5yAfEsqWCYUMnsAuaiocGVAnI6-ZMa2SO4F6E55C2rAOc6PpWkTUtcjrnGf9hg9KQJwoEIBJajNvZ0yUNM7jb7Ydk9_ezYdaYVIxYv1Hx2RtpNd_NdWwJCaLAtqAY0d7Kyi_1ms4tNGqNFk5hEIcvJbyhUQSUHufla9GnbWvrihlo2EcVMv2lRI3BXUSd75mRiqMmn8r_IEVZmAQ",
+          "e": "AQAB"
+        },
+        "attributes": {
+          "enabled": true,
+          "created": 1653691904,
+          "updated": 1653691904,
+          "recoveryLevel": "CustomizedRecoverable\u002BPurgeable",
+          "recoverableDays": 7
+        }
       }
     },
     {
-      "method": "POST",
-      "url": "https://keyvault_name.vault.azure.net/keys/backupRestoreKeyName-cangenerateabackupofakey-/create",
-      "query": {
-        "api-version": "7.3"
+      "RequestUri": "https://keyvault_name.vault.azure.net/keys/backupRestoreKeyName-cangenerateabackupofakey-/backup?api-version=7.3",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Referer": "http://localhost:9329/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "6152e4f7-0c89-419c-81a9-3beca7ef76e2",
+        "x-ms-useragent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 OS/Win32"
       },
-      "requestBody": "{\"kty\":\"RSA\"}",
-      "status": 200,
-      "response": "{\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/backupRestoreKeyName-cangenerateabackupofakey-/312de03ad301469bad13cc93e8a50b9b\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"ntEhhbJ_PUi2rtwUnDKJIa78Op6sh2U5JyN8clf5_-1CbLjnMjReFUM5mI8I3_4jddd155PyJotRbvluUY-UAXOJJVivJBqiYfXRdtxcOCPkIOIXcrU3y2ixotoVUvK5CquB3oBKd7eKZ0lDUi0P7JrewrnyfjjuUm0XxaxWASPchVx3ebiX0ih0Vdwin2jjjPrGSCjVSUanMDd_ouNz533-gML7f-50FlNvRLPbb-EIc4xuXdlJ9ug2PcGHzJX6C56Z7kLjfVJvTjWgrIrRxi1Wry-HMrvlljpDGskAn5jCJLN_GGKGmodI8GA46Ufd1XzwA0MBRKUlnFGmp5w0eQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1619648686,\"updated\":1619648686,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "737",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:24:45 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "200",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "b8bdd786-8269-4326-99e1-2f9e5c19a06f",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "8010aa6f-7604-4a5b-b646-202182eca3f6",
-        "x-powered-by": "ASP.NET"
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "9504",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 27 May 2022 22:51:45 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "6152e4f7-0c89-419c-81a9-3beca7ef76e2",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.159.44;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "bcec85b9-f9c6-5289-888e-6f6ce533c6a2",
+        "x-ms-keyvault-rbac-cache": "ra_age=6825;da_age=6825;rd_age=6825;brd_age=27054;ra_notif_age=7880;dec_lev=1;",
+        "x-ms-keyvault-region": "northcentralus",
+        "x-ms-keyvault-service-version": "1.9.395.1",
+        "x-ms-request-id": "1b52591e-9a8d-4340-b584-abbe2238c1e4"
+      },
+      "ResponseBody": {
+        "value": "JkF6dXJlS2V5VmF1bHRLZXlCYWNrdXBWMS5taWNyb3NvZnQuY29tZXlKcmFXUWlPaUkwTXpnMVlqQTNZaTFrTlRRM0xUUXlaVFV0WVdVNVpTMDJNVEJrWXpNNVpHWmhaamdpTENKaGJHY2lPaUpTVTBFdFQwRkZVQzB5TlRZaUxDSmxibU1pT2lKQk1qVTJRMEpETFVoVE5URXlJbjAuaXI5aHpZdUhXeHhUNlZmazB4RUxDWkl6T1VsaVhEZHV4R3RRWVdNRlZCOG9hUUxQX2dTdDFYbUJXZTJNWjVwTVZZY1d1dFBCZVU3WElOajZZMWVnbm5aRi01UVkwcmQwU0N6cHVycXU0ZzZULU1QaTY4V2tyMHZuR3pMaF9MNlU4TlJBS1dIcGl6THVxTHBUSGNhaW9LNlpKVVBzeVFOSnBZWVhSV3FsOWEzWXY3YklXOHhZT0RjR1h5cTh2V1NiSWhTZ0ZLai1SWUppY3hMSFpEU3ZBcktHS0lqYW1NM0NKZEx2Tm9lTk5jME43UThlMzlrUnNTOWxtd1RpaUQwYlJIY3Nta3BDYXluUlpVbzE1Um1wckRrSTBGTmMzRHEybkFrMVB0V1BNSmMyek9SeWJUZ01NQmNNRFo4cm1SeGdEcVQtZWFFQ0QxTTgyN2wyVU1HdnF3Lm95UU43TFprckU2MTByYjJXUmhGcHcuQXZjQ3BlaUE0dkhsU0JfN1dJOGZhN2FMaEMwUzREazFOcklrSmFkZ21LOXJ2VzZKWUtGNHVybVpfTWVISlQ1QTU5U3Y3X3hPdFhIQkhBX1hBOGVXbU9MXzJyN2xTbF9qeFlsMmFDZWxxSWRWUTlBbFRzRW1INVZuUE12YTJzWXNzeDBXcDNyd2xrMHFqOFhKMHpxVm1iaGxSdThCMTZoQ0N4aFhtRUFWTm04NTBIS1RSNW10Zi12cVF1S29KSzZrSDBqSWQ4V19FTEdFdkdHQzZuN0xfNkJwQlhXS2pyWHF3cTR5ZDl6Ylk3Y1c0X3BoaU1IVGhBaEZPWU1adV9rSjZzRFY1bWk1ZFgyWHRwN0tYMkZzNzZ1LWtyOXFDdERiOWRzeU5WVWhDdldzaS01SHlyV0NaakdWYU1JdC1GNmtnNHZKZHgwZ1hac3BPSHhrN0FnelRTSWNscENNRXdKWGJKczJQb1pncUI4QjAtMkJkMkJULUM3WE1SRHhMS3NzQTZxSlBsZVN1Y2J1dk1hbFlkZDM1S0ppTG5xRTFXWjBvNkM3TlVOMU1UX0ROcVFrNGxJcVRkVWV3TkQtaC1kSkV1MVZOOTVoVDVRR0VISzR4b1JCcnVYNWdHYXpjNmVGOENuQXQwUUlXUFpSeDFkNUlZd3hYNXM2aWtPQU5JMnFJdkJGWGVSVGRzaFRhZVhQZE1XNlNTWjlYRXh1YWFNRHBYY3IzREVybWhtdThYLUVudElKNmZ5SUZaTjN3YjFoYXppbDA5RUJ0ZGFxN0Rqek1qNWMyZEQyWjJYLU1IQ2luSmN1R1M5bk1ZNTRlaU9FUENtNTMyNEZBUUQ3Yk5DWmZ1V1hJVVlpOFNueHZ2MHgxeUQwNXNLejljcmVWck85TTZfTU42RG9HM0JTQW8tV21OZEJRMUpoeDFlTmNITzN2WnRiQ3h2dV8zSzM0bld6N1FEVlNSc0J1aW8tZllZQVg4U0JhTG5jZGtJdmpIWmozbWtNZUtPWTJFcDdCazl3ZFR2Wk5jZ2h2dkg2dDVJMVJmSTJoM191Ym1wdlhyWHcyUnpUSkpOZUJVWkZHZW1RY29acm4zTEFHYzRDTlQ1M0FjRElMLTdrNlZsRDF6bTdzTHl0YktHYzJEZHFHa3NkclZ1blUyT3RzdXpFMFVRX2hlWGR4NXdXY3pxOHJLOTByQy02WkxoczFFeVhjak44YnpVcjRHSGstN1Z6UjNNRWJSNlRFY0ZJQlBVOFgzNUtSRXVlSE03NFR6SVJzRVRUbkdBaDlTRzQtSTUxa0JWeVRoOUZBS2dXdURKcTdVY3JKMDBXcEZELWV1Nk8ycmdfZF9hSnU5eGdjaTJKWW5wWEx3SXlNTWZKWnZpaU5kSDBfTWExUkZGMFRSM0RnWU1Sc2pUaHV5cDNIZkJyWWE2czVxdk5OQ0RUOURrSk9sRW9ZaTdFRUdycEREYUdHOTJoZHREd204Y3BsU3pnd0tTRDMzbU5SSDh1QjlfQWVkVkxaenBmMzRyR2xMVjg0Y3FkY0Z2WlJNejRvZU43dGNiZ2ktSXBhejV0d0w1LTJ6VjEwbFMzbWdYYXJ2cGVNTHg0ZDFwb1FPZG5JUWV0NlJHczFPaUZ3ZFBGai1CUmlmQm02cThsdTEzczNPdWFhcFVCRUFrNHBiMWpoa21Md2dhV21DaDNXVkNJd0owVWQzOThQQ3pOS2dJUUJWaVpRNE9XYkF3MVd4NmRYWkJRTzBaVi1qUkMyaFNXRUFMT2pDd2lOR1ZhOWpaSU5CaGpCYnFvYXZqblJGeGRpTnJRNFlKbzRRUlJzejBoa0xybU9JdHdidFU3YWtSYkNSMWJ1VVRrbHJTX3R4cmNFLXRwQ0k3TmhlZTd5YmZrOHZVdEZhdzlZUHp5R0k2VGp6bk9VdlFqWDVyRzlrWWxPQTY1cDhjZVVXdEVFbUgySFBVNmFZOHJHeXFlQncyVGp0ZXNWTndOTlViSmNnbnZIZXZhYU92YkExSFo4c2VCZDZvajNBZUZGYlh6QWdCUndJN3hBMFZsXzhlMWRNQW1HQXlDQTZ5dlFZajVwbkhBVmdvbXgta0dlTFRxTVBQTkhKUE94d3J1QmxqN3Rqd2pidVNUcTBGdGxzMXlYRFBHY3JUczlCTmlsaDViNWRJVFdEbFA1RHoyNHVGYTZKOTZxSnpXQVZRdm0zTXkzNE5qbmJ1YklKRm9qZEJEcVl5b0RNVnYwbDhEQWhXenM2clpEY2M3QzF5TUxTSE05Vm1UM0pKU3lJMmZBYnNGOXNZTFJaWGFMZ29vZEk1WjJOendSS3k1dVBOdm14VlJsVTZiTzUwd3BGRU5ITkV0Ujh0Qy1LdTVfZWhoZVNNYkZCNGwwTmgxOTZraW02WXBMTWw3RkdSYW9ZdEdFWWhvSy11WHVhOHhQTm55R0RvQXFLLWdvWFM4YVJLNEROMkRKY1BQcEJlRjBsUldMVWgyWkhBVmZXaFc2cmFWaEpubU5SamVjQjBOUHQ3aXl1UncyTDRBQ0QtbFNQemRGNU9QZEFNOEFCeEtZYzlrUFd1aDZFUmRCUm9nMXNDdzUzVXo4RzRYZHNTTDZWYzA0d1NxNGpENjAyUTdMOEM5dDZFOTV1THY1dkticjZkZ0t1RXpmd3dCMFFlbHZwOE94UFNjbEwzSGxIZnp1blJKOUkxbFA0SDd4eFkwY282TDNyQkgtYktKRmI4UjE1aGk3RzBiTlB4eUFQeWE0YWJoZ2twUkZkNjFSMVlFUGVjSWJLbXE3R2FobXRlQUlOVTNLTk5ncmpPUXE4T2d3OGNlem1vUmV1N3RaMnp5ZUZQSF9lYUlVb1BfN2FvcGdQVGw1TFlWQXpXUDM0c1pSNzRINXktb2pTZ1NjNFYwTmRINHdvTEJWVTdPcFlVOEZmZ1dMQzZxMjltZ0oxWUhrZ0tLLXdUbDVWc3BSdHN1T0ljYVpaM2RSTk1PUFB5Wkk0UDNJME1wa0l6eTNCanlrbUJxdnlqbmM0MHZBOHZCNWEzWVpHRUpSZ2V1X2ZxTGpJZ0tDWTdYMTZhS3FKWTFPZDFqaHF2MlVreXZFdWh3TEZULWdRcHkzX0FWeHFyNm1yd1VFX0FSTUZiMjlTUmNKSEE3ams0OFdjMHdiZkpHN2ZROWdmNm9XOXZFTWF6b3VGV0ljT3ducjBVZkFlYVZRWkpGbVpweTVLdVJhWmJuZTVuMTk4QjI5Ny1JYTFvTzBoajJTNUxoaXhqanRGTTU2T296NHRlUGJNbk5wallSTHp5SmR2M2tjNjk2WGpEY2hudnlzejJDNHFXVWVsNnlFVE5vRVU1R1JsQlhnNFJzVnNOcG5iOVV2X1N3aWtmdnltZlpaVEJIajRPRDdoR2VJQ25lc05nUHQ3aWhnclNsQ1dJdTlmQ2hJSWp1NG0zS01zSExOdU1md3JVT2J6Mm1ocms2cXRHUUhXbGRQN3NUQmd1VHF6bDlWaGVORW1kS2oxb09PM3gtX2VNSTcySkJBVXJ5U0c4Y2tCWGlxa3V6UHNxSk1idVgxY0UyaGtrMXVYVUdYRC1JOXRnN1V4MWQ0UDV1anQ4M0FaeU5tbllueGV6S1dIcl9jMjFaUHBhSGRydUlyYWdyMm1FcGhlbGcxUDBKYWR6X0R3bFgtYTdobDV0OVNaei02eXlNVEJXR2VoQWJnOFRSTjhrZGVNU3g2bkpnY0lMU1hTOHlnQmw4X25lUzUzVzI4alZtd0hDbG4xVHlEWksweExUOFdfWUQ1UUJmcW1uRVhNLXpfZ2xPNFdqZDF5YlEtVnJsc25kRHB1MzJtNXIxZEF6MFdNV2lLLUt6c2hUZEVPeEkxd29JM3d0NUZpaW9oVjkzYWJraEk4LXNjUTA2TFkzT0RGdkplSnlhMERCNHZqNWljRzRzTEd1dE9SNVlNaXdkX2dKd2VUa0tjT3VXX0VHMkpOUkRlQzI4NmdRQkJPQmpIRW5XeDBrZ3V0a3F2YjZERlJKRlFLRTFmN2tLc3M3SFhPYmx5WWg3UmxDNTNlazdseTRtblk1RTgyM1pHSzhVYjJVN2VNNm45dlVmRXMxdXBNZ0ZETFlod0FfZ1daeVU5U2VWdHZRSzZ2V21RLTBoMTFpbEFNNThWU0JNYXROb0wxa2lHNTI3d2NoMkNYczhMNlRmWFVuMlNiTjJ2WC1jVGNLWldZTmdjWnBEcWdXdVE2dVc1b1BoTjNOQTVwVWRtX0JRaEZDMkpLVTJtRmU4b1RJN3lrczJvWnhSTHJOUXBQdkJKQy1sbGxQamFNbGJmQVVZZkZhVWlWaXFnV2p4VWNobzRVUm5FWUpBYmpaOWZTSmwydmJxdkw3WHByWlVnQzZtd21SSzhDVlBFcmp3NV90ZEFMeTJsYzlQRnZiWktTc1ktdzBGTS1hUUl5SElqTFRDZVZJQklidmpjZmllMjRSNUVVUnFSelhSTWZreHRaRktySU1TMThfUnR0WmxQYXhibW04M1BCRGJySWhPTHhyVkpIOG9WRS1JcDFBd3VmQTU2d0FyVHBxZ1lOOVJUSkVDRjlRTjdhM1F6UHRnMlkzalJXODRYR3B4RHdxUjZDekJZZ2xFci01OGg3MER3cHZ1VXBicXlHVk01RHVzVVcyR2sxZ0hNM2lWR0VIOUc5NW10b290NV84dHlwTlk2UnozYl9wOFdOSFd3TE96QnNqQVVMOWFNMmZJU2N6YU8weDVpa1dsckZZdmZCM2U4SWFEQ1FZSklScGtXcEFhX19YX210a0wyQWY1Q3JIVVk4OXZvWkVYS0RDT0pQN2tqaVJSRmUyTW9EVnQ5dHRNT2picHd2UDVkMHJ2TlZmT1ZoNy05M3ptMDdvZE9ldk8wa19wVE5hSEk1QWxaRUUyQ3Z2NW90YkhOaFZhMUN0dnZMR3dtNm1vVFQySFM5VVhjZ1FsbnBEczNhYkxyWFl3X1FzaThaQUZtTWpPeTVQVUVuTUQ0cmd5ejVGNVFYNXBCd0R2OHhpS2cyNHVELW12QnZNYlQ3YURLOGpnNmZYcmROMDdpNkFZMWJfd0R0ZlRtVzhHLWgwNm9xQlFkRHlfMkNOXzkzdVlWNTgtVTM2SjhzaHR1UUlqR3U2dEZETjRGSld2SERLdW83WFNva3p2b1VvUWNCaWJmeTkxNzNDZWtFY2FsRFlnYzU3TTBERFZVY0IwNk9rNElRclVtc2dQM0NmbUs5TFRWWFN4WGpyajR5YXFRWDJYSFBRd2VHZnRGbUJfeGJBWVJpQ09sakotRVNhcGEzMmRVVkpSUGVraGN6U0o1VzNtc1M0aHNWOVFRYXhORWxxb2Q5bjJET3BIemxyaHgzMzhIR0ZjRlFkVlJXZjhKUi1mclRXY3RiM2w5Q2pWT2VFNDVVUDFVaWlqYjllbDducWp5anUxajYwSVdYV0FXd3AyVFZQMnlNNXJ5cFkxdTRKNnJ3UVVFalRLUXN5bGdhbEtFdi0wWXF1Zy1sWmMwSVlGUHJSNEVwQXZ6TlBjN1RkQmw1QS1JeU9oaTJyRnk3WDN0d1pkQ2FBdWVSMFl4cFhYa3M4YWl4ODBsVmh1WlZaMUhNLXkwVlcxYkU2NElxeUktWTE4QkFZbHVvVDdxVjBjVnQzYXVuVmFoLW5wME1tMVRmWDloLWlGZURxTjBqczdEQmZMMTB5Z1pEaFBNdndVQm8yaTVqWmxkQm1YNG1RSGppUkdkTThqZXVlMWtNeTRRMjg2NTctQmFXRmFsTzE2NmJkMXdqNzZYMHZvVUxIdEIwUVRuMDQwRjR2V2tMV3M5ZThIMlEwQnAtbFhTbk5ENFlNV0M2M2lOR1FOd1VTSG1CLTBSUHYzUWxwaEc1cVRiazlDdmh3cnhjQjhxTWhrbGo4VUVJekc3a2ViRWlaMG1UUkxFa0xRb1BJMjVkYXNJcm1MS2xVclZZczVSeTd3LUx2OUdEQ296bHhnY1llWlR6V0dTbWpJOVhMdE9KSGhWSXlwUGxLNlpySlNvWHZlY09QSVlKRmNibFVFRlp5VFFISUdqN0xxTlh6X1dmTmhEeGE3ZXY5azNIV0tWOHdYc2hGR2lwSEVkZFJZeWpqanM0b180QnQ5Rnpoejd3emtURnNwV2E2WTFIYllRcWxyUjJPYzVld2tGVTFPOGNUdktjS2wxTXJFRHhUSm44VU1FYlFXeER3b1U2UFNWS3Z0QUZUS2RQaWxEanZwTEZpcERCQjVadHM1cnM2aHNNN2FXYkNSY0oxUGFPYXhrTlVvX2phMDlSVDBQY1I4TVhubHVZZ25SYXg1YU9PYml3YjU2Rm9nX1Vld1ZuUnFFdnA0azFXUWtta0Z2YXdTNzljNGtwSFdOTGV6VXNrSkhiaGlWUll5X2c4SHJVdXdIc0FwM2xOZ3FKbnRHR0V6LU45UDZpS1JQbVJiVktjOFFjQmpwQl9COUxLZDk5c2JGY1JuRkt0ekFjcmFKY0RnZlJ2TmNRQlZhZUZmRzhCcmx4OGI1X05kUGg1UVhSQlo2eXpGVWw3Z2xuc3JKRmFpZHEyZ3ZSSVV4VXduSHdmRDZpNzkzUXlCWHAwTkdsck9XSEZwb3BkNzMwT21BWEt4NHltVkdCS0Z5aEY2MnIwQ1FJbnYtejMyZHhSb0sxVGJkY3pfa1BWQUloekhiaEpOaGU0a2FKaUVId0FFYzBPYTZlS2RqMHZ5LThGREZaZEw5WUMtRDhBRGpiV0hETUZIM3hGejZqXzZnbzR1SUJaVG11TS14c2ZYek9FSm5VUXRIQXBNLXJkY0tkRjBQMVpyYUZQWXRpRDJVUEVLUlk3V01UMGd0aUN5WF9LS3Jqc1p5TVg3WnIwNndjWnF3MlJwRHd5QlJ0ZUx2NGhhUGVaS1lVYzc4Yk4td1E4QTYwQ0ViZ2hRVGkyLXN5VE5fakVwRDdUQ0tmSTBSNFNhMjc0Y2NHUDNzdnA5cmxqRVFGUlVKa0pGTk9uWHNVS1pJMVA3X1c3WVdNZm1TYUtzU3BBRGE0VUc0dzRHZDhvMjY4Q2tQWXZJXzFVRVRQcFJmWGo3QkJzUjZjVlpBa2lyMmFydGNqNjFvd21WQ2ZzZjRLX2NHaHFQMHhNLWVuNUN2dm1xR2EteUFhN2VpWV92LXVreVkwRTlEa3BFblExSkNEWEdYX2ZfdjMxTTVINHZ6MzZCNTd2b2FoMk9KSDVzdkZOY1ZxVEZQS0lfeW00Q09TT1ZtWGhoWUZiSlZvV1lZZGdzRGpIZm5kejhoLUtkdWt5RjV2clBZeWNScnZ1bUc5cDgwZTF5cS1MUWNVX09jeG1yN0c1Tjl2LXYyU0RkUU5CVlBHSS1jdVJwUnJfLWVGZGE2M3dTZlFkd1hZNFB0NUJfZXRKZjRZbFRxeW5BeWNIZk1vdWZWX3NUY1VvNGxCQUs4YXZmbFhWejhQb3ZfQWVHN3JfMzl6VXFHb3ZFMWpJSV8ybm5DUzh2RDd4WWY2d0owaXFKeXR4WU1HSVZnYnlMVTJzYjhvTXQ5RWYyUGJaTzVFeWtGM0I0azF2cVc1VTdtb3h5YXpQcXlQTmJCTmdaYWhaTFotbnJPWkNwZTNIZm04azFXbEJ3VFNzcHdoWk1PNnhmZDBOYWU1ZEVZZS1LeC0zX2U4Tm1raFEycjRNM2tuenhINGlqU1N4R3pXUzN0RFZFRXZwck1LSTRZajBaYWRkZktqZHhUeWdIOHVKX0ZjbmdjZjBGU0pjZXNRV3JTUlY2VXNvekJTUkFNc0VUb2RFeXRBNGNsYnFnSHpVRFR5T1ZCNFQ3TWQ3UFBocElvZU1kSU5UTW90dnFlUVNHX3ZmSWFEUHJFNEVMTk9VU21MNTAyRXpsbDdwZWJqUU93VEFwUmV0OW9rVEVWXzYxUG5hQm42dkFYVXJhaGR6NzBCeGo5dmRka0xXY0xpQi01Sm9GbWhuRkRKWnpDX2lzMUlia0J1Q3U1ODJ6VFdXX0VFZEZvME9abXdTcThtdjNjUkFsaWlLZkZHei1tb2ZKQ2kyQW9SOG5xUkdyb3dmbkEzWHNMREE1SGFja0gxTklnU3pPT1hkSmFpbHlXdlZ5dHhyWjFmVkFFcTRoWWMyMmZsNjZPd3p1ZHp4Z3BMS2NYNGlDUng2aU1FbG9vZ25VSXhSVXV1NHNZV3FVM3BSRTZRWlA0RUNLR2xEYW0tRkkxc0k3TW5Jc2g2VTdDT1F4b2ZLamNkNlpISFZRWHZLOGNuMy1BU1NVNzVRN05rMkltWlk2UWlTTnlfY2JvSDNTMmFzMGsxZ1pnUHdZLU9MQVFxTjNfZWNrZzIyanlJV1lhU2ZJR2lId0xZUllQNmFMVjhZdnJkekpfcnR0TmtKRnFXX05pWXdJUXJlQXluMUtsS3h6N2dzcy05VkRLcW00U2VDZThpM3BXajRZcXZOWGp5VXNuWFVMQ2dWVy1aaU95c1Q2MVhkTTMtbkhEOTRweHN6cEhRUzlNTzRQMWxsZ0FJQ0pUdHRDY1BoWkRfbnFwMEs5NlF4NGppbUdMTzFqYTloeGdKQ1FTTVQzVWVLMFJaRlRqWVZ4R2diT3JJbDNrMnFKSFFFaHd0eEVOdlZ4b0J1Q1F0ZUdGdTlXZjFjaHc4dU1ZR0xkNGZMdTRwUkM5NXIwNlZNNmdLMTJheTBNNWtLMFBkUHdRejg3ZTctM0k3VGYzSnNJaVI1UndrS1ZfTVVoUDJRdTRCMWJKU0RUM2VuUTZNMGpyUS5zOTkwUXJwTkNOODVTRFM3NjMwS1FxR2g0cFJEMDF0VS1NcDJkQ3hDN3Nz"
       }
     },
     {
-      "method": "POST",
-      "url": "https://keyvault_name.vault.azure.net/keys/backupRestoreKeyName-cangenerateabackupofakey-/backup",
-      "query": {
-        "api-version": "7.3"
+      "RequestUri": "https://keyvault_name.vault.azure.net/keys/backupRestoreKeyName-cangenerateabackupofakey-?api-version=7.3",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9329/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "aeeaa9e6-b0e4-4189-bd38-8d34406facd2",
+        "x-ms-useragent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 OS/Win32"
       },
-      "requestBody": null,
-      "status": 200,
-      "response": "{\"value\":\"JkF6dXJlS2V5VmF1bHRLZXlCYWNrdXBWMS5taWNyb3NvZnQuY29tZXlKcmFXUWlPaUl5WVdabU5tRmhNUzAzTm1Ka0xUUTBZVGN0WVRjek5DMDJaalZoWkRCaU5XRTRPVGdpTENKaGJHY2lPaUpTVTBFdFQwRkZVQzB5TlRZaUxDSmxibU1pT2lKQk1qVTJRMEpETFVoVE5URXlJbjAuR3ZrcTg4Mm9pTVJOMktBM244VktjeXNWRjRibE14SndVUTdncTlIcF9tSmlVX3ZOckY2eDJQbXNnVkRlSFlUQUxrNWFBV04xYnMwNWdvZ2dGb3NOcjB5YnhlbHNDb2JWRjZyTTQ2SEpTX043RHdZWm5QdVFxOTlWVkNfWEJ3UlR1REd5M25KemtaMDlFeEo1MnpsSWhfUUNYNmJlRVJveTZZTnhLd3N5dk05T1FlSV8zOHB4eVdGcm9sdG1zOHFhbVRmbHhLRHFsbDltUF9IOVNoWjFKaDEyeTZpdTV0ZlF1Q1Y5enhRN2VXcUlXOFZoQ3JwRWhRdUNDOEZqN2QwWW1jMUt1eHNFRkttQU01UVg1d3UwYTRLTVhOZkxjeVIyR0ZUODVWMjBuS3lEZ1l2ZWVDSVdvQ1ByWFpqVFlqdEQybnZlZmFaNHN1aGlXaVhlSFJicmx3LnpXOGJjQmg3LWZ2UTdYZElhT3BxVEEuYzV3TXdtWm9lLU55YkNiSnJONGNWMmdYZXF1X1FmTExydVpBWnA1UENXbVBTU3FDX0FsY0lGQ0pOR3JMaE1oMXIxRHdSWWVWZXBWLWRRV2owcml0blExZ3JSczlHUXRrWHVlYkhRY3U4Z0YtV2ZMSl83VXMzZGFZM2pQdzJlU0JiSXc1ZFRKQkQzNGJTSTBGOTlISHBFaE5INDh4anNGOHhacmlGYnk0cFFwTG4yT2tETkZTeEFQYXpSQldnSnNmSC12OHZ6blNva1lPUUlVVEVsOE9OSGxfanVxUWdkMGFCZXI3STR2ZGl2ek1hTDc0dnVGSWpvMmtLdUEtMkVjYnZUQVZ1VVNFM2kyU25jeS1Od01yTG4tWTZBcmduOFVERTRmWTE0LWtQa2s5LVZKcGhIek5veXR3bmhaQ2JSeHJTMmloQWEzN3BNWEZEWGpJbXNKZkw3bDJ2WnZBTGpVYjVLWEswVzVia3pmdDJZX1hXcVVNMjVwMWdKdlNrZUhtZjlublJOeDhHWW1oQzhKOEcxTVZxbjFZZ2tzZUhuaUZESXQ0REJTN3I3WVdJb2JBQzV1dFo0VnR0anQwb3NrZUZ4VExUOTZfMEtXbFNwb1dxbHNTMERGT09fVWpjcXA5QzZXTTBjUjVRRVBnellrZTU2anlaNTlnX1VWNDdldHBFOWl4N0t2UnBmb08wVTU0Y2ZyTi1aMjMwcWVJc1ZtVHVVWlh1LVh2OGV4c3RpV1dUa1k0Q3hWU3p6VEktNUNaRzhYNmdFSExKNjFRMjMwU0pkV2hrWjdvcFNxVndxaW9RenJZbnhnTWtINHRfUUJqUUFiSEQ2SWdNQ2UtSTB4dUlDUkd4cXZnbHI3NFBHZG00eWtDamJJa0VrQmtjcElTeGJNd3daTlZ0aEg3dmZoTFlaWnRUQU1FWmZRMTVXOU5WaWgzSEFTcGk1X2NjeWg3eHpjcU9SSXR6X25xaGE0ZDV2WEhaa0NlV3dleVhKRVc0LTVfY2MwallFUE9FY0c4b21CMkJ3dFZlUERQY0J1LUZwVnVfX2pZOXl5aXRrMmRGR041R1A2dm9jaFdWLTJ5Wk12QjZCVkZkN2NsbDhkMk9QVzN6NFY0M2pfenRDY2pTOTVmRnZSdzRGZHdjWXRmeW5lOGVWczUzQ1gyN0xQREZEd2hPZGphSWhYWmNyNWxEUmlTdHJCaEx6SnlUNzFWUFJWYlJqZjlGS3NrTUJIMGZGbms5eXF3aHozdnBKekNKanJwdGc1al81cUJpV0JmbmNYM2dTWHZHXzI3STZkb3NNUnhWOW1obmZFeWxVNHZMNXdhb2ZZeUY4YWhtdmdoWl85QnZoOWtxanRXZ2FvYUhKdW1iLUYtaExtWEpobnFUY09qY1lESzdObXhGOHliTkgycUN6VXpCQTZ0UERQLXpUR1V5RjBwSW10eUJ1Uk9BUGpPeXdaUDU5WG1VRWZRTzYzSGRoX1l0aFJJLUZjMHk5enFkVTE3TkE3b2hKVEsydWZrUjNPT21BZldtNWhwZnZSdWc3ZGNSSjgteTFVYUd3RGlEcENTNmpiaGJBYUpodGQyQVBmekMwNGZIMGkzU1ZEc2JDWnVvcnB0Wk83dEstUlJfUnI0MWlNb1NSWUMwaWpsNXRvbUNuUzdVRTVkMmw1MHowZ053N0N1MFJQWGZkdHVwRWRNWlFWaHZZeU1oU3V0N2Z2UWhwZzVwbks3SW81T0c3Vzd3ZnBvRDQ2Ykp2YXRzMzd4M0l5bzFkaW9nNmNnbUF1cTVibDBZRW1BRzFqcXZfazZjNnJDNS1tbURHRzFOVURnQUM5VGVHTm04cEhld3lPaFdqeWU4Nzc5Q0ZibjEwTS1veldGdGZta2h0NU5GckgtWC1WVGw1TzBTQ1U4Z2FkVmlEdUtUMWdHTUM1Q1Y4NDNLTXRLWFUtZDB5b2JiWmJWc2R0RldSTkZEWXdRR1VMMXliSGN0VFNmRlhuNG85NkY0eEM0SVdIWk54SEQ5ZXkxWUtEMW1WdC1xUGdWak9jbm1pNHdxNC1xdENMTGNWZzlXVUVNcERNQ3BUUUEteTVzYi1yVVk4eTRvNUlRR19MNGlZT2J4Mi1la1paOTR5TUZJOGtQYktxY2wzcXZ2S3hLMDNDVFA5REpTUHRQQS1JQ0RXSEdZNk5PNF9RNTk0NVBhTWh1VEotS004eExWemtEV2NVRXI5ZVlXQWRfb0RoWW4zOTZva0Z3ZkFub0psWjVNY0kzeWlLMWpzb0tFa1MwTFNuNG1hajBzZGRkTTFRTVYyTWR6SV9KVWRCZktGMWlnWE1tUjBNdXNpODFlaXJIREtQb3otdzgtSUlFMzFIUm5oeDJ6RWlOV19tOVF6U3N4cUpPU2MxdGE4WnpMZXpXTkRtZFRhM2VNUXJuQ21YWDl6QjZwLVpnSDBhUGlyZE1rYy1heXEzUHk2TmpVMUlxVTVhc3JMa0JXalY0YTlkdklHbkw1YVdYNWdzamNoTlZQY1kwN0ZmOURLNTlMMzVDaHJhYVd1cUllSXpyQl8xSUc0eGFGdFBWak9OeGFSRkNpbWk3eE93b0RHYldoOGJBMzhmaU5xNjdOc1MwckpIRlpPNGh3RFBHT3hRUmx2THUwZnozWTFfRWstWVpnQmtmSG00d2ZDd01wUFdmSk9zVFFLSERWaUJjQjdyamJrVHlvRlIyS3ZQb011YmNHQWNqcy1kRmdxY0tFOXdJaXIwTXFCbnpzZlNXYmlXSmpDNG1xdmN4MlJfaUdPNE5YUFFzSktrLVA3MFJsWnlNOC1ObmNvNnBsOVcxOUIxWEZfR2kxdGJFUTA0cU9RUUlzTFBXUWJSUG5GSnU0dFNIZGRoMm1fbW9yOW1EVHVNVnF4d2Y2SHlzRk5XX1ROX1c0bnZ4ME5fcUpESFlXYXpGa3JfTmphOUs0Y3cxdmlQTjFVUTdIdVo4Ti0tMnRHdkFEeDRhc3lMTTZ1YXlRSlg4ZlZXSjBKbGFwcU1YNHY3eHB0emtOb1FLbWpiaHdFaVRmTmpGOGZMMnJyMVBXSWVlZEJtN3BLcGhzd0c4ZFdFVXprUzdIbHczNThocG1zc2ZrZUIwczlhUDNKSVBpc0pMeTZ3ZXlvR2lMRFpFY3BNM1c3dTAxX3oyTEM0Vkp6Z2FXeHNGU1BFdjQ2UDJzdUdGdnd4NGdVVUNYZjhpejFwcWNuaWNZMGx4TjBXdUlYWWVQM1VLYWhRZU1iQWVwTW9waHBsMmw5alAzdTI5TGpZVVdSMm0xcGlMQmdSa1F1RWprLVA5aWN0SGI3Vzh5UXAxdVAxeGY2NGVNNzZsSk9mY2JOaGpSSXJTc2hpVkUzd3BrWGxkX1l4YThGQzcyMDNiM291SzVRNTJJbXlvYkJVa0twQzBRQjNSRW5zSzI1RlRmcVRJd2tiM05xako4bDRmd2w3RDZZU3ZrUWwwS2k0MV8tRGZvOF90SHAxR00yTzJNVXZVOHVBTXQ2VDVwX0hic0VDVFBJeWhYeE5YTFMzRzdTSkJoWVJWMjJSdnUtVWZrZ3VlMUs5eXBKM0RGNFU5Vk1uS1R1QXVLRTkyMDhmOVdRY2VfQWpaeHpiOEJ6bzBTVlNKLVlPdG9BSnlUMDhDdzJiN05QRjVMVTRkOXFEdFdydlMxSTVUUno5eGZfWlJNVEpKcVQtOWpoc2dsOHBPSmV6Y0oySTN6RUZFLU1wRHdoOFJpaDZMeEMwWWdFR2p4VEgzcG56MFAwSmhDYlUtVGtySHpMdnoxUnZIbnYtOGw4bUNRaUpPTGQzV2VlMWM2SWFKOEhjdFlMWWlKeUt2LXRpN3g3a2F0THp3SVg3U2Y5b1J5NHhKYmtzcGE3T19LZks4WDAtYkpQOGtWVktBMWFRd0xGRUFZT3gwa1lHWFpGa3FWWFIzelJvcWpXWkJ4SV9UM0o2eHFhQkVsQ1lHaEJGbl9EbjBCRi1BRVpQdTRzNFIyRXFFdmU3dWVkck9iclVRZkNUd3V4X3JORlJZRGdfRHBzcnRET3VnalRGeUNBVEJPbnc1blJicUJ2bExPVExIVzdhYlFSZVRndmZ5RE1zLXZseVotR3VMSkVYcmV5VHA0d0FjMUpvMHdrSHZRMm9xd1JZRk85Z05vZkp0cldfR1kzaXh1aDRPWWM5bmpwOGd5T3ZldHh5TW9uR3RFd2U4cEdjaTVVSG5BTTdoenhFWTR5cnFpT0RGMTdfU1ZhRldDQkx4dmVrU0JqWnFCbjRXZFhFZEtPT0Z2Y3FUZVB5WDlKeGJ1OE93clRXa1A5ZkpnOENPckhnRUhoTGZmczJYMXRrajZUUUQ5OTJrc0E5RWQyS28zNV9EOWJSTnp5THJhTkFLTEF0Qk9ZZGotMUZpTC03eWZFd2NXZXVUREtaRnJMY1BuNTB4VHN1cHJNcjRqRVNRYmtiTkFRU2tzMGszcHc2RXhSODJTallTbVZIcm5wY3dPNFFjNjR2MExjQWdvTzlGd2Q4SUNyNm5IMlMxY2tTMXBSaFNDYzlJZUlQa3BaeEQzclFaLXkwYVhQYTFtcnhobmdONThpdjdQdEN2a3dOWUNXLUF3MjZZbHlqTGFyRllmOC1QSWF1YlpNTGo4WmFUdUlDQ0tGMV84c3BvWmlicUlSRnpvY19jY1BxY1MyOXZqdlBiaWFiNFRUZngtWHZsZFBFcFhvMEc3MTNiOGw3ZWFJOVhWTGtXcXV1LV9TSkNOdWpfU0loWm9rVW0xU3BydjN4ZzVXaXZMVkZjM1ExamRJT2t5OGplUkdSZDNpTFcxMzZ3ZnZEc043dks1eFhZRkVET1gxRUtOcmR6WkVkMnUwcXpPeTdRRVNjaVRNLTU5NlZMV2pBVjhkV0RuT3FnVzR1TWNGR1NrN0pSSE5EZEhxVUZzR04yLVlUMlZXTnZNYnVTTVV0OURjQ3dmd0QzTFdnV0EzdmU1X0wtWkhraVp3bWxNX1JhQm5vT1lIV0J1ODhTR0l6OE9sMzRCQ0MxT1hOdGY1WjZkNnRTeW00V1JaS3AyMF80c2JDbVpQc1N0WWktMDVvMmhINVhURWxuTG1lVTl0LTVWTVV5Rk9xRG9SMHRwaDZuWmVqbDNDOUFUVDlUdF9vVldGWFl3VTRackh4V0ZjVEpfM1JxbWpZd3lXazdwdldNdjBKZ1padkRVUGZ2SUhuX0lvYTM0UjFaSjZ2ekRaenRNcVVJbkJGZWR6QmFIaTVocDRNdml6YV9WblVOR05RWFZvRVdLd0ZzWWtxRnNZSVJSMkt6T2RoWHlwU3lvb0hkU0xLdkxjZlRtRGlBaDlDRzFZenpqREFKWllka3pHUENqTzZNZnpwcTdfR1FWTmhFVzROX3Y1eW96NExVUlVLV0tGb2dhblpVVUVmQlM5MXMxUS1RZFN1bnpxX01tQjRCQ0R4MGVhc2FhRXJSbThVN1Z2a2Y4UUwzNW9xWmowRlFKejItU19rSWhnREZzYnh3MHdhRkFfRGNrMzNKRDBGekFCT1lQMTM2ck1ram41QUlfdEJrenJyeFQwVGpfZ3ZGdGNCeDdmNC12aWtzdk94RDFINk40M1BhRk9nZksta0VqRUkzbjV2YlpFbmZGUk8tZ1k0R1JEaWRxNGJnakU3Uk5oMHF6TDJXQzRSYnhVRFhhLTZBN2I2UFRtSkpjZWo0MHdNT3I0NGhQc25OZU96TVZOcDhpV0FBckNNelFPSDBfM3dCUjU5aExmV3VFVVN0YVd3cFNvMlRPSzlHeDdheVllR1E5SEV5NnM1dkZJTTc1MjRNUmZaXzE5Y2YzbU5helVLRkJEMVlaZnVfdFVoLTBwRFZHNnd0WFg1b0tpZXk4T0R3WGtJRjhFUnc0b0hxcUdPUERDa0xXdkRTa2hvWkNJSFhZV3RPdkthc0dZNDdHRUdjUlYxSjNRMEU5ZVdyT2V2Umc1VzIydGw3VXRGNXhZV2ZYclNSd2dJQ0NLN055RlJSV1BteWdBbklHRm9acUg4dkZGT2RUNnJWSE52OW9RY0xraUY1NTd3SlcxUmZPRnowbnRlU1UtdktrZ2dQV1psNXBfWldna29IbkF4SURSQlZHa3htX3FoNkRBRnhVcmtORDVVOU5PVXFlRWI1cWltU1R0d0RDeXotOUhrcXVSMnZxVy1zNFJuOXowMmh1QUVLNWJqYU0zN0VkREdVVXRSR2V6Wk1qY1dXS2w2b0drczRrdXhIMXVWRGNaTmxFdVpYX3RZalBKNThjdzhIR1NuX1JNeTJYcEhwcmhidm9tZFQ3ZHJQSEItVGVQX29meERKbU1vZjBwSnVUeXkyUXpYRkNVanYtUW1fOS1aemFGREhwNTlLZ1VtaTlGZW11V09BZEQtQ3NWTEhLNF90NzhWTUtoUmc3ZEN6eWFua0pUN053LXJfcVBzTzdlRzhzSm82c1JzOWdNdi1wTmtKV3QzanZRNXhUMG5zMHhZS3BRbm1fZHp5QUFwd0tvSHZneGlhUlVUTjlnVWxxOXM1X1lCSXM4UFdpUml5VXl5S0E4cW5jTWZDaVlQd3YwS3RMWDlkNFVBeWFsMDJyRFBvbkRLZHF6TWFpbmVsTHNISFJXdjdxLXRPcDFXWDhiY0o4T0s3V0NjeENJQmVZX3lVVE1wYWQtcVBRSndnT0twTXNJMjluSTBvbExGSEZsZ3RtclpCbHdlVUxMVmN6OW5mOURucWc1eGhTYTFzeU90MmZxWVRiNXI5NDN4UTlCbHk5b1pkRVg5bFBqVnh1VFlJY0dvODM1VWhZSU10ZWlEMDNkNHFMQlNWR0g5RmlfX2NRU2xKZ29GckN1cUtYVVlpalJKUkgxTzB0ZGlCYU9BLXloSFhWNUNZaUd6YjdjdkI3RGtWdTF5UzA4dEdqZktKelVFRFJOd1V5LVpjWDFYVjk4SW1TdHNqUjJnRW9kQzRRdFd0b3VpWkZ3MjZ1czBzeG5sOGt0eC13NVFzNnNhYTZCSUZvaVBET1lnUllJMXpnNlotdE40Xy1GUDNmcEQxUkNRMGJoZDdxelk5SlpVbU9WbnBSSS1OaHhDc0p5VTV3Ui1vcVRUam1PQzZyM2FRTGhjUGhnZFlMQ0h2Y3NYT0JMTTRkUlh4VU45SVhfb2p2LUhlcmhSUjQ1RG44emRoR0VMOGdKamN6OW9kU0JqcUE5TUFmb1d3eDQ5ZzJYVnlGZ19PSDU0cGY3bVI4SlVHSFZzOG8wMmloal9KYVlUSDg3b2dtYXNuVHNJbGRYYm5pVDhyaUlOYkdRR196OS0wWWkyRUVpZEF0TWNWSkZQY1E5RWJPTTlhcDJ3X0xKbjhURWRHQ1R1blg3NUJMS0xwckFwbUNMX1NzRVRpMFIxTDZKVUN2eW41MUNWcDVzVnNkeXdSaDN2SWxZMEZoQ2ZVOExsYWZaLUp2SVpqZV9LSDlRQXNlSVg5T2RkNGxQSm5vRmVlLVFkWGlpMjd4WkhsbmNRWURIRXBXWHlQaVdEZ01rQWZVRVVHWmhMWTBxMGpibktDM0ktTlY1QkVDa0xEdEo4dVZKVEJ1Y2dFb05PZktsMzlDdF9VODdSb1dsZXQ5bUNxTDJkbzRoYmFBTklNR01SdHlZQUlpTW4zamtqTjBENFhxdUwzSFlITnFJM2hlQzFPNGFOVDVKRG9IUWRWNWFLNHJXS1VMOFd2YjdrbmdCMHNJZkNGLV9IYU9uclNCMmdPUFAzNS03T3ltX0tVQlJZVVFFaWJPSzgySnloMmV6cGlpclBkdENpTHVNZjRENGltUFhxbk5iMklqc2ZoZDJIRUZycmsxanM3V2RZQUM4WGdqTWxYUUx2Q1NLVllqak1MdTA1ZS11U2VyUEh3MzR0VGNhSWc0SXp6TzNZVnFaQnQ4OGszY3pLc1Npb0F4NHd2OEtiN2NmMmxQakFWM2MwbmlicVlfZV9RRndSV3JNSkZNSnpaOXZSeHl0dDRyWUZrai1Mdlg0Ylh0U1pLNVFKSlcza1RycUtrcVpReERnVDc2d2lGbnpNZ1RhbHQyaHVKVGZKOVpaUXFkMFZxTFVGQVhVUzRLRjhBZFlIZl9kZktlY0tWcU5WS0cyb21LSHJvUC1RYUZtc0d2U3dyLTFtb0NMZlVYWmQzZ2cxQ0NicU9kY0U0cThHdHpGY3FEX25oUkx3Si1lbjNiUHJWYmFhTElDZTVvYVMzSFdtYnJPT0VhdldZWFFqTERvWHNla0pzRWRRclZOak1FRUR1emF2R3dkVUZTekhxcFFfckI2aWh1V3NxczdxLVk0OVB5ZlBfcm0xVVVXd3I1NkhXcEF3Y2ZYX0ZneTFsRHlwZ04wUERadTdmVDA0VC12VGk0MUExaG9xaGN2VXZyaThjeEkyV2E2Um9sMkhkSWtRRG1HQmxJbFJEVHIwQUpYbWZrUEk4THg0YjU0cVk3VlRVemJfdDJOZm5oc2hnOWgyamdYOGNDTU5LNzRlV0t2cUU1ZFF5ZnN5c1gzRTREN0hmOURjdFBDaVB6S1V4dlM5QjdQd3BmY3VvR1d0aTJvVjFOSDJsdFFMbFhDR0JBYkRfcGZDb3pTekY0QmxuQjNGWDJXNk4tUjF3ZlFrM2lDSkV3bGVjbUl3Z2tmUE5XVVd4R3lMb2o1alBQMkh4X1Y0MzgwN2lfZElFNDRqOWxFcW9rTnphdGNodGVWTHdkbUdpd05Peks3Xzl4cUdMaU5mbU9oUVZ5N2swd0IzZXhHamd6OEotXzl2cVBpeU9ENU9XVE5RbjdiOHp5UGl5ZkkzOVpQT0V5ck8yaWlUNDVVR2J2blZIRXJWc202UFdEdHNmczR3bDZiNXJkaWc0ZlluWkZFX0MtanRfcXRKdnFwRmUtX1ZXWF9xQlhjRC1XQ2FyX2JWTkw4ZFVvOWs3cFN0TjdUd1ZpdExKanpyT1hhdzJXVWVIa2hRbk00aGtCRzE3Yy1mVDZBM294bnZFU1daVmtZWkRHbEFYWU5PX21IbzFSUWdxM1R2Q28yNmdtUEZhS2FXcDZmcWhBMmQtT2prSzJLdElrdnNMd1ZsT2FSam1CekhXSVZXS2xrZDJqN3A5NzZHMnR2MHl1UnVrWTBpMzNJRHJzQ2hoOWI1aEV5QjcwN3pEMXFwbVF3TUtlMW8zSVllZ1lpUkZEUjRES2ZXU293QTFDdWZOVkJ1ei0wNWd6UFVlSV80aWdfY2Fpd2JDUDFyNExrMEFBN0puajFhZGI5TUVPMmY4amczV0NuWmVKMGtBaEt4UmN6d2p3cTBmbHotbjFCUlRrRXNDdDNYSm4tTzZNLUZFRldkQmM0bHF2LTBWeThLaUFHVlRGaGdYZmhzM2JFblNBTXNKdGJCYTN6cTNFVVc1QjhXaUphTXdSVktXZDdSWVFDQ1dpWThibnJDVkkzaWJ4RmlRN2xhT2paM0d5UVpRZy02cVBmN3dlaEYzOWUyc1g1aWVFemM4bTJNbkVsa2hzMlZISUNPcWZIb002X3NieVhMSHlTMHQwRnVYSzJMSDRuR0xIY3hUVk5xX1VaeTRjXzFBVS1yOEpCdFEwQ2hyVDV2TENEdC1odi1KZEYyS2lnaTVxbG54c3BvcFhCOGE1bnd1TnB3VzQxRm5KN0Z6MzhtaW9jMjFIQnZuWWNYMDhvRkliNjZPQkw0T05VRHFlMUtURlEtMFBRLkZvb2Z5WDdKOHFETkN6bkdPclphNkgzRm9XQXJPeTYzbWpwaW54bFVOQUE\"}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "10443",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:24:45 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "200",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "1eced0e5-002c-4d7e-be85-64864cde91a9",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "741228c9-c243-4e20-8979-1fffe8935822",
-        "x-powered-by": "ASP.NET"
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "893",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 27 May 2022 22:51:45 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "aeeaa9e6-b0e4-4189-bd38-8d34406facd2",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.159.44;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "bcec85b9-f9c6-5289-888e-6f6ce533c6a2",
+        "x-ms-keyvault-rbac-cache": "ra_age=6825;da_age=6825;rd_age=6825;brd_age=27055;ra_notif_age=7880;dec_lev=1;",
+        "x-ms-keyvault-region": "northcentralus",
+        "x-ms-keyvault-service-version": "1.9.395.1",
+        "x-ms-request-id": "86895b05-a2c3-4842-824f-7dc41e7e1f68"
+      },
+      "ResponseBody": {
+        "recoveryId": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
+        "deletedDate": 1653691905,
+        "scheduledPurgeDate": 1654296705,
+        "key": {
+          "kid": "https://keyvault_name.vault.azure.net/keys/backupRestoreKeyName-cangenerateabackupofakey-/fdddf19f8f5c49e0b1a5cd726ce7af25",
+          "kty": "RSA",
+          "key_ops": [
+            "encrypt",
+            "decrypt",
+            "sign",
+            "verify",
+            "wrapKey",
+            "unwrapKey"
+          ],
+          "n": "2fEm272ZwfIDyZw91h0VJrgCZn2116HPU5XD4qAW-_-Eo2V03AUC3yWzqVi9ukHO5LBnSDjmCZQRYEPxp-NRFC5jSlyNc2ilcQMBkm8OmTXi4W55zpMgQGquyG8cMOJfbUJEcK5yAfEsqWCYUMnsAuaiocGVAnI6-ZMa2SO4F6E55C2rAOc6PpWkTUtcjrnGf9hg9KQJwoEIBJajNvZ0yUNM7jb7Ydk9_ezYdaYVIxYv1Hx2RtpNd_NdWwJCaLAtqAY0d7Kyi_1ms4tNGqNFk5hEIcvJbyhUQSUHufla9GnbWvrihlo2EcVMv2lRI3BXUSd75mRiqMmn8r_IEVZmAQ",
+          "e": "AQAB"
+        },
+        "attributes": {
+          "enabled": true,
+          "created": 1653691904,
+          "updated": 1653691904,
+          "recoveryLevel": "CustomizedRecoverable\u002BPurgeable",
+          "recoverableDays": 7
+        }
       }
     },
     {
-      "method": "DELETE",
-      "url": "https://keyvault_name.vault.azure.net/keys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
+      "RequestUri": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-?api-version=7.3",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9329/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "67f94b52-98da-4661-a3aa-29732c61e24d",
+        "x-ms-useragent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 OS/Win32"
       },
-      "requestBody": null,
-      "status": 200,
-      "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-\",\"deletedDate\":1619648686,\"scheduledPurgeDate\":1620253486,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/backupRestoreKeyName-cangenerateabackupofakey-/312de03ad301469bad13cc93e8a50b9b\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"ntEhhbJ_PUi2rtwUnDKJIa78Op6sh2U5JyN8clf5_-1CbLjnMjReFUM5mI8I3_4jddd155PyJotRbvluUY-UAXOJJVivJBqiYfXRdtxcOCPkIOIXcrU3y2ixotoVUvK5CquB3oBKd7eKZ0lDUi0P7JrewrnyfjjuUm0XxaxWASPchVx3ebiX0ih0Vdwin2jjjPrGSCjVSUanMDd_ouNz533-gML7f-50FlNvRLPbb-EIc4xuXdlJ9ug2PcGHzJX6C56Z7kLjfVJvTjWgrIrRxi1Wry-HMrvlljpDGskAn5jCJLN_GGKGmodI8GA46Ufd1XzwA0MBRKUlnFGmp5w0eQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1619648686,\"updated\":1619648686,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "919",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:24:45 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "200",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "d0e09ec6-e7d8-426a-bc97-c433bccb3a4e",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "4304dc82-66e2-4c0a-a5eb-217b57e27b16",
-        "x-powered-by": "ASP.NET"
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "114",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 27 May 2022 22:51:45 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "67f94b52-98da-4661-a3aa-29732c61e24d",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.159.44;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "bcec85b9-f9c6-5289-888e-6f6ce533c6a2",
+        "x-ms-keyvault-rbac-cache": "ra_age=6825;da_age=6825;rd_age=6825;brd_age=27055;ra_notif_age=7881;dec_lev=1;",
+        "x-ms-keyvault-region": "northcentralus",
+        "x-ms-keyvault-service-version": "1.9.395.1",
+        "x-ms-request-id": "3844d8f1-772b-467d-8d25-991b697de931"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "KeyNotFound",
+          "message": "Deleted Key not found: backupRestoreKeyName-cangenerateabackupofakey-"
+        }
       }
     },
     {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
+      "RequestUri": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-?api-version=7.3",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9329/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "ccf7851d-9d45-4180-b455-117e2ed84e70",
+        "x-ms-useragent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 OS/Win32"
       },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: backupRestoreKeyName-cangenerateabackupofakey-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "130",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:24:45 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "4dfd2188-711c-4285-a585-c38c811e26d7",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "3e7221ed-09ff-4cf6-8e19-e3fe560415a9",
-        "x-powered-by": "ASP.NET"
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "114",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 27 May 2022 22:51:45 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "ccf7851d-9d45-4180-b455-117e2ed84e70",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.159.44;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "bcec85b9-f9c6-5289-888e-6f6ce533c6a2",
+        "x-ms-keyvault-rbac-cache": "ra_age=6825;da_age=6825;rd_age=6825;brd_age=27055;ra_notif_age=7881;dec_lev=0;",
+        "x-ms-keyvault-region": "northcentralus",
+        "x-ms-keyvault-service-version": "1.9.395.1",
+        "x-ms-request-id": "bba5a88f-cab1-41b9-902c-f36a997f5fe6"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "KeyNotFound",
+          "message": "Deleted Key not found: backupRestoreKeyName-cangenerateabackupofakey-"
+        }
       }
     },
     {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
+      "RequestUri": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-?api-version=7.3",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9329/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "9def068c-bc77-491f-bc5f-7114a66a2625",
+        "x-ms-useragent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 OS/Win32"
       },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: backupRestoreKeyName-cangenerateabackupofakey-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "130",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:24:45 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "9ec4bfa8-ded5-44cd-8730-2b1c06c50315",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "126823a1-5356-4159-9667-1889e31ccc6e",
-        "x-powered-by": "ASP.NET"
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "893",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 27 May 2022 22:51:50 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "9def068c-bc77-491f-bc5f-7114a66a2625",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.159.44;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "bcec85b9-f9c6-5289-888e-6f6ce533c6a2",
+        "x-ms-keyvault-rbac-cache": "ra_age=6831;da_age=6831;rd_age=6831;brd_age=27060;ra_notif_age=7886;dec_lev=0;",
+        "x-ms-keyvault-region": "northcentralus",
+        "x-ms-keyvault-service-version": "1.9.395.1",
+        "x-ms-request-id": "94766e42-e543-4c96-8984-bbb202930ccf"
+      },
+      "ResponseBody": {
+        "recoveryId": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
+        "deletedDate": 1653691905,
+        "scheduledPurgeDate": 1654296705,
+        "key": {
+          "kid": "https://keyvault_name.vault.azure.net/keys/backupRestoreKeyName-cangenerateabackupofakey-/fdddf19f8f5c49e0b1a5cd726ce7af25",
+          "kty": "RSA",
+          "key_ops": [
+            "encrypt",
+            "decrypt",
+            "sign",
+            "verify",
+            "wrapKey",
+            "unwrapKey"
+          ],
+          "n": "2fEm272ZwfIDyZw91h0VJrgCZn2116HPU5XD4qAW-_-Eo2V03AUC3yWzqVi9ukHO5LBnSDjmCZQRYEPxp-NRFC5jSlyNc2ilcQMBkm8OmTXi4W55zpMgQGquyG8cMOJfbUJEcK5yAfEsqWCYUMnsAuaiocGVAnI6-ZMa2SO4F6E55C2rAOc6PpWkTUtcjrnGf9hg9KQJwoEIBJajNvZ0yUNM7jb7Ydk9_ezYdaYVIxYv1Hx2RtpNd_NdWwJCaLAtqAY0d7Kyi_1ms4tNGqNFk5hEIcvJbyhUQSUHufla9GnbWvrihlo2EcVMv2lRI3BXUSd75mRiqMmn8r_IEVZmAQ",
+          "e": "AQAB"
+        },
+        "attributes": {
+          "enabled": true,
+          "created": 1653691904,
+          "updated": 1653691904,
+          "recoveryLevel": "CustomizedRecoverable\u002BPurgeable",
+          "recoverableDays": 7
+        }
       }
     },
     {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
+      "RequestUri": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-?api-version=7.3",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9329/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "537200df-4c1f-400a-9d5a-7c88dd6b5efb",
+        "x-ms-useragent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 OS/Win32"
       },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: backupRestoreKeyName-cangenerateabackupofakey-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "130",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:24:47 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "8a48b7d2-2227-441e-9708-ad572e59330e",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "c775369c-6eeb-4a1a-8bee-d469d4044534",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Date": "Fri, 27 May 2022 22:51:50 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "537200df-4c1f-400a-9d5a-7c88dd6b5efb",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.159.44;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "bcec85b9-f9c6-5289-888e-6f6ce533c6a2",
+        "x-ms-keyvault-rbac-cache": "ra_age=6831;da_age=6831;rd_age=6831;brd_age=27060;ra_notif_age=7886;dec_lev=1;",
+        "x-ms-keyvault-region": "northcentralus",
+        "x-ms-keyvault-service-version": "1.9.395.1",
+        "x-ms-request-id": "735a9432-ee4c-4dca-b8a7-85f85fab4c69"
       },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: backupRestoreKeyName-cangenerateabackupofakey-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "130",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:24:50 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "2c72b2e4-a7c9-40ce-b347-88ef64f469e6",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "17b49dc4-1e27-4ad5-abfe-fbb8f8b3d167",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: backupRestoreKeyName-cangenerateabackupofakey-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "130",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:24:52 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "5bccf1a7-6aeb-408a-821a-5c2f31ccc3b9",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "dd682437-71df-4290-b4c3-3d4d14d76ac7",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: backupRestoreKeyName-cangenerateabackupofakey-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "130",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:24:55 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "d0705a65-8a26-487d-bfa5-77c52ac6d6bc",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "15578d23-a156-47b7-aa66-03971c859160",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: backupRestoreKeyName-cangenerateabackupofakey-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "130",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:24:57 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "6e308520-ed44-42ae-89cb-2888ea662002",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "03e0cdb3-c099-4408-8441-76583744e1a5",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: backupRestoreKeyName-cangenerateabackupofakey-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "130",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:24:59 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "adb0a2b5-3c6d-4e12-873e-1d263c27b524",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "c869060e-230e-490e-a5de-3b224da34ef4",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: backupRestoreKeyName-cangenerateabackupofakey-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "130",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:25:01 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "08d945fb-e070-458b-8e84-2130c7a40eaa",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "d47eb9d1-05ff-4d60-bfb2-b4f530ad7334",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: backupRestoreKeyName-cangenerateabackupofakey-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "130",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:25:03 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "f45f8499-bbe6-43c9-bb8b-cc0bbda49d3e",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "629adea0-98f1-4576-8592-e0508d6b6e01",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: backupRestoreKeyName-cangenerateabackupofakey-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "130",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:25:05 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "94cd3716-63d7-4f33-bab9-239cd6179129",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "5e97205e-dc8e-4c53-b55f-92c98ad554bd",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: backupRestoreKeyName-cangenerateabackupofakey-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "130",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:25:07 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "c5aa25db-e49c-4278-9134-c11737752f34",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "769e9758-e4f0-44f2-9dca-3825ef51081d",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: backupRestoreKeyName-cangenerateabackupofakey-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "130",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:25:09 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "d22fd446-c71f-4a89-9ab3-6692ac5566e2",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "b9343de8-2128-4c9a-9d07-613bd083956f",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: backupRestoreKeyName-cangenerateabackupofakey-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "130",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:25:11 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "3951d7a5-5a95-497a-bb79-43270d204dd0",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "3e69999b-ddb6-491f-b716-42d7e01330ff",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: backupRestoreKeyName-cangenerateabackupofakey-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "130",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:25:13 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "9e8f4895-17be-4a33-90b5-b7a75671e2d8",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "787566e0-d412-4818-ae00-43cf58d5e188",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: backupRestoreKeyName-cangenerateabackupofakey-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "130",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:25:15 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "e36bb334-2eda-4878-983a-5cbe20b8e5d5",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "cd209fcc-f52c-4cfe-a8b3-9e6b3cf7cde5",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: backupRestoreKeyName-cangenerateabackupofakey-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "130",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:25:17 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "40e54b99-9a9d-4b1f-b2f1-a157b4153517",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "c5f9730e-27f0-48bf-9247-0db21b7d6218",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: backupRestoreKeyName-cangenerateabackupofakey-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "130",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:25:20 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "7679bdd3-b91c-4574-95fc-80f953fb0229",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "5981808a-8bc1-47fd-b7f3-e5cec74cd460",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: backupRestoreKeyName-cangenerateabackupofakey-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "130",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:25:22 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "798288f7-af3b-463d-b477-55264879d262",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "fbb6df55-5c40-4b9d-8b34-0ee319419b50",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
-      },
-      "requestBody": null,
-      "status": 200,
-      "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-\",\"deletedDate\":1619648686,\"scheduledPurgeDate\":1620253486,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/backupRestoreKeyName-cangenerateabackupofakey-/312de03ad301469bad13cc93e8a50b9b\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"ntEhhbJ_PUi2rtwUnDKJIa78Op6sh2U5JyN8clf5_-1CbLjnMjReFUM5mI8I3_4jddd155PyJotRbvluUY-UAXOJJVivJBqiYfXRdtxcOCPkIOIXcrU3y2ixotoVUvK5CquB3oBKd7eKZ0lDUi0P7JrewrnyfjjuUm0XxaxWASPchVx3ebiX0ih0Vdwin2jjjPrGSCjVSUanMDd_ouNz533-gML7f-50FlNvRLPbb-EIc4xuXdlJ9ug2PcGHzJX6C56Z7kLjfVJvTjWgrIrRxi1Wry-HMrvlljpDGskAn5jCJLN_GGKGmodI8GA46Ufd1XzwA0MBRKUlnFGmp5w0eQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1619648686,\"updated\":1619648686,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "919",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 28 Apr 2021 22:25:24 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "200",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "1f128848-7771-4bf8-b207-a63ba2b0e95e",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "c0c3a2b4-e321-4506-a976-00356309dedb",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "DELETE",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-cangenerateabackupofakey-",
-      "query": {
-        "api-version": "7.3"
-      },
-      "requestBody": null,
-      "status": 204,
-      "response": "",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "date": "Wed, 28 Apr 2021 22:25:24 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "204",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "4d7cc733-e549-4a5f-8c04-f199bb62df86",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.2.265.0",
-        "x-ms-request-id": "802cbf62-a820-4fcc-9910-62a25d0ed9a7",
-        "x-powered-by": "ASP.NET"
-      }
+      "ResponseBody": null
     }
   ],
-  "uniqueTestInfo": {
-    "uniqueName": {},
-    "newDate": {}
-  },
-  "hash": "63b865fc060254efc9635b78a6559082"
+  "Variables": {}
 }

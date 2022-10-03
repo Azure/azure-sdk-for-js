@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -9,7 +9,7 @@ trigger:
   paths:
     include:
       - sdk/serialconsole/ci.mgmt.yml
-      - sdk/serialconsole/arm-serialconsole/
+      - sdk/serialconsole/arm-serialconsole
 pr:
   branches:
     include:
@@ -22,12 +22,11 @@ pr:
   paths:
     include:
       - sdk/serialconsole/ci.mgmt.yml
-      - sdk/serialconsole/arm-serialconsole/
-
+      - sdk/serialconsole/arm-serialconsole
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: serialconsole
     Artifacts:
       - name: azure-arm-serialconsole
-        safeName: azurearmserialconsole        
+        safeName: azurearmserialconsole

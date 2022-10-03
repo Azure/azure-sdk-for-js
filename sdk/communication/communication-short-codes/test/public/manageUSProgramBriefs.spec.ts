@@ -1,34 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { Context } from "mocha";
 import { ShortCodesClient, ShortCodesUpsertUSProgramBriefOptionalParams } from "../../src";
-import { USProgramBrief } from "../../src/generated/src";
-import { createRecordedClient } from "./utils/recordedClient";
 import {
   assertEditableFieldsAreEqual,
   doesProgramBriefExist,
   getTestUSProgramBrief,
 } from "./utils/testUSProgramBrief";
-
-function getExpectedResponseFor(programBrief: USProgramBrief): USProgramBrief {
-  return {
-    ...programBrief,
-
-    // Currently, the server rejects payloads that include preferredVanityNumbers if isVanity=false.
-    // However, the response always includes preferredVanityNumbers, regardless of the isVanity flag.
-    programDetails: { ...programBrief.programDetails, preferredVanityNumbers: [] },
-  };
-}
+import { Context } from "mocha";
+import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
+import { createRecordedClient } from "./utils/recordedClient";
 
 describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Program Brief`, function () {
   let recorder: Recorder;
   let client: ShortCodesClient;
 
-  beforeEach(function (this: Context) {
-    ({ client, recorder } = createRecordedClient(this));
+  beforeEach(async function (this: Context) {
+    ({ client, recorder } = await createRecordedClient(this));
   });
 
   afterEach(async function (this: Context) {
@@ -46,7 +35,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
       body: {
         id: uspb.id,
         programDetails: {
-          signUpUrl: "https://endpoint/updated-sign-up",
+          callToActionUrl: "https://endpoint/updated-sign-up",
           privacyPolicyUrl: "https://endpoint/updated-privacy",
           termsOfServiceUrl: "https://endpoint/updated-terms",
         },
@@ -71,11 +60,11 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
 
     // get program brief, verify it was created correctly
     let getRes = await client.getUSProgramBrief(uspb.id);
-    assertEditableFieldsAreEqual(getExpectedResponseFor(uspb), getRes, "get after initial create");
+    assertEditableFieldsAreEqual(uspb, getRes, "get after initial create");
 
     // update program brief by calling upsert
     if (uspb.programDetails) {
-      uspb.programDetails.signUpUrl = updateRequest.body?.programDetails?.signUpUrl;
+      uspb.programDetails.callToActionUrl = updateRequest.body?.programDetails?.callToActionUrl;
       uspb.programDetails.privacyPolicyUrl = updateRequest.body?.programDetails?.privacyPolicyUrl;
       uspb.programDetails.termsOfServiceUrl = updateRequest.body?.programDetails?.termsOfServiceUrl;
     }
@@ -86,14 +75,14 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
 
     // get program brief, verify it was updated correctly
     getRes = await client.getUSProgramBrief(uspb.id);
-    assertEditableFieldsAreEqual(getExpectedResponseFor(uspb), getRes, "get after update");
+    assertEditableFieldsAreEqual(uspb, getRes, "get after update");
 
     // list program briefs, validate test program brief is in the list
     let foundTestProgramBrief = false;
     for await (const pb of client.listUSProgramBriefs()) {
       if (pb.id === uspb.id) {
         foundTestProgramBrief = true;
-        assertEditableFieldsAreEqual(getExpectedResponseFor(uspb), pb, "list all program briefs");
+        assertEditableFieldsAreEqual(uspb, pb, "list all program briefs");
       }
     }
     assert.isTrue(

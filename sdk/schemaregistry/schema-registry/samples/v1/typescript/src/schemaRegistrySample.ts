@@ -25,13 +25,13 @@ const schemaObject = {
   fields: [
     {
       name: "firstName",
-      type: "string"
+      type: "string",
     },
     {
       name: "lastName",
-      type: "string"
-    }
-  ]
+      type: "string",
+    },
+  ],
 };
 
 // Description of the schema for registration
@@ -39,7 +39,7 @@ const schemaDescription: SchemaDescription = {
   name: `${schemaObject.namespace}-${schemaObject.name}`,
   groupName: group,
   format: "Avro",
-  definition: JSON.stringify(schemaObject)
+  definition: JSON.stringify(schemaObject),
 };
 
 export async function main() {

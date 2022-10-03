@@ -60,7 +60,7 @@ async function getEnrichedSeriesData(client: MetricsAdvisorClient, detectionConf
         }
       }
     }
-  } catch (err) {
+  } catch (err: any) {
     console.log("!!!!!  error in listing enriched series data");
     console.log(err);
   }
@@ -87,7 +87,7 @@ async function getMetricSeriesData(client: MetricsAdvisorClient, metricId: strin
           console.log(`  ${series.values![i]}`);
         }
     }
-  } catch (err) {
+  } catch (err: any) {
     console.log("!!!!!  error in listing metric series data");
     console.log(err);
   }

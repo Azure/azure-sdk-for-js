@@ -42,16 +42,12 @@ extends:
         safeName: azureabortcontroller
       - name: azure-core-amqp
         safeName: azurecoreamqp
-      - name: azure-core-asynciterator-polyfill
-        safeName: azurecoreasynciteratorpolyfill
       - name: azure-core-auth
         safeName: azurecoreauth
       - name: azure-core-client
         safeName: azurecoreclient
       - name: azure-rest-core-client
         safeName: azurerestcoreclient
-      - name: azure-core-crypto
-        safeName: azurecorecrypto
       - name: azure-core-http
         safeName: azurecorehttp
       - name: azure-core-rest-pipeline

@@ -10,7 +10,7 @@ import {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter
-} from "@azure/core-http";
+} from "@azure/core-client";
 import { CommunicationRelayConfigurationRequest as CommunicationRelayConfigurationRequestMapper } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -25,8 +25,30 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const body: OperationParameter = {
-  parameterPath: ["options", "body"],
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const id: OperationParameter = {
+  parameterPath: ["options", "id"],
+  mapper: CommunicationRelayConfigurationRequestMapper
+};
+
+export const routeType: OperationParameter = {
+  parameterPath: ["options", "routeType"],
+  mapper: CommunicationRelayConfigurationRequestMapper
+};
+
+export const ttl: OperationParameter = {
+  parameterPath: ["options", "ttl"],
   mapper: CommunicationRelayConfigurationRequestMapper
 };
 

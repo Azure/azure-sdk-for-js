@@ -341,7 +341,7 @@ describe("tracingPolicy", function () {
     try {
       await policy.sendRequest(request);
       throw new Error("Test Failure");
-    } catch (err) {
+    } catch (err: any) {
       assert.notEqual(err.message, "Test Failure");
       assert.isTrue(mockTracer.startSpanCalled());
       assert.lengthOf(mockTracer.getStartedSpans(), 1);

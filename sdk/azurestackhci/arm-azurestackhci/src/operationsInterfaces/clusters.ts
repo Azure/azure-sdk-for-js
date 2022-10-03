@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   Cluster,
   ClustersListBySubscriptionOptionalParams,
@@ -18,7 +19,11 @@ import {
   ClusterPatch,
   ClustersUpdateOptionalParams,
   ClustersUpdateResponse,
-  ClustersDeleteOptionalParams
+  ClustersDeleteOptionalParams,
+  UploadCertificateRequest,
+  ClustersUploadCertificateOptionalParams,
+  ClustersCreateIdentityOptionalParams,
+  ClustersCreateIdentityResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -83,9 +88,73 @@ export interface Clusters {
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Delete an HCI cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * Upload certificate.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param uploadCertificateRequest Upload certificate request.
+   * @param options The options parameters.
+   */
+  beginUploadCertificate(
+    resourceGroupName: string,
+    clusterName: string,
+    uploadCertificateRequest: UploadCertificateRequest,
+    options?: ClustersUploadCertificateOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Upload certificate.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param uploadCertificateRequest Upload certificate request.
+   * @param options The options parameters.
+   */
+  beginUploadCertificateAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    uploadCertificateRequest: UploadCertificateRequest,
+    options?: ClustersUploadCertificateOptionalParams
+  ): Promise<void>;
+  /**
+   * Create cluster identity.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param options The options parameters.
+   */
+  beginCreateIdentity(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersCreateIdentityOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ClustersCreateIdentityResponse>,
+      ClustersCreateIdentityResponse
+    >
+  >;
+  /**
+   * Create cluster identity.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param options The options parameters.
+   */
+  beginCreateIdentityAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersCreateIdentityOptionalParams
+  ): Promise<ClustersCreateIdentityResponse>;
 }

@@ -102,7 +102,7 @@ export class AsyncBatchingProducer {
           // If the event still can't be added to an empty batch, just ignore it.
           batch.tryAdd(event);
         }
-      } catch (err) {
+      } catch (err: any) {
         // Ignore `AbortError` since that gets thrown when `stop()` is called.
         if (err.name !== "AbortError") {
           console.error(`Encountered error: ${err}`);

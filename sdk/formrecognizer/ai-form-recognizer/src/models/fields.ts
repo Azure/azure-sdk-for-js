@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BoundingRegion, DocumentSpan } from "..";
+import { DocumentSpan } from "..";
 
-import { CurrencyValue, DocumentField as GeneratedDocumentField } from "../generated";
+import { AddressValue, CurrencyValue, DocumentField as GeneratedDocumentField } from "../generated";
+import { toBoundingRegions } from "../transforms/polygon";
 import { capitalize } from "../util";
+import { BoundingRegion } from "./documentElements";
 
 /**
  * Fields that are common to all DocumentField variants.
@@ -55,6 +57,7 @@ export type DocumentField =
   | DocumentCountryRegionField
   | DocumentSignatureField
   | DocumentCurrencyField
+  | DocumentAddressField
   | DocumentArrayField
   | DocumentObjectField;
 
@@ -193,6 +196,19 @@ export interface DocumentCurrencyField extends DocumentFieldCommon {
 }
 
 /**
+ * A document field that describes a structured physical address.
+ */
+export interface DocumentAddressField extends DocumentFieldCommon {
+  /** Field kind: "address". */
+  kind: "address";
+
+  /**
+   * The properties of the extracted address.
+   */
+  value?: AddressValue;
+}
+
+/**
  * A DocumentField that consists of several named properties that have their own DocumentField values.
  */
 export interface DocumentObjectField<Properties = { [k: string]: DocumentField | undefined }>
@@ -241,6 +257,7 @@ export function toDocumentField(field: GeneratedDocumentField): DocumentField {
       case "countryRegion":
       case "signature":
       case "currency":
+      case "address":
         return {
           value:
             field[
@@ -265,7 +282,7 @@ export function toDocumentField(field: GeneratedDocumentField): DocumentField {
   return {
     kind,
     ...value,
-    boundingRegions: field.boundingRegions,
+    boundingRegions: toBoundingRegions(field.boundingRegions),
     content: field.content,
     spans: field.spans,
     confidence: field.confidence,

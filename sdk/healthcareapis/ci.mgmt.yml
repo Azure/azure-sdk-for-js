@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/healthcareapis/ci.mgmt.yml
-      - sdk/healthcareapis/arm-healthcareapis/
       - sdk/healthcareapis/arm-healthcareapis
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/healthcareapis/ci.mgmt.yml
-      - sdk/healthcareapis/arm-healthcareapis/
       - sdk/healthcareapis/arm-healthcareapis
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml

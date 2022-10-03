@@ -1,8 +1,8 @@
 # Release History
     
-## 2.0.0-beta.1 (2022-01-17)
+## 2.0.0-beta.3 (2022-06-22)
 
-The package of @azure/arm-machinelearningexperimentation is using our next generation design principles since version 2.0.0-beta.1, which contains breaking changes.
+The package of @azure/arm-machinelearningexperimentation is using our next generation design principles since version 2.0.0-beta.3, which contains breaking changes.
 
 To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
 

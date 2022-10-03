@@ -5,15 +5,9 @@ import * as http from "http";
 import * as https from "https";
 import { HttpsProxyAgent, HttpsProxyAgentOptions } from "https-proxy-agent";
 import { HttpProxyAgent, HttpProxyAgentOptions } from "http-proxy-agent";
-import {
-  HttpHeaders,
-  PipelineRequest,
-  PipelineResponse,
-  ProxySettings,
-  SendRequest,
-} from "../interfaces";
+import { PipelineRequest, PipelineResponse, ProxySettings, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
-import { URL } from "../util/url";
+import { logger } from "../log";
 
 const HTTPS_PROXY = "HTTPS_PROXY";
 const HTTP_PROXY = "HTTP_PROXY";
@@ -34,9 +28,6 @@ let noProxyListLoaded: boolean = false;
 
 /** A cache of whether a host should bypass the proxy. */
 const globalBypassedMap: Map<string, boolean> = new Map();
-
-let httpsProxyAgent: https.Agent | undefined;
-let httpProxyAgent: http.Agent | undefined;
 
 function getEnvironmentValue(name: string): string | undefined {
   if (process.env[name]) {
@@ -140,7 +131,7 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
  */
 export function getProxyAgentOptions(
   proxySettings: ProxySettings,
-  requestHeaders: HttpHeaders
+  { headers, tlsSettings }: PipelineRequest
 ): HttpProxyAgentOptions {
   let parsedProxyUrl: URL;
   try {
@@ -151,11 +142,17 @@ export function getProxyAgentOptions(
     );
   }
 
+  if (tlsSettings) {
+    logger.warning(
+      "TLS settings are not supported in combination with custom Proxy, certificates provided to the client will be ignored."
+    );
+  }
+
   const proxyAgentOptions: HttpsProxyAgentOptions = {
     hostname: parsedProxyUrl.hostname,
     port: proxySettings.port,
     protocol: parsedProxyUrl.protocol,
-    headers: requestHeaders.toJSON(),
+    headers: headers.toJSON(),
   };
   if (proxySettings.username && proxySettings.password) {
     proxyAgentOptions.auth = `${proxySettings.username}:${proxySettings.password}`;
@@ -165,7 +162,13 @@ export function getProxyAgentOptions(
   return proxyAgentOptions;
 }
 
-function setProxyAgentOnRequest(request: PipelineRequest): void {
+function setProxyAgentOnRequest(request: PipelineRequest, cachedAgents: CachedAgents): void {
+  // Custom Agent should take precedence so if one is present
+  // we should skip to avoid overwriting it.
+  if (request.agent) {
+    return;
+  }
+
   const url = new URL(request.url);
 
   const isInsecure = url.protocol !== "https:";
@@ -173,19 +176,24 @@ function setProxyAgentOnRequest(request: PipelineRequest): void {
   const proxySettings = request.proxySettings;
   if (proxySettings) {
     if (isInsecure) {
-      if (!httpProxyAgent) {
-        const proxyAgentOptions = getProxyAgentOptions(proxySettings, request.headers);
-        httpProxyAgent = new HttpProxyAgent(proxyAgentOptions);
+      if (!cachedAgents.httpProxyAgent) {
+        const proxyAgentOptions = getProxyAgentOptions(proxySettings, request);
+        cachedAgents.httpProxyAgent = new HttpProxyAgent(proxyAgentOptions);
       }
-      request.agent = httpProxyAgent;
+      request.agent = cachedAgents.httpProxyAgent;
     } else {
-      if (!httpsProxyAgent) {
-        const proxyAgentOptions = getProxyAgentOptions(proxySettings, request.headers);
-        httpsProxyAgent = new HttpsProxyAgent(proxyAgentOptions);
+      if (!cachedAgents.httpsProxyAgent) {
+        const proxyAgentOptions = getProxyAgentOptions(proxySettings, request);
+        cachedAgents.httpsProxyAgent = new HttpsProxyAgent(proxyAgentOptions);
       }
-      request.agent = httpsProxyAgent;
+      request.agent = cachedAgents.httpsProxyAgent;
     }
   }
+}
+
+interface CachedAgents {
+  httpsProxyAgent?: https.Agent;
+  httpProxyAgent?: http.Agent;
 }
 
 /**
@@ -205,6 +213,9 @@ export function proxyPolicy(
   if (!noProxyListLoaded) {
     globalNoProxyList.push(...loadNoProxy());
   }
+
+  const cachedAgents: CachedAgents = {};
+
   return {
     name: proxyPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
@@ -220,7 +231,7 @@ export function proxyPolicy(
       }
 
       if (request.proxySettings) {
-        setProxyAgentOnRequest(request);
+        setProxyAgentOnRequest(request, cachedAgents);
       }
       return next(request);
     },

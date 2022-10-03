@@ -11,7 +11,7 @@ describe("XML serializer", function () {
         // @ts-expect-error - intentional error for test
         await parseXML(undefined);
         assert.fail("Expected error");
-      } catch (error) {
+      } catch (error: any) {
         assert.ok(
           error.message.indexOf("Document is empty") !== -1 || // Chrome
             (error.message.startsWith("XML Parsing Error: syntax error") &&
@@ -26,7 +26,7 @@ describe("XML serializer", function () {
         // @ts-expect-error - intentional error for test
         await parseXML(null);
         assert.fail("Expected error");
-      } catch (error) {
+      } catch (error: any) {
         assert.ok(
           error.message.indexOf("Document is empty") !== -1 || // Chrome
             (error.message.startsWith("XML Parsing Error: syntax error") &&
@@ -40,7 +40,7 @@ describe("XML serializer", function () {
       try {
         await parseXML("");
         assert.fail("Expected error");
-      } catch (error) {
+      } catch (error: any) {
         // ignored
       }
     });
@@ -49,7 +49,7 @@ describe("XML serializer", function () {
       try {
         await parseXML("");
         assert.fail("Hello World!");
-      } catch (error) {
+      } catch (error: any) {
         // ignored
       }
     });
@@ -157,6 +157,15 @@ describe("XML serializer", function () {
           },
           _: "yum",
         },
+      });
+    });
+
+    it("should not parse field in stop node", async function () {
+      const xml = `<NotificationDetails><NotificationBody>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;toast&gt;&lt;visual&gt;&lt;binding template="ToastText01"&gt;&lt;text id="1"&gt;Hello from a .NET App!&lt;/text&gt;&lt;/binding&gt;&lt;/visual&gt;&lt;/toast&gt;</NotificationBody></NotificationDetails>`;
+      const json = await parseXML(xml, { stopNodes: ["NotificationDetails.NotificationBody"] });
+      assert.deepStrictEqual(json, {
+        NotificationBody:
+          '<?xml version="1.0" encoding="utf-16"?><toast><visual><binding template="ToastText01"><text id="1">Hello from a .NET App!</text></binding></visual></toast>',
       });
     });
   });
@@ -323,11 +332,25 @@ describe("XML serializer", function () {
       try {
         await parseXML("INVALID", { includeRoot: true });
         throw new Error("did not throw");
-      } catch (err) {
+      } catch (err: any) {
         if (err.message === "did not throw") {
           throw err;
         }
       }
+    });
+
+    it("should not parse field in stop node", async function () {
+      const xml = `<NotificationDetails><NotificationBody>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;toast&gt;&lt;visual&gt;&lt;binding template="ToastText01"&gt;&lt;text id="1"&gt;Hello from a .NET App!&lt;/text&gt;&lt;/binding&gt;&lt;/visual&gt;&lt;/toast&gt;</NotificationBody></NotificationDetails>`;
+      const json = await parseXML(xml, {
+        includeRoot: true,
+        stopNodes: ["NotificationDetails.NotificationBody"],
+      });
+      assert.deepStrictEqual(json, {
+        NotificationDetails: {
+          NotificationBody:
+            '<?xml version="1.0" encoding="utf-16"?><toast><visual><binding template="ToastText01"><text id="1">Hello from a .NET App!</text></binding></visual></toast>',
+        },
+      });
     });
   });
 
@@ -501,6 +524,19 @@ describe("XML serializer", function () {
       );
     });
 
+    it("should handle CDATA sections with default value", function () {
+      const xml = stringifyXML(
+        {
+          BodyTemplate: { __cdata: "{Template for the body}" },
+        },
+        { cdataPropName: "__cdata", rootName: "entry" }
+      );
+      assert.deepStrictEqual(
+        xml,
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry><BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate></entry>`
+      );
+    });
+
     it("with underscore element", async function () {
       const str = "<Metadata><h>v</h><_>underscore</_></Metadata>";
       const parsed = await parseXML(str, { xmlCharKey: "#" });
@@ -553,7 +589,7 @@ describe("XML serializer", function () {
     try {
       await parseXML("INVALID");
       throw new Error("did not throw");
-    } catch (err) {
+    } catch (err: any) {
       if (err.message === "did not throw") {
         throw err;
       }

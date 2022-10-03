@@ -4,7 +4,7 @@
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
 import { credentialLogger, formatError } from "../util/logging";
-import { trace } from "../util/tracing";
+import { tracingClient } from "../util/tracing";
 import { MsalFlow } from "../msal/flows";
 import { AuthenticationRecord } from "../msal/types";
 import { MSALAuthCode } from "../msal/browserFlows/msalAuthCode";
@@ -88,13 +88,17 @@ export class InteractiveBrowserCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
-      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-      return this.msalFlow.getToken(arrayScopes, {
-        ...newOptions,
-        disableAutomaticAuthentication: this.disableAutomaticAuthentication,
-      });
-    });
+    return tracingClient.withSpan(
+      `${this.constructor.name}.getToken`,
+      options,
+      async (newOptions) => {
+        const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+        return this.msalFlow.getToken(arrayScopes, {
+          ...newOptions,
+          disableAutomaticAuthentication: this.disableAutomaticAuthentication,
+        });
+      }
+    );
   }
 
   /**
@@ -111,10 +115,14 @@ export class InteractiveBrowserCredential implements TokenCredential {
     scopes: string | string[],
     options: GetTokenOptions = {}
   ): Promise<AuthenticationRecord | undefined> {
-    return trace(`${this.constructor.name}.authenticate`, options, async (newOptions) => {
-      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-      await this.msalFlow.getToken(arrayScopes, newOptions);
-      return this.msalFlow.getActiveAccount();
-    });
+    return tracingClient.withSpan(
+      `${this.constructor.name}.authenticate`,
+      options,
+      async (newOptions) => {
+        const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+        await this.msalFlow.getToken(arrayScopes, newOptions);
+        return this.msalFlow.getActiveAccount();
+      }
+    );
   }
 }

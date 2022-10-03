@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-auth";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
-import { credentialLogger, processEnvVars, formatSuccess, formatError } from "../util/logging";
+import { credentialLogger, formatError, formatSuccess, processEnvVars } from "../util/logging";
 import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { AuthenticationError, CredentialUnavailableError } from "../errors";
 import { checkTenantId } from "../util/checkTenantId";
-import { trace } from "../util/tracing";
+import { tracingClient } from "../util/tracing";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
 
@@ -24,6 +24,7 @@ export const AllSupportedEnvironmentVariables = [
   "AZURE_CLIENT_ID",
   "AZURE_CLIENT_SECRET",
   "AZURE_CLIENT_CERTIFICATE_PATH",
+  "AZURE_CLIENT_CERTIFICATE_PASSWORD",
   "AZURE_USERNAME",
   "AZURE_PASSWORD",
 ];
@@ -56,6 +57,7 @@ export class EnvironmentCredential implements TokenCredential {
    * Environment variables used for client credential authentication:
    * - `AZURE_CLIENT_SECRET`: A client secret that was generated for the App Registration.
    * - `AZURE_CLIENT_CERTIFICATE_PATH`: The path to a PEM certificate to use during the authentication, instead of the client secret.
+   * - `AZURE_CLIENT_CERTIFICATE_PASSWORD`: (optional) password for the certificate file.
    *
    * Alternatively, users can provide environment variables for username and password authentication:
    * - `AZURE_USERNAME`: Username to authenticate with.
@@ -89,6 +91,7 @@ export class EnvironmentCredential implements TokenCredential {
     }
 
     const certificatePath = process.env.AZURE_CLIENT_CERTIFICATE_PATH;
+    const certificatePassword = process.env.AZURE_CLIENT_CERTIFICATE_PASSWORD;
     if (tenantId && clientId && certificatePath) {
       logger.info(
         `Invoking ClientCertificateCredential with tenant ID: ${tenantId}, clientId: ${clientId} and certificatePath: ${certificatePath}`
@@ -96,7 +99,7 @@ export class EnvironmentCredential implements TokenCredential {
       this._credential = new ClientCertificateCredential(
         tenantId,
         clientId,
-        { certificatePath },
+        { certificatePath, certificatePassword },
         options
       );
       return;
@@ -125,13 +128,13 @@ export class EnvironmentCredential implements TokenCredential {
    * @param options - Optional parameters. See {@link GetTokenOptions}.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    return trace(`${credentialName}.getToken`, options, async (newOptions) => {
+    return tracingClient.withSpan(`${credentialName}.getToken`, options, async (newOptions) => {
       if (this._credential) {
         try {
           const result = await this._credential.getToken(scopes, newOptions);
           logger.getToken.info(formatSuccess(scopes));
           return result;
-        } catch (err) {
+        } catch (err: any) {
           const authenticationError = new AuthenticationError(400, {
             error: `${credentialName} authentication failed. To troubleshoot, visit https://aka.ms/azsdk/js/identity/environmentcredential/troubleshoot.`,
             error_description: err.message.toString().split("More details:").join(""),

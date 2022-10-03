@@ -179,7 +179,7 @@ describe("QueueClient messageId methods", () => {
     let error;
     try {
       await queueClient.updateMessage(eResult.messageId, eResult.popReceipt, newMessage);
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
     assert.ok(error);
@@ -196,7 +196,7 @@ describe("QueueClient messageId methods", () => {
     let error;
     try {
       await queueClient.deleteMessage(eResult.messageId, "invalid");
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
     assert.ok(error);

@@ -207,10 +207,12 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -297,10 +299,12 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
       { resourceGroupName, locationName, failoverGroupName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -407,10 +411,12 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
       { resourceGroupName, locationName, failoverGroupName, options },
       failoverOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -502,10 +508,12 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
       { resourceGroupName, locationName, failoverGroupName, options },
       forceFailoverAllowDataLossOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

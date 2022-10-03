@@ -259,7 +259,7 @@ export namespace ConnectionContext {
             this.wasConnectionCloseCalled = true;
             logger.info("Closed the amqp connection '%s' on the client.", this.connectionId);
           }
-        } catch (err) {
+        } catch (err: any) {
           const errorDescription =
             err instanceof Error ? `${err.name}: ${err.message}` : JSON.stringify(err);
           logger.warning(
@@ -355,7 +355,7 @@ export namespace ConnectionContext {
             )
           );
         }
-      } catch (err) {
+      } catch (err: any) {
         logger.verbose(
           `[${connectionContext.connectionId}] An error occurred while closing the connection in 'disconnected'. %O`,
           err
@@ -364,7 +364,7 @@ export namespace ConnectionContext {
 
       try {
         await refreshConnection(connectionContext);
-      } catch (err) {
+      } catch (err: any) {
         logger.verbose(
           `[${connectionContext.connectionId}] An error occurred while refreshing the connection in 'disconnected'. %O`,
           err
@@ -441,7 +441,7 @@ export namespace ConnectionContext {
       const originalConnectionId = context.connectionId;
       try {
         await cleanConnectionContext(context);
-      } catch (err) {
+      } catch (err: any) {
         logger.verbose(
           `[${context.connectionId}] There was an error closing the connection before reconnecting: %O`,
           err

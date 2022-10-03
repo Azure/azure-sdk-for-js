@@ -12,7 +12,7 @@ import stoppable from "stoppable";
 
 import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
 import { CredentialUnavailableError } from "../../errors";
-import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
+import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { msalToPublic } from "../utils";
 
@@ -83,7 +83,7 @@ export class MsalOpenBrowser extends MsalNode {
         let url: URL;
         try {
           url = new URL(req.url, this.redirectUri);
-        } catch (e) {
+        } catch (e: any) {
           reject(
             new Error(
               `Interactive Browser Authentication Error "Did not receive token with a valid expiration"`
@@ -244,8 +244,9 @@ export class MsalOpenBrowser extends MsalNode {
     const response = await this.publicApp!.getAuthCodeUrl(authCodeUrlParameters);
 
     try {
-      await interactiveBrowserMockable.open(response, { wait: true });
-    } catch (e) {
+      // A new instance on macOS only which allows it to not hang, does not fix the issue on linux
+      await interactiveBrowserMockable.open(response, { wait: true, newInstance: true });
+    } catch (e: any) {
       throw new CredentialUnavailableError(
         `InteractiveBrowserCredential: Could not open a browser window. Error: ${e.message}`
       );

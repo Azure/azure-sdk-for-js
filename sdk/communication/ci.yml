@@ -37,6 +37,8 @@ extends:
         safeName: azurecommunicationsms
       - name: azure-communication-chat
         safeName: azurecommunicationchat
+      - name: azure-communication-email
+        safeName: azurecommunicationemail
       - name: azure-communication-identity
         safeName: azurecommunicationidentity
       - name: azure-communication-phone-numbers
@@ -45,3 +47,9 @@ extends:
         safeName: azurecommunicationnetworktraversal
       - name: azure-tools-communication-short-codes
         safeName: azuretoolscommunicationshortcodes
+      - name: azure-tools-communication-alpha-ids
+        safeName: azuretoolscommunicationalphaids
+      - name: azure-communication-rooms
+        safeName: azurecommunicationrooms
+      - name: azure-communication-job-router
+        safeName: azurecommunicationjobrouter

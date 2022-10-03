@@ -26,7 +26,7 @@
     "pack": "npm pack 2>&1",
     "perf-test:node": "npm run build && node dist-esm/test/index.spec.js",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "ts-node runAllTests.ts",
+    "unit-test:node": "npm run build && ts-node runAllTests.ts",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test:browser": "npm run clean && npm run build npm run unit-test:browser",
     "test:node": "npm run clean && npm run build && npm run unit-test:node",
@@ -62,6 +62,7 @@
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^2.0.0",
     "@azure/core-rest-pipeline": "^1.1.0",
+    "@azure/core-util": "^1.1.0",
     "tslib": "^2.2.0",
     "node-fetch": "^2.6.6",
     "minimist": "~1.2.5",
@@ -72,14 +73,14 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/node": "^12.0.0",
     "@types/node-fetch": "^2.5.0",
-    "eslint": "^7.15.0",
+    "eslint": "^8.0.0",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-env-preprocessor": "^0.1.1",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "typescript": "~4.2.0",
+    "typescript": "~4.6.0",
     "ts-node": "^8.3.0"
   }
 }

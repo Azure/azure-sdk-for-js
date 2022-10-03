@@ -97,19 +97,19 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
   async function deleteModels(): Promise<void> {
     try {
       await client.deleteModel(BUILDING_MODEL_ID);
-    } catch (Exception) {
+    } catch (Exception: any) {
       console.error("deleteModel failure during test setup or cleanup");
     }
 
     try {
       await client.deleteModel(FLOOR_MODEL_ID);
-    } catch (Exception) {
+    } catch (Exception: any) {
       console.error("deleteModel failure during test setup or cleanup");
     }
 
     try {
       await client.deleteModel(ROOM_MODEL_ID);
-    } catch (Exception) {
+    } catch (Exception: any) {
       console.error("deleteModel failure during test setup or cleanup");
     }
   }
@@ -127,17 +127,17 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
   async function deleteDigitalTwins(): Promise<void> {
     try {
       await client.deleteDigitalTwin(BUILDING_DIGITAL_TWIN_ID);
-    } catch (Exception) {
+    } catch (Exception: any) {
       console.error("deleteDigitalTwin failure during test setup or cleanup");
     }
     try {
       await client.deleteDigitalTwin(FLOOR_DIGITAL_TWIN_ID);
-    } catch (Exception) {
+    } catch (Exception: any) {
       console.error("deleteDigitalTwin failure during test setup or cleanup");
     }
     try {
       await client.deleteDigitalTwin(ROOM_DIGITAL_TWIN_ID);
-    } catch (Exception) {
+    } catch (Exception: any) {
       console.error("deleteDigitalTwin failure during test setup or cleanup");
     }
   }
@@ -214,7 +214,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(FLOOR_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {
+      } catch (Exception: any) {
         console.error("deleteRelationship failure during test setup or cleanup");
       }
       await deleteDigitalTwins();
@@ -237,13 +237,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     let errorWasThrown = false;
     try {
       await client.upsertRelationship("foo", relationshipId, relationship);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `There is no digital twin instance that exists with the ID`);
     } finally {
       try {
         await client.deleteRelationship(FLOOR_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {
+      } catch (Exception: any) {
         console.error("deleteRelationship failure during test setup or cleanup");
       }
       await deleteDigitalTwins();
@@ -267,13 +267,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     let errorWasThrown = false;
     try {
       await client.upsertRelationship(FLOOR_DIGITAL_TWIN_ID, relationshipId, relationship);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `The target digital twin is invalid or does not exist`);
     } finally {
       try {
         await client.deleteRelationship(FLOOR_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {
+      } catch (Exception: any) {
         console.error("deleteRelationship failure during test setup or cleanup");
       }
       await deleteDigitalTwins();
@@ -331,7 +331,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
           relationship,
           options
         );
-      } catch (error) {
+      } catch (error: any) {
         errorWasThrown = true;
         assert.include(error.message, `header was specified but a relationship with the id`);
       }
@@ -339,7 +339,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(FLOOR_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {
+      } catch (Exception: any) {
         console.error("deleteRelationship failure during test setup or cleanup");
       }
       await deleteDigitalTwins();
@@ -424,7 +424,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {
+      } catch (Exception: any) {
         console.error("deleteRelationship failure during test setup or cleanup");
       }
       await deleteDigitalTwins();
@@ -508,7 +508,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {
+      } catch (Exception: any) {
         console.error("deleteRelationship failure during test setup or cleanup");
       }
       await deleteDigitalTwins();
@@ -525,7 +525,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     let errorWasThrown = false;
     try {
       await client.getRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(
         error.message,
@@ -535,7 +535,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {
+      } catch (Exception: any) {
         console.error("deleteRelationship failure during test setup or cleanup");
       }
       await deleteDigitalTwins();
@@ -591,7 +591,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       let errorWasThrown = false;
       try {
         await client.getRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (error) {
+      } catch (error: any) {
         errorWasThrown = true;
         assert.include(
           error.message,
@@ -602,7 +602,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {
+      } catch (Exception: any) {
         console.error("deleteRelationship failure during test setup or cleanup");
       }
       await deleteDigitalTwins();
@@ -619,7 +619,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     let errorWasThrown = false;
     try {
       await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(
         error.message,
@@ -629,7 +629,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {
+      } catch (Exception: any) {
         console.error("deleteRelationship failure during test setup or cleanup");
       }
       await deleteDigitalTwins();
@@ -715,7 +715,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {
+      } catch (Exception: any) {
         console.error("deleteRelationship failure during test setup or cleanup");
       }
       await deleteDigitalTwins();
@@ -799,7 +799,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {
+      } catch (Exception: any) {
         console.error("deleteRelationship failure during test setup or cleanup");
       }
       await deleteDigitalTwins();
@@ -893,7 +893,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {
+      } catch (Exception: any) {
         console.error("deleteRelationship failure during test setup or cleanup");
       }
       await deleteDigitalTwins();
@@ -982,7 +982,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {
+      } catch (Exception: any) {
         console.error("deleteRelationship failure during test setup or cleanup");
       }
       await deleteDigitalTwins();
@@ -1043,7 +1043,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       let errorWasThrown = false;
       try {
         await client.updateRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId, patch1);
-      } catch (error) {
+      } catch (error: any) {
         errorWasThrown = true;
         assert.include(error.message, `Unsupported operation type move`);
         should.equal(errorWasThrown, true, "Error was not thrown");
@@ -1058,7 +1058,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       errorWasThrown = false;
       try {
         await client.updateRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId, patch2);
-      } catch (error) {
+      } catch (error: any) {
         errorWasThrown = true;
         assert.include(
           error.message,
@@ -1075,7 +1075,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       errorWasThrown = false;
       try {
         await client.updateRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId, patch3);
-      } catch (error) {
+      } catch (error: any) {
         errorWasThrown = true;
         assert.include(error.message, `Parameter op must not be empty`);
         should.equal(errorWasThrown, true, "Error was not thrown");
@@ -1085,7 +1085,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       errorWasThrown = false;
       try {
         await client.updateRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId, patch4);
-      } catch (error) {
+      } catch (error: any) {
         errorWasThrown = true;
         assert.include(error.message, `Parameter op must not be empty`);
         should.equal(errorWasThrown, true, "Error was not thrown");
@@ -1093,7 +1093,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {
+      } catch (Exception: any) {
         console.error("deleteRelationship failure during test setup or cleanup");
       }
       await deleteDigitalTwins();
@@ -1182,7 +1182,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {
+      } catch (Exception: any) {
         console.error("deleteRelationship failure during test setup or cleanup");
       }
       await deleteDigitalTwins();
@@ -1206,14 +1206,14 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
         },
       ];
       await client.updateRelationship(BUILDING_DIGITAL_TWIN_ID, "foo", patch);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `Relationship foo not found on twin`);
       should.equal(errorWasThrown, true, "Error was not thrown");
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {
+      } catch (Exception: any) {
         console.error("deleteRelationship failure during test setup or cleanup");
       }
       await deleteDigitalTwins();
@@ -1274,7 +1274,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {
+      } catch (Exception: any) {
         console.error("deleteRelationship failure during test setup or cleanup");
       }
       await deleteDigitalTwins();
@@ -1335,7 +1335,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {
+      } catch (Exception: any) {
         console.error("deleteRelationship failure during test setup or cleanup");
       }
       await deleteDigitalTwins();

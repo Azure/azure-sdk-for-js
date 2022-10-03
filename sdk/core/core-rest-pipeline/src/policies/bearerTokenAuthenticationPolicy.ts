@@ -6,6 +6,7 @@ import { AzureLogger } from "@azure/logger";
 import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { createTokenCycler } from "../util/tokenCycler";
+import { logger as coreLogger } from "../log";
 
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
@@ -136,7 +137,8 @@ function getChallenge(response: PipelineResponse): string | undefined {
 export function bearerTokenAuthenticationPolicy(
   options: BearerTokenAuthenticationPolicyOptions
 ): PipelinePolicy {
-  const { credential, scopes, challengeCallbacks, logger } = options;
+  const { credential, scopes, challengeCallbacks } = options;
+  const logger = options.logger || coreLogger;
   const callbacks = {
     authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
     authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge,
@@ -185,7 +187,7 @@ export function bearerTokenAuthenticationPolicy(
       let error: Error | undefined;
       try {
         response = await next(request);
-      } catch (err) {
+      } catch (err: any) {
         error = err;
         response = err.response;
       }

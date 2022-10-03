@@ -19,6 +19,9 @@ import {
   AccountsDeleteOptionalParams,
   AccountsGetOptionalParams,
   AccountsGetResponse,
+  AccountSasParameters,
+  AccountsListSasOptionalParams,
+  AccountsListSasResponse,
   AccountsListKeysOptionalParams,
   AccountsListKeysResponse,
   MapsKeySpecification,
@@ -95,6 +98,26 @@ export interface Accounts {
     accountName: string,
     options?: AccountsGetOptionalParams
   ): Promise<AccountsGetResponse>;
+  /**
+   * Create and list an account shared access signature token. Use this SAS token for authentication to
+   * Azure Maps REST APIs through various Azure Maps SDKs. As prerequisite to create a SAS Token.
+   *
+   * Prerequisites:
+   * 1. Create or have an existing User Assigned Managed Identity in the same Azure region as the
+   * account.
+   * 2. Create or update an Azure Map account with the same Azure region as the User Assigned Managed
+   * Identity is placed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the Maps Account.
+   * @param mapsAccountSasParameters The updated parameters for the Maps Account.
+   * @param options The options parameters.
+   */
+  listSas(
+    resourceGroupName: string,
+    accountName: string,
+    mapsAccountSasParameters: AccountSasParameters,
+    options?: AccountsListSasOptionalParams
+  ): Promise<AccountsListSasResponse>;
   /**
    * Get the keys to use with the Maps APIs. A key is used to authenticate and authorize access to the
    * Maps REST APIs. Only one key is needed at a time; two are given to provide seamless key

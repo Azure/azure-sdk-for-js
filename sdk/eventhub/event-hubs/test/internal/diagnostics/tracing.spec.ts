@@ -1,11 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { assert, MockInstrumenter, MockTracingSpan } from "@azure/test-utils";
 import {
-  instrumentEventData,
+  MockInstrumenter,
+  MockTracingSpan,
+  assert,
+  createMockTracingContext,
+} from "@azure/test-utils";
+import {
   TRACEPARENT_PROPERTY,
+  instrumentEventData,
 } from "../../../src/diagnostics/instrumentEventData";
 import { toSpanOptions, tracingClient } from "../../../src/diagnostics/tracing";
+
 import Sinon from "sinon";
 
 describe("tracing", () => {
@@ -59,7 +65,7 @@ describe("tracing", () => {
       // Setup our tracingClient to ensure we reach the happy path.
       Sinon.stub(tracingClient, "startSpan").returns({
         span: nonRecordingSpan,
-        updatedOptions: {},
+        updatedOptions: { tracingOptions: { tracingContext: createMockTracingContext() } },
       });
       const { event, spanContext } = instrumentEventData({ body: "" }, {}, "testPath", "testHost");
       assert.notExists(spanContext); // was not instrumented
@@ -75,7 +81,7 @@ describe("tracing", () => {
         // Setup our tracingClient to ensure we reach the happy path.
         Sinon.stub(tracingClient, "startSpan").returns({
           span: recordingSpan,
-          updatedOptions: {},
+          updatedOptions: { tracingOptions: { tracingContext: createMockTracingContext() } },
         });
         Sinon.stub(tracingClient, "createRequestHeaders").returns({
           traceparent: "fake-traceparent-header",

@@ -4,12 +4,10 @@
 import { EnvVarKeys, getEnvVars } from "../utils/testUtils";
 import { EnvironmentCredential, TokenCredential } from "@azure/identity";
 import { EventHubConsumerClient, EventHubProducerClient } from "../../../src";
-import { chai, assert, should as shouldFn } from "@azure/test-utils";
+import { chai, should as shouldFn } from "@azure/test-utils";
 import chaiString from "chai-string";
 import { createMockServer } from "../utils/mockService";
 import { testWithServiceTypes } from "../utils/testWithServiceTypes";
-import Sinon from "sinon";
-import { tracingClient } from "../../../src/diagnostics/tracing";
 
 chai.use(chaiString);
 const should = shouldFn();
@@ -90,43 +88,6 @@ testWithServiceTypes((serviceVersion) => {
       // Extra check involving actual call to the service to ensure this works
       const hubInfo = await client.getEventHubProperties();
       should.equal(hubInfo.name, client.eventHubName);
-    });
-
-    describe("tracing", () => {
-      it("getEventHubProperties() creates a span with a peer.address attribute as the FQNS", async () => {
-        client = new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          endpoint,
-          env.EVENTHUB_NAME,
-          credential
-        );
-        should.equal(client.fullyQualifiedNamespace, endpoint);
-
-        const withSpanStub = Sinon.spy(tracingClient, "withSpan");
-
-        // Ensure tracing is implemented correctly
-        await assert.supportsTracing(
-          (options) => client.getEventHubProperties(options),
-          ["ManagementClient.getEventHubProperties"]
-        );
-
-        // Additional validation that we created the correct initial span options
-        const expectedSpanOptions = {
-          spanAttributes: {
-            "peer.address": client.fullyQualifiedNamespace,
-            "message_bus.destination": client.eventHubName,
-          },
-        };
-
-        assert.isTrue(
-          withSpanStub.calledWith(
-            Sinon.match.any,
-            Sinon.match.any,
-            Sinon.match.any,
-            expectedSpanOptions
-          )
-        );
-      });
     });
   });
 });

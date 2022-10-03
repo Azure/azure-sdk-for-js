@@ -11,6 +11,7 @@ trigger:
       - sdk/policy/ci.mgmt.yml
       - sdk/policy/arm-policy/
       - sdk/policy/arm-policy-profile-2020-09-01-hybrid
+      - sdk/policy/arm-policy
 pr:
   branches:
     include:
@@ -25,6 +26,7 @@ pr:
       - sdk/policy/ci.mgmt.yml
       - sdk/policy/arm-policy/
       - sdk/policy/arm-policy-profile-2020-09-01-hybrid
+      - sdk/policy/arm-policy
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

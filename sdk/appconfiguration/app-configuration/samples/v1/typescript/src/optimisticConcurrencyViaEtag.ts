@@ -73,7 +73,7 @@ export async function main() {
       // the 'catch' below will now incorporate the update
       onlyIfUnchanged: true
     });
-  } catch (err) {
+  } catch (err: any) {
     if (err.statusCode === 412) {
       // precondition failed
       console.log(

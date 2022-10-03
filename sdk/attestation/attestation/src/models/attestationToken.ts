@@ -630,7 +630,7 @@ function safeJsonParse(thing: any): any {
   if (isObject(thing)) return thing;
   try {
     return JSON.parse(thing);
-  } catch (e) {
+  } catch (e: any) {
     return undefined;
   }
 }

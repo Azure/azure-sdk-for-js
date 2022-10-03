@@ -237,18 +237,6 @@ export interface DatabasesListByServerOptionalParams extends coreClient.Operatio
 export type DatabasesListByServerResponse = DatabaseListResult;
 
 // @public
-export interface DataEncryption {
-    geoBackupKeyUri?: string;
-    geoBackupUserAssignedIdentityId?: string;
-    primaryKeyUri?: string;
-    primaryUserAssignedIdentityId?: string;
-    type?: DataEncryptionType;
-}
-
-// @public
-export type DataEncryptionType = "AzureKeyVault" | "SystemManaged";
-
-// @public
 export interface DelegatedSubnetUsage {
     readonly subnetName?: string;
     readonly usage?: number;
@@ -360,16 +348,6 @@ export type HighAvailabilityMode = string;
 
 // @public
 export type HighAvailabilityState = string;
-
-// @public
-export interface Identity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type?: "UserAssigned";
-    userAssignedIdentities?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
-}
 
 // @public
 export type IsConfigPendingRestart = string;
@@ -678,7 +656,6 @@ export interface Resource {
 
 // @public
 export type Server = TrackedResource & {
-    identity?: Identity;
     sku?: Sku;
     readonly systemData?: SystemData;
     administratorLogin?: string;
@@ -690,7 +667,6 @@ export type Server = TrackedResource & {
     restorePointInTime?: Date;
     replicationRole?: ReplicationRole;
     readonly replicaCapacity?: number;
-    dataEncryption?: DataEncryption;
     readonly state?: ServerState;
     readonly fullyQualifiedDomainName?: string;
     storage?: Storage_2;
@@ -725,9 +701,7 @@ export interface ServerEditionCapability {
 export interface ServerForUpdate {
     administratorLoginPassword?: string;
     backup?: Backup;
-    dataEncryption?: DataEncryption;
     highAvailability?: HighAvailability;
-    identity?: Identity;
     maintenanceWindow?: MaintenanceWindow;
     replicationRole?: ReplicationRole;
     sku?: Sku;
@@ -917,12 +891,6 @@ export type TrackedResource = Resource & {
     };
     location: string;
 };
-
-// @public
-export interface UserAssignedIdentity {
-    readonly clientId?: string;
-    readonly principalId?: string;
-}
 
 // @public
 export interface VirtualNetworkSubnetUsageParameter {

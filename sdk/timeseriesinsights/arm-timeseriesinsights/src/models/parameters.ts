@@ -19,7 +19,8 @@ import {
   ReferenceDataSetCreateOrUpdateParameters as ReferenceDataSetCreateOrUpdateParametersMapper,
   ReferenceDataSetUpdateParameters as ReferenceDataSetUpdateParametersMapper,
   AccessPolicyCreateOrUpdateParameters as AccessPolicyCreateOrUpdateParametersMapper,
-  AccessPolicyUpdateParameters as AccessPolicyUpdateParametersMapper
+  AccessPolicyUpdateParameters as AccessPolicyUpdateParametersMapper,
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -49,7 +50,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-05-15",
+    defaultValue: "2021-03-31-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -260,4 +261,20 @@ export const accessPolicyName1: OperationURLParameter = {
 export const accessPolicyUpdateParameters: OperationParameter = {
   parameterPath: "accessPolicyUpdateParameters",
   mapper: AccessPolicyUpdateParametersMapper
+};
+
+export const privateEndpointConnection: OperationParameter = {
+  parameterPath: "privateEndpointConnection",
+  mapper: PrivateEndpointConnectionMapper
+};
+
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    serializedName: "privateEndpointConnectionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };

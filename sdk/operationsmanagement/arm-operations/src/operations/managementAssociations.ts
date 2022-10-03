@@ -50,18 +50,32 @@ export class ManagementAssociationsImpl implements ManagementAssociations {
   /**
    * Creates or updates the ManagementAssociation.
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
+   * @param providerName Provider name for the parent resource.
+   * @param resourceType Resource type for the parent resource
+   * @param resourceName Parent resource name.
    * @param managementAssociationName User ManagementAssociation Name.
    * @param parameters The parameters required to create ManagementAssociation extension.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
+    providerName: string,
+    resourceType: string,
+    resourceName: string,
     managementAssociationName: string,
     parameters: ManagementAssociation,
     options?: ManagementAssociationsCreateOrUpdateOptionalParams
   ): Promise<ManagementAssociationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, managementAssociationName, parameters, options },
+      {
+        resourceGroupName,
+        providerName,
+        resourceType,
+        resourceName,
+        managementAssociationName,
+        parameters,
+        options
+      },
       createOrUpdateOperationSpec
     );
   }
@@ -69,16 +83,29 @@ export class ManagementAssociationsImpl implements ManagementAssociations {
   /**
    * Deletes the ManagementAssociation in the subscription.
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
+   * @param providerName Provider name for the parent resource.
+   * @param resourceType Resource type for the parent resource
+   * @param resourceName Parent resource name.
    * @param managementAssociationName User ManagementAssociation Name.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
+    providerName: string,
+    resourceType: string,
+    resourceName: string,
     managementAssociationName: string,
     options?: ManagementAssociationsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, managementAssociationName, options },
+      {
+        resourceGroupName,
+        providerName,
+        resourceType,
+        resourceName,
+        managementAssociationName,
+        options
+      },
       deleteOperationSpec
     );
   }
@@ -86,16 +113,29 @@ export class ManagementAssociationsImpl implements ManagementAssociations {
   /**
    * Retrieves the user ManagementAssociation.
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
+   * @param providerName Provider name for the parent resource.
+   * @param resourceType Resource type for the parent resource
+   * @param resourceName Parent resource name.
    * @param managementAssociationName User ManagementAssociation Name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
+    providerName: string,
+    resourceType: string,
+    resourceName: string,
     managementAssociationName: string,
     options?: ManagementAssociationsGetOptionalParams
   ): Promise<ManagementAssociationsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, managementAssociationName, options },
+      {
+        resourceGroupName,
+        providerName,
+        resourceType,
+        resourceName,
+        managementAssociationName,
+        options
+      },
       getOperationSpec
     );
   }

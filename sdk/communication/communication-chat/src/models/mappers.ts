@@ -2,19 +2,19 @@
 // Licensed under the MIT license.
 
 import {
+  SerializedCommunicationIdentifier,
   deserializeCommunicationIdentifier,
   serializeCommunicationIdentifier,
-  SerializedCommunicationIdentifier,
 } from "@azure/communication-common";
 import * as RestModel from "../generated/src/models";
 import { AddParticipantsRequest } from "./requests";
 import { CreateChatThreadOptions } from "./options";
 import {
   ChatMessage,
-  ChatThreadProperties,
-  ChatParticipant,
-  ChatMessageReadReceipt,
   ChatMessageContent,
+  ChatMessageReadReceipt,
+  ChatParticipant,
+  ChatThreadProperties,
   CreateChatThreadResult,
 } from "./models";
 

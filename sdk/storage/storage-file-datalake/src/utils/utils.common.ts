@@ -2,8 +2,16 @@
 // Licensed under the MIT license.
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
+import { ContainerEncryptionScope } from "@azure/storage-blob";
+import { CpkInfo, FileSystemEncryptionScope } from "../models";
 
-import { DevelopmentConnectionString, HeaderConstants, UrlConstants } from "./constants";
+import {
+  DevelopmentConnectionString,
+  EncryptionAlgorithmAES25,
+  HeaderConstants,
+  PathStylePorts,
+  UrlConstants,
+} from "./constants";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -547,7 +555,7 @@ export function getAccountNameFromUrl(blobEndpointUrl: string): string {
     }
 
     return accountName;
-  } catch (error) {
+  } catch (error: any) {
     throw new Error("Unable to extract accountName with provided information.");
   }
 }
@@ -564,7 +572,51 @@ export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
   // Case 2: localhost(:port), use broad regex to match port part.
   // Case 3: Ipv4, use broad regex which just check if host contains Ipv4.
   // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
-  return /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
-    host
+  return (
+    /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
+      host
+    ) ||
+    (parsedUrl.getPort() !== undefined && PathStylePorts.includes(parsedUrl.getPort()!))
   );
+}
+
+/**
+ * This is to convert a Windows File Time ticks to a Date object.
+ */
+export function windowsFileTimeTicksToTime(timeNumber: string | undefined): Date | undefined {
+  if (!timeNumber) return undefined;
+  const timeNumberInternal = parseInt(timeNumber!);
+
+  if (timeNumberInternal === 0) return undefined;
+
+  // A windows file time is a 64-bit value that represents the number of 100-nanosecond intervals that have elapsed
+  // since 12:00 A.M. January 1, 1601 Coordinated Universal Time (UTC).
+  // Date accepts a value that represents miliseconds from 12:00 A.M. January 1, 1970
+  // Here should correct the year number after converting.
+  const date = new Date(timeNumberInternal / 10000);
+  date.setUTCFullYear(date.getUTCFullYear() - 369);
+  return date;
+}
+
+export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean): void {
+  if (cpk && !isHttps) {
+    throw new RangeError("Customer-provided encryption key must be used over HTTPS.");
+  }
+
+  if (cpk && !cpk.encryptionAlgorithm) {
+    cpk.encryptionAlgorithm = EncryptionAlgorithmAES25;
+  }
+}
+
+export function ToBlobContainerEncryptionScope(
+  fileSystemEncryptionScope?: FileSystemEncryptionScope
+): ContainerEncryptionScope | undefined {
+  if (!fileSystemEncryptionScope) return undefined;
+
+  if (!fileSystemEncryptionScope.defaultEncryptionScope) return undefined;
+
+  return {
+    defaultEncryptionScope: fileSystemEncryptionScope.defaultEncryptionScope,
+    preventEncryptionScopeOverride: true,
+  };
 }

@@ -67,12 +67,17 @@ export class TestCommunicationIdentityClient {
 
   public async getTokenForTeamsUserTest(
     teamsToken: string,
-    options: OperationOptions = {}
+    clientId: string,
+    userObjectId: string
   ): Promise<CommunicationAccessToken> {
     // casting is a workaround to enable min-max testing
     const client = new CommunicationIdentityClient(this.connectionString, {
       httpClient: getTokenForTeamsUserHttpClient,
     } as CommunicationIdentityClientOptions);
-    return client.getTokenForTeamsUser(teamsToken, options as any);
+    return client.getTokenForTeamsUser({
+      teamsUserAadToken: teamsToken,
+      clientId: clientId,
+      userObjectId: userObjectId,
+    });
   }
 }

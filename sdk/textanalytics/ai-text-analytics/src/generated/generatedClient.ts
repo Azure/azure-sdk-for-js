@@ -7,39 +7,42 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
-import { GeneratedClientContext } from "./generatedClientContext";
 import {
   GeneratedClientOptionalParams,
-  GeneratedClientAnalyzeOptionalParams,
-  GeneratedClientAnalyzeResponse,
-  GeneratedClientAnalyzeStatusOptionalParams,
-  GeneratedClientAnalyzeStatusResponse,
-  GeneratedClientHealthStatusOptionalParams,
-  GeneratedClientHealthStatusResponse,
-  GeneratedClientCancelHealthJobOptionalParams,
-  GeneratedClientCancelHealthJobResponse,
+  AnalyzeOptionalParams,
+  AnalyzeResponse,
+  AnalyzeStatusOptionalParams,
+  AnalyzeStatusResponse,
+  HealthStatusOptionalParams,
+  HealthStatusResponse,
+  CancelHealthJobOptionalParams,
+  CancelHealthJobResponse,
   MultiLanguageBatchInput,
-  GeneratedClientHealthOptionalParams,
-  GeneratedClientHealthResponse,
-  GeneratedClientEntitiesRecognitionGeneralOptionalParams,
-  GeneratedClientEntitiesRecognitionGeneralResponse,
-  GeneratedClientEntitiesRecognitionPiiOptionalParams,
-  GeneratedClientEntitiesRecognitionPiiResponse,
-  GeneratedClientEntitiesLinkingOptionalParams,
-  GeneratedClientEntitiesLinkingResponse,
-  GeneratedClientKeyPhrasesOptionalParams,
-  GeneratedClientKeyPhrasesResponse,
+  HealthOptionalParams,
+  HealthResponse,
+  EntitiesRecognitionGeneralOptionalParams,
+  EntitiesRecognitionGeneralResponse,
+  EntitiesRecognitionPiiOptionalParams,
+  EntitiesRecognitionPiiResponse,
+  EntitiesLinkingOptionalParams,
+  EntitiesLinkingResponse,
+  KeyPhrasesOptionalParams,
+  KeyPhrasesResponse,
   LanguageBatchInput,
-  GeneratedClientLanguagesOptionalParams,
-  GeneratedClientLanguagesResponse,
-  GeneratedClientSentimentOptionalParams,
-  GeneratedClientSentimentResponse
+  LanguagesOptionalParams,
+  LanguagesResponse,
+  SentimentOptionalParams,
+  SentimentOperationResponse
 } from "./models";
 
 /** @internal */
-export class GeneratedClient extends GeneratedClientContext {
+export class GeneratedClient extends coreClient.ServiceClient {
+  endpoint: string;
+  apiVersion: string;
+
   /**
    * Initializes a new instance of the GeneratedClient class.
    * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
@@ -47,16 +50,71 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param options The parameter options
    */
   constructor(endpoint: string, options?: GeneratedClientOptionalParams) {
-    super(endpoint, options);
+    if (endpoint === undefined) {
+      throw new Error("'endpoint' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: GeneratedClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
+
+    const packageDetails = `azsdk-js-ai-text-analytics/5.1.1`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri:
+        options.endpoint ??
+        options.baseUri ??
+        "{Endpoint}/text/analytics/{ApiVersion}"
+    };
+    super(optionsWithDefaults);
+
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
+    }
+    // Parameter assignments
+    this.endpoint = endpoint;
+
+    // Assigning values to Constant parameters
+    this.apiVersion = options.apiVersion || "v3.1";
   }
 
   /**
    * Submit a collection of text documents for analysis. Specify one or more unique tasks to be executed.
    * @param options The options parameters.
    */
-  analyze(
-    options?: GeneratedClientAnalyzeOptionalParams
-  ): Promise<GeneratedClientAnalyzeResponse> {
+  analyze(options?: AnalyzeOptionalParams): Promise<AnalyzeResponse> {
     return this.sendOperationRequest({ options }, analyzeOperationSpec);
   }
 
@@ -69,8 +127,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   analyzeStatus(
     jobId: string,
-    options?: GeneratedClientAnalyzeStatusOptionalParams
-  ): Promise<GeneratedClientAnalyzeStatusResponse> {
+    options?: AnalyzeStatusOptionalParams
+  ): Promise<AnalyzeStatusResponse> {
     return this.sendOperationRequest(
       { jobId, options },
       analyzeStatusOperationSpec
@@ -84,8 +142,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   healthStatus(
     jobId: string,
-    options?: GeneratedClientHealthStatusOptionalParams
-  ): Promise<GeneratedClientHealthStatusResponse> {
+    options?: HealthStatusOptionalParams
+  ): Promise<HealthStatusResponse> {
     return this.sendOperationRequest(
       { jobId, options },
       healthStatusOperationSpec
@@ -99,8 +157,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   cancelHealthJob(
     jobId: string,
-    options?: GeneratedClientCancelHealthJobOptionalParams
-  ): Promise<GeneratedClientCancelHealthJobResponse> {
+    options?: CancelHealthJobOptionalParams
+  ): Promise<CancelHealthJobResponse> {
     return this.sendOperationRequest(
       { jobId, options },
       cancelHealthJobOperationSpec
@@ -115,8 +173,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   health(
     input: MultiLanguageBatchInput,
-    options?: GeneratedClientHealthOptionalParams
-  ): Promise<GeneratedClientHealthResponse> {
+    options?: HealthOptionalParams
+  ): Promise<HealthResponse> {
     return this.sendOperationRequest({ input, options }, healthOperationSpec);
   }
 
@@ -130,8 +188,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   entitiesRecognitionGeneral(
     input: MultiLanguageBatchInput,
-    options?: GeneratedClientEntitiesRecognitionGeneralOptionalParams
-  ): Promise<GeneratedClientEntitiesRecognitionGeneralResponse> {
+    options?: EntitiesRecognitionGeneralOptionalParams
+  ): Promise<EntitiesRecognitionGeneralResponse> {
     return this.sendOperationRequest(
       { input, options },
       entitiesRecognitionGeneralOperationSpec
@@ -149,8 +207,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   entitiesRecognitionPii(
     input: MultiLanguageBatchInput,
-    options?: GeneratedClientEntitiesRecognitionPiiOptionalParams
-  ): Promise<GeneratedClientEntitiesRecognitionPiiResponse> {
+    options?: EntitiesRecognitionPiiOptionalParams
+  ): Promise<EntitiesRecognitionPiiResponse> {
     return this.sendOperationRequest(
       { input, options },
       entitiesRecognitionPiiOperationSpec
@@ -166,8 +224,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   entitiesLinking(
     input: MultiLanguageBatchInput,
-    options?: GeneratedClientEntitiesLinkingOptionalParams
-  ): Promise<GeneratedClientEntitiesLinkingResponse> {
+    options?: EntitiesLinkingOptionalParams
+  ): Promise<EntitiesLinkingResponse> {
     return this.sendOperationRequest(
       { input, options },
       entitiesLinkingOperationSpec
@@ -183,8 +241,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   keyPhrases(
     input: MultiLanguageBatchInput,
-    options?: GeneratedClientKeyPhrasesOptionalParams
-  ): Promise<GeneratedClientKeyPhrasesResponse> {
+    options?: KeyPhrasesOptionalParams
+  ): Promise<KeyPhrasesResponse> {
     return this.sendOperationRequest(
       { input, options },
       keyPhrasesOperationSpec
@@ -201,8 +259,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   languages(
     input: LanguageBatchInput,
-    options?: GeneratedClientLanguagesOptionalParams
-  ): Promise<GeneratedClientLanguagesResponse> {
+    options?: LanguagesOptionalParams
+  ): Promise<LanguagesResponse> {
     return this.sendOperationRequest(
       { input, options },
       languagesOperationSpec
@@ -218,8 +276,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   sentiment(
     input: MultiLanguageBatchInput,
-    options?: GeneratedClientSentimentOptionalParams
-  ): Promise<GeneratedClientSentimentResponse> {
+    options?: SentimentOptionalParams
+  ): Promise<SentimentOperationResponse> {
     return this.sendOperationRequest(
       { input, options },
       sentimentOperationSpec

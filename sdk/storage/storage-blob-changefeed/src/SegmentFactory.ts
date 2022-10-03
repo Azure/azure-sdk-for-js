@@ -89,7 +89,7 @@ export class SegmentFactory {
         }
       }
       return new Segment(shards, shardIndex, dateTime, manifestPath);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

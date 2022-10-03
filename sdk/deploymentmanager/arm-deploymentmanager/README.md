@@ -16,6 +16,8 @@ REST APIs for orchestrating deployments using the Azure Deployment Manager (ADM)
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
 - Latest versions of Safari, Chrome, Edge and Firefox.
 
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
 ### Prerequisites
 
 - An [Azure subscription][azure_sub].
@@ -49,8 +51,17 @@ For more information about how to create an Azure AD Application check out [this
 ```javascript
 const { AzureDeploymentManager } = require("@azure/arm-deploymentmanager");
 const { DefaultAzureCredential } = require("@azure/identity");
+// For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
+
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new AzureDeploymentManager(new DefaultAzureCredential(), subscriptionId);
+
+// For client-side applications running in the browser, use this code instead:
+// const credential = new InteractiveBrowserCredential({
+//   tenantId: "<YOUR_TENANT_ID>",
+//   clientId: "<YOUR_CLIENT_ID>"
+// });
+// const client = new AzureDeploymentManager(credential, subscriptionId);
 ```
 
 

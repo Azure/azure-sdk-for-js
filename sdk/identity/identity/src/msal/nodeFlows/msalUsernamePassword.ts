@@ -4,7 +4,7 @@
 import * as msalNode from "@azure/msal-node";
 import { AccessToken } from "@azure/core-auth";
 
-import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
+import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 
 /**
@@ -45,7 +45,7 @@ export class MsalUsernamePassword extends MsalNode {
       };
       const result = await this.publicApp!.acquireTokenByUsernamePassword(requestOptions);
       return this.handleResult(scopes, this.clientId, result || undefined);
-    } catch (error) {
+    } catch (error: any) {
       throw this.handleError(scopes, error, options);
     }
   }

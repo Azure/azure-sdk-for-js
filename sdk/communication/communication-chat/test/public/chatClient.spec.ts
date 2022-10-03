@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { ChatClient, ChatThreadClient } from "../../src";
-import { createTestUser, createRecorder, createChatClient } from "./utils/recordedClient";
+import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient";
 import { isNode } from "@azure/core-util";
 import sinon from "sinon";
 import { CommunicationIdentifier } from "@azure/communication-common";

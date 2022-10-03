@@ -1,0 +1,79 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem164864746952504335",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DA12527BE2594B\"",
+    "last-modified": "Wed, 30 Mar 2022 13:37:50 GMT",
+    "x-ms-client-request-id": "3b11902c-7935-41d6-80c4-23846b9a6322",
+    "x-ms-request-id": "67d945dd-a01e-0005-533b-44f0c9000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem164864746952504335/dir164864747003804559",
+   "query": {
+    "resource": "directory"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Wed, 30 Mar 2022 13:37:49 GMT",
+    "etag": "\"0x8DA12527C3244E6\"",
+    "last-modified": "Wed, 30 Mar 2022 13:37:50 GMT",
+    "x-ms-client-request-id": "6675f0c8-7327-4e7e-8727-2902dae3e304",
+    "x-ms-request-id": "db8a1fac-701f-0008-593b-44c247000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2021-06-08"
+   }
+  },
+  {
+   "method": "HEAD",
+   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem164864746952504335/dir164864747003804559",
+   "query": {},
+   "requestBody": null,
+   "status": 409,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-client-request-id": "31934349-718d-472c-984c-779041298449",
+    "x-ms-error-code": "BlobDoesNotUseCustomerSpecifiedEncryption",
+    "x-ms-request-id": "67d945e0-a01e-0005-553b-44f0c9000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem164864746952504335",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-client-request-id": "64c47f99-03e4-4622-9208-a79d23621fd2",
+    "x-ms-request-id": "67d945e2-a01e-0005-573b-44f0c9000000",
+    "x-ms-version": "2021-04-10"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "filesystem": "filesystem164864746952504335",
+   "file": "file164864747003705144",
+   "dir": "dir164864747003804559"
+  },
+  "newDate": {}
+ },
+ "hash": "f857be81bf2889fd08d737117d099f93"
+}

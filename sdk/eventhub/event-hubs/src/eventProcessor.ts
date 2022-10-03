@@ -305,7 +305,7 @@ export class EventProcessor {
       );
 
       await this._startPump(ownershipRequest.partitionId, abortSignal);
-    } catch (err) {
+    } catch (err: any) {
       logger.warning(
         `[${this.id}] Failed to claim ownership of partition ${ownershipRequest.partitionId}`
       );
@@ -384,7 +384,7 @@ export class EventProcessor {
     while (!abortSignal.aborted) {
       try {
         await this._startPump(partitionId, abortSignal);
-      } catch (err) {
+      } catch (err: any) {
         logger.warning(
           `[${this._id}] An error occured within the EventProcessor loop: ${err?.name}: ${err?.message}`
         );
@@ -437,7 +437,7 @@ export class EventProcessor {
           abortSignal: abortSignal,
         });
         await this._performLoadBalancing(loadBalancingStrategy, partitionIds, abortSignal);
-      } catch (err) {
+      } catch (err: any) {
         logger.warning(
           `[${this._id}] An error occured within the EventProcessor loop: ${err?.name}: ${err?.message}`
         );
@@ -542,7 +542,7 @@ export class EventProcessor {
             /* no-op */
           },
         });
-      } catch (errorFromUser) {
+      } catch (errorFromUser: any) {
         logger.verbose(
           `[${this._id}] An error was thrown from the user's processError handler: ${errorFromUser}`
         );
@@ -612,7 +612,7 @@ export class EventProcessor {
       if (this._loopTask) {
         await this._loopTask;
       }
-    } catch (err) {
+    } catch (err: any) {
       logger.verbose(`[${this._id}] An error occured while stopping the EventProcessor: ${err}`);
     } finally {
       logger.verbose(`[${this._id}] EventProcessor stopped.`);

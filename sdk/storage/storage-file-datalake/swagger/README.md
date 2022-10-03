@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4a93ab078fba7f087116283c8ed169f9b8e30397/specification/storage/data-plane/Microsoft.StorageDataLake/stable/2020-06-12/DataLakeStorage.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/0b1123325e02aa5515ed7641923a8f7a6c8b545a/specification/storage/data-plane/Azure.Storage.Files.DataLake/preview/2021-06-08/DataLakeStorage.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -20,7 +20,7 @@ disable-async-iterators: true
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210223.1"
-package-version: 12.8.1
+package-version: 12.11.0-beta.2
 ```
 
 ## Customizations for Track 2 Generator
@@ -323,11 +323,35 @@ directive:
       delete $["properties"]["DeleteTime"]
 ```
 
-### Update service version from "2020-06-12" to "2021-04-10"
+### Use model enum as string for EncryptionAlgorithm
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.EncryptionAlgorithm
+    transform: >
+      $["x-ms-enum"]["modelAsString"] = true;
+```
+
+### Fix EncryptionAlgorithm
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters
+    transform: >
+      delete $.EncryptionAlgorithm.enum;
+      $.EncryptionAlgorithm.enum = [
+        "None",
+        "AES256"
+      ];
+```
+
+### Update service version from "2021-06-08" to "2021-10-04"
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2021-04-10" ];
+    transform: $.enum = [ "2021-10-04" ];
 ```

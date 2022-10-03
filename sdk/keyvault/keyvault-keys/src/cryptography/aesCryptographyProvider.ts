@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import * as crypto from "crypto";
 import {
-  EncryptOptions,
-  EncryptResult,
+  AesCbcEncryptParameters,
   DecryptOptions,
   DecryptResult,
+  EncryptOptions,
+  EncryptResult,
+  JsonWebKey,
   KeyWrapAlgorithm,
-  WrapKeyOptions,
-  WrapResult,
-  UnwrapKeyOptions,
-  UnwrapResult,
   SignOptions,
   SignResult,
+  UnwrapKeyOptions,
+  UnwrapResult,
   VerifyOptions,
   VerifyResult,
-  AesCbcEncryptParameters,
-  JsonWebKey,
+  WrapKeyOptions,
+  WrapResult,
 } from "..";
 import { AesCbcDecryptParameters } from "../cryptographyClientModels";
 import {

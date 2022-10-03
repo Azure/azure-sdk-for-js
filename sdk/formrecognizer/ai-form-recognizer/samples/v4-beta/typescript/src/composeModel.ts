@@ -11,10 +11,13 @@
  * @summary create a composed model from several individual labeled models
  */
 
-import { DocumentModelAdministrationClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+import {
+  DocumentModelAdministrationClient,
+  AzureKeyCredential,
+  DocumentModelBuildMode,
+} from "@azure/ai-form-recognizer";
 
 import * as dotenv from "dotenv";
-import { DocumentModelBuildMode } from "../src/options/BuildModelOptions";
 dotenv.config();
 
 export async function main() {
@@ -41,10 +44,7 @@ export async function main() {
 
   // First, we need several models to compose, so for the sake of this example program, we will build them all using
   // training data in an Azure Storage account.
-  const trainingClient = new DocumentModelAdministrationClient(
-    endpoint,
-    new AzureKeyCredential(apiKey)
-  );
+  const client = new DocumentModelAdministrationClient(endpoint, new AzureKeyCredential(apiKey));
 
   // We'll put the last few digits of the current timestamp into the model IDs, just to make sure they're unique.
   const random = Date.now().toString();
@@ -53,7 +53,7 @@ export async function main() {
     Object.entries(purchaseOrderSasUrls)
       .map(async ([kind, sasUrl]) => {
         const modelId = kind + "ComponentModel" + random.substring(random.length - 6);
-        const poller = await trainingClient.beginBuildModel(
+        const poller = await client.beginBuildModel(
           modelId,
           sasUrl,
           DocumentModelBuildMode.Neural,
@@ -73,7 +73,7 @@ export async function main() {
   // Finally, create the composed model.
 
   const composedModelId = "purchaseOrders" + random.substring(random.length - 6);
-  const poller = await trainingClient.beginComposeModel(composedModelId, modelIds, {
+  const poller = await client.beginComposeModel(composedModelId, modelIds, {
     description:
       "A composed model that classifies purchase order documents and extracts data from them.",
     onProgress(state) {

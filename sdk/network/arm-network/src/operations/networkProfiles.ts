@@ -194,11 +194,13 @@ export class NetworkProfilesImpl implements NetworkProfiles {
       { resourceGroupName, networkProfileName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -395,7 +397,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters27,
+  requestBody: Parameters.parameters37,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

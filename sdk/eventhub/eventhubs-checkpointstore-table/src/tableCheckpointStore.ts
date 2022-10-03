@@ -107,7 +107,7 @@ export class TableCheckpointStore implements CheckpointStore {
         partitionOwnershipArray.push(partitionOwnership);
       }
       return partitionOwnershipArray;
-    } catch (err) {
+    } catch (err: any) {
       logger.warning(`Error occurred while fetching the list of entities`, err.message);
       logErrorStackTrace(err);
       if (err?.name === "AbortError") throw err;
@@ -182,7 +182,7 @@ export class TableCheckpointStore implements CheckpointStore {
           updatedOwnership.etag = newOwnershipMetadata.etag;
           partitionOwnershipArray.push(updatedOwnership);
         }
-      } catch (err) {
+      } catch (err: any) {
         if (err.statusCode === 412) {
           // etag failures (precondition not met) aren't fatal errors. They happen
           // as multiple consumers attempt to claim the same partition (first one wins)
@@ -257,7 +257,7 @@ export class TableCheckpointStore implements CheckpointStore {
       await this._tableClient.upsertEntity(checkpointEntity);
       logger.verbose(`Updated checkpoint successfully for partition: ${checkpoint.partitionId}`);
       return;
-    } catch (err) {
+    } catch (err: any) {
       logger.verbose(
         `Error occurred while upating the checkpoint for partition: ${checkpoint.partitionId}.`,
         err.message

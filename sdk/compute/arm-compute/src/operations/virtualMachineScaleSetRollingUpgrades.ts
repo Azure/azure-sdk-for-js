@@ -89,10 +89,12 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
       { resourceGroupName, vmScaleSetName, options },
       cancelOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -171,10 +173,12 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
       { resourceGroupName, vmScaleSetName, options },
       startOSUpgradeOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -255,10 +259,12 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
       { resourceGroupName, vmScaleSetName, options },
       startExtensionUpgradeOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -318,8 +324,8 @@ const cancelOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.vmScaleSetName
   ],
   headerParameters: [Parameters.accept],
@@ -341,8 +347,8 @@ const startOSUpgradeOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.vmScaleSetName
   ],
   headerParameters: [Parameters.accept],
@@ -364,8 +370,8 @@ const startExtensionUpgradeOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.vmScaleSetName
   ],
   headerParameters: [Parameters.accept],
@@ -386,8 +392,8 @@ const getLatestOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.vmScaleSetName
   ],
   headerParameters: [Parameters.accept],

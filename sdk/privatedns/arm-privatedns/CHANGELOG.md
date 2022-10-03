@@ -1,15 +1,11 @@
 # Release History
     
-## 3.0.1 (Unreleased)
+### 3.0.1 (2022-04-28)
 
-### Features Added
+**Features**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Bug fix
+  
 ## 3.0.0 (2022-01-24)
 
 The package of @azure/arm-privatedns is using our next generation design principles since version 3.0.0, which contains breaking changes.

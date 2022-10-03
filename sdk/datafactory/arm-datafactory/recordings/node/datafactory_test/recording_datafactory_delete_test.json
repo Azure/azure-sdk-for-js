@@ -1,0 +1,87 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DataFactory/factories/examplefactorytest?api-version=2018-06-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-datafactory/10.8.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "d92833ac-f84c-46ec-a098-8836735bd2c8"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "0",
+        "Date": "Wed, 07 Sep 2022 08:06:28 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "0e141cdf-0d2f-4463-a3bf-77c745b6e348",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "0e141cdf-0d2f-4463-a3bf-77c745b6e348",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220907T080629Z:0e141cdf-0d2f-4463-a3bf-77c745b6e348"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DataFactory/factories?api-version=2018-06-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-datafactory/10.8.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "d9b17e94-a488-46bc-938e-c3f7c3cbff48"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 07 Sep 2022 08:06:29 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "8d9b6170-c13e-4e6e-a0eb-bac974f30d3a",
+        "x-ms-ratelimit-remaining-subscription-reads": "11997",
+        "x-ms-request-id": "8d9b6170-c13e-4e6e-a0eb-bac974f30d3a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220907T080629Z:8d9b6170-c13e-4e6e-a0eb-bac974f30d3a"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "name": "computetest123a3fc21511",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DataFactory/factories/computetest123a3fc21511",
+            "type": "Microsoft.DataFactory/factories",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "createTime": "2022-08-08T06:51:04.7597913Z",
+              "version": "2018-06-01"
+            },
+            "eTag": "\u002202007991-0000-0100-0000-62f0b2580000\u0022",
+            "location": "eastus",
+            "identity": {
+              "type": "SystemAssigned",
+              "principalId": "2e57ae82-08c2-4f8f-96f3-a1b47787dd10",
+              "tenantId": "88888888-8888-8888-8888-888888888888"
+            },
+            "tags": {}
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

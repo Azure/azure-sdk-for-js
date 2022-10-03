@@ -11,19 +11,19 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type AacAudio = Audio_2 & {
+export interface AacAudio extends Audio_2 {
     odataType: "#Microsoft.Media.AacAudio";
     profile?: AacAudioProfile;
-};
+}
 
 // @public
 export type AacAudioProfile = string;
 
 // @public
-export type AbsoluteClipTime = ClipTime & {
+export interface AbsoluteClipTime extends ClipTime {
     odataType: "#Microsoft.Media.AbsoluteClipTime";
     time: string;
-};
+}
 
 // @public (undocumented)
 export interface AccessControl {
@@ -43,12 +43,12 @@ export interface AccountEncryption {
 export type AccountEncryptionKeyType = string;
 
 // @public
-export type AccountFilter = ProxyResource & {
-    readonly systemData?: SystemData;
-    presentationTimeRange?: PresentationTimeRange;
+export interface AccountFilter extends ProxyResource {
     firstQuality?: FirstQuality;
+    presentationTimeRange?: PresentationTimeRange;
+    readonly systemData?: SystemData;
     tracks?: FilterTrackSelection[];
-};
+}
 
 // @public
 export interface AccountFilterCollection {
@@ -123,17 +123,44 @@ export interface AkamaiSignatureHeaderAuthenticationKey {
 export type AnalysisResolution = string;
 
 // @public
-export type Asset = ProxyResource & {
-    readonly systemData?: SystemData;
-    readonly assetId?: string;
-    readonly created?: Date;
-    readonly lastModified?: Date;
+export interface ArmStreamingEndpointCapacity {
+    default?: number;
+    maximum?: number;
+    minimum?: number;
+    readonly scaleType?: string;
+}
+
+// @public
+export interface ArmStreamingEndpointCurrentSku {
+    capacity?: number;
+    readonly name?: string;
+}
+
+// @public
+export interface ArmStreamingEndpointSku {
+    readonly name?: string;
+}
+
+// @public (undocumented)
+export interface ArmStreamingEndpointSkuInfo {
+    capacity?: ArmStreamingEndpointCapacity;
+    // (undocumented)
+    resourceType?: string;
+    sku?: ArmStreamingEndpointSku;
+}
+
+// @public
+export interface Asset extends ProxyResource {
     alternateId?: string;
-    description?: string;
+    readonly assetId?: string;
     container?: string;
+    readonly created?: Date;
+    description?: string;
+    readonly lastModified?: Date;
     storageAccountName?: string;
     readonly storageEncryptionFormat?: AssetStorageEncryptionFormat;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface AssetCollection {
@@ -157,12 +184,12 @@ export interface AssetFileEncryptionMetadata {
 }
 
 // @public
-export type AssetFilter = ProxyResource & {
-    readonly systemData?: SystemData;
-    presentationTimeRange?: PresentationTimeRange;
+export interface AssetFilter extends ProxyResource {
     firstQuality?: FirstQuality;
+    presentationTimeRange?: PresentationTimeRange;
+    readonly systemData?: SystemData;
     tracks?: FilterTrackSelection[];
-};
+}
 
 // @public
 export interface AssetFilterCollection {
@@ -312,43 +339,86 @@ export interface AssetsUpdateOptionalParams extends coreClient.OperationOptions 
 export type AssetsUpdateResponse = Asset;
 
 // @public
+export interface AssetTrack extends ProxyResource {
+    readonly provisioningState?: ProvisioningState;
+    track?: TrackBaseUnion;
+}
+
+// @public
+export interface AssetTrackCollection {
+    value?: AssetTrack[];
+}
+
+// @public
+export interface AssetTrackOperationStatus {
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name: string;
+    startTime?: Date;
+    status: string;
+}
+
+// @public
+export interface AsyncOperationResult {
+    error?: ErrorDetail;
+    name?: string;
+    status?: AsyncOperationStatus;
+}
+
+// @public
+export type AsyncOperationStatus = string;
+
+// @public
 export type AttributeFilter = string;
 
 // @public
-type Audio_2 = Codec & {
-    odataType: "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio";
-    channels?: number;
-    samplingRate?: number;
+interface Audio_2 extends Codec {
     bitrate?: number;
-};
+    channels?: number;
+    odataType: "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio";
+    samplingRate?: number;
+}
 export { Audio_2 as Audio }
 
 // @public
 export type AudioAnalysisMode = string;
 
 // @public
-export type AudioAnalyzerPreset = Preset & {
-    odataType: "#Microsoft.Media.AudioAnalyzerPreset" | "#Microsoft.Media.VideoAnalyzerPreset";
+export interface AudioAnalyzerPreset extends Preset {
     audioLanguage?: string;
-    mode?: AudioAnalysisMode;
     experimentalOptions?: {
         [propertyName: string]: string;
     };
-};
+    mode?: AudioAnalysisMode;
+    odataType: "#Microsoft.Media.AudioAnalyzerPreset" | "#Microsoft.Media.VideoAnalyzerPreset";
+}
 
 // @public (undocumented)
 export type AudioAnalyzerPresetUnion = AudioAnalyzerPreset | VideoAnalyzerPreset;
 
 // @public
-export type AudioOverlay = Overlay & {
+export interface AudioOverlay extends Overlay {
     odataType: "#Microsoft.Media.AudioOverlay";
-};
+}
 
 // @public
-export type AudioTrackDescriptor = TrackDescriptor & {
-    odataType: "#Microsoft.Media.AudioTrackDescriptor" | "#Microsoft.Media.SelectAudioTrackByAttribute" | "#Microsoft.Media.SelectAudioTrackById";
+export interface AudioTrack extends TrackBase {
+    readonly bitRate?: number;
+    dashSettings?: DashSettings;
+    displayName?: string;
+    fileName?: string;
+    hlsSettings?: HlsSettings;
+    languageCode?: string;
+    mpeg4TrackId?: number;
+    odataType: "#Microsoft.Media.AudioTrack";
+}
+
+// @public
+export interface AudioTrackDescriptor extends TrackDescriptor {
     channelMapping?: ChannelMapping;
-};
+    odataType: "#Microsoft.Media.AudioTrackDescriptor" | "#Microsoft.Media.SelectAudioTrackByAttribute" | "#Microsoft.Media.SelectAudioTrackById";
+}
 
 // @public (undocumented)
 export type AudioTrackDescriptorUnion = AudioTrackDescriptor | SelectAudioTrackByAttribute | SelectAudioTrackById;
@@ -363,8 +433,6 @@ export class AzureMediaServices extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureMediaServicesOptionalParams);
     // (undocumented)
     accountFilters: AccountFilters;
-    // (undocumented)
-    apiVersion: string;
     // (undocumented)
     assetFilters: AssetFilters;
     // (undocumented)
@@ -382,7 +450,15 @@ export class AzureMediaServices extends coreClient.ServiceClient {
     // (undocumented)
     mediaservices: Mediaservices;
     // (undocumented)
+    mediaServicesOperationResults: MediaServicesOperationResults;
+    // (undocumented)
+    mediaServicesOperationStatuses: MediaServicesOperationStatuses;
+    // (undocumented)
+    operationResults: OperationResults;
+    // (undocumented)
     operations: Operations;
+    // (undocumented)
+    operationStatuses: OperationStatuses;
     // (undocumented)
     privateEndpointConnections: PrivateEndpointConnections;
     // (undocumented)
@@ -396,13 +472,14 @@ export class AzureMediaServices extends coreClient.ServiceClient {
     // (undocumented)
     subscriptionId: string;
     // (undocumented)
+    tracks: Tracks;
+    // (undocumented)
     transforms: Transforms;
 }
 
 // @public
 export interface AzureMediaServicesOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
-    apiVersion?: string;
     endpoint?: string;
 }
 
@@ -410,11 +487,11 @@ export interface AzureMediaServicesOptionalParams extends coreClient.ServiceClie
 export type BlurType = string;
 
 // @public
-export type BuiltInStandardEncoderPreset = Preset & {
-    odataType: "#Microsoft.Media.BuiltInStandardEncoderPreset";
+export interface BuiltInStandardEncoderPreset extends Preset {
     configurations?: PresetConfigurations;
+    odataType: "#Microsoft.Media.BuiltInStandardEncoderPreset";
     presetName: EncoderNamedPreset;
-};
+}
 
 // @public
 export interface CbcsDrmConfiguration {
@@ -439,6 +516,11 @@ export interface CheckNameAvailabilityInput {
 }
 
 // @public
+export interface ClearKeyEncryptionConfiguration {
+    customKeysAcquisitionUrlTemplate?: string;
+}
+
+// @public
 export interface ClipTime {
     odataType: "#Microsoft.Media.AbsoluteClipTime" | "#Microsoft.Media.UtcClipTime";
 }
@@ -457,6 +539,7 @@ export type CodecUnion = Codec | AudioUnion | VideoUnion | CopyVideo | CopyAudio
 
 // @public
 export interface CommonEncryptionCbcs {
+    clearKeyEncryptionConfiguration?: ClearKeyEncryptionConfiguration;
     clearTracks?: TrackSelection[];
     contentKeys?: StreamingPolicyContentKeys;
     drm?: CbcsDrmConfiguration;
@@ -465,6 +548,7 @@ export interface CommonEncryptionCbcs {
 
 // @public
 export interface CommonEncryptionCenc {
+    clearKeyEncryptionConfiguration?: ClearKeyEncryptionConfiguration;
     clearTracks?: TrackSelection[];
     contentKeys?: StreamingPolicyContentKeys;
     drm?: CencDrmConfiguration;
@@ -537,19 +621,19 @@ export interface ContentKeyPoliciesUpdateOptionalParams extends coreClient.Opera
 export type ContentKeyPoliciesUpdateResponse = ContentKeyPolicy;
 
 // @public
-export type ContentKeyPolicy = ProxyResource & {
-    readonly systemData?: SystemData;
-    readonly policyId?: string;
+export interface ContentKeyPolicy extends ProxyResource {
     readonly created?: Date;
-    readonly lastModified?: Date;
     description?: string;
+    readonly lastModified?: Date;
     options?: ContentKeyPolicyOption[];
-};
+    readonly policyId?: string;
+    readonly systemData?: SystemData;
+}
 
 // @public
-export type ContentKeyPolicyClearKeyConfiguration = ContentKeyPolicyConfiguration & {
+export interface ContentKeyPolicyClearKeyConfiguration extends ContentKeyPolicyConfiguration {
     odataType: "#Microsoft.Media.ContentKeyPolicyClearKeyConfiguration";
-};
+}
 
 // @public
 export interface ContentKeyPolicyCollection {
@@ -566,15 +650,15 @@ export interface ContentKeyPolicyConfiguration {
 export type ContentKeyPolicyConfigurationUnion = ContentKeyPolicyConfiguration | ContentKeyPolicyClearKeyConfiguration | ContentKeyPolicyUnknownConfiguration | ContentKeyPolicyWidevineConfiguration | ContentKeyPolicyPlayReadyConfiguration | ContentKeyPolicyFairPlayConfiguration;
 
 // @public
-export type ContentKeyPolicyFairPlayConfiguration = ContentKeyPolicyConfiguration & {
-    odataType: "#Microsoft.Media.ContentKeyPolicyFairPlayConfiguration";
+export interface ContentKeyPolicyFairPlayConfiguration extends ContentKeyPolicyConfiguration {
     ask: Uint8Array | null;
-    fairPlayPfxPassword: string | null;
     fairPlayPfx: string | null;
+    fairPlayPfxPassword: string | null;
+    odataType: "#Microsoft.Media.ContentKeyPolicyFairPlayConfiguration";
+    offlineRentalConfiguration?: ContentKeyPolicyFairPlayOfflineRentalConfiguration;
     rentalAndLeaseKeyType: ContentKeyPolicyFairPlayRentalAndLeaseKeyType;
     rentalDuration: number;
-    offlineRentalConfiguration?: ContentKeyPolicyFairPlayOfflineRentalConfiguration;
-};
+}
 
 // @public (undocumented)
 export interface ContentKeyPolicyFairPlayOfflineRentalConfiguration {
@@ -586,9 +670,9 @@ export interface ContentKeyPolicyFairPlayOfflineRentalConfiguration {
 export type ContentKeyPolicyFairPlayRentalAndLeaseKeyType = string;
 
 // @public
-export type ContentKeyPolicyOpenRestriction = ContentKeyPolicyRestriction & {
+export interface ContentKeyPolicyOpenRestriction extends ContentKeyPolicyRestriction {
     odataType: "#Microsoft.Media.ContentKeyPolicyOpenRestriction";
-};
+}
 
 // @public
 export interface ContentKeyPolicyOption {
@@ -599,22 +683,22 @@ export interface ContentKeyPolicyOption {
 }
 
 // @public
-export type ContentKeyPolicyPlayReadyConfiguration = ContentKeyPolicyConfiguration & {
-    odataType: "#Microsoft.Media.ContentKeyPolicyPlayReadyConfiguration";
+export interface ContentKeyPolicyPlayReadyConfiguration extends ContentKeyPolicyConfiguration {
     licenses: ContentKeyPolicyPlayReadyLicense[];
+    odataType: "#Microsoft.Media.ContentKeyPolicyPlayReadyConfiguration";
     responseCustomData?: string;
-};
+}
 
 // @public
-export type ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader = ContentKeyPolicyPlayReadyContentKeyLocation & {
+export interface ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader extends ContentKeyPolicyPlayReadyContentKeyLocation {
     odataType: "#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader";
-};
+}
 
 // @public
-export type ContentKeyPolicyPlayReadyContentEncryptionKeyFromKeyIdentifier = ContentKeyPolicyPlayReadyContentKeyLocation & {
-    odataType: "#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromKeyIdentifier";
+export interface ContentKeyPolicyPlayReadyContentEncryptionKeyFromKeyIdentifier extends ContentKeyPolicyPlayReadyContentKeyLocation {
     keyId: string | null;
-};
+    odataType: "#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromKeyIdentifier";
+}
 
 // @public
 export interface ContentKeyPolicyPlayReadyContentKeyLocation {
@@ -645,6 +729,7 @@ export interface ContentKeyPolicyPlayReadyLicense {
     playRight?: ContentKeyPolicyPlayReadyPlayRight;
     relativeBeginDate?: string;
     relativeExpirationDate?: string;
+    securityLevel?: SecurityLevel;
 }
 
 // @public
@@ -699,17 +784,17 @@ export type ContentKeyPolicyRestrictionTokenType = string;
 export type ContentKeyPolicyRestrictionUnion = ContentKeyPolicyRestriction | ContentKeyPolicyOpenRestriction | ContentKeyPolicyUnknownRestriction | ContentKeyPolicyTokenRestriction;
 
 // @public
-export type ContentKeyPolicyRsaTokenKey = ContentKeyPolicyRestrictionTokenKey & {
-    odataType: "#Microsoft.Media.ContentKeyPolicyRsaTokenKey";
+export interface ContentKeyPolicyRsaTokenKey extends ContentKeyPolicyRestrictionTokenKey {
     exponent: Uint8Array | null;
     modulus: Uint8Array | null;
-};
+    odataType: "#Microsoft.Media.ContentKeyPolicyRsaTokenKey";
+}
 
 // @public
-export type ContentKeyPolicySymmetricTokenKey = ContentKeyPolicyRestrictionTokenKey & {
-    odataType: "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey";
+export interface ContentKeyPolicySymmetricTokenKey extends ContentKeyPolicyRestrictionTokenKey {
     keyValue: Uint8Array | null;
-};
+    odataType: "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey";
+}
 
 // @public
 export interface ContentKeyPolicyTokenClaim {
@@ -718,48 +803,48 @@ export interface ContentKeyPolicyTokenClaim {
 }
 
 // @public
-export type ContentKeyPolicyTokenRestriction = ContentKeyPolicyRestriction & {
-    odataType: "#Microsoft.Media.ContentKeyPolicyTokenRestriction";
-    issuer: string;
-    audience: string;
-    primaryVerificationKey: ContentKeyPolicyRestrictionTokenKeyUnion;
+export interface ContentKeyPolicyTokenRestriction extends ContentKeyPolicyRestriction {
     alternateVerificationKeys?: ContentKeyPolicyRestrictionTokenKeyUnion[];
+    audience: string;
+    issuer: string;
+    odataType: "#Microsoft.Media.ContentKeyPolicyTokenRestriction";
+    openIdConnectDiscoveryDocument?: string;
+    primaryVerificationKey: ContentKeyPolicyRestrictionTokenKeyUnion | null;
     requiredClaims?: ContentKeyPolicyTokenClaim[];
     restrictionTokenType: ContentKeyPolicyRestrictionTokenType;
-    openIdConnectDiscoveryDocument?: string;
-};
+}
 
 // @public
-export type ContentKeyPolicyUnknownConfiguration = ContentKeyPolicyConfiguration & {
+export interface ContentKeyPolicyUnknownConfiguration extends ContentKeyPolicyConfiguration {
     odataType: "#Microsoft.Media.ContentKeyPolicyUnknownConfiguration";
-};
+}
 
 // @public
-export type ContentKeyPolicyUnknownRestriction = ContentKeyPolicyRestriction & {
+export interface ContentKeyPolicyUnknownRestriction extends ContentKeyPolicyRestriction {
     odataType: "#Microsoft.Media.ContentKeyPolicyUnknownRestriction";
-};
+}
 
 // @public
-export type ContentKeyPolicyWidevineConfiguration = ContentKeyPolicyConfiguration & {
+export interface ContentKeyPolicyWidevineConfiguration extends ContentKeyPolicyConfiguration {
     odataType: "#Microsoft.Media.ContentKeyPolicyWidevineConfiguration";
     widevineTemplate: string;
-};
+}
 
 // @public
-export type ContentKeyPolicyX509CertificateTokenKey = ContentKeyPolicyRestrictionTokenKey & {
+export interface ContentKeyPolicyX509CertificateTokenKey extends ContentKeyPolicyRestrictionTokenKey {
     odataType: "#Microsoft.Media.ContentKeyPolicyX509CertificateTokenKey";
     rawBody: Uint8Array | null;
-};
+}
 
 // @public
-export type CopyAudio = Codec & {
+export interface CopyAudio extends Codec {
     odataType: "#Microsoft.Media.CopyAudio";
-};
+}
 
 // @public
-export type CopyVideo = Codec & {
+export interface CopyVideo extends Codec {
     odataType: "#Microsoft.Media.CopyVideo";
-};
+}
 
 // @public
 export type CreatedByType = string;
@@ -768,6 +853,11 @@ export type CreatedByType = string;
 export interface CrossSiteAccessPolicies {
     clientAccessPolicy?: string;
     crossDomainPolicy?: string;
+}
+
+// @public
+export interface DashSettings {
+    role?: string;
 }
 
 // @public
@@ -865,15 +955,15 @@ export interface ErrorResponse {
 }
 
 // @public
-export type FaceDetectorPreset = Preset & {
-    odataType: "#Microsoft.Media.FaceDetectorPreset";
-    resolution?: AnalysisResolution;
-    mode?: FaceRedactorMode;
+export interface FaceDetectorPreset extends Preset {
     blurType?: BlurType;
     experimentalOptions?: {
         [propertyName: string]: string;
     };
-};
+    mode?: FaceRedactorMode;
+    odataType: "#Microsoft.Media.FaceDetectorPreset";
+    resolution?: AnalysisResolution;
+}
 
 // @public
 export type FaceRedactorMode = string;
@@ -919,35 +1009,39 @@ export interface Format {
 export type FormatUnion = Format | ImageFormatUnion | MultiBitrateFormatUnion;
 
 // @public
-export type FromAllInputFile = InputDefinition & {
+export interface FromAllInputFile extends InputDefinition {
     odataType: "#Microsoft.Media.FromAllInputFile";
-};
+}
 
 // @public
-export type FromEachInputFile = InputDefinition & {
+export interface FromEachInputFile extends InputDefinition {
     odataType: "#Microsoft.Media.FromEachInputFile";
-};
+}
 
 // @public
 export type H264Complexity = string;
 
 // @public
-export type H264Layer = VideoLayer & {
-    odataType: "#Microsoft.Media.H264Layer";
-    profile?: H264VideoProfile;
-    level?: string;
+export interface H264Layer extends VideoLayer {
     bufferWindow?: string;
-    referenceFrames?: number;
+    crf?: number;
     entropyMode?: EntropyMode;
-};
+    level?: string;
+    profile?: H264VideoProfile;
+    referenceFrames?: number;
+}
 
 // @public
-export type H264Video = Video & {
-    odataType: "#Microsoft.Media.H264Video";
-    sceneChangeDetection?: boolean;
+export type H264RateControlMode = string;
+
+// @public
+export interface H264Video extends Video {
     complexity?: H264Complexity;
     layers?: H264Layer[];
-};
+    odataType: "#Microsoft.Media.H264Video";
+    rateControlMode?: H264RateControlMode;
+    sceneChangeDetection?: boolean;
+}
 
 // @public
 export type H264VideoProfile = string;
@@ -956,35 +1050,31 @@ export type H264VideoProfile = string;
 export type H265Complexity = string;
 
 // @public
-export type H265Layer = H265VideoLayer & {
-    odataType: "#Microsoft.Media.H265Layer";
-    profile?: H265VideoProfile;
-    level?: string;
+export interface H265Layer extends H265VideoLayer {
     bufferWindow?: string;
+    crf?: number;
+    level?: string;
+    profile?: H265VideoProfile;
     referenceFrames?: number;
-};
+}
 
 // @public
-export type H265Video = Video & {
-    odataType: "#Microsoft.Media.H265Video";
-    sceneChangeDetection?: boolean;
+export interface H265Video extends Video {
     complexity?: H265Complexity;
     layers?: H265Layer[];
-};
+    odataType: "#Microsoft.Media.H265Video";
+    sceneChangeDetection?: boolean;
+}
 
 // @public
-export type H265VideoLayer = Layer & {
-    odataType: "#Microsoft.Media.H265VideoLayer" | "#Microsoft.Media.H265Layer";
-    bitrate: number;
-    maxBitrate?: number;
-    bFrames?: number;
-    frameRate?: string;
-    slices?: number;
+export interface H265VideoLayer extends Layer {
     adaptiveBFrame?: boolean;
-};
-
-// @public (undocumented)
-export type H265VideoLayerUnion = H265VideoLayer | H265Layer;
+    bFrames?: number;
+    bitrate: number;
+    frameRate?: string;
+    maxBitrate?: number;
+    slices?: number;
+}
 
 // @public
 export type H265VideoProfile = string;
@@ -995,18 +1085,25 @@ export interface Hls {
 }
 
 // @public
-type Image_2 = Video & {
+export interface HlsSettings {
+    characteristics?: string;
+    default?: boolean;
+    forced?: boolean;
+}
+
+// @public
+interface Image_2 extends Video {
     odataType: "#Microsoft.Media.Image" | "#Microsoft.Media.JpgImage" | "#Microsoft.Media.PngImage";
+    range?: string;
     start: string;
     step?: string;
-    range?: string;
-};
+}
 export { Image_2 as Image }
 
 // @public
-export type ImageFormat = Format & {
+export interface ImageFormat extends Format {
     odataType: "#Microsoft.Media.ImageFormat" | "#Microsoft.Media.JpgFormat" | "#Microsoft.Media.PngFormat";
-};
+}
 
 // @public (undocumented)
 export type ImageFormatUnion = ImageFormat | JpgFormat | PngFormat;
@@ -1024,10 +1121,10 @@ export interface InputDefinition {
 export type InputDefinitionUnion = InputDefinition | FromAllInputFile | FromEachInputFile | InputFile;
 
 // @public
-export type InputFile = InputDefinition & {
-    odataType: "#Microsoft.Media.InputFile";
+export interface InputFile extends InputDefinition {
     filename?: string;
-};
+    odataType: "#Microsoft.Media.InputFile";
+}
 
 // @public
 export type InsightsType = string;
@@ -1048,21 +1145,21 @@ export interface IPRange {
 }
 
 // @public
-export type Job = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface Job extends ProxyResource {
+    correlationData?: {
+        [propertyName: string]: string;
+    };
     readonly created?: Date;
-    readonly state?: JobState;
     description?: string;
+    readonly endTime?: Date;
     input?: JobInputUnion;
     readonly lastModified?: Date;
     outputs?: JobOutputUnion[];
     priority?: Priority;
-    correlationData?: {
-        [propertyName: string]: string;
-    };
     readonly startTime?: Date;
-    readonly endTime?: Date;
-};
+    readonly state?: JobState;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface JobCollection {
@@ -1097,41 +1194,41 @@ export interface JobInput {
 }
 
 // @public
-export type JobInputAsset = JobInputClip & {
-    odataType: "#Microsoft.Media.JobInputAsset";
+export interface JobInputAsset extends JobInputClip {
     assetName: string;
-};
+    odataType: "#Microsoft.Media.JobInputAsset";
+}
 
 // @public
-export type JobInputClip = JobInput & {
-    odataType: "#Microsoft.Media.JobInputClip" | "#Microsoft.Media.JobInputAsset" | "#Microsoft.Media.JobInputHttp";
-    files?: string[];
-    start?: ClipTimeUnion;
+export interface JobInputClip extends JobInput {
     end?: ClipTimeUnion;
-    label?: string;
+    files?: string[];
     inputDefinitions?: InputDefinitionUnion[];
-};
+    label?: string;
+    odataType: "#Microsoft.Media.JobInputClip" | "#Microsoft.Media.JobInputAsset" | "#Microsoft.Media.JobInputHttp";
+    start?: ClipTimeUnion;
+}
 
 // @public (undocumented)
 export type JobInputClipUnion = JobInputClip | JobInputAsset | JobInputHttp;
 
 // @public
-export type JobInputHttp = JobInputClip & {
-    odataType: "#Microsoft.Media.JobInputHttp";
+export interface JobInputHttp extends JobInputClip {
     baseUri?: string;
-};
+    odataType: "#Microsoft.Media.JobInputHttp";
+}
 
 // @public
-export type JobInputs = JobInput & {
-    odataType: "#Microsoft.Media.JobInputs";
+export interface JobInputs extends JobInput {
     inputs?: JobInputUnion[];
-};
+    odataType: "#Microsoft.Media.JobInputs";
+}
 
 // @public
-export type JobInputSequence = JobInput & {
-    odataType: "#Microsoft.Media.JobInputSequence";
+export interface JobInputSequence extends JobInput {
     inputs?: JobInputClipUnion[];
-};
+    odataType: "#Microsoft.Media.JobInputSequence";
+}
 
 // @public (undocumented)
 export type JobInputUnion = JobInput | JobInputClipUnion | JobInputs | JobInputSequence;
@@ -1149,10 +1246,10 @@ export interface JobOutput {
 }
 
 // @public
-export type JobOutputAsset = JobOutput & {
-    odataType: "#Microsoft.Media.JobOutputAsset";
+export interface JobOutputAsset extends JobOutput {
     assetName: string;
-};
+    odataType: "#Microsoft.Media.JobOutputAsset";
+}
 
 // @public (undocumented)
 export type JobOutputUnion = JobOutput | JobOutputAsset;
@@ -1221,22 +1318,21 @@ export interface JobsUpdateOptionalParams extends coreClient.OperationOptions {
 export type JobsUpdateResponse = Job;
 
 // @public
-export type JpgFormat = ImageFormat & {
+export interface JpgFormat extends ImageFormat {
     odataType: "#Microsoft.Media.JpgFormat";
-};
+}
 
 // @public
-export type JpgImage = Image_2 & {
-    odataType: "#Microsoft.Media.JpgImage";
+export interface JpgImage extends Image_2 {
     layers?: JpgLayer[];
+    odataType: "#Microsoft.Media.JpgImage";
     spriteColumn?: number;
-};
+}
 
 // @public
-export type JpgLayer = Layer & {
-    odataType: "#Microsoft.Media.JpgLayer";
+export interface JpgLayer extends Layer {
     quality?: number;
-};
+}
 
 // @public (undocumented)
 export interface KeyDelivery {
@@ -1269,9 +1365,7 @@ export enum KnownActionType {
 
 // @public
 export enum KnownAnalysisResolution {
-    // (undocumented)
     SourceResolution = "SourceResolution",
-    // (undocumented)
     StandardDefinition = "StandardDefinition"
 }
 
@@ -1286,6 +1380,13 @@ export enum KnownAssetContainerPermission {
 export enum KnownAssetStorageEncryptionFormat {
     MediaStorageClientEncryption = "MediaStorageClientEncryption",
     None = "None"
+}
+
+// @public
+export enum KnownAsyncOperationStatus {
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -1371,13 +1472,9 @@ export enum KnownContentKeyPolicyRestrictionTokenType {
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
@@ -1465,6 +1562,13 @@ export enum KnownH264Complexity {
 }
 
 // @public
+export enum KnownH264RateControlMode {
+    ABR = "ABR",
+    CBR = "CBR",
+    CRF = "CRF"
+}
+
+// @public
 export enum KnownH264VideoProfile {
     Auto = "Auto",
     Baseline = "Baseline",
@@ -1484,7 +1588,8 @@ export enum KnownH265Complexity {
 // @public
 export enum KnownH265VideoProfile {
     Auto = "Auto",
-    Main = "Main"
+    Main = "Main",
+    Main10 = "Main10"
 }
 
 // @public
@@ -1601,24 +1706,24 @@ export enum KnownPriority {
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
+}
+
+// @public
+export enum KnownProvisioningState {
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -1635,6 +1740,14 @@ export enum KnownRotation {
     Rotate180 = "Rotate180",
     Rotate270 = "Rotate270",
     Rotate90 = "Rotate90"
+}
+
+// @public
+export enum KnownSecurityLevel {
+    SL150 = "SL150",
+    SL2000 = "SL2000",
+    SL3000 = "SL3000",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -1677,7 +1790,8 @@ export enum KnownStreamingPolicyStreamingProtocol {
 // @public
 export enum KnownStreamOptionsFlag {
     Default = "Default",
-    LowLatency = "LowLatency"
+    LowLatency = "LowLatency",
+    LowLatencyV2 = "LowLatencyV2"
 }
 
 // @public
@@ -1714,15 +1828,17 @@ export enum KnownVideoSyncMode {
 }
 
 // @public
+export enum KnownVisibility {
+    Hidden = "Hidden",
+    Visible = "Visible"
+}
+
+// @public
 export interface Layer {
     height?: string;
     label?: string;
-    odataType: "#Microsoft.Media.H265VideoLayer" | "#Microsoft.Media.H265Layer" | "#Microsoft.Media.VideoLayer" | "#Microsoft.Media.H264Layer" | "#Microsoft.Media.JpgLayer" | "#Microsoft.Media.PngLayer";
     width?: string;
 }
-
-// @public (undocumented)
-export type LayerUnion = Layer | H265VideoLayerUnion | VideoLayerUnion | JpgLayer | PngLayer;
 
 // @public
 export interface ListContainerSasInput {
@@ -1752,22 +1868,22 @@ export interface ListStreamingLocatorsResponse {
 }
 
 // @public
-export type LiveEvent = TrackedResource & {
-    readonly systemData?: SystemData;
+export interface LiveEvent extends TrackedResource {
+    readonly created?: Date;
+    crossSiteAccessPolicies?: CrossSiteAccessPolicies;
     description?: string;
-    input?: LiveEventInput;
-    preview?: LiveEventPreview;
     encoding?: LiveEventEncoding;
-    transcriptions?: LiveEventTranscription[];
+    hostnamePrefix?: string;
+    input?: LiveEventInput;
+    readonly lastModified?: Date;
+    preview?: LiveEventPreview;
     readonly provisioningState?: string;
     readonly resourceState?: LiveEventResourceState;
-    crossSiteAccessPolicies?: CrossSiteAccessPolicies;
-    useStaticHostname?: boolean;
-    hostnamePrefix?: string;
     streamOptions?: StreamOptionsFlag[];
-    readonly created?: Date;
-    readonly lastModified?: Date;
-};
+    readonly systemData?: SystemData;
+    transcriptions?: LiveEventTranscription[];
+    useStaticHostname?: boolean;
+}
 
 // @public
 export interface LiveEventActionInput {
@@ -1846,6 +1962,7 @@ export type LiveEventResourceState = string;
 
 // @public
 export interface LiveEvents {
+    asyncOperation(resourceGroupName: string, accountName: string, operationId: string, options?: LiveEventsAsyncOperationOptionalParams): Promise<LiveEventsAsyncOperationResponse>;
     beginAllocate(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsAllocateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginAllocateAndWait(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsAllocateOptionalParams): Promise<void>;
     beginCreate(resourceGroupName: string, accountName: string, liveEventName: string, parameters: LiveEvent, options?: LiveEventsCreateOptionalParams): Promise<PollerLike<PollOperationState<LiveEventsCreateResponse>, LiveEventsCreateResponse>>;
@@ -1862,6 +1979,7 @@ export interface LiveEvents {
     beginUpdateAndWait(resourceGroupName: string, accountName: string, liveEventName: string, parameters: LiveEvent, options?: LiveEventsUpdateOptionalParams): Promise<LiveEventsUpdateResponse>;
     get(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsGetOptionalParams): Promise<LiveEventsGetResponse>;
     list(resourceGroupName: string, accountName: string, options?: LiveEventsListOptionalParams): PagedAsyncIterableIterator<LiveEvent>;
+    operationLocation(resourceGroupName: string, accountName: string, liveEventName: string, operationId: string, options?: LiveEventsOperationLocationOptionalParams): Promise<LiveEventsOperationLocationResponse>;
 }
 
 // @public
@@ -1869,6 +1987,13 @@ export interface LiveEventsAllocateOptionalParams extends coreClient.OperationOp
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface LiveEventsAsyncOperationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LiveEventsAsyncOperationResponse = AsyncOperationResult;
 
 // @public
 export interface LiveEventsCreateOptionalParams extends coreClient.OperationOptions {
@@ -1908,6 +2033,13 @@ export interface LiveEventsListOptionalParams extends coreClient.OperationOption
 export type LiveEventsListResponse = LiveEventListResult;
 
 // @public
+export interface LiveEventsOperationLocationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LiveEventsOperationLocationResponse = LiveEvent;
+
+// @public
 export interface LiveEventsResetOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1942,19 +2074,20 @@ export interface LiveEventTranscription {
 }
 
 // @public
-export type LiveOutput = ProxyResource & {
-    readonly systemData?: SystemData;
-    description?: string;
-    assetName?: string;
+export interface LiveOutput extends ProxyResource {
     archiveWindowLength?: string;
-    manifestName?: string;
-    hls?: Hls;
-    outputSnapTime?: number;
+    assetName?: string;
     readonly created?: Date;
+    description?: string;
+    hls?: Hls;
     readonly lastModified?: Date;
+    manifestName?: string;
+    outputSnapTime?: number;
     readonly provisioningState?: string;
     readonly resourceState?: LiveOutputResourceState;
-};
+    rewindWindowLength?: string;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface LiveOutputListResult {
@@ -1968,13 +2101,22 @@ export type LiveOutputResourceState = string;
 
 // @public
 export interface LiveOutputs {
+    asyncOperation(resourceGroupName: string, accountName: string, operationId: string, options?: LiveOutputsAsyncOperationOptionalParams): Promise<LiveOutputsAsyncOperationResponse>;
     beginCreate(resourceGroupName: string, accountName: string, liveEventName: string, liveOutputName: string, parameters: LiveOutput, options?: LiveOutputsCreateOptionalParams): Promise<PollerLike<PollOperationState<LiveOutputsCreateResponse>, LiveOutputsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, accountName: string, liveEventName: string, liveOutputName: string, parameters: LiveOutput, options?: LiveOutputsCreateOptionalParams): Promise<LiveOutputsCreateResponse>;
     beginDelete(resourceGroupName: string, accountName: string, liveEventName: string, liveOutputName: string, options?: LiveOutputsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, liveEventName: string, liveOutputName: string, options?: LiveOutputsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, accountName: string, liveEventName: string, liveOutputName: string, options?: LiveOutputsGetOptionalParams): Promise<LiveOutputsGetResponse>;
     list(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveOutputsListOptionalParams): PagedAsyncIterableIterator<LiveOutput>;
+    operationLocation(resourceGroupName: string, accountName: string, liveEventName: string, liveOutputName: string, operationId: string, options?: LiveOutputsOperationLocationOptionalParams): Promise<LiveOutputsOperationLocationResponse>;
 }
+
+// @public
+export interface LiveOutputsAsyncOperationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LiveOutputsAsyncOperationResponse = AsyncOperationResult;
 
 // @public
 export interface LiveOutputsCreateOptionalParams extends coreClient.OperationOptions {
@@ -2013,6 +2155,13 @@ export interface LiveOutputsListOptionalParams extends coreClient.OperationOptio
 export type LiveOutputsListResponse = LiveOutputListResult;
 
 // @public
+export interface LiveOutputsOperationLocationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LiveOutputsOperationLocationResponse = LiveOutput;
+
+// @public
 export interface Locations {
     checkNameAvailability(locationName: string, parameters: CheckNameAvailabilityInput, options?: LocationsCheckNameAvailabilityOptionalParams): Promise<LocationsCheckNameAvailabilityResponse>;
 }
@@ -2032,16 +2181,19 @@ export interface LogSpecification {
 }
 
 // @public
-export type MediaService = TrackedResource & {
-    identity?: MediaServiceIdentity;
-    readonly systemData?: SystemData;
-    readonly mediaServiceId?: string;
-    storageAccounts?: StorageAccount[];
-    storageAuthentication?: StorageAuthentication;
+export interface MediaService extends TrackedResource {
     encryption?: AccountEncryption;
+    identity?: MediaServiceIdentity;
     keyDelivery?: KeyDelivery;
+    readonly mediaServiceId?: string;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
-};
+    storageAccounts?: StorageAccount[];
+    // (undocumented)
+    storageAuthentication?: StorageAuthentication;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface MediaServiceCollection {
@@ -2060,23 +2212,44 @@ export interface MediaServiceIdentity {
 }
 
 // @public
+export interface MediaServiceOperationStatus {
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name: string;
+    startTime?: Date;
+    status: string;
+}
+
+// @public
 export interface Mediaservices {
-    createOrUpdate(resourceGroupName: string, accountName: string, parameters: MediaService, options?: MediaservicesCreateOrUpdateOptionalParams): Promise<MediaservicesCreateOrUpdateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, accountName: string, parameters: MediaService, options?: MediaservicesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<MediaservicesCreateOrUpdateResponse>, MediaservicesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, parameters: MediaService, options?: MediaservicesCreateOrUpdateOptionalParams): Promise<MediaservicesCreateOrUpdateResponse>;
+    beginUpdate(resourceGroupName: string, accountName: string, parameters: MediaServiceUpdate, options?: MediaservicesUpdateOptionalParams): Promise<PollerLike<PollOperationState<MediaservicesUpdateResponse>, MediaservicesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, accountName: string, parameters: MediaServiceUpdate, options?: MediaservicesUpdateOptionalParams): Promise<MediaservicesUpdateResponse>;
     delete(resourceGroupName: string, accountName: string, options?: MediaservicesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, accountName: string, options?: MediaservicesGetOptionalParams): Promise<MediaservicesGetResponse>;
     list(resourceGroupName: string, options?: MediaservicesListOptionalParams): PagedAsyncIterableIterator<MediaService>;
     listBySubscription(options?: MediaservicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<MediaService>;
     listEdgePolicies(resourceGroupName: string, accountName: string, parameters: ListEdgePoliciesInput, options?: MediaservicesListEdgePoliciesOptionalParams): Promise<MediaservicesListEdgePoliciesResponse>;
     syncStorageKeys(resourceGroupName: string, accountName: string, parameters: SyncStorageKeysInput, options?: MediaservicesSyncStorageKeysOptionalParams): Promise<void>;
-    update(resourceGroupName: string, accountName: string, parameters: MediaServiceUpdate, options?: MediaservicesUpdateOptionalParams): Promise<MediaservicesUpdateResponse>;
+}
+
+// @public
+export interface MediaservicesCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
 export interface MediaservicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type MediaservicesCreateOrUpdateResponse = MediaService;
+export type MediaservicesCreateOrUpdateResponse = MediaservicesCreateOrUpdateHeaders & MediaService;
 
 // @public
 export interface MediaservicesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -2125,15 +2298,55 @@ export interface MediaservicesListOptionalParams extends coreClient.OperationOpt
 export type MediaservicesListResponse = MediaServiceCollection;
 
 // @public
+export interface MediaServicesOperationResults {
+    get(locationName: string, operationId: string, options?: MediaServicesOperationResultsGetOptionalParams): Promise<MediaServicesOperationResultsGetResponse>;
+}
+
+// @public
+export interface MediaServicesOperationResultsGetHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface MediaServicesOperationResultsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MediaServicesOperationResultsGetResponse = MediaService;
+
+// @public
+export interface MediaServicesOperationStatuses {
+    get(locationName: string, operationId: string, options?: MediaServicesOperationStatusesGetOptionalParams): Promise<MediaServicesOperationStatusesGetResponse>;
+}
+
+// @public
+export interface MediaServicesOperationStatusesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MediaServicesOperationStatusesGetResponse = MediaServiceOperationStatus;
+
+// @public
 export interface MediaservicesSyncStorageKeysOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface MediaservicesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface MediaservicesUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
-export type MediaservicesUpdateResponse = MediaService;
+export interface MediaservicesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MediaservicesUpdateResponse = MediaservicesUpdateHeaders & MediaService;
 
 // @public
 export interface MediaServiceUpdate {
@@ -2141,6 +2354,8 @@ export interface MediaServiceUpdate {
     identity?: MediaServiceIdentity;
     keyDelivery?: KeyDelivery;
     readonly mediaServiceId?: string;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
     storageAccounts?: StorageAccount[];
     // (undocumented)
@@ -2180,15 +2395,15 @@ export interface MetricSpecification {
 export type MetricUnit = string;
 
 // @public
-export type Mp4Format = MultiBitrateFormat & {
+export interface Mp4Format extends MultiBitrateFormat {
     odataType: "#Microsoft.Media.Mp4Format";
-};
+}
 
 // @public
-export type MultiBitrateFormat = Format & {
+export interface MultiBitrateFormat extends Format {
     odataType: "#Microsoft.Media.MultiBitrateFormat" | "#Microsoft.Media.Mp4Format" | "#Microsoft.Media.TransportStreamFormat";
     outputFiles?: OutputFile[];
-};
+}
 
 // @public (undocumented)
 export type MultiBitrateFormatUnion = MultiBitrateFormat | Mp4Format | TransportStreamFormat;
@@ -2225,6 +2440,25 @@ export interface OperationDisplay {
 }
 
 // @public
+export interface OperationResults {
+    get(resourceGroupName: string, accountName: string, assetName: string, trackName: string, operationId: string, options?: OperationResultsGetOptionalParams): Promise<OperationResultsGetResponse>;
+}
+
+// @public
+export interface OperationResultsGetHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface OperationResultsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationResultsGetResponse = AssetTrack;
+
+// @public
 export interface Operations {
     list(options?: OperationsListOptionalParams): Promise<OperationsListResponse>;
 }
@@ -2235,6 +2469,18 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 
 // @public
 export type OperationsListResponse = OperationCollection;
+
+// @public
+export interface OperationStatuses {
+    get(resourceGroupName: string, accountName: string, assetName: string, trackName: string, operationId: string, options?: OperationStatusesGetOptionalParams): Promise<OperationStatusesGetResponse>;
+}
+
+// @public
+export interface OperationStatusesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationStatusesGetResponse = AssetTrackOperationStatus;
 
 // @public
 export interface OutputFile {
@@ -2256,20 +2502,19 @@ export interface Overlay {
 export type OverlayUnion = Overlay | AudioOverlay | VideoOverlay;
 
 // @public
-export type PngFormat = ImageFormat & {
+export interface PngFormat extends ImageFormat {
     odataType: "#Microsoft.Media.PngFormat";
-};
+}
 
 // @public
-export type PngImage = Image_2 & {
-    odataType: "#Microsoft.Media.PngImage";
+export interface PngImage extends Image_2 {
     layers?: PngLayer[];
-};
+    odataType: "#Microsoft.Media.PngImage";
+}
 
 // @public
-export type PngLayer = Layer & {
-    odataType: "#Microsoft.Media.PngLayer";
-};
+export interface PngLayer extends Layer {
+}
 
 // @public
 export interface PresentationTimeRange {
@@ -2310,11 +2555,11 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -2361,11 +2606,11 @@ export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionLi
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
-};
+}
 
 // @public
 export interface PrivateLinkResourceListResult {
@@ -2405,7 +2650,11 @@ export interface Properties {
 }
 
 // @public
-export type ProxyResource = Resource & {};
+export type ProvisioningState = string;
+
+// @public
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type PublicNetworkAccess = string;
@@ -2435,32 +2684,35 @@ export interface ResourceIdentity {
 export type Rotation = string;
 
 // @public
-export type SelectAudioTrackByAttribute = AudioTrackDescriptor & {
-    odataType: "#Microsoft.Media.SelectAudioTrackByAttribute";
+export type SecurityLevel = string;
+
+// @public
+export interface SelectAudioTrackByAttribute extends AudioTrackDescriptor {
     attribute: TrackAttribute;
     filter: AttributeFilter;
     filterValue?: string;
-};
+    odataType: "#Microsoft.Media.SelectAudioTrackByAttribute";
+}
 
 // @public
-export type SelectAudioTrackById = AudioTrackDescriptor & {
+export interface SelectAudioTrackById extends AudioTrackDescriptor {
     odataType: "#Microsoft.Media.SelectAudioTrackById";
     trackId: number;
-};
+}
 
 // @public
-export type SelectVideoTrackByAttribute = VideoTrackDescriptor & {
-    odataType: "#Microsoft.Media.SelectVideoTrackByAttribute";
+export interface SelectVideoTrackByAttribute extends VideoTrackDescriptor {
     attribute: TrackAttribute;
     filter: AttributeFilter;
     filterValue?: string;
-};
+    odataType: "#Microsoft.Media.SelectVideoTrackByAttribute";
+}
 
 // @public
-export type SelectVideoTrackById = VideoTrackDescriptor & {
+export interface SelectVideoTrackById extends VideoTrackDescriptor {
     odataType: "#Microsoft.Media.SelectVideoTrackById";
     trackId: number;
-};
+}
 
 // @public
 export interface ServiceSpecification {
@@ -2469,12 +2721,12 @@ export interface ServiceSpecification {
 }
 
 // @public
-export type StandardEncoderPreset = Preset & {
-    odataType: "#Microsoft.Media.StandardEncoderPreset";
-    filters?: Filters;
+export interface StandardEncoderPreset extends Preset {
     codecs: CodecUnion[];
+    filters?: Filters;
     formats: FormatUnion[];
-};
+    odataType: "#Microsoft.Media.StandardEncoderPreset";
+}
 
 // @public
 export interface StorageAccount {
@@ -2497,25 +2749,26 @@ export interface StorageEncryptedAssetDecryptionData {
 }
 
 // @public
-export type StreamingEndpoint = TrackedResource & {
-    readonly systemData?: SystemData;
-    description?: string;
-    scaleUnits?: number;
-    availabilitySetName?: string;
+export interface StreamingEndpoint extends TrackedResource {
     accessControl?: StreamingEndpointAccessControl;
-    maxCacheAge?: number;
-    customHostNames?: string[];
-    readonly hostName?: string;
+    availabilitySetName?: string;
     cdnEnabled?: boolean;
-    cdnProvider?: string;
     cdnProfile?: string;
+    cdnProvider?: string;
+    readonly created?: Date;
+    crossSiteAccessPolicies?: CrossSiteAccessPolicies;
+    customHostNames?: string[];
+    description?: string;
+    readonly freeTrialEndTime?: Date;
+    readonly hostName?: string;
+    readonly lastModified?: Date;
+    maxCacheAge?: number;
     readonly provisioningState?: string;
     readonly resourceState?: StreamingEndpointResourceState;
-    crossSiteAccessPolicies?: CrossSiteAccessPolicies;
-    readonly freeTrialEndTime?: Date;
-    readonly created?: Date;
-    readonly lastModified?: Date;
-};
+    scaleUnits?: number;
+    sku?: ArmStreamingEndpointCurrentSku;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface StreamingEndpointAccessControl {
@@ -2535,6 +2788,7 @@ export type StreamingEndpointResourceState = string;
 
 // @public
 export interface StreamingEndpoints {
+    asyncOperation(resourceGroupName: string, accountName: string, operationId: string, options?: StreamingEndpointsAsyncOperationOptionalParams): Promise<StreamingEndpointsAsyncOperationResponse>;
     beginCreate(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: StreamingEndpoint, options?: StreamingEndpointsCreateOptionalParams): Promise<PollerLike<PollOperationState<StreamingEndpointsCreateResponse>, StreamingEndpointsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: StreamingEndpoint, options?: StreamingEndpointsCreateOptionalParams): Promise<StreamingEndpointsCreateResponse>;
     beginDelete(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: StreamingEndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
@@ -2549,7 +2803,16 @@ export interface StreamingEndpoints {
     beginUpdateAndWait(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: StreamingEndpoint, options?: StreamingEndpointsUpdateOptionalParams): Promise<StreamingEndpointsUpdateResponse>;
     get(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: StreamingEndpointsGetOptionalParams): Promise<StreamingEndpointsGetResponse>;
     list(resourceGroupName: string, accountName: string, options?: StreamingEndpointsListOptionalParams): PagedAsyncIterableIterator<StreamingEndpoint>;
+    operationLocation(resourceGroupName: string, accountName: string, streamingEndpointName: string, operationId: string, options?: StreamingEndpointsOperationLocationOptionalParams): Promise<StreamingEndpointsOperationLocationResponse>;
+    skus(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: StreamingEndpointsSkusOptionalParams): Promise<StreamingEndpointsSkusResponse>;
 }
+
+// @public
+export interface StreamingEndpointsAsyncOperationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StreamingEndpointsAsyncOperationResponse = AsyncOperationResult;
 
 // @public
 export interface StreamingEndpointsCreateOptionalParams extends coreClient.OperationOptions {
@@ -2574,6 +2837,11 @@ export interface StreamingEndpointsGetOptionalParams extends coreClient.Operatio
 // @public
 export type StreamingEndpointsGetResponse = StreamingEndpoint;
 
+// @public (undocumented)
+export interface StreamingEndpointSkuInfoListResult {
+    value?: ArmStreamingEndpointSkuInfo[];
+}
+
 // @public
 export interface StreamingEndpointsListNextOptionalParams extends coreClient.OperationOptions {
 }
@@ -2589,10 +2857,24 @@ export interface StreamingEndpointsListOptionalParams extends coreClient.Operati
 export type StreamingEndpointsListResponse = StreamingEndpointListResult;
 
 // @public
+export interface StreamingEndpointsOperationLocationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StreamingEndpointsOperationLocationResponse = StreamingEndpoint;
+
+// @public
 export interface StreamingEndpointsScaleOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface StreamingEndpointsSkusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StreamingEndpointsSkusResponse = StreamingEndpointSkuInfoListResult;
 
 // @public
 export interface StreamingEndpointsStartOptionalParams extends coreClient.OperationOptions {
@@ -2621,19 +2903,19 @@ export interface StreamingEntityScaleUnit {
 }
 
 // @public
-export type StreamingLocator = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface StreamingLocator extends ProxyResource {
+    alternativeMediaId?: string;
     assetName?: string;
+    contentKeys?: StreamingLocatorContentKey[];
     readonly created?: Date;
-    startTime?: Date;
+    defaultContentKeyPolicyName?: string;
     endTime?: Date;
+    filters?: string[];
+    startTime?: Date;
     streamingLocatorId?: string;
     streamingPolicyName?: string;
-    defaultContentKeyPolicyName?: string;
-    contentKeys?: StreamingLocatorContentKey[];
-    alternativeMediaId?: string;
-    filters?: string[];
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface StreamingLocatorCollection {
@@ -2770,15 +3052,15 @@ export interface StreamingPoliciesListOptionalParams extends coreClient.Operatio
 export type StreamingPoliciesListResponse = StreamingPolicyCollection;
 
 // @public
-export type StreamingPolicy = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface StreamingPolicy extends ProxyResource {
+    commonEncryptionCbcs?: CommonEncryptionCbcs;
+    commonEncryptionCenc?: CommonEncryptionCenc;
     readonly created?: Date;
     defaultContentKeyPolicyName?: string;
     envelopeEncryption?: EnvelopeEncryption;
-    commonEncryptionCenc?: CommonEncryptionCenc;
-    commonEncryptionCbcs?: CommonEncryptionCbcs;
     noEncryption?: NoEncryption;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface StreamingPolicyCollection {
@@ -2841,7 +3123,26 @@ export interface SystemData {
 }
 
 // @public
+interface TextTrack_2 extends TrackBase {
+    displayName?: string;
+    fileName?: string;
+    hlsSettings?: HlsSettings;
+    readonly languageCode?: string;
+    odataType: "#Microsoft.Media.TextTrack";
+    playerVisibility?: Visibility;
+}
+export { TextTrack_2 as TextTrack }
+
+// @public
 export type TrackAttribute = string;
+
+// @public
+export interface TrackBase {
+    odataType: "#Microsoft.Media.AudioTrack" | "#Microsoft.Media.VideoTrack" | "#Microsoft.Media.TextTrack";
+}
+
+// @public (undocumented)
+export type TrackBaseUnion = TrackBase | AudioTrack | VideoTrack | TextTrack_2;
 
 // @public
 export interface TrackDescriptor {
@@ -2852,12 +3153,12 @@ export interface TrackDescriptor {
 export type TrackDescriptorUnion = TrackDescriptor | AudioTrackDescriptorUnion | VideoTrackDescriptorUnion;
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export type TrackPropertyCompareOperation = string;
@@ -2873,18 +3174,110 @@ export interface TrackPropertyCondition {
 export type TrackPropertyType = string;
 
 // @public
+export interface Tracks {
+    beginCreateOrUpdate(resourceGroupName: string, accountName: string, assetName: string, trackName: string, parameters: AssetTrack, options?: TracksCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<TracksCreateOrUpdateResponse>, TracksCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, assetName: string, trackName: string, parameters: AssetTrack, options?: TracksCreateOrUpdateOptionalParams): Promise<TracksCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, accountName: string, assetName: string, trackName: string, options?: TracksDeleteOptionalParams): Promise<PollerLike<PollOperationState<TracksDeleteResponse>, TracksDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, assetName: string, trackName: string, options?: TracksDeleteOptionalParams): Promise<TracksDeleteResponse>;
+    beginUpdate(resourceGroupName: string, accountName: string, assetName: string, trackName: string, parameters: AssetTrack, options?: TracksUpdateOptionalParams): Promise<PollerLike<PollOperationState<TracksUpdateResponse>, TracksUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, accountName: string, assetName: string, trackName: string, parameters: AssetTrack, options?: TracksUpdateOptionalParams): Promise<TracksUpdateResponse>;
+    beginUpdateTrackData(resourceGroupName: string, accountName: string, assetName: string, trackName: string, options?: TracksUpdateTrackDataOptionalParams): Promise<PollerLike<PollOperationState<TracksUpdateTrackDataResponse>, TracksUpdateTrackDataResponse>>;
+    beginUpdateTrackDataAndWait(resourceGroupName: string, accountName: string, assetName: string, trackName: string, options?: TracksUpdateTrackDataOptionalParams): Promise<TracksUpdateTrackDataResponse>;
+    get(resourceGroupName: string, accountName: string, assetName: string, trackName: string, options?: TracksGetOptionalParams): Promise<TracksGetResponse>;
+    list(resourceGroupName: string, accountName: string, assetName: string, options?: TracksListOptionalParams): PagedAsyncIterableIterator<AssetTrack>;
+}
+
+// @public
+export interface TracksCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface TracksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TracksCreateOrUpdateResponse = TracksCreateOrUpdateHeaders & AssetTrack;
+
+// @public
+export interface TracksDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface TracksDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TracksDeleteResponse = TracksDeleteHeaders;
+
+// @public
 export interface TrackSelection {
     trackSelections?: TrackPropertyCondition[];
 }
 
 // @public
-export type Transform = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface TracksGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TracksGetResponse = AssetTrack;
+
+// @public
+export interface TracksListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TracksListResponse = AssetTrackCollection;
+
+// @public
+export interface TracksUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface TracksUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TracksUpdateResponse = TracksUpdateHeaders & AssetTrack;
+
+// @public
+export interface TracksUpdateTrackDataHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface TracksUpdateTrackDataOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TracksUpdateTrackDataResponse = TracksUpdateTrackDataHeaders;
+
+// @public
+export interface Transform extends ProxyResource {
     readonly created?: Date;
     description?: string;
     readonly lastModified?: Date;
     outputs?: TransformOutput[];
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface TransformCollection {
@@ -2952,9 +3345,9 @@ export interface TransformsUpdateOptionalParams extends coreClient.OperationOpti
 export type TransformsUpdateResponse = Transform;
 
 // @public
-export type TransportStreamFormat = MultiBitrateFormat & {
+export interface TransportStreamFormat extends MultiBitrateFormat {
     odataType: "#Microsoft.Media.TransportStreamFormat";
-};
+}
 
 // @public (undocumented)
 export interface UserAssignedManagedIdentity {
@@ -2963,60 +3356,64 @@ export interface UserAssignedManagedIdentity {
 }
 
 // @public
-export type UtcClipTime = ClipTime & {
+export interface UtcClipTime extends ClipTime {
     odataType: "#Microsoft.Media.UtcClipTime";
     time: Date;
-};
+}
 
 // @public
-export type Video = Codec & {
-    odataType: "#Microsoft.Media.Video" | "#Microsoft.Media.H265Video" | "#Microsoft.Media.Image" | "#Microsoft.Media.H264Video" | "#Microsoft.Media.JpgImage" | "#Microsoft.Media.PngImage";
+export interface Video extends Codec {
     keyFrameInterval?: string;
+    odataType: "#Microsoft.Media.Video" | "#Microsoft.Media.H265Video" | "#Microsoft.Media.Image" | "#Microsoft.Media.H264Video" | "#Microsoft.Media.JpgImage" | "#Microsoft.Media.PngImage";
     stretchMode?: StretchMode;
     syncMode?: VideoSyncMode;
-};
+}
 
 // @public
-export type VideoAnalyzerPreset = AudioAnalyzerPreset & {
-    odataType: "#Microsoft.Media.VideoAnalyzerPreset";
+export interface VideoAnalyzerPreset extends AudioAnalyzerPreset {
     insightsToExtract?: InsightsType;
-};
+    odataType: "#Microsoft.Media.VideoAnalyzerPreset";
+}
 
 // @public
-export type VideoLayer = Layer & {
-    odataType: "#Microsoft.Media.VideoLayer" | "#Microsoft.Media.H264Layer";
-    bitrate: number;
-    maxBitrate?: number;
-    bFrames?: number;
-    frameRate?: string;
-    slices?: number;
+export interface VideoLayer extends Layer {
     adaptiveBFrame?: boolean;
-};
-
-// @public (undocumented)
-export type VideoLayerUnion = VideoLayer | H264Layer;
+    bFrames?: number;
+    bitrate: number;
+    frameRate?: string;
+    maxBitrate?: number;
+    slices?: number;
+}
 
 // @public
-export type VideoOverlay = Overlay & {
-    odataType: "#Microsoft.Media.VideoOverlay";
-    position?: Rectangle;
-    opacity?: number;
+export interface VideoOverlay extends Overlay {
     cropRectangle?: Rectangle;
-};
+    odataType: "#Microsoft.Media.VideoOverlay";
+    opacity?: number;
+    position?: Rectangle;
+}
 
 // @public
 export type VideoSyncMode = string;
 
 // @public
-export type VideoTrackDescriptor = TrackDescriptor & {
+export interface VideoTrack extends TrackBase {
+    odataType: "#Microsoft.Media.VideoTrack";
+}
+
+// @public
+export interface VideoTrackDescriptor extends TrackDescriptor {
     odataType: "#Microsoft.Media.VideoTrackDescriptor" | "#Microsoft.Media.SelectVideoTrackByAttribute" | "#Microsoft.Media.SelectVideoTrackById";
-};
+}
 
 // @public (undocumented)
 export type VideoTrackDescriptorUnion = VideoTrackDescriptor | SelectVideoTrackByAttribute | SelectVideoTrackById;
 
 // @public (undocumented)
 export type VideoUnion = Video | H265Video | ImageUnion | H264Video;
+
+// @public
+export type Visibility = string;
 
 // (No @packageDocumentation comment for this package)
 

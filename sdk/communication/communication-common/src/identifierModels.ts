@@ -181,3 +181,88 @@ export const getIdentifierKind = (
   }
   return { ...identifier, kind: "unknown" };
 };
+
+/**
+ * Returns the rawId for a given CommunicationIdentifier. You can use the rawId for encoding the identifier and then use it as a key in a database.
+ *
+ * @param identifier - The identifier to be translated to its rawId.
+ */
+export const getIdentifierRawId = (identifier: CommunicationIdentifier): string => {
+  const identifierKind = getIdentifierKind(identifier);
+  switch (identifierKind.kind) {
+    case "communicationUser":
+      return identifierKind.communicationUserId;
+    case "microsoftTeamsUser": {
+      const { microsoftTeamsUserId, rawId, cloud, isAnonymous } = identifierKind;
+      if (rawId) return rawId;
+      if (isAnonymous) return `8:teamsvisitor:${microsoftTeamsUserId}`;
+      switch (cloud) {
+        case "dod":
+          return `8:dod:${microsoftTeamsUserId}`;
+        case "gcch":
+          return `8:gcch:${microsoftTeamsUserId}`;
+        case "public":
+          return `8:orgid:${microsoftTeamsUserId}`;
+      }
+      return `8:orgid:${microsoftTeamsUserId}`;
+    }
+    case "phoneNumber": {
+      const { phoneNumber, rawId } = identifierKind;
+      if (rawId) return rawId;
+      // strip the leading +. We just assume correct E.164 format here because validation should only happen server-side, not client-side.
+      return `4:${phoneNumber.replace(/^\+/, "")}`;
+    }
+    case "unknown": {
+      return identifierKind.id;
+    }
+  }
+};
+
+/**
+ * Creates a CommunicationIdentifierKind from a given rawId. When storing rawIds use this function to restore the identifier that was encoded in the rawId.
+ *
+ * @param rawId - The rawId to be translated to its identifier representation.
+ */
+export const createIdentifierFromRawId = (rawId: string): CommunicationIdentifierKind => {
+  if (rawId.startsWith("4:")) {
+    return { kind: "phoneNumber", phoneNumber: `+${rawId.substring("4:".length)}` };
+  }
+
+  const segments = rawId.split(":");
+  if (segments.length < 3) return { kind: "unknown", id: rawId };
+
+  const prefix = `${segments[0]}:${segments[1]}:`;
+  const suffix = rawId.substring(prefix.length);
+
+  switch (prefix) {
+    case "8:teamsvisitor:":
+      return { kind: "microsoftTeamsUser", microsoftTeamsUserId: suffix, isAnonymous: true };
+    case "8:orgid:":
+      return {
+        kind: "microsoftTeamsUser",
+        microsoftTeamsUserId: suffix,
+        isAnonymous: false,
+        cloud: "public",
+      };
+    case "8:dod:":
+      return {
+        kind: "microsoftTeamsUser",
+        microsoftTeamsUserId: suffix,
+        isAnonymous: false,
+        cloud: "dod",
+      };
+    case "8:gcch:":
+      return {
+        kind: "microsoftTeamsUser",
+        microsoftTeamsUserId: suffix,
+        isAnonymous: false,
+        cloud: "gcch",
+      };
+    case "8:acs:":
+    case "8:spool:":
+    case "8:dod-acs:":
+    case "8:gcch-acs:":
+      return { kind: "communicationUser", communicationUserId: rawId };
+  }
+  return { kind: "unknown", id: rawId };
+};

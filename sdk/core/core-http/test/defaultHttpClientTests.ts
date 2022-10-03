@@ -80,7 +80,7 @@ describe("defaultHttpClient", function () {
     try {
       await promise;
       assert.fail("");
-    } catch (err) {
+    } catch (err: any) {
       err.name.should.be.equal("AbortError");
       err.should.not.be.instanceof(AssertionError);
     }
@@ -112,7 +112,7 @@ describe("defaultHttpClient", function () {
     try {
       await promise;
       assert.fail("");
-    } catch (err) {
+    } catch (err: any) {
       err.name.should.be.equal("AbortError");
       err.should.not.be.instanceof(AssertionError);
     }
@@ -158,7 +158,7 @@ describe("defaultHttpClient", function () {
       try {
         await promise;
         assert.fail();
-      } catch (err) {
+      } catch (err: any) {
         err.should.not.be.instanceof(AssertionError);
       }
     }
@@ -231,7 +231,7 @@ describe("defaultHttpClient", function () {
     try {
       await client.sendRequest(request);
       throw new Error("request did not fail as expected");
-    } catch (err) {
+    } catch (err: any) {
       err.message.should.not.match(/request did not fail as expected/);
     }
   });
@@ -247,7 +247,7 @@ describe("defaultHttpClient", function () {
     try {
       await client.sendRequest(request);
       throw new Error("request did not fail as expected");
-    } catch (err) {
+    } catch (err: any) {
       err.should.be.instanceof(RestError);
       err.code.should.equal("REQUEST_SEND_ERROR");
     }

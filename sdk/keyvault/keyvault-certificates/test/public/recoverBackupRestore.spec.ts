@@ -4,7 +4,7 @@
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 
 import { CertificateClient } from "../../src";
 import { testPollerProperties } from "./utils/recorderUtils";
@@ -72,7 +72,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     try {
       await client.beginRecoverDeletedCertificate(certificateName, testPollerProperties);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "CertificateNotFound");
@@ -129,7 +129,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     try {
       await client.restoreCertificateBackup(backup);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(

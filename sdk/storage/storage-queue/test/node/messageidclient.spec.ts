@@ -86,7 +86,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
     let error;
     try {
       await queueClient.updateMessage(eResult.messageId, eResult.popReceipt, newMessage);
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
     assert.ok(error);
@@ -209,7 +209,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
     try {
       new QueueClient(getConnectionStringFromEnvironment(), "");
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Expecting non-empty strings for queueName parameter",
         error.message,

@@ -241,7 +241,7 @@ describe("XML serializer", function () {
       try {
         await parseXML("INVALID", { includeRoot: true });
         throw new Error("did not throw");
-      } catch (err) {
+      } catch (err: any) {
         if (err.message === "did not throw") {
           throw err;
         }
@@ -404,7 +404,7 @@ describe("XML serializer", function () {
     try {
       await parseXML("INVALID");
       throw new Error("did not throw");
-    } catch (err) {
+    } catch (err: any) {
       if (err.message === "did not throw") {
         throw err;
       }

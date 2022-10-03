@@ -1686,6 +1686,13 @@ export const PageList: coreHttp.CompositeMapper = {
             }
           }
         }
+      },
+      continuationToken: {
+        serializedName: "NextMarker",
+        xmlName: "NextMarker",
+        type: {
+          name: "String"
+        }
       }
     }
   }

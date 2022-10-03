@@ -20,7 +20,7 @@ import {
 } from "../util/exponentialBackoffStrategy";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResourceLike } from "../webResource";
-import { delay } from "../util/delay";
+import { delay } from "@azure/core-util";
 
 /**
  * A policy that retries when there's a system error, identified by the codes "ETIMEDOUT", "ESOCKETTIMEDOUT", "ECONNREFUSED", "ECONNRESET" or "ENOENT".
@@ -118,7 +118,7 @@ async function retry(
     try {
       await delay(retryData.retryInterval);
       return policy._nextPolicy.sendRequest(request.clone());
-    } catch (nestedErr) {
+    } catch (nestedErr: any) {
       return retry(policy, request, operationResponse, nestedErr, retryData);
     }
   } else {

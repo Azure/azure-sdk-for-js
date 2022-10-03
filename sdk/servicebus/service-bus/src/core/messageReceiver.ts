@@ -133,6 +133,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
   protected _lockRenewer: LockRenewer | undefined;
 
   constructor(
+    public identifier: string,
     context: ConnectionContext,
     entityPath: string,
     receiverType: ReceiverType,
@@ -165,6 +166,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       {
         address: this.address,
       },
+      this.identifier,
       {
         onSettled: (context: EventContext) => {
           return onMessageSettled(this.logPrefix, context.delivery, this._deliveryDispositionMap);
@@ -186,7 +188,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       // It is possible for someone to close the receiver and then start it again.
       // Thus make sure that the receiver is present in the client cache.
       this._context.messageReceivers[this.name] = this as any;
-    } catch (err) {
+    } catch (err: any) {
       const translatedError = translateServiceBusError(err);
       logger.logError(
         translatedError,

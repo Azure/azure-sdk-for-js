@@ -5,7 +5,7 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 
 import { MsalClientCertificate } from "../msal/nodeFlows/msalClientCertificate";
 import { credentialLogger } from "../util/logging";
-import { trace } from "../util/tracing";
+import { tracingClient } from "../util/tracing";
 import { MsalFlow } from "../msal/flows";
 import { ClientCertificateCredentialOptions } from "./clientCertificateCredentialOptions";
 
@@ -20,6 +20,11 @@ export interface ClientCertificatePEMCertificate {
    * The PEM-encoded public/private key certificate on the filesystem.
    */
   certificate: string;
+
+  /**
+   * The password for the certificate file.
+   */
+  certificatePassword?: string;
 }
 /**
  * Required configuration options for the {@link ClientCertificateCredential}, with the path to a PEM certificate.
@@ -29,6 +34,11 @@ export interface ClientCertificatePEMCertificatePath {
    * The path to the PEM-encoded public/private key certificate on the filesystem.
    */
   certificatePath: string;
+
+  /**
+   * The password for the certificate file.
+   */
+  certificatePassword?: string;
 }
 /**
  * Required configuration options for the {@link ClientCertificateCredential}, with either the string contents of a PEM certificate, or the path to a PEM certificate.
@@ -146,7 +156,7 @@ export class ClientCertificateCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    return trace(`${credentialName}.getToken`, options, async (newOptions) => {
+    return tracingClient.withSpan(`${credentialName}.getToken`, options, async (newOptions) => {
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       return this.msalFlow.getToken(arrayScopes, newOptions);
     });

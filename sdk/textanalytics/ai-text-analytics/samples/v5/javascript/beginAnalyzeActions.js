@@ -13,8 +13,7 @@
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
@@ -25,7 +24,7 @@ const documents = [
   "Redmond is a city in King County, Washington, United States, located 15 miles east of Seattle.",
   "I need to take my cat to the veterinarian.",
   "The employee's SSN is 555-55-5555.",
-  "We went to Contoso Steakhouse located at midtown NYC last week for a dinner party, and we adore the spot! They provide marvelous food and they have a great menu. The chief cook happens to be the owner (I think his name is John Doe) and he is super nice, coming out of the kitchen and greeted us all. We enjoyed very much dining in the place! The Sirloin steak I ordered was tender and juicy, and the place was impeccably clean. You can even pre-order from their online menu at www.contososteakhouse.com, call 312-555-0176 or send email to order@contososteakhouse.com! The only complaint I have is the food didn't come fast enough. Overall I highly recommend it!"
+  "We went to Contoso Steakhouse located at midtown NYC last week for a dinner party, and we adore the spot! They provide marvelous food and they have a great menu. The chief cook happens to be the owner (I think his name is John Doe) and he is super nice, coming out of the kitchen and greeted us all. We enjoyed very much dining in the place! The Sirloin steak I ordered was tender and juicy, and the place was impeccably clean. You can even pre-order from their online menu at www.contososteakhouse.com, call 312-555-0176 or send email to order@contososteakhouse.com! The only complaint I have is the food didn't come fast enough. Overall I highly recommend it!",
 ];
 
 async function main() {
@@ -36,10 +35,10 @@ async function main() {
   const actions = {
     recognizeEntitiesActions: [{ modelVersion: "latest" }],
     recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
-    extractKeyPhrasesActions: [{ modelVersion: "latest" }]
+    extractKeyPhrasesActions: [{ modelVersion: "latest" }],
   };
   const poller = await client.beginAnalyzeActions(documents, actions, "en", {
-    includeStatistics: true
+    includeStatistics: true,
   });
 
   poller.onProgress(() => {
@@ -113,3 +112,5 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

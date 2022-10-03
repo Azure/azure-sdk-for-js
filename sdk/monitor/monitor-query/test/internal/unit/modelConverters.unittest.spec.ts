@@ -3,8 +3,8 @@
 
 import { assert } from "chai";
 import {
-  BatchRequest as GeneratedBatchRequest,
   BatchQueryRequest,
+  BatchRequest as GeneratedBatchRequest,
 } from "../../../src/generated/logquery/src";
 import {
   MetricsListOptionalParams as GeneratedMetricsListOptionalParams,
@@ -12,9 +12,9 @@ import {
 } from "../../../src/generated/metrics/src";
 import { MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams } from "../../../src/generated/metricsdefinitions/src";
 import {
+  convertRequestForMetrics,
   convertRequestForQueryBatch,
   convertRequestOptionsForMetricsDefinitions,
-  convertRequestForMetrics,
   convertResponseForMetrics,
   convertResponseForMetricsDefinitions,
 } from "../../../src/internal/modelConverters";

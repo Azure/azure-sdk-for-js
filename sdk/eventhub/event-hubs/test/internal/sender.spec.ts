@@ -452,7 +452,7 @@ testWithServiceTypes((serviceVersion) => {
             promises.push(producerClient.sendBatch([{ body: `Hello World ${i}` }]));
           }
           await Promise.all(promises);
-        } catch (err) {
+        } catch (err: any) {
           debug("An error occurred while running the test: ", err);
           throw err;
         }
@@ -479,7 +479,7 @@ testWithServiceTypes((serviceVersion) => {
             }
           }
           await Promise.all(promises);
-        } catch (err) {
+        } catch (err: any) {
           debug("An error occurred while running the test: ", err);
           throw err;
         }
@@ -493,7 +493,7 @@ testWithServiceTypes((serviceVersion) => {
           debug("Sending a message of 300KB...");
           await producerClient.sendBatch([data], { partitionId: "0" });
           throw new Error("Test failure");
-        } catch (err) {
+        } catch (err: any) {
           debug(err);
           should.exist(err);
           should.equal(err.code, "MessageTooLargeError");
@@ -614,7 +614,7 @@ testWithServiceTypes((serviceVersion) => {
             ];
             await producerClient.sendBatch(data, { partitionKey: "1", partitionId: "0" });
             throw new Error("Test Failure");
-          } catch (err) {
+          } catch (err: any) {
             err.message.should.equal(
               "The partitionId (0) and partitionKey (1) cannot both be specified."
             );
@@ -628,7 +628,7 @@ testWithServiceTypes((serviceVersion) => {
             try {
               await producerClient.createBatch({ partitionId: "0", partitionKey: "boo" });
               throw new Error("Test failure");
-            } catch (error) {
+            } catch (error: any) {
               error.message.should.equal(
                 "The partitionId (0) and partitionKey (boo) cannot both be specified."
               );
@@ -643,7 +643,7 @@ testWithServiceTypes((serviceVersion) => {
                 partitionKey: "boo",
               });
               throw new Error("Test failure");
-            } catch (error) {
+            } catch (error: any) {
               error.message.should.equal(
                 "The partitionId (0) and partitionKey (boo) cannot both be specified."
               );
@@ -658,7 +658,7 @@ testWithServiceTypes((serviceVersion) => {
                 partitionKey: 0,
               });
               throw new Error("Test failure");
-            } catch (error) {
+            } catch (error: any) {
               error.message.should.equal(
                 "The partitionId (1) and partitionKey (0) cannot both be specified."
               );
@@ -669,7 +669,7 @@ testWithServiceTypes((serviceVersion) => {
             try {
               await producerClient.createBatch({ maxSizeInBytes: 2046528 });
               throw new Error("Test Failure");
-            } catch (err) {
+            } catch (err: any) {
               err.message.should.match(
                 /.*Max message size \((\d+) bytes\) is greater than maximum message size \((\d+) bytes\) on the AMQP sender link.*/gi
               );
@@ -699,7 +699,7 @@ testWithServiceTypes((serviceVersion) => {
             try {
               await producerClient.sendBatch(batch, badOptions);
               throw new Error("Test failure");
-            } catch (err) {
+            } catch (err: any) {
               err.message.should.equal(
                 "The partitionKey (bar) set on sendBatch does not match the partitionKey (foo) set when creating the batch."
               );
@@ -713,7 +713,7 @@ testWithServiceTypes((serviceVersion) => {
             try {
               await producerClient.sendBatch(batch, badOptions);
               throw new Error("Test failure");
-            } catch (err) {
+            } catch (err: any) {
               err.message.should.equal(
                 "The partitionKey (bar) set on sendBatch does not match the partitionKey (undefined) set when creating the batch."
               );
@@ -727,7 +727,7 @@ testWithServiceTypes((serviceVersion) => {
             try {
               await producerClient.sendBatch(batch, badOptions);
               throw new Error("Test failure");
-            } catch (err) {
+            } catch (err: any) {
               err.message.should.equal(
                 "The partitionId (0) set on sendBatch does not match the partitionId (1) set when creating the batch."
               );
@@ -741,7 +741,7 @@ testWithServiceTypes((serviceVersion) => {
             try {
               await producerClient.sendBatch(batch, badOptions);
               throw new Error("Test failure");
-            } catch (err) {
+            } catch (err: any) {
               err.message.should.equal(
                 "The partitionId (0) set on sendBatch does not match the partitionId (undefined) set when creating the batch."
               );
@@ -755,7 +755,7 @@ testWithServiceTypes((serviceVersion) => {
             try {
               await producerClient.sendBatch(batch, badOptions);
               throw new Error("Test failure");
-            } catch (err) {
+            } catch (err: any) {
               err.message.should.not.equal("Test failure");
             }
           });
@@ -767,7 +767,7 @@ testWithServiceTypes((serviceVersion) => {
             try {
               await producerClient.sendBatch(batch, badOptions);
               throw new Error("Test failure");
-            } catch (err) {
+            } catch (err: any) {
               err.message.should.not.equal("Test failure");
             }
           });
@@ -780,7 +780,7 @@ testWithServiceTypes((serviceVersion) => {
             try {
               await producerClient.sendBatch(batch, badOptions);
               throw new Error("Test failure");
-            } catch (err) {
+            } catch (err: any) {
               err.message.should.not.equal("Test failure");
             }
           });
@@ -796,7 +796,7 @@ testWithServiceTypes((serviceVersion) => {
             try {
               await producerClient.sendBatch(batch, badOptions);
               throw new Error("Test failure");
-            } catch (err) {
+            } catch (err: any) {
               err.message.should.equal(
                 "The partitionId (0) and partitionKey (foo) cannot both be specified."
               );
@@ -812,7 +812,7 @@ testWithServiceTypes((serviceVersion) => {
             try {
               await producerClient.sendBatch(batch, badOptions);
               throw new Error("Test failure");
-            } catch (err) {
+            } catch (err: any) {
               err.message.should.equal(
                 "The partitionId (0) and partitionKey (foo) cannot both be specified."
               );
@@ -828,7 +828,7 @@ testWithServiceTypes((serviceVersion) => {
             try {
               await producerClient.sendBatch(batch, badOptions);
               throw new Error("Test failure");
-            } catch (err) {
+            } catch (err: any) {
               err.message.should.equal(
                 "The partitionId (0) and partitionKey (0) cannot both be specified."
               );
@@ -845,7 +845,7 @@ testWithServiceTypes((serviceVersion) => {
           try {
             await producerClient.sendBatch([data]);
             throw new Error("Test failure");
-          } catch (err) {
+          } catch (err: any) {
             debug(err);
             should.exist(err);
             should.equal(err.code, "MessageTooLargeError");
@@ -867,7 +867,7 @@ testWithServiceTypes((serviceVersion) => {
                 });
                 debug("sent the message.");
                 throw new Error("Test failure");
-              } catch (err) {
+              } catch (err: any) {
                 debug(`>>>> Received error for invalid partition id "${id}" - `, err);
                 should.exist(err);
                 err.message.should.match(

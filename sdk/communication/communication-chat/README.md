@@ -131,10 +131,9 @@ const sendMessageRequest =
 {
   content: 'Hello Geeta! Can you share the deck for the conference?'
 };
-const sendMessageOptions =
-{
-  senderDisplayName : 'Jack',
-  type: 'text'
+const sendMessageOptions:SendMessageOptions = {
+  senderDisplayName: "Jack",
+  type: "text"
 };
 const sendChatMessageResult = await chatThreadClient.sendMessage(sendMessageRequest, sendMessageOptions);
 const messageId = sendChatMessageResult.id;

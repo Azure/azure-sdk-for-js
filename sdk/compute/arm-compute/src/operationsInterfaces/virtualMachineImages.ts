@@ -16,7 +16,9 @@ import {
   VirtualMachineImagesListPublishersOptionalParams,
   VirtualMachineImagesListPublishersResponse,
   VirtualMachineImagesListSkusOptionalParams,
-  VirtualMachineImagesListSkusResponse
+  VirtualMachineImagesListSkusResponse,
+  VirtualMachineImagesListByEdgeZoneOptionalParams,
+  VirtualMachineImagesListByEdgeZoneResponse
 } from "../models";
 
 /** Interface representing a VirtualMachineImages. */
@@ -87,4 +89,15 @@ export interface VirtualMachineImages {
     offer: string,
     options?: VirtualMachineImagesListSkusOptionalParams
   ): Promise<VirtualMachineImagesListSkusResponse>;
+  /**
+   * Gets a list of all virtual machine image versions for the specified edge zone
+   * @param location The name of a supported Azure region.
+   * @param edgeZone The name of the edge zone.
+   * @param options The options parameters.
+   */
+  listByEdgeZone(
+    location: string,
+    edgeZone: string,
+    options?: VirtualMachineImagesListByEdgeZoneOptionalParams
+  ): Promise<VirtualMachineImagesListByEdgeZoneResponse>;
 }

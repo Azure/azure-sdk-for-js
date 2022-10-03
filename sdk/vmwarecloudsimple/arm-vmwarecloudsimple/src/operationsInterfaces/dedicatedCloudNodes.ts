@@ -55,12 +55,14 @@ export interface DedicatedCloudNodes {
   /**
    * Returns dedicated cloud node by its name
    * @param resourceGroupName The name of the resource group
+   * @param referer referer url
    * @param dedicatedCloudNodeName dedicated cloud node name
    * @param dedicatedCloudNodeRequest Create Dedicated Cloud Node request
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
+    referer: string,
     dedicatedCloudNodeName: string,
     dedicatedCloudNodeRequest: DedicatedCloudNode,
     options?: DedicatedCloudNodesCreateOrUpdateOptionalParams
@@ -73,12 +75,14 @@ export interface DedicatedCloudNodes {
   /**
    * Returns dedicated cloud node by its name
    * @param resourceGroupName The name of the resource group
+   * @param referer referer url
    * @param dedicatedCloudNodeName dedicated cloud node name
    * @param dedicatedCloudNodeRequest Create Dedicated Cloud Node request
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
+    referer: string,
     dedicatedCloudNodeName: string,
     dedicatedCloudNodeRequest: DedicatedCloudNode,
     options?: DedicatedCloudNodesCreateOrUpdateOptionalParams

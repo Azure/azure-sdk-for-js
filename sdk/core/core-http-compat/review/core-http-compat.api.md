@@ -4,11 +4,25 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
 import { CommonClientOptions } from '@azure/core-client';
+import { FullOperationResponse } from '@azure/core-client';
+import { HttpMethods } from '@azure/core-rest-pipeline';
 import { OperationArguments } from '@azure/core-client';
 import { OperationSpec } from '@azure/core-client';
+import { PipelinePolicy } from '@azure/core-rest-pipeline';
+import { ProxySettings } from '@azure/core-rest-pipeline';
 import { ServiceClient } from '@azure/core-client';
 import { ServiceClientOptions } from '@azure/core-client';
+
+// @public
+export interface CompatResponse extends Omit<FullOperationResponse, "request" | "headers"> {
+    headers: HttpHeadersLike;
+    request: WebResourceLike;
+}
+
+// @public
+export function createRequestPolicyFactoryPolicy(factories: RequestPolicyFactory[]): PipelinePolicy;
 
 // @public (undocumented)
 export const disbaleKeepAlivePolicyName = "DisableKeepAlivePolicy";
@@ -32,14 +46,105 @@ export class ExtendedServiceClient extends ServiceClient {
 export type ExtendedServiceClientOptions = ServiceClientOptions & ExtendedClientOptions;
 
 // @public
+export interface HttpHeader {
+    name: string;
+    value: string;
+}
+
+// @public
+export interface HttpHeadersLike {
+    clone(): HttpHeadersLike;
+    contains(headerName: string): boolean;
+    get(headerName: string): string | undefined;
+    headerNames(): string[];
+    headersArray(): HttpHeader[];
+    headerValues(): string[];
+    rawHeaders(): RawHttpHeaders;
+    remove(headerName: string): boolean;
+    set(headerName: string, headerValue: string | number): void;
+    toJson(options?: {
+        preserveCase?: boolean;
+    }): RawHttpHeaders;
+}
+
+// @public
+export enum HttpPipelineLogLevel {
+    // (undocumented)
+    ERROR = 1,
+    // (undocumented)
+    INFO = 3,
+    // (undocumented)
+    OFF = 0,
+    // (undocumented)
+    WARNING = 2
+}
+
+// @public
 export interface KeepAliveOptions {
     enable?: boolean;
 }
 
 // @public
+export type RawHttpHeaders = {
+    [headerName: string]: string;
+};
+
+// @public
 export interface RedirectOptions {
     handleRedirects?: boolean;
     maxRetries?: number;
+}
+
+// @public
+export interface RequestPolicy {
+    // (undocumented)
+    sendRequest(httpRequest: WebResourceLike): Promise<CompatResponse>;
+}
+
+// @public
+export interface RequestPolicyFactory {
+    // (undocumented)
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): RequestPolicy;
+}
+
+// @public
+export const requestPolicyFactoryPolicyName = "RequestPolicyFactoryPolicy";
+
+// @public
+export interface RequestPolicyOptionsLike {
+    // (undocumented)
+    log(logLevel: HttpPipelineLogLevel, message: string): void;
+    // (undocumented)
+    shouldLog(logLevel: HttpPipelineLogLevel): boolean;
+}
+
+// @public
+export type TransferProgressEvent = {
+    loadedBytes: number;
+};
+
+// @public
+export interface WebResourceLike {
+    abortSignal?: AbortSignalLike;
+    body?: any;
+    decompressResponse?: boolean;
+    formData?: any;
+    headers: HttpHeadersLike;
+    keepAlive?: boolean;
+    method: HttpMethods;
+    onDownloadProgress?: (progress: TransferProgressEvent) => void;
+    onUploadProgress?: (progress: TransferProgressEvent) => void;
+    proxySettings?: ProxySettings;
+    query?: {
+        [key: string]: any;
+    };
+    requestId: string;
+    // @deprecated
+    streamResponseBody?: boolean;
+    streamResponseStatusCodes?: Set<number>;
+    timeout: number;
+    url: string;
+    withCredentials: boolean;
 }
 
 ```

@@ -57,7 +57,7 @@ export class BlobHandler {
     try {
       const buffer = await blobClient.downloadToBuffer();
       return buffer.toString();
-    } catch (error) {
+    } catch (error: any) {
       // It's possible the blob doesn't exist, which is fine.
       // but if it's a different error we should let it bubble up.
       // Please refer to https://github.com/Azure/azure-sdk-for-js/blob/f558cff1ab6f862a74b668abef89c36e53b980f0/sdk/storage/storage-blob/samples/typescript/src/errorsAndResponses.ts#L78

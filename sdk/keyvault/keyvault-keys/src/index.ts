@@ -1,115 +1,110 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/* eslint @typescript-eslint/member-ordering: 0 */
 /// <reference lib="esnext.asynciterable" />
 
-import {
-  PipelineOptions,
-  TokenCredential,
-  createPipelineFromOptions,
-  isTokenCredential,
-  signingPolicy,
-} from "@azure/core-http";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+
+import { TokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log";
 
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { PollOperationState, PollerLike } from "@azure/core-lro";
 
 import {
   DeletionRecoveryLevel,
-  KnownDeletionRecoveryLevel,
   GetKeysOptionalParams,
+  KnownDeletionRecoveryLevel,
   KnownJsonWebKeyType,
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
-import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
+import { createChallengeCallbacks } from "../../keyvault-common/src";
 
 import { DeleteKeyPoller } from "./lro/delete/poller";
 import { RecoverDeletedKeyPoller } from "./lro/recover/poller";
 
 import {
   BackupKeyOptions,
-  CreateEcKeyOptions,
-  CreateKeyOptions,
-  CreateRsaKeyOptions,
-  CryptographyOptions,
-  DeletedKey,
-  GetDeletedKeyOptions,
-  GetKeyOptions,
-  ImportKeyOptions,
-  JsonWebKey,
-  KeyOperation,
-  KnownKeyOperations,
-  KeyPollerOptions,
-  KeyType,
-  KnownKeyTypes,
-  KnownKeyExportEncryptionAlgorithm,
   BeginDeleteKeyOptions,
   BeginRecoverDeletedKeyOptions,
-  KeyProperties,
-  KeyVaultKey,
-  ListPropertiesOfKeysOptions,
-  ListPropertiesOfKeyVersionsOptions,
-  ListDeletedKeysOptions,
-  PurgeDeletedKeyOptions,
-  RestoreKeyBackupOptions,
-  UpdateKeyPropertiesOptions,
-  KeyClientOptions,
-  CryptographyClientOptions,
-  LATEST_API_VERSION,
+  CreateEcKeyOptions,
+  CreateKeyOptions,
   CreateOctKeyOptions,
-  GetRandomBytesOptions,
-  ReleaseKeyOptions,
-  ReleaseKeyResult,
-  KeyReleasePolicy,
-  KeyExportEncryptionAlgorithm,
+  CreateRsaKeyOptions,
+  CryptographyClientOptions,
+  CryptographyOptions,
+  DeletedKey,
   GetCryptographyClientOptions,
-  RotateKeyOptions,
-  UpdateKeyRotationPolicyOptions,
+  GetDeletedKeyOptions,
+  GetKeyOptions,
   GetKeyRotationPolicyOptions,
+  GetRandomBytesOptions,
+  ImportKeyOptions,
+  JsonWebKey,
+  KeyClientOptions,
+  KeyExportEncryptionAlgorithm,
+  KeyOperation,
+  KeyPollerOptions,
+  KeyProperties,
+  KeyReleasePolicy,
   KeyRotationLifetimeAction,
   KeyRotationPolicy,
-  KeyRotationPolicyProperties,
   KeyRotationPolicyAction,
+  KeyRotationPolicyProperties,
+  KeyType,
+  KeyVaultKey,
+  KnownKeyExportEncryptionAlgorithm,
+  KnownKeyOperations,
+  KnownKeyTypes,
+  LATEST_API_VERSION,
+  ListDeletedKeysOptions,
+  ListPropertiesOfKeyVersionsOptions,
+  ListPropertiesOfKeysOptions,
+  PurgeDeletedKeyOptions,
+  ReleaseKeyOptions,
+  ReleaseKeyResult,
+  RestoreKeyBackupOptions,
+  RotateKeyOptions,
+  UpdateKeyPropertiesOptions,
+  UpdateKeyRotationPolicyOptions,
 } from "./keysModels";
 
 import { CryptographyClient } from "./cryptographyClient";
 
 import {
-  DecryptResult,
-  KeyCurveName,
-  KnownKeyCurveNames,
-  EncryptionAlgorithm,
-  KnownEncryptionAlgorithms,
-  SignatureAlgorithm,
-  KnownSignatureAlgorithms,
-  KeyWrapAlgorithm,
-  SignResult,
-  UnwrapResult,
-  VerifyResult,
-  WrapResult,
-  EncryptResult,
-  DecryptOptions,
-  EncryptOptions,
-  SignOptions,
-  UnwrapKeyOptions,
-  VerifyOptions,
-  WrapKeyOptions,
-  EncryptParameters,
-  DecryptParameters,
-  RsaEncryptionAlgorithm,
-  RsaEncryptParameters,
-  AesGcmEncryptionAlgorithm,
-  AesCbcEncryptionAlgorithm,
-  AesCbcEncryptParameters,
-  AesGcmEncryptParameters,
   AesCbcDecryptParameters,
+  AesCbcEncryptParameters,
+  AesCbcEncryptionAlgorithm,
   AesGcmDecryptParameters,
+  AesGcmEncryptParameters,
+  AesGcmEncryptionAlgorithm,
+  DecryptOptions,
+  DecryptParameters,
+  DecryptResult,
+  EncryptOptions,
+  EncryptParameters,
+  EncryptResult,
+  EncryptionAlgorithm,
+  KeyCurveName,
+  KeyWrapAlgorithm,
+  KnownEncryptionAlgorithms,
+  KnownKeyCurveNames,
+  KnownSignatureAlgorithms,
   RsaDecryptParameters,
+  RsaEncryptParameters,
+  RsaEncryptionAlgorithm,
+  SignOptions,
+  SignResult,
+  SignatureAlgorithm,
+  UnwrapKeyOptions,
+  UnwrapResult,
   VerifyDataOptions,
+  VerifyOptions,
+  VerifyResult,
+  WrapKeyOptions,
+  WrapResult,
 } from "./cryptographyClientModels";
 
 import { KeyVaultKeyIdentifier, parseKeyVaultKeyIdentifier } from "./identifier";
@@ -178,7 +173,6 @@ export {
   PagedAsyncIterableIterator,
   KeyVaultKeyIdentifier,
   parseKeyVaultKeyIdentifier,
-  PipelineOptions,
   PollOperationState,
   PollerLike,
   PurgeDeletedKeyOptions,
@@ -267,9 +261,11 @@ export class KeyClient {
           : libInfo,
     };
 
-    const authPolicy = isTokenCredential(credential)
-      ? challengeBasedAuthenticationPolicy(credential)
-      : signingPolicy(credential);
+    const authPolicy = bearerTokenAuthenticationPolicy({
+      credential,
+      scopes: [], // Scopes are going to be defined by the challenge callbacks.
+      challengeCallbacks: createChallengeCallbacks(),
+    });
 
     const internalPipelineOptions = {
       ...pipelineOptions,
@@ -286,8 +282,9 @@ export class KeyClient {
     this.credential = credential;
     this.client = new KeyVaultClient(
       pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      createPipelineFromOptions(internalPipelineOptions, authPolicy)
+      internalPipelineOptions
     );
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**
@@ -943,7 +940,12 @@ export class KeyClient {
         "KeyClient.listPropertiesOfKeyVersionsPage",
         options || {},
         async (updatedOptions) =>
-          this.client.getKeyVersions(continuationState.continuationToken!, name, updatedOptions)
+          this.client.getKeyVersionsNext(
+            this.vaultUrl,
+            continuationState.continuationToken!,
+            name,
+            updatedOptions
+          )
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -1035,7 +1037,11 @@ export class KeyClient {
         "KeyClient.listPropertiesOfKeysPage",
         options || {},
         async (updatedOptions) =>
-          this.client.getKeys(continuationState.continuationToken!, updatedOptions)
+          this.client.getKeysNext(
+            this.vaultUrl,
+            continuationState.continuationToken!,
+            updatedOptions
+          )
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -1122,7 +1128,11 @@ export class KeyClient {
         "KeyClient.listDeletedKeysPage",
         options || {},
         async (updatedOptions) =>
-          this.client.getDeletedKeys(continuationState.continuationToken!, updatedOptions)
+          this.client.getDeletedKeysNext(
+            this.vaultUrl,
+            continuationState.continuationToken!,
+            updatedOptions
+          )
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {

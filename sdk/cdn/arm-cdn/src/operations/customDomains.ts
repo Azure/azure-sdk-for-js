@@ -10,6 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { CustomDomains } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
+import * as Models from "../models";
 import * as Parameters from "../models/parameters";
 import { CdnManagementClient } from "../cdnManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
@@ -31,6 +32,8 @@ import {
   CustomDomainsEnableCustomHttpsResponse,
   CustomDomainsListByEndpointNextResponse
 } from "../models";
+import { ProfilesImpl } from "./profiles";
+import { type } from "os";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CustomDomains operations. */
@@ -420,16 +423,37 @@ export class CustomDomainsImpl implements CustomDomains {
     customDomainName: string,
     options?: CustomDomainsEnableCustomHttpsOptionalParams
   ): Promise<CustomDomainsEnableCustomHttpsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        profileName,
-        endpointName,
-        customDomainName,
-        options
-      },
-      enableCustomHttpsOperationSpec
+    // #region Added default values to add backwards compatibility
+    let newOptions: Models.CustomDomainsEnableCustomHttpsOptionalParams = {};
+    newOptions = options as Models.CustomDomainsEnableCustomHttpsOptionalParams;
+
+    if (!newOptions) {
+      newOptions = {};
+    }
+
+    let optionsPreparationPromise = Promise.resolve(options);
+
+    if (!newOptions.customDomainHttpsParameters) {
+      let profiles = new ProfilesImpl(this.client);
+      optionsPreparationPromise = profiles.get(resourceGroupName, profileName).then(profile => {
+        newOptions.customDomainHttpsParameters = getDefaultCustomDomainHttpsParameters(profile);
+        return newOptions;
+      })
+    }
+
+    return optionsPreparationPromise.then(options =>
+      this.client.sendOperationRequest(
+        {
+          resourceGroupName,
+          profileName,
+          endpointName,
+          customDomainName,
+          options
+        },
+        enableCustomHttpsOperationSpec
+      )
     );
+    // #endregion
   }
 
   /**
@@ -453,6 +477,50 @@ export class CustomDomainsImpl implements CustomDomains {
     );
   }
 }
+
+// #region Added default values to add backwards compatibility
+class SkuNames {
+  public static get standard_microsoft() { return "Standard_Microsoft"; }
+  public static get standard_verizon() { return "Standard_Verizon"; }
+  public static get standard_akamai() { return "Standard_Akamai"; }
+}
+
+function getDefaultCustomDomainHttpsParameters(profile: Models.Profile): Models.CdnManagedHttpsParameters | undefined {
+  switch (profile.sku.name) {
+    case SkuNames.standard_microsoft:
+      return {
+        certificateSource: "Cdn",
+        certificateSourceParameters: {
+          certificateType: "Dedicated",
+          typeName: "CdnCertificateSourceParameters"
+        },
+        protocolType: "ServerNameIndication"
+      }
+    case SkuNames.standard_akamai:
+      return {
+        certificateSource: "Cdn",
+        certificateSourceParameters: {
+          certificateType: "Shared",
+          typeName: "CdnCertificateSourceParameters"
+        },
+        protocolType: "ServerNameIndication"
+      }
+    case SkuNames.standard_verizon:
+      return {
+        certificateSource: "Cdn",
+        certificateSourceParameters: {
+          certificateType: "Shared",
+          typeName: "CdnCertificateSourceParameters"
+        },
+        protocolType: "IPBased"
+      }
+    default:
+      return undefined;
+  }
+}
+
+// #endregion
+
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 

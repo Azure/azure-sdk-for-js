@@ -305,10 +305,12 @@ export class SqlVirtualMachinesImpl implements SqlVirtualMachines {
       { resourceGroupName, sqlVirtualMachineName, options },
       redeployOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -412,10 +414,12 @@ export class SqlVirtualMachinesImpl implements SqlVirtualMachines {
       { resourceGroupName, sqlVirtualMachineName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -497,10 +501,12 @@ export class SqlVirtualMachinesImpl implements SqlVirtualMachines {
       { resourceGroupName, sqlVirtualMachineName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -586,10 +592,12 @@ export class SqlVirtualMachinesImpl implements SqlVirtualMachines {
       { resourceGroupName, sqlVirtualMachineName, parameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -687,10 +695,12 @@ export class SqlVirtualMachinesImpl implements SqlVirtualMachines {
       { resourceGroupName, sqlVirtualMachineName, options },
       startAssessmentOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

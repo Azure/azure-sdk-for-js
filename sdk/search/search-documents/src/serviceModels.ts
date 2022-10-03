@@ -305,7 +305,7 @@ export interface ResetSkillsOptions extends OperationOptions {
  */
 export interface CreateOrUpdateSkillsetOptions extends OperationOptions {
   /**
-   * If set to true, Resource will be deleted only if the etag matches.
+   * If set to true, Resource will be updated only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
   /**
@@ -323,7 +323,7 @@ export interface CreateOrUpdateSkillsetOptions extends OperationOptions {
  */
 export interface CreateOrUpdateSynonymMapOptions extends OperationOptions {
   /**
-   * If set to true, Resource will be deleted only if the etag matches.
+   * If set to true, Resource will be updated only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
 }
@@ -333,7 +333,7 @@ export interface CreateOrUpdateSynonymMapOptions extends OperationOptions {
  */
 export interface CreateorUpdateIndexerOptions extends OperationOptions {
   /**
-   * If set to true, Resource will be deleted only if the etag matches.
+   * If set to true, Resource will be updated only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
   /** Ignores cache reset requirements. */
@@ -347,7 +347,7 @@ export interface CreateorUpdateIndexerOptions extends OperationOptions {
  */
 export interface CreateorUpdateDataSourceConnectionOptions extends OperationOptions {
   /**
-   * If set to true, Resource will be deleted only if the etag matches.
+   * If set to true, Resource will be updated only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
   /**

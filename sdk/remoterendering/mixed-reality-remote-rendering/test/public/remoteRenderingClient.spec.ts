@@ -209,7 +209,7 @@ describe("RemoteRendering functional tests", () => {
     let didThrowExpected: boolean = false;
     try {
       await client.beginConversion(conversionId, conversionSettings, pollerSettings);
-    } catch (e) {
+    } catch (e: any) {
       assert(e instanceof RestError);
       if (e instanceof RestError) {
         assert.isTrue(e.message.toLowerCase().includes("storage"));
@@ -257,12 +257,13 @@ describe("RemoteRendering functional tests", () => {
     const newPoller = await client.beginConversion({ resumeFrom: conversionPoller.toString() });
     assert.equal(newPoller.getOperationState().latestResponse.conversionId, conversionId);
 
-    const conversion: AssetConversion = await conversionPoller.pollUntilDone();
-    assert.equal(conversion.status, "Failed");
-    if (conversion.status === "Failed") {
+    try {
+      await conversionPoller.pollUntilDone();
+      assert.isTrue(false, "Previous call should have thrown an exception.");
+    } catch (e: any) {
       // Invalid input provided. Check logs in output container for details.
-      assert.isTrue(conversion.error.message.toLowerCase().includes("invalid input"));
-      assert.isTrue(conversion.error.message.toLowerCase().includes("logs"));
+      assert.isTrue(e.message.toLowerCase().includes("invalid input"));
+      assert.isTrue(e.message.toLowerCase().includes("logs"));
     }
   });
 
@@ -337,7 +338,7 @@ describe("RemoteRendering functional tests", () => {
     let didThrowExpected: boolean = false;
     try {
       await client.beginSession(sessionId, sessionSettings, pollerSettings);
-    } catch (e) {
+    } catch (e: any) {
       assert(e instanceof RestError);
       if (e instanceof RestError) {
         // The maxLeaseTimeMinutes value cannot be negative

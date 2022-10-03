@@ -5,7 +5,7 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 
 import { MsalClientSecret } from "../msal/nodeFlows/msalClientSecret";
 import { credentialLogger } from "../util/logging";
-import { trace } from "../util/tracing";
+import { tracingClient } from "../util/tracing";
 import { MsalFlow } from "../msal/flows";
 import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
 
@@ -62,9 +62,13 @@ export class ClientSecretCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
-      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-      return this.msalFlow.getToken(arrayScopes, newOptions);
-    });
+    return tracingClient.withSpan(
+      `${this.constructor.name}.getToken`,
+      options,
+      async (newOptions) => {
+        const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+        return this.msalFlow.getToken(arrayScopes, newOptions);
+      }
+    );
   }
 }

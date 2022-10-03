@@ -241,7 +241,7 @@ export class CloudEventsDispatcher {
 
     // check if hub matches
     const hub = utils.getHttpHeader(request, "ce-hub");
-    if (hub !== this.hub) {
+    if (hub?.toUpperCase() !== this.hub.toUpperCase()) {
       return false;
     }
 

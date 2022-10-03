@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://sanallur-cus.eastus2-1.eventgrid.azure.net/?api-version=2018-01-01",
+      "RequestUri": "https://endpoint/?api-version=2018-01-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept-Encoding": "gzip,deflate",
@@ -9,27 +9,27 @@
         "Connection": "keep-alive",
         "Content-Length": "87",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-eventgrid/4.7.1 core-rest-pipeline/1.5.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "9f7b16a2-168a-4f28-a851-373a26424c14"
+        "User-Agent": "azsdk-js-eventgrid/4.10.0-beta.2 core-rest-pipeline/1.8.2 Node/v16.13.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "07191704-2b79-4abd-9862-1fa80319cad1"
       },
       "RequestBody": "[{\u0022ver\u0022:\u00221.0\u0022,\u0022typ\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022sub\u0022:\u0022Single\u0022,\u0022payload\u0022:{\u0022hello\u0022:\u0022world\u0022}}]",
       "StatusCode": 404,
       "ResponseHeaders": {
-        "Content-Length": "699",
+        "Content-Length": "635",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 09 Feb 2022 01:44:24 GMT",
+        "Date": "Wed, 11 May 2022 00:24:46 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-request-id": "487835f7-14ea-4ffa-9254-737b1fc71015"
+        "x-ms-request-id": "5071a216-8329-42e5-b85c-331cb7662a55"
       },
       "ResponseBody": {
         "error": {
           "code": "NotFound",
-          "message": "No HTTP resource was found that matches the request URI \u0027https://sanallur-cus.eastus2-1.eventgrid.azure.net/?api-version=2018-01-01\u0027. Report \u0027487835f7-14ea-4ffa-9254-737b1fc71015:2/9/2022 1:44:24 AM (UTC)\u0027 to our forums for assistance or raise a support ticket.",
+          "message": "No HTTP resource was found that matches the request URI \u0027https://endpoint/?api-version=2018-01-01\u0027. Report \u00275071a216-8329-42e5-b85c-331cb7662a55:5/11/2022 12:24:46 AM (UTC)\u0027 to our forums for assistance or raise a support ticket.",
           "details": [
             {
               "code": "ResourceNotFound",
-              "message": "No HTTP resource was found that matches the request URI \u0027https://sanallur-cus.eastus2-1.eventgrid.azure.net/?api-version=2018-01-01\u0027. Report \u0027487835f7-14ea-4ffa-9254-737b1fc71015:2/9/2022 1:44:24 AM (UTC)\u0027 to our forums for assistance or raise a support ticket."
+              "message": "No HTTP resource was found that matches the request URI \u0027https://endpoint/?api-version=2018-01-01\u0027. Report \u00275071a216-8329-42e5-b85c-331cb7662a55:5/11/2022 12:24:46 AM (UTC)\u0027 to our forums for assistance or raise a support ticket."
             }
           ]
         }

@@ -12,7 +12,7 @@ import {
   TransferProgressEvent,
   URLBuilder,
 } from "@azure/core-http";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { PollOperationState } from "@azure/core-lro";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { Readable } from "stream";
 
@@ -61,6 +61,10 @@ import {
   SequenceNumberActionType,
   BlockBlobPutBlobFromUrlResponse,
   BlobHTTPHeaders,
+  PageBlobGetPageRangesResponseModel,
+  PageRangeInfo,
+  PageBlobGetPageRangesDiffResponseModel,
+  BlobCopySourceTags,
 } from "./generatedModels";
 import {
   AppendBlobRequestConditions,
@@ -81,6 +85,7 @@ import {
   BlobQueryArrowField,
   BlobImmutabilityPolicy,
   HttpAuthorization,
+  PollerLikeWithCancellation,
 } from "./models";
 import {
   PageBlobGetPageRangesDiffResponse,
@@ -98,6 +103,7 @@ import { CommonOptions, StorageClient } from "./StorageClient";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "../../storage-common/src";
 import {
+  BlobDoesNotUseCustomerSpecifiedEncryption,
   BlobUsesCustomerSpecifiedEncryptionMsg,
   BLOCK_BLOB_MAX_BLOCKS,
   BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
@@ -113,6 +119,7 @@ import {
   appendToURLPath,
   appendToURLQuery,
   extractConnectionStringParts,
+  ExtractPageRangeInfoItems,
   generateBlockID,
   getURLParameter,
   httpAuthorizationToString,
@@ -140,6 +147,7 @@ import {
   BlobSetImmutabilityPolicyResponse,
   BlobSetLegalHoldResponse,
 } from "./generatedModels";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -627,6 +635,10 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
    * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services.
    */
   encryptionScope?: string;
+  /**
+   * Optional. Default 'REPLACE'.  Indicates if source tags should be copied or replaced with the tags specified by {@link tags}.
+   */
+  copySourceTags?: BlobCopySourceTags;
 }
 
 /**
@@ -1243,7 +1255,7 @@ export class BlobClient extends StorageClient {
           onProgress: options.onProgress,
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1274,13 +1286,14 @@ export class BlobClient extends StorageClient {
         tracingOptions: updatedOptions.tracingOptions,
       });
       return true;
-    } catch (e) {
+    } catch (e: any) {
       if (e.statusCode === 404) {
         // Expected exception when checking blob existence
         return false;
       } else if (
         e.statusCode === 409 &&
-        e.details.errorCode === BlobUsesCustomerSpecifiedEncryptionMsg
+        (e.details.errorCode === BlobUsesCustomerSpecifiedEncryptionMsg ||
+          e.details.errorCode === BlobDoesNotUseCustomerSpecifiedEncryption)
       ) {
         // Expected exception when checking blob existence
         return true;
@@ -1332,7 +1345,7 @@ export class BlobClient extends StorageClient {
         objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
         objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules),
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1366,7 +1379,7 @@ export class BlobClient extends StorageClient {
         },
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1397,7 +1410,7 @@ export class BlobClient extends StorageClient {
         ...res,
         _response: res._response, // _response is made non-enumerable
       };
-    } catch (e) {
+    } catch (e: any) {
       if (e.details?.errorCode === "BlobNotFound") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
@@ -1434,7 +1447,7 @@ export class BlobClient extends StorageClient {
         abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1479,7 +1492,7 @@ export class BlobClient extends StorageClient {
         // cpkInfo: options.customerProvidedKey, // CPK is not included in Swagger, should change this back when this issue is fixed in Swagger.
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1521,7 +1534,7 @@ export class BlobClient extends StorageClient {
         encryptionScope: options.encryptionScope,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1554,7 +1567,7 @@ export class BlobClient extends StorageClient {
         ...convertTracingToRequestOptionsBase(updatedOptions),
         tags: toBlobTags(tags),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1588,7 +1601,7 @@ export class BlobClient extends StorageClient {
         tags: toTags({ blobTagSet: response.blobTagSet }) || {},
       };
       return wrappedResponse;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1634,7 +1647,7 @@ export class BlobClient extends StorageClient {
         encryptionScope: options.encryptionScope,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1721,7 +1734,10 @@ export class BlobClient extends StorageClient {
     copySource: string,
     options: BlobBeginCopyFromURLOptions = {}
   ): Promise<
-    PollerLike<PollOperationState<BlobBeginCopyFromURLResponse>, BlobBeginCopyFromURLResponse>
+    PollerLikeWithCancellation<
+      PollOperationState<BlobBeginCopyFromURLResponse>,
+      BlobBeginCopyFromURLResponse
+    >
   > {
     const client: CopyPollerBlobClient = {
       abortCopyFromURL: (...args) => this.abortCopyFromURL(...args),
@@ -1763,7 +1779,7 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1812,9 +1828,10 @@ export class BlobClient extends StorageClient {
         immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
         legalHold: options.legalHold,
         encryptionScope: options.encryptionScope,
+        copySourceTags: options.copySourceTags,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1852,7 +1869,7 @@ export class BlobClient extends StorageClient {
         rehydratePriority: options.rehydratePriority,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1972,7 +1989,7 @@ export class BlobClient extends StorageClient {
       if (!buffer) {
         try {
           buffer = Buffer.alloc(count);
-        } catch (error) {
+        } catch (error: any) {
           throw new Error(
             `Unable to allocate the buffer of size: ${count}(in bytes). Please try passing your own buffer to the "downloadToBuffer" method or try using other methods like "download" or "downloadToFile".\t ${error.message}`
           );
@@ -2017,7 +2034,7 @@ export class BlobClient extends StorageClient {
       }
       await batch.do();
       return buffer;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2066,7 +2083,7 @@ export class BlobClient extends StorageClient {
       // The stream is no longer accessible so setting it to undefined.
       (response as any).blobDownloadStream = undefined;
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2125,7 +2142,7 @@ export class BlobClient extends StorageClient {
       }
 
       return { blobName, containerName };
-    } catch (error) {
+    } catch (error: any) {
       throw new Error("Unable to extract blobName and containerName with provided information.");
     }
   }
@@ -2176,7 +2193,7 @@ export class BlobClient extends StorageClient {
         sealBlob: options.sealBlob,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2235,7 +2252,7 @@ export class BlobClient extends StorageClient {
         abortSignal: options?.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2264,7 +2281,7 @@ export class BlobClient extends StorageClient {
         modifiedAccessConditions: options?.modifiedAccessCondition,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2290,7 +2307,7 @@ export class BlobClient extends StorageClient {
         abortSignal: options?.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2739,7 +2756,7 @@ export class AppendBlobClient extends BlobClient {
         blobTagsString: toBlobTagsString(options.tags),
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2772,7 +2789,7 @@ export class AppendBlobClient extends BlobClient {
         ...res,
         _response: res._response, // _response is made non-enumerable
       };
-    } catch (e) {
+    } catch (e: any) {
       if (e.details?.errorCode === "BlobAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
@@ -2814,7 +2831,7 @@ export class AppendBlobClient extends BlobClient {
         },
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2876,7 +2893,7 @@ export class AppendBlobClient extends BlobClient {
         encryptionScope: options.encryptionScope,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2935,7 +2952,7 @@ export class AppendBlobClient extends BlobClient {
         encryptionScope: options.encryptionScope,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -3081,6 +3098,10 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
    * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
    */
   sourceAuthorization?: HttpAuthorization;
+  /**
+   * Optional, default 'replace'.  Indicates if source tags should be copied or replaced with the tags specified by {@link tags}.
+   */
+  copySourceTags?: BlobCopySourceTags;
 }
 
 /**
@@ -3753,7 +3774,7 @@ export class BlockBlobClient extends BlobClient {
       if (!isNode) {
         throw new Error("This operation currently is only supported in Node.js.");
       }
-
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       const response = await this._blobContext.query({
         abortSignal: options.abortSignal,
         queryRequest: {
@@ -3767,6 +3788,7 @@ export class BlockBlobClient extends BlobClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
         },
+        cpkInfo: options.customerProvidedKey,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
       return new BlobQueryResponse(response, {
@@ -3774,7 +3796,7 @@ export class BlockBlobClient extends BlobClient {
         onProgress: options.onProgress,
         onError: options.onError,
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -3842,7 +3864,7 @@ export class BlockBlobClient extends BlobClient {
         blobTagsString: toBlobTagsString(options.tags),
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -3899,9 +3921,10 @@ export class BlockBlobClient extends BlobClient {
         copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
+        copySourceTags: options.copySourceTags,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -3944,7 +3967,7 @@ export class BlockBlobClient extends BlobClient {
         encryptionScope: options.encryptionScope,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -3997,7 +4020,7 @@ export class BlockBlobClient extends BlobClient {
         copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4049,7 +4072,7 @@ export class BlockBlobClient extends BlobClient {
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4095,7 +4118,7 @@ export class BlockBlobClient extends BlobClient {
       }
 
       return res;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4153,7 +4176,7 @@ export class BlockBlobClient extends BlobClient {
           updatedOptions
         );
       }
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4195,7 +4218,7 @@ export class BlockBlobClient extends BlobClient {
         browserBlob.size,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4311,7 +4334,7 @@ export class BlockBlobClient extends BlobClient {
       await batch.do();
 
       return this.commitBlockList(blockList, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4360,7 +4383,7 @@ export class BlockBlobClient extends BlobClient {
           },
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4444,7 +4467,7 @@ export class BlockBlobClient extends BlobClient {
           ...convertTracingToRequestOptionsBase(updatedOptions),
         },
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4654,6 +4677,51 @@ export interface PageBlobGetPageRangesOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure page blob - get page ranges segment operations.
+ *
+ * See:
+ * - {@link PageBlobClient.listPageRangesSegment}
+ * - {@link PageBlobClient.listPageRangeItemSegments}
+ * - {@link PageBlobClient.listPageRangeItems}
+ */
+interface PageBlobListPageRangesSegmentOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Conditions to meet when getting page ranges.
+   */
+  conditions?: BlobRequestConditions;
+  /**
+   * Specifies the maximum number of containers
+   * to return. If the request does not specify maxPageSize, or specifies a
+   * value greater than 5000, the server will return up to 5000 items. Note
+   * that if the listing operation crosses a partition boundary, then the
+   * service will return a continuation token for retrieving the remainder of
+   * the results. For this reason, it is possible that the service will return
+   * fewer results than specified by maxPageSize, or than the default of 5000.
+   */
+  maxPageSize?: number;
+}
+
+/**
+ * Options to configure the {@link PageBlobClient.listPageRanges} operation.
+ */
+export interface PageBlobListPageRangesOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Conditions to meet when getting page ranges.
+   */
+  conditions?: BlobRequestConditions;
+}
+
+/**
  * Options to configure the {@link PageBlobClient.getRangesDiff} operation.
  */
 export interface PageBlobGetPageRangesDiffOptions extends CommonOptions {
@@ -4670,6 +4738,51 @@ export interface PageBlobGetPageRangesDiffOptions extends CommonOptions {
    * (unused)
    */
   range?: string;
+}
+
+/**
+ * Options to configure page blob - get page ranges diff segment operations.
+ *
+ * See:
+ * - {@link PageBlobClient.listPageRangesDiffSegment}
+ * - {@link PageBlobClient.listPageRangeDiffItemSegments}
+ * - {@link PageBlobClient.listPageRangeDiffItems}
+ */
+interface PageBlobListPageRangesDiffSegmentOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Conditions to meet when getting page ranges.
+   */
+  conditions?: BlobRequestConditions;
+  /**
+   * Specifies the maximum number of containers
+   * to return. If the request does not specify maxPageSize, or specifies a
+   * value greater than 5000, the server will return up to 5000 items. Note
+   * that if the listing operation crosses a partition boundary, then the
+   * service will return a continuation token for retrieving the remainder of
+   * the results. For this reason, it is possible that the service will return
+   * fewer results than specified by maxPageSize, or than the default of 5000.
+   */
+  maxPageSize?: number;
+}
+
+/**
+ * Options to configure the {@link PageBlobClient.listPageRangesDiff} operation.
+ */
+export interface PageBlobListPageRangesDiffOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Conditions to meet when getting page ranges diff.
+   */
+  conditions?: BlobRequestConditions;
 }
 
 /**
@@ -4994,7 +5107,7 @@ export class PageBlobClient extends BlobClient {
         blobTagsString: toBlobTagsString(options.tags),
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5031,7 +5144,7 @@ export class PageBlobClient extends BlobClient {
         ...res,
         _response: res._response, // _response is made non-enumerable
       };
-    } catch (e) {
+    } catch (e: any) {
       if (e.details?.errorCode === "BlobAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
@@ -5092,7 +5205,7 @@ export class PageBlobClient extends BlobClient {
         encryptionScope: options.encryptionScope,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5153,7 +5266,7 @@ export class PageBlobClient extends BlobClient {
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5194,7 +5307,7 @@ export class PageBlobClient extends BlobClient {
         encryptionScope: options.encryptionScope,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5234,7 +5347,7 @@ export class PageBlobClient extends BlobClient {
           ...convertTracingToRequestOptionsBase(updatedOptions),
         })
         .then(rangeResponseFromModel);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5243,6 +5356,210 @@ export class PageBlobClient extends BlobClient {
     } finally {
       span.end();
     }
+  }
+
+  /**
+   * getPageRangesSegment returns a single segment of page ranges starting from the
+   * specified Marker. Use an empty Marker to start enumeration from the beginning.
+   * After getting a segment, process it, and then call getPageRangesSegment again
+   * (passing the the previously-returned Marker) to get the next segment.
+   * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
+   *
+   * @param offset - Starting byte position of the page ranges.
+   * @param count - Number of bytes to get.
+   * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
+   * @param options - Options to PageBlob Get Page Ranges Segment operation.
+   */
+  private async listPageRangesSegment(
+    offset: number = 0,
+    count?: number,
+    marker?: string,
+    options: PageBlobListPageRangesSegmentOptions = {}
+  ): Promise<PageBlobGetPageRangesResponseModel> {
+    const { span, updatedOptions } = createSpan("PageBlobClient-getPageRangesSegment", options);
+    try {
+      return await this.pageBlobContext.getPageRanges({
+        abortSignal: options.abortSignal,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions,
+        },
+        range: rangeToString({ offset, count }),
+        marker: marker,
+        maxPageSize: options.maxPageSize,
+        ...convertTracingToRequestOptionsBase(updatedOptions),
+      });
+    } catch (e: any) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+  /**
+   * Returns an AsyncIterableIterator for {@link PageBlobGetPageRangesResponseModel}
+   *
+   * @param offset - Starting byte position of the page ranges.
+   * @param count - Number of bytes to get.
+   * @param marker - A string value that identifies the portion of
+   *                          the get of page ranges to be returned with the next getting operation. The
+   *                          operation returns the ContinuationToken value within the response body if the
+   *                          getting operation did not return all page ranges remaining within the current page.
+   *                          The ContinuationToken value can be used as the value for
+   *                          the marker parameter in a subsequent call to request the next page of get
+   *                          items. The marker value is opaque to the client.
+   * @param options - Options to List Page Ranges operation.
+   */
+  private async *listPageRangeItemSegments(
+    offset: number = 0,
+    count?: number,
+    marker?: string,
+    options: PageBlobListPageRangesSegmentOptions = {}
+  ): AsyncIterableIterator<PageBlobGetPageRangesResponseModel> {
+    let getPageRangeItemSegmentsResponse;
+    if (!!marker || marker === undefined) {
+      do {
+        getPageRangeItemSegmentsResponse = await this.listPageRangesSegment(
+          offset,
+          count,
+          marker,
+          options
+        );
+        marker = getPageRangeItemSegmentsResponse.continuationToken;
+        yield await getPageRangeItemSegmentsResponse;
+      } while (marker);
+    }
+  }
+
+  /**
+   * Returns an AsyncIterableIterator of {@link PageRangeInfo} objects
+   *
+   * @param offset - Starting byte position of the page ranges.
+   * @param count - Number of bytes to get.
+   * @param options - Options to List Page Ranges operation.
+   */
+  private async *listPageRangeItems(
+    offset: number = 0,
+    count?: number,
+    options: PageBlobListPageRangesSegmentOptions = {}
+  ): AsyncIterableIterator<PageRangeInfo> {
+    let marker: string | undefined;
+    for await (const getPageRangesSegment of this.listPageRangeItemSegments(
+      offset,
+      count,
+      marker,
+      options
+    )) {
+      yield* ExtractPageRangeInfoItems(getPageRangesSegment);
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list of page ranges for a page blob.
+   * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
+   *
+   *  .byPage() returns an async iterable iterator to list of page ranges for a page blob.
+   *
+   * Example using `for await` syntax:
+   *
+   * ```js
+   * // Get the pageBlobClient before you run these snippets,
+   * // Can be obtained from `blobServiceClient.getContainerClient("<your-container-name>").getPageBlobClient("<your-blob-name>");`
+   * let i = 1;
+   * for await (const pageRange of pageBlobClient.listPageRanges()) {
+   *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```js
+   * let i = 1;
+   * let iter = pageBlobClient.listPageRanges();
+   * let pageRangeItem = await iter.next();
+   * while (!pageRangeItem.done) {
+   *   console.log(`Page range ${i++}: ${pageRangeItem.value.start} - ${pageRangeItem.value.end}, IsClear: ${pageRangeItem.value.isClear}`);
+   *   pageRangeItem = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```js
+   * // passing optional maxPageSize in the page settings
+   * let i = 1;
+   * for await (const response of pageBlobClient.listPageRanges().byPage({ maxPageSize: 20 })) {
+   *   for (const pageRange of response) {
+   *     console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   *   }
+   * }
+   * ```
+   *
+   * Example using paging with a marker:
+   *
+   * ```js
+   * let i = 1;
+   * let iterator = pageBlobClient.listPageRanges().byPage({ maxPageSize: 2 });
+   * let response = (await iterator.next()).value;
+   *
+   * // Prints 2 page ranges
+   * for (const pageRange of response) {
+   *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   * }
+   *
+   * // Gets next marker
+   * let marker = response.continuationToken;
+   *
+   * // Passing next marker as continuationToken
+   *
+   * iterator = pageBlobClient.listPageRanges().byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await iterator.next()).value;
+   *
+   * // Prints 10 page ranges
+   * for (const blob of response) {
+   *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   * }
+   * ```
+   * @param offset - Starting byte position of the page ranges.
+   * @param count - Number of bytes to get.
+   * @param options - Options to the Page Blob Get Ranges operation.
+   * @returns An asyncIterableIterator that supports paging.
+   */
+  public listPageRanges(
+    offset: number = 0,
+    count?: number,
+    options: PageBlobListPageRangesOptions = {}
+  ): PagedAsyncIterableIterator<PageRangeInfo, PageBlobGetPageRangesResponseModel> {
+    options.conditions = options.conditions || {};
+    // AsyncIterableIterator to iterate over blobs
+    const iter = this.listPageRangeItems(offset, count, options);
+    return {
+      /**
+       * The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.listPageRangeItemSegments(offset, count, settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options,
+        });
+      },
+    };
   }
 
   /**
@@ -5278,7 +5595,7 @@ export class PageBlobClient extends BlobClient {
           ...convertTracingToRequestOptionsBase(updatedOptions),
         })
         .then(rangeResponseFromModel);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5287,6 +5604,235 @@ export class PageBlobClient extends BlobClient {
     } finally {
       span.end();
     }
+  }
+
+  /**
+   * getPageRangesDiffSegment returns a single segment of page ranges starting from the
+   * specified Marker for difference between previous snapshot and the target page blob.
+   * Use an empty Marker to start enumeration from the beginning.
+   * After getting a segment, process it, and then call getPageRangesDiffSegment again
+   * (passing the the previously-returned Marker) to get the next segment.
+   * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
+   *
+   * @param offset - Starting byte position of the page ranges.
+   * @param count - Number of bytes to get.
+   * @param prevSnapshotOrUrl - Timestamp of snapshot to retrieve the difference or URL of snapshot to retrieve the difference.
+   * @param marker - A string value that identifies the portion of the get to be returned with the next get operation.
+   * @param options - Options to the Page Blob Get Page Ranges Diff operation.
+   */
+  private async listPageRangesDiffSegment(
+    offset: number,
+    count: number,
+    prevSnapshotOrUrl: string,
+    marker?: string,
+    options?: PageBlobListPageRangesDiffSegmentOptions
+  ): Promise<PageBlobGetPageRangesResponseModel> {
+    const { span, updatedOptions } = createSpan("PageBlobClient-getPageRangesDiffSegment", options);
+    try {
+      return await this.pageBlobContext.getPageRangesDiff({
+        abortSignal: options?.abortSignal,
+        leaseAccessConditions: options?.conditions,
+        modifiedAccessConditions: {
+          ...options?.conditions,
+          ifTags: options?.conditions?.tagConditions,
+        },
+        prevsnapshot: prevSnapshotOrUrl,
+        range: rangeToString({
+          offset: offset,
+          count: count,
+        }),
+        marker: marker,
+        maxPageSize: options?.maxPageSize,
+        ...convertTracingToRequestOptionsBase(updatedOptions),
+      });
+    } catch (e: any) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+  /**
+   * Returns an AsyncIterableIterator for {@link PageBlobGetPageRangesDiffResponseModel}
+   *
+   *
+   * @param offset - Starting byte position of the page ranges.
+   * @param count - Number of bytes to get.
+   * @param prevSnapshotOrUrl - Timestamp of snapshot to retrieve the difference or URL of snapshot to retrieve the difference.
+   * @param marker - A string value that identifies the portion of
+   *                          the get of page ranges to be returned with the next getting operation. The
+   *                          operation returns the ContinuationToken value within the response body if the
+   *                          getting operation did not return all page ranges remaining within the current page.
+   *                          The ContinuationToken value can be used as the value for
+   *                          the marker parameter in a subsequent call to request the next page of get
+   *                          items. The marker value is opaque to the client.
+   * @param options - Options to the Page Blob Get Page Ranges Diff operation.
+   */
+  private async *listPageRangeDiffItemSegments(
+    offset: number,
+    count: number,
+    prevSnapshotOrUrl: string,
+    marker?: string,
+    options?: PageBlobListPageRangesDiffSegmentOptions
+  ): AsyncIterableIterator<PageBlobGetPageRangesDiffResponseModel> {
+    let getPageRangeItemSegmentsResponse;
+    if (!!marker || marker === undefined) {
+      do {
+        getPageRangeItemSegmentsResponse = await this.listPageRangesDiffSegment(
+          offset,
+          count,
+          prevSnapshotOrUrl,
+          marker,
+          options
+        );
+        marker = getPageRangeItemSegmentsResponse.continuationToken;
+        yield await getPageRangeItemSegmentsResponse;
+      } while (marker);
+    }
+  }
+
+  /**
+   * Returns an AsyncIterableIterator of {@link PageRangeInfo} objects
+   *
+   * @param offset - Starting byte position of the page ranges.
+   * @param count - Number of bytes to get.
+   * @param prevSnapshotOrUrl - Timestamp of snapshot to retrieve the difference or URL of snapshot to retrieve the difference.
+   * @param options - Options to the Page Blob Get Page Ranges Diff operation.
+   */
+  private async *listPageRangeDiffItems(
+    offset: number,
+    count: number,
+    prevSnapshotOrUrl: string,
+    options?: PageBlobListPageRangesDiffSegmentOptions
+  ): AsyncIterableIterator<PageRangeInfo> {
+    let marker: string | undefined;
+    for await (const getPageRangesSegment of this.listPageRangeDiffItemSegments(
+      offset,
+      count,
+      prevSnapshotOrUrl,
+      marker,
+      options
+    )) {
+      yield* ExtractPageRangeInfoItems(getPageRangesSegment);
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list of page ranges that differ between a specified snapshot and this page blob.
+   * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
+   *
+   *  .byPage() returns an async iterable iterator to list of page ranges that differ between a specified snapshot and this page blob.
+   *
+   * Example using `for await` syntax:
+   *
+   * ```js
+   * // Get the pageBlobClient before you run these snippets,
+   * // Can be obtained from `blobServiceClient.getContainerClient("<your-container-name>").getPageBlobClient("<your-blob-name>");`
+   * let i = 1;
+   * for await (const pageRange of pageBlobClient.listPageRangesDiff()) {
+   *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```js
+   * let i = 1;
+   * let iter = pageBlobClient.listPageRangesDiff();
+   * let pageRangeItem = await iter.next();
+   * while (!pageRangeItem.done) {
+   *   console.log(`Page range ${i++}: ${pageRangeItem.value.start} - ${pageRangeItem.value.end}, IsClear: ${pageRangeItem.value.isClear}`);
+   *   pageRangeItem = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```js
+   * // passing optional maxPageSize in the page settings
+   * let i = 1;
+   * for await (const response of pageBlobClient.listPageRangesDiff().byPage({ maxPageSize: 20 })) {
+   *   for (const pageRange of response) {
+   *     console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   *   }
+   * }
+   * ```
+   *
+   * Example using paging with a marker:
+   *
+   * ```js
+   * let i = 1;
+   * let iterator = pageBlobClient.listPageRangesDiff().byPage({ maxPageSize: 2 });
+   * let response = (await iterator.next()).value;
+   *
+   * // Prints 2 page ranges
+   * for (const pageRange of response) {
+   *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   * }
+   *
+   * // Gets next marker
+   * let marker = response.continuationToken;
+   *
+   * // Passing next marker as continuationToken
+   *
+   * iterator = pageBlobClient.listPageRangesDiff().byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await iterator.next()).value;
+   *
+   * // Prints 10 page ranges
+   * for (const blob of response) {
+   *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   * }
+   * ```
+   * @param offset - Starting byte position of the page ranges.
+   * @param count - Number of bytes to get.
+   * @param prevSnapshot - Timestamp of snapshot to retrieve the difference.
+   * @param options - Options to the Page Blob Get Ranges operation.
+   * @returns An asyncIterableIterator that supports paging.
+   */
+  public listPageRangesDiff(
+    offset: number,
+    count: number,
+    prevSnapshot: string,
+    options: PageBlobListPageRangesDiffOptions = {}
+  ): PagedAsyncIterableIterator<PageRangeInfo, PageBlobGetPageRangesDiffResponseModel> {
+    options.conditions = options.conditions || {};
+
+    // AsyncIterableIterator to iterate over blobs
+    const iter = this.listPageRangeDiffItems(offset, count, prevSnapshot, {
+      ...options,
+    });
+    return {
+      /**
+       * The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.listPageRangeDiffItemSegments(
+          offset,
+          count,
+          prevSnapshot,
+          settings.continuationToken,
+          {
+            maxPageSize: settings.maxPageSize,
+            ...options,
+          }
+        );
+      },
+    };
   }
 
   /**
@@ -5325,7 +5871,7 @@ export class PageBlobClient extends BlobClient {
           ...convertTracingToRequestOptionsBase(updatedOptions),
         })
         .then(rangeResponseFromModel);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5361,7 +5907,7 @@ export class PageBlobClient extends BlobClient {
         encryptionScope: options.encryptionScope,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5399,7 +5945,7 @@ export class PageBlobClient extends BlobClient {
         },
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5437,7 +5983,7 @@ export class PageBlobClient extends BlobClient {
         },
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

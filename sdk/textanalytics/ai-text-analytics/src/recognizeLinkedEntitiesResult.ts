@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import {
-  makeTextAnalyticsSuccessResult,
-  TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
+  TextAnalyticsSuccessResult,
   makeTextAnalyticsErrorResult,
+  makeTextAnalyticsSuccessResult,
 } from "./textAnalyticsResult";
-import { TextAnalyticsError, LinkedEntity, DocumentLinkedEntities } from "./generated/models";
+import { DocumentLinkedEntities, LinkedEntity, TextAnalyticsError } from "./generated/models";
 
 /**
  * The result of the recognize linked entities operation on a single document.

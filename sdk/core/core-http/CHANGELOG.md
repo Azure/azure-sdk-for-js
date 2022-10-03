@@ -1,6 +1,6 @@
 # Release History
 
-## 2.2.5 (Unreleased)
+## 2.2.8 (Unreleased)
 
 ### Features Added
 
@@ -8,10 +8,29 @@
 
 ### Bugs Fixed
 
-- Fix an issue where React-Native is loading the wrong file. Adding a `react-native` mapping to point to the ESM entrypoint file. [PR #21118](https://github.com/Azure/azure-sdk-for-js/pull/21118)
-- delay creating XML parser/builder objects so that packages not requiring XML functionality but running on platforms lacking XML support can still load this package. [PR #21118](https://github.com/Azure/azure-sdk-for-js/pull/21118)
+### Other Changes
+
+## 2.2.7 (2022-09-01)
+
+### Bugs Fixed
+
+- Addressed an issue where when header casing is preserved via a custom `HttpClient`, we would not deserialize headers correctly. [PR #22888](https://github.com/Azure/azure-sdk-for-js/pull/22888)
+
+## 2.2.6 (2022-08-04)
 
 ### Other Changes
+
+- Removed the constraints check during serialization. Please refer [#21839](https://github.com/Azure/azure-sdk-for-js/issues/21839) for further details.
+- Address Trusted Types compliance issue.
+
+## 2.2.5 (2022-05-05)
+
+### Bugs Fixed
+
+- Fix an issue where React-Native is loading the wrong file. Adding a `react-native` mapping to point to the ESM entrypoint file. [PR #21118](https://github.com/Azure/azure-sdk-for-js/pull/21118)
+- delay creating XML parser/builder objects so that packages not requiring XML functionality but running on platforms lacking XML support can still load this package. [PR #21118](https://github.com/Azure/azure-sdk-for-js/pull/21118)
+- Add a `react-native` mapping to use `xml2js` as it is already in our dependency list. Customer can get it to work after installing `stream` and `timers` packages in their React-Native project.
+- Fix a run-time error in user agent policy when running in React-Native.
 
 ## 2.2.4 (2022-02-03)
 

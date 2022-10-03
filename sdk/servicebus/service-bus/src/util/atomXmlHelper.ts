@@ -16,7 +16,7 @@ import { Buffer } from "buffer";
 
 import { parseURL } from "./parseUrl";
 import { isJSONLikeObject } from "./utils";
-import { isDefined } from "./typeGuards";
+import { isDefined } from "@azure/core-util";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { InternalQueueOptions } from "../serializers/queueResourceSerializer";
@@ -108,7 +108,7 @@ export async function executeAtomXmlOperation(
         includeRoot: true,
       });
     }
-  } catch (err) {
+  } catch (err: any) {
     const error = new RestError(
       `Error occurred while parsing the response body - expected the service to return valid xml content.`,
       {

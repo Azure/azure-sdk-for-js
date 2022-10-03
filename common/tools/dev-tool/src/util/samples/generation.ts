@@ -169,7 +169,7 @@ export async function makeSampleGenerationInfo(
 
         try {
           contents = fs.readFileSync(path.resolve(projectInfo.path, file));
-        } catch (ex) {
+        } catch (ex: any) {
           fail(`Failed to read custom snippet file '${file}'`, ex);
         }
         return {
@@ -321,18 +321,16 @@ export async function makeSamplesFactory(
    */
   function postProcess(moduleText: string | Buffer): string {
     const content = Buffer.isBuffer(moduleText) ? moduleText.toString("utf8") : moduleText;
-    return (
-      content
-        .replace(new RegExp(`^\\s*\\*\\s*@${AZSDK_META_TAG_PREFIX}.*\n`, "gm"), "")
-        // We also need to clean up extra blank lines that might be left behind by
-        // removing azsdk tags. These regular expressions are extremely frustrating
-        // because they deal almost exclusively in the literal "/" and "*" characters.
-        .replace(/(\s+\*)+\//s, "\n */")
-        // Clean up blank lines at the beginning
-        .replace(/\/\*\*(\s+\*)*/s, `/**\n *`)
-        // Finally remove empty doc comments.
-        .replace(/\s*\/\*\*(\s+\*)*\/\s*/s, "\n\n")
-    );
+    return content
+      .replace(new RegExp(`^\\s*\\*\\s*@${AZSDK_META_TAG_PREFIX}.*\n`, "gm"), "")
+      // We also need to clean up extra blank lines that might be left behind by
+      // removing azsdk tags. These regular expressions are extremely frustrating
+      // because they deal almost exclusively in the literal "/" and "*" characters.
+      .replace(/(\s+\*)+\//s, "\n */")
+      // Clean up blank lines at the beginning
+      .replace(/\/\*\*(\s+\*)*/s, `/**\n *`)
+      // Finally remove empty doc comments.
+      .replace(/\s*\/\*\*(\s+\*)*\/\s*/s, "\n\n");
   }
 
   // We use a tempdir at the outer layer to avoid creating dirty trees

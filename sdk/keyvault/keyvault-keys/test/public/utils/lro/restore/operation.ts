@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { PollOperationState, PollOperation } from "@azure/core-lro";
-import { RequestOptionsBase } from "@azure/core-http";
-import { KeyVaultKey, KeyPollerOptions } from "../../../../../src";
+import { PollOperation, PollOperationState } from "@azure/core-lro";
+import { OperationOptions } from "@azure/core-client";
+import { KeyPollerOptions, KeyVaultKey } from "../../../../../src";
 
 /**
  * Options sent to the beginRestoreKeyBackup method.
@@ -35,9 +35,9 @@ export interface RestoreKeyBackupPollOperationState extends PollOperationState<K
    */
   backup: Uint8Array;
   /**
-   * Options for the core-http requests.
+   * Options for the core-client requests.
    */
-  requestOptions?: RequestOptionsBase;
+  requestOptions?: OperationOptions;
   /**
    * An interface representing a KeyClient. For internal use.
    */
@@ -73,7 +73,7 @@ async function update(
   }
 
   try {
-    state.result = await client.restoreKeyBackup(backup, { requestOptions });
+    state.result = await client.restoreKeyBackup(backup, requestOptions);
     state.isCompleted = true;
   } catch {
     // Nothing to do here.

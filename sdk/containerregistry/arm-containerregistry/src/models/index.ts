@@ -588,18 +588,8 @@ export interface Status {
 export interface NetworkRuleSet {
   /** The default action of allow or deny when no other rules match. */
   defaultAction: DefaultAction;
-  /** The virtual network rules. */
-  virtualNetworkRules?: VirtualNetworkRule[];
   /** The IP ACL rules. */
   ipRules?: IPRule[];
-}
-
-/** Virtual network rule. */
-export interface VirtualNetworkRule {
-  /** The action of virtual network rule. */
-  action?: Action;
-  /** Resource ID of a subnet, for example: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}. */
-  virtualNetworkResourceId: string;
 }
 
 /** IP rule with specific IP or IP range in CIDR format. */
@@ -620,6 +610,10 @@ export interface Policies {
   retentionPolicy?: RetentionPolicy;
   /** The export policy for a container registry. */
   exportPolicy?: ExportPolicy;
+  /** The policy for using ARM audience token for a container registry. */
+  azureADAuthenticationAsArmPolicy?: AzureADAuthenticationAsArmPolicy;
+  /** The soft delete policy for a container registry. */
+  softDeletePolicy?: SoftDeletePolicy;
 }
 
 /** The quarantine policy for a container registry. */
@@ -653,6 +647,25 @@ export interface RetentionPolicy {
 export interface ExportPolicy {
   /** The value that indicates whether the policy is enabled or not. */
   status?: ExportPolicyStatus;
+}
+
+/** The policy for using ARM audience token for a container registry. */
+export interface AzureADAuthenticationAsArmPolicy {
+  /** The value that indicates whether the policy is enabled or not. */
+  status?: AzureADAuthenticationAsArmPolicyStatus;
+}
+
+/** The soft delete policy for a container registry */
+export interface SoftDeletePolicy {
+  /** The number of days after which a soft-deleted item is permanently deleted. */
+  retentionDays?: number;
+  /**
+   * The timestamp when the policy was last updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedTime?: Date;
+  /** The value that indicates whether the policy is enabled or not. */
+  status?: PolicyStatus;
 }
 
 export interface EncryptionProperty {
@@ -1509,6 +1522,23 @@ export interface BaseImageTriggerUpdateParameters {
   status?: TriggerStatus;
   /** The name of the trigger. */
   name: string;
+}
+
+/** The properties of a storage account for a container registry. Only applicable to Classic SKU. */
+export interface StorageAccountProperties {
+  /** The resource ID of the storage account. */
+  id: string;
+}
+
+/** The properties of a package type. */
+export interface PackageType {
+  /** The name of the package type. */
+  name?: string;
+  /**
+   * The endpoint of the package type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoint?: string;
 }
 
 /** The Active Directory Object that will be used for authenticating the token of a container registry. */
@@ -2585,6 +2615,22 @@ export enum KnownExportPolicyStatus {
  * **disabled**
  */
 export type ExportPolicyStatus = string;
+
+/** Known values of {@link AzureADAuthenticationAsArmPolicyStatus} that the service accepts. */
+export enum KnownAzureADAuthenticationAsArmPolicyStatus {
+  Enabled = "enabled",
+  Disabled = "disabled"
+}
+
+/**
+ * Defines values for AzureADAuthenticationAsArmPolicyStatus. \
+ * {@link KnownAzureADAuthenticationAsArmPolicyStatus} can be used interchangeably with AzureADAuthenticationAsArmPolicyStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **enabled** \
+ * **disabled**
+ */
+export type AzureADAuthenticationAsArmPolicyStatus = string;
 
 /** Known values of {@link EncryptionStatus} that the service accepts. */
 export enum KnownEncryptionStatus {

@@ -93,11 +93,13 @@ export class VpnServerConfigurationsAssociatedWithVirtualWanImpl
       { resourceGroupName, virtualWANName, options },
       listOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

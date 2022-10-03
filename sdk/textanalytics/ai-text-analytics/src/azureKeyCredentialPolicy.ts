@@ -3,10 +3,10 @@
 
 import { KeyCredential } from "@azure/core-auth";
 import {
-  PipelineResponse,
-  PipelineRequest,
-  SendRequest,
   PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 
 const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";

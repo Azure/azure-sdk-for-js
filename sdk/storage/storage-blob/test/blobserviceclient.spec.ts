@@ -398,7 +398,7 @@ describe("BlobServiceClient", () => {
     let blobServiceClient: BlobServiceClient | undefined;
     try {
       blobServiceClient = getAlternateBSU();
-    } catch (err) {
+    } catch (err: any) {
       done();
       return;
     }
@@ -442,7 +442,7 @@ describe("BlobServiceClient", () => {
       assert.fail(
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
-    } catch (error) {
+    } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
     }
   });
@@ -593,7 +593,7 @@ describe("BlobServiceClient", () => {
     let blobServiceClient: BlobServiceClient;
     try {
       blobServiceClient = getGenericBSU("SOFT_DELETE_");
-    } catch (err) {
+    } catch (err: any) {
       this.skip();
     }
 

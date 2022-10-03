@@ -8,6 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type TrackBaseUnion = TrackBase | AudioTrack | VideoTrack | TextTrack;
 export type ContentKeyPolicyConfigurationUnion =
   | ContentKeyPolicyConfiguration
   | ContentKeyPolicyClearKeyConfiguration
@@ -47,12 +48,6 @@ export type CodecUnion =
   | VideoUnion
   | CopyVideo
   | CopyAudio;
-export type LayerUnion =
-  | Layer
-  | H265VideoLayerUnion
-  | VideoLayerUnion
-  | JpgLayer
-  | PngLayer;
 export type TrackDescriptorUnion =
   | TrackDescriptor
   | AudioTrackDescriptorUnion
@@ -71,8 +66,6 @@ export type AudioAnalyzerPresetUnion =
 export type JobInputClipUnion = JobInputClip | JobInputAsset | JobInputHttp;
 export type AudioUnion = Audio | AacAudio;
 export type VideoUnion = Video | H265Video | ImageUnion | H264Video;
-export type H265VideoLayerUnion = H265VideoLayer | H265Layer;
-export type VideoLayerUnion = VideoLayer | H264Layer;
 export type AudioTrackDescriptorUnion =
   | AudioTrackDescriptor
   | SelectAudioTrackByAttribute
@@ -87,6 +80,136 @@ export type MultiBitrateFormatUnion =
   | Mp4Format
   | TransportStreamFormat;
 export type ImageUnion = Image | JpgImage | PngImage;
+
+/** A collection of AccountFilter items. */
+export interface AccountFilterCollection {
+  /** A collection of AccountFilter items. */
+  value?: AccountFilter[];
+  /** A link to the next page of the collection (when the collection contains too many results to return in one response). */
+  odataNextLink?: string;
+}
+
+/** The presentation time range, this is asset related and not recommended for Account Filter. */
+export interface PresentationTimeRange {
+  /** The absolute start time boundary. */
+  startTimestamp?: number;
+  /** The absolute end time boundary. */
+  endTimestamp?: number;
+  /** The relative to end sliding window. */
+  presentationWindowDuration?: number;
+  /** The relative to end right edge. */
+  liveBackoffDuration?: number;
+  /** The time scale of time stamps. */
+  timescale?: number;
+  /** The indicator of forcing existing of end time stamp. */
+  forceEndTimestamp?: boolean;
+}
+
+/** Filter First Quality */
+export interface FirstQuality {
+  /** The first quality bitrate. */
+  bitrate: number;
+}
+
+/** Representing a list of FilterTrackPropertyConditions to select a track.  The filters are combined using a logical AND operation. */
+export interface FilterTrackSelection {
+  /** The track selections. */
+  trackSelections: FilterTrackPropertyCondition[];
+}
+
+/** The class to specify one track property condition. */
+export interface FilterTrackPropertyCondition {
+  /** The track property type. */
+  property: FilterTrackPropertyType;
+  /** The track property value. */
+  value: string;
+  /** The track property condition operation. */
+  operation: FilterTrackPropertyCompareOperation;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
 
 /** A collection of Operation items. */
 export interface OperationCollection {
@@ -244,55 +367,6 @@ export interface MetricDimension {
   readonly toBeExportedForShoebox?: boolean;
 }
 
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
-}
-
 /** A collection of MediaService items. */
 export interface MediaServiceCollection {
   /** A collection of MediaService items. */
@@ -359,6 +433,25 @@ export interface AccessControl {
   ipAllowList?: string[];
 }
 
+/** The Private Endpoint resource. */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for Private Endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** A collection of information about the state of the connection between service consumer and provider. */
+export interface PrivateLinkServiceConnectionState {
+  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /** The reason for approval/rejection of the connection. */
+  description?: string;
+  /** A message indicating if changes on the service provider require any updates on the consumer. */
+  actionsRequired?: string;
+}
+
 export interface MediaServiceIdentity {
   /** The identity type. */
   type: string;
@@ -391,41 +484,6 @@ export interface UserAssignedManagedIdentity {
   readonly principalId?: string;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
 /** A Media Services account update. */
 export interface MediaServiceUpdate {
   /** Resource tags. */
@@ -446,6 +504,16 @@ export interface MediaServiceUpdate {
   keyDelivery?: KeyDelivery;
   /** Whether or not public network access is allowed for resources under the Media Services account. */
   publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * Provisioning state of the Media Services account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The Private Endpoint Connections created for the Media Service account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
 }
 
 /** The input to the sync storage keys request. */
@@ -495,25 +563,6 @@ export interface PrivateEndpointConnectionListResult {
   value?: PrivateEndpointConnection[];
 }
 
-/** The Private Endpoint resource. */
-export interface PrivateEndpoint {
-  /**
-   * The ARM identifier for Private Endpoint
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-}
-
-/** A collection of information about the state of the connection between service consumer and provider. */
-export interface PrivateLinkServiceConnectionState {
-  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus;
-  /** The reason for approval/rejection of the connection. */
-  description?: string;
-  /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
-}
-
 /** The input to the check name availability request. */
 export interface CheckNameAvailabilityInput {
   /** The account name. */
@@ -532,50 +581,20 @@ export interface EntityNameAvailabilityCheckOutput {
   message?: string;
 }
 
-/** A collection of AccountFilter items. */
-export interface AccountFilterCollection {
-  /** A collection of AccountFilter items. */
-  value?: AccountFilter[];
-  /** A link to the next page of the collection (when the collection contains too many results to return in one response). */
-  odataNextLink?: string;
-}
-
-/** The presentation time range, this is asset related and not recommended for Account Filter. */
-export interface PresentationTimeRange {
-  /** The absolute start time boundary. */
-  startTimestamp?: number;
-  /** The absolute end time boundary. */
-  endTimestamp?: number;
-  /** The relative to end sliding window. */
-  presentationWindowDuration?: number;
-  /** The relative to end right edge. */
-  liveBackoffDuration?: number;
-  /** The time scale of time stamps. */
-  timescale?: number;
-  /** The indicator of forcing existing of end time stamp. */
-  forceEndTimestamp?: boolean;
-}
-
-/** Filter First Quality */
-export interface FirstQuality {
-  /** The first quality bitrate. */
-  bitrate: number;
-}
-
-/** Representing a list of FilterTrackPropertyConditions to select a track.  The filters are combined using a logical AND operation. */
-export interface FilterTrackSelection {
-  /** The track selections. */
-  trackSelections: FilterTrackPropertyCondition[];
-}
-
-/** The class to specify one track property condition. */
-export interface FilterTrackPropertyCondition {
-  /** The track property type. */
-  property: FilterTrackPropertyType;
-  /** The track property value. */
-  value: string;
-  /** The track property condition operation. */
-  operation: FilterTrackPropertyCompareOperation;
+/** Status of media service operation. */
+export interface MediaServiceOperationStatus {
+  /** Operation identifier. */
+  name: string;
+  /** Operation resource ID. */
+  id?: string;
+  /** Operation start time. */
+  startTime?: Date;
+  /** Operation end time. */
+  endTime?: Date;
+  /** Operation status. */
+  status: string;
+  /** The error detail. */
+  error?: ErrorDetail;
 }
 
 /** A collection of Asset items. */
@@ -677,6 +696,37 @@ export interface AssetFilterCollection {
   value?: AssetFilter[];
   /** A link to the next page of the collection (when the collection contains too many results to return in one response). */
   odataNextLink?: string;
+}
+
+/** A collection of AssetTrack items. */
+export interface AssetTrackCollection {
+  /** A collection of AssetTrack items. */
+  value?: AssetTrack[];
+}
+
+/** Base type for concrete track types. A derived type must be used to represent the Track. */
+export interface TrackBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odataType:
+    | "#Microsoft.Media.AudioTrack"
+    | "#Microsoft.Media.VideoTrack"
+    | "#Microsoft.Media.TextTrack";
+}
+
+/** Status of asset track operation. */
+export interface AssetTrackOperationStatus {
+  /** Operation identifier. */
+  name: string;
+  /** Operation resource ID. */
+  id?: string;
+  /** Operation start time. */
+  startTime?: Date;
+  /** Operation end time. */
+  endTime?: Date;
+  /** Operation status. */
+  status: string;
+  /** The error detail. */
+  error?: ErrorDetail;
 }
 
 /** A collection of ContentKeyPolicy items. */
@@ -955,6 +1005,8 @@ export interface CommonEncryptionCenc {
   contentKeys?: StreamingPolicyContentKeys;
   /** Configuration of DRMs for CommonEncryptionCenc encryption scheme */
   drm?: CencDrmConfiguration;
+  /** Optional configuration supporting ClearKey in CommonEncryptionCenc encryption scheme. */
+  clearKeyEncryptionConfiguration?: ClearKeyEncryptionConfiguration;
 }
 
 /** Class to specify DRM configurations of CommonEncryptionCenc scheme in Streaming Policy */
@@ -979,6 +1031,12 @@ export interface StreamingPolicyWidevineConfiguration {
   customLicenseAcquisitionUrlTemplate?: string;
 }
 
+/** Class to specify ClearKey configuration of common encryption schemes in Streaming Policy */
+export interface ClearKeyEncryptionConfiguration {
+  /** Template for the URL of the custom service delivering content keys to end user players. Not required when using Azure Media Services for issuing licenses. The template supports replaceable tokens that the service will update at runtime with the value specific to the request.  The currently supported token value is {AlternativeMediaId}, which is replaced with the value of StreamingLocatorId.AlternativeMediaId. */
+  customKeysAcquisitionUrlTemplate?: string;
+}
+
 /** Class for CommonEncryptionCbcs encryption scheme */
 export interface CommonEncryptionCbcs {
   /** Representing supported protocols */
@@ -989,6 +1047,8 @@ export interface CommonEncryptionCbcs {
   contentKeys?: StreamingPolicyContentKeys;
   /** Configuration of DRMs for current encryption scheme */
   drm?: CbcsDrmConfiguration;
+  /** Optional configuration supporting ClearKey in CommonEncryptionCbcs encryption scheme. */
+  clearKeyEncryptionConfiguration?: ClearKeyEncryptionConfiguration;
 }
 
 /** Class to specify DRM configurations of CommonEncryptionCbcs scheme in Streaming Policy */
@@ -1198,6 +1258,16 @@ export interface LiveEventActionInput {
   removeOutputsOnStop?: boolean;
 }
 
+/** The status of an async operation. */
+export interface AsyncOperationResult {
+  /** The error object */
+  error?: ErrorDetail;
+  /** Operation Id of the async operation. */
+  name?: string;
+  /** Operation status of the async operation. */
+  status?: AsyncOperationStatus;
+}
+
 /** The LiveOutput list result. */
 export interface LiveOutputListResult {
   /** The result of the List LiveOutput operation. */
@@ -1248,10 +1318,71 @@ export interface AkamaiSignatureHeaderAuthenticationKey {
   expiration?: Date;
 }
 
+/** The streaming endpoint current sku. */
+export interface ArmStreamingEndpointCurrentSku {
+  /**
+   * The streaming endpoint sku name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /** The streaming endpoint sku capacity. */
+  capacity?: number;
+}
+
+export interface StreamingEndpointSkuInfoListResult {
+  /** The result of the List StreamingEndpoint skus. */
+  value?: ArmStreamingEndpointSkuInfo[];
+}
+
+export interface ArmStreamingEndpointSkuInfo {
+  resourceType?: string;
+  /** The streaming endpoint sku capacity. */
+  capacity?: ArmStreamingEndpointCapacity;
+  /** The streaming endpoint sku. */
+  sku?: ArmStreamingEndpointSku;
+}
+
+/** The streaming endpoint sku capacity. */
+export interface ArmStreamingEndpointCapacity {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly scaleType?: string;
+  /** The streaming endpoint default capacity. */
+  default?: number;
+  /** The streaming endpoint minimum capacity. */
+  minimum?: number;
+  /** The streaming endpoint maximum capacity. */
+  maximum?: number;
+}
+
+/** The streaming endpoint sku. */
+export interface ArmStreamingEndpointSku {
+  /**
+   * The streaming endpoint sku name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+}
+
 /** scale units definition */
 export interface StreamingEntityScaleUnit {
   /** The scale unit number of the streaming endpoint. */
   scaleUnit?: number;
+}
+
+/** The HLS setting for a track. */
+export interface HlsSettings {
+  /** The default for the HLS setting. */
+  default?: boolean;
+  /** The forced for the HLS setting. */
+  forced?: boolean;
+  /** The characteristics for the HLS setting. */
+  characteristics?: string;
+}
+
+/** The DASH setting for a track. */
+export interface DashSettings {
+  /** The role for the DASH setting. */
+  role?: string;
 }
 
 /** Configures the Explicit Analog Television Output Restriction control bits. For further details see the PlayReady Compliance Rules. */
@@ -1312,6 +1443,8 @@ export interface ContentKeyPolicyTokenClaim {
 export interface ContentKeyPolicyPlayReadyLicense {
   /** A flag indicating whether test devices can use the license. */
   allowTestDevices: boolean;
+  /** The security level. */
+  securityLevel?: SecurityLevel;
   /** The begin date of license */
   beginDate?: Date;
   /** The expiration date of license. */
@@ -1368,14 +1501,6 @@ export interface Codec {
 
 /** The encoder can be configured to produce video and/or images (thumbnails) at different resolutions, by specifying a layer for each desired resolution. A layer represents the properties for the video or image at a resolution. */
 export interface Layer {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  odataType:
-    | "#Microsoft.Media.H265VideoLayer"
-    | "#Microsoft.Media.H265Layer"
-    | "#Microsoft.Media.VideoLayer"
-    | "#Microsoft.Media.H264Layer"
-    | "#Microsoft.Media.JpgLayer"
-    | "#Microsoft.Media.PngLayer";
   /** The width of the output video for this layer. The value can be absolute (in pixels) or relative (in percentage). For example 50% means the output video has half as many pixels in width as the input. */
   width?: string;
   /** The height of the output video for this layer. The value can be absolute (in pixels) or relative (in percentage). For example 50% means the output video has half as many pixels in height as the input. */
@@ -1505,16 +1630,32 @@ export interface ClipTime {
     | "#Microsoft.Media.UtcClipTime";
 }
 
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** The Private Endpoint Connection resource. */
+export interface PrivateEndpointConnection extends Resource {
+  /** The resource of private end point. */
+  privateEndpoint?: PrivateEndpoint;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /**
+   * The provisioning state of the private endpoint connection resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** A private link resource */
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
   /**
    * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1527,56 +1668,93 @@ export type PrivateLinkResource = Resource & {
   readonly requiredMembers?: string[];
   /** The private link resource Private link DNS zone name. */
   requiredZoneNames?: string[];
-};
+}
 
-/** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnection = Resource & {
-  /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpoint;
-  /** A collection of information about the state of the connection between service consumer and provider. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+/** Represents an audio track in the asset. */
+export interface AudioTrack extends TrackBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odataType: "#Microsoft.Media.AudioTrack";
+  /** The file name to the source file. This file is located in the storage container of the asset. */
+  fileName?: string;
+  /** The display name of the audio track on a video player. In HLS, this maps to the NAME attribute of EXT-X-MEDIA. */
+  displayName?: string;
+  /** The RFC5646 language code for the audio track. */
+  languageCode?: string;
+  /** The HLS specific setting for the audio track. */
+  hlsSettings?: HlsSettings;
+  /** The DASH specific setting for the audio track. */
+  dashSettings?: DashSettings;
+  /** The MPEG-4 audio track ID for the audio track. */
+  mpeg4TrackId?: number;
   /**
-   * The provisioning state of the private endpoint connection resource.
+   * The stream bit rate for the audio track.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+  readonly bitRate?: number;
+}
 
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+/** Represents a video track in the asset. */
+export interface VideoTrack extends TrackBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odataType: "#Microsoft.Media.VideoTrack";
+}
+
+/** Represents a text track in an asset. A text track is usually used for sparse data related to the audio or video tracks. */
+export interface TextTrack extends TrackBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odataType: "#Microsoft.Media.TextTrack";
+  /** The file name to the source file. This file is located in the storage container of the asset. */
+  fileName?: string;
+  /** The display name of the text track on a video player. In HLS, this maps to the NAME attribute of EXT-X-MEDIA. */
+  displayName?: string;
+  /**
+   * The RFC5646 language code for the text track.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly languageCode?: string;
+  /** When PlayerVisibility is set to "Visible", the text track will be present in the DASH manifest or HLS playlist when requested by a client. When the PlayerVisibility is set to "Hidden", the text will not be available to the client. The default value is "Visible". */
+  playerVisibility?: Visibility;
+  /** The HLS specific setting for the text track. */
+  hlsSettings?: HlsSettings;
+}
 
 /** Represents a configuration for non-DRM keys. */
-export type ContentKeyPolicyClearKeyConfiguration = ContentKeyPolicyConfiguration & {
+export interface ContentKeyPolicyClearKeyConfiguration
+  extends ContentKeyPolicyConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyClearKeyConfiguration";
-};
+}
 
 /** Represents a ContentKeyPolicyConfiguration that is unavailable in the current API version. */
-export type ContentKeyPolicyUnknownConfiguration = ContentKeyPolicyConfiguration & {
+export interface ContentKeyPolicyUnknownConfiguration
+  extends ContentKeyPolicyConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyUnknownConfiguration";
-};
+}
 
 /** Specifies a configuration for Widevine licenses. */
-export type ContentKeyPolicyWidevineConfiguration = ContentKeyPolicyConfiguration & {
+export interface ContentKeyPolicyWidevineConfiguration
+  extends ContentKeyPolicyConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyWidevineConfiguration";
   /** The Widevine template. */
   widevineTemplate: string;
-};
+}
 
 /** Specifies a configuration for PlayReady licenses. */
-export type ContentKeyPolicyPlayReadyConfiguration = ContentKeyPolicyConfiguration & {
+export interface ContentKeyPolicyPlayReadyConfiguration
+  extends ContentKeyPolicyConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyPlayReadyConfiguration";
   /** The PlayReady licenses. */
   licenses: ContentKeyPolicyPlayReadyLicense[];
   /** The custom response data. */
   responseCustomData?: string;
-};
+}
 
 /** Specifies a configuration for FairPlay licenses. */
-export type ContentKeyPolicyFairPlayConfiguration = ContentKeyPolicyConfiguration & {
+export interface ContentKeyPolicyFairPlayConfiguration
+  extends ContentKeyPolicyConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyFairPlayConfiguration";
   /** The key that must be used as FairPlay Application Secret key. */
@@ -1591,22 +1769,25 @@ export type ContentKeyPolicyFairPlayConfiguration = ContentKeyPolicyConfiguratio
   rentalDuration: number;
   /** Offline rental policy */
   offlineRentalConfiguration?: ContentKeyPolicyFairPlayOfflineRentalConfiguration;
-};
+}
 
 /** Represents an open restriction. License or key will be delivered on every request. */
-export type ContentKeyPolicyOpenRestriction = ContentKeyPolicyRestriction & {
+export interface ContentKeyPolicyOpenRestriction
+  extends ContentKeyPolicyRestriction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyOpenRestriction";
-};
+}
 
 /** Represents a ContentKeyPolicyRestriction that is unavailable in the current API version. */
-export type ContentKeyPolicyUnknownRestriction = ContentKeyPolicyRestriction & {
+export interface ContentKeyPolicyUnknownRestriction
+  extends ContentKeyPolicyRestriction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyUnknownRestriction";
-};
+}
 
 /** Represents a token restriction. Provided token must match these requirements for successful license or key delivery. */
-export type ContentKeyPolicyTokenRestriction = ContentKeyPolicyRestriction & {
+export interface ContentKeyPolicyTokenRestriction
+  extends ContentKeyPolicyRestriction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyTokenRestriction";
   /** The token issuer. */
@@ -1614,7 +1795,7 @@ export type ContentKeyPolicyTokenRestriction = ContentKeyPolicyRestriction & {
   /** The audience for the token. */
   audience: string;
   /** The primary verification key. */
-  primaryVerificationKey: ContentKeyPolicyRestrictionTokenKeyUnion;
+  primaryVerificationKey: ContentKeyPolicyRestrictionTokenKeyUnion | null;
   /** A list of alternative verification keys. */
   alternateVerificationKeys?: ContentKeyPolicyRestrictionTokenKeyUnion[];
   /** A list of required token claims. */
@@ -1623,10 +1804,10 @@ export type ContentKeyPolicyTokenRestriction = ContentKeyPolicyRestriction & {
   restrictionTokenType: ContentKeyPolicyRestrictionTokenType;
   /** The OpenID connect discovery document. */
   openIdConnectDiscoveryDocument?: string;
-};
+}
 
 /** Describes all the settings to be used when analyzing a video in order to detect (and optionally redact) all the faces present. */
-export type FaceDetectorPreset = Preset & {
+export interface FaceDetectorPreset extends Preset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.FaceDetectorPreset";
   /** Specifies the maximum resolution at which your video is analyzed. The default behavior is "SourceResolution," which will keep the input video at its original resolution when analyzed. Using "StandardDefinition" will resize input videos to standard definition while preserving the appropriate aspect ratio. It will only resize if the video is of higher resolution. For example, a 1920x1080 input would be scaled to 640x360 before processing. Switching to "StandardDefinition" will reduce the time it takes to process high resolution video. It may also reduce the cost of using this component (see https://azure.microsoft.com/en-us/pricing/details/media-services/#analytics for details). However, faces that end up being too small in the resized video may not be detected. */
@@ -1637,10 +1818,10 @@ export type FaceDetectorPreset = Preset & {
   blurType?: BlurType;
   /** Dictionary containing key value pairs for parameters not exposed in the preset itself */
   experimentalOptions?: { [propertyName: string]: string };
-};
+}
 
 /** The Audio Analyzer preset applies a pre-defined set of AI-based analysis operations, including speech transcription. Currently, the preset supports processing of content with a single audio track. */
-export type AudioAnalyzerPreset = Preset & {
+export interface AudioAnalyzerPreset extends Preset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType:
     | "#Microsoft.Media.AudioAnalyzerPreset"
@@ -1651,20 +1832,20 @@ export type AudioAnalyzerPreset = Preset & {
   mode?: AudioAnalysisMode;
   /** Dictionary containing key value pairs for parameters not exposed in the preset itself */
   experimentalOptions?: { [propertyName: string]: string };
-};
+}
 
 /** Describes a built-in preset for encoding the input video with the Standard Encoder. */
-export type BuiltInStandardEncoderPreset = Preset & {
+export interface BuiltInStandardEncoderPreset extends Preset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.BuiltInStandardEncoderPreset";
-  /** PresetConfigurations are only supported for the ContentAwareEncoding and H265ContentAwareEncoding built-in presets. These settings will not affect other built-in or custom defined presets. */
+  /** Optional configuration settings for encoder. Configurations is only supported for ContentAwareEncoding and H265ContentAwareEncoding BuiltInStandardEncoderPreset. */
   configurations?: PresetConfigurations;
   /** The built-in preset to be used for encoding videos. */
   presetName: EncoderNamedPreset;
-};
+}
 
 /** Describes all the settings to be used when encoding the input video with the Standard Encoder. */
-export type StandardEncoderPreset = Preset & {
+export interface StandardEncoderPreset extends Preset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.StandardEncoderPreset";
   /** One or more filtering operations that are applied to the input media before encoding. */
@@ -1673,10 +1854,10 @@ export type StandardEncoderPreset = Preset & {
   codecs: CodecUnion[];
   /** The list of outputs to be produced by the encoder. */
   formats: FormatUnion[];
-};
+}
 
 /** Represents input files for a Job. */
-export type JobInputClip = JobInput & {
+export interface JobInputClip extends JobInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType:
     | "#Microsoft.Media.JobInputClip"
@@ -1692,74 +1873,79 @@ export type JobInputClip = JobInput & {
   label?: string;
   /** Defines a list of InputDefinitions. For each InputDefinition, it defines a list of track selections and related metadata. */
   inputDefinitions?: InputDefinitionUnion[];
-};
+}
 
 /** Describes a list of inputs to a Job. */
-export type JobInputs = JobInput & {
+export interface JobInputs extends JobInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.JobInputs";
   /** List of inputs to a Job. */
   inputs?: JobInputUnion[];
-};
+}
 
 /** A Sequence contains an ordered list of Clips where each clip is a JobInput.  The Sequence will be treated as a single input. */
-export type JobInputSequence = JobInput & {
+export interface JobInputSequence extends JobInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.JobInputSequence";
   /** JobInputs that make up the timeline. */
   inputs?: JobInputClipUnion[];
-};
+}
 
 /** Represents an Asset used as a JobOutput. */
-export type JobOutputAsset = JobOutput & {
+export interface JobOutputAsset extends JobOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.JobOutputAsset";
   /** The name of the output Asset. */
   assetName: string;
-};
+}
 
 /** Specifies that the content key ID is in the PlayReady header. */
-export type ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader = ContentKeyPolicyPlayReadyContentKeyLocation & {
+export interface ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader
+  extends ContentKeyPolicyPlayReadyContentKeyLocation {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader";
-};
+}
 
 /** Specifies that the content key ID is specified in the PlayReady configuration. */
-export type ContentKeyPolicyPlayReadyContentEncryptionKeyFromKeyIdentifier = ContentKeyPolicyPlayReadyContentKeyLocation & {
+export interface ContentKeyPolicyPlayReadyContentEncryptionKeyFromKeyIdentifier
+  extends ContentKeyPolicyPlayReadyContentKeyLocation {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromKeyIdentifier";
   /** The content key ID. */
   keyId: string | null;
-};
+}
 
 /** Specifies a symmetric key for token validation. */
-export type ContentKeyPolicySymmetricTokenKey = ContentKeyPolicyRestrictionTokenKey & {
+export interface ContentKeyPolicySymmetricTokenKey
+  extends ContentKeyPolicyRestrictionTokenKey {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey";
   /** The key value of the key */
   keyValue: Uint8Array | null;
-};
+}
 
 /** Specifies a RSA key for token validation */
-export type ContentKeyPolicyRsaTokenKey = ContentKeyPolicyRestrictionTokenKey & {
+export interface ContentKeyPolicyRsaTokenKey
+  extends ContentKeyPolicyRestrictionTokenKey {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyRsaTokenKey";
   /** The RSA Parameter exponent */
   exponent: Uint8Array | null;
   /** The RSA Parameter modulus */
   modulus: Uint8Array | null;
-};
+}
 
 /** Specifies a certificate for token validation. */
-export type ContentKeyPolicyX509CertificateTokenKey = ContentKeyPolicyRestrictionTokenKey & {
+export interface ContentKeyPolicyX509CertificateTokenKey
+  extends ContentKeyPolicyRestrictionTokenKey {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyX509CertificateTokenKey";
   /** The raw data field of a certificate in PKCS 12 format (X509Certificate2 in .NET) */
   rawBody: Uint8Array | null;
-};
+}
 
 /** Defines the common properties for all audio codecs. */
-export type Audio = Codec & {
+export interface Audio extends Codec {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio";
   /** The number of channels in the audio. */
@@ -1768,10 +1954,10 @@ export type Audio = Codec & {
   samplingRate?: number;
   /** The bitrate, in bits per second, of the output encoded audio. */
   bitrate?: number;
-};
+}
 
 /** Describes the basic properties for encoding the input video. */
-export type Video = Codec & {
+export interface Video extends Codec {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType:
     | "#Microsoft.Media.Video"
@@ -1786,24 +1972,22 @@ export type Video = Codec & {
   stretchMode?: StretchMode;
   /** The Video Sync Mode */
   syncMode?: VideoSyncMode;
-};
+}
 
 /** A codec flag, which tells the encoder to copy the input video bitstream without re-encoding. */
-export type CopyVideo = Codec & {
+export interface CopyVideo extends Codec {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.CopyVideo";
-};
+}
 
 /** A codec flag, which tells the encoder to copy the input audio bitstream. */
-export type CopyAudio = Codec & {
+export interface CopyAudio extends Codec {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.CopyAudio";
-};
+}
 
 /** Describes the settings to be used when encoding the input video into a desired output bitrate layer. */
-export type H265VideoLayer = Layer & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  odataType: "#Microsoft.Media.H265VideoLayer" | "#Microsoft.Media.H265Layer";
+export interface H265VideoLayer extends Layer {
   /** The average bitrate in bits per second at which to encode the input video when generating this layer. For example: a target bitrate of 3000Kbps or 3Mbps means this value should be 3000000 This is a required field. */
   bitrate: number;
   /** The maximum bitrate (in bits per second), at which the VBV buffer should be assumed to refill. If not specified, defaults to the same value as bitrate. */
@@ -1816,12 +2000,10 @@ export type H265VideoLayer = Layer & {
   slices?: number;
   /** Specifies whether or not adaptive B-frames are to be used when encoding this layer. If not specified, the encoder will turn it on whenever the video profile permits its use. */
   adaptiveBFrame?: boolean;
-};
+}
 
 /** Describes the settings to be used when encoding the input video into a desired output bitrate layer. */
-export type VideoLayer = Layer & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  odataType: "#Microsoft.Media.VideoLayer" | "#Microsoft.Media.H264Layer";
+export interface VideoLayer extends Layer {
   /** The average bitrate in bits per second at which to encode the input video when generating this layer. This is a required field. */
   bitrate: number;
   /** The maximum bitrate (in bits per second), at which the VBV buffer should be assumed to refill. If not specified, defaults to the same value as bitrate. */
@@ -1834,24 +2016,19 @@ export type VideoLayer = Layer & {
   slices?: number;
   /** Whether or not adaptive B-frames are to be used when encoding this layer. If not specified, the encoder will turn it on whenever the video profile permits its use. */
   adaptiveBFrame?: boolean;
-};
+}
 
 /** Describes the settings to produce a JPEG image from the input video. */
-export type JpgLayer = Layer & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  odataType: "#Microsoft.Media.JpgLayer";
+export interface JpgLayer extends Layer {
   /** The compression quality of the JPEG output. Range is from 0-100 and the default is 70. */
   quality?: number;
-};
+}
 
 /** Describes the settings to produce a PNG image from the input video. */
-export type PngLayer = Layer & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  odataType: "#Microsoft.Media.PngLayer";
-};
+export interface PngLayer extends Layer {}
 
 /** A TrackSelection to select audio tracks. */
-export type AudioTrackDescriptor = TrackDescriptor & {
+export interface AudioTrackDescriptor extends TrackDescriptor {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType:
     | "#Microsoft.Media.AudioTrackDescriptor"
@@ -1859,45 +2036,45 @@ export type AudioTrackDescriptor = TrackDescriptor & {
     | "#Microsoft.Media.SelectAudioTrackById";
   /** Optional designation for single channel audio tracks.  Can be used to combine the tracks into stereo or multi-channel audio tracks. */
   channelMapping?: ChannelMapping;
-};
+}
 
 /** A TrackSelection to select video tracks. */
-export type VideoTrackDescriptor = TrackDescriptor & {
+export interface VideoTrackDescriptor extends TrackDescriptor {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType:
     | "#Microsoft.Media.VideoTrackDescriptor"
     | "#Microsoft.Media.SelectVideoTrackByAttribute"
     | "#Microsoft.Media.SelectVideoTrackById";
-};
+}
 
 /** An InputDefinition that looks across all of the files provided to select tracks specified by the IncludedTracks property. Generally used with the AudioTrackByAttribute and VideoTrackByAttribute to allow selection of a single track across a set of input files. */
-export type FromAllInputFile = InputDefinition & {
+export interface FromAllInputFile extends InputDefinition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.FromAllInputFile";
-};
+}
 
 /** An InputDefinition that looks at each input file provided to select tracks specified by the IncludedTracks property. Generally used with the AudioTrackByAttribute and VideoTrackByAttribute to select tracks from each file given. */
-export type FromEachInputFile = InputDefinition & {
+export interface FromEachInputFile extends InputDefinition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.FromEachInputFile";
-};
+}
 
 /** An InputDefinition for a single file.  TrackSelections are scoped to the file specified. */
-export type InputFile = InputDefinition & {
+export interface InputFile extends InputDefinition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.InputFile";
   /** Name of the file that this input definition applies to. */
   filename?: string;
-};
+}
 
 /** Describes the properties of an audio overlay. */
-export type AudioOverlay = Overlay & {
+export interface AudioOverlay extends Overlay {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.AudioOverlay";
-};
+}
 
 /** Describes the properties of a video overlay. */
-export type VideoOverlay = Overlay & {
+export interface VideoOverlay extends Overlay {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.VideoOverlay";
   /** The location in the input video where the overlay is applied. */
@@ -1906,19 +2083,19 @@ export type VideoOverlay = Overlay & {
   opacity?: number;
   /** An optional rectangular window used to crop the overlay image or video. */
   cropRectangle?: Rectangle;
-};
+}
 
 /** Describes the properties for an output image file. */
-export type ImageFormat = Format & {
+export interface ImageFormat extends Format {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType:
     | "#Microsoft.Media.ImageFormat"
     | "#Microsoft.Media.JpgFormat"
     | "#Microsoft.Media.PngFormat";
-};
+}
 
 /** Describes the properties for producing a collection of GOP aligned multi-bitrate files. The default behavior is to produce one output file for each video layer which is muxed together with all the audios. The exact output files produced can be controlled by specifying the outputFiles collection. */
-export type MultiBitrateFormat = Format & {
+export interface MultiBitrateFormat extends Format {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType:
     | "#Microsoft.Media.MultiBitrateFormat"
@@ -1926,33 +2103,305 @@ export type MultiBitrateFormat = Format & {
     | "#Microsoft.Media.TransportStreamFormat";
   /** The list of output files to produce.  Each entry in the list is a set of audio and video layer labels to be muxed together . */
   outputFiles?: OutputFile[];
-};
+}
 
 /** Specifies the clip time as an absolute time position in the media file.  The absolute time can point to a different position depending on whether the media file starts from a timestamp of zero or not. */
-export type AbsoluteClipTime = ClipTime & {
+export interface AbsoluteClipTime extends ClipTime {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.AbsoluteClipTime";
   /** The time position on the timeline of the input media. It is usually specified as an ISO8601 period. e.g PT30S for 30 seconds. */
   time: string;
-};
+}
 
 /** Specifies the clip time as a Utc time position in the media file.  The Utc time can point to a different position depending on whether the media file starts from a timestamp of zero or not. */
-export type UtcClipTime = ClipTime & {
+export interface UtcClipTime extends ClipTime {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.UtcClipTime";
   /** The time position on the timeline of the input media based on Utc time. */
   time: Date;
-};
+}
 
-/** A Media Services account. */
-export type MediaService = TrackedResource & {
-  /** The Managed Identity for the Media Services account. */
-  identity?: MediaServiceIdentity;
+/** An Account Filter. */
+export interface AccountFilter extends ProxyResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
+  /** The presentation time range. */
+  presentationTimeRange?: PresentationTimeRange;
+  /** The first quality. */
+  firstQuality?: FirstQuality;
+  /** The tracks selection conditions. */
+  tracks?: FilterTrackSelection[];
+}
+
+/** An Asset. */
+export interface Asset extends ProxyResource {
+  /**
+   * The system metadata relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The Asset ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly assetId?: string;
+  /**
+   * The creation date of the Asset.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly created?: Date;
+  /**
+   * The last modified date of the Asset.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModified?: Date;
+  /** The alternate ID of the Asset. */
+  alternateId?: string;
+  /** The Asset description. */
+  description?: string;
+  /** The name of the asset blob container. */
+  container?: string;
+  /** The name of the storage account. */
+  storageAccountName?: string;
+  /**
+   * The Asset encryption format. One of None or MediaStorageEncryption.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageEncryptionFormat?: AssetStorageEncryptionFormat;
+}
+
+/** An Asset Filter. */
+export interface AssetFilter extends ProxyResource {
+  /**
+   * The system metadata relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The presentation time range. */
+  presentationTimeRange?: PresentationTimeRange;
+  /** The first quality. */
+  firstQuality?: FirstQuality;
+  /** The tracks selection conditions. */
+  tracks?: FilterTrackSelection[];
+}
+
+/** An Asset Track resource. */
+export interface AssetTrack extends ProxyResource {
+  /** Detailed information about a track in the asset. */
+  track?: TrackBaseUnion;
+  /**
+   * Provisioning state of the asset track.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** A Content Key Policy resource. */
+export interface ContentKeyPolicy extends ProxyResource {
+  /**
+   * The system metadata relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The legacy Policy ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyId?: string;
+  /**
+   * The creation date of the Policy
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly created?: Date;
+  /**
+   * The last modified date of the Policy
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModified?: Date;
+  /** A description for the Policy. */
+  description?: string;
+  /** The Key Policy options. */
+  options?: ContentKeyPolicyOption[];
+}
+
+/** A Transform encapsulates the rules or instructions for generating desired outputs from input media, such as by transcoding or by extracting insights. After the Transform is created, it can be applied to input media by creating Jobs. */
+export interface Transform extends ProxyResource {
+  /**
+   * The system metadata relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The UTC date and time when the Transform was created, in 'YYYY-MM-DDThh:mm:ssZ' format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly created?: Date;
+  /** An optional verbose description of the Transform. */
+  description?: string;
+  /**
+   * The UTC date and time when the Transform was last updated, in 'YYYY-MM-DDThh:mm:ssZ' format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModified?: Date;
+  /** An array of one or more TransformOutputs that the Transform should generate. */
+  outputs?: TransformOutput[];
+}
+
+/** A Job resource type. The progress and state can be obtained by polling a Job or subscribing to events using EventGrid. */
+export interface Job extends ProxyResource {
+  /**
+   * The system metadata relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The UTC date and time when the customer has created the Job, in 'YYYY-MM-DDThh:mm:ssZ' format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly created?: Date;
+  /**
+   * The current state of the job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: JobState;
+  /** Optional customer supplied description of the Job. */
+  description?: string;
+  /** The inputs for the Job. */
+  input?: JobInputUnion;
+  /**
+   * The UTC date and time when the customer has last updated the Job, in 'YYYY-MM-DDThh:mm:ssZ' format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModified?: Date;
+  /** The outputs for the Job. */
+  outputs?: JobOutputUnion[];
+  /** Priority with which the job should be processed. Higher priority jobs are processed before lower priority jobs. If not set, the default is normal. */
+  priority?: Priority;
+  /** Customer provided key, value pairs that will be returned in Job and JobOutput state events. */
+  correlationData?: { [propertyName: string]: string };
+  /**
+   * The UTC date and time at which this Job began processing.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+  /**
+   * The UTC date and time at which this Job finished processing.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: Date;
+}
+
+/** A Streaming Policy resource */
+export interface StreamingPolicy extends ProxyResource {
+  /**
+   * The system metadata relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Creation time of Streaming Policy
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly created?: Date;
+  /** Default ContentKey used by current Streaming Policy */
+  defaultContentKeyPolicyName?: string;
+  /** Configuration of EnvelopeEncryption */
+  envelopeEncryption?: EnvelopeEncryption;
+  /** Configuration of CommonEncryptionCenc */
+  commonEncryptionCenc?: CommonEncryptionCenc;
+  /** Configuration of CommonEncryptionCbcs */
+  commonEncryptionCbcs?: CommonEncryptionCbcs;
+  /** Configurations of NoEncryption */
+  noEncryption?: NoEncryption;
+}
+
+/** A Streaming Locator resource */
+export interface StreamingLocator extends ProxyResource {
+  /**
+   * The system metadata relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Asset Name */
+  assetName?: string;
+  /**
+   * The creation time of the Streaming Locator.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly created?: Date;
+  /** The start time of the Streaming Locator. */
+  startTime?: Date;
+  /** The end time of the Streaming Locator. */
+  endTime?: Date;
+  /** The StreamingLocatorId of the Streaming Locator. */
+  streamingLocatorId?: string;
+  /** Name of the Streaming Policy used by this Streaming Locator. Either specify the name of Streaming Policy you created or use one of the predefined Streaming Policies. The predefined Streaming Policies available are: 'Predefined_DownloadOnly', 'Predefined_ClearStreamingOnly', 'Predefined_DownloadAndClearStreaming', 'Predefined_ClearKey', 'Predefined_MultiDrmCencStreaming' and 'Predefined_MultiDrmStreaming' */
+  streamingPolicyName?: string;
+  /** Name of the default ContentKeyPolicy used by this Streaming Locator. */
+  defaultContentKeyPolicyName?: string;
+  /** The ContentKeys used by this Streaming Locator. */
+  contentKeys?: StreamingLocatorContentKey[];
+  /** Alternative Media ID of this Streaming Locator */
+  alternativeMediaId?: string;
+  /** A list of asset or account filters which apply to this streaming locator */
+  filters?: string[];
+}
+
+/** The Live Output. */
+export interface LiveOutput extends ProxyResource {
+  /**
+   * The system metadata relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The description of the live output. */
+  description?: string;
+  /** The asset that the live output will write to. */
+  assetName?: string;
+  /** ISO 8601 time between 1 minute to 25 hours to indicate the maximum content length that can be archived in the asset for this live output. This also sets the maximum content length for the rewind window. For example, use PT1H30M to indicate 1 hour and 30 minutes of archive window. */
+  archiveWindowLength?: string;
+  /** ISO 8601 time between 1 minute to the duration of archiveWindowLength to control seek-able window length during Live. The service won't use this property once LiveOutput stops. The archived VOD will have full content with original ArchiveWindowLength. For example, use PT1H30M to indicate 1 hour and 30 minutes of rewind window length. Service will use implicit default value 30m only if Live Event enables LL. */
+  rewindWindowLength?: string;
+  /** The manifest file name. If not provided, the service will generate one automatically. */
+  manifestName?: string;
+  /** HTTP Live Streaming (HLS) packing setting for the live output. */
+  hls?: Hls;
+  /** The initial timestamp that the live output will start at, any content before this value will not be archived. */
+  outputSnapTime?: number;
+  /**
+   * The creation time the live output.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly created?: Date;
+  /**
+   * The time the live output was last modified.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModified?: Date;
+  /**
+   * The provisioning state of the live output.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * The resource state of the live output.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceState?: LiveOutputResourceState;
+}
+
+/** A Media Services account. */
+export interface MediaService extends TrackedResource {
+  /**
+   * The system metadata relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The Managed Identity for the Media Services account. */
+  identity?: MediaServiceIdentity;
   /**
    * The Media Services account ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1967,10 +2416,20 @@ export type MediaService = TrackedResource & {
   keyDelivery?: KeyDelivery;
   /** Whether or not public network access is allowed for resources under the Media Services account. */
   publicNetworkAccess?: PublicNetworkAccess;
-};
+  /**
+   * Provisioning state of the Media Services account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The Private Endpoint Connections created for the Media Service account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+}
 
 /** The live event. */
-export type LiveEvent = TrackedResource & {
+export interface LiveEvent extends TrackedResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2014,15 +2473,17 @@ export type LiveEvent = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModified?: Date;
-};
+}
 
 /** The streaming endpoint. */
-export type StreamingEndpoint = TrackedResource & {
+export interface StreamingEndpoint extends TrackedResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
+  /** The streaming endpoint sku. */
+  sku?: ArmStreamingEndpointCurrentSku;
   /** The streaming endpoint description. */
   description?: string;
   /** The number of scale units. Use the Scale operation to adjust this value. */
@@ -2073,301 +2534,42 @@ export type StreamingEndpoint = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModified?: Date;
-};
-
-/** An Account Filter. */
-export type AccountFilter = ProxyResource & {
-  /**
-   * The system metadata relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The presentation time range. */
-  presentationTimeRange?: PresentationTimeRange;
-  /** The first quality. */
-  firstQuality?: FirstQuality;
-  /** The tracks selection conditions. */
-  tracks?: FilterTrackSelection[];
-};
-
-/** An Asset. */
-export type Asset = ProxyResource & {
-  /**
-   * The system metadata relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * The Asset ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly assetId?: string;
-  /**
-   * The creation date of the Asset.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly created?: Date;
-  /**
-   * The last modified date of the Asset.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastModified?: Date;
-  /** The alternate ID of the Asset. */
-  alternateId?: string;
-  /** The Asset description. */
-  description?: string;
-  /** The name of the asset blob container. */
-  container?: string;
-  /** The name of the storage account. */
-  storageAccountName?: string;
-  /**
-   * The Asset encryption format. One of None or MediaStorageEncryption.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly storageEncryptionFormat?: AssetStorageEncryptionFormat;
-};
-
-/** An Asset Filter. */
-export type AssetFilter = ProxyResource & {
-  /**
-   * The system metadata relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The presentation time range. */
-  presentationTimeRange?: PresentationTimeRange;
-  /** The first quality. */
-  firstQuality?: FirstQuality;
-  /** The tracks selection conditions. */
-  tracks?: FilterTrackSelection[];
-};
-
-/** A Content Key Policy resource. */
-export type ContentKeyPolicy = ProxyResource & {
-  /**
-   * The system metadata relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * The legacy Policy ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly policyId?: string;
-  /**
-   * The creation date of the Policy
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly created?: Date;
-  /**
-   * The last modified date of the Policy
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastModified?: Date;
-  /** A description for the Policy. */
-  description?: string;
-  /** The Key Policy options. */
-  options?: ContentKeyPolicyOption[];
-};
-
-/** A Transform encapsulates the rules or instructions for generating desired outputs from input media, such as by transcoding or by extracting insights. After the Transform is created, it can be applied to input media by creating Jobs. */
-export type Transform = ProxyResource & {
-  /**
-   * The system metadata relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * The UTC date and time when the Transform was created, in 'YYYY-MM-DDThh:mm:ssZ' format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly created?: Date;
-  /** An optional verbose description of the Transform. */
-  description?: string;
-  /**
-   * The UTC date and time when the Transform was last updated, in 'YYYY-MM-DDThh:mm:ssZ' format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastModified?: Date;
-  /** An array of one or more TransformOutputs that the Transform should generate. */
-  outputs?: TransformOutput[];
-};
-
-/** A Job resource type. The progress and state can be obtained by polling a Job or subscribing to events using EventGrid. */
-export type Job = ProxyResource & {
-  /**
-   * The system metadata relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * The UTC date and time when the customer has created the Job, in 'YYYY-MM-DDThh:mm:ssZ' format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly created?: Date;
-  /**
-   * The current state of the job.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: JobState;
-  /** Optional customer supplied description of the Job. */
-  description?: string;
-  /** The inputs for the Job. */
-  input?: JobInputUnion;
-  /**
-   * The UTC date and time when the customer has last updated the Job, in 'YYYY-MM-DDThh:mm:ssZ' format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastModified?: Date;
-  /** The outputs for the Job. */
-  outputs?: JobOutputUnion[];
-  /** Priority with which the job should be processed. Higher priority jobs are processed before lower priority jobs. If not set, the default is normal. */
-  priority?: Priority;
-  /** Customer provided key, value pairs that will be returned in Job and JobOutput state events. */
-  correlationData?: { [propertyName: string]: string };
-  /**
-   * The UTC date and time at which this Job began processing.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startTime?: Date;
-  /**
-   * The UTC date and time at which this Job finished processing.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endTime?: Date;
-};
-
-/** A Streaming Policy resource */
-export type StreamingPolicy = ProxyResource & {
-  /**
-   * The system metadata relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * Creation time of Streaming Policy
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly created?: Date;
-  /** Default ContentKey used by current Streaming Policy */
-  defaultContentKeyPolicyName?: string;
-  /** Configuration of EnvelopeEncryption */
-  envelopeEncryption?: EnvelopeEncryption;
-  /** Configuration of CommonEncryptionCenc */
-  commonEncryptionCenc?: CommonEncryptionCenc;
-  /** Configuration of CommonEncryptionCbcs */
-  commonEncryptionCbcs?: CommonEncryptionCbcs;
-  /** Configurations of NoEncryption */
-  noEncryption?: NoEncryption;
-};
-
-/** A Streaming Locator resource */
-export type StreamingLocator = ProxyResource & {
-  /**
-   * The system metadata relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** Asset Name */
-  assetName?: string;
-  /**
-   * The creation time of the Streaming Locator.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly created?: Date;
-  /** The start time of the Streaming Locator. */
-  startTime?: Date;
-  /** The end time of the Streaming Locator. */
-  endTime?: Date;
-  /** The StreamingLocatorId of the Streaming Locator. */
-  streamingLocatorId?: string;
-  /** Name of the Streaming Policy used by this Streaming Locator. Either specify the name of Streaming Policy you created or use one of the predefined Streaming Policies. The predefined Streaming Policies available are: 'Predefined_DownloadOnly', 'Predefined_ClearStreamingOnly', 'Predefined_DownloadAndClearStreaming', 'Predefined_ClearKey', 'Predefined_MultiDrmCencStreaming' and 'Predefined_MultiDrmStreaming' */
-  streamingPolicyName?: string;
-  /** Name of the default ContentKeyPolicy used by this Streaming Locator. */
-  defaultContentKeyPolicyName?: string;
-  /** The ContentKeys used by this Streaming Locator. */
-  contentKeys?: StreamingLocatorContentKey[];
-  /** Alternative Media ID of this Streaming Locator */
-  alternativeMediaId?: string;
-  /** A list of asset or account filters which apply to this streaming locator */
-  filters?: string[];
-};
-
-/** The Live Output. */
-export type LiveOutput = ProxyResource & {
-  /**
-   * The system metadata relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The description of the live output. */
-  description?: string;
-  /** The asset that the live output will write to. */
-  assetName?: string;
-  /** ISO 8601 time between 1 minute to 25 hours to indicate the maximum content length that can be archived in the asset for this live output. This also sets the maximum content length for the rewind window. For example, use PT1H30M to indicate 1 hour and 30 minutes of archive window. */
-  archiveWindowLength?: string;
-  /** The manifest file name. If not provided, the service will generate one automatically. */
-  manifestName?: string;
-  /** HTTP Live Streaming (HLS) packing setting for the live output. */
-  hls?: Hls;
-  /** The initial timestamp that the live output will start at, any content before this value will not be archived. */
-  outputSnapTime?: number;
-  /**
-   * The creation time the live output.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly created?: Date;
-  /**
-   * The time the live output was last modified.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastModified?: Date;
-  /**
-   * The provisioning state of the live output.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /**
-   * The resource state of the live output.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceState?: LiveOutputResourceState;
-};
+}
 
 /** A video analyzer preset that extracts insights (rich metadata) from both audio and video, and outputs a JSON format file. */
-export type VideoAnalyzerPreset = AudioAnalyzerPreset & {
+export interface VideoAnalyzerPreset extends AudioAnalyzerPreset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.VideoAnalyzerPreset";
   /** Defines the type of insights that you want the service to generate. The allowed values are 'AudioInsightsOnly', 'VideoInsightsOnly', and 'AllInsights'. The default is AllInsights. If you set this to AllInsights and the input is audio only, then only audio insights are generated. Similarly if the input is video only, then only video insights are generated. It is recommended that you not use AudioInsightsOnly if you expect some of your inputs to be video only; or use VideoInsightsOnly if you expect some of your inputs to be audio only. Your Jobs in such conditions would error out. */
   insightsToExtract?: InsightsType;
-};
+}
 
 /** Represents an Asset for input into a Job. */
-export type JobInputAsset = JobInputClip & {
+export interface JobInputAsset extends JobInputClip {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.JobInputAsset";
   /** The name of the input Asset. */
   assetName: string;
-};
+}
 
 /** Represents HTTPS job input. */
-export type JobInputHttp = JobInputClip & {
+export interface JobInputHttp extends JobInputClip {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.JobInputHttp";
   /** Base URI for HTTPS job input. It will be concatenated with provided file names. If no base uri is given, then the provided file list is assumed to be fully qualified uris. Maximum length of 4000 characters. The query strings will not be returned in service responses to prevent sensitive data exposure. */
   baseUri?: string;
-};
+}
 
 /** Describes Advanced Audio Codec (AAC) audio encoding settings. */
-export type AacAudio = Audio & {
+export interface AacAudio extends Audio {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.AacAudio";
   /** The encoding profile to be used when encoding audio with AAC. */
   profile?: AacAudioProfile;
-};
+}
 
 /** Describes all the properties for encoding a video with the H.265 codec. */
-export type H265Video = Video & {
+export interface H265Video extends Video {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.H265Video";
   /** Specifies whether or not the encoder should insert key frames at scene changes. If not specified, the default is false. This flag should be set to true only when the encoder is being configured to produce a single output video. */
@@ -2376,10 +2578,10 @@ export type H265Video = Video & {
   complexity?: H265Complexity;
   /** The collection of output H.265 layers to be produced by the encoder. */
   layers?: H265Layer[];
-};
+}
 
 /** Describes the basic properties for generating thumbnails from the input video */
-export type Image = Video & {
+export interface Image extends Video {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType:
     | "#Microsoft.Media.Image"
@@ -2391,52 +2593,54 @@ export type Image = Video & {
   step?: string;
   /** The position relative to transform preset start time in the input video at which to stop generating thumbnails. The value can be in ISO 8601 format (For example, PT5M30S to stop at 5 minutes and 30 seconds from start time), or a frame count (For example, 300 to stop at the 300th frame from the frame at start time. If this value is 1, it means only producing one thumbnail at start time), or a relative value to the stream duration (For example, 50% to stop at half of stream duration from start time). The default value is 100%, which means to stop at the end of the stream. */
   range?: string;
-};
+}
 
 /** Describes all the properties for encoding a video with the H.264 codec. */
-export type H264Video = Video & {
+export interface H264Video extends Video {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.H264Video";
-  /** Whether or not the encoder should insert key frames at scene changes. If not specified, the default is false. This flag should be set to true only when the encoder is being configured to produce a single output video. */
-  sceneChangeDetection?: boolean;
   /** Tells the encoder how to choose its encoding settings. The default value is Balanced. */
   complexity?: H264Complexity;
   /** The collection of output H.264 layers to be produced by the encoder. */
   layers?: H264Layer[];
-};
+  /** The video rate control mode */
+  rateControlMode?: H264RateControlMode;
+  /** Whether or not the encoder should insert key frames at scene changes. If not specified, the default is false. This flag should be set to true only when the encoder is being configured to produce a single output video. */
+  sceneChangeDetection?: boolean;
+}
 
 /** Describes the settings to be used when encoding the input video into a desired output bitrate layer with the H.265 video codec. */
-export type H265Layer = H265VideoLayer & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  odataType: "#Microsoft.Media.H265Layer";
+export interface H265Layer extends H265VideoLayer {
   /** We currently support Main. Default is Auto. */
   profile?: H265VideoProfile;
   /** We currently support Level up to 6.2. The value can be Auto, or a number that matches the H.265 profile. If not specified, the default is Auto, which lets the encoder choose the Level that is appropriate for this layer. */
   level?: string;
   /** The VBV buffer window length. The value should be in ISO 8601 format. The value should be in the range [0.1-100] seconds. The default is 5 seconds (for example, PT5S). */
   bufferWindow?: string;
+  /** The value of CRF to be used when encoding this layer. This setting takes effect when RateControlMode of video codec is set at CRF mode. The range of CRF value is between 0 and 51, where lower values would result in better quality, at the expense of higher file sizes. Higher values mean more compression, but at some point quality degradation will be noticed. Default value is 28. */
+  crf?: number;
   /** The number of reference frames to be used when encoding this layer. If not specified, the encoder determines an appropriate number based on the encoder complexity setting. */
   referenceFrames?: number;
-};
+}
 
 /** Describes the settings to be used when encoding the input video into a desired output bitrate layer with the H.264 video codec. */
-export type H264Layer = VideoLayer & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  odataType: "#Microsoft.Media.H264Layer";
+export interface H264Layer extends VideoLayer {
   /** We currently support Baseline, Main, High, High422, High444. Default is Auto. */
   profile?: H264VideoProfile;
   /** We currently support Level up to 6.2. The value can be Auto, or a number that matches the H.264 profile. If not specified, the default is Auto, which lets the encoder choose the Level that is appropriate for this layer. */
   level?: string;
   /** The VBV buffer window length. The value should be in ISO 8601 format. The value should be in the range [0.1-100] seconds. The default is 5 seconds (for example, PT5S). */
   bufferWindow?: string;
+  /** The value of CRF to be used when encoding this layer. This setting takes effect when RateControlMode of video codec is set at CRF mode. The range of CRF value is between 0 and 51, where lower values would result in better quality, at the expense of higher file sizes. Higher values mean more compression, but at some point quality degradation will be noticed. Default value is 23. */
+  crf?: number;
   /** The number of reference frames to be used when encoding this layer. If not specified, the encoder determines an appropriate number based on the encoder complexity setting. */
   referenceFrames?: number;
   /** The entropy mode to be used for this layer. If not specified, the encoder chooses the mode that is appropriate for the profile and level. */
   entropyMode?: EntropyMode;
-};
+}
 
 /** Select audio tracks from the input by specifying an attribute and an attribute filter. */
-export type SelectAudioTrackByAttribute = AudioTrackDescriptor & {
+export interface SelectAudioTrackByAttribute extends AudioTrackDescriptor {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.SelectAudioTrackByAttribute";
   /** The TrackAttribute to filter the tracks by. */
@@ -2445,18 +2649,18 @@ export type SelectAudioTrackByAttribute = AudioTrackDescriptor & {
   filter: AttributeFilter;
   /** The value to filter the tracks by.  Only used when AttributeFilter.ValueEquals is specified for the Filter property. */
   filterValue?: string;
-};
+}
 
 /** Select audio tracks from the input by specifying a track identifier. */
-export type SelectAudioTrackById = AudioTrackDescriptor & {
+export interface SelectAudioTrackById extends AudioTrackDescriptor {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.SelectAudioTrackById";
   /** Track identifier to select */
   trackId: number;
-};
+}
 
 /** Select video tracks from the input by specifying an attribute and an attribute filter. */
-export type SelectVideoTrackByAttribute = VideoTrackDescriptor & {
+export interface SelectVideoTrackByAttribute extends VideoTrackDescriptor {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.SelectVideoTrackByAttribute";
   /** The TrackAttribute to filter the tracks by. */
@@ -2465,57 +2669,209 @@ export type SelectVideoTrackByAttribute = VideoTrackDescriptor & {
   filter: AttributeFilter;
   /** The value to filter the tracks by.  Only used when AttributeFilter.ValueEquals is specified for the Filter property. For TrackAttribute.Bitrate, this should be an integer value in bits per second (e.g: '1500000').  The TrackAttribute.Language is not supported for video tracks. */
   filterValue?: string;
-};
+}
 
 /** Select video tracks from the input by specifying a track identifier. */
-export type SelectVideoTrackById = VideoTrackDescriptor & {
+export interface SelectVideoTrackById extends VideoTrackDescriptor {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.SelectVideoTrackById";
   /** Track identifier to select */
   trackId: number;
-};
+}
 
 /** Describes the settings for producing JPEG thumbnails. */
-export type JpgFormat = ImageFormat & {
+export interface JpgFormat extends ImageFormat {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.JpgFormat";
-};
+}
 
 /** Describes the settings for producing PNG thumbnails. */
-export type PngFormat = ImageFormat & {
+export interface PngFormat extends ImageFormat {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.PngFormat";
-};
+}
 
 /** Describes the properties for an output ISO MP4 file. */
-export type Mp4Format = MultiBitrateFormat & {
+export interface Mp4Format extends MultiBitrateFormat {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.Mp4Format";
-};
+}
 
 /** Describes the properties for generating an MPEG-2 Transport Stream (ISO/IEC 13818-1) output video file(s). */
-export type TransportStreamFormat = MultiBitrateFormat & {
+export interface TransportStreamFormat extends MultiBitrateFormat {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.TransportStreamFormat";
-};
+}
 
 /** Describes the properties for producing a series of JPEG images from the input video. */
-export type JpgImage = Image & {
+export interface JpgImage extends Image {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.JpgImage";
   /** A collection of output JPEG image layers to be produced by the encoder. */
   layers?: JpgLayer[];
   /** Sets the number of columns used in thumbnail sprite image.  The number of rows are automatically calculated and a VTT file is generated with the coordinate mappings for each thumbnail in the sprite. Note: this value should be a positive integer and a proper value is recommended so that the output image resolution will not go beyond JPEG maximum pixel resolution limit 65535x65535. */
   spriteColumn?: number;
-};
+}
 
 /** Describes the properties for producing a series of PNG images from the input video. */
-export type PngImage = Image & {
+export interface PngImage extends Image {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.PngImage";
   /** A collection of output PNG image layers to be produced by the encoder. */
   layers?: PngLayer[];
-};
+}
+
+/** Defines headers for Mediaservices_createOrUpdate operation. */
+export interface MediaservicesCreateOrUpdateHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /** The URI to poll for completion status. */
+  location?: string;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Mediaservices_update operation. */
+export interface MediaservicesUpdateHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /** The URI to poll for completion status. */
+  location?: string;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for MediaServicesOperationResults_get operation. */
+export interface MediaServicesOperationResultsGetHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /** The URI to poll for completion status. */
+  location?: string;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Tracks_createOrUpdate operation. */
+export interface TracksCreateOrUpdateHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /** The URI to poll for completion status. */
+  location?: string;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Tracks_delete operation. */
+export interface TracksDeleteHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /** The URI to poll for completion status. */
+  location?: string;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Tracks_update operation. */
+export interface TracksUpdateHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /** The URI to poll for completion status. */
+  location?: string;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Tracks_updateTrackData operation. */
+export interface TracksUpdateTrackDataHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /** The URI to poll for completion status. */
+  location?: string;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for OperationResults_get operation. */
+export interface OperationResultsGetHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /** The URI to poll for completion status. */
+  location?: string;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
+/** Known values of {@link FilterTrackPropertyType} that the service accepts. */
+export enum KnownFilterTrackPropertyType {
+  /** The unknown track property type. */
+  Unknown = "Unknown",
+  /** The type. */
+  Type = "Type",
+  /** The name. */
+  Name = "Name",
+  /** The language. */
+  Language = "Language",
+  /** The fourCC. */
+  FourCC = "FourCC",
+  /** The bitrate. */
+  Bitrate = "Bitrate"
+}
+
+/**
+ * Defines values for FilterTrackPropertyType. \
+ * {@link KnownFilterTrackPropertyType} can be used interchangeably with FilterTrackPropertyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: The unknown track property type. \
+ * **Type**: The type. \
+ * **Name**: The name. \
+ * **Language**: The language. \
+ * **FourCC**: The fourCC. \
+ * **Bitrate**: The bitrate.
+ */
+export type FilterTrackPropertyType = string;
+
+/** Known values of {@link FilterTrackPropertyCompareOperation} that the service accepts. */
+export enum KnownFilterTrackPropertyCompareOperation {
+  /** The equal operation. */
+  Equal = "Equal",
+  /** The not equal operation. */
+  NotEqual = "NotEqual"
+}
+
+/**
+ * Defines values for FilterTrackPropertyCompareOperation. \
+ * {@link KnownFilterTrackPropertyCompareOperation} can be used interchangeably with FilterTrackPropertyCompareOperation,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Equal**: The equal operation. \
+ * **NotEqual**: The not equal operation.
+ */
+export type FilterTrackPropertyCompareOperation = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Known values of {@link MetricUnit} that the service accepts. */
 export enum KnownMetricUnit {
@@ -2664,30 +3020,34 @@ export enum KnownPublicNetworkAccess {
  */
 export type PublicNetworkAccess = string;
 
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  User = "User",
-  Application = "Application",
-  ManagedIdentity = "ManagedIdentity",
-  Key = "Key"
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** Provisioning state failed. */
+  Failed = "Failed",
+  /** Provisioning state in progress. */
+  InProgress = "InProgress",
+  /** Provisioning state succeeded. */
+  Succeeded = "Succeeded"
 }
 
 /**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
+ * **Failed**: Provisioning state failed. \
+ * **InProgress**: Provisioning state in progress. \
+ * **Succeeded**: Provisioning state succeeded.
  */
-export type CreatedByType = string;
+export type ProvisioningState = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected"
 }
 
@@ -2704,9 +3064,13 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -2721,54 +3085,6 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  * **Failed**
  */
 export type PrivateEndpointConnectionProvisioningState = string;
-
-/** Known values of {@link FilterTrackPropertyType} that the service accepts. */
-export enum KnownFilterTrackPropertyType {
-  /** The unknown track property type. */
-  Unknown = "Unknown",
-  /** The type. */
-  Type = "Type",
-  /** The name. */
-  Name = "Name",
-  /** The language. */
-  Language = "Language",
-  /** The fourCC. */
-  FourCC = "FourCC",
-  /** The bitrate. */
-  Bitrate = "Bitrate"
-}
-
-/**
- * Defines values for FilterTrackPropertyType. \
- * {@link KnownFilterTrackPropertyType} can be used interchangeably with FilterTrackPropertyType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unknown**: The unknown track property type. \
- * **Type**: The type. \
- * **Name**: The name. \
- * **Language**: The language. \
- * **FourCC**: The fourCC. \
- * **Bitrate**: The bitrate.
- */
-export type FilterTrackPropertyType = string;
-
-/** Known values of {@link FilterTrackPropertyCompareOperation} that the service accepts. */
-export enum KnownFilterTrackPropertyCompareOperation {
-  /** The equal operation. */
-  Equal = "Equal",
-  /** The not equal operation. */
-  NotEqual = "NotEqual"
-}
-
-/**
- * Defines values for FilterTrackPropertyCompareOperation. \
- * {@link KnownFilterTrackPropertyCompareOperation} can be used interchangeably with FilterTrackPropertyCompareOperation,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Equal**: The equal operation. \
- * **NotEqual**: The not equal operation.
- */
-export type FilterTrackPropertyCompareOperation = string;
 
 /** Known values of {@link AssetStorageEncryptionFormat} that the service accepts. */
 export enum KnownAssetStorageEncryptionFormat {
@@ -3173,8 +3489,10 @@ export type LiveEventResourceState = string;
 export enum KnownStreamOptionsFlag {
   /** Live streaming with no special latency optimizations. */
   Default = "Default",
-  /** The live event provides lower end to end latency by reducing its internal buffers. This could result in more client buffering during playback if network bandwidth is low. */
-  LowLatency = "LowLatency"
+  /** The live event provides lower end to end latency by reducing its internal buffers. */
+  LowLatency = "LowLatency",
+  /** The live event is optimized for end to end latency. This option is only available for encoding live events with RTMP input. The outputs can be streamed using HLS or DASH formats. The outputs' archive or DVR rewind length is limited to 6 hours. Use "LowLatency" stream option for all other scenarios. */
+  LowLatencyV2 = "LowLatencyV2"
 }
 
 /**
@@ -3183,9 +3501,31 @@ export enum KnownStreamOptionsFlag {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Default**: Live streaming with no special latency optimizations. \
- * **LowLatency**: The live event provides lower end to end latency by reducing its internal buffers. This could result in more client buffering during playback if network bandwidth is low.
+ * **LowLatency**: The live event provides lower end to end latency by reducing its internal buffers. \
+ * **LowLatencyV2**: The live event is optimized for end to end latency. This option is only available for encoding live events with RTMP input. The outputs can be streamed using HLS or DASH formats. The outputs' archive or DVR rewind length is limited to 6 hours. Use "LowLatency" stream option for all other scenarios.
  */
 export type StreamOptionsFlag = string;
+
+/** Known values of {@link AsyncOperationStatus} that the service accepts. */
+export enum KnownAsyncOperationStatus {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** InProgress */
+  InProgress = "InProgress"
+}
+
+/**
+ * Defines values for AsyncOperationStatus. \
+ * {@link KnownAsyncOperationStatus} can be used interchangeably with AsyncOperationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **InProgress**
+ */
+export type AsyncOperationStatus = string;
 
 /** Known values of {@link LiveOutputResourceState} that the service accepts. */
 export enum KnownLiveOutputResourceState {
@@ -3238,6 +3578,24 @@ export enum KnownStreamingEndpointResourceState {
  */
 export type StreamingEndpointResourceState = string;
 
+/** Known values of {@link Visibility} that the service accepts. */
+export enum KnownVisibility {
+  /** The track is hidden to video player. */
+  Hidden = "Hidden",
+  /** The track is visible to video player. */
+  Visible = "Visible"
+}
+
+/**
+ * Defines values for Visibility. \
+ * {@link KnownVisibility} can be used interchangeably with Visibility,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Hidden**: The track is hidden to video player. \
+ * **Visible**: The track is visible to video player.
+ */
+export type Visibility = string;
+
 /** Known values of {@link ContentKeyPolicyPlayReadyUnknownOutputPassingOption} that the service accepts. */
 export enum KnownContentKeyPolicyPlayReadyUnknownOutputPassingOption {
   /** Represents a ContentKeyPolicyPlayReadyUnknownOutputPassingOption that is unavailable in current API version. */
@@ -3261,6 +3619,30 @@ export enum KnownContentKeyPolicyPlayReadyUnknownOutputPassingOption {
  * **AllowedWithVideoConstriction**: Passing the video portion of protected content to an Unknown Output is allowed but with constrained resolution.
  */
 export type ContentKeyPolicyPlayReadyUnknownOutputPassingOption = string;
+
+/** Known values of {@link SecurityLevel} that the service accepts. */
+export enum KnownSecurityLevel {
+  /** Represents a SecurityLevel that is unavailable in current API version. */
+  Unknown = "Unknown",
+  /** For clients under development or test. No protection against unauthorized use. */
+  SL150 = "SL150",
+  /** For hardened devices and applications consuming commercial content. Software or hardware protection. */
+  SL2000 = "SL2000",
+  /** For hardened devices only. Hardware protection. */
+  SL3000 = "SL3000"
+}
+
+/**
+ * Defines values for SecurityLevel. \
+ * {@link KnownSecurityLevel} can be used interchangeably with SecurityLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Represents a SecurityLevel that is unavailable in current API version. \
+ * **SL150**: For clients under development or test. No protection against unauthorized use. \
+ * **SL2000**: For hardened devices and applications consuming commercial content. Software or hardware protection. \
+ * **SL3000**: For hardened devices only. Hardware protection.
+ */
+export type SecurityLevel = string;
 
 /** Known values of {@link ContentKeyPolicyPlayReadyLicenseType} that the service accepts. */
 export enum KnownContentKeyPolicyPlayReadyLicenseType {
@@ -3381,7 +3763,9 @@ export enum KnownH265VideoProfile {
   /** Tells the encoder to automatically determine the appropriate H.265 profile. */
   Auto = "Auto",
   /** Main profile (https://x265.readthedocs.io/en/default/cli.html?highlight=profile#profile-level-tier) */
-  Main = "Main"
+  Main = "Main",
+  /** Main 10 profile (https://en.wikipedia.org/wiki/High_Efficiency_Video_Coding#Main_10) */
+  Main10 = "Main10"
 }
 
 /**
@@ -3390,7 +3774,8 @@ export enum KnownH265VideoProfile {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Auto**: Tells the encoder to automatically determine the appropriate H.265 profile. \
- * **Main**: Main profile (https:\/\/x265.readthedocs.io\/en\/default\/cli.html?highlight=profile#profile-level-tier)
+ * **Main**: Main profile (https:\/\/x265.readthedocs.io\/en\/default\/cli.html?highlight=profile#profile-level-tier) \
+ * **Main10**: Main 10 profile (https:\/\/en.wikipedia.org\/wiki\/High_Efficiency_Video_Coding#Main_10)
  */
 export type H265VideoProfile = string;
 
@@ -3519,7 +3904,9 @@ export type AttributeFilter = string;
 
 /** Known values of {@link AnalysisResolution} that the service accepts. */
 export enum KnownAnalysisResolution {
+  /** SourceResolution */
   SourceResolution = "SourceResolution",
+  /** StandardDefinition */
   StandardDefinition = "StandardDefinition"
 }
 
@@ -3737,6 +4124,27 @@ export enum KnownH264Complexity {
  */
 export type H264Complexity = string;
 
+/** Known values of {@link H264RateControlMode} that the service accepts. */
+export enum KnownH264RateControlMode {
+  /** Average Bitrate (ABR) mode that hits the target bitrate: Default mode. */
+  ABR = "ABR",
+  /** Constant Bitrate (CBR) mode that tightens bitrate variations around target bitrate. */
+  CBR = "CBR",
+  /** Constant Rate Factor (CRF) mode that targets at constant subjective quality. */
+  CRF = "CRF"
+}
+
+/**
+ * Defines values for H264RateControlMode. \
+ * {@link KnownH264RateControlMode} can be used interchangeably with H264RateControlMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ABR**: Average Bitrate (ABR) mode that hits the target bitrate: Default mode. \
+ * **CBR**: Constant Bitrate (CBR) mode that tightens bitrate variations around target bitrate. \
+ * **CRF**: Constant Rate Factor (CRF) mode that targets at constant subjective quality.
+ */
+export type H264RateControlMode = string;
+
 /** Known values of {@link Complexity} that the service accepts. */
 export enum KnownComplexity {
   /** Configures the encoder to use settings optimized for faster encoding. Quality is sacrificed to decrease encoding time. */
@@ -3858,6 +4266,45 @@ export enum KnownInsightsType {
 export type InsightsType = string;
 
 /** Optional parameters. */
+export interface AccountFiltersListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type AccountFiltersListResponse = AccountFilterCollection;
+
+/** Optional parameters. */
+export interface AccountFiltersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AccountFiltersGetResponse = AccountFilter;
+
+/** Optional parameters. */
+export interface AccountFiltersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AccountFiltersCreateOrUpdateResponse = AccountFilter;
+
+/** Optional parameters. */
+export interface AccountFiltersDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AccountFiltersUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type AccountFiltersUpdateResponse = AccountFilter;
+
+/** Optional parameters. */
+export interface AccountFiltersListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type AccountFiltersListNextResponse = AccountFilterCollection;
+
+/** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3880,10 +4327,16 @@ export type MediaservicesGetResponse = MediaService;
 
 /** Optional parameters. */
 export interface MediaservicesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the createOrUpdate operation. */
-export type MediaservicesCreateOrUpdateResponse = MediaService;
+export type MediaservicesCreateOrUpdateResponse = MediaservicesCreateOrUpdateHeaders &
+  MediaService;
 
 /** Optional parameters. */
 export interface MediaservicesDeleteOptionalParams
@@ -3891,10 +4344,16 @@ export interface MediaservicesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface MediaservicesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the update operation. */
-export type MediaservicesUpdateResponse = MediaService;
+export type MediaservicesUpdateResponse = MediaservicesUpdateHeaders &
+  MediaService;
 
 /** Optional parameters. */
 export interface MediaservicesSyncStorageKeysOptionalParams
@@ -3975,43 +4434,18 @@ export interface LocationsCheckNameAvailabilityOptionalParams
 export type LocationsCheckNameAvailabilityResponse = EntityNameAvailabilityCheckOutput;
 
 /** Optional parameters. */
-export interface AccountFiltersListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type AccountFiltersListResponse = AccountFilterCollection;
-
-/** Optional parameters. */
-export interface AccountFiltersGetOptionalParams
+export interface MediaServicesOperationStatusesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type AccountFiltersGetResponse = AccountFilter;
+export type MediaServicesOperationStatusesGetResponse = MediaServiceOperationStatus;
 
 /** Optional parameters. */
-export interface AccountFiltersCreateOrUpdateOptionalParams
+export interface MediaServicesOperationResultsGetOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the createOrUpdate operation. */
-export type AccountFiltersCreateOrUpdateResponse = AccountFilter;
-
-/** Optional parameters. */
-export interface AccountFiltersDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AccountFiltersUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type AccountFiltersUpdateResponse = AccountFilter;
-
-/** Optional parameters. */
-export interface AccountFiltersListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type AccountFiltersListNextResponse = AccountFilterCollection;
+/** Contains response data for the get operation. */
+export type MediaServicesOperationResultsGetResponse = MediaService;
 
 /** Optional parameters. */
 export interface AssetsListOptionalParams extends coreClient.OperationOptions {
@@ -4123,6 +4557,81 @@ export interface AssetFiltersListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type AssetFiltersListNextResponse = AssetFilterCollection;
+
+/** Optional parameters. */
+export interface TracksListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type TracksListResponse = AssetTrackCollection;
+
+/** Optional parameters. */
+export interface TracksGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TracksGetResponse = AssetTrack;
+
+/** Optional parameters. */
+export interface TracksCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type TracksCreateOrUpdateResponse = TracksCreateOrUpdateHeaders &
+  AssetTrack;
+
+/** Optional parameters. */
+export interface TracksDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type TracksDeleteResponse = TracksDeleteHeaders;
+
+/** Optional parameters. */
+export interface TracksUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type TracksUpdateResponse = TracksUpdateHeaders & AssetTrack;
+
+/** Optional parameters. */
+export interface TracksUpdateTrackDataOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateTrackData operation. */
+export type TracksUpdateTrackDataResponse = TracksUpdateTrackDataHeaders;
+
+/** Optional parameters. */
+export interface OperationStatusesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type OperationStatusesGetResponse = AssetTrackOperationStatus;
+
+/** Optional parameters. */
+export interface OperationResultsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type OperationResultsGetResponse = AssetTrack;
 
 /** Optional parameters. */
 export interface ContentKeyPoliciesListOptionalParams
@@ -4473,6 +4982,20 @@ export interface LiveEventsResetOptionalParams
 }
 
 /** Optional parameters. */
+export interface LiveEventsAsyncOperationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the asyncOperation operation. */
+export type LiveEventsAsyncOperationResponse = AsyncOperationResult;
+
+/** Optional parameters. */
+export interface LiveEventsOperationLocationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the operationLocation operation. */
+export type LiveEventsOperationLocationResponse = LiveEvent;
+
+/** Optional parameters. */
 export interface LiveEventsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4513,6 +5036,20 @@ export interface LiveOutputsDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface LiveOutputsAsyncOperationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the asyncOperation operation. */
+export type LiveOutputsAsyncOperationResponse = AsyncOperationResult;
+
+/** Optional parameters. */
+export interface LiveOutputsOperationLocationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the operationLocation operation. */
+export type LiveOutputsOperationLocationResponse = LiveOutput;
 
 /** Optional parameters. */
 export interface LiveOutputsListNextOptionalParams
@@ -4571,6 +5108,13 @@ export interface StreamingEndpointsDeleteOptionalParams
 }
 
 /** Optional parameters. */
+export interface StreamingEndpointsSkusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the skus operation. */
+export type StreamingEndpointsSkusResponse = StreamingEndpointSkuInfoListResult;
+
+/** Optional parameters. */
 export interface StreamingEndpointsStartOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -4598,6 +5142,20 @@ export interface StreamingEndpointsScaleOptionalParams
 }
 
 /** Optional parameters. */
+export interface StreamingEndpointsAsyncOperationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the asyncOperation operation. */
+export type StreamingEndpointsAsyncOperationResponse = AsyncOperationResult;
+
+/** Optional parameters. */
+export interface StreamingEndpointsOperationLocationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the operationLocation operation. */
+export type StreamingEndpointsOperationLocationResponse = StreamingEndpoint;
+
+/** Optional parameters. */
 export interface StreamingEndpointsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4609,8 +5167,6 @@ export interface AzureMediaServicesOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
-  /** Api Version */
-  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

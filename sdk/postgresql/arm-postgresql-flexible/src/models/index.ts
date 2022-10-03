@@ -1232,7 +1232,7 @@ export type GetPrivateDnsZoneSuffixExecuteResponse = {
 };
 
 /** Optional parameters. */
-export interface PostgreSQLManagementClientOptionalParams
+export interface PostgreSQLManagementFlexibleServerClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;

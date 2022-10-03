@@ -1,0 +1,121 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem164864745766901512",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DA125274D3126E\"",
+    "last-modified": "Wed, 30 Mar 2022 13:37:38 GMT",
+    "x-ms-client-request-id": "9b37a325-ffd2-4e1b-9361-859927ecc592",
+    "x-ms-request-id": "67d945a4-a01e-0005-223b-44f0c9000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem164864745766901512/file164864745819008940",
+   "query": {
+    "resource": "file"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Wed, 30 Mar 2022 13:37:38 GMT",
+    "etag": "\"0x8DA125275239568\"",
+    "last-modified": "Wed, 30 Mar 2022 13:37:38 GMT",
+    "x-ms-client-request-id": "16534c3e-c1ae-47e0-859d-f6c5e46ffd13",
+    "x-ms-request-id": "db8a1f9d-701f-0008-4b3b-44c247000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2021-06-08"
+   }
+  },
+  {
+   "method": "PATCH",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem164864745766901512/file164864745819008940",
+   "query": {
+    "position": "0",
+    "action": "append"
+   },
+   "requestBody": "Hello World",
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Wed, 30 Mar 2022 13:37:39 GMT",
+    "x-ms-client-request-id": "efb0ff3a-adb8-4309-9443-43905cdb12d5",
+    "x-ms-request-id": "db8a1fa0-701f-0008-4d3b-44c247000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2021-06-08"
+   }
+  },
+  {
+   "method": "PATCH",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem164864745766901512/file164864745819008940",
+   "query": {
+    "position": "11",
+    "action": "flush"
+   },
+   "requestBody": "",
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Wed, 30 Mar 2022 13:37:39 GMT",
+    "etag": "\"0x8DA125275B9E2D6\"",
+    "last-modified": "Wed, 30 Mar 2022 13:37:39 GMT",
+    "x-ms-client-request-id": "949f48d9-d0dc-453f-af89-c590fa47e108",
+    "x-ms-request-id": "db8a1fa2-701f-0008-4f3b-44c247000000",
+    "x-ms-request-server-encrypted": "false",
+    "x-ms-version": "2021-06-08"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem164864745766901512/file164864745819008940",
+   "query": {},
+   "requestBody": null,
+   "status": 409,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>BlobDoesNotUseCustomerSpecifiedEncryption</Code><Message>The blob is not encrypted with customer specified encryption, but one was provided in the request.\nRequestId:67d945a8-a01e-0005-253b-44f0c9000000\nTime:2022-03-30T13:37:40.2984872Z</Message></Error>",
+   "responseHeaders": {
+    "content-length": "308",
+    "content-type": "application/xml",
+    "x-ms-client-request-id": "83badbcb-56c1-4a88-8d9e-a45d09d4722e",
+    "x-ms-error-code": "BlobDoesNotUseCustomerSpecifiedEncryption",
+    "x-ms-request-id": "67d945a8-a01e-0005-253b-44f0c9000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem164864745766901512",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-client-request-id": "efcdad04-c8f2-463a-8a8e-ac8ae116816d",
+    "x-ms-request-id": "67d945ac-a01e-0005-293b-44f0c9000000",
+    "x-ms-version": "2021-04-10"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "filesystem": "filesystem164864745766901512",
+   "file": "file164864745819008940",
+   "dir": "dir164864745819109685"
+  },
+  "newDate": {}
+ },
+ "hash": "5c2085d8df1e513f1e2a5cb3f93ba7ad"
+}

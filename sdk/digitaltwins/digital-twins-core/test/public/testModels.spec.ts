@@ -73,13 +73,13 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
   async function deleteModels(): Promise<void> {
     try {
       await client.deleteModel(MODEL_ID);
-    } catch (Exception) {
+    } catch (Exception: any) {
       console.error("deleteModel failure during test setup or cleanup");
     }
 
     try {
       await client.deleteModel(COMPONENT_ID);
-    } catch (Exception) {
+    } catch (Exception: any) {
       console.error("deleteModel failure during test setup or cleanup");
     }
   }
@@ -100,9 +100,13 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     let errorWasThrown = false;
     try {
       await client.createModels([]);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
-      assert.include(error.message, `should satisfy the constraint "MinItems`);
+      assert.isTrue(
+        error.message.includes(
+          "Operation failed as models provided was empty or of a type that is not supported."
+        ) || error.message.includes(`should satisfy the constraint "MinItems`)
+      );
     }
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
@@ -134,7 +138,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     let errorWasThrown = false;
     try {
       await client.createModels([testComponent, testModel]);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `Some of the model ids already exist`);
     } finally {
@@ -166,7 +170,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     let errorWasThrown = false;
     try {
       await client.createModels([invalidComponent]);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(
         error.message,
@@ -208,7 +212,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     let errorWasThrown = false;
     try {
       await client.createModels([invalidModel]);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(
         error.message,
@@ -256,7 +260,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     let errorWasThrown = false;
     try {
       await client.getModel(COMPONENT_ID);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(
         error.message,
@@ -352,7 +356,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     let errorWasThrown = false;
     try {
       await client.decomissionModel(COMPONENT_ID);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(
         error.message,
@@ -408,7 +412,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
       let errorWasThrown = false;
       try {
         await client.getModel(MODEL_ID);
-      } catch (error) {
+      } catch (error: any) {
         errorWasThrown = true;
         assert.include(
           error.message,
@@ -421,7 +425,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
       errorWasThrown = false;
       try {
         await client.getModel(COMPONENT_ID);
-      } catch (error) {
+      } catch (error: any) {
         errorWasThrown = true;
         assert.include(
           error.message,
@@ -440,7 +444,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     let errorWasThrown = false;
     try {
       await client.deleteModel(MODEL_ID);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(
         error.message,
@@ -460,7 +464,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     let errorWasThrown = false;
     try {
       await client.deleteModel(MODEL_ID);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(
         error.message,
@@ -479,7 +483,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
       let errorWasThrown = false;
       try {
         await client.deleteModel(COMPONENT_ID);
-      } catch (error) {
+      } catch (error: any) {
         errorWasThrown = true;
         assert.include(error.message, `This model is currently being referenced by`);
       }
@@ -491,7 +495,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
       errorWasThrown = false;
       try {
         await client.getModel(COMPONENT_ID);
-      } catch (error) {
+      } catch (error: any) {
         errorWasThrown = true;
         assert.include(
           error.message,
@@ -503,7 +507,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
       errorWasThrown = false;
       try {
         await client.getModel(MODEL_ID);
-      } catch (error) {
+      } catch (error: any) {
         errorWasThrown = true;
         assert.include(
           error.message,

@@ -22,6 +22,7 @@ import {
   AppsUpdateOptionalParams,
   AppsUpdateResponse,
   AppsDeleteOptionalParams,
+  AppsDeleteResponse,
   OperationInputs,
   AppsCheckNameAvailabilityOptionalParams,
   AppsCheckNameAvailabilityResponse,
@@ -139,7 +140,9 @@ export interface Apps {
     resourceGroupName: string,
     resourceName: string,
     options?: AppsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    PollerLike<PollOperationState<AppsDeleteResponse>, AppsDeleteResponse>
+  >;
   /**
    * Delete an IoT Central application.
    * @param resourceGroupName The name of the resource group that contains the IoT Central application.
@@ -150,7 +153,7 @@ export interface Apps {
     resourceGroupName: string,
     resourceName: string,
     options?: AppsDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<AppsDeleteResponse>;
   /**
    * Check if an IoT Central application name is available.
    * @param operationInputs Set the name parameter in the OperationInputs structure to the name of the

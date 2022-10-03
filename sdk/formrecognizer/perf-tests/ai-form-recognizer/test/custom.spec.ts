@@ -65,7 +65,7 @@ export class CustomModelRecognitionTest extends PerfTest<BeginRecognizeCustomFor
       CustomModelRecognitionTest.sessionModel = await poller.pollUntilDone();
 
       console.log(`Trained custom model: ${CustomModelRecognitionTest.sessionModel.modelId}`);
-    } catch (ex) {
+    } catch (ex: any) {
       console.trace(ex);
       throw ex;
     }

@@ -16,7 +16,6 @@ import { bodyFromData } from "./request";
 import { RequestContext } from "./RequestContext";
 import { Response as CosmosResponse } from "./Response";
 import { TimeoutError } from "./TimeoutError";
-import { URL } from "../utils/url";
 import { getCachedDefaultHttpClient } from "../utils/cachedClient";
 import { AzureLogger, createClientLogger } from "@azure/logger";
 
@@ -83,7 +82,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
     } else {
       response = await httpsClient.sendRequest(pipelineRequest);
     }
-  } catch (error) {
+  } catch (error: any) {
     if (error.name === "AbortError") {
       // If the user passed signal caused the abort, cancel the timeout and rethrow the error
       if (userSignal && userSignal.aborted === true) {

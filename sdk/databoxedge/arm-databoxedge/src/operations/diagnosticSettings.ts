@@ -126,10 +126,12 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
       },
       updateDiagnosticProactiveLogCollectionSettingsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -242,10 +244,12 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
       },
       updateDiagnosticRemoteSupportSettingsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

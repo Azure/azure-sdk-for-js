@@ -25,7 +25,7 @@ export class DataLakeLeaseClient {
     const { span, updatedOptions } = createSpan("DataLakeLeaseClient-acquireLease", options);
     try {
       return await this.client.acquireLease(duration, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -44,7 +44,7 @@ export class DataLakeLeaseClient {
     const { span, updatedOptions } = createSpan("DataLakeLeaseClient-changeLease", options);
     try {
       return await this.client.changeLease(proposedLeaseId, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -60,7 +60,7 @@ export class DataLakeLeaseClient {
     const { span, updatedOptions } = createSpan("DataLakeLeaseClient-releaseLease", options);
     try {
       return await this.client.releaseLease(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -76,7 +76,7 @@ export class DataLakeLeaseClient {
     const { span, updatedOptions } = createSpan("DataLakeLeaseClient-renewLease", options);
     try {
       return await this.client.renewLease(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -95,7 +95,7 @@ export class DataLakeLeaseClient {
     const { span, updatedOptions } = createSpan("DataLakeLeaseClient-renewLease", options);
     try {
       return await this.client.breakLease(breakPeriod, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

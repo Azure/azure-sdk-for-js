@@ -196,7 +196,7 @@ export function serializeRequestBody(
           request.body = JSON.stringify(request.body);
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(
         `Error "${error.message}" occurred in serializing the payload - ${JSON.stringify(
           serializedName,

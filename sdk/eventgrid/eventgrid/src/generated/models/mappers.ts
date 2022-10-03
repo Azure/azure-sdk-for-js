@@ -6446,6 +6446,117 @@ export const ApiManagementApiReleaseDeletedEventData: coreClient.CompositeMapper
   }
 };
 
+export const HealthcareFhirResourceCreatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthcareFhirResourceCreatedEventData",
+    modelProperties: {
+      resourceType: {
+        serializedName: "resourceType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceFhirAccount: {
+        serializedName: "resourceFhirAccount",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceFhirId: {
+        serializedName: "resourceFhirId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceVersionId: {
+        serializedName: "resourceVersionId",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const HealthcareFhirResourceUpdatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthcareFhirResourceUpdatedEventData",
+    modelProperties: {
+      resourceType: {
+        serializedName: "resourceType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceFhirAccount: {
+        serializedName: "resourceFhirAccount",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceFhirId: {
+        serializedName: "resourceFhirId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceVersionId: {
+        serializedName: "resourceVersionId",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const HealthcareFhirResourceDeletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthcareFhirResourceDeletedEventData",
+    modelProperties: {
+      resourceType: {
+        serializedName: "resourceType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceFhirAccount: {
+        serializedName: "resourceFhirAccount",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceFhirId: {
+        serializedName: "resourceFhirId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceVersionId: {
+        serializedName: "resourceVersionId",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const IotHubDeviceCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

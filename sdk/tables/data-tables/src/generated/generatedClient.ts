@@ -6,20 +6,54 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreClient from "@azure/core-client";
 import { TableImpl, ServiceImpl } from "./operations";
 import { Table, Service } from "./operationsInterfaces";
-import { GeneratedClientContext } from "./generatedClientContext";
 import { GeneratedClientOptionalParams } from "./models";
 
 /** @internal */
-export class GeneratedClient extends GeneratedClientContext {
+export class GeneratedClient extends coreClient.ServiceClient {
+  url: string;
+  version: string;
+
   /**
    * Initializes a new instance of the GeneratedClient class.
    * @param url The URL of the service account or table that is the target of the desired operation.
    * @param options The parameter options
    */
   constructor(url: string, options?: GeneratedClientOptionalParams) {
-    super(url, options);
+    if (url === undefined) {
+      throw new Error("'url' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: GeneratedClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
+
+    const packageDetails = `azsdk-js-data-tables/13.1.2`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint ?? options.baseUri ?? "{url}"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.url = url;
+
+    // Assigning values to Constant parameters
+    this.version = options.version || "2019-02-02";
     this.table = new TableImpl(this);
     this.service = new ServiceImpl(this);
   }

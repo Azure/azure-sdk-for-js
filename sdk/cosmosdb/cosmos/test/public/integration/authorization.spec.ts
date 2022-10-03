@@ -108,7 +108,7 @@ describe("Authorization", function (this: Suite) {
     try {
       await clientNoPermission.database(database.id).container(container.id).read();
       assert.fail("accessing container did not throw");
-    } catch (err) {
+    } catch (err: any) {
       assert(err !== undefined); // TODO: should check that we get the right error message
     }
     clientNoPermission.dispose();

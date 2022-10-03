@@ -380,7 +380,7 @@ issuancerules
 
     try {
       await client.attestOpenEnclave(openEnclaveReport, { draftPolicyForAttestation: testPolicy });
-    } catch (error) {
+    } catch (error: any) {
       console.log(`Expected Exception thrown for invalid request: ${error.message}`);
     }
   }

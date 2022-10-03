@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets information about the given detector for a given Batch account.
  *
  * @summary Gets information about the given detector for a given Batch account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/DetectorGet.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/DetectorGet.json
  */
 async function getDetector() {
   const subscriptionId = "subid";

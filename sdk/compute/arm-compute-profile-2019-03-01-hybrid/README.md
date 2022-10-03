@@ -2,6 +2,8 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for ComputeManagementClient.
 
+> Please note, this package is deprecated and not functional as it uses an older version of the Javascript SDK generator. As of April 2022, you can instead use [@azure/arm-compute-profile-2020-09-01-hybrid](https://www.npmjs.com/package/@azure/arm-compute-profile-2020-09-01-hybrid).
+
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)

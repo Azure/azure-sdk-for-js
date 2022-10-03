@@ -52,7 +52,7 @@ You will need your Cosmos DB **Account Endpoint** and **Key**. You can find thes
 
 ```Bash
 az cosmosdb show --resource-group <your-resource-group> --name <your-account-name> --query documentEndpoint --output tsv
-az cosmosdb keys list --resource-group <your-resource-group> --name <your-account-name> --query documentEndpoint --output tsv
+az cosmosdb keys list --resource-group <your-resource-group> --name <your-account-name> --query primaryMasterKey --output tsv
 ```
 
 ### Create an instance of `CosmosClient`

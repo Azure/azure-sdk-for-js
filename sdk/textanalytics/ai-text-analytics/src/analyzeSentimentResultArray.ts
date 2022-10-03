@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import {
+  SentimentResponse,
   TextDocumentBatchStatistics,
   TextDocumentInput,
-  SentimentResponse,
 } from "./generated/models";
 import {
   AnalyzeSentimentResult,

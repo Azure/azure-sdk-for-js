@@ -423,10 +423,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -512,10 +514,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, devicePatch, options },
       patchOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -626,10 +630,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, alertSettings, options },
       createOrUpdateAlertSettingsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -714,10 +720,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, options },
       deactivateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -799,10 +807,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, options },
       downloadUpdatesOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -886,10 +896,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, failoverRequest, options },
       failoverOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -993,10 +1005,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, options },
       installUpdatesOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1135,10 +1149,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, options },
       scanForUpdatesOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1222,10 +1238,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, securitySettings, options },
       createOrUpdateSecuritySettingsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

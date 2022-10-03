@@ -27,6 +27,44 @@ describe("urlHelpers", () => {
     assert.equal(result, `https://example.org/foo/one?foo=1&bar=two`);
   });
 
+  it("should only encode the values, ignore the encoding for keys in query parameter", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"], {
+      queryParameters: { foo: "1", bar: "two", $maxpagesize: 1, $skip: 2 },
+    });
+
+    assert.equal(result, `https://example.org/foo/one?foo=1&bar=two&%24maxpagesize=1&%24skip=2`);
+  });
+
+  it("should skip encoding for values in query parameter", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"], {
+      queryParameters: { foo: "1", bar: "two", $maxpagesize: 1, $skip: "$_20" },
+      skipUrlEncoding: true,
+    });
+
+    assert.equal(result, `https://example.org/foo/one?foo=1&bar=two&$maxpagesize=1&$skip=$_20`);
+  });
+
+  it("should skip encoding if the client already encoded the parameters", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"], {
+      queryParameters: { foo: "%24encoded%20value" }, // the value is already encoded so we could enable the setting skipUrlEncoding
+      skipUrlEncoding: true,
+    });
+
+    assert.equal(result, `https://example.org/foo/one?foo=%24encoded%20value`);
+  });
+
+  it("should enable encoding for values in query parameter", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"], {
+      queryParameters: { foo: "1", bar: "two", $maxpagesize: 1, $skip: "$_20" },
+      skipUrlEncoding: false,
+    });
+
+    assert.equal(
+      result,
+      `https://example.org/foo/one?foo=1&bar=two&%24maxpagesize=1&%24skip=%24_20`
+    );
+  });
+
   it("should append date query parameter as ISO string", () => {
     const start = new Date("2021-06-25T07:00:00.000Z");
     const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"], {
@@ -49,6 +87,26 @@ describe("urlHelpers", () => {
     });
 
     assert.equal(result, `https://example.org/foo?existing=hey&foo=1&bar=two`);
+  });
+
+  it("should build url with array queries", () => {
+    const testArray = ["ArrayQuery1", "begin!*'();:@ &=+$,/?#[]end", null as any, ""] as string[];
+    let result = buildRequestUrl(mockBaseUrl, "/foo?existing=hey", [], {
+      queryParameters: {
+        arrayQuery: testArray,
+      },
+    });
+
+    assert.equal(
+      result,
+      `https://example.org/foo?existing=hey&arrayQuery=ArrayQuery1%2Cbegin%21*%27%28%29%3B%3A%40+%26%3D%2B%24%2C%2F%3F%23%5B%5Dend%2C%2C`
+    );
+    result = buildRequestUrl(mockBaseUrl, "/foo?existing=hey", [], {
+      queryParameters: {
+        arrayQuery: [],
+      },
+    });
+    assert.equal(result, `https://example.org/foo?existing=hey&arrayQuery=`);
   });
 
   it("should handle full urls as path", () => {

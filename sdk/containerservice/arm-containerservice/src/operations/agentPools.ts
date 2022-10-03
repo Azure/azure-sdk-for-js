@@ -608,6 +608,9 @@ const getAvailableAgentPoolVersionsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.AgentPoolAvailableVersions
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],

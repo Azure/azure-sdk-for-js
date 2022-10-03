@@ -4,15 +4,15 @@
 import { Test } from "mocha";
 
 import {
-  assertEnvironmentVariable,
-  env,
   Recorder,
   RecorderStartOptions,
+  assertEnvironmentVariable,
+  env,
 } from "@azure-tools/test-recorder";
 import { ChatClient } from "../../../src";
 import {
-  CommunicationUserIdentifier,
   AzureCommunicationTokenCredential,
+  CommunicationUserIdentifier,
   parseClientArguments,
 } from "@azure/communication-common";
 import { CommunicationIdentityClient, CommunicationUserToken } from "@azure/communication-identity";

@@ -17,4 +17,5 @@ export const paths = {
   reset: "/reset",
   setMatcher: "/setMatcher",
   addTransform: "/addTransform",
+  setRecordingOptions: "/setRecordingOptions",
 };

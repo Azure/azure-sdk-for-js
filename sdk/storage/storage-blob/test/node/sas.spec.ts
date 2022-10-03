@@ -141,7 +141,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let error;
     try {
       await serviceClientWithSAS.getProperties();
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
 
@@ -175,7 +175,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let error;
     try {
       await serviceClientWithSAS.getProperties();
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
 
@@ -212,7 +212,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let error;
     try {
       await serviceClientWithSAS.getProperties();
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
 
@@ -2053,7 +2053,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     try {
       await containerClientWithSAS.generateSasUrl({});
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(err instanceof RangeError);
     }
 
@@ -2555,7 +2555,7 @@ describe("Generation for user delegation SAS Node.js only", () => {
     recorder = record(this, recorderEnvSetup);
     try {
       blobServiceClient = getTokenBSUWithDefaultCredential();
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
       this.skip();
     }

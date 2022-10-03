@@ -75,7 +75,7 @@ describe("LeaseClient", () => {
     try {
       await anotherLeaseClient.acquireLease(duration);
       assert.fail("acquireLease a leased lease should fail with a different lease id");
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.statusCode, 409);
     }
   });
@@ -93,7 +93,7 @@ describe("LeaseClient", () => {
     try {
       await leaseClient.acquireLease(invalid_duration);
       assert.fail(`acquireLease should fail for an invalid duration: ${invalid_duration}`);
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.statusCode, 400);
     }
   });
@@ -111,7 +111,7 @@ describe("LeaseClient", () => {
       const changeResp = await leaseClient.changeLease(guid);
       assert.equal(changeResp.leaseId, guid);
       await leaseClient.releaseLease();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.statusCode, 409);
     }
   });
@@ -177,7 +177,7 @@ describe("LeaseClient", () => {
     try {
       await fileClient.create(newSize);
       assert.fail("lease id required if the file has an active lease");
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.statusCode, 412);
     }
     await fileClient.create(newSize, { leaseAccessConditions: { leaseId: guid } });
@@ -197,7 +197,7 @@ describe("LeaseClient", () => {
     try {
       await fileClient.setProperties();
       assert.fail("lease id required if the file has an active lease");
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.statusCode, 412);
     }
     await fileClient.setProperties({ leaseAccessConditions: { leaseId: guid } });
@@ -215,7 +215,7 @@ describe("LeaseClient", () => {
     try {
       await fileClient.delete();
       assert.fail("lease id required if the file has an active lease");
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.statusCode, 412);
     }
     await fileClient.delete({ leaseAccessConditions: { leaseId: guid } });
@@ -227,7 +227,7 @@ describe("LeaseClient", () => {
     try {
       await fileClient.uploadRange(content, 0, content.length);
       assert.fail("lease id required if the file has an active lease");
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.statusCode, 412);
     }
     await fileClient.uploadRange(content, 0, content.length, {
@@ -244,7 +244,7 @@ describe("LeaseClient", () => {
     try {
       await fileClient.startCopyFromURL(newFileClient.url);
       assert.fail("lease id required if the file has an active lease");
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.statusCode, 412);
     }
     await fileClient.startCopyFromURL(newFileClient.url, {
@@ -259,7 +259,7 @@ describe("LeaseClient", () => {
     try {
       await fileClient.setMetadata();
       assert.fail("lease id required if the file has an active lease");
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.statusCode, 412);
     }
     await fileClient.setMetadata({}, { leaseAccessConditions: { leaseId: guid } });
@@ -276,7 +276,7 @@ describe("LeaseClient", () => {
       assert.fail(
         "The lease ID specified in the request should matches that of the file if specified"
       );
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.statusCode, 412);
     }
 
@@ -299,7 +299,7 @@ describe("LeaseClient", () => {
       assert.fail(
         "The lease ID specified in the request should matches that of the file if specified"
       );
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.statusCode, 412);
     }
 
@@ -322,7 +322,7 @@ describe("LeaseClient", () => {
       assert.fail(
         "The lease ID specified in the request should matches that of the file if specified"
       );
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.statusCode, 412);
     }
 

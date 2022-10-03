@@ -357,7 +357,7 @@ export const scope: OperationQueryParameter = {
 };
 
 export const typeParam: OperationQueryParameter = {
-  parameterPath: ["options", "typeParam"],
+  parameterPath: ["options", "type"],
   mapper: {
     defaultValue: "none",
     serializedName: "type",
@@ -475,7 +475,7 @@ export const workbookProperties: OperationParameter = {
 export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-08-01",
+    defaultValue: "2022-04-01",
     isConstant: true,
     serializedName: "api-version",
     type: {

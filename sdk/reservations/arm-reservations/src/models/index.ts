@@ -282,6 +282,8 @@ export interface ReservationOrderResponse {
   createdDateTime?: Date;
   /** This is the date when the Reservation will expire. */
   expiryDate?: Date;
+  /** This is the DateTime when the reservation benefit started. */
+  benefitStartTime?: Date;
   /** Total Quantity of the SKUs purchased in the Reservation. */
   originalQuantity?: number;
   /** Represent the term of Reservation. */
@@ -361,6 +363,8 @@ export interface ReservationsProperties {
   provisioningState?: ProvisioningState;
   /** DateTime of the Reservation starting when this version is effective from. */
   effectiveDateTime?: Date;
+  /** This is the DateTime when the reservation benefit started. */
+  benefitStartTime?: Date;
   /**
    * DateTime of the last time the Reservation was updated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -774,6 +778,11 @@ export interface ReservationSummary {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly cancelledCount?: number;
+  /**
+   * The number of reservation in Processing state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly processingCount?: number;
 }
 
 /** Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. */
@@ -827,6 +836,21 @@ export interface ChangeDirectoryResult {
 
 /** Quota properties. */
 export interface CurrentQuotaLimitBase {
+  /**
+   * The quota request ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the quota request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Type of resource. "Microsoft.Capacity/ServiceLimits"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
   /** Quota properties for the resource. */
   properties?: QuotaProperties;
 }
@@ -897,42 +921,6 @@ export interface ServiceErrorDetail {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
-}
-
-/** Response for the quota submission request. */
-export interface QuotaRequestOneResourceSubmitResponse {
-  /**
-   * The quota request ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the quota request.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Type of resource. "Microsoft.Capacity/ServiceLimits"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The quota request status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: QuotaRequestState;
-  /**
-   * User friendly status message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The time when the quota request was submitted using format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requestSubmitTime?: Date;
-  /** Quota properties for the resource. */
-  properties?: QuotaProperties;
 }
 
 /** Response with request ID that the quota request was accepted. */
@@ -1073,6 +1061,21 @@ export interface CurrentQuotaLimit {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
+  /**
+   * The quota request ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the quota request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Type of resource. "Microsoft.Capacity/ServiceLimits"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
   /** Quota properties for the resource. */
   properties?: QuotaProperties;
 }
@@ -1089,6 +1092,57 @@ export interface QuotaLimitsResponse {
 export interface CreateGenericQuotaRequestParameters {
   /** Quota change requests. */
   value?: CurrentQuotaLimitBase[];
+}
+
+/** Response for the quota submission request. */
+export interface QuotaRequestOneResourceSubmitResponse {
+  /**
+   * The quota request ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the quota request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Type of resource. "Microsoft.Capacity/ServiceLimits"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The quota request status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: QuotaRequestState;
+  /**
+   * User friendly status message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The time when the quota request was submitted using format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requestSubmitTime?: Date;
+  /**
+   * The quota request ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly idPropertiesId?: string;
+  /**
+   * The name of the quota request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly namePropertiesName?: string;
+  /**
+   * Type of resource. "Microsoft.Capacity/ServiceLimits"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly typePropertiesType?: string;
+  /** Quota properties for the resource. */
+  properties?: QuotaProperties;
 }
 
 /** Response for the quota submission request. */
@@ -1334,7 +1388,8 @@ export enum KnownReservedResourceType {
   DataFactory = "DataFactory",
   NetAppStorage = "NetAppStorage",
   AzureFiles = "AzureFiles",
-  SqlEdge = "SqlEdge"
+  SqlEdge = "SqlEdge",
+  VirtualMachineSoftware = "VirtualMachineSoftware"
 }
 
 /**
@@ -1366,7 +1421,8 @@ export enum KnownReservedResourceType {
  * **DataFactory** \
  * **NetAppStorage** \
  * **AzureFiles** \
- * **SqlEdge**
+ * **SqlEdge** \
+ * **VirtualMachineSoftware**
  */
 export type ReservedResourceType = string;
 
@@ -1426,6 +1482,7 @@ export type PaymentStatus = string;
 export enum KnownReservationStatusCode {
   None = "None",
   Pending = "Pending",
+  Processing = "Processing",
   Active = "Active",
   PurchaseError = "PurchaseError",
   PaymentInstrumentError = "PaymentInstrumentError",
@@ -1442,6 +1499,7 @@ export enum KnownReservationStatusCode {
  * ### Known values supported by the service
  * **None** \
  * **Pending** \
+ * **Processing** \
  * **Active** \
  * **PurchaseError** \
  * **PaymentInstrumentError** \
@@ -1682,6 +1740,7 @@ export enum KnownDisplayProvisioningState {
   Expiring = "Expiring",
   Expired = "Expired",
   Pending = "Pending",
+  Processing = "Processing",
   Cancelled = "Cancelled",
   Failed = "Failed"
 }
@@ -1695,6 +1754,7 @@ export enum KnownDisplayProvisioningState {
  * **Expiring** \
  * **Expired** \
  * **Pending** \
+ * **Processing** \
  * **Cancelled** \
  * **Failed**
  */
@@ -1876,6 +1936,12 @@ export interface GetCatalogOptionalParams extends coreClient.OperationOptions {
   reservedResourceType?: string;
   /** Filters the skus based on the location specified in this parameter. This can be an azure region or global */
   location?: string;
+  /** Publisher id used to get the third party products */
+  publisherId?: string;
+  /** Offer id used to get the third party products */
+  offerId?: string;
+  /** Plan id used to get the third party products */
+  planId?: string;
 }
 
 /** Contains response data for the getCatalog operation. */
@@ -1992,7 +2058,7 @@ export interface QuotaCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type QuotaCreateOrUpdateResponse = QuotaRequestOneResourceSubmitResponse;
+export type QuotaCreateOrUpdateResponse = CurrentQuotaLimitBase;
 
 /** Optional parameters. */
 export interface QuotaUpdateOptionalParams extends coreClient.OperationOptions {
@@ -2003,7 +2069,7 @@ export interface QuotaUpdateOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the update operation. */
-export type QuotaUpdateResponse = QuotaRequestOneResourceSubmitResponse;
+export type QuotaUpdateResponse = CurrentQuotaLimitBase;
 
 /** Optional parameters. */
 export interface QuotaListOptionalParams extends coreClient.OperationOptions {}

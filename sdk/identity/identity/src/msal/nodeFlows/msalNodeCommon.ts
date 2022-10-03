@@ -16,10 +16,10 @@ import { CredentialFlowGetTokenOptions } from "../credentials";
 import { MsalFlow, MsalFlowOptions } from "../flows";
 import { AuthenticationRecord } from "../types";
 import {
+  MsalBaseUtilities,
   defaultLoggerCallback,
   getAuthority,
   getKnownAuthorities,
-  MsalBaseUtilities,
   msalToPublic,
   publicToMsal,
 } from "../utils";
@@ -94,11 +94,15 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
    */
   private cachedClaims: string | undefined;
 
+  protected getAssertion: (() => Promise<string>) | undefined;
   constructor(options: MsalNodeOptions) {
     super(options);
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
     this.clientId = this.msalConfig.auth.clientId;
+    if (options?.getAssertion) {
+      this.getAssertion = options.getAssertion;
+    }
 
     // If persistence has been configured
     if (persistenceProvider !== undefined && options.tokenCachePersistenceOptions?.enabled) {
@@ -181,6 +185,9 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     }
 
     this.publicApp = new msalNode.PublicClientApplication(this.msalConfig);
+    if (this.getAssertion) {
+      this.msalConfig.auth.clientAssertion = await this.getAssertion();
+    }
     // The confidential client requires either a secret, assertion or certificate.
     if (
       this.msalConfig.auth.clientSecret ||
@@ -280,7 +287,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         (await this.confidentialApp?.acquireTokenSilent(silentRequest)) ??
         (await this.publicApp!.acquireTokenSilent(silentRequest));
       return this.handleResult(scopes, this.clientId, response || undefined);
-    } catch (err) {
+    } catch (err: any) {
       throw this.handleError(scopes, err, options);
     }
   }
@@ -318,7 +325,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       }
       // We don't return the promise since we want to catch errors right here.
       return await this.getTokenSilent(scopes, options);
-    } catch (err) {
+    } catch (err: any) {
       if (err.name !== "AuthenticationRequiredError") {
         throw err;
       }

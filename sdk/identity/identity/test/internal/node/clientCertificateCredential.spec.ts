@@ -7,7 +7,7 @@ import Sinon from "sinon";
 import { assert } from "chai";
 import * as path from "path";
 import { AbortController } from "@azure/abort-controller";
-import { env, isPlaybackMode, delay, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, delay, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { ClientCertificateCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
@@ -49,19 +49,19 @@ describe("ClientCertificateCredential (internal)", function () {
       new ClientCertificateCredential(undefined as any, env.AZURE_CLIENT_ID!, {
         certificatePath: env.AZURE_CLIENT_CERTIFICATE_PATH!,
       });
-    } catch (e) {
+    } catch (e: any) {
       errors.push(e);
     }
     try {
       new ClientCertificateCredential(env.AZURE_TENANT_ID!, undefined as any, {
         certificatePath: env.AZURE_CLIENT_CERTIFICATE_PATH!,
       });
-    } catch (e) {
+    } catch (e: any) {
       errors.push(e);
     }
     try {
       new ClientCertificateCredential(undefined as any, undefined as any, undefined as any);
-    } catch (e) {
+    } catch (e: any) {
       errors.push(e);
     }
     assert.equal(errors.length, 3);
@@ -76,13 +76,13 @@ describe("ClientCertificateCredential (internal)", function () {
     try {
       // If configuration object is undefined. Relevant for JavaScript.
       new ClientCertificateCredential(env.AZURE_TENANT_ID!, env.AZURE_CLIENT_ID!, undefined as any);
-    } catch (e) {
+    } catch (e: any) {
       errors.push(e);
     }
     try {
       // If configuration object is empty.
       new ClientCertificateCredential(env.AZURE_TENANT_ID!, env.AZURE_CLIENT_ID!, {} as any);
-    } catch (e) {
+    } catch (e: any) {
       errors.push(e);
     }
     assert.equal(errors.length, 2);
@@ -100,7 +100,7 @@ describe("ClientCertificateCredential (internal)", function () {
         certificatePath: "some/path",
         certificate: "certificate-value",
       } as any);
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.ok(error);
@@ -119,7 +119,7 @@ describe("ClientCertificateCredential (internal)", function () {
     let error: Error | undefined;
     try {
       await credential.getToken(scope);
-    } catch (_error) {
+    } catch (_error: any) {
       error = _error;
     }
 
@@ -135,7 +135,7 @@ describe("ClientCertificateCredential (internal)", function () {
     let error: Error | undefined;
     try {
       await credential.getToken(scope);
-    } catch (_error) {
+    } catch (_error: any) {
       error = _error;
     }
 
@@ -196,7 +196,7 @@ describe("ClientCertificateCredential (internal)", function () {
     controller.abort();
     try {
       await getTokenPromise;
-    } catch (e) {
+    } catch (e: any) {
       // Nothing to do here.
     }
 

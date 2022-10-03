@@ -30,6 +30,7 @@ export class Serializer {
    * @param mapper - The definition of data models.
    * @param value - The value.
    * @param objectName - Name of the object. Used in the error messages.
+   * @deprecated Removing the constraints validation on client side.
    */
   validateConstraints(mapper: Mapper, value: unknown, objectName: string): void {
     const failValidation = (
@@ -156,8 +157,6 @@ export class Serializer {
     if (object == undefined) {
       payload = object;
     } else {
-      // Validate Constraints if any
-      this.validateConstraints(mapper, object, objectName);
       if (mapperType.match(/^any$/i) !== null) {
         payload = object;
       } else if (mapperType.match(/^(Number|String|Boolean|Object|Stream|Uuid)$/i) !== null) {

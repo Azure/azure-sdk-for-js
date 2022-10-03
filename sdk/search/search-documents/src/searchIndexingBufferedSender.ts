@@ -16,7 +16,6 @@ import { IndexDocumentsResult } from "./generated/data/models";
 import { OperationOptions } from "@azure/core-client";
 import EventEmitter from "events";
 import { createSpan } from "./tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { delay } from "./serviceUtils";
 import { getRandomIntegerInclusive } from "./serviceUtils";
 import { RestError } from "@azure/core-rest-pipeline";
@@ -163,10 +162,10 @@ export class SearchIndexingBufferedSender<T> {
         documents,
       });
       return this.internalFlush(false, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e.message,
       });
       throw e;
     } finally {
@@ -195,10 +194,10 @@ export class SearchIndexingBufferedSender<T> {
         documents,
       });
       return this.internalFlush(false, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e.message,
       });
       throw e;
     } finally {
@@ -227,10 +226,10 @@ export class SearchIndexingBufferedSender<T> {
         documents,
       });
       return this.internalFlush(false, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e.message,
       });
       throw e;
     } finally {
@@ -259,10 +258,10 @@ export class SearchIndexingBufferedSender<T> {
         documents,
       });
       return this.internalFlush(false, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e.message,
       });
       throw e;
     } finally {
@@ -283,10 +282,10 @@ export class SearchIndexingBufferedSender<T> {
       if (this.batchObject.actions.length > 0) {
         return this.internalFlush(true, updatedOptions);
       }
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e.message,
       });
       throw e;
     } finally {
@@ -429,7 +428,7 @@ export class SearchIndexingBufferedSender<T> {
       );
       // raise success event
       this.emitter.emit("batchSucceeded", result);
-    } catch (e) {
+    } catch (e: any) {
       if (e.statusCode && e.statusCode === 413 && actionsToSend.length > 1) {
         // Cut the payload size to half
         const splitActionsArray = [

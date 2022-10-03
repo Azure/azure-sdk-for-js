@@ -30,7 +30,7 @@ describe("Aborter", () => {
     try {
       await fileSystemClient.create({ abortSignal: AbortController.timeout(1) });
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
@@ -47,7 +47,7 @@ describe("Aborter", () => {
     try {
       await response;
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
@@ -72,7 +72,7 @@ describe("Aborter", () => {
       aborter.abort();
       await response;
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }

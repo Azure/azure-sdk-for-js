@@ -142,7 +142,7 @@ describe("ShareClient", () => {
       assert.fail(
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
-    } catch (error) {
+    } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
     }
   });
@@ -160,7 +160,7 @@ describe("ShareClient", () => {
       assert.fail(
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
-    } catch (error) {
+    } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
     }
   });
@@ -201,7 +201,7 @@ describe("ShareClient", () => {
     try {
       new ShareClient(getSASConnectionStringFromEnvironment(), "");
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Expecting non-empty strings for name parameter",
         error.message,

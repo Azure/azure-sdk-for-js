@@ -7,6 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { ADCOperationsImpl, ADCCatalogsImpl } from "./operations";
 import { ADCOperations, ADCCatalogs } from "./operationsInterfaces";
@@ -16,20 +17,17 @@ export class DataCatalogRestClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
-  catalogName: string;
 
   /**
    * Initializes a new instance of the DataCatalogRestClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId Gets subscription credentials which uniquely identify the Microsoft Azure
    *                       subscription. The subscription ID forms part of the URI for every service call.
-   * @param catalogName The name of the data catalog in the specified subscription and resource group.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    catalogName: string,
     options?: DataCatalogRestClientOptionalParams
   ) {
     if (credentials === undefined) {
@@ -37,9 +35,6 @@ export class DataCatalogRestClient extends coreClient.ServiceClient {
     }
     if (subscriptionId === undefined) {
       throw new Error("'subscriptionId' cannot be null");
-    }
-    if (catalogName === undefined) {
-      throw new Error("'catalogName' cannot be null");
     }
 
     // Initializing default values for options
@@ -51,7 +46,7 @@ export class DataCatalogRestClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-datacatalog/3.0.0`;
+    const packageDetails = `azsdk-js-arm-datacatalog/4.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -66,12 +61,35 @@ export class DataCatalogRestClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint || "https://management.azure.com"
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
+
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
+    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
-    this.catalogName = catalogName;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";

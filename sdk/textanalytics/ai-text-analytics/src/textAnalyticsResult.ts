@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import {
-  TextDocumentStatistics,
+  DocumentError,
+  ErrorCodeValue,
   TextAnalyticsError as GeneratedTextAnalyticsErrorModel,
   InnerError,
-  ErrorCodeValue,
   InnerErrorCodeValue,
   TextAnalyticsWarning,
-  DocumentError,
   TextDocumentBatchStatistics,
   TextDocumentInput,
+  TextDocumentStatistics,
 } from "./generated/models";
 import { sortResponseIdObjects } from "./util";
 
@@ -86,7 +86,10 @@ export interface TextAnalyticsErrorResult {
   readonly error: TextAnalyticsError;
 }
 
-interface StandardTextAnalyticsResultArray<T1 extends TextAnalyticsSuccessResult>
+/**
+ * @internal
+ */
+interface TextAnalyticsResultArray<T1 extends TextAnalyticsSuccessResult>
   extends Array<T1 | TextAnalyticsErrorResult> {
   /**
    * Statistics about the input document batch and how it was processed
@@ -101,25 +104,10 @@ interface StandardTextAnalyticsResultArray<T1 extends TextAnalyticsSuccessResult
   modelVersion: string;
 }
 
-interface CustomTextAnalyticsResultArray<T1 extends TextAnalyticsSuccessResult>
-  extends Array<T1 | TextAnalyticsErrorResult> {
-  /**
-   * Statistics about the input document batch and how it was processed
-   * by the service. This property will have a value when includeStatistics is set to true
-   * in the client call.
-   */
-  statistics?: TextDocumentBatchStatistics;
-  /**
-   * This field indicates the project name for the model.
-   */
-  projectName: string;
-  /**
-   * This field indicates the deployment name for the model.
-   */
-  deploymentName: string;
-}
-
-interface StandardTextAnalyticsResponse<T1 extends TextAnalyticsSuccessResult> {
+/**
+ * @internal
+ */
+interface TextAnalyticsResponse<T1 extends TextAnalyticsSuccessResult> {
   /**
    * Response by document
    */
@@ -136,29 +124,6 @@ interface StandardTextAnalyticsResponse<T1 extends TextAnalyticsSuccessResult> {
    * This field indicates which model is used for scoring.
    */
   modelVersion: string;
-}
-
-interface CustomTextAnalyticsResponse<T1 extends TextAnalyticsSuccessResult> {
-  /**
-   * Response by document
-   */
-  documents: T1[];
-  /**
-   * Errors by document id.
-   */
-  errors: DocumentError[];
-  /**
-   * if includeStatistics=true was specified in the request this field will contain information about the request payload.
-   */
-  statistics?: TextDocumentBatchStatistics;
-  /**
-   * This field indicates the project name for the model.
-   */
-  projectName: string;
-  /**
-   * This field indicates the deployment name for the model.
-   */
-  deploymentName: string;
 }
 
 /**
@@ -224,10 +189,7 @@ export function processAndCombineSuccessfulAndErroneousDocuments<
   TError extends TextAnalyticsErrorResult
 >(
   input: TextDocumentInput[],
-  response: {
-    documents: TSuccessService[];
-    errors: DocumentError[];
-  },
+  response: TextAnalyticsResponse<TSuccessService>,
   processSuccess: (successResult: TSuccessService) => TSuccessSDK,
   processError: (id: string, error: GeneratedTextAnalyticsErrorModel) => TError
 ): (TSuccessSDK | TextAnalyticsErrorResult)[] {
@@ -254,10 +216,10 @@ export function combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVers
   TError extends TextAnalyticsErrorResult
 >(
   input: TextDocumentInput[],
-  response: StandardTextAnalyticsResponse<TSuccessService>,
+  response: TextAnalyticsResponse<TSuccessService>,
   processSuccess: (doc: TSuccessService) => TSuccessSDK,
   processError: (id: string, error: GeneratedTextAnalyticsErrorModel) => TError
-): StandardTextAnalyticsResultArray<TSuccessSDK> {
+): TextAnalyticsResultArray<TSuccessSDK> {
   const sorted = processAndCombineSuccessfulAndErroneousDocuments(
     input,
     response,
@@ -267,36 +229,5 @@ export function combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVers
   return Object.assign(sorted, {
     statistics: response.statistics,
     modelVersion: response.modelVersion,
-  });
-}
-
-/**
- * @internal
- * combines successful and erroneous results into a single array of results and
- * sort them so that the IDs order match that of the input documents array. It
- * also attaches statistics, projectName, and deploymentName to the returned array.
- * @param input - the array of documents sent to the service for processing.
- * @param response - the response received from the service.
- */
-export function combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo<
-  TSuccessService extends TextAnalyticsSuccessResult,
-  TSuccessSDK extends TextAnalyticsSuccessResult,
-  TError extends TextAnalyticsErrorResult
->(
-  input: TextDocumentInput[],
-  response: CustomTextAnalyticsResponse<TSuccessService>,
-  processSuccess: (doc: TSuccessService) => TSuccessSDK,
-  processError: (id: string, error: GeneratedTextAnalyticsErrorModel) => TError
-): CustomTextAnalyticsResultArray<TSuccessSDK> {
-  const sorted = processAndCombineSuccessfulAndErroneousDocuments(
-    input,
-    response,
-    processSuccess,
-    processError
-  );
-  return Object.assign(sorted, {
-    statistics: response.statistics,
-    projectName: response.projectName,
-    deploymentName: response.deploymentName,
   });
 }

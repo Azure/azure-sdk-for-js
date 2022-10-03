@@ -241,4 +241,14 @@ describe("Change Feed", async () => {
     const event2 = await changeFeed3.getChange();
     assert.equal(event2, 4 as unknown as BlobChangeFeedEvent | undefined);
   });
+
+  it("getChange - no meta", async () => {
+    blobClientStub.download.callsFake(() => {
+      throw {
+        statusCode: 404,
+      };
+    });
+    const changeFeed = await changeFeedFactory.create(serviceClientStub as any, undefined);
+    assert.ok(!changeFeed.hasNext(), "Should return empty change feed");
+  });
 });

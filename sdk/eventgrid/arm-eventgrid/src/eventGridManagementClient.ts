@@ -7,32 +7,58 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  ChannelsImpl,
   DomainsImpl,
   DomainTopicsImpl,
+  TopicEventSubscriptionsImpl,
+  DomainEventSubscriptionsImpl,
   EventSubscriptionsImpl,
+  DomainTopicEventSubscriptionsImpl,
   SystemTopicEventSubscriptionsImpl,
+  PartnerTopicEventSubscriptionsImpl,
   OperationsImpl,
   TopicsImpl,
+  PartnerConfigurationsImpl,
+  PartnerNamespacesImpl,
+  PartnerRegistrationsImpl,
+  PartnerTopicsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   SystemTopicsImpl,
   ExtensionTopicsImpl,
-  TopicTypesImpl
+  TopicTypesImpl,
+  VerifiedPartnersImpl
 } from "./operations";
 import {
+  Channels,
   Domains,
   DomainTopics,
+  TopicEventSubscriptions,
+  DomainEventSubscriptions,
   EventSubscriptions,
+  DomainTopicEventSubscriptions,
   SystemTopicEventSubscriptions,
+  PartnerTopicEventSubscriptions,
   Operations,
   Topics,
+  PartnerConfigurations,
+  PartnerNamespaces,
+  PartnerRegistrations,
+  PartnerTopics,
   PrivateEndpointConnections,
   PrivateLinkResources,
   SystemTopics,
   ExtensionTopics,
-  TopicTypes
+  TopicTypes,
+  VerifiedPartners
 } from "./operationsInterfaces";
 import { EventGridManagementClientOptionalParams } from "./models";
 
@@ -69,7 +95,7 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-eventgrid/13.0.0`;
+    const packageDetails = `azsdk-js-arm-eventgrid/14.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -84,39 +110,116 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint || "https://management.azure.com"
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
+
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
+    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-12-01";
+    this.apiVersion = options.apiVersion || "2022-06-15";
+    this.channels = new ChannelsImpl(this);
     this.domains = new DomainsImpl(this);
     this.domainTopics = new DomainTopicsImpl(this);
+    this.topicEventSubscriptions = new TopicEventSubscriptionsImpl(this);
+    this.domainEventSubscriptions = new DomainEventSubscriptionsImpl(this);
     this.eventSubscriptions = new EventSubscriptionsImpl(this);
+    this.domainTopicEventSubscriptions = new DomainTopicEventSubscriptionsImpl(
+      this
+    );
     this.systemTopicEventSubscriptions = new SystemTopicEventSubscriptionsImpl(
+      this
+    );
+    this.partnerTopicEventSubscriptions = new PartnerTopicEventSubscriptionsImpl(
       this
     );
     this.operations = new OperationsImpl(this);
     this.topics = new TopicsImpl(this);
+    this.partnerConfigurations = new PartnerConfigurationsImpl(this);
+    this.partnerNamespaces = new PartnerNamespacesImpl(this);
+    this.partnerRegistrations = new PartnerRegistrationsImpl(this);
+    this.partnerTopics = new PartnerTopicsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.systemTopics = new SystemTopicsImpl(this);
     this.extensionTopics = new ExtensionTopicsImpl(this);
     this.topicTypes = new TopicTypesImpl(this);
+    this.verifiedPartners = new VerifiedPartnersImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return item.replace(/(?<==).*$/, apiVersion);
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
+  }
+
+  channels: Channels;
   domains: Domains;
   domainTopics: DomainTopics;
+  topicEventSubscriptions: TopicEventSubscriptions;
+  domainEventSubscriptions: DomainEventSubscriptions;
   eventSubscriptions: EventSubscriptions;
+  domainTopicEventSubscriptions: DomainTopicEventSubscriptions;
   systemTopicEventSubscriptions: SystemTopicEventSubscriptions;
+  partnerTopicEventSubscriptions: PartnerTopicEventSubscriptions;
   operations: Operations;
   topics: Topics;
+  partnerConfigurations: PartnerConfigurations;
+  partnerNamespaces: PartnerNamespaces;
+  partnerRegistrations: PartnerRegistrations;
+  partnerTopics: PartnerTopics;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
   systemTopics: SystemTopics;
   extensionTopics: ExtensionTopics;
   topicTypes: TopicTypes;
+  verifiedPartners: VerifiedPartners;
 }

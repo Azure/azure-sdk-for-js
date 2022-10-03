@@ -265,11 +265,13 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       { resourceGroupName, applicationGatewayName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -370,11 +372,13 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       { resourceGroupName, applicationGatewayName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -498,11 +502,13 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       { resourceGroupName, applicationGatewayName, options },
       startOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -579,11 +585,13 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       { resourceGroupName, applicationGatewayName, options },
       stopOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -665,11 +673,13 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       { resourceGroupName, applicationGatewayName, options },
       backendHealthOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -754,11 +764,13 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       { resourceGroupName, applicationGatewayName, probeRequest, options },
       backendHealthOnDemandOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

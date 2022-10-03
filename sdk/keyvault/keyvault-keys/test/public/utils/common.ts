@@ -1,30 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
+import { SupportedVersions, TestFunctionWrapper, supports } from "@azure/test-utils";
 import { env } from "@azure-tools/test-recorder";
 import { assert } from "@azure/test-utils";
-
-export function getKeyvaultName(): string {
-  const keyVaultEnvVarName = "KEYVAULT_NAME";
-  const keyVaultName: string | undefined = env[keyVaultEnvVarName];
-
-  if (!keyVaultName) {
-    throw new Error(`${keyVaultEnvVarName} environment variable not specified.`);
-  }
-
-  return keyVaultName;
-}
 
 export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<void> {
   let passed = false;
   try {
     await cb();
     passed = true;
-  } catch (e) {
+  } catch (e: any) {
     console.log(`name: ${e.name}, message: ${e.message}`);
     assert.equal(e.name, "AbortError");
-    assert.equal(e.message, "The operation was aborted.");
   }
   if (passed) {
     throw new Error("Expected cb to throw an AbortError");

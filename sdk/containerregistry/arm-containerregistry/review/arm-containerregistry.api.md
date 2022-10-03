@@ -165,6 +165,14 @@ export interface AuthInfoUpdateParameters {
 }
 
 // @public
+export interface AzureADAuthenticationAsArmPolicy {
+    status?: AzureADAuthenticationAsArmPolicyStatus;
+}
+
+// @public
+export type AzureADAuthenticationAsArmPolicyStatus = string;
+
+// @public
 export interface BaseImageDependency {
     digest?: string;
     registry?: string;
@@ -824,6 +832,14 @@ export enum KnownAuditLogStatus {
 }
 
 // @public
+export enum KnownAzureADAuthenticationAsArmPolicyStatus {
+    // (undocumented)
+    Disabled = "disabled",
+    // (undocumented)
+    Enabled = "enabled"
+}
+
+// @public
 export enum KnownBaseImageDependencyType {
     // (undocumented)
     BuildTime = "BuildTime",
@@ -1270,7 +1286,6 @@ export type NetworkRuleBypassOptions = string;
 export interface NetworkRuleSet {
     defaultAction: DefaultAction;
     ipRules?: IPRule[];
-    virtualNetworkRules?: VirtualNetworkRule[];
 }
 
 // @public
@@ -1349,6 +1364,12 @@ export interface OverrideTaskStepProperties {
     target?: string;
     updateTriggerToken?: string;
     values?: SetValue[];
+}
+
+// @public
+export interface PackageType {
+    readonly endpoint?: string;
+    name?: string;
 }
 
 // @public
@@ -1503,9 +1524,11 @@ export interface PlatformUpdateParameters {
 
 // @public
 export interface Policies {
+    azureADAuthenticationAsArmPolicy?: AzureADAuthenticationAsArmPolicy;
     exportPolicy?: ExportPolicy;
     quarantinePolicy?: QuarantinePolicy;
     retentionPolicy?: RetentionPolicy;
+    softDeletePolicy?: SoftDeletePolicy;
     trustPolicy?: TrustPolicy;
 }
 
@@ -2227,6 +2250,13 @@ export type SkuName = string;
 export type SkuTier = string;
 
 // @public
+export interface SoftDeletePolicy {
+    readonly lastUpdatedTime?: Date;
+    retentionDays?: number;
+    status?: PolicyStatus;
+}
+
+// @public
 export interface Source {
     addr?: string;
     instanceID?: string;
@@ -2313,6 +2343,11 @@ export interface StatusDetailProperties {
 
 // @public
 export type StepType = string;
+
+// @public
+export interface StorageAccountProperties {
+    id: string;
+}
 
 // @public
 export interface SyncProperties {
@@ -2770,12 +2805,6 @@ export interface UserIdentityProperties {
 
 // @public
 export type Variant = string;
-
-// @public
-export interface VirtualNetworkRule {
-    action?: Action;
-    virtualNetworkResourceId: string;
-}
 
 // @public
 export type Webhook = Resource & {

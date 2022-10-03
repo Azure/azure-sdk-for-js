@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -11,8 +11,8 @@ trigger:
       - sdk/cosmosdb/cosmos/
       - sdk/cosmosdb/ci.yml
     exclude:
-      - sdk/cosmosdb/arm-cosmosdb/
       - sdk/cosmosdb/ci.mgmt.yml
+      - sdk/cosmosdb/arm-cosmosdb
 pr:
   branches:
     include:
@@ -25,14 +25,12 @@ pr:
       - sdk/cosmosdb/cosmos/
       - sdk/cosmosdb/ci.yml
     exclude:
-      - sdk/cosmosdb/arm-cosmosdb/
       - sdk/cosmosdb/ci.mgmt.yml
+      - sdk/cosmosdb/arm-cosmosdb
 extends:
-  template: /eng/pipelines/templates/stages/cosmos-sdk-client.yml #NOTE: Non-standard template.
+  template: /eng/pipelines/templates/stages/cosmos-sdk-client.yml
   parameters:
     ServiceDirectory: cosmosdb
-    # Disable unit tests because they are no-op. Integration tests from the
-    # cosmos-specific template handle this testing.
     RunUnitTests: false
     Artifacts:
       - name: azure-cosmos

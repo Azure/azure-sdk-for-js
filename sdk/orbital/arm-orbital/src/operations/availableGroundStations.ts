@@ -14,7 +14,7 @@ import * as Parameters from "../models/parameters";
 import { AzureOrbital } from "../azureOrbital";
 import {
   AvailableGroundStation,
-  Enum6,
+  CapabilityParameter,
   AvailableGroundStationsListByCapabilityNextOptionalParams,
   AvailableGroundStationsListByCapabilityOptionalParams,
   AvailableGroundStationsListByCapabilityResponse,
@@ -42,7 +42,7 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
    * @param options The options parameters.
    */
   public listByCapability(
-    capability: Enum6,
+    capability: CapabilityParameter,
     options?: AvailableGroundStationsListByCapabilityOptionalParams
   ): PagedAsyncIterableIterator<AvailableGroundStation> {
     const iter = this.listByCapabilityPagingAll(capability, options);
@@ -60,7 +60,7 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
   }
 
   private async *listByCapabilityPagingPage(
-    capability: Enum6,
+    capability: CapabilityParameter,
     options?: AvailableGroundStationsListByCapabilityOptionalParams
   ): AsyncIterableIterator<AvailableGroundStation[]> {
     let result = await this._listByCapability(capability, options);
@@ -78,7 +78,7 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
   }
 
   private async *listByCapabilityPagingAll(
-    capability: Enum6,
+    capability: CapabilityParameter,
     options?: AvailableGroundStationsListByCapabilityOptionalParams
   ): AsyncIterableIterator<AvailableGroundStation> {
     for await (const page of this.listByCapabilityPagingPage(
@@ -95,7 +95,7 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
    * @param options The options parameters.
    */
   private _listByCapability(
-    capability: Enum6,
+    capability: CapabilityParameter,
     options?: AvailableGroundStationsListByCapabilityOptionalParams
   ): Promise<AvailableGroundStationsListByCapabilityResponse> {
     return this.client.sendOperationRequest(
@@ -126,7 +126,7 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
    * @param options The options parameters.
    */
   private _listByCapabilityNext(
-    capability: Enum6,
+    capability: CapabilityParameter,
     nextLink: string,
     options?: AvailableGroundStationsListByCapabilityNextOptionalParams
   ): Promise<AvailableGroundStationsListByCapabilityNextResponse> {

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import {
   GetCertificateOptions,
   KeyVaultCertificateWithPolicy,
@@ -70,16 +70,18 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     certificateName: string,
     options: RecoverDeletedCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
+    let parsedBody: any;
     return tracingClient.withSpan(
       "RecoverDeletedCertificatePoller.recoverDeletedCertificate",
       options,
       async (updatedOptions) => {
-        const result = await this.client.recoverDeletedCertificate(
-          this.vaultUrl,
-          certificateName,
-          updatedOptions
-        );
-        return getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
+        await this.client.recoverDeletedCertificate(this.vaultUrl, certificateName, {
+          ...updatedOptions,
+          onResponse: (response) => {
+            parsedBody = response.parsedBody;
+          },
+        });
+        return getCertificateWithPolicyFromCertificateBundle(parsedBody);
       }
     );
   }
@@ -104,7 +106,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
       try {
         state.result = await this.getCertificate(certificateName, this.operationOptions);
         state.isCompleted = true;
-      } catch (e) {
+      } catch (e: any) {
         // getCertificate will only work once the LRO is completed.
       }
       if (!state.isCompleted) {
@@ -117,7 +119,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
       try {
         state.result = await this.getCertificate(certificateName, this.operationOptions);
         state.isCompleted = true;
-      } catch (error) {
+      } catch (error: any) {
         if (error.statusCode === 403) {
           // At this point, the resource exists but the user doesn't have access to it.
           state.isCompleted = true;

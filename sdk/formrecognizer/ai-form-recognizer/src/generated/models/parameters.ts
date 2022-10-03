@@ -30,6 +30,7 @@ export const contentType: OperationParameter = {
         "application/octet-stream",
         "application/pdf",
         "image/bmp",
+        "image/heif",
         "image/jpeg",
         "image/png",
         "image/tiff"
@@ -151,7 +152,7 @@ export const stringIndexType: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-01-30-preview",
+    defaultValue: "2022-08-31",
     isConstant: true,
     serializedName: "api-version",
     type: {

@@ -78,7 +78,7 @@ export abstract class StorageClient {
             this.credential = factory;
             break;
           }
-        } catch (err) {
+        } catch (err: any) {
           // ignore errors in creating policy, the client instance may still work without the policy.
         }
       }

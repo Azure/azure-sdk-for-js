@@ -193,12 +193,14 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Create Or Update Virtual Machine
    * @param resourceGroupName The name of the resource group
+   * @param referer referer url
    * @param virtualMachineName virtual machine name
    * @param virtualMachineRequest Create or Update Virtual Machine request
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
+    referer: string,
     virtualMachineName: string,
     virtualMachineRequest: VirtualMachine,
     options?: VirtualMachinesCreateOrUpdateOptionalParams
@@ -249,30 +251,41 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, virtualMachineName, virtualMachineRequest, options },
+      {
+        resourceGroupName,
+        referer,
+        virtualMachineName,
+        virtualMachineRequest,
+        options
+      },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Create Or Update Virtual Machine
    * @param resourceGroupName The name of the resource group
+   * @param referer referer url
    * @param virtualMachineName virtual machine name
    * @param virtualMachineRequest Create or Update Virtual Machine request
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
+    referer: string,
     virtualMachineName: string,
     virtualMachineRequest: VirtualMachine,
     options?: VirtualMachinesCreateOrUpdateOptionalParams
   ): Promise<VirtualMachinesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
+      referer,
       virtualMachineName,
       virtualMachineRequest,
       options
@@ -283,11 +296,13 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Delete virtual machine
    * @param resourceGroupName The name of the resource group
+   * @param referer referer url
    * @param virtualMachineName virtual machine name
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
+    referer: string,
     virtualMachineName: string,
     options?: VirtualMachinesDeleteOptionalParams
   ): Promise<
@@ -337,28 +352,33 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, virtualMachineName, options },
+      { resourceGroupName, referer, virtualMachineName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Delete virtual machine
    * @param resourceGroupName The name of the resource group
+   * @param referer referer url
    * @param virtualMachineName virtual machine name
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
+    referer: string,
     virtualMachineName: string,
     options?: VirtualMachinesDeleteOptionalParams
   ): Promise<VirtualMachinesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
+      referer,
       virtualMachineName,
       options
     );
@@ -427,10 +447,12 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, virtualMachineName, virtualMachineRequest, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -458,11 +480,13 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Power on virtual machine
    * @param resourceGroupName The name of the resource group
+   * @param referer referer url
    * @param virtualMachineName virtual machine name
    * @param options The options parameters.
    */
   async beginStart(
     resourceGroupName: string,
+    referer: string,
     virtualMachineName: string,
     options?: VirtualMachinesStartOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
@@ -507,28 +531,33 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, virtualMachineName, options },
+      { resourceGroupName, referer, virtualMachineName, options },
       startOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Power on virtual machine
    * @param resourceGroupName The name of the resource group
+   * @param referer referer url
    * @param virtualMachineName virtual machine name
    * @param options The options parameters.
    */
   async beginStartAndWait(
     resourceGroupName: string,
+    referer: string,
     virtualMachineName: string,
     options?: VirtualMachinesStartOptionalParams
   ): Promise<void> {
     const poller = await this.beginStart(
       resourceGroupName,
+      referer,
       virtualMachineName,
       options
     );
@@ -538,11 +567,13 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Power off virtual machine, options: shutdown, poweroff, and suspend
    * @param resourceGroupName The name of the resource group
+   * @param referer referer url
    * @param virtualMachineName virtual machine name
    * @param options The options parameters.
    */
   async beginStop(
     resourceGroupName: string,
+    referer: string,
     virtualMachineName: string,
     options?: VirtualMachinesStopOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
@@ -587,28 +618,33 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, virtualMachineName, options },
+      { resourceGroupName, referer, virtualMachineName, options },
       stopOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Power off virtual machine, options: shutdown, poweroff, and suspend
    * @param resourceGroupName The name of the resource group
+   * @param referer referer url
    * @param virtualMachineName virtual machine name
    * @param options The options parameters.
    */
   async beginStopAndWait(
     resourceGroupName: string,
+    referer: string,
     virtualMachineName: string,
     options?: VirtualMachinesStopOptionalParams
   ): Promise<void> {
     const poller = await this.beginStop(
       resourceGroupName,
+      referer,
       virtualMachineName,
       options
     );

@@ -51,7 +51,7 @@ export async function main() {
     // Read the secret we created
     const secret = await secretClient.getSecret(secretName);
     console.log(`Get the secret from keyvault key: ${secretName}, value: ${secret.value}`);
-  } catch (err) {
+  } catch (err: any) {
     const error = err as { code: string; statusCode: number };
     if (error.code === "SecretNotFound" && error.statusCode === 404) {
       throw new Error(

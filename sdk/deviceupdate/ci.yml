@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -9,7 +9,9 @@ trigger:
   paths:
     include:
       - sdk/deviceupdate/
-
+    exclude:
+      - sdk/deviceupdate/arm-deviceupdate
+      - sdk/deviceupdate/ci.mgmt.yml
 pr:
   branches:
     include:
@@ -20,7 +22,9 @@ pr:
   paths:
     include:
       - sdk/deviceupdate/
-
+    exclude:
+      - sdk/deviceupdate/arm-deviceupdate
+      - sdk/deviceupdate/ci.mgmt.yml
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

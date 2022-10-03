@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import {
-  createAppConfigurationClientForTests,
-  assertThrowsRestError,
-  deleteKeyCompletely,
   assertThrowsAbortError,
+  assertThrowsRestError,
+  createAppConfigurationClientForTests,
+  deleteKeyCompletely,
   startRecorder,
 } from "./utils/testHelpers";
 import { AppConfigurationClient } from "../../src";
 import { assert } from "chai";
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 describe("AppConfigurationClient (set|clear)ReadOnly", () => {
@@ -68,6 +68,9 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   });
 
   it("accepts operation options", async function () {
+    // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
+    // eslint-disable-next-line @typescript-eslint/no-invalid-this
+    if (isPlaybackMode()) this.skip();
     await client.getConfigurationSetting({
       key: testConfigSetting.key,
       label: testConfigSetting.label,

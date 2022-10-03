@@ -1,14 +1,98 @@
 # Release History
+    
+## 8.1.0 (2022-08-03)
+    
+**Features**
 
-## 8.0.1 (Unreleased)
+  - Added Interface AccessInformationContract
+  - Added Interface ApiContract
+  - Added Interface ApiContractProperties
+  - Added Interface ApiContractUpdateProperties
+  - Added Interface ApiCreateOrUpdateProperties
+  - Added Interface ApiManagementServiceProperties
+  - Added Interface ApiManagementServiceResource
+  - Added Interface ApiManagementServiceUpdateParameters
+  - Added Interface ApiManagementServiceUpdateProperties
+  - Added Interface ApiReleaseContract
+  - Added Interface ApiTagResourceContractProperties
+  - Added Interface ApiVersionSetContract
+  - Added Interface ApiVersionSetContractProperties
+  - Added Interface ApiVersionSetUpdateParametersProperties
+  - Added Interface AssociationContract
+  - Added Interface AuthorizationServerContract
+  - Added Interface AuthorizationServerContractProperties
+  - Added Interface AuthorizationServerUpdateContract
+  - Added Interface AuthorizationServerUpdateContractProperties
+  - Added Interface BackendContract
+  - Added Interface BackendContractProperties
+  - Added Interface BackendReconnectContract
+  - Added Interface BackendUpdateParameterProperties
+  - Added Interface CacheContract
+  - Added Interface CertificateContract
+  - Added Interface ContentItemContract
+  - Added Interface ContentTypeContract
+  - Added Interface DeletedServiceContract
+  - Added Interface DiagnosticContract
+  - Added Interface EmailTemplateContract
+  - Added Interface GatewayCertificateAuthorityContract
+  - Added Interface GatewayContract
+  - Added Interface GatewayHostnameConfigurationContract
+  - Added Interface GroupContract
+  - Added Interface IdentityProviderContract
+  - Added Interface IdentityProviderContractProperties
+  - Added Interface IdentityProviderCreateContract
+  - Added Interface IdentityProviderCreateContractProperties
+  - Added Interface IdentityProviderUpdateProperties
+  - Added Interface IssueAttachmentContract
+  - Added Interface IssueCommentContract
+  - Added Interface IssueContract
+  - Added Interface IssueContractProperties
+  - Added Interface IssueUpdateContractProperties
+  - Added Interface KeyVaultContractProperties
+  - Added Interface LoggerContract
+  - Added Interface NamedValueContract
+  - Added Interface NamedValueContractProperties
+  - Added Interface NamedValueCreateContract
+  - Added Interface NamedValueCreateContractProperties
+  - Added Interface NamedValueUpdateParameterProperties
+  - Added Interface NotificationContract
+  - Added Interface OpenidConnectProviderContract
+  - Added Interface OperationContract
+  - Added Interface OperationContractProperties
+  - Added Interface OperationResultContract
+  - Added Interface OperationUpdateContractProperties
+  - Added Interface PolicyContract
+  - Added Interface PolicyDescriptionContract
+  - Added Interface PortalDelegationSettings
+  - Added Interface PortalRevisionContract
+  - Added Interface PortalSettingsContract
+  - Added Interface PortalSigninSettings
+  - Added Interface PortalSignupSettings
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface ProductContract
+  - Added Interface ProductContractProperties
+  - Added Interface ProductTagResourceContractProperties
+  - Added Interface ProductUpdateProperties
+  - Added Interface RecipientEmailContract
+  - Added Interface RecipientUserContract
+  - Added Interface SchemaContract
+  - Added Interface SubscriptionContract
+  - Added Interface TagContract
+  - Added Interface TagDescriptionContract
+  - Added Interface TagDescriptionContractProperties
+  - Added Interface TenantConfigurationSyncStateContract
+  - Added Interface TenantSettingsContract
+  - Added Interface UserContract
+  - Added Interface UserContractProperties
+  - Added Interface UserCreateParameterProperties
+  - Added Interface UserUpdateParametersProperties
+    
+## 8.0.1 (2022-04-06)
 
-### Features Added
+**features**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Bug fix
 
 ## 8.0.0 (2021-12-13)
 

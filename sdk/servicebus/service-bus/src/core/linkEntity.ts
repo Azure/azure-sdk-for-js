@@ -279,7 +279,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       this._ensureTokenRenewal();
 
       this._logger.verbose(`${this._logPrefix} Link has been created.`);
-    } catch (err) {
+    } catch (err: any) {
       this._logger.logError(err, `${this._logPrefix} Error thrown when creating the link`);
       await this.closeLinkImpl();
       throw err;
@@ -348,7 +348,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
         // remove them from the internal map.
         await link.close();
         this._logger.verbose(`${this._logPrefix} closed.`);
-      } catch (err) {
+      } catch (err: any) {
         this._logger.logError(err, `${this._logPrefix} An error occurred while closing the link`);
       }
     }
@@ -528,7 +528,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
           abortSignal: undefined,
           timeoutInMs: Constants.defaultOperationTimeoutInMs,
         });
-      } catch (err) {
+      } catch (err: any) {
         this._logger.logError(
           err,
           "%s %s '%s' with address %s, an error occurred while renewing the token",

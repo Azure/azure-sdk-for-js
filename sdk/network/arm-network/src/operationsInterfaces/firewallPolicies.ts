@@ -16,7 +16,10 @@ import {
   FirewallPoliciesGetOptionalParams,
   FirewallPoliciesGetResponse,
   FirewallPoliciesCreateOrUpdateOptionalParams,
-  FirewallPoliciesCreateOrUpdateResponse
+  FirewallPoliciesCreateOrUpdateResponse,
+  TagsObject,
+  FirewallPoliciesUpdateTagsOptionalParams,
+  FirewallPoliciesUpdateTagsResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -102,4 +105,17 @@ export interface FirewallPolicies {
     parameters: FirewallPolicy,
     options?: FirewallPoliciesCreateOrUpdateOptionalParams
   ): Promise<FirewallPoliciesCreateOrUpdateResponse>;
+  /**
+   * Updates tags of a Azure Firewall Policy resource.
+   * @param resourceGroupName The name of the resource group.
+   * @param firewallPolicyName The name of the Firewall Policy.
+   * @param parameters Parameters supplied to update Azure Firewall Policy tags.
+   * @param options The options parameters.
+   */
+  updateTags(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    parameters: TagsObject,
+    options?: FirewallPoliciesUpdateTagsOptionalParams
+  ): Promise<FirewallPoliciesUpdateTagsResponse>;
 }

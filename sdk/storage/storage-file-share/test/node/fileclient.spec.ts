@@ -233,6 +233,57 @@ describe("FileClient Node.js only", () => {
     assert.equal(await bodyToString(range2, 512), "b".repeat(512));
   });
 
+  it("uploadRangeFromURL with fileLastWriteOn", async () => {
+    await fileClient.create(1024);
+
+    const fileContent = "a".repeat(512) + "b".repeat(512);
+    await fileClient.uploadRange(fileContent, 0, fileContent.length);
+
+    // Get a SAS for fileURL
+    const factories = (fileClient as any).pipeline.factories;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const expiresOn = recorder.newDate("now");
+    expiresOn.setDate(expiresOn.getDate() + 1);
+    const sas = generateFileSASQueryParameters(
+      {
+        expiresOn,
+        shareName,
+        filePath: `${dirName}/${fileName}`,
+        permissions: FileSASPermissions.parse("r"),
+      },
+      credential
+    );
+
+    const fileName2 = recorder.getUniqueName("file2");
+    const fileURL2 = dirClient.getFileClient(fileName2);
+
+    const createResult = await fileURL2.create(1024);
+    const uploadRangeResult = await fileURL2.uploadRangeFromURL(
+      `${fileClient.url}?${sas}`,
+      0,
+      0,
+      512,
+      {
+        fileLastWrittenMode: "Preserve",
+      }
+    );
+    assert.deepStrictEqual(
+      createResult.fileLastWriteOn,
+      uploadRangeResult.fileLastWriteTime,
+      "File last write time should be expected."
+    );
+
+    await fileURL2.uploadRangeFromURL(`${fileClient.url}?${sas}`, 512, 512, 512, {
+      fileLastWrittenMode: "Now",
+    });
+
+    const range1 = await fileURL2.download(0, 512);
+    const range2 = await fileURL2.download(512, 512);
+
+    assert.equal(await bodyToString(range1, 512), "a".repeat(512));
+    assert.equal(await bodyToString(range2, 512), "b".repeat(512));
+  });
+
   it("uploadRangeFromURL - source bearer token", async function (this: Context) {
     if (!isPlaybackMode()) {
       // Enable this case, when the STG78 feature is enabled in production.

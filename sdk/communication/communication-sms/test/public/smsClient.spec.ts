@@ -7,24 +7,18 @@
  */
 
 import { matrix } from "@azure/test-utils";
-import { record, Recorder, env } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-http";
-import * as dotenv from "dotenv";
-import {
-  createSmsClient,
-  createSmsClientWithToken,
-  recorderConfiguration,
-} from "./utils/recordedClient";
+import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { createRecordedSmsClient, createRecordedSmsClientWithToken } from "./utils/recordedClient";
 import { Context } from "mocha";
 import sendSmsSuites from "./suites/smsClient.send";
+import { SmsClient } from "../../src";
+import sinon from "sinon";
+import { Uuid } from "../../src/utils/uuid";
 
-if (isNode) {
-  dotenv.config();
-}
-
-matrix([[true, false]], async function (useAad) {
+matrix([[true, false]], async function (useAad: boolean) {
   describe(`SmsClient [Live]${useAad ? " [AAD]" : ""}`, async () => {
     let recorder: Recorder;
+    let client: SmsClient;
 
     before(function (this: Context) {
       const skipIntSMSTests = env.COMMUNICATION_SKIP_INT_SMS_TEST === "true";
@@ -34,21 +28,25 @@ matrix([[true, false]], async function (useAad) {
     });
 
     beforeEach(async function (this: Context) {
-      recorder = record(this, recorderConfiguration);
-      recorder.skip(
-        undefined,
-        "A UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
-      );
-
-      if (useAad) {
-        this.smsClient = createSmsClientWithToken();
-      } else {
-        this.smsClient = createSmsClient();
+      if (isPlaybackMode()) {
+        sinon.stub(Uuid, "generateUuid").returns("sanitized");
+        sinon.stub(Date, "now").returns(0);
       }
+      if (useAad) {
+        ({ client, recorder } = await createRecordedSmsClientWithToken(this));
+      } else {
+        ({ client, recorder } = await createRecordedSmsClient(this));
+      }
+      this.smsClient = client;
     });
 
     afterEach(async function (this: Context) {
-      await recorder.stop();
+      if (!this.currentTest?.isPending()) {
+        await recorder.stop();
+      }
+      if (isPlaybackMode()) {
+        sinon.restore();
+      }
     });
 
     describe("test send method", sendSmsSuites);

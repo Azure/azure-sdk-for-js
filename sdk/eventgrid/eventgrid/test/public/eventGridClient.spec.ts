@@ -1,20 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { Suite, Context } from "mocha";
 
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { createRecordedClient } from "./utils/recordedClient";
 
-import { resetTracer, setTracer } from "@azure/test-utils";
-
 import { EventGridPublisherClient } from "../../src";
 
 import { RestError } from "@azure/core-rest-pipeline";
-import { setSpan, context } from "@azure/core-tracing";
+import { AdditionalPolicyConfig } from "@azure/core-client";
 import { getRandomNumber } from "./utils/testUtils";
+import {
+  TraceParentHeaderName,
+  TraceStateHeaderName,
+} from "../../src/cloudEventDistrubtedTracingEnricherPolicy";
 
 describe("EventGridPublisherClient", function (this: Suite) {
   let recorder: Recorder;
@@ -101,7 +103,9 @@ describe("EventGridPublisherClient", function (this: Suite) {
         "EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT",
         "EventGrid",
         "EVENT_GRID_CUSTOM_SCHEMA_API_KEY",
-        true
+        {
+          removeApiEventsSuffixBool: true,
+        }
       ));
     });
 
@@ -127,7 +131,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
         ]);
 
         rejected = false;
-      } catch (error) {
+      } catch (error: any) {
         assert.equal((error as RestError).statusCode, 404);
       }
 
@@ -205,49 +209,70 @@ describe("EventGridPublisherClient", function (this: Suite) {
       assert.strictEqual(status, 200);
     });
 
-    it("enriches events with distributed tracing information", async () => {
-      let requestBody: string | undefined;
+    describe("when tracing headers are present in the request", function () {
+      const traceparentValue = "00-00000000000000000000000000000001-0000000000000003-00";
+      const tracestateValue = "00-123";
 
-      const tracer = setTracer();
-      const rootSpan = tracer.startSpan("root");
-      await client.send(
-        [
-          {
-            type: "Azure.Sdk.TestEvent1",
-            id: recorder.variable("cloudTracingEventId", `cloudTracingEventId${getRandomNumber()}`),
-            time: new Date(recorder.variable("cloudTracingEventDate", new Date().toString())),
-            source: "/earth/unitedstates/washington/kirkland/finnhill",
-            subject: "Single with Trace Parent",
-            data: {
-              hello: "world",
+      beforeEach(async function (this: Context) {
+        const setHeadersPolicy: AdditionalPolicyConfig = {
+          policy: {
+            name: "foo",
+            sendRequest(request, next) {
+              request.headers.set(TraceParentHeaderName, traceparentValue);
+              request.headers.set(TraceStateHeaderName, tracestateValue);
+              return next(request);
             },
           },
-        ],
-        {
-          tracingOptions: {
-            tracingContext: setSpan(context.active(), rootSpan),
+          position: "perCall",
+        };
+
+        ({ client, recorder } = await createRecordedClient(
+          this.currentTest,
+          "EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT",
+          "CloudEvent",
+          "EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY",
+          {
+            additionalPolicies: [setHeadersPolicy],
+          }
+        ));
+        await recorder.setMatcher("HeaderlessMatcher");
+      });
+
+      it("enriches events with distributed tracing information", async function (this: Context) {
+        let requestBody: string | undefined;
+
+        await assert.supportsTracing(
+          async (options) => {
+            await client.send(
+              [
+                {
+                  type: "Azure.Sdk.TestEvent1",
+                  id: recorder.variable(
+                    "cloudTracingEventId",
+                    `cloudTracingEventId${getRandomNumber()}`
+                  ),
+                  time: new Date(recorder.variable("cloudTracingEventDate", new Date().toString())),
+                  source: "/earth/unitedstates/washington/kirkland/finnhill",
+                  subject: "Single with Trace Parent",
+                  data: {
+                    hello: "world",
+                  },
+                },
+              ],
+              {
+                ...options,
+                onResponse: (response) => (requestBody = response.request.body as string),
+              }
+            );
           },
-          onResponse: (response) => (requestBody = response.request.body as string),
-        }
-      );
+          ["EventGridPublisherClient.send"]
+        );
 
-      rootSpan.end();
-
-      const parsedBody = JSON.parse(requestBody || "");
-
-      assert.isArray(parsedBody);
-      assert.equal(
-        parsedBody[0].traceparent,
-        "00-00000000000000000000000000000001-0000000000000003-00"
-      );
-
-      const spans = tracer.getKnownSpans();
-
-      assert.equal(spans.length, 3);
-      assert.equal(spans[0].name, "root");
-      assert.equal(spans[1].name, "Azure.Data.EventGrid.EventGridPublisherClient-send");
-
-      resetTracer();
+        const parsedBody = JSON.parse(requestBody || "");
+        assert.isArray(parsedBody);
+        assert.equal(parsedBody[0].traceparent, traceparentValue);
+        assert.equal(parsedBody[0].tracestate, tracestateValue);
+      });
     });
   });
 
@@ -260,7 +285,9 @@ describe("EventGridPublisherClient", function (this: Suite) {
         "EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT",
         "CloudEvent",
         "EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY",
-        true
+        {
+          removeApiEventsSuffixBool: true,
+        }
       ));
     });
 
@@ -284,7 +311,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
           },
         ]);
         rejected = false;
-      } catch (error) {
+      } catch (error: any) {
         assert.equal((error as RestError).statusCode, 404);
       }
 
@@ -366,7 +393,9 @@ describe("EventGridPublisherClient", function (this: Suite) {
         "EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT",
         "Custom",
         "EVENT_GRID_CUSTOM_SCHEMA_API_KEY",
-        true
+        {
+          removeApiEventsSuffixBool: true,
+        }
       ));
     });
 
@@ -390,7 +419,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
         ]);
 
         rejected = false;
-      } catch (error) {
+      } catch (error: any) {
         assert.equal((error as RestError).statusCode, 404);
       }
 

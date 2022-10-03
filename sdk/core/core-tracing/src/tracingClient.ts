@@ -3,6 +3,7 @@
 
 import {
   OperationTracingOptions,
+  OptionsWithTracingContext,
   Resolved,
   TracingClient,
   TracingClientOptions,
@@ -28,7 +29,7 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
     spanOptions?: TracingSpanOptions
   ): {
     span: TracingSpan;
-    updatedOptions: Options;
+    updatedOptions: OptionsWithTracingContext<Options>;
   } {
     const startSpanResult = getInstrumenter().startSpan(name, {
       ...spanOptions,
@@ -42,12 +43,10 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
       tracingContext = tracingContext.setValue(knownContextKeys.namespace, namespace);
     }
     span.setAttribute("az.namespace", tracingContext.getValue(knownContextKeys.namespace));
-    const updatedOptions = {
-      ...operationOptions,
-      tracingOptions: {
-        tracingContext: tracingContext,
-      },
-    } as Options;
+    const updatedOptions: OptionsWithTracingContext<Options> = Object.assign({}, operationOptions, {
+      tracingOptions: { ...operationOptions?.tracingOptions, tracingContext },
+    });
+
     return {
       span,
       updatedOptions,
@@ -55,7 +54,7 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
   }
 
   async function withSpan<
-    Options extends { tracingOptions?: { tracingContext?: TracingContext } },
+    Options extends { tracingOptions?: OperationTracingOptions },
     Callback extends (
       updatedOptions: Options,
       span: Omit<TracingSpan, "end">
@@ -68,12 +67,12 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
   ): Promise<Resolved<ReturnType<Callback>>> {
     const { span, updatedOptions } = startSpan(name, operationOptions, spanOptions);
     try {
-      const result = await withContext(updatedOptions.tracingOptions!.tracingContext!, () =>
+      const result = await withContext(updatedOptions.tracingOptions.tracingContext, () =>
         Promise.resolve(callback(updatedOptions, span))
       );
       span.setStatus({ status: "success" });
       return result as ReturnType<typeof withSpan>;
-    } catch (err) {
+    } catch (err: any) {
       span.setStatus({ status: "error", error: err });
       throw err;
     } finally {

@@ -85,10 +85,18 @@ describe("TracingClient", () => {
     });
 
     it("Returns tracingContext in updatedOptions", () => {
-      let { updatedOptions } = client.startSpan("test");
-      assert.exists(updatedOptions.tracingOptions?.tracingContext);
+      let { updatedOptions } = client.startSpan<Record<string, unknown>>("test");
+      assert.exists(updatedOptions.tracingOptions.tracingContext);
       updatedOptions = client.startSpan("test", updatedOptions).updatedOptions;
-      assert.exists(updatedOptions.tracingOptions?.tracingContext);
+      assert.exists(updatedOptions.tracingOptions.tracingContext);
+    });
+
+    it("Does not erase unknown tracingOptions", () => {
+      // this test is to future-proof any tracingOptions we might add
+      const { updatedOptions } = client.startSpan<Record<string, unknown>>("test", {
+        tracingOptions: { unknownProp: true } as any,
+      });
+      assert.exists((updatedOptions.tracingOptions as any).unknownProp);
     });
   });
 
@@ -185,7 +193,7 @@ describe("TracingClient", () => {
         let errorThrown = false;
         try {
           await client.withSpan(spanName, {}, () => Promise.reject(new Error("test")));
-        } catch (err) {
+        } catch (err: any) {
           errorThrown = true;
           assert.isTrue(setStatusSpy.calledWith(sinon.match({ status: "error", error: err })));
         }

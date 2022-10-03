@@ -11,12 +11,14 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedSchemaRegistryClientContext } from "../generatedSchemaRegistryClientContext";
+import { GeneratedSchemaRegistryClient } from "../generatedSchemaRegistryClient";
 import {
   SchemaGetByIdOptionalParams,
   SchemaGetByIdResponse,
   SchemaGetVersionsOptionalParams,
   SchemaGetVersionsResponse,
+  SchemaGetSchemaVersionOptionalParams,
+  SchemaGetSchemaVersionResponse,
   SchemaQueryIdByContentOptionalParams,
   SchemaQueryIdByContentResponse,
   SchemaRegisterOptionalParams,
@@ -25,13 +27,13 @@ import {
 
 /** Class containing Schema operations. */
 export class SchemaImpl implements Schema {
-  private readonly client: GeneratedSchemaRegistryClientContext;
+  private readonly client: GeneratedSchemaRegistryClient;
 
   /**
    * Initialize a new instance of the class Schema class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedSchemaRegistryClientContext) {
+  constructor(client: GeneratedSchemaRegistryClient) {
     this.client = client;
   }
 
@@ -66,6 +68,26 @@ export class SchemaImpl implements Schema {
     return this.client.sendOperationRequest(
       { groupName, schemaName, options },
       getVersionsOperationSpec
+    );
+  }
+
+  /**
+   * Gets one specific version of one schema.
+   * @param groupName Schema group under which schema is registered.  Group's serialization type should
+   *                  match the serialization type specified in the request.
+   * @param schemaName Name of schema.
+   * @param schemaVersion Version number of specific schema.
+   * @param options The options parameters.
+   */
+  getSchemaVersion(
+    groupName: string,
+    schemaName: string,
+    schemaVersion: number,
+    options?: SchemaGetSchemaVersionOptionalParams
+  ): Promise<SchemaGetSchemaVersionResponse> {
+    return this.client.sendOperationRequest(
+      { groupName, schemaName, schemaVersion, options },
+      getSchemaVersionOperationSpec
     );
   }
 
@@ -158,6 +180,33 @@ const getVersionsOperationSpec: coreClient.OperationSpec = {
     Parameters.endpoint,
     Parameters.groupName,
     Parameters.schemaName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getSchemaVersionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/$schemaGroups/{groupName}/schemas/{schemaName}/versions/{schemaVersion}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Stream" },
+        serializedName: "parsedResponse"
+      },
+      headersMapper: Mappers.SchemaGetSchemaVersionHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel,
+      headersMapper: Mappers.SchemaGetSchemaVersionExceptionHeaders
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.groupName,
+    Parameters.schemaName,
+    Parameters.schemaVersion
   ],
   headerParameters: [Parameters.accept],
   serializer

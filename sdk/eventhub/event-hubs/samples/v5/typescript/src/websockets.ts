@@ -38,8 +38,8 @@ export async function main(): Promise<void> {
   const client = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName, {
     webSocketOptions: {
       webSocket: WebSocket,
-      webSocketConstructorOptions: { agent: proxyAgent }
-    }
+      webSocketConstructorOptions: { agent: proxyAgent },
+    },
   });
   /*
    Refer to other samples, and place your code here to send/receive events

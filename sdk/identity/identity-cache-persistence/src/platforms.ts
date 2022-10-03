@@ -106,7 +106,7 @@ export const msalPersistencePlatforms: Partial<Record<NodeJS.Platform, MsalPersi
       // If we don't encounter an error when trying to read from the keychain, then we should be good to go.
       await persistence.load();
       return persistence;
-    } catch (e) {
+    } catch (e: any) {
       // If we got an error while trying to read from the keyring,
       // we will proceed only if the user has specified that unencrypted storage is allowed.
       if (!unsafeAllowUnencryptedStorage) {
@@ -126,7 +126,7 @@ export const msalPersistencePlatforms: Partial<Record<NodeJS.Platform, MsalPersi
       // If we don't encounter an error when trying to read from the keyring, then we should be good to go.
       await persistence.load();
       return persistence;
-    } catch (e) {
+    } catch (e: any) {
       // If we got an error while trying to read from the keyring,
       // we will proceed only if the user has specified that unencrypted storage is allowed.
       if (!unsafeAllowUnencryptedStorage) {

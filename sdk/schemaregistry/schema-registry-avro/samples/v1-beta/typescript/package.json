@@ -30,8 +30,8 @@
     "@azure/schema-registry-avro": "next",
     "dotenv": "latest",
     "@azure/identity": "^2.0.1",
-    "@azure/schema-registry": "1.0.2",
-    "@azure/event-hubs": "^5.8.0-beta.1"
+    "@azure/schema-registry": "^1.0.1",
+    "@azure/event-hubs": "^5.8.0-beta.2"
   },
   "devDependencies": {
     "@types/node": "^12.0.0",

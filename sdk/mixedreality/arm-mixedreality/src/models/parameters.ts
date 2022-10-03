@@ -15,7 +15,8 @@ import {
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
   SpatialAnchorsAccount as SpatialAnchorsAccountMapper,
   AccountKeyRegenerateRequest as AccountKeyRegenerateRequestMapper,
-  RemoteRenderingAccount as RemoteRenderingAccountMapper
+  RemoteRenderingAccount as RemoteRenderingAccountMapper,
+  ObjectAnchorsAccount as ObjectAnchorsAccountMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -45,7 +46,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-01-01",
+    defaultValue: "2021-03-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -155,4 +156,9 @@ export const regenerate: OperationParameter = {
 export const remoteRenderingAccount: OperationParameter = {
   parameterPath: "remoteRenderingAccount",
   mapper: RemoteRenderingAccountMapper
+};
+
+export const objectAnchorsAccount: OperationParameter = {
+  parameterPath: "objectAnchorsAccount",
+  mapper: ObjectAnchorsAccountMapper
 };

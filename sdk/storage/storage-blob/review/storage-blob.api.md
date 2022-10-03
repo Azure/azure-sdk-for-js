@@ -9,6 +9,7 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AzureLogger } from '@azure/logger';
 import { BaseRequestPolicy } from '@azure/core-http';
+import { CancelOnProgress } from '@azure/core-lro';
 import * as coreHttp from '@azure/core-http';
 import { deserializationPolicy } from '@azure/core-http';
 import { HttpHeaders } from '@azure/core-http';
@@ -408,7 +409,7 @@ export class BlobClient extends StorageClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: PipelineLike);
     abortCopyFromURL(copyId: string, options?: BlobAbortCopyFromURLOptions): Promise<BlobAbortCopyFromURLResponse>;
-    beginCopyFromURL(copySource: string, options?: BlobBeginCopyFromURLOptions): Promise<PollerLike<PollOperationState<BlobBeginCopyFromURLResponse>, BlobBeginCopyFromURLResponse>>;
+    beginCopyFromURL(copySource: string, options?: BlobBeginCopyFromURLOptions): Promise<PollerLikeWithCancellation<PollOperationState<BlobBeginCopyFromURLResponse>, BlobBeginCopyFromURLResponse>>;
     get containerName(): string;
     createSnapshot(options?: BlobCreateSnapshotOptions): Promise<BlobCreateSnapshotResponse>;
     delete(options?: BlobDeleteOptions): Promise<BlobDeleteResponse>;
@@ -462,6 +463,9 @@ export type BlobCopyFromURLResponse = BlobCopyFromURLHeaders & {
         parsedHeaders: BlobCopyFromURLHeaders;
     };
 };
+
+// @public
+export type BlobCopySourceTags = "REPLACE" | "COPY";
 
 // @public
 export interface BlobCreateSnapshotHeaders {
@@ -1350,6 +1354,7 @@ export type BlobStartCopyFromURLResponse = BlobStartCopyFromURLHeaders & {
 export interface BlobSyncCopyFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
+    copySourceTags?: BlobCopySourceTags;
     encryptionScope?: string;
     immutabilityPolicy?: BlobImmutabilityPolicy;
     legalHold?: boolean;
@@ -1618,6 +1623,7 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
     blobHTTPHeaders?: BlobHTTPHeaders;
     conditions?: BlobRequestConditions;
     copySourceBlobProperties?: boolean;
+    copySourceTags?: BlobCopySourceTags;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
     metadata?: Metadata;
@@ -2542,6 +2548,8 @@ export class PageBlobClient extends BlobClient {
     getPageRanges(offset?: number, count?: number, options?: PageBlobGetPageRangesOptions): Promise<PageBlobGetPageRangesResponse>;
     getPageRangesDiff(offset: number, count: number, prevSnapshot: string, options?: PageBlobGetPageRangesDiffOptions): Promise<PageBlobGetPageRangesDiffResponse>;
     getPageRangesDiffForManagedDisks(offset: number, count: number, prevSnapshotUrl: string, options?: PageBlobGetPageRangesDiffOptions): Promise<PageBlobGetPageRangesDiffResponse>;
+    listPageRanges(offset?: number, count?: number, options?: PageBlobListPageRangesOptions): PagedAsyncIterableIterator<PageRangeInfo, PageBlobGetPageRangesResponseModel>;
+    listPageRangesDiff(offset: number, count: number, prevSnapshot: string, options?: PageBlobListPageRangesDiffOptions): PagedAsyncIterableIterator<PageRangeInfo, PageBlobGetPageRangesDiffResponseModel>;
     resize(size: number, options?: PageBlobResizeOptions): Promise<PageBlobResizeResponse>;
     startCopyIncremental(copySource: string, options?: PageBlobStartCopyIncrementalOptions): Promise<PageBlobCopyIncrementalResponse>;
     updateSequenceNumber(sequenceNumberAction: SequenceNumberActionType, sequenceNumber?: number, options?: PageBlobUpdateSequenceNumberOptions): Promise<PageBlobUpdateSequenceNumberResponse>;
@@ -2654,6 +2662,17 @@ export interface PageBlobGetPageRangesDiffResponse extends PageList, PageBlobGet
     };
 }
 
+// Warning: (ae-forgotten-export) The symbol "PageList" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type PageBlobGetPageRangesDiffResponseModel = PageBlobGetPageRangesDiffHeaders & PageList_2 & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: PageList_2;
+        parsedHeaders: PageBlobGetPageRangesDiffHeaders;
+    };
+};
+
 // @public
 export interface PageBlobGetPageRangesHeaders {
     blobContentLength?: number;
@@ -2679,6 +2698,27 @@ export interface PageBlobGetPageRangesResponse extends PageList, PageBlobGetPage
         bodyAsText: string;
         parsedBody: PageList;
     };
+}
+
+// @public
+export type PageBlobGetPageRangesResponseModel = PageBlobGetPageRangesHeaders & PageList_2 & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: PageList_2;
+        parsedHeaders: PageBlobGetPageRangesHeaders;
+    };
+};
+
+// @public
+export interface PageBlobListPageRangesDiffOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    conditions?: BlobRequestConditions;
+}
+
+// @public
+export interface PageBlobListPageRangesOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    conditions?: BlobRequestConditions;
 }
 
 // @public
@@ -2818,6 +2858,16 @@ export interface PageList {
     pageRange?: Range_2[];
 }
 
+// @public (undocumented)
+export interface PageRangeInfo {
+    // (undocumented)
+    end: number;
+    // (undocumented)
+    isClear: boolean;
+    // (undocumented)
+    start: number;
+}
+
 // @public
 export interface ParsedBatchResponse {
     subResponses: BatchSubResponse[];
@@ -2846,6 +2896,24 @@ export interface PipelineOptions {
 }
 
 export { PollerLike }
+
+// @public
+export interface PollerLikeWithCancellation<TState extends PollOperationState<TResult>, TResult> {
+    cancelOperation(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<void>;
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<void>;
+    pollUntilDone(): Promise<TResult>;
+    stopPolling(): void;
+    toString(): string;
+}
 
 export { PollOperationState }
 

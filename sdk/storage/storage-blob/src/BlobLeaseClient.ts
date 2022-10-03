@@ -187,7 +187,7 @@ export class BlobLeaseClient {
         proposedLeaseId: this._leaseId,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -240,7 +240,7 @@ export class BlobLeaseClient {
       );
       this._leaseId = proposedLeaseId;
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -284,7 +284,7 @@ export class BlobLeaseClient {
         },
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -327,7 +327,7 @@ export class BlobLeaseClient {
         },
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -377,7 +377,7 @@ export class BlobLeaseClient {
         ...convertTracingToRequestOptionsBase(updatedOptions),
       };
       return await this._containerOrBlobOperation.breakLease(operationOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

@@ -14,7 +14,7 @@ export class Exception extends PerfTest {
   async run(): Promise<void> {
     try {
       throw new Error();
-    } catch (e) {
+    } catch (e: any) {
       // Nothing to do here
     }
   }

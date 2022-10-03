@@ -30,6 +30,8 @@ import {
   AzureFirewallsUpdateTagsResponse,
   AzureFirewallsListResponse,
   AzureFirewallsListAllResponse,
+  AzureFirewallsListLearnedPrefixesOptionalParams,
+  AzureFirewallsListLearnedPrefixesResponse,
   AzureFirewallsListNextResponse,
   AzureFirewallsListAllNextResponse
 } from "../models";
@@ -194,11 +196,13 @@ export class AzureFirewallsImpl implements AzureFirewalls {
       { resourceGroupName, azureFirewallName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -299,11 +303,13 @@ export class AzureFirewallsImpl implements AzureFirewalls {
       { resourceGroupName, azureFirewallName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -390,11 +396,13 @@ export class AzureFirewallsImpl implements AzureFirewalls {
       { resourceGroupName, azureFirewallName, parameters, options },
       updateTagsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -442,6 +450,94 @@ export class AzureFirewallsImpl implements AzureFirewalls {
     options?: AzureFirewallsListAllOptionalParams
   ): Promise<AzureFirewallsListAllResponse> {
     return this.client.sendOperationRequest({ options }, listAllOperationSpec);
+  }
+
+  /**
+   * Retrieves a list of all IP prefixes that azure firewall has learned to not SNAT.
+   * @param resourceGroupName The name of the resource group.
+   * @param azureFirewallName The name of the azure firewall.
+   * @param options The options parameters.
+   */
+  async beginListLearnedPrefixes(
+    resourceGroupName: string,
+    azureFirewallName: string,
+    options?: AzureFirewallsListLearnedPrefixesOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<AzureFirewallsListLearnedPrefixesResponse>,
+      AzureFirewallsListLearnedPrefixesResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<AzureFirewallsListLearnedPrefixesResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, azureFirewallName, options },
+      listLearnedPrefixesOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Retrieves a list of all IP prefixes that azure firewall has learned to not SNAT.
+   * @param resourceGroupName The name of the resource group.
+   * @param azureFirewallName The name of the azure firewall.
+   * @param options The options parameters.
+   */
+  async beginListLearnedPrefixesAndWait(
+    resourceGroupName: string,
+    azureFirewallName: string,
+    options?: AzureFirewallsListLearnedPrefixesOptionalParams
+  ): Promise<AzureFirewallsListLearnedPrefixesResponse> {
+    const poller = await this.beginListLearnedPrefixes(
+      resourceGroupName,
+      azureFirewallName,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -625,6 +721,37 @@ const listAllOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listLearnedPrefixesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}/learnedIPPrefixes",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.IPPrefixesList
+    },
+    201: {
+      bodyMapper: Mappers.IPPrefixesList
+    },
+    202: {
+      bodyMapper: Mappers.IPPrefixesList
+    },
+    204: {
+      bodyMapper: Mappers.IPPrefixesList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.azureFirewallName
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };

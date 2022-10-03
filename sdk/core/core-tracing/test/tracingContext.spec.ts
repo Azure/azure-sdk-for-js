@@ -4,7 +4,6 @@
 import { TracingContextImpl, createTracingContext, knownContextKeys } from "../src/tracingContext";
 import { assert } from "chai";
 import { createDefaultTracingSpan } from "../src/instrumenter";
-import { createTracingClient } from "../src/tracingClient";
 
 describe("TracingContext", () => {
   describe("TracingContextImpl", () => {
@@ -96,15 +95,12 @@ describe("TracingContext", () => {
     });
 
     it("can add known attributes", () => {
-      const client = createTracingClient({ namespace: "test", packageName: "test" });
       const span = createDefaultTracingSpan();
       const namespace = "test-namespace";
       const newContext = createTracingContext({
-        client,
         span,
         namespace,
       });
-      assert.strictEqual(newContext.getValue(knownContextKeys.client), client);
       assert.strictEqual(newContext.getValue(knownContextKeys.namespace), namespace);
       assert.strictEqual(newContext.getValue(knownContextKeys.span), span);
     });

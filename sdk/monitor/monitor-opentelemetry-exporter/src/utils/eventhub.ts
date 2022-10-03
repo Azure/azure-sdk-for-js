@@ -4,7 +4,7 @@
 import { SpanKind } from "@opentelemetry/api";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
-import { ReadableSpan } from "@opentelemetry/tracing";
+import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import { RemoteDependencyData, RequestData } from "../generated";
 import { TIME_SINCE_ENQUEUED, ENQUEUED_TIME } from "./constants/applicationinsights";
 import {

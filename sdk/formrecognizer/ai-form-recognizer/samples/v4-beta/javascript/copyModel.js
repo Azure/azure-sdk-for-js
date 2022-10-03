@@ -36,7 +36,7 @@ async function main() {
   // Then, the source resource can initiate the copy operation.
   const sourceClient = new DocumentModelAdministrationClient(sourceEndpoint, sourceCredential);
 
-  const copyPoller = await sourceClient.beginCopyModel(sourceModelId, authorization);
+  const copyPoller = await sourceClient.beginCopyModelTo(sourceModelId, authorization);
   const model = await copyPoller.pollUntilDone();
 
   console.log("Model ID:", model.modelId);

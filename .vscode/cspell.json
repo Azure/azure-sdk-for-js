@@ -46,30 +46,43 @@
     "adfs",
     "agrifood",
     "AMQP",
+    "azsdk",
+    "Brcpf",
+    "BRCPF",
     "centralus",
     "CONTOSO",
     "deps",
     "deserialization",
     "devdeps",
+    "dotenv",
     "DTDL",
     "dtmi",
     "dtmis",
     "eastus",
     "ECONNRESET",
     "Eloqua",
+    "Esdni",
+    "ESDNI",
     "etags",
+    "Eugps",
+    "EUGPS",
+    "Fhir",
     "Guids",
     "Hana",
+    "Idrg",
+    "IDRG",
     "IMDS",
     "Kubernetes",
     "kusto",
     "lcov",
     "lcovonly",
+    "Localizable",
     "Lucene",
     "Mibps",
     "mkdir",
     "mkdirp",
     "mongodb",
+    "MPNS",
     "MSRC",
     "nise",
     "northcentralus",
@@ -77,11 +90,18 @@
     "ODATA",
     "Odbc",
     "perfstress",
+    "personalizer",
+    "Personalizer",
+    "Petabit",
+    "Picometer",
+    "Plregon",
+    "PLREGON",
     "pnpm",
     "prettierrc",
     "pwsh",
     "Rasterize",
     "Rollup",
+    "rrggbb",
     "Rtsp",
     "rushx",
     "soundex",
@@ -104,6 +124,8 @@
     "usgovarizona",
     "usgovtexas",
     "usgovvirginia",
+    "Usuk",
+    "USUK",
     "Vertica",
     "westus"
   ],
@@ -213,7 +235,12 @@
     {
       "filename": "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
       "words": [
-        "WDLABCD"
+        "WDLABCD",
+        "presentationml",
+        "spreadsheetml",
+        "wordprocessingml",
+        "heif",
+        "copays"
       ]
     },
     {
@@ -237,6 +264,13 @@
       "filename": "sdk/communication/communication-common/review/**/*.md",
       "words": [
         "gcch"
+      ]
+    },
+    {
+      "filename": "sdk/communication/communication-email/review/**/*.md",
+      "words": [
+        "rpmsg",
+        "xlsb"
       ]
     },
     {
@@ -274,6 +308,20 @@
       "filename": "sdk/cosmosdb/cosmos/review/cosmos.api.md",
       "words": [
         "Funtion"
+      ]
+    },
+    {
+      "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/api-management-custom-widgets-scaffolder.api.md",
+      "words": [
+        "scaffolder",
+        "APIM"
+      ]
+    },
+    {
+      "filename": "sdk/apimanagement/api-management-custom-widgets-tools/review/api-management-custom-widgets-tools.api.md",
+      "words": [
+        "MSAPIM",
+        "APIM"
       ]
     }
   ]

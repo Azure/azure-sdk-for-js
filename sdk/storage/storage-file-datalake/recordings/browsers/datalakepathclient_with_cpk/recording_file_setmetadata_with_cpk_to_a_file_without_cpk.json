@@ -1,0 +1,83 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem164864746536806179",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DA125279685661\"",
+    "last-modified": "Wed, 30 Mar 2022 13:37:45 GMT",
+    "x-ms-client-request-id": "89653c75-54b2-4a6d-8161-73b5d99987ec",
+    "x-ms-request-id": "67d945cc-a01e-0005-463b-44f0c9000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem164864746536806179/file164864746588407675",
+   "query": {
+    "resource": "file"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Wed, 30 Mar 2022 13:37:45 GMT",
+    "etag": "\"0x8DA125279BF4B17\"",
+    "last-modified": "Wed, 30 Mar 2022 13:37:46 GMT",
+    "x-ms-client-request-id": "81408bb7-5e1d-4758-a026-879203164a09",
+    "x-ms-request-id": "db8a1fa8-701f-0008-553b-44c247000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2021-06-08"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem164864746536806179/file164864746588407675",
+   "query": {
+    "comp": "metadata"
+   },
+   "requestBody": null,
+   "status": 409,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>BlobDoesNotUseCustomerSpecifiedEncryption</Code><Message>The blob is not encrypted with customer specified encryption, but one was provided in the request.\nRequestId:67d945d1-a01e-0005-493b-44f0c9000000\nTime:2022-03-30T13:37:47.0572275Z</Message></Error>",
+   "responseHeaders": {
+    "content-length": "308",
+    "content-type": "application/xml",
+    "x-ms-client-request-id": "5d9cc671-6cb0-433f-8281-247a4cf082c9",
+    "x-ms-error-code": "BlobDoesNotUseCustomerSpecifiedEncryption",
+    "x-ms-request-id": "67d945d1-a01e-0005-493b-44f0c9000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem164864746536806179",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-client-request-id": "e94d59c4-4486-4c7c-8f29-ff5d161c1998",
+    "x-ms-request-id": "67d945d3-a01e-0005-4b3b-44f0c9000000",
+    "x-ms-version": "2021-04-10"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "filesystem": "filesystem164864746536806179",
+   "file": "file164864746588407675",
+   "dir": "dir164864746588504488"
+  },
+  "newDate": {}
+ },
+ "hash": "24da0dc4c757b81c905badc0bdc10b7a"
+}

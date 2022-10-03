@@ -50,7 +50,7 @@ export interface Workbooks {
   /**
    * Get the revisions for the workbook defined by its resourceName.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   listRevisionsList(
@@ -61,7 +61,7 @@ export interface Workbooks {
   /**
    * Get a single workbook by its resourceName.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   get(
@@ -72,7 +72,7 @@ export interface Workbooks {
   /**
    * Delete a workbook.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   delete(
@@ -83,7 +83,7 @@ export interface Workbooks {
   /**
    * Create a new workbook.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param workbookProperties Properties that need to be specified to create a new workbook.
    * @param options The options parameters.
    */
@@ -96,7 +96,7 @@ export interface Workbooks {
   /**
    * Updates a workbook that has already been added.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   update(
@@ -107,7 +107,7 @@ export interface Workbooks {
   /**
    * Get a single workbook revision defined by its revisionId.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param revisionId The id of the workbook's revision.
    * @param options The options parameters.
    */

@@ -20,7 +20,7 @@ override-client-name: GeneratedClient
 disable-async-iterators: true
 hide-clients: true
 api-version-parameter: choice
-package-version: 1.1.0-beta.1
+package-version: 1.1.0-beta.2
 ```
 
 ## Customizations for Track 2 Generator

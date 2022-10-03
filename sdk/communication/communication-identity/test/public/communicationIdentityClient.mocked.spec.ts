@@ -80,7 +80,7 @@ describe("CommunicationIdentityClient [Mocked]", () => {
   it("exchanges Teams token for ACS token", async () => {
     const client = new TestCommunicationIdentityClient();
     const spy = sinon.spy(getTokenForTeamsUserHttpClient, "sendRequest");
-    const response = await client.getTokenForTeamsUserTest("TeamsToken");
+    const response = await client.getTokenForTeamsUserTest("TeamsToken", "appId", "userId");
 
     assert.equal(response.token, "token");
     assert.equal(response.expiresOn.toDateString(), new Date("2011/11/30").toDateString());
@@ -89,7 +89,7 @@ describe("CommunicationIdentityClient [Mocked]", () => {
 
   it("[getTokenForTeamsUser] excludes _response from results", async () => {
     const client = new TestCommunicationIdentityClient();
-    const response = await client.getTokenForTeamsUserTest("TeamsToken");
+    const response = await client.getTokenForTeamsUserTest("TeamsToken", "appId", "userId");
 
     assert.isFalse("_response" in response);
   });

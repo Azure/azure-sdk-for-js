@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import {
-  BatchRequest as GeneratedBatchRequest,
   BatchQueryRequest as GeneratedBatchQueryRequest,
-  QueryBatchResponse as GeneratedQueryBatchResponse,
   BatchQueryResponse as GeneratedBatchQueryResponse,
-  QueryBody,
-  Table as GeneratedTable,
   BatchQueryResults as GeneratedBatchQueryResults,
+  BatchRequest as GeneratedBatchRequest,
   ErrorInfo as GeneratedErrorInfo,
+  QueryBatchResponse as GeneratedQueryBatchResponse,
+  Table as GeneratedTable,
+  QueryBody,
 } from "../generated/logquery/src";
 
 import {
@@ -20,28 +20,28 @@ import {
 } from "../generated/metrics/src";
 
 import {
-  MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams,
   MetricDefinition as GeneratedMetricDefinition,
+  MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams,
 } from "../generated/metricsdefinitions/src";
 
 import { MetricNamespace as GeneratedMetricNamespace } from "../generated/metricsnamespaces/src";
 import { formatPreferHeader } from "./util";
 
 import {
-  QueryBatch,
   ListMetricDefinitionsOptions,
-  LogsTable,
   LogsQueryBatchResult,
+  LogsTable,
   MetricsQueryOptions,
   MetricsQueryResult,
+  QueryBatch,
 } from "../../src";
 import {
-  MetricNamespace,
   Metric,
+  MetricAvailability,
   MetricDefinition,
+  MetricNamespace,
   TimeSeriesElement,
   createMetricsQueryResult,
-  MetricAvailability,
 } from "../models/publicMetricsModels";
 import { FullOperationResponse } from "@azure/core-client";
 import {
@@ -375,7 +375,7 @@ export function convertGeneratedTable(table: GeneratedTable): LogsTable {
       for (const dynamicIndex of dynamicsIndices) {
         try {
           row[dynamicIndex] = JSON.parse(row[dynamicIndex] as string) as Record<string, unknown>;
-        } catch (_err) {
+        } catch (_err: any) {
           /* leave as is. */
         }
       }
@@ -402,7 +402,7 @@ export function convertBatchQueryResponseHelper(
     ) as GeneratedBatchQueryResults;
 
     return computeResultType(parsedResponseBody);
-  } catch (e) {
+  } catch (e: any) {
     if (response.body) return computeResultType(response.body);
     else return {} as LogsQuerySuccessfulResult;
   }

@@ -815,7 +815,7 @@ describe("deserializationPolicy", function () {
       try {
         await deserializeResponse(response);
         assert.fail();
-      } catch (e) {
+      } catch (e: any) {
         assert(e);
         assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
         assert.strictEqual(e.response.parsedBody.message, "InvalidResourceNameBody");
@@ -880,7 +880,7 @@ describe("deserializationPolicy", function () {
       try {
         await deserializeResponse(response);
         assert.fail();
-      } catch (e) {
+      } catch (e: any) {
         assert(e);
         assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
         assert.strictEqual(e.response.parsedBody.message, "InvalidResourceNameBody");
@@ -908,7 +908,7 @@ describe("deserializationPolicy", function () {
       try {
         await deserializeResponse(response);
         assert.fail("Expected deserializeResponse to throw an error");
-      } catch (e) {
+      } catch (e: any) {
         assert(e);
         assert.strictEqual(e.statusCode, 500);
         assert.include(e.message, "InternalServerError");
@@ -984,7 +984,7 @@ describe("deserializationPolicy", function () {
       try {
         await deserializeResponse(response);
         assert.fail();
-      } catch (e) {
+      } catch (e: any) {
         assert(e);
         assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
         assert.strictEqual(e.response.parsedBody.message1, "InvalidResourceNameBody1");
@@ -1042,10 +1042,133 @@ describe("deserializationPolicy", function () {
       try {
         await deserializeResponse(response);
         assert.fail();
-      } catch (e) {
+      } catch (e: any) {
         assert(e);
         assert.equal(e.code, "ContainerAlreadyExists");
         assert.equal(e.message, "The specified container already exists.");
+      }
+    });
+
+    it(`with response headers in different casing`, async function () {
+      const BodyMapper: CompositeMapper = {
+        serializedName: "getproperties-body",
+        type: {
+          name: "Composite",
+          className: "PropertiesBody",
+          modelProperties: {
+            message: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+      };
+
+      const HeadersMapper: CompositeMapper = {
+        serializedName: "getproperties-headers",
+        type: {
+          name: "Composite",
+          className: "PropertiesHeaders",
+          modelProperties: {
+            errorCode: {
+              serializedName: "x-ms-error-code",
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+      };
+
+      const serializer = new Serializer(HeadersMapper, true);
+
+      const operationSpec: OperationSpec = {
+        httpMethod: "GET",
+        responses: {
+          200: {
+            headersMapper: HeadersMapper,
+            bodyMapper: BodyMapper,
+          },
+        },
+        serializer,
+      };
+
+      const response: HttpOperationResponse = {
+        request: createRequest(operationSpec),
+        status: 200,
+        headers: new HttpHeaders({
+          "X-MS-Error-Code": "InvalidResourceNameHeader",
+        }),
+        bodyAsText: '{"message": "InvalidResourceNameBody"}',
+      };
+
+      const result = await deserializeResponse(response);
+      assert.strictEqual(result.parsedHeaders?.errorCode, "InvalidResourceNameHeader");
+      assert.strictEqual(result.parsedBody.message, "InvalidResourceNameBody");
+    });
+
+    it(`with response headers in different casing inside errors`, async function () {
+      const BodyMapper: CompositeMapper = {
+        serializedName: "getproperties-body",
+        type: {
+          name: "Composite",
+          className: "PropertiesBody",
+          modelProperties: {
+            message: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+      };
+
+      const HeadersMapper: CompositeMapper = {
+        serializedName: "getproperties-headers",
+        type: {
+          name: "Composite",
+          className: "PropertiesHeaders",
+          modelProperties: {
+            errorCode: {
+              serializedName: "x-ms-error-code",
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+      };
+
+      const serializer = new Serializer(HeadersMapper, true);
+
+      const operationSpec: OperationSpec = {
+        httpMethod: "GET",
+        responses: {
+          default: {
+            headersMapper: HeadersMapper,
+            bodyMapper: BodyMapper,
+          },
+        },
+        serializer,
+      };
+
+      const response: HttpOperationResponse = {
+        request: createRequest(operationSpec),
+        status: 500,
+        headers: new HttpHeaders({
+          "X-MS-Error-Code": "InvalidResourceNameHeader",
+        }),
+        bodyAsText: '{"message": "InvalidResourceNameBody"}',
+      };
+
+      try {
+        await deserializeResponse(response);
+        assert.fail();
+      } catch (e: any) {
+        assert(e);
+        assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
+        assert.strictEqual(e.response.parsedBody.message, "InvalidResourceNameBody");
       }
     });
   });

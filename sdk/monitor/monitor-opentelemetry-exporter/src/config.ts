@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import {
   DEFAULT_BREEZE_API_VERSION,
   DEFAULT_BREEZE_ENDPOINT,

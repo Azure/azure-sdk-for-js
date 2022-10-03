@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -9,7 +9,7 @@ trigger:
   paths:
     include:
       - sdk/reservations/ci.mgmt.yml
-      - sdk/reservations/arm-reservations/
+      - sdk/reservations/arm-reservations
 pr:
   branches:
     include:
@@ -22,12 +22,11 @@ pr:
   paths:
     include:
       - sdk/reservations/ci.mgmt.yml
-      - sdk/reservations/arm-reservations/
-
+      - sdk/reservations/arm-reservations
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: reservations
     Artifacts:
       - name: azure-arm-reservations
-        safeName: azurearmreservations       
+        safeName: azurearmreservations

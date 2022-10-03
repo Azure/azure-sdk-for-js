@@ -1,31 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
+import {
+  CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams,
+  CommunicationRelayConfiguration,
+} from "./generated/src/models";
+import { CommunicationRelayClientOptions, GetRelayConfigurationOptions } from "./models";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
-import {
-  createPipelineFromOptions,
-  InternalPipelineOptions,
-  operationOptionsToRequestOptionsBase,
-} from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
-import {
-  CommunicationNetworkTraversal,
-  NetworkRelayRestClient,
-} from "./generated/src/networkRelayRestClient";
-
-import { SDK_VERSION } from "./constants";
+import { InternalClientPipelineOptions } from "@azure/core-client";
+import { NetworkRelayRestClient } from "./generated/src/networkRelayRestClient";
 import { logger } from "./common/logger";
-import { createSpan } from "./common/tracing";
-import { CommunicationRelayClientOptions, GetRelayConfigurationOptions } from "./models";
-import {
-  CommunicationRelayConfiguration,
-  CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams,
-} from "./generated/src/models";
+import { tracingClient } from "./generated/src/tracing";
 
 const isCommunicationRelayClientOptions = (
   options: any
@@ -39,7 +28,7 @@ export class CommunicationRelayClient {
   /**
    * A reference to the auto-generated UserToken HTTP client.
    */
-  private readonly client: CommunicationNetworkTraversal;
+  private readonly client: NetworkRelayRestClient;
 
   /**
    * Initializes a new instance of the CommunicationRelayClient class.
@@ -74,9 +63,10 @@ export class CommunicationRelayClient {
 
   /**
    * Initializes a new instance of the CommunicationRelayClient class.
-   * @param connectionString - Connection string to connect to an Azure Communication Service resource.
+   * @param connectionStringOrEndpoint - Connection string to connect to an Azure Communication Service resource.
    *                         Example: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret";
-   * @param options - Optional. Options to configure the HTTP pipeline.
+   * @param credentialOrOptions - TokenCredential that is used to authenticate requests to the service or options to configure the HTTP pipeline.
+   * @param maybeOptions - Optional. Options to configure the HTTP pipeline.
    */
   public constructor(
     connectionStringOrEndpoint: string,
@@ -90,19 +80,8 @@ export class CommunicationRelayClient {
     const options = isCommunicationRelayClientOptions(credentialOrOptions)
       ? credentialOrOptions
       : maybeOptions;
-    const libInfo = `azsdk-js-communication-network-traversal/${SDK_VERSION}`;
 
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
-    }
-
-    const internalPipelineOptions: InternalPipelineOptions = {
+    const internalPipelineOptions: InternalClientPipelineOptions = {
       ...options,
       ...{
         loggingOptions: {
@@ -111,9 +90,13 @@ export class CommunicationRelayClient {
       },
     };
 
+    this.client = new NetworkRelayRestClient(url, {
+      endpoint: url,
+      ...internalPipelineOptions,
+    });
+
     const authPolicy = createCommunicationAuthPolicy(credential);
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new NetworkRelayRestClient(url, pipeline).communicationNetworkTraversal;
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**
@@ -121,46 +104,33 @@ export class CommunicationRelayClient {
    *
    * @param options - Additional options for the request.
    */
-  public async getRelayConfiguration(
+  public getRelayConfiguration(
     options?: GetRelayConfigurationOptions
   ): Promise<CommunicationRelayConfiguration>;
 
   /**
    * Gets a TURN credential for a user
    *
-   * @param user - The user for whom to issue a token
-   * @param routeType - The specified routeType for the relay request
-   * @param ttl - The specified time to live for the relay credential in seconds
    * @param options - Additional options for the request.
    */
-  public async getRelayConfiguration(
+  public getRelayConfiguration(
     options: GetRelayConfigurationOptions = {}
   ): Promise<CommunicationRelayConfiguration> {
     const requestOptions: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams =
       options;
 
     if (options !== "undefined") {
-      requestOptions.body = { id: options.id, routeType: options.routeType, ttl: options.ttl };
+      requestOptions.id = options.id;
+      requestOptions.routeType = options.routeType;
+      requestOptions.ttl = options.ttl;
     }
 
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "CommunicationNetworkTraversal_IssueRelayConfiguration",
-      requestOptions
+      requestOptions,
+      (updatedOptions) => {
+        return this.client.communicationNetworkTraversal.issueRelayConfiguration(updatedOptions);
+      }
     );
-
-    try {
-      const { ...result } = await this.client.issueRelayConfiguration(
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return result;
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 }

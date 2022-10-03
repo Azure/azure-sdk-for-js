@@ -1,4 +1,32 @@
 # Release History
+
+## 3.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 3.0.0 (2022-07-04)
+    
+**Features**
+
+  - Added Type Alias ErrorResponseCode
+  - Added Enum KnownErrorResponseCode
+
+**Breaking Changes**
+
+  - Interface ErrorModel no longer has parameter code
+  - Interface ErrorModel no longer has parameter message
+    
+## 2.0.1 (2022-04-24)
+
+**Features**
+
+  - Bug fix
     
 ## 2.0.0 (2022-01-19)
 

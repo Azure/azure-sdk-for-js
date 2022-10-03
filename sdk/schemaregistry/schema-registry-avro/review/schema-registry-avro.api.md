@@ -7,16 +7,6 @@
 import { SchemaRegistry } from '@azure/schema-registry';
 
 // @public
-export class AvroError extends Error {
-    constructor(message: string, options?: {
-        innerError?: unknown;
-        schemaId?: string;
-    });
-    innerError?: unknown;
-    schemaId?: string;
-}
-
-// @public
 export class AvroSerializer<MessageT = MessageContent> {
     constructor(client: SchemaRegistry, options?: AvroSerializerOptions<MessageT>);
     deserialize(message: MessageT, options?: DeserializeOptions): Promise<unknown>;

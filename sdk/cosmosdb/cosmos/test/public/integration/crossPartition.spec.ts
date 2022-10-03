@@ -793,7 +793,7 @@ describe("Cross Partition", function (this: Suite) {
       try {
         const queryIterator = container.items.query(query, options);
         await queryIterator.fetchAll();
-      } catch (err) {
+      } catch (err: any) {
         assert.notEqual(err, undefined);
       }
     });

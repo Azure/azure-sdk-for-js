@@ -1,5 +1,5 @@
 {
-  "name": "versioning",
+  "name": "@azure-tools/versioning",
   "version": "1.0.0",
   "description": "Utilities to manipulate version information",
   "main": "echo \"use increment.js or set-dev.js\"",
@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "dependencies": {
-    "eng-package-utils": "file:../eng-package-utils",
+    "@azure-tools/eng-package-utils": "file:../eng-package-utils",
     "semver": "^6.3.0",
     "yargs": "^14.2.0",
     "yargs-parser": "^21.0.0"

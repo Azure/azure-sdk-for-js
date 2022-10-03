@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import minimist, { ParsedArgs as MinimistParsedArgs } from "minimist";
+import { multicoreUtils } from "./multicore";
 import {
   PerfOptionDictionary,
   parsePerfOption,
@@ -11,6 +11,7 @@ import {
   ParsedPerfOptions,
 } from "./options";
 import { AbortController } from "@azure/abort-controller";
+import { Snapshot } from "./snapshot";
 
 /**
  * Defines the behavior of the PerfTest constructor, to use the class as a value.
@@ -33,7 +34,9 @@ export interface PerfTestConstructor<
 export abstract class PerfTestBase<TOptions = Record<string, unknown>> {
   public completedOperations = 0;
   public lastMillisecondsElapsed = 0;
-  private static globalParallelIndex = 0;
+  private static globalParallelIndex = multicoreUtils.isManager
+    ? 0
+    : multicoreUtils.workerData.parallelIndexOffset;
   protected readonly parallelIndex: number;
 
   public abstract options: PerfOptionDictionary<TOptions>;
@@ -48,18 +51,26 @@ export abstract class PerfTestBase<TOptions = Record<string, unknown>> {
       });
     }
 
-    // This cast is needed because TS thinks
-    //   ```ts
-    //   PerfOptionDictionary<TOptions & DefaultPerfOptions>
-    //   ```
-    //    is different from
-    //   ```ts
-    //    PerfOptionDictionary<TOptions> & PerfOptionDictionary<DefaultPerfOptions>
-    //   ```
-    return parsePerfOption({
-      ...this.options,
-      ...defaultPerfOptions,
-    } as PerfOptionDictionary<TOptions & DefaultPerfOptions>);
+    // we need to handle the manager case as a perf test instance will be created by the manager
+    // to run globalSetup
+    if (multicoreUtils.isManager) {
+      // This cast is needed because TS thinks
+      //   ```ts
+      //   PerfOptionDictionary<TOptions & DefaultPerfOptions>
+      //   ```
+      //    is different from
+      //   ```ts
+      //    PerfOptionDictionary<TOptions> & PerfOptionDictionary<DefaultPerfOptions>
+      //   ```
+      return parsePerfOption({
+        ...this.options,
+        ...defaultPerfOptions,
+      } as PerfOptionDictionary<TOptions & DefaultPerfOptions>);
+    } else {
+      // in this case, the parsing will have already been handled by the manager
+      // we just assume and cross our fingers that the options are of the correct type
+      return multicoreUtils.workerData.options as ParsedPerfOptions<TOptions & DefaultPerfOptions>;
+    }
   }
 
   public constructor() {
@@ -81,26 +92,11 @@ export abstract class PerfTestBase<TOptions = Record<string, unknown>> {
     durationMilliseconds: number,
     abortController: AbortController
   ): Promise<void>;
-}
 
-/**
- * Picks a specific test case by comparing the first command line paramter to the names of the
- * given classes, all of which must extend PerfTest.
- * @param tests An array of classes that extend PerfTest
- */
-export function selectPerfTest(tests: PerfTestConstructor[]): PerfTestConstructor {
-  const testsNames: string[] = tests.map((test) => test.name);
-  const minimistResult: MinimistParsedArgs = minimist(process.argv);
-  const testName = minimistResult._[minimistResult._.length - 1];
-
-  const testIndex = testsNames.indexOf(testName);
-  if (testIndex === -1) {
-    throw new Error(
-      `Couldn't find a test named ${testName}. Try with any of the following: ${testsNames.join(
-        ", "
-      )}`
-    );
+  public getSnapshot(): Snapshot {
+    return {
+      lastMillisecondsElapsed: this.lastMillisecondsElapsed,
+      completedOperations: this.completedOperations,
+    };
   }
-
-  return tests[testIndex];
 }

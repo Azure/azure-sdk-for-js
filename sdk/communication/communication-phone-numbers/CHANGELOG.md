@@ -1,16 +1,40 @@
 # Release History
 
-## 1.2.0-beta.3 (Unreleased)
+## 1.2.0-beta.5 (Unreleased)
 
 ### Features Added
 
-- Added environment variable `AZURE_USERAGENT_OVERRIDE` that overrides the HTTP header `x-ms-useragent` during tests
+- Updated to `@azure/core-tracing` 1.0.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+
+## 1.2.0-beta.4 (Unreleased)
+
+### Features Added
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.2.0-alpha.20220517.1 (2022-05-17)
+
+- Added support for the API version `2022-06-01-preview`
+- Added `operatorId`, `operatorName` and `phoneNumberSource` properties to the `PurchasedPhoneNumber` model.
+
+## 1.2.0-beta.3 (2022-04-06)
+
+### Features Added
+
+- Added environment variable `AZURE_USERAGENT_OVERRIDE` that overrides the HTTP header `x-ms-useragent` during tests
+
+### Other Changes
+
+- Update minimum version of dependency "@azure/core-client" to "1.5.0", which allows adding additional policies to the rest pipeline after initialization.
 
 ## 1.2.0-beta.2 (2022-03-10)
 

@@ -3,13 +3,13 @@
 
 import { assert } from "chai";
 import {
-  credentialLoggerInstance,
-  credentialLogger,
   CredentialLogger,
-  formatSuccess,
+  credentialLogger,
+  credentialLoggerInstance,
   formatError,
+  formatSuccess,
 } from "../../src/util/logging";
-import { TokenCredential, GetTokenOptions, AccessToken } from "../../src";
+import { AccessToken, GetTokenOptions, TokenCredential } from "../../src";
 
 describe("Identity logging utilities", function () {
   describe("credentialLoggerInstance", function () {

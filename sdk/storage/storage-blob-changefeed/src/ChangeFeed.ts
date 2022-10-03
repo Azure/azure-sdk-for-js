@@ -131,7 +131,7 @@ export class ChangeFeed {
           this.currentSegment = undefined;
         }
       }
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -172,7 +172,7 @@ export class ChangeFeed {
         });
       }
       return event;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

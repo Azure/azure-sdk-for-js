@@ -4,11 +4,11 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import {
+  PipelineResponse,
   RestError,
   SendRequest,
-  createPipelineRequest,
-  PipelineResponse,
   createHttpHeaders,
+  createPipelineRequest,
   exponentialRetryPolicy,
 } from "../src";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";

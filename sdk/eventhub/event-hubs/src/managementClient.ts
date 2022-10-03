@@ -193,7 +193,7 @@ export class ManagementClient extends LinkEntity {
           );
 
           return runtimeInfo;
-        } catch (error) {
+        } catch (error: any) {
           logger.warning(
             `An error occurred while getting the hub runtime information: ${error?.name}: ${error?.message}`
           );
@@ -261,7 +261,7 @@ export class ManagementClient extends LinkEntity {
             partitionInfo
           );
           return partitionInfo;
-        } catch (error) {
+        } catch (error: any) {
           logger.warning(
             `An error occurred while getting the partition information: ${error?.name}: ${error?.message}`
           );
@@ -288,7 +288,7 @@ export class ManagementClient extends LinkEntity {
         await mgmtLink!.close();
         logger.info("Successfully closed the management session.");
       }
-    } catch (err) {
+    } catch (err: any) {
       const msg = `An error occurred while closing the management session: ${err?.name}: ${err?.message}`;
       logger.warning(msg);
       logErrorStackTrace(err);
@@ -361,7 +361,7 @@ export class ManagementClient extends LinkEntity {
         );
         await this._ensureTokenRenewal();
       }
-    } catch (err) {
+    } catch (err: any) {
       const translatedError = translate(err);
       logger.warning(
         `[${this._context.connectionId}] An error occured while establishing the $management links: ${translatedError?.name}: ${translatedError?.message}`
@@ -412,7 +412,7 @@ export class ManagementClient extends LinkEntity {
               },
               { abortSignal, timeoutInMs: retryTimeoutInMs }
             );
-          } catch (err) {
+          } catch (err: any) {
             const translatedError = translate(err);
             logger.warning(
               "[%s] An error occurred while creating the management link %s: %s",
@@ -461,9 +461,9 @@ export class ManagementClient extends LinkEntity {
             },
           },
         }
-      );
+      ) as RetryConfig<Message>;
       return (await retry<Message>(config)).body;
-    } catch (err) {
+    } catch (err: any) {
       const translatedError = translate(err);
       logger.warning(
         "[%s] An error occurred during send on management request-response link with address '%s': %s",

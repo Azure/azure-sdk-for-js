@@ -941,6 +941,20 @@ export interface RecoverableSqlPoolListResult {
   readonly nextLink?: string;
 }
 
+/** A list of the server's dedicated sql minimal tls settings. */
+export interface DedicatedSQLminimalTlsSettingsListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: DedicatedSQLminimalTlsSettings[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** List of workspaces */
 export interface WorkspaceInfoListResult {
   /** Link to the next page of results */
@@ -1985,6 +1999,12 @@ export interface QueryMetric {
 export interface TopQueriesListResult {
   /** The list of top queries. */
   value: TopQueries[];
+}
+
+/** Dedicated SQL minimal tls settings patch info */
+export interface DedicatedSQLminimalTlsSettingsPatchInfo {
+  /** minimal tls version */
+  minimalTlsVersion?: string;
 }
 
 /** The compute resource properties for managed integration runtime. */
@@ -3725,6 +3745,17 @@ export type RecoverableSqlPool = ProxyResource & {
   readonly lastAvailableBackupDate?: Date;
 };
 
+/** Dedicated Sql Minimal Tls Settings Info */
+export type DedicatedSQLminimalTlsSettings = ProxyResource & {
+  /**
+   * Resource location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly location?: string;
+  /** The minimal tls version of the sql server. */
+  minimalTlsVersion?: string;
+};
+
 /** Workspace active directory administrator */
 export type WorkspaceAadAdminInfo = ProxyResource & {
   /** Tenant ID of the workspace active directory administrator */
@@ -4749,6 +4780,20 @@ export enum KnownServerKeyType {
  * **AzureKeyVault**
  */
 export type ServerKeyType = string;
+
+/** Known values of {@link DedicatedSQLMinimalTlsSettingsName} that the service accepts. */
+export enum KnownDedicatedSQLMinimalTlsSettingsName {
+  Default = "default"
+}
+
+/**
+ * Defines values for DedicatedSQLMinimalTlsSettingsName. \
+ * {@link KnownDedicatedSQLMinimalTlsSettingsName} can be used interchangeably with DedicatedSQLMinimalTlsSettingsName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**
+ */
+export type DedicatedSQLMinimalTlsSettingsName = string;
 
 /** Known values of {@link WorkspacePublicNetworkAccess} that the service accepts. */
 export enum KnownWorkspacePublicNetworkAccess {
@@ -6901,6 +6946,39 @@ export interface WorkspaceManagedSqlServerRecoverableSqlPoolsListNextOptionalPar
 
 /** Contains response data for the listNext operation. */
 export type WorkspaceManagedSqlServerRecoverableSqlPoolsListNextResponse = RecoverableSqlPoolListResult;
+
+/** Optional parameters. */
+export interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse = DedicatedSQLminimalTlsSettings;
+
+/** Optional parameters. */
+export interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetResponse = DedicatedSQLminimalTlsSettings;
+
+/** Optional parameters. */
+export interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListResponse = DedicatedSQLminimalTlsSettingsListResult;
+
+/** Optional parameters. */
+export interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListNextResponse = DedicatedSQLminimalTlsSettingsListResult;
 
 /** Optional parameters. */
 export interface WorkspacesListByResourceGroupOptionalParams

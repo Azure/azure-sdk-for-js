@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 1.0.3 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,11 @@
 
 ### Other Changes
 
+## 1.0.2 (2022-06-07)
+
+### Bugs Fixed
+
+- Fixed a typo in the string for user-provided scope for `MetricsQueryClient` and `LogsQueryClient`.
 ## 1.0.1 (2022-02-10)
 
 ### Bugs Fixed

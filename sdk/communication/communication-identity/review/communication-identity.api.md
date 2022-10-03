@@ -25,7 +25,7 @@ export class CommunicationIdentityClient {
     createUserAndToken(scopes: TokenScope[], options?: OperationOptions): Promise<CommunicationUserToken>;
     deleteUser(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<void>;
     getToken(user: CommunicationUserIdentifier, scopes: TokenScope[], options?: OperationOptions): Promise<CommunicationAccessToken>;
-    getTokenForTeamsUser(teamsUserAadToken: string, options?: OperationOptions): Promise<CommunicationAccessToken>;
+    getTokenForTeamsUser(options: GetTokenForTeamsUserOptions): Promise<CommunicationAccessToken>;
     revokeTokens(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<void>;
 }
 
@@ -36,6 +36,13 @@ export interface CommunicationIdentityClientOptions extends CommonClientOptions 
 // @public
 export interface CommunicationUserToken extends CommunicationAccessToken {
     user: CommunicationUserIdentifier;
+}
+
+// @public
+export interface GetTokenForTeamsUserOptions extends OperationOptions {
+    clientId: string;
+    teamsUserAadToken: string;
+    userObjectId: string;
 }
 
 // @public

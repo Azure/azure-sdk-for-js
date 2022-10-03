@@ -1,6 +1,29 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.1.1 (Unreleased)
+
+### Features Added
+
+- Update `delay` method to handle `abortSignal` functionality
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.1.0 (2022-09-01)
+
+### Features Added
+
+- Add helper type guards `isDefined`, `isObjectWithProperties`, `objectHasProperty`.
+
+## 1.0.0 (2022-05-05)
+
+### Features Added
+
+- Add helpers `isObject`, `isError`, `getErrorMessage` for handling unknown Error objects.
+- Add helper `getRandomIntegerInclusive` for randomly selecting a whole integer value from a given range.
 
 ### Other Changes
 

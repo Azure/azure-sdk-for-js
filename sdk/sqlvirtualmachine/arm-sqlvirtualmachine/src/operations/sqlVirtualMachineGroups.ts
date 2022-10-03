@@ -224,10 +224,12 @@ export class SqlVirtualMachineGroupsImpl implements SqlVirtualMachineGroups {
       { resourceGroupName, sqlVirtualMachineGroupName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -309,10 +311,12 @@ export class SqlVirtualMachineGroupsImpl implements SqlVirtualMachineGroups {
       { resourceGroupName, sqlVirtualMachineGroupName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -398,10 +402,12 @@ export class SqlVirtualMachineGroupsImpl implements SqlVirtualMachineGroups {
       { resourceGroupName, sqlVirtualMachineGroupName, parameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

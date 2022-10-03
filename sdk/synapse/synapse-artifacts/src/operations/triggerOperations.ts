@@ -6,11 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
+import { tracingClient } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { TriggerOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
@@ -102,25 +101,16 @@ export class TriggerOperationsImpl implements TriggerOperations {
   private async _getTriggersByWorkspace(
     options?: TriggerGetTriggersByWorkspaceOptionalParams
   ): Promise<TriggerGetTriggersByWorkspaceResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getTriggersByWorkspace",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient._getTriggersByWorkspace",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getTriggersByWorkspaceOperationSpec
+        ) as Promise<TriggerGetTriggersByWorkspaceResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        getTriggersByWorkspaceOperationSpec
-      );
-      return result as TriggerGetTriggersByWorkspaceResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -139,26 +129,19 @@ export class TriggerOperationsImpl implements TriggerOperations {
       TriggerCreateOrUpdateTriggerResponse
     >
   > {
-    const { span } = createSpan(
-      "ArtifactsClient-beginCreateOrUpdateTrigger",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<TriggerCreateOrUpdateTriggerResponse> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as TriggerCreateOrUpdateTriggerResponse;
-      } catch (error) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginCreateOrUpdateTrigger",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<
+            TriggerCreateOrUpdateTriggerResponse
+          >;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -198,10 +181,12 @@ export class TriggerOperationsImpl implements TriggerOperations {
       { triggerName, trigger, options },
       createOrUpdateTriggerOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -232,22 +217,16 @@ export class TriggerOperationsImpl implements TriggerOperations {
     triggerName: string,
     options?: TriggerGetTriggerOptionalParams
   ): Promise<TriggerGetTriggerResponse> {
-    const { span } = createSpan("ArtifactsClient-getTrigger", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { triggerName, options },
-        getTriggerOperationSpec
-      );
-      return result as TriggerGetTriggerResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient.getTrigger",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { triggerName, options },
+          getTriggerOperationSpec
+        ) as Promise<TriggerGetTriggerResponse>;
+      }
+    );
   }
 
   /**
@@ -259,26 +238,17 @@ export class TriggerOperationsImpl implements TriggerOperations {
     triggerName: string,
     options?: TriggerDeleteTriggerOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginDeleteTrigger",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as void;
-      } catch (error) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginDeleteTrigger",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -318,10 +288,12 @@ export class TriggerOperationsImpl implements TriggerOperations {
       { triggerName, options },
       deleteTriggerOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -351,26 +323,19 @@ export class TriggerOperationsImpl implements TriggerOperations {
       TriggerSubscribeTriggerToEventsResponse
     >
   > {
-    const { span } = createSpan(
-      "ArtifactsClient-beginSubscribeTriggerToEvents",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<TriggerSubscribeTriggerToEventsResponse> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as TriggerSubscribeTriggerToEventsResponse;
-      } catch (error) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginSubscribeTriggerToEvents",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<
+            TriggerSubscribeTriggerToEventsResponse
+          >;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -410,10 +375,12 @@ export class TriggerOperationsImpl implements TriggerOperations {
       { triggerName, options },
       subscribeTriggerToEventsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -441,25 +408,16 @@ export class TriggerOperationsImpl implements TriggerOperations {
     triggerName: string,
     options?: TriggerGetEventSubscriptionStatusOptionalParams
   ): Promise<TriggerGetEventSubscriptionStatusResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-getEventSubscriptionStatus",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient.getEventSubscriptionStatus",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { triggerName, options },
+          getEventSubscriptionStatusOperationSpec
+        ) as Promise<TriggerGetEventSubscriptionStatusResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { triggerName, options },
-        getEventSubscriptionStatusOperationSpec
-      );
-      return result as TriggerGetEventSubscriptionStatusResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -476,26 +434,19 @@ export class TriggerOperationsImpl implements TriggerOperations {
       TriggerUnsubscribeTriggerFromEventsResponse
     >
   > {
-    const { span } = createSpan(
-      "ArtifactsClient-beginUnsubscribeTriggerFromEvents",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<TriggerUnsubscribeTriggerFromEventsResponse> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as TriggerUnsubscribeTriggerFromEventsResponse;
-      } catch (error) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginUnsubscribeTriggerFromEvents",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<
+            TriggerUnsubscribeTriggerFromEventsResponse
+          >;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -535,10 +486,12 @@ export class TriggerOperationsImpl implements TriggerOperations {
       { triggerName, options },
       unsubscribeTriggerFromEventsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -566,26 +519,17 @@ export class TriggerOperationsImpl implements TriggerOperations {
     triggerName: string,
     options?: TriggerStartTriggerOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginStartTrigger",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as void;
-      } catch (error) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginStartTrigger",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -625,10 +569,12 @@ export class TriggerOperationsImpl implements TriggerOperations {
       { triggerName, options },
       startTriggerOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -653,26 +599,17 @@ export class TriggerOperationsImpl implements TriggerOperations {
     triggerName: string,
     options?: TriggerStopTriggerOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginStopTrigger",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as void;
-      } catch (error) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginStopTrigger",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -712,10 +649,12 @@ export class TriggerOperationsImpl implements TriggerOperations {
       { triggerName, options },
       stopTriggerOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -740,25 +679,16 @@ export class TriggerOperationsImpl implements TriggerOperations {
     nextLink: string,
     options?: TriggerGetTriggersByWorkspaceNextOptionalParams
   ): Promise<TriggerGetTriggersByWorkspaceNextResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getTriggersByWorkspaceNext",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient._getTriggersByWorkspaceNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          getTriggersByWorkspaceNextOperationSpec
+        ) as Promise<TriggerGetTriggersByWorkspaceNextResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { nextLink, options },
-        getTriggersByWorkspaceNextOperationSpec
-      );
-      return result as TriggerGetTriggersByWorkspaceNextResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 }
 // Operation Specifications
@@ -772,10 +702,10 @@ const getTriggersByWorkspaceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TriggerListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -797,11 +727,11 @@ const createOrUpdateTriggerOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TriggerResource
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.trigger,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [
     Parameters.accept,
@@ -820,10 +750,10 @@ const getTriggerOperationSpec: coreClient.OperationSpec = {
     },
     304: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
   serializer
@@ -837,10 +767,10 @@ const deleteTriggerOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
@@ -862,10 +792,10 @@ const subscribeTriggerToEventsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TriggerSubscriptionOperationStatus
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
@@ -878,10 +808,10 @@ const getEventSubscriptionStatusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TriggerSubscriptionOperationStatus
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
@@ -903,10 +833,10 @@ const unsubscribeTriggerFromEventsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TriggerSubscriptionOperationStatus
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
@@ -920,10 +850,10 @@ const startTriggerOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
@@ -937,10 +867,10 @@ const stopTriggerOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
@@ -953,10 +883,10 @@ const getTriggersByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TriggerListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

@@ -1,6 +1,6 @@
 # Release History
 
-## 5.0.0-beta.2 (Unreleased)
+## 5.0.0-beta.3 (Unreleased)
 
 ### Features Added
 
@@ -10,9 +10,9 @@
 
 ### Other Changes
 
-## 5.0.0-beta.1 (2022-01-12)
+## 5.0.0-beta.2 (2022-04-15)
 
-The package of @azure/arm-databox is using our next generation design principles since version 5.0.0-beta.1, which contains breaking changes.
+The package of @azure/arm-databox is using our next generation design principles since version 5.0.0-beta.2, which contains breaking changes.
 
 To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
 

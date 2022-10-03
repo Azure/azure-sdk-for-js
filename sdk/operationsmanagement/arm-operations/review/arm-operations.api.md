@@ -48,9 +48,9 @@ export interface ManagementAssociationPropertiesList {
 
 // @public
 export interface ManagementAssociations {
-    createOrUpdate(resourceGroupName: string, managementAssociationName: string, parameters: ManagementAssociation, options?: ManagementAssociationsCreateOrUpdateOptionalParams): Promise<ManagementAssociationsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, managementAssociationName: string, options?: ManagementAssociationsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, managementAssociationName: string, options?: ManagementAssociationsGetOptionalParams): Promise<ManagementAssociationsGetResponse>;
+    createOrUpdate(resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, managementAssociationName: string, parameters: ManagementAssociation, options?: ManagementAssociationsCreateOrUpdateOptionalParams): Promise<ManagementAssociationsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, managementAssociationName: string, options?: ManagementAssociationsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, managementAssociationName: string, options?: ManagementAssociationsGetOptionalParams): Promise<ManagementAssociationsGetResponse>;
     listBySubscription(options?: ManagementAssociationsListBySubscriptionOptionalParams): Promise<ManagementAssociationsListBySubscriptionResponse>;
 }
 
@@ -169,7 +169,7 @@ export type OperationsListResponse = OperationListResult;
 export class OperationsManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, providerName: string, resourceType: string, resourceName: string, options?: OperationsManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: OperationsManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -178,12 +178,6 @@ export class OperationsManagementClient extends coreClient.ServiceClient {
     managementConfigurations: ManagementConfigurations;
     // (undocumented)
     operations: Operations;
-    // (undocumented)
-    providerName: string;
-    // (undocumented)
-    resourceName: string;
-    // (undocumented)
-    resourceType: string;
     // (undocumented)
     solutions: Solutions;
     // (undocumented)

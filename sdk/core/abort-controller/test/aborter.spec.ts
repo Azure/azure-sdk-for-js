@@ -40,7 +40,7 @@ describe("AbortController", () => {
       const rs = await response;
       console.log("got result", rs);
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.strictEqual(err.name, "AbortError");
     }
   });
@@ -54,7 +54,7 @@ describe("AbortController", () => {
       const r = await response;
       console.log("got, r", r);
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.strictEqual(err.name, "AbortError");
     }
   });
@@ -78,7 +78,7 @@ describe("AbortController", () => {
       controller.abort();
       await response;
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.strictEqual(s, "aborted");
     }
   });
@@ -98,7 +98,7 @@ describe("AbortController", () => {
       controller.abort();
       await response;
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.deepEqual(s, ["aborted", "aborted"]);
     }
   });
@@ -127,7 +127,7 @@ describe("AbortController", () => {
       controller.abort();
       await response;
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.deepEqual(acks, ["foo", "bar"]);
     }
   });
@@ -141,7 +141,7 @@ describe("AbortController", () => {
       };
       await doAsyncOperation(aborter, 200);
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.deepEqual(s, "aborted");
     }
   });

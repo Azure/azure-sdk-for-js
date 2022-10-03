@@ -219,7 +219,7 @@ describe("msrest", function () {
       };
       try {
         Serializer.serialize(mapper, invalid_uuid, "uuidBody");
-      } catch (error) {
+      } catch (error: any) {
         error.message.should.match(/.*with value.*must be of type string and a valid uuid/gi);
         done();
       }
@@ -266,7 +266,7 @@ describe("msrest", function () {
       };
       try {
         Serializer.serialize(mapper, 6, "enumBody");
-      } catch (error) {
+      } catch (error: any) {
         error.message.should.match(
           /6 is not a valid value for enumBody\. The valid values are: \[1,2,3,4\]/gi
         );
@@ -457,7 +457,7 @@ describe("msrest", function () {
       const array = [[1], ["2"], [undefined], [1, "2", {}, true, []]];
       try {
         Serializer.serialize(mapper, array, mapper.serializedName);
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, "arrayObj cannot be null or undefined.");
       }
       done();

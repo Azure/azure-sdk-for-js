@@ -1,0 +1,147 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem165382978309601568",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DA41747F920B04\"",
+    "last-modified": "Sun, 29 May 2022 13:09:43 GMT",
+    "x-ms-client-request-id": "1a8503ee-4402-4977-9fa9-11ccaed4f534",
+    "x-ms-request-id": "84b4a60d-a01e-0003-575d-731608000000",
+    "x-ms-version": "2021-06-08"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem165382978309601568/file165382978360705223",
+   "query": {
+    "resource": "file"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Sun, 29 May 2022 13:09:44 GMT",
+    "etag": "\"0x8DA41747FE35245\"",
+    "last-modified": "Sun, 29 May 2022 13:09:44 GMT",
+    "x-ms-client-request-id": "d513da10-77d2-42b1-b51c-7a7c9ed8c01f",
+    "x-ms-request-id": "524321b5-601f-0002-2b5d-73e805000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2021-06-08"
+   }
+  },
+  {
+   "method": "PATCH",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem165382978309601568/file165382978360705223",
+   "query": {
+    "position": "0",
+    "action": "append"
+   },
+   "requestBody": "Hello World",
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Sun, 29 May 2022 13:09:44 GMT",
+    "x-ms-client-request-id": "dadd3f86-e13f-4020-b8f0-fda345f376bb",
+    "x-ms-request-id": "524321b7-601f-0002-2d5d-73e805000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2021-06-08"
+   }
+  },
+  {
+   "method": "PATCH",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem165382978309601568/file165382978360705223",
+   "query": {
+    "position": "11",
+    "action": "flush"
+   },
+   "requestBody": "",
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Sun, 29 May 2022 13:09:45 GMT",
+    "etag": "\"0x8DA4174807A3206\"",
+    "last-modified": "Sun, 29 May 2022 13:09:45 GMT",
+    "x-ms-client-request-id": "05f1cb83-794d-4cc1-9f85-afa4c268a64d",
+    "x-ms-request-id": "524321b9-601f-0002-2f5d-73e805000000",
+    "x-ms-request-server-encrypted": "false",
+    "x-ms-version": "2021-06-08"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem165382978309601568/testdir165382978509505139",
+   "query": {
+    "resource": "directory"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Sun, 29 May 2022 13:09:45 GMT",
+    "etag": "\"0x8DA417480C31CDA\"",
+    "last-modified": "Sun, 29 May 2022 13:09:45 GMT",
+    "x-ms-client-request-id": "cc782c27-f4a8-4337-9f14-028e74e2c954",
+    "x-ms-request-id": "524321bb-601f-0002-315d-73e805000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2021-06-08"
+   }
+  },
+  {
+   "method": "HEAD",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem165382978309601568/testdir165382978509505139",
+   "query": {
+    "action": "getAccessControl"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "date": "Sun, 29 May 2022 13:09:46 GMT",
+    "etag": "\"0x8DA417480C31CDA\"",
+    "last-modified": "Sun, 29 May 2022 13:09:45 GMT",
+    "x-ms-acl": "user::rwx,group::-w-,other::---",
+    "x-ms-client-request-id": "f41026ed-d5a8-45d6-a028-be3aceef162e",
+    "x-ms-group": "$superuser",
+    "x-ms-owner": "$superuser",
+    "x-ms-permissions": "rwx-w----",
+    "x-ms-request-id": "524321bd-601f-0002-335d-73e805000000",
+    "x-ms-version": "2021-06-08"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem165382978309601568",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-client-request-id": "a44754e2-4e23-4db0-a225-2bb88c697b77",
+    "x-ms-request-id": "84b4a611-a01e-0003-595d-731608000000",
+    "x-ms-version": "2021-06-08"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "filesystem": "filesystem165382978309601568",
+   "file": "file165382978360705223",
+   "testdir": "testdir165382978509505139"
+  },
+  "newDate": {}
+ },
+ "hash": "2a4271e0220cdcea1a4eed86b49ce76e"
+}

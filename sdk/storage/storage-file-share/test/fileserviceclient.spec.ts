@@ -355,7 +355,7 @@ describe("FileServiceClient", () => {
       assert.fail(
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
-    } catch (error) {
+    } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
     }
   });
@@ -397,7 +397,7 @@ describe("FileServiceClient", () => {
 
     try {
       serviceClient = getSoftDeleteBSU();
-    } catch (error) {
+    } catch (error: any) {
       this.skip();
     }
   });
@@ -462,7 +462,7 @@ describe("FileServiceClient", () => {
     try {
       await serviceClient.undeleteShare(shareClient.name, invalidVersion);
       assert.fail("Expecting an error in undelete share with invalid version.");
-    } catch (error) {
+    } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
     }
   });
@@ -476,7 +476,7 @@ describe("FileServiceClient Premium", () => {
     recorder = record(this, recorderEnvSetup);
     try {
       serviceClient = getGenericBSU("PREMIUM_FILE_");
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       this.skip();
     }

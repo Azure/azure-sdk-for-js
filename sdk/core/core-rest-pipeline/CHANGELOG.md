@@ -1,6 +1,6 @@
 # Release History
 
-## 1.8.1 (Unreleased)
+## 1.9.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,41 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.9.2 (2022-09-01)
+
+### Other Changes
+
+- Move `defaultLogPolicy` to after `Sign` phase in `createPipelineFromOptions`. [#22930](https://github.com/Azure/azure-sdk-for-js/pull/22930)
+
+## 1.9.1 (2022-08-04)
+
+### Bugs Fixed
+
+- Fixed a bug in claim challenge we failed to refresh our token. [#22324](https://github.com/Azure/azure-sdk-for-js/pull/22324)
+
+## 1.9.0 (2022-06-03)
+
+### Features Added
+
+- Add TLS policy in `createPipelineFromOptions`. [#21949](https://github.com/Azure/azure-sdk-for-js/pull/21949)
+
+## 1.8.1 (2022-05-05)
+
+### Features Added
+
+- Support TLS Settings for client certificate authentication. [#21172](https://github.com/Azure/azure-sdk-for-js/pull/21172)
+
+- Exposed type guard for RestError called `isRestError` for typesafe exception handling.
+
+- Improve user agent information for React-Native.
+
+### Other Changes
+
+- Updated our `@azure/core-tracing` dependency to the latest version (1.0.0).
+  - Notable changes include Removal of `@opentelemetry/api` as a transitive dependency and ensuring that the active context is properly propagated.
+  - Customers who would like to continue using OpenTelemetry driven tracing should visit our [OpenTelemetry Instrumentation](https://www.npmjs.com/package/@azure/opentelemetry-instrumentation-azure-sdk) package for instructions.
+- Update tokenCycler to mark as must refresh if the tenantId has changed [PR#21678](https://github.com/Azure/azure-sdk-for-js/pull/21678)
 
 ## 1.8.0 (2022-03-31)
 

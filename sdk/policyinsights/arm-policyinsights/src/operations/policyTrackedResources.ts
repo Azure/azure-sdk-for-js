@@ -14,6 +14,7 @@ import * as Parameters from "../models/parameters";
 import { PolicyInsightsClient } from "../policyInsightsClient";
 import {
   PolicyTrackedResource,
+  PolicyTrackedResourcesResourceType,
   PolicyTrackedResourcesListQueryResultsForManagementGroupNextOptionalParams,
   PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams,
   PolicyTrackedResourcesListQueryResultsForSubscriptionNextOptionalParams,
@@ -48,14 +49,18 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   /**
    * Queries policy tracked resources under the management group.
    * @param managementGroupName Management group name.
+   * @param policyTrackedResourcesResource The name of the virtual resource under PolicyTrackedResources
+   *                                       resource type; only "default" is allowed.
    * @param options The options parameters.
    */
   public listQueryResultsForManagementGroup(
     managementGroupName: string,
+    policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     options?: PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams
   ): PagedAsyncIterableIterator<PolicyTrackedResource> {
     const iter = this.listQueryResultsForManagementGroupPagingAll(
       managementGroupName,
+      policyTrackedResourcesResource,
       options
     );
     return {
@@ -68,6 +73,7 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
       byPage: () => {
         return this.listQueryResultsForManagementGroupPagingPage(
           managementGroupName,
+          policyTrackedResourcesResource,
           options
         );
       }
@@ -76,10 +82,12 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
 
   private async *listQueryResultsForManagementGroupPagingPage(
     managementGroupName: string,
+    policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     options?: PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams
   ): AsyncIterableIterator<PolicyTrackedResource[]> {
     let result = await this._listQueryResultsForManagementGroup(
       managementGroupName,
+      policyTrackedResourcesResource,
       options
     );
     yield result.value || [];
@@ -87,6 +95,7 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
     while (continuationToken) {
       result = await this._listQueryResultsForManagementGroupNext(
         managementGroupName,
+        policyTrackedResourcesResource,
         continuationToken,
         options
       );
@@ -97,10 +106,12 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
 
   private async *listQueryResultsForManagementGroupPagingAll(
     managementGroupName: string,
+    policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     options?: PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams
   ): AsyncIterableIterator<PolicyTrackedResource> {
     for await (const page of this.listQueryResultsForManagementGroupPagingPage(
       managementGroupName,
+      policyTrackedResourcesResource,
       options
     )) {
       yield* page;
@@ -109,12 +120,18 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
 
   /**
    * Queries policy tracked resources under the subscription.
+   * @param policyTrackedResourcesResource The name of the virtual resource under PolicyTrackedResources
+   *                                       resource type; only "default" is allowed.
    * @param options The options parameters.
    */
   public listQueryResultsForSubscription(
+    policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     options?: PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams
   ): PagedAsyncIterableIterator<PolicyTrackedResource> {
-    const iter = this.listQueryResultsForSubscriptionPagingAll(options);
+    const iter = this.listQueryResultsForSubscriptionPagingAll(
+      policyTrackedResourcesResource,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -123,19 +140,27 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
         return this;
       },
       byPage: () => {
-        return this.listQueryResultsForSubscriptionPagingPage(options);
+        return this.listQueryResultsForSubscriptionPagingPage(
+          policyTrackedResourcesResource,
+          options
+        );
       }
     };
   }
 
   private async *listQueryResultsForSubscriptionPagingPage(
+    policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     options?: PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams
   ): AsyncIterableIterator<PolicyTrackedResource[]> {
-    let result = await this._listQueryResultsForSubscription(options);
+    let result = await this._listQueryResultsForSubscription(
+      policyTrackedResourcesResource,
+      options
+    );
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listQueryResultsForSubscriptionNext(
+        policyTrackedResourcesResource,
         continuationToken,
         options
       );
@@ -145,9 +170,11 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   }
 
   private async *listQueryResultsForSubscriptionPagingAll(
+    policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     options?: PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams
   ): AsyncIterableIterator<PolicyTrackedResource> {
     for await (const page of this.listQueryResultsForSubscriptionPagingPage(
+      policyTrackedResourcesResource,
       options
     )) {
       yield* page;
@@ -157,14 +184,18 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   /**
    * Queries policy tracked resources under the resource group.
    * @param resourceGroupName Resource group name.
+   * @param policyTrackedResourcesResource The name of the virtual resource under PolicyTrackedResources
+   *                                       resource type; only "default" is allowed.
    * @param options The options parameters.
    */
   public listQueryResultsForResourceGroup(
     resourceGroupName: string,
+    policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     options?: PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<PolicyTrackedResource> {
     const iter = this.listQueryResultsForResourceGroupPagingAll(
       resourceGroupName,
+      policyTrackedResourcesResource,
       options
     );
     return {
@@ -177,6 +208,7 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
       byPage: () => {
         return this.listQueryResultsForResourceGroupPagingPage(
           resourceGroupName,
+          policyTrackedResourcesResource,
           options
         );
       }
@@ -185,10 +217,12 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
 
   private async *listQueryResultsForResourceGroupPagingPage(
     resourceGroupName: string,
+    policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     options?: PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams
   ): AsyncIterableIterator<PolicyTrackedResource[]> {
     let result = await this._listQueryResultsForResourceGroup(
       resourceGroupName,
+      policyTrackedResourcesResource,
       options
     );
     yield result.value || [];
@@ -196,6 +230,7 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
     while (continuationToken) {
       result = await this._listQueryResultsForResourceGroupNext(
         resourceGroupName,
+        policyTrackedResourcesResource,
         continuationToken,
         options
       );
@@ -206,10 +241,12 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
 
   private async *listQueryResultsForResourceGroupPagingAll(
     resourceGroupName: string,
+    policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     options?: PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams
   ): AsyncIterableIterator<PolicyTrackedResource> {
     for await (const page of this.listQueryResultsForResourceGroupPagingPage(
       resourceGroupName,
+      policyTrackedResourcesResource,
       options
     )) {
       yield* page;
@@ -219,13 +256,20 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   /**
    * Queries policy tracked resources under the resource.
    * @param resourceId Resource ID.
+   * @param policyTrackedResourcesResource The name of the virtual resource under PolicyTrackedResources
+   *                                       resource type; only "default" is allowed.
    * @param options The options parameters.
    */
   public listQueryResultsForResource(
     resourceId: string,
+    policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     options?: PolicyTrackedResourcesListQueryResultsForResourceOptionalParams
   ): PagedAsyncIterableIterator<PolicyTrackedResource> {
-    const iter = this.listQueryResultsForResourcePagingAll(resourceId, options);
+    const iter = this.listQueryResultsForResourcePagingAll(
+      resourceId,
+      policyTrackedResourcesResource,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -234,21 +278,31 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
         return this;
       },
       byPage: () => {
-        return this.listQueryResultsForResourcePagingPage(resourceId, options);
+        return this.listQueryResultsForResourcePagingPage(
+          resourceId,
+          policyTrackedResourcesResource,
+          options
+        );
       }
     };
   }
 
   private async *listQueryResultsForResourcePagingPage(
     resourceId: string,
+    policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     options?: PolicyTrackedResourcesListQueryResultsForResourceOptionalParams
   ): AsyncIterableIterator<PolicyTrackedResource[]> {
-    let result = await this._listQueryResultsForResource(resourceId, options);
+    let result = await this._listQueryResultsForResource(
+      resourceId,
+      policyTrackedResourcesResource,
+      options
+    );
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listQueryResultsForResourceNext(
         resourceId,
+        policyTrackedResourcesResource,
         continuationToken,
         options
       );
@@ -259,10 +313,12 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
 
   private async *listQueryResultsForResourcePagingAll(
     resourceId: string,
+    policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     options?: PolicyTrackedResourcesListQueryResultsForResourceOptionalParams
   ): AsyncIterableIterator<PolicyTrackedResource> {
     for await (const page of this.listQueryResultsForResourcePagingPage(
       resourceId,
+      policyTrackedResourcesResource,
       options
     )) {
       yield* page;
@@ -272,27 +328,33 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   /**
    * Queries policy tracked resources under the management group.
    * @param managementGroupName Management group name.
+   * @param policyTrackedResourcesResource The name of the virtual resource under PolicyTrackedResources
+   *                                       resource type; only "default" is allowed.
    * @param options The options parameters.
    */
   private _listQueryResultsForManagementGroup(
     managementGroupName: string,
+    policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     options?: PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams
   ): Promise<PolicyTrackedResourcesListQueryResultsForManagementGroupResponse> {
     return this.client.sendOperationRequest(
-      { managementGroupName, options },
+      { managementGroupName, policyTrackedResourcesResource, options },
       listQueryResultsForManagementGroupOperationSpec
     );
   }
 
   /**
    * Queries policy tracked resources under the subscription.
+   * @param policyTrackedResourcesResource The name of the virtual resource under PolicyTrackedResources
+   *                                       resource type; only "default" is allowed.
    * @param options The options parameters.
    */
   private _listQueryResultsForSubscription(
+    policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     options?: PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams
   ): Promise<PolicyTrackedResourcesListQueryResultsForSubscriptionResponse> {
     return this.client.sendOperationRequest(
-      { options },
+      { policyTrackedResourcesResource, options },
       listQueryResultsForSubscriptionOperationSpec
     );
   }
@@ -300,14 +362,17 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   /**
    * Queries policy tracked resources under the resource group.
    * @param resourceGroupName Resource group name.
+   * @param policyTrackedResourcesResource The name of the virtual resource under PolicyTrackedResources
+   *                                       resource type; only "default" is allowed.
    * @param options The options parameters.
    */
   private _listQueryResultsForResourceGroup(
     resourceGroupName: string,
+    policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     options?: PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams
   ): Promise<PolicyTrackedResourcesListQueryResultsForResourceGroupResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
+      { resourceGroupName, policyTrackedResourcesResource, options },
       listQueryResultsForResourceGroupOperationSpec
     );
   }
@@ -315,14 +380,17 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   /**
    * Queries policy tracked resources under the resource.
    * @param resourceId Resource ID.
+   * @param policyTrackedResourcesResource The name of the virtual resource under PolicyTrackedResources
+   *                                       resource type; only "default" is allowed.
    * @param options The options parameters.
    */
   private _listQueryResultsForResource(
     resourceId: string,
+    policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     options?: PolicyTrackedResourcesListQueryResultsForResourceOptionalParams
   ): Promise<PolicyTrackedResourcesListQueryResultsForResourceResponse> {
     return this.client.sendOperationRequest(
-      { resourceId, options },
+      { resourceId, policyTrackedResourcesResource, options },
       listQueryResultsForResourceOperationSpec
     );
   }
@@ -330,37 +398,48 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   /**
    * ListQueryResultsForManagementGroupNext
    * @param managementGroupName Management group name.
+   * @param policyTrackedResourcesResource The name of the virtual resource under PolicyTrackedResources
+   *                                       resource type; only "default" is allowed.
    * @param nextLink The nextLink from the previous successful call to the
    *                 ListQueryResultsForManagementGroup method.
    * @param options The options parameters.
    */
   private _listQueryResultsForManagementGroupNext(
     managementGroupName: string,
+    policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     nextLink: string,
     options?: PolicyTrackedResourcesListQueryResultsForManagementGroupNextOptionalParams
   ): Promise<
     PolicyTrackedResourcesListQueryResultsForManagementGroupNextResponse
   > {
     return this.client.sendOperationRequest(
-      { managementGroupName, nextLink, options },
+      {
+        managementGroupName,
+        policyTrackedResourcesResource,
+        nextLink,
+        options
+      },
       listQueryResultsForManagementGroupNextOperationSpec
     );
   }
 
   /**
    * ListQueryResultsForSubscriptionNext
+   * @param policyTrackedResourcesResource The name of the virtual resource under PolicyTrackedResources
+   *                                       resource type; only "default" is allowed.
    * @param nextLink The nextLink from the previous successful call to the
    *                 ListQueryResultsForSubscription method.
    * @param options The options parameters.
    */
   private _listQueryResultsForSubscriptionNext(
+    policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     nextLink: string,
     options?: PolicyTrackedResourcesListQueryResultsForSubscriptionNextOptionalParams
   ): Promise<
     PolicyTrackedResourcesListQueryResultsForSubscriptionNextResponse
   > {
     return this.client.sendOperationRequest(
-      { nextLink, options },
+      { policyTrackedResourcesResource, nextLink, options },
       listQueryResultsForSubscriptionNextOperationSpec
     );
   }
@@ -368,19 +447,22 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   /**
    * ListQueryResultsForResourceGroupNext
    * @param resourceGroupName Resource group name.
+   * @param policyTrackedResourcesResource The name of the virtual resource under PolicyTrackedResources
+   *                                       resource type; only "default" is allowed.
    * @param nextLink The nextLink from the previous successful call to the
    *                 ListQueryResultsForResourceGroup method.
    * @param options The options parameters.
    */
   private _listQueryResultsForResourceGroupNext(
     resourceGroupName: string,
+    policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     nextLink: string,
     options?: PolicyTrackedResourcesListQueryResultsForResourceGroupNextOptionalParams
   ): Promise<
     PolicyTrackedResourcesListQueryResultsForResourceGroupNextResponse
   > {
     return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
+      { resourceGroupName, policyTrackedResourcesResource, nextLink, options },
       listQueryResultsForResourceGroupNextOperationSpec
     );
   }
@@ -388,17 +470,20 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   /**
    * ListQueryResultsForResourceNext
    * @param resourceId Resource ID.
+   * @param policyTrackedResourcesResource The name of the virtual resource under PolicyTrackedResources
+   *                                       resource type; only "default" is allowed.
    * @param nextLink The nextLink from the previous successful call to the ListQueryResultsForResource
    *                 method.
    * @param options The options parameters.
    */
   private _listQueryResultsForResourceNext(
     resourceId: string,
+    policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     nextLink: string,
     options?: PolicyTrackedResourcesListQueryResultsForResourceNextOptionalParams
   ): Promise<PolicyTrackedResourcesListQueryResultsForResourceNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceId, nextLink, options },
+      { resourceId, policyTrackedResourcesResource, nextLink, options },
       listQueryResultsForResourceNextOperationSpec
     );
   }

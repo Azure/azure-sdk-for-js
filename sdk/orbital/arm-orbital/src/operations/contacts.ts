@@ -16,13 +16,15 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   Contact,
+  ContactsListNextOptionalParams,
   ContactsListOptionalParams,
   ContactsListResponse,
   ContactsGetOptionalParams,
   ContactsGetResponse,
   ContactsCreateOptionalParams,
   ContactsCreateResponse,
-  ContactsDeleteOptionalParams
+  ContactsDeleteOptionalParams,
+  ContactsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -70,6 +72,17 @@ export class ContactsImpl implements Contacts {
   ): AsyncIterableIterator<Contact[]> {
     let result = await this._list(resourceGroupName, spacecraftName, options);
     yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceGroupName,
+        spacecraftName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
   }
 
   private async *listPagingAll(
@@ -186,11 +199,13 @@ export class ContactsImpl implements Contacts {
       { resourceGroupName, spacecraftName, contactName, parameters, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -275,11 +290,13 @@ export class ContactsImpl implements Contacts {
       { resourceGroupName, spacecraftName, contactName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -303,6 +320,25 @@ export class ContactsImpl implements Contacts {
     );
     return poller.pollUntilDone();
   }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param spacecraftName Spacecraft ID
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    resourceGroupName: string,
+    spacecraftName: string,
+    nextLink: string,
+    options?: ContactsListNextOptionalParams
+  ): Promise<ContactsListNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, spacecraftName, nextLink, options },
+      listNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -319,7 +355,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -406,6 +442,28 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.spacecraftName,
     Parameters.contactName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ContactListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.spacecraftName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

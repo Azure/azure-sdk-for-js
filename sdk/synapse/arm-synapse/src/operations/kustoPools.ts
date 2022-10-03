@@ -430,10 +430,12 @@ export class KustoPoolsImpl implements KustoPools {
       { workspaceName, resourceGroupName, kustoPoolName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -525,10 +527,12 @@ export class KustoPoolsImpl implements KustoPools {
       { workspaceName, resourceGroupName, kustoPoolName, parameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -613,10 +617,12 @@ export class KustoPoolsImpl implements KustoPools {
       { workspaceName, resourceGroupName, kustoPoolName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -698,10 +704,12 @@ export class KustoPoolsImpl implements KustoPools {
       { workspaceName, kustoPoolName, resourceGroupName, options },
       stopOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -783,10 +791,12 @@ export class KustoPoolsImpl implements KustoPools {
       { workspaceName, kustoPoolName, resourceGroupName, options },
       startOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -914,10 +924,12 @@ export class KustoPoolsImpl implements KustoPools {
       },
       addLanguageExtensionsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1010,10 +1022,12 @@ export class KustoPoolsImpl implements KustoPools {
       },
       removeLanguageExtensionsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1126,10 +1140,12 @@ export class KustoPoolsImpl implements KustoPools {
       },
       detachFollowerDatabasesOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1265,7 +1281,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters22,
+  requestBody: Parameters.parameters23,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -1304,7 +1320,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters23,
+  requestBody: Parameters.parameters24,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,

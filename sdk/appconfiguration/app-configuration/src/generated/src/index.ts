@@ -8,4 +8,3 @@
 
 export * from "./models";
 export { AppConfiguration } from "./appConfiguration";
-export { AppConfigurationContext } from "./appConfigurationContext";

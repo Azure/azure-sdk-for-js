@@ -27,7 +27,7 @@ describe("Container TTL", function (this: Suite) {
     containerDefinition.defaultTtl = defaultTtl;
     try {
       await db.containers.create(containerDefinition);
-    } catch (err) {
+    } catch (err: any) {
       const badRequestErrorCode = 400;
       assert.equal(
         err.code,
@@ -49,7 +49,7 @@ describe("Container TTL", function (this: Suite) {
     try {
       await container.items.create(itemDefinition);
       assert.fail("Must throw if using invalid TTL");
-    } catch (err) {
+    } catch (err: any) {
       const badRequestErrorCode = 400;
       assert.equal(
         err.code,

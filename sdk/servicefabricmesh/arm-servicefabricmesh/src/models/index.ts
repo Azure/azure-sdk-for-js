@@ -683,11 +683,11 @@ export type SecretResourcePropertiesBase = ProvisionedResourceProperties & {
 
 /** This type describes properties of a secret value resource. */
 export type SecretValueResourceProperties = ProvisionedResourceProperties &
-  SecretValueProperties & {};
+  SecretValueProperties;
 
 /** This type describes properties of a volume resource. */
 export type VolumeResourceProperties = ProvisionedResourceProperties &
-  VolumeProperties & {};
+  VolumeProperties;
 
 /** This type describes the properties of a network resource, including its kind. */
 export type NetworkResourcePropertiesBase = ProvisionedResourceProperties & {
@@ -697,16 +697,16 @@ export type NetworkResourcePropertiesBase = ProvisionedResourceProperties & {
 
 /** This type describes properties of a gateway resource. */
 export type GatewayResourceProperties = ProvisionedResourceProperties &
-  GatewayProperties & {};
+  GatewayProperties;
 
 /** This type describes properties of a service resource. */
 export type ServiceResourceProperties = ProvisionedResourceProperties &
   ServiceReplicaProperties &
-  ServiceProperties & {};
+  ServiceProperties;
 
 /** This type describes properties of an application resource. */
 export type ApplicationResourceProperties = ProvisionedResourceProperties &
-  ApplicationProperties & {};
+  ApplicationProperties;
 
 /** The resource model definition for Azure Resource Manager tracked top-level resource. */
 export type TrackedResource = Resource & {
@@ -717,7 +717,7 @@ export type TrackedResource = Resource & {
 };
 
 /** The resource model definition for Azure Resource Manager proxy resource. It will have everything other than required location and tags. */
-export type ProxyResource = Resource & {};
+export type ProxyResource = Resource;
 
 /** Describes a replica of a service resource. */
 export type ServiceReplicaDescription = ServiceReplicaProperties & {
@@ -991,7 +991,7 @@ export type ApplicationResourceDescription = TrackedResource & {
 };
 
 /** Describes the properties of a secret resource whose value is provided explicitly as plaintext. The secret resource may have multiple values, each being uniquely versioned. The secret value of each version is stored encrypted, and delivered as plaintext into the context of applications referencing it. */
-export type InlinedValueSecretResourceProperties = SecretResourceProperties & {};
+export type InlinedValueSecretResourceProperties = SecretResourceProperties;
 
 /** Information about a Service Fabric container network local to a single Service Fabric cluster. */
 export type LocalNetworkResourceProperties = NetworkResourceProperties & {

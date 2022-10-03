@@ -84,13 +84,13 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
   async function deleteModels(): Promise<void> {
     try {
       await client.deleteModel(MODEL_ID);
-    } catch (Exception) {
+    } catch (Exception: any) {
       console.error("deleteModel failed during test setup or cleanup");
     }
 
     try {
       await client.deleteModel(COMPONENT_ID);
-    } catch (Exception) {
+    } catch (Exception: any) {
       console.error("deleteModel failed during test setup or cleanup");
     }
   }
@@ -108,7 +108,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
   async function deleteDigitalTwin(digitalTwinId: string): Promise<void> {
     try {
       await client.deleteDigitalTwin(digitalTwinId);
-    } catch (Exception) {
+    } catch (Exception: any) {
       console.error("deleteDigitalTwin failure during test setup or cleanup");
     }
   }
@@ -125,7 +125,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     let errorWasThrown = false;
     try {
       await client.getComponent(DIGITAL_TWIN_ID, "Component3");
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `DTComponentTestsTempTwin does not have component Component3`);
     } finally {
@@ -261,7 +261,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     let errorWasThrown = false;
     try {
       await client.updateComponent(DIGITAL_TWIN_ID, "Component1", patch);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `Unsupported operation type move`);
     } finally {
@@ -315,7 +315,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     let errorWasThrown = false;
     try {
       await client.updateComponent(DIGITAL_TWIN_ID, "Component1", patch, options);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `Invalid If-Match header value`);
     } finally {
@@ -339,7 +339,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     let errorWasThrown = false;
     try {
       await client.updateComponent(DIGITAL_TWIN_ID, "Component2", patch);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `Could not resolve path`);
     } finally {
@@ -407,7 +407,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
         telemetry,
         test_messageId
       );
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `DTComponentTestsTempTwin does not have component Component2`);
     } finally {

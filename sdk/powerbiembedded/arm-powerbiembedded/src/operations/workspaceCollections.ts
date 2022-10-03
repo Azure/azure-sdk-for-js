@@ -245,10 +245,12 @@ export class WorkspaceCollectionsImpl implements WorkspaceCollections {
       { resourceGroupName, workspaceCollectionName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

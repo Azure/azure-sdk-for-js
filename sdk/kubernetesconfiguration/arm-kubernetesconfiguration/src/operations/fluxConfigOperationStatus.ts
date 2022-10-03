@@ -12,8 +12,6 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SourceControlConfigurationClient } from "../sourceControlConfigurationClient";
 import {
-  Enum0,
-  Enum1,
   FluxConfigOperationStatusGetOptionalParams,
   FluxConfigOperationStatusGetResponse
 } from "../models";
@@ -34,10 +32,10 @@ export class FluxConfigOperationStatusImpl
   /**
    * Get Async Operation status
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param fluxConfigurationName Name of the Flux Configuration.
    * @param operationId operation Id
@@ -45,8 +43,8 @@ export class FluxConfigOperationStatusImpl
    */
   get(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     fluxConfigurationName: string,
     operationId: string,

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { DEFAULT_EXPORTER_CONFIG } from "../../src/config";
 import { HttpSender } from "../../src/platform/nodejs/httpSender";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
@@ -68,7 +68,7 @@ describe("HttpSender", () => {
       try {
         await sender.send([envelope, envelope]);
         assert.ok(false);
-      } catch (error) {
+      } catch (error: any) {
         assert.ok(error);
       }
     });

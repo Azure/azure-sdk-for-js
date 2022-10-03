@@ -345,6 +345,11 @@ export interface CloudEvent<T> {
 }
 
 // @public
+export interface CloudEventSendOptions extends SendOptions {
+    channelName?: string;
+}
+
+// @public
 export type CommunicationCloudEnvironmentModel = string;
 
 // @public
@@ -543,7 +548,7 @@ export class EventGridPublisherClient<T extends InputSchema> {
     constructor(endpointUrl: string, inputSchema: T, credential: KeyCredential | SASCredential | TokenCredential, options?: EventGridPublisherClientOptions);
     readonly apiVersion: string;
     readonly endpointUrl: string;
-    send(events: InputSchemaToInputTypeMap[T][], options?: SendOptions): Promise<void>;
+    send(events: InputSchemaToInputTypeMap[T][], options?: InputSchemaToOptionsTypeMap[T]): Promise<void>;
 }
 
 // @public
@@ -571,6 +576,33 @@ export interface GenerateSharedAccessSignatureOptions {
 }
 
 // @public
+export interface HealthcareFhirResourceCreatedEventData {
+    resourceFhirAccount: string;
+    resourceFhirId: string;
+    resourceType: HealthcareFhirResourceType;
+    resourceVersionId: number;
+}
+
+// @public
+export interface HealthcareFhirResourceDeletedEventData {
+    resourceFhirAccount: string;
+    resourceFhirId: string;
+    resourceType: HealthcareFhirResourceType;
+    resourceVersionId: number;
+}
+
+// @public
+export type HealthcareFhirResourceType = string;
+
+// @public
+export interface HealthcareFhirResourceUpdatedEventData {
+    resourceFhirAccount: string;
+    resourceFhirId: string;
+    resourceType: HealthcareFhirResourceType;
+    resourceVersionId: number;
+}
+
+// @public
 export type InputSchema = keyof InputSchemaToInputTypeMap;
 
 // @public
@@ -578,6 +610,13 @@ export interface InputSchemaToInputTypeMap {
     CloudEvent: SendCloudEventInput<unknown>;
     Custom: Record<string, unknown>;
     EventGrid: SendEventGridEventInput<unknown>;
+}
+
+// @public
+export interface InputSchemaToOptionsTypeMap {
+    CloudEvent: CloudEventSendOptions;
+    Custom: SendOptions;
+    EventGrid: SendOptions;
 }
 
 // @public
@@ -1504,6 +1543,9 @@ export interface SystemEventNameToEventData {
     "Microsoft.EventGrid.SubscriptionDeletedEvent": SubscriptionDeletedEventData;
     "Microsoft.EventGrid.SubscriptionValidationEvent": SubscriptionValidationEventData;
     "Microsoft.EventHub.CaptureFileCreated": EventHubCaptureFileCreatedEventData;
+    "Microsoft.HealthcareApis.FhirDeletedCreated": HealthcareFhirResourceDeletedEventData;
+    "Microsoft.HealthcareApis.FhirResourceCreated": HealthcareFhirResourceCreatedEventData;
+    "Microsoft.HealthcareApis.FhirUpdatedCreated": HealthcareFhirResourceUpdatedEventData;
     "Microsoft.KeyVault.CertificateExpired": KeyVaultCertificateExpiredEventData;
     "Microsoft.KeyVault.CertificateNearExpiry": KeyVaultCertificateNearExpiryEventData;
     "Microsoft.KeyVault.CertificateNewVersionCreated": KeyVaultCertificateNewVersionCreatedEventData;

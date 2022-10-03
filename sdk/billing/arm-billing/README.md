@@ -6,7 +6,7 @@ Billing client provides access to billing resources for Azure subscriptions.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/billing/arm-billing) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-billing) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-billing?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-billing) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -15,6 +15,8 @@ Billing client provides access to billing resources for Azure subscriptions.
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
 - Latest versions of Safari, Chrome, Edge and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### Prerequisites
 
@@ -49,8 +51,17 @@ For more information about how to create an Azure AD Application check out [this
 ```javascript
 const { BillingManagementClient } = require("@azure/arm-billing");
 const { DefaultAzureCredential } = require("@azure/identity");
+// For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
+
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new BillingManagementClient(new DefaultAzureCredential(), subscriptionId);
+
+// For client-side applications running in the browser, use this code instead:
+// const credential = new InteractiveBrowserCredential({
+//   tenantId: "<YOUR_TENANT_ID>",
+//   clientId: "<YOUR_CLIENT_ID>"
+// });
+// const client = new BillingManagementClient(credential, subscriptionId);
 ```
 
 

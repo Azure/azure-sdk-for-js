@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import {
+  KeyPhraseResult,
   TextDocumentBatchStatistics,
   TextDocumentInput,
-  KeyPhraseResult,
 } from "./generated/models";
 import {
   ExtractKeyPhrasesResult,
-  makeExtractKeyPhrasesResult,
   makeExtractKeyPhrasesErrorResult,
+  makeExtractKeyPhrasesResult,
 } from "./extractKeyPhrasesResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
 

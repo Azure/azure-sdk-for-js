@@ -31,6 +31,15 @@ export interface OperationTracingOptions {
 }
 
 // @public
+export type OptionsWithTracingContext<Options extends {
+    tracingOptions?: OperationTracingOptions;
+}> = Options & {
+    tracingOptions: {
+        tracingContext: TracingContext;
+    };
+};
+
+// @public
 export type Resolved<T> = T extends {
     then(onfulfilled: infer F): any;
 } ? F extends (value: infer V) => any ? Resolved<V> : never : T;
@@ -57,7 +66,7 @@ export interface TracingClient {
         tracingOptions?: OperationTracingOptions;
     }>(name: string, operationOptions?: Options, spanOptions?: TracingSpanOptions): {
         span: TracingSpan;
-        updatedOptions: Options;
+        updatedOptions: OptionsWithTracingContext<Options>;
     };
     withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
     withSpan<Options extends {

@@ -91,7 +91,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       try {
         await client.offer(expectedOffer.id).read();
         assert.fail("Must throw after delete");
-      } catch (err) {
+      } catch (err: any) {
         const notFoundErrorCode = 404;
         assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
       }
@@ -123,7 +123,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         offerBadId._rid = "NotAllowed";
         await client.offer(offerBadId._self).replace(offerBadId);
         assert.fail("Must throw after replace with bad id");
-      } catch (err) {
+      } catch (err: any) {
         // check for 400 or 401 since some backends validate auth first
         assert(err.code === 400 || err.code === 401);
       }

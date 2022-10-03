@@ -31,6 +31,10 @@ import {
   LiveEventActionInput,
   LiveEventsStopOptionalParams,
   LiveEventsResetOptionalParams,
+  LiveEventsAsyncOperationOptionalParams,
+  LiveEventsAsyncOperationResponse,
+  LiveEventsOperationLocationOptionalParams,
+  LiveEventsOperationLocationResponse,
   LiveEventsListNextResponse
 } from "../models";
 
@@ -206,10 +210,12 @@ export class LiveEventsImpl implements LiveEvents {
       { resourceGroupName, accountName, liveEventName, parameters, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -301,10 +307,12 @@ export class LiveEventsImpl implements LiveEvents {
       { resourceGroupName, accountName, liveEventName, parameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -389,10 +397,12 @@ export class LiveEventsImpl implements LiveEvents {
       { resourceGroupName, accountName, liveEventName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -474,10 +484,12 @@ export class LiveEventsImpl implements LiveEvents {
       { resourceGroupName, accountName, liveEventName, options },
       allocateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -560,10 +572,12 @@ export class LiveEventsImpl implements LiveEvents {
       { resourceGroupName, accountName, liveEventName, options },
       startOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -648,10 +662,12 @@ export class LiveEventsImpl implements LiveEvents {
       { resourceGroupName, accountName, liveEventName, parameters, options },
       stopOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -738,10 +754,12 @@ export class LiveEventsImpl implements LiveEvents {
       { resourceGroupName, accountName, liveEventName, options },
       resetOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -766,6 +784,46 @@ export class LiveEventsImpl implements LiveEvents {
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Get a live event operation status.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param operationId The ID of an ongoing async operation.
+   * @param options The options parameters.
+   */
+  asyncOperation(
+    resourceGroupName: string,
+    accountName: string,
+    operationId: string,
+    options?: LiveEventsAsyncOperationOptionalParams
+  ): Promise<LiveEventsAsyncOperationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, operationId, options },
+      asyncOperationOperationSpec
+    );
+  }
+
+  /**
+   * Get a live event operation status.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param operationId The ID of an ongoing async operation.
+   * @param options The options parameters.
+   */
+  operationLocation(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    operationId: string,
+    options?: LiveEventsOperationLocationOptionalParams
+  ): Promise<LiveEventsOperationLocationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, liveEventName, operationId, options },
+      operationLocationOperationSpec
+    );
   }
 
   /**
@@ -856,7 +914,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters15,
+  requestBody: Parameters.parameters16,
   queryParameters: [Parameters.apiVersion, Parameters.autoStart],
   urlParameters: [
     Parameters.$host,
@@ -890,7 +948,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters15,
+  requestBody: Parameters.parameters16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -988,7 +1046,7 @@ const stopOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters16,
+  requestBody: Parameters.parameters17,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1021,6 +1079,54 @@ const resetOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.liveEventName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const asyncOperationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEventOperations/{operationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.operationId1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const operationLocationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/operationLocations/{operationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LiveEvent
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.liveEventName,
+    Parameters.operationId1
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -7,8 +7,11 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  QueryPacksImpl,
+  QueriesImpl,
   DataExportsImpl,
   DataSourcesImpl,
   IntelligencePacksImpl,
@@ -22,15 +25,17 @@ import {
   SavedSearchesImpl,
   AvailableServiceTiersImpl,
   GatewaysImpl,
-  SchemaImpl,
+  SchemaOperationsImpl,
   WorkspacePurgeImpl,
-  OperationsImpl,
-  TablesImpl,
   ClustersImpl,
+  OperationsImpl,
   WorkspacesImpl,
-  DeletedWorkspacesImpl
+  DeletedWorkspacesImpl,
+  TablesImpl
 } from "./operations";
 import {
+  QueryPacks,
+  Queries,
   DataExports,
   DataSources,
   IntelligencePacks,
@@ -44,13 +49,13 @@ import {
   SavedSearches,
   AvailableServiceTiers,
   Gateways,
-  Schema,
+  SchemaOperations,
   WorkspacePurge,
-  Operations,
-  Tables,
   Clusters,
+  Operations,
   Workspaces,
-  DeletedWorkspaces
+  DeletedWorkspaces,
+  Tables
 } from "./operationsInterfaces";
 import { OperationalInsightsManagementClientOptionalParams } from "./models";
 
@@ -85,7 +90,7 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-operationalinsights/8.0.0`;
+    const packageDetails = `azsdk-js-arm-operationalinsights/9.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -100,14 +105,40 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint || "https://management.azure.com"
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
+
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
+    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
+    this.queryPacks = new QueryPacksImpl(this);
+    this.queries = new QueriesImpl(this);
     this.dataExports = new DataExportsImpl(this);
     this.dataSources = new DataSourcesImpl(this);
     this.intelligencePacks = new IntelligencePacksImpl(this);
@@ -121,15 +152,17 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
     this.savedSearches = new SavedSearchesImpl(this);
     this.availableServiceTiers = new AvailableServiceTiersImpl(this);
     this.gateways = new GatewaysImpl(this);
-    this.schema = new SchemaImpl(this);
+    this.schemaOperations = new SchemaOperationsImpl(this);
     this.workspacePurge = new WorkspacePurgeImpl(this);
-    this.operations = new OperationsImpl(this);
-    this.tables = new TablesImpl(this);
     this.clusters = new ClustersImpl(this);
+    this.operations = new OperationsImpl(this);
     this.workspaces = new WorkspacesImpl(this);
     this.deletedWorkspaces = new DeletedWorkspacesImpl(this);
+    this.tables = new TablesImpl(this);
   }
 
+  queryPacks: QueryPacks;
+  queries: Queries;
   dataExports: DataExports;
   dataSources: DataSources;
   intelligencePacks: IntelligencePacks;
@@ -143,11 +176,11 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
   savedSearches: SavedSearches;
   availableServiceTiers: AvailableServiceTiers;
   gateways: Gateways;
-  schema: Schema;
+  schemaOperations: SchemaOperations;
   workspacePurge: WorkspacePurge;
-  operations: Operations;
-  tables: Tables;
   clusters: Clusters;
+  operations: Operations;
   workspaces: Workspaces;
   deletedWorkspaces: DeletedWorkspaces;
+  tables: Tables;
 }

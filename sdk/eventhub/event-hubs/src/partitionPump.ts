@@ -45,7 +45,7 @@ export class PartitionPump {
     this._isReceiving = true;
     try {
       await this._partitionProcessor.initialize();
-    } catch (err) {
+    } catch (err: any) {
       // swallow the error from the user-defined code
       this._partitionProcessor.processError(err);
     }
@@ -136,7 +136,7 @@ export class PartitionPump {
           () => this._partitionProcessor.processEvents(receivedEvents),
           toProcessingSpanOptions(receivedEvents, this._context.config)
         );
-      } catch (err) {
+      } catch (err: any) {
         // check if this pump is still receiving
         // it may not be if the EventProcessor was stopped during processEvents
         if (!this._isReceiving) {
@@ -151,7 +151,7 @@ export class PartitionPump {
         // forward error to user's processError and swallow errors they may throw
         try {
           await this._partitionProcessor.processError(err);
-        } catch (errorFromUser) {
+        } catch (errorFromUser: any) {
           // Using verbose over warning because this error is swallowed.
           logger.verbose("An error was thrown by user's processError method: ", errorFromUser);
         }
@@ -166,7 +166,7 @@ export class PartitionPump {
             }
             // this will close the pump and will break us out of the while loop
             return await this.stop(CloseReason.Shutdown);
-          } catch (errorFromStop) {
+          } catch (errorFromStop: any) {
             // Using verbose over warning because this error is swallowed.
             logger.verbose(
               `An error occurred while closing the receiver with reason ${CloseReason.Shutdown}: `,
@@ -194,7 +194,7 @@ export class PartitionPump {
         await this._receiver.close();
       }
       await this._partitionProcessor.close(reason);
-    } catch (err) {
+    } catch (err: any) {
       logger.warning(`An error occurred while closing the receiver: ${err?.name}: ${err?.message}`);
       logErrorStackTrace(err);
       this._partitionProcessor.processError(err);

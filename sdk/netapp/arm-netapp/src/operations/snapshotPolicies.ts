@@ -212,11 +212,13 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
       { resourceGroupName, accountName, snapshotPolicyName, body, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -301,11 +303,13 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
       { resourceGroupName, accountName, snapshotPolicyName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -406,7 +410,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body16,
+  requestBody: Parameters.body17,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -438,7 +442,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body17,
+  requestBody: Parameters.body18,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

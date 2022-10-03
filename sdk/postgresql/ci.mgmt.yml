@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -9,8 +9,8 @@ trigger:
   paths:
     include:
       - sdk/postgresql/ci.mgmt.yml
-      - sdk/postgresql/arm-postgresql/
-      - sdk/postgresql/arm-postgresql-flexible/
+      - sdk/postgresql/arm-postgresql-flexible
+      - sdk/postgresql/arm-postgresql
 pr:
   branches:
     include:
@@ -23,9 +23,8 @@ pr:
   paths:
     include:
       - sdk/postgresql/ci.mgmt.yml
-      - sdk/postgresql/arm-postgresql/
-      - sdk/postgresql/arm-postgresql-flexible/
-
+      - sdk/postgresql/arm-postgresql-flexible
+      - sdk/postgresql/arm-postgresql
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

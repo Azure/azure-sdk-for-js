@@ -6,10 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
+import { tracingClient } from "../tracing";
 import { KqlScriptOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
@@ -54,26 +53,19 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
       KqlScriptCreateOrUpdateResponse
     >
   > {
-    const { span } = createSpan(
-      "ArtifactsClient-beginCreateOrUpdate",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<KqlScriptCreateOrUpdateResponse> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as KqlScriptCreateOrUpdateResponse;
-      } catch (error) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginCreateOrUpdate",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<
+            KqlScriptCreateOrUpdateResponse
+          >;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -113,10 +105,12 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
       { kqlScriptName, kqlScript, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -147,22 +141,16 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
     kqlScriptName: string,
     options?: KqlScriptGetByNameOptionalParams
   ): Promise<KqlScriptGetByNameResponse> {
-    const { span } = createSpan("ArtifactsClient-getByName", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { kqlScriptName, options },
-        getByNameOperationSpec
-      );
-      return result as KqlScriptGetByNameResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient.getByName",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { kqlScriptName, options },
+          getByNameOperationSpec
+        ) as Promise<KqlScriptGetByNameResponse>;
+      }
+    );
   }
 
   /**
@@ -174,26 +162,17 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
     kqlScriptName: string,
     options?: KqlScriptDeleteByNameOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginDeleteByName",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as void;
-      } catch (error) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginDeleteByName",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -233,10 +212,12 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
       { kqlScriptName, options },
       deleteByNameOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -263,23 +244,17 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
     renameRequest: ArtifactRenameRequest,
     options?: KqlScriptRenameOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan("ArtifactsClient-beginRename", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as void;
-      } catch (error) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginRename",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -319,10 +294,12 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
       { kqlScriptName, renameRequest, options },
       renameOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -368,7 +345,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.kqlScript,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.endpoint, Parameters.kqlScriptName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -385,7 +362,7 @@ const getByNameOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.endpoint, Parameters.kqlScriptName],
   headerParameters: [Parameters.accept],
   serializer
@@ -402,7 +379,7 @@ const deleteByNameOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.endpoint, Parameters.kqlScriptName],
   headerParameters: [Parameters.accept],
   serializer
@@ -420,7 +397,7 @@ const renameOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.renameRequest,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.endpoint, Parameters.kqlScriptName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

@@ -233,26 +233,27 @@ export interface MarkdownPartMetadataSettingsContentSettings {
 }
 
 /** Markdown part metadata. */
-export type MarkdownPartMetadata = DashboardPartMetadata & {
+export interface MarkdownPartMetadata extends DashboardPartMetadata {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Extension/HubsExtension/PartType/MarkdownPart";
   /** Input to dashboard part. */
   inputs?: Record<string, unknown>[];
   /** Markdown part settings. */
   settings?: MarkdownPartMetadataSettings;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** Tenant configuration. */
-export type Configuration = ProxyResource & {
+export interface Configuration extends ProxyResource {
   /** When flag is set to true Markdown tile will require external storage configuration (URI). The inline content configuration will be prohibited. */
   enforcePrivateMarkdownStorage?: boolean;
-};
+}
 
 /** Known values of {@link ConfigurationName} that the service accepts. */
 export enum KnownConfigurationName {
+  /** Default */
   Default = "default"
 }
 

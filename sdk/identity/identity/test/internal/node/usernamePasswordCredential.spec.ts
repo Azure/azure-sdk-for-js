@@ -7,7 +7,7 @@ import Sinon from "sinon";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { GetTokenOptions } from "@azure/core-auth";
-import { env, isPlaybackMode, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { PublicClientApplication } from "@azure/msal-node";
 import { AzureLogger, setLogLevel } from "@azure/logger";
 import { UsernamePasswordCredential } from "../../../src";
@@ -50,7 +50,7 @@ describe("UsernamePasswordCredential (internal)", function () {
         env.AZURE_USERNAME!,
         env.AZURE_PASSWORD!
       );
-    } catch (e) {
+    } catch (e: any) {
       errors.push(e);
     }
     try {
@@ -60,7 +60,7 @@ describe("UsernamePasswordCredential (internal)", function () {
         env.AZURE_USERNAME!,
         env.AZURE_PASSWORD!
       );
-    } catch (e) {
+    } catch (e: any) {
       errors.push(e);
     }
     try {
@@ -70,7 +70,7 @@ describe("UsernamePasswordCredential (internal)", function () {
         undefined as any,
         env.AZURE_PASSWORD!
       );
-    } catch (e) {
+    } catch (e: any) {
       errors.push(e);
     }
     try {
@@ -80,7 +80,7 @@ describe("UsernamePasswordCredential (internal)", function () {
         env.AZURE_USERNAME!,
         undefined as any
       );
-    } catch (e) {
+    } catch (e: any) {
       errors.push(e);
     }
 
@@ -91,7 +91,7 @@ describe("UsernamePasswordCredential (internal)", function () {
         undefined as any,
         undefined as any
       );
-    } catch (e) {
+    } catch (e: any) {
       errors.push(e);
     }
     assert.equal(errors.length, 5);

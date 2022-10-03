@@ -7,9 +7,11 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   AutoscaleSettingsImpl,
+  PredictiveMetricImpl,
   OperationsImpl,
   AlertRuleIncidentsImpl,
   AlertRulesImpl,
@@ -40,6 +42,7 @@ import {
 } from "./operations";
 import {
   AutoscaleSettings,
+  PredictiveMetric,
   Operations,
   AlertRuleIncidents,
   AlertRules,
@@ -101,7 +104,7 @@ export class MonitorClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-monitor/7.0.0`;
+    const packageDetails = `azsdk-js-arm-monitor/8.0.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -116,15 +119,47 @@ export class MonitorClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint || "https://management.azure.com"
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
+
+    let bearerTokenAuthenticationPolicyFound: boolean = false;
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+    }
+    if (
+      !options ||
+      !options.pipeline ||
+      options.pipeline.getOrderedPolicies().length == 0 ||
+      !bearerTokenAuthenticationPolicyFound
+    ) {
+      this.pipeline.removePolicy({
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+      });
+      this.pipeline.addPolicy(
+        coreRestPipeline.bearerTokenAuthenticationPolicy({
+          credential: credentials,
+          scopes: `${optionsWithDefaults.credentialScopes}`,
+          challengeCallbacks: {
+            authorizeRequestOnChallenge:
+              coreClient.authorizeRequestOnClaimChallenge
+          }
+        })
+      );
+    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
     this.autoscaleSettings = new AutoscaleSettingsImpl(this);
+    this.predictiveMetric = new PredictiveMetricImpl(this);
     this.operations = new OperationsImpl(this);
     this.alertRuleIncidents = new AlertRuleIncidentsImpl(this);
     this.alertRules = new AlertRulesImpl(this);
@@ -159,6 +194,7 @@ export class MonitorClient extends coreClient.ServiceClient {
   }
 
   autoscaleSettings: AutoscaleSettings;
+  predictiveMetric: PredictiveMetric;
   operations: Operations;
   alertRuleIncidents: AlertRuleIncidents;
   alertRules: AlertRules;

@@ -7,18 +7,24 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
-import { GeneratedClientContext } from "./generatedClientContext";
 import {
+  StringIndexType,
   GeneratedClientOptionalParams,
-  OperationInfo,
+  OperationSummary,
   GetOperationsNextOptionalParams,
   GetOperationsOptionalParams,
-  ModelSummary,
-  GetModelsNextOptionalParams,
-  GetModelsOptionalParams,
+  DocumentModelSummary,
+  GetDocumentModelsNextOptionalParams,
+  GetDocumentModelsOptionalParams,
   ContentType,
   AnalyzeDocument$binaryOptionalParams,
   AnalyzeDocument$jsonOptionalParams,
@@ -39,19 +45,23 @@ import {
   CopyDocumentModelToResponse,
   GetOperationsOperationResponse,
   GetOperationOptionalParams,
-  GetOperationOperationResponse,
-  GetModelsOperationResponse,
-  GetModelOptionalParams,
-  GetModelResponse,
-  DeleteModelOptionalParams,
-  GetInfoOptionalParams,
-  GetInfoOperationResponse,
+  GetOperationResponse,
+  GetDocumentModelsOperationResponse,
+  GetDocumentModelOptionalParams,
+  GetDocumentModelResponse,
+  DeleteDocumentModelOptionalParams,
+  GetResourceDetailsOptionalParams,
+  GetResourceDetailsResponse,
   GetOperationsNextResponse,
-  GetModelsNextResponse
+  GetDocumentModelsNextResponse
 } from "./models";
 
 /// <reference lib="esnext.asynciterable" />
-export class GeneratedClient extends GeneratedClientContext {
+export class GeneratedClient extends coreClient.ServiceClient {
+  endpoint: string;
+  stringIndexType?: StringIndexType;
+  apiVersion: string;
+
   /**
    * Initializes a new instance of the GeneratedClient class.
    * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for
@@ -59,7 +69,91 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param options The parameter options
    */
   constructor(endpoint: string, options?: GeneratedClientOptionalParams) {
-    super(endpoint, options);
+    if (endpoint === undefined) {
+      throw new Error("'endpoint' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: GeneratedClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
+
+    const packageDetails = `azsdk-js-ai-form-recognizer/4.0.0`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "{endpoint}/formrecognizer"
+    };
+    super(optionsWithDefaults);
+
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
+    }
+    // Parameter assignments
+    this.endpoint = endpoint;
+
+    // Assigning values to Constant parameters
+    this.apiVersion = options.apiVersion || "2022-08-31";
+    this.addCustomApiVersionPolicy(options.apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   /**
@@ -68,7 +162,7 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   public listOperations(
     options?: GetOperationsOptionalParams
-  ): PagedAsyncIterableIterator<OperationInfo> {
+  ): PagedAsyncIterableIterator<OperationSummary> {
     const iter = this.getOperationsPagingAll(options);
     return {
       next() {
@@ -85,7 +179,7 @@ export class GeneratedClient extends GeneratedClientContext {
 
   private async *getOperationsPagingPage(
     options?: GetOperationsOptionalParams
-  ): AsyncIterableIterator<OperationInfo[]> {
+  ): AsyncIterableIterator<OperationSummary[]> {
     let result = await this._getOperations(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -98,20 +192,20 @@ export class GeneratedClient extends GeneratedClientContext {
 
   private async *getOperationsPagingAll(
     options?: GetOperationsOptionalParams
-  ): AsyncIterableIterator<OperationInfo> {
+  ): AsyncIterableIterator<OperationSummary> {
     for await (const page of this.getOperationsPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * List all models
+   * List all document models
    * @param options The options parameters.
    */
-  public listModels(
-    options?: GetModelsOptionalParams
-  ): PagedAsyncIterableIterator<ModelSummary> {
-    const iter = this.getModelsPagingAll(options);
+  public listDocumentModels(
+    options?: GetDocumentModelsOptionalParams
+  ): PagedAsyncIterableIterator<DocumentModelSummary> {
+    const iter = this.getDocumentModelsPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -120,35 +214,35 @@ export class GeneratedClient extends GeneratedClientContext {
         return this;
       },
       byPage: () => {
-        return this.getModelsPagingPage(options);
+        return this.getDocumentModelsPagingPage(options);
       }
     };
   }
 
-  private async *getModelsPagingPage(
-    options?: GetModelsOptionalParams
-  ): AsyncIterableIterator<ModelSummary[]> {
-    let result = await this._getModels(options);
+  private async *getDocumentModelsPagingPage(
+    options?: GetDocumentModelsOptionalParams
+  ): AsyncIterableIterator<DocumentModelSummary[]> {
+    let result = await this._getDocumentModels(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getModelsNext(continuationToken, options);
+      result = await this._getDocumentModelsNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
   }
 
-  private async *getModelsPagingAll(
-    options?: GetModelsOptionalParams
-  ): AsyncIterableIterator<ModelSummary> {
-    for await (const page of this.getModelsPagingPage(options)) {
+  private async *getDocumentModelsPagingAll(
+    options?: GetDocumentModelsOptionalParams
+  ): AsyncIterableIterator<DocumentModelSummary> {
+    for await (const page of this.getDocumentModelsPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Analyzes document with model.
-   * @param modelId Unique model name.
+   * Analyzes document with document model.
+   * @param modelId Unique document model name.
    * @param contentType Upload file type
    * @param options The options parameters.
    */
@@ -158,8 +252,8 @@ export class GeneratedClient extends GeneratedClientContext {
     options?: AnalyzeDocument$binaryOptionalParams
   ): Promise<AnalyzeDocumentResponse>;
   /**
-   * Analyzes document with model.
-   * @param modelId Unique model name.
+   * Analyzes document with document model.
+   * @param modelId Unique document model name.
    * @param contentType Body Parameter content-type
    * @param options The options parameters.
    */
@@ -169,7 +263,7 @@ export class GeneratedClient extends GeneratedClientContext {
     options?: AnalyzeDocument$jsonOptionalParams
   ): Promise<AnalyzeDocumentResponse>;
   /**
-   * Analyzes document with model.
+   * Analyzes document with document model.
    * @param args Includes all the parameters for this operation.
    */
   analyzeDocument(
@@ -184,6 +278,7 @@ export class GeneratedClient extends GeneratedClientContext {
       args[1] === "application/octet-stream" ||
       args[1] === "application/pdf" ||
       args[1] === "image/bmp" ||
+      args[1] === "image/heif" ||
       args[1] === "image/jpeg" ||
       args[1] === "image/png" ||
       args[1] === "image/tiff"
@@ -214,7 +309,7 @@ export class GeneratedClient extends GeneratedClientContext {
 
   /**
    * Gets the result of document analysis.
-   * @param modelId Unique model name.
+   * @param modelId Unique document model name.
    * @param resultId Analyze operation result ID.
    * @param options The options parameters.
    */
@@ -245,7 +340,7 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 
   /**
-   * Creates a new model from document types of existing models.
+   * Creates a new document model from document types of existing document models.
    * @param composeRequest Compose request parameters.
    * @param options The options parameters.
    */
@@ -260,8 +355,8 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 
   /**
-   * Generates authorization to copy a model to this location with specified modelId and optional
-   * description.
+   * Generates authorization to copy a document model to this location with specified modelId and
+   * optional description.
    * @param authorizeCopyRequest Authorize copy request parameters.
    * @param options The options parameters.
    */
@@ -276,8 +371,8 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 
   /**
-   * Copies model to the target resource, region, and modelId.
-   * @param modelId Unique model name.
+   * Copies document model to the target resource, region, and modelId.
+   * @param modelId Unique document model name.
    * @param copyToRequest Copy to request parameters.
    * @param options The options parameters.
    */
@@ -310,7 +405,7 @@ export class GeneratedClient extends GeneratedClientContext {
   getOperation(
     operationId: string,
     options?: GetOperationOptionalParams
-  ): Promise<GetOperationOperationResponse> {
+  ): Promise<GetOperationResponse> {
     return this.sendOperationRequest(
       { operationId, options },
       getOperationOperationSpec
@@ -318,51 +413,59 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 
   /**
-   * List all models
+   * List all document models
    * @param options The options parameters.
    */
-  private _getModels(
-    options?: GetModelsOptionalParams
-  ): Promise<GetModelsOperationResponse> {
-    return this.sendOperationRequest({ options }, getModelsOperationSpec);
-  }
-
-  /**
-   * Gets detailed model information.
-   * @param modelId Unique model name.
-   * @param options The options parameters.
-   */
-  getModel(
-    modelId: string,
-    options?: GetModelOptionalParams
-  ): Promise<GetModelResponse> {
+  private _getDocumentModels(
+    options?: GetDocumentModelsOptionalParams
+  ): Promise<GetDocumentModelsOperationResponse> {
     return this.sendOperationRequest(
-      { modelId, options },
-      getModelOperationSpec
+      { options },
+      getDocumentModelsOperationSpec
     );
   }
 
   /**
-   * Deletes model.
-   * @param modelId Unique model name.
+   * Gets detailed document model information.
+   * @param modelId Unique document model name.
    * @param options The options parameters.
    */
-  deleteModel(
+  getDocumentModel(
     modelId: string,
-    options?: DeleteModelOptionalParams
+    options?: GetDocumentModelOptionalParams
+  ): Promise<GetDocumentModelResponse> {
+    return this.sendOperationRequest(
+      { modelId, options },
+      getDocumentModelOperationSpec
+    );
+  }
+
+  /**
+   * Deletes document model.
+   * @param modelId Unique document model name.
+   * @param options The options parameters.
+   */
+  deleteDocumentModel(
+    modelId: string,
+    options?: DeleteDocumentModelOptionalParams
   ): Promise<void> {
     return this.sendOperationRequest(
       { modelId, options },
-      deleteModelOperationSpec
+      deleteDocumentModelOperationSpec
     );
   }
 
   /**
-   * Return basic info about the current resource.
+   * Return information about the current resource.
    * @param options The options parameters.
    */
-  getInfo(options?: GetInfoOptionalParams): Promise<GetInfoOperationResponse> {
-    return this.sendOperationRequest({ options }, getInfoOperationSpec);
+  getResourceDetails(
+    options?: GetResourceDetailsOptionalParams
+  ): Promise<GetResourceDetailsResponse> {
+    return this.sendOperationRequest(
+      { options },
+      getResourceDetailsOperationSpec
+    );
   }
 
   /**
@@ -381,17 +484,17 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 
   /**
-   * GetModelsNext
-   * @param nextLink The nextLink from the previous successful call to the GetModels method.
+   * GetDocumentModelsNext
+   * @param nextLink The nextLink from the previous successful call to the GetDocumentModels method.
    * @param options The options parameters.
    */
-  private _getModelsNext(
+  private _getDocumentModelsNext(
     nextLink: string,
-    options?: GetModelsNextOptionalParams
-  ): Promise<GetModelsNextResponse> {
+    options?: GetDocumentModelsNextOptionalParams
+  ): Promise<GetDocumentModelsNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
-      getModelsNextOperationSpec
+      getDocumentModelsNextOperationSpec
     );
   }
 }
@@ -553,7 +656,7 @@ const getOperationOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GetOperationResponse
+      bodyMapper: Mappers.OperationDetails
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -564,12 +667,12 @@ const getOperationOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept1],
   serializer
 };
-const getModelsOperationSpec: coreClient.OperationSpec = {
+const getDocumentModelsOperationSpec: coreClient.OperationSpec = {
   path: "/documentModels",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GetModelsResponse
+      bodyMapper: Mappers.GetDocumentModelsResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -580,12 +683,12 @@ const getModelsOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept1],
   serializer
 };
-const getModelOperationSpec: coreClient.OperationSpec = {
+const getDocumentModelOperationSpec: coreClient.OperationSpec = {
   path: "/documentModels/{modelId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ModelInfo
+      bodyMapper: Mappers.DocumentModelDetails
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -596,7 +699,7 @@ const getModelOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept1],
   serializer
 };
-const deleteModelOperationSpec: coreClient.OperationSpec = {
+const deleteDocumentModelOperationSpec: coreClient.OperationSpec = {
   path: "/documentModels/{modelId}",
   httpMethod: "DELETE",
   responses: {
@@ -610,12 +713,12 @@ const deleteModelOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept1],
   serializer
 };
-const getInfoOperationSpec: coreClient.OperationSpec = {
+const getResourceDetailsOperationSpec: coreClient.OperationSpec = {
   path: "/info",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GetInfoResponse
+      bodyMapper: Mappers.ResourceDetails
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -642,12 +745,12 @@ const getOperationsNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept1],
   serializer
 };
-const getModelsNextOperationSpec: coreClient.OperationSpec = {
+const getDocumentModelsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GetModelsResponse
+      bodyMapper: Mappers.GetDocumentModelsResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

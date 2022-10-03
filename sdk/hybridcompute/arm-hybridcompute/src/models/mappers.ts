@@ -204,6 +204,12 @@ export const MachineProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      osType: {
+        serializedName: "osType",
+        type: {
+          name: "String"
+        }
+      },
       vmUuid: {
         serializedName: "vmUuid",
         readOnly: true,
@@ -259,6 +265,12 @@ export const MachineProperties: coreClient.CompositeMapper = {
       },
       parentClusterResourceId: {
         serializedName: "parentClusterResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      mssqlDiscovered: {
+        serializedName: "mssqlDiscovered",
         type: {
           name: "String"
         }
@@ -320,6 +332,50 @@ export const OSProfile: coreClient.CompositeMapper = {
       computerName: {
         serializedName: "computerName",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      windowsConfiguration: {
+        serializedName: "windowsConfiguration",
+        type: {
+          name: "Composite",
+          className: "OSProfileWindowsConfiguration"
+        }
+      },
+      linuxConfiguration: {
+        serializedName: "linuxConfiguration",
+        type: {
+          name: "Composite",
+          className: "OSProfileLinuxConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const OSProfileWindowsConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OSProfileWindowsConfiguration",
+    modelProperties: {
+      assessmentMode: {
+        serializedName: "patchSettings.assessmentMode",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OSProfileLinuxConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OSProfileLinuxConfiguration",
+    modelProperties: {
+      assessmentMode: {
+        serializedName: "patchSettings.assessmentMode",
         type: {
           name: "String"
         }
@@ -873,6 +929,131 @@ export const HybridComputePrivateLinkScopeProperties: coreClient.CompositeMapper
         type: {
           name: "String"
         }
+      },
+      privateEndpointConnections: {
+        serializedName: "privateEndpointConnections",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnectionDataModel"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpointConnectionDataModel: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionDataModel",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "PrivateEndpointConnectionProperties"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpointConnectionProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionProperties",
+    modelProperties: {
+      privateEndpoint: {
+        serializedName: "privateEndpoint",
+        type: {
+          name: "Composite",
+          className: "PrivateEndpointProperty"
+        }
+      },
+      privateLinkServiceConnectionState: {
+        serializedName: "privateLinkServiceConnectionState",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkServiceConnectionStateProperty"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpointProperty: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointProperty",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkServiceConnectionStateProperty: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateLinkServiceConnectionStateProperty",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionsRequired: {
+        serializedName: "actionsRequired",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1007,81 +1188,6 @@ export const PrivateLinkResourceProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const PrivateEndpointConnectionProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PrivateEndpointConnectionProperties",
-    modelProperties: {
-      privateEndpoint: {
-        serializedName: "privateEndpoint",
-        type: {
-          name: "Composite",
-          className: "PrivateEndpointProperty"
-        }
-      },
-      privateLinkServiceConnectionState: {
-        serializedName: "privateLinkServiceConnectionState",
-        type: {
-          name: "Composite",
-          className: "PrivateLinkServiceConnectionStateProperty"
-        }
-      },
-      provisioningState: {
-        serializedName: "provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PrivateEndpointProperty: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PrivateEndpointProperty",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PrivateLinkServiceConnectionStateProperty: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PrivateLinkServiceConnectionStateProperty",
-    modelProperties: {
-      status: {
-        serializedName: "status",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      actionsRequired: {
-        serializedName: "actionsRequired",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const PrivateEndpointConnectionListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1200,6 +1306,13 @@ export const MachineUpdateProperties: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "LocationData"
+        }
+      },
+      osProfile: {
+        serializedName: "osProfile",
+        type: {
+          name: "Composite",
+          className: "OSProfile"
         }
       },
       parentClusterResourceId: {

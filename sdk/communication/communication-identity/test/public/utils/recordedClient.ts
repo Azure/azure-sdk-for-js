@@ -53,6 +53,8 @@ const sanitizerOptions: SanitizerOptions = {
   generalSanitizers: [
     { regex: true, target: `"token"\\s?:\\s?"[^"]*"`, value: `"token":"sanitized"` },
     { regex: true, target: `"id"\\s?:\\s?"[^"]*"`, value: `"id":"sanitized"` },
+    { regex: true, target: `"appId"\\s?:\\s?"[^"]*"`, value: `"appId":"sanitized"` },
+    { regex: true, target: `"userId"\\s?:\\s?"[^"]*"`, value: `"userId":"sanitized"` },
     {
       regex: true,
       target: `[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}`,

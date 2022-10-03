@@ -42,3 +42,7 @@ export class MockContext implements TracingContext {
 }
 
 export const spanKey = Symbol.for("span");
+
+export function createMockTracingContext(parentContext?: MockContext): TracingContext {
+  return new MockContext(parentContext);
+}

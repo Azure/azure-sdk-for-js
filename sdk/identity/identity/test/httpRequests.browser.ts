@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as sinon from "sinon";
-import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
+import { AzureLogLevel, AzureLogger, getLogLevel, setLogLevel } from "@azure/logger";
 import { RestError } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { getError } from "./authTestUtils";
@@ -196,7 +196,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
       const promise = credential.getToken(scopes, getTokenOptions);
       await this.clock.runAllAsync();
       result = await promise;
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
 

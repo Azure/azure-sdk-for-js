@@ -25,7 +25,6 @@ class ExampleClass {
 }
 ```
 
-
 ```ts
 /**
  * Class documentation

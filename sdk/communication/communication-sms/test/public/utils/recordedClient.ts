@@ -1,98 +1,108 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { parseConnectionString } from "@azure/communication-common";
+import { Context, Test } from "mocha";
 import {
-  DefaultHttpClient,
-  HttpClient,
-  HttpOperationResponse,
-  isNode,
-  WebResourceLike,
-} from "@azure/core-http";
-import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
-import { env, isPlaybackMode, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { SmsClient, SmsClientOptions } from "../../../src";
+  Recorder,
+  RecorderStartOptions,
+  SanitizerOptions,
+  env,
+  isPlaybackMode,
+} from "@azure-tools/test-recorder";
+import { SmsClient } from "../../../src";
+import { parseConnectionString } from "@azure/communication-common";
+import { TokenCredential } from "@azure/core-auth";
+import { createTestCredential } from "@azure-tools/test-credential";
 
-export const recorderConfiguration: RecorderEnvironmentSetup = {
-  replaceableVariables: {
-    COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
-    AZURE_PHONE_NUMBER: "+14255550123",
-    AZURE_CLIENT_ID: "SomeClientId",
-    AZURE_CLIENT_SECRET: "azure_client_secret",
-    AZURE_TENANT_ID: "SomeTenantId",
-    COMMUNICATION_SKIP_INT_SMS_TEST: "false",
-  },
-  customizationsOnRecordings: [
-    (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),
-    (recording: string): string =>
-      recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"sanitized"`),
-    (recording: string): string =>
-      recording.replace(
-        /"repeatabilityRequestId"\s?:\s?"[^"]*"/g,
-        `"repeatabilityRequestId":"sanitized"`
-      ),
-    (recording: string): string =>
-      recording.replace(
-        /"repeatabilityFirstSent"\s?:\s?"[^"]*"/g,
-        `"repeatabilityFirstSent":"Thu, 01 Jan 1970 00:00:00 GMT"`
-      ),
-  ],
-  queryParametersToSkip: [],
+export interface RecordedClient<T> {
+  client: T;
+  recorder: Recorder;
+}
+
+const envSetupForPlayback: { [k: string]: string } = {
+  COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
+  AZURE_PHONE_NUMBER: "+14255550123",
+  AZURE_CLIENT_ID: "SomeClientId",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+  AZURE_TENANT_ID: "SomeTenantId",
+  COMMUNICATION_SKIP_INT_SMS_TEST: "false",
 };
 
-function createCredential(): TokenCredential {
+const sanitizerOptions: SanitizerOptions = {
+  connectionStringSanitizers: [
+    {
+      actualConnString: env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING,
+      fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"],
+    },
+  ],
+  generalSanitizers: [
+    { regex: true, target: `"access_token"\\s?:\\s?"[^"]*"`, value: `"access_token":"sanitized"` },
+    {
+      regex: true,
+      target: `"repeatabilityRequestId"\\s?:\\s?"[^"]*"`,
+      value: `"repeatabilityRequestId":"sanitized"`,
+    },
+    {
+      regex: true,
+      target: `"repeatabilityFirstSent"\\s?:\\s?"[^"]*"`,
+      value: `"repeatabilityFirstSent":"Thu, 01 Jan 1970 00:00:00 GMT"`,
+    },
+  ],
+};
+
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback,
+  sanitizerOptions: sanitizerOptions,
+};
+
+export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+  const recorder = new Recorder(context);
+  await recorder.start(recorderOptions);
+  await recorder.setMatcher("CustomDefaultMatcher", {
+    excludedHeaders: [
+      "Accept-Language", // This is env-dependent
+      "x-ms-content-sha256", // This is dependent on the current datetime
+    ],
+  });
+  return recorder;
+}
+
+export async function createRecordedSmsClient(
+  context: Context
+): Promise<RecordedClient<SmsClient>> {
+  const recorder = await createRecorder(context.currentTest);
+
+  const client = new SmsClient(
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
+    recorder.configureClientOptions({})
+  );
+  return {
+    client,
+    recorder,
+  };
+}
+
+export async function createRecordedSmsClientWithToken(
+  context: Context
+): Promise<RecordedClient<SmsClient>> {
+  const recorder = await createRecorder(context.currentTest);
+
+  let credential: TokenCredential;
+  const endpoint = parseConnectionString(
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? ""
+  ).endpoint;
+
   if (isPlaybackMode()) {
-    return {
-      getToken: async (_scopes) => {
+    credential = {
+      getToken: async (_scopes: any) => {
         return { token: "testToken", expiresOnTimestamp: 11111 };
       },
     };
   } else {
-    if (isNode) {
-      return new DefaultAzureCredential();
-    } else {
-      return new ClientSecretCredential(
-        env.AZURE_TENANT_ID,
-        env.AZURE_CLIENT_ID,
-        env.AZURE_CLIENT_SECRET
-      );
-    }
+    credential = createTestCredential();
   }
-}
 
-export function createSmsClient(): SmsClient {
-  // workaround: casting because min testing has issues with httpClient newer versions having extra optional fields
-  return new SmsClient(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, {
-    httpClient: createTestHttpClient(),
-  } as SmsClientOptions);
-}
+  const client = new SmsClient(endpoint, credential, recorder.configureClientOptions({}));
 
-export function createSmsClientWithToken(): SmsClient {
-  const { endpoint } = parseConnectionString(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING);
-  const credential: TokenCredential = createCredential();
-  // workaround: casting because min testing has issues with httpClient newer versions having extra optional fields
-  return new SmsClient(endpoint, credential, {
-    httpClient: createTestHttpClient(),
-  } as SmsClientOptions);
-}
-
-function createTestHttpClient(): HttpClient {
-  const customHttpClient = new DefaultHttpClient();
-
-  const originalSendRequest = customHttpClient.sendRequest;
-  customHttpClient.sendRequest = async function (
-    httpRequest: WebResourceLike
-  ): Promise<HttpOperationResponse> {
-    const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
-
-    console.log(
-      `MS-CV header for request: ${httpRequest.url} (${
-        requestResponse.status
-      } - ${requestResponse.headers.get("ms-cv")})`
-    );
-
-    return requestResponse;
-  };
-
-  return customHttpClient;
+  return { client, recorder };
 }

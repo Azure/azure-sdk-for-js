@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient, isNode } from "@azure/core-http";
-
+import { isNode } from "@azure/core-util";
+import { HttpClient } from "@azure/core-rest-pipeline";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import sinon from "sinon";
@@ -13,7 +13,7 @@ import { TokenCredential } from "@azure/identity";
 const TEST_NUMBER = "+14255550123";
 
 describe("[mocked] SmsClient", async () => {
-  const baseUri = "https://contoso.api.fake:443";
+  const baseUri = "https://contoso.api.fake";
   const connectionString = `endpoint=${baseUri};accesskey=banana`;
   const dateHeader = "x-ms-date";
   let sendRequestSpy: sinon.SinonSpy;
@@ -60,7 +60,7 @@ describe("[mocked] SmsClient", async () => {
 
       const request = sendRequestSpy.getCall(0).args[0];
       if (isNode) {
-        assert.equal(request.headers.get("host"), "contoso.api.fake:443");
+        assert.equal(request.headers.get("host"), "contoso.api.fake");
       }
       assert.typeOf(request.headers.get(dateHeader), "string");
       assert.isDefined(request.headers.get("authorization"));

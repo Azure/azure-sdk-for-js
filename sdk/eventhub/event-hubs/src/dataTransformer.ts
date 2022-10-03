@@ -46,7 +46,7 @@ export const defaultDataTransformer = {
       result.typecode = valueSectionTypeCode;
     } else if (bodyType === "sequence") {
       result = message.sequence_section(body);
-    } else if (isBuffer(body)) {
+    } else if (isBuffer(body) || body instanceof Uint8Array) {
       result = message.data_section(body);
     } else if (body === null && bodyType === "data") {
       result = message.data_section(null);
@@ -54,7 +54,7 @@ export const defaultDataTransformer = {
       try {
         const bodyStr = JSON.stringify(body);
         result = message.data_section(Buffer.from(bodyStr, "utf8"));
-      } catch (err) {
+      } catch (err: any) {
         const msg =
           `An error occurred while executing JSON.stringify() on the given body ` +
           body +
@@ -102,7 +102,7 @@ export const defaultDataTransformer = {
 
         return { body, bodyType: "value" };
       }
-    } catch (err) {
+    } catch (err: any) {
       logger.verbose(
         "[decode] An error occurred while decoding the received message body. The error is: %O",
         err
@@ -128,7 +128,7 @@ function tryToJsonDecode(body: unknown): unknown {
     // the original type back
     const bodyStr: string = processedBody.toString("utf8");
     processedBody = JSON.parse(bodyStr);
-  } catch (err) {
+  } catch (err: any) {
     logger.verbose(
       "[decode] An error occurred while trying JSON.parse() on the received body. The error is %O",
       err

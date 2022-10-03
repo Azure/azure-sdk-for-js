@@ -16,7 +16,7 @@ import {
 export interface Locations {
   /**
    * Checks whether the Media Service resource name is available.
-   * @param locationName The name of the location
+   * @param locationName Location name.
    * @param parameters The request parameters
    * @param options The options parameters.
    */

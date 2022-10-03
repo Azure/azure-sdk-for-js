@@ -3,9 +3,9 @@
 
 import https from "https";
 import {
+  PipelineRequestOptions,
   createHttpHeaders,
   createPipelineRequest,
-  PipelineRequestOptions,
 } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { TokenResponseParsedBody } from "../../client/identityClient";

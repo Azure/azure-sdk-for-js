@@ -52,7 +52,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   async function deleteModels(): Promise<void> {
     try {
       await client.deleteModel(BUILDING_MODEL_ID);
-    } catch (Exception) {
+    } catch (Exception: any) {
       console.error("deleteModel failure during test setup or cleanup");
     }
   }
@@ -70,7 +70,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   async function deleteDigitalTwin(digitalTwinId: string): Promise<void> {
     try {
       await client.deleteDigitalTwin(digitalTwinId);
-    } catch (Exception) {
+    } catch (Exception: any) {
       console.error("deleteDigitalTwin failure during test setup or cleanup");
     }
   }
@@ -81,7 +81,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
       for await (const item of queryResult) {
         await client.deleteDigitalTwin(item.$dtId);
       }
-    } catch (Exception) {
+    } catch (Exception: any) {
       console.error("deleteDigitalTwin failure during test setup or cleanup");
     }
   }
@@ -147,7 +147,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     let errorWasThrown = false;
     try {
       await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       should.equal(error.message, `Invalid twin specified`);
     } finally {
@@ -171,7 +171,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     let errorWasThrown = false;
     try {
       await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       should.equal(error.message, `Invalid twin specified`);
     } finally {
@@ -205,7 +205,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     let errorWasThrown = false;
     try {
       await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin), options);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       should.equal(
         error.message,
@@ -315,7 +315,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     let errorWasThrown = false;
     try {
       await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin), options);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       should.equal(
         error.message,
@@ -364,7 +364,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     let errorWasThrown = false;
     try {
       await client.getDigitalTwin(digitalTwinId);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `There is no digital twin instance that exists with the ID`);
     } finally {
@@ -392,7 +392,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     let errorWasThrown = false;
     try {
       await client.deleteDigitalTwin(digitalTwinId);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.notInclude(error.message, `There is no digital twin instance that exists with the ID`);
     } finally {
@@ -404,7 +404,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     errorWasThrown = false;
     try {
       await client.getDigitalTwin(digitalTwinId);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `There is no digital twin instance that exists with the ID`);
     } finally {
@@ -422,7 +422,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     let errorWasThrown = false;
     try {
       await client.deleteDigitalTwin(digitalTwinId);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `There is no digital twin instance that exists with the ID`);
     } finally {
@@ -453,7 +453,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     let errorWasThrown = false;
     try {
       await client.deleteDigitalTwin(digitalTwinId, options);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.notInclude(error.message, `There is no digital twin instance that exists with the ID`);
     } finally {
@@ -465,7 +465,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     errorWasThrown = false;
     try {
       await client.getDigitalTwin(digitalTwinId);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `There is no digital twin instance that exists with the ID`);
     } finally {
@@ -498,7 +498,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     let errorWasThrown = false;
     try {
       await client.deleteDigitalTwin(digitalTwinId, options);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       should.equal(
         error.message,
@@ -547,7 +547,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
         42,
         "Unexpected TemperatureUnit result from updateDigitalTwin()."
       );
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `There is no digital twin instance that exists with the ID`);
     } finally {
@@ -592,7 +592,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
         ["AverageTemperature"],
         "Unexpected AverageTemperature result from updateDigitalTwin()."
       );
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `There is no digital twin instance that exists with the ID`);
     } finally {
@@ -637,7 +637,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
         "Celsius",
         "Unexpected TemperatureUnit result from updateDigitalTwin()."
       );
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `There is no digital twin instance that exists with the ID`);
     } finally {
@@ -687,7 +687,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
         "Celsius",
         "Unexpected TemperatureUnit result from updateDigitalTwin()."
       );
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `There is no digital twin instance that exists with the ID`);
     } finally {
@@ -721,7 +721,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     let errorWasThrown = false;
     try {
       await client.updateDigitalTwin(digitalTwinId, patch);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `Unsupported operation type move`);
     } finally {
@@ -767,7 +767,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
         42,
         "Unexpected TemperatureUnit result from updateDigitalTwin()."
       );
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `There is no digital twin instance that exists with the ID`);
     } finally {
@@ -808,7 +808,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     let errorWasThrown = false;
     try {
       await client.updateDigitalTwin(digitalTwinId, patch, options);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       should.equal(
         error.message,
@@ -838,7 +838,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     let errorWasThrown = false;
     try {
       await client.updateDigitalTwin(digitalTwinId, patch);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `There is no digital twin instance that exists with the ID`);
     } finally {
@@ -899,7 +899,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
       for await (const _ of queryResult) {
         /* ignored */
       }
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(
         error.message,
@@ -935,7 +935,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     let errorWasThrown = false;
     try {
       client.publishTelemetry(digitalTwinId, telemetry, messageId);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
     } finally {
       await deleteDigitalTwin(digitalTwinId);

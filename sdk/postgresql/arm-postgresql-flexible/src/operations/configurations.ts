@@ -11,7 +11,7 @@ import { Configurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { PostgreSQLManagementClient } from "../postgreSQLManagementClient";
+import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -31,13 +31,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Configurations operations. */
 export class ConfigurationsImpl implements Configurations {
-  private readonly client: PostgreSQLManagementClient;
+  private readonly client: PostgreSQLManagementFlexibleServerClient;
 
   /**
    * Initialize a new instance of the class Configurations class.
    * @param client Reference to the service client
    */
-  constructor(client: PostgreSQLManagementClient) {
+  constructor(client: PostgreSQLManagementFlexibleServerClient) {
     this.client = client;
   }
 
@@ -212,10 +212,12 @@ export class ConfigurationsImpl implements Configurations {
       { resourceGroupName, serverName, configurationName, parameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -307,10 +309,12 @@ export class ConfigurationsImpl implements Configurations {
       { resourceGroupName, serverName, configurationName, parameters, options },
       putOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

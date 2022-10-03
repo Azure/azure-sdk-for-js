@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.0.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.1 (2022-05-05)
+
+### Other Changes
+
+- Minor improvements to the typing of `updatedOptions` when calling startSpan.
 
 ## 1.0.0 (2022-03-31)
 

@@ -38,6 +38,50 @@ will be emitted.
 For example, setting the log level to `warning` will cause all logs that have the log
 level `warning` or `error` to be emitted.
 
+
+**NOTE**: When logging requests and responses, we sanitize these objects to make sure things like `Authorization` headers that contain secrets are not logged. 
+
+Request and response bodies are never logged. Headers are redacted by default, unless present in the following list or explicitly allowed by the client SDK:
+- "x-ms-client-request-id",
+- "x-ms-return-client-request-id",
+- "x-ms-useragent",
+- "x-ms-correlation-request-id",
+- "x-ms-request-id",
+- "client-request-id",
+- "ms-cv",
+- "return-client-request-id",
+- "traceparent", 
+- "Access-Control-Allow-Credentials",
+- "Access-Control-Allow-Headers",
+- "Access-Control-Allow-Methods",
+- "Access-Control-Allow-Origin",
+- "Access-Control-Expose-Headers",
+- "Access-Control-Max-Age",
+- "Access-Control-Request-Headers",
+- "Access-Control-Request-Method",
+- "Origin",
+- "Accept",
+- "Accept-Encoding",
+- "Cache-Control",
+- "Connection",
+- "Content-Length",
+- "Content-Type",
+- "Date",
+- "ETag",
+- "Expires",
+- "If-Match",
+- "If-Modified-Since",
+- "If-None-Match",
+- "If-Unmodified-Since",
+- "Last-Modified",
+- "Pragma",
+- "Request-Id",
+- "Retry-After",
+- "Server",
+- "Transfer-Encoding",
+- "User-Agent",
+- "WWW-Authenticate",
+
 ## Examples
 
 ### Example 1 - basic usage

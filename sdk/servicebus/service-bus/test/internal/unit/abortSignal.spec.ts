@@ -57,7 +57,12 @@ describe("AbortSignal", () => {
     });
 
     it("AbortSignal is plumbed through all send operations", async () => {
-      const sender = new MessageSender(connectionContext, "fakeEntityPath", {});
+      const sender = new MessageSender(
+        "serviceBusClientId",
+        connectionContext,
+        "fakeEntityPath",
+        {}
+      );
       closeables.push(sender);
 
       let passedInOptions: OperationOptionsBase | undefined;
@@ -85,7 +90,9 @@ describe("AbortSignal", () => {
     });
 
     it("_trySend with an already aborted AbortSignal", async () => {
-      const sender = new MessageSender(connectionContext, "fakeEntityPath", { timeoutInMs: 1 });
+      const sender = new MessageSender("serviceBusClientId", connectionContext, "fakeEntityPath", {
+        timeoutInMs: 1,
+      });
       closeables.push(sender);
 
       sender["open"] = async () => {
@@ -99,7 +106,7 @@ describe("AbortSignal", () => {
           abortSignal,
         });
         assert.fail("AbortError should be thrown when the signal is already in an aborted state");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
 
         // we aborted in the sync part of the abort check so these event listeners are never set up
@@ -112,7 +119,7 @@ describe("AbortSignal", () => {
     });
 
     it("_trySend when the timer expires", async () => {
-      const sender = new MessageSender(connectionContext, "fakeEntityPath", {
+      const sender = new MessageSender("serviceBusClientId", connectionContext, "fakeEntityPath", {
         timeoutInMs: 1,
       });
       closeables.push(sender);
@@ -144,7 +151,7 @@ describe("AbortSignal", () => {
           abortSignal: createAbortSignalForTest(false),
         });
         assert.fail("Sender should have thrown in the async portion of the abort handling");
-      } catch (err) {
+      } catch (err: any) {
         // in this case init() does get called - we abort through a timer.
         assert.isTrue(initWasCalled);
 
@@ -158,7 +165,7 @@ describe("AbortSignal", () => {
     });
 
     it("_trySend passes abortSignal to awaitable sender", async () => {
-      const sender = new MessageSender(connectionContext, "fakeEntityPath", {
+      const sender = new MessageSender("serviceBusClientId", connectionContext, "fakeEntityPath", {
         timeoutInMs: 1,
       });
       closeables.push(sender);
@@ -192,7 +199,12 @@ describe("AbortSignal", () => {
 
   describe("MessageSender.open() aborts after...", () => {
     it("...beforeLock", async () => {
-      const sender = new MessageSender(createConnectionContextForTests(), "fakeEntityPath", {});
+      const sender = new MessageSender(
+        "serviceBusClientId",
+        createConnectionContextForTests(),
+        "fakeEntityPath",
+        {}
+      );
       closeables.push(sender);
 
       const abortSignal = createCountdownAbortSignal(1);
@@ -200,14 +212,19 @@ describe("AbortSignal", () => {
       try {
         await sender.open(undefined, abortSignal);
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
     });
 
     it("...afterLock", async () => {
-      const sender = new MessageSender(createConnectionContextForTests(), "fakeEntityPath", {});
+      const sender = new MessageSender(
+        "serviceBusClientId",
+        createConnectionContextForTests(),
+        "fakeEntityPath",
+        {}
+      );
       closeables.push(sender);
 
       const abortSignal = createCountdownAbortSignal(2);
@@ -215,7 +232,7 @@ describe("AbortSignal", () => {
       try {
         await sender.open(undefined, abortSignal);
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
@@ -226,6 +243,7 @@ describe("AbortSignal", () => {
       const taggedAbortSignal = createAbortSignalForTest(() => isAborted);
 
       const sender = new MessageSender(
+        "serviceBusClientId",
         createConnectionContextForTests({
           onCreateAwaitableSenderCalled: () => {
             /** Nothing to do here */
@@ -243,7 +261,7 @@ describe("AbortSignal", () => {
       try {
         await sender.createBatch({ abortSignal: taggedAbortSignal });
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
@@ -254,6 +272,7 @@ describe("AbortSignal", () => {
       const taggedAbortSignal = createAbortSignalForTest(() => isAborted);
 
       const sender = new MessageSender(
+        "serviceBusClientId",
         createConnectionContextForTests({
           onCreateAwaitableSenderCalled: () => {
             isAborted = true;
@@ -271,7 +290,7 @@ describe("AbortSignal", () => {
       try {
         await sender.createBatch({ abortSignal: taggedAbortSignal });
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
@@ -281,6 +300,7 @@ describe("AbortSignal", () => {
   describe("MessageReceiver.open() aborts after...", () => {
     it("...before first async call", async () => {
       const messageReceiver = new StreamingReceiver(
+        "serviceBusClientId",
         createConnectionContextForTests(),
         "fakeEntityPath",
         defaultOptions
@@ -292,7 +312,7 @@ describe("AbortSignal", () => {
       try {
         await messageReceiver["_init"]({} as ReceiverOptions, abortSignal);
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
@@ -300,6 +320,7 @@ describe("AbortSignal", () => {
 
     it("...after negotiateClaim", async () => {
       const messageReceiver = new StreamingReceiver(
+        "serviceBusClientId",
         createConnectionContextForTests(),
         "fakeEntityPath",
         defaultOptions
@@ -316,7 +337,7 @@ describe("AbortSignal", () => {
       try {
         await messageReceiver["_init"]({} as ReceiverOptions, abortSignal);
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
@@ -331,7 +352,12 @@ describe("AbortSignal", () => {
           isAborted = true;
         },
       });
-      const messageReceiver = new StreamingReceiver(fakeContext, "fakeEntityPath", defaultOptions);
+      const messageReceiver = new StreamingReceiver(
+        "serviceBusClientId",
+        fakeContext,
+        "fakeEntityPath",
+        defaultOptions
+      );
       closeables.push(messageReceiver);
 
       messageReceiver["_negotiateClaim"] = async () => {
@@ -341,7 +367,7 @@ describe("AbortSignal", () => {
       try {
         await messageReceiver["_init"]({} as ReceiverOptions, abortSignal);
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
@@ -357,10 +383,16 @@ describe("AbortSignal", () => {
     it("SessionReceiver.subscribe", async () => {
       const connectionContext = createConnectionContextForTestsWithSessionId();
 
-      const messageSession = await MessageSession.create(connectionContext, "entityPath", "hello", {
-        retryOptions: undefined,
-        skipParsingBodyAsJson: false,
-      });
+      const messageSession = await MessageSession.create(
+        "serviceBusClientId",
+        connectionContext,
+        "entityPath",
+        "hello",
+        {
+          retryOptions: undefined,
+          skipParsingBodyAsJson: false,
+        }
+      );
 
       const session = new ServiceBusSessionReceiverImpl(
         messageSession,

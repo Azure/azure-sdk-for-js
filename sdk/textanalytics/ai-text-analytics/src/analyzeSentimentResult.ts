@@ -2,23 +2,23 @@
 // Licensed under the MIT license.
 
 import {
-  makeTextAnalyticsSuccessResult,
-  TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
+  TextAnalyticsSuccessResult,
   makeTextAnalyticsErrorResult,
+  makeTextAnalyticsSuccessResult,
 } from "./textAnalyticsResult";
 import {
-  TextAnalyticsError,
-  DocumentSentimentLabel,
-  SentimentConfidenceScores,
-  SentenceSentiment as GeneratedSentenceSentiment,
-  SentenceSentimentLabel,
   DocumentSentiment,
-  SentenceTarget,
-  TargetRelation,
+  DocumentSentimentLabel,
+  SentenceSentiment as GeneratedSentenceSentiment,
   SentenceAssessment,
+  SentenceSentimentLabel,
+  SentenceTarget,
   TokenSentimentValue as SentenceTargetSentiment,
+  SentimentConfidenceScores,
   TargetConfidenceScoreLabel,
+  TargetRelation,
+  TextAnalyticsError,
 } from "./generated/models";
 import { AssessmentIndex, parseAssessmentIndex } from "./util";
 

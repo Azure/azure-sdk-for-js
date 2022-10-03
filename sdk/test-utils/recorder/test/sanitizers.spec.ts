@@ -28,11 +28,11 @@ import { v4 as generateUuid } from "uuid";
       currentValue = isPlaybackMode() ? fakeSecretValue : secretValue;
     });
 
-    afterEach(async () => {
-      await recorder.stop();
-    });
-
     describe("Sanitizers - functionalities", () => {
+      afterEach(async () => {
+        await recorder.stop();
+      });
+
       it("GeneralRegexSanitizer", async () => {
         await recorder.start({
           envSetupForPlayback: {},
@@ -342,6 +342,10 @@ import { v4 as generateUuid } from "uuid";
     });
 
     describe("Sanitizers in playback mode", () => {
+      afterEach(async () => {
+        await recorder.stop();
+      });
+
       it("GeneralRegexSanitizer", async () => {
         await recorder.start({
           envSetupForPlayback: {},
@@ -373,6 +377,73 @@ import { v4 as generateUuid } from "uuid";
           },
           { val: "I am the answer!" }
         );
+      });
+    });
+
+    describe("Session-level sanitizer", () => {
+      it("Allows a sanitizer to be set before the recorder is started", async () => {
+        await Recorder.addSessionSanitizers({
+          generalSanitizers: [{ target: currentValue, value: fakeSecretValue }],
+        });
+
+        await recorder.start({
+          envSetupForPlayback: {},
+        });
+
+        await makeRequestAndVerifyResponse(
+          client,
+          {
+            path: `/sample_response/${currentValue}`,
+            body: currentValue,
+            method: "POST",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
+          },
+          { val: "I am the answer!" }
+        );
+
+        await recorder.stop();
+        await Recorder.addSessionSanitizers({ resetSanitizer: true });
+      });
+
+      it("Sanitizers persist over multiple tests (1)", async () => {
+        await Recorder.addSessionSanitizers({
+          generalSanitizers: [{ target: currentValue, value: fakeSecretValue }],
+        });
+
+        await recorder.start({
+          envSetupForPlayback: {},
+        });
+        await makeRequestAndVerifyResponse(
+          client,
+          {
+            path: `/sample_response/${currentValue}`,
+            body: currentValue,
+            method: "POST",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
+          },
+          { val: "I am the answer!" }
+        );
+
+        await recorder.stop();
+      });
+
+      it("Sanitizers persist over multiple tests (2)", async () => {
+        await recorder.start({
+          envSetupForPlayback: {},
+        });
+        await makeRequestAndVerifyResponse(
+          client,
+          {
+            path: `/sample_response/${currentValue}`,
+            body: currentValue,
+            method: "POST",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
+          },
+          { val: "I am the answer!" }
+        );
+
+        await recorder.stop();
+        await Recorder.addSessionSanitizers({ resetSanitizer: true });
       });
     });
   });

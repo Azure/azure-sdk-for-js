@@ -52,7 +52,13 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { ReceiveMode } from "../models";
 import { translateServiceBusError } from "../serviceBusError";
 import { defaultDataTransformer, tryToJsonDecode } from "../dataTransformer";
-import { isDefined, isObjectWithProperties } from "../util/typeGuards";
+import { isDefined, isObjectWithProperties } from "@azure/core-util";
+import {
+  RuleProperties,
+  SqlRuleAction,
+  SqlRuleFilter,
+} from "../serializers/ruleResourceSerializer";
+import { ListRequestOptions } from "../serviceBusAtomManagementClient";
 
 /**
  * @internal
@@ -69,29 +75,6 @@ export interface SendManagementRequestOptions extends SendRequestOptions {
    * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
    */
   skipParsingBodyAsJson?: boolean;
-}
-
-/**
- * Represents a Rule on a Subscription that is used to filter the incoming message from the
- * Subscription.
- */
-export interface RuleDescription {
-  /**
-   * Filter expression used to match messages. Supports 2 types:
-   * - `string`: SQL-like condition expression that is evaluated against the messages'
-   * user-defined properties and system properties. All system properties will be prefixed with
-   * `sys.` in the condition expression.
-   * - `CorrelationRuleFilter`: Properties of the filter will be used to match with the message properties.
-   */
-  filter?: string | CorrelationRuleFilter;
-  /**
-   * Action to perform if the message satisfies the filtering expression.
-   */
-  action?: string;
-  /**
-   * Represents the name of the rule.
-   */
-  name: string;
 }
 
 /**
@@ -141,6 +124,19 @@ export interface CorrelationRuleFilter {
 /**
  * @internal
  */
+const sqlRuleProperties = ["sqlExpression"];
+
+function isSqlRuleFilter(obj: unknown): obj is SqlRuleFilter {
+  if (obj) {
+    return sqlRuleProperties.some((validProperty) => isObjectWithProperties(obj, [validProperty]));
+  }
+
+  return false;
+}
+
+/**
+ * @internal
+ */
 const correlationProperties = [
   "correlationId",
   "messageId",
@@ -152,6 +148,16 @@ const correlationProperties = [
   "contentType",
   "applicationProperties",
 ];
+
+function isCorrelationRuleFilter(obj: unknown): obj is CorrelationRuleFilter {
+  if (obj) {
+    return correlationProperties.some((validProperty) =>
+      isObjectWithProperties(obj, [validProperty])
+    );
+  }
+
+  return false;
+}
 
 /**
  * @internal
@@ -261,7 +267,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         },
         abortSignal
       );
-    } catch (err) {
+    } catch (err: any) {
       const translatedError = translateServiceBusError(err);
       managementClientLogger.logError(
         translatedError,
@@ -302,6 +308,22 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     return Array.isArray(data) && data.length > index && data[index]
       ? data[index].value
       : undefined;
+  }
+
+  private _decodeApplicationPropertiesMap(
+    obj: Typed
+  ): Record<string, string | number | boolean | Date> {
+    if (!types.is_map(obj)) {
+      throw new Error("object to decode is not of Map types");
+    }
+    const array = obj.value as Array<Typed>;
+    const result: Record<string, string | number | boolean | Date> = {};
+    for (let i = 0; i < array.length; i += 2) {
+      const key = array[i].value as string;
+      result[key] = array[i + 1].value as string | number | boolean | Date;
+    }
+
+    return result;
   }
 
   private async _makeManagementRequest(
@@ -348,7 +370,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     try {
       if (!request.message_id) request.message_id = generate_uuid();
       return await this.link!.sendRequest(request, sendRequestOptions);
-    } catch (err) {
+    } catch (err: any) {
       const translatedError = translateServiceBusError(err);
       internalLogger.logError(
         translatedError,
@@ -374,7 +396,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       // we can change this back to closeLink("permanent").
       await this.closeLink();
       managementClientLogger.verbose("Successfully closed the management session.");
-    } catch (err) {
+    } catch (err: any) {
       managementClientLogger.logError(
         err,
         `${this.logPrefix} An error occurred while closing the management session`
@@ -393,9 +415,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * also fetch even Deferred messages (but not Deadlettered message).
    *
    * @param messageCount - The number of messages to retrieve. Default value `1`.
+   * @param omitMessageBody - Whether to omit message body when peeking. Default value `false`.
    */
   async peek(
     messageCount: number,
+    omitMessageBody?: boolean,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
@@ -403,6 +427,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       this._lastPeekedSequenceNumber.add(1),
       messageCount,
       undefined,
+      omitMessageBody,
       options
     );
   }
@@ -418,10 +443,12 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    *
    * @param sessionId - The sessionId from which messages need to be peeked.
    * @param messageCount - The number of messages to retrieve. Default value `1`.
+   * @param omitMessageBody - Whether to omit message body when peeking Default value `false`.
    */
   async peekMessagesBySession(
     sessionId: string,
     messageCount: number,
+    omitMessageBody?: boolean,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
@@ -429,6 +456,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       this._lastPeekedSequenceNumber.add(1),
       messageCount,
       sessionId,
+      omitMessageBody,
       options
     );
   }
@@ -439,11 +467,13 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @param fromSequenceNumber - The sequence number from where to read the message.
    * @param messageCount - The number of messages to retrieve. Default value `1`.
    * @param sessionId - The sessionId from which messages need to be peeked.
+   * @param omitMessageBody - Whether to omit message body when peeking. Default value `false`.
    */
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
     maxMessageCount: number,
     sessionId?: string,
+    omitMessageBody?: boolean,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
@@ -480,6 +510,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (isDefined(sessionId)) {
         messageBody[Constants.sessionIdMapKey] = sessionId;
       }
+      if (isDefined(omitMessageBody)) {
+        const omitMessageBodyKey = "omit-message-body"; // TODO: Service Bus specific. Put it somewhere
+        messageBody[omitMessageBodyKey] = types.wrap_boolean(omitMessageBody);
+      }
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -513,7 +547,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           this._lastPeekedSequenceNumber = message.sequenceNumber!;
         }
       }
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err) as MessagingError;
       receiverLogger.logError(
         error,
@@ -577,7 +611,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       });
       const lockedUntilUtc = new Date(result.body.expirations[0]);
       return lockedUntilUtc;
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
@@ -637,7 +671,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
         const wrappedEntry = types.wrap_map(entry);
         messageBody.push(wrappedEntry);
-      } catch (err) {
+      } catch (err: any) {
         const error = translateServiceBusError(err);
         senderLogger.logError(
           error,
@@ -670,7 +704,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         }
       }
       return sequenceNumbersAsLong;
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       senderLogger.logError(
         error,
@@ -698,7 +732,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const sequenceNumber = sequenceNumbers[i];
       try {
         messageBody[Constants.sequenceNumbers].push(Buffer.from(sequenceNumber.toBytesBE()));
-      } catch (err) {
+      } catch (err: any) {
         const error = translateServiceBusError(err);
         senderLogger.logError(
           error,
@@ -734,7 +768,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
       await this._makeManagementRequest(request, senderLogger, options);
       return;
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       senderLogger.logError(
         error,
@@ -771,7 +805,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const sequenceNumber = sequenceNumbers[i];
       try {
         messageBody[Constants.sequenceNumbers].push(Buffer.from(sequenceNumber.toBytesBE()));
-      } catch (err) {
+      } catch (err: any) {
         const error = translateServiceBusError(err);
         receiverLogger.logError(
           error,
@@ -826,7 +860,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         messageList.push(message);
       }
       return messageList;
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
@@ -894,7 +928,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.body
       );
       await this._makeManagementRequest(request, receiverLogger, options);
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
@@ -944,7 +978,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         lockedUntilUtc.toString()
       );
       return lockedUntilUtc;
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
@@ -988,7 +1022,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.body
       );
       await this._makeManagementRequest(request, receiverLogger, options);
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
@@ -1032,7 +1066,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       return result.body["session-state"]
         ? tryToJsonDecode(result.body["session-state"])
         : result.body["session-state"];
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
@@ -1090,7 +1124,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const response = await this._makeManagementRequest(request, managementClientLogger, options);
 
       return (response && response.body && response.body["sessions-ids"]) || [];
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       managementClientLogger.logError(
         error,
@@ -1105,14 +1139,16 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @returns A list of rules.
    */
   async getRules(
-    options?: OperationOptionsBase & SendManagementRequestOptions
-  ): Promise<RuleDescription[]> {
+    options?: ListRequestOptions & OperationOptionsBase & SendManagementRequestOptions
+  ): Promise<RuleProperties[]> {
     throwErrorIfConnectionClosed(this._context);
     try {
       const request: RheaMessage = {
         body: {
-          top: types.wrap_int(max32BitNumber),
-          skip: types.wrap_int(0),
+          top: options?.maxCount
+            ? types.wrap_int(options.maxCount)
+            : types.wrap_int(max32BitNumber),
+          skip: options?.skip ? types.wrap_int(options.skip) : types.wrap_int(0),
         },
         reply_to: this.replyTo,
         application_properties: {
@@ -1137,9 +1173,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
       // Reference: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-amqp-request-response#response-11
       const result: { "rule-description": Typed }[] = response.body.rules || [];
-      const rules: RuleDescription[] = [];
+      const rules: RuleProperties[] = [];
       result.forEach((x) => {
         const ruleDescriptor = x["rule-description"];
+        let filter: SqlRuleFilter | CorrelationRuleFilter;
 
         // We use the first three elements of the `ruleDescriptor.value` to get filter, action, name
         if (
@@ -1154,22 +1191,37 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
         const filtersRawData: Typed = ruleDescriptor.value[0];
         const actionsRawData: Typed = ruleDescriptor.value[1];
-        const rule: RuleDescription = {
-          name: ruleDescriptor.value[2].value,
-        };
+        let sqlRuleAction: SqlRuleAction;
+        if (
+          actionsRawData.descriptor.value === Constants.descriptorCodes.sqlRuleActionList &&
+          Array.isArray(actionsRawData.value) &&
+          actionsRawData.value.length
+        ) {
+          sqlRuleAction = {
+            sqlExpression: this._safelyGetTypedValueFromArray(actionsRawData.value, 0),
+          };
+        } else {
+          sqlRuleAction = {};
+        }
 
         switch (filtersRawData.descriptor.value) {
           case Constants.descriptorCodes.trueFilterList:
-            rule.filter = "1=1";
+            filter = {
+              sqlExpression: "1=1",
+            };
             break;
           case Constants.descriptorCodes.falseFilterList:
-            rule.filter = "1=0";
+            filter = {
+              sqlExpression: "1=0",
+            };
             break;
           case Constants.descriptorCodes.sqlFilterList:
-            rule.filter = this._safelyGetTypedValueFromArray(filtersRawData.value, 0);
+            filter = {
+              sqlExpression: this._safelyGetTypedValueFromArray(filtersRawData.value, 0),
+            };
             break;
           case Constants.descriptorCodes.correlationFilterList:
-            rule.filter = {
+            filter = {
               correlationId: this._safelyGetTypedValueFromArray(filtersRawData.value, 0),
               messageId: this._safelyGetTypedValueFromArray(filtersRawData.value, 1),
               to: this._safelyGetTypedValueFromArray(filtersRawData.value, 2),
@@ -1178,29 +1230,30 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
               sessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 5),
               replyToSessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 6),
               contentType: this._safelyGetTypedValueFromArray(filtersRawData.value, 7),
-              applicationProperties: this._safelyGetTypedValueFromArray(filtersRawData.value, 8),
+              applicationProperties:
+                Array.isArray(filtersRawData.value) &&
+                filtersRawData.value.length > 8 &&
+                filtersRawData.value[8]
+                  ? this._decodeApplicationPropertiesMap(filtersRawData.value[8])
+                  : undefined,
             };
             break;
           default:
-            managementClientLogger.warning(
+            throw new Error(
               `${this.logPrefix} Found unexpected descriptor code for the filter: ${filtersRawData.descriptor.value}`
             );
-            break;
         }
 
-        if (
-          actionsRawData.descriptor.value === Constants.descriptorCodes.sqlRuleActionList &&
-          Array.isArray(actionsRawData.value) &&
-          actionsRawData.value.length
-        ) {
-          rule.action = this._safelyGetTypedValueFromArray(actionsRawData.value, 0);
-        }
-
+        const rule: RuleProperties = {
+          name: ruleDescriptor.value[2].value,
+          filter,
+          action: sqlRuleAction,
+        };
         rules.push(rule);
       });
 
       return rules;
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       managementClientLogger.logError(
         error,
@@ -1240,7 +1293,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.body
       );
       await this._makeManagementRequest(request, managementClientLogger, options);
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       managementClientLogger.logError(
         error,
@@ -1258,7 +1311,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    */
   async addRule(
     ruleName: string,
-    filter: boolean | string | CorrelationRuleFilter,
+    filter: SqlRuleFilter | CorrelationRuleFilter,
     sqlRuleActionExpression?: string,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<void> {
@@ -1269,44 +1322,30 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     throwTypeErrorIfParameterIsEmptyString(this._context.connectionId, "ruleName", ruleName);
 
     throwTypeErrorIfParameterMissing(this._context.connectionId, "filter", filter);
-    if (
-      typeof filter !== "boolean" &&
-      typeof filter !== "string" &&
-      !correlationProperties.some((validProperty) =>
-        isObjectWithProperties(filter, [validProperty])
-      )
-    ) {
+    if (!isSqlRuleFilter(filter) && !isCorrelationRuleFilter(filter)) {
       throw new TypeError(
-        `The parameter "filter" should be either a boolean, string or implement the CorrelationRuleFilter interface.`
+        `The parameter "filter" should implement either the SqlRuleFilter or the CorrelationRuleFilter interface.`
       );
     }
 
     try {
       const ruleDescription: any = {};
-      switch (typeof filter) {
-        case "boolean":
-          ruleDescription["sql-filter"] = {
-            expression: filter ? "1=1" : "1=0",
-          };
-          break;
-        case "string":
-          ruleDescription["sql-filter"] = {
-            expression: filter,
-          };
-          break;
-        default:
-          ruleDescription["correlation-filter"] = {
-            "correlation-id": filter.correlationId,
-            "message-id": filter.messageId,
-            to: filter.to,
-            "reply-to": filter.replyTo,
-            subject: filter.subject,
-            "session-id": filter.sessionId,
-            "reply-to-session-id": filter.replyToSessionId,
-            "content-type": filter.contentType,
-            applicationProperties: filter.applicationProperties,
-          };
-          break;
+      if (isSqlRuleFilter(filter)) {
+        ruleDescription["sql-filter"] = {
+          expression: filter.sqlExpression,
+        };
+      } else {
+        ruleDescription["correlation-filter"] = {
+          "correlation-id": filter.correlationId,
+          "message-id": filter.messageId,
+          to: filter.to,
+          "reply-to": filter.replyTo,
+          label: filter.subject,
+          "session-id": filter.sessionId,
+          "reply-to-session-id": filter.replyToSessionId,
+          "content-type": filter.contentType,
+          properties: filter.applicationProperties,
+        };
       }
 
       if (sqlRuleActionExpression !== undefined) {
@@ -1328,7 +1367,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
       managementClientLogger.verbose("%s Add Rule request body: %O.", this.logPrefix, request.body);
       await this._makeManagementRequest(request, managementClientLogger, options);
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       managementClientLogger.logError(
         error,

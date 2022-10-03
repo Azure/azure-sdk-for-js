@@ -3,10 +3,10 @@
 
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import {
-  createHttpHeaders,
   HttpClient,
   PipelineRequest,
   PipelineResponse,
+  createHttpHeaders,
 } from "@azure/core-rest-pipeline";
 import * as RestModel from "../../../src/generated/src/models";
 import { ChatClient, ChatParticipant, ChatThreadClient } from "../../../src";
@@ -15,6 +15,7 @@ import { baseUri, generateToken } from "../../public/utils/connectionUtils";
 
 export const mockCommunicationIdentifier: CommunicationIdentifierModel = {
   communicationUser: { id: "id" },
+  rawId: "id",
 };
 
 export const mockParticipant: RestModel.ChatParticipant = {

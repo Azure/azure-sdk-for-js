@@ -171,7 +171,7 @@ export class PartitionProcessor implements PartitionContext {
     if (this._eventHandlers.processError) {
       try {
         await this._eventHandlers.processError(error, this);
-      } catch (err) {
+      } catch (err: any) {
         logger.verbose(`Error thrown from user's processError handler : ${err}`);
       }
     }

@@ -197,7 +197,7 @@ export class CosmosClient {
     this.endpointRefresher = setInterval(() => {
       try {
         globalEndpointManager.refreshEndpointList();
-      } catch (e) {
+      } catch (e: any) {
         console.warn("Failed to refresh endpoints", e);
       }
     }, refreshRate);

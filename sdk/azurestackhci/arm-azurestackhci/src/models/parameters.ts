@@ -13,8 +13,10 @@ import {
 } from "@azure/core-client";
 import {
   ArcSetting as ArcSettingMapper,
+  ArcSettingsPatch as ArcSettingsPatchMapper,
   Cluster as ClusterMapper,
   ClusterPatch as ClusterPatchMapper,
+  UploadCertificateRequest as UploadCertificateRequestMapper,
   Extension as ExtensionMapper
 } from "../models/mappers";
 
@@ -85,7 +87,7 @@ export const clusterName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-01-01",
+    defaultValue: "2022-05-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -122,6 +124,11 @@ export const arcSetting: OperationParameter = {
   mapper: ArcSettingMapper
 };
 
+export const arcSetting1: OperationParameter = {
+  parameterPath: "arcSetting",
+  mapper: ArcSettingsPatchMapper
+};
+
 export const nextLink: OperationURLParameter = {
   parameterPath: "nextLink",
   mapper: {
@@ -142,6 +149,11 @@ export const cluster: OperationParameter = {
 export const cluster1: OperationParameter = {
   parameterPath: "cluster",
   mapper: ClusterPatchMapper
+};
+
+export const uploadCertificateRequest: OperationParameter = {
+  parameterPath: "uploadCertificateRequest",
+  mapper: UploadCertificateRequestMapper
 };
 
 export const extensionName: OperationURLParameter = {

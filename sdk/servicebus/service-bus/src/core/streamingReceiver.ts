@@ -13,7 +13,7 @@ import {
   RetryOptions,
   ConditionErrorNameMapper,
 } from "@azure/core-amqp";
-import { OperationOptionsBase, trace } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { receiverLogger as logger } from "../log";
 import { AmqpError, EventContext, OnAmqpEvent } from "rhea-promise";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
@@ -27,8 +27,9 @@ import {
   ProcessErrorArgs,
   SubscribeOptions,
 } from "../models";
-import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
+import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMessage";
 import { AbortError } from "@azure/abort-controller";
+import { tracingClient } from "../diagnostics/tracing";
 
 /**
  * @internal
@@ -128,11 +129,17 @@ export class StreamingReceiver extends MessageReceiver {
   /**
    * Instantiate a new Streaming receiver for receiving messages with handlers.
    *
+   * @param identifier - the name used to identifier the receiver
    * @param connectionContext - The client entity context.
    * @param options - Options for how you'd like to connect.
    */
-  constructor(connectionContext: ConnectionContext, entityPath: string, options: ReceiveOptions) {
-    super(connectionContext, entityPath, "streaming", options);
+  constructor(
+    identifier: string,
+    connectionContext: ConnectionContext,
+    entityPath: string,
+    options: ReceiveOptions
+  ) {
+    super(identifier, connectionContext, entityPath, "streaming", options);
 
     if (typeof options?.maxConcurrentCalls === "number" && options?.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
@@ -208,6 +215,7 @@ export class StreamingReceiver extends MessageReceiver {
           errorSource: "receive",
           entityPath: this.entityPath,
           fullyQualifiedNamespace: this._context.config.host,
+          identifier,
         });
       }
     };
@@ -225,6 +233,7 @@ export class StreamingReceiver extends MessageReceiver {
           errorSource: "receive",
           entityPath: this.entityPath,
           fullyQualifiedNamespace: this._context.config.host,
+          identifier,
         });
       }
     };
@@ -255,12 +264,13 @@ export class StreamingReceiver extends MessageReceiver {
           errorSource: "renewLock",
           entityPath: this.entityPath,
           fullyQualifiedNamespace: this._context.config.host,
+          identifier,
         });
       });
 
       try {
         await this._messageHandlers().processMessage(bMessage);
-      } catch (err) {
+      } catch (err: any) {
         logger.logError(
           err,
           "%s An error occurred while running user's message handler for the message " +
@@ -298,7 +308,7 @@ export class StreamingReceiver extends MessageReceiver {
               undefined,
               this._retryOptions
             );
-          } catch (abandonError) {
+          } catch (abandonError: any) {
             const translatedError = translateServiceBusError(abandonError);
             logger.logError(
               translatedError,
@@ -313,6 +323,7 @@ export class StreamingReceiver extends MessageReceiver {
               errorSource: "abandon",
               entityPath: this.entityPath,
               fullyQualifiedNamespace: this._context.config.host,
+              identifier,
             });
           }
         }
@@ -320,7 +331,7 @@ export class StreamingReceiver extends MessageReceiver {
       } finally {
         try {
           this._receiverHelper.addCredit(1);
-        } catch (err) {
+        } catch (err: any) {
           // if we're aborting out of the receive operation we don't need to report it (the user already
           // knows the link is being torn down or stopped)
           if (err.name !== "AbortError") {
@@ -347,7 +358,7 @@ export class StreamingReceiver extends MessageReceiver {
             bMessage.messageId
           );
           await completeMessage(bMessage, this._context, entityPath, this._retryOptions);
-        } catch (completeError) {
+        } catch (completeError: any) {
           const translatedError = translateServiceBusError(completeError);
           logger.logError(
             translatedError,
@@ -362,6 +373,7 @@ export class StreamingReceiver extends MessageReceiver {
             errorSource: "complete",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host,
+            identifier,
           });
         }
       }
@@ -377,6 +389,7 @@ export class StreamingReceiver extends MessageReceiver {
         entityPath: this.entityPath,
         errorSource: "internal",
         fullyQualifiedNamespace: this._context.config.host,
+        identifier: this.identifier,
       };
 
       return messageHandlers.processError(errorArgs as ProcessErrorArgs);
@@ -444,7 +457,7 @@ export class StreamingReceiver extends MessageReceiver {
     try {
       this._receiverHelper.resume();
       return await this._subscribeImpl("subscribe");
-    } catch (err) {
+    } catch (err: any) {
       // callers aren't going to be in a good position to forward this error properly
       // so we do it here.
       await this._messageHandlers().processError({
@@ -452,6 +465,7 @@ export class StreamingReceiver extends MessageReceiver {
         fullyQualifiedNamespace: this._context.config.host,
         errorSource: "receive",
         error: err,
+        identifier: this.identifier,
       });
 
       throw err;
@@ -477,21 +491,26 @@ export class StreamingReceiver extends MessageReceiver {
         try {
           args.error = translateServiceBusError(args.error);
           await userHandlers.processError(args);
-        } catch (err) {
+        } catch (err: any) {
           await this._reportInternalError(err);
           logger.logError(err, `An error was thrown from the user's processError handler`);
         }
       },
       processMessage: async (message: ServiceBusMessageImpl) => {
         try {
-          const span = createProcessingSpan(message, this, this._context.config, operationOptions);
-          return await trace(() => userHandlers.processMessage(message), span);
-        } catch (err) {
+          await tracingClient.withSpan(
+            "StreamReceiver.process",
+            operationOptions ?? {},
+            () => userHandlers.processMessage(message),
+            toProcessingSpanOptions(message, this, this._context.config)
+          );
+        } catch (err: any) {
           this._messageHandlers().processError({
             error: err,
             errorSource: "processMessageCallback",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host,
+            identifier: this.identifier,
           });
           throw err;
         }
@@ -507,6 +526,7 @@ export class StreamingReceiver extends MessageReceiver {
             errorSource: "processMessageCallback",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host,
+            identifier: this.identifier,
           })
         );
       },
@@ -521,6 +541,7 @@ export class StreamingReceiver extends MessageReceiver {
             errorSource: "processMessageCallback",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host,
+            identifier: this.identifier,
           })
         );
       },
@@ -553,14 +574,15 @@ export class StreamingReceiver extends MessageReceiver {
             errorSource: "receive",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host,
+            identifier: this.identifier,
           }),
         logPrefix: this.logPrefix,
         logger,
       });
-    } catch (err) {
+    } catch (err: any) {
       try {
         await this._receiverHelper.suspend();
-      } catch (error) {
+      } catch (error: any) {
         logger.logError(error, `${this.logPrefix} receiver.suspend threw an error`);
       }
 
@@ -601,15 +623,16 @@ export class StreamingReceiver extends MessageReceiver {
     try {
       await this._messageHandlers().postInitialize();
       this._receiverHelper.addCredit(this.maxConcurrentCalls);
-    } catch (err) {
+    } catch (err: any) {
       try {
         await this.closeLink();
-      } catch (error) {
+      } catch (error: any) {
         await this._messageHandlers().processError({
           error,
           errorSource: "receive",
           entityPath: this.entityPath,
           fullyQualifiedNamespace: this._context.config.host,
+          identifier: this.identifier,
         });
       }
       throw err;
@@ -661,7 +684,7 @@ export class StreamingReceiver extends MessageReceiver {
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
       await this.closeLink();
-    } catch (err) {
+    } catch (err: any) {
       logger.verbose(
         `${this.logPrefix} onDetached: Encountered an error when closing the previous link: `,
         err

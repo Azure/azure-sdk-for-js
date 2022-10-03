@@ -61,16 +61,18 @@ export class ADCCatalogsImpl implements ADCCatalogs {
    * updated and any immutable properties will remain unchanged.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param catalogName The name of the data catalog in the specified subscription and resource group.
    * @param properties Properties supplied to the Create or Update a data catalog.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
+    catalogName: string,
     properties: ADCCatalog,
     options?: ADCCatalogsCreateOrUpdateOptionalParams
   ): Promise<ADCCatalogsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, properties, options },
+      { resourceGroupName, catalogName, properties, options },
       createOrUpdateOperationSpec
     );
   }
@@ -79,14 +81,16 @@ export class ADCCatalogsImpl implements ADCCatalogs {
    * The Get Azure Data Catalog Service operation retrieves a json representation of the data catalog.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param catalogName The name of the data catalog in the specified subscription and resource group.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
+    catalogName: string,
     options?: ADCCatalogsGetOptionalParams
   ): Promise<ADCCatalogsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
+      { resourceGroupName, catalogName, options },
       getOperationSpec
     );
   }
@@ -95,10 +99,12 @@ export class ADCCatalogsImpl implements ADCCatalogs {
    * The Delete Azure Data Catalog Service operation deletes an existing data catalog.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param catalogName The name of the data catalog in the specified subscription and resource group.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
+    catalogName: string,
     options?: ADCCatalogsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
@@ -142,26 +148,34 @@ export class ADCCatalogsImpl implements ADCCatalogs {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, options },
+      { resourceGroupName, catalogName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * The Delete Azure Data Catalog Service operation deletes an existing data catalog.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param catalogName The name of the data catalog in the specified subscription and resource group.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
+    catalogName: string,
     options?: ADCCatalogsDeleteOptionalParams
   ): Promise<void> {
-    const poller = await this.beginDelete(resourceGroupName, options);
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      catalogName,
+      options
+    );
     return poller.pollUntilDone();
   }
 
@@ -170,16 +184,18 @@ export class ADCCatalogsImpl implements ADCCatalogs {
    * update call only supports the properties listed in the PATCH body.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param catalogName The name of the data catalog in the specified subscription and resource group.
    * @param properties Properties supplied to the Update a data catalog.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
+    catalogName: string,
     properties: ADCCatalog,
     options?: ADCCatalogsUpdateOptionalParams
   ): Promise<ADCCatalogsUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, properties, options },
+      { resourceGroupName, catalogName, properties, options },
       updateOperationSpec
     );
   }

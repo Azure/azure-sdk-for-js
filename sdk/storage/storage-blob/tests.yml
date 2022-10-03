@@ -7,7 +7,7 @@ stages:
       ServiceDirectory: storage
       TimeoutInMinutes: 90
       Clouds: Preview
-      Location: westus
+      Location: canadacentral
       MatrixFilters:
         - DependencyVersion=^$
       MatrixConfigs:

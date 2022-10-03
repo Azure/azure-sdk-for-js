@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import {
-  makeTextAnalyticsSuccessResult,
-  TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
+  TextAnalyticsSuccessResult,
   makeTextAnalyticsErrorResult,
+  makeTextAnalyticsSuccessResult,
 } from "./textAnalyticsResult";
-import { DetectedLanguage, TextAnalyticsError, DocumentLanguage } from "./generated/models";
+import { DetectedLanguage, DocumentLanguage, TextAnalyticsError } from "./generated/models";
 
 /**
  * The result of the detect language operation on a single document.

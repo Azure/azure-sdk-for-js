@@ -18,7 +18,7 @@ export function throws(
 
   try {
     syncFunction();
-  } catch (error) {
+  } catch (error: any) {
     thrownError = error;
   }
 
@@ -50,7 +50,7 @@ export async function throwsAsync<T>(
 
   try {
     await (typeof asyncFunction === "function" ? asyncFunction() : asyncFunction);
-  } catch (error) {
+  } catch (error: any) {
     thrownError = error;
   }
 

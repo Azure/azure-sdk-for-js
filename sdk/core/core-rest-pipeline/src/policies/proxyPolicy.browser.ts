@@ -20,3 +20,13 @@ export function getDefaultProxySettings(): never {
 export function proxyPolicy(): never {
   throw NotSupported;
 }
+
+/**
+ * A function to reset the cached agents.
+ * proxyPolicy is not supported in the browser and attempting
+ * to use it will raise an error.
+ * @internal
+ */
+export function resetCachedProxyAgents(): never {
+  throw NotSupported;
+}

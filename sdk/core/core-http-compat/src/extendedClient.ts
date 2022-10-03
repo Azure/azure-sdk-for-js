@@ -6,15 +6,15 @@ import { createDisableKeepAlivePolicy } from "./policies/disableKeepAlivePolicy"
 import { RedirectOptions } from "./policies/redirectOptions";
 import { redirectPolicyName } from "@azure/core-rest-pipeline";
 import {
-  ServiceClient,
-  ServiceClientOptions,
   CommonClientOptions,
+  FullOperationResponse,
   OperationArguments,
   OperationSpec,
-  FullOperationResponse,
   RawResponseCallback,
+  ServiceClient,
+  ServiceClientOptions,
 } from "@azure/core-client";
-import { toWebResourceLike, toHttpHeaderLike } from "./util";
+import { toCompatResponse } from "./response";
 
 /**
  * Options specific to Shim Clients.
@@ -94,11 +94,7 @@ export class ExtendedServiceClient extends ServiceClient {
 
     if (lastResponse) {
       Object.defineProperty(result, "_response", {
-        value: {
-          ...lastResponse,
-          request: toWebResourceLike(lastResponse.request),
-          headers: toHttpHeaderLike(lastResponse.headers),
-        },
+        value: toCompatResponse(lastResponse),
       });
     }
 

@@ -1,5 +1,60 @@
 # Release History
 
+## 7.7.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 7.7.1 (2022-09-07)
+
+### Bugs Fixed
+
+- Updating the `sendMessages` API to not batch the messages when it is just a single message. This allows users to send individual large message (>1MB) using the `sendMessages` API. [#23014](https://github.com/Azure/azure-sdk-for-js/pull/23014)
+
+## 7.7.0 (2022-08-09)
+
+### Features Added
+
+- Add Client Identifier support [tracking issue: #21902](https://github.com/Azure/azure-sdk-for-js/issues/21902)
+
+### Bugs Fixed
+
+- Fix an invalid date issue when converting a `ServiceBusMessage` with `timeToLive` property set to a `RheaMessage`.
+
+### Other Changes
+
+- Updated our `@azure/core-tracing` dependency to the latest version (v1.0.0)
+
+## 7.6.0 (2022-07-07)
+
+### Other Changes
+
+- Stop yielding empty page when listing rules using RuleManager.
+- Improves documentation for `maxAutoLockRenewalDurationInMs` with an example to clarify its usage. [#22343](https://github.com/Azure/azure-sdk-for-js/pull/22343)
+
+## 7.6.0-beta.4 (2022-06-07)
+
+### Features Added
+
+- Add support to add, retrieve, and remove subscription-level rules via AMQP links. [PR #22018](https://github.com/Azure/azure-sdk-for-js/pull/22018)
+
+## 7.6.0-beta.3 (2022-05-19)
+
+### Features Added
+
+- Add an option `omitMessageBody` in `PeekMessagesOptions` allowing omitting message body when peeking messages using `receiver.peekMessages()`
+
+## 7.6.0-beta.2 (2022-05-10)
+
+### Features Added
+
+- Adds the `customEndpointAddress` field to `ServiceBusClientOptions`. This allows for specifying a custom endpoint to use when communicating with the Service Bus service, which is useful when your network does not allow communicating to the standard endpoint. Resolves [#21574](https://github.com/Azure/azure-sdk-for-js/issues/21574).
+
 ## 7.6.0-beta.1 (2022-04-05)
 
 ### Bugs Fixed

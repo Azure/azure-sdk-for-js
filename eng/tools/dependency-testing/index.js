@@ -37,7 +37,7 @@ let argv = require("yargs")
 const fs = require("fs");
 const path = require("path");
 const semver = require("semver");
-const packageUtils = require("eng-package-utils");
+const packageUtils = require("@azure-tools/eng-package-utils");
 // crossSpawn is used because of its ability to better handle corner cases that break when using spawn in Windows environments.
 // For more details see - https://www.npmjs.com/package/cross-spawn
 let crossSpawn = require("cross-spawn");
@@ -185,12 +185,16 @@ async function findAppropriateVersion(package, packageJsonDepVersion, repoRoot, 
   if (isUtility) {
     return packageJsonDepVersion;
   }
-  let allNPMVersions = await getVersions(package);
-  if (allNPMVersions) {
+  let allNPMVersionsString = await getVersions(package);
+  if (allNPMVersionsString) {
+    let allVersions = JSON.parse(allNPMVersionsString);
+    if (typeof allVersions === "string") {
+      allVersions = [ allVersions ];
+    }
     console.log(versionType);
     if (versionType === "min") {
       let minVersion = await semver.minSatisfying(
-        JSON.parse(allNPMVersions),
+        allVersions,
         packageJsonDepVersion
       );
       if (minVersion) {
@@ -207,7 +211,7 @@ async function findAppropriateVersion(package, packageJsonDepVersion, repoRoot, 
     } else if (versionType === "max") {
       console.log("calling semver max satisfying");
       let maxVersion = await semver.maxSatisfying(
-        JSON.parse(allNPMVersions),
+        allVersions,
         packageJsonDepVersion
       );
       if (maxVersion) {
@@ -281,7 +285,7 @@ async function readAndReplaceSourceReferences(filePath, packageName) {
     'path.resolve(path.join(process.cwd(),"..","..", "assets"'
   );
   // Regex for internal references = /* ["']+[../]*src[/][a-z]+["'] */
-  let internalrefs = testAssetsContent.match(/[\"\']+[..//]*src[//][a-zA-Z]+[\"\']+/g);
+  let internalrefs = testAssetsContent.match(/[\"\']+[..//]*src[//][a-zA-Z/]+[\"\']+/g);
   let writeContent = "";
   if (internalrefs) {
     console.log("internal refs = ");
@@ -357,32 +361,6 @@ async function updateRushConfig(repoRoot, targetPackage, testFolder) {
   await packageUtils.writePackageJson(rushPath, rushSpec);
 }
 
-async function updateCommonVersions(repoRoot, allowedVersionList) {
-  const commonVersionsConfig = await packageUtils.getRushCommonVersions(repoRoot);
-  let allowedAlternativeVersions = commonVersionsConfig["allowedAlternativeVersions"];
-  console.dir(allowedVersionList);
-  console.dir(allowedAlternativeVersions);
-  for (const package in allowedVersionList) {
-    console.log(package);
-    console.log(allowedVersionList[package]);
-    if (allowedVersionList[package] && !allowedAlternativeVersions[package]) {
-      allowedAlternativeVersions[package] = [allowedVersionList[package]];
-    } else if (
-      allowedVersionList[package] &&
-      !allowedAlternativeVersions[package].includes(allowedVersionList[package])
-    ) {
-      allowedAlternativeVersions[package].push(allowedVersionList[package]);
-    }
-  }
-  console.dir(allowedAlternativeVersions);
-  let newConfig = commonVersionsConfig;
-  newConfig["allowedAlternativeVersions"] = allowedAlternativeVersions;
-  const commonVersionsPath = path.resolve(
-    path.join(repoRoot, "/common/config/rush/common-versions.json")
-  );
-  console.log(newConfig);
-  await packageUtils.writePackageJson(commonVersionsPath, newConfig);
-}
 
 async function getPackageFromRush(repoRoot, packageName) {
   const rushSpec = await packageUtils.getRushSpec(repoRoot);
@@ -410,7 +388,7 @@ async function main(argv) {
   const packageJsonLocation = path.join(targetPackagePath, "package.json");
 
   const packageJsonContents = await packageUtils.readFileJson(packageJsonLocation);
-  const allowedVersionList = await insertPackageJson(
+  await insertPackageJson(
     repoRoot,
     packageJsonContents,
     targetPackagePath,
@@ -426,7 +404,6 @@ async function main(argv) {
   await replaceSourceReferences(targetPackagePath, targetPackage.packageName, testFolder);
   await insertMochaReporter(targetPackagePath, repoRoot, testFolder);
   await updateRushConfig(repoRoot, targetPackage, testFolder);
-  await updateCommonVersions(repoRoot, allowedVersionList);
   outputTestPath(targetPackage.projectFolder, sourceDir, testFolder);
 }
 main(argv);

@@ -31,7 +31,7 @@ import { CreateMessageBatchOptions } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
-import { isDefined } from "../util/typeGuards";
+import { isDefined } from "@azure/core-util";
 import { defaultDataTransformer } from "../dataTransformer";
 
 /**
@@ -64,6 +64,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   private _retryOptions: RetryOptions;
 
   constructor(
+    private identifier: string,
     connectionContext: ConnectionContext,
     entityPath: string,
     retryOptions: RetryOptions
@@ -139,6 +140,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       target: {
         address: this.address,
       },
+      source: this.identifier,
       onError: this._onAmqpError,
       onClose: this._onAmqpClose,
       onSessionError: this._onSessionError,
@@ -181,7 +183,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
               `with address "${this.address}", was not able to send the message right now, due ` +
               `to operation timeout.`,
           });
-        } catch (err) {
+        } catch (err: any) {
           const translatedError = translateServiceBusError(err);
           logger.logError(
             translatedError,
@@ -262,7 +264,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
           this.name,
           delivery.id
         );
-      } catch (error) {
+      } catch (error: any) {
         const translatedError = translateServiceBusError(error.innerError || error);
         logger.logError(
           translatedError,
@@ -298,7 +300,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         options = this._createSenderOptions();
       }
       await this.initLink(options, abortSignal);
-    } catch (err) {
+    } catch (err: any) {
       const translatedError = translateServiceBusError(err);
       logger.logError(
         translatedError,
@@ -355,7 +357,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       const encodedMessage = RheaMessageUtil.encode(amqpMessage);
       logger.verbose("%s Sender '%s', trying to send message: %O", this.logPrefix, this.name, data);
       return await this._trySend(encodedMessage, false, options);
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(
         err,
         "%s An error occurred while sending the message: %O\nError",
@@ -442,7 +444,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         batchMessage
       );
       return await this._trySend(batchMessage._generateMessage(), true, options);
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(
         err,
         "%s Sender '%s': An error occurred while sending the messages: %O\nError",
@@ -455,13 +457,14 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   }
 
   static create(
+    identifier: string,
     context: ConnectionContext,
     entityPath: string,
     retryOptions: RetryOptions
   ): MessageSender {
     throwErrorIfConnectionClosed(context);
 
-    const sbSender = new MessageSender(context, entityPath, retryOptions);
+    const sbSender = new MessageSender(identifier, context, entityPath, retryOptions);
     context.senders[sbSender.name] = sbSender;
     return sbSender;
   }

@@ -85,7 +85,7 @@ export class Segment {
         this.shardIndex = (this.shardIndex + 1) % this.shards.length;
       }
       return event;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

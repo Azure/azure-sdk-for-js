@@ -10,7 +10,7 @@ import {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter
-} from "@azure/core-http";
+} from "@azure/core-client";
 import { SendMessageRequest as SendMessageRequestMapper } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -28,6 +28,18 @@ export const contentType: OperationParameter = {
 export const sendMessageRequest: OperationParameter = {
   parameterPath: "sendMessageRequest",
   mapper: SendMessageRequestMapper
+};
+
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const endpoint: OperationURLParameter = {
