@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how the sendNotification() method can be used to send a tags list
+ * This sample demonstrates how the sendDirectNotification() method can be used to send a direct batch
  * notification using APNs.  This sends a JSON message to an APNs given device token and returns
  * a Tracking ID which can be used for troubleshooting with the Azure Notification Hubs team.
  *
- * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-tags-segment-push-message
- * to learn about Routing and Tag Expressions.
+ * See https://learn.microsoft.com/rest/api/notificationhubs/direct-batch-send
+ * to learn about Direct Send Batch.
  *
  *
- * @summary Demonstrates how to send tag expression notifications using Azure Notification Hubs
+ * @summary Demonstrates how to send direct notifications using Azure Notification Hubs
  * @azsdk-weight 100
  */
 
@@ -23,7 +23,6 @@ import {
   NotificationHubsClientContext,
   createClientContext,
 } from "@azure/notification-hubs/client";
-import { SendNotificationOptions } from "../src/models/options.js";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { delay } from "@azure/core-util";
 import { getNotificationOutcomeDetails } from "@azure/notification-hubs/client/getNotificationOutcomeDetails";
@@ -36,11 +35,14 @@ dotenv.config();
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
+// Define message constants
+const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
+const deviceHandle = process.env.APNS_DEVICE_TOKENS?.split(",") || [DUMMY_DEVICE];
+
 async function main() {
   const context = createClientContext(connectionString, hubName);
 
-  const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
-  const tags = ["likes_hockey", "likes_football"];
+  const messageBody = `{ "aps" : { "alert" : { title: "Hello", body: "Hello there SDK Review!" } } }`;
 
   const notification = createAppleNotification({
     body: messageBody,
@@ -50,16 +52,14 @@ async function main() {
     },
   });
 
-  // Not required but can set test send to true for debugging purposes.
-  const sendOptions: SendNotificationOptions = { enableTestSend: false, tags };
-  const result = await sendNotification(context, notification, sendOptions);
+  const result = await sendNotification(context, notification, { deviceHandle });
 
-  console.log(`Tag List send Tracking ID: ${result.trackingId}`);
-  console.log(`Tag List Correlation ID: ${result.correlationId}`);
+  console.log(`Direct send Tracking ID: ${result.trackingId}`);
+  console.log(`Direct send Correlation ID: ${result.correlationId}`);
 
   // Only available in Standard SKU and above
   if (result.notificationId) {
-    console.log(`Tag List send Notification ID: ${result.notificationId}`);
+    console.log(`Direct send Notification ID: ${result.notificationId}`);
 
     const results = await getNotificationDetails(context, result.notificationId);
     if (results) {
@@ -90,6 +90,6 @@ async function getNotificationDetails(
 }
 
 main().catch((err) => {
-  console.log("sendTagsList Sample: Error occurred: ", err);
+  console.log("sendDirectNotification Sample: Error occurred: ", err);
   process.exit(1);
 });

@@ -308,6 +308,11 @@ export interface DeviceTokenInstallation extends InstallationCommon {
 }
 
 // @public
+export interface DirectSendNotificationOptions extends OperationOptions {
+    deviceHandle: string | BrowserPushChannel | string[];
+}
+
+// @public
 export interface EntityOperationOptions extends OperationOptions {
     etag?: string;
 }
@@ -407,6 +412,16 @@ export interface InstallationTemplate {
     headers: Record<string, string>;
     tags?: string[];
 }
+
+// Warning: (ae-internal-missing-underscore) The name "isDirectSendNotificationOptions" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export function isDirectSendNotificationOptions(options: unknown): options is DirectSendNotificationOptions;
+
+// Warning: (ae-internal-missing-underscore) The name "isSendNotificationOptions" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export function isSendNotificationOptions(options: unknown): options is SendNotificationOptions;
 
 // @public
 export interface JsonNotification extends NotificationCommon {
@@ -565,11 +580,8 @@ export class NotificationHubsServiceClient {
     listNotificationHubJobs(options?: OperationOptions): Promise<NotificationHubJob[]>;
     listRegistrations(options?: RegistrationQueryOptions): PagedAsyncIterableIterator<RegistrationDescription>;
     listRegistrationsByTag(tag: string, options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
-    scheduleBroadcastNotification(scheduledTime: Date, notification: Notification, options?: OperationOptions): Promise<NotificationHubsMessageResponse>;
-    scheduleNotification(scheduledTime: Date, tags: string[] | string, notification: Notification, options?: OperationOptions): Promise<NotificationHubsMessageResponse>;
-    sendBroadcastNotification(notification: Notification, options?: SendOperationOptions): Promise<NotificationHubsMessageResponse>;
-    sendDirectNotification(pushHandle: PushHandle, notification: Notification, options?: OperationOptions): Promise<NotificationHubsMessageResponse>;
-    sendNotification(tags: string[] | string, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubsMessageResponse>;
+    scheduleNotification(scheduledTime: Date, notification: Notification, options?: ScheduleNotificationOptions): Promise<NotificationHubsMessageResponse>;
+    sendNotification(notification: Notification, options?: DirectSendNotificationOptions | SendNotificationOptions): Promise<NotificationHubsMessageResponse>;
     submitNotificationHubJob(job: NotificationHubJob, options?: OperationOptions): Promise<NotificationHubJob>;
     updateInstallation(installationId: string, patches: JsonPatch[], options?: OperationOptions): Promise<NotificationHubsResponse>;
     updateRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
@@ -628,8 +640,14 @@ export interface RegistrationResult {
 export type RegistrationType = "Adm" | "AdmTemplate" | "Apple" | "AppleTemplate" | "Baidu" | "BaiduTemplate" | "Browser" | "BrowserTemplate" | "Gcm" | "GcmTemplate" | "Mpns" | "MpnsTemplate" | "Windows" | "WindowsTemplate";
 
 // @public
-export interface SendOperationOptions extends OperationOptions {
+export interface ScheduleNotificationOptions extends OperationOptions {
+    tags?: string | string[];
+}
+
+// @public
+export interface SendNotificationOptions extends OperationOptions {
     enableTestSend?: boolean;
+    tags?: string | string[];
 }
 
 // @public

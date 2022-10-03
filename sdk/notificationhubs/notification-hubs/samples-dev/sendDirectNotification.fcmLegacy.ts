@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how the sendDirectNotification() method can be used to send a direct
- * notification using APNs.  This sends a JSON message to an APNs given device token and returns
+ * This sample demonstrates how the sendNotification() method can be used to send a direct
+ * notification using Firebase Legacy HTTP.  This sends a JSON message to an Firebase given registration ID and returns
  * a Tracking ID which can be used for troubleshooting with the Azure Notification Hubs team.
  *
  * See https://docs.microsoft.com/rest/api/notificationhubs/direct-send
@@ -14,6 +14,7 @@
  * @azsdk-weight 100
  */
 
+import * as dotenv from "dotenv";
 import {
   NotificationDetails,
   NotificationOutcomeState,
@@ -25,10 +26,9 @@ import {
 import { createFcmLegacyNotification } from "@azure/notification-hubs/models/notification";
 import { delay } from "@azure/core-util";
 import { getNotificationOutcomeDetails } from "@azure/notification-hubs/client/getNotificationOutcomeDetails";
-import { sendDirectNotification } from "@azure/notification-hubs/client/sendDirectNotification";
+import { sendNotification } from "@azure/notification-hubs/client/sendNotification";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and hub name
@@ -57,7 +57,7 @@ async function main() {
     body: messageBody,
   });
 
-  const result = await sendDirectNotification(context, gcmRegistrationId, notification);
+  const result = await sendNotification(context, notification, { deviceHandle: gcmRegistrationId });
 
   console.log(`Direct send Tracking ID: ${result.trackingId}`);
   console.log(`Direct send Correlation ID: ${result.correlationId}`);

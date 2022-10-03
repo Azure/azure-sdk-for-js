@@ -14,6 +14,7 @@
  * @azsdk-weight 100
  */
 
+import * as dotenv from "dotenv";
 import {
   NotificationDetails,
   NotificationOutcomeState,
@@ -25,10 +26,9 @@ import {
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { delay } from "@azure/core-util";
 import { getNotificationOutcomeDetails } from "@azure/notification-hubs/client/getNotificationOutcomeDetails";
-import { sendDirectNotification } from "@azure/notification-hubs/client/sendDirectNotification";
+import { sendNotification } from "@azure/notification-hubs/client/sendNotification";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and hub name
@@ -37,7 +37,7 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
 // Define message constants
 const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
-const devicetoken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
+const deviceHandle = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
 
 async function main() {
   const context = createClientContext(connectionString, hubName);
@@ -52,7 +52,7 @@ async function main() {
     },
   });
 
-  const result = await sendDirectNotification(context, devicetoken, notification);
+  const result = await sendNotification(context, notification, { deviceHandle });
 
   console.log(`Direct send Tracking ID: ${result.trackingId}`);
   console.log(`Direct send Correlation ID: ${result.correlationId}`);

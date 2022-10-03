@@ -359,7 +359,7 @@ for await (const pages of registrations.byPage()) {
 
 Notification Hubs supports sending notifications to devices either directly using the unique PNS provided identifier, using tags for audience send, or a general broadcast to all devices.  Using the Standard SKU and above, [scheduled send](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-send-push-notifications-scheduled) allows the user to schedule notifications up to seven days in advance.  All send operations return a Tracking ID and Correlation ID which can be used for Notification Hubs support cases.  With the Standard SKU and above, a Notification ID is also returned which can be used to get notification telemetry via the `getNotificationOutcomeDetails` method.
 
-For debugging purposes, the `enableTestSend` options can be set to `true` which gets immediate feedback from the PNS on the `sendNotification` or `sendBroadcastNotification` methods, however, is not supported in production scenarios.  This is not supported on the scheduled send methods.
+For debugging purposes, the `enableTestSend` options can be set to `true` which gets immediate feedback from the PNS on the `sendNotification` method, however, is not supported in production scenarios.  This is not supported on the scheduled send methods.
 
 Raw JSON or XML strings can be sent to the send or scheduled send methods, or the notification builders can be used which helps construct messages per PNS such as APNs, Firebase, Baidu, ADM and WNS.  These builders will build the native message format and fill in associated HTTP headers so there is no guessing about which fields are available for each PNS.
 
@@ -388,12 +388,12 @@ const result = await sendBroadcastNotification(context, apnsMessage);
 
 #### Broadcast Send
 
-Notification Hubs can be used to send notifications to all registered devices per platform using broadcast send through the `sendBroadcastNotification` method.
+Notification Hubs can be used to send notifications to all registered devices per platform using broadcast send through the `sendNotification` method.
 
 ```typescript
 import { 
   NotificationHubServiceClient,
-  SendOperationOptions,
+  SendNotificationOptions,
   createAppleNotification,
 } from "@azure/notification-hubs/client";
 
@@ -409,8 +409,7 @@ const message = createAppleNotification({
   },
 });
 
-// Not required but can set test send to true for debugging purposes.
-const sendOptions: SendOperationOptions = { enableTestSend: false };
+const sendOptions: SendNotificationOptions = { enableTestSend: false };
 const result = await client.sendBroadcastNotification(message, sendOptions);
 
 console.log(`Tracking ID: ${result.trackingId}`);
@@ -442,8 +441,7 @@ const message = createAppleNotification({
   },
 });
 
-// Not required but can set test send to true for debugging purposes.
-const sendOptions: SendOperationOptions = { enableTestSend: false };
+const sendOptions: SendNotificationOptions = { enableTestSend: false };
 const result = await sendBroadcastNotification(context, message, sendOptions);
 
 console.log(`Tracking ID: ${result.trackingId}`);
@@ -457,18 +455,17 @@ if (result.notificationId) {
 
 #### Direct Send
 
-To send directly a device, the user can send using the platform provided unique identifier such as APNs device token by calling the `sendDirectNotification` method.  
+To send directly a device, the user can send using the platform provided unique identifier such as APNs device token by calling the `sendNotification` method with a `deviceHandle` parameter.  
 
 ```typescript
 import {
   NotificationHubServiceClient,
-  SendOperationOptions,
   createAppleNotification,
 } from "@azure/notification-hubs";
 
 const client = new NotificationHubServiceClient(connectionString, hubName);
 
-const deviceToken = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
+const deviceHandle = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
 const message = createAppleNotification({
@@ -479,7 +476,7 @@ const message = createAppleNotification({
   },
 });
 
-const result = await client.sendDirectNotification(devicetoken, message);
+const result = await client.sendDirectNotification(message, { deviceHandle });
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -493,14 +490,13 @@ if (result.notificationId) {
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { SendOperationOptions } from "@azure/notification-hubs/models/options";
 import { createClientContext } from "@azure/notification-hubs/client";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
-import { sendDirectNotification } from "@azure/notification-hubs/client/sendDirectNotification";
+import { sendNotification } from "@azure/notification-hubs/client/sendDirectNotification";
 
 const context = createClientContext(connectionString, hubName);
 
-const deviceToken = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
+const deviceHandle = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
 const message = createAppleNotification({
@@ -511,7 +507,7 @@ const message = createAppleNotification({
   },
 });
 
-const result = await sendDirectNotification(context, devicetoken, message, sendOptions);
+const result = await sendNotification(context, message, { deviceHandle });
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -529,7 +525,7 @@ In addition to targeting a single device, a user can target multiple devices usi
 ```typescript
 import {
   NotificationHubServiceClient,
-  SendOperationOptions,
+  SendNotificationOptions,
   createAppleMessage,
 } from "@azure/notification-hubs";
 
@@ -548,8 +544,8 @@ const message = createAppleMessage({
 
 
 // Not required but can set test send to true for debugging purposes.
-const sendOptions: SendOperationOptions = { enableTestSend: false };
-const result = await client.sendNotification(tagExpression, message, sendOptions);
+const sendOptions: SendNotificationOptions = { enableTestSend: false, tags: tagExpression };
+const result = await client.sendNotification(message, sendOptions);
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -563,7 +559,7 @@ if (result.notificationId) {
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { SendOperationOptions } from "@azure/notification-hubs/models/options";
+import { SendNotificationOptions } from "@azure/notification-hubs/models/options";
 import { createClientContext } from "@azure/notification-hubs/client";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { sendNotification } from "@azure/notification-hubs/client/sendNotification";
@@ -583,7 +579,7 @@ const message = createAppleMessage({
 
 
 // Not required but can set test send to true for debugging purposes.
-const sendOptions: SendOperationOptions = { enableTestSend: false };
+const sendOptions: SendNotificationOptions = { enableTestSend: false, tags: tagExpression };
 const result = await sendNotification(context, tagExpression, message, sendOptions);
 
 console.log(`Tracking ID: ${result.trackingId}`);
@@ -597,12 +593,11 @@ if (result.notificationId) {
 
 #### Scheduled Send
 
-Push notifications can be scheduled up to seven days in advance with Standard SKU namespaces and above using the `scheduleBroadcastNotification` method to send to devices with tags or a general broadcast with the `scheduleBroadcastNotification`.  This returns a notification ID which can be then used to cancel if necessary via the `cancelScheduledNotification` method.
+Push notifications can be scheduled up to seven days in advance with Standard SKU namespaces and above using the `scheduleBroadcastNotification` method to send to devices with tags or a general broadcast.  This returns a notification ID which can be then used to cancel if necessary via the `cancelScheduledNotification` method.
 
 ```typescript
 import {
   NotificationHubServiceClient,
-  SendOperationOptions,
   createAppleNotification,
 } from "@azure/notification-hubs";
 
@@ -622,7 +617,7 @@ const message = createAppleNotification({
   },
 });
 
-const result = await client.scheduleNotification(scheduledTime, tagExpression, message);
+const result = await client.scheduleNotification(scheduledTime, message, { tags: tagExpression });
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -634,7 +629,6 @@ console.log(`Notification ID: ${result.notificationId}`);
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { SendOperationOptions } from "@azure/notification-hubs/models/options";
 import { createClientContext } from "@azure/notification-hubs/client";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { scheduleNotification } from "@azure/notification-hubs/client/scheduleNotification";
@@ -655,7 +649,7 @@ const message = createAppleNotification({
   },
 });
 
-const result = await scheduleNotification(context, scheduledTime, tagExpression, message);
+const result = await scheduleNotification(context, scheduledTime, message, { tags: tagExpression });
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
