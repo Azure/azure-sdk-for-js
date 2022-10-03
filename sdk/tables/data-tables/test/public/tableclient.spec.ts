@@ -2,14 +2,13 @@
 // Licensed under the MIT license.
 
 import { Edm, TableClient, TableEntity, TableEntityResult, odata } from "../../src";
-import { Recorder, isPlaybackMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
 import { isNode, isNode8 } from "@azure/test-utils";
-
 import { Context } from "mocha";
 import { FullOperationResponse } from "@azure/core-client";
+import { SendRequest } from "@azure/core-rest-pipeline";
 import { assert } from "@azure/test-utils";
 import { createTableClient } from "./utils/recordedClient";
-import { SendRequest } from "@azure/core-rest-pipeline";
 import sinon from "sinon";
 
 describe("special characters", () => {
@@ -703,8 +702,8 @@ describe("regional failover", () => {
   const suffix = isNode ? "node" : "browser";
   const tableName = `RegionalFailover${suffix}`;
   const secondaryEndpoint = assertEnvironmentVariable("SECONDARY_URL");
-  function stubRetryPolicy(client: TableClient) {
-    const retryPolicy = client.pipeline
+  function stubRetryPolicy(tableClient: TableClient) {
+    const retryPolicy = tableClient.pipeline
       .getOrderedPolicies()
       .find((policy) => policy.name.toLowerCase().includes("retrypolicy"));
     if (!retryPolicy) {
@@ -712,17 +711,17 @@ describe("regional failover", () => {
     }
 
     const stub = sinon.stub(retryPolicy, "sendRequest").callsFake(async (request, next) => {
-      const nextWithFailingPrimary: SendRequest = async (request) => {
-        const response = await next(request);
+      const nextWithFailingPrimary: SendRequest = async (req) => {
+        const response = await next(req);
         if (
-          new URL(request.url).origin === new URL(client.url).origin &&
-          ["GET", "HEAD", "OPTIONS"].includes(request.method)
+          new URL(req.url).origin === new URL(tableClient.url).origin &&
+          ["GET", "HEAD", "OPTIONS"].includes(req.method)
         ) {
           response.status = 500;
         }
         return response;
       };
-      return await stub.wrappedMethod(request, nextWithFailingPrimary);
+      return stub.wrappedMethod(request, nextWithFailingPrimary);
     });
 
     return stub;
@@ -744,7 +743,7 @@ describe("regional failover", () => {
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
-    //todo: test with every auth mode
+    // todo: test with every auth mode
     client = await createTableClient(tableName, "SASConnectionString", recorder, {
       secondaryEndpoint,
     });

@@ -42,7 +42,7 @@ import {
   isSASCredential,
   isTokenCredential,
 } from "@azure/core-auth";
-import { defaultFailoverHostGenerator, Pipeline } from "@azure/core-rest-pipeline";
+import { Pipeline, defaultFailoverHostGenerator } from "@azure/core-rest-pipeline";
 import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { decodeContinuationToken, encodeContinuationToken } from "./utils/continuationToken";
 import {
