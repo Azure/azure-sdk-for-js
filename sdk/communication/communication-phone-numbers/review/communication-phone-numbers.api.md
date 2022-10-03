@@ -7,6 +7,7 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { CommonClientOptions } from '@azure/core-client';
+import * as coreClient from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -162,6 +163,16 @@ export interface PhoneNumberSearchResult {
     phoneNumberType: PhoneNumberType;
     searchExpiresBy: Date;
     searchId: string;
+}
+
+// @public
+export interface PhoneNumbersListAreaCodesOptionalParams extends coreClient.OperationOptions {
+    administrativeDivision?: string;
+    assignmentType?: PhoneNumberAssignmentType;
+    locality?: string;
+    maxPageSize?: number;
+    phoneNumberType?: PhoneNumberType;
+    skip?: number;
 }
 
 // @public

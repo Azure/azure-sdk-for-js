@@ -46,14 +46,6 @@ matrix([[true, false]], async function (useAad) {
           countryCode: "CA",
         },
         {
-          localizedName: "Puerto Rico",
-          countryCode: "PR",
-        },
-        {
-          localizedName: "United Kingdom",
-          countryCode: "GB",
-        },
-        {
           localizedName: "United States",
           countryCode: "US",
         },

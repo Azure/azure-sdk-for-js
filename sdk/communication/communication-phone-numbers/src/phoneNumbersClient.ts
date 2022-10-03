@@ -406,7 +406,7 @@ export class PhoneNumbersClient {
       return this.client.phoneNumbers.listAreaCodes(countryCode, {
         ...updatedOptions,
         assignmentType: "application",
-        numberType: "tollFree",
+        phoneNumberType: "tollFree",
       });
     } catch (e: any) {
       span.setStatus({
@@ -446,7 +446,7 @@ export class PhoneNumbersClient {
     try {
       return this.client.phoneNumbers.listAreaCodes(countryCode, {
         ...updatedOptions,
-        numberType: "geographic",
+        phoneNumberType: "geographic",
       });
     } catch (e: any) {
       span.setStatus({

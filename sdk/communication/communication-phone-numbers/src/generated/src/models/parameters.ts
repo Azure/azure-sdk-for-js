@@ -106,8 +106,8 @@ export const administrativeDivision: OperationQueryParameter = {
   }
 };
 
-export const numberType: OperationQueryParameter = {
-  parameterPath: ["options", "numberType"],
+export const phoneNumberType: OperationQueryParameter = {
+  parameterPath: ["options", "phoneNumberType"],
   mapper: {
     serializedName: "phoneNumberType",
     type: {
@@ -150,7 +150,7 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const phoneNumberType: OperationParameter = {
+export const phoneNumberType1: OperationParameter = {
   parameterPath: "phoneNumberType",
   mapper: PhoneNumberSearchRequestMapper
 };

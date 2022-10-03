@@ -147,7 +147,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
     options?: PhoneNumbersListAvailableLocalitiesOptionalParams
   ): AsyncIterableIterator<PhoneNumberLocality[]> {
     let result = await this._listAvailableLocalities(countryCode, options);
-    yield result.localities || [];
+    yield result.phoneNumberLocalities || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listAvailableLocalitiesNext(
@@ -156,7 +156,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
         options
       );
       continuationToken = result.nextLink;
-      yield result.localities || [];
+      yield result.phoneNumberLocalities || [];
     }
   }
 
@@ -253,7 +253,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
     options?: PhoneNumbersListOfferingsOptionalParams
   ): AsyncIterableIterator<PhoneNumberOffering[]> {
     let result = await this._listOfferings(countryCode, options);
-    yield result.offerings || [];
+    yield result.phoneNumberOfferings || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listOfferingsNext(
@@ -262,7 +262,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
         options
       );
       continuationToken = result.nextLink;
-      yield result.offerings || [];
+      yield result.phoneNumberOfferings || [];
     }
   }
 
@@ -1046,7 +1046,7 @@ const listAreaCodesOperationSpec: coreClient.OperationSpec = {
     Parameters.maxPageSize,
     Parameters.apiVersion,
     Parameters.administrativeDivision,
-    Parameters.numberType,
+    Parameters.phoneNumberType,
     Parameters.assignmentType,
     Parameters.locality
   ],
@@ -1069,7 +1069,7 @@ const listOfferingsOperationSpec: coreClient.OperationSpec = {
     Parameters.skip,
     Parameters.maxPageSize,
     Parameters.apiVersion,
-    Parameters.numberType,
+    Parameters.phoneNumberType,
     Parameters.assignmentType
   ],
   urlParameters: [Parameters.endpoint, Parameters.countryCode],
@@ -1347,7 +1347,7 @@ const listAreaCodesNextOperationSpec: coreClient.OperationSpec = {
     Parameters.maxPageSize,
     Parameters.apiVersion,
     Parameters.administrativeDivision,
-    Parameters.numberType,
+    Parameters.phoneNumberType,
     Parameters.assignmentType,
     Parameters.locality
   ],
@@ -1374,7 +1374,7 @@ const listOfferingsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.skip,
     Parameters.maxPageSize,
     Parameters.apiVersion,
-    Parameters.numberType,
+    Parameters.phoneNumberType,
     Parameters.assignmentType
   ],
   urlParameters: [
