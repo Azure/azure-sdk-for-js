@@ -26,17 +26,15 @@ export interface DefaultRetryPolicyOptions extends PipelineRetryOptions {}
  * - Or otherwise if the outgoing request fails, it will retry with an exponentially increasing delay.
  */
 export function defaultRetryPolicy(options: DefaultRetryPolicyOptions = {}): PipelinePolicy {
+  const failover = failoverRetryStrategy(options);
+  const strategies = [throttlingRetryStrategy(), failover, exponentialRetryStrategy(options)];
+  if (!options.failoverHostGenerator) {
+    strategies.splice(strategies.indexOf(failover), 1);
+  }
   return {
     name: defaultRetryPolicyName,
-    sendRequest: retryPolicy(
-      [
-        throttlingRetryStrategy(),
-        failoverRetryStrategy(options),
-        exponentialRetryStrategy(options),
-      ],
-      {
-        maxRetries: options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT,
-      }
-    ).sendRequest,
+    sendRequest: retryPolicy(strategies, {
+      maxRetries: options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT,
+    }).sendRequest,
   };
 }
