@@ -3,7 +3,7 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationTracingOptions } from "@azure/core-tracing";
-import { FailoverHostGenerator } from "./retryStrategies/failoverRetryStrategy";
+import { FailoverHostIteratorFactory } from "./retryStrategies/failoverRetryStrategy";
 
 /**
  * A HttpHeaders collection represented as a simple JSON object.
@@ -345,7 +345,7 @@ export interface PipelineRetryOptions {
   /**
    * A generator for failover endpoints.
    */
-  failoverHostGenerator?: FailoverHostGenerator;
+  failoverHostGenerator?: FailoverHostIteratorFactory;
 }
 
 /**

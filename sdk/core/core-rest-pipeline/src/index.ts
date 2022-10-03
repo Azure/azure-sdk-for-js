@@ -88,7 +88,7 @@ export {
 } from "./policies/bearerTokenAuthenticationPolicy";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";
 export {
-  readWriteFailoverHostGenerator,
-  FailoverHostGenerator,
+  readWriteFailoverHostIteratorFactory,
+  FailoverHostIteratorFactory as FailoverHostGenerator,
   FailoverHostState,
 } from "./retryStrategies/failoverRetryStrategy";

@@ -7,12 +7,12 @@ import { DEFAULT_CLIENT_MAX_RETRY_INTERVAL, DEFAULT_CLIENT_RETRY_INTERVAL } from
 import { DefaultRetryPolicyOptions } from "../policies/defaultRetryPolicy";
 
 /**
- * A generator for failover hosts. Yields the next host to retry, or yields undefined if failover should be skipped.
+ * An iterator factory for failover hosts. Yields the next host to retry, or yields undefined if failover should be skipped.
  */
-export type FailoverHostGenerator = (
+export type FailoverHostIteratorFactory = (
   retryState: RetryInformation,
   options: DefaultRetryPolicyOptions
-) => Generator<FailoverHostState | undefined, void, RetryInformation>;
+) => Iterator<FailoverHostState | undefined, void, RetryInformation>;
 
 /**
  * A host for failover and its associated state.
@@ -41,10 +41,10 @@ declare interface FailoverHosts {
  *
  * If the request method is GET, HEAD, or OPTIONS, it cycles through `readHosts`. Otherwise, it cycles through `writeHosts`.
  */
-export function readWriteFailoverHostGenerator(options: {
+export function readWriteFailoverHostIteratorFactory(options: {
   readHosts?: string[];
   writeHosts?: string[];
-}): FailoverHostGenerator {
+}): FailoverHostIteratorFactory {
   const { readHosts, writeHosts } = options;
   const readHostStateList: FailoverHosts = {
     index: 0,
@@ -61,7 +61,7 @@ export function readWriteFailoverHostGenerator(options: {
     }),
   };
   return function* (retryState, options) {
-    while (retryState) {
+    while (true) {
       const response = retryState.response;
       const retryDelayInMs = options.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
       const maxRetryDelayInMs = options.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
@@ -102,7 +102,7 @@ export function readWriteFailoverHostGenerator(options: {
  * @returns An exponential retry strategy with support for multiple endpoints
  */
 export function failoverRetryStrategy(options: DefaultRetryPolicyOptions): RetryStrategy {
-  const generatorMap = new WeakMap<PipelineRequest, ReturnType<FailoverHostGenerator>>();
+  const generatorMap = new WeakMap<PipelineRequest, ReturnType<FailoverHostIteratorFactory>>();
   return {
     name: "failoverRetryStrategy",
     retry(state) {
