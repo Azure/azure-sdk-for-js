@@ -4,7 +4,14 @@
 
 ### Features Added
 
+- Added support for direct batch send for multiple device handles
+- Collapsed `sendDirectNotification` and `sendBroadcastNotification` into `sendNotification` with options for tags and device handles.
+- Collapsed `scheduleBroadcastNotification` into `scheduleNotification` with options for tags.
+
 ### Breaking Changes
+
+- Removed `sendDirectNotification` and `sendBroadcastNotification` in favor of `sendNotification` with `DirectSendNotificationOptions` options for a single or multiple device handles, or `SendNotificationOptions` options for tag based send or null/undefined/empty options for a broadcast notification.
+- Removed `scheduleBroadcastNotification` in favor of `scheduleNotification` with `ScheduleNotificationOptions` options for tag based send or null/undefined/empty option for a scheduled broadcast notification.
 
 ### Bugs Fixed
 
