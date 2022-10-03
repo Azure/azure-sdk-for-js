@@ -17,7 +17,7 @@ export type FailoverHostIteratorFactory = (
 /**
  * A host for failover and its associated state.
  */
-export declare interface FailoverHostState {
+export interface FailoverHostState {
   /**
    * The host which this policy will try next.
    */
@@ -31,7 +31,7 @@ export declare interface FailoverHostState {
    */
   retryAt?: Date;
 }
-declare interface FailoverHosts {
+interface FailoverHosts {
   index: number;
   hostStates: FailoverHostState[];
 }
