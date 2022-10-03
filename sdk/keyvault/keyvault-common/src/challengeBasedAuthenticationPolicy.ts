@@ -91,7 +91,7 @@ export function createChallengeCallbacks({
     };
   }
 
-  async function authorizeRequest(options: AuthorizeRequestOptions) {
+  async function authorizeRequest(options: AuthorizeRequestOptions): Promise<void> {
     const { request } = options;
     const requestOptions: GetTokenOptions = requestToOptions(request);
 

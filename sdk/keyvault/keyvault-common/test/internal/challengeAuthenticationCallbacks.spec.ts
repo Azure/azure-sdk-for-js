@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
-import { createChallengeCallbacks } from "../../src";
 import {
   AuthorizeRequestOptions,
   ChallengeCallbacks,
+  PipelineRequest,
   createHttpHeaders,
   createPipelineRequest,
-  PipelineRequest,
 } from "@azure/core-rest-pipeline";
+import { assert } from "@azure/test-utils";
+import { createChallengeCallbacks } from "../../src";
 import { parseWWWAuthenticate } from "../../src";
 
 describe("Challenge based authentication tests", function () {
