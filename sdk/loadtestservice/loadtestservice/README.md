@@ -42,6 +42,71 @@ can be used to authenticate the client.
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
 AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
+## Examples
+
+### Creating a load test 
+```javascript 
+import AzureLoadTesting, { AzureLoadTestingClient } from "@azure-rest/loadtestservice";
+import { DefaultAzureCredential } from "@azure/identity";
+
+var TEST_ID = "some-test-id"  
+var DISPLAY_NAME = "my-load-test"   
+
+const Client: AzureLoadTestingClient = AzureLoadTesting(Endpoint, new DefaultAzureCredential());
+
+await Client.path("/loadtests/{testId}", TEST_ID).patch({
+    contentType: "application/merge-patch+json",
+    body: {
+      "displayName": DISPLAY_NAME,
+      "description": "",
+      "loadTestConfig": {
+        "engineInstances": 1,
+        "splitAllCSVs": false
+      }
+    }
+  });
+```
+
+### Uploading .jmx file to a Test
+```javascript 
+import { AzureLoadTestingClient } from "@azure-rest/loadtestservice";
+import { DefaultAzureCredential } from "@azure/identity";
+import { createReadStream } from 'fs';
+
+var TEST_ID = "some-test-id";
+var FILE_ID = "some-file-id"; 
+const readStream = createReadStream('./sample.jmx');  
+
+const Client: AzureLoadTestingClient = AzureLoadTesting(Endpoint, new DefaultAzureCredential());
+
+await Client.path("/loadtests/{testId}/files/{fileId}", TEST_ID, FILE_ID).put({
+    contentType: "multipart/form-data",
+    body: {
+      file: readStream
+    }
+  });
+```
+
+### Running a Test
+```javascript 
+import { AzureLoadTestingClient } from "@azure-rest/loadtestservice";
+import { DefaultAzureCredential } from "@azure/identity";
+
+var TEST_ID = "some-test-id";  
+var TEST_RUN_ID = "some-testrun-id"; 
+var DISPLAY_NAME = "my-load-test-run";  
+
+const Client: AzureLoadTestingClient = AzureLoadTesting(Endpoint, new DefaultAzureCredential());
+
+await Client.path("/testruns/{testRunId}", "abcde").patch({
+    contentType: "application/merge-patch+json",
+    body: {
+      "testId": TEST_ID,
+      "displayName": DISPLAY_NAME
+    }
+  });
+```
+
 ## Key concepts
 The following components make up the Azure Load Testing Service. The Azure Load Test client library for Python allows you to interact with each of these components through the use of a dedicated client object.
 
