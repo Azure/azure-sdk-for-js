@@ -20,7 +20,7 @@ describe(`failoverRetryStrategy`, () => {
     maxRetries,
     maxRetryDelayInMs: 1600,
     retryDelayInMs: 100,
-    failoverHostGenerator: readWriteFailoverHostIteratorFactory({ readHosts, writeHosts }),
+    failoverHostIteratorFactory: readWriteFailoverHostIteratorFactory({ readHosts, writeHosts }),
   };
 
   const strategy = failoverRetryStrategy(options);

@@ -28,7 +28,7 @@ export interface DefaultRetryPolicyOptions extends PipelineRetryOptions {}
 export function defaultRetryPolicy(options: DefaultRetryPolicyOptions = {}): PipelinePolicy {
   const failover = failoverRetryStrategy(options);
   const strategies = [throttlingRetryStrategy(), failover, exponentialRetryStrategy(options)];
-  if (!options.failoverHostGenerator) {
+  if (!options.failoverHostIteratorFactory) {
     strategies.splice(strategies.indexOf(failover), 1);
   }
   return {

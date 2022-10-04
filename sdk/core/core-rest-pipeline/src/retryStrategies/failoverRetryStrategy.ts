@@ -112,13 +112,13 @@ export function failoverRetryStrategy(options: DefaultRetryPolicyOptions): Retry
         return { skipStrategy: true };
       }
 
-      if (!options.failoverHostGenerator) {
+      if (!options.failoverHostIteratorFactory) {
         return { skipStrategy: true };
       }
 
       // Register a generator for failover hosts for this request (and all of its retries)
       if (!generatorMap.has(response.request)) {
-        generatorMap.set(response.request, options.failoverHostGenerator(state, options));
+        generatorMap.set(response.request, options.failoverHostIteratorFactory(state, options));
       }
 
       // Get the next host for this request

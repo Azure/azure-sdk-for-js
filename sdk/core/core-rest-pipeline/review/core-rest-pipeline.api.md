@@ -90,9 +90,6 @@ export function decompressResponsePolicy(): PipelinePolicy;
 export const decompressResponsePolicyName = "decompressResponsePolicy";
 
 // @public
-export function defaultFailoverHostGenerator(readHosts?: string[], writeHosts?: string[]): FailoverHostGenerator;
-
-// @public
 export function defaultRetryPolicy(options?: DefaultRetryPolicyOptions): PipelinePolicy;
 
 // @public
@@ -113,7 +110,7 @@ export interface ExponentialRetryPolicyOptions {
 }
 
 // @public
-export type FailoverHostGenerator = (retryState: RetryInformation, options: DefaultRetryPolicyOptions) => Generator<FailoverHostState | undefined, void, RetryInformation>;
+export type FailoverHostGenerator = (retryState: RetryInformation, options: DefaultRetryPolicyOptions) => Iterator<FailoverHostState | undefined, void, RetryInformation>;
 
 // @public
 export interface FailoverHostState {
@@ -278,7 +275,7 @@ export interface PipelineResponse {
 
 // @public
 export interface PipelineRetryOptions {
-    failoverHostGenerator?: FailoverHostGenerator;
+    failoverHostIteratorFactory?: FailoverHostGenerator;
     maxRetries?: number;
     maxRetryDelayInMs?: number;
     retryDelayInMs?: number;
@@ -313,6 +310,12 @@ export type RawHttpHeaders = {
 
 // @public
 export type RawHttpHeadersInput = Record<string, string | number | boolean>;
+
+// @public
+export function readWriteFailoverHostIteratorFactory(options: {
+    readHosts?: string[];
+    writeHosts?: string[];
+}): FailoverHostGenerator;
 
 // @public
 export function redirectPolicy(options?: RedirectPolicyOptions): PipelinePolicy;

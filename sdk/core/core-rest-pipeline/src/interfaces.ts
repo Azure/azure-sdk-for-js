@@ -345,7 +345,7 @@ export interface PipelineRetryOptions {
   /**
    * A generator for failover endpoints.
    */
-  failoverHostGenerator?: FailoverHostIteratorFactory;
+  failoverHostIteratorFactory?: FailoverHostIteratorFactory;
 }
 
 /**

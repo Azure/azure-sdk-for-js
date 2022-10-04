@@ -252,9 +252,9 @@ export class TableClient {
     if (this.clientOptions.secondaryEndpoint) {
       internalPipelineOptions.retryOptions = {
         ...internalPipelineOptions.retryOptions,
-        failoverHostGenerator: readWriteFailoverHostIteratorFactory([
-          this.clientOptions.secondaryEndpoint,
-        ]),
+        failoverHostIteratorFactory: readWriteFailoverHostIteratorFactory({
+          readHosts: [this.clientOptions.secondaryEndpoint],
+        }),
       };
     }
 
