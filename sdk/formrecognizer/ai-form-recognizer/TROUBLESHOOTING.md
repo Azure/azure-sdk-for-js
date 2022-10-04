@@ -1,6 +1,6 @@
 # Troubleshoot Azure Form Recognizer client library issues
 
-This troubleshooting guide contains instructions to diagnose frequently encountered issues while using the Azure Form Recognizer client library for Python.
+This troubleshooting guide contains instructions to diagnose frequently encountered issues while using the Azure Form Recognizer client library for Javascript.
 
 ## Table of Contents
 
@@ -11,7 +11,8 @@ This troubleshooting guide contains instructions to diagnose frequently encounte
     - [Invalid SAS URL](#invalid-sas-url)
   - [Generic Error](#generic-error)
 - [Unexpected time to build a custom model](#unexpected-time-to-build-a-custom-model)
-- [Enable HTTP request/response logging](#enable-http-requestresponse-logging)
+- [Form Recognizer errors](#form-recognizer-errors)
+- [Logging](#logging)
 
 ## Troubleshooting Errors
 
