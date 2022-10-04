@@ -195,14 +195,22 @@ The Service Bus client library has **experimental** support for the the OpenTele
 
 The library creates the following spans:
 
-`message`
-`ServiceBusSender.send`
-`StreamReceiver.process`
-`BatchingReceiverLite.process`
-`SessionReceiver.process`
-`ServiceBusRuleManager.createRule`
-`ServiceBusRuleManager.deleteRule`
-`ServiceBusRuleManager.getRules`
+`message`  
+`ServiceBusSender.send`  
+`StreamReceiver.process`  
+`BatchingReceiverLite.process`  
+`SessionReceiver.process`  
+`ServiceBusReceiver.renewMessageLock`  
+`ServiceBusReceiver.complete`  
+`ServiceBusReceiver.abandon`  
+`ServiceBusReceiver.defer`  
+`ServiceBusReceiver.deadLetter`  
+`ServiceBusSessionReceiver.renewSessionLock`  
+`ServiceBusSessionReceiver.setSessionState`  
+`ServiceBusSessionReceiver.getSessionState`  
+`ServiceBusRuleManager.createRule`  
+`ServiceBusRuleManager.deleteRule`  
+`ServiceBusRuleManager.getRules`  
 
 Most of the spans are self-explanatory and are started and stopped during the operation that bears its name. The span that ties the others together is `message`. The way that the message is traced is via the the `Diagnostic-Id` that is set in the [ServiceBusMessage.applicationProperties][ApplicationProperties] property by the library during send and schedule operations. In Application Insights, `message` spans will be displayed as linking out to the various other spans that were used to interact with the message, e.g. the `**Receiver.process` span, the `ServiceBusSender.send` span.
 
