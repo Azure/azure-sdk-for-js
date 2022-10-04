@@ -367,11 +367,7 @@ export function resolveAssetsJson(testPath: string): string {
       );
     }
 
-    let targetPath: string = path.join(rootPath, testPath);
-
-    if (!fs.statSync(targetPath).isDirectory()) {
-      targetPath = path.dirname(targetPath);
-    }
+    let targetPath: string = path.dirname(path.join(rootPath, testPath));
 
     while (true) {
       let prospectiveAssetsPath = path.join(targetPath, "assets.json");

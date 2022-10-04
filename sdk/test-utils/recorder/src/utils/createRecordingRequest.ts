@@ -20,7 +20,7 @@ export function createRecordingRequest(
     let body: any = { "x-recording-file": sessionFile };
 
     if (assetsJson.length > 0) {
-      body["x-recording-assets-file"] = sessionFile;
+      body["x-recording-assets-file"] = assetsJson;
     }
 
     req.body = JSON.stringify(body);
