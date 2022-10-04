@@ -32,8 +32,8 @@ describe("LogsQueryClient unit tests", () => {
       endpoint: "https://customEndpoint1",
     });
 
-    assert.equal(client["_logAnalytics"].$host, "https://customEndpoint1/v1");
-    assert.equal(client["_logAnalytics"]["_endpoint"], "https://customEndpoint1/v1");
+    assert.equal(client["_logAnalytics"].$host, "https://customendpoint1/v1");
+    assert.equal(client["_logAnalytics"]["_endpoint"], "https://customendpoint1/v1");
 
     try {
       await client.queryWorkspace("workspaceId", "query", { duration: Durations.fiveMinutes });
