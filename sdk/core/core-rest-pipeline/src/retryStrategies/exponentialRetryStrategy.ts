@@ -3,10 +3,10 @@
 
 import { PipelineResponse } from "../interfaces";
 import { RestError } from "../restError";
-import { getRandomIntegerInclusive } from "@azure/core-util";
 import { RetryStrategy } from "./retryStrategy";
 import { isThrottlingRetryResponse } from "./throttlingRetryStrategy";
 import { DEFAULT_CLIENT_MAX_RETRY_INTERVAL, DEFAULT_CLIENT_RETRY_INTERVAL } from "../constants";
+import { exponentialDelayInMs } from "../util/retryAfter";
 
 /**
  * A retry strategy that retries with an exponentially increasing delay in these two cases:
@@ -61,15 +61,7 @@ export function exponentialRetryStrategy(
       if (responseError && !matchedSystemError && !isExponential) {
         return { errorToThrow: responseError };
       }
-
-      // Exponentially increase the delay each time
-      const exponentialDelay = retryAfterInMs * Math.pow(2, retryCount);
-      // Don't let the delay exceed the maximum
-      const clampedExponentialDelay = Math.min(maxRetryInterval, exponentialDelay);
-      // Allow the final value to have some "jitter" (within 50% of the delay size) so
-      // that retries across multiple clients don't occur simultaneously.
-      retryAfterInMs =
-        clampedExponentialDelay / 2 + getRandomIntegerInclusive(0, clampedExponentialDelay / 2);
+      retryAfterInMs = exponentialDelayInMs(retryCount, retryAfterInMs, maxRetryInterval);
       return { retryAfterInMs };
     },
   };

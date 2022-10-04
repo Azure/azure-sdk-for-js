@@ -5,6 +5,7 @@ import { PipelineRequest } from "../interfaces";
 import { RetryInformation, RetryModifiers, RetryStrategy } from "./retryStrategy";
 import { DEFAULT_CLIENT_MAX_RETRY_INTERVAL, DEFAULT_CLIENT_RETRY_INTERVAL } from "../constants";
 import { DefaultRetryPolicyOptions } from "../policies/defaultRetryPolicy";
+import { exponentialDelayInMs } from "../util/retryAfter";
 
 /**
  * An iterator factory for failover hosts. Yields the next host to retry, or yields undefined if failover should be skipped.
@@ -60,11 +61,12 @@ export function readWriteFailoverHostIteratorFactory(options: {
       return { host, retryCount: 0 };
     }),
   };
-  return function* (retryState, options) {
+  return function* (retryState, factoryOptions) {
     while (true) {
       const response = retryState.response;
-      const retryDelayInMs = options.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
-      const maxRetryDelayInMs = options.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
+      const retryDelayInMs = factoryOptions.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
+      const maxRetryDelayInMs =
+        factoryOptions.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
       if (!response) {
         return;
       }
@@ -83,8 +85,9 @@ export function readWriteFailoverHostIteratorFactory(options: {
 
       retryState = yield hostState;
 
-      const exponentialDelay = Math.min(
-        retryDelayInMs * 2 ** hostState.retryCount,
+      const exponentialDelay = exponentialDelayInMs(
+        hostState.retryCount,
+        retryDelayInMs,
         maxRetryDelayInMs
       );
       const nextRetryAt = new Date(requestFireTime + exponentialDelay);

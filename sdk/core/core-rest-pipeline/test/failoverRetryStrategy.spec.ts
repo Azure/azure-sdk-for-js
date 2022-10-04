@@ -5,13 +5,14 @@ import { PipelineRequest, PipelineResponse } from "../src/interfaces";
 import { createHttpHeaders } from "../src/httpHeaders";
 import { assert } from "chai";
 import {
-  readWriteFailoverHostIteratorFactory,
   failoverRetryStrategy,
+  readWriteFailoverHostIteratorFactory,
 } from "../src/retryStrategies/failoverRetryStrategy";
 import { DefaultRetryPolicyOptions } from "../src/policies/defaultRetryPolicy";
 import sinon from "sinon";
+import * as retryAfterUtil from "../src/util/retryAfter";
 
-describe.only(`failoverRetryStrategy`, () => {
+describe(`failoverRetryStrategy`, () => {
   const timer = sinon.useFakeTimers();
   const readHosts = ["https://read1.azure", "https://read2.azure", "https://read3.azure"];
   const writeHosts = ["https://write1.azure", "https://write2.azure"];
@@ -26,6 +27,11 @@ describe.only(`failoverRetryStrategy`, () => {
   const strategy = failoverRetryStrategy(options);
 
   it("should redirect and delay correctly", () => {
+    const stub = sinon
+      .stub(retryAfterUtil, "exponentialDelayInMs")
+      .callsFake((retryCount, retryDelayInMs, maxRetryDelayInMs) => {
+        return stub.wrappedMethod(retryCount, retryDelayInMs, maxRetryDelayInMs, false);
+      });
     const modifiers = [];
     const response: PipelineResponse = {
       headers: createHttpHeaders(),
@@ -59,6 +65,7 @@ describe.only(`failoverRetryStrategy`, () => {
       { redirectTo: "https://read3.azure/", retryAfterInMs: 300 },
       { redirectTo: "https://read1.azure/", retryAfterInMs: 700 },
     ]);
+    stub.restore();
   });
   it("should use the correct set of fallback endpoints", () => {
     const modifiers = [];
