@@ -113,10 +113,10 @@ async function main() {
     },
   ];
   const result = await client.upload(ruleId, streamName, logs);
-  if (result.uploadStatus !== "Success") {
-    console.log("Some logs have failed to complete ingestion. Upload status=", result.uploadStatus);
+  if (result.status !== "Success") {
+    console.log("Some logs have failed to complete ingestion. Upload status=", result.status);
     for (const errors of result.errors) {
-      console.log(`Error - ${JSON.stringify(errors.responseError)}`);
+      console.log(`Error - ${JSON.stringify(errors.cause)}`);
       console.log(`Log - ${JSON.stringify(errors.failedLogs)}`);
     }
   }
@@ -207,11 +207,11 @@ async function main() {
 
   // Set the maximum concurrency to 1 to prevent concurrent requests entirely
   const result = await client.upload(ruleId, streamName, logs, { maxConcurrency: 1 });
-  if (result.uploadStatus !== "Success") {
-    console.log("Some logs have failed to complete ingestion. Upload status=", result.uploadStatus);
-    for (const errors of result.errors) {
-      console.log(`Error - ${JSON.stringify(errors.responseError)}`);
-      console.log(`Log - ${JSON.stringify(errors.failedLogs)}`);
+  if (result.status !== "Success") {
+    console.log("Some logs have failed to complete ingestion. Upload status=", result.status);
+    for (const error of result.errors) {
+      console.log(`Error - ${JSON.stringify(error.cause)}`);
+      console.log(`Log - ${JSON.stringify(error.failedLogs)}`);
     }
   }
 }
@@ -252,4 +252,3 @@ If you'd like to contribute to this library, please read the [contributing guide
 [data_collection_rule]: https://docs.microsoft.com/azure/azure-monitor/essentials/data-collection-rule-overview
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/monitor/monitor-ingestion/README.png)
-
