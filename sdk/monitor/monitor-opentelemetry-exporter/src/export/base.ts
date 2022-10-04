@@ -67,7 +67,7 @@ export abstract class AzureMonitorBaseExporter {
     this._instrumentationKey = this._options.instrumentationKey;
     this._sender = new HttpSender(this._options);
     this._persister = new FileSystemPersist(this._options);
-    
+
     this._statsbeatMetrics = new StatsbeatMetrics(this._instrumentationKey, this._options.endpointUrl);
     this._retryTimer = null;
     diag.debug("AzureMonitorTraceExporter was successfully setup");
@@ -116,7 +116,9 @@ export abstract class AzureMonitorBaseExporter {
     }
     
     try {
+      const startTime = Number(new Date().getTime());
       const { result, statusCode } = await this._sender.send(envelopes);
+      const endTime = Number(new Date().getTime());
       this._numConsecutiveRedirects = 0;
       if (statusCode === 200) {
         // Success -- @todo: start retry timer
@@ -128,7 +130,7 @@ export abstract class AzureMonitorBaseExporter {
           this._retryTimer.unref();
         }
         if (!this._isStatsbeatExporter) {
-          this._statsbeatMetrics.countSuccess(); // TODO: Pass duration
+          this._statsbeatMetrics.countSuccess(endTime - startTime);
         }
         return { code: ExportResultCode.SUCCESS };
       } else if (statusCode && isRetriable(statusCode)) {
@@ -158,7 +160,7 @@ export abstract class AzureMonitorBaseExporter {
           if (this._isStatsbeatExporter) {
             this._statsbeatFailureCount++;
           } else {
-            this._statsbeatMetrics.countFailure(); // TODO: Pass duration
+            this._statsbeatMetrics.countFailure(endTime - startTime);
           }
           return {
             code: ExportResultCode.FAILED,
@@ -173,7 +175,7 @@ export abstract class AzureMonitorBaseExporter {
       } else {
         // Failed -- not retriable
         if (!this._isStatsbeatExporter) {
-          this._statsbeatMetrics.countFailure(); // TODO: Pass duration
+          this._statsbeatMetrics.countFailure(endTime - startTime);
         }
         if (this._isStatsbeatExporter) {
           this._statsbeatFailureCount++;

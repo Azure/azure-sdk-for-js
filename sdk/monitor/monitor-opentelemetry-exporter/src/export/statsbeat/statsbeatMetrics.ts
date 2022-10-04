@@ -204,6 +204,7 @@ export class StatsbeatMetrics {
   }
 
   private _failureCallback(observableResult: ObservableResult) {
+    // TODO: Include statusCode - can I call observe on the counter for each unique statusCode?
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
     observableResult.observe(counter.totalFailedRequestCount, this._commonProperties);
     counter.totalFailedRequestCount = 0;
@@ -234,24 +235,25 @@ export class StatsbeatMetrics {
   }
 
   // Public methods to increase counters
-  public countSuccess() {
+  public countSuccess(duration: number) {
     if (!this.isEnabled()) {
       return;
     }
-    // TODO: count duration here
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
     counter.totalRequestCount++;
     counter.totalSuccesfulRequestCount++;
+    counter.intervalRequestExecutionTime += duration;
   }
 
-  public countFailure() {
+  public countFailure(duration: number) {
     if (!this.isEnabled) {
       return;
     }
-    // TODO: count duration here
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
     counter.totalRequestCount++;
     counter.totalFailedRequestCount++;
+    counter.intervalRequestExecutionTime += duration;
+
   }
 
   public countRetry() {
@@ -279,7 +281,6 @@ export class StatsbeatMetrics {
   }
 
   public countAverageDuration() {
-    // TOOD: Determine how the averageRequestDuration gets reported from this method/observed.
     for (let i = 0; i < this._networkStatsbeatCollection.length; i++) {
       let currentCounter = this._networkStatsbeatCollection[i];
       currentCounter.time = Number(new Date);
@@ -297,6 +298,11 @@ export class StatsbeatMetrics {
 
   // Gets a networkStatsbeat counter if one exists for the given endpoint
   private _getNetworkStatsbeatCounter(endpoint: string, host: string): NetworkStatsbeat {
+    // TODO: Managing the number of gauges.
+    // If creating a new one create a new gauge. Counter -> Gauge
+    // Network statsbeat should have a gauge.
+    // Need to check with Leighton how his implementation manages this, otherwise dynamically create a new gauge every time a new counter is created.
+
     // Check if the counter is available
     for (let i = 0; i < this._networkStatsbeatCollection.length; i++) {
       // Same object
