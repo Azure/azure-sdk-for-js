@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 export const STATSBEAT_LANGUAGE = "node";
 
+export const MAX_STATSBEAT_FAILURES = 3;
+
 export const redirectStatusCodes = [
   307, // Temporary redirect
   308 // Permanent redirect

@@ -9,7 +9,7 @@ import { createTagsFromResource } from "./resourceUtils";
  * Metric to Azure envelope parsing.
  * @internal
  */
-export function resourceMetricsToEnvelope(metrics: ResourceMetrics, ikey: string): Envelope[] {
+export function resourceMetricsToEnvelope(metrics: ResourceMetrics, ikey: string, isStatsbeat?: boolean): Envelope[] {
   let envelopes: Envelope[] = [];
   const time = new Date();
   const instrumentationKey = ikey;
@@ -42,8 +42,10 @@ export function resourceMetricsToEnvelope(metrics: ResourceMetrics, ikey: string
         baseData.metrics.push(metricDataPoint);
       });
     });
-    let envelope: Envelope = {
-      name: "Microsoft.ApplicationInsights.Metric",
+    let envelope: Envelope;
+    if (isStatsbeat) {
+      envelope = {
+              name: "Microsoft.ApplicationInsights.Statsbeat",
       time: time,
       sampleRate: 100,
       instrumentationKey: instrumentationKey,
@@ -55,7 +57,23 @@ export function resourceMetricsToEnvelope(metrics: ResourceMetrics, ikey: string
           ...baseData,
         },
       },
-    };
+      }
+    } else {
+      envelope = {
+        name: "Microsoft.ApplicationInsights.Metric",
+        time: time,
+        sampleRate: 100,
+        instrumentationKey: instrumentationKey,
+        tags: tags,
+        version: 1,
+        data: {
+          baseType: "MetricData",
+          baseData: {
+            ...baseData,
+          },
+        },
+      };
+    }
     envelopes.push(envelope);
   });
 

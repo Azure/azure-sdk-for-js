@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { TokenCredential } from "@azure/core-auth";
+
 import { ServiceClient } from "@azure/core-client";
 import { createHttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
 import { AzureExporterConfig, AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
+import { diag } from "@opentelemetry/api";
 import { ObservableGauge, ObservableResult } from "@opentelemetry/api-metrics";
 import { Meter } from "@opentelemetry/api-metrics/build/src/types/Meter";
 import { MeterProvider, MeterProviderOptions, PeriodicExportingMetricReader, PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics-base";
@@ -43,11 +44,8 @@ export class StatsbeatMetrics {
   private _meter: Meter;
   private _isEnabled: boolean = false;
   private _isInitialized: boolean = false;
-  private _isVm: boolean = false;
   private _networkStatsbeatCollection: Array<NetworkStatsbeat> = [];
   private _meterProvider: MeterProvider;
-  private _connectionString: string;
-  private _aadTokenCredential: TokenCredential;
   private _azureExporter: AzureMonitorMetricExporter;
   private _metricReader: PeriodicExportingMetricReader;
 
@@ -69,28 +67,24 @@ export class StatsbeatMetrics {
   private _averageDurationGauge: ObservableGauge;
 
   // Network attributes
-  private _endpoint: string;
+  private _connectionString: string;
+  private _endpointUrl: string;
   private _host: string;
 
-  constructor(instrumentationKey: string, endpoint: string, aadTokenCredential: TokenCredential) {
-    this._connectionString = this._getConnectionString(endpoint);
-    this._aadTokenCredential = aadTokenCredential;
-
-    const meterProviderConfig: MeterProviderOptions = {
-      // TODO: Figure out what to pass to create the MeterProvider as the ResourceManager class is not defined here.
-    }
-    this._meterProvider = new MeterProvider(meterProviderConfig);
+  constructor(instrumentationKey: string, endpointUrl: string) {
+    this._connectionString = this._getConnectionString(endpointUrl);
+    this._meterProvider = new MeterProvider();
 
     const exporterConfig: AzureExporterConfig = {
       connectionString: this._connectionString,
-      aadTokenCredential: this._aadTokenCredential
+      isStatsbeat: true
     };
 
     this._azureExporter = new AzureMonitorMetricExporter(exporterConfig);
     
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
-      exportIntervalMillis: 900000 // 15 minutes
+      exportIntervalMillis: STATS_COLLECTION_SHORT_INTERVAL // 15 minutes
     };
 
     // Exports Network Statsbeat every 15 minutes
@@ -98,12 +92,12 @@ export class StatsbeatMetrics {
     this._meterProvider.addMetricReader(this._metricReader);
     this._meter = this._meterProvider.getMeter("NetworkStatsbeat");
 
+    this._endpointUrl = endpointUrl;
     this._runtimeVersion = process.version;
     this._language = STATSBEAT_LANGUAGE;
     this._version = SDK_VERSION;
-    this._host = this._getShortHost(endpoint);
+    this._host = this._getShortHost(endpointUrl);
     this._cikey = instrumentationKey;
-    this._endpoint = endpoint;
 
     this._successCountGauge = this._meter.createObservableGauge(StatsbeatCounter.SUCCESS_COUNT);
     this._failureCountGauge = this._meter.createObservableGauge(StatsbeatCounter.FAILURE_COUNT);
@@ -145,18 +139,13 @@ export class StatsbeatMetrics {
       serviceClient.sendRequest(request)
         .then((res) => {
           if (res.status === 200) {
-            this._isVm = true;
             return true;
           } else {
-            this._isVm = false;
             return false;
           }
         }).catch(() => {
-          this._isVm = false;
           return false;
         });
-
-      this._isVm = false;
       return false;
   }
 
@@ -176,7 +165,6 @@ export class StatsbeatMetrics {
   public enable(isEnabled: boolean): void {
     this._isEnabled = isEnabled;
 
-    // TODO: Determine if the emitter is relevant here and if we need to clean up the observable callbacks in any case.
     if (this._isEnabled && !this._isInitialized) {
       this._isInitialized = true;
     }
@@ -196,34 +184,101 @@ export class StatsbeatMetrics {
       };
 
       // Add observable callbacks
-      this._successCountGauge.addCallback(this._countSuccess.bind(this));
-      this._failureCountGauge.addCallback(this._countFailure.bind(this));
-      this._retryCountGauge.addCallback(this._getRetryCount.bind(this));
-      this._throttleCountGauge.addCallback(this._getThrottleCount.bind(this));
-      this._exceptionCountGauge.addCallback(this._getExceptionCount.bind(this));
-      this._averageDurationGauge.addCallback(this._getAverageDuration.bind(this));
+      this._successCountGauge.addCallback(this._successCallback.bind(this));
+      this._failureCountGauge.addCallback(this._failureCallback.bind(this));
+      this._retryCountGauge.addCallback(this._retryCallback.bind(this));
+      this._throttleCountGauge.addCallback(this._throttleCallback.bind(this));
+      this._exceptionCountGauge.addCallback(this._exceptionCallback.bind(this));
+      this._averageDurationGauge.addCallback(this._durationCallback.bind(this));
     } catch (error) {
-      // TODO: Should I use AzureLogger here to output the info about the statsbeat metrics failing?
+      diag.debug("Call to get the resource provider failed.");
     }
   }
 
-  private _countSuccess(observableResult: ObservableResult) {
-    // TODO: Track duration here?
-    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpoint, this._host);
+  // Observable gauge callbacks
+  private _successCallback(observableResult: ObservableResult) {
+    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
+    observableResult.observe(counter.totalSuccesfulRequestCount, this._commonProperties);
+    // Clear counter after observing
+    counter.totalSuccesfulRequestCount = 0;
+  }
+
+  private _failureCallback(observableResult: ObservableResult) {
+    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
+    observableResult.observe(counter.totalFailedRequestCount, this._commonProperties);
+    counter.totalFailedRequestCount = 0;
+  }
+
+  private _retryCallback(observableResult: ObservableResult) {
+    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
+    observableResult.observe(counter.retryCount, this._commonProperties);
+    counter.retryCount = 0;
+  }
+
+  private _throttleCallback(observableResult: ObservableResult) {
+    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
+    observableResult.observe(counter.throttleCount, this._commonProperties);
+    counter.throttleCount = 0;
+  }
+
+  private _exceptionCallback(observableResult: ObservableResult) {
+    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
+    observableResult.observe(counter.exceptionCount, this._commonProperties);
+    counter.exceptionCount = 0;
+  }
+
+  private _durationCallback(observableResult: ObservableResult) {
+    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
+    observableResult.observe(counter.averageRequestExecutionTime, this._commonProperties);
+    counter.averageRequestExecutionTime = 0;
+  }
+
+  // Public methods to increase counters
+  public countSuccess() {
+    if (!this.isEnabled()) {
+      return;
+    }
+    // TODO: count duration here
+    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
     counter.totalRequestCount++;
     counter.totalSuccesfulRequestCount++;
-    observableResult.observe(counter.totalSuccesfulRequestCount, this._commonProperties);
   }
 
-  private _countFailure(observableResult: ObservableResult) {
-    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpoint, this._host);
+  public countFailure() {
+    if (!this.isEnabled) {
+      return;
+    }
+    // TODO: count duration here
+    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
     counter.totalRequestCount++;
     counter.totalFailedRequestCount++;
-    observableResult.observe(counter.totalFailedRequestCount, this._commonProperties);
   }
 
-  private _getAverageDuration(observableResult: ObservableResult) {
-    // TODO: Figure out how to manage duration since it's not managed in the success/failure count methods
+  public countRetry() {
+    if (!this.isEnabled) {
+      return;
+    }
+    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
+    counter.retryCount++;
+  }
+
+  public countThrottle() {
+    if (!this.isEnabled) {
+      return;
+    }
+    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
+    counter.throttleCount++;
+  }
+
+  public countException() {
+    if (!this.isEnabled) {
+      return;
+    }
+    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
+    counter.exceptionCount++;
+  }
+
+  public countAverageDuration() {
     // TOOD: Determine how the averageRequestDuration gets reported from this method/observed.
     for (let i = 0; i < this._networkStatsbeatCollection.length; i++) {
       let currentCounter = this._networkStatsbeatCollection[i];
@@ -238,26 +293,6 @@ export class StatsbeatMetrics {
       currentCounter.lastRequestCount = currentCounter.totalRequestCount;
       currentCounter.lastTime = currentCounter.time;
     }
-    // Since the averageRequestExecutionTime is the same for all counters, just return the first one
-    observableResult.observe(this._networkStatsbeatCollection[0].averageRequestExecutionTime, this._commonProperties);
-  }
-
-  private _getRetryCount(observableResult: ObservableResult) {
-    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpoint, this._host);
-    counter.retryCount++;
-    observableResult.observe(counter.retryCount, this._commonProperties);
-  }
-
-  private _getThrottleCount(observableResult: ObservableResult) {
-    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpoint, this._host);
-    counter.throttleCount++;
-    observableResult.observe(counter.throttleCount, this._commonProperties);
-  }
-
-  private _getExceptionCount(observableResult: ObservableResult) {
-    let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpoint, this._host);
-    counter.exceptionCount++;
-    observableResult.observe(counter.exceptionCount, this._commonProperties);
   }
 
   // Gets a networkStatsbeat counter if one exists for the given endpoint
@@ -288,13 +323,18 @@ export class StatsbeatMetrics {
         }
     }
     catch (error) {
-        // Ignore error
+      diag.debug("Failed to get the short host name.");
     }
     return shortHost;
   }
 
-  // TODO: This should return the EU connection string vs. non-EU depending on the endpoint value.
-  private _getConnectionString(endpoint: string) {
-    return "";
+  private _getConnectionString(endpointUrl: string) {
+    let currentEndpoint = endpointUrl;
+    for(let i = 0; i < EU_ENDPOINTS.length; i++) {
+      if (currentEndpoint.indexOf(EU_ENDPOINTS[i]) > -1) {
+        return EU_CONNECTION_STRING;
+      }
+    }
+    return NON_EU_CONNECTION_STRING;
   }
 }

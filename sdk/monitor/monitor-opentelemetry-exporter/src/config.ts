@@ -27,6 +27,11 @@ export interface AzureExporterConfig {
    * Azure Active Directory Credential
    */
   aadTokenCredential?: TokenCredential;
+
+  /**
+   * Determines if we are exporting StatsBeat
+   */
+  isStatsbeat?: boolean;
 }
 
 /**

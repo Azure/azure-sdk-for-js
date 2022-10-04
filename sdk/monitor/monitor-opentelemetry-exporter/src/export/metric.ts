@@ -19,12 +19,14 @@ export class AzureMonitorMetricExporter
   extends AzureMonitorBaseExporter
   implements PushMetricExporter
 {
+  private _isStatsbeat: boolean|undefined;
   /**
    * Initializes a new instance of the AzureMonitorMetricExporter class.
    * @param AzureExporterConfig - Exporter configuration.
    */
   constructor(options: AzureExporterConfig = {}) {
     super(options);
+    this._isStatsbeat = options.isStatsbeat;
     diag.debug("AzureMonitorMetricExporter was successfully setup");
   }
 
@@ -39,7 +41,7 @@ export class AzureMonitorMetricExporter
   ): Promise<void> {
     diag.info(`Exporting ${metrics.scopeMetrics.length} metrics(s). Converting to envelopes...`);
 
-    let envelopes: Envelope[] = resourceMetricsToEnvelope(metrics, this._instrumentationKey);
+    let envelopes: Envelope[] = resourceMetricsToEnvelope(metrics, this._instrumentationKey, this._isStatsbeat);
     resultCallback(await this._exportEnvelopes(envelopes));
   }
 

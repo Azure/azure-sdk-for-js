@@ -16,6 +16,7 @@ import { isRetriable, BreezeResponse } from "../utils/breezeUtils";
 import { ENV_CONNECTION_STRING } from "../Declarations/Constants";
 import { TelemetryItem as Envelope } from "../generated";
 import { StatsbeatMetrics } from "./statsbeat/statsbeatMetrics";
+import { MAX_STATSBEAT_FAILURES } from "./constants";
 
 /**
  * Azure Monitor OpenTelemetry Trace Exporter.
@@ -31,6 +32,7 @@ export abstract class AzureMonitorBaseExporter {
   private _retryTimer: NodeJS.Timer | null;
   private _statsbeatMetrics: StatsbeatMetrics;
   private _isStatsbeatExporter: boolean = false;
+  private _statsbeatFailureCount: number = 0;
   /**
    * Exporter internal configuration
    */
@@ -47,7 +49,6 @@ export abstract class AzureMonitorBaseExporter {
       ...DEFAULT_EXPORTER_CONFIG,
     };
     this._options.apiVersion = options.apiVersion ?? this._options.apiVersion;
-    this._options.aadTokenCredential = options.aadTokenCredential;
 
     if (connectionString) {
       const parsedConnectionString = ConnectionStringParser.parse(connectionString);
@@ -66,9 +67,8 @@ export abstract class AzureMonitorBaseExporter {
     this._instrumentationKey = this._options.instrumentationKey;
     this._sender = new HttpSender(this._options);
     this._persister = new FileSystemPersist(this._options);
-
-    // TODO: Determine what to do if aadTokenCredential is not defined
-    this._statsbeatMetrics = new StatsbeatMetrics(this._instrumentationKey, this._options.endpointUrl, this._options.aadTokenCredential!);
+    
+    this._statsbeatMetrics = new StatsbeatMetrics(this._instrumentationKey, this._options.endpointUrl);
     this._retryTimer = null;
     diag.debug("AzureMonitorTraceExporter was successfully setup");
   }
@@ -103,8 +103,18 @@ export abstract class AzureMonitorBaseExporter {
   protected async _exportEnvelopes(envelopes: Envelope[]): Promise<ExportResult> {
     diag.info(`Exporting ${envelopes.length} envelope(s)`);
 
-    // TODO: Implement a special case for if we're managing a network StatsBeat
-    // TODO: Add places to increment the count for each kind of statsbeat measurement.
+    if (envelopes[0].name === "Microsoft.ApplicationInsights.Statsbeat") {
+      this._isStatsbeatExporter = true;
+    } else {
+      this._isStatsbeatExporter = false;
+    }
+
+    // Shutdown statsbeat if the maximum number of failures is exceeded
+    if (this._statsbeatFailureCount > MAX_STATSBEAT_FAILURES) {
+      this._statsbeatMetrics.enable(false);
+      this._statsbeatMetrics.shutdown();
+    }
+    
     try {
       const { result, statusCode } = await this._sender.send(envelopes);
       this._numConsecutiveRedirects = 0;
@@ -117,9 +127,15 @@ export abstract class AzureMonitorBaseExporter {
           }, this._options.batchSendRetryIntervalMs);
           this._retryTimer.unref();
         }
+        if (!this._isStatsbeatExporter) {
+          this._statsbeatMetrics.countSuccess(); // TODO: Pass duration
+        }
         return { code: ExportResultCode.SUCCESS };
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
+        if (statusCode === 429 && !this._isStatsbeatExporter) {
+          this._statsbeatMetrics.countThrottle();
+        }
         if (result) {
           diag.info(result);
           const breezeResponse = JSON.parse(result) as BreezeResponse;
@@ -132,19 +148,36 @@ export abstract class AzureMonitorBaseExporter {
             });
           }
           if (filteredEnvelopes.length > 0) {
+            if (!this._isStatsbeatExporter) {
+              this._statsbeatMetrics.countRetry();
+            }
             // calls resultCallback(ExportResult) based on result of persister.push
             return await this._persist(filteredEnvelopes);
           }
           // Failed -- not retriable
+          if (this._isStatsbeatExporter) {
+            this._statsbeatFailureCount++;
+          } else {
+            this._statsbeatMetrics.countFailure(); // TODO: Pass duration
+          }
           return {
             code: ExportResultCode.FAILED,
           };
         } else {
           // calls resultCallback(ExportResult) based on result of persister.push
+          if (!this._isStatsbeatExporter) {
+            this._statsbeatMetrics.countRetry();
+          }
           return await this._persist(envelopes);
         }
       } else {
         // Failed -- not retriable
+        if (!this._isStatsbeatExporter) {
+          this._statsbeatMetrics.countFailure(); // TODO: Pass duration
+        }
+        if (this._isStatsbeatExporter) {
+          this._statsbeatFailureCount++;
+        }
         return {
           code: ExportResultCode.FAILED,
         };
@@ -170,12 +203,23 @@ export abstract class AzureMonitorBaseExporter {
             }
           }
         } else {
+          if (this._isStatsbeatExporter) {
+            this._statsbeatFailureCount++;
+          } else {
+            this._statsbeatMetrics.countException();
+          }
           return { code: ExportResultCode.FAILED, error: new Error("Circular redirect") };
         }
       } else if (restError.statusCode && isRetriable(restError.statusCode)) {
+        if (!this._isStatsbeatExporter) {
+          this._statsbeatMetrics.countRetry();
+        }
         return await this._persist(envelopes);
       }
       if (this._isNetworkError(restError)) {
+        if (!this._isStatsbeatExporter) {
+          this._statsbeatMetrics.countRetry();
+        }
         diag.error(
           "Retrying due to transient client side error. Error message:",
           restError.message
@@ -183,6 +227,9 @@ export abstract class AzureMonitorBaseExporter {
         return await this._persist(envelopes);
       }
 
+      if (!this._isStatsbeatExporter) {
+        this._statsbeatMetrics.countException();
+      }
       diag.error(
         "Envelopes could not be exported and are not retriable. Error message:",
         restError.message
