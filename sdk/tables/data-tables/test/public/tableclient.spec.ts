@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Edm, TableClient, TableEntity, TableEntityResult, odata } from "../../src";
-import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { isNode, isNode8 } from "@azure/test-utils";
 import { Context } from "mocha";
 import { FullOperationResponse } from "@azure/core-client";
@@ -701,7 +701,6 @@ describe("regional failover", () => {
   let recorder: Recorder;
   const suffix = isNode ? "node" : "browser";
   const tableName = `RegionalFailover${suffix}`;
-  const secondaryEndpoint = assertEnvironmentVariable("SECONDARY_URL");
   function stubRetryPolicy(tableClient: TableClient) {
     const retryPolicy = tableClient.pipeline
       .getOrderedPolicies()
@@ -744,9 +743,7 @@ describe("regional failover", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     // todo: test with every auth mode
-    client = await createTableClient(tableName, "SASConnectionString", recorder, {
-      secondaryEndpoint,
-    });
+    client = await createTableClient(tableName, "SASConnectionString", recorder);
   });
 
   afterEach(async function () {

@@ -50,7 +50,7 @@ export function injectSecondaryEndpointHeader(options: OperationOptions): Operat
 /**
  * Utility function that calculates the secondary URL for a table instance given the primary URL.
  */
-function getSecondaryUrlFromPrimary(primaryUrl: string): string {
+export function getSecondaryUrlFromPrimary(primaryUrl: string): string {
   const parsedPrimaryUrl = new URL(primaryUrl);
   const host = parsedPrimaryUrl.hostname.split(".");
   if (host.length > 1) {

@@ -73,6 +73,7 @@ import { setTokenChallengeAuthenticationPolicy } from "./utils/challengeAuthenti
 import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 import { tracingClient } from "./utils/tracing";
+import { getSecondaryUrlFromPrimary } from "./secondaryEndpointPolicy";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -249,11 +250,11 @@ export class TableClient {
       },
     };
 
-    if (this.clientOptions.secondaryEndpoint) {
+    if (this.clientOptions.georedundantFailover) {
       internalPipelineOptions.retryOptions = {
         ...internalPipelineOptions.retryOptions,
         failoverHostIteratorFactory: readWriteFailoverHostIteratorFactory({
-          readHosts: [this.clientOptions.secondaryEndpoint],
+          readHosts: [getSecondaryUrlFromPrimary(url)],
         }),
       };
     }

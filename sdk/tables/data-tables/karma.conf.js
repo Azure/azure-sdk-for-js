@@ -59,7 +59,6 @@ module.exports = function (config) {
       "ACCOUNT_NAME",
       "ACCOUNT_KEY",
       "TABLES_URL",
-      "SECONDARY_URL",
       "SAS_TOKEN",
       "TEST_MODE",
       "SAS_CONNECTION_STRING",
