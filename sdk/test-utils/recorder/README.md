@@ -11,16 +11,22 @@ The Azure SDK for JavaScript is composed of a multitude of libraries that attemp
 
 Our recorder tool package `@azure-tools/test-recorder` attempts to provide an answer for those questions.
 
-**Note: In case you're depending on `@azure-tools/test-recorder@1.x.y` and want to migrate your tests to version 2, follow the [migration guide to recorder v2 from v1](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md)**
+By leveraging the unified out-of-process test proxy server, this library gives the recording and playback capabilities with interfaces and helper methods to
 
-By leveraging the unified out-of-process test proxy server, this library gives the recording and playback capabilities by providing interfaces and helper methods to
-
-- equip the SDKs(tests spcifically) in the `azure-sdk-for-js` repo, it targets HTTP requests in both Node.js and the Browsers.
-- attempt allowing developers depending on the Azure SDKs(published to npm) for JS/TS to test the (Azure SDK) clients in their applications with minimal live Azure resources.
+- equip the tests of the JS client SDKs in the `azure-sdk-for-js` repo
+- allow developers depending on the Azure SDKs(published to npm) for JS/TS to test the (Azure SDK) clients in their applications with minimal live Azure resources.
 
 `@azure-tools/test-recorder`, as part of the Test Utils available in the `azure-sdk-for-js` repository
 
-- If it is being used inside the `azure-sdk-for-js` repo, it is supposed to be added only as a devDependency and should be used only for the tests of an sdk.
+- Intentional usage of this library is to add as a devDependency to enable tests of the client SDKs with record/playback capabilities.
+
+If you're a developer working on an SDK inside the `azure-sdk-for-js` repository
+
+- Please checkout [RecorderForTests.md](./RecorderForTests.md)
+
+If you're a developer depending on the Azure SDKs(published to npm) for JS/TS, and want to test (Azure SDK) clients in your applications with minimal live Azure resources
+
+- Please checkout [RecorderForPublic.md](./RecorderForPublic.md)
 
 ## Index
 
@@ -61,7 +67,7 @@ We're about to go through how to set up your project to use the `@azure-tools/te
 
 **_Note: If you're new to the `azure-sdk-for-js` repository, follow the [ContributingGuide.md](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn how to setup/build the repo and to create/test an SDK in the [Azure/azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repository._**
 
-If you're testing (Azure SDK) clients outside of the `azure-sdk-for-js` repository, 
+If you're testing (Azure SDK) clients outside of the `azure-sdk-for-js` repository,
 
 ### Installing the package
 
