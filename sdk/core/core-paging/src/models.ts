@@ -35,7 +35,7 @@ export interface PagedAsyncIterableIterator<T, PageT = T[], PageSettingsT = Page
 /**
  * An interface that describes how to communicate with the service.
  */
-export interface PagedResult<TPage, TPageSettings = PageSettings, TLink = string> {
+export interface PagedResult<TPage, TPageSettings = PageSettings, TLink = string, T = unknown> {
   /**
    * Link to the first page of results.
    */
@@ -52,4 +52,9 @@ export interface PagedResult<TPage, TPageSettings = PageSettings, TLink = string
    * one that sets the `maxPageSizeParam` from `settings.maxPageSize`.
    */
   byPage?: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+
+  /**
+   * A function to extract elements from a page.
+   */
+  toElements?: (page: TPage) => T[];
 }
