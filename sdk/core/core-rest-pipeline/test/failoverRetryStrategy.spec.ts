@@ -11,10 +11,10 @@ import {
 import { DefaultRetryPolicyOptions } from "../src/policies/defaultRetryPolicy";
 import sinon from "sinon";
 
-describe(`failoverRetryStrategy`, () => {
+describe.only(`failoverRetryStrategy`, () => {
   const timer = sinon.useFakeTimers();
-  const readHosts = ["read1.azure", "read2.azure", "read3.azure"];
-  const writeHosts = ["write1.azure", "write2.azure"];
+  const readHosts = ["https://read1.azure", "https://read2.azure", "https://read3.azure"];
+  const writeHosts = ["https://write1.azure", "https://write2.azure"];
   const maxRetries = 10;
   const options: DefaultRetryPolicyOptions = {
     maxRetries,
@@ -48,16 +48,16 @@ describe(`failoverRetryStrategy`, () => {
       timer.tickAsync(modifier.retryAfterInMs!);
     }
     assert.deepEqual(modifiers, [
-      { redirectTo: "read1.azure" },
-      { redirectTo: "read2.azure" },
-      { redirectTo: "read3.azure" },
-      { redirectTo: "read1.azure", retryAfterInMs: 100 },
-      { redirectTo: "read2.azure", retryAfterInMs: 100 },
-      { redirectTo: "read3.azure", retryAfterInMs: 100 },
-      { redirectTo: "read1.azure", retryAfterInMs: 300 },
-      { redirectTo: "read2.azure", retryAfterInMs: 300 },
-      { redirectTo: "read3.azure", retryAfterInMs: 300 },
-      { redirectTo: "read1.azure", retryAfterInMs: 700 },
+      { redirectTo: "https://read1.azure/" },
+      { redirectTo: "https://read2.azure/" },
+      { redirectTo: "https://read3.azure/" },
+      { redirectTo: "https://read1.azure/", retryAfterInMs: 100 },
+      { redirectTo: "https://read2.azure/", retryAfterInMs: 100 },
+      { redirectTo: "https://read3.azure/", retryAfterInMs: 100 },
+      { redirectTo: "https://read1.azure/", retryAfterInMs: 300 },
+      { redirectTo: "https://read2.azure/", retryAfterInMs: 300 },
+      { redirectTo: "https://read3.azure/", retryAfterInMs: 300 },
+      { redirectTo: "https://read1.azure/", retryAfterInMs: 700 },
     ]);
   });
   it("should use the correct set of fallback endpoints", () => {
@@ -94,26 +94,26 @@ describe(`failoverRetryStrategy`, () => {
     assert.deepEqual(
       modifiers.map((modifier) => modifier.redirectTo),
       [
-        "read1.azure",
-        "read2.azure",
-        "read3.azure",
-        "read1.azure",
-        "read2.azure",
-        "read3.azure",
-        "read1.azure",
-        "read2.azure",
-        "read3.azure",
-        "read1.azure",
-        "write1.azure",
-        "write2.azure",
-        "write1.azure",
-        "write2.azure",
-        "write1.azure",
-        "write2.azure",
-        "write1.azure",
-        "write2.azure",
-        "write1.azure",
-        "write2.azure",
+        "https://read1.azure/",
+        "https://read2.azure/",
+        "https://read3.azure/",
+        "https://read1.azure/",
+        "https://read2.azure/",
+        "https://read3.azure/",
+        "https://read1.azure/",
+        "https://read2.azure/",
+        "https://read3.azure/",
+        "https://read1.azure/",
+        "https://write1.azure/",
+        "https://write2.azure/",
+        "https://write1.azure/",
+        "https://write2.azure/",
+        "https://write1.azure/",
+        "https://write2.azure/",
+        "https://write1.azure/",
+        "https://write2.azure/",
+        "https://write1.azure/",
+        "https://write2.azure/",
       ]
     );
   });
