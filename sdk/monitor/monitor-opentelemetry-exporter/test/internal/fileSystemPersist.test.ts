@@ -15,7 +15,12 @@ const readFileAsync = promisify(fs.readFile);
 const unlinkAsync = promisify(fs.unlink);
 
 const instrumentationKey = "abc";
-const tempDir = path.join(os.tmpdir(), "Microsoft", "AzureMonitor", `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`);
+const tempDir = path.join(
+  os.tmpdir(),
+  "Microsoft",
+  "AzureMonitor",
+  `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`
+);
 
 const deleteFolderRecursive = (dirPath: string): void => {
   if (fs.existsSync(dirPath)) {
@@ -56,7 +61,6 @@ const assertFirstFile = async (tempDir: string, expectation: unknown): Promise<v
 describe("FileSystemPersist", () => {
   beforeEach(() => {
     deleteFolderRecursive(tempDir);
-
   });
 
   afterEach((done) => {
@@ -88,7 +92,12 @@ describe("FileSystemPersist", () => {
 
     it("custom storageDirectory", async () => {
       let customPath = path.join(os.tmpdir(), "TestFolder");
-      const tempDir = path.join(customPath, "Microsoft", "AzureMonitor", `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`);
+      const tempDir = path.join(
+        customPath,
+        "Microsoft",
+        "AzureMonitor",
+        `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`
+      );
       deleteFolderRecursive(tempDir);
       const envelope: Envelope = {
         name: "name",
