@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Enable tracing for more operations.
+
 ## 7.7.1 (2022-09-07)
 
 ### Bugs Fixed
