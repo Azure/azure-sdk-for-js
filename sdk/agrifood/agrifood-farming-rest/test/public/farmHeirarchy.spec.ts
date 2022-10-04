@@ -25,9 +25,17 @@ describe("Farmer Operations", () => {
   let recorder: Recorder;
   let client: FarmBeatsClient;
 
-  beforeEach(function (this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = createRecorder(this);
     client = createClient();
+    await recorder.start({
+      envSetupForPlayback: {
+        FARMBEATS_ENDPOINT: "https://endpoint",
+        AZURE_CLIENT_ID: "azure_client_id",
+        AZURE_CLIENT_SECRET: "azure_client_secret",
+        AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+      },
+    });
   });
 
   afterEach(async function () {

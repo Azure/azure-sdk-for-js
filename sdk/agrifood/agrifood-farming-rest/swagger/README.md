@@ -12,8 +12,8 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src
-input-file: C:\Users\bhkansag\bhargav-kansagara\azure-rest-api-specs-pr\specification\agrifood\data-plane\Microsoft.AgFoodPlatform\preview\2021-07-31-preview\agfood.json
-package-version: 1.1.0-beta.1
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/agrifood/data-plane/Microsoft.AgFoodPlatform/preview/2021-07-31-preview/agfood.json
+package-version: 1.0.0-beta.3
 rest-level-client: true
 security: AADToken
 security-scopes: https://farmbeats.azure.net/.default
