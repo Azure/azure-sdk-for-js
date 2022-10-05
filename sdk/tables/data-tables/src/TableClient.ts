@@ -65,6 +65,7 @@ import { apiVersionPolicy } from "./utils/apiVersionPolicy";
 import { cosmosPatchPolicy } from "./cosmosPathPolicy";
 import { escapeQuotes } from "./odata";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
+import { getSecondaryUrlFromPrimary } from "./secondaryEndpointPolicy";
 import { handleTableAlreadyExists } from "./utils/errorHelpers";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
 import { isCredential } from "./utils/isCredential";
@@ -73,7 +74,6 @@ import { setTokenChallengeAuthenticationPolicy } from "./utils/challengeAuthenti
 import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 import { tracingClient } from "./utils/tracing";
-import { getSecondaryUrlFromPrimary } from "./secondaryEndpointPolicy";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
