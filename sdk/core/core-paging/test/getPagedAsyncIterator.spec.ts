@@ -123,6 +123,46 @@ describe("getPagedAsyncIterator", function () {
     assert.deepEqual([].concat(...receivedPages), collection);
   });
 
+  describe("Iterator over object", function () {
+    interface collectionObject {
+      elements: number[];
+      next: number;
+    }
+
+    it.only("should return an iterator over an object that can extract elements", async function () {
+      const collection: collectionObject = {
+        elements: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        next: 0,
+      };
+      const pagedResult: PagedResult<collectionObject, PageSettings, number, number> = {
+        firstPageLink: 0,
+        async getPage() {
+          return Promise.resolve({ page: collection });
+        },
+        toElements: (page) => page.elements,
+      };
+      const iterator = getPagedAsyncIterator(pagedResult);
+      const expected = [];
+      for await (const val of iterator) {
+        expected.push(val);
+      }
+      assert.deepEqual(expected, collection.elements);
+    });
+
+    it.only("Should return an iterator over a non-extractable object", async function () {
+      const collection = {
+        num: 1,
+        text: "abc",
+      };
+      const iterator = buildIterator(collection);
+      const expected = [];
+      for await (const val of iterator) {
+        expected.push(val);
+      }
+      assert.deepEqual(expected, [collection]);
+    });
+  });
+
   describe("Strong typing experience", function () {
     type IsAny<T> = boolean extends (T extends never ? true : false) ? true : false;
     function assertNotAny<T extends IsAny<T> extends true ? never : any>(_: T): void {}
