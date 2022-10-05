@@ -471,6 +471,8 @@ async function main() {
     },
   ];
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");
+  const results = await poller.pollUntilDone();
+  
   for await (const actionResult of results) {
     if (actionResult.kind !== "CustomEntityRecognition") {
       throw new Error(`Expected a CustomEntityRecognition results but got: ${actionResult.kind}`);
