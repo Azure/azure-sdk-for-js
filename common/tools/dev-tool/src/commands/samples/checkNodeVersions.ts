@@ -13,7 +13,7 @@ import { S_IRWXO } from "constants";
 import { resolveProject } from "../../util/resolveProject";
 import { findSamplesRelativeDir } from "../../util/findSamplesDir";
 
-const defaultVersions = [14, 16, 17, 18];
+const defaultVersions = [14, 16, 18];
 
 const log = createPrinter("check-node-versions-samples");
 
