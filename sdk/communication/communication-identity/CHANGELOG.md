@@ -3,6 +3,7 @@
 ## 1.2.0 (Unreleased)
 
 ### Features Added
+
 - Added support to customize the Communication Identity access token's validity period:
     - `createUserAndToken` and `getToken` methods now accept `CreateUserAndTokenOptions` and `GetTokenOptions` that provide the ability to create a Communication Identity access token with custom expiration via optional `tokenExpiresInMinutes` property:
         - `createUserAndToken(scopes: TokenScope[], options: CreateUserAndTokenOptions = {})`
@@ -10,14 +11,6 @@
         - `interface CreateUserAndTokenOptions extends OperationOptions { tokenExpiresInMinutes?: number; }`
         - `interface GetTokenOptions extends OperationOptions { tokenExpiresInMinutes?: number; }`
     - Added a new API version `2022-10-01` that is now the default API version.
-
-## 1.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
 
 ### Other Changes
 
