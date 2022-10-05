@@ -1,0 +1,924 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Toll Free Verification Service",
+    "description": "The toll free verification service creates and updates campaign briefs and attachments for toll free numbers.",
+    "contact": {
+      "email": "acsdevexdisc@microsoft.com"
+    },
+    "version": "2023-01-10-preview1"
+  },
+  "paths": {
+    "/tollfreeVerification/countries/{countryCode}/campaignBriefs/{campaignBriefId}": {
+      "patch": {
+        "tags": [
+          "TollFreeVerification - CampaignBrief"
+        ],
+        "summary": "Creates or updates a Campaign Brief.",
+        "operationId": "TollFreeVerification_UpsertCampaignBrief",
+        "consumes": [
+          "application/merge-patch+json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "campaignBriefId",
+            "description": "Campaign Brief Id. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "countryCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Data to create new a Campaign Brief or fields to update an existing Campaign Brief",
+            "schema": {
+              "$ref": "#/definitions/CampaignBrief"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/CampaignBrief"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CampaignBrief"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Creates or Updates a Campaign Brief": {
+            "$ref": "./examples/UpsertUSCampaignBriefAsync.json"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "TollFreeVerification - CampaignBrief"
+        ],
+        "summary": "Deletes a Campaign Brief.",
+        "operationId": "TollFreeVerification_DeleteCampaignBrief",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "campaignBriefId",
+            "description": "Campaign Brief Id of brief to be deleted. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "countryCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Deletes a Campaign Brief": {
+            "$ref": "./examples/DeleteUSCampaignBriefAsync.json"
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "tags": [
+          "TollFreeVerification - CampaignBrief"
+        ],
+        "summary": "Get a Campaign Brief by id.",
+        "operationId": "TollFreeVerification_GetCampaignBrief",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "campaignBriefId",
+            "description": "Campaign Brief Id. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "countryCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CampaignBrief"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Query a Campaign Brief": {
+            "$ref": "./examples/GetUSCampaignBriefAsync.json"
+          }
+        }
+      }
+    },
+    "/tollfreeVerification/countries/{countryCode}/campaignBriefs/{campaignBriefId}/:submit": {
+      "post": {
+        "tags": [
+          "TollFreeVerification - CampaignBrief"
+        ],
+        "summary": "Submits a Campaign Brief.",
+        "operationId": "TollFreeVerification_SubmitCampaignBrief",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "campaignBriefId",
+            "description": "Campaign Brief Id of brief to be submitted. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "countryCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CampaignBrief"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Submits a Campaign Brief": {
+            "$ref": "./examples/SubmitUSCampaignBriefAsync.json"
+          }
+        }
+      }
+    },
+    "/tollfreeVerification/countries/{countryCode}/campaignBriefs": {
+      "get": {
+        "tags": [
+          "TollFreeVerification - CampaignBrief"
+        ],
+        "summary": "Get a list of Campaign Briefs for the current resource.",
+        "operationId": "TollFreeVerification_GetCampaignBriefs",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "countryCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CampaignBriefs"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List Briefs": {
+            "$ref": "./examples/GetUSCampaignBriefsAsync.json"
+          }
+        }
+      }
+    },
+    "/tollfreeVerification/countries/{countryCode}/campaignBriefs/{campaignBriefId}/attachments/{attachmentId}": {
+      "patch": {
+        "tags": [
+          "TollFreeVerification - CampaignBriefAttachment"
+        ],
+        "summary": "Creates or updates an attachment on a Campaign Brief.",
+        "operationId": "TollFreeVerification_UpsertCampaignBriefAttachment",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "campaignBriefId",
+            "description": "Campaign Brief Id. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "attachmentId",
+            "description": "Attachment Id. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "countryCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Data to create or replace a Campaign Brief File Attachment",
+            "schema": {
+              "$ref": "#/definitions/CampaignBriefAttachment"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/CampaignBrief"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CampaignBrief"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Creates or Updates a Campaign Brief": {
+            "$ref": "./examples/UpsertCampaignBriefAttachmentAsync.json"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "TollFreeVerification - CampaignBriefAttachment"
+        ],
+        "summary": "Deletes a specific attachment from a Campaign Brief.",
+        "operationId": "TollFreeVerification_DeleteCampaignBriefAttachment",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "campaignBriefId",
+            "description": "Campaign Brief Id. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "attachmentId",
+            "description": "Attachment Id. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "countryCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Deletes a Campaign Brief File Attachment": {
+            "$ref": "./examples/DeleteCampaignBriefAttachmentAsync.json"
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "tags": [
+          "TollFreeVerification - CampaignBriefAttachment"
+        ],
+        "summary": "Gets a specific attachment from a Campaign Brief.",
+        "operationId": "TollFreeVerification_GetCampaignBriefAttachment",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "campaignBriefId",
+            "description": "Campaign Brief Id. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "attachmentId",
+            "description": "Attachment Id. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "countryCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CampaignBriefAttachment"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Gets a Campaign Brief File Attachment": {
+            "$ref": "./examples/GetCampaignBriefAttachmentAsync.json"
+          }
+        }
+      }
+    },
+    "/tollfreeVerification/countries/{countryCode}/campaignBriefs/{campaignBriefId}/attachments": {
+      "get": {
+        "tags": [
+          "TollFreeVerification - CampaignBriefAttachment"
+        ],
+        "summary": "Gets a list of attachments from a Campaign Brief.",
+        "operationId": "TollFreeVerification_GetCampaignBriefAttachments",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "An optional parameter for how many entries to skip, for pagination purposes.",
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          },
+          {
+            "in": "query",
+            "name": "top",
+            "description": "An optional parameter for how many entries to return, for pagination purposes.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100
+          },
+          {
+            "in": "path",
+            "name": "countryCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "campaignBriefId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CampaignBriefAttachments"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Gets a Campaign Brief File Attachment": {
+            "$ref": "./examples/GetCampaignBriefAttachmentsAsync.json"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Address": {
+      "required": [
+        "addressLine1",
+        "addressLine2",
+        "administrativeDivision",
+        "locality",
+        "postalCode"
+      ],
+      "type": "object",
+      "properties": {
+        "addressLine1": {
+          "description": "Address line 1.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "addressLine2": {
+          "description": "Address line 2.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "locality": {
+          "description": "The Locality. That would be the Citiy for US addresses, for example.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "administrativeDivision": {
+          "description": "The Administrative Division. That would be the State for US addresses, for example.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "postalCode": {
+          "description": "Postal code.",
+          "minLength": 1,
+          "type": "string"
+        }
+      }
+    },
+    "BusinessInformation": {
+      "required": [
+        "address",
+        "companyName",
+        "companyUrl"
+      ],
+      "type": "object",
+      "properties": {
+        "companyName": {
+          "description": "Business Name.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "companyUrl": {
+          "description": "Url of corporate website.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "address": {
+          "$ref": "#/definitions/Address"
+        }
+      }
+    },
+    "BusinessPointOfContact": {
+      "required": [
+        "address",
+        "email",
+        "firstName",
+        "lastName",
+        "phone"
+      ],
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "description": "First name of the contact at the business.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "lastName": {
+          "description": "Last name of the contact at the business.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "phone": {
+          "description": "Phone number of the contact at the business.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "email": {
+          "description": "Email of the contact at the business.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "address": {
+          "$ref": "#/definitions/Address"
+        }
+      }
+    },
+    "CampaignBrief": {
+      "required": [
+        "id"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "description": "Campaign Brief Id.",
+          "type": "string"
+        },
+        "status": {
+          "description": "Campaign Brief status e.g. 'submitted', 'approved', etc",
+          "enum": [
+            "submitted",
+            "approved",
+            "updateRequested",
+            "draft",
+            "denied",
+            "cancelled"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "CampaignBriefStatus",
+            "modelAsString": true
+          }
+        },
+        "submissionDate": {
+          "format": "date-time",
+          "description": "Date and time when the Campaign Brief was submitted.",
+          "type": "string"
+        },
+        "statusUpdatedDate": {
+          "format": "date-time",
+          "description": "Last date and time when the Campaign Brief status was updated.",
+          "type": "string"
+        },
+        "businessPointOfContact": {
+          "$ref": "#/definitions/BusinessPointOfContact"
+        },
+        "businessInformation": {
+          "$ref": "#/definitions/BusinessInformation"
+        },
+        "optInDescription": {
+          "description": "Description of how the customer can opt in.",
+          "type": "string"
+        },
+        "additionalInformation": {
+          "description": "Campaign opt in additional information - image URLs or opt in description.",
+          "type": "string"
+        },
+        "country": {
+          "description": "Campaign brief country.",
+          "type": "string"
+        },
+        "useCaseInfo": {
+          "$ref": "#/definitions/UseCaseInfo"
+        },
+        "phoneNumbers": {
+          "description": "List of numbers provisioned for the Campaign e.g. 18881234567",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "estimatedMonthlyVolume": {
+          "format": "int32",
+          "description": "Estimated total messages per month.",
+          "maximum": 2147483647,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "additionalOptInInformation": {
+          "description": "Additional information regarding how a customer opts in to the campaign.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "attachments": {
+          "description": "A list of summarized data of attachments currently added to the Campaign Brief",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CampaignBriefAttachmentSummary"
+          }
+        }
+      }
+    },
+    "CampaignBriefAttachment": {
+      "description": "A File Attachment for a Campaign Brief",
+      "required": [
+        "fileContentBase64",
+        "fileName",
+        "fileType",
+        "id",
+        "type"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "description": "Campaign Brief Attachment Id.",
+          "type": "string"
+        },
+        "type": {
+          "description": "Attachment type describing the purpose of the attachment\r\ne.g. 'callToAction', 'termsOfService'",
+          "enum": [
+            "callToAction"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "AttachmentType",
+            "modelAsString": true
+          }
+        },
+        "fileName": {
+          "description": "The name of the file being attached\r\ne.g. 'myFile01'",
+          "minLength": 1,
+          "type": "string"
+        },
+        "fileSizeInBytes": {
+          "format": "int32",
+          "description": "File size in bytes.",
+          "type": "integer"
+        },
+        "fileType": {
+          "description": "The type of file being attached\r\ne.g. 'pdf', 'jpg', 'png'",
+          "enum": [
+            "png",
+            "jpg",
+            "jpeg",
+            "pdf"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "FileType",
+            "modelAsString": true
+          }
+        },
+        "fileContentBase64": {
+          "description": "File content as base 64 encoded string",
+          "minLength": 1,
+          "type": "string"
+        }
+      }
+    },
+    "CampaignBriefAttachmentSummary": {
+      "description": "A summary of Campaign Brief File Attachment data",
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "description": "Program Brief Attachment Id.",
+          "type": "string"
+        },
+        "type": {
+          "description": "Attachment type describing the purpose of the attachment\r\ne.g. 'callToAction', 'termsOfService'",
+          "enum": [
+            "callToAction"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "AttachmentType",
+            "modelAsString": true
+          }
+        },
+        "fileName": {
+          "description": "The name of the attached file\r\ne.g. 'myFile01'",
+          "type": "string"
+        }
+      }
+    },
+    "CampaignBriefAttachments": {
+      "description": "A wrapper for a list of CampaignBriefAttachment entities.",
+      "type": "object",
+      "properties": {
+        "attachments": {
+          "description": "List of Campaign Brief attachments.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CampaignBriefAttachment"
+          }
+        },
+        "nextLink": {
+          "description": "Represents the URL link to the next page.",
+          "type": "string"
+        }
+      }
+    },
+    "CampaignBriefs": {
+      "description": "A wrapper for a list of CampaignBrief entities.",
+      "type": "object",
+      "properties": {
+        "campaignBriefs": {
+          "description": "List of Campaign Briefs.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CampaignBrief"
+          }
+        },
+        "nextLink": {
+          "description": "Represents the URL link to the next page.",
+          "type": "string"
+        }
+      }
+    },
+    "UseCaseInfo": {
+      "type": "object",
+      "properties": {
+        "sampleMessages": {
+          "description": "Sample of messages that will be sent to customers via Sms.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "useCase": {
+          "description": "Use case the campaign will be sending messages for e.g. appointments, sweepstakes.",
+          "type": "string"
+        },
+        "useCaseSummary": {
+          "description": "Description of how the use case is used in the campaign.",
+          "type": "string"
+        }
+      }
+    },
+    "CommunicationErrorResponse": {
+      "description": "The Communication Services error.",
+      "type": "object",
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "description": "The Communication Services error.",
+          "$ref": "#/definitions/CommunicationError"
+        }
+      }
+    },
+    "CommunicationError": {
+      "description": "The Communication Services error.",
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The error code."
+        },
+        "message": {
+          "type": "string",
+          "description": "The error message."
+        },
+        "target": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The error target."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CommunicationError"
+          },
+          "readOnly": true,
+          "description": "Further details about specific errors that led to this error."
+        },
+        "innererror": {
+          "x-ms-client-name": "innerError",
+          "readOnly": true,
+          "$ref": "#/definitions/CommunicationError",
+          "description": "The inner error if any."
+        }
+      }
+    }
+  },
+  "parameters": {
+    "ApiVersionParameter": {
+      "in": "query",
+      "name": "api-version",
+      "description": "Version of API to invoke",
+      "required": true,
+      "type": "string"
+    },
+    "Endpoint": {
+      "in": "path",
+      "name": "endpoint",
+      "description": "The communication resource, for example https://resourcename.communication.azure.com",
+      "required": true,
+      "type": "string",
+      "x-ms-skip-url-encoding": true,
+      "x-ms-parameter-location": "client"
+    }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      },
+      "description": "Azure Active Directory OAuth2 Flow"
+    }
+  },
+  "x-ms-parameterized-host": {
+    "hostTemplate": "{endpoint}",
+    "useSchemePrefix": false,
+    "parameters": [
+      {
+        "$ref": "#/parameters/Endpoint"
+      }
+    ]
+  }
+}

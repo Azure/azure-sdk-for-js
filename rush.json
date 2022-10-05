@@ -452,6 +452,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tools/communication-toll-free-verification",
+      "projectFolder": "sdk/communication/communication-toll-free-verification",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-sms",
       "projectFolder": "sdk/communication/communication-sms",
       "versionPolicyName": "client"
