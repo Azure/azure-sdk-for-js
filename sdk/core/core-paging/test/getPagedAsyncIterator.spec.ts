@@ -129,7 +129,7 @@ describe("getPagedAsyncIterator", function () {
       next: number;
     }
 
-    it.only("should return an iterator over an object that can extract elements", async function () {
+    it("should return an iterator over an object that can extract elements", async function () {
       const collection: collectionObject = {
         elements: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         next: 0,
@@ -147,19 +147,6 @@ describe("getPagedAsyncIterator", function () {
         expected.push(val);
       }
       assert.deepEqual(expected, collection.elements);
-    });
-
-    it.only("Should return an iterator over a non-extractable object", async function () {
-      const collection = {
-        num: 1,
-        text: "abc",
-      };
-      const iterator = buildIterator(collection);
-      const expected = [];
-      for await (const val of iterator) {
-        expected.push(val);
-      }
-      assert.deepEqual(expected, [collection]);
     });
   });
 
